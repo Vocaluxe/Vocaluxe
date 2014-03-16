@@ -41,6 +41,17 @@ namespace Vocaluxe.Base.Server
             {
                 return "App controller";
             }
+
+            public override void Connect() {}
+
+            public override void Disconnect() {}
+
+            public override bool IsConnected()
+            {
+                return true;
+            }
+
+            public override void SetRumble(float duration) {}
         }
 
         private static CServer _Server;

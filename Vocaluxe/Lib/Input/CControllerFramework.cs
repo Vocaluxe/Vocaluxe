@@ -54,14 +54,11 @@ namespace Vocaluxe.Lib.Input
             _Initialized = false;
         }
 
-        public virtual void Connect() {}
+        public abstract void Connect();
 
-        public virtual void Disconnect() {}
+        public abstract void Disconnect();
 
-        public virtual bool IsConnected()
-        {
-            return true;
-        }
+        public abstract bool IsConnected();
 
         public virtual void Update()
         {
@@ -108,7 +105,7 @@ namespace Vocaluxe.Lib.Input
             return false;
         }
 
-        public virtual void SetRumble(float duration) {}
+        public abstract void SetRumble(float duration);
 
         public void AddKeyEvent(SKeyEvent keyEvent)
         {

@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -25,17 +24,9 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {
-    class CWiiMote : IController
+    class CWiiMote : CControllerFramework
     {
         private CWiiMoteLib _WiiMote;
-
-        private List<SKeyEvent> _KeysPool;
-        private List<SKeyEvent> _CurrentKeysPool;
-        private readonly Object _KeyCopyLock = new Object();
-
-        private List<SMouseEvent> _MousePool;
-        private List<SMouseEvent> _CurrentMousePool;
-        private readonly Object _MouseCopyLock = new Object();
 
         private bool[] _ButtonStates;
         private Point _OldPosition;
@@ -49,14 +40,14 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         private CGesture _Gesture;
 
-        public string GetName()
+        public override string GetName()
         {
             return "WiiMote";
         }
 
-        public bool Init()
+        public override bool Init()
         {
-            if (_HandlerThread != null)
+            if (!base.Init())
                 return false;
             _Sync = new Object();
             _RumbleTimer = new CRumbleTimer();
@@ -65,18 +56,12 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _HandlerThread = new Thread(_MainLoop) {Name = "WiiMote", Priority = ThreadPriority.BelowNormal};
             _EvTerminate = new AutoResetEvent(false);
 
-            _KeysPool = new List<SKeyEvent>();
-            _CurrentKeysPool = new List<SKeyEvent>();
-
-            _MousePool = new List<SMouseEvent>();
-            _CurrentMousePool = new List<SMouseEvent>();
-
             _ButtonStates = new bool[11];
             _OldPosition = new Point();
             return true;
         }
 
-        public void Close()
+        public override void Close()
         {
             _Active = false;
             if (_HandlerThread != null)
@@ -88,14 +73,11 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _HandlerThread = null;
                 _EvTerminate.Dispose();
                 _EvTerminate = null;
-                _KeysPool = null;
-                _CurrentKeysPool = null;
-                _MousePool = null;
-                _CurrentMousePool = null;
             }
+            base.Close();
         }
 
-        public void Connect()
+        public override void Connect()
         {
             if (_Active || _HandlerThread == null)
                 return;
@@ -103,47 +85,18 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _HandlerThread.Start();
         }
 
-        public void Disconnect()
+        public override void Disconnect()
         {
             //TODO: Allow reconnect
             Close();
         }
 
-        public bool IsConnected()
+        public override bool IsConnected()
         {
             return _Connected;
         }
 
-        public void Update()
-        {
-            if (_HandlerThread == null)
-                return;
-            _CopyEvents();
-        }
-
-        public bool PollKeyEvent(ref SKeyEvent keyEvent)
-        {
-            if (_CurrentKeysPool.Count > 0)
-            {
-                keyEvent = _CurrentKeysPool[0];
-                _CurrentKeysPool.RemoveAt(0);
-                return true;
-            }
-            return false;
-        }
-
-        public bool PollMouseEvent(ref SMouseEvent mouseEvent)
-        {
-            if (_CurrentMousePool.Count > 0)
-            {
-                mouseEvent = _CurrentMousePool[0];
-                _CurrentMousePool.RemoveAt(0);
-                return true;
-            }
-            return false;
-        }
-
-        public void SetRumble(float duration)
+        public override void SetRumble(float duration)
         {
             lock (_Sync)
             {
@@ -269,14 +222,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
 
             if (key != Keys.None)
-            {
-                var pool = new SKeyEvent(ESender.WiiMote, false, false, false, false, char.MinValue, key);
-
-                lock (_KeyCopyLock)
-                {
-                    _KeysPool.Add(pool);
-                }
-            }
+                AddKeyEvent(new SKeyEvent(ESender.WiiMote, false, false, false, false, char.MinValue, key));
 
             //mouse events
             const float reducing = 0.15f;
@@ -296,48 +242,13 @@ namespace Vocaluxe.Lib.Input.WiiMote
             if (gesture == EGesture.ScrollDown)
                 wheel = 1;
 
-            var mpool = new SMouseEvent();
-            bool trigger = false;
-
             if (!lb && !rb && (p.X != _OldPosition.X || p.Y != _OldPosition.Y))
-            {
-                mpool = new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, false, false, false, wheel, lbh, false, false, false);
-                trigger = true;
-            }
+                AddMouseEvent(new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, false, false, false, wheel, lbh, false, false, false));
             else if (lb || rb)
-            {
-                mpool = new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, lb, false, rb, wheel, false, false, false, false);
-                trigger = true;
-            }
-
-
-            if (trigger)
-            {
-                lock (_MouseCopyLock)
-                {
-                    _MousePool.Add(mpool);
-                }
-            }
+                AddMouseEvent(new SMouseEvent(ESender.WiiMote, EModifier.None, x, y, lb, false, rb, wheel, false, false, false, false));
 
             _OldPosition.X = p.X;
             _OldPosition.Y = p.Y;
-        }
-
-        private void _CopyEvents()
-        {
-            lock (_KeyCopyLock)
-            {
-                foreach (SKeyEvent e in _KeysPool)
-                    _CurrentKeysPool.Add(e);
-                _KeysPool.Clear();
-            }
-
-            lock (_MouseCopyLock)
-            {
-                foreach (SMouseEvent e in _MousePool)
-                    _CurrentMousePool.Add(e);
-                _MousePool.Clear();
-            }
         }
     }
 }
