@@ -83,7 +83,7 @@ namespace Vocaluxe.Base
         }
 
         #region Highscores
-        public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID)
+        public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID)
         {
             string sArtist;
             string sTitle;
@@ -384,12 +384,12 @@ namespace Vocaluxe.Base
             return -1;
         }
 
-        private static bool _GetDataBaseSongInfos(int songID, out string artist, out string title, out int numPlayed, out string dateAdded, string filePath)
+        private static bool _GetDataBaseSongInfos(int songID, out string artist, out string title, out int numPlayed, out DateTime dateAdded, string filePath)
         {
             artist = String.Empty;
             title = String.Empty;
             numPlayed = 0;
-            dateAdded = String.Empty;
+            dateAdded = DateTime.Today;
 
             using (var connection = new SQLiteConnection())
             {
@@ -425,7 +425,7 @@ namespace Vocaluxe.Base
                         artist = reader.GetString(0);
                         title = reader.GetString(1);
                         numPlayed = reader.GetInt32(2);
-                        dateAdded = new DateTime(reader.GetInt64(3)).ToString("dd/MM/yyyy");
+                        dateAdded = new DateTime(reader.GetInt64(3));
                         reader.Dispose();
                         return true;
                     }
@@ -1036,7 +1036,8 @@ namespace Vocaluxe.Base
                         int shortsong = source.GetInt32(7);
                         int diff = source.GetInt32(8);
 
-                        string artist, title, dateadded;
+                        string artist, title;
+                        DateTime dateadded;
                         int numplayed;
                         if (_GetDataBaseSongInfos(songid, out artist, out title, out numplayed, out dateadded, sourceDBPath))
                             AddScore(player, score, linenr, date, medley, duet, shortsong, diff, artist, title, numplayed, _HighscoreFilePath);

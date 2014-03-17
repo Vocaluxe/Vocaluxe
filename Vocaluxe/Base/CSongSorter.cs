@@ -17,7 +17,8 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reflection;
+using System.Diagnostics;
+using System.Linq;
 using VocaluxeLib;
 using VocaluxeLib.Songs;
 
@@ -110,83 +111,65 @@ namespace Vocaluxe.Base
             return res;
         }
 
-        private List<CSongPointer> _CreateSortList(string fieldName)
+        private void _AddSongToList(CSong song, List<CSongPointer> list)
         {
-            var sortList = new List<CSongPointer>();
-            if (fieldName == "")
-                CSongs.Filter.FilteredSongs.ForEach(song => sortList.Add(new CSongPointer(song.ID, "")));
+            string value = null;
+            List<string> values = null;
+            switch (_SongSorting)
+            {
+                case ESongSorting.TR_CONFIG_NONE:
+                    value = "";
+                    break;
+                case ESongSorting.TR_CONFIG_FOLDER:
+                    value = song.FolderName;
+                    break;
+                case ESongSorting.TR_CONFIG_ARTIST:
+                case ESongSorting.TR_CONFIG_ARTIST_LETTER:
+                    value = _IgnoreArticles == EOffOn.TR_CONFIG_ON ? song.ArtistSorting : song.Artist;
+                    break;
+                case ESongSorting.TR_CONFIG_TITLE_LETTER:
+                    value = _IgnoreArticles == EOffOn.TR_CONFIG_ON ? song.TitleSorting : song.Title;
+                    break;
+                case ESongSorting.TR_CONFIG_EDITION:
+                    values = song.Editions;
+                    break;
+                case ESongSorting.TR_CONFIG_GENRE:
+                    values = song.Genres;
+                    break;
+                case ESongSorting.TR_CONFIG_LANGUAGE:
+                    values = song.Languages;
+                    break;
+                case ESongSorting.TR_CONFIG_DECADE:
+                case ESongSorting.TR_CONFIG_YEAR:
+                    value = song.Year;
+                    break;
+                case ESongSorting.TR_CONFIG_DATEADDED:
+                    value = song.DateAdded.ToString("yyyyMMdd");
+                    break;
+                default:
+                    Debug.Assert(false, "Forgot sorting option");
+                    break;
+            }
+            Debug.Assert(value != null || values != null, "Sorting implementation faulty");
+            if (value != null)
+                list.Add(new CSongPointer(song.ID, value));
             else
             {
-                FieldInfo field = typeof(CSong).GetField(fieldName, BindingFlags.Instance | BindingFlags.DeclaredOnly | BindingFlags.Public);
-                if (field == null)
-                {
-                    CLog.LogError("Unknow sorting field: " + fieldName);
-                    return _CreateSortList("");
-                }
-                bool isString = field.FieldType == typeof(string);
-                if (!isString && field.FieldType != typeof(List<String>))
-                    throw new Exception("Unkown sort field type");
-                foreach (CSong song in CSongs.Filter.FilteredSongs)
-                {
-                    object value = field.GetValue(song);
-                    if (isString)
-                        sortList.Add(new CSongPointer(song.ID, (String)value));
-                    else
-                    {
-                        var values = (List<String>)value;
-                        if (values.Count == 0)
-                            sortList.Add(new CSongPointer(song.ID, ""));
-                        else
-                        {
-                            // ReSharper disable LoopCanBeConvertedToQuery
-                            foreach (String sortString in values)
-                                // ReSharper restore LoopCanBeConvertedToQuery
-                                sortList.Add(new CSongPointer(song.ID, sortString));
-                        }
-                    }
-                }
+                if (list.Count == 0)
+                    list.Add(new CSongPointer(song.ID, ""));
+                else
+                    list.AddRange(values.Select(val => new CSongPointer(song.ID, val)));
             }
-            return sortList;
         }
 
         private void _SortSongs()
         {
             if (!_Changed)
                 return;
-            String fieldName;
-            switch (_SongSorting)
-            {
-                case ESongSorting.TR_CONFIG_EDITION:
-                    fieldName = "Editions";
-                    break;
-                case ESongSorting.TR_CONFIG_GENRE:
-                    fieldName = "Genres";
-                    break;
-                case ESongSorting.TR_CONFIG_FOLDER:
-                    fieldName = "FolderName";
-                    break;
-                case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                case ESongSorting.TR_CONFIG_ARTIST:
-                    fieldName = _IgnoreArticles == EOffOn.TR_CONFIG_ON ? "ArtistSorting" : "Artist";
-                    break;
-                case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                    fieldName = _IgnoreArticles == EOffOn.TR_CONFIG_ON ? "TitleSorting" : "Title";
-                    break;
-                case ESongSorting.TR_CONFIG_YEAR:
-                case ESongSorting.TR_CONFIG_DECADE:
-                    fieldName = "Year";
-                    break;
-                case ESongSorting.TR_CONFIG_LANGUAGE:
-                    fieldName = "Languages";
-                    break;
-                case ESongSorting.TR_CONFIG_DATEADDED:
-                    fieldName = "DateAdded";
-                    break;
-                default:
-                    fieldName = "";
-                    break;
-            }
-            List<CSongPointer> sortList = _CreateSortList(fieldName);
+
+            List<CSongPointer> sortList = new List<CSongPointer>();
+            foreach (CSong song in CSongs.Filter.FilteredSongs)
+                _AddSongToList(song, sortList);
             switch (_SongSorting)
             {
                 case ESongSorting.TR_CONFIG_ARTIST_LETTER:

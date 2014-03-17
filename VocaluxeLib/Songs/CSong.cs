@@ -172,7 +172,7 @@ namespace VocaluxeLib.Songs
         public readonly List<string> Languages = new List<string>();
 
         public int DataBaseSongID = -1;
-        public string DateAdded = "";
+        public DateTime DateAdded = DateTime.Today;
         public int NumPlayed;
         public int NumPlayedSession;
 

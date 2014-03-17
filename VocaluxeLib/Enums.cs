@@ -189,7 +189,6 @@ namespace VocaluxeLib
     {
         // ReSharper disable InconsistentNaming
         TR_CONFIG_NONE,
-        //TR_CONFIG_RANDOM,
         TR_CONFIG_FOLDER,
         TR_CONFIG_ARTIST,
         TR_CONFIG_ARTIST_LETTER,

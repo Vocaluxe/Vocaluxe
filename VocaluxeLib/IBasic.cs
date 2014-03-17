@@ -279,7 +279,7 @@ namespace VocaluxeLib
     public interface IDataBase
     {
         bool GetCover(string fileName, ref CTexture texture, int coverSize);
-        bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID);
+        bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID);
     }
 
     public interface IControllers
