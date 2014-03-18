@@ -15,42 +15,35 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 {
     class CPortAudioPlay : IPlayback
     {
         private bool _Initialized;
-        private readonly List<CPortAudioStream> _Decoder = new List<CPortAudioStream>();
-        private Closeproc _Closeproc;
-        private int _Count = 1;
-
-        private readonly Object _MutexDecoder = new Object();
-
-        private List<SAudioStreams> _Streams;
+        private readonly List<CPortAudioStream> _Streams = new List<CPortAudioStream>();
+        private int _NextID;
 
         public bool Init()
         {
             if (_Initialized)
                 CloseAll();
 
-            _Closeproc = _CloseProc;
             _Initialized = true;
 
-            _Streams = new List<SAudioStreams>();
             return true;
         }
 
         public void CloseAll()
         {
-            lock (_MutexDecoder)
+            lock (_Streams)
             {
-                for (int i = 0; i < _Decoder.Count; i++)
-                    _Decoder[i].Free(_Closeproc, i + 1);
+                foreach (CPortAudioStream stream in _Streams)
+                    stream.Free();
+                _Streams.Clear();
             }
+            _Initialized = false;
         }
 
         public void SetGlobalVolume(float volume)
@@ -66,7 +59,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             if (!_Initialized)
                 return 0;
 
-            lock (_MutexDecoder)
+            lock (_Streams)
             {
                 return _Streams.Count;
             }
@@ -82,17 +75,16 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         public int Load(string media, bool prescan)
         {
-            var stream = new SAudioStreams(0);
-            var decoder = new CPortAudioStream();
+            //Note: We ignore prescan here as the stream does it always
 
-            if (decoder.Open(media) > -1)
+            var stream = new CPortAudioStream(_NextID++, _CloseProc);
+
+            if (stream.Open(media))
             {
-                lock (_MutexDecoder)
+                lock (_Streams)
                 {
-                    _Decoder.Add(decoder);
-                    stream.Handle = _Count++;
                     _Streams.Add(stream);
-                    return stream.Handle;
+                    return stream.ID;
                 }
             }
             return 0;
@@ -100,12 +92,15 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         public void Close(int stream)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
+                int index = _GetStreamIndex(stream);
+                if (index >= 0)
                 {
-                    if (_AlreadyAdded(stream))
-                        _Decoder[_GetStreamIndex(stream)].Free(_Closeproc, stream);
+                    _Streams[index].Free();
+                    _Streams.RemoveAt(index);
                 }
             }
         }
@@ -117,216 +112,219 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         public void Play(int stream, bool loop)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
+                int index = _GetStreamIndex(stream);
+                if (index >= 0)
                 {
-                    if (_AlreadyAdded(stream))
-                    {
-                        _Decoder[_GetStreamIndex(stream)].Loop = loop;
-                        _Decoder[_GetStreamIndex(stream)].Play();
-                    }
+                    _Streams[index].Loop = loop;
+                    _Streams[index].Play();
                 }
             }
         }
 
         public void Pause(int stream)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        _Decoder[_GetStreamIndex(stream)].Paused = true;
-                }
+                if (_AlreadyAdded(stream))
+                    _Streams[_GetStreamIndex(stream)].Paused = true;
             }
         }
 
         public void Stop(int stream)
         {
-            Pause(stream);
+            if (!_Initialized)
+                return;
+            lock (_Streams)
+            {
+                if (_AlreadyAdded(stream))
+                    _Streams[_GetStreamIndex(stream)].Stop();
+            }
         }
 
         public void Fade(int stream, float targetVolume, float seconds)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        _Decoder[_GetStreamIndex(stream)].Fade(targetVolume, seconds);
-                }
+                if (_AlreadyAdded(stream))
+                    _Streams[_GetStreamIndex(stream)].Fade(targetVolume, seconds);
             }
         }
 
         public void FadeAndPause(int stream, float targetVolume, float seconds)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        _Decoder[_GetStreamIndex(stream)].FadeAndPause(targetVolume, seconds);
-                }
+                if (_AlreadyAdded(stream))
+                    _Streams[_GetStreamIndex(stream)].FadeAndPause(targetVolume, seconds);
             }
         }
 
         public void FadeAndClose(int stream, float targetVolume, float seconds)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        _Decoder[_GetStreamIndex(stream)].FadeAndClose(targetVolume, seconds, _Closeproc, stream);
-                }
+                if (_AlreadyAdded(stream))
+                    _Streams[_GetStreamIndex(stream)].FadeAndClose(targetVolume, seconds);
             }
         }
 
         public void FadeAndStop(int stream, float targetVolume, float seconds)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        _Decoder[_GetStreamIndex(stream)].FadeAndStop(targetVolume, seconds, _Closeproc, stream);
-                }
+                if (_AlreadyAdded(stream))
+                    _Streams[_GetStreamIndex(stream)].FadeAndStop(targetVolume, seconds);
             }
         }
 
         public void SetStreamVolume(int stream, float volume)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        _Decoder[_GetStreamIndex(stream)].Volume = volume;
-                }
+                if (_AlreadyAdded(stream))
+                    _Streams[_GetStreamIndex(stream)].Volume = volume;
             }
         }
 
         public void SetStreamVolumeMax(int stream, float volume)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        _Decoder[_GetStreamIndex(stream)].VolumeMax = volume;
-                }
+                if (_AlreadyAdded(stream))
+                    _Streams[_GetStreamIndex(stream)].VolumeMax = volume;
             }
         }
 
         public float GetLength(int stream)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return 0f;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        return _Decoder[_GetStreamIndex(stream)].Length;
-                }
+                if (_AlreadyAdded(stream))
+                    return _Streams[_GetStreamIndex(stream)].Length;
             }
             return 0f;
         }
 
         public float GetPosition(int stream)
         {
-            if (_Initialized)
-            {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        return _Decoder[_GetStreamIndex(stream)].Position;
-                }
-
+            if (!_Initialized)
                 return 0f;
+            lock (_Streams)
+            {
+                if (_AlreadyAdded(stream))
+                    return _Streams[_GetStreamIndex(stream)].Position;
             }
+
             return 0f;
         }
 
         public bool IsPlaying(int stream)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return false;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        return !_Decoder[_GetStreamIndex(stream)].Paused && !_Decoder[_GetStreamIndex(stream)].Finished;
-                }
+                if (_AlreadyAdded(stream))
+                    return !_Streams[_GetStreamIndex(stream)].Paused && !_Streams[_GetStreamIndex(stream)].Finished;
             }
             return false;
         }
 
         public bool IsPaused(int stream)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return false;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        return _Decoder[_GetStreamIndex(stream)].Paused;
-                }
+                if (_AlreadyAdded(stream))
+                    return _Streams[_GetStreamIndex(stream)].Paused;
             }
             return false;
         }
 
         public bool IsFinished(int stream)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return true;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        return _Decoder[_GetStreamIndex(stream)].Finished;
-                }
+                if (_AlreadyAdded(stream))
+                    return _Streams[_GetStreamIndex(stream)].Finished;
             }
             return true;
         }
 
         public void SetPosition(int stream, float position)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(stream))
-                        _Decoder[_GetStreamIndex(stream)].Skip(position);
-                }
+                if (_AlreadyAdded(stream))
+                    _Streams[_GetStreamIndex(stream)].Skip(position);
             }
         }
         #endregion Stream Handling
 
+        /// <summary>
+        /// Returns true if strem with given id is found
+        /// MUST hold _Stream-lock
+        /// </summary>
+        /// <param name="stream">Stream id</param>
+        /// <returns></returns>
         private bool _AlreadyAdded(int stream)
         {
-            return _Streams.Any(st => st.Handle == stream);
+            return _GetStreamIndex(stream) >= 0;
         }
 
+        /// <summary>
+        /// Returns the index of the stream with the given id
+        /// MUST hold _Stream-lock
+        /// </summary>
+        /// <param name="stream">Stream id</param>
+        /// <returns></returns>
         private int _GetStreamIndex(int stream)
         {
             for (int i = 0; i < _Streams.Count; i++)
             {
-                if (_Streams[i].Handle == stream)
+                if (_Streams[i].ID == stream)
                     return i;
             }
             return -1;
         }
 
-        private void _CloseProc(int streamID)
+        /// <summary>
+        /// Removes the stream with the given handle
+        /// </summary>
+        /// <param name="stream">Stream handle</param>
+        private void _CloseProc(int stream)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_Streams)
             {
-                lock (_MutexDecoder)
-                {
-                    if (_AlreadyAdded(streamID))
-                    {
-                        int index = _GetStreamIndex(streamID);
-                        _Decoder.RemoveAt(index);
-                        _Streams.RemoveAt(index);
-                    }
-                }
+                if (_AlreadyAdded(stream))
+                    _Streams.RemoveAt(_GetStreamIndex(stream));
             }
         }
     }

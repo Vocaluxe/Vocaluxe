@@ -221,6 +221,7 @@
     <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudioStream.cs" />
     <Compile Include="Lib\Sound\Playback\OpenAL\COpenAlStream.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioStream.cs" />
+    <Compile Include="Lib\Sound\CPortAudioCommon.cs" />
     <Compile Include="Lib\Sound\Record\CBuffer.cs" />
     <Compile Include="Base\CConfig.cs" />
     <Compile Include="Base\CCover.cs" />

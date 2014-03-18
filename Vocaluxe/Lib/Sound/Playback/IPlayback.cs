@@ -35,7 +35,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         }
     }
 
-    delegate void Closeproc(int streamID);
+    delegate void Closeproc(int stream);
 
     interface IPlayback
     {
