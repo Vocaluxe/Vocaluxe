@@ -50,6 +50,16 @@ namespace Vocaluxe
             return false;
         }
 
+        private static bool _KeyExists(string key)
+        {
+            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(key))
+            {
+                if (rk != null)
+                    return true;
+            }
+            return false;
+        }
+
         /// <summary>
         ///     Checks if a given program is installed by checking the Uninstall registry key.
         /// </summary>
@@ -57,10 +67,11 @@ namespace Vocaluxe
         /// <returns></returns>
         private static bool _IsProgramInstalled(string name)
         {
-            const string uninstallKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
-            const string uninstallKeyx64 = @"SOFTWARE\WoW6432Node\Microsoft\Windows\CurrentVersion\Uninstall";
+            const string baseKey = @"SOFTWARE\";
+            const string baseKey64 = @"SOFTWARE\WoW6432Node\";
+            const string uninstallKey = @"Microsoft\Windows\CurrentVersion\Uninstall";
             name = name.ToLower();
-            return _CheckUninstallKey(name, uninstallKey) || _CheckUninstallKey(name, uninstallKeyx64);
+            return _CheckUninstallKey(name, baseKey + uninstallKey) || (_KeyExists(baseKey64) && _CheckUninstallKey(name, baseKey64 + uninstallKey));
         }
 
         private static bool _SystemDllExists(string dllName)
