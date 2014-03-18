@@ -124,8 +124,6 @@ namespace VocaluxeLib
         void Pause();
         void Play();
 
-        void ApplyVolume();
-
         CTexture GetVideoTexture();
     }
 

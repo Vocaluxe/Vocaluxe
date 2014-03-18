@@ -153,14 +153,6 @@ namespace Vocaluxe.Base
         public const float SlideShowImageTime = 3500f;
         public const float SlideShowFadeTime = 500f;
 
-        public static readonly List<string> MusicFileTypes = new List<string>
-            {
-                "*.mp3",
-                "*.wma",
-                "*.ogg",
-                "*.wav"
-            };
-
         private static AssemblyName _Assembly
         {
             get { return Assembly.GetExecutingAssembly().GetName(); }

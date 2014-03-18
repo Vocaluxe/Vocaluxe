@@ -42,8 +42,6 @@ namespace Vocaluxe.Screens
         private bool _IntroOutPlayed;
         private CVideoPlayer[] _Intros;
 
-        private bool _BGMusicStarted;
-
         public override void Init()
         {
             base.Init();
@@ -99,8 +97,6 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            _SongLoaderThread = new Thread(CSongs.LoadSongs) {Name = "SongLoader"};
-
             _Texts[_TextStatus].Text = CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": 0 " +
                                        CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (0 " +
                                        CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
@@ -115,8 +111,6 @@ namespace Vocaluxe.Screens
                     _Intros[i].Load(_IntroVideo[i]);
                 _Texts[_TextProgramName].Visible = false;
             }
-
-            _BGMusicStarted = false;
         }
 
         public override void OnShowFinish()
@@ -130,21 +124,11 @@ namespace Vocaluxe.Screens
             }
 
             CLog.StartBenchmark("Load Songs Full");
-            _SongLoaderThread.IsBackground = true;
+            _SongLoaderThread = new Thread(CSongs.LoadSongs) {Name = "SongLoader", IsBackground = true};
             _SongLoaderThread.Start();
+            CBackgroundMusic.OwnSongsAvailable = false;
 
-            if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
-                CConfig.BackgroundMusicSource == EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStarted)
-            {
-                CBackgroundMusic.AddOwnMusic();
-
-                if (!CBackgroundMusic.IsPlaying)
-                    CBackgroundMusic.Next();
-
-                _BGMusicStarted = true;
-            }
-
-            CBackgroundMusic.CanSing = false;
+            CBackgroundMusic.Play();
         }
 
         public override bool UpdateGame()
@@ -164,15 +148,11 @@ namespace Vocaluxe.Screens
                 CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (" + CSongs.NumSongsWithCoverLoaded + " " +
                 CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
 
-            if (CSongs.SongsLoaded && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON &&
-                CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC && !_BGMusicStarted)
+            if (CSongs.SongsLoaded && !CBackgroundMusic.OwnSongsAvailable)
             {
-                CBackgroundMusic.AddOwnMusic();
+                CBackgroundMusic.OwnSongsAvailable = true;
 
-                if (!CBackgroundMusic.IsPlaying)
-                    CBackgroundMusic.Next();
-
-                _BGMusicStarted = true;
+                CBackgroundMusic.Play();
             }
 
             return true;
@@ -195,8 +175,6 @@ namespace Vocaluxe.Screens
 
             foreach (CVideoPlayer videoPlayer in _Intros)
                 videoPlayer.Close();
-
-            CBackgroundMusic.CanSing = true;
 
             CLog.StopBenchmark("Load Songs Full");
 
@@ -224,6 +202,7 @@ namespace Vocaluxe.Screens
             }
             else if (_CurrentIntroVideo == 0 && _Intros[0].IsFinished && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
+                _Intros[_CurrentIntroVideo].Close();
                 _CurrentIntroVideo = 1;
                 _Intros[1].Loop = true;
                 _Intros[1].Start();
@@ -231,6 +210,7 @@ namespace Vocaluxe.Screens
             else if ((_CurrentIntroVideo == 1 && CSongs.CoverLoaded) ||
                      (_CurrentIntroVideo == 0 && _Intros[0].IsFinished))
             {
+                _Intros[_CurrentIntroVideo].Close();
                 _CurrentIntroVideo = 2;
                 _Intros[2].Start();
             }

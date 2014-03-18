@@ -236,8 +236,6 @@ namespace Vocaluxe.Base
                     _Screens[(int)_CurrentScreen].OnClose();
                     _CurrentScreen = _NextScreen;
                     _NextScreen = EScreens.ScreenNull;
-                    if (CBackgroundMusic.IsPlaying)
-                        CBackgroundMusic.Play();
                     _Screens[(int)_CurrentScreen].OnShowFinish();
                     _Screens[(int)_CurrentScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
 
@@ -431,7 +429,7 @@ namespace Vocaluxe.Base
                                 else
                                 {
                                     CConfig.BackgroundMusicVolume += diff;
-                                    CBackgroundMusic.ApplyVolume();
+                                    CBackgroundMusic.SetVolume(CConfig.BackgroundMusicVolume);
                                 }
                                 break;
 
@@ -442,7 +440,7 @@ namespace Vocaluxe.Base
 
                             default:
                                 CConfig.BackgroundMusicVolume += diff;
-                                CBackgroundMusic.ApplyVolume();
+                                CBackgroundMusic.SetVolume(CConfig.BackgroundMusicVolume);
                                 break;
                         }
                         CConfig.SaveConfig();
@@ -453,8 +451,6 @@ namespace Vocaluxe.Base
                         ShowPopup(EPopupScreens.PopupVolumeControl);
                         _VolumePopupTimer.Restart();
                     }
-
-                    CBackgroundMusic.ApplyVolume();
                 }
 
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))

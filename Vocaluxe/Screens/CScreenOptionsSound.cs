@@ -150,13 +150,16 @@ namespace Vocaluxe.Screens
         {
             CConfig.GameMusicVolume = _SelectSlides[_SelectSlideGameMusicVolume].Selection * 5;
             CConfig.PreviewMusicVolume = _SelectSlides[_SelectSlidePreviewMusicVolume].Selection * 5;
+            CConfig.BackgroundMusic=(EOffOn)_SelectSlides[_SelectSlideBackgroundMusic].Selection;
+            CConfig.BackgroundMusicSource = (EBackgroundMusicSource)_SelectSlides[_SelectSlideBackgroundMusicSource].Selection;
+            CConfig.BackgroundMusicVolume= _SelectSlides[_SelectSlideBackgroundMusicVolume].Selection * 5;
             CConfig.SaveConfig();
 
-            var newOffOn = (EOffOn)_SelectSlides[_SelectSlideBackgroundMusic].Selection;
-            var newSource = (EBackgroundMusicSource)_SelectSlides[_SelectSlideBackgroundMusicSource].Selection;
-            float newVolume = _SelectSlides[_SelectSlideBackgroundMusicVolume].Selection * 5;
-
-            CBackgroundMusic.CheckAndApplyConfig(newOffOn, newSource, newVolume);
+            CBackgroundMusic.SetMusicSource(CConfig.BackgroundMusicSource);
+            CBackgroundMusic.SetVolume(CConfig.BackgroundMusicVolume);
+            if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+                CBackgroundMusic.Play();
+            else CBackgroundMusic.Pause();
         }
     }
 }

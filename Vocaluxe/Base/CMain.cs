@@ -360,11 +360,6 @@ namespace Vocaluxe.Base
             CBackgroundMusic.Play();
         }
 
-        public void ApplyVolume()
-        {
-            CBackgroundMusic.ApplyVolume();
-        }
-
         public CTexture GetVideoTexture()
         {
             return CBackgroundMusic.GetVideoTexture();
