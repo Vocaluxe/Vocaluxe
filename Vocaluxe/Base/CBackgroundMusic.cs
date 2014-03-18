@@ -123,7 +123,7 @@ namespace Vocaluxe.Base
             {
                 _OwnSongsAvailable = value;
                 if (_OwnSongsAvailable && _MusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
-                    AddOwnMusic();
+                    _AddOwnMusic();
             }
         }
 
@@ -203,62 +203,6 @@ namespace Vocaluxe.Base
             IsPlaying = false;
         }
 
-        public static void Update()
-        {
-            if (!IsPlaying)
-                return;
-            Debug.Assert(_CurrentMusicStream != -1 && _CurrentPlaylistElement != null);
-
-            float timeToPlay;
-            if (Math.Abs(_CurrentPlaylistElement.Finish) < 0.001) //No End-Tag defined
-                timeToPlay = CSound.GetLength(_CurrentMusicStream) - CSound.GetPosition(_CurrentMusicStream);
-            else //End-Tag found
-                timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
-
-            bool finished = CSound.IsFinished(_CurrentMusicStream);
-            if (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished)
-            {
-                if (RepeatSong)
-                    _StartSong();
-                else
-                    Next();
-            }
-        }
-
-        /// <summary>
-        /// (Re-)Starts the _CurrentPlaylistElement
-        /// </summary>
-        private static void _StartSong()
-        {
-            Debug.Assert(_CurrentPlaylistElement != null);
-            //If we have an active stream, reuse it
-            if (_CurrentMusicStream < 0)
-            {
-                //otherwhise load
-                _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
-                if (_CurrentMusicStream < 0)
-                    return;
-                CSound.SetStreamVolume(_CurrentMusicStream, 0f);
-                CSound.Fade(_CurrentMusicStream, _Volume, CSettings.BackgroundMusicFadeTime);
-            }
-            //Seek to #Start-Tag, if found
-            if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
-
-            if (_VideoEnabled)
-            {
-                if (_Video != -1)
-                {
-                    if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                        CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap + _CurrentPlaylistElement.Start);
-                    else
-                        CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
-                }
-                else
-                    _LoadVideo();
-            }
-        }
-
         public static void Next()
         {
             Stop(); //stop last song if any
@@ -304,7 +248,112 @@ namespace Vocaluxe.Base
             _StartSong();
         }
 
-        public static void AddOwnMusic()
+        public static void Update()
+        {
+            if (!IsPlaying)
+                return;
+            Debug.Assert(_CurrentMusicStream != -1 && _CurrentPlaylistElement != null);
+
+            float timeToPlay;
+            if (Math.Abs(_CurrentPlaylistElement.Finish) < 0.001) //No End-Tag defined
+                timeToPlay = CSound.GetLength(_CurrentMusicStream) - CSound.GetPosition(_CurrentMusicStream);
+            else //End-Tag found
+                timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
+
+            bool finished = CSound.IsFinished(_CurrentMusicStream);
+            if (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished)
+            {
+                if (RepeatSong)
+                    _StartSong();
+                else
+                    Next();
+            }
+        }
+
+        public static CTexture GetVideoTexture()
+        {
+            if (_Video == -1)
+                return null;
+            float vtime;
+            if (CVideo.GetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), out vtime))
+            {
+                if (_VideoFading != null)
+                {
+                    bool finished;
+                    _CurrentVideoTexture.Color.A = _VideoFading.GetValue(out finished);
+                    if (finished)
+                        _VideoFading = null;
+                }
+                return _CurrentVideoTexture;
+            }
+            return null;
+        }
+
+        public static void SetMusicSource(EBackgroundMusicSource source)
+        {
+            if (_MusicSource == source)
+                return;
+            _MusicSource = source;
+            switch (_MusicSource)
+            {
+                case EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC:
+                    _AddBackgroundMusic();
+                    _RemoveOwnMusic();
+                    break;
+
+                case EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC:
+                    _AddOwnMusic();
+                    _RemoveBackgroundMusic();
+                    break;
+                case EBackgroundMusicSource.TR_CONFIG_OWN_MUSIC:
+                    _AddBackgroundMusic();
+                    _AddOwnMusic();
+                    break;
+            }
+        }
+
+        public static void SetVolume(float volume)
+        {
+            _Volume = volume;
+            if (_CurrentMusicStream >= 0)
+                CSound.SetStreamVolume(_CurrentMusicStream, _Volume);
+        }
+
+        /// <summary>
+        /// (Re-)Starts the _CurrentPlaylistElement
+        /// </summary>
+        private static void _StartSong()
+        {
+            Debug.Assert(_CurrentPlaylistElement != null);
+            //If we have an active stream, reuse it
+            if (_CurrentMusicStream < 0)
+            {
+                //otherwhise load
+                _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
+                if (_CurrentMusicStream < 0)
+                    return;
+                CSound.SetStreamVolume(_CurrentMusicStream, 0f);
+                CSound.Fade(_CurrentMusicStream, _Volume, CSettings.BackgroundMusicFadeTime);
+            }
+            //Seek to #Start-Tag, if found
+            if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
+
+            if (_VideoEnabled)
+            {
+                if (_Video != -1)
+                {
+                    if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                        CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap + _CurrentPlaylistElement.Start);
+                    else
+                        CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
+                }
+                else
+                    _LoadVideo();
+            }
+        }
+
+        private static void _AddOwnMusic()
         {
             if (_OwnMusicAdded)
                 return;
@@ -347,55 +396,6 @@ namespace Vocaluxe.Base
                 Next();
 
             _BackgroundMusicAdded = false;
-        }
-
-        public static void SetMusicSource(EBackgroundMusicSource source)
-        {
-            if (_MusicSource == source)
-                return;
-            _MusicSource = source;
-            switch (_MusicSource)
-            {
-                case EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC:
-                    _AddBackgroundMusic();
-                    _RemoveOwnMusic();
-                    break;
-
-                case EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC:
-                    AddOwnMusic();
-                    _RemoveBackgroundMusic();
-                    break;
-                case EBackgroundMusicSource.TR_CONFIG_OWN_MUSIC:
-                    _AddBackgroundMusic();
-                    AddOwnMusic();
-                    break;
-            }
-        }
-
-        public static void SetVolume(float volume)
-        {
-            _Volume = volume;
-            if (_CurrentMusicStream >= 0)
-                CSound.SetStreamVolume(_CurrentMusicStream, _Volume);
-        }
-
-        public static CTexture GetVideoTexture()
-        {
-            if (_Video == -1)
-                return null;
-            float vtime;
-            if (CVideo.GetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), out vtime))
-            {
-                if (_VideoFading != null)
-                {
-                    bool finished;
-                    _CurrentVideoTexture.Color.A = _VideoFading.GetValue(out finished);
-                    if (finished)
-                        _VideoFading = null;
-                }
-                return _CurrentVideoTexture;
-            }
-            return null;
         }
 
         private static bool _IsBackgroundFile(CPlaylistElement element)
