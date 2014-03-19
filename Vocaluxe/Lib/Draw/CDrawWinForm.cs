@@ -127,9 +127,6 @@ namespace Vocaluxe.Lib.Draw
                 targetForm.Bounds = Screen.PrimaryScreen.Bounds;
                 targetForm.TopMost = true;
                 _Fullscreen = true;
-
-                CConfig.FullScreen = EOffOn.TR_CONFIG_ON;
-                CConfig.SaveConfig();
             }
         }
 
@@ -146,9 +143,6 @@ namespace Vocaluxe.Lib.Draw
             targetForm.TopMost = _TopMost;
             targetForm.Bounds = _Bounds;
             _Fullscreen = false;
-
-            CConfig.FullScreen = EOffOn.TR_CONFIG_OFF;
-            CConfig.SaveConfig();
         }
         #endregion FullScreenStuff
 
@@ -232,10 +226,7 @@ namespace Vocaluxe.Lib.Draw
             Show();
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
-            {
-                CSettings.IsFullScreen = true;
                 _Maximize(this);
-            }
 
             while (_Run)
             {
@@ -247,7 +238,7 @@ namespace Vocaluxe.Lib.Draw
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     _FlipBuffer();
 
-                    if ((CSettings.IsFullScreen && !_Fullscreen) || (!CSettings.IsFullScreen && _Fullscreen))
+                    if ((CConfig.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
                         _ToggleFullScreen();
 
                     if (CTime.IsRunning())

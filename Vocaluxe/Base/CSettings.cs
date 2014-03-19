@@ -33,6 +33,10 @@ namespace Vocaluxe.Base
         // ReSharper restore UnusedMember.Global
     }
 
+    /// <summary>
+    /// This class contains settings for the program
+    /// These are not editable, everything that can be changed by the user is in CConfig
+    /// </summary>
     static class CSettings
     {
 #if ARCH_X86
@@ -43,7 +47,9 @@ namespace Vocaluxe.Base
         private const String _Arch = "x64";
 #endif
 
-        public static EGameState GameState = EGameState.Start;
+        //TODO: This should not be here as it can change
+        //State of the program
+        public static EProgramState ProgramState = EProgramState.Start;
 
         //Adjusting of programName and version now in the assembly config.
         //I'd use the major and minor for Main releases, build number for every public release and revision for every bugfix version without any features
@@ -63,23 +69,20 @@ namespace Vocaluxe.Base
         public const int ZNear = -100;
         public const int ZFar = 100;
 
-        public static bool IsFullScreen;
         public const int VertexBufferElements = 10000;
 
 #if INSTALLER
-        public static string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vocaluxe");
+        public static readonly string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vocaluxe");
 #else
-        public static string DataPath = Environment.CurrentDirectory;
+        public static readonly string DataPath = Environment.CurrentDirectory;
 #endif
 
         public const string Icon = "Vocaluxe.ico";
         public const string Logo = "Logo.png";
         public const string FallbackLanguage = "English";
-        public static string FileConfig = "Config.xml";
         public const string FileFonts = "Fonts.xml";
 
         public const string FileOldHighscoreDB = "Ultrastar.db";
-        public static string FileHighscoreDB = "HighscoreDB.sqlite";
         public const string FileCoverDB = "CoverDB.sqlite";
         public const string FileCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
         public const string FilePerformanceLog = "Performance.log";
@@ -96,21 +99,11 @@ namespace Vocaluxe.Base
         public const string FolderThemes = "Themes";
         public const string FolderThemeFonts = "Fonts";
         public const string FolderScreens = "Screens";
-        public const string FolderProfiles = "Profiles";
-        public static List<string> FoldersProfiles = new List<string>
-            {
-#if INSTALLER
-                Path.Combine(Environment.CurrentDirectory, FolderProfiles),
-#endif
-                Path.Combine(DataPath, FolderProfiles)
-            };
         public const string FolderPhotos = "Photos";
-        public const string FolderSongs = "Songs";
         public const string FolderSounds = "Sounds";
         public const string FolderLanguages = "Languages";
         public const string FolderScreenshots = "Screenshots";
         public const string FolderBackgroundMusic = "BackgroundMusic";
-        public static string FolderPlaylists = "Playlists";
 
         public const string FolderPartyModes = "PartyModes";
         public const string FolderPartyModeCode = "Code";
@@ -128,8 +121,10 @@ namespace Vocaluxe.Base
         public const int ToneMax = 89;
 
         public const int NumNoteLines = 11;
-        public static int MouseMoveDiffMin = 2;
+
         public const int MouseMoveOffTime = 3000; //in ms
+        public const int MouseMoveDiffMinActive = 3;
+        public const int MouseMoveDiffMinInactive = 15;
 
         public const int MaxNumPlayer = 6;
         public const int MaxScore = 10000;
@@ -212,37 +207,25 @@ namespace Vocaluxe.Base
             return RenderW / (float)RenderH;
         }
 
-        public static void MouseInactive()
-        {
-            MouseMoveDiffMin = 15;
-        }
-
-        public static void MouseActive()
-        {
-            MouseMoveDiffMin = 3;
-        }
-
         public static void CreateFolders()
         {
             var folders = new List<string>
                 {
-                    FolderCover,
-                    FolderFonts,
+                    Path.Combine(Environment.CurrentDirectory, FolderCover),
+                    Path.Combine(Environment.CurrentDirectory, FolderFonts),
                     Path.Combine(DataPath, FolderScreenshots),
-                    FolderBackgroundMusic,
-                    FolderSounds,
-                    Path.Combine(DataPath, FolderPlaylists)
+                    Path.Combine(Environment.CurrentDirectory, FolderBackgroundMusic),
+                    Path.Combine(Environment.CurrentDirectory, FolderSounds),
+                    Path.Combine(DataPath, CConfig.FolderPlaylists)
                 };
-            folders.AddRange(FoldersProfiles);
+            folders.AddRange(CConfig.ProfileFolders);
+            folders.AddRange(CConfig.SongFolders);
 
             foreach (string folder in folders)
-            {
-                string path = Path.Combine(Environment.CurrentDirectory, folder);
-                CreateFolder(path);
-            }
+                _CreateFolder(folder);
         }
 
-        public static void CreateFolder(string path)
+        private static void _CreateFolder(string path)
         {
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);

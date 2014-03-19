@@ -338,7 +338,7 @@ namespace Vocaluxe.Base
 
             CLog.StartBenchmark("List Songs");
             var files = new List<string>();
-            foreach (string p in CConfig.SongFolder)
+            foreach (string p in CConfig.SongFolders)
             {
                 string path = p;
                 files.AddRange(CHelper.ListFiles(path, "*.txt", true, true));

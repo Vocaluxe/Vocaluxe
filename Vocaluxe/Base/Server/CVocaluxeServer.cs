@@ -207,7 +207,6 @@ namespace Vocaluxe.Base.Server
                         ID = existingProfile.ID,
                         FileName = existingProfile.FileName,
                         Active = existingProfile.Active,
-                        AvatarFileName = existingProfile.AvatarFileName,
                         Avatar = existingProfile.Avatar,
                         Difficulty = existingProfile.Difficulty,
                         UserRole = existingProfile.UserRole,
@@ -317,10 +316,10 @@ namespace Vocaluxe.Base.Server
         {
             try
             {
-                string filename = _SaveImage(avatarData, "snapshot", CSettings.FolderProfiles);
+                string filename = _SaveImage(avatarData, "snapshot", CConfig.ProfileFolders[0]);
 
-                var avatar = new CAvatar(-1);
-                if (avatar.LoadFromFile(filename))
+                var avatar = CAvatar.GetAvatar(filename);
+                if (avatar!=null)
                 {
                     CProfiles.AddAvatar(avatar);
                     return avatar;

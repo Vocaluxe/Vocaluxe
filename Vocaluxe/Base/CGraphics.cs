@@ -178,7 +178,7 @@ namespace Vocaluxe.Base
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
                 CSongs.LoadCover();
 
-            if (CSettings.GameState != EGameState.EditTheme)
+            if (CSettings.ProgramState != EProgramState.EditTheme)
             {
                 run &= _HandleInputs(keys, mouse);
                 run &= _Update();
@@ -344,8 +344,7 @@ namespace Vocaluxe.Base
                 if (keyEvent.Key == Keys.Left || keyEvent.Key == Keys.Right || keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down || keyEvent.Key == Keys.NumPad0 ||
                     keyEvent.Key == Keys.D0)
                 {
-                    CSettings.MouseInactive();
-                    _Cursor.FadeOut();
+                    _Cursor.Deactivate();
 
                     if (keyEvent.ModAlt && keyEvent.ModCtrl && keyEvent.ModShift)
                     {
@@ -454,9 +453,9 @@ namespace Vocaluxe.Base
                 }
 
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
-                    CSettings.GameState = EGameState.EditTheme;
+                    CSettings.ProgramState = EProgramState.EditTheme;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
-                    CSettings.IsFullScreen = !CSettings.IsFullScreen;
+                    CConfig.FullScreen = (CConfig.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else
@@ -484,10 +483,7 @@ namespace Vocaluxe.Base
                     mouseEvent = inputMouseEvent;
 
                 if (mouseEvent.Wheel != 0)
-                {
-                    CSettings.MouseActive();
-                    _Cursor.FadeIn();
-                }
+                    _Cursor.Activate();
 
                 _UpdateMousePosition(mouseEvent.X, mouseEvent.Y);
 
@@ -550,11 +546,11 @@ namespace Vocaluxe.Base
             {
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
                 {
-                    CSettings.GameState = EGameState.Normal;
+                    CSettings.ProgramState = EProgramState.Normal;
                     _Screens[(int)_CurrentScreen].NextInteraction();
                 }
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
-                    CSettings.IsFullScreen = !CSettings.IsFullScreen;
+                    CConfig.FullScreen = (CConfig.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else
@@ -588,7 +584,7 @@ namespace Vocaluxe.Base
             }
 
             if (_VolumePopupTimer.IsRunning)
-                _Cursor.FadeIn();
+                _Cursor.Activate();
 
             if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                 _PopupScreens[(int)_CurrentPopupScreen].UpdateGame();

@@ -137,10 +137,10 @@ namespace Vocaluxe.Screens
 
             bool next = CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
 
-            if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.GameState != EGameState.EditTheme && CSongs.SongsLoaded)
-                CSettings.GameState = EGameState.Normal;
+            if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.ProgramState != EProgramState.EditTheme && CSongs.SongsLoaded)
+                CSettings.ProgramState = EProgramState.Normal;
 
-            if (CSettings.GameState == EGameState.Normal)
+            if (CSettings.ProgramState == EProgramState.Normal)
                 CGraphics.FadeTo(EScreens.ScreenMain);
 
             _Texts[_TextStatus].Text =

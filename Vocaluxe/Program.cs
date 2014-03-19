@@ -87,7 +87,6 @@ namespace Vocaluxe
                 CProgrammHelper.Init();
 
                 CMain.Init();
-                CSettings.CreateFolders();
                 Application.DoEvents();
 
                 // Init Language
@@ -104,6 +103,9 @@ namespace Vocaluxe
                 CConfig.Init();
                 CConfig.UseCommandLineParamsAfter();
                 CLog.StopBenchmark("Init Config");
+
+                // Create folders
+                CSettings.CreateFolders();
 
                 Application.DoEvents();
                 _SplashScreen = new CSplashScreen();

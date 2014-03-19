@@ -60,7 +60,7 @@ namespace Vocaluxe.Base
 
         public static bool Init()
         {
-            _HighscoreFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileHighscoreDB);
+            _HighscoreFilePath = Path.Combine(Environment.CurrentDirectory, CConfig.FileHighscoreDB);
             _CoverFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileCoverDB);
             _CreditsRessourcesFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileCreditsRessourcesDB);
 

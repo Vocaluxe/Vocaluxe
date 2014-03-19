@@ -43,6 +43,15 @@ namespace Vocaluxe.Base
                 ConformanceLevel = ConformanceLevel.Document
             };
 
+        private static bool _Initialized;
+
+        // Base file and folder names (formerly from CSettings but they can be changed)
+        private const string _FolderProfiles = "Profiles"; //Use ProfileFolders for access
+        private const string _FolderSongs = "Songs"; //Use SongFolders for access
+        public static string FolderPlaylists = "Playlists";
+        public static string FileHighscoreDB = "HighscoreDB.sqlite";
+        private static string _FileConfig = "Config.xml";
+
         // Debug
         public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
         public static EOffOn SaveModifiedSongs = EOffOn.TR_CONFIG_OFF;
@@ -87,7 +96,6 @@ namespace Vocaluxe.Base
 
         // Sound
         public static EPlaybackLib PlayBackLib = EPlaybackLib.Gstreamer;
-        public static ERecordLib RecordLib = ERecordLib.PortAudio;
         public static EBufferSize AudioBufferSize = EBufferSize.B2048;
         public static int AudioLatency;
         private static int _BackgroundMusicVolume = 30;
@@ -97,8 +105,28 @@ namespace Vocaluxe.Base
         public static int PreviewMusicVolume = 50;
         public static int GameMusicVolume = 80;
 
+        //Folders
+        public static readonly List<string> SongFolders = new List<string>()
+            {
+                Path.Combine(Directory.GetCurrentDirectory(), _FolderSongs)
+
+#if INSTALLER
+            ,Path.Combine(CSettings.DataPath, CSettings.FolderSongs);           
+#endif
+            };
+        /// <summary>
+        /// Folders with profiles
+        /// First one is used for new profiles
+        /// </summary>
+        public static readonly List<string> ProfileFolders = new List<string>
+            {
+#if INSTALLER
+                Path.Combine(Environment.CurrentDirectory, CSettings.FolderProfiles),
+#endif
+                Path.Combine(CSettings.DataPath, _FolderProfiles)
+            };
+
         // Game
-        public static readonly List<string> SongFolder = new List<string>();
         public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
         public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_ARTIST;
         public static EOffOn IgnoreArticles = EOffOn.TR_CONFIG_ON;
@@ -120,8 +148,11 @@ namespace Vocaluxe.Base
         public static EOffOn VideosToBackground = EOffOn.TR_CONFIG_OFF;
 
         // Record
-        public static SMicConfig[] MicConfig;
-        public static int MicDelay = 300; //[ms]
+        public static ERecordLib RecordLib = ERecordLib.PortAudio;
+        public static readonly SMicConfig[] MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
+        public static int MicDelay = 200; //[ms]
+
+        // Webcam
         public static EWebcamLib WebcamLib = EWebcamLib.OpenCV;
         public static SWebcamConfig WebcamConfig;
 
@@ -135,8 +166,6 @@ namespace Vocaluxe.Base
         private static readonly List<string> _Params = new List<string>();
         private static readonly List<string> _Values = new List<string>();
 
-        //Variables to save old values for commandline-parameters
-        private static readonly List<string> _SongFolderOld = new List<string>();
         public static int BackgroundMusicVolume
         {
             get { return _BackgroundMusicVolume; }
@@ -154,27 +183,21 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            SongFolder.Add(Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderSongs));
-
-#if INSTALLER
-            SongFolder.Add(Path.Combine(CSettings.DataPath, CSettings.FolderSongs));            
-#endif
-
-            foreach (string folder in SongFolder)
-                CSettings.CreateFolder(folder);
-
-            MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
+            if (_Initialized)
+                return;
 
             // Init config file
-            if (!File.Exists(Path.Combine(CSettings.DataPath, CSettings.FileConfig)))
+            if (!File.Exists(Path.Combine(CSettings.DataPath, _FileConfig)))
                 SaveConfig();
+            else
+                _LoadConfig();
 
-            _LoadConfig();
+            _Initialized = true;
         }
 
         private static void _LoadConfig()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.DataPath, CSettings.FileConfig));
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.DataPath, _FileConfig));
             if (xmlReader == null)
                 return;
 
@@ -231,15 +254,14 @@ namespace Vocaluxe.Base
 
             #region Game
             // Songfolder
-            string value = string.Empty;
+            string value = String.Empty;
             int i = 1;
             while (xmlReader.GetValue("//root/Game/SongFolder" + i, out value, value))
             {
                 if (i == 1)
-                    SongFolder.Clear();
-
-                SongFolder.Add(value);
-                value = string.Empty;
+                    SongFolders.Clear();
+                SongFolders.Add(value);
+                value = String.Empty;
                 i++;
             }
 
@@ -271,7 +293,7 @@ namespace Vocaluxe.Base
 
             //Read players from config
             for (i = 1; i <= CSettings.MaxNumPlayer; i++)
-                xmlReader.GetValue("//root/Game/Players/Player" + i, out Players[i - 1], string.Empty);
+                xmlReader.GetValue("//root/Game/Players/Player" + i, out Players[i - 1], String.Empty);
             #endregion Game
 
             #region Video
@@ -318,7 +340,7 @@ namespace Vocaluxe.Base
             XmlWriter writer = null;
             try
             {
-                writer = XmlWriter.Create(Path.Combine(CSettings.DataPath, CSettings.FileConfig), XMLSettings);
+                writer = XmlWriter.Create(Path.Combine(CSettings.DataPath, _FileConfig), XMLSettings);
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
@@ -469,21 +491,9 @@ namespace Vocaluxe.Base
                 writer.WriteElementString("Language", Language);
 
                 // SongFolder
-                // Check, if program was started with songfolder-parameters
-                if (_SongFolderOld.Count > 0)
-                {
-                    //Write "old" song-folders to config.
-                    writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
-                    for (int i = 0; i < _SongFolderOld.Count; i++)
-                        writer.WriteElementString("SongFolder" + (i + 1), _SongFolderOld[i]);
-                }
-                else
-                {
-                    //Write "normal" song-folders to config.
-                    writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
-                    for (int i = 0; i < SongFolder.Count; i++)
-                        writer.WriteElementString("SongFolder" + (i + 1), SongFolder[i]);
-                }
+                writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
+                for (int i = 0; i < SongFolders.Count; i++)
+                    writer.WriteElementString("SongFolder" + (i + 1), SongFolders[i]);
 
                 writer.WriteComment("SongMenu: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongMenu))));
                 writer.WriteElementString("SongMenu", Enum.GetName(typeof(ESongMenu), SongMenu));
@@ -730,7 +740,7 @@ namespace Vocaluxe.Base
             Regex spliterParam = new Regex(@"-{1,2}|\/", RegexOptions.IgnoreCase);
 
             //Complete argument string
-            string arguments = args.Aggregate(string.Empty, (current, arg) => current + (arg + " "));
+            string arguments = args.Aggregate(String.Empty, (current, arg) => current + arg + " ");
 
             args = spliterParam.Split(arguments);
 
@@ -791,24 +801,22 @@ namespace Vocaluxe.Base
                     case "configfile":
                         //Check if value is valid                      
                         if (_CheckFile(value))
-                            CSettings.FileConfig = value;
+                            _FileConfig = value;
                         break;
 
                     case "scorefile":
                         //Check if value is valid
                         if (_CheckFile(value))
-                            CSettings.FileHighscoreDB = value;
+                            FileHighscoreDB = value;
                         break;
 
                     case "playlistfolder":
-                        CSettings.CreateFolder(value);
-                        CSettings.FolderPlaylists = value;
+                        FolderPlaylists = value;
                         break;
 
                     case "profilefolder":
-                        CSettings.CreateFolder(value);
-                        CSettings.FoldersProfiles.Clear();
-                        CSettings.FoldersProfiles.Add(value);
+                        ProfileFolders.Clear();
+                        ProfileFolders.Add(value);
                         break;
                 }
             }
@@ -819,6 +827,7 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void UseCommandLineParamsAfter()
         {
+            bool songFoldersOverwritten = false;
             //Check each parameter
             for (int i = 0; i < _Params.Count; i++)
             {
@@ -833,15 +842,13 @@ namespace Vocaluxe.Base
                 {
                     case "songfolder":
                     case "songpath":
-                        //Check if SongFolders from config.xml are saved
-                        if (_SongFolderOld.Count == 0)
+                        if (!songFoldersOverwritten)
                         {
-                            _SongFolderOld.Clear();
-                            _SongFolderOld.AddRange(SongFolder);
-                            SongFolder.Clear();
+                            SongFolders.Clear();
+                            songFoldersOverwritten = true;
                         }
-                        //Add parameter-value to SongFolder
-                        SongFolder.Add(value);
+                        if (!SongFolders.Contains(value))
+                            SongFolders.Add(value);
                         break;
                 }
             }

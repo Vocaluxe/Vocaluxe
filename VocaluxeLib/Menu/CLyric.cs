@@ -224,7 +224,7 @@ namespace VocaluxeLib.Menu
         #region draw
         public void Draw(float actualBeat)
         {
-            if (Visible || CBase.Settings.GetGameState() == EGameState.EditTheme)
+            if (Visible || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 switch (LyricStyle)
                 {

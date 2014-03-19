@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.IO;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -111,13 +112,21 @@ namespace Vocaluxe.Base
                             break;
 
                         case EAction.AddProfile:
-                            if (change.Profile == null)
+                            CProfile newProf = change.Profile;
+                            if (newProf == null)
                                 break;
 
-                            change.Profile.ID = _ProfileIDs.Dequeue();
-                            change.Profile.Avatar = _GetAvatar(change.Profile.AvatarFileName);
-                            change.Profile.SaveProfile();
-                            _Profiles.Add(change.Profile.ID, change.Profile);
+                            newProf.ID = _ProfileIDs.Dequeue();
+                            if (newProf.Avatar == null)
+                                newProf.Avatar = _Avatars.Values.First();
+                            else if (newProf.Avatar.ID < 0)
+                            {
+                                newProf.Avatar.ID = _AvatarIDs.Dequeue();
+                                _Avatars.Add(newProf.Avatar.ID, newProf.Avatar);
+                                _AvatarsChanged = true;
+                            }
+                            newProf.SaveProfile();
+                            _Profiles.Add(newProf.ID, newProf);
 
                             _ProfilesChanged = true;
                             break;
@@ -318,7 +327,7 @@ namespace Vocaluxe.Base
         {
             var profile = new CProfile
                 {
-                    FileName = fileName != "" ? Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, fileName) : String.Empty
+                    FileName = fileName != "" ? Path.Combine(CConfig.ProfileFolders[0], fileName) : String.Empty
                 };
 
             if (File.Exists(profile.FileName))
@@ -332,8 +341,8 @@ namespace Vocaluxe.Base
 
         public static int NewAvatar(string fileName)
         {
-            var avatar = new CAvatar(-1);
-            if (!avatar.LoadFromFile(fileName))
+            CAvatar avatar = CAvatar.GetAvatar(fileName);
+            if (avatar == null)
                 return -1;
 
             avatar.ID = _AvatarIDs.Dequeue();
@@ -474,7 +483,7 @@ namespace Vocaluxe.Base
 
         public static int GetAvatarID(int profileID)
         {
-            if (!IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID) || _Profiles[profileID].Avatar == null)
                 return -1;
 
             return _Profiles[profileID].Avatar.ID;
@@ -505,7 +514,7 @@ namespace Vocaluxe.Base
 
         public static CTexture GetAvatarTextureFromProfile(int profileID)
         {
-            if (!IsProfileIDValid(profileID))
+            if (!IsProfileIDValid(profileID) || _Profiles[profileID].Avatar == null)
                 return null;
 
             return _Profiles[profileID].Avatar.Texture;
@@ -525,10 +534,7 @@ namespace Vocaluxe.Base
                 foreach (int id in ids)
                 {
                     if (_Profiles[id].LoadProfile())
-                    {
-                        _Profiles[id].Avatar = _GetAvatar(_Profiles[id].AvatarFileName);
                         knownFiles.Add(Path.GetFileName(_Profiles[id].FileName));
-                    }
                     else
                         _Profiles.Remove(id);
                 }
@@ -536,7 +542,7 @@ namespace Vocaluxe.Base
 
 
             var files = new List<string>();
-            foreach (string path in CSettings.FoldersProfiles)
+            foreach (string path in CConfig.ProfileFolders)
                 files.AddRange(CHelper.ListFiles(path, "*.xml", true, true));
 
             foreach (string file in files)
@@ -552,7 +558,6 @@ namespace Vocaluxe.Base
 
                 if (profile.LoadProfile())
                 {
-                    profile.Avatar = _GetAvatar(profile.AvatarFileName);
                     profile.ID = _ProfileIDs.Dequeue();
                     _Profiles.Add(profile.ID, profile);
                 }
@@ -577,7 +582,7 @@ namespace Vocaluxe.Base
             }
 
             var files = new List<string>();
-            foreach (string path in CSettings.FoldersProfiles)
+            foreach (string path in CConfig.ProfileFolders)
                 files.AddRange(CHelper.ListImageFiles(path, true, true));
 
             foreach (string file in files)
@@ -585,8 +590,8 @@ namespace Vocaluxe.Base
                 if (knownFiles.Contains(Path.GetFileName(file)))
                     continue;
 
-                var avatar = new CAvatar(-1);
-                if (avatar.LoadFromFile(file))
+                CAvatar avatar = CAvatar.GetAvatar(file);
+                if (avatar != null)
                 {
                     avatar.ID = _AvatarIDs.Dequeue();
                     _Avatars.Add(avatar.ID, avatar);
@@ -650,7 +655,7 @@ namespace Vocaluxe.Base
             return String.CompareOrdinal(a.PlayerName, b.PlayerName);
         }
 
-        private static CAvatar _GetAvatar(string fileName)
+        public static CAvatar GetAvatarByFilename(string fileName)
         {
             string name = Path.GetFileName(fileName);
 
@@ -659,7 +664,7 @@ namespace Vocaluxe.Base
                 if (Path.GetFileName(_Avatars[id].FileName) == name)
                     return _Avatars[id];
             }
-            return new CAvatar(-1);
+            return null;
         }
         #endregion private methods
     }

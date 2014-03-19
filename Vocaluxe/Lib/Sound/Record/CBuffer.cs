@@ -25,6 +25,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public CBuffer()
         {
+            MinVolume = 0.02f;
             ToneWeigth = new float[NumHalfTones];
             for (int i = 0; i < ToneWeigth.Length; i++)
                 ToneWeigth[i] = 0.99f;
@@ -53,6 +54,11 @@ namespace Vocaluxe.Lib.Sound.Record
         public bool ToneValid { get; private set; }
 
         public float[] ToneWeigth { get; private set; }
+
+        /// <summary>
+        /// Minimum volume for a tone to be valid
+        /// </summary>
+        public float MinVolume { get; set; }
 
         public void Reset()
         {
@@ -109,7 +115,7 @@ namespace Vocaluxe.Lib.Sound.Record
                 // find maximum volume
                 _FindMaxVolume();
 
-                if (MaxVolume >= 0.02)
+                if (MaxVolume >= MinVolume)
                     _AnalyzeByAutocorrelation();
                 else
                     ToneValid = false;

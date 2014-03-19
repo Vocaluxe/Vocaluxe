@@ -118,7 +118,7 @@ namespace Vocaluxe.Base
 
         public IEnumerable<string> GetSongFolders()
         {
-            return CConfig.SongFolder;
+            return CConfig.SongFolders;
         }
 
         public ESongSorting GetSongSorting()
@@ -179,9 +179,9 @@ namespace Vocaluxe.Base
             return CSettings.ZNear;
         }
 
-        public EGameState GetGameState()
+        public EProgramState GetProgramState()
         {
-            return CSettings.GameState;
+            return CSettings.ProgramState;
         }
 
         public int GetToneMin()
@@ -226,7 +226,7 @@ namespace Vocaluxe.Base
 
         public string GetFolderProfiles()
         {
-            return CSettings.FolderProfiles;
+            return CConfig.ProfileFolders[0];
         }
 
         public string GetDataPath()
@@ -599,6 +599,11 @@ namespace Vocaluxe.Base
         public CTexture GetAvatar(int profileID)
         {
             return CProfiles.GetAvatarTextureFromProfile(profileID);
+        }
+
+        public CAvatar GetAvatarByFilename(string fileName)
+        {
+            return CProfiles.GetAvatarByFilename(fileName);
         }
 
         public bool IsProfileIDValid(int profileID)

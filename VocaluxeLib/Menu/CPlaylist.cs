@@ -416,7 +416,7 @@ namespace VocaluxeLib.Menu
         {
             if (_PlaylistElements.Count <= 0)
                 LoadPlaylist(0);
-            if (!Visible && CBase.Settings.GetGameState() != EGameState.EditTheme && !forceDraw)
+            if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme && !forceDraw)
                 return;
 
             for (int i = 0; i < _PlaylistElements.Count; i++)

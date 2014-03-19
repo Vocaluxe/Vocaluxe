@@ -311,7 +311,6 @@ namespace Vocaluxe.Lib.Draw
             FormBorderStyle = FormBorderStyle.None;
             CenterToScreen();
             _Fullscreen = true;
-            CConfig.FullScreen = EOffOn.TR_CONFIG_ON;
 
             if (WindowState == FormWindowState.Maximized)
             {
@@ -321,8 +320,7 @@ namespace Vocaluxe.Lib.Draw
             }
             else
                 _DoResize();
-
-            CConfig.SaveConfig();
+            ;
         }
 
         /// <summary>
@@ -334,9 +332,6 @@ namespace Vocaluxe.Lib.Draw
             FormBorderStyle = FormBorderStyle.Sizable;
             CenterToScreen();
             _Fullscreen = false;
-            CConfig.FullScreen = EOffOn.TR_CONFIG_OFF;
-
-            CConfig.SaveConfig();
         }
         #endregion resize
 
@@ -486,10 +481,7 @@ namespace Vocaluxe.Lib.Draw
             Show();
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
-            {
-                CSettings.IsFullScreen = true;
                 _EnterFullScreen();
-            }
 
             //Resize window if aspect ratio is incorrect
             if (Math.Abs(_W / (float)_H - CSettings.GetRenderAspect()) > 0.01)
@@ -530,7 +522,7 @@ namespace Vocaluxe.Lib.Draw
                     }
                 }
                 //Apply fullscreen mode
-                if (CSettings.IsFullScreen != _Fullscreen)
+                if ((CConfig.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
                 {
                     if (!_Fullscreen)
                         _EnterFullScreen();

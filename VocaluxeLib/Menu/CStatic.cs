@@ -227,14 +227,14 @@ namespace VocaluxeLib.Menu
             }
 
             var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
-            if (Visible || forceDraw || (CBase.Settings.GetGameState() == EGameState.EditTheme))
+            if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
             {
                 CBase.Drawing.DrawTexture(texture, rect, color, bounds);
                 if (Reflection)
                     CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
             }
 
-            if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
+            if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
                 CBase.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
         }
 

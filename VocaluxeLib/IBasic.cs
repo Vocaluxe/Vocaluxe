@@ -71,7 +71,7 @@ namespace VocaluxeLib
         float GetZFar();
         float GetZNear();
 
-        EGameState GetGameState();
+        EProgramState GetProgramState();
 
         int GetToneMin();
         int GetToneMax();
@@ -209,6 +209,7 @@ namespace VocaluxeLib
         EGameDifficulty GetDifficulty(int profileID);
         string GetPlayerName(int profileID, int playerNum = 0);
         CTexture GetAvatar(int profileID);
+        CAvatar GetAvatarByFilename(string fileName);
         bool IsProfileIDValid(int profileID);
         bool IsGuest(int profileID);
         void AddProfileChangedCallback(ProfileChangedCallback notification);

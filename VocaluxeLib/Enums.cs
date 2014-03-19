@@ -290,7 +290,7 @@ namespace VocaluxeLib
     }
     #endregion Config
 
-    public enum EGameState
+    public enum EProgramState
     {
         Start,
         Normal,
