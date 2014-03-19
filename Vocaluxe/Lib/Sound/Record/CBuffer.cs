@@ -194,7 +194,7 @@ namespace Vocaluxe.Lib.Sound.Record
                 accumDist += dist;
             }
 
-            return 1.0 - (double)accumDist / Int16.MaxValue / _AnalysisBufLen;
+            return 1.0 - (double)accumDist / Int16.MaxValue / sampleIndex;
         }
 
         public void Dispose()
