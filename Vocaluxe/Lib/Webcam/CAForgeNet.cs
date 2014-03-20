@@ -90,7 +90,7 @@ namespace Vocaluxe.Lib.Webcam
                 {
                     var item = new SCapabilities
                         {
-                            Framerate = capabilities.FrameRate,
+                            Framerate = capabilities.AverageFrameRate,
                             Height = capabilities.FrameSize.Height,
                             Width = capabilities.FrameSize.Width
                         };
@@ -174,13 +174,13 @@ namespace Vocaluxe.Lib.Webcam
 
             if (config.Framerate != 0 && config.Height != 0 && config.Width != 0)
             {
-                _Webcam.DesiredFrameRate = config.Framerate;
-                _Webcam.DesiredFrameSize = new Size(config.Width, config.Height);
+                //_Webcam.DesiredFrameRate = config.Framerate;
+                //_Webcam.DesiredFrameSize = new Size(config.Width, config.Height);
             }
 
-            _Config.Framerate = _Webcam.DesiredFrameRate;
-            _Config.Height = _Webcam.DesiredFrameSize.Height;
-            _Config.Width = _Webcam.DesiredFrameSize.Width;
+            _Config.Framerate = _Webcam.SnapshotResolution.AverageFrameRate;
+            _Config.Height = _Webcam.SnapshotResolution.FrameSize.Height;
+            _Config.Width = _Webcam.SnapshotResolution.FrameSize.Width;
             _Config.MonikerString = _Webcam.Source;
 
             return true;
