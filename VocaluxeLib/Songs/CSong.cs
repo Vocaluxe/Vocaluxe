@@ -130,6 +130,7 @@ namespace VocaluxeLib.Songs
 
         public string Creator = "";
         public string Version = "";
+        public string Length = ""; //Length set in song file, SHOULD match actual song length but is more a hint
         public string Source = "";
         public readonly List<String> UnknownTags = new List<string>();
 
@@ -240,6 +241,7 @@ namespace VocaluxeLib.Songs
 
             Creator = song.Creator;
             Version = song.Version;
+            Length = song.Length;
             Source = song.Source;
             UnknownTags = new List<string>(song.UnknownTags);
 
