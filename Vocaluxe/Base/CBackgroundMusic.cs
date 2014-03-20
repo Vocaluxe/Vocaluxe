@@ -136,16 +136,19 @@ namespace Vocaluxe.Base
             if (_Initialized)
                 return;
 
-            _Volume = CConfig.BackgroundMusicVolume;
-            _VideoEnabled = (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON);
-            SetMusicSource(CConfig.BackgroundMusicSource);
-
             List<string> soundFiles = CHelper.ListSoundFiles(CSettings.FolderBackgroundMusic, true, true);
 
             foreach (string path in soundFiles)
                 _BGMusicFiles.Add(new CPlaylistElement(path));
+            //Set a default to have a consistent starting point, use SetMusicSource afterwards
+            _MusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
+            _AddBackgroundMusic();
 
+            _PreviousMusicIndex = -1;
             IsPlaying = false;
+            _Volume = CConfig.BackgroundMusicVolume;
+            _VideoEnabled = (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON);
+            SetMusicSource(CConfig.BackgroundMusicSource);
             _Initialized = true;
         }
 
