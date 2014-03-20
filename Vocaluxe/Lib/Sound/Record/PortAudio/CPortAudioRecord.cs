@@ -125,7 +125,8 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                             channelCount = _Devices[dev].Channels,
                             device = _Devices[dev].ID,
                             sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
-                            suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency
+                            suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
+                            hostApiSpecificStreamInfo = IntPtr.Zero
                         };
                     if (!_OpenInputStream(
                         out _RecHandle[dev],

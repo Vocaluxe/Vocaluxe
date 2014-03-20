@@ -258,7 +258,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                     channelCount = format.ChannelCount,
                     device = _ApiInfo.defaultOutputDevice,
                     sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
-                    suggestedLatency = _OutputDeviceInfo.defaultLowOutputLatency
+                    suggestedLatency = _OutputDeviceInfo.defaultLowOutputLatency,
+                    hostApiSpecificStreamInfo = IntPtr.Zero
                 };
 
             if (!_OpenOutputStream(

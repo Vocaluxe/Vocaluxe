@@ -105,6 +105,7 @@ namespace Vocaluxe
                     true, true);
                 return false;
             }
+            /*
             bool vc2008Installed = _IsVC2008Installed();
             if (!vc2008Installed)
             {
@@ -118,6 +119,7 @@ namespace Vocaluxe
                     true, true);
                 return false;
             }
+             * */
             return true;
         }
 
