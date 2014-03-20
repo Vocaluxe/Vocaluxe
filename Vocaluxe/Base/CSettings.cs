@@ -228,7 +228,16 @@ namespace Vocaluxe.Base
         private static void _CreateFolder(string path)
         {
             if (!Directory.Exists(path))
-                Directory.CreateDirectory(path);
+            {
+                try
+                {
+                    Directory.CreateDirectory(path);
+                }
+                catch (Exception e)
+                {
+                    CLog.LogError("Cannot create directory \"" + path + "\": " + e.Message);
+                }
+            }
         }
     }
 }
