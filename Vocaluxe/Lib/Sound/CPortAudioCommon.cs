@@ -12,7 +12,7 @@ namespace Vocaluxe.Lib.Sound
     /// DO NEVER use following Pa_* functions other than the ones from this class:
     /// Initialize, Terminate, OpenStream, CloseStream
     /// </summary>
-    abstract class CPortAudioCommon
+    static class CPortAudioCommon
     {
         private static int _RefCount;
         private static readonly object _Mutex = new object();
@@ -22,13 +22,13 @@ namespace Vocaluxe.Lib.Sound
         /// MUST call CloseDriver when done
         /// </summary>
         /// <returns>True on success, falso if not initialized (log written)</returns>
-        protected static bool _InitDriver()
+        public static bool InitDriver()
         {
             lock (_Mutex)
             {
                 if (_RefCount == 0)
                 {
-                    if (_CheckError("Initialize", PortAudio.Pa_Initialize()))
+                    if (CheckError("Initialize", PortAudio.Pa_Initialize()))
                         return false;
                 }
                 _RefCount++;
@@ -40,7 +40,7 @@ namespace Vocaluxe.Lib.Sound
         /// Safe method to close PortAudio
         /// MUST be called _exactly_ once after successfull InitDriver call
         /// </summary>
-        protected static void _CloseDriver()
+        public static void CloseDriver()
         {
             lock (_Mutex)
             {
@@ -51,9 +51,9 @@ namespace Vocaluxe.Lib.Sound
             }
         }
 
-        protected static PortAudio.PaError _OpenStream(out IntPtr stream, ref PortAudio.PaStreamParameters? inputParameters, ref PortAudio.PaStreamParameters? outputParameters,
-                                                       double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
-                                                       PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
+        public static PortAudio.PaError OpenStream(out IntPtr stream, ref PortAudio.PaStreamParameters? inputParameters, ref PortAudio.PaStreamParameters? outputParameters,
+                                                   double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
+                                                   PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
         {
             lock (_Mutex)
             {
@@ -72,14 +72,14 @@ namespace Vocaluxe.Lib.Sound
         /// <param name="streamCallback"></param>
         /// <param name="userData"></param>
         /// <returns>True on success</returns>
-        protected static bool _OpenInputStream(out IntPtr stream, ref PortAudio.PaStreamParameters? inputParameters,
-                                               double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
-                                               PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
+        public static bool OpenInputStream(out IntPtr stream, ref PortAudio.PaStreamParameters? inputParameters,
+                                           double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
+                                           PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
         {
             PortAudio.PaStreamParameters? outputParameters = null;
             return
-                !_CheckError("OpenInputStream",
-                             _OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback, userData));
+                !CheckError("OpenInputStream",
+                            OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback, userData));
         }
 
         /// <summary>
@@ -93,17 +93,17 @@ namespace Vocaluxe.Lib.Sound
         /// <param name="streamCallback"></param>
         /// <param name="userData"></param>
         /// <returns>True on success</returns>
-        protected static bool _OpenOutputStream(out IntPtr stream, ref PortAudio.PaStreamParameters? outputParameters,
-                                                double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
-                                                PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
+        public static bool OpenOutputStream(out IntPtr stream, ref PortAudio.PaStreamParameters? outputParameters,
+                                            double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
+                                            PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
         {
             PortAudio.PaStreamParameters? inputParameters = null;
             return
-                !_CheckError("OpenOutputStream",
-                             _OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback, userData));
+                !CheckError("OpenOutputStream",
+                            OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback, userData));
         }
 
-        protected static void _CloseStream(IntPtr stream)
+        public static void CloseStream(IntPtr stream)
         {
             lock (_Mutex)
             {
@@ -118,7 +118,7 @@ namespace Vocaluxe.Lib.Sound
         /// <param name="action">Action identifier (E.g. openStream)</param>
         /// <param name="errorCode">Result returned by Pa_* call</param>
         /// <returns>True on error</returns>
-        protected static bool _CheckError(String action, PortAudio.PaError errorCode)
+        public static bool CheckError(String action, PortAudio.PaError errorCode)
         {
             if (errorCode != PortAudio.PaError.paNoError)
             {
@@ -140,7 +140,7 @@ namespace Vocaluxe.Lib.Sound
         /// Selects the most appropriate host api
         /// </summary>
         /// <returns>The most appropriate host api</returns>
-        protected static int _GetHostApi()
+        public static int GetHostApi()
         {
             //Caller has to hold a reference anyway so no locking needed
             if (_RefCount < 1)

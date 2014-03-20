@@ -38,9 +38,6 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage("Microsoft.Reliability", "CA2000:Objekte verwerfen, bevor Bereich verloren geht", Scope = "member", Target = "Vocaluxe.Lib.Draw.CDirect3D.#CopyScreen()")
 ]
 [assembly: SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Scope = "type", Target = "Vocaluxe.Lib.Input.WiiMote.InputReport")]
-[assembly: SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Scope = "type", Target = "PortAudioSharp.PortAudio+PaDeviceIndex")]
-[assembly: SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Scope = "type", Target = "PortAudioSharp.PortAudio+PaSampleFormat")]
-[assembly: SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Scope = "type", Target = "PortAudioSharp.PortAudio+PaStreamCallbackFlags")]
 [assembly:
     SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member",
         Target = "Vocaluxe.Lib.Video.Gstreamer.CGstreamerVideoWrapper.#GetFrame(System.Int32,System.Single)")]
@@ -50,18 +47,3 @@ using System.Diagnostics.CodeAnalysis;
 [assembly:
     SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member",
         Target = "Vocaluxe.Lib.Input.CHIDAPI.#Read(System.IntPtr,System.Byte[]&,System.Int32)")]
-[assembly: SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member", Target = "PortAudioSharp.PortAudio.#Pa_GetVersionText()")]
-[assembly:
-    SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member",
-        Target = "PortAudioSharp.PortAudio.#Pa_GetErrorText(PortAudioSharp.PortAudio+PaError)")]
-[assembly:
-    SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member",
-        Target = "PortAudioSharp.PortAudio.#Pa_GetHostApiInfo(System.Int32)")]
-[assembly:
-    SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member", Target = "PortAudioSharp.PortAudio.#Pa_GetLastHostErrorInfo()")]
-[assembly:
-    SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member",
-        Target = "PortAudioSharp.PortAudio.#Pa_GetDeviceInfo(System.Int32)")]
-[assembly:
-    SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member",
-        Target = "PortAudioSharp.PortAudio.#Pa_GetStreamInfo(System.IntPtr)")]

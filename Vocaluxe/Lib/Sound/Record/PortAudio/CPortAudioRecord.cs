@@ -24,7 +24,7 @@ using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
 {
-    class CPortAudioRecord : CPortAudioCommon, IRecord
+    class CPortAudioRecord : IRecord
     {
         private bool _Initialized;
         private readonly List<CRecordDevice> _Devices = new List<CRecordDevice>();
@@ -52,11 +52,11 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
             try
             {
-                if (!_InitDriver())
+                if (!CPortAudioCommon.InitDriver())
                     return false;
 
                 _Devices.Clear();
-                int hostAPI = _GetHostApi();
+                int hostAPI = CPortAudioCommon.GetHostApi();
                 int numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
                 for (int i = 0; i < numDevices; i++)
                 {
@@ -128,7 +128,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                             suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
                             hostApiSpecificStreamInfo = IntPtr.Zero
                         };
-                    if (!_OpenInputStream(
+                    if (!CPortAudioCommon.OpenInputStream(
                         out _RecHandle[dev],
                         ref inputParams,
                         44100,
@@ -138,7 +138,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                         new IntPtr(dev)))
                         return false;
 
-                    if (_CheckError("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[dev])))
+                    if (CPortAudioCommon.CheckError("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[dev])))
                         return false;
                 }
             }
@@ -168,8 +168,8 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 return;
 
             foreach (IntPtr handle in _RecHandle)
-                _CloseStream(handle);
-            _CloseDriver();
+                CPortAudioCommon.CloseStream(handle);
+            CPortAudioCommon.CloseDriver();
 
             _Initialized = false;
 
