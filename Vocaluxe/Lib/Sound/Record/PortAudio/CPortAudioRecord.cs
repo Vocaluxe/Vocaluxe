@@ -16,47 +16,33 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
 {
-    class CPortAudioRecord : IRecord
+    class CPortAudioRecord : CRecordBase, IRecord
     {
         private bool _Initialized;
-        private readonly List<CRecordDevice> _Devices = new List<CRecordDevice>();
-
+        private CPortAudioHandle _PaHandle;
         private PortAudioSharp.PortAudio.PaStreamCallbackDelegate _MyRecProc;
         private IntPtr[] _RecHandle;
-
-        private readonly CBuffer[] _Buffer;
-
-        public CPortAudioRecord()
-        {
-            _Buffer = new CBuffer[CSettings.MaxNumPlayer];
-            for (int i = 0; i < _Buffer.Length; i++)
-                _Buffer[i] = new CBuffer();
-        }
 
         /// <summary>
         ///     Init PortAudio and list record devices
         /// </summary>
         /// <returns>true if success</returns>
-        public bool Init()
+        public override bool Init()
         {
-            if (_Initialized)
+            if (!base.Init())
                 return false;
 
             try
             {
-                if (!CPortAudioCommon.InitDriver())
-                    return false;
+                _PaHandle = new CPortAudioHandle();
 
-                _Devices.Clear();
-                int hostAPI = CPortAudioCommon.GetHostApi();
+                int hostAPI = _PaHandle.GetHostApi();
                 int numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
                 for (int i = 0; i < numDevices; i++)
                 {
@@ -69,9 +55,6 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                     }
                 }
 
-                foreach (CBuffer buffer in _Buffer)
-                    buffer.Reset();
-
                 _RecHandle = new IntPtr[_Devices.Count];
                 _MyRecProc = _MyPaStreamCallback;
                 _Initialized = true;
@@ -80,6 +63,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             {
                 _Initialized = false;
                 CLog.LogError("Error initializing PortAudio: " + e.Message);
+                Close();
                 return false;
             }
 
@@ -93,9 +77,6 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         public bool Start()
         {
             if (!_Initialized)
-                return false;
-
-            if (_RecHandle == null || _RecHandle.Length == 0)
                 return false;
 
             Stop();
@@ -128,7 +109,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                             suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
                             hostApiSpecificStreamInfo = IntPtr.Zero
                         };
-                    if (!CPortAudioCommon.OpenInputStream(
+                    if (!_PaHandle.OpenInputStream(
                         out _RecHandle[dev],
                         ref inputParams,
                         44100,
@@ -138,7 +119,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                         new IntPtr(dev)))
                         return false;
 
-                    if (CPortAudioCommon.CheckError("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[dev])))
+                    if (_PaHandle.CheckError("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[dev])))
                         return false;
                 }
             }
@@ -162,97 +143,25 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         /// <summary>
         ///     Stop all voice capturing streams and terminate PortAudio
         /// </summary>
-        public void Close()
+        public override void Close()
         {
-            if (!_Initialized)
-                return;
-
-            foreach (IntPtr handle in _RecHandle)
-                CPortAudioCommon.CloseStream(handle);
-            CPortAudioCommon.CloseDriver();
+            if (_RecHandle != null)
+            {
+                foreach (IntPtr handle in _RecHandle)
+                {
+                    if (handle != IntPtr.Zero)
+                        _PaHandle.CloseStream(handle);
+                }
+            }
+            if (_PaHandle != null)
+            {
+                _PaHandle.Close();
+                _PaHandle = null;
+            }
 
             _Initialized = false;
 
-            //System.IO.File.WriteAllBytes("test0.raw", _Buffer[0].Buffer);
-        }
-
-        /// <summary>
-        ///     Detect Pitch and Volume of the newest voice buffer
-        /// </summary>
-        /// <param name="player"></param>
-        public void AnalyzeBuffer(int player)
-        {
-            if (!_Initialized)
-                return;
-
-            _Buffer[player].AnalyzeBuffer();
-        }
-
-        public int GetToneAbs(int player)
-        {
-            if (!_Initialized)
-                return 0;
-
-            return _Buffer[player].ToneAbs;
-        }
-
-        public int GetTone(int player)
-        {
-            if (!_Initialized)
-                return 0;
-
-            return _Buffer[player].Tone;
-        }
-
-        public void SetTone(int player, int tone)
-        {
-            if (!_Initialized)
-                return;
-
-            _Buffer[player].Tone = tone;
-        }
-
-        public float GetMaxVolume(int player)
-        {
-            if (!_Initialized)
-                return 0f;
-
-            return _Buffer[player].MaxVolume;
-        }
-
-        public bool ToneValid(int player)
-        {
-            if (!_Initialized)
-                return false;
-
-            return _Buffer[player].ToneValid;
-        }
-
-        public int NumHalfTones()
-        {
-            if (!_Initialized)
-                return 0;
-
-            return CBuffer.NumHalfTones;
-        }
-
-        public float[] ToneWeigth(int player)
-        {
-            if (!_Initialized)
-                return null;
-
-            return _Buffer[player].ToneWeigth;
-        }
-
-        public ReadOnlyCollection<CRecordDevice> RecordDevices()
-        {
-            if (!_Initialized)
-                return null;
-
-            if (_Devices.Count == 0)
-                return null;
-
-            return _Devices.AsReadOnly();
+            base.Close();
         }
 
         private PortAudioSharp.PortAudio.PaStreamCallbackResult _MyPaStreamCallback(
@@ -275,34 +184,10 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                         numBytes = frameCount * 2;
 
                     byte[] recbuffer = new byte[numBytes];
-                    byte[] leftBuffer;
-                    byte[] rightBuffer;
 
                     // copy from managed to unmanaged memory
                     Marshal.Copy(input, recbuffer, 0, (int)numBytes);
-                    if (dev.Channels == 2)
-                    {
-                        leftBuffer = new byte[numBytes / 2];
-                        rightBuffer = new byte[numBytes / 2];
-                        //[]: Sample, L: Left channel R: Right channel
-                        //[LR][LR][LR][LR][LR][LR]
-                        //The data is interleaved and needs to be demultiplexed
-                        for (int i = 0; i < frameCount; i++)
-                        {
-                            leftBuffer[i * 2] = recbuffer[i * 4];
-                            leftBuffer[i * 2 + 1] = recbuffer[i * 4 + 1];
-                            rightBuffer[i * 2] = recbuffer[i * 4 + 2];
-                            rightBuffer[i * 2 + 1] = recbuffer[i * 4 + 3];
-                        }
-                    }
-                    else
-                        leftBuffer = rightBuffer = recbuffer;
-
-                    if (dev.PlayerChannel1 > 0)
-                        _Buffer[dev.PlayerChannel1 - 1].ProcessNewBuffer(leftBuffer);
-
-                    if (dev.PlayerChannel2 > 0)
-                        _Buffer[dev.PlayerChannel2 - 1].ProcessNewBuffer(rightBuffer);
+                    _HandleData(dev, recbuffer);
                 }
             }
             catch (Exception e)

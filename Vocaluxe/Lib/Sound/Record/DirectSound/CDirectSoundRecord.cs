@@ -23,39 +23,28 @@ using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Sound.Record.DirectSound
 {
-    class CDirectSoundRecord : IRecord
+    class CDirectSoundRecord : CRecordBase, IRecord
     {
         private bool _Initialized;
-        private List<CRecordDevice> _Devices;
+
         private List<CSoundCardSource> _Sources;
 
-        private readonly CBuffer[] _Buffer;
-
-        public CDirectSoundRecord()
+        public override bool Init()
         {
-            _Buffer = new CBuffer[CSettings.MaxNumPlayer];
-            for (int i = 0; i < _Buffer.Length; i++)
-                _Buffer[i] = new CBuffer();
+            if (!base.Init())
+                return false;
 
-            Init();
-        }
-
-        public bool Init()
-        {
-            DeviceCollection devices = DirectSoundCapture.GetDevices();
-            _Devices = new List<CRecordDevice>();
             _Sources = new List<CSoundCardSource>();
 
-            int id = 0;
+            DeviceCollection devices = DirectSoundCapture.GetDevices();
+
             foreach (DeviceInformation dev in devices)
             {
                 using (var ds = new DirectSoundCapture(dev.DriverGuid))
                 {
-                    var device = new CRecordDevice(id, dev.DriverGuid.ToString(), dev.Description, ds.Capabilities.Channels);
+                    var device = new CRecordDevice(_Devices.Count, dev.DriverGuid.ToString(), dev.Description, ds.Capabilities.Channels);
 
                     _Devices.Add(device);
-
-                    id++;
                 }
             }
 
@@ -64,14 +53,11 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
             return true;
         }
 
-        public void Close()
+        public override void Close()
         {
-            if (_Initialized)
-            {
-                Stop();
-                _Initialized = false;
-            }
-            //System.IO.File.WriteAllBytes("test0.raw", _Buffer[0].Buffer);
+            Stop();
+            _Initialized = false;
+            base.Close();
         }
 
         public bool Start()
@@ -112,81 +98,6 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
             return true;
         }
 
-        public void AnalyzeBuffer(int player)
-        {
-            if (!_Initialized)
-                return;
-
-            _Buffer[player].AnalyzeBuffer();
-        }
-
-        public int GetToneAbs(int player)
-        {
-            if (!_Initialized)
-                return 0;
-
-            return _Buffer[player].ToneAbs;
-        }
-
-        public int GetTone(int player)
-        {
-            if (!_Initialized)
-                return 0;
-
-            return _Buffer[player].Tone;
-        }
-
-        public void SetTone(int player, int tone)
-        {
-            if (!_Initialized)
-                return;
-
-            _Buffer[player].Tone = tone;
-        }
-
-        public float GetMaxVolume(int player)
-        {
-            if (!_Initialized)
-                return 0f;
-
-            return _Buffer[player].MaxVolume;
-        }
-
-        public bool ToneValid(int player)
-        {
-            if (!_Initialized)
-                return false;
-
-            return _Buffer[player].ToneValid;
-        }
-
-        public ReadOnlyCollection<CRecordDevice> RecordDevices()
-        {
-            if (!_Initialized)
-                return null;
-
-            if (_Devices.Count == 0)
-                return null;
-
-            return _Devices.AsReadOnly();
-        }
-
-        public int NumHalfTones()
-        {
-            if (!_Initialized)
-                return 0;
-
-            return CBuffer.NumHalfTones;
-        }
-
-        public float[] ToneWeigth(int player)
-        {
-            if (!_Initialized)
-                return null;
-
-            return _Buffer[player].ToneWeigth;
-        }
-
         private void _OnDataReady(object sender, CSampleDataEventArgs e)
         {
             if (!_Initialized)
@@ -194,32 +105,7 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
             CRecordDevice dev = _Devices.FirstOrDefault(device => device.Driver == e.Guid);
             if (dev == null)
                 return;
-            byte[] leftBuffer;
-            byte[] rightBuffer;
-
-            if (dev.Channels == 2)
-            {
-                leftBuffer = new byte[e.Data.Length / 2];
-                rightBuffer = new byte[e.Data.Length / 2];
-                //[]: Sample, L: Left channel R: Right channel
-                //[LR][LR][LR][LR][LR][LR]
-                //The data is interleaved and needs to be demultiplexed
-                for (int i = 0; i < e.Data.Length / 4; i++)
-                {
-                    leftBuffer[i * 2] = e.Data[i * 4];
-                    leftBuffer[i * 2 + 1] = e.Data[i * 4 + 1];
-                    rightBuffer[i * 2] = e.Data[i * 4 + 2];
-                    rightBuffer[i * 2 + 1] = e.Data[i * 4 + 3];
-                }
-            }
-            else
-                leftBuffer = rightBuffer = e.Data;
-
-            if (dev.PlayerChannel1 > 0)
-                _Buffer[dev.PlayerChannel1 - 1].ProcessNewBuffer(leftBuffer);
-
-            if (dev.PlayerChannel2 > 0)
-                _Buffer[dev.PlayerChannel2 - 1].ProcessNewBuffer(rightBuffer);
+            _HandleData(dev, e.Data);
         }
     }
 }
