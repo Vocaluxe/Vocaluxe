@@ -782,11 +782,11 @@
       <W>230</W>
       <H>150</H>
       <!--<NumBars>: Number of equalizer-elements.-->
-      <NumBars>10</NumBars>
+      <NumBars>12</NumBars>
       <!--<Space>: Space between equalizer-elements.-->
       <Space>2,00</Space>
-      <!--<Style>: Style of equalizer-elements: Collums-->
-      <Style>Collums</Style>
+      <!--<Style>: Style of equalizer-elements: Columns-->
+      <Style>Columns</Style>
       <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <!--<Color>: Equalizer color from ColorScheme (high priority)-->
@@ -794,7 +794,7 @@
       <Color>ButtonColor</Color>
       <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
       <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
-      <MaxColor>ButtonColor</MaxColor>
+      <MaxColor>ButtonTextColor</MaxColor>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -813,11 +813,11 @@
       <W>230</W>
       <H>150</H>
       <!--<NumBars>: Number of equalizer-elements.-->
-      <NumBars>10</NumBars>
+      <NumBars>12</NumBars>
       <!--<Space>: Space between equalizer-elements.-->
       <Space>2,00</Space>
-      <!--<Style>: Style of equalizer-elements: Collums-->
-      <Style>Collums</Style>
+      <!--<Style>: Style of equalizer-elements: Columns-->
+      <Style>Columns</Style>
       <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <!--<Color>: Equalizer color from ColorScheme (high priority)-->
@@ -825,7 +825,7 @@
       <Color>ButtonColor</Color>
       <!--<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)-->
       <!--or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)-->
-      <MaxColor>ButtonColor</MaxColor>
+      <MaxColor>ButtonTextColor</MaxColor>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
