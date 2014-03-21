@@ -122,6 +122,35 @@ namespace VocaluxeLib.Songs
                     _Tw.WriteLine(addLine);
             }
 
+            /// <summary>
+            /// Gets a good beat for a line break that is &gt;=firstPossibleBeat and &lt;firstNoteBeat
+            /// Based on algorithm used by YASS: http://www.yass-along.com/errors.html
+            /// </summary>
+            /// <param name="firstPossibleBeat">First beat that is possible for a line break (equal (just after) previous line note end)</param>
+            /// <param name="firstNoteBeat">First note beat on current line</param>
+            /// <returns>A good beat for the line break</returns>
+            private int _GetBreakBeat(int firstPossibleBeat, int firstNoteBeat)
+            {
+                int breakBeat;
+                int diff = firstNoteBeat - firstPossibleBeat;
+                float timeDiff = CBase.Game.GetTimeFromBeats(diff, _Song.BPM);
+                if (timeDiff > 4f)
+                    breakBeat = firstPossibleBeat + (int)CBase.Game.GetBeatFromTime(2f, _Song.BPM, 0f);
+                else if (timeDiff > 2f)
+                    breakBeat = firstPossibleBeat + (int)CBase.Game.GetBeatFromTime(1f, _Song.BPM, 0f);
+                else if (diff < 2)
+                    breakBeat = firstPossibleBeat;
+                else if (diff < 9)
+                    breakBeat = firstNoteBeat - 2;
+                else if (diff < 13)
+                    breakBeat = firstNoteBeat - 3;
+                else if (diff < 17)
+                    breakBeat = firstNoteBeat - 4;
+                else
+                    breakBeat = firstPossibleBeat + 12;
+                return breakBeat;
+            }
+
             private void _WriteNotes()
             {
                 for (int i = 0; i < _Song.Notes.VoiceCount; i++)
@@ -129,13 +158,13 @@ namespace VocaluxeLib.Songs
                     CVoice voice = _Song.Notes.GetVoice(i);
                     if (_Song.Notes.VoiceCount > 1)
                         _Tw.WriteLine("P" + Math.Pow(2, i));
-                    bool firstLine = true;
                     int currentBeat = 0;
+                    CSongLine lastLine = null;
                     foreach (CSongLine line in voice.Lines)
                     {
-                        if (!firstLine)
+                        if (lastLine != null)
                         {
-                            string lineTxt = "- " + (line.StartBeat - currentBeat);
+                            string lineTxt = "- " + (_GetBreakBeat(lastLine.EndBeat + 1, line.FirstNoteBeat) - currentBeat);
                             if (_Song.Relative)
                             {
                                 lineTxt += " " + (line.FirstNoteBeat - currentBeat);
@@ -143,8 +172,6 @@ namespace VocaluxeLib.Songs
                             }
                             _Tw.WriteLine(lineTxt);
                         }
-                        else
-                            firstLine = false;
                         foreach (CSongNote note in line.Notes)
                         {
                             string tag;
@@ -164,6 +191,7 @@ namespace VocaluxeLib.Songs
                             }
                             _Tw.WriteLine(tag + " " + (note.StartBeat - currentBeat) + " " + note.Duration + " " + note.Tone + " " + note.Text);
                         }
+                        lastLine = line;
                     }
                 }
                 _Tw.WriteLine("E");
