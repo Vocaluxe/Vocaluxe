@@ -177,10 +177,20 @@ namespace VocaluxeLib.Songs
                     _WriteHeader();
                     _WriteNotes();
                 }
+                catch (UnauthorizedAccessException)
+                {
+                    CBase.Log.LogError("Cannot write " + filePath + ". Directory might be readonly or requires admin rights.");
+                    return false;
+                }
                 catch (Exception e)
                 {
                     CBase.Log.LogError("Unhandled exception while writing " + filePath + ": " + e);
                     return false;
+                }
+                finally
+                {
+                    if (_Tw != null)
+                        _Tw.Dispose();
                 }
                 return true;
             }
