@@ -9,7 +9,7 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 {
-    class COpenAlStream : IDisposable
+    class COpenAlStream
     {
         private const int _BufferSize = 2048;
         private const int _BufferCount = 5;
@@ -70,6 +70,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             _StreamID = streamID;
             _Terminated = true;
             _CloseMutex = closeMutex;
+            _EventDecode.Set();
         }
 
         public float Length
@@ -372,6 +373,11 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             }
 
             _Closeproc(_StreamID);
+            if (_EventDecode != null)
+            {
+                _EventDecode.Dispose();
+                _EventDecode = null;
+            }
         }
         #endregion Threading
 
@@ -463,12 +469,6 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
             _CurrentTime = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - 0.1f;
             _Timer.Restart();
-        }
-
-        public void Dispose()
-        {
-            _EventDecode.Close();
-            _EventDecode = null;
         }
     }
 }

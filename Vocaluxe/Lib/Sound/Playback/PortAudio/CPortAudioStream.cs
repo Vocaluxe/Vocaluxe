@@ -68,12 +68,15 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         ~CPortAudioStream()
         {
-            Dispose();
+            _Dispose(false);
+            if (_DecoderThread != null)
+                _DecoderThread.Join();
         }
 
-        public void Free()
+        public void Close()
         {
             _Terminated = true;
+            _EventDecode.Set();
         }
 
         public float Length
@@ -512,11 +515,25 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         public void Dispose()
         {
-            if (_EventDecode != null)
+            _Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void _Dispose(bool disposing)
+        {
+            Close();
+            if (disposing)
             {
-                _EventDecode.Close();
-                _EventDecode = null;
-                GC.SuppressFinalize(this);
+                if (_DecoderThread != null)
+                {
+                    _DecoderThread.Join();
+                    _DecoderThread = null;
+                }
+                if (_EventDecode != null)
+                {
+                    _EventDecode.Close();
+                    _EventDecode = null;
+                }
             }
         }
     }

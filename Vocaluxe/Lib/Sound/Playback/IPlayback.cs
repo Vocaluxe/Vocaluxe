@@ -40,6 +40,7 @@ namespace Vocaluxe.Lib.Sound.Playback
     interface IPlayback
     {
         bool Init();
+        void Close();
         void SetGlobalVolume(float volume);
         int GetStreamCount();
         void CloseAll();

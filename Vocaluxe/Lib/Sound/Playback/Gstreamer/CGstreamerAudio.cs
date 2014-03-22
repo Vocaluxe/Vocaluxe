@@ -45,6 +45,11 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
             return CGstreamerAudioWrapper.Init();
         }
 
+        public void Close()
+        {
+            CloseAll();
+        }
+
         public void SetGlobalVolume(float volume)
         {
             CGstreamerAudioWrapper.SetGlobalVolume(volume);
