@@ -1,5 +1,13 @@
-﻿using System;
+﻿//#define TEST_PITCH
+
+using System;
 using System.IO;
+
+#if TEST_PITCH
+using System.Diagnostics;
+using VocaluxeLib;
+
+#endif
 
 namespace Vocaluxe.Lib.Sound.Record
 {
@@ -7,6 +15,7 @@ namespace Vocaluxe.Lib.Sound.Record
     {
         //Half tones: C C♯ D Eb E F F♯ G G♯ A Bb B
         private const double _BaseToneFreq = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
+        private const double _HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
         public const int NumHalfTones = 17; //Number of halftone to analyze C2-E3 (TODO: use more/full octaves?)
 
         private const int _AnalysisBufLen = 4096;
@@ -27,17 +36,18 @@ namespace Vocaluxe.Lib.Sound.Record
         {
             MinVolume = 0.02f;
             ToneWeigth = new float[NumHalfTones];
-            for (int i = 0; i < ToneWeigth.Length; i++)
-                ToneWeigth[i] = 0.99f;
+            Reset();
+#if TEST_PITCH
+            _TestPitchDetection();
+#endif
         }
 
         static CBuffer()
         {
-            const double halftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
             //Init Array to avoid costly calculations
             for (int toneIndex = 0; toneIndex < NumHalfTones; toneIndex++)
             {
-                double freq = _BaseToneFreq * Math.Pow(halftoneBase, toneIndex);
+                double freq = _BaseToneFreq * Math.Pow(_HalftoneBase, toneIndex);
                 _SamplesPerPeriodPerTone[toneIndex] = (int)Math.Round(44100.0 / freq); // samples in one period
             }
         }
@@ -70,6 +80,8 @@ namespace Vocaluxe.Lib.Sound.Record
             ToneValid = false;
             ToneAbs = 0;
             Tone = 0;
+            for (int i = 0; i < ToneWeigth.Length; i++)
+                ToneWeigth[i] = 0f;
         }
 
         private void _Add(byte[] bytes)
@@ -212,5 +224,63 @@ namespace Vocaluxe.Lib.Sound.Record
             }
             GC.SuppressFinalize(this);
         }
+
+#if TEST_PITCH
+        private static bool _PitchTestRun;
+
+        private string _ToneToNote(int tone, bool withOctave = true)
+        {
+            string[] notes = {"C", "C♯", "D", "Eb", "E", "F", "F♯", "G", "G♯", "A", "Bb", "B"};
+            string result = notes[tone % 12];
+            if (withOctave)
+                result += (tone / 12) + 2;
+            return result;
+        }
+
+        private void _TestPitchDetection()
+        {
+            if (_PitchTestRun)
+                return;
+            _PitchTestRun = true;
+            const int toneFrom = 0;
+            const int tontTo = 47;
+            Console.WriteLine("Testing notes " + _ToneToNote(toneFrom) + " - " + _ToneToNote(tontTo));
+            byte[] data;
+            for (int tone = toneFrom; tone <= tontTo; tone++)
+            {
+                _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone), 44100, out data);
+                ProcessNewBuffer(data);
+                AnalyzeBuffer();
+                if (!ToneValid)
+                    CBase.Log.LogDebug("Note " + _ToneToNote(tone) + " not detected");
+                else if (Tone != tone % 12)
+                    CBase.Log.LogDebug("Note " + _ToneToNote(tone) + " wrongly detected as " + _ToneToNote(Tone, false));
+            }
+            _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, 5), 44100, out data);
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
+            for (int i = 0; i < 10000; i++)
+            {
+                // ProcessNewBuffer(data);
+                // AnalyzeBuffer();
+                _FindMaxVolume();
+                _AnalyzeByAutocorrelation();
+            }
+            sw.Stop();
+            Console.WriteLine("Analysing took " + sw.ElapsedMilliseconds + "ms");
+            Reset();
+        }
+
+        private void _GetSineWave(double freq, int sampleRate, out byte[] data)
+        {
+            const short max = short.MaxValue;
+            const int len = _AnalysisBufLen; //sampleRate * durationMs / 1000;
+            short[] data16Bit = new short[len];
+            for (int i = 0; i < len; i++)
+                data16Bit[i] = (short)(Math.Sin(2 * Math.PI * i / sampleRate * freq) * max);
+            data = new byte[data16Bit.Length * 2];
+            Buffer.BlockCopy(data16Bit, 0, data, 0, data.Length);
+        }
+#endif
     }
 }
