@@ -34,8 +34,8 @@ namespace Vocaluxe.Base
     }
 
     /// <summary>
-    /// This class contains settings for the program
-    /// These are not editable, everything that can be changed by the user is in CConfig
+    ///     This class contains settings for the program
+    ///     These are not editable, everything that can be changed by the user is in CConfig
     /// </summary>
     static class CSettings
     {

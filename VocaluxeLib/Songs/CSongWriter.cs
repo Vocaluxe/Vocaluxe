@@ -123,8 +123,8 @@ namespace VocaluxeLib.Songs
             }
 
             /// <summary>
-            /// Gets a good beat for a line break that is &gt;=firstPossibleBeat and &lt;firstNoteBeat
-            /// Based on algorithm used by YASS: http://www.yass-along.com/errors.html
+            ///     Gets a good beat for a line break that is &gt;=firstPossibleBeat and &lt;firstNoteBeat
+            ///     Based on algorithm used by YASS: http://www.yass-along.com/errors.html
             /// </summary>
             /// <param name="firstPossibleBeat">First beat that is possible for a line break (equal (just after) previous line note end)</param>
             /// <param name="firstNoteBeat">First note beat on current line</param>

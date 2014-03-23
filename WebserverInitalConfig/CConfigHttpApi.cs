@@ -128,7 +128,7 @@ namespace WebserverInitalConfig
             CngKey key;
             try
             {
-               key= CngKey.Create(CngAlgorithm2.Rsa, Guid.NewGuid().ToString(), keyParam);
+                key = CngKey.Create(CngAlgorithm2.Rsa, Guid.NewGuid().ToString(), keyParam);
             }
             catch (PlatformNotSupportedException)
             {

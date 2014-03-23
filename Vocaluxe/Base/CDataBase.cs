@@ -29,6 +29,7 @@ using VocaluxeLib.Draw;
 using VocaluxeLib.Songs;
 #if WIN
 using System.Data.SQLite;
+
 #else
 using Mono.Data.Sqlite;
 using SQLiteConnection = Mono.Data.Sqlite.SqliteConnection;
@@ -1181,7 +1182,7 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        /// You have to hold the CoverMutex when calling this!
+        ///     You have to hold the CoverMutex when calling this!
         /// </summary>
         private static void _CommitCovers()
         {

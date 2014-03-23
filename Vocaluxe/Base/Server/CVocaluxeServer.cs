@@ -318,8 +318,8 @@ namespace Vocaluxe.Base.Server
             {
                 string filename = _SaveImage(avatarData, "snapshot", CConfig.ProfileFolders[0]);
 
-                var avatar = CAvatar.GetAvatar(filename);
-                if (avatar!=null)
+                CAvatar avatar = CAvatar.GetAvatar(filename);
+                if (avatar != null)
                 {
                     CProfiles.AddAvatar(avatar);
                     return avatar;

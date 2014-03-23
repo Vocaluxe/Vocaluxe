@@ -301,8 +301,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         #endregion Stream Handling
 
         /// <summary>
-        /// Returns true if strem with given id is found
-        /// MUST hold _Stream-lock
+        ///     Returns true if strem with given id is found
+        ///     MUST hold _Stream-lock
         /// </summary>
         /// <param name="stream">Stream id</param>
         /// <returns></returns>
@@ -312,8 +312,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         }
 
         /// <summary>
-        /// Returns the index of the stream with the given id
-        /// MUST hold _Stream-lock
+        ///     Returns the index of the stream with the given id
+        ///     MUST hold _Stream-lock
         /// </summary>
         /// <param name="stream">Stream id</param>
         /// <returns></returns>
@@ -328,7 +328,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         }
 
         /// <summary>
-        /// Removes the stream with the given handle
+        ///     Removes the stream with the given handle
         /// </summary>
         /// <param name="stream">Stream handle</param>
         private void _CloseProc(int stream)

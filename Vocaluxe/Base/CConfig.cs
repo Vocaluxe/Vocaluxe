@@ -106,7 +106,7 @@ namespace Vocaluxe.Base
         public static int GameMusicVolume = 80;
 
         //Folders
-        public static readonly List<string> SongFolders = new List<string>()
+        public static readonly List<string> SongFolders = new List<string>
             {
                 Path.Combine(Directory.GetCurrentDirectory(), _FolderSongs)
 
@@ -115,8 +115,8 @@ namespace Vocaluxe.Base
 #endif
             };
         /// <summary>
-        /// Folders with profiles
-        /// First one is used for new profiles
+        ///     Folders with profiles
+        ///     First one is used for new profiles
         /// </summary>
         public static readonly List<string> ProfileFolders = new List<string>
             {

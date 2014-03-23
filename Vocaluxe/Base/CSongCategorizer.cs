@@ -91,7 +91,7 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        /// Sets the SortStrings of the songpointers to the actual category names
+        ///     Sets the SortStrings of the songpointers to the actual category names
         /// </summary>
         private static void _AdjustCategoryNames()
         {

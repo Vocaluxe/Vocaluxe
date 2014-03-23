@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Diagnostics;
 using PortAudioSharp;
 using Vocaluxe.Base;
@@ -6,11 +23,10 @@ using Vocaluxe.Base;
 namespace Vocaluxe.Lib.Sound
 {
     /// <summary>
-    /// PortAudio can be used for record and playback
-    /// So do some common stuff here and make sure those 2 do not interfere
-    /// 
-    /// DO NEVER use following Pa_* functions other than the ones from this class:
-    /// Initialize, Terminate, OpenStream, CloseStream
+    ///     PortAudio can be used for record and playback
+    ///     So do some common stuff here and make sure those 2 do not interfere
+    ///     DO NEVER use following Pa_* functions other than the ones from this class:
+    ///     Initialize, Terminate, OpenStream, CloseStream
     /// </summary>
     abstract class CPortAudioCommon
     {
@@ -18,8 +34,8 @@ namespace Vocaluxe.Lib.Sound
         private static readonly object _Mutex = new object();
 
         /// <summary>
-        /// Safe method to init PortAudio (adds a reference)
-        /// MUST call CloseDriver when done
+        ///     Safe method to init PortAudio (adds a reference)
+        ///     MUST call CloseDriver when done
         /// </summary>
         /// <returns>True on success, falso if not initialized (log written)</returns>
         protected static bool _InitDriver()
@@ -37,8 +53,8 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Safe method to close PortAudio
-        /// MUST be called _exactly_ once after successfull InitDriver call
+        ///     Safe method to close PortAudio
+        ///     MUST be called _exactly_ once after successfull InitDriver call
         /// </summary>
         protected static void _CloseDriver()
         {
@@ -62,7 +78,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Convenience method to safely open an input stream and log potential error
+        ///     Convenience method to safely open an input stream and log potential error
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="inputParameters"></param>
@@ -83,7 +99,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Convenience method to safely open an output stream and log potential error
+        ///     Convenience method to safely open an output stream and log potential error
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="outputParameters"></param>
@@ -112,8 +128,8 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Checks if PA returned an error and logs it
-        /// Returns true on error
+        ///     Checks if PA returned an error and logs it
+        ///     Returns true on error
         /// </summary>
         /// <param name="action">Action identifier (E.g. openStream)</param>
         /// <param name="errorCode">Result returned by Pa_* call</param>
@@ -137,7 +153,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Selects the most appropriate host api
+        ///     Selects the most appropriate host api
         /// </summary>
         /// <returns>The most appropriate host api</returns>
         protected static int _GetHostApi()

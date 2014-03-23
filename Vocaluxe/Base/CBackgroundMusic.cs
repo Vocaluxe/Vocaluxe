@@ -128,8 +128,8 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        /// Initializes the background music with values from config
-        /// Has to be called before any other method is used
+        ///     Initializes the background music with values from config
+        ///     Has to be called before any other method is used
         /// </summary>
         public static void Init()
         {
@@ -320,7 +320,7 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        /// (Re-)Starts the _CurrentPlaylistElement
+        ///     (Re-)Starts the _CurrentPlaylistElement
         /// </summary>
         private static void _StartSong()
         {
