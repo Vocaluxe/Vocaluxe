@@ -54,7 +54,7 @@ namespace Vocaluxe.Lib.Sound.Record
     class CBuffer : IDisposable
     {
         private static int _InitCount;
-        //Half tones: C C♯ D Eb E F F♯ G G♯ A Bb B
+        //Half tones: C C♯ D D# E F F♯ G G♯ A A# B
         private const double _BaseToneFreq = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
         private const double _HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
         private const int _HalfToneMin = 0; // C2
@@ -363,7 +363,7 @@ namespace Vocaluxe.Lib.Sound.Record
         private static string _ToneToNote(int tone, bool withOctave = true)
         {
             tone += 24;
-            string[] notes = {"C", "C♯", "D", "Eb", "E", "F", "F♯", "G", "G♯", "A", "Bb", "B"};
+            string[] notes = {"C", "C♯", "D", "D#", "E", "F", "F♯", "G", "G♯", "A", "A#", "B"};
             string result = notes[tone % 12];
             if (withOctave)
                 result += (tone / 12);
