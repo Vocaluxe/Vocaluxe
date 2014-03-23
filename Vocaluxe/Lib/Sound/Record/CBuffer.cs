@@ -1,9 +1,29 @@
-﻿#define TEST_PITCH
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+#define TEST_PITCH
+#define USE_NATIVE_DETECTION
+//If defined, it uses a library with native code that speeds up detection by a factor of 10
 
 using System;
 using System.IO;
 #if TEST_PITCH
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using VocaluxeLib;
 
@@ -11,16 +31,29 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
+#if USE_NATIVE_DETECTION
+    static class CPitchTracker
+    {
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void Init(double baseToneFrequency, int minHalfTone, int maxHalfTone);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void DeInit();
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int GetTone(double[] samples, int sampleCt, float[] weights);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        public delegate void LogCallback(string message);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        public static extern void SetLogCallback(LogCallback c);
+    }
+#endif
+
     class CBuffer : IDisposable
     {
-        public enum EAnalyzeFunction
-        {
-            AutoCorrelation, //Faster, more resistent to noise, good value for HalfToneMax=38 (higher->wrong results in test case, WHY?) with 38 no wrong values in test case
-            Amdf //Average magnitude difference, slower, detects everything in range -> HalfToneMax=45
-        }
-
-        private delegate double DAnalyzeTone(int tone);
-
+        private static int _InitCount;
         //Half tones: C C♯ D Eb E F F♯ G G♯ A Bb B
         private const double _BaseToneFreq = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
         private const double _HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
@@ -34,9 +67,18 @@ namespace Vocaluxe.Lib.Sound.Record
         private readonly double[] _AnalysisBuffer = new double[_AnalysisBufLen];
         private readonly byte[] _AnalysisByteBuffer = new byte[_AnalysisByteBufLen]; //tmp buffer (stream->tmpBuffer->(Int16)AnalysisBuffer)
 
-        //Precalculated table holding sample# per period for each tone (actually we may not use the lower few entries, but keep it to avoid index modification
+        private readonly float[] _TmpWeights = new float[NumHalfTones]; //tmp buffer for weights (gets copied to ToneWeight when checked)
+#if !USE_NATIVE_DETECTION
+    //Precalculated table holding sample# per period for each tone (actually we may not use the lower few entries, but keep it to avoid index modification
         private static readonly double[] _SamplesPerPeriodPerTone = new double[_HalfToneMax + 1];
-        private readonly float[] _TmpWeight = new float[NumHalfTones]; //tmp buffer for weights (gets copied to ToneWeight when checked)
+
+        public enum EAnalyzeFunction
+        {
+            AutoCorrelation, //Faster, more resistent to noise, good value for HalfToneMax=38 (higher->wrong results in test case, WHY?) with 38 no wrong values in test case
+            Amdf //Average magnitude difference, slower, detects everything in range -> HalfToneMax=45
+        }
+        private delegate double DAnalyzeTone(int tone);
+
         // ReSharper disable MemberCanBePrivate.Global
         // ReSharper disable ConvertToConstant.Global
         // ReSharper disable FieldCanBeMadeReadOnly.Global
@@ -48,7 +90,7 @@ namespace Vocaluxe.Lib.Sound.Record
         private DAnalyzeTone _AnalyzeToneFunc;
         private double _MinWeightDiff;
         // ReSharper restore FieldCanBeMadeReadOnly.Local
-
+#endif
         private double _MaxVolume;
         private bool _NewSamples;
 
@@ -56,9 +98,11 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public CBuffer()
         {
+            _Init();
             MinVolume = 0.02f;
             ToneWeigth = new float[NumHalfTones];
             Reset();
+#if !USE_NATIVE_DETECTION
             if (AnalyzeFunction == EAnalyzeFunction.Amdf)
             {
                 _AnalyzeToneFunc = _GetAmdf;
@@ -69,19 +113,32 @@ namespace Vocaluxe.Lib.Sound.Record
                 _AnalyzeToneFunc = _GetAutoCorrelation;
                 _MinWeightDiff = 0.0001;
             }
+#endif
 #if TEST_PITCH
             _TestPitchDetection();
 #endif
         }
 
-        static CBuffer()
+        ~CBuffer()
         {
-            //Init Array to avoid costly calculations
+            _Dispose();
+        }
+
+        private static void _Init()
+        {
+            _InitCount++;
+            if (_InitCount > 1)
+                return; //Do init only once
+#if USE_NATIVE_DETECTION
+            CPitchTracker.Init(_BaseToneFreq, _HalfToneMin, _HalfToneMax);
+#else
+    //Init Array to avoid costly calculations
             for (int toneIndex = 0; toneIndex <= _HalfToneMax; toneIndex++)
             {
                 double freq = _BaseToneFreq * Math.Pow(_HalftoneBase, toneIndex);
                 _SamplesPerPeriodPerTone[toneIndex] = 44100.0 / freq; // samples in one period
             }
+#endif
         }
 
         public int ToneAbs { get; private set; }
@@ -98,7 +155,7 @@ namespace Vocaluxe.Lib.Sound.Record
         public float[] ToneWeigth { get; private set; }
 
         /// <summary>
-        /// Minimum volume for a tone to be valid
+        ///     Minimum volume for a tone to be valid
         /// </summary>
         public float MinVolume { get; set; }
 
@@ -183,7 +240,11 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private void _AnalyzeTones()
         {
-            // prepare to analyze
+#if USE_NATIVE_DETECTION
+            int maxTone = CPitchTracker.GetTone(_AnalysisBuffer, _AnalysisBufLen, _TmpWeights);
+            if (maxTone >= 0)
+#else
+    // prepare to analyze
             double maxWeight = -1.0;
             double minWeight = 1.0;
             int maxTone = -1;
@@ -206,12 +267,13 @@ namespace Vocaluxe.Lib.Sound.Record
                 if (curWeight < minWeight)
                     minWeight = curWeight;
 
-                _TmpWeight[toneIndex - _HalfToneMin] = (float)curWeight;
+                _TmpWeights[toneIndex - _HalfToneMin] = (float)curWeight;
             }
 
             if (maxWeight - minWeight > _MinWeightDiff)
+#endif
             {
-                Array.Copy(_TmpWeight, ToneWeigth, NumHalfTones);
+                Array.Copy(_TmpWeights, ToneWeigth, NumHalfTones);
 
                 ToneAbs = maxTone;
                 //Console.WriteLine(maxTone);
@@ -222,6 +284,7 @@ namespace Vocaluxe.Lib.Sound.Record
                 ToneValid = false;
         }
 
+#if !USE_NATIVE_DETECTION
         private double _GetAutoCorrelation(int tone)
         {
             double samplesPerPeriodD = _SamplesPerPeriodPerTone[tone]; // samples in one period
@@ -269,17 +332,29 @@ namespace Vocaluxe.Lib.Sound.Record
                 accumDist += dist;
             }
             //Use analyzed sample count here. BufLen yields more errors
-            return 1.0 - (double)accumDist / Int16.MaxValue / sampleIndex;
+            return 1.0 - accumDist / Int16.MaxValue / sampleIndex;
         }
+#endif
 
         public void Dispose()
+        {
+            _Dispose();
+            GC.SuppressFinalize(this);
+        }
+
+        private void _Dispose()
         {
             if (_Stream != null)
             {
                 _Stream.Dispose();
                 _Stream = null;
             }
-            GC.SuppressFinalize(this);
+#if USE_NATIVE_DETECTION
+            Debug.Assert(_InitCount > 0);
+            _InitCount--;
+            if (_InitCount == 0)
+                CPitchTracker.DeInit();
+#endif
         }
 
 #if TEST_PITCH

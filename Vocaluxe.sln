@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocalu
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3} = {EC5167E4-CCFB-4CEE-987C-CF816F1062A3}
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC} = {D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}
 		{5A4053F1-5AD5-441F-B254-D97A088127B6} = {5A4053F1-5AD5-441F-B254-D97A088127B6}
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A} = {54A48AF7-515C-4EDD-B395-2BFFA096050A}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VocaluxeLib", "VocaluxeLib\VocaluxeLib.csproj", "{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}"
@@ -24,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLib", "ClientServerLib\ClientServerLib\ServerLib.csproj", "{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebserverInitalConfig", "WebserverInitalConfig\WebserverInitalConfig.csproj", "{55F89808-4E79-4FFE-BC13-48258913F5C9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PitchTracker", "PitchTracker\PitchTracker.vcxproj", "{54A48AF7-515C-4EDD-B395-2BFFA096050A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -191,6 +194,26 @@ Global
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x64.Build.0 = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x86.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x86.Build.0 = Release|Any CPU
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugLinux|x64.ActiveCfg = Debug|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugLinux|x64.Build.0 = Debug|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugLinux|x86.ActiveCfg = Debug|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugLinux|x86.Build.0 = Debug|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugWin|x64.ActiveCfg = Debug|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugWin|x64.Build.0 = Debug|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugWin|x86.ActiveCfg = Debug|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugWin|x86.Build.0 = Debug|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.InstallerWin|x64.ActiveCfg = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.InstallerWin|x64.Build.0 = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.InstallerWin|x86.ActiveCfg = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.InstallerWin|x86.Build.0 = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseLinux|x64.ActiveCfg = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseLinux|x64.Build.0 = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseLinux|x86.ActiveCfg = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseLinux|x86.Build.0 = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x64.ActiveCfg = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x64.Build.0 = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x86.ActiveCfg = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
