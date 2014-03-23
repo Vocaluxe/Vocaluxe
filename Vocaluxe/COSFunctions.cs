@@ -22,7 +22,7 @@ namespace Vocaluxe
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool SetForegroundWindow(IntPtr hWnd);
 
-            [DllImport("user32.dll", CallingConvention = CallingConvention.StdCall)]
+            [DllImport("kernel32.dll", CallingConvention = CallingConvention.StdCall)]
             [return: MarshalAs(UnmanagedType.Bool)]
             public static extern bool SetDefaultDllDirectories(int directoryFlags);
 
