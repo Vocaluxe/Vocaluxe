@@ -1,8 +1,7 @@
-﻿//#define TEST_PITCH
+﻿#define TEST_PITCH
 
 using System;
 using System.IO;
-
 #if TEST_PITCH
 using System.Diagnostics;
 using System.Windows.Forms;
@@ -32,7 +31,7 @@ namespace Vocaluxe.Lib.Sound.Record
         private const int _AnalysisBufLen = 4096;
         private const int _AnalysisByteBufLen = _AnalysisBufLen * 2;
 
-        private readonly short[] _AnalysisBuffer = new short[_AnalysisBufLen];
+        private readonly double[] _AnalysisBuffer = new double[_AnalysisBufLen];
         private readonly byte[] _AnalysisByteBuffer = new byte[_AnalysisByteBufLen]; //tmp buffer (stream->tmpBuffer->(Int16)AnalysisBuffer)
 
         //Precalculated table holding sample# per period for each tone (actually we may not use the lower few entries, but keep it to avoid index modification
@@ -47,6 +46,7 @@ namespace Vocaluxe.Lib.Sound.Record
         // ReSharper restore MemberCanBePrivate.Global
         // ReSharper disable FieldCanBeMadeReadOnly.Local
         private DAnalyzeTone _AnalyzeToneFunc;
+        private double _MinWeightDiff;
         // ReSharper restore FieldCanBeMadeReadOnly.Local
 
         private double _MaxVolume;
@@ -60,9 +60,15 @@ namespace Vocaluxe.Lib.Sound.Record
             ToneWeigth = new float[NumHalfTones];
             Reset();
             if (AnalyzeFunction == EAnalyzeFunction.Amdf)
+            {
                 _AnalyzeToneFunc = _GetAmdf;
+                _MinWeightDiff = 0.01;
+            }
             else if (AnalyzeFunction == EAnalyzeFunction.AutoCorrelation)
+            {
                 _AnalyzeToneFunc = _GetAutoCorrelation;
+                _MinWeightDiff = 0.0001;
+            }
 #if TEST_PITCH
             _TestPitchDetection();
 #endif
@@ -163,21 +169,16 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private void _FindMaxVolume()
         {
-            short maxVolume = 0;
+            double maxVolume = 0;
             for (int i = 0; i < _AnalysisBufLen / 4; i++)
             {
-                short volume = _AnalysisBuffer[i];
-                if (volume == Int16.MinValue)
-                {
-                    maxVolume = Int16.MaxValue;
-                    break;
-                }
+                double volume = _AnalysisBuffer[i];
                 if (volume < 0)
-                    volume = (short)-volume;
+                    volume = -volume;
                 if (volume > maxVolume)
                     maxVolume = volume;
             }
-            _MaxVolume = (double)maxVolume / Int16.MaxValue;
+            _MaxVolume = maxVolume / Int16.MaxValue;
         }
 
         private void _AnalyzeTones()
@@ -208,7 +209,7 @@ namespace Vocaluxe.Lib.Sound.Record
                 _TmpWeight[toneIndex - _HalfToneMin] = (float)curWeight;
             }
 
-            if (maxWeight - minWeight > 0.001)
+            if (maxWeight - minWeight > _MinWeightDiff)
             {
                 Array.Copy(_TmpWeight, ToneWeigth, NumHalfTones);
 
