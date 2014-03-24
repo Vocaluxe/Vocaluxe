@@ -15,15 +15,18 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-#define TEST_PITCH
+//#define TEST_PITCH
 #define USE_NATIVE_DETECTION
 //If defined, it uses a library with native code that speeds up detection by a factor of 10
 
 using System;
 using System.IO;
-#if TEST_PITCH
 using System.Diagnostics;
+#if USE_NATIVE_DETECTION
 using System.Runtime.InteropServices;
+
+#endif
+#if TEST_PITCH
 using System.Windows.Forms;
 using VocaluxeLib;
 
