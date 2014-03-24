@@ -43,7 +43,7 @@ void Init(double baseToneFrequency, int minHalfTone, int maxHalfTone){
 	DeInit();
 	if(maxHalfTone <= 0)
 		return;
-	SamplesPerPeriodPerTone = (double*) malloc(MaxHalfTone * sizeof(double));
+	SamplesPerPeriodPerTone = (double*) malloc((MaxHalfTone + 1) * sizeof(double));
 	//Init Array to avoid costly calculations
 	for (int toneIndex = 0; toneIndex <= MaxHalfTone; toneIndex++)
 	{
@@ -105,7 +105,7 @@ int GetTone(double *samples, int sampleCt, float *weights){
 		if (curWeight < minWeight)
 			minWeight = curWeight;
 
-		weights[toneIndex] = (float) curWeight;
+		weights[toneIndex - MinHalfTone] = (float) curWeight;
 	}
 
 	if(maxWeight - minWeight > 0.01){
