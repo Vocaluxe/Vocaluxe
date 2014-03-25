@@ -27,6 +27,15 @@ namespace Native{
 			freeFloatArray(dataFloat);
 		}
 
+		void CAnalyzer::Input(array<Byte>^ data){
+			if(data->Length == 0)
+				return;
+			pin_ptr<Byte> dataPtr = &data[0];
+			float* dataFloat = short2FloatArray(static_cast<short*>(static_cast<void*>(dataPtr)), data->Length);
+			m_analyzer->input(dataFloat, dataFloat + data->Length);
+			freeFloatArray(dataFloat);
+		}
+
 		void CAnalyzer::Process(){
 			m_analyzer->process();
 		}

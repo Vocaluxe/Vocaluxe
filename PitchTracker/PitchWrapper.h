@@ -38,6 +38,7 @@ namespace Native{
 
 			void Input(array<float>^ data);
 			void Input(array<short>^ data);
+			void Input(array<Byte>^ data);
 			void Process();
 			double GetPeak();
 			array<CTone^>^ GetTones();

@@ -24,6 +24,7 @@ using System.IO;
 using System.Diagnostics;
 #if USE_NATIVE_DETECTION
 using Native.PitchTracking;
+
 #endif
 #if TEST_PITCH
 using System.Windows.Forms;
@@ -72,6 +73,8 @@ namespace Vocaluxe.Lib.Sound.Record
         private DAnalyzeTone _AnalyzeToneFunc;
         private double _MinWeightDiff;
         // ReSharper restore FieldCanBeMadeReadOnly.Local
+#else
+        private readonly CAnalyzer _Analyzer = new CAnalyzer(44100.0, "");
 #endif
         private double _MaxVolume;
         private bool _NewSamples;
@@ -173,12 +176,26 @@ namespace Vocaluxe.Lib.Sound.Record
                 _Add(buffer);
                 _NewSamples = true;
             }
+            //_Analyzer.Input(buffer);
         }
 
         public void AnalyzeBuffer()
         {
             if (!_NewSamples)
                 return;
+
+            /*_NewSamples = false;
+            _Analyzer.Process();
+            _MaxVolume = _Analyzer.GetPeak() / 43 + 1;
+            CTone tone = _Analyzer.FindTone();
+            if (tone != null)
+            {
+                ToneAbs = tone.Note;
+                Tone = ToneAbs % 12;
+                ToneValid = true;
+            }
+            else
+                ToneValid = false;*/
 
             lock (_Stream)
             {
@@ -360,11 +377,12 @@ namespace Vocaluxe.Lib.Sound.Record
             Console.WriteLine("Testing notes " + _ToneToNote(toneFrom) + " - " + _ToneToNote(toneTo));
             byte[] data;
             int ok = 0;
+            double angle = 0;
             for (int distort = 0; distort < 10; distort++)
             {
                 for (int tone = toneFrom; tone <= toneTo; tone++)
                 {
-                    _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone), 44100, out data);
+                    _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone), 44100, ref angle, out data);
                     _Distort(data, tone, distort);
 
                     ProcessNewBuffer(data);
@@ -377,7 +395,7 @@ namespace Vocaluxe.Lib.Sound.Record
                         ok++;
                 }
             }
-            _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, 5), 44100, out data);
+            _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, 5), 44100, ref angle, out data);
             ProcessNewBuffer(data);
             AnalyzeBuffer();
             Stopwatch sw = new Stopwatch();
@@ -385,10 +403,8 @@ namespace Vocaluxe.Lib.Sound.Record
             const int repeats = 2000;
             for (int i = 0; i < repeats; i++)
             {
-                //ProcessNewBuffer(data);
-                //AnalyzeBuffer();
-                _FindMaxVolume();
-                _AnalyzeTones();
+                ProcessNewBuffer(data);
+                AnalyzeBuffer();
             }
             sw.Stop();
             string msg = "Analyser: Errors: " + ((toneTo - toneFrom + 1) * 10 - ok) + "; Speed: " +
@@ -435,7 +451,8 @@ namespace Vocaluxe.Lib.Sound.Record
                         break;
                 }
                 byte[] data2;
-                _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone + newTone), 44100, out data2);
+                double angle = 0;
+                _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone + newTone), 44100, ref angle, out data2);
                 Buffer.BlockCopy(data2, 0, sdata, 0, len * 2);
             }
             else
@@ -469,13 +486,15 @@ namespace Vocaluxe.Lib.Sound.Record
             Buffer.BlockCopy(sdata, 0, data, 0, data.Length);
         }
 
-        private static void _GetSineWave(double freq, int sampleRate, out byte[] data)
+        private static void _GetSineWave(double freq, int sampleRate, ref double angle, out byte[] data)
         {
             const short max = short.MaxValue;
             const int len = _AnalysisBufLen; //sampleRate * durationMs / 1000;
             short[] data16Bit = new short[len];
             for (int i = 0; i < len; i++)
-                data16Bit[i] = (short)(Math.Sin(2 * Math.PI * i / sampleRate * freq) * max);
+                data16Bit[i] = (short)(Math.Sin(2 * Math.PI * i / sampleRate * freq + angle) * max);
+            angle = 2 * Math.PI * len / sampleRate * freq + angle;
+            angle = angle % (2 * Math.PI);
             data = new byte[data16Bit.Length * 2];
             Buffer.BlockCopy(data16Bit, 0, data, 0, data.Length);
         }
