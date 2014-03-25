@@ -19,97 +19,102 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-void doLog(const char* msg,...){
-	va_list argptr = NULL;
-	va_start(argptr, msg);
+namespace PitchTracker{
 
-	char buffer[200];  
-	vsprintf_s(buffer,msg, argptr);
-	if(Log) Log(buffer);
-	va_end(argptr);    
-}
+	static void doLog(const char* msg,...){
+		va_list argptr = NULL;
+		va_start(argptr, msg);
 
-void SetLogCallback(LogCallback Callback){
-	Log=Callback;
-}
-
-double *SamplesPerPeriodPerTone = NULL;
-int MinHalfTone = 0, MaxHalfTone = 38;
-const double HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
-
-void Init(double baseToneFrequency, int minHalfTone, int maxHalfTone){
-	MinHalfTone = minHalfTone;
-	MaxHalfTone = maxHalfTone;
-	DeInit();
-	if(maxHalfTone <= 0)
-		return;
-	SamplesPerPeriodPerTone = (double*) malloc((MaxHalfTone + 1) * sizeof(double));
-	//Init Array to avoid costly calculations
-	for (int toneIndex = 0; toneIndex <= MaxHalfTone; toneIndex++)
-	{
-		double freq = baseToneFrequency * pow(HalftoneBase, toneIndex);
-		SamplesPerPeriodPerTone[toneIndex] = 44100.0 / freq; // samples in one period
-	}
-}
-
-void DeInit(){
-	if(SamplesPerPeriodPerTone){
-		free(SamplesPerPeriodPerTone);
-		SamplesPerPeriodPerTone=NULL;
-	}
-}
-
-static double _AnalyzeToneFunc(double *samples, int sampleCt, int toneIndex){
-	double samplesPerPeriodD = SamplesPerPeriodPerTone[toneIndex]; // samples in one period
-	int samplesPerPeriod = (int)samplesPerPeriodD;
-	double fHigh = samplesPerPeriodD - samplesPerPeriod;
-	double fLow = 1.0 - fHigh;
-
-	double accumDist = 0; // accumulated distances
-
-	// compare correlating samples
-	int sampleIndex = 0; // index of sample to analyze
-	// Start value= index of sample one period ahead
-	for (int correlatingSampleIndex = sampleIndex + samplesPerPeriod; correlatingSampleIndex + 1 < sampleCt; correlatingSampleIndex++, sampleIndex++)
-	{
-		// calc distance to corresponding sample in next period (lower means more distant)
-		double dist = samples[sampleIndex] * (samples[correlatingSampleIndex] * fLow + samples[correlatingSampleIndex + 1] * fHigh);
-		accumDist += dist;
+		char buffer[200];  
+		vsprintf_s(buffer,msg, argptr);
+		if(Log) Log(buffer);
+		va_end(argptr);    
 	}
 
-	//Using _AnalysisBufLen here makes it return correct values among all analyzed frequencies
-	double scaleValue = 32767.0 * 32767.0 * sampleCt; // Divide also by Int16.MaxValue^2
-	return accumDist / scaleValue;
-}
-
-int GetTone(double *samples, int sampleCt, float *weights){
-	double maxVolume = 0;
-	for(int i = 0; i < sampleCt; i++){
-		double vol = abs(samples[i]);
-		if(vol > maxVolume)
-			maxVolume = vol;
+	void SetLogCallback(LogCallback Callback){
+		Log=Callback;
 	}
-	double maxWeight = -1;
-	double minWeight = 1;
-	int maxTone = -1;
-	for (int toneIndex = MinHalfTone; toneIndex <= MaxHalfTone; toneIndex++)
-	{
-		double curWeight = _AnalyzeToneFunc(samples, sampleCt, toneIndex) / maxVolume * 32767.0;
 
-		if (curWeight > maxWeight)
+	double *SamplesPerPeriodPerTone = NULL;
+	int MinHalfTone = 0, MaxHalfTone = 38;
+	const double HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
+
+	void Init(double baseToneFrequency, int minHalfTone, int maxHalfTone){
+		MinHalfTone = minHalfTone;
+		MaxHalfTone = maxHalfTone;
+		DeInit();
+		if(maxHalfTone <= 0)
+			return;
+		SamplesPerPeriodPerTone = (double*) malloc((MaxHalfTone + 1) * sizeof(double));
+		//Init Array to avoid costly calculations
+		for (int toneIndex = 0; toneIndex <= MaxHalfTone; toneIndex++)
 		{
-			maxWeight = curWeight;
-			maxTone = toneIndex;
+			double freq = baseToneFrequency * pow(HalftoneBase, toneIndex);
+			SamplesPerPeriodPerTone[toneIndex] = 44100.0 / freq; // samples in one period
+		}
+	}
+
+	void DeInit(){
+		if(SamplesPerPeriodPerTone){
+			free(SamplesPerPeriodPerTone);
+			SamplesPerPeriodPerTone=NULL;
+		}
+	}
+
+	static double _AnalyzeToneFunc(double *samples, int sampleCt, int toneIndex){
+		double samplesPerPeriodD = SamplesPerPeriodPerTone[toneIndex]; // samples in one period
+		int samplesPerPeriod = (int)samplesPerPeriodD;
+		double fHigh = samplesPerPeriodD - samplesPerPeriod;
+		double fLow = 1.0 - fHigh;
+
+		double accumDist = 0; // accumulated distances
+
+		// compare correlating samples
+		int sampleIndex = 0; // index of sample to analyze
+		// Start value= index of sample one period ahead
+		for (int correlatingSampleIndex = sampleIndex + samplesPerPeriod; correlatingSampleIndex + 1 < sampleCt; correlatingSampleIndex++, sampleIndex++)
+		{
+			// calc distance to corresponding sample in next period (lower means more distant)
+			double dist = samples[sampleIndex] * (samples[correlatingSampleIndex] * fLow + samples[correlatingSampleIndex + 1] * fHigh);
+			accumDist += dist;
 		}
 
-		if (curWeight < minWeight)
-			minWeight = curWeight;
-
-		weights[toneIndex - MinHalfTone] = (float) curWeight;
+		//Using _AnalysisBufLen here makes it return correct values among all analyzed frequencies
+		double scaleValue = sampleCt; // Divide also by Int16.MaxValue^2
+		return accumDist / scaleValue;
 	}
 
-	if(maxWeight - minWeight > 0.01){
-		return maxTone;
-	}else return -1;
-}
+	int GetTone(double *samples, int sampleCt, float *weights, bool scale){
+		double maxVolume = 0;
+		for(int i = 0; i < sampleCt; i++){
+			double vol = abs(samples[i]);
+			if(vol > maxVolume)
+				maxVolume = vol;
+		}
+		double maxWeight = -1;
+		double minWeight = 1;
+		int maxTone = -1;
+		for (int toneIndex = MinHalfTone; toneIndex <= MaxHalfTone; toneIndex++)
+		{
+			double curWeight = _AnalyzeToneFunc(samples, sampleCt, toneIndex) / maxVolume;
+			if(scale)
+				curWeight /= 32768.0; //maximum abs value of a short, would actually need to scale by MaxValue^2 but we already scaled by maxVolume
 
+			if (curWeight > maxWeight)
+			{
+				maxWeight = curWeight;
+				maxTone = toneIndex;
+			}
+
+			if (curWeight < minWeight)
+				minWeight = curWeight;
+
+			weights[toneIndex - MinHalfTone] = (float) curWeight;
+		}
+
+		if(maxWeight - minWeight > 0.01){
+			return maxTone;
+		}else return -1;
+	}
+
+}

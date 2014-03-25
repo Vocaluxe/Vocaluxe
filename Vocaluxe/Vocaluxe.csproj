@@ -199,6 +199,10 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="PitchTracker">
+      <HintPath>..\Output\x64\PitchTracker.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="PortAudioSharp, Version=0.19.3.27472, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Output\PortAudioSharp.dll</HintPath>

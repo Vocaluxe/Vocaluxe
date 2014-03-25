@@ -18,10 +18,42 @@
     <ClCompile Include="pitchTracker.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="pitch.cc">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="PitchWrapper.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="compatibility.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pitchTracker.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="libda\fft.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="compatibility.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="libda\sample.hpp">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PitchWrapper.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pitch.hh">
+      <Filter>Headerdateien</Filter>
+    </None>
+    <None Include="util.hh">
+      <Filter>Headerdateien</Filter>
+    </None>
   </ItemGroup>
 </Project>

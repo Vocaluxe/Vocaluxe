@@ -23,8 +23,7 @@ using System;
 using System.IO;
 using System.Diagnostics;
 #if USE_NATIVE_DETECTION
-using System.Runtime.InteropServices;
-
+using Native.PitchTracking;
 #endif
 #if TEST_PITCH
 using System.Windows.Forms;
@@ -34,26 +33,6 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
-#if USE_NATIVE_DETECTION
-    static class CPitchTracker
-    {
-        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Init(double baseToneFrequency, int minHalfTone, int maxHalfTone);
-
-        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DeInit();
-
-        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetTone(double[] samples, int sampleCt, float[] weights);
-
-        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
-        public delegate void LogCallback(string message);
-
-        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetLogCallback(LogCallback c);
-    }
-#endif
-
     class CBuffer : IDisposable
     {
         private static int _InitCount;
@@ -67,7 +46,7 @@ namespace Vocaluxe.Lib.Sound.Record
         private const int _AnalysisBufLen = 4096;
         private const int _AnalysisByteBufLen = _AnalysisBufLen * 2;
 
-        private readonly double[] _AnalysisBuffer = new double[_AnalysisBufLen];
+        private readonly short[] _AnalysisBuffer = new short[_AnalysisBufLen];
         private readonly byte[] _AnalysisByteBuffer = new byte[_AnalysisByteBufLen]; //tmp buffer (stream->tmpBuffer->(Int16)AnalysisBuffer)
 
         private readonly float[] _TmpWeights = new float[NumHalfTones]; //tmp buffer for weights (gets copied to ToneWeight when checked)
@@ -211,8 +190,7 @@ namespace Vocaluxe.Lib.Sound.Record
                 _NewSamples = false;
             }
 
-            for (int i = 0; i < _AnalysisBufLen; i++)
-                _AnalysisBuffer[i] = BitConverter.ToInt16(_AnalysisByteBuffer, i * 2);
+            Buffer.BlockCopy(_AnalysisByteBuffer, 0, _AnalysisBuffer, 0, _AnalysisByteBufLen);
 
             try
             {
@@ -229,22 +207,22 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private void _FindMaxVolume()
         {
-            double maxVolume = 0;
+            int maxVolume = 0;
             for (int i = 0; i < _AnalysisBufLen / 4; i++)
             {
-                double volume = _AnalysisBuffer[i];
+                int volume = _AnalysisBuffer[i];
                 if (volume < 0)
                     volume = -volume;
                 if (volume > maxVolume)
                     maxVolume = volume;
             }
-            _MaxVolume = maxVolume / Int16.MaxValue;
+            _MaxVolume = (double)maxVolume / Int16.MaxValue;
         }
 
         private void _AnalyzeTones()
         {
 #if USE_NATIVE_DETECTION
-            int maxTone = CPitchTracker.GetTone(_AnalysisBuffer, _AnalysisBufLen, _TmpWeights);
+            int maxTone = CPitchTracker.GetTone(_AnalysisBuffer, _TmpWeights);
             if (maxTone >= 0)
 #else
     // prepare to analyze
@@ -305,7 +283,6 @@ namespace Vocaluxe.Lib.Sound.Record
                 // calc distance to corresponding sample in next period (lower means more distant)
                 double dist = _AnalysisBuffer[sampleIndex] *
                               (_AnalysisBuffer[correlatingSampleIndex] * fLow + _AnalysisBuffer[correlatingSampleIndex + 1] * fHigh);
-                //double dist = _AnalysisBuffer[sampleIndex] * _AnalysisBuffer[correlatingSampleIndex];
                 accumDist += dist;
             }
 

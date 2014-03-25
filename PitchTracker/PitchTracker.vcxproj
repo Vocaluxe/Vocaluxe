@@ -167,10 +167,35 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="compatibility.cpp" />
+    <ClCompile Include="pitch.cc" />
     <ClCompile Include="pitchTracker.cpp" />
+    <ClCompile Include="PitchWrapper.cpp">
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</CompileAsManaged>
+      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</CompileAsManaged>
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</MinimalRebuild>
+      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExceptionHandling>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExceptionHandling>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExceptionHandling>
+      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExceptionHandling>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
+      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Default</BasicRuntimeChecks>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="compatibility.h" />
+    <ClInclude Include="Helper.h" />
+    <ClInclude Include="libda\fft.hpp" />
+    <ClInclude Include="libda\sample.hpp" />
     <ClInclude Include="pitchTracker.h" />
+    <ClInclude Include="PitchWrapper.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="pitch.hh" />
+    <None Include="util.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
