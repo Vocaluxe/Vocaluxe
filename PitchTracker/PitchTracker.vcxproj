@@ -170,20 +170,7 @@
     <ClCompile Include="compatibility.cpp" />
     <ClCompile Include="pitch.cc" />
     <ClCompile Include="pitchTracker.cpp" />
-    <ClCompile Include="PitchWrapper.cpp">
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</CompileAsManaged>
-      <CompileAsManaged Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</CompileAsManaged>
-      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</MinimalRebuild>
-      <MinimalRebuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</MinimalRebuild>
-      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</ExceptionHandling>
-      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExceptionHandling>
-      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExceptionHandling>
-      <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExceptionHandling>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Default</BasicRuntimeChecks>
-      <BasicRuntimeChecks Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Default</BasicRuntimeChecks>
-    </ClCompile>
+    <ClCompile Include="PitchWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="compatibility.h" />

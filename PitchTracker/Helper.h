@@ -1,9 +1,6 @@
 #pragma once
 #include "pitch.hh"
 #include "PitchWrapper.h"
-
-#pragma managed(push, off)
-
 #include <stdlib.h>
 #include <cmath>
 
@@ -43,19 +40,23 @@ void freeDoubleArray(double* floats){
 	free(floats);
 }
 
-#pragma managed(pop)
+double ToneToNote(const Tone* tone){
+	return 12.0 * std::log(tone->freq / 127.09) / std::log(2.0) + 27.5 - 16; // 16 = C2
+}
 
+/*
 namespace Native{
 	namespace PitchTracking{
-		CTone^ ConvertToneToManaged(Tone tone){
+		CTone^ ConvertToneToManaged(Tone* tone){
 			CTone^ result = gcnew CTone();
-			result->Freq = tone.freq;
-			result->DB = tone.db;
-			result->Stabledb = tone.stabledb;
-			result->Age = static_cast<int>(tone.age);
-			result->NoteExact = 12.0 * std::log(tone.freq / 127.09) / std::log(2.0) + 27.5 - 16; // 16 = C2
+			result->Freq = tone->freq;
+			result->DB = tone->db;
+			result->Stabledb = tone->stabledb;
+			result->Age = static_cast<int>(tone->age);
+			result->NoteExact = 12.0 * std::log(tone->freq / 127.09) / std::log(2.0) + 27.5 - 16; // 16 = C2
 			result->Note = static_cast<int>(std::round(result->NoteExact));
 			return result;
 		}
 	}
 }
+*/

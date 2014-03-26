@@ -22,10 +22,7 @@
 using System;
 using System.IO;
 using System.Diagnostics;
-#if USE_NATIVE_DETECTION
-using Native.PitchTracking;
 
-#endif
 #if TEST_PITCH
 using System.Windows.Forms;
 using VocaluxeLib;
@@ -74,7 +71,7 @@ namespace Vocaluxe.Lib.Sound.Record
         private double _MinWeightDiff;
         // ReSharper restore FieldCanBeMadeReadOnly.Local
 #else
-        private readonly CAnalyzer _Analyzer = new CAnalyzer(44100.0, "");
+        private readonly CAnalyzer _Analyzer = new CAnalyzer();
 #endif
         private double _MaxVolume;
         private bool _NewSamples;
@@ -115,7 +112,7 @@ namespace Vocaluxe.Lib.Sound.Record
             if (_InitCount > 1)
                 return; //Do init only once
 #if USE_NATIVE_DETECTION
-            CPitchTracker.Init(_BaseToneFreq, _HalfToneMin, _HalfToneMax);
+            CFastAnalyzer.Init(_BaseToneFreq, _HalfToneMin, _HalfToneMax);
 #else
     //Init Array to avoid costly calculations
             for (int toneIndex = 0; toneIndex <= _HalfToneMax; toneIndex++)
@@ -239,7 +236,7 @@ namespace Vocaluxe.Lib.Sound.Record
         private void _AnalyzeTones()
         {
 #if USE_NATIVE_DETECTION
-            int maxTone = CPitchTracker.GetTone(_AnalysisBuffer, _TmpWeights);
+            int maxTone = CFastAnalyzer.GetTone(_AnalysisBuffer, _TmpWeights);
             if (maxTone >= 0)
 #else
     // prepare to analyze
@@ -350,7 +347,7 @@ namespace Vocaluxe.Lib.Sound.Record
             Debug.Assert(_InitCount > 0);
             _InitCount--;
             if (_InitCount == 0)
-                CPitchTracker.DeInit();
+                CFastAnalyzer.DeInit();
 #endif
         }
 

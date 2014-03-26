@@ -1,63 +1,72 @@
 #pragma once
 
-#pragma managed(push, off)
 #include "pitch.hh"
-#pragma managed(pop)
 
-using namespace System;
-using namespace System::Collections::Generic;
+#define DllExport extern "C" __declspec(dllexport)
 
-namespace Native{
-	namespace PitchTracking{
-		public ref class CTone {
-		public:
-			static const int MAXHARM = 48; ///< The maximum number of harmonics tracked
-			static const int MINAGE = 2; ///< The minimum age required for a tone to be output
-			double Freq; ///< Frequency (Hz)
-			double DB; ///< Level (dB)
-			double Stabledb; ///< Stable level, useful for graphics rendering
-			int Age; ///< How many times the tone has been detected in row
-			double NoteExact;
-			int Note;
-			/// Less-than compare by levels (instead of frequencies like operator< does)
-			static bool dbCompare(CTone l, CTone r) { return l.DB < r.DB; }
-		};
+DllExport void PtFast_Init(double baseToneFrequency, int minHalfTone, int maxHalfTone);
+DllExport void PtFast_DeInit();
+DllExport int PtFast_GetTone(short* samples, int sampleCt, float* weights);
 
-		public ref class CAnalyzer {
-		public:
-			CAnalyzer(double rate, String^ id) {
-				m_analyzer = new Analyzer(rate,"");
-				m_id = id;
-			}
-			CAnalyzer(double rate, String^ id, unsigned step) {
-				m_analyzer = new Analyzer(rate,"",step);
-				m_id = id;
-			}
-			~CAnalyzer() { this->!CAnalyzer(); }
-			!CAnalyzer() { delete m_analyzer; }
+DllExport Analyzer* Analyzer_Create(double rate, unsigned step);
+DllExport void Analyzer_Free(Analyzer* analyzer);
+DllExport void Analyzer_InputFloat(Analyzer* analyzer, float* data, int sampleCt);
+DllExport void Analyzer_InputShort(Analyzer* analyzer, short* data, int sampleCt);
+DllExport void Analyzer_InputByte(Analyzer* analyzer, char* data, int sampleCt);
+DllExport void Analyzer_Process(Analyzer* analyzer);
+DllExport double Analyzer_GetPeak(Analyzer* analyzer);
+DllExport double Analyzer_FindNote(Analyzer* analyzer, double minFreq, double maxFreq);
+DllExport bool Analyzer_OutputFloat(Analyzer* analyzer, float* data, int sampleCt, float rate);
 
-			void Input(array<float>^ data);
-			void Input(array<short>^ data);
-			void Input(array<Byte>^ data);
-			void Process();
-			double GetPeak();
-			array<CTone^>^ GetTones();
-			CTone^ FindTone();
-			CTone^ FindTone(double minFreq);
-			CTone^ FindTone(double minFreq, double maxFreq);
-			void Output(array<float>^ data, float rate);
-			String^ GetId();
+/*
+public ref class CTone {
+public:
+	static const int MAXHARM = 48; ///< The maximum number of harmonics tracked
+	static const int MINAGE = 2; ///< The minimum age required for a tone to be output
+	double Freq; ///< Frequency (Hz)
+	double DB; ///< Level (dB)
+	double Stabledb; ///< Stable level, useful for graphics rendering
+	int Age; ///< How many times the tone has been detected in row
+	double NoteExact;
+	int Note;
+	/// Less-than compare by levels (instead of frequencies like operator< does)
+	static bool dbCompare(CTone l, CTone r) { return l.DB < r.DB; }
+};
 
-		private:
-			Analyzer* m_analyzer;
-			String^ m_id;
-		};
-
-		public ref class CPitchTracker abstract sealed{
-		public:
-			static void Init(double baseToneFrequency, int minHalfTone, int maxHalfTone);
-			static void DeInit();
-			static int GetTone(array<short>^ samples, array<float>^ weights);
-		};
+public ref class CAnalyzer {
+public:
+	CAnalyzer(double rate, String^ id) {
+		m_analyzer = new Analyzer(rate,"");
+		m_id = id;
 	}
-}
+	CAnalyzer(double rate, String^ id, unsigned step) {
+		m_analyzer = new Analyzer(rate,"",step);
+		m_id = id;
+	}
+	~CAnalyzer() { this->!CAnalyzer(); }
+	!CAnalyzer() { delete m_analyzer; }
+
+	void Input(array<float>^ data);
+	void Input(array<short>^ data);
+	void Input(array<Byte>^ data);
+	void Process();
+	double GetPeak();
+	array<CTone^>^ GetTones();
+	CTone^ FindTone();
+	CTone^ FindTone(double minFreq);
+	CTone^ FindTone(double minFreq, double maxFreq);
+	void Output(array<float>^ data, float rate);
+	String^ GetId();
+
+private:
+	Analyzer* m_analyzer;
+	String^ m_id;
+};
+
+public ref class CPitchTracker abstract sealed{
+public:
+	static void Init(double baseToneFrequency, int minHalfTone, int maxHalfTone);
+	static void DeInit();
+	static int GetTone(array<short>^ samples, array<float>^ weights);
+};
+*/
