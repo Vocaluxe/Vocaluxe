@@ -137,7 +137,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public float[] ToneWeigth(int player)
         {
-            return _Initialized ? _Buffer[player].ToneWeigth : null;
+            return _Initialized ? _Buffer[player].ToneWeigths : null;
         }
 
         public ReadOnlyCollection<CRecordDevice> RecordDevices()

@@ -2,6 +2,22 @@
 #include "pitchTracker.h"
 #include "Helper.h"
 
+AnalyzerExt::AnalyzerExt(double baseToneFrequency, int minHalfTone, int maxHalfTone, unsigned step): Analyzer(44100., "", step){
+	PitchTracker::Init(baseToneFrequency, minHalfTone, maxHalfTone);
+}
+
+AnalyzerExt::~AnalyzerExt(){
+	PitchTracker::DeInit();
+}
+
+int AnalyzerExt::GetNoteFast(float* weights){
+	size_t size = m_fastAnalysisBuf.size();
+	if(size > m_SampleCt)
+		m_fastAnalysisBuf.pop(size - m_SampleCt);
+	m_fastAnalysisBuf.read(m_AnalysisBuf, m_AnalysisBuf + m_SampleCt);
+	return PitchTracker::GetTone(m_AnalysisBuf, m_SampleCt, weights);
+}
+
 void PtFast_Init(double baseToneFrequency, int minHalfTone, int maxHalfTone){
 	PitchTracker::Init(baseToneFrequency, minHalfTone, maxHalfTone);
 }
@@ -19,22 +35,22 @@ int PtFast_GetTone(short* samples, int sampleCt, float* weights){
 	return result;
 }
 
-Analyzer* Analyzer_Create(double rate, unsigned step){
-    return new Analyzer(rate, "", step);
+AnalyzerExt* Analyzer_Create(double baseToneFrequency, int minHalfTone, int maxHalfTone, unsigned step){
+    return new AnalyzerExt(baseToneFrequency, minHalfTone, maxHalfTone, step);
 }
 
-void Analyzer_Free(Analyzer* analyzer){
+void Analyzer_Free(AnalyzerExt* analyzer){
     if(analyzer)
 		delete analyzer;
 }
 
-void Analyzer_InputFloat(Analyzer* analyzer, float* data, int sampleCt){
+void Analyzer_InputFloat(AnalyzerExt* analyzer, float* data, int sampleCt){
 	if(sampleCt == 0 || !analyzer)
 		return;
 	analyzer->input(data, data + sampleCt);
 }
 
-void Analyzer_InputShort(Analyzer* analyzer, short* data, int sampleCt){
+void Analyzer_InputShort(AnalyzerExt* analyzer, short* data, int sampleCt){
 	if(sampleCt == 0 || !analyzer)
 		return;
 	float* dataFloat = short2FloatArray(data, sampleCt);
@@ -42,7 +58,7 @@ void Analyzer_InputShort(Analyzer* analyzer, short* data, int sampleCt){
 	freeFloatArray(dataFloat);  
 }
 
-void Analyzer_InputByte(Analyzer* analyzer, char* data, int sampleCt){
+void Analyzer_InputByte(AnalyzerExt* analyzer, char* data, int sampleCt){
 	if(sampleCt == 0 || !analyzer)
 		return;
 	float* dataFloat = short2FloatArray(static_cast<short*>(static_cast<void*>(data)), sampleCt);
@@ -50,26 +66,32 @@ void Analyzer_InputByte(Analyzer* analyzer, char* data, int sampleCt){
 	freeFloatArray(dataFloat);
 }
 
-void Analyzer_Process(Analyzer* analyzer){
+void Analyzer_Process(AnalyzerExt* analyzer){
 	if(!analyzer)
 		return;
     analyzer->process();
 }
 
-double Analyzer_GetPeak(Analyzer* analyzer){
+double Analyzer_GetPeak(AnalyzerExt* analyzer){
 	if(!analyzer)
 		return -999;
 	return analyzer->getPeak();   
 }
 
-double Analyzer_FindNote(Analyzer* analyzer, double minFreq, double maxFreq){
+double Analyzer_FindNote(AnalyzerExt* analyzer, double minFreq, double maxFreq){
 	if(!analyzer)
 		return -1;
 	const Tone* tone = analyzer->findTone(minFreq, maxFreq);
 	return (tone == NULL) ? -1 : ToneToNote(tone);    
 }
 
-bool Analyzer_OutputFloat(Analyzer* analyzer, float* data, int sampleCt, float rate){
+int Analyzer_GetNoteFast(AnalyzerExt* analyzer, float* weights){
+	if(!analyzer)
+		return -1;
+	return analyzer->GetNoteFast(weights);
+}
+
+bool Analyzer_OutputFloat(AnalyzerExt* analyzer, float* data, int sampleCt, float rate){
 	if(!analyzer)
 		return false;
     return analyzer->output(data, data + sampleCt, rate);

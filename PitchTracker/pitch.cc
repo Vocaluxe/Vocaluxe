@@ -50,7 +50,7 @@ Analyzer::Analyzer(double rate, std::string id, unsigned step):
 
 bool Analyzer::output(float* begin, float* end, double rate) {
 	constexpr unsigned a = 2;
-	const unsigned size = m_passthrough.size();
+	const size_t size = m_passthrough.size();
 	const unsigned out = static_cast<unsigned>((end - begin) / 2 /* stereo */);
 	if (out == 0) return false;
 	const unsigned in = static_cast<unsigned>(m_resampleFactor * (m_rate / rate) * out + 2 * a /* lanczos kernel */ + 5 /* safety margin for rounding errors */);
@@ -72,7 +72,7 @@ bool Analyzer::output(float* begin, float* end, double rate) {
 	m_resamplePos -= num;
 	if (size > 3000) {
 		// Reset
-		m_passthrough.pop(m_passthrough.size() - 700);
+		m_passthrough.pop(size - 700);
 		m_resampleFactor = 1.0;
 	} else {
 		m_passthrough.pop(num);
@@ -133,8 +133,8 @@ void Analyzer::calcTones() {
 	const size_t kMax = std::min(FFT_N / 2, size_t(FFT_MAXFREQ / freqPerBin));
 	std::vector<Peak> peaks(kMax + 1); // One extra to simplify loops
 	for (size_t k = 1; k <= kMax; ++k) {
-		float magnitude = std::abs(m_fft[k]);
-		float phase = std::arg(m_fft[k]);
+		double magnitude = std::abs(m_fft[k]);
+		double phase = std::arg(m_fft[k]);
 		// process phase difference
 		double delta = phase - m_fftLastPhase[k];
 		m_fftLastPhase[k] = phase;

@@ -35,15 +35,19 @@ namespace PitchTracker{
 		Log=Callback;
 	}
 
-	double *SamplesPerPeriodPerTone = NULL;
-	int MinHalfTone = 0, MaxHalfTone = 38;
-	const double HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
+	static double *SamplesPerPeriodPerTone = NULL;
+	static double BaseToneFrequency = -1;
+	static int MinHalfTone = -1, MaxHalfTone = -1;
+	static const double HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 
 	void Init(double baseToneFrequency, int minHalfTone, int maxHalfTone){
+		if(SamplesPerPeriodPerTone && abs(baseToneFrequency - BaseToneFrequency) < 1. && minHalfTone == MinHalfTone && maxHalfTone == MaxHalfTone)
+			return;
+		BaseToneFrequency = baseToneFrequency;
 		MinHalfTone = minHalfTone;
 		MaxHalfTone = maxHalfTone;
 		DeInit();
-		if(maxHalfTone <= 0)
+		if(minHalfTone < 0 || maxHalfTone < minHalfTone)
 			return;
 		SamplesPerPeriodPerTone = (double*) malloc((MaxHalfTone + 1) * sizeof(double));
 		//Init Array to avoid costly calculations
@@ -61,13 +65,14 @@ namespace PitchTracker{
 		}
 	}
 
-	static double _AnalyzeToneFunc(double *samples, int sampleCt, int toneIndex){
+	template<typename T>
+	static T _AnalyzeToneFunc(T *samples, int sampleCt, int toneIndex){
 		double samplesPerPeriodD = SamplesPerPeriodPerTone[toneIndex]; // samples in one period
-		int samplesPerPeriod = (int)samplesPerPeriodD;
-		double fHigh = samplesPerPeriodD - samplesPerPeriod;
-		double fLow = 1.0 - fHigh;
+		int samplesPerPeriod = static_cast<int>(samplesPerPeriodD);
+		T fHigh = static_cast<T>(samplesPerPeriodD - samplesPerPeriod);
+		T fLow = static_cast<T>(1.0 - fHigh);
 
-		double accumDist = 0; // accumulated distances
+		T accumDist = 0; // accumulated distances
 
 		// compare correlating samples
 		int sampleIndex = 0; // index of sample to analyze
@@ -75,28 +80,30 @@ namespace PitchTracker{
 		for (int correlatingSampleIndex = sampleIndex + samplesPerPeriod; correlatingSampleIndex + 1 < sampleCt; correlatingSampleIndex++, sampleIndex++)
 		{
 			// calc distance to corresponding sample in next period (lower means more distant)
-			double dist = samples[sampleIndex] * (samples[correlatingSampleIndex] * fLow + samples[correlatingSampleIndex + 1] * fHigh);
+			T dist = samples[sampleIndex] * (samples[correlatingSampleIndex] * fLow + samples[correlatingSampleIndex + 1] * fHigh);
 			accumDist += dist;
 		}
 
-		//Using _AnalysisBufLen here makes it return correct values among all analyzed frequencies
-		double scaleValue = sampleCt; // Divide also by Int16.MaxValue^2
-		return accumDist / scaleValue;
+		//Using sampleCt here makes it return correct values among all analyzed frequencies
+		return accumDist / sampleCt;
 	}
 
-	int GetTone(double *samples, int sampleCt, float *weights, bool scale){
-		double maxVolume = 0;
+	template<typename T>
+	int GetTone(T *samples, int sampleCt, float *weights, bool scale){
+		if(!SamplesPerPeriodPerTone)
+			return -1;
+		T maxVolume = 0;
 		for(int i = 0; i < sampleCt; i++){
-			double vol = abs(samples[i]);
+			T vol = abs(samples[i]);
 			if(vol > maxVolume)
 				maxVolume = vol;
 		}
-		double maxWeight = -1;
-		double minWeight = 1;
+		T maxWeight = -1;
+		T minWeight = 1;
 		int maxTone = -1;
 		for (int toneIndex = MinHalfTone; toneIndex <= MaxHalfTone; toneIndex++)
 		{
-			double curWeight = _AnalyzeToneFunc(samples, sampleCt, toneIndex) / maxVolume;
+			T curWeight = _AnalyzeToneFunc<T>(samples, sampleCt, toneIndex) / maxVolume;
 			if(scale)
 				curWeight /= 32768.0; //maximum abs value of a short, would actually need to scale by MaxValue^2 but we already scaled by maxVolume
 
@@ -109,12 +116,15 @@ namespace PitchTracker{
 			if (curWeight < minWeight)
 				minWeight = curWeight;
 
-			weights[toneIndex - MinHalfTone] = (float) curWeight;
+			weights[toneIndex - MinHalfTone] = static_cast<float>(curWeight);
 		}
 
 		if(maxWeight - minWeight > 0.01){
 			return maxTone;
 		}else return -1;
 	}
+
+	template int GetTone(float *samples, int sampleCt, float *weights, bool scale);
+	template int GetTone(double *samples, int sampleCt, float *weights, bool scale);
 
 }

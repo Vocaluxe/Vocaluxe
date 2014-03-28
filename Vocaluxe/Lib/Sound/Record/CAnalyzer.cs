@@ -7,25 +7,28 @@ namespace Vocaluxe.Lib.Sound.Record
     {
         #region Imports
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr Analyzer_Create(double rate, uint step);
+        private static extern IntPtr Analyzer_Create(double baseToneFrequency, int minHalfTone, int maxHalfTone, uint step = 200);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Analyzer_Free(IntPtr analyzer);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Analyzer_InputFloat(IntPtr analyzer, float[] data, int sampleCt);
+        private static extern void Analyzer_InputFloat(IntPtr analyzer, [In] float[] data, int sampleCt);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Analyzer_InputShort(IntPtr analyzer, short[] data, int sampleCt);
+        private static extern void Analyzer_InputShort(IntPtr analyzer, [In] short[] data, int sampleCt);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void Analyzer_InputByte(IntPtr analyzer, byte[] data, int sampleCt);
+        private static extern void Analyzer_InputByte(IntPtr analyzer, [In] byte[] data, int sampleCt);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Analyzer_Process(IntPtr analyzer);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern double Analyzer_GetPeak(IntPtr analyzer);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern double Analyzer_GetNoteFast(IntPtr analyzer, [Out] float[] weights);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern double Analyzer_FindNote(IntPtr analyzer, double minFreq, double maxFreq);
@@ -36,9 +39,9 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private IntPtr _Instance;
 
-        public CAnalyzer(double rate = 44100.0, uint step = 200)
+        public CAnalyzer(double baseToneFrequency, int minHalfTone, int maxHalfTone, uint step = 200)
         {
-            _Instance = Analyzer_Create(rate, step);
+            _Instance = Analyzer_Create(baseToneFrequency, minHalfTone, maxHalfTone, step);
         }
 
         ~CAnalyzer()
@@ -76,6 +79,11 @@ namespace Vocaluxe.Lib.Sound.Record
             return Analyzer_FindNote(_Instance, minFreq, maxFreq);
         }
 
+        public double GetNoteFast(float[] weights)
+        {
+            return Analyzer_GetNoteFast(_Instance, weights);
+        }
+
         public bool Output(float[] data, float rate)
         {
             return Analyzer_OutputFloat(_Instance, data, data.Length, rate);
@@ -106,7 +114,7 @@ namespace Vocaluxe.Lib.Sound.Record
         public static extern void DeInit();
 
         [DllImport("PitchTracker.dll", EntryPoint = "PtFast_GetTone", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int PtFast_GetTone(short[] samples, int sampleCt, float[] weights);
+        private static extern int PtFast_GetTone([In] short[] samples, int sampleCt, [Out] float[] weights);
         #endregion
 
         public static int GetTone(short[] samples, float[] weights)
