@@ -34,35 +34,34 @@ static const unsigned FFT_P = 10;
 static const std::size_t FFT_N = 1 << FFT_P;
 
 /// Lock-free ring buffer. Discards oldest data on overflow (not strictly thread-safe).
-template <size_t SIZE> class RingBuffer {
+template <unsigned SIZE> class RingBuffer {
 public:
-	constexpr static size_t capacity = SIZE;
+	constexpr static unsigned capacity = SIZE;
 	RingBuffer(): m_read(), m_write() {}  ///< Initialize empty buffer
 	template <typename InIt> void insert(InIt begin, InIt end) {
-		unsigned r = static_cast<unsigned>(m_read);  // The read position
-		unsigned w = static_cast<unsigned>(m_write);  // The write position
-		bool overflow = false;
+		unsigned r = m_read;  // The read position
+		unsigned w = m_write;  // The write position
+		bool overflow = (end - begin >= SIZE - size());
 		while (begin != end) {
 			m_buf[w] = *begin++;  // Copy sample
 			w = modulo(w + 1);  // Update cursor
-			if (w == r) overflow = true;
 		}
 		m_write = w;
 		if (overflow) m_read = modulo(w + 1);  // Reset read pointer on overflow
 	}
 	/// Read data from current position if there is enough data to fill the range (otherwise return false). Does not move read pointer.
 	template <typename OutIt> bool read(OutIt begin, OutIt end) {
-		unsigned r = static_cast<unsigned>(m_read);
-		if (modulo(static_cast<unsigned>(m_write) - r) <= end - begin) return false;  // Not enough audio available
+		unsigned r = m_read;
+		if (size() <= end - begin) return false;  // Not enough audio available
 		while (begin != end) *begin++ = m_buf[r++ % SIZE];  // Copy audio to output iterator
 		return true;
 	}
-	void pop(unsigned n) { m_read = modulo(static_cast<unsigned>(m_read + n)); } ///< Move reading pointer forward.
-	unsigned size() const { return modulo(static_cast<unsigned>(m_write - m_read)); }
+	void pop(unsigned n) { m_read = modulo(m_read + n); } ///< Move reading pointer forward.
+	unsigned size() const { return modulo(m_write - m_read); }
 private:
-	static unsigned modulo(unsigned idx) { return (SIZE + idx) % SIZE; }  ///< Modulo operation with proper rounding (handles slightly "negative" idx as well)
+	static unsigned modulo(int idx) { return (SIZE + idx) % SIZE; }  ///< Modulo operation with proper rounding (handles slightly "negative" idx as well)
 	float m_buf[SIZE];
-	volatile size_t m_read, m_write;  ///< The indices of the next read/write operations. read == write implies that buffer is empty.
+	volatile unsigned m_read, m_write;  ///< The indices of the next read/write operations. read == write implies that buffer is empty.
 };
 
 /// analyzer class
@@ -75,7 +74,7 @@ public:
 	/// list of tones
 	typedef std::list<Tone> tones_t;
 	/// constructor
-	Analyzer(double rate, std::string id, std::size_t step = 200);
+	Analyzer(double rate, std::string id, unsigned step = 200);
 	/** Add input data to buffer. This is thread-safe (against other functions). **/
 	template <typename InIt> void input(InIt begin, InIt end) {
 		m_buf.insert(begin, end);
@@ -113,8 +112,8 @@ public:
 	std::string const& getId() const { return m_id; }
 
 private:
-	const std::size_t m_step;
-	RingBuffer<2 * FFT_N> m_buf;  // Twice the FFT size should give enough room for sliding window and for engine delays
+	const unsigned m_step;
+	RingBuffer<4 * FFT_N> m_buf;  // Twice the FFT size should give enough room for sliding window and for engine delays
 	RingBuffer<4096> m_passthrough;
 	double m_resampleFactor;
 	double m_resamplePos;

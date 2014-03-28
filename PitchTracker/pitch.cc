@@ -30,7 +30,7 @@ bool Tone::operator==(double f) const {
 	return std::abs(freq / f - 1.0) < 0.05;
 }
 
-Analyzer::Analyzer(double rate, std::string id, std::size_t step):
+Analyzer::Analyzer(double rate, std::string id, unsigned step):
   m_step(step),
   m_resampleFactor(1.0),
   m_resamplePos(),
@@ -110,7 +110,7 @@ bool Analyzer::calcFFT() {
 	float pcm[FFT_N];
 	// Read FFT_N samples, move forward by m_step samples
 	if (!m_buf.read(pcm, pcm + FFT_N)) return false;
-	m_buf.pop(static_cast<unsigned>(m_step));
+	m_buf.pop(m_step);
 	// Peak level calculation of the most recent m_step samples (the rest is overlap)
 	for (float const* ptr = pcm + FFT_N - m_step; ptr != pcm + FFT_N; ++ptr) {
 		float s = *ptr;
@@ -133,11 +133,11 @@ void Analyzer::calcTones() {
 	const size_t kMax = std::min(FFT_N / 2, size_t(FFT_MAXFREQ / freqPerBin));
 	std::vector<Peak> peaks(kMax + 1); // One extra to simplify loops
 	for (size_t k = 1; k <= kMax; ++k) {
-		double magnitude = std::abs(m_fft[k]);
-		double phase = std::arg(m_fft[k]);
+		float magnitude = std::abs(m_fft[k]);
+		float phase = std::arg(m_fft[k]);
 		// process phase difference
 		double delta = phase - m_fftLastPhase[k];
-		m_fftLastPhase[k] = static_cast<float>(phase);
+		m_fftLastPhase[k] = phase;
 		delta -= k * phaseStep;  // subtract expected phase difference
 		delta = remainder(delta, 2.0 * M_PI);  // map delta phase into +/- M_PI interval
 		delta /= phaseStep;  // calculate diff from bin center frequency
