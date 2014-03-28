@@ -137,7 +137,7 @@ void Analyzer::calcTones() {
 		double phase = std::arg(m_fft[k]);
 		// process phase difference
 		double delta = phase - m_fftLastPhase[k];
-		m_fftLastPhase[k] = phase;
+		m_fftLastPhase[k] = static_cast<float>(phase);
 		delta -= k * phaseStep;  // subtract expected phase difference
 		delta = remainder(delta, 2.0 * M_PI);  // map delta phase into +/- M_PI interval
 		delta /= phaseStep;  // calculate diff from bin center frequency

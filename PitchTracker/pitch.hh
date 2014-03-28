@@ -52,7 +52,7 @@ public:
 	/// Read data from current position if there is enough data to fill the range (otherwise return false). Does not move read pointer.
 	template <typename OutIt> bool read(OutIt begin, OutIt end) {
 		size_t r = m_read;
-		if (size() <= static_cast<size_t>(end - begin)) return false;  // Not enough audio available
+		if (size() < static_cast<size_t>(end - begin)) return false;  // Not enough audio available
 		while (begin != end) *begin++ = m_buf[r++ % SIZE];  // Copy audio to output iterator
 		return true;
 	}

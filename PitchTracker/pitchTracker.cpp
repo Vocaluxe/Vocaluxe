@@ -89,21 +89,22 @@ namespace PitchTracker{
 	}
 
 	template<typename T>
-	int GetTone(T *samples, int sampleCt, float *weights, bool scale){
+	int GetTone(T *samples, int sampleCt, double* maxVolume, float *weights, bool scale){
 		if(!SamplesPerPeriodPerTone)
 			return -1;
-		T maxVolume = 0;
+		T maxVolumeL = 0;
 		for(int i = 0; i < sampleCt; i++){
 			T vol = abs(samples[i]);
-			if(vol > maxVolume)
-				maxVolume = vol;
+			if(vol > maxVolumeL)
+				maxVolumeL = vol;
 		}
+		*maxVolume = maxVolumeL;
 		T maxWeight = -1;
 		T minWeight = 1;
 		int maxTone = -1;
 		for (int toneIndex = MinHalfTone; toneIndex <= MaxHalfTone; toneIndex++)
 		{
-			T curWeight = _AnalyzeToneFunc<T>(samples, sampleCt, toneIndex) / maxVolume;
+			T curWeight = _AnalyzeToneFunc<T>(samples, sampleCt, toneIndex) / maxVolumeL;
 			if(scale)
 				curWeight /= 32768.0; //maximum abs value of a short, would actually need to scale by MaxValue^2 but we already scaled by maxVolume
 
@@ -124,7 +125,7 @@ namespace PitchTracker{
 		}else return -1;
 	}
 
-	template int GetTone(float *samples, int sampleCt, float *weights, bool scale);
-	template int GetTone(double *samples, int sampleCt, float *weights, bool scale);
+	template int GetTone(float *samples, int sampleCt, double* maxVolume, float *weights, bool scale);
+	template int GetTone(double *samples, int sampleCt, double* maxVolume, float *weights, bool scale);
 
 }

@@ -28,7 +28,7 @@ namespace Vocaluxe.Lib.Sound.Record
         private static extern double Analyzer_GetPeak(IntPtr analyzer);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern double Analyzer_GetNoteFast(IntPtr analyzer, [Out] float[] weights);
+        private static extern int Analyzer_GetNoteFast(IntPtr analyzer, [Out] out double maxVolume, [Out] float[] weights);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern double Analyzer_FindNote(IntPtr analyzer, double minFreq, double maxFreq);
@@ -79,9 +79,9 @@ namespace Vocaluxe.Lib.Sound.Record
             return Analyzer_FindNote(_Instance, minFreq, maxFreq);
         }
 
-        public double GetNoteFast(float[] weights)
+        public int GetNoteFast(out double maxVolume, float[] weights)
         {
-            return Analyzer_GetNoteFast(_Instance, weights);
+            return Analyzer_GetNoteFast(_Instance, out maxVolume, weights);
         }
 
         public bool Output(float[] data, float rate)
@@ -114,12 +114,12 @@ namespace Vocaluxe.Lib.Sound.Record
         public static extern void DeInit();
 
         [DllImport("PitchTracker.dll", EntryPoint = "PtFast_GetTone", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int PtFast_GetTone([In] short[] samples, int sampleCt, [Out] float[] weights);
+        private static extern int PtFast_GetTone([In] short[] samples, int sampleCt, [Out] out double maxVolume, [Out] float[] weights);
         #endregion
 
-        public static int GetTone(short[] samples, float[] weights)
+        public static int GetTone(short[] samples, out double maxVolume, float[] weights)
         {
-            return PtFast_GetTone(samples, samples.Length, weights);
+            return PtFast_GetTone(samples, samples.Length, out maxVolume, weights);
         }
     }
 }

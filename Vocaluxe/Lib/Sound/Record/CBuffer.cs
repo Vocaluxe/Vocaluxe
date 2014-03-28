@@ -96,10 +96,10 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public void AnalyzeBuffer()
         {
-            _Analyzer.Process();
-            _MaxVolume = _Analyzer.GetPeak() / 43 + 1;
-            int tone = (int)Math.Round(_Analyzer.FindNote());
-            if (tone >= 0)
+            //_Analyzer.Process();
+            //_MaxVolume = _Analyzer.GetPeak() / 43 + 1;
+            int tone = _Analyzer.GetNoteFast(out _MaxVolume, ToneWeigths); //(int)Math.Round(_Analyzer.FindNote()); // 
+            if (tone >= 0 && _MaxVolume >= MinVolume)
             {
                 ToneAbs = tone;
                 Tone = ToneAbs % 12;
@@ -146,6 +146,7 @@ namespace Vocaluxe.Lib.Sound.Record
             const int toneTo = 47; //B5
             Console.WriteLine("Testing notes " + _ToneToNote(toneFrom) + " - " + _ToneToNote(toneTo));
             byte[] data;
+            byte[] data2 = new byte[2048];
             int ok = 0;
             double angle = 0;
             for (int distort = 0; distort < 10; distort++)
@@ -155,8 +156,12 @@ namespace Vocaluxe.Lib.Sound.Record
                     _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone), 44100, ref angle, out data);
                     _Distort(data, tone, distort);
 
-                    ProcessNewBuffer(data);
-                    AnalyzeBuffer();
+                    for (int i = 0; i < 4; i++)
+                    {
+                        Buffer.BlockCopy(data, i * 2048, data2, 0, 2048);
+                        ProcessNewBuffer(data2);
+                        AnalyzeBuffer();
+                    }
                     if (!ToneValid)
                         CBase.Log.LogDebug("Note " + _ToneToNote(tone) + " not detected (Distortion: " + distort + ")");
                     else if (Tone != tone % 12)
@@ -168,7 +173,7 @@ namespace Vocaluxe.Lib.Sound.Record
             _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, 5), 44100, ref angle, out data);
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            const int repeats = 1000;
+            const int repeats = 100;
             for (int i = 0; i < repeats; i++)
             {
                 ProcessNewBuffer(data);

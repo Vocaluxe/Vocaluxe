@@ -10,12 +10,13 @@ AnalyzerExt::~AnalyzerExt(){
 	PitchTracker::DeInit();
 }
 
-int AnalyzerExt::GetNoteFast(float* weights){
+int AnalyzerExt::GetNoteFast(double* maxVolume, float* weights){
 	size_t size = m_fastAnalysisBuf.size();
 	if(size > m_SampleCt)
 		m_fastAnalysisBuf.pop(size - m_SampleCt);
-	m_fastAnalysisBuf.read(m_AnalysisBuf, m_AnalysisBuf + m_SampleCt);
-	return PitchTracker::GetTone(m_AnalysisBuf, m_SampleCt, weights);
+	if(!m_fastAnalysisBuf.read(m_AnalysisBuf, m_AnalysisBuf + m_SampleCt))
+		return -1;
+	return PitchTracker::GetTone(m_AnalysisBuf, m_SampleCt, maxVolume, weights);
 }
 
 void PtFast_Init(double baseToneFrequency, int minHalfTone, int maxHalfTone){
@@ -26,11 +27,11 @@ void PtFast_DeInit(){
 	PitchTracker::DeInit();
 }
 
-int PtFast_GetTone(short* samples, int sampleCt, float* weights){
+int PtFast_GetTone(short* samples, int sampleCt, double* maxVolume, float* weights){
 	if(sampleCt <= 0)
 		return -1;
 	double* dataDouble = short2DoubleArray(samples, sampleCt, false);
-	int result = PitchTracker::GetTone(dataDouble, sampleCt, weights, true);
+	int result = PitchTracker::GetTone(dataDouble, sampleCt, maxVolume, weights, true);
 	freeDoubleArray(dataDouble);
 	return result;
 }
@@ -85,10 +86,10 @@ double Analyzer_FindNote(AnalyzerExt* analyzer, double minFreq, double maxFreq){
 	return (tone == NULL) ? -1 : ToneToNote(tone);    
 }
 
-int Analyzer_GetNoteFast(AnalyzerExt* analyzer, float* weights){
+int Analyzer_GetNoteFast(AnalyzerExt* analyzer, double* maxVolume, float* weights){
 	if(!analyzer)
 		return -1;
-	return analyzer->GetNoteFast(weights);
+	return analyzer->GetNoteFast(maxVolume, weights);
 }
 
 bool Analyzer_OutputFloat(AnalyzerExt* analyzer, float* data, int sampleCt, float rate){

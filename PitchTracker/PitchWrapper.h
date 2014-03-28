@@ -12,7 +12,7 @@ public:
 		m_fastAnalysisBuf.insert(begin, end);
 		Analyzer::input(begin, end);
 	}
-	int GetNoteFast(float* weights);
+	int GetNoteFast(double* maxVolume, float* weights);
 private:
 	constexpr static size_t m_SampleCt = 4096;
 	RingBuffer<m_SampleCt * 2> m_fastAnalysisBuf; // Buffer used for fast analysis instead of FFT
@@ -30,7 +30,7 @@ DllExport void Analyzer_InputShort(AnalyzerExt* analyzer, short* data, int sampl
 DllExport void Analyzer_InputByte(AnalyzerExt* analyzer, char* data, int sampleCt);
 DllExport void Analyzer_Process(AnalyzerExt* analyzer);
 DllExport double Analyzer_GetPeak(AnalyzerExt* analyzer);
-DllExport int Analyzer_GetNoteFast(AnalyzerExt* analyzer, float* weights);
+DllExport int Analyzer_GetNoteFast(AnalyzerExt* analyzer, double* maxVolume, float* weights);
 DllExport double Analyzer_FindNote(AnalyzerExt* analyzer, double minFreq, double maxFreq);
 DllExport bool Analyzer_OutputFloat(AnalyzerExt* analyzer, float* data, int sampleCt, float rate);
 
