@@ -168,21 +168,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="compatibility.cpp" />
-    <ClCompile Include="pitch.cc" />
-    <ClCompile Include="pitchTracker.cpp" />
+    <ClCompile Include="performous\pitch.cc" />
+    <ClCompile Include="pdaAKF.cpp" />
     <ClCompile Include="PitchWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="compatibility.h" />
     <ClInclude Include="Helper.h" />
-    <ClInclude Include="libda\fft.hpp" />
-    <ClInclude Include="libda\sample.hpp" />
-    <ClInclude Include="pitchTracker.h" />
+    <ClInclude Include="performous\libda\fft.hpp" />
+    <ClInclude Include="performous\libda\sample.hpp" />
+    <ClInclude Include="pdaAKF.h" />
     <ClInclude Include="PitchWrapper.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="pitch.hh" />
-    <None Include="util.hh" />
+    <None Include="performous\pitch.hh" />
+    <None Include="performous\util.hh" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

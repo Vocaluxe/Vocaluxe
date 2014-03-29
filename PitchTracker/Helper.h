@@ -1,5 +1,4 @@
 #pragma once
-#include "pitch.hh"
 #include "PitchWrapper.h"
 #include <stdlib.h>
 #include <cmath>
@@ -40,8 +39,8 @@ void freeDoubleArray(double* floats){
 	free(floats);
 }
 
-double ToneToNote(const Tone* tone){
-	return 12.0 * std::log(tone->freq / 127.09) / std::log(2.0) + 27.5 - 16; // 16 = C2
+double FreqToNote(double freq){
+	return 12.0 * std::log(freq / 127.09) / std::log(2.0) + 27.5 - 16; // 16 = C2
 }
 
 /*

@@ -13,13 +13,13 @@
 // You should have received a copy of the GNU General Public License
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 
-#include "pitchTracker.h"
+#include "pdaAKF.h"
 #include <math.h>
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
 
-namespace PitchTracker{
+namespace PitchTrackerAKF{
 
 	static void doLog(const char* msg,...){
 		va_list argptr = NULL;

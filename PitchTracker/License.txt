@@ -1,2 +1,0 @@
-Some code is taken from Performous: https://github.com/performous/performous/tree/master/game
-From 25.03.2014

@@ -5,7 +5,7 @@
 #include <list>
 #include <algorithm>
 #include <cmath>
-#include "compatibility.h"
+#include "../compatibility.h"
 
 /// struct to represent tones
 struct Tone {

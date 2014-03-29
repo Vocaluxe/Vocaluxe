@@ -1,13 +1,13 @@
 #include "PitchWrapper.h"
-#include "pitchTracker.h"
+#include "pdaAKF.h"
 #include "Helper.h"
 
 AnalyzerExt::AnalyzerExt(double baseToneFrequency, int minHalfTone, int maxHalfTone, unsigned step): Analyzer(44100., "", step){
-	PitchTracker::Init(baseToneFrequency, minHalfTone, maxHalfTone);
+	PitchTrackerAKF::Init(baseToneFrequency, minHalfTone, maxHalfTone);
 }
 
 AnalyzerExt::~AnalyzerExt(){
-	PitchTracker::DeInit();
+	PitchTrackerAKF::DeInit();
 }
 
 int AnalyzerExt::GetNoteFast(double* maxVolume, float* weights){
@@ -17,22 +17,22 @@ int AnalyzerExt::GetNoteFast(double* maxVolume, float* weights){
 		m_fastAnalysisBuf.pop(size - m_SampleCt);
 	if(!m_fastAnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + m_SampleCt))
 		return -1;
-	return PitchTracker::GetTone(AnaylsisBuf, m_SampleCt, maxVolume, weights);
+	return PitchTrackerAKF::GetTone(AnaylsisBuf, m_SampleCt, maxVolume, weights);
 }
 
 void PtFast_Init(double baseToneFrequency, int minHalfTone, int maxHalfTone){
-	PitchTracker::Init(baseToneFrequency, minHalfTone, maxHalfTone);
+	PitchTrackerAKF::Init(baseToneFrequency, minHalfTone, maxHalfTone);
 }
 
 void PtFast_DeInit(){
-	PitchTracker::DeInit();
+	PitchTrackerAKF::DeInit();
 }
 
 int PtFast_GetTone(short* samples, int sampleCt, double* maxVolume, float* weights){
 	if(sampleCt <= 0)
 		return -1;
 	double* dataDouble = short2DoubleArray(samples, sampleCt, false);
-	int result = PitchTracker::GetTone(dataDouble, sampleCt, maxVolume, weights, true);
+	int result = PitchTrackerAKF::GetTone(dataDouble, sampleCt, maxVolume, weights, true);
 	freeDoubleArray(dataDouble);
 	return result;
 }
@@ -84,7 +84,7 @@ double Analyzer_FindNote(AnalyzerExt* analyzer, double minFreq, double maxFreq){
 	if(!analyzer)
 		return -1;
 	const Tone* tone = analyzer->findTone(minFreq, maxFreq);
-	return (tone == NULL) ? -1 : ToneToNote(tone);    
+	return (tone == NULL) ? -1 : FreqToNote(tone->freq);    
 }
 
 int Analyzer_GetNoteFast(AnalyzerExt* analyzer, double* maxVolume, float* weights){

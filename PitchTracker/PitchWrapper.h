@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pitch.hh"
+#include "performous/pitch.hh"
 
 #define DllExport extern "C" __declspec(dllexport)
 
