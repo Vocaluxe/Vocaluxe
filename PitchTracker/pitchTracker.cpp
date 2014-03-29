@@ -66,26 +66,35 @@ namespace PitchTracker{
 	}
 
 	template<typename T>
-	static T _AnalyzeToneFunc(T *samples, int sampleCt, int toneIndex){
+	static T _AnalyzeToneFunc(T *samples, int sampleCt, int toneIndex, bool scale){
+		// Use method by Kobayashi and Shimamura (1995): Combine AKF and AMDF to a new f(z)=AKF(z)/(AMDF(z)+k) with k=1
 		double samplesPerPeriodD = SamplesPerPeriodPerTone[toneIndex]; // samples in one period
 		int samplesPerPeriod = static_cast<int>(samplesPerPeriodD);
 		T fHigh = static_cast<T>(samplesPerPeriodD - samplesPerPeriod);
 		T fLow = static_cast<T>(1.0 - fHigh);
 
-		T accumDist = 0; // accumulated distances
+		T accumDistAKF = 0; // accumulated distances
+		T accumDistAMDF = 0; // accumulated distances
 
 		// compare correlating samples
 		int sampleIndex = 0; // index of sample to analyze
 		// Start value= index of sample one period ahead
 		for (int correlatingSampleIndex = sampleIndex + samplesPerPeriod; correlatingSampleIndex + 1 < sampleCt; correlatingSampleIndex++, sampleIndex++)
 		{
-			// calc distance to corresponding sample in next period (lower means more distant)
-			T dist = samples[sampleIndex] * (samples[correlatingSampleIndex] * fLow + samples[correlatingSampleIndex + 1] * fHigh);
-			accumDist += dist;
+			// calc distance to corresponding sample in next period
+			T xn = samples[sampleIndex];
+			T xnt = samples[correlatingSampleIndex] * fLow + samples[correlatingSampleIndex + 1] * fHigh;
+			accumDistAKF += xn * xnt;
+			accumDistAMDF += abs(xn - xnt);
 		}
 
-		//Using sampleCt here makes it return correct values among all analyzed frequencies
-		return accumDist / sampleCt;
+		accumDistAKF /= sampleCt;
+		accumDistAMDF /= sampleIndex;
+
+		if(scale)
+			return accumDistAKF / (accumDistAMDF * 32767.f + 32767.f); // Need to scale AKF by MAX^2 and AMDF by MAX, so do some maths to divide only once
+		else
+			return accumDistAKF / (accumDistAMDF + 1.f);
 	}
 
 	template<typename T>
@@ -98,15 +107,16 @@ namespace PitchTracker{
 			if(vol > maxVolumeL)
 				maxVolumeL = vol;
 		}
+		if(scale)
+			maxVolumeL /= 32767.;
 		*maxVolume = maxVolumeL;
+
 		T maxWeight = -1;
 		T minWeight = 1;
 		int maxTone = -1;
 		for (int toneIndex = MinHalfTone; toneIndex <= MaxHalfTone; toneIndex++)
 		{
-			T curWeight = _AnalyzeToneFunc<T>(samples, sampleCt, toneIndex) / maxVolumeL;
-			if(scale)
-				curWeight /= 32768.0; //maximum abs value of a short, would actually need to scale by MaxValue^2 but we already scaled by maxVolume
+			T curWeight = _AnalyzeToneFunc<T>(samples, sampleCt, toneIndex, scale);
 
 			if (curWeight > maxWeight)
 			{

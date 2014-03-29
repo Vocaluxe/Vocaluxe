@@ -11,12 +11,13 @@ AnalyzerExt::~AnalyzerExt(){
 }
 
 int AnalyzerExt::GetNoteFast(double* maxVolume, float* weights){
+	float AnaylsisBuf[m_SampleCt];
 	size_t size = m_fastAnalysisBuf.size();
 	if(size > m_SampleCt)
 		m_fastAnalysisBuf.pop(size - m_SampleCt);
-	if(!m_fastAnalysisBuf.read(m_AnalysisBuf, m_AnalysisBuf + m_SampleCt))
+	if(!m_fastAnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + m_SampleCt))
 		return -1;
-	return PitchTracker::GetTone(m_AnalysisBuf, m_SampleCt, maxVolume, weights);
+	return PitchTracker::GetTone(AnaylsisBuf, m_SampleCt, maxVolume, weights);
 }
 
 void PtFast_Init(double baseToneFrequency, int minHalfTone, int maxHalfTone){

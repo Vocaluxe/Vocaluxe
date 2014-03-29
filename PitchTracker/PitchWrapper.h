@@ -16,7 +16,6 @@ public:
 private:
 	constexpr static size_t m_SampleCt = 4096;
 	RingBuffer<m_SampleCt * 2> m_fastAnalysisBuf; // Buffer used for fast analysis instead of FFT
-	float m_AnalysisBuf[4096];
 };
 
 DllExport void PtFast_Init(double baseToneFrequency, int minHalfTone, int maxHalfTone);
