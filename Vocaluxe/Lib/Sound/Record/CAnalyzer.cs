@@ -3,11 +3,15 @@ using System.Runtime.InteropServices;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
+    /// <summary>
+    /// Analyzer from Performous
+    /// Should be very reliable but needs some proof (artificial tests show some errors)
+    /// </summary>
     class CAnalyzer : IDisposable
     {
         #region Imports
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr Analyzer_Create(double baseToneFrequency, int minHalfTone, int maxHalfTone, uint step = 200);
+        private static extern IntPtr Analyzer_Create(uint step = 200);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void Analyzer_Free(IntPtr analyzer);
@@ -28,9 +32,6 @@ namespace Vocaluxe.Lib.Sound.Record
         private static extern double Analyzer_GetPeak(IntPtr analyzer);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int Analyzer_GetNoteFast(IntPtr analyzer, [Out] out double maxVolume, [Out] float[] weights);
-
-        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern double Analyzer_FindNote(IntPtr analyzer, double minFreq, double maxFreq);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -39,9 +40,9 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private IntPtr _Instance;
 
-        public CAnalyzer(double baseToneFrequency, int minHalfTone, int maxHalfTone, uint step = 200)
+        public CAnalyzer(uint step = 200)
         {
-            _Instance = Analyzer_Create(baseToneFrequency, minHalfTone, maxHalfTone, step);
+            _Instance = Analyzer_Create(step);
         }
 
         ~CAnalyzer()
@@ -79,11 +80,6 @@ namespace Vocaluxe.Lib.Sound.Record
             return Analyzer_FindNote(_Instance, minFreq, maxFreq);
         }
 
-        public int GetNoteFast(out double maxVolume, float[] weights)
-        {
-            return Analyzer_GetNoteFast(_Instance, out maxVolume, weights);
-        }
-
         public bool Output(float[] data, float rate)
         {
             return Analyzer_OutputFloat(_Instance, data, data.Length, rate);
@@ -104,22 +100,63 @@ namespace Vocaluxe.Lib.Sound.Record
         }
     }
 
-    static class CFastAnalyzer
+    /// <summary>
+    /// Pitchtracker (Pt) that uses autocorrelation (AKF) and AMDF
+    /// Quite fast and perfect in artificial tests, but may fail in real world scenarios (e.g. missing fundamental)
+    /// </summary>
+    class CPtAKF : IDisposable
     {
         #region Imports
-        [DllImport("PitchTracker.dll", EntryPoint = "PtFast_Init", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void Init(double baseToneFrequency, int minHalfTone, int maxHalfTone);
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr PtAKF_Create();
 
-        [DllImport("PitchTracker.dll", EntryPoint = "PtFast_DeInit", CallingConvention = CallingConvention.Cdecl)]
-        public static extern void DeInit();
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PtAKF_Free(IntPtr analyzer);
 
-        [DllImport("PitchTracker.dll", EntryPoint = "PtFast_GetTone", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int PtFast_GetTone([In] short[] samples, int sampleCt, [Out] out double maxVolume, [Out] float[] weights);
+        [DllImport("PitchTracker.dll", EntryPoint = "PtAKF_GetNumHalfTones", CallingConvention = CallingConvention.Cdecl)]
+        public static extern int GetNumHalfTones();
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PtAKF_InputByte(IntPtr analyzer, [In] byte[] data, int sampleCt);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int PtAKF_GetNote(IntPtr analyzer, [Out] out double maxVolume, [Out] float[] weights);
         #endregion
 
-        public static int GetTone(short[] samples, out double maxVolume, float[] weights)
+        private IntPtr _Instance;
+
+        public CPtAKF()
         {
-            return PtFast_GetTone(samples, samples.Length, out maxVolume, weights);
+            _Instance = PtAKF_Create();
+        }
+
+        ~CPtAKF()
+        {
+            _Dispose(false);
+        }
+
+        public void Input(byte[] data)
+        {
+            PtAKF_InputByte(_Instance, data, data.Length / 2);
+        }
+
+        public int GetNote(out double maxVolume, float[] weights)
+        {
+            return PtAKF_GetNote(_Instance, out maxVolume, weights);
+        }
+
+        private void _Dispose(bool disposing)
+        {
+            if (_Instance == IntPtr.Zero)
+                throw new ObjectDisposedException(GetType().Name);
+            PtAKF_Free(_Instance);
+            _Instance = IntPtr.Zero;
+        }
+
+        public void Dispose()
+        {
+            _Dispose(true);
+            GC.SuppressFinalize(this);
         }
     }
 }

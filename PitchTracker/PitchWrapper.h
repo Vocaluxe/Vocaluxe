@@ -1,37 +1,25 @@
 #pragma once
 
 #include "performous/pitch.hh"
+#include "ptAKF.h"
 
 #define DllExport extern "C" __declspec(dllexport)
 
-class AnalyzerExt: public Analyzer{
-public:
-	AnalyzerExt(double baseToneFrequency, int minHalfTone, int maxHalfTone, unsigned step = 200);
-	~AnalyzerExt();
-	template <typename InIt> void input(InIt begin, InIt end){
-		m_fastAnalysisBuf.insert(begin, end);
-		Analyzer::input(begin, end);
-	}
-	int GetNoteFast(double* maxVolume, float* weights);
-private:
-	constexpr static size_t m_SampleCt = 4096;
-	RingBuffer<m_SampleCt * 2> m_fastAnalysisBuf; // Buffer used for fast analysis instead of FFT
-};
+DllExport Analyzer* Analyzer_Create(unsigned step);
+DllExport void Analyzer_Free(Analyzer* analyzer);
+DllExport void Analyzer_InputFloat(Analyzer* analyzer, float* data, int sampleCt);
+DllExport void Analyzer_InputShort(Analyzer* analyzer, short* data, int sampleCt);
+DllExport void Analyzer_InputByte(Analyzer* analyzer, char* data, int sampleCt);
+DllExport void Analyzer_Process(Analyzer* analyzer);
+DllExport double Analyzer_GetPeak(Analyzer* analyzer);
+DllExport double Analyzer_FindNote(Analyzer* analyzer, double minFreq, double maxFreq);
+DllExport bool Analyzer_OutputFloat(Analyzer* analyzer, float* data, int sampleCt, float rate);
 
-DllExport void PtFast_Init(double baseToneFrequency, int minHalfTone, int maxHalfTone);
-DllExport void PtFast_DeInit();
-DllExport int PtFast_GetTone(short* samples, int sampleCt, float* weights);
-
-DllExport AnalyzerExt* Analyzer_Create(double baseToneFrequency, int minHalfTone, int maxHalfTone, unsigned step);
-DllExport void Analyzer_Free(AnalyzerExt* analyzer);
-DllExport void Analyzer_InputFloat(AnalyzerExt* analyzer, float* data, int sampleCt);
-DllExport void Analyzer_InputShort(AnalyzerExt* analyzer, short* data, int sampleCt);
-DllExport void Analyzer_InputByte(AnalyzerExt* analyzer, char* data, int sampleCt);
-DllExport void Analyzer_Process(AnalyzerExt* analyzer);
-DllExport double Analyzer_GetPeak(AnalyzerExt* analyzer);
-DllExport int Analyzer_GetNoteFast(AnalyzerExt* analyzer, double* maxVolume, float* weights);
-DllExport double Analyzer_FindNote(AnalyzerExt* analyzer, double minFreq, double maxFreq);
-DllExport bool Analyzer_OutputFloat(AnalyzerExt* analyzer, float* data, int sampleCt, float rate);
+DllExport PtAKF* PtAKF_Create();
+DllExport void PtAKF_Free(PtAKF* analyzer);
+DllExport int PtAKF_GetNumHalfTones();
+DllExport void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt);
+DllExport int PtAKF_GetNote(PtAKF* analyzer, double* maxVolume, float* weights);
 
 /*
 public ref class CTone {
@@ -74,7 +62,7 @@ public:
 	String^ GetId();
 
 private:
-	AnalyzerExt* m_analyzer;
+	Analyzer* m_analyzer;
 	String^ m_id;
 };
 

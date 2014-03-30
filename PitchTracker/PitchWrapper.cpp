@@ -1,58 +1,23 @@
 #include "PitchWrapper.h"
-#include "pdaAKF.h"
 #include "Helper.h"
 
-AnalyzerExt::AnalyzerExt(double baseToneFrequency, int minHalfTone, int maxHalfTone, unsigned step): Analyzer(44100., "", step){
-	PitchTrackerAKF::Init(baseToneFrequency, minHalfTone, maxHalfTone);
+
+Analyzer* Analyzer_Create(unsigned step){
+    return new Analyzer(44100, "", step);
 }
 
-AnalyzerExt::~AnalyzerExt(){
-	PitchTrackerAKF::DeInit();
-}
-
-int AnalyzerExt::GetNoteFast(double* maxVolume, float* weights){
-	float AnaylsisBuf[m_SampleCt];
-	size_t size = m_fastAnalysisBuf.size();
-	if(size > m_SampleCt)
-		m_fastAnalysisBuf.pop(size - m_SampleCt);
-	if(!m_fastAnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + m_SampleCt))
-		return -1;
-	return PitchTrackerAKF::GetTone(AnaylsisBuf, m_SampleCt, maxVolume, weights);
-}
-
-void PtFast_Init(double baseToneFrequency, int minHalfTone, int maxHalfTone){
-	PitchTrackerAKF::Init(baseToneFrequency, minHalfTone, maxHalfTone);
-}
-
-void PtFast_DeInit(){
-	PitchTrackerAKF::DeInit();
-}
-
-int PtFast_GetTone(short* samples, int sampleCt, double* maxVolume, float* weights){
-	if(sampleCt <= 0)
-		return -1;
-	double* dataDouble = short2DoubleArray(samples, sampleCt, false);
-	int result = PitchTrackerAKF::GetTone(dataDouble, sampleCt, maxVolume, weights, true);
-	freeDoubleArray(dataDouble);
-	return result;
-}
-
-AnalyzerExt* Analyzer_Create(double baseToneFrequency, int minHalfTone, int maxHalfTone, unsigned step){
-    return new AnalyzerExt(baseToneFrequency, minHalfTone, maxHalfTone, step);
-}
-
-void Analyzer_Free(AnalyzerExt* analyzer){
+void Analyzer_Free(Analyzer* analyzer){
     if(analyzer)
 		delete analyzer;
 }
 
-void Analyzer_InputFloat(AnalyzerExt* analyzer, float* data, int sampleCt){
+void Analyzer_InputFloat(Analyzer* analyzer, float* data, int sampleCt){
 	if(sampleCt == 0 || !analyzer)
 		return;
 	analyzer->input(data, data + sampleCt);
 }
 
-void Analyzer_InputShort(AnalyzerExt* analyzer, short* data, int sampleCt){
+void Analyzer_InputShort(Analyzer* analyzer, short* data, int sampleCt){
 	if(sampleCt == 0 || !analyzer)
 		return;
 	float* dataFloat = short2FloatArray(data, sampleCt);
@@ -60,45 +25,64 @@ void Analyzer_InputShort(AnalyzerExt* analyzer, short* data, int sampleCt){
 	freeFloatArray(dataFloat);  
 }
 
-void Analyzer_InputByte(AnalyzerExt* analyzer, char* data, int sampleCt){
-	if(sampleCt == 0 || !analyzer)
+void Analyzer_InputByte(Analyzer* analyzer, char* data, int sampleCt){
+	if(sampleCt <= 0 || !analyzer)
 		return;
 	float* dataFloat = short2FloatArray(static_cast<short*>(static_cast<void*>(data)), sampleCt);
 	analyzer->input(dataFloat, dataFloat + sampleCt);
 	freeFloatArray(dataFloat);
 }
 
-void Analyzer_Process(AnalyzerExt* analyzer){
+void Analyzer_Process(Analyzer* analyzer){
 	if(!analyzer)
 		return;
     analyzer->process();
 }
 
-double Analyzer_GetPeak(AnalyzerExt* analyzer){
+double Analyzer_GetPeak(Analyzer* analyzer){
 	if(!analyzer)
 		return -999;
 	return analyzer->getPeak();   
 }
 
-double Analyzer_FindNote(AnalyzerExt* analyzer, double minFreq, double maxFreq){
+double Analyzer_FindNote(Analyzer* analyzer, double minFreq, double maxFreq){
 	if(!analyzer)
 		return -1;
 	const Tone* tone = analyzer->findTone(minFreq, maxFreq);
 	return (tone == NULL) ? -1 : FreqToNote(tone->freq);    
 }
 
-int Analyzer_GetNoteFast(AnalyzerExt* analyzer, double* maxVolume, float* weights){
-	if(!analyzer)
-		return -1;
-	return analyzer->GetNoteFast(maxVolume, weights);
-}
-
-bool Analyzer_OutputFloat(AnalyzerExt* analyzer, float* data, int sampleCt, float rate){
+bool Analyzer_OutputFloat(Analyzer* analyzer, float* data, int sampleCt, float rate){
 	if(!analyzer)
 		return false;
     return analyzer->output(data, data + sampleCt, rate);
 }
 
+DllExport PtAKF* PtAKF_Create(){
+	return new PtAKF();
+}
+
+DllExport void PtAKF_Free(PtAKF* analyzer){
+	if(analyzer)
+		delete analyzer;
+}
+
+DllExport int PtAKF_GetNumHalfTones(){
+	return PtAKF::GetNumHalfTones();
+}
+
+DllExport void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt){
+	if(sampleCt <= 0 || !analyzer)
+		return;
+	short* dataShort = static_cast<short*>(static_cast<void*>(data));
+	analyzer->input(dataShort, dataShort + sampleCt);
+}
+
+DllExport int PtAKF_GetNote(PtAKF* analyzer, double* maxVolume, float* weights){
+	if(!analyzer)
+		return -1;
+	return analyzer->GetNote(maxVolume, weights);
+}
 
 /*
 namespace Native{

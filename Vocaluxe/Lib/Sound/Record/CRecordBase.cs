@@ -132,7 +132,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public int NumHalfTones()
         {
-            return CBuffer.NumHalfTones;
+            return CBuffer.GetNumHalfTones();
         }
 
         public float[] ToneWeigth(int player)

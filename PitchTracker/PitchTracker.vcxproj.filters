@@ -33,7 +33,7 @@
     <ClCompile Include="performous\pitch.cc">
       <Filter>Quelldateien\performous</Filter>
     </ClCompile>
-    <ClCompile Include="pdaAKF.cpp">
+    <ClCompile Include="ptAKF.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClInclude Include="performous\libda\sample.hpp">
       <Filter>Headerdateien\performous\libda</Filter>
     </ClInclude>
-    <ClInclude Include="pdaAKF.h">
+    <ClInclude Include="ptAKF.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

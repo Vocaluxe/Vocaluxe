@@ -29,22 +29,19 @@ namespace Vocaluxe.Lib.Sound.Record
 {
     class CBuffer : IDisposable
     {
+#if TEST_PITCH
         //Half tones: C C♯ D D# E F F♯ G G♯ A A# B
         private const double _BaseToneFreq = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
-#if TEST_PITCH
         private const double _HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 #endif
-        private const int _HalfToneMin = 0; // C2
-        private const int _HalfToneMax = 38; //45; // inclusive, 38=D5; 45=A5
-        public const int NumHalfTones = _HalfToneMax - _HalfToneMin + 1; //Number of halftones to analyze
-        private CAnalyzer _Analyzer = new CAnalyzer(_BaseToneFreq, _HalfToneMin, _HalfToneMax);
+        private CPtAKF _Analyzer = new CPtAKF();
 
         private double _MaxVolume;
 
         public CBuffer()
         {
             MinVolume = 0.02f;
-            ToneWeigths = new float[NumHalfTones];
+            ToneWeigths = new float[GetNumHalfTones()];
             Reset();
 #if TEST_PITCH
             _TestPitchDetection();
@@ -54,6 +51,11 @@ namespace Vocaluxe.Lib.Sound.Record
         ~CBuffer()
         {
             _Dispose();
+        }
+
+        public static int GetNumHalfTones()
+        {
+            return CPtAKF.GetNumHalfTones();
         }
 
         public int ToneAbs { get; private set; }
@@ -98,7 +100,7 @@ namespace Vocaluxe.Lib.Sound.Record
         {
             //_Analyzer.Process();
             //_MaxVolume = _Analyzer.GetPeak() / 43 + 1;
-            int tone = _Analyzer.GetNoteFast(out _MaxVolume, ToneWeigths); //(int)Math.Round(_Analyzer.FindNote()); // 
+            int tone = _Analyzer.GetNote(out _MaxVolume, ToneWeigths); //(int)Math.Round(_Analyzer.FindNote()); // 
             if (tone >= 0 && _MaxVolume >= MinVolume)
             {
                 ToneAbs = tone;
@@ -142,7 +144,7 @@ namespace Vocaluxe.Lib.Sound.Record
             if (_PitchTestRun)
                 return;
             _PitchTestRun = true;
-            int toneFrom = Math.Max(0, _HalfToneMin);
+            int toneFrom = 0;
             const int toneTo = 47; //B5
             Console.WriteLine("Testing notes " + _ToneToNote(toneFrom) + " - " + _ToneToNote(toneTo));
             byte[] data;

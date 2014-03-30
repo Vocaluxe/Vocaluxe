@@ -95,6 +95,7 @@
       <PreprocessorDefinitions>WIN64;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -112,6 +113,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <FloatingPointModel>Fast</FloatingPointModel>
+      <MinimalRebuild>false</MinimalRebuild>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -169,7 +171,7 @@
   <ItemGroup>
     <ClCompile Include="compatibility.cpp" />
     <ClCompile Include="performous\pitch.cc" />
-    <ClCompile Include="pdaAKF.cpp" />
+    <ClCompile Include="ptAKF.cpp" />
     <ClCompile Include="PitchWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -177,7 +179,7 @@
     <ClInclude Include="Helper.h" />
     <ClInclude Include="performous\libda\fft.hpp" />
     <ClInclude Include="performous\libda\sample.hpp" />
-    <ClInclude Include="pdaAKF.h" />
+    <ClInclude Include="ptAKF.h" />
     <ClInclude Include="PitchWrapper.h" />
   </ItemGroup>
   <ItemGroup>
