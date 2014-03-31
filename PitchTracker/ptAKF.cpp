@@ -21,7 +21,7 @@ static constexpr double HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBas
 int PtAKF::_InitCount = 0;
 float* PtAKF::_SamplesPerPeriodPerTone = NULL;
 
-PtAKF::PtAKF(){
+PtAKF::PtAKF(unsigned step){
 	_InitCount++;
 	if(_InitCount == 1){
 		_SamplesPerPeriodPerTone = new float[_MaxHalfTone + 1];
@@ -32,6 +32,7 @@ PtAKF::PtAKF(){
 			_SamplesPerPeriodPerTone[toneIndex] = static_cast<float>(44100.0 / freq); // samples in one period
 		}
 	}
+	_Step = step;
 }
 
 PtAKF::~PtAKF(){
@@ -49,6 +50,7 @@ int PtAKF::GetNote(double* maxVolume, float* weights){
 		_AnalysisBuf.pop(size - _SampleCt);
 	if(!_AnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + _SampleCt))
 		return -1;
+	_AnalysisBuf.pop(_Step);
 	return _GetNote(AnaylsisBuf, maxVolume, weights);
 }
 

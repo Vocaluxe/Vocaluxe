@@ -4,7 +4,7 @@
 // A pitch detection that is based on the AKF and AMDF (initially from original Vocaluxe/USDx)
 class PtAKF{
 public:
-	PtAKF();
+	PtAKF(unsigned step);
 	~PtAKF();
 
 	void input(short* begin, short* end){
@@ -21,6 +21,7 @@ private:
 
 	constexpr static size_t _SampleCt = 4096;
 	RingBuffer<_SampleCt * 2> _AnalysisBuf;
+	unsigned _Step;
 
 	static int _GetNote(float* samples, double* maxVolume, float* weights);
 	static float _AnalyzeToneFunc(float* samples, int toneIndex);

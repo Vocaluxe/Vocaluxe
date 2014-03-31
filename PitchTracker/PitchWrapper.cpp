@@ -58,8 +58,8 @@ bool Analyzer_OutputFloat(Analyzer* analyzer, float* data, int sampleCt, float r
     return analyzer->output(data, data + sampleCt, rate);
 }
 
-DllExport PtAKF* PtAKF_Create(){
-	return new PtAKF();
+DllExport PtAKF* PtAKF_Create(unsigned step){
+	return new PtAKF(step);
 }
 
 DllExport void PtAKF_Free(PtAKF* analyzer){

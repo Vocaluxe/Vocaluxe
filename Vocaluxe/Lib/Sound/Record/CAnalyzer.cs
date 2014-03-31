@@ -108,7 +108,7 @@ namespace Vocaluxe.Lib.Sound.Record
     {
         #region Imports
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr PtAKF_Create();
+        private static extern IntPtr PtAKF_Create(uint step);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void PtAKF_Free(IntPtr analyzer);
@@ -125,9 +125,9 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private IntPtr _Instance;
 
-        public CPtAKF()
+        public CPtAKF(uint step = 200)
         {
-            _Instance = PtAKF_Create();
+            _Instance = PtAKF_Create(step);
         }
 
         ~CPtAKF()

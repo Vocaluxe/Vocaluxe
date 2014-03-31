@@ -15,7 +15,7 @@ DllExport double Analyzer_GetPeak(Analyzer* analyzer);
 DllExport double Analyzer_FindNote(Analyzer* analyzer, double minFreq, double maxFreq);
 DllExport bool Analyzer_OutputFloat(Analyzer* analyzer, float* data, int sampleCt, float rate);
 
-DllExport PtAKF* PtAKF_Create();
+DllExport PtAKF* PtAKF_Create(unsigned step);
 DllExport void PtAKF_Free(PtAKF* analyzer);
 DllExport int PtAKF_GetNumHalfTones();
 DllExport void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt);
