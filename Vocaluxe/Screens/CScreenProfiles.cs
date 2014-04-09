@@ -449,7 +449,7 @@ namespace Vocaluxe.Screens
                 foreach (CAvatar avatar in avatars)
                 {
                     _SelectSlides[_SelectSlideAvatars].AddValue(
-                        Path.GetFileName(avatar.FileName),
+                        avatar.GetDisplayName(),
                         null,
                         avatar.ID,
                         -1);
