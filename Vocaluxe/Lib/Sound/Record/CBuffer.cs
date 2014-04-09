@@ -19,9 +19,12 @@
 
 using System;
 #if TEST_PITCH
+using System.Collections.Generic;
+using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using VocaluxeLib;
+using VocaluxeLib.Utils;
 
 #endif
 
@@ -30,11 +33,12 @@ namespace Vocaluxe.Lib.Sound.Record
     class CBuffer : IDisposable
     {
 #if TEST_PITCH
-        //Half tones: C C♯ D D# E F F♯ G G♯ A A# B
+        //Half tones: C C# D D# E F F# G G# A A# B
         private const double _BaseToneFreq = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
         private const double _HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 #endif
         private CPtAKF _Analyzer = new CPtAKF();
+        private CAnalyzer _Analyzer2 = new CAnalyzer();
 
         private double _MaxVolume;
 
@@ -94,11 +98,12 @@ namespace Vocaluxe.Lib.Sound.Record
             //if (assigned(fVoiceStream)) then
             //fVoiceStream.WriteData(Buffer, BufferSize);
             _Analyzer.Input(buffer);
+            _Analyzer2.Input(buffer);
         }
 
         public void AnalyzeBuffer()
         {
-            //_Analyzer.Process();
+            _Analyzer2.Process();
             //_MaxVolume = _Analyzer.GetPeak() / 43 + 1;
             int tone = _Analyzer.GetNote(out _MaxVolume, ToneWeigths); //(int)Math.Round(_Analyzer.FindNote()); // 
             if (tone >= 0 && _MaxVolume >= MinVolume)
@@ -132,7 +137,7 @@ namespace Vocaluxe.Lib.Sound.Record
         private static string _ToneToNote(int tone, bool withOctave = true)
         {
             tone += 24;
-            string[] notes = {"C", "C♯", "D", "D#", "E", "F", "F♯", "G", "G♯", "A", "A#", "B"};
+            string[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
             string result = notes[tone % 12];
             if (withOctave)
                 result += (tone / 12);
@@ -145,11 +150,12 @@ namespace Vocaluxe.Lib.Sound.Record
                 return;
             _PitchTestRun = true;
             int toneFrom = 0;
-            const int toneTo = 47; //B5
+            const int toneTo = -1; // 47; //B5
             Console.WriteLine("Testing notes " + _ToneToNote(toneFrom) + " - " + _ToneToNote(toneTo));
             byte[] data;
             byte[] data2 = new byte[2048];
             int ok = 0;
+            int tests = 0;
             double angle = 0;
             for (int distort = 0; distort < 10; distort++)
             {
@@ -167,11 +173,30 @@ namespace Vocaluxe.Lib.Sound.Record
                     if (!ToneValid)
                         CBase.Log.LogDebug("Note " + _ToneToNote(tone) + " not detected (Distortion: " + distort + ")");
                     else if (Tone != tone % 12)
+                    {
                         CBase.Log.LogDebug("Note " + _ToneToNote(tone) + " wrongly detected as " + _ToneToNote(Tone, false) + " (Distortion: " + distort + ")");
+                        CWavFile file = new CWavFile();
+                        file.Create(tone + "-" + distort + ".wav", 1, 44100, 16);
+                        file.Write16BitSamples(data, 1);
+                        file.Close();
+                    }
                     else
                         ok++;
+                    tests++;
                 }
             }
+            if (_TestFile("toneG3.wav", 19))
+                ok++;
+            tests++;
+            if (_TestFile("toneG3Miss.wav", 19))
+                ok++;
+            tests++;
+            if (_TestFile("toneG4.wav", 31))
+                ok++;
+            tests++;
+            _TestFile("whistling3.wav", "whistling3.txt", ref tests, ref ok);
+            _TestFile("sClausVoc.wav", "sClausVoc.txt", ref tests, ref ok);
+
             _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, 5), 44100, ref angle, out data);
             Stopwatch sw = new Stopwatch();
             sw.Start();
@@ -182,11 +207,106 @@ namespace Vocaluxe.Lib.Sound.Record
                 AnalyzeBuffer();
             }
             sw.Stop();
-            string msg = "Analyser: Errors: " + ((toneTo - toneFrom + 1) * 10 - ok) + "; Speed: " +
+            string msg = "Analyser: Errors: " + (tests - ok) + "/" + tests + "; Speed: " +
                          (int)(repeats / (sw.ElapsedMilliseconds / 1000.0)) + " buffers/s";
             Console.WriteLine(msg);
             MessageBox.Show(msg);
             Reset();
+        }
+
+        private struct STimedNote
+        {
+            public int Time, Note;
+        }
+
+        private void _TestFile(string fileName, string testFileName, ref int ct, ref int ok)
+        {
+            if (!File.Exists(testFileName))
+            {
+                ok = ct = 0;
+                return;
+            }
+            List<STimedNote> tones = new List<STimedNote>();
+            using (StreamReader reader = new StreamReader(testFileName))
+            {
+                String line;
+                while ((line = reader.ReadLine()) != null)
+                {
+                    int p = line.IndexOf(' ');
+                    if (p < 0)
+                        continue;
+                    STimedNote note;
+                    note.Time = int.Parse(line.Substring(0, p));
+                    note.Note = int.Parse(line.Substring(p + 1));
+                    tones.Add(note);
+                }
+            }
+            _TestFile(fileName, tones, ref ct, ref ok);
+        }
+
+        private bool _TestFile(string fileName, int tone)
+        {
+            STimedNote note;
+            note.Note = tone;
+            note.Time = 46;
+            List<STimedNote> tones = new List<STimedNote> {note};
+            int ct = 0;
+            int ok = 0;
+            _TestFile(fileName, tones, ref ct, ref ok);
+            return ok >= ct - 4;
+        }
+
+        private void _TestFile(string fileName, IList<STimedNote> tones, ref int ct, ref int ok)
+        {
+            CWavFile wavFile = new CWavFile();
+            try
+            {
+                if (!wavFile.Open(fileName))
+                    return;
+                if (wavFile.BitsPerSample != 16)
+                {
+                    wavFile.Close();
+                    return;
+                }
+                int samplesRead = 0;
+                int curTimeIndex = -1;
+                int curNote = -1;
+                const int maxSamplesPerBatch = 512;
+                while (wavFile.NumSamplesLeft / wavFile.NumChannels > maxSamplesPerBatch)
+                {
+                    byte[] samples = wavFile.GetNextSamples16BitAsBytes(maxSamplesPerBatch, 1);
+                    samplesRead += samples.Length / 2;
+                    int time = samplesRead * 1000 / wavFile.SampleRate;
+                    ProcessNewBuffer(samples);
+                    AnalyzeBuffer();
+                    while (curTimeIndex + 1 < tones.Count && time >= tones[curTimeIndex + 1].Time)
+                    {
+                        curTimeIndex++;
+                        curNote = tones[curTimeIndex].Note;
+                    }
+                    if (curNote < 0)
+                        continue;
+                    ct++;
+                    if (!ToneValid)
+                        CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms not detected");
+                    else if (ToneAbs % 12 != curNote % 12)
+                        CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms wrongly detected as " + _ToneToNote(ToneAbs));
+                    else
+                        ok++;
+                    int note2 = (int)Math.Round(_Analyzer2.FindNote());
+                    if (note2 < 0)
+                        CBase.Log.LogDebug("Note2 " + _ToneToNote(curNote) + " at " + time + "ms not detected");
+                    else if (note2 % 12 != curNote % 12)
+                        CBase.Log.LogDebug("Note2 " + _ToneToNote(curNote) + " at " + time + "ms wrongly detected as " + _ToneToNote(note2));
+                    else
+                        ok++;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Error on file " + fileName + ": " + e);
+            }
+            wavFile.Close();
         }
 
         private static short[] _GetDistort(int len, int tone, int type)

@@ -75,7 +75,11 @@ DllExport void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt){
 	if(sampleCt <= 0 || !analyzer)
 		return;
 	short* dataShort = static_cast<short*>(static_cast<void*>(data));
-	analyzer->input(dataShort, dataShort + sampleCt);
+	float* dataFloat = short2FloatArray(static_cast<short*>(static_cast<void*>(data)), sampleCt);
+	analyzer->input(dataFloat, dataFloat + sampleCt);
+	freeFloatArray(dataFloat);
+
+	//analyzer->input(dataShort, dataShort + sampleCt);
 }
 
 DllExport int PtAKF_GetNote(PtAKF* analyzer, double* maxVolume, float* weights){

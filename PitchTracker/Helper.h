@@ -4,7 +4,7 @@
 #include <cmath>
 
 float* short2FloatArray(short* in, size_t len){
-	const float maxShort = 32768.0; //maximum abs value of a short
+	const float maxShort = 32767.0;
 
 	float* result = static_cast<float*>(malloc(len * sizeof(float)));
 	float* curOut = result;
@@ -17,7 +17,7 @@ float* short2FloatArray(short* in, size_t len){
 }
 
 double* short2DoubleArray(short* in, size_t len, bool scale = true){
-	const double maxShort = 32768.0; //maximum abs value of a short
+	const double maxShort = 32767.0;
 
 	double* result = static_cast<double*>(malloc(len * sizeof(double)));
 	double* curOut = result;

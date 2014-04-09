@@ -164,6 +164,9 @@ namespace Vocaluxe.Base
         public static void LogDebug(string text)
         {
             _DebugLog.Add(String.Format("{0:HH:mm:ss.ffff}", DateTime.Now) + ":" + text);
+#if DEBUG
+            Console.WriteLine(text);
+#endif
         }
 
         public static void LogSongInfo(string text)
