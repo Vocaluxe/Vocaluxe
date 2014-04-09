@@ -71,6 +71,7 @@ namespace VocaluxeLib.Songs
                     _WriteHeaderEntry("ENCODING", _Song.Encoding.GetEncodingName());
                 _WriteHeaderEntry("CREATOR", _Song.Creator);
                 _WriteHeaderEntry("VERSION", _Song.Version);
+                _WriteHeaderEntry("LENGTH", _Song.Length);
                 _WriteHeaderEntry("SOURCE", _Song.Source);
                 if (!String.IsNullOrEmpty(_Song._Comment))
                 {

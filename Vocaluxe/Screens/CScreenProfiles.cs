@@ -330,7 +330,7 @@ namespace Vocaluxe.Screens
 
         private void _OnSaveSnapshot()
         {
-            string filename = Path.Combine(CSettings.DataPath, CSettings.FolderProfiles, "snapshot");
+            string filename = Path.Combine(CSettings.DataPath, CConfig.ProfileFolders[0], "snapshot");
             int i = 0;
             while (File.Exists(filename + i + ".png"))
                 i++;

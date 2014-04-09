@@ -1,0 +1,7 @@
+http://code.google.com/p/aforge
+
+Version: 2.2.5
+
+Files:
+AForge.Video.dll
+AForge.Video.DirectShow.dll

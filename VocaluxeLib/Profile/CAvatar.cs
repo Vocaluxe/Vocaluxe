@@ -22,36 +22,46 @@ namespace VocaluxeLib.Profile
     public class CAvatar
     {
         public int ID;
-        public string FileName = "";
-        public CTexture Texture;
+        private string _FileName = "";
+        private CTexture _Texture;
 
-        public CAvatar(int id)
+        public CTexture Texture
+        {
+            get { return _Texture; }
+        }
+        public string FileName
+        {
+            get { return _FileName; }
+        }
+
+        public static CAvatar GetAvatar(string fileName)
+        {
+            CTexture texture = CBase.Drawing.AddTexture(fileName);
+            return texture == null ? null : new CAvatar(texture, fileName);
+        }
+
+        private CAvatar(CTexture texture, string fileName, int id = -1)
         {
             ID = id;
         }
 
         public bool LoadFromFile(string fileName)
         {
-            FileName = fileName;
+            _FileName = fileName;
             return Reload();
         }
 
         public bool Reload()
         {
-            CBase.Drawing.RemoveTexture(ref Texture);
-            Texture = CBase.Drawing.AddTexture(FileName);
+            Unload();
+            _Texture = CBase.Drawing.AddTexture(_FileName);
 
-            return Texture != null;
+            return _Texture != null;
         }
 
         public void Unload()
         {
-            CBase.Drawing.RemoveTexture(ref Texture);
-        }
-
-        public string GetFileName()
-        {
-            return FileName;
+            CBase.Drawing.RemoveTexture(ref _Texture);
         }
     }
 }

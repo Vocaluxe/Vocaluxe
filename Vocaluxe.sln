@@ -9,6 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocalu
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3} = {EC5167E4-CCFB-4CEE-987C-CF816F1062A3}
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC} = {D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}
 		{5A4053F1-5AD5-441F-B254-D97A088127B6} = {5A4053F1-5AD5-441F-B254-D97A088127B6}
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A} = {54A48AF7-515C-4EDD-B395-2BFFA096050A}
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VocaluxeLib", "VocaluxeLib\VocaluxeLib.csproj", "{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}"
@@ -24,6 +25,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLib", "ClientServerLib\ClientServerLib\ServerLib.csproj", "{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebserverInitalConfig", "WebserverInitalConfig\WebserverInitalConfig.csproj", "{55F89808-4E79-4FFE-BC13-48258913F5C9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PitchTracker", "PitchTracker\PitchTracker.vcxproj", "{54A48AF7-515C-4EDD-B395-2BFFA096050A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -108,7 +111,9 @@ Global
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.DebugWin|x86.ActiveCfg = DebugWin|x86
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.DebugWin|x86.Build.0 = DebugWin|x86
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.InstallerWin|x64.ActiveCfg = ReleaseWin|x64
+		{5A4053F1-5AD5-441F-B254-D97A088127B6}.InstallerWin|x64.Build.0 = ReleaseWin|x64
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.InstallerWin|x86.ActiveCfg = ReleaseWin|x86
+		{5A4053F1-5AD5-441F-B254-D97A088127B6}.InstallerWin|x86.Build.0 = ReleaseWin|x86
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|x64
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.ReleaseLinux|x64.Build.0 = ReleaseLinux|x64
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86
@@ -126,7 +131,9 @@ Global
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugWin|x86.ActiveCfg = DebugWin|x86
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugWin|x86.Build.0 = DebugWin|x86
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x64.ActiveCfg = ReleaseWin|x64
+		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x64.Build.0 = ReleaseWin|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x86.ActiveCfg = ReleaseWin|x86
+		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x86.Build.0 = ReleaseWin|x86
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x64.Build.0 = ReleaseLinux|x64
 		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|x86
@@ -142,7 +149,9 @@ Global
 		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugWin|x86.ActiveCfg = DebugWin|Win32
 		{ED007796-367F-4142-AA55-5450C7645C2C}.DebugWin|x86.Build.0 = DebugWin|Win32
 		{ED007796-367F-4142-AA55-5450C7645C2C}.InstallerWin|x64.ActiveCfg = ReleaseWin|x64
+		{ED007796-367F-4142-AA55-5450C7645C2C}.InstallerWin|x64.Build.0 = ReleaseWin|x64
 		{ED007796-367F-4142-AA55-5450C7645C2C}.InstallerWin|x86.ActiveCfg = ReleaseWin|Win32
+		{ED007796-367F-4142-AA55-5450C7645C2C}.InstallerWin|x86.Build.0 = ReleaseWin|Win32
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseLinux|x64.ActiveCfg = ReleaseWin|x64
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseLinux|x86.ActiveCfg = ReleaseWin|x64
 		{ED007796-367F-4142-AA55-5450C7645C2C}.ReleaseWin|x64.ActiveCfg = ReleaseWin|x64
@@ -152,18 +161,23 @@ Global
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.ActiveCfg = DebugLinux|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x64.Build.0 = DebugLinux|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x86.ActiveCfg = DebugLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugLinux|x86.Build.0 = DebugLinux|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.ActiveCfg = DebugWin|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x64.Build.0 = DebugWin|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.ActiveCfg = DebugWin|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.DebugWin|x86.Build.0 = DebugWin|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x64.ActiveCfg = ReleaseWin|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x64.Build.0 = ReleaseWin|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x86.ActiveCfg = ReleaseLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.InstallerWin|x86.Build.0 = ReleaseLinux|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x64.Build.0 = ReleaseLinux|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseLinux|x86.Build.0 = ReleaseLinux|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.ActiveCfg = ReleaseWin|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x64.Build.0 = ReleaseWin|Any CPU
 		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Any CPU
+		{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}.ReleaseWin|x86.Build.0 = ReleaseWin|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x64.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x86.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x64.ActiveCfg = Debug|Any CPU
@@ -173,12 +187,33 @@ Global
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.InstallerWin|x64.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.InstallerWin|x64.Build.0 = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.InstallerWin|x86.ActiveCfg = Release|Any CPU
+		{55F89808-4E79-4FFE-BC13-48258913F5C9}.InstallerWin|x86.Build.0 = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseLinux|x64.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseLinux|x86.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x64.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x64.Build.0 = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x86.ActiveCfg = Release|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.ReleaseWin|x86.Build.0 = Release|Any CPU
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugLinux|x64.ActiveCfg = Debug|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugLinux|x64.Build.0 = Debug|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugLinux|x86.ActiveCfg = Debug|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugLinux|x86.Build.0 = Debug|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugWin|x64.ActiveCfg = Debug|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugWin|x64.Build.0 = Debug|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugWin|x86.ActiveCfg = Debug|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.DebugWin|x86.Build.0 = Debug|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.InstallerWin|x64.ActiveCfg = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.InstallerWin|x64.Build.0 = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.InstallerWin|x86.ActiveCfg = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.InstallerWin|x86.Build.0 = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseLinux|x64.ActiveCfg = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseLinux|x64.Build.0 = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseLinux|x86.ActiveCfg = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseLinux|x86.Build.0 = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x64.ActiveCfg = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x64.Build.0 = Release|x64
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x86.ActiveCfg = Release|Win32
+		{54A48AF7-515C-4EDD-B395-2BFFA096050A}.ReleaseWin|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -20,24 +20,23 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Runtime.InteropServices;
+using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using System.Runtime.ExceptionServices;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Server;
 
 namespace Vocaluxe
 {
+    class CLoadingException : Exception
+    {
+        public CLoadingException(string component)
+            : base("Failed to load " + component) {}
+    }
+
     static class CMainProgram
     {
-#if WIN
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
-#endif
-
         private static CSplashScreen _SplashScreen;
 
         [STAThread, HandleProcessCorruptedStateExceptions]
@@ -85,156 +84,172 @@ namespace Vocaluxe
 
                 if (!CProgrammHelper.CheckRequirements())
                     return;
+                CProgrammHelper.Init();
 
                 CMain.Init();
-                CSettings.CreateFolders();
                 Application.DoEvents();
 
                 // Init Language
-                CLog.StartBenchmark(0, "Init Language");
+                CLog.StartBenchmark("Init Language");
                 CLanguage.Init();
-                CLog.StopBenchmark(0, "Init Language");
+                CLog.StopBenchmark("Init Language");
 
                 Application.DoEvents();
 
                 // load config
-                CLog.StartBenchmark(0, "Init Config");
+                CLog.StartBenchmark("Init Config");
                 CConfig.LoadCommandLineParams(args);
                 CConfig.UseCommandLineParamsBefore();
                 CConfig.Init();
                 CConfig.UseCommandLineParamsAfter();
-                CLog.StopBenchmark(0, "Init Config");
+                CLog.StopBenchmark("Init Config");
+
+                // Create folders
+                CSettings.CreateFolders();
 
                 Application.DoEvents();
                 _SplashScreen = new CSplashScreen();
                 Application.DoEvents();
 
                 // Init Draw
-                CLog.StartBenchmark(0, "Init Draw");
-                CDraw.InitDraw();
-                CLog.StopBenchmark(0, "Init Draw");
+                CLog.StartBenchmark("Init Draw");
+                if (!CDraw.InitDraw())
+                    throw new CLoadingException("drawing");
+                CLog.StopBenchmark("Init Draw");
 
                 Application.DoEvents();
 
                 // Init Database
-                CLog.StartBenchmark(0, "Init Database");
-                CDataBase.Init();
-                CLog.StopBenchmark(0, "Init Database");
+                CLog.StartBenchmark("Init Database");
+                if (!CDataBase.Init())
+                    throw new CLoadingException("database");
+                CLog.StopBenchmark("Init Database");
 
                 Application.DoEvents();
 
                 // Init Playback
-                CLog.StartBenchmark(0, "Init Playback");
-                CSound.Init();
-                CLog.StopBenchmark(0, "Init Playback");
+                CLog.StartBenchmark("Init Playback");
+                if (!CSound.Init())
+                    throw new CLoadingException("playback");
+                CLog.StopBenchmark("Init Playback");
 
                 Application.DoEvents();
 
                 // Init Record
-                CLog.StartBenchmark(0, "Init Record");
-                CSound.RecordInit();
-                CLog.StopBenchmark(0, "Init Record");
+                CLog.StartBenchmark("Init Record");
+                if (!CRecord.Init())
+                    throw new CLoadingException("record");
+                CLog.StopBenchmark("Init Record");
 
                 Application.DoEvents();
 
                 //Init Webcam
-                CLog.StartBenchmark(0, "Init Webcam");
-                CWebcam.Init();
-                CLog.StopBenchmark(0, "Init Webcam");
+                CLog.StartBenchmark("Init Webcam");
+                if (!CWebcam.Init())
+                    throw new CLoadingException("webcam");
+                CLog.StopBenchmark("Init Webcam");
 
                 Application.DoEvents();
 
                 // Init Background Music
-                CLog.StartBenchmark(0, "Init Background Music");
+                CLog.StartBenchmark("Init Background Music");
                 CBackgroundMusic.Init();
-                CLog.StopBenchmark(0, "Init Background Music");
+                CLog.StopBenchmark("Init Background Music");
 
                 Application.DoEvents();
 
                 // Init Profiles
-                CLog.StartBenchmark(0, "Init Profiles");
+                CLog.StartBenchmark("Init Profiles");
                 CProfiles.Init();
-                CLog.StopBenchmark(0, "Init Profiles");
+                CLog.StopBenchmark("Init Profiles");
 
                 Application.DoEvents();
 
                 // Init Font
-                CLog.StartBenchmark(0, "Init Font");
+                CLog.StartBenchmark("Init Font");
                 CFonts.Init();
-                CLog.StopBenchmark(0, "Init Font");
+                CLog.StopBenchmark("Init Font");
 
                 Application.DoEvents();
 
                 // Init VideoDecoder
-                CLog.StartBenchmark(0, "Init Videodecoder");
-                CVideo.Init();
-                CLog.StopBenchmark(0, "Init Videodecoder");
+                CLog.StartBenchmark("Init Videodecoder");
+                if (!CVideo.Init())
+                    throw new CLoadingException("video");
+                CLog.StopBenchmark("Init Videodecoder");
 
                 Application.DoEvents();
 
                 // Load Cover
-                CLog.StartBenchmark(0, "Init Cover");
+                CLog.StartBenchmark("Init Cover");
                 CCover.Init();
-                CLog.StopBenchmark(0, "Init Cover");
+                CLog.StopBenchmark("Init Cover");
 
                 Application.DoEvents();
 
                 // Theme System
-                CLog.StartBenchmark(0, "Init Theme");
-                CTheme.InitTheme();
-                CLog.StopBenchmark(0, "Init Theme");
+                CLog.StartBenchmark("Init Theme");
+                if (!CTheme.Init())
+                    throw new CLoadingException("theme");
+                CLog.StopBenchmark("Init Theme");
 
                 Application.DoEvents();
 
                 // Init Screens
-                CLog.StartBenchmark(0, "Init Screens");
-                CGraphics.InitGraphics();
-                CLog.StopBenchmark(0, "Init Screens");
+                CLog.StartBenchmark("Init Screens");
+                CGraphics.Init();
+                CLog.StopBenchmark("Init Screens");
 
                 Application.DoEvents();
 
                 // Init Server
-                CLog.StartBenchmark(0, "Init Server");
+                CLog.StartBenchmark("Init Server");
                 CVocaluxeServer.Init();
-                CLog.StopBenchmark(0, "Init Server");
+                CLog.StopBenchmark("Init Server");
 
                 Application.DoEvents();
 
                 // Init Input
-                CLog.StartBenchmark(0, "Init Input");
+                CLog.StartBenchmark("Init Input");
                 CController.Init();
                 CController.Connect();
-                CLog.StopBenchmark(0, "Init Input");
+                CLog.StopBenchmark("Init Input");
 
                 Application.DoEvents();
 
                 // Init Game;
-                CLog.StartBenchmark(0, "Init Game");
+                CLog.StartBenchmark("Init Game");
                 CGame.Init();
                 CProfiles.Update();
                 CConfig.UsePlayers();
-                CLog.StopBenchmark(0, "Init Game");
+                CLog.StopBenchmark("Init Game");
 
                 Application.DoEvents();
 
                 // Init Party Modes;
-                CLog.StartBenchmark(0, "Init Party Modes");
+                CLog.StartBenchmark("Init Party Modes");
                 CParty.Init();
-                CLog.StopBenchmark(0, "Init Party Modes");
+                CLog.StopBenchmark("Init Party Modes");
 
                 Application.DoEvents();
+                //Only reasonable point to call GC.Collect() because initialization may cause lots of garbage
+                //Rely on GC doing its job afterwards and call Dispose methods where appropriate
+                GC.Collect();
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error on start up: " + e.Message + e.StackTrace);
+                MessageBox.Show("Error on start up: " + e.Message);
                 CLog.LogError("Error on start up: " + e);
-                _SplashScreen.Close();
+                if (_SplashScreen != null)
+                    _SplashScreen.Close();
                 _CloseProgram();
+                return;
             }
             Application.DoEvents();
 
             // Start Main Loop
-            _SplashScreen.Close();
+            if (_SplashScreen != null)
+                _SplashScreen.Close();
             CVocaluxeServer.Start();
 
             CDraw.MainLoop();
@@ -247,11 +262,11 @@ namespace Vocaluxe
             {
                 CVocaluxeServer.Close();
                 CController.Close();
-                CSound.RecordCloseAll();
-                CSound.CloseAllStreams();
-                CVideo.CloseAll();
+                CRecord.Close();
+                CSound.Close();
+                CVideo.Close();
                 CDraw.Unload();
-                CDataBase.CloseConnections();
+                CDataBase.Close();
                 CWebcam.Close();
                 CLog.CloseAll();
             }
@@ -332,7 +347,7 @@ namespace Vocaluxe
                 {
                     IntPtr wnd = process.MainWindowHandle;
                     if (wnd != IntPtr.Zero)
-                        SetForegroundWindow(wnd);
+                        COSFunctions.SetForegroundWindow(wnd);
                 }
 #endif
                 return false;

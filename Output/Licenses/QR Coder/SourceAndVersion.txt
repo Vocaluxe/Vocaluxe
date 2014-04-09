@@ -1,0 +1,6 @@
+https://github.com/codebude/QRCoder/
+
+Version: master 19.01.2014
+
+Files:
+QRCoder.dll

@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Quelldateien">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Headerdateien">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Ressourcendateien">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Quelldateien\performous">
+      <UniqueIdentifier>{a47c9d33-78d2-453d-bb59-e5724cd85f67}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\performous">
+      <UniqueIdentifier>{4c72400a-ff2c-4842-8c20-54deb5df606d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\performous\libda">
+      <UniqueIdentifier>{d71782a0-47fc-4fe1-8569-0a0ce8fe9b45}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="PitchWrapper.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="compatibility.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="performous\pitch.cc">
+      <Filter>Quelldateien\performous</Filter>
+    </ClCompile>
+    <ClCompile Include="ptAKF.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="compatibility.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="PitchWrapper.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Helper.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="performous\libda\fft.hpp">
+      <Filter>Headerdateien\performous\libda</Filter>
+    </ClInclude>
+    <ClInclude Include="performous\libda\sample.hpp">
+      <Filter>Headerdateien\performous\libda</Filter>
+    </ClInclude>
+    <ClInclude Include="ptAKF.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="performous\pitch.hh">
+      <Filter>Headerdateien\performous</Filter>
+    </None>
+    <None Include="performous\util.hh">
+      <Filter>Headerdateien\performous</Filter>
+    </None>
+  </ItemGroup>
+</Project>

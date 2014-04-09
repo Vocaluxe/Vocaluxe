@@ -115,7 +115,7 @@ namespace Vocaluxe.Screens
                     else
                     {
                         CConfig.BackgroundMusicVolume = _SelectSlides[_SelectSlideVolume].Selection * 5;
-                        CBackgroundMusic.ApplyVolume();
+                        CBackgroundMusic.SetVolume(CConfig.BackgroundMusicVolume);
                     }
                     break;
 
@@ -125,7 +125,7 @@ namespace Vocaluxe.Screens
 
                 default:
                     CConfig.BackgroundMusicVolume = _SelectSlides[_SelectSlideVolume].Selection * 5;
-                    CBackgroundMusic.ApplyVolume();
+                    CBackgroundMusic.SetVolume(CConfig.BackgroundMusicVolume);
                     break;
             }
             CConfig.SaveConfig();

@@ -36,10 +36,8 @@ namespace Vocaluxe.Base
     static class CCover
     {
         private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
-        private static readonly Dictionary<string, CTexture> _Cover = new Dictionary<string, CTexture>();
+        private static readonly Dictionary<string, CTexture> _Covers = new Dictionary<string, CTexture>();
         private static readonly List<SCoverTheme> _CoverThemes = new List<SCoverTheme>();
-
-        private static readonly Object _MutexCover = new Object();
 
         public static CTexture NoCover { get; private set; }
 
@@ -87,24 +85,22 @@ namespace Vocaluxe.Base
         /// </summary>
         public static CTexture Cover(string name)
         {
-            lock (_MutexCover)
+            lock (_Covers)
             {
                 if (!_CoverExists(name))
                     return NoCover;
 
-                return _Cover[name];
+                return _Covers[name];
             }
         }
 
         /// <summary>
         ///     Returns true if a cover with the given name exists.
+        ///     MUST HOLD _Covers lock at this point
         /// </summary>
         private static bool _CoverExists(string name)
         {
-            lock (_MutexCover)
-            {
-                return _Cover.ContainsKey(name);
-            }
+            return _Covers.ContainsKey(name);
         }
 
         /// <summary>
@@ -112,14 +108,15 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void ReloadCover()
         {
-            List<string> keys = _Cover.Keys.ToList();
-
-            foreach (string key in keys)
+            lock (_Covers)
             {
-                CTexture texture = _Cover[key];
-                CDraw.RemoveTexture(ref texture);
+                foreach (string key in _Covers.Keys.ToList())
+                {
+                    CTexture texture = _Covers[key];
+                    CDraw.RemoveTexture(ref texture);
+                }
+                _Covers.Clear();
             }
-            _Cover.Clear();
             _LoadCover(CConfig.CoverTheme);
         }
 
@@ -178,12 +175,16 @@ namespace Vocaluxe.Base
                 return;
 
             var ignoreList = new List<string>();
+
+            string coverPath = Path.Combine(CSettings.FolderCover, coverTheme.Folder);
+            List<string> files = CHelper.ListImageFiles(coverPath, true, true);
+
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
-            if (xmlReader != null)
+            lock (_Covers)
             {
-                lock (_MutexCover)
+                if (xmlReader != null)
                 {
-                    _Cover.Clear();
+                    _Covers.Clear();
                     List<string> cover = xmlReader.GetValues("Cover");
                     foreach (string coverName in cover)
                     {
@@ -199,38 +200,36 @@ namespace Vocaluxe.Base
                         ignoreList.Add(Path.GetFileName(coverFilePath));
 
                         if (name == "NoCover")
-                            NoCover = _Cover[name];
+                            NoCover = _Covers[name];
                     }
                 }
-            }
-
-            var files = new List<string>();
-
-            string coverPath = Path.Combine(CSettings.FolderCover, coverTheme.Folder);
-            files.AddRange(CHelper.ListFiles(coverPath, "*.png", true, true));
-            files.AddRange(CHelper.ListFiles(coverPath, "*.jpg", true, true));
-            files.AddRange(CHelper.ListFiles(coverPath, "*.jpeg", true, true));
-            files.AddRange(CHelper.ListFiles(coverPath, "*.bmp", true, true));
 
 
-            foreach (string file in files)
-            {
-                if (!ignoreList.Contains(Path.GetFileName(file)))
-                    _AddCover(Path.GetFileNameWithoutExtension(file), file);
+                foreach (string file in files)
+                {
+                    if (!ignoreList.Contains(Path.GetFileName(file)))
+                        _AddCover(Path.GetFileNameWithoutExtension(file), file);
+                }
             }
         }
 
+        /// <summary>
+        /// Ads a cover with the given name if it does not exist yet
+        /// MUST HOLD _Covers lock at this point
+        /// </summary>
+        /// <param name="name">Name of the cover</param>
+        /// <param name="file">Filename of image file</param>
         private static void _AddCover(string name, string file)
         {
             CTexture texture = CDraw.AddTexture(file);
 
             if (!_CoverExists(name))
-                _Cover.Add(name, texture);
+                _Covers.Add(name, texture);
             else
             {
-                CTexture tex = _Cover[name];
+                CTexture tex = _Covers[name];
                 CDraw.RemoveTexture(ref tex);
-                _Cover[name] = texture;
+                _Covers[name] = texture;
             }
         }
     }

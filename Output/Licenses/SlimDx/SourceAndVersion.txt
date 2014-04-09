@@ -1,0 +1,7 @@
+http://slimdx.org/download.php
+
+SVN r2171 (Feb 4, 2012) -> Equal to Jan 12 release but recompiled with VS2012
+
+Files:
+x86/SlimDx.dll
+x64/SlimDx.dll

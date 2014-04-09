@@ -457,7 +457,7 @@ namespace VocaluxeLib.Menu
 
         public void Draw(bool forceDraw = false)
         {
-            if (!forceDraw && !Visible && CBase.Settings.GetGameState() != EGameState.EditTheme)
+            if (!forceDraw && !Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
                 return;
 
             // Update Text
@@ -474,7 +474,7 @@ namespace VocaluxeLib.Menu
             if (ReflectionHeight > 0)
                 CBase.Fonts.DrawTextReflection(_Text, Rect.H, Rect.X, Rect.Y, Z, color, ReflectionSpace, ReflectionHeight);
 
-            if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
+            if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
                 CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(Rect.X, Rect.Y, Rect.W, Rect.H, Z));
         }
 
@@ -493,7 +493,7 @@ namespace VocaluxeLib.Menu
                 // TODO
             }
 
-            if (Selected && (CBase.Settings.GetGameState() == EGameState.EditTheme))
+            if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
                 CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(X, Y, Rect.W, Rect.H, Z));
         }
 

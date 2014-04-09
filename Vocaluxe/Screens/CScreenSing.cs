@@ -556,7 +556,7 @@ namespace Vocaluxe.Screens
         {
             if (_CurrentStream > -1)
                 CSound.FadeAndClose(_CurrentStream, 0f, 0.5f);
-            CSound.RecordStop();
+            CRecord.Stop();
             if (_CurrentVideo != -1)
             {
                 CVideo.Close(_CurrentVideo);
@@ -577,7 +577,6 @@ namespace Vocaluxe.Screens
             _Texts[_TextSongName].Text = String.Empty;
             _Texts[_TextDuetName1].Text = String.Empty;
             _Texts[_TextDuetName2].Text = String.Empty;
-            GC.Collect();
         }
 
         private void _LoadNextSong()
@@ -639,7 +638,6 @@ namespace Vocaluxe.Screens
                 _SlideShow = GetNewBackground();
                 foreach (string bgFile in song.BackgroundFileNames)
                     _SlideShow.AddSlideShowTexture(Path.Combine(song.Folder, bgFile));
-                _Background = null;
             }
             else if (song.BackgroundFileNames.Count == 1)
             {
@@ -738,7 +736,7 @@ namespace Vocaluxe.Screens
         {
             _PrepareTimeLine();
             CSound.Play(_CurrentStream);
-            CSound.RecordStart();
+            CRecord.Start();
             if (_Webcam)
                 CWebcam.Start();
         }

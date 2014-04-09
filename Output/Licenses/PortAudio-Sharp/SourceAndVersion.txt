@@ -1,0 +1,7 @@
+https://code.google.com/p/portaudiosharp/
+
+Version: rev44 (Feb 26, 2012)
+
+Files:
+PortAudioSharp.dll
+PortAudioSharp.dll.config

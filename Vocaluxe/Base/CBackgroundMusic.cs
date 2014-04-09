@@ -17,8 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using VocaluxeLib;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Draw;
@@ -27,25 +27,28 @@ namespace Vocaluxe.Base
 {
     static class CBackgroundMusic
     {
-        private static int _CurrentMusicStream = -1;
-        private static int _PreviousMusicIndex;
-        private static CPlaylistElement _CurrentPlaylistElement = new CPlaylistElement();
+        private static bool _Initialized;
 
-        private static readonly List<CPlaylistElement> _AllFileNames = new List<CPlaylistElement>();
-        private static readonly List<CPlaylistElement> _NotPlayedFileNames = new List<CPlaylistElement>();
-        private static readonly List<CPlaylistElement> _BGMusicFileNames = new List<CPlaylistElement>();
-        private static readonly List<CPlaylistElement> _PreviousFileNames = new List<CPlaylistElement>();
+        private static bool _OwnSongsAvailable;
+        private static EBackgroundMusicSource _MusicSource;
+        private static float _Volume;
+        private static bool _VideoEnabled;
+
+        private static CPlaylistElement _CurrentPlaylistElement; //Currently played music
+        private static int _CurrentMusicStream = -1; //Current active music stream
+        private static int _PreviousMusicIndex; //Index of _CurrentPlaylistElement in _PreviousFiles (kept for performance)
+
+        private static readonly List<CPlaylistElement> _BGMusicFiles = new List<CPlaylistElement>(); //Background music files
+        private static readonly List<CPlaylistElement> _NotPlayedFiles = new List<CPlaylistElement>(); //Not played files
+        private static readonly List<CPlaylistElement> _PreviousFiles = new List<CPlaylistElement>(); //Played files
 
         private static int _Video = -1;
         private static CTexture _CurrentVideoTexture;
         private static CFading _VideoFading;
-        private static bool _VideoEnabled;
 
         private static bool _OwnMusicAdded;
         private static bool _BackgroundMusicAdded;
         private static bool _Disabled;
-        private static bool _CanSing;
-        private static bool _RepeatSong;
 
         public static bool VideoEnabled
         {
@@ -54,16 +57,19 @@ namespace Vocaluxe.Base
             {
                 if (_VideoEnabled == value)
                     return;
-                ToggleVideo();
                 _VideoEnabled = value;
+                if (_VideoEnabled)
+                    _LoadVideo();
+                else if (_Video != -1)
+                {
+                    CVideo.Close(_Video);
+                    CDraw.RemoveTexture(ref _CurrentVideoTexture);
+                    _Video = -1;
+                }
             }
         }
 
-        public static bool CanSing
-        {
-            get { return _CanSing; }
-            set { _CanSing = value; }
-        }
+        public static bool CanSing { get; private set; }
 
         public static bool Disabled
         {
@@ -78,20 +84,16 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static bool RepeatSong
-        {
-            get { return _RepeatSong; }
-            set { _RepeatSong = value; }
-        }
+        public static bool RepeatSong { get; set; }
 
         public static int SongID
         {
-            get { return _CurrentPlaylistElement.SongID; }
+            get { return _CurrentPlaylistElement == null ? -1 : _CurrentPlaylistElement.SongID; }
         }
 
         public static bool SongHasVideo
         {
-            get { return File.Exists(_CurrentPlaylistElement.VideoFilePath); }
+            get { return _CurrentPlaylistElement != null && File.Exists(_CurrentPlaylistElement.VideoFilePath); }
         }
 
         public static bool IsPlaying { get; private set; }
@@ -100,6 +102,8 @@ namespace Vocaluxe.Base
         {
             get
             {
+                if (_CurrentPlaylistElement == null)
+                    return "";
                 if (_CurrentPlaylistElement.Artist != "" && _CurrentPlaylistElement.Title != "")
                     return _CurrentPlaylistElement.Artist + " - " + _CurrentPlaylistElement.Title;
                 return Path.GetFileNameWithoutExtension(_CurrentPlaylistElement.MusicFilePath);
@@ -108,50 +112,63 @@ namespace Vocaluxe.Base
 
         public static CTexture Cover
         {
-            get { return _CurrentPlaylistElement.Cover; }
+            get { return _CurrentPlaylistElement == null ? CCover.NoCover : _CurrentPlaylistElement.Cover; }
         }
 
+        //Use this to set whether own songs are available for access
+        public static bool OwnSongsAvailable
+        {
+            get { return _OwnSongsAvailable; }
+            set
+            {
+                _OwnSongsAvailable = value;
+                if (_OwnSongsAvailable && _MusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
+                    _AddOwnMusic();
+            }
+        }
+
+        /// <summary>
+        /// Initializes the background music with values from config
+        /// Has to be called before any other method is used
+        /// </summary>
         public static void Init()
         {
-            var templist = new List<string>();
+            if (_Initialized)
+                return;
 
-            foreach (string ending in CSettings.MusicFileTypes)
-                templist.AddRange(CHelper.ListFiles(CSettings.FolderBackgroundMusic, ending, true, true));
+            List<string> soundFiles = CHelper.ListSoundFiles(CSettings.FolderBackgroundMusic, true, true);
 
-            foreach (string path in templist)
-                _BGMusicFileNames.Add(new CPlaylistElement(path));
+            foreach (string path in soundFiles)
+                _BGMusicFiles.Add(new CPlaylistElement(path));
+            //Set a default to have a consistent starting point, use SetMusicSource afterwards
+            _MusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
+            _AddBackgroundMusic();
 
-            if (CConfig.BackgroundMusicSource != EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC)
-                AddBackgroundMusic();
-
-            _VideoEnabled = (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON);
-
+            _PreviousMusicIndex = -1;
             IsPlaying = false;
+            _Volume = CConfig.BackgroundMusicVolume;
+            _VideoEnabled = (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON);
+            SetMusicSource(CConfig.BackgroundMusicSource);
+            _Initialized = true;
         }
 
         public static void Play()
         {
-            if (IsPlaying)
+            if (IsPlaying || CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
                 return;
 
-            if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+            if (_CurrentMusicStream != -1)
             {
-                if (_AllFileNames.Count > 0)
-                {
-                    if (_CurrentMusicStream != -1)
-                    {
-                        CSound.Fade(_CurrentMusicStream, 100f, CSettings.BackgroundMusicFadeTime);
-                        CSound.Play(_CurrentMusicStream);
-                        if (_VideoEnabled && _Video != -1)
-                            CVideo.Resume(_Video);
-                        IsPlaying = true;
-                    }
-                    else
-                        Next();
-
-                    _CanSing = !_IsBackgroundFile(_CurrentPlaylistElement);
-                }
+                //Resume
+                CSound.SetStreamVolume(_CurrentMusicStream, 0f);
+                CSound.Fade(_CurrentMusicStream, _Volume, CSettings.BackgroundMusicFadeTime);
+                CSound.Play(_CurrentMusicStream);
+                if (_VideoEnabled && _Video != -1)
+                    CVideo.Resume(_Video);
+                IsPlaying = true;
             }
+            else
+                Next();
         }
 
         public static void Stop()
@@ -159,7 +176,7 @@ namespace Vocaluxe.Base
             if (!IsPlaying)
                 return;
 
-            if (_VideoEnabled && _Video != -1)
+            if (_Video != -1)
             {
                 CVideo.Close(_Video);
                 CDraw.RemoveTexture(ref _CurrentVideoTexture);
@@ -168,7 +185,7 @@ namespace Vocaluxe.Base
             CSound.FadeAndClose(_CurrentMusicStream, 0f, CSettings.BackgroundMusicFadeTime);
             _CurrentMusicStream = -1;
 
-            _CurrentPlaylistElement = new CPlaylistElement();
+            _CurrentPlaylistElement = null;
             IsPlaying = false;
         }
 
@@ -177,7 +194,7 @@ namespace Vocaluxe.Base
             if (!IsPlaying)
                 return;
 
-            if (_VideoEnabled && _Video != -1)
+            if (_Video != -1)
             {
                 CVideo.Pause(_Video);
                 CVideo.Skip(_Video, CSound.GetPosition(_CurrentMusicStream) + CSettings.BackgroundMusicFadeTime, _CurrentPlaylistElement.VideoGap);
@@ -186,277 +203,204 @@ namespace Vocaluxe.Base
             IsPlaying = false;
         }
 
-        public static void Update()
-        {
-            if (_AllFileNames.Count > 0 && _CurrentMusicStream != -1)
-            {
-                float timeToPlay;
-                if (Math.Abs(_CurrentPlaylistElement.Finish) < 0.001) //No End-Tag defined
-                    timeToPlay = CSound.GetLength(_CurrentMusicStream) - CSound.GetPosition(_CurrentMusicStream);
-                else //End-Tag found
-                    timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
-
-                bool finished = CSound.IsFinished(_CurrentMusicStream);
-                if (IsPlaying && ((timeToPlay <= CSettings.BackgroundMusicFadeTime && timeToPlay > 0) || finished))
-                {
-                    if (_RepeatSong)
-                    {
-                        //Seek to #Start-Tag, if found
-                        if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                            CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
-                        else
-                            CSound.SetPosition(_CurrentMusicStream, 0);
-                        if (_VideoEnabled && _Video != -1)
-                        {
-                            if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                                CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
-                            else
-                                CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
-                        }
-                    }
-                    else
-                        Next();
-                }
-            }
-        }
-
         public static void Next()
         {
-            if (_AllFileNames.Count > 0)
+            Stop(); //stop last song if any
+            if (_PreviousMusicIndex < _PreviousFiles.Count - 2)
             {
-                if (_PreviousMusicIndex == _PreviousFileNames.Count - 1 || _PreviousFileNames.Count == 0)
-                {
-                    //We are not currently in the previous list
-                    Stop();
-                    if (_NotPlayedFileNames.Count == 0)
-                        _NotPlayedFileNames.AddRange(_AllFileNames);
-
-                    _CurrentPlaylistElement = _NotPlayedFileNames[CGame.Rand.Next(_NotPlayedFileNames.Count)];
-                    _NotPlayedFileNames.Remove(_CurrentPlaylistElement);
-
-                    _PreviousFileNames.Add(_CurrentPlaylistElement);
-                    _PreviousMusicIndex = _PreviousFileNames.Count - 1;
-                }
-                else if (_PreviousFileNames.Count > 0)
-                {
-                    //We are in the previous list
-                    Stop();
-                    _PreviousMusicIndex++;
-
-                    _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
-                }
-                _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
-                CSound.SetStreamVolumeMax(_CurrentMusicStream, CConfig.BackgroundMusicVolume);
-
-                //Seek to #Start-Tag, if found
-                if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                    CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
-
-                if (_VideoEnabled)
-                    _LoadVideo();
-                CSound.SetStreamVolume(_CurrentMusicStream, 0f);
-                Play();
+                //We are in the previous list and next element exists
+                _PreviousMusicIndex++;
+                _CurrentPlaylistElement = _PreviousFiles[_PreviousMusicIndex];
             }
             else
-                Stop();
+            {
+                //We are not in the previous list (anymore)
+                if (_NotPlayedFiles.Count == 0)
+                {
+                    if (_PreviousFiles.Count == 0)
+                        return; //No songs to play
+                    _NotPlayedFiles.AddRange(_PreviousFiles);
+                }
+
+                _CurrentPlaylistElement = _NotPlayedFiles[CGame.Rand.Next(_NotPlayedFiles.Count)];
+                _NotPlayedFiles.Remove(_CurrentPlaylistElement);
+
+                _PreviousFiles.Add(_CurrentPlaylistElement);
+                _PreviousMusicIndex = _PreviousFiles.Count - 1;
+            }
+            _StartSong();
+            CanSing = !_IsBackgroundFile(_CurrentPlaylistElement);
         }
 
         public static void Previous()
         {
-            if (_PreviousFileNames.Count > 0 && _PreviousMusicIndex >= 0)
+            if (_PreviousMusicIndex < 0)
+                return;
+            Debug.Assert(_CurrentMusicStream != -1 && _CurrentPlaylistElement != null);
+            if (CSound.GetPosition(_CurrentMusicStream) <= 1.5f && _PreviousMusicIndex > 0)
             {
-                if (CSound.GetPosition(_CurrentMusicStream) >= 1.5f)
-                {
-                    //Seek to #Start-Tag, if found
-                    if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                        CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
-                    else
-                        CSound.SetPosition(_CurrentMusicStream, 0);
-                    if (_VideoEnabled && _Video != -1)
-                    {
-                        if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                            CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
-                        else
-                            CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
-                    }
-                }
-                else
-                {
-                    Stop();
-                    _PreviousMusicIndex--;
-                    if (_PreviousMusicIndex < 0)
-                        _PreviousMusicIndex = 0; //No previous songs left, so play the first
+                Stop(); //stop last song
+                _PreviousMusicIndex--;
 
-                    _CurrentPlaylistElement = _PreviousFileNames[_PreviousMusicIndex];
-
-                    _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
-                    CSound.SetStreamVolumeMax(_CurrentMusicStream, CConfig.BackgroundMusicVolume);
-                    if (_VideoEnabled)
-                        _LoadVideo();
-                    CSound.SetStreamVolume(_CurrentMusicStream, 0f);
-                    Play();
-                }
+                _CurrentPlaylistElement = _PreviousFiles[_PreviousMusicIndex];
+                CanSing = !_IsBackgroundFile(_CurrentPlaylistElement);
             }
-            else if (_CurrentMusicStream != -1)
+            _StartSong();
+        }
+
+        public static void Update()
+        {
+            if (!IsPlaying)
+                return;
+            Debug.Assert(_CurrentMusicStream != -1 && _CurrentPlaylistElement != null);
+
+            float timeToPlay;
+            if (Math.Abs(_CurrentPlaylistElement.Finish) < 0.001) //No End-Tag defined
+                timeToPlay = CSound.GetLength(_CurrentMusicStream) - CSound.GetPosition(_CurrentMusicStream);
+            else //End-Tag found
+                timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
+
+            bool finished = CSound.IsFinished(_CurrentMusicStream);
+            if (timeToPlay <= CSettings.BackgroundMusicFadeTime || finished)
             {
-                //Seek to #Start-Tag, if found
-                if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                    CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
+                if (RepeatSong)
+                    _StartSong();
                 else
-                    CSound.SetPosition(_CurrentMusicStream, 0);
-                if (_VideoEnabled && _Video != -1)
+                    Next();
+            }
+        }
+
+        public static CTexture GetVideoTexture()
+        {
+            if (_Video == -1)
+                return null;
+            float vtime;
+            if (CVideo.GetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), out vtime))
+            {
+                if (_VideoFading != null)
+                {
+                    bool finished;
+                    _CurrentVideoTexture.Color.A = _VideoFading.GetValue(out finished);
+                    if (finished)
+                        _VideoFading = null;
+                }
+                return _CurrentVideoTexture;
+            }
+            return null;
+        }
+
+        public static void SetMusicSource(EBackgroundMusicSource source)
+        {
+            if (_MusicSource == source)
+                return;
+            _MusicSource = source;
+            switch (_MusicSource)
+            {
+                case EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC:
+                    _AddBackgroundMusic();
+                    _RemoveOwnMusic();
+                    break;
+
+                case EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC:
+                    _AddOwnMusic();
+                    _RemoveBackgroundMusic();
+                    break;
+                case EBackgroundMusicSource.TR_CONFIG_OWN_MUSIC:
+                    _AddBackgroundMusic();
+                    _AddOwnMusic();
+                    break;
+            }
+        }
+
+        public static void SetVolume(float volume)
+        {
+            _Volume = volume;
+            if (_CurrentMusicStream >= 0)
+                CSound.SetStreamVolume(_CurrentMusicStream, _Volume);
+        }
+
+        /// <summary>
+        /// (Re-)Starts the _CurrentPlaylistElement
+        /// </summary>
+        private static void _StartSong()
+        {
+            Debug.Assert(_CurrentPlaylistElement != null);
+            //If we have an active stream, reuse it
+            if (_CurrentMusicStream < 0)
+            {
+                //otherwhise load
+                _CurrentMusicStream = CSound.Load(_CurrentPlaylistElement.MusicFilePath);
+                if (_CurrentMusicStream < 0)
+                    return;
+                CSound.SetStreamVolume(_CurrentMusicStream, 0f);
+                CSound.Fade(_CurrentMusicStream, _Volume, CSettings.BackgroundMusicFadeTime);
+            }
+            //Seek to #Start-Tag, if found
+            if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                CSound.SetPosition(_CurrentMusicStream, _CurrentPlaylistElement.Start);
+
+            if (_VideoEnabled)
+            {
+                if (_Video != -1)
                 {
                     if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                        CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
+                        CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap + _CurrentPlaylistElement.Start);
                     else
                         CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
                 }
+                else
+                    _LoadVideo();
             }
         }
 
-        public static void ApplyVolume()
+        private static void _AddOwnMusic()
         {
-            CSound.SetStreamVolumeMax(_CurrentMusicStream, CConfig.BackgroundMusicVolume);
-        }
-
-        public static void AddOwnMusic()
-        {
-            if (!_OwnMusicAdded)
-            {
-                foreach (CSong song in CSongs.AllSongs)
-                {
-                    _AllFileNames.Add(new CPlaylistElement(song));
-                    _NotPlayedFileNames.Add(new CPlaylistElement(song));
-                }
-            }
+            if (_OwnMusicAdded || !_OwnSongsAvailable)
+                return;
+            foreach (CSong song in CSongs.AllSongs)
+                _NotPlayedFiles.Add(new CPlaylistElement(song));
             _OwnMusicAdded = true;
         }
 
-        public static void RemoveOwnMusic()
+        private static void _RemoveOwnMusic()
         {
-            _AllFileNames.Clear();
-            _NotPlayedFileNames.Clear();
+            if (!_OwnMusicAdded)
+                return;
+            _NotPlayedFiles.RemoveAll(el => el.SongID >= 0);
+            _PreviousFiles.RemoveAll(el => el.SongID >= 0);
+            _PreviousMusicIndex = _PreviousFiles.IndexOf(_CurrentPlaylistElement);
 
-            if (_BackgroundMusicAdded)
-            {
-                _AllFileNames.AddRange(_BGMusicFileNames);
-                _NotPlayedFileNames.AddRange(_BGMusicFileNames);
-            }
-
-            if (IsPlaying && !_IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
+            if (IsPlaying && !_IsBackgroundFile(_CurrentPlaylistElement))
                 Next();
 
             _OwnMusicAdded = false;
         }
 
-        public static void AddBackgroundMusic()
-        {
-            if (!_BackgroundMusicAdded)
-            {
-                _AllFileNames.AddRange(_BGMusicFileNames);
-                _NotPlayedFileNames.AddRange(_BGMusicFileNames);
-                _BackgroundMusicAdded = true;
-            }
-        }
-
-        public static void RemoveBackgroundMusic()
+        private static void _AddBackgroundMusic()
         {
             if (_BackgroundMusicAdded)
-            {
-                _AllFileNames.Clear();
-                _OwnMusicAdded = false;
-                AddOwnMusic();
-                _BackgroundMusicAdded = false;
-
-                if (IsPlaying && _IsBackgroundFile(_CurrentPlaylistElement) || _AllFileNames.Count == 0)
-                    Next();
-            }
+                return;
+            _NotPlayedFiles.AddRange(_BGMusicFiles);
+            _BackgroundMusicAdded = true;
         }
 
-        public static void CheckAndApplyConfig(EOffOn newOnOff, EBackgroundMusicSource newSource, float newVolume)
+        private static void _RemoveBackgroundMusic()
         {
-            if (CConfig.BackgroundMusicSource != newSource || (newOnOff == EOffOn.TR_CONFIG_ON && !_OwnMusicAdded && !_BackgroundMusicAdded))
-            {
-                CConfig.BackgroundMusicSource = newSource;
+            if (!_BackgroundMusicAdded)
+                return;
+            _NotPlayedFiles.RemoveAll(el => el.SongID < 0);
+            _PreviousFiles.RemoveAll(el => el.SongID < 0);
+            _PreviousMusicIndex = _PreviousFiles.IndexOf(_CurrentPlaylistElement);
 
-                switch (newSource)
-                {
-                    case EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC:
-                        if (!_BackgroundMusicAdded)
-                            AddBackgroundMusic();
+            if (IsPlaying && _IsBackgroundFile(_CurrentPlaylistElement))
+                Next();
 
-                        RemoveOwnMusic();
-                        break;
-
-                    case EBackgroundMusicSource.TR_CONFIG_ONLY_OWN_MUSIC:
-                        if (!_OwnMusicAdded)
-                            AddOwnMusic();
-
-                        RemoveBackgroundMusic();
-                        break;
-                    case EBackgroundMusicSource.TR_CONFIG_OWN_MUSIC:
-                        if (!_BackgroundMusicAdded)
-                            AddBackgroundMusic();
-
-                        if (!_OwnMusicAdded)
-                            AddOwnMusic();
-                        break;
-                }
-            }
-
-            if (CConfig.BackgroundMusic != newOnOff)
-            {
-                CConfig.BackgroundMusic = newOnOff;
-                if (newOnOff == EOffOn.TR_CONFIG_ON)
-                    Play();
-                else
-                    Pause();
-            }
-
-            if (Math.Abs(CConfig.BackgroundMusicVolume - newVolume) > 0.01)
-            {
-                CConfig.BackgroundMusicVolume = (int)newVolume;
-                ApplyVolume();
-            }
-
-            CConfig.SaveConfig();
-        }
-
-        public static void ToggleVideo()
-        {
-            if (_Video != -1)
-            {
-                CVideo.Close(_Video);
-                CDraw.RemoveTexture(ref _CurrentVideoTexture);
-                _Video = -1;
-            }
-            else
-                _LoadVideo();
-        }
-
-        public static CTexture GetVideoTexture()
-        {
-            if (_Video != -1)
-            {
-                float vtime;
-                if (CVideo.GetFrame(_Video, ref _CurrentVideoTexture, CSound.GetPosition(_CurrentMusicStream), out vtime))
-                {
-                    if (_VideoFading != null)
-                    {
-                        bool finished;
-                        _CurrentVideoTexture.Color.A = _VideoFading.GetValue(out finished);
-                        if (finished)
-                            _VideoFading = null;
-                    }
-                    return _CurrentVideoTexture;
-                }
-            }
-            return null;
+            _BackgroundMusicAdded = false;
         }
 
         private static bool _IsBackgroundFile(CPlaylistElement element)
         {
-            return _BGMusicFileNames.Any(elements => elements.MusicFilePath == element.MusicFilePath);
+            return _BGMusicFiles.Contains(element);
         }
 
         private static void _LoadVideo()
@@ -464,134 +408,11 @@ namespace Vocaluxe.Base
             if (_Video != -1 || String.IsNullOrEmpty(_CurrentPlaylistElement.VideoFilePath))
                 return;
             _Video = CVideo.Load(_CurrentPlaylistElement.VideoFilePath);
-            if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                CVideo.Skip(_Video, _CurrentPlaylistElement.Start, _CurrentPlaylistElement.VideoGap);
+            if (CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap + _CurrentPlaylistElement.Start); //Use gap, otherwhise we will overwrite position in GetVideoTexture
             else
                 CVideo.Skip(_Video, 0f, _CurrentPlaylistElement.VideoGap);
             _VideoFading = new CFading(0f, 1f, 3f);
-        }
-    }
-
-    class CPlaylistElement
-    {
-        private readonly CSong _Song;
-
-        private readonly int _SongID;
-        public int SongID
-        {
-            get { return _SongID; }
-        }
-
-        private string _MusicFilePath = String.Empty;
-
-        public string MusicFilePath
-        {
-            get
-            {
-                if (_Song != null)
-                    return _Song.GetMP3();
-
-                return _MusicFilePath;
-            }
-
-            set { _MusicFilePath = value; }
-        }
-
-        public string VideoFilePath
-        {
-            get
-            {
-                if (_Song != null)
-                    return _Song.GetVideo();
-
-                return string.Empty;
-            }
-        }
-
-        public string Title
-        {
-            get
-            {
-                if (_Song != null)
-                    return _Song.Title;
-
-                return "";
-            }
-        }
-
-        public string Artist
-        {
-            get
-            {
-                if (_Song != null)
-                    return _Song.Artist;
-
-                return "";
-            }
-        }
-
-        public float Start
-        {
-            get
-            {
-                if (_Song != null)
-                    return _Song.Start;
-
-                return 0f;
-            }
-        }
-
-        public float Finish
-        {
-            get
-            {
-                if (_Song != null)
-                    return _Song.Finish;
-
-                return 0f;
-            }
-        }
-
-        public CTexture Cover
-        {
-            get
-            {
-                if (_Song != null)
-                    return _Song.CoverTextureSmall;
-
-                return CCover.NoCover;
-            }
-        }
-
-        public float VideoGap
-        {
-            get
-            {
-                if (_Song != null)
-                    return _Song.VideoGap;
-
-                return 0;
-            }
-        }
-
-        public CPlaylistElement(CSong song)
-        {
-            MusicFilePath = string.Empty;
-            _SongID = song.ID;
-
-            _Song = song;
-        }
-
-        public CPlaylistElement(string filePath)
-        {
-            MusicFilePath = filePath;
-            _SongID = -1;
-        }
-
-        public CPlaylistElement()
-        {
-            MusicFilePath = string.Empty;
-            _SongID = -1;
         }
     }
 }

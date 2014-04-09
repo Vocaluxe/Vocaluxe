@@ -118,7 +118,7 @@ namespace Vocaluxe.Base
 
         public IEnumerable<string> GetSongFolders()
         {
-            return CConfig.SongFolder;
+            return CConfig.SongFolders;
         }
 
         public ESongSorting GetSongSorting()
@@ -179,9 +179,9 @@ namespace Vocaluxe.Base
             return CSettings.ZNear;
         }
 
-        public EGameState GetGameState()
+        public EProgramState GetProgramState()
         {
-            return CSettings.GameState;
+            return CSettings.ProgramState;
         }
 
         public int GetToneMin()
@@ -226,7 +226,7 @@ namespace Vocaluxe.Base
 
         public string GetFolderProfiles()
         {
-            return CSettings.FolderProfiles;
+            return CConfig.ProfileFolders[0];
         }
 
         public string GetDataPath()
@@ -358,11 +358,6 @@ namespace Vocaluxe.Base
         public void Play()
         {
             CBackgroundMusic.Play();
-        }
-
-        public void ApplyVolume()
-        {
-            CBackgroundMusic.ApplyVolume();
         }
 
         public CTexture GetVideoTexture()
@@ -606,6 +601,11 @@ namespace Vocaluxe.Base
             return CProfiles.GetAvatarTextureFromProfile(profileID);
         }
 
+        public CAvatar GetAvatarByFilename(string fileName)
+        {
+            return CProfiles.GetAvatarByFilename(fileName);
+        }
+
         public bool IsProfileIDValid(int profileID)
         {
             return CProfiles.IsProfileIDValid(profileID);
@@ -626,7 +626,7 @@ namespace Vocaluxe.Base
     {
         public int GetToneAbs(int playerNr)
         {
-            return CSound.RecordGetToneAbs(playerNr);
+            return CRecord.GetToneAbs(playerNr);
         }
     }
 
@@ -839,7 +839,7 @@ namespace Vocaluxe.Base
             return CDataBase.GetCover(fileName, ref texture, coverSize);
         }
 
-        public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID)
+        public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID)
         {
             return CDataBase.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreID);
         }

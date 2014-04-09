@@ -546,8 +546,8 @@ namespace Vocaluxe.Screens
 
             for (int i = 1; i <= CGame.NumPlayer; i++)
             {
-                CSound.AnalyzeBuffer(i - 1);
-                _Equalizers["EqualizerPlayer" + i].Update(CSound.ToneWeigth(i - 1));
+                CRecord.AnalyzeBuffer(i - 1);
+                _Equalizers["EqualizerPlayer" + i].Update(CRecord.ToneWeigth(i - 1));
             }
             return true;
         }
@@ -555,7 +555,7 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-            CSound.RecordStart();
+            CRecord.Start();
 
             _NameSelections[_NameSelection].Init();
             _LoadProfiles();
@@ -565,7 +565,7 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            CSound.RecordStop();
+            CRecord.Stop();
         }
 
         public override bool Draw()

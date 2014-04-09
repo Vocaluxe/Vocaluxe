@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Security.Authentication;
+using System.Windows.Forms;
 
 namespace WebserverInitalConfig
 {
@@ -29,48 +30,55 @@ namespace WebserverInitalConfig
         private static void Main(string[] args)
             // ReSharper restore InconsistentNaming
         {
-            int port;
-            if (args.Length < 2 || !int.TryParse(args[0], out port))
+            try
             {
-                Console.WriteLine("Usage: VocaluxeServerConfig port isHttps");
-                Environment.Exit(-1);
-            }
-            else
-            {
-                CConfigHttpApi config = new CConfigHttpApi("Vocaluxe", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Vocaluxe.exe"), "0.0.0.0", port, true);
-                try
+                int port;
+                if (args.Length < 2 || !int.TryParse(args[0], out port))
                 {
-                    config.AddFirewallRule();
-                    if (args[1].ToLower() == "true")
-                        config.CreateAndAddCert(Dns.GetHostName());
-
-                    if ((args.Length >= 3 && args[2] == "reserve") || CConfigHttpApi.IsAdministrator())
-                        config.ReserveUrl();
+                    Console.WriteLine("Usage: VocaluxeServerConfig port isHttps");
+                    Environment.Exit(-1);
                 }
-                catch (AuthenticationException)
+                else
                 {
-                    ProcessStartInfo proc = new ProcessStartInfo
-                        {
-                            UseShellExecute = true,
-                            WorkingDirectory = Environment.CurrentDirectory,
-                            FileName = Process.GetCurrentProcess().MainModule.FileName,
-                            Arguments = args[0] + " " + args[1],
-                            Verb = "runas",
-                            CreateNoWindow = true,
-                            WindowStyle = ProcessWindowStyle.Hidden,
-                        };
-
+                    CConfigHttpApi config = new CConfigHttpApi("Vocaluxe", Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Vocaluxe.exe"), "0.0.0.0", port, true);
                     try
                     {
-                        Process.Start(proc);
+                        config.AddFirewallRule();
+                        if (args[1].ToLower() == "true")
+                            config.CreateAndAddCert(Dns.GetHostName());
+
+                        if ((args.Length >= 3 && args[2] == "reserve") || CConfigHttpApi.IsAdministrator())
+                            config.ReserveUrl();
                     }
-                    catch
+                    catch (AuthenticationException)
                     {
-                        // The user refused the elevation.
-                        // Do nothing and return directly ...
-                        Environment.Exit(-1);
+                        ProcessStartInfo proc = new ProcessStartInfo
+                            {
+                                UseShellExecute = true,
+                                WorkingDirectory = Environment.CurrentDirectory,
+                                FileName = Process.GetCurrentProcess().MainModule.FileName,
+                                Arguments = args[0] + " " + args[1],
+                                Verb = "runas",
+                                CreateNoWindow = true,
+                                WindowStyle = ProcessWindowStyle.Hidden,
+                            };
+
+                        try
+                        {
+                            Process.Start(proc);
+                        }
+                        catch
+                        {
+                            // The user refused the elevation.
+                            // Do nothing and return directly ...
+                            Environment.Exit(-1);
+                        }
                     }
                 }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Error while installing server: " + e.Message);
             }
         }
     }

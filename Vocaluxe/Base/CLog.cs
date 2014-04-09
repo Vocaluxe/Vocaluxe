@@ -103,6 +103,8 @@ namespace Vocaluxe.Base
     static class CLog
     {
         private const int _MaxBenchmarks = 10;
+        private static int _BenchmarksRunning;
+        private static bool _Initialized;
 
         private static CLogFile _ErrorLog;
         private static CLogFile _PerformanceLog;
@@ -124,15 +126,26 @@ namespace Vocaluxe.Base
             _BenchmarkTimer = new Stopwatch[_MaxBenchmarks];
             for (int i = 0; i < _BenchmarkTimer.Length; i++)
                 _BenchmarkTimer[i] = new Stopwatch();
+            _BenchmarksRunning = 0;
+            _Initialized = true;
         }
 
         public static void CloseAll()
         {
-            _ErrorLog.Close();
-            _PerformanceLog.Close();
-            _BenchmarkLog.Close();
-            _DebugLog.Close();
-            _SongInfoLog.Close();
+            if (_Initialized)
+            {
+                _ErrorLog.Dispose();
+                _ErrorLog = null;
+                _PerformanceLog.Dispose();
+                _PerformanceLog = null;
+                _BenchmarkLog.Dispose();
+                _BenchmarkLog = null;
+                _DebugLog.Dispose();
+                _DebugLog = null;
+                _SongInfoLog.Dispose();
+                _SongInfoLog = null;
+                _Initialized = false;
+            }
         }
 
         #region LogError
@@ -165,41 +178,44 @@ namespace Vocaluxe.Base
         }
 
         #region LogBenchmark
-        public static void StartBenchmark(int benchmarkNr, string text)
+        public static void StartBenchmark(string text)
         {
-            if (benchmarkNr >= 0 && benchmarkNr < _MaxBenchmarks)
+            if (_BenchmarksRunning < _MaxBenchmarks)
             {
-                _BenchmarkTimer[benchmarkNr].Stop();
-                _BenchmarkTimer[benchmarkNr].Reset();
-
                 string space = String.Empty;
-                for (int i = 0; i < benchmarkNr; i++)
+                for (int i = 0; i < _BenchmarksRunning; i++)
                     space += "  ";
                 _BenchmarkLog.Add(space + "Start " + text);
 
-                _BenchmarkTimer[benchmarkNr].Start();
+                _BenchmarkTimer[_BenchmarksRunning].Restart();
             }
+            else
+                LogError("Tried to start to many benchmarks at once"); //Log and ignore
+            _BenchmarksRunning++; //Inc even if not started to correct right Stop() call
         }
 
-        public static void StopBenchmark(int benchmarkNr, string text)
+        public static void StopBenchmark(string text)
         {
-            if (benchmarkNr >= 0 && benchmarkNr < _MaxBenchmarks)
+            if (_BenchmarksRunning > 0 && _BenchmarksRunning <= _MaxBenchmarks)
             {
-                _BenchmarkTimer[benchmarkNr].Stop();
+                _BenchmarksRunning--;
+                _BenchmarkTimer[_BenchmarksRunning].Stop();
 
                 string space = String.Empty;
-                for (int i = 0; i < benchmarkNr; i++)
+                for (int i = 0; i < _BenchmarksRunning; i++)
                     space += "  ";
 
                 float ms;
                 if (Stopwatch.IsHighResolution && _NanosecPerTick > 0)
-                    ms = (float)((_NanosecPerTick * _BenchmarkTimer[benchmarkNr].ElapsedTicks) / (1000.0 * 1000.0));
+                    ms = (float)((_NanosecPerTick * _BenchmarkTimer[_BenchmarksRunning].ElapsedTicks) / (1000.0 * 1000.0));
                 else
-                    ms = _BenchmarkTimer[benchmarkNr].ElapsedMilliseconds;
+                    ms = _BenchmarkTimer[_BenchmarksRunning].ElapsedMilliseconds;
 
                 _BenchmarkLog.Add(space + "Stop " + text + ", Elapsed Time: " + ms.ToString("0.000") + "ms");
                 _BenchmarkLog.Add(String.Empty);
             }
+            else
+                _BenchmarksRunning--;
         }
         #endregion LogBenchmark
     }
