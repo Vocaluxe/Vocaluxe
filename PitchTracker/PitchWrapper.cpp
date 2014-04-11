@@ -58,23 +58,23 @@ bool Analyzer_OutputFloat(Analyzer* analyzer, float* data, int sampleCt, float r
     return analyzer->output(data, data + sampleCt, rate);
 }
 
-DllExport PtAKF* PtAKF_Create(unsigned step){
+PtAKF* PtAKF_Create(unsigned step){
 	return new PtAKF(step);
 }
 
-DllExport void PtAKF_Free(PtAKF* analyzer){
+void PtAKF_Free(PtAKF* analyzer){
 	if(analyzer)
 		delete analyzer;
 }
 
-DllExport int PtAKF_GetNumHalfTones(){
+int PtAKF_GetNumHalfTones(){
 	return PtAKF::GetNumHalfTones();
 }
 
-DllExport void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt){
+void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt){
 	if(sampleCt <= 0 || !analyzer)
 		return;
-	short* dataShort = static_cast<short*>(static_cast<void*>(data));
+	//short* dataShort = static_cast<short*>(static_cast<void*>(data));
 	float* dataFloat = short2FloatArray(static_cast<short*>(static_cast<void*>(data)), sampleCt);
 	analyzer->input(dataFloat, dataFloat + sampleCt);
 	freeFloatArray(dataFloat);
@@ -82,10 +82,39 @@ DllExport void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt){
 	//analyzer->input(dataShort, dataShort + sampleCt);
 }
 
-DllExport int PtAKF_GetNote(PtAKF* analyzer, double* maxVolume, float* weights){
+int PtAKF_GetNote(PtAKF* analyzer, double* maxVolume, float* weights){
 	if(!analyzer)
 		return -1;
 	return analyzer->GetNote(maxVolume, weights);
+}
+
+PtDyWa* PtDyWa_Create(unsigned step){
+	return new PtDyWa(step);
+}
+
+void PtDyWa_Free(PtDyWa* analyzer){
+	if(analyzer)
+		delete analyzer;
+}
+
+void PtDyWa_InputByte(PtDyWa* analyzer, char* data, int sampleCt){
+	if(sampleCt <= 0 || !analyzer)
+		return;
+	float* dataFloat = short2FloatArray(static_cast<short*>(static_cast<void*>(data)), sampleCt);
+	analyzer->input(dataFloat, dataFloat + sampleCt);
+	freeFloatArray(dataFloat);
+}
+
+void PtDyWa_Process(PtDyWa* analyzer){
+	if(!analyzer)
+		return;
+	analyzer->Process();
+}
+
+double PtDyWa_GetNote(PtDyWa* analyzer){
+	if(!analyzer)
+		return -1;
+	return analyzer->GetNote();
 }
 
 /*

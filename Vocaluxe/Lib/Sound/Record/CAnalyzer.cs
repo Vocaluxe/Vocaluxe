@@ -159,4 +159,69 @@ namespace Vocaluxe.Lib.Sound.Record
             GC.SuppressFinalize(this);
         }
     }
+
+    /// <summary>
+    /// Pitchtracker (Pt) that uses a dynamic wavelet (DyWa) algorithm 
+    /// Quite fast and perfect in artificial tests, but may fail in real world scenarios (e.g. missing fundamental)
+    /// </summary>
+    class CPtDyWa : IDisposable
+    {
+        #region Imports
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr PtDyWa_Create(uint step);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PtDyWa_Free(IntPtr analyzer);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PtDyWa_InputByte(IntPtr analyzer, [In] byte[] data, int sampleCt);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int PtDyWa_Process(IntPtr analyzer);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern double PtDyWa_GetNote(IntPtr analyzer);
+        #endregion
+
+        private IntPtr _Instance;
+
+        public CPtDyWa(uint step = 200)
+        {
+            _Instance = PtDyWa_Create(step);
+        }
+
+        ~CPtDyWa()
+        {
+            _Dispose(false);
+        }
+
+        public void Input(byte[] data)
+        {
+            PtDyWa_InputByte(_Instance, data, data.Length / 2);
+        }
+
+        public void Process()
+        {
+            PtDyWa_Process(_Instance);
+        }
+
+        public double GetNote()
+        {
+            return PtDyWa_GetNote(_Instance);
+        }
+
+        private void _Dispose(bool disposing)
+        {
+            if (_Instance == IntPtr.Zero)
+                throw new ObjectDisposedException(GetType().Name);
+            PtDyWa_Free(_Instance);
+            _Instance = IntPtr.Zero;
+        }
+
+        public void Dispose()
+        {
+            _Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+    }
 }

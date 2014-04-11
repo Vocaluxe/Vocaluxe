@@ -22,6 +22,12 @@
     <Filter Include="Headerdateien\performous\libda">
       <UniqueIdentifier>{d71782a0-47fc-4fe1-8569-0a0ce8fe9b45}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\dywapitchtrack">
+      <UniqueIdentifier>{e8eab624-6cc3-42db-93d9-575aaeff06f7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\dywapitchtrack">
+      <UniqueIdentifier>{2a09cee1-51b7-4c24-aa9f-32bec53c3a36}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PitchWrapper.cpp">
@@ -34,6 +40,15 @@
       <Filter>Quelldateien\performous</Filter>
     </ClCompile>
     <ClCompile Include="ptAKF.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="dywapitchtrack\ptDyWa.cpp">
+      <Filter>Quelldateien\dywapitchtrack</Filter>
+    </ClCompile>
+    <ClCompile Include="dywapitchtrack\dywapitchtrack.cpp">
+      <Filter>Quelldateien\dywapitchtrack</Filter>
+    </ClCompile>
+    <ClCompile Include="Helper.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
@@ -55,6 +70,12 @@
     </ClInclude>
     <ClInclude Include="ptAKF.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="dywapitchtrack\dywapitchtrack.h">
+      <Filter>Headerdateien\dywapitchtrack</Filter>
+    </ClInclude>
+    <ClInclude Include="dywapitchtrack\ptDyWa.h">
+      <Filter>Headerdateien\dywapitchtrack</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

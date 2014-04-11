@@ -38,7 +38,6 @@ namespace Vocaluxe.Lib.Sound.Record
         private const double _HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 #endif
         private CPtAKF _Analyzer = new CPtAKF();
-        private CAnalyzer _Analyzer2 = new CAnalyzer();
 
         private double _MaxVolume;
 
@@ -98,12 +97,10 @@ namespace Vocaluxe.Lib.Sound.Record
             //if (assigned(fVoiceStream)) then
             //fVoiceStream.WriteData(Buffer, BufferSize);
             _Analyzer.Input(buffer);
-            _Analyzer2.Input(buffer);
         }
 
         public void AnalyzeBuffer()
         {
-            _Analyzer2.Process();
             //_MaxVolume = _Analyzer.GetPeak() / 43 + 1;
             int tone = _Analyzer.GetNote(out _MaxVolume, ToneWeigths); //(int)Math.Round(_Analyzer.FindNote()); // 
             if (tone >= 0 && _MaxVolume >= MinVolume)
@@ -136,6 +133,8 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private static string _ToneToNote(int tone, bool withOctave = true)
         {
+            if (tone < 0)
+                return "inv.";
             tone += 24;
             string[] notes = {"C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"};
             string result = notes[tone % 12];
@@ -149,7 +148,7 @@ namespace Vocaluxe.Lib.Sound.Record
             if (_PitchTestRun)
                 return;
             _PitchTestRun = true;
-            int toneFrom = 0;
+            const int toneFrom = 0;
             const int toneTo = -1; // 47; //B5
             Console.WriteLine("Testing notes " + _ToneToNote(toneFrom) + " - " + _ToneToNote(toneTo));
             byte[] data;
@@ -185,7 +184,7 @@ namespace Vocaluxe.Lib.Sound.Record
                     tests++;
                 }
             }
-            if (_TestFile("toneG3.wav", 19))
+            /*if (_TestFile("toneG3.wav", 19))
                 ok++;
             tests++;
             if (_TestFile("toneG3Miss.wav", 19))
@@ -193,9 +192,9 @@ namespace Vocaluxe.Lib.Sound.Record
             tests++;
             if (_TestFile("toneG4.wav", 31))
                 ok++;
-            tests++;
-            _TestFile("whistling3.wav", "whistling3.txt", ref tests, ref ok);
+            tests++;*/
             _TestFile("sClausVoc.wav", "sClausVoc.txt", ref tests, ref ok);
+            _TestFile("whistling3.wav", "whistling3.txt", ref tests, ref ok);
 
             _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, 5), 44100, ref angle, out data);
             Stopwatch sw = new Stopwatch();
@@ -271,35 +270,52 @@ namespace Vocaluxe.Lib.Sound.Record
                 int samplesRead = 0;
                 int curTimeIndex = -1;
                 int curNote = -1;
+                int lastNote = -1; //It is ok not to detect a note change immediately so the old note is kept for a bit as ok
+                int lastNoteEndTime = 0;
+                const int lastNoteMaxTimeDiff = 1024 * 1000 / 44100; // old note is valid for 1024 more samples
                 const int maxSamplesPerBatch = 512;
-                while (wavFile.NumSamplesLeft / wavFile.NumChannels > maxSamplesPerBatch)
+                CAnalyzer analyzer2 = new CAnalyzer();
+                CPtDyWa analyzer3 = new CPtDyWa();
+                while (wavFile.NumSamplesLeft > maxSamplesPerBatch)
                 {
                     byte[] samples = wavFile.GetNextSamples16BitAsBytes(maxSamplesPerBatch, 1);
                     samplesRead += samples.Length / 2;
                     int time = samplesRead * 1000 / wavFile.SampleRate;
                     ProcessNewBuffer(samples);
                     AnalyzeBuffer();
+                    analyzer2.Input(samples);
+                    analyzer3.Input(samples);
+                    analyzer2.Process();
+                    analyzer3.Process();
                     while (curTimeIndex + 1 < tones.Count && time >= tones[curTimeIndex + 1].Time)
                     {
                         curTimeIndex++;
+                        lastNote = curNote;
+                        lastNoteEndTime = tones[curTimeIndex].Time;
                         curNote = tones[curTimeIndex].Note;
                     }
                     if (curNote < 0)
                         continue;
-                    ct++;
+                    if (lastNoteEndTime + lastNoteMaxTimeDiff < time)
+                        lastNote = curNote;
+                    int tone1 = ToneValid ? ToneAbs : -1;
+                    int tone2 = (int)Math.Round(analyzer2.FindNote(64, 1770));
+                    int tone3 = (int)Math.Round(analyzer3.GetNote());
+                    /*ct++;
                     if (!ToneValid)
                         CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms not detected");
                     else if (ToneAbs % 12 != curNote % 12)
                         CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms wrongly detected as " + _ToneToNote(ToneAbs));
                     else
-                        ok++;
-                    int note2 = (int)Math.Round(_Analyzer2.FindNote());
-                    if (note2 < 0)
-                        CBase.Log.LogDebug("Note2 " + _ToneToNote(curNote) + " at " + time + "ms not detected");
-                    else if (note2 % 12 != curNote % 12)
-                        CBase.Log.LogDebug("Note2 " + _ToneToNote(curNote) + " at " + time + "ms wrongly detected as " + _ToneToNote(note2));
-                    else
-                        ok++;
+                        ok++;*/
+                    bool ok1 = tone1 == curNote || tone1 == lastNote;
+                    bool ok2 = tone2 == curNote || tone2 == lastNote;
+                    bool ok3 = tone3 == curNote || tone3 == lastNote;
+                    if (!ok1 || !ok2 || !ok3)
+                    {
+                        CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms detected as " + _ToneToNote(tone1) + (ok1 ? "" : "(!)") + "; " + _ToneToNote(tone2) +
+                                           (ok2 ? "" : "(!)") + "; " + _ToneToNote(tone3) + (ok3 ? "" : "(!)") + "; ");
+                    }
                 }
             }
             catch (Exception e)

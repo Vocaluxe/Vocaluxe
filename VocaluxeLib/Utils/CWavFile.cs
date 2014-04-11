@@ -14,11 +14,12 @@ namespace VocaluxeLib.Utils
         public string FileName { get; private set; }
         //Unless this is true, all fields are to be considered as invalid
         public int DataSize { get; private set; }
-        //Number of samples (=SampesPerChannel*NumChannels)
+        //Number of samples (per channel)
         public int NumSamples
         {
-            get { return (DataSize / (BitsPerSample / 8)); }
+            get { return (DataSize / (BitsPerSample / 8 * NumChannels)); }
         }
+        //Number of samples left to be read (per channel)
         public int NumSamplesLeft { get; private set; }
         public bool IsOpen { get; private set; }
         private int _DataPos;
@@ -129,13 +130,12 @@ namespace VocaluxeLib.Utils
         {
             if (channel < 0 || channel > NumChannels || BitsPerSample != 8)
                 return null;
-            int samplesPerBlock = (channel == 0 ? NumChannels : 1);
-            if (NumSamplesLeft < numSamples * samplesPerBlock)
+            if (numSamples > NumSamplesLeft)
                 return null;
             byte[] result;
             BinaryReader reader = new BinaryReader(_File);
             if (channel == 0 || NumChannels == 1)
-                result = reader.ReadBytes(numSamples * samplesPerBlock);
+                result = reader.ReadBytes(numSamples * NumChannels);
             else
             {
                 result = new byte[numSamples];
@@ -146,7 +146,7 @@ namespace VocaluxeLib.Utils
                     _File.Seek(NumChannels - channel, SeekOrigin.Current);
                 }
             }
-            NumSamplesLeft -= numSamples * samplesPerBlock;
+            NumSamplesLeft -= numSamples;
             return result;
         }
 
@@ -160,8 +160,7 @@ namespace VocaluxeLib.Utils
         {
             if (channel < 0 || channel > NumChannels || BitsPerSample != 16)
                 return null;
-            int samplesPerBlock = (channel == 0 ? NumChannels : 1);
-            if (NumSamplesLeft < numSamples * samplesPerBlock)
+            if (numSamples > NumSamplesLeft)
                 return null;
             short[] result;
             BinaryReader reader = new BinaryReader(_File);
@@ -183,7 +182,7 @@ namespace VocaluxeLib.Utils
                         _File.Seek((NumChannels - channel) * 2, SeekOrigin.Current);
                     }
                 }
-                NumSamplesLeft -= numSamples * samplesPerBlock;
+                NumSamplesLeft -= numSamples;
             }
             catch (EndOfStreamException e)
             {

@@ -139,7 +139,7 @@ void Analyzer::calcTones() {
 		double delta = phase - m_fftLastPhase[k];
 		m_fftLastPhase[k] = static_cast<float>(phase);
 		delta -= k * phaseStep;  // subtract expected phase difference
-		delta = remainder(delta, 2.0 * M_PI);  // map delta phase into +/- M_PI interval
+		delta = remainder(delta, M_PI);  // map delta phase into +/- M_PI interval
 		delta /= phaseStep;  // calculate diff from bin center frequency
 		double freq = (k + delta) * freqPerBin;  // calculate the true frequency
 		if (freq > 1.0 && magnitude > minMagnitude) {
@@ -164,15 +164,16 @@ void Analyzer::calcTones() {
 		int bestScore = 0;
 		for (std::size_t div = 2; div <= Tone::MAXHARM && k / div > 1; ++div) {
 			double freq = peaks[k].freq / div; // Fundamental
+			double db = peaks[k].db;
 			int score = 0;
 			for (std::size_t n = 1; n < div && n < 8; ++n) {
 				Peak& p = match(peaks, k * n / div);
 				--score;
-				if (p.db < -90.0 || std::abs(p.freq / n / freq - 1.0) > .03) continue;
-				if (n == 1) score += 4; // Extra for fundamental
+				if (std::abs(p.db/db - 1.0) > 0.4 || std::abs(p.freq / n / freq - 1.0) > .04) continue;
+				if (n == 1) score += 1; // Extra for fundamental
 				score += 2;
 			}
-			if (score > bestScore) {
+			if (score >= bestScore) {
 				bestScore = score;
 				bestDiv = div;
 			}
@@ -185,12 +186,11 @@ void Analyzer::calcTones() {
 		for (std::size_t n = 1; n <= bestDiv; ++n) {
 			// Find the peak for n'th harmonic
 			Peak& p = match(peaks, k * n / bestDiv);
-			if (std::abs(p.freq / n / freq - 1.0) > .03) continue; // Does it match the fundamental freq?
-			if (p.db > t.db - 10.0) {
-				t.db = std::max(t.db, p.db);
-				++count;
-				t.freq += p.freq / n;
-			}
+			if (std::abs(p.freq / n / freq - 1.0) > .04) continue; // Does it match the fundamental freq?
+			if (std::abs(p.db/t.db - 1.0) > 0.4) continue;
+			t.db = std::max(t.db, p.db);
+			++count;
+			t.freq += p.freq / n;
 			t.harmonics[n - 1] = p.db;
 			p.clear();
 		}

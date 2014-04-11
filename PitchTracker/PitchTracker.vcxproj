@@ -170,12 +170,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="compatibility.cpp" />
+    <ClCompile Include="dywapitchtrack\dywapitchtrack.cpp" />
+    <ClCompile Include="dywapitchtrack\ptDyWa.cpp" />
+    <ClCompile Include="Helper.cpp" />
     <ClCompile Include="performous\pitch.cc" />
     <ClCompile Include="ptAKF.cpp" />
     <ClCompile Include="PitchWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="compatibility.h" />
+    <ClInclude Include="dywapitchtrack\dywapitchtrack.h" />
+    <ClInclude Include="dywapitchtrack\ptDyWa.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="performous\libda\fft.hpp" />
     <ClInclude Include="performous\libda\sample.hpp" />

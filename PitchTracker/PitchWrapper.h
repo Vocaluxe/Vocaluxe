@@ -2,6 +2,7 @@
 
 #include "performous/pitch.hh"
 #include "ptAKF.h"
+#include "dywapitchtrack/ptDyWa.h"
 
 #define DllExport extern "C" __declspec(dllexport)
 
@@ -20,6 +21,12 @@ DllExport void PtAKF_Free(PtAKF* analyzer);
 DllExport int PtAKF_GetNumHalfTones();
 DllExport void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt);
 DllExport int PtAKF_GetNote(PtAKF* analyzer, double* maxVolume, float* weights);
+
+DllExport PtDyWa* PtDyWa_Create(unsigned step);
+DllExport void PtDyWa_Free(PtDyWa* analyzer);
+DllExport void PtDyWa_InputByte(PtDyWa* analyzer, char* data, int sampleCt);
+DllExport void PtDyWa_Process(PtDyWa* analyzer);
+DllExport double PtDyWa_GetNote(PtDyWa* analyzer);
 
 /*
 public ref class CTone {

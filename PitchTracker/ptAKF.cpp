@@ -13,23 +13,37 @@
 // You should have received a copy of the GNU General Public License
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 
+#define _USE_MATH_DEFINES
 #include "ptAKF.h"
-#include <math.h>
+#include <cmath>
 
 static constexpr double BaseToneFrequency = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
 static constexpr double HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 int PtAKF::_InitCount = 0;
-float* PtAKF::_SamplesPerPeriodPerTone = NULL;
+float* restrict PtAKF::_SamplesPerPeriodPerTone = NULL;
+float* restrict PtAKF::_SamplesPerPeriodPerToneFine = NULL;
+float* restrict PtAKF::_Window = NULL;
+
+double GetFrequencyFromTone(double toneIndex){
+	return BaseToneFrequency * pow(HalftoneBase, toneIndex);
+}
 
 PtAKF::PtAKF(unsigned step){
 	_InitCount++;
 	if(_InitCount == 1){
 		_SamplesPerPeriodPerTone = new float[_MaxHalfTone + 1 + _HalfTonesAdd];
+		_SamplesPerPeriodPerToneFine = new float[(_MaxHalfTone + 1 + _HalfTonesAdd) * 2];
 		//Init Array to avoid costly calculations
 		for (int toneIndex = 0; toneIndex <= _MaxHalfTone + _HalfTonesAdd; toneIndex++)
 		{
-			double freq = BaseToneFrequency * pow(HalftoneBase, toneIndex);
-			_SamplesPerPeriodPerTone[toneIndex] = static_cast<float>(44100.0 / freq); // samples in one period
+			_SamplesPerPeriodPerTone[toneIndex] = static_cast<float>(44100.0 / GetFrequencyFromTone(toneIndex)); // samples in one period
+			_SamplesPerPeriodPerToneFine[2 * toneIndex] = static_cast<float>(44100.0 / GetFrequencyFromTone(toneIndex - 1./3.)); // samples for a bit below exact frequency
+			_SamplesPerPeriodPerToneFine[2 * toneIndex + 1] = static_cast<float>(44100.0 / GetFrequencyFromTone(toneIndex + 1./3.)); // samples for a bit above exact frequency
+		}
+		_Window = new float[_SampleCt];
+		double cosMult = 2. * M_PI / (_SampleCt - 1.); //To simplify and speed up
+		for (int i = 0; i < _SampleCt; i++) {
+			_Window[i] = static_cast<float>(0.54 - 0.46 * cos(i * cosMult));
 		}
 	}
 	_Step = step;
@@ -40,10 +54,12 @@ PtAKF::~PtAKF(){
 	if(!_InitCount){
 		delete[] _SamplesPerPeriodPerTone;
 		_SamplesPerPeriodPerTone = NULL;
+		delete[] _SamplesPerPeriodPerToneFine;
+		_SamplesPerPeriodPerToneFine = NULL;
 	}
 }
 
-int PtAKF::GetNote(double* maxVolume, float* weights){
+int PtAKF::GetNote(double* restrict maxVolume, float* restrict weights){
 	float AnaylsisBuf[_SampleCt];
 	size_t size = _AnalysisBuf.size();
 	if(size > _SampleCt)
@@ -54,9 +70,37 @@ int PtAKF::GetNote(double* maxVolume, float* weights){
 	return _GetNote(AnaylsisBuf, maxVolume, weights);
 }
 
-int PtAKF::_GetNote(float* samples, double* maxVolume, float* weights){
+void PtAKF::InitPeaks(SPeak peaks[_MaxPeaks]){
+	for(int i = 0; i < _MaxPeaks; i++){
+		peaks[i].toneIndex = -1;
+		peaks[i].weight = -9.f;
+	}
+}
+
+void PtAKF::AddPeak(SPeak peaks[], float curWeight, int toneIndex){
+	if(curWeight > peaks[0].weight){
+		int i;
+		for(i = 1; i < _MaxPeaks; i++){
+			if(curWeight < peaks[i].weight){
+				peaks[i-1].toneIndex = toneIndex;
+				peaks[i-1].weight = curWeight;
+				break;
+			}else{
+				peaks[i-1] = peaks[i];
+			}
+		}
+		if(i == _MaxPeaks){
+			peaks[i-1].toneIndex = toneIndex;
+			peaks[i-1].weight = curWeight;
+		}
+	}
+}
+
+int PtAKF::_GetNote(float* restrict samples, double* restrict maxVolume, float* restrict weights){
+	// Calculate maximum volume
+
 	float maxVolumeL = 0;
-	for(int i = 0; i < _SampleCt; i++){
+	for(int i = _SampleCt / 2; i < _SampleCt; i++){
 		float vol = abs(samples[i]);
 		if(vol > maxVolumeL)
 			maxVolumeL = vol;
@@ -64,15 +108,14 @@ int PtAKF::_GetNote(float* samples, double* maxVolume, float* weights){
 	//maxVolumeL /= 32767.;
 	*maxVolume = maxVolumeL;
 
-	//Scale the samples to have a peak of 1 to better decide between voiced/unvoiced
-	//float scaleVal = 1 / maxVolumeL;
-	//for(int i = 0; i < _SampleCt; i++){
-	//	samples[i] *= scaleVal;
-	//}
+	for(int i = 0; i < _SampleCt; i++){
+		samples[i] *= _Window[i];
+	}
 
-	float maxWeight = -1;
-	float minWeight = 1;
-	int maxTone = -1;
+	// Now analyze the samples and get peaks at the most appropriate tones
+
+	SPeak peaks[_MaxPeaks];
+	InitPeaks(peaks);
 
 	//Attention: We have a peak at lag 0 that might stretch that far, that we detect a wrong "peak" at _MaxHalfTone
 	//Because of that we filter out all tones that are past the last zero crossing from below but keep tones with decreasing weights (going towards zero crossing from above)
@@ -80,16 +123,9 @@ int PtAKF::_GetNote(float* samples, double* maxVolume, float* weights){
 	float lastWeight = 1.f;
 	for (int toneIndex = _MinHalfTone; toneIndex <= _MaxHalfTone; toneIndex++)
 	{
-		float curWeight = _AnalyzeToneFunc(samples, toneIndex);
+		float curWeight = _AnalyzeByTone(samples, toneIndex);
 
-		if (curWeight > maxWeight)
-		{
-			maxWeight = curWeight;
-			maxTone = toneIndex;
-		}
-
-		if (curWeight < minWeight)
-			minWeight = curWeight;
+		AddPeak(peaks, curWeight, toneIndex);
 
 		weights[toneIndex - _MinHalfTone] = curWeight;
 
@@ -99,54 +135,96 @@ int PtAKF::_GetNote(float* samples, double* maxVolume, float* weights){
 		lastWeight = curWeight;
 	}
 
-	if(maxTone==_MaxHalfTone){
+	// Now clear off the lag 0 peak if required
+
+	if(peaks[_MaxPeaks - 1].toneIndex ==_MaxHalfTone){
 		//We might have caught the lag 0 peak so go a bit further to check for other zero crossings (or we won't be able to detect _MaxHalfTone)
-		float lastWeight =  _FastAKF(samples, _SamplesPerPeriodPerTone[_MaxHalfTone]);
+		float lastWeight =  _AKFByTone(samples, _MaxHalfTone);
 		for(int toneIndex = _MaxHalfTone+1; toneIndex <= _MaxHalfTone + _HalfTonesAdd; toneIndex++){
-			float curWeight = _FastAKF(samples, _SamplesPerPeriodPerTone[toneIndex]);
+			float curWeight = _AKFByTone(samples, toneIndex);
 			if(lastWeight > curWeight || (lastWeight > 0.f && curWeight <= 0.f)){
 				lastValidTone = toneIndex - 1;
 				break;
 			}
 			lastWeight = curWeight;
 		}
-		if(lastValidTone < maxTone){
-			maxWeight = -1.f;
-			minWeight = 1.f;
+		if(lastValidTone < peaks[_MaxPeaks - 1].toneIndex){
+			InitPeaks(peaks);
 			for(int toneIndex = _MinHalfTone; toneIndex <= lastValidTone; toneIndex++){
-				float curWeight = weights[toneIndex-_MinHalfTone];
-				if (curWeight > maxWeight)
-				{
-					maxWeight = curWeight;
-					maxTone = toneIndex;
-				}
-
-				if (curWeight < minWeight)
-					minWeight = curWeight;
+				AddPeak(peaks, weights[toneIndex - _MinHalfTone], toneIndex);
 			}
 			//Set all invalid weights to 0
 			for(int toneIndex = lastValidTone + 1;toneIndex < _MaxHalfTone; toneIndex++){
-				weights[toneIndex - _MinHalfTone]=0.f;
+				weights[toneIndex - _MinHalfTone] = 0.f;
 			}
 		}
 	}
 
-	float energy = _FastAKF(samples, 0);
-	float maxAKF = _FastAKF(samples, _SamplesPerPeriodPerTone[maxTone]);
-	//printf("%g %g\n",energy, maxAKF);
+	// Further analyze the found peaks and find the real maximum
+	// This is necessary because we may have our real peak a bit off the exact tone frequency
+	// and a 'wrong' peak that is exactly at another tone which might become higher than the one at the 'right' tone
+
+	int maxTone = peaks[_MaxPeaks - 1].toneIndex;
+	int maxToneFine = -1;
+	float maxWeight = peaks[_MaxPeaks - 1].weight;
+	for(int i = 0; i < _MaxPeaks; i++){
+		int toneIndex = peaks[i].toneIndex;
+		float curWeightCenter = peaks[i].weight;
+		float curWeightDown = _AnalyzeBySampleCt(samples, _SamplesPerPeriodPerToneFine[toneIndex * 2]);
+		float curWeight;
+		int otherToneIndex;
+		int otherToneFineIndex;
+		if(curWeightDown > curWeightCenter){
+			otherToneIndex = toneIndex - 1;
+			otherToneFineIndex = 1;
+			curWeight = curWeightDown;
+		}else{
+			float curWeightUp = _AnalyzeBySampleCt(samples, _SamplesPerPeriodPerToneFine[toneIndex * 2 + 1]);
+			if(curWeightUp > curWeightCenter){
+				otherToneIndex = (toneIndex < _MaxHalfTone)? toneIndex + 1: -1; // If the other tone is invalid just set it to -1 which will be skipped below
+				otherToneFineIndex = 0;
+				curWeight = curWeightUp;
+			}else
+				continue;
+		}
+		weights[toneIndex - _MinHalfTone] = curWeight;
+		if(curWeight > maxWeight){
+			maxTone = toneIndex;
+			maxToneFine = 1 - otherToneFineIndex;
+			maxWeight = curWeight;
+		}
+
+		// Now check also neighbouring tone
+		if(otherToneIndex > 0){
+			float curWeightOther = _AnalyzeBySampleCt(samples, _SamplesPerPeriodPerToneFine[otherToneIndex * 2 + otherToneFineIndex]);
+			if(curWeightOther > weights[otherToneIndex - _MinHalfTone]){
+				weights[otherToneIndex - _MinHalfTone] = curWeightOther;
+				if(curWeightOther > maxWeight){
+					maxTone = otherToneIndex;
+					maxToneFine = otherToneFineIndex;
+					maxWeight = curWeightOther;
+				}
+			}
+		}
+	}
+
+	float energy = _AKFBySampleCt(samples, 0);
+	float maxAKF = (maxToneFine < 0) ? _AKFByTone(samples, maxTone):_AKFBySampleCt(samples, _SamplesPerPeriodPerToneFine[maxTone * 2 + maxToneFine]);
+	float aa = _AKFByTone(samples, maxTone);
 
 	//if(maxWeight - minWeight > 0.025){
-	if(maxAKF >= 0.3 * energy){
+	if(maxAKF >= 0.4 * energy){
 		return maxTone;
 	}else return -1;
 }
 
-float PtAKF::_AnalyzeToneFunc(float* samples, int toneIndex){
-	// Use method by Kobayashi and Shimamura (2001): Combine AKF and AMDF to a new f(z)=AKF(z)/(AMDF(z)+k) with k=1
+float PtAKF::_AnalyzeByTone(float* restrict samples, int toneIndex){
+	return _AnalyzeBySampleCt(samples, _SamplesPerPeriodPerTone[toneIndex]);
+}
 
-	float samplesPerPeriodD = _SamplesPerPeriodPerTone[toneIndex]; // samples in one period
+float PtAKF::_AnalyzeBySampleCt(float* restrict samples, float samplesPerPeriodD){
+	// Use method by Kobayashi and Shimamura (2001): Combine AKF and AMDF to a new f(z)=AKF(z)/(AMDF(z)+k) with k=1
 	int samplesPerPeriod = static_cast<int>(samplesPerPeriodD);
-	int maxSampleCt = static_cast<int>(_SamplesPerPeriodPerTone[0]);
 	float fHigh = samplesPerPeriodD - samplesPerPeriod;
 	float fLow = 1.0f - fHigh;
 
@@ -174,11 +252,13 @@ float PtAKF::_AnalyzeToneFunc(float* samples, int toneIndex){
 	//{toneIndex}: {accumDistAKF} ; {accumDistAMDF}; {result}
 }
 
-float PtAKF::_FastAKF(float* samples, float samplesPerPeriodD){
-	// Do a fast, non-scaled AKF (used for Lag 0 peak removal)
+float PtAKF::_AKFByTone(float* restrict samples, int toneIndex){
+	return _AKFBySampleCt(samples, _SamplesPerPeriodPerTone[toneIndex]);
+}
 
+float PtAKF::_AKFBySampleCt(float* restrict samples, float samplesPerPeriodD){
+	// Do a fast, non-scaled AKF (used e.g. for Lag 0 peak removal)
 	int samplesPerPeriod = static_cast<int>(samplesPerPeriodD);
-	int maxSampleCt = static_cast<int>(_SamplesPerPeriodPerTone[0]);
 	float fHigh = samplesPerPeriodD - samplesPerPeriod;
 	float fLow = 1.0f - fHigh;
 
