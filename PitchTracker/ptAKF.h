@@ -41,19 +41,21 @@ private:
 	static float* restrict _SamplesPerPeriodPerToneFine;
 	static float* restrict _Window;
 	static constexpr int _MinHalfTone = 0;  //C2
-	static constexpr int _MaxHalfTone = 55;//47; //B5
+	static constexpr int _MaxHalfTone = 56;//47; //B5
 	static constexpr int _HalfTonesAdd = 4; //Additonal half tones to analyze to remove the peak at lag 0
-	static constexpr int _MaxPeaks = 3;
+	static constexpr int _MaxPeaks = 10;
 
 	constexpr static size_t _SampleCt = 2048;
 	RingBuffer<_SampleCt * 2> _AnalysisBuf;
 	unsigned _Step;
 
 	static int _GetNote(float* restrict samples, double* restrict maxVolume, float* restrict weights);
-	static float _AnalyzeBySampleCt(float* restrict samples, float samplesPerPeriodD);
-	static inline float _AnalyzeByTone(float* restrict samples, int toneIndex);
+	static float _AnalyzeBySampleCt(float* restrict samples, float* restrict samplesWindowed, float samplesPerPeriodD);
+	static inline float _AnalyzeByTone(float* restrict samples, float* restrict samplesWindowed, int toneIndex);
 	static float _AKFBySampleCt(float* restrict samples, float samplesPerPeriodD);
 	static inline float _AKFByTone(float* restrict samples, int toneIndex);
+	static float _AMDFBySampleCt(float* restrict samples, float samplesPerPeriodD);
+	static inline float _AMDFByTone(float* restrict samples, int toneIndex);
 	static inline void InitPeaks(SPeak peaks[_MaxPeaks]);
 	static inline void AddPeak(SPeak peaks[_MaxPeaks], float curWeight, int toneIndex);
 };

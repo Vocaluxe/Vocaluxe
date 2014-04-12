@@ -193,8 +193,8 @@ namespace Vocaluxe.Lib.Sound.Record
             if (_TestFile("toneG4.wav", 31))
                 ok++;
             tests++;*/
-            _TestFile("sClausVoc.wav", "sClausVoc.txt", ref tests, ref ok);
             _TestFile("whistling3.wav", "whistling3.txt", ref tests, ref ok);
+            _TestFile("sClausVoc.wav", "sClausVoc.txt", ref tests, ref ok);
 
             _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, 5), 44100, ref angle, out data);
             Stopwatch sw = new Stopwatch();
@@ -255,6 +255,22 @@ namespace Vocaluxe.Lib.Sound.Record
             return ok >= ct - 4;
         }
 
+        private bool _IsNoteValid(int note, int time, IList<STimedNote> tones)
+        {
+            const int lastNoteMaxTimeDiff = 1024 * 1000 / 44100; // old note is valid for 1024 more samples
+            for (int i = 0; i < tones.Count; i++)
+            {
+                if (tones[i].Time > time)
+                    break;
+                if (i + 1 == tones.Count || time <= tones[i + 1].Time + lastNoteMaxTimeDiff)
+                {
+                    if (tones[i].Note == note)
+                        return true;
+                }
+            }
+            return false;
+        }
+
         private void _TestFile(string fileName, IList<STimedNote> tones, ref int ct, ref int ok)
         {
             CWavFile wavFile = new CWavFile();
@@ -270,9 +286,6 @@ namespace Vocaluxe.Lib.Sound.Record
                 int samplesRead = 0;
                 int curTimeIndex = -1;
                 int curNote = -1;
-                int lastNote = -1; //It is ok not to detect a note change immediately so the old note is kept for a bit as ok
-                int lastNoteEndTime = 0;
-                const int lastNoteMaxTimeDiff = 1024 * 1000 / 44100; // old note is valid for 1024 more samples
                 const int maxSamplesPerBatch = 512;
                 CAnalyzer analyzer2 = new CAnalyzer();
                 CPtDyWa analyzer3 = new CPtDyWa();
@@ -290,14 +303,10 @@ namespace Vocaluxe.Lib.Sound.Record
                     while (curTimeIndex + 1 < tones.Count && time >= tones[curTimeIndex + 1].Time)
                     {
                         curTimeIndex++;
-                        lastNote = curNote;
-                        lastNoteEndTime = tones[curTimeIndex].Time;
                         curNote = tones[curTimeIndex].Note;
                     }
                     if (curNote < 0)
                         continue;
-                    if (lastNoteEndTime + lastNoteMaxTimeDiff < time)
-                        lastNote = curNote;
                     int tone1 = ToneValid ? ToneAbs : -1;
                     int tone2 = (int)Math.Round(analyzer2.FindNote(64, 1770));
                     int tone3 = (int)Math.Round(analyzer3.GetNote());
@@ -308,9 +317,9 @@ namespace Vocaluxe.Lib.Sound.Record
                         CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms wrongly detected as " + _ToneToNote(ToneAbs));
                     else
                         ok++;*/
-                    bool ok1 = tone1 == curNote || tone1 == lastNote;
-                    bool ok2 = tone2 == curNote || tone2 == lastNote;
-                    bool ok3 = tone3 == curNote || tone3 == lastNote;
+                    bool ok1 = _IsNoteValid(tone1, time, tones);
+                    bool ok2 = _IsNoteValid(tone2, time, tones);
+                    bool ok3 = _IsNoteValid(tone3, time, tones);
                     if (!ok1 || !ok2 || !ok3)
                     {
                         CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms detected as " + _ToneToNote(tone1) + (ok1 ? "" : "(!)") + "; " + _ToneToNote(tone2) +
