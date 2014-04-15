@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
+using Pitch;
 using VocaluxeLib;
 using VocaluxeLib.Utils;
 
@@ -289,6 +290,10 @@ namespace Vocaluxe.Lib.Sound.Record
                 const int maxSamplesPerBatch = 512;
                 CAnalyzer analyzer2 = new CAnalyzer();
                 CPtDyWa analyzer3 = new CPtDyWa();
+                PitchTracker analyzer4 = new PitchTracker {SampleRate = 44100, DetectLevelThreshold = 0.001f};
+                int[] detectedTones = new int[4];
+                int[] oks = new int[4];
+                int lCt = 0;
                 while (wavFile.NumSamplesLeft > maxSamplesPerBatch)
                 {
                     byte[] samples = wavFile.GetNextSamples16BitAsBytes(maxSamplesPerBatch, 1);
@@ -300,6 +305,12 @@ namespace Vocaluxe.Lib.Sound.Record
                     analyzer3.Input(samples);
                     analyzer2.Process();
                     analyzer3.Process();
+                    short[] samplesShort = new short[samples.Length / 2];
+                    Buffer.BlockCopy(samples, 0, samplesShort, 0, samples.Length);
+                    float[] samplesFloat = new float[samplesShort.Length];
+                    for (int i = 0; i < samplesShort.Length; i++)
+                        samplesFloat[i] = (float)samplesShort[i] / short.MaxValue;
+                    analyzer4.ProcessBuffer(samplesFloat);
                     while (curTimeIndex + 1 < tones.Count && time >= tones[curTimeIndex + 1].Time)
                     {
                         curTimeIndex++;
@@ -307,25 +318,39 @@ namespace Vocaluxe.Lib.Sound.Record
                     }
                     if (curNote < 0)
                         continue;
-                    int tone1 = ToneValid ? ToneAbs : -1;
-                    int tone2 = (int)Math.Round(analyzer2.FindNote(64, 1770));
-                    int tone3 = (int)Math.Round(analyzer3.GetNote());
-                    /*ct++;
-                    if (!ToneValid)
+                    detectedTones[0] = ToneValid ? ToneAbs : -1;
+                    detectedTones[1] = (int)Math.Round(analyzer2.FindNote(64, 1770));
+                    detectedTones[2] = (int)Math.Round(analyzer3.GetNote());
+                    detectedTones[3] = analyzer4.CurrentPitchRecord.MidiNote - 15 - 21;
+                    lCt++;
+                    /*if (!ToneValid)
                         CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms not detected");
                     else if (ToneAbs % 12 != curNote % 12)
                         CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms wrongly detected as " + _ToneToNote(ToneAbs));
                     else
                         ok++;*/
-                    bool ok1 = _IsNoteValid(tone1, time, tones);
-                    bool ok2 = _IsNoteValid(tone2, time, tones);
-                    bool ok3 = _IsNoteValid(tone3, time, tones);
-                    if (!ok1 || !ok2 || !ok3)
+                    bool[] valids = new bool[4];
+                    bool error = false;
+                    for (int i = 0; i < 4; i++)
                     {
-                        CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms detected as " + _ToneToNote(tone1) + (ok1 ? "" : "(!)") + "; " + _ToneToNote(tone2) +
-                                           (ok2 ? "" : "(!)") + "; " + _ToneToNote(tone3) + (ok3 ? "" : "(!)") + "; ");
+                        valids[i] = _IsNoteValid(detectedTones[i], time, tones);
+                        if (valids[i])
+                            oks[i]++;
+                        else
+                            error = true;
+                    }
+                    if (error)
+                    {
+                        string msg = "Note " + _ToneToNote(curNote) + " at " + time + "ms detected as ";
+                        for (int i = 0; i < 4; i++)
+                            msg += _ToneToNote(detectedTones[i]) + (valids[i] ? "" : "(!)") + "; ";
+                        CBase.Log.LogDebug(msg);
                     }
                 }
+                string msg2 = "Detected ";
+                for (int i = 0; i < 4; i++)
+                    msg2 += oks[i] + "|" + (lCt - oks[i]) + " ";
+                CBase.Log.LogDebug(msg2);
             }
             catch (Exception e)
             {
