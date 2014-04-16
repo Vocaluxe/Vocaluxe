@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Collections;
-using System.Threading;
+using Pitch;
 
-namespace Pitch
+namespace Vocaluxe.Lib.Sound.Record.Pitch
 {
     /// <summary>
     /// Tracks pitch
     /// </summary>
+    // ReSharper disable InconsistentNaming
     public class PitchTracker
     {
         private const int kOctaveSteps = 96;
@@ -50,6 +50,8 @@ namespace Pitch
         private IIRFilter m_iirFilterHiLo;
         private IIRFilter m_iirFilterHiHi;
 
+        public float LastMaxVol = 0;
+
         public delegate void PitchDetectedHandler(PitchTracker sender, PitchRecord pitchRecord);
 
         public event PitchDetectedHandler PitchDetected;
@@ -87,8 +89,9 @@ namespace Pitch
                     return;
 
                 m_detectLevelThreshold = newValue;
-                Setup();
+                //Setup();
             }
+            get { return m_detectLevelThreshold; }
         }
 
         /// <summary>
@@ -229,19 +232,20 @@ namespace Pitch
             m_circularBufferHi.Available = m_detectOverlapSamples;
         }
 
-        /// <summary>
-        /// Process the passed in buffer of data. During this call, the PitchDetected event will
-        /// be fired zero or more times, depending how many pitch records will fit in the new
-        /// and previously cached buffer.
-        ///
-        /// This means that there is no size restriction on the buffer that is passed into ProcessBuffer.
-        /// For instance, ProcessBuffer can be called with one very large buffer that contains all of the
-        /// audio to be processed (many PitchDetected events will be fired), or just a small buffer at
-        /// a time which is more typical for realtime applications. In the latter case, the PitchDetected
-        /// event might not be fired at all since additional calls must first be made to accumulate enough
-        /// data do another pitch detect operation.
-        /// </summary>
-        /// <param name="inBuffer">Input buffer. Samples must be in the range -1.0 to 1.0</param>
+        ///  <summary>
+        ///  Process the passed in buffer of data. During this call, the PitchDetected event will
+        ///  be fired zero or more times, depending how many pitch records will fit in the new
+        ///  and previously cached buffer.
+        /// 
+        ///  This means that there is no size restriction on the buffer that is passed into ProcessBuffer.
+        ///  For instance, ProcessBuffer can be called with one very large buffer that contains all of the
+        ///  audio to be processed (many PitchDetected events will be fired), or just a small buffer at
+        ///  a time which is more typical for realtime applications. In the latter case, the PitchDetected
+        ///  event might not be fired at all since additional calls must first be made to accumulate enough
+        ///  data do another pitch detect operation.
+        ///  </summary>
+        ///  <param name="inBuffer">Input buffer. Samples must be in the range -1.0 to 1.0</param>
+        /// <param name="maxVolume"></param>
         /// <param name="sampleCount">Number of samples to process. Zero means all samples in the buffer</param>
         public void ProcessBuffer(float[] inBuffer, int sampleCount = 0)
         {
@@ -250,6 +254,8 @@ namespace Pitch
 
             int samplesProcessed = 0;
             int srcLength = sampleCount == 0 ? inBuffer.Length : Math.Min(sampleCount, inBuffer.Length);
+
+            float maxVolume = LastMaxVol * 0.85f;
 
             while (samplesProcessed < srcLength)
             {
@@ -268,12 +274,21 @@ namespace Pitch
                 while (m_circularBufferLo.ReadBuffer(m_pitchBufLo, m_curPitchSamplePos, m_pitchBufSize + m_detectOverlapSamples))
                 {
                     float pitch1;
-                    float pitch2 = 0.0f;
+                    float pitch2;
                     float detectedPitch = 0.0f;
 
                     m_circularBufferHi.ReadBuffer(m_pitchBufHi, m_curPitchSamplePos, m_pitchBufSize + m_detectOverlapSamples);
 
-                    pitch1 = m_dsp.DetectPitch(m_pitchBufLo, m_pitchBufHi, m_pitchBufSize);
+                    maxVolume = 0f;
+                    for (int i = 0; i < (m_pitchBufSize + m_detectOverlapSamples) / 2; i++)
+                    {
+                        if (maxVolume < m_pitchBufHi[i])
+                            maxVolume = m_pitchBufHi[i];
+                        if (maxVolume < m_pitchBufLo[i])
+                            maxVolume = m_pitchBufLo[i];
+                    }
+
+                    pitch1 = (maxVolume >= m_detectLevelThreshold) ? m_dsp.DetectPitch(m_pitchBufLo, m_pitchBufHi) : 0f;
 
                     if (pitch1 > 0.0f)
                     {
@@ -281,7 +296,7 @@ namespace Pitch
                         m_pitchBufLo.Copy(m_pitchBufLo, m_detectOverlapSamples - 1, 0, m_pitchBufSize);
                         m_pitchBufHi.Copy(m_pitchBufHi, m_detectOverlapSamples - 1, 0, m_pitchBufSize);
 
-                        pitch2 = m_dsp.DetectPitch(m_pitchBufLo, m_pitchBufHi, m_pitchBufSize);
+                        pitch2 = m_dsp.DetectPitch(m_pitchBufLo, m_pitchBufHi);
 
                         if (pitch2 > 0.0f)
                         {
@@ -301,6 +316,7 @@ namespace Pitch
 
                 samplesProcessed += frameCount;
             }
+            LastMaxVol = maxVolume;
         }
 
         /// <summary>
@@ -311,7 +327,7 @@ namespace Pitch
             if (m_sampleRate < 1.0f)
                 return;
 
-            m_dsp = new PitchDsp(m_sampleRate, kMinFreq, kMaxFreq, m_detectLevelThreshold);
+            m_dsp = new PitchDsp(m_sampleRate, kMinFreq, kMaxFreq);
 
             m_iirFilterLoLo = new IIRFilter();
             m_iirFilterLoLo.Proto = IIRFilter.ProtoType.Butterworth;
@@ -411,4 +427,6 @@ namespace Pitch
             public int MidiCents { get; set; }
         }
     }
+
+    // ReSharper restore InconsistentNaming
 }

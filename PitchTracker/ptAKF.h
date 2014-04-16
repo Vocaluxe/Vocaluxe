@@ -29,7 +29,9 @@ public:
 		_AnalysisBuf.insert(begin, end);
 	}
 
-	int GetNote(double* restrict maxVolume, float* restrict weights);
+	int GetNote(float* restrict maxVolume, float* restrict weights);
+	void SetVolumeThreshold(float threshold);
+	float GetVolumeThreshold(){return _VolTreshold;}
 	static int GetNumHalfTones(){ return _MaxHalfTone - _MinHalfTone + 1;}
 
 private:
@@ -48,8 +50,11 @@ private:
 	constexpr static size_t _SampleCt = 2048;
 	RingBuffer<_SampleCt * 2> _AnalysisBuf;
 	unsigned _Step;
+	float _VolTreshold;
+	float _LastMaxVol;
 
-	static int _GetNote(float* restrict samples, double* restrict maxVolume, float* restrict weights);
+	int _GetNote(float* restrict samples, float* restrict maxVolume, float* restrict weights);
+
 	static float _AnalyzeBySampleCt(float* restrict samples, float* restrict samplesWindowed, float samplesPerPeriodD);
 	static inline float _AnalyzeByTone(float* restrict samples, float* restrict samplesWindowed, int toneIndex);
 	static float _AKFBySampleCt(float* restrict samples, float samplesPerPeriodD);

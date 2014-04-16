@@ -102,7 +102,7 @@ typedef struct _minmax {
 	struct _minmax *next;
 } minmax;
 
-double _dywapitch_computeWaveletPitch(double * samples, int startsample, int samplecount) {
+double _dywapitch_computeWaveletPitch(double * samples, int startsample, int samplecount, float* maxVolume, double volThreshold) {
 	double pitchF = 0.0;
 	
 	int i, j;
@@ -143,6 +143,9 @@ double _dywapitch_computeWaveletPitch(double * samples, int startsample, int sam
 		maxValue = maxValue - theDC;
 		minValue = minValue - theDC;
 		double amplitudeMax = (maxValue > -minValue ? maxValue : -minValue);
+		*maxVolume = static_cast<float>(amplitudeMax + theDC);
+		if(*maxVolume < volThreshold)
+			return 0.0;
 		
 		ampltitudeThreshold = amplitudeMax*maximaThresholdRatio;
 		//asLog("dywapitch theDC=%f ampltitudeThreshold=%f\n", theDC, ampltitudeThreshold);
@@ -439,8 +442,8 @@ void dywapitch_inittracking(dywapitchtracker *pitchtracker) {
 	pitchtracker->_pitchConfidence = -1;
 }
 
-double dywapitch_computepitch(dywapitchtracker *pitchtracker, double * samples, int startsample, int samplecount) {
-	double raw_pitch = _dywapitch_computeWaveletPitch(samples, startsample, samplecount);
+double dywapitch_computepitch(dywapitchtracker *pitchtracker, double * samples, int startsample, int samplecount, float* maxVolume, double volThreshold) {
+	double raw_pitch = _dywapitch_computeWaveletPitch(samples, startsample, samplecount, maxVolume, volThreshold);
 	return _dywapitch_dynamicprocess(pitchtracker, raw_pitch);
 }
 

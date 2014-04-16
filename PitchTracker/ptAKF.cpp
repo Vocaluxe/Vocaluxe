@@ -47,6 +47,8 @@ PtAKF::PtAKF(unsigned step){
 		}
 	}
 	_Step = step;
+	_VolTreshold = 0.01f;
+	_LastMaxVol = 0.f;
 }
 
 PtAKF::~PtAKF(){
@@ -59,13 +61,19 @@ PtAKF::~PtAKF(){
 	}
 }
 
-int PtAKF::GetNote(double* restrict maxVolume, float* restrict weights){
+void PtAKF::SetVolumeThreshold(float threshold){
+	_VolTreshold = threshold;
+}
+
+int PtAKF::GetNote(float* restrict maxVolume, float* restrict weights){
 	float AnaylsisBuf[_SampleCt];
 	size_t size = _AnalysisBuf.size();
 	if(size > _SampleCt)
 		_AnalysisBuf.pop(size - _SampleCt);
-	if(!_AnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + _SampleCt))
+	if(!_AnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + _SampleCt)){
+		*maxVolume = _LastMaxVol * 0.85f;
 		return -1;
+	}
 	_AnalysisBuf.pop(_Step);
 	return _GetNote(AnaylsisBuf, maxVolume, weights);
 }
@@ -96,7 +104,7 @@ void PtAKF::AddPeak(SPeak peaks[], float curWeight, int toneIndex){
 	}
 }
 
-int PtAKF::_GetNote(float* restrict samples, double* restrict maxVolume, float* restrict weights){
+int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* restrict weights){
 	// Calculate maximum volume
 
 	float maxVolumeL = 0;
@@ -105,8 +113,11 @@ int PtAKF::_GetNote(float* restrict samples, double* restrict maxVolume, float* 
 		if(vol > maxVolumeL)
 			maxVolumeL = vol;
 	}
-	//maxVolumeL /= 32767.;
+	//maxVolumeL /= 32767.f;
 	*maxVolume = maxVolumeL;
+
+	if(maxVolumeL < _VolTreshold)
+		return -1;
 
 	float samplesWindowed[_SampleCt];
 

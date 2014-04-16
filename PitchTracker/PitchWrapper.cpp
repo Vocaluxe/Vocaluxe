@@ -39,17 +39,17 @@ void Analyzer_Process(Analyzer* analyzer){
     analyzer->process();
 }
 
-double Analyzer_GetPeak(Analyzer* analyzer){
+float Analyzer_GetPeak(Analyzer* analyzer){
 	if(!analyzer)
 		return -999;
-	return analyzer->getPeak();   
+	return static_cast<float>(analyzer->getPeakRaw());
 }
 
 double Analyzer_FindNote(Analyzer* analyzer, double minFreq, double maxFreq){
 	if(!analyzer)
 		return -1;
 	const Tone* tone = analyzer->findTone(minFreq, maxFreq);
-	return (tone == NULL) ? -1 : FreqToNote(tone->freq);    
+	return (tone == NULL) ? -1 : FreqToNote(tone->freq);
 }
 
 bool Analyzer_OutputFloat(Analyzer* analyzer, float* data, int sampleCt, float rate){
@@ -71,6 +71,18 @@ int PtAKF_GetNumHalfTones(){
 	return PtAKF::GetNumHalfTones();
 }
 
+void PtAKF_SetVolumeTreshold(PtAKF* analyzer, float threshold){
+	if(!analyzer)
+		return;
+	analyzer->SetVolumeThreshold(threshold);
+}
+
+float PtAKF_GetVolumeThreshold(PtAKF* analyzer){
+	if(!analyzer)
+		return 0.f;
+	return analyzer->GetVolumeThreshold();
+}
+
 void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt){
 	if(sampleCt <= 0 || !analyzer)
 		return;
@@ -82,7 +94,7 @@ void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt){
 	//analyzer->input(dataShort, dataShort + sampleCt);
 }
 
-int PtAKF_GetNote(PtAKF* analyzer, double* maxVolume, float* weights){
+int PtAKF_GetNote(PtAKF* analyzer, float* maxVolume, float* weights){
 	if(!analyzer)
 		return -1;
 	return analyzer->GetNote(maxVolume, weights);
@@ -97,6 +109,18 @@ void PtDyWa_Free(PtDyWa* analyzer){
 		delete analyzer;
 }
 
+void PtDyWa_SetVolumeTreshold(PtDyWa* analyzer, float threshold){
+	if(!analyzer)
+		return;
+	analyzer->SetVolumeThreshold(threshold);
+}
+
+float PtDyWa_GetVolumeThreshold(PtDyWa* analyzer){
+	if(!analyzer)
+		return 0.f;
+	return analyzer->GetVolumeThreshold();
+}
+
 void PtDyWa_InputByte(PtDyWa* analyzer, char* data, int sampleCt){
 	if(sampleCt <= 0 || !analyzer)
 		return;
@@ -105,16 +129,10 @@ void PtDyWa_InputByte(PtDyWa* analyzer, char* data, int sampleCt){
 	freeFloatArray(dataFloat);
 }
 
-void PtDyWa_Process(PtDyWa* analyzer){
-	if(!analyzer)
-		return;
-	analyzer->Process();
-}
-
-double PtDyWa_GetNote(PtDyWa* analyzer){
+double PtDyWa_FindNote(PtDyWa* analyzer, float* maxVolume){
 	if(!analyzer)
 		return -1;
-	return analyzer->GetNote();
+	return analyzer->FindNote(maxVolume);
 }
 
 /*

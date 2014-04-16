@@ -24,6 +24,8 @@ using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
 using Pitch;
+using Vocaluxe.Lib.Sound.Record.Pitch;
+using Vocaluxe.Lib.Sound.Record.PitchTracker;
 using VocaluxeLib;
 using VocaluxeLib.Utils;
 
@@ -38,17 +40,18 @@ namespace Vocaluxe.Lib.Sound.Record
         private const double _BaseToneFreq = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
         private const double _HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 #endif
-        private CPtAKF _Analyzer = new CPtAKF();
+        private CPitchTracker _PitchTracker = new CPtAKF();
 
-        private double _MaxVolume;
+        private float _MaxVolume;
 
         public CBuffer()
         {
-            MinVolume = 0.02f;
+            VolTreshold = 0.02f;
             ToneWeigths = new float[GetNumHalfTones()];
             Reset();
 #if TEST_PITCH
             _TestPitchDetection();
+            Reset();
 #endif
         }
 
@@ -57,9 +60,9 @@ namespace Vocaluxe.Lib.Sound.Record
             _Dispose();
         }
 
-        public static int GetNumHalfTones()
+        public int GetNumHalfTones()
         {
-            return CPtAKF.GetNumHalfTones();
+            return _PitchTracker.GetNumHalfTones();
         }
 
         public int ToneAbs { get; private set; }
@@ -68,7 +71,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public float MaxVolume
         {
-            get { return (float)_MaxVolume; }
+            get { return _MaxVolume; }
         }
 
         public bool ToneValid { get; private set; }
@@ -78,7 +81,11 @@ namespace Vocaluxe.Lib.Sound.Record
         /// <summary>
         ///     Minimum volume for a tone to be valid
         /// </summary>
-        public float MinVolume { get; set; }
+        public float VolTreshold
+        {
+            get { return _PitchTracker.VolumeTreshold; }
+            set { _PitchTracker.VolumeTreshold = value; }
+        }
 
         public void Reset()
         {
@@ -97,14 +104,14 @@ namespace Vocaluxe.Lib.Sound.Record
             // voice passthrough (send data to playback-device)
             //if (assigned(fVoiceStream)) then
             //fVoiceStream.WriteData(Buffer, BufferSize);
-            _Analyzer.Input(buffer);
+            _PitchTracker.Input(buffer);
         }
 
         public void AnalyzeBuffer()
         {
             //_MaxVolume = _Analyzer.GetPeak() / 43 + 1;
-            int tone = _Analyzer.GetNote(out _MaxVolume, ToneWeigths); //(int)Math.Round(_Analyzer.FindNote()); // 
-            if (tone >= 0 && _MaxVolume >= MinVolume)
+            int tone = _PitchTracker.GetNote(out _MaxVolume, ToneWeigths); //(int)Math.Round(_Analyzer.FindNote()); // 
+            if (tone >= 0)
             {
                 ToneAbs = tone;
                 Tone = ToneAbs % 12;
@@ -122,10 +129,10 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private void _Dispose()
         {
-            if (_Analyzer != null)
+            if (_PitchTracker != null)
             {
-                _Analyzer.Dispose();
-                _Analyzer = null;
+                _PitchTracker.Dispose();
+                _PitchTracker = null;
             }
         }
 
@@ -288,11 +295,13 @@ namespace Vocaluxe.Lib.Sound.Record
                 int curTimeIndex = -1;
                 int curNote = -1;
                 const int maxSamplesPerBatch = 512;
-                CAnalyzer analyzer2 = new CAnalyzer();
-                CPtDyWa analyzer3 = new CPtDyWa();
-                PitchTracker analyzer4 = new PitchTracker {SampleRate = 44100, DetectLevelThreshold = 0.001f};
+                CPitchTracker analyzer2 = new CAnalyzer();
+                CPitchTracker analyzer3 = new CPtDyWa();
+                CPitchTracker analyzer4 = new CPtSharp();
                 int[] detectedTones = new int[4];
                 int[] oks = new int[4];
+                float dummyMaxVol;
+                float[] dummyWeights = new float[ToneWeigths.Length];
                 int lCt = 0;
                 while (wavFile.NumSamplesLeft > maxSamplesPerBatch)
                 {
@@ -303,14 +312,7 @@ namespace Vocaluxe.Lib.Sound.Record
                     AnalyzeBuffer();
                     analyzer2.Input(samples);
                     analyzer3.Input(samples);
-                    analyzer2.Process();
-                    analyzer3.Process();
-                    short[] samplesShort = new short[samples.Length / 2];
-                    Buffer.BlockCopy(samples, 0, samplesShort, 0, samples.Length);
-                    float[] samplesFloat = new float[samplesShort.Length];
-                    for (int i = 0; i < samplesShort.Length; i++)
-                        samplesFloat[i] = (float)samplesShort[i] / short.MaxValue;
-                    analyzer4.ProcessBuffer(samplesFloat);
+                    analyzer4.Input(samples);
                     while (curTimeIndex + 1 < tones.Count && time >= tones[curTimeIndex + 1].Time)
                     {
                         curTimeIndex++;
@@ -319,9 +321,9 @@ namespace Vocaluxe.Lib.Sound.Record
                     if (curNote < 0)
                         continue;
                     detectedTones[0] = ToneValid ? ToneAbs : -1;
-                    detectedTones[1] = (int)Math.Round(analyzer2.FindNote(64, 1770));
-                    detectedTones[2] = (int)Math.Round(analyzer3.GetNote());
-                    detectedTones[3] = analyzer4.CurrentPitchRecord.MidiNote - 15 - 21;
+                    detectedTones[1] = analyzer2.GetNote(out dummyMaxVol, dummyWeights);
+                    detectedTones[2] = analyzer3.GetNote(out dummyMaxVol, dummyWeights);
+                    detectedTones[3] = analyzer4.GetNote(out dummyMaxVol, dummyWeights);
                     lCt++;
                     /*if (!ToneValid)
                         CBase.Log.LogDebug("Note " + _ToneToNote(curNote) + " at " + time + "ms not detected");

@@ -11,12 +11,14 @@ public:
 		_AnalysisBuf.insert(begin, end);
 	}
 
-	void Process();
-	double GetNote();
+	double FindNote(float* maxVolume);
+	void SetVolumeThreshold(float threshold);
+	float GetVolumeThreshold(){return _VolTreshold;}
 private:
 	dywapitchtracker _State;
 	constexpr static size_t _SampleCt = 2048;
 	RingBuffer<_SampleCt * 2> _AnalysisBuf;
 	unsigned _Step;
-	double _LastNote;
+	float _VolTreshold;
+	float _LastMaxVol;
 };

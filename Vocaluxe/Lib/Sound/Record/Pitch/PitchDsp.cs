@@ -28,7 +28,6 @@ namespace Pitch
         private int m_blockLen34; // 3/4 block len
         private int m_blockLen44; // 4/4 block len
         private double m_sampleRate;
-        private float m_detectLevelThreshold;
 
         private int m_numCourseSteps;
         private float[] m_pCourseFreqOffset;
@@ -45,12 +44,11 @@ namespace Pitch
         /// <param name="minFreq"></param>
         /// <param name="maxFreq"></param>
         /// <param name="fFreqStep"></param>
-        public PitchDsp(double sampleRate, float minPitch, float maxPitch, float detectLevelThreshold)
+        public PitchDsp(double sampleRate, float minPitch, float maxPitch)
         {
             m_sampleRate = sampleRate;
             m_minPitch = minPitch;
             m_maxPitch = maxPitch;
-            m_detectLevelThreshold = detectLevelThreshold;
 
             m_minNote = (int)(PitchToMidiNote(m_minPitch) + 0.5f) + 2;
             m_maxNote = (int)(PitchToMidiNote(m_maxPitch) + 0.5f) - 2;
@@ -117,19 +115,9 @@ namespace Pitch
         /// <summary>
         /// Detect the pitch
         /// </summary>
-        public float DetectPitch(float[] samplesLo, float[] samplesHi, int numSamples)
+        public float DetectPitch(float[] samplesLo, float[] samplesHi)
         {
-            float pitch = 0.0f;
-
-            if (!LevelIsAbove(samplesLo, numSamples, m_detectLevelThreshold) &&
-                !LevelIsAbove(samplesHi, numSamples, m_detectLevelThreshold))
-            {
-                // Level is too low
-                return 0.0f;
-            }
-
-            pitch = DetectPitchLo(samplesLo, samplesHi);
-            return pitch;
+            return DetectPitchLo(samplesLo, samplesHi);
         }
 
         /// <summary>

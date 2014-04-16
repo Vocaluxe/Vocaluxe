@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Vocaluxe.Lib.Sound.Record
+namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 {
     /// <summary>
     /// Analyzer from Performous
     /// Should be very reliable but needs some proof (artificial tests show some errors)
     /// </summary>
-    class CAnalyzer : IDisposable
+    class CAnalyzer : CPitchTracker
     {
         #region Imports
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -29,7 +29,7 @@ namespace Vocaluxe.Lib.Sound.Record
         private static extern void Analyzer_Process(IntPtr analyzer);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern double Analyzer_GetPeak(IntPtr analyzer);
+        private static extern float Analyzer_GetPeak(IntPtr analyzer);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern double Analyzer_FindNote(IntPtr analyzer, double minFreq, double maxFreq);
@@ -39,45 +39,28 @@ namespace Vocaluxe.Lib.Sound.Record
         #endregion
 
         private IntPtr _Instance;
+        private float _VolumeTreshold;
 
         public CAnalyzer(uint step = 200)
         {
             _Instance = Analyzer_Create(step);
+            _VolumeTreshold = 0.01f;
         }
 
-        ~CAnalyzer()
-        {
-            _Dispose(false);
-        }
-
-        public void Input(float[] data)
-        {
-            Analyzer_InputFloat(_Instance, data, data.Length);
-        }
-
-        public void Input(short[] data)
-        {
-            Analyzer_InputShort(_Instance, data, data.Length);
-        }
-
-        public void Input(byte[] data)
+        public override void Input(byte[] data)
         {
             Analyzer_InputByte(_Instance, data, data.Length / 2);
         }
 
-        public void Process()
+        public override int GetNote(out float maxVolume, float[] weights)
         {
             Analyzer_Process(_Instance);
-        }
-
-        public double GetPeak()
-        {
-            return Analyzer_GetPeak(_Instance);
-        }
-
-        public double FindNote(double minFreq = 35.0, double maxFreq = 1000.0)
-        {
-            return Analyzer_FindNote(_Instance, minFreq, maxFreq);
+            maxVolume = Analyzer_GetPeak(_Instance);
+            if (maxVolume < _VolumeTreshold)
+                return -1;
+            int note = (int)Math.Round(Analyzer_FindNote(_Instance, 60, 1800));
+            _SetWeights(note, weights);
+            return note;
         }
 
         public bool Output(float[] data, float rate)
@@ -85,7 +68,7 @@ namespace Vocaluxe.Lib.Sound.Record
             return Analyzer_OutputFloat(_Instance, data, data.Length, rate);
         }
 
-        private void _Dispose(bool disposing)
+        protected override void _Dispose(bool disposing)
         {
             if (_Instance == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
@@ -93,10 +76,15 @@ namespace Vocaluxe.Lib.Sound.Record
             _Instance = IntPtr.Zero;
         }
 
-        public void Dispose()
+        public override int GetNumHalfTones()
         {
-            _Dispose(true);
-            GC.SuppressFinalize(this);
+            return NumHalfTonesDef;
+        }
+
+        public override float VolumeTreshold
+        {
+            get { return _VolumeTreshold; }
+            set { _VolumeTreshold = value; }
         }
     }
 
@@ -104,7 +92,7 @@ namespace Vocaluxe.Lib.Sound.Record
     /// Pitchtracker (Pt) that uses autocorrelation (AKF) and AMDF
     /// Quite fast and perfect in artificial tests, but may fail in real world scenarios (e.g. missing fundamental)
     /// </summary>
-    class CPtAKF : IDisposable
+    class CPtAKF : CPitchTracker
     {
         #region Imports
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -113,14 +101,20 @@ namespace Vocaluxe.Lib.Sound.Record
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void PtAKF_Free(IntPtr analyzer);
 
-        [DllImport("PitchTracker.dll", EntryPoint = "PtAKF_GetNumHalfTones", CallingConvention = CallingConvention.Cdecl)]
-        public static extern int GetNumHalfTones();
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int PtAKF_GetNumHalfTones();
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void PtAKF_InputByte(IntPtr analyzer, [In] byte[] data, int sampleCt);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int PtAKF_GetNote(IntPtr analyzer, [Out] out double maxVolume, [Out] float[] weights);
+        private static extern void PtAKF_SetVolumeThreshold(IntPtr analyzer, float threshold);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern float PtAKF_GetVolumeThreshold(IntPtr analyzer);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern int PtAKF_GetNote(IntPtr analyzer, [Out] out float maxVolume, [Out] float[] weights);
         #endregion
 
         private IntPtr _Instance;
@@ -130,41 +124,40 @@ namespace Vocaluxe.Lib.Sound.Record
             _Instance = PtAKF_Create(step);
         }
 
-        ~CPtAKF()
+        public override int GetNumHalfTones()
         {
-            _Dispose(false);
+            return PtAKF_GetNumHalfTones();
         }
 
-        public void Input(byte[] data)
+        public override float VolumeTreshold
+        {
+            get { return PtAKF_GetVolumeThreshold(_Instance); }
+            set { PtAKF_SetVolumeThreshold(_Instance, value); }
+        }
+
+        public override void Input(byte[] data)
         {
             PtAKF_InputByte(_Instance, data, data.Length / 2);
         }
 
-        public int GetNote(out double maxVolume, float[] weights)
+        public override int GetNote(out float maxVolume, float[] weights)
         {
             return PtAKF_GetNote(_Instance, out maxVolume, weights);
         }
 
-        private void _Dispose(bool disposing)
+        protected override void _Dispose(bool disposing)
         {
             if (_Instance == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             PtAKF_Free(_Instance);
             _Instance = IntPtr.Zero;
         }
-
-        public void Dispose()
-        {
-            _Dispose(true);
-            GC.SuppressFinalize(this);
-        }
     }
 
     /// <summary>
     /// Pitchtracker (Pt) that uses a dynamic wavelet (DyWa) algorithm 
-    /// Quite fast and perfect in artificial tests, but may fail in real world scenarios (e.g. missing fundamental)
     /// </summary>
-    class CPtDyWa : IDisposable
+    class CPtDyWa : CPitchTracker
     {
         #region Imports
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
@@ -174,13 +167,16 @@ namespace Vocaluxe.Lib.Sound.Record
         private static extern void PtDyWa_Free(IntPtr analyzer);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern void PtDyWa_SetVolumeThreshold(IntPtr analyzer, float threshold);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
+        private static extern float PtDyWa_GetVolumeThreshold(IntPtr analyzer);
+
+        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
         private static extern void PtDyWa_InputByte(IntPtr analyzer, [In] byte[] data, int sampleCt);
 
         [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int PtDyWa_Process(IntPtr analyzer);
-
-        [DllImport("PitchTracker.dll", CallingConvention = CallingConvention.Cdecl)]
-        private static extern double PtDyWa_GetNote(IntPtr analyzer);
+        private static extern double PtDyWa_FindNote(IntPtr analyzer, [Out] out float maxVolume);
         #endregion
 
         private IntPtr _Instance;
@@ -190,38 +186,84 @@ namespace Vocaluxe.Lib.Sound.Record
             _Instance = PtDyWa_Create(step);
         }
 
-        ~CPtDyWa()
-        {
-            _Dispose(false);
-        }
-
-        public void Input(byte[] data)
+        public override void Input(byte[] data)
         {
             PtDyWa_InputByte(_Instance, data, data.Length / 2);
         }
 
-        public void Process()
+        public override int GetNote(out float maxVolume, float[] weights)
         {
-            PtDyWa_Process(_Instance);
+            int note = (int)Math.Round(PtDyWa_FindNote(_Instance, out maxVolume));
+            _SetWeights(note, weights);
+            return note;
         }
 
-        public double GetNote()
+        public override int GetNumHalfTones()
         {
-            return PtDyWa_GetNote(_Instance);
+            return NumHalfTonesDef;
         }
 
-        private void _Dispose(bool disposing)
+        public override float VolumeTreshold
+        {
+            get { return PtDyWa_GetVolumeThreshold(_Instance); }
+            set { PtDyWa_SetVolumeThreshold(_Instance, value); }
+        }
+
+        protected override void _Dispose(bool disposing)
         {
             if (_Instance == IntPtr.Zero)
                 throw new ObjectDisposedException(GetType().Name);
             PtDyWa_Free(_Instance);
             _Instance = IntPtr.Zero;
         }
+    }
 
-        public void Dispose()
+    /// <summary>
+    /// Pitchtracker (Pt) in C# that uses IIR filters for smoothing and an intelligent detection algorithm to reduce calculations
+    /// </summary>
+    class CPtSharp : CPitchTracker
+    {
+        private Pitch.PitchTracker _Instance;
+
+        public CPtSharp()
         {
-            _Dispose(true);
-            GC.SuppressFinalize(this);
+            _Instance = new Pitch.PitchTracker {SampleRate = 44100, DetectLevelThreshold = 0.01f, PitchRecordHistorySize = 1};
+        }
+
+        public override void Input(byte[] data)
+        {
+            short[] samplesShort = new short[data.Length / 2];
+            Buffer.BlockCopy(data, 0, samplesShort, 0, data.Length);
+            float[] samplesFloat = new float[samplesShort.Length];
+            for (int i = 0; i < samplesShort.Length; i++)
+                samplesFloat[i] = (float)samplesShort[i] / short.MaxValue;
+            _Instance.ProcessBuffer(samplesFloat);
+        }
+
+        public override int GetNote(out float maxVolume, float[] weights)
+        {
+            int note = _Instance.CurrentPitchRecord.MidiNote - 15 - 21;
+            maxVolume = _Instance.LastMaxVol;
+            _SetWeights(note, weights);
+            return note;
+        }
+
+        public override int GetNumHalfTones()
+        {
+            return NumHalfTonesDef;
+        }
+
+        public override float VolumeTreshold
+        {
+            get { return _Instance.DetectLevelThreshold; }
+            set { _Instance.DetectLevelThreshold = value; }
+        }
+
+        protected override void _Dispose(bool disposing)
+        {
+            if (_Instance == null)
+                throw new ObjectDisposedException(GetType().Name);
+            _Instance = null;
         }
     }
 }

@@ -12,21 +12,24 @@ DllExport void Analyzer_InputFloat(Analyzer* analyzer, float* data, int sampleCt
 DllExport void Analyzer_InputShort(Analyzer* analyzer, short* data, int sampleCt);
 DllExport void Analyzer_InputByte(Analyzer* analyzer, char* data, int sampleCt);
 DllExport void Analyzer_Process(Analyzer* analyzer);
-DllExport double Analyzer_GetPeak(Analyzer* analyzer);
+DllExport float Analyzer_GetPeak(Analyzer* analyzer);
 DllExport double Analyzer_FindNote(Analyzer* analyzer, double minFreq, double maxFreq);
 DllExport bool Analyzer_OutputFloat(Analyzer* analyzer, float* data, int sampleCt, float rate);
 
 DllExport PtAKF* PtAKF_Create(unsigned step);
 DllExport void PtAKF_Free(PtAKF* analyzer);
 DllExport int PtAKF_GetNumHalfTones();
+DllExport void PtAKF_SetVolumeThreshold(PtAKF* analyzer, float threshold);
+DllExport float PtAKF_GetVolumeThreshold(PtAKF* analyzer);
 DllExport void PtAKF_InputByte(PtAKF* analyzer, char* data, int sampleCt);
-DllExport int PtAKF_GetNote(PtAKF* analyzer, double* maxVolume, float* weights);
+DllExport int PtAKF_GetNote(PtAKF* analyzer, float* maxVolume, float* weights);
 
 DllExport PtDyWa* PtDyWa_Create(unsigned step);
 DllExport void PtDyWa_Free(PtDyWa* analyzer);
+DllExport void PtDyWa_SetVolumeTreshold(PtDyWa* analyzer,float threshold);
+DllExport float PtDyWa_GetVolumeThreshold(PtDyWa* analyzer);
 DllExport void PtDyWa_InputByte(PtDyWa* analyzer, char* data, int sampleCt);
-DllExport void PtDyWa_Process(PtDyWa* analyzer);
-DllExport double PtDyWa_GetNote(PtDyWa* analyzer);
+DllExport double PtDyWa_FindNote(PtDyWa* analyzer);
 
 /*
 public ref class CTone {
