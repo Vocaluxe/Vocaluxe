@@ -71,7 +71,7 @@ int PtAKF_GetNumHalfTones(){
 	return PtAKF::GetNumHalfTones();
 }
 
-void PtAKF_SetVolumeTreshold(PtAKF* analyzer, float threshold){
+void PtAKF_SetVolumeThreshold(PtAKF* analyzer, float threshold){
 	if(!analyzer)
 		return;
 	analyzer->SetVolumeThreshold(threshold);

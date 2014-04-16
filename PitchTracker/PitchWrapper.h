@@ -29,7 +29,7 @@ DllExport void PtDyWa_Free(PtDyWa* analyzer);
 DllExport void PtDyWa_SetVolumeTreshold(PtDyWa* analyzer,float threshold);
 DllExport float PtDyWa_GetVolumeThreshold(PtDyWa* analyzer);
 DllExport void PtDyWa_InputByte(PtDyWa* analyzer, char* data, int sampleCt);
-DllExport double PtDyWa_FindNote(PtDyWa* analyzer);
+DllExport double PtDyWa_FindNote(PtDyWa* analyzer, float* maxVolume);
 
 /*
 public ref class CTone {
