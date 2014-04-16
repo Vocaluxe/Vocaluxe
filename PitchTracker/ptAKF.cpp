@@ -162,7 +162,7 @@ int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* r
 			lastWeight = curWeight;
 		}
 		//Set all invalid weights to 0
-		for(int toneIndex = lastValidTone + 1;toneIndex < _MaxHalfTone; toneIndex++){
+		for(int toneIndex = lastValidTone + 1;toneIndex <= _MaxHalfTone; toneIndex++){
 			weights[toneIndex - _MinHalfTone] = 0.f;
 		}
 	}
