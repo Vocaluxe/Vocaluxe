@@ -273,11 +273,11 @@
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtSharp.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\IPitchTracker.cs" />
-    <Compile Include="Lib\Sound\Record\Pitch\CircularBuffer.cs" />
-    <Compile Include="Lib\Sound\Record\Pitch\Extensions.cs" />
-    <Compile Include="Lib\Sound\Record\Pitch\IIRFilter.cs" />
-    <Compile Include="Lib\Sound\Record\Pitch\PitchDsp.cs" />
-    <Compile Include="Lib\Sound\Record\Pitch\PitchTracker.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\CircularBuffer.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\Extensions.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\IIRFilter.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\PitchDsp.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\PitchTracker.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoderThread.cs" />
     <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />

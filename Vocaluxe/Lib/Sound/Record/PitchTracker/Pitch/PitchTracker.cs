@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using Pitch;
 
-namespace Vocaluxe.Lib.Sound.Record.Pitch
+namespace Vocaluxe.Lib.Sound.Record.PitchTracker.Pitch
 {
     /// <summary>
     /// Tracks pitch

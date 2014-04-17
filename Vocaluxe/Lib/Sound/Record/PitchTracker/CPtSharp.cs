@@ -4,6 +4,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 {
     /// <summary>
     /// Pitchtracker (Pt) in C# that uses IIR filters for smoothing and an intelligent detection algorithm to reduce calculations
+    /// DO NOT USE in 32 Bit! Due to floating point errors the filter will raise all values to NAN (TODO: FIX it!)
     /// </summary>
     class CPtSharp : CPitchTracker
     {

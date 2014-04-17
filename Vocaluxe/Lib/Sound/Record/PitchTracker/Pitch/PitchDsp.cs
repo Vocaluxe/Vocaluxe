@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Runtime.InteropServices;
-using System.Collections;
 
-namespace Pitch
+namespace Vocaluxe.Lib.Sound.Record.PitchTracker.Pitch
 {
     /// <summary>
     /// Pitch related DSP

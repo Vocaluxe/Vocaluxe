@@ -116,7 +116,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
                 {
                     Buffer.BlockCopy(data, 0, data2, 0, samplesPerBuffer * 2);
                     analyzer.Input(data2);
-                    analyzer.GetNote(out _MaxVolume, _Weights[j]);
+                    analyzer.GetNote(out _MaxVolume, _Weights[i]);
                 }
                 sw.Stop();
                 _SamplesPerSec[i] = (int)Math.Round(samplesPerBuffer * repeats / (sw.ElapsedMilliseconds / 1000.0));

@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
-namespace Pitch
+namespace Vocaluxe.Lib.Sound.Record.PitchTracker.Pitch
 {
     public static class Extensions
     {
@@ -12,7 +9,7 @@ namespace Pitch
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="buffer"></param>
-        static public void Clear(this float[] buffer)
+        public static void Clear(this float[] buffer)
         {
             Array.Clear(buffer, 0, buffer.Length);
         }
@@ -22,7 +19,7 @@ namespace Pitch
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="buffer"></param>
-        static public void Clear(this double[] buffer)
+        public static void Clear(this double[] buffer)
         {
             Array.Clear(buffer, 0, buffer.Length);
         }
@@ -35,15 +32,15 @@ namespace Pitch
         /// <param name="shiftBy"></param>
         /// <param name="startIdx"></param>
         /// <param name="length"></param>
-        static public void Copy(this float[] fromBuffer, float[] toBuffer, int fromStart, int toStart, int length)
+        public static void Copy(this float[] fromBuffer, float[] toBuffer, int fromStart, int toStart, int length)
         {
             if (toBuffer == null || fromBuffer.Length == 0 || toBuffer.Length == 0)
                 return;
 
-            var fromBegIdx = fromStart;
-            var fromEndIdx = fromStart + length;
-            var toBegIdx = toStart;
-            var toEndIdx = toStart + length;
+            int fromBegIdx = fromStart;
+            int fromEndIdx = fromStart + length;
+            int toBegIdx = toStart;
+            int toEndIdx = toStart + length;
 
             if (fromBegIdx < 0)
             {
@@ -88,7 +85,7 @@ namespace Pitch
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="buffer"></param>
-        static public void Clear(this float[] buffer, int startIdx, int endIdx)
+        public static void Clear(this float[] buffer, int startIdx, int endIdx)
         {
             Array.Clear(buffer, startIdx, endIdx - startIdx + 1);
         }
@@ -99,7 +96,7 @@ namespace Pitch
         /// <typeparam name="T"></typeparam>
         /// <param name="buffer"></param>
         /// <param name="?"></param>
-        static public void Fill(this double[] buffer, double value)
+        public static void Fill(this double[] buffer, double value)
         {
             for (int idx = 0; idx < buffer.Length; idx++)
                 buffer[idx] = value;

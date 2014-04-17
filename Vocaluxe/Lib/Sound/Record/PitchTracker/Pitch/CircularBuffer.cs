@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Collections;
 
-namespace Pitch
+namespace Vocaluxe.Lib.Sound.Record.PitchTracker.Pitch
 {
     public class CircularBuffer<T> : IDisposable
     {
