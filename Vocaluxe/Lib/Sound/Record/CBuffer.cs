@@ -15,7 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-#define TEST_PITCH
+//#define TEST_PITCH
 
 using System;
 using Vocaluxe.Lib.Sound.Record.PitchTracker;
