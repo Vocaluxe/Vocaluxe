@@ -57,6 +57,9 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
             CBase.Log.LogDebug(msg);
             _TestCount += _CurTestCount;
             _CurTestCount = 0;
+            //Do a reset first as we actually have an impossible situation (drop by multiple octaves)
+            byte[] data = new byte[4096 * 2];
+            _Process(data);
         }
         #endregion
 
@@ -94,7 +97,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
                 msg += " Errors=" + (_TestCount - _PassedCount[i]);
                 msg += " Passed=" + _PassedCount[i];
                 msg += " Total=" + _TestCount;
-                msg += " Speed=" + _SamplesPerSec[i] + "samples/s (=" + (_SamplesPerSec[i] / 44100) + "rec.s/s)";
+                msg += " Speed=" + _SamplesPerSec[i] / 1000 + "kSamples/s (=" + (_SamplesPerSec[i] / 44100) + "rec.s/s)";
                 CBase.Log.LogDebug(msg);
             }
         }
@@ -157,10 +160,14 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
             bool[] valids = new bool[_Analyzers.Count];
             for (int distort = 0; distort < 10; distort++)
             {
+                //Do a reset first as we actually have an impossible situation (drop by multiple octaves)
+                byte[] data = new byte[sampleCt * 2];
+                _Process(data);
                 for (int tone = toneFrom; tone <= toneTo; tone++)
                 {
-                    byte[] data;
                     _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone), 44100, sampleCt, ref angle, out data);
+                    if (tone == 46 && distort == 4)
+                        data = new byte[data.Length];
                     _Distort(data, tone, distort);
 
                     for (int i = 0; i < sampleCt / batchCt; i++)
@@ -181,10 +188,14 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
                         }
                         if (ok)
                             continue;
-                        string msg = "Note " + _ToneToNote(tone) + " detected as ";
+                        string msg = "Note " + _ToneToNote(tone) + "(" + distort + ") at buffer " + (i + 1) + "/" + (sampleCt / batchCt) + " detected as ";
                         for (int j = 0; j < valids.Length; j++)
                             msg += _ToneToNote(_Tones[j]) + (valids[j] ? "" : "(!)") + "; ";
                         CBase.Log.LogDebug(msg);
+                        /*CWavFile w = new CWavFile();
+                        w.Create(tone + "-" + distort + ".wav", 1, 44100, 16);
+                        w.Write16BitSamples(data);
+                        w.Close();*/
                     }
                 }
             }
@@ -314,14 +325,14 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
         private static bool _IsNoteValid(int note, int time, IList<STimedNote> tones)
         {
-            const int lastNoteMaxTimeDiff = 1024 * 1000 / 44100; // old note is valid for 1024 more samples
+            const int lastNoteMaxTimeDiff = 1536 * 1000 / 44100; // old note is valid for 1536 more samples
             for (int i = 0; i < tones.Count; i++)
             {
                 if (tones[i].Time > time)
                     break;
                 if (i + 1 == tones.Count || time <= tones[i + 1].Time + lastNoteMaxTimeDiff)
                 {
-                    if (tones[i].Note == note)
+                    if (tones[i].Note == note || tones[i].Note < 0)
                         return true;
                 }
             }
@@ -371,7 +382,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
                     if (error)
                     {
                         string msg = "Note " + _ToneToNote(curNote) + " at " + time + "ms detected as ";
-                        for (int i = 0; i < 4; i++)
+                        for (int i = 0; i < _Tones.Length; i++)
                             msg += _ToneToNote(_Tones[i]) + (valids[i] ? "" : "(!)") + "; ";
                         CBase.Log.LogDebug(msg);
                     }
