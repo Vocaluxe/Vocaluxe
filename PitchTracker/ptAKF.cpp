@@ -43,12 +43,15 @@ PtAKF::PtAKF(unsigned step){
 		_Window = new float[_SampleCt];
 		double cosMult = 2. * M_PI / (_SampleCt - 1.); //To simplify and speed up
 		for (int i = 0; i < _SampleCt; i++) {
-			_Window[i] = static_cast<float>(0.54 - 0.46 * cos(i * cosMult));
+			_Window[i] = static_cast<float>(0.64 - 0.36 * cos(i * cosMult));
 		}
 	}
 	_Step = step;
 	_VolTreshold = 0.01f;
 	_LastMaxVol = 0.f;
+	for(int i = 0; i < _SmoothCt; i++)
+		_LastTones[i] = -1;
+	_LastToneIndex = 0;
 }
 
 PtAKF::~PtAKF(){
@@ -67,15 +70,42 @@ void PtAKF::SetVolumeThreshold(float threshold){
 
 int PtAKF::GetNote(float* restrict maxVolume, float* restrict weights){
 	float AnaylsisBuf[_SampleCt];
-	size_t size = _AnalysisBuf.size();
-	if(size > _SampleCt)
-		_AnalysisBuf.pop(size - _SampleCt);
-	if(!_AnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + _SampleCt)){
-		*maxVolume = _LastMaxVol * 0.85f;
-		return -1;
+	int note = _LastTones[_LastToneIndex];
+	*maxVolume = _LastMaxVol * 0.85f;
+	if(_AnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + _SampleCt)){
+		do{
+			_AnalysisBuf.pop(_Step);
+			note = _GetNote(AnaylsisBuf, maxVolume, weights);
+			if(++_LastToneIndex >= _SmoothCt)
+				_LastToneIndex = 0;
+			_LastTones[_LastToneIndex] = note;
+		}while(_AnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + _SampleCt));
+		note = _GetSmoothTone();
 	}
-	_AnalysisBuf.pop(_Step);
-	return _GetNote(AnaylsisBuf, maxVolume, weights);
+	return note;
+}
+
+int PtAKF::_GetSmoothTone(){
+	int tones[_SmoothCt];
+	int ct = 0;
+	for(int i=0; i < _SmoothCt; i++){
+		int j;
+		int tone = _LastTones[i];
+		if(tone < 0)
+			continue;
+		for(j = ct; j > 0; j--){
+			if(tones[j-1] > tone)
+				tones[j] = tones[j-1];
+			else break;
+		}
+		tones[j] = tone;
+		ct++;
+	}
+	if(ct == 0)
+		return -1; //Nothing detected
+	if(ct % 2 == 0)
+		return (tones[ct/2] + tones[ct/2-1]) / 2; //For even cts get the mean of the 2 middle tones
+	return tones[ct/2]; //For odd cts get the median (middle tone)
 }
 
 void PtAKF::InitPeaks(SPeak peaks[_MaxPeaks]){
@@ -104,7 +134,7 @@ void PtAKF::AddPeak(SPeak peaks[], float curWeight, int toneIndex){
 	}
 }
 
-int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* restrict weights){
+int PtAKF::_GetNote(float samples[_SampleCt], float* restrict maxVolume, float weights[_MaxHalfTone+1]){
 	// Calculate maximum volume
 
 	float maxVolumeL = 0;
@@ -132,15 +162,15 @@ int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* r
 	int lastValidTone = 0;
 	float lastWeight = 1.f;
 	float maxWeight = 0.f;
-	for (int toneIndex = _MinHalfTone; toneIndex <= _MaxHalfTone; toneIndex++)
-	{
+
+	for (int toneIndex = 0; toneIndex <= _MaxHalfTone; toneIndex++){
 		float curWeight = _AnalyzeByTone(samples, samplesWindowed, toneIndex);
 
 		if(curWeight > maxWeight){
 			maxWeight = curWeight;
 		}
 
-		weights[toneIndex - _MinHalfTone] = curWeight;
+		weights[toneIndex] = curWeight;
 
 		//Filter:
 		if(lastWeight > curWeight || (lastWeight > 0.f && curWeight <= 0.f))
@@ -161,9 +191,11 @@ int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* r
 			}
 			lastWeight = curWeight;
 		}
+		if(lastValidTone < 0)
+			return -1;
 		//Set all invalid weights to 0
 		for(int toneIndex = lastValidTone + 1;toneIndex <= _MaxHalfTone; toneIndex++){
-			weights[toneIndex - _MinHalfTone] = 0.f;
+			weights[toneIndex] = 0.f;
 		}
 	}
 
@@ -171,10 +203,10 @@ int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* r
 	InitPeaks(peaks);
 	int numPeaks = 0;
 	bool up = true;
-	for(int i = _MinHalfTone + 1; i <= _MaxHalfTone; i++){
-		if(weights[i-1] > weights[i]){
+	for(int i = 1; i <= _MaxHalfTone; i++){
+		if(weights[i - 1] > weights[i]){
 			if(up){
-				AddPeak(peaks, weights[i - 1 - _MinHalfTone], i - 1);
+				AddPeak(peaks, weights[i - 1], i - 1);
 				numPeaks++;
 				up = false;
 			}
@@ -182,8 +214,8 @@ int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* r
 			up = true;
 		}
 	}
-	if(up){
-		AddPeak(peaks, weights[_MaxHalfTone - _MinHalfTone], _MaxHalfTone);
+	if(up && weights[_MaxHalfTone] > 0.001f){
+		AddPeak(peaks, weights[_MaxHalfTone], _MaxHalfTone);
 		numPeaks++;
 	}
 	if(numPeaks > _MaxPeaks)
@@ -193,9 +225,11 @@ int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* r
 	// This is necessary because we may have our real peak a bit off the exact tone frequency
 	// and a 'wrong' peak that is exactly at another tone which might become higher than the one at the 'right' tone
 
+	maxWeight = peaks[_MaxPeaks-1].weight;
+	if(maxWeight < 0.00001f) // Just a small number to check for zero values
+		return -1;
 	int maxTone = peaks[_MaxPeaks-1].toneIndex;
 	int maxToneFine = -1;
-	maxWeight = peaks[_MaxPeaks-1].weight;
 	for(int i = _MaxPeaks - numPeaks; i < _MaxPeaks; i++){
 		float curWeight = peaks[i].weight;
 		if(curWeight * 3.f < maxWeight)
@@ -217,7 +251,7 @@ int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* r
 			}else
 				continue;
 		}
-		weights[toneIndex - _MinHalfTone] = curWeight;
+		weights[toneIndex] = curWeight;
 		if(curWeight > maxWeight){
 			maxTone = toneIndex;
 			maxToneFine = 1 - otherToneFineIndex;
@@ -225,10 +259,10 @@ int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* r
 		}
 
 		// Now check also neighbouring tone
-		if(otherToneIndex > 0){
+		if(otherToneIndex >= 0){
 			float curWeightOther = _AnalyzeBySampleCt(samples,  samplesWindowed, _SamplesPerPeriodPerToneFine[otherToneIndex * 2 + otherToneFineIndex]);
-			if(curWeightOther > weights[otherToneIndex - _MinHalfTone]){
-				weights[otherToneIndex - _MinHalfTone] = curWeightOther;
+			if(curWeightOther > weights[otherToneIndex]){
+				weights[otherToneIndex] = curWeightOther;
 				if(curWeightOther > maxWeight){
 					maxTone = otherToneIndex;
 					maxToneFine = otherToneFineIndex;
@@ -238,20 +272,20 @@ int PtAKF::_GetNote(float* restrict samples, float* restrict maxVolume, float* r
 		}
 	}
 
-	float energy = _AKFBySampleCt(samples, 0);
-	float maxAKF = (maxToneFine < 0) ? _AKFByTone(samples, maxTone) : _AKFBySampleCt(samples, _SamplesPerPeriodPerToneFine[maxTone * 2 + maxToneFine]);
+	float energy = _AKFBySampleCt(samplesWindowed, 0);
+	float maxAKF = (maxToneFine < 0) ? _AKFByTone(samplesWindowed, maxTone) : _AKFBySampleCt(samplesWindowed, _SamplesPerPeriodPerToneFine[maxTone * 2 + maxToneFine]);
 
 	//if(maxWeight - minWeight > 0.025){
-	if(maxAKF >= 0.35f * energy){
+	if(maxAKF >= 0.33f * energy){
 		return maxTone;
 	}else return -1;
 }
 
-float PtAKF::_AnalyzeByTone(float* restrict samples, float* restrict samplesWindowed, int toneIndex){
+float PtAKF::_AnalyzeByTone(float samples[_SampleCt], float samplesWindowed[_SampleCt], int toneIndex){
 	return _AnalyzeBySampleCt(samples, samplesWindowed, _SamplesPerPeriodPerTone[toneIndex]);
 }
 
-float PtAKF::_AnalyzeBySampleCt(float* restrict samples, float* restrict samplesWindowed, float samplesPerPeriodD){
+float PtAKF::_AnalyzeBySampleCt(float samples[_SampleCt], float samplesWindowed[_SampleCt], float samplesPerPeriodD){
 	// Use method by Kobayashi and Shimamura (2001): Combine AKF and AMDF to a new f(z)=AKF(z)/(AMDF(z)+k) with k=1
 
 	float akf = _AKFBySampleCt(samplesWindowed, samplesPerPeriodD);
@@ -263,11 +297,11 @@ float PtAKF::_AnalyzeBySampleCt(float* restrict samples, float* restrict samples
 	//{toneIndex}: {accumDistAKF} ; {accumDistAMDF}; {result}
 }
 
-float PtAKF::_AKFByTone(float* restrict samples, int toneIndex){
+float PtAKF::_AKFByTone(float samples[_SampleCt], int toneIndex){
 	return _AKFBySampleCt(samples, _SamplesPerPeriodPerTone[toneIndex]);
 }
 
-float PtAKF::_AKFBySampleCt(float* restrict samples, float samplesPerPeriodD){
+float PtAKF::_AKFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD){
 	int samplesPerPeriod = static_cast<int>(samplesPerPeriodD);
 	float fHigh = samplesPerPeriodD - samplesPerPeriod;
 	float fLow = 1.0f - fHigh;
@@ -288,11 +322,11 @@ float PtAKF::_AKFBySampleCt(float* restrict samples, float samplesPerPeriodD){
 	return accumDist / _SampleCt;
 }
 
-float PtAKF::_AMDFByTone(float* restrict samples, int toneIndex){
+float PtAKF::_AMDFByTone(float samples[_SampleCt], int toneIndex){
 	return _AKFBySampleCt(samples, _SamplesPerPeriodPerTone[toneIndex]);
 }
 
-float PtAKF::_AMDFBySampleCt(float* restrict samples, float samplesPerPeriodD){
+float PtAKF::_AMDFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD){
 	int samplesPerPeriod = static_cast<int>(samplesPerPeriodD);
 	float fHigh = samplesPerPeriodD - samplesPerPeriod;
 	float fLow = 1.0f - fHigh;

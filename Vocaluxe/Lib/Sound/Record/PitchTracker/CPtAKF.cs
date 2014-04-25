@@ -34,7 +34,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
         private IntPtr _Instance;
 
-        public CPtAKF(uint step = 200)
+        public CPtAKF(uint step = 400)
         {
             _Instance = PtAKF_Create(step);
         }

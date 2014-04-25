@@ -3,7 +3,7 @@
 #include <cmath>
 
 float* short2FloatArray(short* in, size_t len){
-	const float maxShort = 32767.0;
+	const float maxShort = 32767.0f;
 
 	float* result = static_cast<float*>(malloc(len * sizeof(float)));
 	float* curOut = result;

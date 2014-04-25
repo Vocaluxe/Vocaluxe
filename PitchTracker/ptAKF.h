@@ -32,7 +32,7 @@ public:
 	int GetNote(float* restrict maxVolume, float* restrict weights);
 	void SetVolumeThreshold(float threshold);
 	float GetVolumeThreshold(){return _VolTreshold;}
-	static int GetNumHalfTones(){ return _MaxHalfTone - _MinHalfTone + 1;}
+	static int GetNumHalfTones(){ return _MaxHalfTone + 1;}
 
 private:
 	static int _InitCount;
@@ -42,25 +42,29 @@ private:
 	// (cannot use halves as it would be ambiguous)
 	static float* restrict _SamplesPerPeriodPerToneFine;
 	static float* restrict _Window;
-	static constexpr int _MinHalfTone = 0;  //C2
+	//static constexpr int _MinHalfTone = 0;  //C2
 	static constexpr int _MaxHalfTone = 56;//47; //B5
 	static constexpr int _HalfTonesAdd = 4; //Additonal half tones to analyze to remove the peak at lag 0
 	static constexpr int _MaxPeaks = 10;
+	static constexpr int _SmoothCt = 3; //Number of samples used for smoothing the result
 
 	constexpr static size_t _SampleCt = 2048;
 	RingBuffer<_SampleCt * 2> _AnalysisBuf;
 	unsigned _Step;
 	float _VolTreshold;
 	float _LastMaxVol;
+	int _LastTones[_SmoothCt];
+	int _LastToneIndex;
 
-	int _GetNote(float* restrict samples, float* restrict maxVolume, float* restrict weights);
+	int _GetNote(float samples[_SampleCt], float* restrict maxVolume, float weights[_MaxHalfTone+1]);
+	int _GetSmoothTone();
 
-	static float _AnalyzeBySampleCt(float* restrict samples, float* restrict samplesWindowed, float samplesPerPeriodD);
-	static inline float _AnalyzeByTone(float* restrict samples, float* restrict samplesWindowed, int toneIndex);
-	static float _AKFBySampleCt(float* restrict samples, float samplesPerPeriodD);
-	static inline float _AKFByTone(float* restrict samples, int toneIndex);
-	static float _AMDFBySampleCt(float* restrict samples, float samplesPerPeriodD);
-	static inline float _AMDFByTone(float* restrict samples, int toneIndex);
+	static float _AnalyzeBySampleCt(float samples[_SampleCt], float samplesWindowed[_SampleCt], float samplesPerPeriodD);
+	static inline float _AnalyzeByTone(float samples[_SampleCt], float samplesWindowed[_SampleCt], int toneIndex);
+	static float _AKFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD);
+	static inline float _AKFByTone(float samples[_SampleCt], int toneIndex);
+	static float _AMDFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD);
+	static inline float _AMDFByTone(float samples[_SampleCt], int toneIndex);
 	static inline void InitPeaks(SPeak peaks[_MaxPeaks]);
 	static inline void AddPeak(SPeak peaks[_MaxPeaks], float curWeight, int toneIndex);
 };
