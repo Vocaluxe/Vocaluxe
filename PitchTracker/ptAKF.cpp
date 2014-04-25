@@ -163,16 +163,18 @@ int PtAKF::_GetNote(float samples[_SampleCt], float* restrict maxVolume, float w
 	float lastWeight = 1.f;
 	float maxWeight = 0.f;
 
+	#pragma omp parallel for schedule(static)
 	for (int toneIndex = 0; toneIndex <= _MaxHalfTone; toneIndex++){
 		float curWeight = _AnalyzeByTone(samples, samplesWindowed, toneIndex);
 
+		weights[toneIndex] = curWeight;
+	}
+
+	for (int toneIndex = 0; toneIndex <= _MaxHalfTone; toneIndex++){
+		float curWeight = weights[toneIndex];
 		if(curWeight > maxWeight){
 			maxWeight = curWeight;
 		}
-
-		weights[toneIndex] = curWeight;
-
-		//Filter:
 		if(lastWeight > curWeight || (lastWeight > 0.f && curWeight <= 0.f))
 			lastValidTone = toneIndex - 1;
 		lastWeight = curWeight;
