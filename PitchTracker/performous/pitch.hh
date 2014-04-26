@@ -86,6 +86,7 @@ public:
 	fft_t const& getFFT() const { return m_fft; }
 	/** Get the peak level in dB (negative value, 0.0 = clipping). **/
 	double getPeak() const { return 10.0 * log10(m_peak); }
+	double getPeakRaw() const { return m_peak; }
 	/** Get a list of all tones detected. **/
 	tones_t const& getTones() const { return m_tones; }
 	/** Find a tone within the singing range; prefers strong tones around 200-400 Hz. **/

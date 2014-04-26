@@ -15,36 +15,31 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-#define TEST_PITCH
+//#define TEST_PITCH
 
 using System;
-#if TEST_PITCH
-using System.Windows.Forms;
-using System.Diagnostics;
-using VocaluxeLib;
-
-#endif
+using Vocaluxe.Lib.Sound.Record.PitchTracker;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
     class CBuffer : IDisposable
     {
-#if TEST_PITCH
-        //Half tones: C C♯ D D# E F F♯ G G♯ A A# B
-        private const double _BaseToneFreq = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
-        private const double _HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
-#endif
-        private CPtAKF _Analyzer = new CPtAKF();
+        private CPitchTracker _PitchTracker = new CPtAKF();
 
-        private double _MaxVolume;
+        private float _MaxVolume;
 
         public CBuffer()
         {
-            MinVolume = 0.02f;
+            VolTreshold = 0.02f;
             ToneWeigths = new float[GetNumHalfTones()];
             Reset();
 #if TEST_PITCH
-            _TestPitchDetection();
+            CPitchTrackerTest tester = new CPitchTrackerTest();
+            tester.AddAnalyzer(new CAnalyzer());
+            tester.AddAnalyzer(new CPtAKF());
+            tester.AddAnalyzer(new CPtDyWa());
+            tester.AddAnalyzer(new CPtSharp());
+            tester.RunTest();
 #endif
         }
 
@@ -53,9 +48,9 @@ namespace Vocaluxe.Lib.Sound.Record
             _Dispose();
         }
 
-        public static int GetNumHalfTones()
+        public int GetNumHalfTones()
         {
-            return CPtAKF.GetNumHalfTones();
+            return _PitchTracker.GetNumHalfTones();
         }
 
         public int ToneAbs { get; private set; }
@@ -64,7 +59,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public float MaxVolume
         {
-            get { return (float)_MaxVolume; }
+            get { return _MaxVolume; }
         }
 
         public bool ToneValid { get; private set; }
@@ -74,7 +69,11 @@ namespace Vocaluxe.Lib.Sound.Record
         /// <summary>
         ///     Minimum volume for a tone to be valid
         /// </summary>
-        public float MinVolume { get; set; }
+        public float VolTreshold
+        {
+            get { return _PitchTracker.VolumeTreshold; }
+            set { _PitchTracker.VolumeTreshold = value; }
+        }
 
         public void Reset()
         {
@@ -93,15 +92,13 @@ namespace Vocaluxe.Lib.Sound.Record
             // voice passthrough (send data to playback-device)
             //if (assigned(fVoiceStream)) then
             //fVoiceStream.WriteData(Buffer, BufferSize);
-            _Analyzer.Input(buffer);
+            _PitchTracker.Input(buffer);
         }
 
         public void AnalyzeBuffer()
         {
-            //_Analyzer.Process();
-            //_MaxVolume = _Analyzer.GetPeak() / 43 + 1;
-            int tone = _Analyzer.GetNote(out _MaxVolume, ToneWeigths); //(int)Math.Round(_Analyzer.FindNote()); // 
-            if (tone >= 0 && _MaxVolume >= MinVolume)
+            int tone = _PitchTracker.GetNote(out _MaxVolume, ToneWeigths);
+            if (tone >= 0)
             {
                 ToneAbs = tone;
                 Tone = ToneAbs % 12;
@@ -119,160 +116,11 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private void _Dispose()
         {
-            if (_Analyzer != null)
+            if (_PitchTracker != null)
             {
-                _Analyzer.Dispose();
-                _Analyzer = null;
+                _PitchTracker.Dispose();
+                _PitchTracker = null;
             }
         }
-
-#if TEST_PITCH
-        private static bool _PitchTestRun;
-
-        private static string _ToneToNote(int tone, bool withOctave = true)
-        {
-            tone += 24;
-            string[] notes = {"C", "C♯", "D", "D#", "E", "F", "F♯", "G", "G♯", "A", "A#", "B"};
-            string result = notes[tone % 12];
-            if (withOctave)
-                result += (tone / 12);
-            return result;
-        }
-
-        private void _TestPitchDetection()
-        {
-            if (_PitchTestRun)
-                return;
-            _PitchTestRun = true;
-            int toneFrom = 0;
-            const int toneTo = 47; //B5
-            Console.WriteLine("Testing notes " + _ToneToNote(toneFrom) + " - " + _ToneToNote(toneTo));
-            byte[] data;
-            byte[] data2 = new byte[2048];
-            int ok = 0;
-            double angle = 0;
-            for (int distort = 0; distort < 10; distort++)
-            {
-                for (int tone = toneFrom; tone <= toneTo; tone++)
-                {
-                    _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone), 44100, ref angle, out data);
-                    _Distort(data, tone, distort);
-
-                    for (int i = 0; i < 4; i++)
-                    {
-                        Buffer.BlockCopy(data, i * 2048, data2, 0, 2048);
-                        ProcessNewBuffer(data2);
-                        AnalyzeBuffer();
-                    }
-                    if (!ToneValid)
-                        CBase.Log.LogDebug("Note " + _ToneToNote(tone) + " not detected (Distortion: " + distort + ")");
-                    else if (Tone != tone % 12)
-                        CBase.Log.LogDebug("Note " + _ToneToNote(tone) + " wrongly detected as " + _ToneToNote(Tone, false) + " (Distortion: " + distort + ")");
-                    else
-                        ok++;
-                }
-            }
-            _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, 5), 44100, ref angle, out data);
-            Stopwatch sw = new Stopwatch();
-            sw.Start();
-            const int repeats = 100;
-            for (int i = 0; i < repeats; i++)
-            {
-                ProcessNewBuffer(data);
-                AnalyzeBuffer();
-            }
-            sw.Stop();
-            string msg = "Analyser: Errors: " + ((toneTo - toneFrom + 1) * 10 - ok) + "; Speed: " +
-                         (int)(repeats / (sw.ElapsedMilliseconds / 1000.0)) + " buffers/s";
-            Console.WriteLine(msg);
-            MessageBox.Show(msg);
-            Reset();
-        }
-
-        private static short[] _GetDistort(int len, int tone, int type)
-        {
-            short[] sdata = new short[len];
-            if (type < 9)
-            {
-                int newTone = 1;
-                switch (type)
-                {
-                    case 0:
-                        newTone = 2;
-                        break;
-                    case 1:
-                        newTone = 3;
-                        break;
-                    case 2:
-                        newTone = 6;
-                        break;
-                    case 3:
-                        newTone = 8;
-                        break;
-                    case 4:
-                        newTone = 10;
-                        break;
-                    case 5:
-                        newTone = 15;
-                        break;
-                    case 6:
-                        newTone = 25;
-                        break;
-                    case 7:
-                        newTone = 26;
-                        break;
-                    case 8:
-                        newTone = 29;
-                        break;
-                }
-                byte[] data2;
-                double angle = 0;
-                _GetSineWave(_BaseToneFreq * Math.Pow(_HalftoneBase, tone + newTone), 44100, ref angle, out data2);
-                Buffer.BlockCopy(data2, 0, sdata, 0, len * 2);
-            }
-            else
-            {
-                Random r = new Random(0xBEEF);
-                for (int i = 0; i < sdata.Length; i++)
-                    sdata[i] = (short)(r.Next() - Int16.MinValue);
-            }
-            return sdata;
-        }
-
-        private static void _Distort(byte[] data, int tone, int distortCt)
-        {
-            if (distortCt < 1)
-                return;
-            short[] sdata = new short[data.Length / 2];
-            Buffer.BlockCopy(data, 0, sdata, 0, data.Length);
-
-            short[][] distortions = new short[distortCt][];
-            for (int i = 0; i < distortCt; i++)
-                distortions[i] = _GetDistort(data.Length / 2, tone, i);
-
-            for (int i = 0; i < sdata.Length; i++)
-            {
-                double distortion = 0;
-                for (int j = 0; j < distortCt; j++)
-                    distortion += distortions[j][i];
-                distortion /= distortCt;
-                sdata[i] = (short)(sdata[i] * 4.0 / 5.0 + distortion / 5.0);
-            }
-            Buffer.BlockCopy(sdata, 0, data, 0, data.Length);
-        }
-
-        private static void _GetSineWave(double freq, int sampleRate, ref double angle, out byte[] data)
-        {
-            const short max = short.MaxValue;
-            const int len = 4096; //sampleRate * durationMs / 1000;
-            short[] data16Bit = new short[len];
-            for (int i = 0; i < len; i++)
-                data16Bit[i] = (short)(Math.Sin(2 * Math.PI * i / sampleRate * freq + angle) * max);
-            angle = 2 * Math.PI * len / sampleRate * freq + angle;
-            angle = angle % (2 * Math.PI);
-            data = new byte[data16Bit.Length * 2];
-            Buffer.BlockCopy(data16Bit, 0, data, 0, data.Length);
-        }
-#endif
     }
 }
