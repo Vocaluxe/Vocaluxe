@@ -1,7 +1,6 @@
 #pragma once
 
 #include <cmath>
-#include "../compatibility.h"
 
 /**
  * @file sample.hpp Sample format definition and format conversions.

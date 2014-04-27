@@ -17,8 +17,13 @@
 #include "ptAKF.h"
 #include <cmath>
 
+#ifdef USE_FFT
+#include "FFT/FFT.h"
+#endif
+
 static constexpr double BaseToneFrequency = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
 static constexpr double HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
+
 int PtAKF::_InitCount = 0;
 float* restrict PtAKF::_SamplesPerPeriodPerTone = NULL;
 float* restrict PtAKF::_SamplesPerPeriodPerToneFine = NULL;
@@ -41,9 +46,9 @@ PtAKF::PtAKF(unsigned step){
 			_SamplesPerPeriodPerToneFine[2 * toneIndex + 1] = static_cast<float>(44100.0 / GetFrequencyFromTone(toneIndex + 1./3.)); // samples for a bit above exact frequency
 		}
 		_Window = new float[_SampleCt];
-		double cosMult = 2. * M_PI / (_SampleCt - 1.); //To simplify and speed up
+		double cosMult = 2. * M_PI / (2 * _SampleCt - 1.); //To simplify and speed up; 2 * _SampleCt because we extend the data by a factor of 2
 		for (int i = 0; i < _SampleCt; i++) {
-			_Window[i] = static_cast<float>(0.64 - 0.36 * cos(i * cosMult));
+			_Window[i] = static_cast<float>(0.54 - 0.46 * cos(i * cosMult));
 		}
 	}
 	_Step = step;
@@ -149,12 +154,20 @@ int PtAKF::_GetNote(float samples[_SampleCt], float* restrict maxVolume, float w
 	if(maxVolumeL < _VolTreshold)
 		return -1;
 
-	float samplesWindowed[_SampleCt];
+	float samplesWindowed[_SampleCt * 2];
 
 	for(int i = 0; i < _SampleCt; i++){
 		samplesWindowed[i] = samples[i] * _Window[i];
 	}
 
+#ifdef USE_FFT
+	for(int i = _SampleCt; i < _SampleCt * 2; i++){
+		samplesWindowed[i] = 0.f;
+	}
+	float samplesFFT[_SampleCt+1]; // +1 for middle value!
+	PowerSpectrum(_SampleCt*2, samplesWindowed, samplesFFT);
+	RealInverseRealFFT(_SampleCt*2, samplesFFT, _AKFValues);
+#endif
 	// Now analyze the samples and get peaks at the most appropriate tones
 
 	//Attention: We have a peak at lag 0 that might stretch that far, that we detect a wrong "peak" at _MaxHalfTone
@@ -163,6 +176,7 @@ int PtAKF::_GetNote(float samples[_SampleCt], float* restrict maxVolume, float w
 	float lastWeight = 1.f;
 	float maxWeight = 0.f;
 
+	//TODO: When using FFT this can be speed up a lot by only checking around the AKF peaks
 	#pragma omp parallel for schedule(static)
 	for (int toneIndex = 0; toneIndex <= _MaxHalfTone; toneIndex++){
 		float curWeight = _AnalyzeByTone(samples, samplesWindowed, toneIndex);
@@ -307,6 +321,10 @@ float PtAKF::_AKFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD){
 	int samplesPerPeriod = static_cast<int>(samplesPerPeriodD);
 	float fHigh = samplesPerPeriodD - samplesPerPeriod;
 	float fLow = 1.0f - fHigh;
+#ifdef USE_FFT
+	float akf2 = _AKFValues[samplesPerPeriod] * fLow + _AKFValues[samplesPerPeriod+1] * fHigh;
+	return akf2 / (_SampleCt * _SampleCt);
+#else
 
 	float accumDist = 0; // accumulated distances
 
@@ -322,10 +340,11 @@ float PtAKF::_AKFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD){
 	}
 
 	return accumDist / _SampleCt;
+#endif
 }
 
 float PtAKF::_AMDFByTone(float samples[_SampleCt], int toneIndex){
-	return _AKFBySampleCt(samples, _SamplesPerPeriodPerTone[toneIndex]);
+	return _AMDFBySampleCt(samples, _SamplesPerPeriodPerTone[toneIndex]);
 }
 
 float PtAKF::_AMDFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD){

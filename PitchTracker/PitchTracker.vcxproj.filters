@@ -28,6 +28,12 @@
     <Filter Include="Headerdateien\dywapitchtrack">
       <UniqueIdentifier>{2a09cee1-51b7-4c24-aa9f-32bec53c3a36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\FFT">
+      <UniqueIdentifier>{498f64e2-ff83-41fd-be25-c613750f0e34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\FFT">
+      <UniqueIdentifier>{0791b62f-ef8d-40e2-b67e-a6d9dead8720}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PitchWrapper.cpp">
@@ -50,6 +56,12 @@
     </ClCompile>
     <ClCompile Include="Helper.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="FFT\FFT.cpp">
+      <Filter>Quelldateien\FFT</Filter>
+    </ClCompile>
+    <ClCompile Include="FFT\RealFFTf.cpp">
+      <Filter>Quelldateien\FFT</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,6 +88,12 @@
     </ClInclude>
     <ClInclude Include="dywapitchtrack\ptDyWa.h">
       <Filter>Headerdateien\dywapitchtrack</Filter>
+    </ClInclude>
+    <ClInclude Include="FFT\FFT.h">
+      <Filter>Headerdateien\FFT</Filter>
+    </ClInclude>
+    <ClInclude Include="FFT\RealFFTf.h">
+      <Filter>Headerdateien\FFT</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
