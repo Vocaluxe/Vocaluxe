@@ -25,13 +25,14 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 {
-    class CPortAudioStream : CPortAudioCommon, IDisposable
+    class CPortAudioStream : IDisposable
     {
         private const long _Bufsize = 1000000L;
         private const long _Beginrefill = 800000L;
 
         public readonly int ID;
         private readonly Closeproc _Closeproc;
+        private CPortAudioHandle _PaHandle;
 
         private readonly CSyncTimer _SyncTimer;
         private int _ByteCount = 4;
@@ -207,12 +208,12 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         {
             Paused = false;
             _AfterFadeAction = EStreamAction.Nothing;
-            _CheckError("StartStream", PortAudioSharp.PortAudio.Pa_StartStream(_Stream));
+            _PaHandle.CheckError("StartStream", PortAudioSharp.PortAudio.Pa_StartStream(_Stream));
         }
 
         public void Stop()
         {
-            _CheckError("StopStream (playback)", PortAudioSharp.PortAudio.Pa_StopStream(_Stream));
+            _PaHandle.CheckError("StopStream (playback)", PortAudioSharp.PortAudio.Pa_StopStream(_Stream));
             Skip(0f);
         }
 
@@ -230,14 +231,11 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             if (!File.Exists(fileName))
                 return false;
 
-            bool driverInitialized = false;
             try
             {
-                if (!_InitDriver())
-                    return false;
-                driverInitialized = true;
+                _PaHandle = new CPortAudioHandle();
 
-                int hostApi = _GetHostApi();
+                int hostApi = _PaHandle.GetHostApi();
                 _ApiInfo = PortAudioSharp.PortAudio.Pa_GetHostApiInfo(hostApi);
                 _OutputDeviceInfo = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_ApiInfo.defaultOutputDevice);
                 if (_OutputDeviceInfo.defaultLowOutputLatency < 0.1)
@@ -247,8 +245,11 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             }
             catch (Exception)
             {
-                if (driverInitialized)
-                    _CloseDriver();
+                if (_PaHandle != null)
+                {
+                    _PaHandle.Close();
+                    _PaHandle = null;
+                }
                 CLog.LogError("Error Init PortAudio Playback");
                 return false;
             }
@@ -260,7 +261,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             SFormatInfo format = _Decoder.GetFormatInfo();
             if (format.SamplesPerSecond == 0)
             {
-                _CloseDriver();
+                _PaHandle.Close();
+                _PaHandle = null;
                 _Decoder.Close();
                 _Decoder = null;
                 CLog.LogError("Error Init PortAudio Playback (samples=0)");
@@ -282,7 +284,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                     hostApiSpecificStreamInfo = IntPtr.Zero
                 };
 
-            if (!_OpenOutputStream(
+            if (!_PaHandle.OpenOutputStream(
                 out _Stream,
                 ref outputParams,
                 format.SamplesPerSecond,
@@ -291,7 +293,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 _PaStreamCallback,
                 IntPtr.Zero) || _Stream == IntPtr.Zero)
             {
-                _CloseDriver();
+                _PaHandle.Close();
+                _PaHandle = null;
                 _Decoder.Close();
                 _Decoder = null;
                 return false;
@@ -430,9 +433,11 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         private void _DoFree()
         {
-            _CloseStream(_Stream);
-            _CloseDriver();
+            _PaHandle.CloseStream(_Stream);
+            _PaHandle.Close();
+            _PaHandle = null;
             _Decoder.Close();
+            _Decoder = null;
 
             _Closeproc(ID);
         }
