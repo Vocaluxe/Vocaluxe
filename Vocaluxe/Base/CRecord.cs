@@ -96,6 +96,16 @@ namespace Vocaluxe.Base
             return _Record.GetMaxVolume(player);
         }
 
+        public static float GetVolumeThreshold(int player)
+        {
+            return _Record.GetVolumeThreshold(player);
+        }
+
+        public static void SetVolumeThreshold(int player, float threshold)
+        {
+            _Record.SetVolumeThreshold(player, threshold);
+        }
+
         public static int NumHalfTones(int player)
         {
             return _Record.NumHalfTones();

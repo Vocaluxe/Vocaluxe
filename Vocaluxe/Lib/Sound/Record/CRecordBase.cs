@@ -5,7 +5,7 @@ using Vocaluxe.Base;
 namespace Vocaluxe.Lib.Sound.Record
 {
     /// <summary>
-    /// Base class to implement common functionality for Record classes
+    ///     Base class to implement common functionality for Record classes
     /// </summary>
     abstract class CRecordBase
     {
@@ -53,7 +53,7 @@ namespace Vocaluxe.Lib.Sound.Record
         }
 
         /// <summary>
-        /// Procedure to be called by descendent classes with data that got recorded
+        ///     Procedure to be called by descendent classes with data that got recorded
         /// </summary>
         /// <param name="device">Device from which the data was recorded</param>
         /// <param name="data">Recorded samples, assume Int16 and interleaved for multi-channels</param>
@@ -123,6 +123,19 @@ namespace Vocaluxe.Lib.Sound.Record
         public float GetMaxVolume(int player)
         {
             return _Initialized ? _Buffer[player].MaxVolume : 0f;
+        }
+
+        public float GetVolumeThreshold(int player)
+        {
+            return _Initialized ? _Buffer[player].VolTreshold : 0f;
+        }
+
+        public void SetVolumeThreshold(int player, float threshold)
+        {
+            if (!_Initialized)
+                return;
+
+            _Buffer[player].VolTreshold = threshold;
         }
 
         public bool ToneValid(int player)

@@ -119,6 +119,22 @@ namespace Vocaluxe.Lib.Sound.Record
         float GetMaxVolume(int player);
 
         /// <summary>
+        ///     Gets the treshold for detecting silence
+        ///     Value (0-1) for which everything below is considered silence
+        ///     <param name="player">0-based player index</param>
+        ///     <returns>Threshold</returns>
+        /// </summary>
+        float GetVolumeThreshold(int player);
+
+        /// <summary>
+        ///     Sets the treshold for detecting silence
+        ///     Value (0-1) for which everything below is considered silence
+        ///     <param name="player">0-based player index</param>
+        ///     <param name="threshold">Threshold</param>
+        /// </summary>
+        void SetVolumeThreshold(int player, float threshold);
+
+        /// <summary>
         ///     Returns whether the current tone is valid. That includes, if maximum volume is higher than the threshold
         /// </summary>
         /// <param name="player">0-based player index</param>
