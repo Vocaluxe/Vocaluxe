@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
@@ -224,7 +223,6 @@ namespace Vocaluxe.Screens
 
             if (_CheckMicConfig())
             {
-                Console.WriteLine(CRecord.GetMaxVolume(0));
                 int player = _SelectSlides[_SelectSlideRecordChannel1].Selection - 1;
                 if (player >= 0)
                 {
