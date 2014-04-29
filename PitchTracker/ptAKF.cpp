@@ -76,7 +76,6 @@ void PtAKF::SetVolumeThreshold(float threshold){
 int PtAKF::GetNote(float* restrict maxVolume, float* restrict weights){
 	float AnaylsisBuf[_SampleCt];
 	int note = _LastTones[_LastToneIndex];
-	*maxVolume = _LastMaxVol * 0.85f;
 	if(_AnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + _SampleCt)){
 		do{
 			_AnalysisBuf.pop(_Step);
@@ -86,6 +85,9 @@ int PtAKF::GetNote(float* restrict maxVolume, float* restrict weights){
 			_LastTones[_LastToneIndex] = note;
 		}while(_AnalysisBuf.read(AnaylsisBuf, AnaylsisBuf + _SampleCt));
 		note = _GetSmoothTone();
+		_LastMaxVol = *maxVolume;
+	}else{
+		*maxVolume = _LastMaxVol * 0.85f;
 	}
 	return note;
 }
