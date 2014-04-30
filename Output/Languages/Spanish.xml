@@ -173,5 +173,5 @@
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Videos de Fondo</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Previsualización del Video</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Videos al Cantar</string>
-  <string name="TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND">TODO: Display current backgroundmusic video</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">TODO: Display current backgroundmusic video</string>
 </resources>

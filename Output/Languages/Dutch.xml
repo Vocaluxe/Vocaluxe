@@ -199,8 +199,8 @@
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Videoachtergronden</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Videopreview</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Video tijdens zingen</string>
-  <string name="TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND">Toon huidige achtergrondmuziekvideo</string>
-  <string name="TR_SCREENO_VIDEO_WEBCAMDEVICES">Webcams</string>
-  <string name="TR_SCREENO_VIDEO_WEBCAMCAPABILITIES">Webcaminstellingen</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Toon huidige achtergrondmuziekvideo</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcaminstellingen</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
 </resources>

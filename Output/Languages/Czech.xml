@@ -205,9 +205,9 @@
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Pozadí obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Náhled obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Obrazové záznamy během přehrávání</string>
-  <string name="TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND">Zobrazit nynější obrazový záznam k hudbě na pozadí</string>
-  <string name="TR_SCREENO_VIDEO_WEBCAMDEVICES">Kamery</string>
-  <string name="TR_SCREENO_VIDEO_WEBCAMCAPABILITIES">Schopnosti kamer</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Zobrazit nynější obrazový záznam k hudbě na pozadí</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Kamery</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Schopnosti kamer</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Přizpůsobení obrazovky</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Stiskněte Ctrl + Alt + Shift + šipky pro upravení obrazovky</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">Ctrl + Alt + Shift + 0 pro vrácení úprav zpět na výchozí hodnoty</string>

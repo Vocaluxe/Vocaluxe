@@ -233,7 +233,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND</Text>
+      <Text>TR_SCREENOVIDEO_VIDEOSTOBACKGROUND</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -262,7 +262,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENO_VIDEO_WEBCAMDEVICES</Text>
+      <Text>TR_SCREENOVIDEO_WEBCAMDEVICES</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
@@ -291,7 +291,7 @@
       <!--<Font>: Text font name-->
       <Font>Outline</Font>
       <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENO_VIDEO_WEBCAMCAPABILITIES</Text>
+      <Text>TR_SCREENOVIDEO_WEBCAMRESOLUTION</Text>
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
