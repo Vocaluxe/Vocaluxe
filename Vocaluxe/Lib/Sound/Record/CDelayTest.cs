@@ -15,8 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Diagnostics;
 using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Sound.Record
@@ -32,7 +30,6 @@ namespace Vocaluxe.Lib.Sound.Record
 
         private const float _MaxDelayTime = 1000;
         public bool Running { get; private set; }
-        private readonly Stopwatch _Timer = new Stopwatch();
         private int _Stream = -1;
 
         private readonly SDelayChannel[] _DelaysChannel;
@@ -72,7 +69,6 @@ namespace Vocaluxe.Lib.Sound.Record
             if (!Running)
                 return;
             Running = false;
-            _Timer.Stop();
             _CloseStream();
             foreach (SDelayChannel delay in _DelaysChannel)
             {
@@ -101,16 +97,13 @@ namespace Vocaluxe.Lib.Sound.Record
         {
             if (!Running)
                 return;
-            if (!_Timer.IsRunning)
-            {
-                if (CSound.GetPosition(_Stream) > 0f)
-                    _Timer.Restart();
-            }
-            if (!_Timer.IsRunning)
+
+            float time = CSound.GetPosition(_Stream) * 1000f;
+            if (time <= 0f)
                 return;
 
             bool isActive = false;
-            if (_Timer.ElapsedMilliseconds <= _MaxDelayTime)
+            if (time <= _MaxDelayTime)
             {
                 for (int i = 0; i < _DelaysChannel.Length; i++)
                 {
@@ -118,12 +111,11 @@ namespace Vocaluxe.Lib.Sound.Record
                         continue;
                     if (CRecord.GetTone(_DelaysChannel[i].Channel) == 9)
                     {
-                        Delays[i] = (int)_Timer.ElapsedMilliseconds;
+                        Delays[i] = (int)time;
                         _DelaysChannel[i].Finished = true;
                     }
                     else
                         isActive = true;
-                    Console.WriteLine(CRecord.GetMaxVolume(_DelaysChannel[i].Channel));
                 }
             }
             if (!isActive)

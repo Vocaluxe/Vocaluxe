@@ -30,7 +30,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
     {
         private const int _BufferSize = 2048;
         private const int _BufferCount = 5;
-        private const long _Bufsize = 50000L;
+        private const int _Bufsize = 50000;
 
         private Object _CloseMutex;
 
@@ -288,7 +288,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
             lock (_MutexData)
             {
-                _Data = new CRingBuffer(_Bufsize);
+                _Data.Reset();
                 _NoMoreData = false;
             }
         }
