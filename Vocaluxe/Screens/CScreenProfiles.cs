@@ -141,13 +141,13 @@ namespace Vocaluxe.Screens
                         }
                         else if (_Buttons[_ButtonDelete].Selected)
                             _DeleteProfile();
-                        else if (_Buttons[_ButtonWebcam].Selected && CWebcam.IsDeviceAvailable())
+                        else if (_Buttons[_ButtonWebcam].Selected)
                             _OnWebcam();
-                        else if (_Buttons[_ButtonSaveSnapshot].Selected && CWebcam.IsDeviceAvailable())
+                        else if (_Buttons[_ButtonSaveSnapshot].Selected)
                             _OnSaveSnapshot();
-                        else if (_Buttons[_ButtonDiscardSnapshot].Selected && CWebcam.IsDeviceAvailable())
+                        else if (_Buttons[_ButtonDiscardSnapshot].Selected)
                             _OnDiscardSnapshot();
-                        else if (_Buttons[_ButtonTakeSnapshot].Selected && CWebcam.IsDeviceAvailable())
+                        else if (_Buttons[_ButtonTakeSnapshot].Selected)
                             _OnTakeSnapshot();
                         break;
 
@@ -235,13 +235,13 @@ namespace Vocaluxe.Screens
                     CProfiles.SetActive(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                         (EOffOn)_SelectSlides[_SelectSlideActive].Selection);
                 }
-                else if (_Buttons[_ButtonWebcam].Selected && CWebcam.IsDeviceAvailable())
+                else if (_Buttons[_ButtonWebcam].Selected)
                     _OnWebcam();
-                else if (_Buttons[_ButtonSaveSnapshot].Selected && CWebcam.IsDeviceAvailable())
+                else if (_Buttons[_ButtonSaveSnapshot].Selected)
                     _OnSaveSnapshot();
-                else if (_Buttons[_ButtonDiscardSnapshot].Selected && CWebcam.IsDeviceAvailable())
+                else if (_Buttons[_ButtonDiscardSnapshot].Selected)
                     _OnDiscardSnapshot();
-                else if (_Buttons[_ButtonTakeSnapshot].Selected && CWebcam.IsDeviceAvailable())
+                else if (_Buttons[_ButtonTakeSnapshot].Selected)
                     _OnTakeSnapshot();
             }
 
@@ -270,15 +270,16 @@ namespace Vocaluxe.Screens
 
                 int avatarID = CProfiles.GetAvatarID(_SelectSlides[_SelectSlideProfiles].ValueIndex);
                 _SelectSlides[_SelectSlideAvatars].SetSelectionByValueIndex(avatarID);
-                if (CWebcam.IsDeviceAvailable() && CWebcam.IsCapturing())
+                if (_Snapshot == null)
                 {
-                    if (_Snapshot == null)
-                        CWebcam.GetFrame(ref _WebcamTexture);
-
-                    _Statics[_StaticAvatar].Texture = _WebcamTexture;
+                    if (CWebcam.IsCapturing())
+                    {
+                        if (CWebcam.GetFrame(ref _WebcamTexture))
+                            _Statics[_StaticAvatar].Texture = _WebcamTexture;
+                    }
+                    else
+                        _Statics[_StaticAvatar].Texture = CProfiles.GetAvatarTexture(avatarID);
                 }
-                else
-                    _Statics[_StaticAvatar].Texture = CProfiles.GetAvatarTexture(avatarID);
             }
 
             return true;
@@ -310,22 +311,36 @@ namespace Vocaluxe.Screens
 
         private void _OnTakeSnapshot()
         {
-            _Buttons[_ButtonSaveSnapshot].Visible = true;
-            _Buttons[_ButtonDiscardSnapshot].Visible = true;
-            _Buttons[_ButtonWebcam].Visible = false;
-            _Buttons[_ButtonTakeSnapshot].Visible = false;
-            _Snapshot = CWebcam.GetBitmap();
+            if (!CWebcam.IsDeviceAvailable())
+            {
+                CDraw.RemoveTexture(ref _WebcamTexture);
+                _Snapshot = null;
+                _Buttons[_ButtonSaveSnapshot].Visible = false;
+                _Buttons[_ButtonDiscardSnapshot].Visible = false;
+                _Buttons[_ButtonTakeSnapshot].Visible = false;
+                _Buttons[_ButtonWebcam].Visible = false;
+            }
+            else
+            {
+                CWebcam.Stop(); //Do this first to get consistent frame and bitmap
+                _Snapshot = CWebcam.GetBitmap();
+                if (CWebcam.GetFrame(ref _WebcamTexture))
+                    _Statics[_StaticAvatar].Texture = _WebcamTexture;
+                _Buttons[_ButtonSaveSnapshot].Visible = true;
+                _Buttons[_ButtonDiscardSnapshot].Visible = true;
+                _Buttons[_ButtonTakeSnapshot].Visible = false;
+                _Buttons[_ButtonWebcam].Visible = false;
+            }
         }
 
         private void _OnDiscardSnapshot()
         {
-            CWebcam.Stop();
-            CDraw.RemoveTexture(ref _WebcamTexture);
             _Snapshot = null;
+            CDraw.RemoveTexture(ref _WebcamTexture);
             _Buttons[_ButtonSaveSnapshot].Visible = false;
             _Buttons[_ButtonDiscardSnapshot].Visible = false;
             _Buttons[_ButtonTakeSnapshot].Visible = false;
-            _Buttons[_ButtonWebcam].Visible = true;
+            _Buttons[_ButtonWebcam].Visible = CWebcam.IsDeviceAvailable();
         }
 
         private void _OnSaveSnapshot()
@@ -339,13 +354,12 @@ namespace Vocaluxe.Screens
             _Snapshot.Save(filename, ImageFormat.Png);
 
             _Snapshot = null;
-            CWebcam.Stop();
             CDraw.RemoveTexture(ref _WebcamTexture);
 
             _Buttons[_ButtonSaveSnapshot].Visible = false;
             _Buttons[_ButtonDiscardSnapshot].Visible = false;
             _Buttons[_ButtonTakeSnapshot].Visible = false;
-            _Buttons[_ButtonWebcam].Visible = true;
+            _Buttons[_ButtonWebcam].Visible = CWebcam.IsDeviceAvailable();
 
             int id = CProfiles.NewAvatar(filename);
             CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].ValueIndex, id);
@@ -354,9 +368,13 @@ namespace Vocaluxe.Screens
 
         private void _OnWebcam()
         {
+            if (!CWebcam.IsDeviceAvailable())
+            {
+                _Buttons[_ButtonWebcam].Visible = false;
+                return;
+            }
             _Snapshot = null;
             CWebcam.Start();
-            CWebcam.GetFrame(ref _WebcamTexture);
             _Buttons[_ButtonSaveSnapshot].Visible = false;
             _Buttons[_ButtonDiscardSnapshot].Visible = false;
             _Buttons[_ButtonTakeSnapshot].Visible = true;

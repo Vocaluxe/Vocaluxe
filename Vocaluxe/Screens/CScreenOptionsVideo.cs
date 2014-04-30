@@ -154,8 +154,8 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            CWebcam.GetFrame(ref _WebcamTexture);
-            _Statics[_StaticWebcamOutput].Texture = _WebcamTexture;
+            if (CWebcam.GetFrame(ref _WebcamTexture))
+                _Statics[_StaticWebcamOutput].Texture = _WebcamTexture;
             _SelectSlides[_SelectSlideVideosToBackground].Selection = (int)CConfig.VideosToBackground;
             return true;
         }
@@ -170,7 +170,7 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            CWebcam.Close();
+            CWebcam.Stop();
         }
 
         public override void OnShow()
@@ -189,25 +189,20 @@ namespace Vocaluxe.Screens
             {
                 if (devices != null && devices.Length > 0)
                 {
-                    _DeviceNr = 0;
-                    _CapabilityNr = 0;
-                    _GetFirstConfiguredWebcamDevice(ref _DeviceNr, ref _CapabilityNr);
-
                     foreach (SWebcamDevice d in devices)
                         _SelectSlides[_SelectSlideWebcamDevices].AddValue(d.Name);
-                    _SelectSlides[_SelectSlideWebcamDevices].Selection = _DeviceNr;
 
-                    foreach (SCapabilities c in devices[_DeviceNr].Capabilities)
-                        _SelectSlides[_SelectSlideWebcamCapabilities].AddValue(c.Width + " x " + c.Height + " @ " + c.Framerate + " FPS ");
-                    _Config.MonikerString = devices[_SelectSlides[_SelectSlideWebcamDevices].Selection].MonikerString;
-                    _Config.Width = devices[_SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
-                    _Config.Height = devices[_SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
-                    _Config.Framerate =
-                        devices[_SelectSlides[_SelectSlideWebcamDevices].Selection].Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
-                    CWebcam.Close();
-                    CWebcam.Select(CConfig.WebcamConfig);
-                    CWebcam.Start();
-                    ssVisible = true;
+                    int devNr;
+                    int capNr;
+                    if (_GetFirstConfiguredWebcamDevice(out devNr, out capNr))
+                    {
+                        _SelectSlides[_SelectSlideWebcamDevices].Selection = devNr;
+                        _OnDeviceEvent();
+                        _SelectSlides[_SelectSlideWebcamCapabilities].Selection = capNr;
+                        _OnCapabilitiesEvent();
+
+                        ssVisible = true;
+                    }
                 }
             }
             catch (Exception e)
@@ -239,7 +234,6 @@ namespace Vocaluxe.Screens
             {
                 _SelectSlides[_SelectSlideWebcamCapabilities].Clear();
                 _DeviceNr = _SelectSlides[_SelectSlideWebcamDevices].Selection;
-                _CapabilityNr = 0;
 
                 SWebcamDevice d = CWebcam.GetDevices()[_DeviceNr];
                 for (int i = 0; i < d.Capabilities.Count; i++)
@@ -247,16 +241,8 @@ namespace Vocaluxe.Screens
                     _SelectSlides[_SelectSlideWebcamCapabilities].AddValue(d.Capabilities[i].Width + " x " + d.Capabilities[i].Height +
                                                                            " @ " + d.Capabilities[i].Framerate + "FPS");
                 }
-                _SelectSlides[_SelectSlideWebcamCapabilities].Selection = 0;
-
-                _Config.MonikerString = d.MonikerString;
-                _Config.Width = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
-                _Config.Height = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
-                _Config.Framerate = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
-
-                CWebcam.Close();
-                CWebcam.Select(_Config);
-                CWebcam.Start();
+                _CapabilityNr = -1;
+                _OnCapabilitiesEvent();
             }
         }
 
@@ -266,24 +252,27 @@ namespace Vocaluxe.Screens
             {
                 _CapabilityNr = _SelectSlides[_SelectSlideWebcamCapabilities].Selection;
 
-                SWebcamDevice d = CWebcam.GetDevices()[_SelectSlides[_SelectSlideWebcamDevices].Selection];
+                SWebcamDevice d = CWebcam.GetDevices()[_DeviceNr];
                 _Config.MonikerString = d.MonikerString;
-                _Config.Width = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Width;
-                _Config.Height = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Height;
-                _Config.Framerate = d.Capabilities[_SelectSlides[_SelectSlideWebcamCapabilities].Selection].Framerate;
+                _Config.Width = d.Capabilities[_CapabilityNr].Width;
+                _Config.Height = d.Capabilities[_CapabilityNr].Height;
+                _Config.Framerate = d.Capabilities[_CapabilityNr].Framerate;
 
-                CWebcam.Close();
                 CWebcam.Select(_Config);
                 CWebcam.Start();
             }
         }
 
-        private void _GetFirstConfiguredWebcamDevice(ref int device, ref int capabilities)
+        private bool _GetFirstConfiguredWebcamDevice(out int device, out int capabilities)
         {
             SWebcamDevice[] devices = CWebcam.GetDevices();
 
             if (devices == null)
-                return;
+            {
+                device = -1;
+                capabilities = -1;
+                return false;
+            }
 
             for (int i = 0; i < devices.Length; i++)
             {
@@ -296,10 +285,13 @@ namespace Vocaluxe.Screens
                     {
                         device = i;
                         capabilities = j;
-                        return;
+                        return true;
                     }
                 }
             }
+            device = 0;
+            capabilities = 0;
+            return true;
         }
     }
 }
