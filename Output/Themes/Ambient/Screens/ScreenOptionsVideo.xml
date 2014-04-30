@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <ScreenOptionsVideo>
-    <ScreenVersion>4</ScreenVersion>
+    <ScreenVersion>5</ScreenVersion>
     <Background1>
       <!--<Type>: Background type: None, Color, Texture, Video-->
       <Type>Video</Type>
@@ -238,7 +238,7 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </Text5>
-    <Text6>
+    <TextWebcams>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
       <Y>347</Y>
@@ -266,8 +266,8 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </Text6>
-    <Text7>
+    </TextWebcams>
+    <TextWebcamResolution>
       <!--<X>, <Y>: Text position-->
       <X>75</X>
       <Y>407</Y>
@@ -295,7 +295,7 @@
       <!--<Reflection> If exists:-->
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
-    </Text7>
+    </TextWebcamResolution>
     <ButtonExit>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>

@@ -30,7 +30,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 4; }
+            get { return 5; }
         }
 
         private const string _SelectSlideVideoBackgrounds = "SelectSlideVideoBackgrounds";
@@ -44,6 +44,9 @@ namespace Vocaluxe.Screens
 
         private const string _ButtonScreenAdjustments = "ButtonScreenAdjustments";
         private const string _ButtonExit = "ButtonExit";
+
+        private const string _TextWebcams = "TextWebcams";
+        private const string _TextWebcamResolution = "TextWebcamResolution";
 
         private SWebcamConfig _Config;
         private CTexture _WebcamTexture;
@@ -61,6 +64,7 @@ namespace Vocaluxe.Screens
                     _SelectSlideVideoBackgrounds, _SelectSlideVideoPreview, _SelectSlideVideosInSongs, _SelectSlideVideosToBackground, _SelectSlideWebcamDevices,
                     _SelectSlideWebcamCapabilities
                 };
+            _ThemeTexts = new string[] {_TextWebcams, _TextWebcamResolution};
         }
 
         public override void LoadTheme(string xmlPath)
@@ -213,6 +217,8 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideWebcamDevices].Visible = ssVisible;
             _SelectSlides[_SelectSlideWebcamCapabilities].Visible = ssVisible;
             _Statics[_StaticWebcamOutput].Visible = ssVisible;
+            _Texts[_TextWebcams].Visible = ssVisible;
+            _Texts[_TextWebcamResolution].Visible = ssVisible;
         }
 
         private void _SaveConfig()
