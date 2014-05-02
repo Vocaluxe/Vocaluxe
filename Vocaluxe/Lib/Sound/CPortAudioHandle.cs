@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using PortAudioSharp;
@@ -7,12 +24,11 @@ using Vocaluxe.Base;
 namespace Vocaluxe.Lib.Sound
 {
     /// <summary>
-    /// PortAudio can be used for record and playback
-    /// So do some common stuff here and make sure those 2 do not interfere
-    /// Basic lifetime: On Init() get a new handle, close/dispose it in your close/dispose
-    /// 
-    /// DO NEVER use following Pa_* functions other than the ones from this class:
-    /// Initialize, Terminate, OpenStream, CloseStream
+    ///     PortAudio can be used for record and playback
+    ///     So do some common stuff here and make sure those 2 do not interfere
+    ///     Basic lifetime: On Init() get a new handle, close/dispose it in your close/dispose
+    ///     DO NEVER use following Pa_* functions other than the ones from this class:
+    ///     Initialize, Terminate, OpenStream, CloseStream
     /// </summary>
     class CPortAudioHandle : IDisposable
     {
@@ -23,7 +39,7 @@ namespace Vocaluxe.Lib.Sound
         private readonly List<IntPtr> _Streams = new List<IntPtr>();
 
         /// <summary>
-        /// Initializes PortAudio library (if required)
+        ///     Initializes PortAudio library (if required)
         /// </summary>
         public CPortAudioHandle()
         {
@@ -73,7 +89,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Close the PortAudio handle once you are done
+        ///     Close the PortAudio handle once you are done
         /// </summary>
         public void Close()
         {
@@ -98,7 +114,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Convenience method to safely open an input stream and log potential error
+        ///     Convenience method to safely open an input stream and log potential error
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="inputParameters"></param>
@@ -119,7 +135,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Convenience method to safely open an output stream and log potential error
+        ///     Convenience method to safely open an output stream and log potential error
         /// </summary>
         /// <param name="stream"></param>
         /// <param name="outputParameters"></param>
@@ -152,8 +168,8 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Checks if PA returned an error and logs it
-        /// Returns true on error
+        ///     Checks if PA returned an error and logs it
+        ///     Returns true on error
         /// </summary>
         /// <param name="action">Action identifier (E.g. openStream)</param>
         /// <param name="errorCode">Result returned by Pa_* call</param>
@@ -180,7 +196,7 @@ namespace Vocaluxe.Lib.Sound
         }
 
         /// <summary>
-        /// Selects the most appropriate host api
+        ///     Selects the most appropriate host api
         /// </summary>
         /// <returns>The most appropriate host api</returns>
         public int GetHostApi()

@@ -27,6 +27,8 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
         public bool Init()
         {
+            if (Application.IsInitialized)
+                return false;
 #if ARCH_X86
             const string path = ".\\x86\\gstreamer";
 #endif
@@ -39,6 +41,14 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             reg.ScanPath(path);
 
             return Application.IsInitialized;
+        }
+
+        public void Close()
+        {
+            if (!Application.IsInitialized)
+                return;
+            CloseAll();
+            Application.Deinit();
         }
 
         public void SetGlobalVolume(float volume)

@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Threading;
@@ -9,11 +26,11 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 {
-    class COpenAlStream : IDisposable
+    class COpenAlStream
     {
         private const int _BufferSize = 2048;
         private const int _BufferCount = 5;
-        private const long _Bufsize = 50000L;
+        private const int _Bufsize = 50000;
 
         private Object _CloseMutex;
 
@@ -70,6 +87,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             _StreamID = streamID;
             _Terminated = true;
             _CloseMutex = closeMutex;
+            _EventDecode.Set();
         }
 
         public float Length
@@ -270,7 +288,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
             lock (_MutexData)
             {
-                _Data = new CRingBuffer(_Bufsize);
+                _Data.Reset();
                 _NoMoreData = false;
             }
         }
@@ -372,6 +390,11 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             }
 
             _Closeproc(_StreamID);
+            if (_EventDecode != null)
+            {
+                _EventDecode.Dispose();
+                _EventDecode = null;
+            }
         }
         #endregion Threading
 
@@ -463,12 +486,6 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
             _CurrentTime = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - 0.1f;
             _Timer.Restart();
-        }
-
-        public void Dispose()
-        {
-            _EventDecode.Close();
-            _EventDecode = null;
         }
     }
 }

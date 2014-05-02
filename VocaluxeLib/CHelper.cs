@@ -162,7 +162,7 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        /// Returns a list with all files in the given path that match a given pattern
+        ///     Returns a list with all files in the given path that match a given pattern
         /// </summary>
         /// <param name="path">Path to search for</param>
         /// <param name="searchPattern">Pattern to match (e.g. "*.jpg")</param>
@@ -195,7 +195,7 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        /// Returns a list with all files in the given path that matches at least one of the given patterns
+        ///     Returns a list with all files in the given path that matches at least one of the given patterns
         /// </summary>
         /// <param name="path">Path to search for</param>
         /// <param name="searchPatterns">List of patterns to match</param>
@@ -212,7 +212,7 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        /// Returns a list with all image files in the given path
+        ///     Returns a list with all image files in the given path
         /// </summary>
         /// <param name="path">Path to search for</param>
         /// <param name="recursive">Search directories recursively</param>
@@ -224,7 +224,7 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        /// Returns a list with all image files in the given path
+        ///     Returns a list with all image files in the given path
         /// </summary>
         /// <param name="path">Path to search for</param>
         /// <param name="recursive">Search directories recursively</param>

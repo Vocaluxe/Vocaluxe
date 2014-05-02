@@ -21,18 +21,33 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 {
     class CPortAudioPlay : IPlayback
     {
-        private bool _Initialized;
+        private volatile bool _Initialized;
         private readonly List<CPortAudioStream> _Streams = new List<CPortAudioStream>();
         private int _NextID;
 
         public bool Init()
         {
             if (_Initialized)
-                CloseAll();
+                return false;
 
             _Initialized = true;
 
             return true;
+        }
+
+        public void Close()
+        {
+            _Initialized = false; //Set this first, so threads don't call closeproc anymore
+            List<CPortAudioStream> streams = new List<CPortAudioStream>();
+            //Get all streams but do not modify list without holding the lock
+            //Calling dispose from within the lock may deadlock in closeproc (if a thread is already there)
+            lock (_Streams)
+            {
+                streams.AddRange(_Streams);
+                _Streams.Clear();
+            }
+            foreach (CPortAudioStream stream in streams)
+                stream.Dispose();
         }
 
         public void CloseAll()
@@ -40,10 +55,9 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             lock (_Streams)
             {
                 foreach (CPortAudioStream stream in _Streams)
-                    stream.Free();
+                    stream.Close();
                 _Streams.Clear();
             }
-            _Initialized = false;
         }
 
         public void SetGlobalVolume(float volume)
@@ -99,7 +113,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 int index = _GetStreamIndex(stream);
                 if (index >= 0)
                 {
-                    _Streams[index].Free();
+                    _Streams[index].Close();
                     _Streams.RemoveAt(index);
                 }
             }
@@ -287,8 +301,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         #endregion Stream Handling
 
         /// <summary>
-        /// Returns true if strem with given id is found
-        /// MUST hold _Stream-lock
+        ///     Returns true if strem with given id is found
+        ///     MUST hold _Stream-lock
         /// </summary>
         /// <param name="stream">Stream id</param>
         /// <returns></returns>
@@ -298,8 +312,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         }
 
         /// <summary>
-        /// Returns the index of the stream with the given id
-        /// MUST hold _Stream-lock
+        ///     Returns the index of the stream with the given id
+        ///     MUST hold _Stream-lock
         /// </summary>
         /// <param name="stream">Stream id</param>
         /// <returns></returns>
@@ -314,7 +328,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         }
 
         /// <summary>
-        /// Removes the stream with the given handle
+        ///     Removes the stream with the given handle
         /// </summary>
         /// <param name="stream">Stream handle</param>
         private void _CloseProc(int stream)

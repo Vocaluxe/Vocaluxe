@@ -205,9 +205,9 @@
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video Backgrounds</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video Preview</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Videos while singing</string>
-  <string name="TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND">Display current backgroundmusic video</string>
-  <string name="TR_SCREENO_VIDEO_WEBCAMDEVICES">Webcams</string>
-  <string name="TR_SCREENO_VIDEO_WEBCAMCAPABILITIES">Webcamcapabilities</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Display current backgroundmusic video</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcam-Resolution</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Screen adjustments</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Press CTR + ALT + SHIFT + Arrows to adjust screen</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + SHIFT + 0 to reset</string>

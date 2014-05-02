@@ -214,8 +214,8 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        /// Ads a cover with the given name if it does not exist yet
-        /// MUST HOLD _Covers lock at this point
+        ///     Ads a cover with the given name if it does not exist yet
+        ///     MUST HOLD _Covers lock at this point
         /// </summary>
         /// <param name="name">Name of the cover</param>
         /// <param name="file">Filename of image file</param>

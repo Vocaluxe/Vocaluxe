@@ -83,7 +83,8 @@ namespace Vocaluxe.Base
 
         public static void Close()
         {
-            CloseAllStreams();
+            if (_Playback != null)
+                _Playback.Close();
             _Playback = null;
         }
 

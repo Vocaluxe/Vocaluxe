@@ -174,6 +174,8 @@
     <ClCompile Include="compatibility.cpp" />
     <ClCompile Include="dywapitchtrack\dywapitchtrack.cpp" />
     <ClCompile Include="dywapitchtrack\ptDyWa.cpp" />
+    <ClCompile Include="FFT\FFT.cpp" />
+    <ClCompile Include="FFT\RealFFTf.cpp" />
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="performous\pitch.cc" />
     <ClCompile Include="ptAKF.cpp" />
@@ -183,6 +185,8 @@
     <ClInclude Include="compatibility.h" />
     <ClInclude Include="dywapitchtrack\dywapitchtrack.h" />
     <ClInclude Include="dywapitchtrack\ptDyWa.h" />
+    <ClInclude Include="FFT\FFT.h" />
+    <ClInclude Include="FFT\RealFFTf.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="performous\libda\fft.hpp" />
     <ClInclude Include="performous\libda\sample.hpp" />

@@ -235,7 +235,7 @@ namespace Vocaluxe.Screens
                     case Keys.W:
                         if (CWebcam.IsDeviceAvailable())
                         {
-                            _Webcam = !_Webcam;
+                            _Webcam = !CWebcam.IsCapturing();
                             if (_Webcam)
                                 CWebcam.Start();
                             else
@@ -756,7 +756,7 @@ namespace Vocaluxe.Screens
             CParty.FinishedSinging();
 
             if (_Webcam)
-                CWebcam.Close();
+                CWebcam.Stop();
         }
 
         private int _FindCurrentLine(CVoice voice, CSongLine[] lines, CSong song)

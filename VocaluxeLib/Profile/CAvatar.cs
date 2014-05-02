@@ -15,6 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Diagnostics;
+using System.IO;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Profile
@@ -22,8 +24,9 @@ namespace VocaluxeLib.Profile
     public class CAvatar
     {
         public int ID;
-        private string _FileName = "";
+        private readonly string _FileName = "";
         private CTexture _Texture;
+        private const int _MaxNameLen = 12;
 
         public CTexture Texture
         {
@@ -42,13 +45,9 @@ namespace VocaluxeLib.Profile
 
         private CAvatar(CTexture texture, string fileName, int id = -1)
         {
-            ID = id;
-        }
-
-        public bool LoadFromFile(string fileName)
-        {
+            _Texture = texture;
             _FileName = fileName;
-            return Reload();
+            ID = id;
         }
 
         public bool Reload()
@@ -62,6 +61,15 @@ namespace VocaluxeLib.Profile
         public void Unload()
         {
             CBase.Drawing.RemoveTexture(ref _Texture);
+        }
+
+        public string GetDisplayName()
+        {
+            string name = Path.GetFileNameWithoutExtension(_FileName);
+            Debug.Assert(name != null);
+            if (name.Length > _MaxNameLen)
+                name = name.Substring(0, _MaxNameLen);
+            return name;
         }
     }
 }

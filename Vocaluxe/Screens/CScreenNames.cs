@@ -547,7 +547,7 @@ namespace Vocaluxe.Screens
             for (int i = 1; i <= CGame.NumPlayer; i++)
             {
                 CRecord.AnalyzeBuffer(i - 1);
-                _Equalizers["EqualizerPlayer" + i].Update(CRecord.ToneWeigth(i - 1));
+                _Equalizers["EqualizerPlayer" + i].Update(CRecord.ToneWeigth(i - 1), CRecord.GetMaxVolume(i - 1));
             }
             return true;
         }

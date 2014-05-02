@@ -1,0 +1,6 @@
+http://json.codeplex.com/
+
+Version: Json.NET 6.0 Release 1 (.Net 4.0)
+
+Files:
+Newtonsoft.Json.dll

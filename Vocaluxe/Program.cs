@@ -268,6 +268,7 @@ namespace Vocaluxe
                 CDraw.Unload();
                 CDataBase.Close();
                 CWebcam.Close();
+                GC.Collect(); // Do a GC run here before we close logs to have finalizers run
                 CLog.CloseAll();
             }
             catch (Exception) {}

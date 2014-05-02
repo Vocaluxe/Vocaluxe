@@ -223,25 +223,29 @@ namespace Vocaluxe.Screens
 
             if (_CheckMicConfig())
             {
-                _ChannelEnergy[0] = 0f;
-                int player = _SelectSlides[_SelectSlideRecordChannel1].Selection;
-                if (player > 0)
+                int player = _SelectSlides[_SelectSlideRecordChannel1].Selection - 1;
+                if (player >= 0)
                 {
-                    _ChannelEnergy[0] = CRecord.GetMaxVolume(player - 1);
-                    _Equalizers[_EqualizerChannel1].Update(CRecord.ToneWeigth(player - 1));
+                    _ChannelEnergy[0] = CRecord.GetMaxVolume(player);
+                    _Equalizers[_EqualizerChannel1].Update(CRecord.ToneWeigth(player), CRecord.GetMaxVolume(player));
                 }
                 else
+                {
+                    _ChannelEnergy[0] = 0f;
                     _Equalizers[_EqualizerChannel1].Reset();
+                }
 
-                _ChannelEnergy[1] = 0f;
-                player = _SelectSlides[_SelectSlideRecordChannel2].Selection;
-                if (player > 0)
+                player = _SelectSlides[_SelectSlideRecordChannel2].Selection - 1;
+                if (player >= 0)
                 {
-                    _ChannelEnergy[1] = CRecord.GetMaxVolume(player - 1);
-                    _Equalizers[_EqualizerChannel2].Update(CRecord.ToneWeigth(player - 1));
+                    _ChannelEnergy[1] = CRecord.GetMaxVolume(player);
+                    _Equalizers[_EqualizerChannel2].Update(CRecord.ToneWeigth(player), CRecord.GetMaxVolume(player));
                 }
                 else
+                {
+                    _ChannelEnergy[1] = 0f;
                     _Equalizers[_EqualizerChannel2].Reset();
+                }
             }
             else
             {

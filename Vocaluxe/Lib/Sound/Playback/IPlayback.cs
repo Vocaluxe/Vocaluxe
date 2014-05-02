@@ -40,6 +40,7 @@ namespace Vocaluxe.Lib.Sound.Playback
     interface IPlayback
     {
         bool Init();
+        void Close();
         void SetGlobalVolume(float volume);
         int GetStreamCount();
         void CloseAll();
@@ -71,58 +72,5 @@ namespace Vocaluxe.Lib.Sound.Playback
 
         void Update();
         #endregion Stream Handling
-    }
-
-    class CRingBuffer
-    {
-        private readonly byte[] _Data;
-        private readonly long _Size;
-        private long _ReadPos;
-        private long _WritePos;
-        private long _BytesNotRead;
-
-        public long BytesNotRead
-        {
-            get { return _BytesNotRead; }
-        }
-
-        public CRingBuffer(long size)
-        {
-            _Size = size;
-            _Data = new byte[size];
-            _ReadPos = 0L;
-            _WritePos = 0L;
-            _BytesNotRead = 0L;
-        }
-
-        public void Write(byte[] data)
-        {
-            long written = 0L;
-            while (written < data.Length)
-            {
-                _Data[_WritePos] = data[written];
-                _WritePos++;
-                if (_WritePos >= _Size)
-                    _WritePos = 0L;
-
-                written++;
-                _BytesNotRead++;
-            }
-        }
-
-        public void Read(byte[] data)
-        {
-            long read = 0L;
-            while (read < data.Length && _BytesNotRead > 0L)
-            {
-                data[read] = _Data[_ReadPos];
-                _ReadPos++;
-                if (_ReadPos >= _Size)
-                    _ReadPos = 0L;
-
-                read++;
-                _BytesNotRead--;
-            }
-        }
     }
 }

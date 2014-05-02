@@ -16,6 +16,7 @@
 #endregion
 
 using System.Linq;
+using System.Threading;
 using OpenTK.Audio;
 using System;
 using System.Collections.Generic;
@@ -34,10 +35,15 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
         private List<SAudioStreams> _Streams;
 
+        ~COpenALPlay()
+        {
+            _Dispose(false);
+        }
+
         public bool Init()
         {
             if (_Initialized)
-                CloseAll();
+                return false;
 
             _Context = new AudioContext();
 
@@ -49,6 +55,11 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
             _Streams = new List<SAudioStreams>();
             return true;
+        }
+
+        public void Close()
+        {
+            Dispose();
         }
 
         public void CloseAll()
@@ -321,24 +332,37 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
         private void _CloseProc(int streamID)
         {
-            if (_Initialized)
+            if (!_Initialized)
+                return;
+            lock (_MutexDecoder)
             {
-                lock (_MutexDecoder)
+                if (_AlreadyAdded(streamID))
                 {
-                    if (_AlreadyAdded(streamID))
-                    {
-                        int index = _GetStreamIndex(streamID);
-                        _Decoder.RemoveAt(index);
-                        _Streams.RemoveAt(index);
-                    }
+                    int index = _GetStreamIndex(streamID);
+                    _Decoder.RemoveAt(index);
+                    _Streams.RemoveAt(index);
                 }
             }
         }
 
         public void Dispose()
         {
-            _Context.Dispose();
-            _Context = null;
+            _Dispose(true);
+        }
+
+        private void _Dispose(bool disposing)
+        {
+            CloseAll();
+            if (disposing)
+            {
+                while (_Decoder.Count > 0)
+                    Thread.Sleep(5);
+            }
+            if (_Context != null)
+            {
+                _Context.Dispose();
+                _Context = null;
+            }
         }
 
         public void FadeAndStop(int stream, float targetVolume, float seconds)

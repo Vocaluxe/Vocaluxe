@@ -46,19 +46,33 @@ namespace Vocaluxe.Lib.Webcam
     interface IWebcam
     {
         bool Init();
+        void Close();
 
         void Start();
         void Pause();
         void Stop();
-        void Close();
 
+        /// <summary>
+        ///     Gets last captured frame. Returns true if frame was updated<br />
+        ///     Note that this will invalidate the last frame and not return it again with this function
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <returns></returns>
         bool GetFrame(ref CTexture frame);
+
+        /// <summary>
+        ///     Gets the last captured frame as a bitma
+        /// </summary>
+        /// <param name="frame"></param>
+        /// <returns>Null if no frame was captured, the bitmap otherwise</returns>
         Bitmap GetBitmap();
+
         SWebcamConfig GetConfig();
         SWebcamDevice[] GetDevices();
         bool IsDeviceAvailable();
         bool IsCapturing();
 
         bool Select(SWebcamConfig webcamConfig);
+        void DeSelect();
     }
 }

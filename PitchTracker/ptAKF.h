@@ -13,6 +13,8 @@
 #    endif
 #endif
 
+#define USE_FFT
+
 struct SPeak{
 	int toneIndex;
 	float weight;
@@ -55,14 +57,17 @@ private:
 	float _LastMaxVol;
 	int _LastTones[_SmoothCt];
 	int _LastToneIndex;
+#ifdef USE_FFT
+	float _AKFValues[_SampleCt*2];
+#endif
 
 	int _GetNote(float samples[_SampleCt], float* restrict maxVolume, float weights[_MaxHalfTone+1]);
 	int _GetSmoothTone();
 
-	static float _AnalyzeBySampleCt(float samples[_SampleCt], float samplesWindowed[_SampleCt], float samplesPerPeriodD);
-	static inline float _AnalyzeByTone(float samples[_SampleCt], float samplesWindowed[_SampleCt], int toneIndex);
-	static float _AKFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD);
-	static inline float _AKFByTone(float samples[_SampleCt], int toneIndex);
+	float _AnalyzeBySampleCt(float samples[_SampleCt], float samplesWindowed[_SampleCt], float samplesPerPeriodD);
+	inline float _AnalyzeByTone(float samples[_SampleCt], float samplesWindowed[_SampleCt], int toneIndex);
+	float _AKFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD);
+	inline float _AKFByTone(float samples[_SampleCt], int toneIndex);
 	static float _AMDFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD);
 	static inline float _AMDFByTone(float samples[_SampleCt], int toneIndex);
 	static inline void InitPeaks(SPeak peaks[_MaxPeaks]);
