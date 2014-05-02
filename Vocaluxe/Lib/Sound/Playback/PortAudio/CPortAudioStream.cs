@@ -49,6 +49,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         private PortAudioSharp.PortAudio.PaStreamCallbackDelegate _PaStreamCallback;
         private IAudioDecoder _Decoder;
         private float _BytesPerSecond;
+        private float _Latency;
         private bool _NoMoreData;
 
         private bool _FileOpened;
@@ -293,6 +294,8 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 return false;
             }
 
+            _Latency = CConfig.AudioLatency / 1000f + (float)PortAudioSharp.PortAudio.Pa_GetStreamInfo(_Stream).outputLatency;
+
             //From now on closing the driver and the decoder is handled by the thread ONLY!
 
             _Paused = true;
@@ -462,7 +465,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 if (_Data.BytesNotRead < _Beginrefill && !_NoMoreData)
                     _EventDecode.Set();
 
-                float latency = buf.Length / _BytesPerSecond + CConfig.AudioLatency / 1000f;
+                float latency = buf.Length / _BytesPerSecond + _Latency;
                 float time = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - latency;
 
                 if (!_NoMoreData)
