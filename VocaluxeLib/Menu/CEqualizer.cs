@@ -218,14 +218,18 @@ namespace VocaluxeLib.Menu
             if (weights == null || weights.Length == 0 || _Bars == null)
                 return;
             if (volume < 0.001)
+            {
+                for (int i = 0; i < _Bars.Length; i++)
+                    _Bars[i] = 0f;
                 return;
+            }
             if (volume > _MaxVolume)
                 _MaxVolume = volume;
             _MaxBar = 0;
             float maxVal = -99f;
             for (int i = 0; i < _Bars.Length; i++)
             {
-                if (weights.Length > i)
+                if (i < weights.Length)
                 {
                     if (_Theme.DrawNegative == EOffOn.TR_CONFIG_OFF && weights[i] < 0)
                         _Bars[i] = 0f;
@@ -261,10 +265,12 @@ namespace VocaluxeLib.Menu
                 return;
 
             float dx = Rect.W / _Bars.Length;
+            float scaleVal = (_Bars[_MaxBar] < 0.00001f) ? 0f : 1 / _Bars[_MaxBar];
 
             for (int i = 0; i < _Bars.Length; i++)
             {
-                var bar = new SRectF(Rect.X + dx * i, Rect.Y + Rect.H - _Bars[i] * Rect.H, dx - Space, _Bars[i] * Rect.H, Rect.Z);
+                float value = _Bars[i] * scaleVal;
+                var bar = new SRectF(Rect.X + dx * i, Rect.Y + Rect.H - value * Rect.H, dx - Space, value * Rect.H, Rect.Z);
                 SColorF color = Color;
                 if (i == _MaxBar)
                     color = MaxColor;
