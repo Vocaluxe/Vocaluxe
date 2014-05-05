@@ -146,7 +146,6 @@ namespace Vocaluxe.Base
 
             _PreviousMusicIndex = -1;
             IsPlaying = false;
-            _Volume = CConfig.BackgroundMusicVolume;
             _VideoEnabled = (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON);
             SetMusicSource(CConfig.BackgroundMusicSource);
             _Initialized = true;
@@ -161,7 +160,7 @@ namespace Vocaluxe.Base
             {
                 //Resume
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
-                CSound.Fade(_CurrentMusicStream, _Volume, CSettings.BackgroundMusicFadeTime);
+                CSound.Fade(_CurrentMusicStream, 100f, CSettings.BackgroundMusicFadeTime);
                 CSound.Play(_CurrentMusicStream);
                 if (_VideoEnabled && _Video != -1)
                     CVideo.Resume(_Video);
@@ -312,13 +311,6 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static void SetVolume(float volume)
-        {
-            _Volume = volume;
-            if (_CurrentMusicStream >= 0)
-                CSound.SetStreamVolume(_CurrentMusicStream, _Volume);
-        }
-
         /// <summary>
         ///     (Re-)Starts the _CurrentPlaylistElement
         /// </summary>
@@ -333,7 +325,7 @@ namespace Vocaluxe.Base
                 if (_CurrentMusicStream < 0)
                     return;
                 CSound.SetStreamVolume(_CurrentMusicStream, 0f);
-                CSound.Fade(_CurrentMusicStream, _Volume, CSettings.BackgroundMusicFadeTime);
+                CSound.Fade(_CurrentMusicStream, 100f, CSettings.BackgroundMusicFadeTime);
             }
             //Seek to #Start-Tag, if found
             if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)

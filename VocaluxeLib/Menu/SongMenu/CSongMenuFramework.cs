@@ -402,7 +402,6 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             _PreviewSongStream = -1;
             _Vidtex = null;
-            ApplyVolume(CBase.Config.GetPreviewMusicVolume());
         }
 
         public virtual void OnHide()
@@ -421,14 +420,6 @@ namespace VocaluxeLib.Menu.SongMenu
 
             if (_PreviewVideoStream != -1)
                 CBase.Drawing.DrawTexture(_Vidtex, new SRectF(0, 0, 1280, 720, 0));
-        }
-
-        public virtual void ApplyVolume(float volumeMax)
-        {
-            _MaxVolume = volumeMax;
-
-            foreach (int stream in _Streams)
-                CBase.Sound.SetStreamVolumeMax(stream, _MaxVolume);
         }
 
         public virtual bool IsActive()
@@ -533,8 +524,6 @@ namespace VocaluxeLib.Menu.SongMenu
                     return;
 
                 int stream = CBase.Sound.Load(Path.Combine(song.Folder, song.MP3FileName), true);
-                CBase.Sound.SetStreamVolumeMax(stream, _MaxVolume);
-                CBase.Sound.SetStreamVolume(stream, 0f);
 
                 float startposition = song.Preview.StartTime;
                 float length = CBase.Sound.GetLength(stream);
@@ -549,7 +538,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 CBase.Sound.SetPosition(stream, startposition);
                 CBase.Sound.Play(stream);
-                CBase.Sound.SetStreamVolumeMax(stream, CBase.Config.GetPreviewMusicVolume());
+                CBase.Sound.SetStreamVolume(stream, 0f);
                 CBase.Sound.Fade(stream, 100f, 3f);
                 _Streams.Add(stream);
                 _PreviewSongStream = stream;
@@ -570,7 +559,7 @@ namespace VocaluxeLib.Menu.SongMenu
         protected void _Reset()
         {
             foreach (int stream in _Streams)
-                CBase.Sound.FadeAndStop(stream, 0f, 0.75f);
+                CBase.Sound.FadeAndClose(stream, 0f, 0.75f);
             _Streams.Clear();
 
             CBase.Video.Close(_PreviewVideoStream);

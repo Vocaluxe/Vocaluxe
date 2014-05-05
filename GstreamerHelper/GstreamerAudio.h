@@ -17,6 +17,7 @@ using namespace std;
 
 	DllExport bool Init();
 	DllExport void SetGlobalVolume(float Volume);
+	DllExport float GetGlobalVolume();
 	DllExport int GetStreamCount(void);
 	DllExport void CloseAll(void);
 
@@ -33,7 +34,6 @@ using namespace std;
 	DllExport void FadeAndPause(int Stream, float TargetVolume, float Seconds);
 	DllExport void FadeAndStop(int Stream, float TargetVolume, float Seconds);
 	DllExport void SetStreamVolume(int Stream, float Volume);
-	DllExport void SetStreamVolumeMax(int Stream, float Volume);
 
 	DllExport float GetLength(int Stream);
 	DllExport float GetPosition(int Stream);

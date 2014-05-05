@@ -22,7 +22,6 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
 {
     class CGstreamerAudio : IPlayback
     {
-        //static float LastPosition;
         private readonly CGstreamerAudioWrapper.LogCallback _LogCallback;
 
         #region log
@@ -35,8 +34,6 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
         public CGstreamerAudio()
         {
             _LogCallback = _LogHandler;
-            //Is this really needed? CodaAnalyzer complains about it...
-            //GC.SuppressFinalize(_LogCallback);
             CGstreamerAudioWrapper.SetLogCallback(_LogCallback);
         }
 
@@ -48,6 +45,12 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
         public void Close()
         {
             CloseAll();
+            CGstreamerAudioWrapper.SetLogCallback(null);
+        }
+
+        public float GetGlobalVolume()
+        {
+            return CGstreamerAudioWrapper.GetGlobalVolume();
         }
 
         public void SetGlobalVolume(float volume)
@@ -65,17 +68,13 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
             CGstreamerAudioWrapper.CloseAll();
         }
 
-        public int Load(string media)
+        public int Load(string medium, bool loop = false, bool prescan = false)
         {
-            var u = new Uri(media);
-            int i = CGstreamerAudioWrapper.Load(u.AbsoluteUri);
-            return i;
-        }
-
-        public int Load(string media, bool prescan)
-        {
-            var u = new Uri(media);
+            var u = new Uri(medium);
             int i = CGstreamerAudioWrapper.Load(u.AbsoluteUri, prescan);
+            //Workaround b/c I'm lazy:
+            CGstreamerAudioWrapper.Play(i, loop);
+            CGstreamerAudioWrapper.Pause(i);
             return i;
         }
 
@@ -89,11 +88,6 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
             CGstreamerAudioWrapper.Play(stream);
         }
 
-        public void Play(int stream, bool loop)
-        {
-            CGstreamerAudioWrapper.Play(stream, loop);
-        }
-
         public void Pause(int stream)
         {
             CGstreamerAudioWrapper.Pause(stream);
@@ -104,29 +98,30 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
             CGstreamerAudioWrapper.Stop(stream);
         }
 
-        public void Fade(int stream, float targetVolume, float seconds)
+        public void Fade(int streamID, float targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
-            CGstreamerAudioWrapper.Fade(stream, targetVolume, seconds);
-        }
-
-        public void FadeAndPause(int stream, float targetVolume, float seconds)
-        {
-            CGstreamerAudioWrapper.FadeAndPause(stream, targetVolume, seconds);
-        }
-
-        public void FadeAndClose(int stream, float targetVolume, float seconds)
-        {
-            CGstreamerAudioWrapper.FadeAndStop(stream, targetVolume, seconds);
+            switch (afterFadeAction)
+            {
+                case EStreamAction.Nothing:
+                    CGstreamerAudioWrapper.Fade(streamID, targetVolume, seconds);
+                    break;
+                case EStreamAction.Pause:
+                    CGstreamerAudioWrapper.FadeAndPause(streamID, targetVolume, seconds);
+                    break;
+                case EStreamAction.Stop:
+                    CGstreamerAudioWrapper.FadeAndStop(streamID, targetVolume, seconds);
+                    break;
+                case EStreamAction.Close:
+                    CGstreamerAudioWrapper.FadeAndStop(streamID, targetVolume, seconds);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("afterFadeAction");
+            }
         }
 
         public void SetStreamVolume(int stream, float volume)
         {
             CGstreamerAudioWrapper.SetStreamVolume(stream, volume);
-        }
-
-        public void SetStreamVolumeMax(int stream, float volume)
-        {
-            CGstreamerAudioWrapper.SetStreamVolumeMax(stream, volume);
         }
 
         public float GetLength(int stream)
@@ -162,11 +157,6 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
         public void Update()
         {
             CGstreamerAudioWrapper.Update();
-        }
-
-        public void FadeAndStop(int stream, float targetVolume, float seconds)
-        {
-            throw new NotImplementedException();
         }
     }
 }

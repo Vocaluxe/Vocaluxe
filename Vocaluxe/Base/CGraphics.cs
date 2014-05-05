@@ -408,6 +408,7 @@ namespace Vocaluxe.Base
 
                 if (popupVolumeControlAllowed)
                 {
+                    //TODO: Handle this in the volume popup
                     int diff = 0;
                     if ((keyEvent.ModShift && (keyEvent.Key == Keys.Add || keyEvent.Key == Keys.PageUp)) || (keyEvent.Sender == ESender.WiiMote && keyEvent.Key == Keys.Add))
                         diff = 5;
@@ -423,23 +424,23 @@ namespace Vocaluxe.Base
                                 if (CSongs.IsInCategory)
                                 {
                                     CConfig.PreviewMusicVolume += diff;
-                                    _Screens[(int)_CurrentScreen].ApplyVolume();
+                                    CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
                                 }
                                 else
                                 {
                                     CConfig.BackgroundMusicVolume += diff;
-                                    CBackgroundMusic.SetVolume(CConfig.BackgroundMusicVolume);
+                                    CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
                                 }
                                 break;
 
                             case EScreens.ScreenSing:
                                 CConfig.GameMusicVolume += diff;
-                                _Screens[(int)_CurrentScreen].ApplyVolume();
+                                CSound.SetGlobalVolume(CConfig.GameMusicVolume);
                                 break;
 
                             default:
                                 CConfig.BackgroundMusicVolume += diff;
-                                CBackgroundMusic.SetVolume(CConfig.BackgroundMusicVolume);
+                                CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
                                 break;
                         }
                         CConfig.SaveConfig();
@@ -521,12 +522,7 @@ namespace Vocaluxe.Base
 
                 bool handled = false;
                 if (_CurrentPopupScreen != EPopupScreens.NoPopup)
-                {
                     handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(mouseEvent);
-
-                    if (handled && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl)
-                        _Screens[(int)_CurrentScreen].ApplyVolume();
-                }
 
                 if (!handled && _Fading == null && (_Cursor.IsActive || mouseEvent.LB || mouseEvent.RB || mouseEvent.MB))
                     resume &= _Screens[(int)_CurrentScreen].HandleMouse(mouseEvent);

@@ -148,8 +148,6 @@ namespace Vocaluxe.Screens
             _Playlists[_Playlist].Init();
 
             _AvailableGameModes.Clear();
-
-            ApplyVolume();
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -365,21 +363,23 @@ namespace Vocaluxe.Screens
                 }
             }
 
+            int volumeDiff = 0;
             if (keyEvent.ModShift && (keyEvent.Key == Keys.Add || keyEvent.Key == Keys.PageUp))
-            {
-                CConfig.PreviewMusicVolume = CConfig.PreviewMusicVolume + 5;
-                if (CConfig.PreviewMusicVolume > 100)
-                    CConfig.PreviewMusicVolume = 100;
-                CConfig.SaveConfig();
-                ApplyVolume();
-            }
+                volumeDiff = 5;
             else if (keyEvent.ModShift && (keyEvent.Key == Keys.Subtract || keyEvent.Key == Keys.PageDown))
+                volumeDiff = -5;
+            if (volumeDiff != 0)
             {
-                CConfig.PreviewMusicVolume = CConfig.PreviewMusicVolume - 5;
-                if (CConfig.PreviewMusicVolume < 0)
-                    CConfig.PreviewMusicVolume = 0;
-                CConfig.SaveConfig();
-                ApplyVolume();
+                if (CSongs.IsInCategory)
+                {
+                    CConfig.PreviewMusicVolume += volumeDiff;
+                    CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
+                }
+                else
+                {
+                    CConfig.BackgroundMusicVolume += volumeDiff;
+                    CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
+                }
             }
 
             return true;
@@ -643,6 +643,8 @@ namespace Vocaluxe.Screens
             _Playlists[_Playlist].DragAndDropSongID = -1;
 
             UpdateGame();
+            if (CSongs.IsInCategory)
+                CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
         }
 
         public override bool UpdateGame()
@@ -700,12 +702,8 @@ namespace Vocaluxe.Screens
         {
             base.OnClose();
             CBackgroundMusic.Disabled = false;
+            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
             _SongMenus[_SongMenu].OnHide();
-        }
-
-        public override void ApplyVolume()
-        {
-            _SongMenus[_SongMenu].ApplyVolume(CConfig.PreviewMusicVolume);
         }
 
         private void _HandlePartySongSelection(int songNr)

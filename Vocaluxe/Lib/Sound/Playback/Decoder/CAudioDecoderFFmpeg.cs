@@ -34,9 +34,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
         private string _FileName;
         private bool _FileOpened;
 
-        public void Init() {}
-
-        public void Open(string fileName)
+        public bool Open(string fileName)
         {
             _FileName = fileName;
 
@@ -49,14 +47,15 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             catch (Exception)
             {
                 CLog.LogError("Error opening audio file: " + _FileName);
-                return;
+                Close();
+                return false;
             }
 
 
             if (!_Instance.Opened)
             {
                 Close();
-                return;
+                return false;
             }
 
             int audioStreamIndex;
@@ -71,13 +70,13 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             {
                 CLog.LogError("Error opening audio file (can't find decoder): " + _FileName);
                 Close();
-                return;
+                return false;
             }
 
             if (audioStreamIndex < 0)
             {
                 Close();
-                return;
+                return false;
             }
 
             _FormatInfo = new SFormatInfo
@@ -93,9 +92,10 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             {
                 CLog.LogError("Unsupported BitDepth in file " + fileName);
                 Close();
-                return;
+                return false;
             }
             _FileOpened = true;
+            return true;
         }
 
         public void Close()

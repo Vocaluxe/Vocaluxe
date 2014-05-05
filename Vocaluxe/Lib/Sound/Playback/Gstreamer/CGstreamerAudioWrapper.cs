@@ -49,6 +49,9 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
         public static extern void SetGlobalVolume(float volume);
 
         [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
+        public static extern float GetGlobalVolume();
+
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int GetStreamCount();
 
         [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
@@ -57,7 +60,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
         [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern int Load(string media);
 
-        [DllImport(_Dll, EntryPoint = "LoadPrescan", CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "LoadPrescan")]
         public static extern int Load(string media,
                                       [MarshalAs(UnmanagedType.U1)] bool prescan);
 
@@ -67,7 +70,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
         [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void Play(int stream);
 
-        [DllImport(_Dll, EntryPoint = "PlayLoop")]
+        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl, EntryPoint = "PlayLoop")]
         public static extern void Play(int stream,
                                        [MarshalAs(UnmanagedType.U1)] bool loop);
 
@@ -88,9 +91,6 @@ namespace Vocaluxe.Lib.Sound.Playback.Gstreamer
 
         [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern void SetStreamVolume(int stream, float volume);
-
-        [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
-        public static extern void SetStreamVolumeMax(int stream, float volume);
 
         [DllImport(_Dll, CallingConvention = CallingConvention.Cdecl)]
         public static extern float GetLength(int stream);

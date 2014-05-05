@@ -264,10 +264,9 @@ namespace VocaluxeLib
         bool IsFinished(int soundStream);
         float GetPosition(int soundStream);
         float GetLength(int soundStream);
-        void FadeAndStop(int soundStream, float targetVolume, float duration);
+        void FadeAndClose(int soundStream, float targetVolume, float duration);
 
         void SetStreamVolume(int soundStream, float volume);
-        void SetStreamVolumeMax(int soundStream, float maxVolume);
     }
 
     public interface ICover

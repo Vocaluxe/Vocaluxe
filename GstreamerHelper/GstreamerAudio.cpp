@@ -5,6 +5,7 @@
 
 map<int, GstreamerAudioStream*> Streams;
 queue<int> IDs;
+float GlobalVolume = 1.f;
 EXTERN_C IMAGE_DOS_HEADER __ImageBase;
 DllExport void SetLogCallback (LogCallback Callback)
 {
@@ -41,16 +42,19 @@ DllExport void SetGlobalVolume(float Volume)
 	map<int, GstreamerAudioStream*>::iterator p;
 
 	for(p = Streams.begin(); p != Streams.end(); p++) {
-		p->second->SetStreamVolume(Volume);
+		p->second->SetStreamVolumeMax(Volume);
 	}
+	GlobalVolume = Volume;
 }
 
+DllExport float GetGlobalVolume(){
+	return GlobalVolume;
+}
 
 DllExport int GetStreamCount(void)
 {
 	return Streams.size();
 }
-
 
 DllExport void CloseAll(void)
 {
@@ -66,7 +70,10 @@ DllExport int Load(const wchar_t* Media)
 	GstreamerAudioStream *s = new GstreamerAudioStream(IDs.front());
 	Streams.insert(pair<int, GstreamerAudioStream*> (IDs.front(), s));
 	IDs.pop();
-	return s->Load(Media);
+	int result = s->Load(Media);
+	s->SetStreamVolume(1.f);
+	s->SetStreamVolumeMax(GlobalVolume);
+	return result;
 }
 
 DllExport int LoadPrescan(const wchar_t* Media, bool Prescan)
@@ -74,7 +81,10 @@ DllExport int LoadPrescan(const wchar_t* Media, bool Prescan)
 	GstreamerAudioStream *s = new GstreamerAudioStream(IDs.front());
 	Streams.insert(pair<int, GstreamerAudioStream*> (IDs.front(), s));
 	IDs.pop();
-	return s->Load(Media, Prescan);
+	int result = s->Load(Media, Prescan);
+	s->SetStreamVolume(1.f);
+	s->SetStreamVolumeMax(GlobalVolume);
+	return result;
 }
 
 DllExport void Close(int Stream)
@@ -157,15 +167,6 @@ DllExport void SetStreamVolume(int Stream, float Volume)
 	if(it != Streams.end())
 	{
 		return it->second->SetStreamVolume(Volume);
-	}
-}
-
-DllExport void SetStreamVolumeMax(int Stream, float Volume)
-{
-	map<int,GstreamerAudioStream*>::iterator it = Streams.find(Stream);
-	if(it != Streams.end())
-	{
-		return it->second->SetStreamVolumeMax(Volume);
 	}
 }
 

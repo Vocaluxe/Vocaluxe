@@ -20,14 +20,11 @@ using Gst;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
-    public class CGstreamerSharpAudio : IPlayback
+    public class CGstreamerSharpAudio : CPlaybackBase
     {
-        private readonly Dictionary<int, CGstreamerSharpAudioStream> _Streams = new Dictionary<int, CGstreamerSharpAudioStream>();
-        private static int _IDCount;
-
-        public bool Init()
+        public override bool Init()
         {
-            if (Application.IsInitialized)
+            if (_Initialized)
                 return false;
 #if ARCH_X86
             const string path = ".\\x86\\gstreamer";
@@ -40,176 +37,21 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             Registry reg = Registry.Get();
             reg.ScanPath(path);
 
-            return Application.IsInitialized;
+            _Initialized = Application.IsInitialized;
+            return _Initialized;
         }
 
-        public void Close()
+        public override void Close()
         {
-            if (!Application.IsInitialized)
+            if (!_Initialized)
                 return;
-            CloseAll();
+            base.Close();
             Application.Deinit();
         }
 
-        public void SetGlobalVolume(float volume)
+        protected override IAudioStream _CreateStream(int id, string media, bool loop)
         {
-            foreach (CGstreamerSharpAudioStream stream in _Streams.Values)
-                stream.Volume = volume;
-        }
-
-        public int GetStreamCount()
-        {
-            return _Streams.Count;
-        }
-
-        public void CloseAll()
-        {
-            foreach (CGstreamerSharpAudioStream stream in _Streams.Values)
-                stream.Close();
-        }
-
-        public int Load(string media)
-        {
-            return Load(media, false);
-        }
-
-        public int Load(string media, bool prescan)
-        {
-            var stream = new CGstreamerSharpAudioStream(media, prescan);
-            _Streams[_IDCount] = stream;
-            return _IDCount++;
-        }
-
-        public void Close(int stream)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].Close();
-        }
-
-        public void Play(int stream)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].Playing = true;
-        }
-
-        public void Play(int stream, bool loop)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            Play(stream, loop);
-        }
-
-        public void Pause(int stream)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].Paused = true;
-        }
-
-        public void Stop(int stream)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].Stop();
-        }
-
-        public void Fade(int stream, float targetVolume, float seconds)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].Fade(targetVolume, seconds);
-        }
-
-        public void FadeAndPause(int stream, float targetVolume, float seconds)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].FadeAndPause(targetVolume, seconds);
-        }
-
-        public void FadeAndClose(int stream, float targetVolume, float seconds)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].FadeAndClose(targetVolume, seconds);
-        }
-
-        public void FadeAndStop(int stream, float targetVolume, float seconds)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].FadeAndStop(targetVolume, seconds);
-        }
-
-        public void SetStreamVolume(int stream, float volume)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].Volume = volume;
-        }
-
-        public void SetStreamVolumeMax(int stream, float volume)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].MaxVolume = volume;
-        }
-
-        public float GetLength(int stream)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return -1;
-            return _Streams[stream].Length;
-        }
-
-        public float GetPosition(int stream)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return -1f;
-            return _Streams[stream].Position;
-        }
-
-        public bool IsPlaying(int stream)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return false;
-            return _Streams[stream].Playing;
-        }
-
-        public bool IsPaused(int stream)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return false;
-            return _Streams[stream].Paused;
-        }
-
-        public bool IsFinished(int stream)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return true;
-            return _Streams[stream].Finished;
-        }
-
-        public void SetPosition(int stream, float position)
-        {
-            if (!_Streams.ContainsKey(stream))
-                return;
-            _Streams[stream].Position = position;
-        }
-
-        public void Update()
-        {
-            var streamsToDelete = new List<int>();
-            foreach (KeyValuePair<int, CGstreamerSharpAudioStream> stream in _Streams)
-            {
-                if (stream.Value.Closed)
-                    streamsToDelete.Add(stream.Key);
-                stream.Value.Update();
-            }
-            foreach (int key in streamsToDelete)
-                _Streams.Remove(key);
+            return new CGstreamerSharpAudioStream(id, media, loop);
         }
     }
 }

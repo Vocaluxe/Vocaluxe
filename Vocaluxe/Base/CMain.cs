@@ -808,7 +808,7 @@ namespace Vocaluxe.Base
             return CSound.GetLength(soundStream);
         }
 
-        public void FadeAndStop(int soundStream, float targetVolume, float duration)
+        public void FadeAndClose(int soundStream, float targetVolume, float duration)
         {
             CSound.FadeAndClose(soundStream, targetVolume, duration);
         }
@@ -816,11 +816,6 @@ namespace Vocaluxe.Base
         public void SetStreamVolume(int soundStream, float volume)
         {
             CSound.SetStreamVolume(soundStream, volume);
-        }
-
-        public void SetStreamVolumeMax(int soundStream, float maxVolume)
-        {
-            CSound.SetStreamVolumeMax(soundStream, maxVolume);
         }
     }
 

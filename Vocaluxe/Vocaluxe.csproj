@@ -219,8 +219,11 @@
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
     <Compile Include="COSFunctions.cs" />
+    <Compile Include="Lib\Sound\Playback\CAudioStreamBase.cs" />
+    <Compile Include="Lib\Sound\Playback\CPlaybackBase.cs" />
     <Compile Include="Lib\Sound\Playback\CRingBuffer.cs" />
     <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudioStream.cs" />
+    <Compile Include="Lib\Sound\Playback\IAudioStream.cs" />
     <Compile Include="Lib\Sound\Playback\OpenAL\COpenAlStream.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioStream.cs" />
     <Compile Include="Lib\Sound\CPortAudioHandle.cs" />

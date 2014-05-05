@@ -109,11 +109,6 @@ namespace Vocaluxe.Base
             _Playback.Play(stream);
         }
 
-        public static void Play(int stream, bool loop)
-        {
-            _Playback.Play(stream, loop);
-        }
-
         public static void Pause(int stream)
         {
             _Playback.Pause(stream);
@@ -124,34 +119,29 @@ namespace Vocaluxe.Base
             _Playback.Stop(stream);
         }
 
-        public static void Fade(int stream, float targetVolume, float seconds)
+        public static void Fade(int stream, float targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
-            _Playback.Fade(stream, targetVolume, seconds);
+            _Playback.Fade(stream, targetVolume, seconds, afterFadeAction);
         }
 
         public static void FadeAndPause(int stream, float targetVolume, float seconds)
         {
-            _Playback.FadeAndPause(stream, targetVolume, seconds);
+            Fade(stream, targetVolume, seconds, EStreamAction.Pause);
         }
 
         public static void FadeAndClose(int stream, float targetVolume, float seconds)
         {
-            _Playback.FadeAndClose(stream, targetVolume, seconds);
+            Fade(stream, targetVolume, seconds, EStreamAction.Close);
         }
 
         public static void FadeAndStop(int stream, float targetVolume, float seconds)
         {
-            _Playback.FadeAndStop(stream, targetVolume, seconds);
+            Fade(stream, targetVolume, seconds, EStreamAction.Stop);
         }
 
         public static void SetStreamVolume(int stream, float volume)
         {
             _Playback.SetStreamVolume(stream, volume);
-        }
-
-        public static void SetStreamVolumeMax(int stream, float volume)
-        {
-            _Playback.SetStreamVolumeMax(stream, volume);
         }
 
         public static float GetLength(int stream)

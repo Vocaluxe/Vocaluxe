@@ -107,49 +107,49 @@ namespace Vocaluxe.Screens
 
         private void _SaveConfig()
         {
+            int volume = _SelectSlides[_SelectSlideVolume].Selection * 5;
             switch (CGraphics.CurrentScreen)
             {
                 case EScreens.ScreenSong:
                     if (CSongs.IsInCategory)
-                        CConfig.PreviewMusicVolume = _SelectSlides[_SelectSlideVolume].Selection * 5;
+                        CConfig.PreviewMusicVolume = volume;
                     else
-                    {
-                        CConfig.BackgroundMusicVolume = _SelectSlides[_SelectSlideVolume].Selection * 5;
-                        CBackgroundMusic.SetVolume(CConfig.BackgroundMusicVolume);
-                    }
+                        CConfig.BackgroundMusicVolume = volume;
                     break;
 
                 case EScreens.ScreenSing:
-                    CConfig.GameMusicVolume = _SelectSlides[_SelectSlideVolume].Selection * 5;
+                    CConfig.GameMusicVolume = volume;
                     break;
 
                 default:
-                    CConfig.BackgroundMusicVolume = _SelectSlides[_SelectSlideVolume].Selection * 5;
-                    CBackgroundMusic.SetVolume(CConfig.BackgroundMusicVolume);
+                    CConfig.BackgroundMusicVolume = volume;
                     break;
             }
             CConfig.SaveConfig();
+            CSound.SetGlobalVolume(volume);
         }
 
         private void _UpdateSlides()
         {
+            int volume;
             switch (CGraphics.CurrentScreen)
             {
                 case EScreens.ScreenSong:
                     if (CSongs.IsInCategory)
-                        _SelectSlides[_SelectSlideVolume].Selection = CConfig.PreviewMusicVolume / 5;
+                        volume = CConfig.PreviewMusicVolume;
                     else
-                        _SelectSlides[_SelectSlideVolume].Selection = CConfig.BackgroundMusicVolume / 5;
+                        volume = CConfig.BackgroundMusicVolume;
                     break;
 
                 case EScreens.ScreenSing:
-                    _SelectSlides[_SelectSlideVolume].Selection = CConfig.GameMusicVolume / 5;
+                    volume = CConfig.GameMusicVolume;
                     break;
 
                 default:
-                    _SelectSlides[_SelectSlideVolume].Selection = CConfig.BackgroundMusicVolume / 5;
+                    volume = CConfig.BackgroundMusicVolume;
                     break;
             }
+            _SelectSlides[_SelectSlideVolume].Selection = volume / 5;
         }
     }
 }
