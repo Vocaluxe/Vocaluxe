@@ -219,6 +219,10 @@
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
     <Compile Include="COSFunctions.cs" />
+    <Compile Include="Lib\Database\CCoverDB.cs" />
+    <Compile Include="Lib\Database\CDatabaseBase.cs" />
+    <Compile Include="Lib\Database\CHighscoreDB.cs" />
+    <Compile Include="Lib\Database\CResourceDB.cs" />
     <Compile Include="Lib\Sound\Playback\CAudioStreamBase.cs" />
     <Compile Include="Lib\Sound\Playback\CPlaybackBase.cs" />
     <Compile Include="Lib\Sound\Playback\CRingBuffer.cs" />
