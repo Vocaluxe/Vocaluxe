@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -126,10 +127,9 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 
         public override bool Open(bool prescan)
         {
+            Debug.Assert(!_FileOpened);
             if (_FileOpened)
                 return false;
-
-            Length = 0f;
 
             if (!File.Exists(_Medium))
             {

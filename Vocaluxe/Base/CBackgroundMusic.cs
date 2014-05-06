@@ -31,7 +31,6 @@ namespace Vocaluxe.Base
 
         private static bool _OwnSongsAvailable;
         private static EBackgroundMusicSource _MusicSource;
-        private static float _Volume;
         private static bool _VideoEnabled;
 
         private static CPlaylistElement _CurrentPlaylistElement; //Currently played music
@@ -151,6 +150,27 @@ namespace Vocaluxe.Base
             _Initialized = true;
         }
 
+        public static void Close()
+        {
+            if (_CurrentMusicStream >= 0)
+            {
+                CSound.Close(_CurrentMusicStream);
+                _CurrentMusicStream = -1;
+            }
+            if (_Video != -1)
+            {
+                CVideo.Close(_Video);
+                CDraw.RemoveTexture(ref _CurrentVideoTexture);
+                _Video = -1;
+            }
+            _BGMusicFiles.Clear();
+            _NotPlayedFiles.Clear();
+            _PreviousFiles.Clear();
+
+            IsPlaying = false;
+            _Initialized = false;
+        }
+
         public static void Play()
         {
             if (IsPlaying || CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
@@ -254,8 +274,12 @@ namespace Vocaluxe.Base
             Debug.Assert(_CurrentMusicStream != -1 && _CurrentPlaylistElement != null);
 
             float timeToPlay;
-            if (Math.Abs(_CurrentPlaylistElement.Finish) < 0.001) //No End-Tag defined
-                timeToPlay = CSound.GetLength(_CurrentMusicStream) - CSound.GetPosition(_CurrentMusicStream);
+            if (Math.Abs(_CurrentPlaylistElement.Finish) < 0.001)
+            {
+                //No End-Tag defined
+                float len = CSound.GetLength(_CurrentMusicStream);
+                timeToPlay = (len > 0f) ? len - CSound.GetPosition(_CurrentMusicStream) : CSettings.BackgroundMusicFadeTime + 1f;
+            }
             else //End-Tag found
                 timeToPlay = _CurrentPlaylistElement.Finish - CSound.GetPosition(_CurrentMusicStream);
 

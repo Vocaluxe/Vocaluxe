@@ -23,6 +23,7 @@ using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
 using Vocaluxe.Lib.Sound.Playback.OpenAL;
 using Vocaluxe.Lib.Sound.Playback.PortAudio;
 using VocaluxeLib;
+using System.Threading;
 
 namespace Vocaluxe.Base
 {
@@ -198,11 +199,26 @@ namespace Vocaluxe.Base
             if (!File.Exists(file))
                 return -1;
 
-            int stream = Load(file, true);
-            float length = GetLength(stream);
+            int stream = Load(file, fade);
+            if (stream < 0)
+                return -1;
             Play(stream);
             if (fade)
-                FadeAndClose(stream, 100f, length);
+            {
+                float length = -1f;
+                for (int i = 0; i < 5; i++)
+                {
+                    length = GetLength(stream);
+                    if (length >= 0f)
+                        break;
+                    Thread.Sleep(1);
+                }
+                if (length > 0f)
+                {
+                    SetStreamVolume(stream, 0f);
+                    Fade(stream, 100f, length);
+                }
+            }
             return stream;
         }
         #endregion Sounds

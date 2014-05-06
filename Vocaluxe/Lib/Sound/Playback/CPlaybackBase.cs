@@ -200,26 +200,26 @@ namespace Vocaluxe.Lib.Sound.Playback
         public float GetLength(int streamID)
         {
             if (!_Initialized)
-                return 0f;
+                return -1f;
             lock (_Streams)
             {
                 if (_StreamExists(streamID))
                     return _Streams[_GetStreamIndex(streamID)].Length;
             }
-            return 0f;
+            return -1f;
         }
 
         public float GetPosition(int streamID)
         {
             if (!_Initialized)
-                return 0f;
+                return -1f;
             lock (_Streams)
             {
                 if (_StreamExists(streamID))
                     return _Streams[_GetStreamIndex(streamID)].Position;
             }
 
-            return 0f;
+            return -1f;
         }
 
         public void SetPosition(int streamID, float position)

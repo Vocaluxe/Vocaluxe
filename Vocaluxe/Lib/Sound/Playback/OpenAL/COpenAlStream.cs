@@ -150,10 +150,9 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
         public override bool Open(bool prescan)
         {
+            Debug.Assert(!_FileOpened);
             if (_FileOpened)
                 return false;
-
-            Length = 0f;
 
             if (!File.Exists(_Medium))
             {

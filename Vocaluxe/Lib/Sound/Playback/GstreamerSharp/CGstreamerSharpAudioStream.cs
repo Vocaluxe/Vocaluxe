@@ -25,13 +25,15 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
     class CGstreamerSharpAudioStream : CAudioStreamBase
     {
         private Element _Element;
+        private bool _FileOpened;
 
         private volatile bool _IsFinished;
 
         private volatile float _Position;
         private volatile bool _QueryingDuration;
+        private System.Threading.Thread _QueryDurationThread;
 
-        private readonly object _DurationLock = new object(); //For atomic check and update of _QueryingDuration
+        private readonly object _DurationLock = new object(); //For atomic check-and-update of _QueryingDuration
         private readonly object _ElementLock = new object(); //Hold this if you set _Element=null or when accessing _Element from outside the main thread
 
         public override float Volume
@@ -58,11 +60,11 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         {
             get
             {
-                if (base.Length < 0 && !_QueryingDuration)
+                if (base.Length < 0 && _QueryDurationThread == null && _Element != null)
                 {
-                    _QueryingDuration = true; // Set this to avoid race conditions
-                    var t = new System.Threading.Thread(_UpdateDuration) {Name = "GSt Update Duration"};
-                    t.Start();
+                    // _QueryDurationThread does not get reset so it is created only once!
+                    _QueryDurationThread = new System.Threading.Thread(_UpdateDuration) {Name = "GSt Update Duration"};
+                    _QueryDurationThread.Start();
                 }
                 return base.Length >= 0f ? base.Length : 0f;
             }
@@ -72,11 +74,14 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         {
             get
             {
-                long position;
-                if (!_Element.QueryPosition(Format.Time, out position))
-                    CLog.LogError("Could not query position");
-                else
-                    _Position = ((float)position / Constants.SECOND);
+                if (_Element != null)
+                {
+                    long position;
+                    if (!_Element.QueryPosition(Format.Time, out position))
+                        CLog.LogError("Could not query position");
+                    else
+                        _Position = ((float)position / Constants.SECOND);
+                }
                 return _Position;
             }
             set
@@ -88,7 +93,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
         public override bool IsFinished
         {
-            get { return _IsFinished; }
+            get { return _Element == null || _IsFinished; }
         }
 
         public override bool IsPaused
@@ -96,9 +101,8 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             get { return _Element == null || _Element.TargetState == State.Paused; }
             set
             {
-                if (_Element == null)
-                    return;
-                _Element.SetState(value ? State.Paused : State.Playing);
+                if (_Element != null)
+                    _Element.SetState(value ? State.Paused : State.Playing);
             }
         }
 
@@ -106,6 +110,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
         public override bool Open(bool prescan)
         {
+            System.Diagnostics.Debug.Assert(!_FileOpened);
+            if (_FileOpened)
+                return false;
+            Length = -1;
             Element convert = ElementFactory.Make("audioconvert", "convert");
             Element audiosink = ElementFactory.Make("directsoundsink", "audiosink");
 
@@ -178,6 +186,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 if (msg.Handle != IntPtr.Zero)
                     _UpdateDuration();
             }
+            _FileOpened = true;
             return true;
         }
 
@@ -248,8 +257,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                     CLog.LogError("Gstreamer error: message" + error.Message + ", code" + error.Code + " ,debug information" + debug);
                     break;
                 case MessageType.DurationChanged:
-                    if (!_QueryingDuration)
-                        _UpdateDuration();
+                    _UpdateDuration();
                     break;
             }
             msg.Unref();
