@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "GstreamerVideo.h"
 #include "GstreamerVideoStream.h"
 

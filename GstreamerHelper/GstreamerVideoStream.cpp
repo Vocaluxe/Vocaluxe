@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "GstreamerVideoStream.h"
 
 typedef enum {

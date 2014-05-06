@@ -308,14 +308,12 @@
     <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
     <Compile Include="Lib\Sound\Record\DirectSound\CDirectSoundRecord.cs" />
-    <Compile Include="Lib\Sound\Playback\Gstreamer\CGstreamerAudio.cs" />
     <Compile Include="Lib\Sound\Playback\OpenAL\COpenALPlay.cs" />
     <Compile Include="Base\CSound.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioPlay.cs" />
     <Compile Include="Lib\Sound\Record\PortAudio\CPortAudioRecord.cs" />
     <Compile Include="Lib\Sound\Playback\Decoder\CAudioDecoderFFmpeg.cs" />
     <Compile Include="Lib\Sound\Playback\Decoder\IAudioDecoder.cs" />
-    <Compile Include="Lib\Sound\Playback\Gstreamer\CGstreamerAudioWrapper.cs" />
     <Compile Include="Lib\Sound\Playback\IPlayback.cs" />
     <Compile Include="Lib\Sound\Record\IRecord.cs" />
     <Compile Include="Lib\Video\Acinerella\CAcinerella.cs" />

@@ -18,7 +18,6 @@
 using System;
 using System.IO;
 using Vocaluxe.Lib.Sound.Playback;
-using Vocaluxe.Lib.Sound.Playback.Gstreamer;
 using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
 using Vocaluxe.Lib.Sound.Playback.OpenAL;
 using Vocaluxe.Lib.Sound.Playback.PortAudio;
@@ -49,10 +48,6 @@ namespace Vocaluxe.Base
 
                 case EPlaybackLib.OpenAL:
                     _Playback = new COpenALPlay();
-                    break;
-
-                case EPlaybackLib.Gstreamer:
-                    _Playback = new CGstreamerAudio();
                     break;
 
                 case EPlaybackLib.GstreamerSharp:
