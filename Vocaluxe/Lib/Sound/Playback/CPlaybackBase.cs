@@ -25,6 +25,8 @@ namespace Vocaluxe.Lib.Sound.Playback
     {
         protected bool _Initialized;
         protected readonly List<IAudioStream> _Streams = new List<IAudioStream>();
+        private readonly List<IAudioStream> _StreamsToDelete = new List<IAudioStream>();
+        private bool _InUpdate;
         private int _NextID;
         protected float _GlobalVolume = 1f;
 
@@ -92,8 +94,18 @@ namespace Vocaluxe.Lib.Sound.Playback
                 return;
             lock (_Streams)
             {
+                _InUpdate = true;
                 foreach (IAudioStream stream in _Streams)
                     stream.Update();
+                //This is required because a stream may call the close listener from inside the update method
+                //lock() only protects from different threads not from the same, so we use StreamsToDelete to not modify _Streams while iterating it
+                _InUpdate = false;
+                if (_StreamsToDelete.Count > 0)
+                {
+                    foreach (IAudioStream stream in _StreamsToDelete)
+                        _Streams.Remove(stream);
+                    _StreamsToDelete.Clear();
+                }
             }
         }
 
@@ -301,7 +313,10 @@ namespace Vocaluxe.Lib.Sound.Playback
         {
             lock (_Streams)
             {
-                _Streams.Remove(stream);
+                if (_InUpdate) //This is only possible if this is called from inside the update method
+                    _StreamsToDelete.Add(stream);
+                else
+                    _Streams.Remove(stream);
             }
         }
     }

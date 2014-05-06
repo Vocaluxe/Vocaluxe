@@ -205,6 +205,8 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             }
             if (element.TargetState == State.Playing)
                 element.SetState(State.Paused); //Stop output
+            if (_CloseStreamListener != null)
+                _CloseStreamListener.OnCloseStream(this);
             //Now really close it in the background
             var t = new System.Threading.Thread(() => _TerminateStream(element)) {Name = "GSt Terminate"};
             t.Start();
