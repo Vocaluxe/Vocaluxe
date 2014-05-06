@@ -45,7 +45,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         ~CBuffer()
         {
-            _Dispose();
+            _Dispose(false);
         }
 
         public int GetNumHalfTones()
@@ -110,13 +110,13 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public void Dispose()
         {
-            _Dispose();
+            _Dispose(true);
             GC.SuppressFinalize(this);
         }
 
-        private void _Dispose()
+        private void _Dispose(bool disposing)
         {
-            if (_PitchTracker != null)
+            if (disposing && _PitchTracker != null)
             {
                 _PitchTracker.Dispose();
                 _PitchTracker = null;
