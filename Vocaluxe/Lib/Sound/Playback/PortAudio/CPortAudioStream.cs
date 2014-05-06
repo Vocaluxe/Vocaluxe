@@ -98,13 +98,21 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             get { return _Paused; }
             set
             {
+                if (_Paused == value)
+                    return;
+                if (!_FileOpened || _Terminated)
+                    return;
                 _Paused = value;
                 lock (_LockData)
                 {
                     if (_Paused)
+                    {
+                        _PaHandle.CheckError("StopStream (playback)", PortAudioSharp.PortAudio.Pa_StopStream(_Stream));
                         _SyncTimer.Pause();
+                    }
                     else
                     {
+                        _PaHandle.CheckError("StartStream", PortAudioSharp.PortAudio.Pa_StartStream(_Stream));
                         _SyncTimer.Resume();
                         _EventDecode.Set();
                     }
