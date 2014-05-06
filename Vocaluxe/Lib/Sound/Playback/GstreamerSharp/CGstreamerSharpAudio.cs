@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Generic;
 using Gst;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp

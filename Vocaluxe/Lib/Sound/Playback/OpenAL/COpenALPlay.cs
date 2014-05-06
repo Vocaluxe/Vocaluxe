@@ -15,11 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Linq;
-using System.Threading;
 using OpenTK.Audio;
-using System;
-using System.Collections.Generic;
 
 namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 {
