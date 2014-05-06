@@ -3,7 +3,7 @@
 #include <thread>
 #include "gst/gst.h"
 #include "GstreamerVideo.h"
-#include "gst\app\gstappsink.h"
+#include "gst/app/gstappsink.h"
 #include "VocaluxeClock.h"
 
 	using namespace std;

@@ -3,7 +3,7 @@
 #include "GstreamerVideoStream.h"
 
 map<int, GstreamerVideoStream*> VideoStreams;
-queue<int> VideoIDs;
+int NextID;
 
 DllExport void SetVideoLogCallback (LogCallback Callback)
 {
@@ -12,15 +12,7 @@ DllExport void SetVideoLogCallback (LogCallback Callback)
 
 DllExport bool InitVideo()
 {
-	for(int i = 0; i < 1000; i++)
-	{
-		VideoIDs.push(i);
-	}
-#if _WIN64
-	SetDllDirectory(L".\\x64\\gstreamer");
-#else
-		SetDllDirectory(L".\\x86\\gstreamer");
-#endif
+	NextID = 0;
 
 	gst_init(NULL, NULL);
 
@@ -28,8 +20,10 @@ DllExport bool InitVideo()
 
 #if _WIN64
 	gst_registry_scan_path(registry, ".\\x64\\gstreamer");
-#else
+#elif _WIN32
 	gst_registry_scan_path(registry, ".\\x86\\gstreamer");
+#else
+	#error Define either _WIN64 or _WIN32!
 #endif
 	return true;
 }
@@ -45,9 +39,8 @@ DllExport void CloseAllVideos(void)
 
 DllExport int LoadVideo(const wchar_t* Media)
 {
-	GstreamerVideoStream *s = new GstreamerVideoStream(VideoIDs.front());
-	VideoStreams.insert(pair<int, GstreamerVideoStream*> (VideoIDs.front(), s));
-	VideoIDs.pop();
+	GstreamerVideoStream *s = new GstreamerVideoStream(NextID++);
+	VideoStreams.insert(pair<int, GstreamerVideoStream*> (s->ID, s));
 	return s->LoadVideo(Media);
 }
 
