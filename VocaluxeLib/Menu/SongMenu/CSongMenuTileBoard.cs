@@ -67,11 +67,11 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             set
             {
-                _PlaySong(value);
-                _PreviewIdInternal = value;
+                if (value == base._PreviewId)
+                    return;
+                base._PreviewId = value;
                 _UpdatePreview();
             }
-            get { return _PreviewIdInternal; }
         }
 
         public override int GetActualSelection()
@@ -373,8 +373,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (!keyEvent.Handled)
                 {
                     _ActualSelection = _Locked;
-                    if (_PreviewId != _Locked)
-                        _PreviewId = _Locked;
+                    _PreviewId = _Locked;
 
                     for (int i = 0; i < _Tiles.Count; i++)
                         _Tiles[i].Selected = _Locked == i + _Offset;

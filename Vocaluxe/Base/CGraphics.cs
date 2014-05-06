@@ -106,6 +106,13 @@ namespace Vocaluxe.Base
             CLog.StopBenchmark("Load Theme");
         }
 
+        public static void Close()
+        {
+            if (_CurrentPopupScreen != EPopupScreens.NoPopup)
+                _PopupScreens[(int)_CurrentPopupScreen].OnClose();
+            _Screens[(int)_CurrentScreen].OnClose();
+        }
+
         public static void LoadTheme()
         {
             _Cursor.LoadTextures();

@@ -28,7 +28,7 @@ namespace Vocaluxe.Base
     {
         private static IDraw _Draw;
 
-        public static bool InitDraw()
+        public static bool Init()
         {
             if (_Draw != null)
                 return false;

@@ -107,23 +107,14 @@ namespace Vocaluxe
                 // Create folders
                 CSettings.CreateFolders();
 
-                Application.DoEvents();
                 _SplashScreen = new CSplashScreen();
                 Application.DoEvents();
 
                 // Init Draw
                 CLog.StartBenchmark("Init Draw");
-                if (!CDraw.InitDraw())
+                if (!CDraw.Init())
                     throw new CLoadingException("drawing");
                 CLog.StopBenchmark("Init Draw");
-
-                Application.DoEvents();
-
-                // Init Database
-                CLog.StartBenchmark("Init Database");
-                if (!CDataBase.Init())
-                    throw new CLoadingException("database");
-                CLog.StopBenchmark("Init Database");
 
                 Application.DoEvents();
 
@@ -140,6 +131,22 @@ namespace Vocaluxe
                 if (!CRecord.Init())
                     throw new CLoadingException("record");
                 CLog.StopBenchmark("Init Record");
+
+                Application.DoEvents();
+
+                // Init VideoDecoder
+                CLog.StartBenchmark("Init Videodecoder");
+                if (!CVideo.Init())
+                    throw new CLoadingException("video");
+                CLog.StopBenchmark("Init Videodecoder");
+
+                Application.DoEvents();
+
+                // Init Database
+                CLog.StartBenchmark("Init Database");
+                if (!CDataBase.Init())
+                    throw new CLoadingException("database");
+                CLog.StopBenchmark("Init Database");
 
                 Application.DoEvents();
 
@@ -169,14 +176,6 @@ namespace Vocaluxe
                 CLog.StartBenchmark("Init Font");
                 CFonts.Init();
                 CLog.StopBenchmark("Init Font");
-
-                Application.DoEvents();
-
-                // Init VideoDecoder
-                CLog.StartBenchmark("Init Videodecoder");
-                if (!CVideo.Init())
-                    throw new CLoadingException("video");
-                CLog.StopBenchmark("Init Videodecoder");
 
                 Application.DoEvents();
 
@@ -257,19 +256,22 @@ namespace Vocaluxe
 
         private static void _CloseProgram()
         {
-            // Unloading
+            // Unloading in reverse order
             try
             {
-                CVocaluxeServer.Close();
                 CController.Close();
+                CVocaluxeServer.Close();
+                CGraphics.Close();
+                CCover.Close();
+                CBackgroundMusic.Close();
+                CWebcam.Close();
+                CDataBase.Close();
+                CVideo.Close();
                 CRecord.Close();
                 CSound.Close();
-                CVideo.Close();
                 CDraw.Unload();
-                CDataBase.Close();
-                CWebcam.Close();
                 GC.Collect(); // Do a GC run here before we close logs to have finalizers run
-                CLog.CloseAll();
+                CLog.CloseAll(); // Do this last, so we get all log entries!
             }
             catch (Exception) {}
             Environment.Exit(Environment.ExitCode);
