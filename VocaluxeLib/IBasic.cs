@@ -256,7 +256,7 @@ namespace VocaluxeLib
 
     public interface ISound
     {
-        int Load(string soundFile, bool prescan);
+        int Load(string soundFile, bool loop = false, bool prescan = false);
         void SetPosition(int soundStream, float newPosition);
         void Play(int soundStream);
         void Fade(int soundStream, float targetVolume, float duration);

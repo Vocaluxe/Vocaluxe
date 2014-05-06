@@ -597,7 +597,7 @@ namespace Vocaluxe.Screens
                 songname += " (" + CGame.RoundNr + "/" + rounds + ")";
             _Texts[_TextSongName].Text = songname;
 
-            _CurrentStream = CSound.Load(song.GetMP3(), true);
+            _CurrentStream = CSound.Load(song.GetMP3(), false, true);
             CSound.SetStreamVolume(_CurrentStream, _Volume);
             CSound.SetPosition(_CurrentStream, song.Start);
             _CurrentTime = song.Start;

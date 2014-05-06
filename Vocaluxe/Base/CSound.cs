@@ -85,14 +85,9 @@ namespace Vocaluxe.Base
         }
 
         #region Stream Handling
-        public static int Load(string media)
+        public static int Load(string media, bool loop=false, bool prescan=false)
         {
-            return _Playback.Load(media);
-        }
-
-        public static int Load(string media, bool prescan)
-        {
-            return _Playback.Load(media, prescan);
+            return _Playback.Load(media, loop, prescan);
         }
 
         public static void Close(int stream)
@@ -194,7 +189,7 @@ namespace Vocaluxe.Base
             if (!File.Exists(file))
                 return -1;
 
-            int stream = Load(file, fade);
+            int stream = Load(file, false, fade);
             if (stream < 0)
                 return -1;
             Play(stream);

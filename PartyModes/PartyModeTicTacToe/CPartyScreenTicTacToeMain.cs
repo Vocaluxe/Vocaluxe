@@ -503,7 +503,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             CBase.BackgroundMusic.SetStatus(true);
 
-            _PreviewStream = CBase.Sound.Load(song.GetMP3(), false);
+            _PreviewStream = CBase.Sound.Load(song.GetMP3());
             CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);
             CBase.Sound.SetStreamVolume(_PreviewStream, 0f);
             CBase.Sound.Play(_PreviewStream);
@@ -527,7 +527,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             CSong song = CBase.Songs.GetSongByID(songID);
             CBase.BackgroundMusic.SetStatus(true);
 
-            _PreviewStream = CBase.Sound.Load(song.GetMP3(), false);
+            _PreviewStream = CBase.Sound.Load(song.GetMP3());
             CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);
             CBase.Sound.SetStreamVolume(_PreviewStream, 0f);
             CBase.Sound.Play(_PreviewStream);

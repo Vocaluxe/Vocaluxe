@@ -523,7 +523,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (song == null)
                     return;
 
-                int stream = CBase.Sound.Load(Path.Combine(song.Folder, song.MP3FileName), true);
+                int stream = CBase.Sound.Load(Path.Combine(song.Folder, song.MP3FileName), true, true);
 
                 float startposition = song.Preview.StartTime;
                 float length = CBase.Sound.GetLength(stream);
