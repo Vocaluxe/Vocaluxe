@@ -95,15 +95,15 @@ namespace Vocaluxe.Base
         public static ELyricStyle LyricStyle = ELyricStyle.Slide;
 
         // Sound
-        public static EPlaybackLib PlayBackLib = EPlaybackLib.Gstreamer;
+        public static EPlaybackLib PlayBackLib = EPlaybackLib.GstreamerSharp;
         public static EBufferSize AudioBufferSize = EBufferSize.B2048;
         public static int AudioLatency;
         private static int _BackgroundMusicVolume = 30;
         public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
         public static EOffOn BackgroundMusicUseStart = EOffOn.TR_CONFIG_ON;
-        public static int PreviewMusicVolume = 50;
-        public static int GameMusicVolume = 80;
+        private static int _PreviewMusicVolume = 50;
+        private static int _GameMusicVolume = 80;
 
         //Folders
         public static readonly List<string> SongFolders = new List<string>
@@ -171,12 +171,27 @@ namespace Vocaluxe.Base
             get { return _BackgroundMusicVolume; }
             set
             {
-                if (value < 0)
-                    _BackgroundMusicVolume = 0;
-                else if (value > 100)
-                    _BackgroundMusicVolume = 100;
-                else
-                    _BackgroundMusicVolume = value;
+                _BackgroundMusicVolume = value.Clamp(0, 100);
+                SaveConfig();
+            }
+        }
+
+        public static int GameMusicVolume
+        {
+            get { return _GameMusicVolume; }
+            set
+            {
+                _GameMusicVolume = value.Clamp(0, 100);
+                SaveConfig();
+            }
+        }
+
+        public static int PreviewMusicVolume
+        {
+            get { return _PreviewMusicVolume; }
+            set
+            {
+                _PreviewMusicVolume = value.Clamp(0, 100);
                 SaveConfig();
             }
         }
@@ -248,8 +263,8 @@ namespace Vocaluxe.Base
             xmlReader.TryGetIntValueRange("//root/Sound/BackgroundMusicVolume", ref _BackgroundMusicVolume);
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicSource", ref BackgroundMusicSource);
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicUseStart", ref BackgroundMusicUseStart);
-            xmlReader.TryGetIntValueRange("//root/Sound/PreviewMusicVolume", ref PreviewMusicVolume);
-            xmlReader.TryGetIntValueRange("//root/Sound/GameMusicVolume", ref GameMusicVolume);
+            xmlReader.TryGetIntValueRange("//root/Sound/PreviewMusicVolume", ref _PreviewMusicVolume);
+            xmlReader.TryGetIntValueRange("//root/Sound/GameMusicVolume", ref _GameMusicVolume);
             #endregion Sound
 
             #region Game

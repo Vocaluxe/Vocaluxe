@@ -65,8 +65,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             float diff = et - dt;
             if (Math.Abs(diff) > 0.05f)
             {
-                _Timer.Reset();
-                _Timer.Start();
+                _Timer.Restart();
                 _SetValue = dt + diff;
                 dt = _SetValue;
                 //Console.WriteLine("DRIFTED!!! " + diff.ToString());

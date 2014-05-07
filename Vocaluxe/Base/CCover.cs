@@ -18,9 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Xml;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -35,7 +32,6 @@ namespace Vocaluxe.Base
 
     static class CCover
     {
-        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
         private static readonly Dictionary<string, CTexture> _Covers = new Dictionary<string, CTexture>();
         private static readonly List<SCoverTheme> _CoverThemes = new List<SCoverTheme>();
 
@@ -43,12 +39,14 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            _Settings.Indent = true;
-            _Settings.Encoding = Encoding.UTF8;
-            _Settings.ConformanceLevel = ConformanceLevel.Document;
-
             _LoadCoverThemes();
             _LoadCover(CConfig.CoverTheme);
+        }
+
+        public static void Close()
+        {
+            _UnloadCovers();
+            _CoverThemes.Clear();
         }
 
         /// <summary>
@@ -106,18 +104,23 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Reloads cover to use a new cover-theme
         /// </summary>
-        public static void ReloadCover()
+        public static void ReloadCovers()
+        {
+            _UnloadCovers();
+            _LoadCover(CConfig.CoverTheme);
+        }
+
+        private static void _UnloadCovers()
         {
             lock (_Covers)
             {
-                foreach (string key in _Covers.Keys.ToList())
+                foreach (string key in _Covers.Keys)
                 {
                     CTexture texture = _Covers[key];
                     CDraw.RemoveTexture(ref texture);
                 }
                 _Covers.Clear();
             }
-            _LoadCover(CConfig.CoverTheme);
         }
 
         /// <summary>

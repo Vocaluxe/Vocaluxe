@@ -19,8 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using VocaluxeLib;
 
 namespace Vocaluxe.Base
@@ -42,7 +40,6 @@ namespace Vocaluxe.Base
 
     static class CLanguage
     {
-        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
         private static List<SLanguage> _Languages;
         private static int _CurrentLanguage;
         private static int _FallbackLanguage;
@@ -75,9 +72,6 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             _Languages = new List<SLanguage>();
-            _Settings.Indent = true;
-            _Settings.Encoding = Encoding.UTF8;
-            _Settings.ConformanceLevel = ConformanceLevel.Document;
 
             var files = new List<string>();
             files.AddRange(CHelper.ListFiles(CSettings.FolderLanguages, "*.xml", true, true));

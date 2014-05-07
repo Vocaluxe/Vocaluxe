@@ -144,7 +144,6 @@ namespace VocaluxeLib
     {
         PortAudio,
         OpenAL,
-        Gstreamer,
         GstreamerSharp
     }
 

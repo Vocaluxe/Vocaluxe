@@ -256,7 +256,7 @@ namespace VocaluxeLib
 
     public interface ISound
     {
-        int Load(string soundFile, bool prescan);
+        int Load(string soundFile, bool loop = false, bool prescan = false);
         void SetPosition(int soundStream, float newPosition);
         void Play(int soundStream);
         void Fade(int soundStream, float targetVolume, float duration);
@@ -264,10 +264,9 @@ namespace VocaluxeLib
         bool IsFinished(int soundStream);
         float GetPosition(int soundStream);
         float GetLength(int soundStream);
-        void FadeAndStop(int soundStream, float targetVolume, float duration);
+        void FadeAndClose(int soundStream, float targetVolume, float duration);
 
         void SetStreamVolume(int soundStream, float volume);
-        void SetStreamVolumeMax(int soundStream, float maxVolume);
     }
 
     public interface ICover

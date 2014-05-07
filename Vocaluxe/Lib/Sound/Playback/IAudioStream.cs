@@ -15,27 +15,34 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-namespace Vocaluxe.Lib.Sound.Playback.Decoder
+using System;
+
+namespace Vocaluxe.Lib.Sound.Playback
 {
-    struct SFormatInfo
+    public interface ICloseStreamListener
     {
-        public int ChannelCount;
-        public int SamplesPerSecond;
-        public int BitDepth;
+        void OnCloseStream(IAudioStream stream);
     }
 
-    interface IAudioDecoder
+    public interface IAudioStream : IDisposable
     {
+        int ID { get; }
+        float Volume { get; set; }
+        float VolumeMax { get; set; }
+        float Length { get; }
+        float Position { get; set; }
+        bool IsPaused { get; set; }
+        bool IsFinished { get; }
+
+        void SetOnCloseListener(ICloseStreamListener listener);
+
+        void Update();
+
+        bool Open(bool prescan);
         void Close();
-
-        bool Open(string fileName);
-        SFormatInfo GetFormatInfo();
-
-        float GetLength();
-
-        void SetPosition(float time);
-        float GetPosition();
-
-        void Decode(out byte[] buffer, out float timeStamp);
+        void Play();
+        void Stop();
+        void Fade(float targetVolume, float seconds, EStreamAction afterFadeAction);
+        void CancelFading();
     }
 }

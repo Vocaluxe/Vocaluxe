@@ -18,11 +18,11 @@
 using System;
 using System.IO;
 using Vocaluxe.Lib.Sound.Playback;
-using Vocaluxe.Lib.Sound.Playback.Gstreamer;
 using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
 using Vocaluxe.Lib.Sound.Playback.OpenAL;
 using Vocaluxe.Lib.Sound.Playback.PortAudio;
 using VocaluxeLib;
+using System.Threading;
 
 namespace Vocaluxe.Base
 {
@@ -48,10 +48,6 @@ namespace Vocaluxe.Base
 
                 case EPlaybackLib.OpenAL:
                     _Playback = new COpenALPlay();
-                    break;
-
-                case EPlaybackLib.Gstreamer:
-                    _Playback = new CGstreamerAudio();
                     break;
 
                 case EPlaybackLib.GstreamerSharp:
@@ -89,14 +85,9 @@ namespace Vocaluxe.Base
         }
 
         #region Stream Handling
-        public static int Load(string media)
+        public static int Load(string media, bool loop=false, bool prescan=false)
         {
-            return _Playback.Load(media);
-        }
-
-        public static int Load(string media, bool prescan)
-        {
-            return _Playback.Load(media, prescan);
+            return _Playback.Load(media, loop, prescan);
         }
 
         public static void Close(int stream)
@@ -109,11 +100,6 @@ namespace Vocaluxe.Base
             _Playback.Play(stream);
         }
 
-        public static void Play(int stream, bool loop)
-        {
-            _Playback.Play(stream, loop);
-        }
-
         public static void Pause(int stream)
         {
             _Playback.Pause(stream);
@@ -124,34 +110,29 @@ namespace Vocaluxe.Base
             _Playback.Stop(stream);
         }
 
-        public static void Fade(int stream, float targetVolume, float seconds)
+        public static void Fade(int stream, float targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
-            _Playback.Fade(stream, targetVolume, seconds);
+            _Playback.Fade(stream, targetVolume, seconds, afterFadeAction);
         }
 
         public static void FadeAndPause(int stream, float targetVolume, float seconds)
         {
-            _Playback.FadeAndPause(stream, targetVolume, seconds);
+            Fade(stream, targetVolume, seconds, EStreamAction.Pause);
         }
 
         public static void FadeAndClose(int stream, float targetVolume, float seconds)
         {
-            _Playback.FadeAndClose(stream, targetVolume, seconds);
+            Fade(stream, targetVolume, seconds, EStreamAction.Close);
         }
 
         public static void FadeAndStop(int stream, float targetVolume, float seconds)
         {
-            _Playback.FadeAndStop(stream, targetVolume, seconds);
+            Fade(stream, targetVolume, seconds, EStreamAction.Stop);
         }
 
         public static void SetStreamVolume(int stream, float volume)
         {
             _Playback.SetStreamVolume(stream, volume);
-        }
-
-        public static void SetStreamVolumeMax(int stream, float volume)
-        {
-            _Playback.SetStreamVolumeMax(stream, volume);
         }
 
         public static float GetLength(int stream)
@@ -208,11 +189,26 @@ namespace Vocaluxe.Base
             if (!File.Exists(file))
                 return -1;
 
-            int stream = Load(file, true);
-            float length = GetLength(stream);
+            int stream = Load(file, false, fade);
+            if (stream < 0)
+                return -1;
             Play(stream);
             if (fade)
-                FadeAndClose(stream, 100f, length);
+            {
+                float length = -1f;
+                for (int i = 0; i < 5; i++)
+                {
+                    length = GetLength(stream);
+                    if (length >= 0f)
+                        break;
+                    Thread.Sleep(1);
+                }
+                if (length > 0f)
+                {
+                    SetStreamVolume(stream, 0f);
+                    Fade(stream, 100f, length);
+                }
+            }
             return stream;
         }
         #endregion Sounds

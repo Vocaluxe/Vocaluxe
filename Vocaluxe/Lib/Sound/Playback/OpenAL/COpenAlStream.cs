@@ -22,57 +22,41 @@ using System.Threading;
 using OpenTK.Audio;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Playback.Decoder;
-using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 {
-    class COpenAlStream
+    class COpenAlStream : CAudioStreamBase
     {
-        private const int _BufferSize = 2048;
         private const int _BufferCount = 5;
-        private const int _Bufsize = 50000;
-
-        private Object _CloseMutex;
+        private const int _Bufsize = 500000;
+        private const int _BeginRefill = 50000;
 
         private int[] _Buffers;
-        private int _State;
+        private byte[] _SampleBuf;
         private int _Source;
         private SFormatInfo _Format;
 
-        private bool _Initialized;
-        private int _ByteCount = 4;
-        private float _Volume = 1f;
-        private float _VolumeMax = 1f;
-
-        private EStreamAction _AfterFadeAction;
-        private CFading _Fading;
-
         private readonly Stopwatch _Timer = new Stopwatch();
 
-        private Closeproc _Closeproc;
-        private int _StreamID;
         private IAudioDecoder _Decoder;
+        private int _ByteCount;
         private float _BytesPerSecond;
         private bool _NoMoreData;
 
         private bool _FileOpened;
 
-        private bool _Waiting;
         private bool _Skip;
 
-        private bool _Loop;
-        private float _Duration;
         private float _CurrentTime;
         private float _TimeCode;
 
         private bool _Paused;
 
         private CRingBuffer _Data;
-        private float _SetStart;
+        private volatile float _SetStart;
         private float _Start;
-        private bool _SetLoop;
-        private bool _SetSkip;
-        private bool _Terminated;
+        private volatile bool _SetSkip;
+        private volatile bool _Terminated;
 
         private Thread _DecoderThread;
 
@@ -81,199 +65,156 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
         private readonly Object _MutexData = new Object();
         private readonly Object _MutexSyncSignals = new Object();
 
-        public void Free(Closeproc closeProc, int streamID, Object closeMutex)
-        {
-            _Closeproc = closeProc;
-            _StreamID = streamID;
-            _Terminated = true;
-            _CloseMutex = closeMutex;
-            _EventDecode.Set();
-        }
-
-        public float Length
-        {
-            get
-            {
-                if (_FileOpened)
-                    return _Duration;
-
-                return 0f;
-            }
-        }
-
-        public bool Finished
+        public override bool IsFinished
         {
             get
             {
                 lock (_MutexData)
                 {
-                    return _NoMoreData && _Data.BytesNotRead == 0L;
+                    return _NoMoreData && _Data.BytesNotRead == 0 && Position >= Length;
                 }
             }
         }
 
-        public float Volume
-        {
-            get { return _Volume * 100f; }
-            set
-            {
-                lock (_MutexData)
-                {
-                    value.Clamp(0f, 100f);
-                    _Volume = value / 100f;
-                }
-            }
-        }
-
-        public float VolumeMax
-        {
-            get { return _VolumeMax * 100f; }
-            set
-            {
-                lock (_MutexData)
-                {
-                    value.Clamp(0f, 100f);
-                    _VolumeMax = value / 100f;
-                }
-            }
-        }
-
-        public float Position
+        public override float Position
         {
             get
             {
-                if (Finished)
+                float time = _CurrentTime + _Timer.ElapsedMilliseconds / 1000f;
+                if (time > Length)
+                {
                     _Timer.Stop();
-                //TODO: Why not use Decoder.GetPosition()?
-                return _CurrentTime + _Timer.ElapsedMilliseconds / 1000f;
+                    time = Length;
+                }
+                return time;
+            }
+            set
+            {
+                lock (_MutexSyncSignals)
+                {
+                    _SetStart = value;
+                    _SetSkip = true;
+                }
+                //Set position here in case we immediately request it, it will be reset in Update method 
+                _CurrentTime = value;
+                _Timer.Restart();
+                _EventDecode.Set();
             }
         }
 
-        public bool Paused
+        public override bool IsPaused
         {
             get { return _Paused; }
             set
             {
                 _Paused = value;
-                lock (_MutexSyncSignals)
+                if (_Paused)
                 {
-                    if (_Paused)
-                    {
-                        _Timer.Stop();
-                        AL.SourceStop(_Source);
-                    }
-                    else
-                    {
-                        _Timer.Start();
-                        _EventDecode.Set();
-                        AL.SourcePlay(_Source);
-                    }
+                    _Timer.Stop();
+                    AL.SourceStop(_Source);
+                }
+                else
+                {
+                    _Timer.Start();
+                    _EventDecode.Set();
+                    AL.SourcePlay(_Source);
                 }
             }
         }
 
-        public void Fade(float targetVolume, float fadeTime)
+        public COpenAlStream(int id, string medium, bool loop) : base(id, medium, loop) {}
+
+        protected override void _Dispose(bool disposing)
         {
-            targetVolume.Clamp(0f, 100f);
-            _Fading = new CFading(_Volume, targetVolume / 100f, fadeTime);
-            _AfterFadeAction = EStreamAction.Nothing;
+            base._Dispose(disposing);
+            if (!_Terminated)
+            {
+                _Terminated = true;
+                if (_DecoderThread != null)
+                    _EventDecode.Set();
+                else
+                    _DoFree();
+            }
         }
 
-        public void FadeAndPause(float targetVolume, float fadeTime)
+        public override void Play()
         {
-            Fade(targetVolume, fadeTime);
-            _AfterFadeAction = EStreamAction.Pause;
+            IsPaused = false;
         }
 
-        public void FadeAndStop(float targetVolume, float fadeTime, Closeproc closeProc, int streamID)
+        public override void Stop()
         {
-            _Closeproc = closeProc;
-            _StreamID = streamID;
-            Fade(targetVolume, fadeTime);
-            _AfterFadeAction = EStreamAction.Stop;
+            IsPaused = true;
+            Position = 0f;
         }
 
-        public void Play()
+        public override bool Open(bool prescan)
         {
-            Paused = false;
-            _AfterFadeAction = EStreamAction.Nothing;
-            AL.SourcePlay(_Source);
-        }
-
-        public void Stop()
-        {
-            AL.SourceStop(_Source);
-            Skip(0f);
-        }
-
-        public bool Loop
-        {
-            get { return _SetLoop; }
-            set { _SetLoop = value; }
-        }
-
-        public int Open(string fileName)
-        {
+            Debug.Assert(!_FileOpened);
             if (_FileOpened)
-                return -1;
+                return false;
 
-            if (!File.Exists(fileName))
-                return -1;
+            if (!File.Exists(_Medium))
+            {
+                Dispose();
+                return false;
+            }
 
-            _Decoder = new CAudioDecoderFFmpeg();
-            _Decoder.Init();
-
+            bool ok = true;
             try
             {
                 _Source = AL.GenSource();
                 _Buffers = new int[_BufferCount];
                 for (int i = 0; i < _BufferCount; i++)
+                {
                     _Buffers[i] = AL.GenBuffer();
-
-                _State = 0;
-                //AL.SourceQueueBuffers(_source, _buffers.Length, _buffers);
+                    ok = ok && _Buffers[i] != 0;
+                }
             }
             catch (Exception)
             {
-                _Initialized = false;
+                ok = false;
+            }
+            if (!ok)
+            {
+                Dispose();
                 CLog.LogError("Error Init OpenAL Playback");
-                return -1;
+                return false;
             }
 
-            _Decoder.Open(fileName);
-            _Duration = _Decoder.GetLength();
 
+            _Decoder = new CAudioDecoderFFmpeg();
+            if (!_Decoder.Open(_Medium))
+            {
+                Dispose();
+                CLog.LogError("Error opening audio file: " + _Medium);
+                return false;
+            }
             _Format = _Decoder.GetFormatInfo();
+            if (_Format.SamplesPerSecond == 0)
+            {
+                Dispose();
+                CLog.LogError("Error Init OpenAL Playback (samples=0)");
+                return false;
+            }
+
+            Length = _Decoder.GetLength();
+
             _ByteCount = 2 * _Format.ChannelCount;
             _BytesPerSecond = _Format.SamplesPerSecond * _ByteCount;
+
             _CurrentTime = 0f;
+            _TimeCode = 0f;
             _Timer.Reset();
+            _Data = new CRingBuffer(_Bufsize);
+            _NoMoreData = false;
+            _SampleBuf = new byte[(int)CConfig.AudioBufferSize];
+            //From now on closing the driver and the decoder is handled by the thread ONLY!
 
-            var stream = new SAudioStreams(0) {Handle = _Buffers[0]};
+            _DecoderThread = new Thread(_Execute) {Priority = ThreadPriority.Normal, Name = Path.GetFileName(_Medium)};
+            _DecoderThread.Start();
 
-            if (stream.Handle != 0)
-            {
-                _FileOpened = true;
-                _Data = new CRingBuffer(_Bufsize);
-                _NoMoreData = false;
-                _DecoderThread = new Thread(_Execute) {Priority = ThreadPriority.Normal, Name = Path.GetFileName(fileName)};
-                _DecoderThread.Start();
-
-                return stream.Handle;
-            }
-            _Initialized = true;
-            return -1;
-        }
-
-        public bool Skip(float time)
-        {
-            lock (_MutexSyncSignals)
-            {
-                _SetStart = time;
-                _SetSkip = true;
-            }
-            _EventDecode.Set();
-
+            _FileOpened = true;
             return true;
         }
 
@@ -281,10 +222,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
         private void _DoSkip()
         {
             _Decoder.SetPosition(_Start);
-            _CurrentTime = _Start;
             _TimeCode = _Start;
-            _Timer.Reset();
-            _Waiting = false;
 
             lock (_MutexData)
             {
@@ -297,30 +235,25 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
         {
             while (!_Terminated)
             {
-                _Waiting = false;
-                if (_EventDecode.WaitOne(1) || !_Waiting)
+                lock (_MutexSyncSignals)
                 {
-                    if (_Skip)
+                    if (_SetSkip)
                     {
-                        _DoSkip();
-                        _Skip = false;
-                    }
-
-                    _DoDecode();
-                }
-                if (!_Terminated)
-                {
-                    lock (_MutexSyncSignals)
-                    {
-                        if (_SetSkip)
-                            _Skip = true;
-
+                        _Skip = true;
                         _SetSkip = false;
-
-                        _Start = _SetStart;
-                        _Loop = _SetLoop;
                     }
+
+                    _Start = _SetStart;
                 }
+
+                if (_Skip)
+                {
+                    _DoSkip();
+                    _Skip = false;
+                }
+
+                _DoDecode();
+                _EventDecode.WaitOne();
             }
 
             _DoFree();
@@ -328,27 +261,17 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 
         private void _DoDecode()
         {
-            if (!_FileOpened)
-                return;
-
-            if (_Paused)
-                return;
-
-            if (_Terminated)
+            if (_Paused || _Terminated || _NoMoreData)
                 return;
 
             float timecode;
             byte[] buffer;
 
-            bool doIt = false;
             lock (_MutexData)
             {
-                if (_Bufsize - 10000L > _Data.BytesNotRead)
-                    doIt = true;
+                if (_Data.BytesNotRead > _BeginRefill)
+                    return;
             }
-
-            if (!doIt)
-                return;
 
             _Decoder.Decode(out buffer, out timecode);
 
@@ -356,12 +279,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             {
                 if (_Loop)
                 {
-                    lock (_MutexSyncSignals)
-                    {
-                        _CurrentTime = 0f;
-                        _Start = 0f;
-                    }
-
+                    _Start = 0f;
                     _DoSkip();
                 }
                 else
@@ -373,118 +291,101 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             {
                 _Data.Write(buffer);
                 _TimeCode = timecode;
+                if (_Data.BytesNotRead < _BeginRefill)
+                    _EventDecode.Set();
             }
         }
 
         private void _DoFree()
         {
-            if (_Initialized)
+            if (_Source != 0)
             {
-                lock (_CloseMutex)
+                AL.SourceStop(_Source);
+                if (_Buffers != null)
                 {
-                    Stop();
-                    AL.DeleteSource(_Source);
                     AL.DeleteBuffers(_Buffers);
+                    _Buffers = null;
                 }
-                _Decoder.Close();
+                AL.DeleteSource(_Source);
+                _Source = 0;
             }
-
-            _Closeproc(_StreamID);
+            if (_DecoderThread != null)
+            {
+                if (Thread.CurrentThread.ManagedThreadId != _DecoderThread.ManagedThreadId)
+                    throw new Exception("Another thread should never free the decoder thread!");
+                _DecoderThread = null;
+            }
+            if (_Decoder != null)
+            {
+                _Decoder.Close();
+                _Decoder = null;
+            }
+            _SampleBuf = null;
             if (_EventDecode != null)
             {
-                _EventDecode.Dispose();
+                _EventDecode.Close();
                 _EventDecode = null;
             }
+            if (_CloseStreamListener != null)
+                _CloseStreamListener.OnCloseStream(this);
         }
         #endregion Threading
 
-        private void _Update()
+        public override void Update()
         {
-            if (_Fading != null)
-            {
-                bool finished;
-                _Volume = _Fading.GetValue(out finished);
-                if (finished)
-                {
-                    switch (_AfterFadeAction)
-                    {
-                        case EStreamAction.Close:
-                        case EStreamAction.Stop:
-                            _Terminated = true;
-                            break;
-                        case EStreamAction.Pause:
-                            Paused = true;
-                            break;
-                    }
-                    _Fading = null;
-                }
-            }
-        }
+            base.Update();
 
-        public void UploadData()
-        {
-            _Update();
-
-            if (_Paused)
+            if (_Paused || _Terminated || IsFinished)
                 return;
 
             int queuedCount;
-            bool doit = true;
+            bool useQueuedBuffer = false;
             AL.GetSource(_Source, ALGetSourcei.BuffersQueued, out queuedCount);
 
-            int processedCount = _BufferCount;
+            int freeBufferCt = _BufferCount;
             if (queuedCount > 0)
             {
-                AL.GetSource(_Source, ALGetSourcei.BuffersProcessed, out processedCount);
-                doit = false;
+                AL.GetSource(_Source, ALGetSourcei.BuffersProcessed, out freeBufferCt);
+                useQueuedBuffer = true;
                 //Console.WriteLine("Buffers Processed on Stream " + _Source + " = " + processedCount);
-                if (processedCount < 1)
+                if (freeBufferCt < 1)
                     return;
             }
 
-            var buf = new byte[_BufferSize];
-
             lock (_MutexData)
             {
-                while (processedCount > 0)
+                queuedCount = 0;
+                for (int j = 0; j < freeBufferCt; j++)
                 {
-                    if (_Data.BytesNotRead >= buf.Length)
+                    if (_Data.BytesNotRead < _SampleBuf.Length && !(_NoMoreData && _Data.BytesNotRead > 0))
+                        break;
+                    _Data.Read(_SampleBuf);
+
+                    float volume = Volume * VolumeMax;
+                    //We want to scale all values. No matter how many channels we have (_ByteCount=2 or 4) we have short values
+                    //So just process 2 bytes a time
+                    for (int i = 0; i < _SampleBuf.Length; i += 2)
                     {
-                        _Data.Read(buf);
-
-                        //We want to scale all values. No matter how many channels we have (_ByteCount=2 or 4) we have short values
-                        //So just process 2 bytes a time
-                        for (int i = 0; i < buf.Length; i += 2)
-                        {
-                            byte[] b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(buf, i) * _Volume * _VolumeMax));
-                            buf[i] = b[0];
-                            buf[i + 1] = b[1];
-                        }
-
-                        int buffer;
-                        if (!doit)
-                            buffer = AL.SourceUnqueueBuffer(_Source);
-                        else
-                        {
-                            buffer = _Buffers[queuedCount];
-                            queuedCount++;
-                        }
-
-                        if (buffer != 0)
-                        {
-                            ALFormat alFormat = (_Format.ChannelCount == 2) ? ALFormat.Stereo16 : ALFormat.Mono16;
-                            AL.BufferData(buffer, alFormat, buf, buf.Length, _Format.SamplesPerSecond);
-                            AL.SourceQueueBuffer(_Source, buffer);
-                        }
+                        byte[] b = BitConverter.GetBytes((Int16)(BitConverter.ToInt16(_SampleBuf, i) * volume));
+                        _SampleBuf[i] = b[0];
+                        _SampleBuf[i + 1] = b[1];
                     }
-                    processedCount--;
+
+                    int buffer = useQueuedBuffer ? AL.SourceUnqueueBuffer(_Source) : _Buffers[queuedCount];
+
+
+                    if (buffer != 0)
+                    {
+                        ALFormat alFormat = (_Format.ChannelCount == 2) ? ALFormat.Stereo16 : ALFormat.Mono16;
+                        AL.BufferData(buffer, alFormat, _SampleBuf, _SampleBuf.Length, _Format.SamplesPerSecond);
+                        AL.SourceQueueBuffer(_Source, buffer);
+                    }
+                    queuedCount++;
                 }
-                AL.GetSource(_Source, ALGetSourcei.SourceState, out _State);
-                if ((ALSourceState)_State != ALSourceState.Playing)
-                    AL.SourcePlay(_Source);
             }
 
-            _CurrentTime = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - 0.1f;
+            float latency = CConfig.AudioLatency / 1000f + queuedCount * _SampleBuf.Length / _BytesPerSecond + 0.1f;
+            _CurrentTime = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - latency;
             _Timer.Restart();
         }
     }

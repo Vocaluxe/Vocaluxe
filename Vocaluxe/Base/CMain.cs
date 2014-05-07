@@ -773,9 +773,9 @@ namespace Vocaluxe.Base
 
     class CBsound : ISound
     {
-        public int Load(string soundFile, bool prescan)
+        public int Load(string soundFile, bool loop = false, bool prescan = false)
         {
-            return CSound.Load(soundFile, prescan);
+            return CSound.Load(soundFile, loop, prescan);
         }
 
         public void SetPosition(int soundStream, float newPosition)
@@ -808,7 +808,7 @@ namespace Vocaluxe.Base
             return CSound.GetLength(soundStream);
         }
 
-        public void FadeAndStop(int soundStream, float targetVolume, float duration)
+        public void FadeAndClose(int soundStream, float targetVolume, float duration)
         {
             CSound.FadeAndClose(soundStream, targetVolume, duration);
         }
@@ -816,11 +816,6 @@ namespace Vocaluxe.Base
         public void SetStreamVolume(int soundStream, float volume)
         {
             CSound.SetStreamVolume(soundStream, volume);
-        }
-
-        public void SetStreamVolumeMax(int soundStream, float maxVolume)
-        {
-            CSound.SetStreamVolumeMax(soundStream, maxVolume);
         }
     }
 

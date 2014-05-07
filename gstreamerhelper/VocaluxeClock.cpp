@@ -1,4 +1,3 @@
-#include "stdafx.h"
 #include "VocaluxeClock.h"
 
 static void vocaluxe_clock_class_init (VocaluxeClockClass * klass);

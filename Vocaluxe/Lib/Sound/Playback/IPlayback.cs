@@ -25,52 +25,47 @@ namespace Vocaluxe.Lib.Sound.Playback
         Close
     }
 
-    struct SAudioStreams
-    {
-        public int Handle;
-
-        public SAudioStreams(int stream)
-        {
-            Handle = stream;
-        }
-    }
-
-    delegate void Closeproc(int stream);
-
     interface IPlayback
     {
         bool Init();
         void Close();
+        float GetGlobalVolume();
+
+        /// <summary>
+        ///     Set the global (maximum) volume<br />
+        ///     All streams (existent and future ones) will have their maximum volume set to this value
+        /// </summary>
+        /// <param name="volume">Volume in percent</param>
         void SetGlobalVolume(float volume);
+
         int GetStreamCount();
         void CloseAll();
 
-        #region Stream Handling
-        int Load(string media);
-        int Load(string media, bool prescan);
-        void Close(int stream);
+        #region stream Handling
+        int Load(string medium, bool loop = false, bool prescan = false);
+        void Close(int streamID);
 
-        void Play(int stream);
-        void Play(int stream, bool loop);
-        void Pause(int stream);
-        void Stop(int stream);
-        void Fade(int stream, float targetVolume, float seconds);
-        void FadeAndPause(int stream, float targetVolume, float seconds);
-        void FadeAndClose(int stream, float targetVolume, float seconds);
-        void FadeAndStop(int stream, float targetVolume, float seconds);
-        void SetStreamVolume(int stream, float volume);
-        void SetStreamVolumeMax(int stream, float volume);
+        void Play(int streamID);
+        void Pause(int streamID);
+        void Stop(int streamID);
+        void Fade(int streamID, float targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing);
 
-        float GetLength(int stream);
-        float GetPosition(int stream);
+        /// <summary>
+        ///     Set the streams current volume. Cancels fading
+        /// </summary>
+        /// <param name="streamID">Id of the stream (optained by Load)</param>
+        /// <param name="volume">Volume in percent</param>
+        void SetStreamVolume(int streamID, float volume);
 
-        bool IsPlaying(int stream);
-        bool IsPaused(int stream);
-        bool IsFinished(int stream);
+        float GetLength(int streamID);
+        float GetPosition(int streamID);
+        void SetPosition(int streamID, float position);
 
-        void SetPosition(int stream, float position);
+        bool IsPlaying(int streamID);
+        bool IsPaused(int streamID);
+        bool IsFinished(int streamID);
 
         void Update();
-        #endregion Stream Handling
+        #endregion stream Handling
     }
 }
