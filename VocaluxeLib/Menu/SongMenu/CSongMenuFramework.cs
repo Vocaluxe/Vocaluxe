@@ -523,6 +523,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (song == null)
                     return;
 
+                //TODO: Using prescan here causes Vocaluxe to hang a bit on loading the song but we need the length below
                 int stream = CBase.Sound.Load(Path.Combine(song.Folder, song.MP3FileName), true, true);
 
                 float startposition = song.Preview.StartTime;
