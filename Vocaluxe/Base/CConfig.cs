@@ -134,7 +134,7 @@ namespace Vocaluxe.Base
         public static ETimerMode TimerMode = ETimerMode.TR_CONFIG_TIMERMODE_REMAINING;
         public static int NumPlayer = 2;
         public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
-        public static string Language = "English";
+        public static string Language = CSettings.FallbackLanguage;
         public static ELyricsPosition LyricsPosition = ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM;
         public static readonly string[] Players = new string[CSettings.MaxNumPlayer];
 
@@ -302,9 +302,11 @@ namespace Vocaluxe.Base
 
             bool langExists = CLanguage.SetLanguage(Language);
 
-            //TODO: What should we do, if English not exists?
             if (langExists == false)
-                Language = "English";
+            {
+                Language = CSettings.FallbackLanguage;
+                CLanguage.SetLanguage(Language);
+            }
 
             //Read players from config
             for (i = 1; i <= CSettings.MaxNumPlayer; i++)
