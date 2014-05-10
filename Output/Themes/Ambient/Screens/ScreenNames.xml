@@ -1155,8 +1155,8 @@
       <NumBars>8</NumBars>
       <!--<Space>: Space between equalizer-elements.-->
       <Space>2,00</Space>
-      <!--<Style>: Style of equalizer-elements: Collums-->
-      <Style>Collums</Style>
+      <!--<Style>: Style of equalizer-elements: Columns-->
+      <Style>Columns</Style>
       <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <!--<Color>: Equalizer color from ColorScheme (high priority)-->
@@ -1182,8 +1182,8 @@
       <NumBars>8</NumBars>
       <!--<Space>: Space between equalizer-elements.-->
       <Space>2,00</Space>
-      <!--<Style>: Style of equalizer-elements: Collums-->
-      <Style>Collums</Style>
+      <!--<Style>: Style of equalizer-elements: Columns-->
+      <Style>Columns</Style>
       <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <!--<Color>: Equalizer color from ColorScheme (high priority)-->
@@ -1209,8 +1209,8 @@
       <NumBars>8</NumBars>
       <!--<Space>: Space between equalizer-elements.-->
       <Space>2,00</Space>
-      <!--<Style>: Style of equalizer-elements: Collums-->
-      <Style>Collums</Style>
+      <!--<Style>: Style of equalizer-elements: Columns-->
+      <Style>Columns</Style>
       <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <!--<Color>: Equalizer color from ColorScheme (high priority)-->
@@ -1236,8 +1236,8 @@
       <NumBars>8</NumBars>
       <!--<Space>: Space between equalizer-elements.-->
       <Space>2,00</Space>
-      <!--<Style>: Style of equalizer-elements: Collums-->
-      <Style>Collums</Style>
+      <!--<Style>: Style of equalizer-elements: Columns-->
+      <Style>Columns</Style>
       <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <!--<Color>: Equalizer color from ColorScheme (high priority)-->
@@ -1263,8 +1263,8 @@
       <NumBars>8</NumBars>
       <!--<Space>: Space between equalizer-elements.-->
       <Space>2,00</Space>
-      <!--<Style>: Style of equalizer-elements: Collums-->
-      <Style>Collums</Style>
+      <!--<Style>: Style of equalizer-elements: Columns-->
+      <Style>Columns</Style>
       <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <!--<Color>: Equalizer color from ColorScheme (high priority)-->
@@ -1290,8 +1290,8 @@
       <NumBars>8</NumBars>
       <!--<Space>: Space between equalizer-elements.-->
       <Space>2,00</Space>
-      <!--<Style>: Style of equalizer-elements: Collums-->
-      <Style>Collums</Style>
+      <!--<Style>: Style of equalizer-elements: Columns-->
+      <Style>Columns</Style>
       <!--<DrawNegative>: Draw negative values: TR_CONFIG_OFF, TR_CONFIG_ON-->
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <!--<Color>: Equalizer color from ColorScheme (high priority)-->

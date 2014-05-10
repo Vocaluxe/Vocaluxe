@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Diagnostics;
 using System.IO;
 using VocaluxeLib.Draw;

@@ -17,7 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Diagnostics;
 using VocaluxeLib;
 using VocaluxeLib.Songs;
 
@@ -61,36 +61,10 @@ namespace Vocaluxe.Base
             _SetChanged();
         }
 
-        private void _CreateCategoriesLetter()
+        private void _CreateCategories()
         {
-            CCategory lastCategory = null;
-            CCategory notLetterCat = null;
-            foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
-            {
-                Char firstLetter = Char.ToUpper(songPointer.SortString.Normalize(NormalizationForm.FormD)[0]);
-                if (Char.IsLetter(firstLetter))
-                {
-                    if (lastCategory == null || firstLetter.ToString() != lastCategory.Name)
-                    {
-                        lastCategory = new CCategory(firstLetter.ToString());
-                        _Categories.Add(lastCategory);
-                    }
-                    lastCategory.Songs.Add(songPointer);
-                }
-                else
-                {
-                    if (notLetterCat == null)
-                    {
-                        notLetterCat = new CCategory("#");
-                        _Categories.Add(notLetterCat);
-                    }
-                    notLetterCat.Songs.Add(songPointer);
-                }
-            }
-        }
+            _AdjustCategoryNames();
 
-        private void _CreateCategoriesNormal(string noCategoryName)
-        {
             CCategory lastCategory = null;
             CCategory noCategory = null;
             foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
@@ -108,7 +82,7 @@ namespace Vocaluxe.Base
                 {
                     if (noCategory == null)
                     {
-                        noCategory = new CCategory(noCategoryName);
+                        noCategory = new CCategory(_GetNoCategoryName());
                         _Categories.Add(noCategory);
                     }
                     noCategory.Songs.Add(songPointer);
@@ -116,37 +90,15 @@ namespace Vocaluxe.Base
             }
         }
 
-        private void _CreateCategories()
+        /// <summary>
+        ///     Sets the SortStrings of the songpointers to the actual category names
+        /// </summary>
+        private static void _AdjustCategoryNames()
         {
-            string noCategoryName = "";
-
             ESongSorting sorting = CSongs.Sorter.SongSorting;
-
             switch (sorting)
             {
-                case ESongSorting.TR_CONFIG_EDITION:
-                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOEDITION");
-                    break;
-                case ESongSorting.TR_CONFIG_GENRE:
-                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOGENRE");
-                    break;
                 case ESongSorting.TR_CONFIG_DECADE:
-                case ESongSorting.TR_CONFIG_YEAR:
-                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOYEAR");
-                    break;
-                case ESongSorting.TR_CONFIG_LANGUAGE:
-                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOLANGUAGE");
-                    break;
-                case ESongSorting.TR_CONFIG_NONE:
-                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_ALLSONGS");
-                    break;
-            }
-            if (sorting == ESongSorting.TR_CONFIG_ARTIST_LETTER || sorting == ESongSorting.TR_CONFIG_TITLE_LETTER)
-                _CreateCategoriesLetter();
-            else
-            {
-                if (sorting == ESongSorting.TR_CONFIG_DECADE)
-                {
                     foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
                     {
                         string year = songPointer.SortString;
@@ -156,9 +108,57 @@ namespace Vocaluxe.Base
                             songPointer.SortString = year + "0 - " + year + "9";
                         }
                     }
-                }
-                _CreateCategoriesNormal(noCategoryName);
+                    break;
+                case ESongSorting.TR_CONFIG_TITLE_LETTER:
+                case ESongSorting.TR_CONFIG_ARTIST_LETTER:
+                    foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
+                        songPointer.SortString = (songPointer.SortString.Length == 0 || !Char.IsLetter(songPointer.SortString, 0)) ? "#" : songPointer.SortString[0].ToString();
+                    break;
+                case ESongSorting.TR_CONFIG_DATEADDED:
+                    foreach (CSongPointer songPointer in CSongs.Sorter.SortedSongs)
+                        songPointer.SortString = CSongs.GetSong(songPointer.SongID).DateAdded.ToString("dd/MM/yyyy");
+                    break;
             }
+        }
+
+        private static string _GetNoCategoryName()
+        {
+            string noCategoryName;
+            switch (CSongs.Sorter.SongSorting)
+            {
+                case ESongSorting.TR_CONFIG_NONE:
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_ALLSONGS");
+                    break;
+                case ESongSorting.TR_CONFIG_FOLDER:
+                case ESongSorting.TR_CONFIG_ARTIST:
+                case ESongSorting.TR_CONFIG_ARTIST_LETTER:
+                case ESongSorting.TR_CONFIG_TITLE_LETTER:
+                    noCategoryName = "";
+                    Debug.Assert(false, "Should not have an uncategorized song");
+                    break;
+                case ESongSorting.TR_CONFIG_EDITION:
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOEDITION");
+                    break;
+                case ESongSorting.TR_CONFIG_GENRE:
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOGENRE");
+                    break;
+                case ESongSorting.TR_CONFIG_LANGUAGE:
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOLANGUAGE");
+                    break;
+                case ESongSorting.TR_CONFIG_DECADE:
+                case ESongSorting.TR_CONFIG_YEAR:
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOYEAR");
+                    break;
+                case ESongSorting.TR_CONFIG_DATEADDED:
+                    noCategoryName = "";
+                    Debug.Assert(false, "Should not have an uncategorized song");
+                    break;
+                default:
+                    noCategoryName = "";
+                    Debug.Assert(false, "Forgot category option");
+                    break;
+            }
+            return noCategoryName;
         }
 
         private void _FillCategories()

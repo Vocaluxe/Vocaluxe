@@ -15,6 +15,9 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+//Uncomment to make the engine hit every note
+//#define DEBUG_HIT
+
 using System;
 using System.Collections.Generic;
 using Vocaluxe.SongQueue;
@@ -208,8 +211,6 @@ namespace Vocaluxe.Base
 
         public static void UpdatePoints(float time)
         {
-            const bool DEBUG_HIT = false;
-
             CSong song = _SongQueue.GetSong();
 
             if (song == null)
@@ -224,7 +225,7 @@ namespace Vocaluxe.Base
             MidRecordedBeat = -0.5f + GetBeatFromTime(time, song.BPM, song.Gap + CConfig.MicDelay / 1000f);
 
             for (int p = 0; p < _NumPlayer; p++)
-                CSound.AnalyzeBuffer(p);
+                CRecord.AnalyzeBuffer(p);
 
             if (_LastEvalBeat >= RecordedBeat)
                 return;
@@ -270,10 +271,14 @@ namespace Vocaluxe.Base
                     if (line == lines.Length - 1 && beat == lines[line].LastNoteBeat)
                         Players[p].SongFinished = true;
 
-                    if (notes[note].PointsForBeat > 0 && (CSound.RecordToneValid(p) || DEBUG_HIT))
+                    if (notes[note].PointsForBeat > 0 && (CRecord.ToneValid(p)
+#if DEBUG_HIT
+                        || true
+#endif
+                                                         ))
                     {
                         int tone = notes[note].Tone;
-                        int tonePlayer = CSound.RecordGetTone(p);
+                        int tonePlayer = CRecord.GetTone(p);
 
                         while (tonePlayer - tone > 6)
                             tonePlayer -= 12;
@@ -281,8 +286,9 @@ namespace Vocaluxe.Base
                         while (tonePlayer - tone < -6)
                             tonePlayer += 12;
 
-                        if (DEBUG_HIT)
+#if DEBUG_HIT
                             tonePlayer = tone;
+#endif
 
                         Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
                         bool hit = Players[p].NoteDiff <= (2 - (int)CProfiles.GetDifficulty(Players[p].ProfileID));
@@ -290,7 +296,7 @@ namespace Vocaluxe.Base
                         if (hit)
                         {
                             // valid
-                            //CSound.RecordSetTone(p, Tone);
+                            //CRecord.RecordSetTone(p, Tone);
                             double points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
                                             song.Notes.GetVoice(Players[p].VoiceNr).Points;
                             if (notes[note].Type == ENoteType.Golden)

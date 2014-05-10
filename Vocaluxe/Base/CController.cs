@@ -36,19 +36,26 @@ namespace Vocaluxe.Base
             _KeysPool = new List<SKeyEvent>();
             _MousePool = new List<SMouseEvent>();
 
-            _Controller.Add(new CWiiMote());
-            _Controller.Add(CVocaluxeServer.Controller);
+            _AddController(new CWiiMote());
+            _AddController(CVocaluxeServer.Controller);
+        }
 
-            foreach (IController controller in _Controller)
-                controller.Init();
+        private static void _AddController(IController controller)
+        {
+            if (controller.Init())
+                _Controller.Add(controller);
         }
 
         public static void Close()
         {
-            foreach (IController controller in _Controller)
-                controller.Close();
-
-            _Controller = new List<IController>();
+            if (_Controller != null)
+            {
+                foreach (IController controller in _Controller)
+                    controller.Close();
+                _Controller = null;
+                _KeysPool = null;
+                _MousePool = null;
+            }
         }
 
         public static void Connect()

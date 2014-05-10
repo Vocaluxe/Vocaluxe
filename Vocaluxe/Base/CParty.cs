@@ -223,7 +223,8 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 SPartyMode pm = _LoadPartyMode(file);
-                _PartyModes.Add(pm.PartyModeID, pm);
+                if (pm.NoErrors)
+                    _PartyModes.Add(pm.PartyModeID, pm);
             }
         }
 

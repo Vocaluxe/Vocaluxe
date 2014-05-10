@@ -15,6 +15,9 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+//Uncomment to make the font write the glyphs to file
+//#define FONT_DEBUG_OUTPUT
+
 using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -119,19 +122,15 @@ namespace Vocaluxe.Base.Fonts
                         _DrawBounding.Y *= _Texture.Width / _DrawBounding.Width;
                         _DrawBounding.Width = _Texture.Width;
                         _DrawBounding.Height = _Texture.Height;*/
-#pragma warning disable 162
-                        // ReSharper disable HeuristicUnreachableCode
-                        // ReSharper disable ConditionIsAlwaysTrueOrFalse
-                        if (false && Char.IsLetterOrDigit(chr))
+#if FONT_DEBUG_OUTPUT
+                        if (Char.IsLetterOrDigit(chr))
                         {
                             if (outline > 0)
                                 bmpCropped.Save("font_" + chr + "o" + CFonts.Style + "2.png", ImageFormat.Png);
                             else
                                 bmpCropped.Save("font_" + chr + CFonts.Style + "2.png", ImageFormat.Png);
                         }
-                        // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                        // ReSharper restore HeuristicUnreachableCode
-#pragma warning restore 162
+#endif
                     }
                 }
             }

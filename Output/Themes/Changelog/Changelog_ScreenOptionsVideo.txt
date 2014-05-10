@@ -1,4 +1,8 @@
-ScreenOptionsTheme
+++++++++++
+Version 5:
+
+Rename:
+Text5/6 to TextWebcam/TextWebcamResolution
 
 ++++++++++
 Version 4:

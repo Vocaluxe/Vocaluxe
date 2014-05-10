@@ -14,13 +14,13 @@ Output/Songs
 /*.ctl
 /Output/Registration.xml
 /Vocaluxe.suo
-/Vocaluxe/Vocaluxe.csproj.user
+*.csproj.user
+*.vcxproj.user
 /Output/Config.xml
 *.ipch
 *.log
 /Output/Playlists/*.xml
-/Output/x64/gstreamer/GstreamerHelper.dll
-/Output/x86/gstreamer/GstreamerHelper.dll
+GstreamerHelper.dll
 *.tlog
 *.suo
 *.obj
@@ -39,11 +39,7 @@ Output/Songs
 *.Cache
 /GstreamerHelper/bin/*
 /VocaluxeLib/bin
-/ClientServerLib/ClientServerLib/ClientServerLib.csproj.user
-/ClientServerLib/ClientServerLib/bin/Debug/ClientServerLib.dll
-/ClientServerLib/ClientTest/bin/Debug/ClientServerLib.dll
-/ClientServerLib/ClientTest/bin/Release/ClientServerLib.dll
-/ClientServerLib/ClientServerLib/bin/ClientServerLib.dll
+ClientServerLib.dll
 ClientTest.exe
 *.vshost.*
 *.userprefs
@@ -63,3 +59,4 @@ Output/Vocaluxe_x64.exe
 /Output/VocaluxeServerConfig.exe.config
 /PhoneGap/
 /Output/Profiles
+PitchTracker.dll

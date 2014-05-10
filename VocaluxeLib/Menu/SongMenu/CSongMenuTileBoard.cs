@@ -67,11 +67,11 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             set
             {
-                _PlaySong(value);
-                _PreviewIdInternal = value;
+                if (value == base._PreviewId)
+                    return;
+                base._PreviewId = value;
                 _UpdatePreview();
             }
-            get { return _PreviewIdInternal; }
         }
 
         public override int GetActualSelection()
@@ -137,7 +137,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     _Tiles[i].Selected = _Locked == i + _Offset;
             }
 
-            if (_Length < 0 && CBase.Sound.GetLength(_PreviewSongStream) > 0 && CBase.Songs.IsInCategory())
+            if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.Sound.GetLength(_PreviewSongStream) > 0)
                 _UpdateLength(CBase.Songs.GetVisibleSong(_PreviewId));
         }
 
@@ -215,6 +215,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 _SongLength.Text = min.ToString("00") + ":" + sec.ToString("00");
                 _Length = time;
             }
+            else
+                _SongLength.Text = "...";
         }
 
         public override void OnShow()
@@ -373,8 +375,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (!keyEvent.Handled)
                 {
                     _ActualSelection = _Locked;
-                    if (_PreviewId != _Locked)
-                        _PreviewId = _Locked;
+                    _PreviewId = _Locked;
 
                     for (int i = 0; i < _Tiles.Count; i++)
                         _Tiles[i].Selected = _Locked == i + _Offset;

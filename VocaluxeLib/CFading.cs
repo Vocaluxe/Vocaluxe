@@ -43,7 +43,7 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        /// Gets the current value and sets finished
+        ///     Gets the current value and sets finished
         /// </summary>
         /// <param name="finished">Set to whether fading has finished</param>
         /// <returns>Current value (between from and to values)</returns>

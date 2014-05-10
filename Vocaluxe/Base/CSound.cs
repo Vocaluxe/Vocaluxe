@@ -16,10 +16,13 @@
 #endregion
 
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
-using Vocaluxe.Lib.Sound;
+using Vocaluxe.Lib.Sound.Playback;
+using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
+using Vocaluxe.Lib.Sound.Playback.OpenAL;
+using Vocaluxe.Lib.Sound.Playback.PortAudio;
 using VocaluxeLib;
+using System.Threading;
 
 namespace Vocaluxe.Base
 {
@@ -35,6 +38,8 @@ namespace Vocaluxe.Base
 
         public static bool Init()
         {
+            if (_Playback != null)
+                return false;
             switch (CConfig.PlayBackLib)
             {
                 case EPlaybackLib.PortAudio:
@@ -43,10 +48,6 @@ namespace Vocaluxe.Base
 
                 case EPlaybackLib.OpenAL:
                     _Playback = new COpenALPlay();
-                    break;
-
-                case EPlaybackLib.Gstreamer:
-                    _Playback = new CGstreamerAudio();
                     break;
 
                 case EPlaybackLib.GstreamerSharp:
@@ -72,18 +73,21 @@ namespace Vocaluxe.Base
 
         public static void CloseAllStreams()
         {
-            _Playback.CloseAll();
+            if (_Playback != null)
+                _Playback.CloseAll();
+        }
+
+        public static void Close()
+        {
+            if (_Playback != null)
+                _Playback.Close();
+            _Playback = null;
         }
 
         #region Stream Handling
-        public static int Load(string media)
+        public static int Load(string media, bool loop=false, bool prescan=false)
         {
-            return _Playback.Load(media);
-        }
-
-        public static int Load(string media, bool prescan)
-        {
-            return _Playback.Load(media, prescan);
+            return _Playback.Load(media, loop, prescan);
         }
 
         public static void Close(int stream)
@@ -96,11 +100,6 @@ namespace Vocaluxe.Base
             _Playback.Play(stream);
         }
 
-        public static void Play(int stream, bool loop)
-        {
-            _Playback.Play(stream, loop);
-        }
-
         public static void Pause(int stream)
         {
             _Playback.Pause(stream);
@@ -111,34 +110,29 @@ namespace Vocaluxe.Base
             _Playback.Stop(stream);
         }
 
-        public static void Fade(int stream, float targetVolume, float seconds)
+        public static void Fade(int stream, float targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
-            _Playback.Fade(stream, targetVolume, seconds);
+            _Playback.Fade(stream, targetVolume, seconds, afterFadeAction);
         }
 
         public static void FadeAndPause(int stream, float targetVolume, float seconds)
         {
-            _Playback.FadeAndPause(stream, targetVolume, seconds);
+            Fade(stream, targetVolume, seconds, EStreamAction.Pause);
         }
 
         public static void FadeAndClose(int stream, float targetVolume, float seconds)
         {
-            _Playback.FadeAndClose(stream, targetVolume, seconds);
+            Fade(stream, targetVolume, seconds, EStreamAction.Close);
         }
 
         public static void FadeAndStop(int stream, float targetVolume, float seconds)
         {
-            _Playback.FadeAndStop(stream, targetVolume, seconds);
+            Fade(stream, targetVolume, seconds, EStreamAction.Stop);
         }
 
         public static void SetStreamVolume(int stream, float volume)
         {
             _Playback.SetStreamVolume(stream, volume);
-        }
-
-        public static void SetStreamVolumeMax(int stream, float volume)
-        {
-            _Playback.SetStreamVolumeMax(stream, volume);
         }
 
         public static float GetLength(int stream)
@@ -195,119 +189,28 @@ namespace Vocaluxe.Base
             if (!File.Exists(file))
                 return -1;
 
-            int stream = Load(file, true);
-            float length = GetLength(stream);
+            int stream = Load(file, false, fade);
+            if (stream < 0)
+                return -1;
             Play(stream);
             if (fade)
-                FadeAndClose(stream, 100f, length);
+            {
+                float length = -1f;
+                for (int i = 0; i < 5; i++)
+                {
+                    length = GetLength(stream);
+                    if (length >= 0f)
+                        break;
+                    Thread.Sleep(1);
+                }
+                if (length > 0f)
+                {
+                    SetStreamVolume(stream, 0f);
+                    Fade(stream, 100f, length);
+                }
+            }
             return stream;
         }
         #endregion Sounds
-
-        #region Record
-        private static IRecord _Record;
-
-        public static void RecordInit()
-        {
-            switch (CConfig.RecordLib)
-            {
-#if WIN
-                case ERecordLib.DirectSound:
-                    _Record = new CDirectSoundRecord();
-                    break;
-#endif
-
-                    // case ERecordLib.PortAudio:
-                default:
-                    _Record = new CPortAudioRecord();
-                    break;
-            }
-        }
-
-        public static void RecordCloseAll()
-        {
-            _Record.CloseAll();
-        }
-
-        public static bool RecordStart()
-        {
-            return _Record.Start();
-        }
-
-        public static bool RecordStop()
-        {
-            return _Record.Stop();
-        }
-
-        public static void AnalyzeBuffer(int player)
-        {
-            _Record.AnalyzeBuffer(player);
-        }
-
-        public static int RecordGetToneAbs(int player)
-        {
-            return _Record.GetToneAbs(player);
-        }
-
-        public static int RecordGetTone(int player)
-        {
-            return _Record.GetTone(player);
-        }
-
-        public static void RecordSetTone(int player, int tone)
-        {
-            _Record.SetTone(player, tone);
-        }
-
-        public static bool RecordToneValid(int player)
-        {
-            return _Record.ToneValid(player);
-        }
-
-        public static float RecordGetMaxVolume(int player)
-        {
-            return _Record.GetMaxVolume(player);
-        }
-
-        public static int NumHalfTones(int player)
-        {
-            return _Record.NumHalfTones(player);
-        }
-
-        public static float[] ToneWeigth(int player)
-        {
-            return _Record.ToneWeigth(player);
-        }
-
-        public static ReadOnlyCollection<CRecordDevice> RecordGetDevices()
-        {
-            ReadOnlyCollection<CRecordDevice> devices = _Record.RecordDevices();
-
-            if (devices != null)
-            {
-                foreach (CRecordDevice device in devices)
-                {
-                    device.PlayerChannel1 = _GetPlayerFromMicConfig(device.Name, device.Driver, 1);
-                    device.PlayerChannel2 = _GetPlayerFromMicConfig(device.Name, device.Driver, 2);
-                }
-                return devices;
-            }
-
-            return null;
-        }
-
-        private static int _GetPlayerFromMicConfig(string device, string devicedriver, int channel)
-        {
-            for (int p = 0; p < CSettings.MaxNumPlayer; p++)
-            {
-                if (CConfig.MicConfig[p].Channel != 0 &&
-                    CConfig.MicConfig[p].DeviceName == device &&
-                    CConfig.MicConfig[p].DeviceDriver == devicedriver &&
-                    CConfig.MicConfig[p].Channel == channel)
-                    return p + 1;
-            }
-            return 0;
-        }
-        #endregion Record
     }
 }

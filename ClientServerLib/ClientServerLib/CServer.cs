@@ -16,9 +16,9 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Web;
-using System.Diagnostics;
 using System.Net;
 
 namespace ServerLib
@@ -191,10 +191,15 @@ namespace ServerLib
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden,
                 };
-            Process p = Process.Start(info);
-            p.WaitForExit();
-            p.Close();
-
+            try
+            {
+                using (Process p = Process.Start(info))
+                {
+                    p.WaitForExit();
+                    p.Close();
+                }
+            }
+            catch (Exception) {}
 #else
 
     //Required?

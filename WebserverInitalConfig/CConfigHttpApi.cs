@@ -17,6 +17,7 @@
 
 using System.Security.Authentication;
 using System.Security.Principal;
+using System.Windows.Forms;
 using Security.Cryptography;
 using Security.Cryptography.X509Certificates;
 using System;
@@ -124,7 +125,22 @@ namespace WebserverInitalConfig
 
             keyParam.Parameters.Add(new CngProperty("Length", BitConverter.GetBytes(2048), CngPropertyOptions.None));
 
-            CngKey key = CngKey.Create(CngAlgorithm2.Rsa, Guid.NewGuid().ToString(), keyParam);
+            CngKey key;
+            try
+            {
+                key = CngKey.Create(CngAlgorithm2.Rsa, Guid.NewGuid().ToString(), keyParam);
+            }
+            catch (PlatformNotSupportedException)
+            {
+                try
+                {
+                    key = CngKey.Create(CngAlgorithm2.Aes, Guid.NewGuid().ToString(), keyParam);
+                }
+                catch (PlatformNotSupportedException)
+                {
+                    return null;
+                }
+            }
 
             X509CertificateCreationParameters param = new X509CertificateCreationParameters(new X500DistinguishedName(subjectName))
                 {
@@ -156,6 +172,11 @@ namespace WebserverInitalConfig
                 if (!IsAdministrator())
                     throw new AuthenticationException();
                 cert = _GetSelfSignedCert(certName);
+                if (cert == null)
+                {
+                    MessageBox.Show("Could not create certificate. Secure server connection may not work. Disable it if required.");
+                    return;
+                }
                 _AddCertToStore(cert);
             }
             _BindCert(cert);

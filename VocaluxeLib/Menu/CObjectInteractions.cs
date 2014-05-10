@@ -470,7 +470,7 @@ namespace VocaluxeLib.Menu
             float z = CBase.Settings.GetZFar();
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if ((CBase.Settings.GetGameState() == EGameState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i)))
+                if ((CBase.Settings.GetProgramState() == EProgramState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i)))
                 {
                     if (_IsMouseOver(x, y, _Interactions[i]))
                     {
@@ -553,7 +553,7 @@ namespace VocaluxeLib.Menu
         private void _NextInteraction()
         {
             _UnsetSelected();
-            if (CBase.Settings.GetGameState() != EGameState.EditTheme)
+            if (CBase.Settings.GetProgramState() != EProgramState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;
@@ -580,7 +580,7 @@ namespace VocaluxeLib.Menu
         private void _PrevInteraction()
         {
             _UnsetSelected();
-            if (CBase.Settings.GetGameState() != EGameState.EditTheme)
+            if (CBase.Settings.GetProgramState() != EProgramState.EditTheme)
             {
                 bool found = false;
                 int start = _Selection;

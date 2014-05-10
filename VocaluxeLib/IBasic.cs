@@ -71,7 +71,7 @@ namespace VocaluxeLib
         float GetZFar();
         float GetZNear();
 
-        EGameState GetGameState();
+        EProgramState GetProgramState();
 
         int GetToneMin();
         int GetToneMax();
@@ -123,8 +123,6 @@ namespace VocaluxeLib
         void Previous();
         void Pause();
         void Play();
-
-        void ApplyVolume();
 
         CTexture GetVideoTexture();
     }
@@ -211,6 +209,7 @@ namespace VocaluxeLib
         EGameDifficulty GetDifficulty(int profileID);
         string GetPlayerName(int profileID, int playerNum = 0);
         CTexture GetAvatar(int profileID);
+        CAvatar GetAvatarByFilename(string fileName);
         bool IsProfileIDValid(int profileID);
         bool IsGuest(int profileID);
         void AddProfileChangedCallback(ProfileChangedCallback notification);
@@ -257,7 +256,7 @@ namespace VocaluxeLib
 
     public interface ISound
     {
-        int Load(string soundFile, bool prescan);
+        int Load(string soundFile, bool loop = false, bool prescan = false);
         void SetPosition(int soundStream, float newPosition);
         void Play(int soundStream);
         void Fade(int soundStream, float targetVolume, float duration);
@@ -265,10 +264,9 @@ namespace VocaluxeLib
         bool IsFinished(int soundStream);
         float GetPosition(int soundStream);
         float GetLength(int soundStream);
-        void FadeAndStop(int soundStream, float targetVolume, float duration);
+        void FadeAndClose(int soundStream, float targetVolume, float duration);
 
         void SetStreamVolume(int soundStream, float volume);
-        void SetStreamVolumeMax(int soundStream, float maxVolume);
     }
 
     public interface ICover
@@ -279,7 +277,7 @@ namespace VocaluxeLib
     public interface IDataBase
     {
         bool GetCover(string fileName, ref CTexture texture, int coverSize);
-        bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out string dateAdded, out int highscoreID);
+        bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID);
     }
 
     public interface IControllers

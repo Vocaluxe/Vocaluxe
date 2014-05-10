@@ -28,8 +28,10 @@ namespace Vocaluxe.Base
     {
         private static IDraw _Draw;
 
-        public static void InitDraw()
+        public static bool Init()
         {
+            if (_Draw != null)
+                return false;
             switch (CConfig.Renderer)
             {
                 case ERenderer.TR_CONFIG_SOFTWARE:
@@ -45,6 +47,7 @@ namespace Vocaluxe.Base
                     {
                         CLog.LogError(e.Message + " - Error in initializing of OpenGL. Please check whether" +
                                       " your graphic card drivers are up to date.", true, true);
+                        return false;
                     }
                     break;
 
@@ -59,6 +62,7 @@ namespace Vocaluxe.Base
                         CLog.LogError(e.Message + " - Error in initializing of Direct3D. Please check if " +
                                       "your DirectX redistributables and graphic card drivers are up to date. You can " +
                                       "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109", true, true);
+                        return false;
                     }
                     break;
 #endif
@@ -67,8 +71,7 @@ namespace Vocaluxe.Base
                     _Draw = new CDrawWinForm();
                     break;
             }
-            if (!_Draw.Init())
-                CLog.LogError("Could not init drawing interface!", true, true);
+            return _Draw.Init();
         }
 
         public static void MainLoop()
@@ -79,8 +82,11 @@ namespace Vocaluxe.Base
 
         public static void Unload()
         {
-            _Draw.Unload();
-            _Draw = null;
+            if (_Draw != null)
+            {
+                _Draw.Unload();
+                _Draw = null;
+            }
         }
 
         public static int GetScreenWidth()

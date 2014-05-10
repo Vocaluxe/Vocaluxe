@@ -144,7 +144,6 @@ namespace VocaluxeLib
     {
         PortAudio,
         OpenAL,
-        Gstreamer,
         GstreamerSharp
     }
 
@@ -164,8 +163,7 @@ namespace VocaluxeLib
 
     public enum EVideoDecoder
     {
-        FFmpeg,
-        Gstreamer
+        FFmpeg
     }
 
     public enum ESongMenu
@@ -189,7 +187,6 @@ namespace VocaluxeLib
     {
         // ReSharper disable InconsistentNaming
         TR_CONFIG_NONE,
-        //TR_CONFIG_RANDOM,
         TR_CONFIG_FOLDER,
         TR_CONFIG_ARTIST,
         TR_CONFIG_ARTIST_LETTER,
@@ -291,7 +288,7 @@ namespace VocaluxeLib
     }
     #endregion Config
 
-    public enum EGameState
+    public enum EProgramState
     {
         Start,
         Normal,

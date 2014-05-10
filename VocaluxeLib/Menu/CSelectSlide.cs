@@ -710,7 +710,7 @@ namespace VocaluxeLib.Menu
 
         public void Draw()
         {
-            if (!Visible && CBase.Settings.GetGameState() != EGameState.EditTheme)
+            if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
                 return;
 
             CTexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
@@ -733,7 +733,7 @@ namespace VocaluxeLib.Menu
             else
                 CBase.Drawing.DrawTexture(texture, Rect, Color);
 
-            if (_Selection > 0 || CBase.Settings.GetGameState() == EGameState.EditTheme)
+            if (_Selection > 0 || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 if (_ArrowLeftSelected)
                     CBase.Drawing.DrawTexture(selTextureArrowLeft, RectArrowLeft, SelColorArrow);
@@ -741,7 +741,7 @@ namespace VocaluxeLib.Menu
                     CBase.Drawing.DrawTexture(textureArrowLeft, RectArrowLeft, ColorArrow);
             }
 
-            if (_Selection < _ValueNames.Count - 1 || CBase.Settings.GetGameState() == EGameState.EditTheme)
+            if (_Selection < _ValueNames.Count - 1 || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 if (_ArrowRightSelected)
                     CBase.Drawing.DrawTexture(selTextureArrowRight, RectArrowRight, SelColorArrow);

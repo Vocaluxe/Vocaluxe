@@ -1,0 +1,3 @@
+code is based on Performous: https://github.com/performous/performous/tree/master/game
+Some modifications were made to make it compile with VS2012, fix warnings and make it suitable for our needs
+From 25.03.2014

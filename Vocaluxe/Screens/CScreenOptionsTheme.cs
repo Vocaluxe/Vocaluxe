@@ -179,7 +179,7 @@ namespace Vocaluxe.Screens
             CConfig.SaveConfig();
 
             if (_OldCoverTheme != _SelectSlides[_SelectSlideCover].Selection)
-                CCover.ReloadCover();
+                CCover.ReloadCovers();
 
             if (_OldTheme != _SelectSlides[_SelectSlideTheme].Selection)
             {

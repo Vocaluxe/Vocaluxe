@@ -15,6 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Diagnostics;
+using System.IO;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Profile
@@ -22,36 +24,52 @@ namespace VocaluxeLib.Profile
     public class CAvatar
     {
         public int ID;
-        public string FileName = "";
-        public CTexture Texture;
+        private readonly string _FileName = "";
+        private CTexture _Texture;
+        private const int _MaxNameLen = 12;
 
-        public CAvatar(int id)
+        public CTexture Texture
         {
-            ID = id;
+            get { return _Texture; }
+        }
+        public string FileName
+        {
+            get { return _FileName; }
         }
 
-        public bool LoadFromFile(string fileName)
+        public static CAvatar GetAvatar(string fileName)
         {
-            FileName = fileName;
-            return Reload();
+            CTexture texture = CBase.Drawing.AddTexture(fileName);
+            return texture == null ? null : new CAvatar(texture, fileName);
+        }
+
+        private CAvatar(CTexture texture, string fileName, int id = -1)
+        {
+            _Texture = texture;
+            _FileName = fileName;
+            ID = id;
         }
 
         public bool Reload()
         {
-            CBase.Drawing.RemoveTexture(ref Texture);
-            Texture = CBase.Drawing.AddTexture(FileName);
+            Unload();
+            _Texture = CBase.Drawing.AddTexture(_FileName);
 
-            return Texture != null;
+            return _Texture != null;
         }
 
         public void Unload()
         {
-            CBase.Drawing.RemoveTexture(ref Texture);
+            CBase.Drawing.RemoveTexture(ref _Texture);
         }
 
-        public string GetFileName()
+        public string GetDisplayName()
         {
-            return FileName;
+            string name = Path.GetFileNameWithoutExtension(_FileName);
+            Debug.Assert(name != null);
+            if (name.Length > _MaxNameLen)
+                name = name.Substring(0, _MaxNameLen);
+            return name;
         }
     }
 }

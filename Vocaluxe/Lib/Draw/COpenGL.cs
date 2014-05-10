@@ -235,7 +235,6 @@ namespace Vocaluxe.Lib.Draw
         private void _EnterFullScreen()
         {
             _Fullscreen = true;
-            CConfig.FullScreen = EOffOn.TR_CONFIG_ON;
 
             _Restore.Location = Location;
             _Restore.Width = Width;
@@ -261,19 +260,14 @@ namespace Vocaluxe.Lib.Draw
             }
             else
                 _DoResize();
-
-            CConfig.SaveConfig();
         }
 
         private void _LeaveFullScreen()
         {
             _Fullscreen = false;
-            CConfig.FullScreen = EOffOn.TR_CONFIG_OFF;
 
             FormBorderStyle = FormBorderStyle.Sizable;
             DesktopBounds = new Rectangle(_Restore.Location, new Size(_Restore.Width, _Restore.Height));
-
-            CConfig.SaveConfig();
         }
         #endregion Helpers
 
@@ -433,10 +427,7 @@ namespace Vocaluxe.Lib.Draw
             Show();
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
-            {
-                CSettings.IsFullScreen = true;
                 _EnterFullScreen();
-            }
 
             while (_Run)
             {
@@ -448,7 +439,7 @@ namespace Vocaluxe.Lib.Draw
 
                 _Control.SwapBuffers();
 
-                if (CSettings.IsFullScreen != _Fullscreen)
+                if ((CConfig.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
                     _ToggleFullScreen();
 
                 _CheckQueue();

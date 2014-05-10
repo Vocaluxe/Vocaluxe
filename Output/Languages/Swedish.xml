@@ -205,9 +205,9 @@
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video Bakgrund</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video Förhandsvisning</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Video Samtidigt Med Låt</string>
-  <string name="TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND">Visa nuvarande Video för Bakgrundsmusik</string>
-  <string name="TR_SCREENO_VIDEO_WEBCAMDEVICES">Webkameror</string>
-  <string name="TR_SCREENO_VIDEO_WEBCAMCAPABILITIES">Webkamera Kapacitet</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Visa nuvarande Video för Bakgrundsmusik</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webkameror</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webkamera Kapacitet</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Skärmjusteringar</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Tryck CTRL + ALT +SHIFT + Pilar för att justera skärmen</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + SHIFT + 0 för att återställa</string>

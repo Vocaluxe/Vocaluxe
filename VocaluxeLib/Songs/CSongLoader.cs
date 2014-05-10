@@ -192,6 +192,9 @@ namespace VocaluxeLib.Songs
                             case "YOUTUBE":
                                 _Song.Source = value;
                                 break;
+                            case "LENGTH":
+                                _Song.Length = value;
+                                break;
                             case "MP3":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {

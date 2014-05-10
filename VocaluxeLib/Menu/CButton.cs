@@ -276,7 +276,7 @@ namespace VocaluxeLib.Menu
 
         public void Draw(bool forceDraw = false)
         {
-            if (!Visible && CBase.Settings.GetGameState() != EGameState.EditTheme && !forceDraw)
+            if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme && !forceDraw)
                 return;
 
             CTexture texture;

@@ -19,7 +19,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Xml;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -28,8 +27,6 @@ namespace Vocaluxe.Base.Fonts
 {
     static class CFonts
     {
-        private static readonly XmlWriterSettings _Settings = new XmlWriterSettings();
-
         private static readonly List<SFont> _Fonts = new List<SFont>();
         private static int _CurrentFont;
         private static float _Height = 1f;
@@ -58,10 +55,6 @@ namespace Vocaluxe.Base.Fonts
 
         public static void Init()
         {
-            _Settings.Indent = true;
-            _Settings.Encoding = Encoding.UTF8;
-            _Settings.ConformanceLevel = ConformanceLevel.Document;
-
             _CurrentFont = 0;
             PartyModeID = -1;
             _BuildFonts();
@@ -361,9 +354,9 @@ namespace Vocaluxe.Base.Fonts
         public static void LoadThemeFonts(string themeName, string fontFolder, CXMLReader xmlReader)
         {
             _LoadFontFiles(xmlReader, fontFolder, themeName);
-            CLog.StartBenchmark(1, "BuildGlyphs");
+            CLog.StartBenchmark("BuildGlyphs");
             _BuildGlyphs();
-            CLog.StopBenchmark(1, "BuildGlyphs");
+            CLog.StopBenchmark("BuildGlyphs");
         }
 
         /// <summary>
@@ -372,9 +365,9 @@ namespace Vocaluxe.Base.Fonts
         public static void LoadPartyModeFonts(int partyModeID, string fontFolder, CXMLReader xmlReader)
         {
             _LoadFontFiles(xmlReader, fontFolder, "", partyModeID);
-            CLog.StartBenchmark(1, "BuildGlyphs");
+            CLog.StartBenchmark("BuildGlyphs");
             _BuildGlyphs();
-            CLog.StopBenchmark(1, "BuildGlyphs");
+            CLog.StopBenchmark("BuildGlyphs");
         }
 
         public static void SaveThemeFonts(string themeName, XmlWriter writer)

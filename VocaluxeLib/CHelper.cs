@@ -26,6 +26,22 @@ namespace VocaluxeLib
 {
     public static class CHelper
     {
+        private static readonly List<string> _SoundFileTypes = new List<string>
+            {
+                "*.mp3",
+                "*.wma",
+                "*.ogg",
+                "*.wav"
+            };
+
+        private static readonly List<string> _ImageFileTypes = new List<string>
+            {
+                "*.jpg",
+                "*.jpeg",
+                "*.png",
+                "*.gif"
+            };
+
         public static int CombinationCount(int n, int k)
         {
             if (k > n)
@@ -61,7 +77,7 @@ namespace VocaluxeLib
         /// </summary>
         public static string ListStrings(string[] str)
         {
-            string result = string.Empty;
+            string result = String.Empty;
             for (int i = 0; i < str.Length; i++)
             {
                 result += str[i];
@@ -95,7 +111,7 @@ namespace VocaluxeLib
                 return 0;
             }
             int result;
-            return int.TryParse(value, out result) ? result : 0;
+            return Int32.TryParse(value, out result) ? result : 0;
         }
 
         public static void SetRect(RectangleF bounds, out RectangleF rect, float rectAspect, EAspect aspect)
@@ -145,7 +161,15 @@ namespace VocaluxeLib
             rect = new RectangleF(left, upper, scaledWidth, scaledHeight);
         }
 
-        public static List<string> ListFiles(string path, string cast, bool recursive = false, bool fullpath = false)
+        /// <summary>
+        ///     Returns a list with all files in the given path that match a given pattern
+        /// </summary>
+        /// <param name="path">Path to search for</param>
+        /// <param name="searchPattern">Pattern to match (e.g. "*.jpg")</param>
+        /// <param name="recursive">Search directories recursively</param>
+        /// <param name="fullpath">False for just file names, True for full path</param>
+        /// <returns>List of file names</returns>
+        public static List<string> ListFiles(string path, string searchPattern, bool recursive = false, bool fullpath = false)
         {
             var files = new List<string>();
             var dir = new DirectoryInfo(path);
@@ -155,19 +179,60 @@ namespace VocaluxeLib
             try
             {
                 // ReSharper disable LoopCanBeConvertedToQuery
-                foreach (FileInfo file in dir.GetFiles(cast))
+                foreach (FileInfo file in dir.GetFiles(searchPattern))
                     // ReSharper restore LoopCanBeConvertedToQuery
                     files.Add(!fullpath ? file.Name : file.FullName);
 
                 if (recursive)
                 {
                     foreach (DirectoryInfo di in dir.GetDirectories())
-                        files.AddRange(ListFiles(di.FullName, cast, true, fullpath));
+                        files.AddRange(ListFiles(di.FullName, searchPattern, true, fullpath));
                 }
             }
             catch (Exception) {}
 
             return files;
+        }
+
+        /// <summary>
+        ///     Returns a list with all files in the given path that matches at least one of the given patterns
+        /// </summary>
+        /// <param name="path">Path to search for</param>
+        /// <param name="searchPatterns">List of patterns to match</param>
+        /// <param name="recursive">Search directories recursively</param>
+        /// <param name="fullpath">False for just file names, True for full path</param>
+        /// <returns>List of file names</returns>
+        public static List<string> ListFiles(string path, IEnumerable<string> searchPatterns, bool recursive = false, bool fullpath = false)
+        {
+            var files = new List<string>();
+            foreach (string pattern in searchPatterns)
+                files.AddRange(ListFiles(path, pattern, recursive, fullpath));
+
+            return files;
+        }
+
+        /// <summary>
+        ///     Returns a list with all image files in the given path
+        /// </summary>
+        /// <param name="path">Path to search for</param>
+        /// <param name="recursive">Search directories recursively</param>
+        /// <param name="fullpath">False for just file names, True for full path</param>
+        /// <returns>List of image file names</returns>
+        public static List<string> ListImageFiles(string path, bool recursive = false, bool fullpath = false)
+        {
+            return ListFiles(path, _ImageFileTypes, recursive, fullpath);
+        }
+
+        /// <summary>
+        ///     Returns a list with all image files in the given path
+        /// </summary>
+        /// <param name="path">Path to search for</param>
+        /// <param name="recursive">Search directories recursively</param>
+        /// <param name="fullpath">False for just file names, True for full path</param>
+        /// <returns>List of image file names</returns>
+        public static List<string> ListSoundFiles(string path, bool recursive = false, bool fullpath = false)
+        {
+            return ListFiles(path, _SoundFileTypes, recursive, fullpath);
         }
 
         public static bool TryParse<T>(string value, out T result, bool ignoreCase = false)
@@ -187,7 +252,7 @@ namespace VocaluxeLib
         public static bool TryParse(string value, out float result)
         {
             value = value.Replace(',', '.');
-            return float.TryParse(value, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, NumberFormatInfo.InvariantInfo, out result);
+            return Single.TryParse(value, NumberStyles.AllowDecimalPoint | NumberStyles.AllowLeadingSign, NumberFormatInfo.InvariantInfo, out result);
         }
 
         public static bool IsInBounds(SRectF bounds, SMouseEvent mouseEvent)

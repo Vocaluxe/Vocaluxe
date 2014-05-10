@@ -199,6 +199,10 @@
     <Reference Include="OpenTK.GLControl">
       <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
     </Reference>
+    <Reference Include="PortAudioSharp, Version=0.19.3.27472, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\PortAudioSharp.dll</HintPath>
+    </Reference>
     <Reference Include="QRCoder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Output\QRCoder.dll</HintPath>
@@ -212,14 +216,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
-    <Compile Include="Lib\Sound\CBuffer.cs" />
+    <Compile Include="Base\CPlaylistElement.cs" />
+    <Compile Include="Base\CRecord.cs" />
+    <Compile Include="COSFunctions.cs" />
+    <Compile Include="Lib\Database\CCoverDB.cs" />
+    <Compile Include="Lib\Database\CDatabaseBase.cs" />
+    <Compile Include="Lib\Database\CHighscoreDB.cs" />
+    <Compile Include="Lib\Database\CResourceDB.cs" />
+    <Compile Include="Lib\Sound\Playback\CAudioStreamBase.cs" />
+    <Compile Include="Lib\Sound\Playback\CPlaybackBase.cs" />
+    <Compile Include="Lib\Sound\Playback\CRingBuffer.cs" />
+    <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudioStream.cs" />
+    <Compile Include="Lib\Sound\Playback\IAudioStream.cs" />
+    <Compile Include="Lib\Sound\Playback\OpenAL\COpenAlStream.cs" />
+    <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioStream.cs" />
+    <Compile Include="Lib\Sound\CPortAudioHandle.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\CAnalyzer.cs" />
+    <Compile Include="Lib\Sound\Record\CBuffer.cs" />
     <Compile Include="Base\CConfig.cs" />
     <Compile Include="Base\CCover.cs" />
     <Compile Include="Base\CCursor.cs" />
     <Compile Include="Base\CDataBase.cs" />
     <Compile Include="Base\CDraw.cs" />
-    <Compile Include="Lib\Sound\CPt1.cs" />
-    <Compile Include="Lib\Sound\CSyncTimer.cs" />
+    <Compile Include="Lib\Sound\Playback\PortAudio\CPt1.cs" />
+    <Compile Include="Lib\Sound\Playback\PortAudio\CSyncTimer.cs" />
     <Compile Include="Base\Fonts\CFont.cs" />
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CController.cs" />
@@ -252,11 +272,24 @@
     <Compile Include="GameModes\CGameMode.cs" />
     <Compile Include="GameModes\CGameModes.cs" />
     <Compile Include="Lib\Input\CControllerFramework.cs" />
-    <Compile Include="Lib\Sound\CGstreamerSharpAudio.cs" />
+    <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudio.cs" />
+    <Compile Include="Lib\Sound\Record\CRecordBase.cs" />
+    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" />
+    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\CPitchTrackerTest.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\CPtAKF.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\CPtSharp.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\IPitchTracker.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\CircularBuffer.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\Extensions.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\IIRFilter.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\PitchDsp.cs" />
+    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\PitchTracker.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoderThread.cs" />
     <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
-    <Compile Include="Lib\Sound\CDelayTest.cs" />
+    <Compile Include="Lib\Sound\Record\CDelayTest.cs" />
     <Compile Include="Screens\CPopupScreenServerQR.cs" />
     <Compile Include="Screens\CScreenOptionsVideoAdjustments.cs" />
     <Compile Include="SongQueue\CSongQueue.cs" />
@@ -278,21 +311,17 @@
     <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
     <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
     <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
-    <Compile Include="Lib\Sound\CDirectSoundRecord.cs" />
-    <Compile Include="Lib\Sound\CGstreamerAudio.cs" />
-    <Compile Include="Lib\Sound\COpenALPlay.cs" />
+    <Compile Include="Lib\Sound\Record\DirectSound\CDirectSoundRecord.cs" />
+    <Compile Include="Lib\Sound\Playback\OpenAL\COpenALPlay.cs" />
     <Compile Include="Base\CSound.cs" />
-    <Compile Include="Lib\Sound\CPortAudioPlay.cs" />
-    <Compile Include="Lib\Sound\CPortAudioRecord.cs" />
-    <Compile Include="Lib\Sound\Decoder\CAudioDecoderFFmpeg.cs" />
-    <Compile Include="Lib\Sound\Decoder\IAudioDecoder.cs" />
-    <Compile Include="Lib\Sound\Gstreamer\CGstreamerAudioWrapper.cs" />
-    <Compile Include="Lib\Sound\IPlayback.cs" />
-    <Compile Include="Lib\Sound\IRecord.cs" />
+    <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioPlay.cs" />
+    <Compile Include="Lib\Sound\Record\PortAudio\CPortAudioRecord.cs" />
+    <Compile Include="Lib\Sound\Playback\Decoder\CAudioDecoderFFmpeg.cs" />
+    <Compile Include="Lib\Sound\Playback\Decoder\IAudioDecoder.cs" />
+    <Compile Include="Lib\Sound\Playback\IPlayback.cs" />
+    <Compile Include="Lib\Sound\Record\IRecord.cs" />
     <Compile Include="Lib\Video\Acinerella\CAcinerella.cs" />
     <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
-    <Compile Include="Lib\Video\CVideoDecoderGstreamer.cs" />
-    <Compile Include="Lib\Video\Gstreamer\CGstreamerVideoWrapper.cs" />
     <Compile Include="Lib\Video\IVideoDecoder.cs" />
     <Compile Include="Lib\Webcam\CAForgeNet.cs" />
     <Compile Include="Lib\Webcam\IWebcam.cs" />
@@ -322,7 +351,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <Compile Include="Lib\Sound\PortAudio\PortAudio.cs" />
     <None Include="Doc\SQLite.NET.chm" />
     <Content Include="Website\locales\de.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

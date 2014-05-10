@@ -38,22 +38,12 @@ namespace VocaluxeLib.Profile
         public string PlayerName;
         public string FilePath;
         public string FileName;
-        public string AvatarFileName;
         public byte[] PasswordHash;
         public byte[] PasswordSalt;
 
         public EGameDifficulty Difficulty;
 
-        private CAvatar _Avatar;
-        public CAvatar Avatar
-        {
-            get { return _Avatar; }
-            set
-            {
-                _Avatar = value;
-                AvatarFileName = _Avatar.FileName;
-            }
-        }
+        public CAvatar Avatar { get; set; }
 
         public EUserRole UserRole;
         public EOffOn Active;
@@ -62,11 +52,9 @@ namespace VocaluxeLib.Profile
         {
             PlayerName = String.Empty;
             Difficulty = EGameDifficulty.TR_CONFIG_EASY;
-            Avatar = new CAvatar(-1);
             UserRole = EUserRole.TR_USERROLE_NORMAL;
             Active = EOffOn.TR_CONFIG_ON;
 
-            AvatarFileName = String.Empty;
             FileName = String.Empty;
         }
 
@@ -95,9 +83,10 @@ namespace VocaluxeLib.Profile
             if (xmlReader.GetValue("//root/Info/PlayerName", out value, value))
             {
                 PlayerName = value;
-
+                string avatarFileName;
                 xmlReader.TryGetEnumValue("//root/Info/Difficulty", ref Difficulty);
-                xmlReader.GetValue("//root/Info/Avatar", out AvatarFileName, String.Empty);
+                xmlReader.GetValue("//root/Info/Avatar", out avatarFileName, String.Empty);
+                Avatar = CBase.Profiles.GetAvatarByFilename(avatarFileName);
                 xmlReader.TryGetEnumValue("//root/Info/UserRole", ref UserRole);
                 xmlReader.TryGetEnumValue("//root/Info/Active", ref Active);
                 string passwordHash;

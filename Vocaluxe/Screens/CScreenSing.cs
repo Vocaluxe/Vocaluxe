@@ -235,7 +235,7 @@ namespace Vocaluxe.Screens
                     case Keys.W:
                         if (CWebcam.IsDeviceAvailable())
                         {
-                            _Webcam = !_Webcam;
+                            _Webcam = !CWebcam.IsCapturing();
                             if (_Webcam)
                                 CWebcam.Start();
                             else
@@ -258,11 +258,8 @@ namespace Vocaluxe.Screens
                     case Keys.PageUp:
                         if (keyEvent.ModShift)
                         {
-                            CConfig.GameMusicVolume = CConfig.GameMusicVolume + 5;
-                            if (CConfig.GameMusicVolume > 100)
-                                CConfig.GameMusicVolume = 100;
-                            CConfig.SaveConfig();
-                            ApplyVolume();
+                            CConfig.GameMusicVolume += 5;
+                            CSound.SetGlobalVolume(CConfig.GameMusicVolume);
                         }
                         break;
 
@@ -270,11 +267,8 @@ namespace Vocaluxe.Screens
                     case Keys.PageDown:
                         if (keyEvent.ModShift)
                         {
-                            CConfig.GameMusicVolume = CConfig.GameMusicVolume - 5;
-                            if (CConfig.GameMusicVolume < 0)
-                                CConfig.GameMusicVolume = 0;
-                            CConfig.SaveConfig();
-                            ApplyVolume();
+                            CConfig.GameMusicVolume -= 5;
+                            CSound.SetGlobalVolume(CConfig.GameMusicVolume);
                         }
                         break;
                 }
@@ -441,6 +435,7 @@ namespace Vocaluxe.Screens
 
             CBackgroundMusic.Disabled = true;
             _CloseSong();
+            CSound.SetGlobalVolume(CConfig.GameMusicVolume);
         }
 
         public override void OnShowFinish()
@@ -449,7 +444,6 @@ namespace Vocaluxe.Screens
 
             CGame.Start();
             _LoadNextSong();
-            CBackgroundMusic.Disabled = true;
         }
 
         public override bool Draw()
@@ -540,23 +534,21 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            CBackgroundMusic.Disabled = false;
+            _CloseSong();
             if (_Webcam)
                 CWebcam.Stop();
-            _CloseSong();
-        }
-
-        public override void ApplyVolume()
-        {
-            if (_CurrentStream > -1)
-                CSound.SetStreamVolumeMax(_CurrentStream, CConfig.GameMusicVolume);
+            CBackgroundMusic.Disabled = false;
+            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
         }
 
         private void _CloseSong()
         {
             if (_CurrentStream > -1)
+            {
                 CSound.FadeAndClose(_CurrentStream, 0f, 0.5f);
-            CSound.RecordStop();
+                _CurrentStream = -1;
+            }
+            CRecord.Stop();
             if (_CurrentVideo != -1)
             {
                 CVideo.Close(_CurrentVideo);
@@ -577,7 +569,6 @@ namespace Vocaluxe.Screens
             _Texts[_TextSongName].Text = String.Empty;
             _Texts[_TextDuetName1].Text = String.Empty;
             _Texts[_TextDuetName2].Text = String.Empty;
-            GC.Collect();
         }
 
         private void _LoadNextSong()
@@ -606,8 +597,7 @@ namespace Vocaluxe.Screens
                 songname += " (" + CGame.RoundNr + "/" + rounds + ")";
             _Texts[_TextSongName].Text = songname;
 
-            _CurrentStream = CSound.Load(song.GetMP3(), true);
-            CSound.SetStreamVolumeMax(_CurrentStream, CConfig.GameMusicVolume);
+            _CurrentStream = CSound.Load(song.GetMP3(), false, true);
             CSound.SetStreamVolume(_CurrentStream, _Volume);
             CSound.SetPosition(_CurrentStream, song.Start);
             _CurrentTime = song.Start;
@@ -639,7 +629,6 @@ namespace Vocaluxe.Screens
                 _SlideShow = GetNewBackground();
                 foreach (string bgFile in song.BackgroundFileNames)
                     _SlideShow.AddSlideShowTexture(Path.Combine(song.Folder, bgFile));
-                _Background = null;
             }
             else if (song.BackgroundFileNames.Count == 1)
             {
@@ -738,7 +727,7 @@ namespace Vocaluxe.Screens
         {
             _PrepareTimeLine();
             CSound.Play(_CurrentStream);
-            CSound.RecordStart();
+            CRecord.Start();
             if (_Webcam)
                 CWebcam.Start();
         }
@@ -758,7 +747,7 @@ namespace Vocaluxe.Screens
             CParty.FinishedSinging();
 
             if (_Webcam)
-                CWebcam.Close();
+                CWebcam.Stop();
         }
 
         private int _FindCurrentLine(CVoice voice, CSongLine[] lines, CSong song)
