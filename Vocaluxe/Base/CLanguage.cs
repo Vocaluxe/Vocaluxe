@@ -41,7 +41,7 @@ namespace Vocaluxe.Base
     static class CLanguage
     {
         private static List<SLanguage> _Languages;
-        private static int _CurrentLanguage;
+        private static int _CurrentLanguage = -1;
         private static int _FallbackLanguage;
 
         public static int LanguageId
@@ -69,7 +69,7 @@ namespace Vocaluxe.Base
             return languages;
         }
 
-        public static void Init()
+        public static bool Init()
         {
             _Languages = new List<SLanguage>();
 
@@ -78,6 +78,7 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
                 _LoadLanguageFile(file);
+            return _CurrentLanguage >= 0 && _FallbackLanguage >= 0;
         }
 
         public static bool SetLanguage(string language)
@@ -225,7 +226,11 @@ namespace Vocaluxe.Base
                 lang.Name = value;
 
                 if (lang.Name == CSettings.FallbackLanguage)
+                {
                     _FallbackLanguage = _Languages.Count;
+                    if (_CurrentLanguage < 0)
+                        _CurrentLanguage = _FallbackLanguage;
+                }
 
                 lang.PartyModeTexts = new List<SPartyLanguage>();
 
