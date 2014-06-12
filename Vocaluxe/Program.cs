@@ -91,7 +91,8 @@ namespace Vocaluxe
 
                 // Init Language
                 CLog.StartBenchmark("Init Language");
-                CLanguage.Init();
+                if (!CLanguage.Init())
+                    throw new CLoadingException("Language");
                 CLog.StopBenchmark("Init Language");
 
                 Application.DoEvents();

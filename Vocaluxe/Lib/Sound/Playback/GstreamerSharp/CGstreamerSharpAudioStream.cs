@@ -30,10 +30,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         private volatile bool _IsFinished;
 
         private volatile float _Position;
-        private volatile bool _QueryingDuration;
-        private System.Threading.Thread _QueryDurationThread;
 
-        private readonly object _DurationLock = new object(); //For atomic check-and-update of _QueryingDuration
         private readonly object _ElementLock = new object(); //Hold this if you set _Element=null or when accessing _Element from outside the main thread
 
         public override float Volume
@@ -60,12 +57,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         {
             get
             {
-                if (base.Length < 0 && _QueryDurationThread == null && _Element != null)
-                {
-                    // _QueryDurationThread does not get reset so it is created only once!
-                    _QueryDurationThread = new System.Threading.Thread(_UpdateDuration) {Name = "GSt Update Duration"};
-                    _QueryDurationThread.Start();
-                }
+                //TODO: Is it ok, to remove this? Gst should post a message if duration was changed so this should not be required
+                //if (base.Length < 0 && _Element != null)
+                //    _UpdateDuration();
                 return base.Length >= 0f ? base.Length : 0f;
             }
         }
@@ -180,12 +174,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             // Passing CLOCK_TIME_NONE here causes the pipeline to block for a long time so with
             // prescan enabled the pipeline will wait 500ms for stream to initialize and then continue
             // if it takes more than 500ms, duration queries will be performed asynchronously
-            if (prescan)
-            {
-                Message msg = _Element.Bus.TimedPopFiltered(0xffffffffffffffff, MessageType.AsyncDone);
-                if (msg.Handle != IntPtr.Zero)
-                    _UpdateDuration();
-            }
+            Message msg = _Element.Bus.TimedPopFiltered(prescan ? ulong.MaxValue : 0L, MessageType.AsyncDone);
+            if (msg.Handle != IntPtr.Zero)
+                _UpdateDuration();
             _FileOpened = true;
             return true;
         }
@@ -274,26 +265,14 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
         private void _UpdateDuration()
         {
-            if (_QueryingDuration)
-                return;
-            lock (_DurationLock)
+            lock (_ElementLock)
             {
-                if (_QueryingDuration)
+                if (_Element == null)
                     return;
-                _QueryingDuration = true;
+                long duration;
+                if (_Element.QueryDuration(Format.Time, out duration))
+                    Length = duration / (float)Constants.SECOND;
             }
-            long duration = -1;
-            while (duration < 0 && !IsFinished)
-            {
-                lock (_ElementLock)
-                {
-                    if (_Element == null)
-                        break;
-                    if (_Element.QueryDuration(Format.Time, out duration))
-                        Length = duration / (float)Constants.SECOND;
-                }
-            }
-            _QueryingDuration = false;
         }
     }
 }

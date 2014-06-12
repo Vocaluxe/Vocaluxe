@@ -163,8 +163,7 @@ namespace VocaluxeLib
 
     public enum EVideoDecoder
     {
-        FFmpeg,
-        Gstreamer
+        FFmpeg
     }
 
     public enum ESongMenu
