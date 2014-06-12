@@ -30,6 +30,7 @@
   <string name="TR_USERROLE_GUEST">Gäst</string>
   <string name="TR_USERROLE_NORMAL">Normal Användare</string>
   <string name="TR_USERROLE_ADMIN">Administratör</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Tangentbord Användare</string>
   <string name="TR_CONFIG_SOFTWARE">Mjukvara</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -200,14 +201,14 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Beteende För Hur Omslag Laddas</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Låttext Alternativ</string>
   <string name="TR_SCREENOLYRICS_STYLE">Utseende</string>
-  <string name="TR_SCREENOLYRICS_POSITION">Text position</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Textposition</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video Alternativ</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video Bakgrund</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video Förhandsvisning</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Video Samtidigt Med Låt</string>
-  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Visa nuvarande Video för Bakgrundsmusik</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Visa Video för nuvarande Bakgrundsmusik</string>
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webkameror</string>
-  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webkamera Kapacitet</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webkamera Upplösning</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Skärmjusteringar</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Tryck CTRL + ALT +SHIFT + Pilar för att justera skärmen</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + SHIFT + 0 för att återställa</string>
@@ -217,4 +218,5 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Nederst till höger</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volym</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Server adress</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Servern kan inte nås. Var god kontrollera config.xml!</string>
 </resources>

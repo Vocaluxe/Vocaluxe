@@ -194,13 +194,9 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Gedrag Laden Covers</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Songtekstopties</string>
   <string name="TR_SCREENOLYRICS_STYLE">Stijl</string>
-  <string name="TR_SCREENOLYRICS_POSITION">Positie songteksten</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video-opties</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Videoachtergronden</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Videopreview</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Video tijdens zingen</string>
-  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Toon huidige achtergrondmuziekvideo</string>
-  <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
-  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcaminstellingen</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
 </resources>

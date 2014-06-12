@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">English</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
@@ -81,7 +82,7 @@
   <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Bottom</string>
   <string name="TR_CONFIG_LYRICSPOSITION_TOP">Top</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Top and bottom</string>
-  <string name="TR_CONFIG_LYRICSPOSITION_DYNAMIC">Dynamic</string>  
+  <string name="TR_CONFIG_LYRICSPOSITION_DYNAMIC">Dynamic</string>
   <string name="TR_SCREENLOAD_LOADING">Loading</string>
   <string name="TR_SCREENLOAD_TOTAL">Total</string>
   <string name="TR_SCREENLOAD_SONGS">Songs</string>
@@ -96,7 +97,7 @@
   <string name="TR_SCREENPARTY_DESCRIPTION">Description</string>
   <string name="TR_SCREENPARTY_AUTHOR">Author</string>
   <string name="TR_SCREENPARTY_VERSION">Version</string>
-  <string name="TR_SCREENPARTY_ERROR">Can't load this party-mode.</string>
+  <string name="TR_SCREENPARTY_ERROR">Can\'t load this party-mode.</string>
   <string name="TR_SCREENPARTY_ERROR_MICS">There are no mics configured!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Target audience</string>
   <string name="TR_SCREENPARTY_NOTEAMS">No teams</string>
