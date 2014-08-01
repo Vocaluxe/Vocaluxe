@@ -769,6 +769,11 @@ namespace Vocaluxe.Base
         {
             return CVideo.Close(videoStream);
         }
+
+        public void SetLoop(int streamID, bool loop = true)
+        {
+            CVideo.SetLoop(streamID, loop);
+        }
     }
 
     class CBsound : ISound
