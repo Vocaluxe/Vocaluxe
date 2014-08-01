@@ -30,6 +30,7 @@
   <string name="TR_USERROLE_GUEST">Invité</string>
   <string name="TR_USERROLE_NORMAL">Utilisateur normal</string>
   <string name="TR_USERROLE_ADMIN">Administrateur</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Clavier d\'Utilisateur</string>
   <string name="TR_CONFIG_SOFTWARE">Logiciel</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -207,7 +208,7 @@
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Vidéos pendant que l\'on chante</string>
   <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Afficher la vidéo de la musique de fond</string>
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
-  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Configuration Webcam</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Résolution de la Webcam</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustements de l\'écran</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Appuyer sur CTR + ALT + SHIFT + Flèches pour ajuster l\'écran</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + SHIFT + 0 pour réinitialiser</string>
@@ -217,4 +218,5 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Bas droit</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresse du serveur</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Le serveur ne fonctionne pas. Merci de vérifier config.xml !</string>
 </resources>
