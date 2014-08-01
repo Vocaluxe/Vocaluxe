@@ -17,6 +17,7 @@
 
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -27,6 +28,7 @@ namespace Vocaluxe.Base
         private int _MouseMoveDiffMin = CSettings.MouseMoveDiffMinActive;
         private CFading _Fading;
         private CTexture _Cursor;
+        private Point _LastDiffPos;
 
         private readonly Stopwatch _Movetimer = new Stopwatch();
 
@@ -67,9 +69,16 @@ namespace Vocaluxe.Base
 
         public void UpdatePosition(int x, int y)
         {
-            if (Math.Abs(_Cursor.Rect.X - x) > _MouseMoveDiffMin ||
-                Math.Abs(_Cursor.Rect.Y - y) > _MouseMoveDiffMin)
+            if (Math.Abs(_LastDiffPos.X - x) > _MouseMoveDiffMin ||
+                Math.Abs(_LastDiffPos.Y - y) > _MouseMoveDiffMin)
+            {
+                //This will restart the timer and show the cursor if required
                 Activate();
+                //Use that point so cursor is deactivated only when there is no move by the diff value from this position the the given offTime
+                //Using the curent cursor position won't work because there will only be moves by 1 in most cases
+                _LastDiffPos.X = x;
+                _LastDiffPos.Y = y;
+            }
 
             _Cursor.Rect.X = x;
             _Cursor.Rect.Y = y;
@@ -111,10 +120,12 @@ namespace Vocaluxe.Base
 
         public void Activate()
         {
-            if (IsActive)
+            // Here we need to restart the timer in all cases but only set fading and diff if we are not yet active
+            bool active = IsActive;
+            _Movetimer.Restart();
+            if (active)
                 return;
             _MouseMoveDiffMin = CSettings.MouseMoveDiffMinActive;
-            _Movetimer.Restart();
             _Fade(1f, 0.2f);
         }
 
