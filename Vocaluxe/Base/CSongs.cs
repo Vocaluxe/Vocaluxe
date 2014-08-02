@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.IO;
 using VocaluxeLib;
 using VocaluxeLib.Songs;
 
@@ -340,9 +341,12 @@ namespace Vocaluxe.Base
             var files = new List<string>();
             foreach (string p in CConfig.SongFolders)
             {
-                string path = p;
-                files.AddRange(CHelper.ListFiles(path, "*.txt", true, true));
-                files.AddRange(CHelper.ListFiles(path, "*.txd", true, true));
+                if (Directory.Exists(p))
+                {
+                    string path = p;
+                    files.AddRange(CHelper.ListFiles(path, "*.txt", true, true));
+                    files.AddRange(CHelper.ListFiles(path, "*.txd", true, true));
+                }
             }
             CLog.StopBenchmark("List Songs");
 
