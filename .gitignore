@@ -49,7 +49,7 @@ Thumbs.db
 /ServerLib/bin/ClientServerLib.dll
 /Installer/setup-cache
 /Installer/setup-SetupFiles
-/Installer/VocaluxeSetup_0.3.0Beta.exe
+/Installer/vocaluxe-*-setup.exe
 /Installer/Vocaluxe*.rar
 /WebserverInitalConfig/bin
 /PhoneGap/
