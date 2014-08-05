@@ -76,6 +76,12 @@ namespace VocaluxeLib.Utils.Player
             _LoadVideo();
         }
 
+        public CSongPlayer(string file, bool loop = false, float position = 0f, bool autoplay = false)
+            : base(file, loop, position, autoplay)
+        {
+            _Song = null;
+        }
+
         public CTexture GetVideoTexture()
         {
             if (_Video == -1 || _Song == null)
@@ -103,6 +109,15 @@ namespace VocaluxeLib.Utils.Player
             _Song = song;
             _LoadVideo();
             base.Load(Path.Combine(song.Folder, song.MP3FileName), position, autoplay);
+        }
+
+        public void Load(string file, float position = 0f, bool autoplay = false)
+        {
+            if (String.IsNullOrEmpty(file))
+                return;
+
+            _Song = null;
+            base.Load(file, position, autoplay);
         }
 
         public new void Close()

@@ -270,11 +270,16 @@ namespace Vocaluxe.Base
                 _SongPlayer.Play();
 
             //otherwhise load
-            //Seek to #Start-Tag, if found
-            float start = 0f;
-            if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
-                start = _CurrentPlaylistElement.Start;
-            _SongPlayer.Load(CBase.Songs.GetSongByID(_CurrentPlaylistElement.SongID), start, true);
+            if (_BGMusicFiles.Contains(_CurrentPlaylistElement))
+                _SongPlayer.Load(_CurrentPlaylistElement.MusicFilePath, 0f, true);
+            else
+            {
+                //Seek to #Start-Tag, if found
+                float start = 0f;
+                if (_CurrentPlaylistElement.Start > 0.001 && CConfig.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                    start = _CurrentPlaylistElement.Start;
+                _SongPlayer.Load(CBase.Songs.GetSongByID(_CurrentPlaylistElement.SongID), start, true);
+            }
         }
 
         private static void _AddOwnMusic()
