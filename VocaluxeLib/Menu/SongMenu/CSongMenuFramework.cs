@@ -561,7 +561,7 @@ namespace VocaluxeLib.Menu.SongMenu
         protected void _Reset()
         {
             foreach (int stream in _Streams)
-                CBase.Sound.FadeAndClose(stream, 0f, 0.75f);
+                CBase.Sound.Fade(stream, 0f, 0.75f, EStreamAction.Close);
             _Streams.Clear();
 
             CBase.Video.Close(_PreviewVideoStream);

@@ -288,6 +288,14 @@ namespace VocaluxeLib
     }
     #endregion Config
 
+    public enum EStreamAction
+    {
+        Nothing,
+        Pause,
+        Stop,
+        Close
+    }
+
     public enum EProgramState
     {
         Start,

@@ -89,6 +89,8 @@ namespace VocaluxeLib
 
         float GetSlideShowImageTime();
         float GetSlideShowFadeTime();
+
+        float GetSoundPlayerFadeTime();
     }
 
     public interface ITheme
@@ -253,6 +255,8 @@ namespace VocaluxeLib
         bool IsFinished(int streamID);
         bool Close(int streamID);
         void SetLoop(int streamID, bool loop = true);
+        void Resume(int streamID);
+        void Pause(int streamID);
     }
 
     public interface ISound
@@ -260,12 +264,12 @@ namespace VocaluxeLib
         int Load(string soundFile, bool loop = false, bool prescan = false);
         void SetPosition(int soundStream, float newPosition);
         void Play(int soundStream);
-        void Fade(int soundStream, float targetVolume, float duration);
+        void Fade(int soundStream, float targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
+        void Close(int soundStream);
 
         bool IsFinished(int soundStream);
         float GetPosition(int soundStream);
         float GetLength(int soundStream);
-        void FadeAndClose(int soundStream, float targetVolume, float duration);
 
         void SetStreamVolume(int soundStream, float volume);
     }
