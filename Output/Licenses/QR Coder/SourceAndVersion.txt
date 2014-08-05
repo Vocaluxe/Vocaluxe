@@ -1,6 +1,6 @@
 https://github.com/codebude/QRCoder/
 
-Version: master 19.01.2014
+Version: master 05.08.2014
 
 Files:
 QRCoder.dll
