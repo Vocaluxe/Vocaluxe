@@ -16,7 +16,9 @@
   <string name="TR_SCREENCONFIG_NUMMICS">TODO: Number of mics</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">TODO: Number of rounds</string>
   <string name="TR_SCREENNAMES_TITLE">TODO: Challenge Medley Mode: Choose Player</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Seleccionar aleatoriamente</string>
   <string name="TR_SCREENMAIN_TITLE">TODO: Challenge Medley Mode: Overview</string>
+  <string name="TR_SCREENMAIN_TABLE_POS">Posición</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">TODO: Name</string>
   <string name="TR_SCREENMAIN_TABLE_NUMPLAYED">TODO: Rounds</string>
   <string name="TR_SCREENMAIN_TABLE_WON">TODO: Wins</string>

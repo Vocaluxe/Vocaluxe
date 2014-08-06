@@ -248,10 +248,11 @@ namespace VocaluxeLib
     public interface IVideo
     {
         int Load(string videoFileName);
-        bool Skip(int videoStream, float startPosition, float videoGap);
-        bool GetFrame(int videoStream, ref CTexture videoTexture, float time, out float videoTime);
-        bool IsFinished(int videoStream);
-        bool Close(int videoStream);
+        bool Skip(int streamID, float startPosition, float videoGap);
+        bool GetFrame(int streamID, ref CTexture videoTexture, float time, out float videoTime);
+        bool IsFinished(int streamID);
+        bool Close(int streamID);
+        void SetLoop(int streamID, bool loop = true);
     }
 
     public interface ISound

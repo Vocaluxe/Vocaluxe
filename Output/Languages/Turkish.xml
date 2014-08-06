@@ -190,8 +190,5 @@
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video Arka Planları</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video Önizleme</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Şarkı Söylerken Videoları Gösterme</string>
-  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Mevcut Arka Plan Müziği Videosunu Göster</string>
-  <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Web Kameraları</string>
-  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Web Kameraları Özellikleri</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Ses</string>
 </resources>

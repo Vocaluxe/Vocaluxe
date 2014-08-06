@@ -491,7 +491,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ClientServerLib\ClientServerLib\ServerLib.csproj">
+    <ProjectReference Include="..\ServerLib\ServerLib.csproj">
       <Project>{ec5167e4-ccfb-4cee-987c-cf816f1062a3}</Project>
       <Name>ServerLib</Name>
     </ProjectReference>

@@ -30,6 +30,7 @@
   <string name="TR_USERROLE_GUEST">Host</string>
   <string name="TR_USERROLE_NORMAL">Obyčejný uživatel</string>
   <string name="TR_USERROLE_ADMIN">Správce</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Uživatel klávesnice</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -205,9 +206,9 @@
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Pozadí obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Náhled obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Obrazové záznamy během přehrávání</string>
-  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Zobrazit nynější obrazový záznam k hudbě na pozadí</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Zobrazit obrazový záznam k nynější hudbě na pozadí</string>
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Kamery</string>
-  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Schopnosti kamer</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Rozlišení kamery</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Přizpůsobení obrazovky</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Stiskněte Ctrl + Alt + Shift + šipky pro upravení obrazovky</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">Ctrl + Alt + Shift + 0 pro vrácení úprav zpět na výchozí hodnoty</string>
@@ -217,4 +218,5 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Dole vpravo</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Hlasitost</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresa serveru</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server neběží. Prověřte, prosím, config.xml!</string>
 </resources>

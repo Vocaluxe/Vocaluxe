@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Italiano</string>
+  <string name="TR_PARTYMODE_NAME">Tic-Tac-Toe</string>
+  <string name="TR_BUTTON_YES">Si</string>
+  <string name="TR_BUTTON_NO">No</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Inizia</string>
+  <string name="TR_SONGS">Canzoni</string>
+  <string name="TR_TEAM">Squadra</string>
+  <string name="TR_PLAYLIST">Playlist</string>
+  <string name="TR_CATEGORY">Categoria</string>
+  <string name="TR_ALLSONGS">Tutte le canzoni</string>
+  <string name="TR_SCREENNAMES_TEAM1">Squadra 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Squadra 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Selezione casuale</string>
+  <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
+</resources>

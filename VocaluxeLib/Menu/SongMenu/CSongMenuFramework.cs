@@ -524,7 +524,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     return;
 
                 //TODO: Using prescan here causes Vocaluxe to hang a bit on loading the song but we need the length below
-                int stream = CBase.Sound.Load(Path.Combine(song.Folder, song.MP3FileName), true);
+                int stream = CBase.Sound.Load(Path.Combine(song.Folder, song.MP3FileName), true, true);
 
                 float startposition = song.Preview.StartTime;
                 float length = CBase.Sound.GetLength(stream);
@@ -551,6 +551,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     _PreviewVideoStream = CBase.Video.Load(Path.Combine(song.Folder, song.VideoFileName));
                     if (_PreviewVideoStream == -1)
                         return;
+                    CBase.Video.SetLoop(_PreviewVideoStream);
                     CBase.Video.Skip(_PreviewVideoStream, startposition, song.VideoGap);
                     _VideoFading = new CFading(0f, 1f, 3f);
                 }

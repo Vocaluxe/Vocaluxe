@@ -4,8 +4,8 @@ using System.Runtime.InteropServices;
 namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 {
     /// <summary>
-    /// Pitchtracker (Pt) that uses autocorrelation (AKF) and AMDF
-    /// Quite fast and perfect in artificial tests, but may fail in real world scenarios (e.g. missing fundamental)
+    ///     Pitchtracker (Pt) that uses autocorrelation (AKF) and AMDF
+    ///     Quite fast and perfect in artificial tests, but may fail in real world scenarios (e.g. missing fundamental)
     /// </summary>
     class CPtAKF : CPitchTracker
     {
@@ -34,7 +34,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
 
         private IntPtr _Instance;
 
-        public CPtAKF(uint step = 400)
+        public CPtAKF(uint step = 1024)
         {
             _Instance = PtAKF_Create(step);
         }

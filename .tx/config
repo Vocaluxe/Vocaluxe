@@ -1,0 +1,39 @@
+[main]
+host = https://www.transifex.com
+minimum_perc = 25
+
+[vocaluxe.challenge]
+file_filter = Output/PartyModes/Challenge/Languages/<lang>.xml
+source_file = Output/PartyModes/Challenge/Languages/English.xml
+source_lang = English
+lang_map = en:English, cs:Czech, de:German, es:Spanish, fr:French, sv:Swedish, nl:Dutch, ast:Asturian, tr:Turkish, hu:Hungarian, it:Italian, ca:Catalan
+type = ANDROID
+
+[vocaluxe.challenge-medley]
+file_filter = Output/PartyModes/ChallengeMedley/Languages/<lang>.xml
+source_file = Output/PartyModes/ChallengeMedley/Languages/English.xml
+source_lang = English
+lang_map = en:English, cs:Czech, de:German, es:Spanish, fr:French, sv:Swedish, nl:Dutch, ast:Asturian, tr:Turkish, hu:Hungarian, it:Italian, ca:Catalan
+type = ANDROID
+
+[vocaluxe.game]
+file_filter = Output/Languages/<lang>.xml
+source_file = Output/Languages/English.xml
+source_lang = English
+lang_map = en:English, cs:Czech, de:German, es:Spanish, fr:French, sv:Swedish, nl:Dutch, ast:Asturian, tr:Turkish, hu:Hungarian, it:Italian, ca:Catalan
+type = ANDROID
+
+[vocaluxe.tictactoe]
+file_filter = Output/PartyModes/TicTacToe/Languages/<lang>.xml
+source_file = Output/PartyModes/TicTacToe/Languages/English.xml
+source_lang = English
+lang_map = en:English, cs:Czech, de:German, es:Spanish, fr:French, sv:Swedish, nl:Dutch, ast:Asturian, tr:Turkish, hu:Hungarian, it:Italian, ca:Catalan
+type = ANDROID
+
+[vocaluxe.webinterface]
+file_filter = Vocaluxe/Website/locales/<lang>.json
+source_file = Vocaluxe/Website/locales/en.json
+source_lang = en
+lang_map = en:English, cs:Czech, de:German, es:Spanish, fr:French, sv:Swedish, nl:Dutch, ast:Asturian, tr:Turkish, hu:Hungarian, it:Italian, ca:Catalan
+type = KEYVALUEJSON
+

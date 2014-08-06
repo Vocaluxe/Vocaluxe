@@ -190,8 +190,5 @@
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Animált Háttér</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Videó Előnézet</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Videó Éneklés Közben</string>
-  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Jelenlegi Háttérzene Videó Mutatása</string>
-  <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webkamerák</string>
-  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webkamera Tulajdonságok</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Hangerő</string>
 </resources>

@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Italiano</string>
+  <string name="TR_BUTTON_NEXT">Prossimo</string>
+  <string name="TR_BUTTON_BACK">Indietro</string>
+  <string name="TR_BUTTON_START">Inizia</string>
+  <string name="TR_BUTTON_EXIT">Esci</string>
+  <string name="TR_BUTTON_YES">Si</string>
+  <string name="TR_BUTTON_NO">No</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Numero di giocatori</string>
+  <string name="TR_SCREENCONFIG_NUMMICS">Numero di microfoni</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Selezione casuale</string>
+  <string name="TR_SCREENMAIN_TABLE_POS">Pos</string>
+  <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Nome</string>
+  <string name="TR_SCREENMAIN_TABLE_WON">Vittorie</string>
+  <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Punteggio</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Vuoi davvero uscire?</string>
+</resources>

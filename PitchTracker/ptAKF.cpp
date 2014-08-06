@@ -179,15 +179,11 @@ int PtAKF::_GetNote(float samples[_SampleCt], float* restrict maxVolume, float w
 	float maxWeight = 0.f;
 
 	//TODO: When using FFT this can be speed up a lot by only checking around the AKF peaks
-	#pragma omp parallel for schedule(static)
 	for (int toneIndex = 0; toneIndex <= _MaxHalfTone; toneIndex++){
 		float curWeight = _AnalyzeByTone(samples, samplesWindowed, toneIndex);
 
 		weights[toneIndex] = curWeight;
-	}
 
-	for (int toneIndex = 0; toneIndex <= _MaxHalfTone; toneIndex++){
-		float curWeight = weights[toneIndex];
 		if(curWeight > maxWeight){
 			maxWeight = curWeight;
 		}
