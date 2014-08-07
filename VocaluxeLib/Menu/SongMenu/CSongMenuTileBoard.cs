@@ -60,6 +60,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _LastKnownNumSongs;
         private int _LastKnownCategory = -1;
 
+        private bool _MouseWasInRect = false;
+
         public override float SelectedTileZoomFactor
         {
             get { return 1.2f; }
@@ -396,10 +398,12 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 int lastSelection = _SelectionNr;
                 int i = 0;
+                bool somethingSelected = false;
                 foreach (CStatic tile in _Tiles)
                 {
                     if (tile.Texture != _CoverBGTexture && CHelper.IsInBounds(tile.Rect, mouseEvent))
                     {
+                        somethingSelected = true;
                         _SelectionNr = i + _Offset;
                         if (!CBase.Songs.IsInCategory())
                             _PreviewNr = i + _Offset;
@@ -407,10 +411,13 @@ namespace VocaluxeLib.Menu.SongMenu
                     }
                     i++;
                 }
+                //Reset selection only if we moved out of the rect to avoid loosing it when selecting random songs
+                if (_MouseWasInRect && !somethingSelected)
+                    _SelectionNr = -1;
                 if (mouseEvent.Sender == ESender.WiiMote && _SelectionNr != lastSelection && _SelectionNr != -1)
                     CBase.Controller.SetRumble(0.050f);
             }
-
+            _MouseWasInRect = CHelper.IsInBounds(Rect, mouseEvent);
 
             if (mouseEvent.RB)
             {
@@ -428,7 +435,7 @@ namespace VocaluxeLib.Menu.SongMenu
             }
             else if (mouseEvent.LB)
             {
-                if (_SelectionNr >= 0)
+                if (_SelectionNr >= 0 && _MouseWasInRect)
                 {
                     if (CBase.Songs.IsInCategory())
                     {
