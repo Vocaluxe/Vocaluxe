@@ -41,6 +41,7 @@ namespace Vocaluxe.SongQueue
         private List<SSongQueueEntry> _SongQueue;
         private int _CurrentRound;
         private CPoints _Points;
+        private CSong _CurrentSong;
 
         #region Implementation
         public void Init()
@@ -124,6 +125,7 @@ namespace Vocaluxe.SongQueue
                     _SongQueue[_CurrentRound].GameMode);
             }
             _CurrentRound++;
+            _CurrentSong = CGameModes.Get(GetCurrentGameMode()).GetSong(_SongQueue[_CurrentRound].SongID);
         }
 
         public bool IsFinished()
@@ -155,7 +157,7 @@ namespace Vocaluxe.SongQueue
         /// <returns>Song of current round or null if there is none/game finished</returns>
         public CSong GetSong()
         {
-            return GetSong(_CurrentRound);
+            return _CurrentSong;
         }
 
         public int GetNumSongs()
@@ -170,6 +172,8 @@ namespace Vocaluxe.SongQueue
         /// <returns>Current song or null if out of bounds</returns>
         public CSong GetSong(int round)
         {
+            if (round == _CurrentRound)
+                return _CurrentSong;
             if (round < _SongQueue.Count && round >= 0)
                 return CSongs.GetSong(_SongQueue[round].SongID);
 
