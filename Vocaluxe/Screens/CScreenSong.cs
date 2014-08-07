@@ -79,7 +79,7 @@ namespace Vocaluxe.Screens
 
         private readonly List<string> _ButtonsJoker = new List<string>();
         private readonly List<string> _TextsPlayer = new List<string>();
-        private bool _SongOptionsActive;
+        private ESongOptionsView _CurSongOptionsView;
         private bool _PlaylistActive;
         private readonly List<EGameMode> _AvailableGameModes;
         private SScreenSongOptions _Sso;
@@ -167,7 +167,7 @@ namespace Vocaluxe.Screens
                 return true;
             }
 
-            if (!_SongOptionsActive)
+            if (_CurSongOptionsView == ESongOptionsView.None)
             {
                 if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode) && keyEvent.Mod != EModifier.Ctrl)
                 {
@@ -430,7 +430,7 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.RB)
             {
-                if (_SongOptionsActive)
+                if (_CurSongOptionsView != ESongOptionsView.None)
                 {
                     _ToggleSongOptions(ESongOptionsView.None);
                     return true;
@@ -468,7 +468,11 @@ namespace Vocaluxe.Screens
                 mouseEvent.Handled = true;
 
             if (mouseEvent.Handled)
+            {
+                if (_CurSongOptionsView != ESongOptionsView.None)
+                    _ToggleSongOptions(ESongOptionsView.None);
                 return true;
+            }
 
             if (mouseEvent.LB)
             {
@@ -572,9 +576,9 @@ namespace Vocaluxe.Screens
                     }
                 }
 
-                if (CSongs.NumSongsVisible > 0 && _SongMenu.GetPreviewSongNr() != -1 && !_Sso.Selection.PartyMode)
+                if (_SongMenu.GetPreviewSongNr() != -1 && !_Sso.Selection.PartyMode && _SongMenu.IsMouseOverSelectedSong(mouseEvent))
                 {
-                    _ToggleSongOptions(!_SongOptionsActive ? ESongOptionsView.Song : ESongOptionsView.None);
+                    _ToggleSongOptions(ESongOptionsView.Song);
                     return true;
                 }
             }
@@ -1147,13 +1151,13 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOpenOptions].Visible = true;
 
             if (view == ESongOptionsView.None)
-                _SongOptionsActive = false;
+                _CurSongOptionsView = view;
             else if (CSongs.IsInCategory)
-                _SongOptionsActive = CSongs.VisibleSongs.Count > 0;
+                _CurSongOptionsView = CSongs.VisibleSongs.Count > 0 ? view : ESongOptionsView.None;
             else
-                _SongOptionsActive = CSongs.Categories.Count > 0;
+                _CurSongOptionsView = CSongs.Categories.Count > 0 ? view : ESongOptionsView.None;
 
-            if (!_SongOptionsActive)
+            if (_CurSongOptionsView == ESongOptionsView.None)
                 return;
 
             //Has to be done here otherwhise changed playlist names will not appear until OnShow is called!
