@@ -118,7 +118,7 @@ namespace VocaluxeLib
         bool SongHasVideo();
         bool VideoEnabled();
 
-        void SetStatus(bool disabled);
+        void SetDisabled(bool disabled);
         void Next();
         void Previous();
         void Pause();
