@@ -114,6 +114,15 @@ namespace VocaluxeLib
             return Int32.TryParse(value, out result) ? result : 0;
         }
 
+        public static void SetRect(SRectF bounds, out SRectF rect, float rectAspect, EAspect aspect)
+        {
+            var bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
+            RectangleF rect2;
+            SetRect(bounds2, out rect2, rectAspect, aspect);
+
+            rect = new SRectF(rect2.X, rect2.Y, rect2.Width, rect2.Height, bounds.Z);
+        }
+
         public static void SetRect(RectangleF bounds, out RectangleF rect, float rectAspect, EAspect aspect)
         {
             float boundsW = bounds.Width;

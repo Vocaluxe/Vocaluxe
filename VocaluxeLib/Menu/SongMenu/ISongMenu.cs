@@ -25,34 +25,30 @@ namespace VocaluxeLib.Menu.SongMenu
         void OnShow();
         void OnHide();
 
-        void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions);
-        void HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions);
+        bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options);
+        bool HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions);
         void Draw();
 
-        int GetSelectedSong();
+        // The selected song is the song, where the mouse is hovering over
+        // The number is refering to the index in the visible songs array
+        int GetPreviewSongNr();
+        int GetSelectedSongNr();
         CStatic GetSelectedSongCover();
         void SetSelectedSong(int visibleSongNr);
+        bool IsMouseOverSelectedSong(SMouseEvent mEvent);
 
-        bool IsActive();
-        void SetActive(bool active);
-
-        bool IsMouseOverActualSelection(SMouseEvent mEvent);
-
+        // Same for categories
         int GetSelectedCategory();
         void SetSelectedCategory(int categoryNr);
-        int GetActualSelection();
+        bool EnterSelectedCategory();
 
-        bool EnterCurrentCategory();
-
-        bool IsSelected();
-        void SetSelected(bool selected);
-
-        bool IsVisible();
-        void SetVisible(bool visible);
-
-        bool IsSmallView();
-        void SetSmallView(bool smallView);
+        // The song that is currently playing (set e.g. by clicking on a song)
+        int GetPreviewSong();
 
         SRectF Rect { get; }
+        bool Active { get; set; }
+        bool Selected { get; set; }
+        bool Visible { get; set; }
+        bool SmallView { get; set; }
     }
 }
