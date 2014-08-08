@@ -125,7 +125,7 @@ namespace Vocaluxe.SongQueue
                     _SongQueue[_CurrentRound].GameMode);
             }
             _CurrentRound++;
-            _CurrentSong = CGameModes.Get(GetCurrentGameMode()).GetSong(_SongQueue[_CurrentRound].SongID);
+            _CurrentSong = IsFinished() ? null : CGameModes.Get(GetCurrentGameMode()).GetSong(_SongQueue[_CurrentRound].SongID);
         }
 
         public bool IsFinished()
