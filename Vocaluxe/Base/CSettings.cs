@@ -71,10 +71,12 @@ namespace Vocaluxe.Base
 
         public const int VertexBufferElements = 10000;
 
+        public static readonly string ProgramFolder = AppDomain.CurrentDomain.BaseDirectory;
+
 #if INSTALLER
         public static readonly string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vocaluxe");
 #else
-        public static readonly string DataPath = Environment.CurrentDirectory;
+        public static readonly string DataPath = ProgramFolder;
 #endif
 
         public const string Icon = "Vocaluxe.ico";
