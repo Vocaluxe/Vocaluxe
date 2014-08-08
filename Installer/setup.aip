@@ -22,16 +22,17 @@
     <ROW Property="CTRLS" Value="2"/>
     <ROW Property="DialogBitmap" Value="dialog" MultiBuildValue="DefaultBuild:dialog.jpg" Type="1" MsiKey="DialogBitmap"/>
     <ROW Property="Manufacturer" Value="Vocaluxe Team"/>
-    <ROW Property="ProductCode" Value="1031:{6F739A39-4176-4B04-963E-EB795C92500C} 1055:{435EE1A8-3B5C-491E-902D-C832B8A35EAF} 1033:{0E70A564-F59D-4416-9204-8251148FC233} 1043:{E3F45D8B-BCA9-4E3E-AB81-1C434123EA1A} 1036:{43220506-39C8-4036-9A80-19C0A31C602D} 1038:{BBC1C7B6-8D91-45E7-89A4-2AFAECCBDF83} 1053:{207C81B6-7382-48DB-BA8B-BD65A60163BC} 3082:{2F040ED1-129B-41C4-A69A-A83455899E5A} " Type="16"/>
+    <ROW Property="ProductCode" Value="1031:{6F739A39-4176-4B04-963E-EB795C92500C} 1055:{435EE1A8-3B5C-491E-902D-C832B8A35EAF} 1033:{0E70A564-F59D-4416-9204-8251148FC233} 1043:{E3F45D8B-BCA9-4E3E-AB81-1C434123EA1A} 1036:{43220506-39C8-4036-9A80-19C0A31C602D} 1038:{BBC1C7B6-8D91-45E7-89A4-2AFAECCBDF83} 1029:{56D06188-C172-4BBA-B9B2-275F7F969DEB} 1053:{207C81B6-7382-48DB-BA8B-BD65A60163BC} 3082:{2F040ED1-129B-41C4-A69A-A83455899E5A} 1040:{724EC6B8-3F68-45D9-A93D-11731BE438A5} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1031"/>
     <ROW Property="ProductName" Value="Vocaluxe"/>
-    <ROW Property="ProductVersion" Value="0.3.0.81" Type="32"/>
+    <ROW Property="ProductVersion" Value="0.3.0.83" Type="32"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{14926962-72E6-4B0C-96DC-FF13B5F9FB9F}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
     <ROW Property="WindowsType9XDisplay" MultiBuildValue="DefaultBuild:Windows 9x/ME" ValueLocId="-"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiDirsComponent">
+    <ROW Directory="AForge_Dir" Directory_Parent="Licenses_Dir" DefaultDir="AForge" DirectoryOptions="12"/>
     <ROW Directory="AI_Bin32_Dir" Directory_Parent="APPDIR" DefaultDir="x86" DirectoryOptions="12"/>
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1" DirectoryOptions="12"/>
     <ROW Directory="Ambient_Dir" Directory_Parent="Themes_Dir" DefaultDir="Ambient" DirectoryOptions="12"/>
@@ -52,9 +53,14 @@
     <ROW Directory="Languages_2_Dir" Directory_Parent="ChallengeMedley_Dir" DefaultDir="Langua~1|Languages" DirectoryOptions="12"/>
     <ROW Directory="Languages_3_Dir" Directory_Parent="TicTacToe_Dir" DefaultDir="Langua~1|Languages" DirectoryOptions="12"/>
     <ROW Directory="Languages_Dir" Directory_Parent="APPDIR" DefaultDir="Langua~1|Languages" DirectoryOptions="12"/>
+    <ROW Directory="Licenses_Dir" Directory_Parent="APPDIR" DefaultDir="Licenses" DirectoryOptions="12"/>
+    <ROW Directory="Newtonsoft.Json_Dir" Directory_Parent="Licenses_Dir" DefaultDir="Newton~1.Jso|Newtonsoft.Json" DirectoryOptions="12"/>
     <ROW Directory="PartyModes_Dir" Directory_Parent="APPDIR" DefaultDir="PartyM~1|PartyModes" DirectoryOptions="12"/>
+    <ROW Directory="PortAudioSharp_Dir" Directory_Parent="Licenses_Dir" DefaultDir="PortAu~2|PortAudio-Sharp" DirectoryOptions="12"/>
+    <ROW Directory="PortAudio_Dir" Directory_Parent="Licenses_Dir" DefaultDir="PortAu~1|PortAudio" DirectoryOptions="12"/>
     <ROW Directory="Profiles_Dir" Directory_Parent="APPDIR" DefaultDir="Profiles" DirectoryOptions="12"/>
     <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="Progra~1|ProgramMenuFolder" IsPseudoRoot="1"/>
+    <ROW Directory="QRCoder_Dir" Directory_Parent="Licenses_Dir" DefaultDir="QRCode~1|QR Coder" DirectoryOptions="12"/>
     <ROW Directory="Resources_1_Dir" Directory_Parent="Ambient_Dir" DefaultDir="Resour~1|Resources" DirectoryOptions="12"/>
     <ROW Directory="Resources_Dir" Directory_Parent="Blue_Dir" DefaultDir="Resour~1|Resources" DirectoryOptions="12"/>
     <ROW Directory="SHORTCUTDIR" Directory_Parent="TARGETDIR" DefaultDir="SHORTC~1|SHORTCUTDIR" IsPseudoRoot="1"/>
@@ -62,6 +68,7 @@
     <ROW Directory="Screens_2_Dir" Directory_Parent="TicTacToe_Dir" DefaultDir="Screens" DirectoryOptions="12"/>
     <ROW Directory="Screens_3_Dir" Directory_Parent="Ambient_Dir" DefaultDir="Screens" DirectoryOptions="12"/>
     <ROW Directory="Screens_Dir" Directory_Parent="Challenge_Dir" DefaultDir="Screens" DirectoryOptions="12"/>
+    <ROW Directory="SlimDx_Dir" Directory_Parent="Licenses_Dir" DefaultDir="SlimDx" DirectoryOptions="12"/>
     <ROW Directory="Sounds_Dir" Directory_Parent="APPDIR" DefaultDir="Sounds" DirectoryOptions="12"/>
     <ROW Directory="TARGETDIR" DefaultDir="SourceDir"/>
     <ROW Directory="Textures_1_Dir" Directory_Parent="ChallengeMedley_Dir" DefaultDir="Textures" DirectoryOptions="12"/>
@@ -69,12 +76,19 @@
     <ROW Directory="Textures_Dir" Directory_Parent="Challenge_Dir" DefaultDir="Textures" DirectoryOptions="12"/>
     <ROW Directory="Themes_Dir" Directory_Parent="APPDIR" DefaultDir="Themes" DirectoryOptions="12"/>
     <ROW Directory="TicTacToe_Dir" Directory_Parent="PartyModes_Dir" DefaultDir="TicTac~1|TicTacToe" DirectoryOptions="12"/>
+    <ROW Directory="Website_Dir" Directory_Parent="APPDIR" DefaultDir="Website" DirectoryOptions="12"/>
+    <ROW Directory="css_Dir" Directory_Parent="Website_Dir" DefaultDir="css" DirectoryOptions="12"/>
     <ROW Directory="gstreamer_4_Dir" Directory_Parent="AI_Bin32_Dir" DefaultDir="gstrea~1|gstreamer" DirectoryOptions="12"/>
     <ROW Directory="gstreamer_Dir" Directory_Parent="x64_Dir" DefaultDir="gstrea~1|gstreamer" DirectoryOptions="12"/>
+    <ROW Directory="images_Dir" Directory_Parent="css_Dir" DefaultDir="images" DirectoryOptions="12"/>
+    <ROW Directory="img_Dir" Directory_Parent="Website_Dir" DefaultDir="img" DirectoryOptions="12"/>
+    <ROW Directory="js_Dir" Directory_Parent="Website_Dir" DefaultDir="js" DirectoryOptions="12"/>
+    <ROW Directory="locales_Dir" Directory_Parent="Website_Dir" DefaultDir="locales" DirectoryOptions="12"/>
     <ROW Directory="x64_Dir" Directory_Parent="APPDIR" DefaultDir="x64" DirectoryOptions="12"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
     <ROW Component="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" ComponentId="{205A5E16-AC61-4E92-A690-BC6B6D046271}" Directory_="APPDIR" Attributes="4" KeyPath="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" Options="2"/>
+    <ROW Component="AForge" ComponentId="{F44AC7DE-EEB7-4EAB-B4ED-58019FAEA561}" Directory_="AForge_Dir" Attributes="0"/>
     <ROW Component="AForge.Video.DirectShow.dll" ComponentId="{4E6E1E83-970E-4A11-AF8C-EB7DEDE3C5D9}" Directory_="APPDIR" Attributes="0" KeyPath="AForge.Video.DirectShow.dll"/>
     <ROW Component="AForge.Video.dll" ComponentId="{66736744-2A16-4F54-9A56-803FC01B7AD1}" Directory_="APPDIR" Attributes="0" KeyPath="AForge.Video.dll"/>
     <ROW Component="AIShRegAnswer" ComponentId="{D981CDDA-4E12-4C4D-9278-A82E918AA8E5}" Directory_="APPDIR" Attributes="4" KeyPath="AIShRegAnswer"/>
@@ -128,16 +142,20 @@
     <ROW Component="GreenIntroIn.mp4" ComponentId="{7076906C-9787-4899-8D48-79FDB5E95B38}" Directory_="Ambient_Dir" Attributes="0" KeyPath="GreenIntroIn.mp4"/>
     <ROW Component="GreenIntroMid.mp4" ComponentId="{10BE9571-6A78-4F66-92D1-7BB2A25C7AE4}" Directory_="Ambient_Dir" Attributes="0" KeyPath="GreenIntroMid.mp4"/>
     <ROW Component="GreenIntroOut.mp4" ComponentId="{CA187E75-BAEC-4E2F-8F6D-1090E0411C05}" Directory_="Ambient_Dir" Attributes="0" KeyPath="GreenIntroOut.mp4"/>
-    <ROW Component="GstreamerHelper.dll" ComponentId="{D18B35FC-1A50-4073-BD91-0BCA4AA7C78F}" Directory_="gstreamer_Dir" Attributes="256" Condition="VersionNT64" KeyPath="GstreamerHelper.dll"/>
-    <ROW Component="GstreamerHelper.dll_5" ComponentId="{13C57239-F387-4725-A247-71722D95652F}" Directory_="gstreamer_4_Dir" Attributes="0" KeyPath="GstreamerHelper.dll_5"/>
     <ROW Component="Hz.mp3" ComponentId="{C4282D42-1123-4A5F-9695-CEC2C5FC62B0}" Directory_="Sounds_Dir" Attributes="0" KeyPath="Hz.mp3" Type="0"/>
     <ROW Component="InstallLanguage" ComponentId="{99868521-17CD-4428-824D-545E9E730EA1}" Directory_="APPDIR" Attributes="4" KeyPath="InstallLanguage" Options="1"/>
-    <ROW Component="LICENSENewtonsoft.Json.txt" ComponentId="{2D35D760-6D23-4A03-9465-411CE25CBFB0}" Directory_="APPDIR" Attributes="0" KeyPath="LICENSENewtonsoft.Json.txt" Type="0"/>
+    <ROW Component="Interop.NetFwTypeLib.dll" ComponentId="{CD0A4648-334B-429D-A621-C28FE42E8B72}" Directory_="APPDIR" Attributes="0" KeyPath="Interop.NetFwTypeLib.dll"/>
+    <ROW Component="LICENSE.txt" ComponentId="{F9118E63-02ED-41DA-A595-E539635669E9}" Directory_="Newtonsoft.Json_Dir" Attributes="0" KeyPath="LICENSE.txt_2" Type="0"/>
+    <ROW Component="LICENSE.txt_1" ComponentId="{254226D5-8F4B-4F80-A218-3EBB1D729904}" Directory_="PortAudio_Dir" Attributes="0" KeyPath="LICENSE.txt_3" Type="0"/>
+    <ROW Component="LICENSENewtonsoft.Json.txt" ComponentId="{2D35D760-6D23-4A03-9465-411CE25CBFB0}" Directory_="APPDIR" Attributes="0" KeyPath="LICENSE.txt" Type="0"/>
     <ROW Component="Languages" ComponentId="{F95A344F-E55C-4A9E-A4C1-C87986A08A3E}" Directory_="Languages_Dir" Attributes="0"/>
     <ROW Component="Languages_1" ComponentId="{FAF809DB-9696-4B96-97DB-7DE30A8CA68E}" Directory_="Languages_1_Dir" Attributes="0"/>
     <ROW Component="Languages_2" ComponentId="{BE6BE24D-F25B-4390-8573-82FE24ECEFA8}" Directory_="Languages_2_Dir" Attributes="0"/>
     <ROW Component="Languages_3" ComponentId="{EC43E465-834F-464B-82B6-E889EC64D70D}" Directory_="Languages_3_Dir" Attributes="0"/>
+    <ROW Component="License.txt" ComponentId="{C9BF4503-BE00-4CF5-BC36-610A30304734}" Directory_="SlimDx_Dir" Attributes="0" KeyPath="License.txt_5" Type="0"/>
+    <ROW Component="Licenses" ComponentId="{B2E30B03-4912-41D9-9E05-0799F82D8A85}" Directory_="Licenses_Dir" Attributes="0"/>
     <ROW Component="Logo.png" ComponentId="{2E8C0ABB-13CC-4A6E-A948-16C6E576F2EC}" Directory_="Graphics_Dir" Attributes="0" KeyPath="Logo.png" Type="0"/>
+    <ROW Component="Newtonsoft.Json" ComponentId="{0433930F-8A4C-4275-9F8D-4FBDEF8C44FB}" Directory_="Newtonsoft.Json_Dir" Attributes="0"/>
     <ROW Component="Newtonsoft.Json.dll" ComponentId="{F20947AC-7914-4EA0-AD43-F657A1CD89AC}" Directory_="APPDIR" Attributes="0" KeyPath="Newtonsoft.Json.dll"/>
     <ROW Component="OpenTK.Compatibility.dll" ComponentId="{0F3041E7-B21A-4F65-82BA-866D524DB1D5}" Directory_="APPDIR" Attributes="0" KeyPath="OpenTK.Compatibility.dll"/>
     <ROW Component="OpenTK.GLControl.dll" ComponentId="{6D360081-5F26-4D8D-834B-5C77EB5E65D1}" Directory_="APPDIR" Attributes="0" KeyPath="OpenTK.GLControl.dll"/>
@@ -147,8 +165,14 @@
     <ROW Component="PartyScreenChallengeMedleyConfig.xml" ComponentId="{975FB51D-2557-4862-B536-D49238B70894}" Directory_="Screens_1_Dir" Attributes="0" KeyPath="PartyScreenChallengeMedleyConfig.xml" Type="0"/>
     <ROW Component="PartyScreenTicTacToeConfig.xml" ComponentId="{1C3E6E08-3A03-43CA-9884-96555E6F0E98}" Directory_="Screens_2_Dir" Attributes="0" KeyPath="PartyScreenTicTacToeConfig.xml" Type="0"/>
     <ROW Component="PopupScreenPlayerControl.xml" ComponentId="{9B8F5BAC-CE05-40EE-B0BA-6483BE0A69C1}" Directory_="Screens_3_Dir" Attributes="0" KeyPath="PopupScreenPlayerControl.xml" Type="0"/>
+    <ROW Component="PortAudio" ComponentId="{E1120890-0F8E-42B3-9B70-9C5B8CA2551E}" Directory_="PortAudio_Dir" Attributes="0"/>
+    <ROW Component="PortAudioSharp" ComponentId="{63E3884E-C633-414E-AAC2-3D95D5F114BF}" Directory_="PortAudioSharp_Dir" Attributes="0"/>
+    <ROW Component="PortAudioSharp.dll" ComponentId="{96878131-572C-404E-B363-CB01BA8612C9}" Directory_="APPDIR" Attributes="0" KeyPath="PortAudioSharp.dll"/>
     <ROW Component="ProductInformation" ComponentId="{B7ED45AE-B941-4204-A97D-9403583B2126}" Directory_="APPDIR" Attributes="4" KeyPath="Version"/>
     <ROW Component="Profiles" ComponentId="{2B53B067-6EA2-4044-A016-4430EDF732BD}" Directory_="Profiles_Dir" Attributes="0"/>
+    <ROW Component="QRCoder" ComponentId="{3D40B575-ABC8-4BDD-B556-97CB9E516E77}" Directory_="QRCoder_Dir" Attributes="0"/>
+    <ROW Component="QRCoder.dll" ComponentId="{55ACB5D7-CE9C-4E5E-BB2E-488B7DFC7486}" Directory_="APPDIR" Attributes="0" KeyPath="QRCoder.dll"/>
+    <ROW Component="QRCoder.txt" ComponentId="{766E1DBF-A008-4974-9123-5AA65E3D829D}" Directory_="QRCoder_Dir" Attributes="0" KeyPath="QRCoder.txt" Type="0"/>
     <ROW Component="RedBG_Video.mp4" ComponentId="{17A93F6B-4F28-4725-9ED0-F460AED03F47}" Directory_="Ambient_Dir" Attributes="0" KeyPath="RedBG_Video.mp4"/>
     <ROW Component="RedIntroIn.mp4" ComponentId="{4D8493D8-8939-4AE6-9FF6-0659E405457C}" Directory_="Ambient_Dir" Attributes="0" KeyPath="RedIntroIn.mp4"/>
     <ROW Component="RedIntroMid.mp4" ComponentId="{9BE05B9D-0DD5-4EA5-B645-A756558C41FC}" Directory_="Ambient_Dir" Attributes="0" KeyPath="RedIntroMid.mp4"/>
@@ -162,8 +186,10 @@
     <ROW Component="Screens_1" ComponentId="{6E04A7FB-88DC-4E4D-B7BB-7E059AD3F097}" Directory_="Screens_1_Dir" Attributes="0"/>
     <ROW Component="Screens_2" ComponentId="{65D354BF-065F-4B9A-95BE-942D805421D7}" Directory_="Screens_2_Dir" Attributes="0"/>
     <ROW Component="Screens_3" ComponentId="{B23F8AD7-9E3F-479E-85B0-197ABC6378F4}" Directory_="Screens_3_Dir" Attributes="0"/>
+    <ROW Component="Security.Cryptography.dll" ComponentId="{8B249171-7CBE-4A85-8C3A-658A5AE5751B}" Directory_="APPDIR" Attributes="0" KeyPath="Security.Cryptography.dll"/>
     <ROW Component="SlimDX.dll_5" ComponentId="{3AAA4F21-79B6-4297-9653-63081F7B7A7A}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="SlimDX.dll_5"/>
     <ROW Component="SlimDX.dll_6" ComponentId="{E83520D9-C440-477E-9240-E6CB729F4847}" Directory_="x64_Dir" Attributes="256" KeyPath="SlimDX.dll_6"/>
+    <ROW Component="SlimDx" ComponentId="{CEEDC2F0-ACD0-421C-AE79-4DEFCF47A87A}" Directory_="SlimDx_Dir" Attributes="0"/>
     <ROW Component="Sounds" ComponentId="{62CC4D06-679F-4212-9AA6-90C4B4BC0380}" Directory_="Sounds_Dir" Attributes="0"/>
     <ROW Component="System.Data.SQLite.dll" ComponentId="{ACEBFDF6-D849-4A33-81EF-A9335B7E08D2}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="System.Data.SQLite.dll"/>
     <ROW Component="System.Data.SQLite.dll_3" ComponentId="{9D0F9686-FD04-41CB-91EF-0A6C3A254DFA}" Directory_="x64_Dir" Attributes="256" KeyPath="System.Data.SQLite.dll_3"/>
@@ -180,23 +206,38 @@
     <ROW Component="VocaluxeLib.dll" ComponentId="{33F677DE-94AB-4158-B3BA-4CFA27A246A4}" Directory_="APPDIR" Attributes="0" KeyPath="VocaluxeLib.dll"/>
     <ROW Component="Vocaluxe_x64.exe" ComponentId="{1F86CC8D-38EA-478B-A521-383F94948952}" Directory_="APPDIR" Attributes="256" Condition="VersionNT64" KeyPath="Vocaluxe_x64.exe"/>
     <ROW Component="Vocaluxe_x64.exe.config" ComponentId="{BD0AF061-99D9-47C7-AFA7-0D3E186C4D63}" Directory_="APPDIR" Attributes="256" Condition="VersionNT64" KeyPath="Vocaluxe_x64.exe.config"/>
+    <ROW Component="Website" ComponentId="{E3B965B3-6208-4E55-9072-8C448883428A}" Directory_="Website_Dir" Attributes="0"/>
     <ROW Component="YellowBG_Video.mp4" ComponentId="{F16B8F96-1C30-42FC-A76A-97CF21897D62}" Directory_="Ambient_Dir" Attributes="0" KeyPath="YellowBG_Video.mp4"/>
     <ROW Component="YellowIntroIn.mp4" ComponentId="{15BA1636-E639-4C5F-9867-C301AAEC26AA}" Directory_="Ambient_Dir" Attributes="0" KeyPath="YellowIntroIn.mp4"/>
     <ROW Component="YellowIntroMid.mp4" ComponentId="{E26595CD-A339-4935-9CD8-3C30833E8C83}" Directory_="Ambient_Dir" Attributes="0" KeyPath="YellowIntroMid.mp4"/>
     <ROW Component="YellowIntroOut.mp4" ComponentId="{983F9279-79B5-4FC1-91D0-91D3D66335CD}" Directory_="Ambient_Dir" Attributes="0" KeyPath="YellowIntroOut.mp4"/>
     <ROW Component="acinerella.dll_5" ComponentId="{FBAA2382-80A4-410E-98F6-97CB06640AE4}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="acinerella.dll_5"/>
     <ROW Component="acinerella.dll_6" ComponentId="{5DEA430C-326F-43C0-B83F-3DF6C0ADBED7}" Directory_="x64_Dir" Attributes="256" KeyPath="acinerella.dll_6"/>
+    <ROW Component="addPlaylist.png" ComponentId="{585D9F94-3620-4560-8DD6-75762D587813}" Directory_="img_Dir" Attributes="0" KeyPath="addPlaylist.png" Type="0"/>
+    <ROW Component="ajaxloader.gif" ComponentId="{3E1C1077-416C-4E66-9B34-9F75A6963A21}" Directory_="images_Dir" Attributes="0" KeyPath="ajaxloader.gif" Type="0"/>
     <ROW Component="avcodec54.dll_5" ComponentId="{980599DC-BB86-4693-9C0D-CDD65EE48DC3}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="avcodec54.dll_5"/>
     <ROW Component="avcodec54.dll_6" ComponentId="{F8F0E5C9-0F88-429F-8C2E-E3EC4459C3E4}" Directory_="x64_Dir" Attributes="256" KeyPath="avcodec54.dll_6"/>
     <ROW Component="avformat54.dll_5" ComponentId="{747F5244-4187-4E1B-A136-493701277F54}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="avformat54.dll_5"/>
     <ROW Component="avformat54.dll_6" ComponentId="{C243E3FF-BAAA-48DA-9711-8F416D40CFA6}" Directory_="x64_Dir" Attributes="256" KeyPath="avformat54.dll_6"/>
     <ROW Component="avutil52.dll_5" ComponentId="{CB738F3A-9126-4785-A0D1-11C8E5B807C7}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="avutil52.dll_5"/>
     <ROW Component="avutil52.dll_6" ComponentId="{8DEFAFE6-451C-4BF7-B116-0CCD67FFB497}" Directory_="x64_Dir" Attributes="256" KeyPath="avutil52.dll_6"/>
+    <ROW Component="copyright.txt" ComponentId="{8A49A724-A0ED-438B-BBC1-E53AAF91CF1C}" Directory_="PortAudioSharp_Dir" Attributes="0" KeyPath="copyright.txt" Type="0"/>
+    <ROW Component="cs.json" ComponentId="{7BB106A9-E26B-4162-AF75-602D9EBD6AE8}" Directory_="locales_Dir" Attributes="0" KeyPath="cs.json" Type="0"/>
+    <ROW Component="css" ComponentId="{4382981E-81CA-470E-8DF1-55A9CF3F814C}" Directory_="css_Dir" Attributes="0"/>
     <ROW Component="decades.xcf" ComponentId="{E0C77AE2-6192-4B17-BBF0-CD2D5B619155}" Directory_="Resources_Dir" Attributes="0" KeyPath="decades.xcf" Type="0"/>
+    <ROW Component="glibsharp.dll" ComponentId="{CFF6C74B-8820-4886-9F29-28E683792064}" Directory_="APPDIR" Attributes="0" KeyPath="glibsharp.dll"/>
+    <ROW Component="gpl3.0.txt" ComponentId="{95A03EDD-DD51-472D-9C9D-E6352A0ABC82}" Directory_="AForge_Dir" Attributes="0" KeyPath="gpl3.0.txt" Type="0"/>
     <ROW Component="gstreamer" ComponentId="{D20097F1-028E-43ED-BE11-5965B45AD93A}" Directory_="gstreamer_4_Dir" Attributes="0"/>
     <ROW Component="gstreamer_1" ComponentId="{9DABA2A5-D693-499C-9F58-122D15ACC3DF}" Directory_="gstreamer_Dir" Attributes="0"/>
+    <ROW Component="gstreamersharp.dll" ComponentId="{8FB927DE-6137-4C37-9872-A1333016D9B1}" Directory_="APPDIR" Attributes="0" KeyPath="gstreamersharp.dll"/>
     <ROW Component="hidapi.dll_5" ComponentId="{D28B4EA3-DD27-49A8-B6A4-8C05511CD30B}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="hidapi.dll_5"/>
     <ROW Component="hidapi.dll_6" ComponentId="{15E8CB32-8D5F-4556-97F5-7DA1D2423A75}" Directory_="x64_Dir" Attributes="256" KeyPath="hidapi.dll_6"/>
+    <ROW Component="i18next1.7.1.min.js" ComponentId="{F290A0DF-59EA-44C9-8AC3-729B918FEC34}" Directory_="js_Dir" Attributes="0" KeyPath="i18next1.7.1.min.js" Type="0"/>
+    <ROW Component="images" ComponentId="{C493FDEB-5C3C-41F5-B809-274A5647E18C}" Directory_="images_Dir" Attributes="0"/>
+    <ROW Component="img" ComponentId="{D1E54412-68D8-4583-AA36-A986128BAD1A}" Directory_="img_Dir" Attributes="0"/>
+    <ROW Component="index.html" ComponentId="{536857CF-A121-4A49-9AE1-CD57BC5858EF}" Directory_="Website_Dir" Attributes="0" KeyPath="index.html" Type="0"/>
+    <ROW Component="jquery.mobile1.3.2.min.css" ComponentId="{1CBFE51F-D166-4170-BE09-71FEB4F99BBA}" Directory_="css_Dir" Attributes="0" KeyPath="jquery.mobile1.3.2.min.css" Type="0"/>
+    <ROW Component="js" ComponentId="{BFF7823A-684B-4890-967F-C038320A1F31}" Directory_="js_Dir" Attributes="0"/>
     <ROW Component="libFLAC8.dll" ComponentId="{9CCA096E-CF77-4A6C-82AD-61EB4566151F}" Directory_="gstreamer_Dir" Attributes="256" Condition="VersionNT64" KeyPath="libFLAC8.dll"/>
     <ROW Component="libFLAC8.dll_5" ComponentId="{0E631DE0-B0D4-4D9D-AE64-6E94AD3DDFF5}" Directory_="gstreamer_4_Dir" Attributes="0" KeyPath="libFLAC8.dll_5"/>
     <ROW Component="liba520.dll" ComponentId="{BB6E37E1-80D5-4464-A41F-A2AA7F2C1F81}" Directory_="gstreamer_Dir" Attributes="256" Condition="VersionNT64" KeyPath="liba520.dll"/>
@@ -649,9 +690,8 @@
     <ROW Component="libxml22.dll_5" ComponentId="{8B0B7054-E4E6-4B4F-AD01-E560CD74617A}" Directory_="gstreamer_4_Dir" Attributes="0" KeyPath="libxml22.dll_5"/>
     <ROW Component="libz.dll" ComponentId="{37A0E801-1B23-4370-9D93-FD7D6AAD2DBF}" Directory_="gstreamer_Dir" Attributes="256" Condition="VersionNT64" KeyPath="libz.dll"/>
     <ROW Component="libz.dll_5" ComponentId="{FE190FCA-C8A0-4D9A-A2D7-8C3BB9CF770B}" Directory_="gstreamer_4_Dir" Attributes="0" KeyPath="libz.dll_5"/>
+    <ROW Component="locales" ComponentId="{0E263FC0-1ADF-4EF4-B02D-183BF7F2C4B2}" Directory_="locales_Dir" Attributes="0"/>
     <ROW Component="png" ComponentId="{804F4EFE-B9A8-4543-ADE3-4ADA12AAFF2F}" Directory_="Blue_Dir" Attributes="0" KeyPath="png" Type="0"/>
-    <ROW Component="portaudio_x64.dll_2" ComponentId="{11CEBA0F-AD06-4F02-85EF-E0207F825094}" Directory_="x64_Dir" Attributes="256" KeyPath="portaudio_x64.dll_2"/>
-    <ROW Component="portaudio_x86.dll" ComponentId="{FE7B0807-785E-4A82-885D-A5F6384DF763}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="portaudio_x86.dll"/>
     <ROW Component="swresample0.dll_5" ComponentId="{47770C0D-03C4-4D7B-BB80-D0BB89D87951}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="swresample0.dll_5"/>
     <ROW Component="swresample0.dll_6" ComponentId="{9737B32B-C0AC-4569-B0F4-0E693D69CF95}" Directory_="x64_Dir" Attributes="256" KeyPath="swresample0.dll_6"/>
     <ROW Component="swscale2.dll_5" ComponentId="{C636390C-6929-49B4-ABD2-BE83FBF12354}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="swscale2.dll_5"/>
@@ -661,9 +701,9 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
     <ROW Feature="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" Title="Visual C++ 2008 SP1 Redistributable" Description="Visual C++ 2008 SP1 Redistributable" Display="21" Level="1" Attributes="0" Components="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C"/>
-    <ROW Feature="AI32BitFiles" Title="32-bit" Description="32-bit Executables and Libraries" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="GstreamerHelper.dll_5 SQLite.Interop.dll_5 SlimDX.dll_5 System.Data.SQLite.dll Vocaluxe.exe.config Vocaluxe.exe_2 acinerella.dll_5 avcodec54.dll_5 avformat54.dll_5 avutil52.dll_5 hidapi.dll_5 libFLAC8.dll_5 liba520.dll_5 libass4.dll_5 libbz2.dll_5 libcairo2.dll_5 libcairogobject2.dll_5 libcairoscriptinterpreter2.dll_5 libcharset1.dll_5 libdca0.dll_5 libdv4.dll_5 libdvdnav4.dll_5 libdvdnavmini4.dll_5 libdvdread4.dll_5 libexpat1.dll_5 libfaad2.dll_5 libffi6.dll_3 libfontconfig1.dll_5 libfreetype6.dll_5 libfribidi0.dll_5 libgcc_s_sjlj1.dll_5 libgdk_pixbuf2.00.dll_5 libgio2.00.dll_5 libglib2.00.dll_5 libgmodule2.00.dll_5 libgnutls28.dll_5 libgnutlsopenssl27.dll_5 libgnutlsxx28.dll_5 libgobject2.00.dll_5 libgomp1.dll_3 libgsta52dec.dll_5 libgstadder.dll_5 libgstadpcmdec.dll_5 libgstadpcmenc.dll_5 libgstalaw.dll_5 libgstalpha.dll_5 libgstalphacolor.dll_5 libgstamrnb.dll_5 libgstamrwbdec.dll_5 libgstapetag.dll_5 libgstapp.dll_5 libgstapp1.00.dll_5 libgstasf.dll_5 libgstasfmux.dll_5 libgstassrender.dll_5 libgstaudio1.00.dll_5 libgstaudioconvert.dll_5 libgstaudiofx.dll_5 libgstaudioparsers.dll_5 libgstaudiorate.dll_5 libgstaudioresample.dll_5 libgstaudiotestsrc.dll_5 libgstaudiovisualizers.dll_5 libgstauparse.dll_5 libgstautoconvert.dll_5 libgstautodetect.dll_5 libgstavi.dll_5 libgstbase1.00.dll_5 libgstbasecamerabinsrc1.00.dll_5 libgstbayer.dll_5 libgstcairo.dll_3 libgstcamerabin2.dll_5 libgstcodecparsers1.00.dll_5 libgstcoloreffects.dll_5 libgstcontroller1.00.dll_5 libgstcoreelements.dll_5 libgstcutter.dll_5 libgstd3dvideosink.dll_5 libgstdataurisrc.dll_5 libgstdebug.dll_5 libgstdeinterlace.dll_5 libgstdirectsoundsink.dll_5 libgstdtmf.dll_5 libgstdtsdec.dll_5 libgstdv.dll_5 libgstdvbsuboverlay.dll_5 libgstdvdlpcmdec.dll_5 libgstdvdread.dll_5 libgstdvdspu.dll_5 libgsteffectv.dll_5 libgstencodebin.dll_5 libgstequalizer.dll_5 libgstfaad.dll_5 libgstfft1.00.dll_5 libgstfieldanalysis.dll_5 libgstflac.dll_5 libgstflv.dll_5 libgstflxdec.dll_5 libgstfragmented.dll_5 libgstfrei0r.dll_5 libgstgaudieffects.dll_5 libgstgdkpixbuf.dll_5 libgstgeometrictransform.dll_5 libgstgio.dll_5 libgstgoom.dll_5 libgstgoom2k1.dll_5 libgsticydemux.dll_5 libgstid3demux.dll_5 libgstid3tag.dll_5 libgstimagefreeze.dll_5 libgstinterlace.dll_5 libgstinterleave.dll_5 libgstisomp4.dll_5 libgstjpeg.dll_5 libgstjpegformat.dll_5 libgstlevel.dll_5 libgstlibav.dll_5 libgstlibvisual.dll_5 libgstliveadder.dll_5 libgstmad.dll_5 libgstmatroska.dll_5 libgstmms.dll_5 libgstmpeg2dec.dll_5 libgstmpegpsdemux.dll_5 libgstmpegpsmux.dll_5 libgstmpegtsdemux.dll_5 libgstmpegtsmux.dll_5 libgstmulaw.dll_5 libgstmultifile.dll_5 libgstmultipart.dll_5 libgstnet1.00.dll_5 libgstogg.dll_5 libgstopus.dll_5 libgstpango.dll_5 libgstpbutils1.00.dll_5 libgstpcapparse.dll_5 libgstphotography1.00.dll_5 libgstplayback.dll_5 libgstpng.dll_5 libgstpnm.dll_5 libgstrawparse.dll_5 libgstreamer1.00.dll_5 libgstremovesilence.dll_5 libgstreplaygain.dll_5 libgstresindvd.dll_5 libgstriff1.00.dll_5 libgstrmdemux.dll_5 libgstrtp.dll_5 libgstrtp1.00.dll_5 libgstrtpmanager.dll_5 libgstrtsp.dll_5 libgstrtsp1.00.dll_5 libgstscaletempoplugin.dll_5 libgstschro.dll_5 libgstsdp1.00.dll_5 libgstsdpelem.dll_5 libgstsegmentclip.dll_5 libgstshapewipe.dll_5 libgstsiren.dll_5 libgstsmooth.dll_5 libgstsmpte.dll_5 libgstsouphttpsrc.dll_5 libgstspectrum.dll_5 libgstspeed.dll_5 libgstspeex.dll_5 libgstsubenc.dll_5 libgstsubparse.dll_5 libgsttag1.00.dll_5 libgsttaglib.dll_5 libgsttcp.dll_5 libgsttheora.dll_5 libgsttypefindfunctions.dll_5 libgstudp.dll_5 libgstvideo1.00.dll_5 libgstvideobox.dll_5 libgstvideoconvert.dll_5 libgstvideocrop.dll_5 libgstvideofilter.dll_5 libgstvideomixer.dll_5 libgstvideoparsersbad.dll_5 libgstvideorate.dll_5 libgstvideoscale.dll_5 libgstvideotestsrc.dll_5 libgstvolume.dll_5 libgstvorbis.dll_5 libgstvpx.dll_5 libgstwavenc.dll_5 libgstwavpack.dll_5 libgstwavparse.dll_5 libgstx264.dll_3 libgstxingmux.dll_5 libgsty4mdec.dll_5 libgsty4menc.dll_5 libgthread2.00.dll_5 libhogweed22.dll_5 libiconv2.dll_5 libintl8.dll_5 libjpeg8.dll_5 libkate1.dll_5 libmms0.dll_5 libmpeg20.dll_5 libmpeg2convert0.dll_5 libnettle44.dll_5 libogg0.dll_5 liboggkate1.dll_5 libopencoreamrnb0.dll_5 libopencoreamrwb0.dll_5 libopus0.dll_5 liborc0.40.dll_5 liborctest0.40.dll_5 libpango1.00.dll_5 libpangocairo1.00.dll_5 libpangoft21.00.dll_5 libpangowin321.00.dll_5 libpixman10.dll_5 libpng1515.dll_5 libschroedinger1.00.dll_5 libsoup2.41.dll_5 libspeex1.dll_5 libspeexdsp1.dll_5 libstdc6.dll_5 libtag.dll_5 libtag_c.dll_5 libtasn13.dll_5 libtheora0.dll_5 libtheoradec1.dll_5 libtheoraenc1.dll_5 libtiff5.dll_5 libvisual0.40.dll_5 libvorbis0.dll_5 libvorbisenc2.dll_5 libvorbisfile3.dll_5 libwavpack1.dll_5 libwinpthread1.dll_3 libx264125.dll_3 libxml22.dll_5 libz.dll_5 portaudio_x86.dll swresample0.dll_5 swscale2.dll_5"/>
-    <ROW Feature="AI64BitFiles" Title="64-bit" Description="64-bit Executables and Libraries" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="GstreamerHelper.dll SQLite.Interop.dll_6 SlimDX.dll_6 System.Data.SQLite.dll_3 Vocaluxe_x64.exe Vocaluxe_x64.exe.config acinerella.dll_6 avcodec54.dll_6 avformat54.dll_6 avutil52.dll_6 hidapi.dll_6 libFLAC8.dll liba520.dll libass4.dll libbz2.dll libcairo2.dll libcairogobject2.dll libcairoscriptinterpreter2.dll libcharset1.dll libdca0.dll libdv4.dll libdvdnav4.dll libdvdnavmini4.dll libdvdread4.dll libexpat1.dll libfaad2.dll libffi6.dll libfontconfig1.dll libfreetype6.dll libfribidi0.dll libgcc_s_sjlj1.dll libgdk_pixbuf2.00.dll libgio2.00.dll libglib2.00.dll libgmodule2.00.dll libgnutls28.dll libgnutlsopenssl27.dll libgnutlsxx28.dll libgobject2.00.dll libgomp1.dll libgsta52dec.dll libgstadder.dll libgstadpcmdec.dll libgstadpcmenc.dll libgstalaw.dll libgstalpha.dll libgstalphacolor.dll libgstamrnb.dll libgstamrwbdec.dll libgstapetag.dll libgstapp.dll libgstapp1.00.dll libgstasf.dll libgstasfmux.dll libgstassrender.dll libgstaudio1.00.dll libgstaudioconvert.dll libgstaudiofx.dll libgstaudioparsers.dll libgstaudiorate.dll libgstaudioresample.dll libgstaudiotestsrc.dll libgstaudiovisualizers.dll libgstauparse.dll libgstautoconvert.dll libgstautodetect.dll libgstavi.dll libgstbase1.00.dll libgstbasecamerabinsrc1.00.dll libgstbayer.dll libgstcairo.dll libgstcamerabin2.dll libgstcodecparsers1.00.dll libgstcoloreffects.dll libgstcontroller1.00.dll libgstcoreelements.dll libgstcutter.dll libgstd3dvideosink.dll libgstdataurisrc.dll libgstdebug.dll libgstdeinterlace.dll libgstdirectsoundsink.dll libgstdtmf.dll libgstdtsdec.dll libgstdv.dll libgstdvbsuboverlay.dll libgstdvdlpcmdec.dll libgstdvdread.dll libgstdvdspu.dll libgsteffectv.dll libgstencodebin.dll libgstequalizer.dll libgstfaad.dll libgstfft1.00.dll libgstfieldanalysis.dll libgstflac.dll libgstflv.dll libgstflxdec.dll libgstfragmented.dll libgstfrei0r.dll libgstgaudieffects.dll libgstgdkpixbuf.dll libgstgeometrictransform.dll libgstgio.dll libgstgoom.dll libgstgoom2k1.dll libgsticydemux.dll libgstid3demux.dll libgstid3tag.dll libgstimagefreeze.dll libgstinterlace.dll libgstinterleave.dll libgstisomp4.dll libgstjpeg.dll libgstjpegformat.dll libgstlevel.dll libgstlibav.dll libgstlibvisual.dll libgstliveadder.dll libgstmad.dll libgstmatroska.dll libgstmms.dll libgstmpeg2dec.dll libgstmpegpsdemux.dll libgstmpegpsmux.dll libgstmpegtsdemux.dll libgstmpegtsmux.dll libgstmulaw.dll libgstmultifile.dll libgstmultipart.dll libgstnet1.00.dll libgstogg.dll libgstopus.dll libgstpango.dll libgstpbutils1.00.dll libgstpcapparse.dll libgstphotography1.00.dll libgstplayback.dll libgstpng.dll libgstpnm.dll libgstrawparse.dll libgstreamer1.00.dll libgstremovesilence.dll libgstreplaygain.dll libgstresindvd.dll libgstriff1.00.dll libgstrmdemux.dll libgstrtp.dll libgstrtp1.00.dll libgstrtpmanager.dll libgstrtsp.dll libgstrtsp1.00.dll libgstscaletempoplugin.dll libgstschro.dll libgstsdp1.00.dll libgstsdpelem.dll libgstsegmentclip.dll libgstshapewipe.dll libgstsiren.dll libgstsmooth.dll libgstsmpte.dll libgstsouphttpsrc.dll libgstspectrum.dll libgstspeed.dll libgstspeex.dll libgstsubenc.dll libgstsubparse.dll libgsttag1.00.dll libgsttaglib.dll libgsttcp.dll libgsttheora.dll libgsttypefindfunctions.dll libgstudp.dll libgstvideo1.00.dll libgstvideobox.dll libgstvideoconvert.dll libgstvideocrop.dll libgstvideofilter.dll libgstvideomixer.dll libgstvideoparsersbad.dll libgstvideorate.dll libgstvideoscale.dll libgstvideotestsrc.dll libgstvolume.dll libgstvorbis.dll libgstvpx.dll libgstwavenc.dll libgstwavpack.dll libgstwavparse.dll libgstx264.dll libgstxingmux.dll libgsty4mdec.dll libgsty4menc.dll libgthread2.00.dll libhogweed22.dll libiconv2.dll libintl8.dll libjpeg8.dll libkate1.dll libmms0.dll libmpeg20.dll libmpeg2convert0.dll libnettle44.dll libogg0.dll liboggkate1.dll libopencoreamrnb0.dll libopencoreamrwb0.dll libopus0.dll liborc0.40.dll liborctest0.40.dll libpango1.00.dll libpangocairo1.00.dll libpangoft21.00.dll libpangowin321.00.dll libpixman10.dll libpng1515.dll libschroedinger1.00.dll libsoup2.41.dll libspeex1.dll libspeexdsp1.dll libstdc6.dll libtag.dll libtag_c.dll libtasn13.dll libtheora0.dll libtheoradec1.dll libtheoraenc1.dll libtiff5.dll libvisual0.40.dll libvorbis0.dll libvorbisenc2.dll libvorbisfile3.dll libwavpack1.dll libwinpthread1.dll libx264125.dll libxml22.dll libz.dll portaudio_x64.dll_2 swresample0.dll_6 swscale2.dll_6"/>
-    <ROW Feature="AIOtherFiles" Title="Common" Description="Shared Resource and Regular Files" Display="5" Level="1" Directory_="APPDIR" Attributes="16" Components="AForge.Video.DirectShow.dll AForge.Video.dll AIShRegAnswer Ambient Ambient.xml Avatar_f.png Background.pdn BackgroundMusic Blue Blue.xml Button.png Button.png_1 Button.png_2 Button.png_3 CChallengeRounds.cs CChallengeRounds.cs_1 CPartyModeTicTacToe.cs Challenge Challenge.xml ChallengeMedley Changelog Changelog_ScreenHighscore.txt ClientServerLib.dll Code Code_1 Code_2 Community.CsharpSqlite.dll Cover DJadWalkingAloneLicense.txt Dutch.xml Dutch.xml_1 Dutch.xml_2 Dutch.xml_3 Fonts Fonts.xml FreeSans FreeSans.ttf Graphics Hz.mp3 InstallLanguage LICENSENewtonsoft.Json.txt Languages Languages_1 Languages_2 Languages_3 Logo.png Newtonsoft.Json.dll OpenTK.Compatibility.dll OpenTK.GLControl.dll OpenTK.dll PartyModes PartyScreenChallengeConfig.xml PartyScreenChallengeMedleyConfig.xml PartyScreenTicTacToeConfig.xml PopupScreenPlayerControl.xml Profiles Resources Resources_1 SHORTCUTDIR Screens Screens_1 Screens_2 Screens_3 Sounds Textures Textures_1 Textures_2 Theme.xml Theme.xml_1 Theme.xml_2 Themes TicTacToe VocaluxeLib.dll decades.xcf gstreamer gstreamer_1 png x64 x86"/>
+    <ROW Feature="AI32BitFiles" Title="32-bit" Description="32-bit Executables and Libraries" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="SQLite.Interop.dll_5 SlimDX.dll_5 System.Data.SQLite.dll Vocaluxe.exe.config Vocaluxe.exe_2 acinerella.dll_5 avcodec54.dll_5 avformat54.dll_5 avutil52.dll_5 hidapi.dll_5 libFLAC8.dll_5 liba520.dll_5 libass4.dll_5 libbz2.dll_5 libcairo2.dll_5 libcairogobject2.dll_5 libcairoscriptinterpreter2.dll_5 libcharset1.dll_5 libdca0.dll_5 libdv4.dll_5 libdvdnav4.dll_5 libdvdnavmini4.dll_5 libdvdread4.dll_5 libexpat1.dll_5 libfaad2.dll_5 libffi6.dll_3 libfontconfig1.dll_5 libfreetype6.dll_5 libfribidi0.dll_5 libgcc_s_sjlj1.dll_5 libgdk_pixbuf2.00.dll_5 libgio2.00.dll_5 libglib2.00.dll_5 libgmodule2.00.dll_5 libgnutls28.dll_5 libgnutlsopenssl27.dll_5 libgnutlsxx28.dll_5 libgobject2.00.dll_5 libgomp1.dll_3 libgsta52dec.dll_5 libgstadder.dll_5 libgstadpcmdec.dll_5 libgstadpcmenc.dll_5 libgstalaw.dll_5 libgstalpha.dll_5 libgstalphacolor.dll_5 libgstamrnb.dll_5 libgstamrwbdec.dll_5 libgstapetag.dll_5 libgstapp.dll_5 libgstapp1.00.dll_5 libgstasf.dll_5 libgstasfmux.dll_5 libgstassrender.dll_5 libgstaudio1.00.dll_5 libgstaudioconvert.dll_5 libgstaudiofx.dll_5 libgstaudioparsers.dll_5 libgstaudiorate.dll_5 libgstaudioresample.dll_5 libgstaudiotestsrc.dll_5 libgstaudiovisualizers.dll_5 libgstauparse.dll_5 libgstautoconvert.dll_5 libgstautodetect.dll_5 libgstavi.dll_5 libgstbase1.00.dll_5 libgstbasecamerabinsrc1.00.dll_5 libgstbayer.dll_5 libgstcairo.dll_3 libgstcamerabin2.dll_5 libgstcodecparsers1.00.dll_5 libgstcoloreffects.dll_5 libgstcontroller1.00.dll_5 libgstcoreelements.dll_5 libgstcutter.dll_5 libgstd3dvideosink.dll_5 libgstdataurisrc.dll_5 libgstdebug.dll_5 libgstdeinterlace.dll_5 libgstdirectsoundsink.dll_5 libgstdtmf.dll_5 libgstdtsdec.dll_5 libgstdv.dll_5 libgstdvbsuboverlay.dll_5 libgstdvdlpcmdec.dll_5 libgstdvdread.dll_5 libgstdvdspu.dll_5 libgsteffectv.dll_5 libgstencodebin.dll_5 libgstequalizer.dll_5 libgstfaad.dll_5 libgstfft1.00.dll_5 libgstfieldanalysis.dll_5 libgstflac.dll_5 libgstflv.dll_5 libgstflxdec.dll_5 libgstfragmented.dll_5 libgstfrei0r.dll_5 libgstgaudieffects.dll_5 libgstgdkpixbuf.dll_5 libgstgeometrictransform.dll_5 libgstgio.dll_5 libgstgoom.dll_5 libgstgoom2k1.dll_5 libgsticydemux.dll_5 libgstid3demux.dll_5 libgstid3tag.dll_5 libgstimagefreeze.dll_5 libgstinterlace.dll_5 libgstinterleave.dll_5 libgstisomp4.dll_5 libgstjpeg.dll_5 libgstjpegformat.dll_5 libgstlevel.dll_5 libgstlibav.dll_5 libgstlibvisual.dll_5 libgstliveadder.dll_5 libgstmad.dll_5 libgstmatroska.dll_5 libgstmms.dll_5 libgstmpeg2dec.dll_5 libgstmpegpsdemux.dll_5 libgstmpegpsmux.dll_5 libgstmpegtsdemux.dll_5 libgstmpegtsmux.dll_5 libgstmulaw.dll_5 libgstmultifile.dll_5 libgstmultipart.dll_5 libgstnet1.00.dll_5 libgstogg.dll_5 libgstopus.dll_5 libgstpango.dll_5 libgstpbutils1.00.dll_5 libgstpcapparse.dll_5 libgstphotography1.00.dll_5 libgstplayback.dll_5 libgstpng.dll_5 libgstpnm.dll_5 libgstrawparse.dll_5 libgstreamer1.00.dll_5 libgstremovesilence.dll_5 libgstreplaygain.dll_5 libgstresindvd.dll_5 libgstriff1.00.dll_5 libgstrmdemux.dll_5 libgstrtp.dll_5 libgstrtp1.00.dll_5 libgstrtpmanager.dll_5 libgstrtsp.dll_5 libgstrtsp1.00.dll_5 libgstscaletempoplugin.dll_5 libgstschro.dll_5 libgstsdp1.00.dll_5 libgstsdpelem.dll_5 libgstsegmentclip.dll_5 libgstshapewipe.dll_5 libgstsiren.dll_5 libgstsmooth.dll_5 libgstsmpte.dll_5 libgstsouphttpsrc.dll_5 libgstspectrum.dll_5 libgstspeed.dll_5 libgstspeex.dll_5 libgstsubenc.dll_5 libgstsubparse.dll_5 libgsttag1.00.dll_5 libgsttaglib.dll_5 libgsttcp.dll_5 libgsttheora.dll_5 libgsttypefindfunctions.dll_5 libgstudp.dll_5 libgstvideo1.00.dll_5 libgstvideobox.dll_5 libgstvideoconvert.dll_5 libgstvideocrop.dll_5 libgstvideofilter.dll_5 libgstvideomixer.dll_5 libgstvideoparsersbad.dll_5 libgstvideorate.dll_5 libgstvideoscale.dll_5 libgstvideotestsrc.dll_5 libgstvolume.dll_5 libgstvorbis.dll_5 libgstvpx.dll_5 libgstwavenc.dll_5 libgstwavpack.dll_5 libgstwavparse.dll_5 libgstx264.dll_3 libgstxingmux.dll_5 libgsty4mdec.dll_5 libgsty4menc.dll_5 libgthread2.00.dll_5 libhogweed22.dll_5 libiconv2.dll_5 libintl8.dll_5 libjpeg8.dll_5 libkate1.dll_5 libmms0.dll_5 libmpeg20.dll_5 libmpeg2convert0.dll_5 libnettle44.dll_5 libogg0.dll_5 liboggkate1.dll_5 libopencoreamrnb0.dll_5 libopencoreamrwb0.dll_5 libopus0.dll_5 liborc0.40.dll_5 liborctest0.40.dll_5 libpango1.00.dll_5 libpangocairo1.00.dll_5 libpangoft21.00.dll_5 libpangowin321.00.dll_5 libpixman10.dll_5 libpng1515.dll_5 libschroedinger1.00.dll_5 libsoup2.41.dll_5 libspeex1.dll_5 libspeexdsp1.dll_5 libstdc6.dll_5 libtag.dll_5 libtag_c.dll_5 libtasn13.dll_5 libtheora0.dll_5 libtheoradec1.dll_5 libtheoraenc1.dll_5 libtiff5.dll_5 libvisual0.40.dll_5 libvorbis0.dll_5 libvorbisenc2.dll_5 libvorbisfile3.dll_5 libwavpack1.dll_5 libwinpthread1.dll_3 libx264125.dll_3 libxml22.dll_5 libz.dll_5 swresample0.dll_5 swscale2.dll_5"/>
+    <ROW Feature="AI64BitFiles" Title="64-bit" Description="64-bit Executables and Libraries" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="SQLite.Interop.dll_6 SlimDX.dll_6 System.Data.SQLite.dll_3 Vocaluxe_x64.exe Vocaluxe_x64.exe.config acinerella.dll_6 avcodec54.dll_6 avformat54.dll_6 avutil52.dll_6 hidapi.dll_6 libFLAC8.dll liba520.dll libass4.dll libbz2.dll libcairo2.dll libcairogobject2.dll libcairoscriptinterpreter2.dll libcharset1.dll libdca0.dll libdv4.dll libdvdnav4.dll libdvdnavmini4.dll libdvdread4.dll libexpat1.dll libfaad2.dll libffi6.dll libfontconfig1.dll libfreetype6.dll libfribidi0.dll libgcc_s_sjlj1.dll libgdk_pixbuf2.00.dll libgio2.00.dll libglib2.00.dll libgmodule2.00.dll libgnutls28.dll libgnutlsopenssl27.dll libgnutlsxx28.dll libgobject2.00.dll libgomp1.dll libgsta52dec.dll libgstadder.dll libgstadpcmdec.dll libgstadpcmenc.dll libgstalaw.dll libgstalpha.dll libgstalphacolor.dll libgstamrnb.dll libgstamrwbdec.dll libgstapetag.dll libgstapp.dll libgstapp1.00.dll libgstasf.dll libgstasfmux.dll libgstassrender.dll libgstaudio1.00.dll libgstaudioconvert.dll libgstaudiofx.dll libgstaudioparsers.dll libgstaudiorate.dll libgstaudioresample.dll libgstaudiotestsrc.dll libgstaudiovisualizers.dll libgstauparse.dll libgstautoconvert.dll libgstautodetect.dll libgstavi.dll libgstbase1.00.dll libgstbasecamerabinsrc1.00.dll libgstbayer.dll libgstcairo.dll libgstcamerabin2.dll libgstcodecparsers1.00.dll libgstcoloreffects.dll libgstcontroller1.00.dll libgstcoreelements.dll libgstcutter.dll libgstd3dvideosink.dll libgstdataurisrc.dll libgstdebug.dll libgstdeinterlace.dll libgstdirectsoundsink.dll libgstdtmf.dll libgstdtsdec.dll libgstdv.dll libgstdvbsuboverlay.dll libgstdvdlpcmdec.dll libgstdvdread.dll libgstdvdspu.dll libgsteffectv.dll libgstencodebin.dll libgstequalizer.dll libgstfaad.dll libgstfft1.00.dll libgstfieldanalysis.dll libgstflac.dll libgstflv.dll libgstflxdec.dll libgstfragmented.dll libgstfrei0r.dll libgstgaudieffects.dll libgstgdkpixbuf.dll libgstgeometrictransform.dll libgstgio.dll libgstgoom.dll libgstgoom2k1.dll libgsticydemux.dll libgstid3demux.dll libgstid3tag.dll libgstimagefreeze.dll libgstinterlace.dll libgstinterleave.dll libgstisomp4.dll libgstjpeg.dll libgstjpegformat.dll libgstlevel.dll libgstlibav.dll libgstlibvisual.dll libgstliveadder.dll libgstmad.dll libgstmatroska.dll libgstmms.dll libgstmpeg2dec.dll libgstmpegpsdemux.dll libgstmpegpsmux.dll libgstmpegtsdemux.dll libgstmpegtsmux.dll libgstmulaw.dll libgstmultifile.dll libgstmultipart.dll libgstnet1.00.dll libgstogg.dll libgstopus.dll libgstpango.dll libgstpbutils1.00.dll libgstpcapparse.dll libgstphotography1.00.dll libgstplayback.dll libgstpng.dll libgstpnm.dll libgstrawparse.dll libgstreamer1.00.dll libgstremovesilence.dll libgstreplaygain.dll libgstresindvd.dll libgstriff1.00.dll libgstrmdemux.dll libgstrtp.dll libgstrtp1.00.dll libgstrtpmanager.dll libgstrtsp.dll libgstrtsp1.00.dll libgstscaletempoplugin.dll libgstschro.dll libgstsdp1.00.dll libgstsdpelem.dll libgstsegmentclip.dll libgstshapewipe.dll libgstsiren.dll libgstsmooth.dll libgstsmpte.dll libgstsouphttpsrc.dll libgstspectrum.dll libgstspeed.dll libgstspeex.dll libgstsubenc.dll libgstsubparse.dll libgsttag1.00.dll libgsttaglib.dll libgsttcp.dll libgsttheora.dll libgsttypefindfunctions.dll libgstudp.dll libgstvideo1.00.dll libgstvideobox.dll libgstvideoconvert.dll libgstvideocrop.dll libgstvideofilter.dll libgstvideomixer.dll libgstvideoparsersbad.dll libgstvideorate.dll libgstvideoscale.dll libgstvideotestsrc.dll libgstvolume.dll libgstvorbis.dll libgstvpx.dll libgstwavenc.dll libgstwavpack.dll libgstwavparse.dll libgstx264.dll libgstxingmux.dll libgsty4mdec.dll libgsty4menc.dll libgthread2.00.dll libhogweed22.dll libiconv2.dll libintl8.dll libjpeg8.dll libkate1.dll libmms0.dll libmpeg20.dll libmpeg2convert0.dll libnettle44.dll libogg0.dll liboggkate1.dll libopencoreamrnb0.dll libopencoreamrwb0.dll libopus0.dll liborc0.40.dll liborctest0.40.dll libpango1.00.dll libpangocairo1.00.dll libpangoft21.00.dll libpangowin321.00.dll libpixman10.dll libpng1515.dll libschroedinger1.00.dll libsoup2.41.dll libspeex1.dll libspeexdsp1.dll libstdc6.dll libtag.dll libtag_c.dll libtasn13.dll libtheora0.dll libtheoradec1.dll libtheoraenc1.dll libtiff5.dll libvisual0.40.dll libvorbis0.dll libvorbisenc2.dll libvorbisfile3.dll libwavpack1.dll libwinpthread1.dll libx264125.dll libxml22.dll libz.dll swresample0.dll_6 swscale2.dll_6"/>
+    <ROW Feature="AIOtherFiles" Title="Common" Description="Shared Resource and Regular Files" Display="5" Level="1" Directory_="APPDIR" Attributes="16" Components="AForge AForge.Video.DirectShow.dll AForge.Video.dll AIShRegAnswer Ambient Ambient.xml Avatar_f.png Background.pdn BackgroundMusic Blue Blue.xml Button.png Button.png_1 Button.png_2 Button.png_3 CChallengeRounds.cs CChallengeRounds.cs_1 CPartyModeTicTacToe.cs Challenge Challenge.xml ChallengeMedley Changelog Changelog_ScreenHighscore.txt ClientServerLib.dll Code Code_1 Code_2 Community.CsharpSqlite.dll Cover DJadWalkingAloneLicense.txt Dutch.xml Dutch.xml_1 Dutch.xml_2 Dutch.xml_3 Fonts Fonts.xml FreeSans FreeSans.ttf Graphics Hz.mp3 InstallLanguage Interop.NetFwTypeLib.dll LICENSE.txt LICENSE.txt_1 LICENSENewtonsoft.Json.txt Languages Languages_1 Languages_2 Languages_3 License.txt Licenses Logo.png Newtonsoft.Json Newtonsoft.Json.dll OpenTK.Compatibility.dll OpenTK.GLControl.dll OpenTK.dll PartyModes PartyScreenChallengeConfig.xml PartyScreenChallengeMedleyConfig.xml PartyScreenTicTacToeConfig.xml PopupScreenPlayerControl.xml PortAudio PortAudioSharp PortAudioSharp.dll Profiles QRCoder QRCoder.dll QRCoder.txt Resources Resources_1 SHORTCUTDIR Screens Screens_1 Screens_2 Screens_3 Security.Cryptography.dll SlimDx Sounds Textures Textures_1 Textures_2 Theme.xml Theme.xml_1 Theme.xml_2 Themes TicTacToe VocaluxeLib.dll Website addPlaylist.png ajaxloader.gif copyright.txt cs.json css decades.xcf glibsharp.dll gpl3.0.txt gstreamer gstreamer_1 gstreamersharp.dll i18next1.7.1.min.js images img index.html jquery.mobile1.3.2.min.css js locales png x64 x86"/>
     <ROW Feature="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" Title="DirectX 9" Description="DirectX 9" Display="19" Level="1" Attributes="0" Components="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4"/>
     <ROW Feature="C67108D39D05435F9BE6B977F2CCED25" Title="Visual C++ Redistributable for Visual Studio 2012 x86" Description="Visual C++ Redistributable for Visual Studio 2012 x86" Display="25" Level="1" Attributes="0" Components="C67108D39D05435F9BE6B977F2CCED25"/>
     <ROW Feature="EF36CDD6CE40CFA978040EA5CBA799" Title="Visual C++ Redistributable for Visual Studio 2012 x64" Description="Visual C++ Redistributable for Visual Studio 2012 x64" Display="23" Level="1" Attributes="0" Components="EF36CDD6CE40CFA978040EA5CBA799"/>
@@ -678,6 +718,10 @@
     <ROW File="AllSongs.png" Component_="png" FileName="AllSongs.png" Attributes="0" SourcePath="..\Output\Cover\Blue\AllSongs.png" SelfReg="false" NextFile="B.png"/>
     <ROW File="AlleSongs.png" Component_="png" FileName="AlleSo~1.png|AlleSongs.png" Attributes="0" SourcePath="..\Output\Cover\Blue\AlleSongs.png" SelfReg="false" NextFile="AllSongs.png"/>
     <ROW File="Ambient.xml" Component_="Ambient.xml" FileName="Ambient.xml" Attributes="0" SourcePath="..\Output\Themes\Ambient.xml" SelfReg="false" NextFile="Changelog_ScreenHighscore.txt"/>
+    <ROW File="Asturian.xml" Component_="Dutch.xml" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml"/>
+    <ROW File="Asturian.xml_1" Component_="Dutch.xml_1" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml_1"/>
+    <ROW File="Asturian.xml_2" Component_="Dutch.xml_2" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml_2"/>
+    <ROW File="Asturian.xml_3" Component_="Dutch.xml_3" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml_3"/>
     <ROW File="Avatar_f.png" Component_="Avatar_f.png" FileName="Avatar_f.png" Attributes="0" SourcePath="..\Output\Profiles\Avatar_f.png" SelfReg="false" NextFile="Avatar_m.png"/>
     <ROW File="Avatar_m.png" Component_="Avatar_f.png" FileName="Avatar_m.png" Attributes="0" SourcePath="..\Output\Profiles\Avatar_m.png" SelfReg="false" NextFile="guest1.xml"/>
     <ROW File="B.png" Component_="png" FileName="B.png" Attributes="0" SourcePath="..\Output\Cover\Blue\B.png" SelfReg="false" NextFile="C.png"/>
@@ -744,6 +788,10 @@
     <ROW File="CoverTile.png_3" Component_="Button.png_3" FileName="CoverT~1.png|CoverTile.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\CoverTile.png" SelfReg="false" NextFile="Cursor.png"/>
     <ROW File="CreditsRessourcesDB.sqlite" Component_="LICENSENewtonsoft.Json.txt" FileName="Credit~1.sql|CreditsRessourcesDB.sqlite" Attributes="0" SourcePath="..\Output\CreditsRessourcesDB.sqlite" SelfReg="false" NextFile="OpenTK.Compatibility.dll.config"/>
     <ROW File="Cursor.png" Component_="Button.png_3" FileName="Cursor.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Cursor.png" SelfReg="false" NextFile="Delete.png"/>
+    <ROW File="Czech.xml" Component_="Dutch.xml" FileName="Czech.xml" Attributes="0" SourcePath="..\Output\Languages\Czech.xml" SelfReg="false" NextFile="Italian.xml"/>
+    <ROW File="Czech.xml_1" Component_="Dutch.xml_1" FileName="Czech.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Czech.xml" SelfReg="false" NextFile="Italian.xml_1"/>
+    <ROW File="Czech.xml_2" Component_="Dutch.xml_2" FileName="Czech.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Czech.xml" SelfReg="false" NextFile="Italian.xml_2"/>
+    <ROW File="Czech.xml_3" Component_="Dutch.xml_3" FileName="Czech.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Czech.xml" SelfReg="false" NextFile="Italian.xml_3"/>
     <ROW File="D.png" Component_="png" FileName="D.png" Attributes="0" SourcePath="..\Output\Cover\Blue\D.png" SelfReg="false" NextFile="E.png"/>
     <ROW File="DJadWalkingAlone.mp3" Component_="DJadWalkingAloneLicense.txt" FileName="DJad-W~1.mp3|DJad - Walking Alone.mp3" Attributes="0" SourcePath="..\Output\BackgroundMusic\DJad - Walking Alone.mp3" SelfReg="false" NextFile="png"/>
     <ROW File="DJadWalkingAloneLicense.txt" Component_="DJadWalkingAloneLicense.txt" FileName="DJad-W~1.txt|DJad - Walking Alone - License.txt" Attributes="0" SourcePath="..\Output\BackgroundMusic\DJad - Walking Alone - License.txt" SelfReg="false" NextFile="DJadWalkingAlone.mp3"/>
@@ -784,8 +832,6 @@
     <ROW File="GreenIntroIn.mp4" Component_="GreenIntroIn.mp4" FileName="_Green~2.mp4|[Green]IntroIn.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Green]IntroIn.mp4" SelfReg="false" NextFile="GreenIntroMid.mp4"/>
     <ROW File="GreenIntroMid.mp4" Component_="GreenIntroMid.mp4" FileName="_Green~3.mp4|[Green]IntroMid.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Green]IntroMid.mp4" SelfReg="false" NextFile="GreenIntroOut.mp4"/>
     <ROW File="GreenIntroOut.mp4" Component_="GreenIntroOut.mp4" FileName="_Green~4.mp4|[Green]IntroOut.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Green]IntroOut.mp4" SelfReg="false" NextFile="RedBG_Default.png"/>
-    <ROW File="GstreamerHelper.dll" Component_="GstreamerHelper.dll" FileName="Gstrea~1.dll|GstreamerHelper.dll" Attributes="0" SourcePath="..\Output\x64\gstreamer\GstreamerHelper.dll" SelfReg="false" NextFile="liba520.dll"/>
-    <ROW File="GstreamerHelper.dll_5" Component_="GstreamerHelper.dll_5" FileName="Gstrea~1.dll|GstreamerHelper.dll" Attributes="0" SourcePath="..\Output\x86\gstreamer\GstreamerHelper.dll" SelfReg="false" NextFile="liba520.dll_5"/>
     <ROW File="H.png" Component_="png" FileName="H.png" Attributes="0" SourcePath="..\Output\Cover\Blue\H.png" SelfReg="false" NextFile="I.png"/>
     <ROW File="Hungarian.xml" Component_="Dutch.xml" FileName="Hungar~1.xml|Hungarian.xml" Attributes="0" SourcePath="..\Output\Languages\Hungarian.xml" SelfReg="false" NextFile="Spanish.xml"/>
     <ROW File="Hungarian.xml_1" Component_="Dutch.xml_1" FileName="Hungar~1.xml|Hungarian.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Hungarian.xml" SelfReg="false" NextFile="Spanish.xml_1"/>
@@ -793,16 +839,24 @@
     <ROW File="Hungarian.xml_3" Component_="Dutch.xml_3" FileName="Hungar~1.xml|Hungarian.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Hungarian.xml" SelfReg="false" NextFile="Spanish.xml_3"/>
     <ROW File="Hz.mp3" Component_="Hz.mp3" FileName="440Hz.mp3" Attributes="0" SourcePath="..\Output\Sounds\440Hz.mp3" SelfReg="false" NextFile="Button.png_3"/>
     <ROW File="I.png" Component_="png" FileName="I.png" Attributes="0" SourcePath="..\Output\Cover\Blue\I.png" SelfReg="false" NextFile="Italian.png"/>
+    <ROW File="Interop.NetFwTypeLib.dll" Component_="Interop.NetFwTypeLib.dll" FileName="Intero~1.dll|Interop.NetFwTypeLib.dll" Attributes="0" SourcePath="..\Output\Interop.NetFwTypeLib.dll" SelfReg="false" NextFile="PortAudioSharp.dll"/>
     <ROW File="Invisible.png" Component_="Button.png" FileName="Invisi~1.png|Invisible.png" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Textures\Invisible.png" SelfReg="false" NextFile="Menu.png"/>
     <ROW File="Invisible.png_1" Component_="Button.png_1" FileName="Invisi~1.png|Invisible.png" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Textures\Invisible.png" SelfReg="false" NextFile="Menu.png_1"/>
     <ROW File="Invisible.png_2" Component_="Button.png_2" FileName="Invisi~1.png|Invisible.png" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Textures\Invisible.png" SelfReg="false" NextFile="Menu.png_2"/>
     <ROW File="Invisible.png_3" Component_="Button.png_3" FileName="Invisi~1.png|Invisible.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Invisible.png" SelfReg="false" NextFile="LyricHelper.png"/>
     <ROW File="Italian.png" Component_="png" FileName="Italian.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Italian.png" SelfReg="false" NextFile="J.png"/>
+    <ROW File="Italian.xml" Component_="Dutch.xml" FileName="Italian.xml" Attributes="0" SourcePath="..\Output\Languages\Italian.xml" SelfReg="false" NextFile="Swedish.xml"/>
+    <ROW File="Italian.xml_1" Component_="Dutch.xml_1" FileName="Italian.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Italian.xml" SelfReg="false" NextFile="Swedish.xml_1"/>
+    <ROW File="Italian.xml_2" Component_="Dutch.xml_2" FileName="Italian.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Italian.xml" SelfReg="false" NextFile="Swedish.xml_2"/>
+    <ROW File="Italian.xml_3" Component_="Dutch.xml_3" FileName="Italian.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Italian.xml" SelfReg="false" NextFile="Swedish.xml_3"/>
     <ROW File="J.png" Component_="png" FileName="J.png" Attributes="0" SourcePath="..\Output\Cover\Blue\J.png" SelfReg="false" NextFile="K.png"/>
     <ROW File="K.png" Component_="png" FileName="K.png" Attributes="0" SourcePath="..\Output\Cover\Blue\K.png" SelfReg="false" NextFile="L.png"/>
     <ROW File="L.png" Component_="png" FileName="L.png" Attributes="0" SourcePath="..\Output\Cover\Blue\L.png" SelfReg="false" NextFile="M.png"/>
     <ROW File="LICENSE.txt" Component_="LICENSENewtonsoft.Json.txt" FileName="LICENSE.txt" Attributes="0" SourcePath="..\Output\LICENSE.txt" SelfReg="false" NextFile="Readme.txt_1"/>
-    <ROW File="LICENSENewtonsoft.Json.txt" Component_="LICENSENewtonsoft.Json.txt" FileName="LICENS~1.txt|LICENSE Newtonsoft.Json.txt" Attributes="0" SourcePath="..\Output\LICENSE Newtonsoft.Json.txt" SelfReg="false" NextFile="LICENSE.txt"/>
+    <ROW File="LICENSE.txt_2" Component_="LICENSE.txt" FileName="LICENSE.txt" Attributes="0" SourcePath="..\Output\Licenses\Newtonsoft.Json\LICENSE.txt" SelfReg="false" NextFile="SourceAndVersion.txt_1"/>
+    <ROW File="LICENSE.txt_3" Component_="LICENSE.txt_1" FileName="LICENSE.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio\LICENSE.txt" SelfReg="false" NextFile="README.txt_2"/>
+    <ROW File="License.txt_1" Component_="gpl3.0.txt" FileName="License.txt" Attributes="0" SourcePath="..\Output\Licenses\AForge\License.txt" SelfReg="false" NextFile="SourceAndVersion.txt"/>
+    <ROW File="License.txt_5" Component_="License.txt" FileName="License.txt" Attributes="0" SourcePath="..\Output\Licenses\SlimDx\License.txt" SelfReg="false" NextFile="SourceAndVersion.txt_5"/>
     <ROW File="Logo.png" Component_="Logo.png" FileName="Logo.png" Attributes="0" SourcePath="..\Output\Graphics\Logo.png" SelfReg="false" NextFile="Dutch.xml"/>
     <ROW File="LyricHelper.png" Component_="Button.png_3" FileName="LyricH~1.png|LyricHelper.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\LyricHelper.png" SelfReg="false" NextFile="Lyrics.png"/>
     <ROW File="LyricHelper.xcf" Component_="Background.pdn" FileName="LyricH~1.xcf|LyricHelper.xcf" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\LyricHelper.xcf" SelfReg="false" NextFile="Menu.pdn"/>
@@ -834,7 +888,7 @@
     <ROW File="OpenTK.Compatibility.dll.config" Component_="LICENSENewtonsoft.Json.txt" FileName="OpenTK~1.con|OpenTK.Compatibility.dll.config" Attributes="0" SourcePath="..\Output\OpenTK.Compatibility.dll.config" SelfReg="false" NextFile="OpenTK.dll.config"/>
     <ROW File="OpenTK.GLControl.dll" Component_="OpenTK.GLControl.dll" FileName="OpenTK~2.dll|OpenTK.GLControl.dll" Attributes="0" SourcePath="..\Output\OpenTK.GLControl.dll" SelfReg="false" NextFile="VocaluxeLib.dll"/>
     <ROW File="OpenTK.dll" Component_="OpenTK.dll" FileName="OpenTK.dll" Attributes="0" SourcePath="..\Output\OpenTK.dll" SelfReg="false" NextFile="OpenTK.GLControl.dll"/>
-    <ROW File="OpenTK.dll.config" Component_="LICENSENewtonsoft.Json.txt" FileName="OpenTK~2.con|OpenTK.dll.config" Attributes="0" SourcePath="..\Output\OpenTK.dll.config" SelfReg="false"/>
+    <ROW File="OpenTK.dll.config" Component_="LICENSENewtonsoft.Json.txt" FileName="OpenTK~2.con|OpenTK.dll.config" Attributes="0" SourcePath="..\Output\OpenTK.dll.config" SelfReg="false" NextFile="glibsharp.dll"/>
     <ROW File="P.png" Component_="png" FileName="P.png" Attributes="0" SourcePath="..\Output\Cover\Blue\P.png" SelfReg="false" NextFile="Polish.png"/>
     <ROW File="PartyScreenChallengeConfig.xml" Component_="PartyScreenChallengeConfig.xml" FileName="PartyS~1.xml|PartyScreenChallengeConfig.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Screens\PartyScreenChallengeConfig.xml" SelfReg="false" NextFile="PartyScreenChallengeMain.xml"/>
     <ROW File="PartyScreenChallengeMain.xml" Component_="PartyScreenChallengeConfig.xml" FileName="PartyS~2.xml|PartyScreenChallengeMain.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Screens\PartyScreenChallengeMain.xml" SelfReg="false" NextFile="PartyScreenChallengeNames.xml"/>
@@ -863,10 +917,15 @@
     <ROW File="Popup.png_3" Component_="Button.png_3" FileName="Popup.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Popup.png" SelfReg="false" NextFile="PreviousIcon.png"/>
     <ROW File="PopupScreenPlayerControl.xml" Component_="PopupScreenPlayerControl.xml" FileName="PopupS~1.xml|PopupScreenPlayerControl.xml" Attributes="0" SourcePath="..\Output\Themes\Ambient\Screens\PopupScreenPlayerControl.xml" SelfReg="false" NextFile="PopupScreenVolumeControl.xml"/>
     <ROW File="PopupScreenVolumeControl.xml" Component_="PopupScreenPlayerControl.xml" FileName="PopupS~2.xml|PopupScreenVolumeControl.xml" Attributes="0" SourcePath="..\Output\Themes\Ambient\Screens\PopupScreenVolumeControl.xml" SelfReg="false" NextFile="ScreenHighscore.xml"/>
+    <ROW File="PortAudioSharp.dll" Component_="PortAudioSharp.dll" FileName="PortAu~1.dll|PortAudioSharp.dll" Attributes="0" SourcePath="..\Output\PortAudioSharp.dll" SelfReg="false" NextFile="PortAudioSharp.dll.config"/>
+    <ROW File="PortAudioSharp.dll.config" Component_="LICENSENewtonsoft.Json.txt" FileName="PortAu~1.con|PortAudioSharp.dll.config" Attributes="0" SourcePath="..\Output\PortAudioSharp.dll.config" SelfReg="false" NextFile="QRCoder.dll"/>
     <ROW File="PreviousIcon.png" Component_="Button.png_3" FileName="Previo~1.png|PreviousIcon.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\PreviousIcon.png" SelfReg="false" NextFile="Random.png_1"/>
     <ROW File="PreviousIcon.psd" Component_="Background.pdn" FileName="Previo~1.psd|PreviousIcon.psd" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\PreviousIcon.psd" SelfReg="false" NextFile="RepeatIcon.psd"/>
     <ROW File="Q.png" Component_="png" FileName="Q.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Q.png" SelfReg="false" NextFile="R.png"/>
+    <ROW File="QRCoder.dll" Component_="QRCoder.dll" FileName="QRCoder.dll" Attributes="0" SourcePath="..\Output\QRCoder.dll" SelfReg="false" NextFile="Security.Cryptography.dll"/>
+    <ROW File="QRCoder.txt" Component_="QRCoder.txt" FileName="QRCoder.txt" Attributes="0" SourcePath="..\Output\Licenses\QR Coder\QRCoder.txt" SelfReg="false" NextFile="SourceAndVersion.txt_4"/>
     <ROW File="R.png" Component_="png" FileName="R.png" Attributes="0" SourcePath="..\Output\Cover\Blue\R.png" SelfReg="false" NextFile="decades.xcf"/>
+    <ROW File="README.txt_2" Component_="LICENSE.txt_1" FileName="README.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio\README.txt" SelfReg="false" NextFile="SourceAndVersion.txt_2"/>
     <ROW File="Random.png" Component_="Button.png_2" FileName="Random.png" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Textures\Random.png" SelfReg="false" NextFile="RepeatIcon.png"/>
     <ROW File="Random.png_1" Component_="Button.png_3" FileName="Random.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Random.png" SelfReg="false" NextFile="RepeatIcon.png_1"/>
     <ROW File="Readme.txt_1" Component_="LICENSENewtonsoft.Json.txt" FileName="Readme.txt" Attributes="0" SourcePath="..\Output\Readme.txt" SelfReg="false" NextFile="Vocaluxe.ico"/>
@@ -909,6 +968,7 @@
     <ROW File="ScrollUp.png_1" Component_="Button.png_1" FileName="ScrollUp.png" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Textures\ScrollUp.png" SelfReg="false" NextFile="SelectSlide.png_1"/>
     <ROW File="ScrollUp.png_2" Component_="Button.png_2" FileName="ScrollUp.png" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Textures\ScrollUp.png" SelfReg="false" NextFile="SelectSlide.png_2"/>
     <ROW File="ScrollUp.png_3" Component_="Button.png_3" FileName="ScrollUp.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\ScrollUp.png" SelfReg="false" NextFile="SelectSlide.png_3"/>
+    <ROW File="Security.Cryptography.dll" Component_="Security.Cryptography.dll" FileName="Securi~1.dll|Security.Cryptography.dll" Attributes="0" SourcePath="..\Output\Security.Cryptography.dll" SelfReg="false" NextFile="Asturian.xml"/>
     <ROW File="SelectSlide.pdn" Component_="Background.pdn" FileName="Select~1.pdn|SelectSlide.pdn" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\SelectSlide.pdn" SelfReg="false" NextFile="Snowflake.xcf"/>
     <ROW File="SelectSlide.png" Component_="Button.png" FileName="Select~1.png|SelectSlide.png" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Textures\SelectSlide.png" SelfReg="false" NextFile="SelectSlideArrowLeft.png"/>
     <ROW File="SelectSlide.png_1" Component_="Button.png_1" FileName="Select~1.png|SelectSlide.png" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Textures\SelectSlide.png" SelfReg="false" NextFile="SelectSlideArrowLeft.png_1"/>
@@ -940,6 +1000,12 @@
     <ROW File="Snowflake.xcf" Component_="Background.pdn" FileName="Snowfl~1.xcf|Snowflake.xcf" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\Snowflake.xcf" SelfReg="false" NextFile="Star.xcf"/>
     <ROW File="SongMenu.png" Component_="Button.png_3" FileName="SongMenu.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\SongMenu.png" SelfReg="false" NextFile="SongMenuBG.png"/>
     <ROW File="SongMenuBG.png" Component_="Button.png_3" FileName="SongMe~1.png|SongMenuBG.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\SongMenuBG.png" SelfReg="false" NextFile="Star.png"/>
+    <ROW File="SourceAndVersion.txt" Component_="gpl3.0.txt" FileName="Source~1.txt|SourceAndVersion.txt" Attributes="0" SourcePath="..\Output\Licenses\AForge\SourceAndVersion.txt" SelfReg="false" NextFile="LICENSE.txt_2"/>
+    <ROW File="SourceAndVersion.txt_1" Component_="LICENSE.txt" FileName="Source~1.txt|SourceAndVersion.txt" Attributes="0" SourcePath="..\Output\Licenses\Newtonsoft.Json\SourceAndVersion.txt" SelfReg="false" NextFile="LICENSE.txt_3"/>
+    <ROW File="SourceAndVersion.txt_2" Component_="LICENSE.txt_1" FileName="Source~1.txt|SourceAndVersion.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio\SourceAndVersion.txt" SelfReg="false" NextFile="copyright.txt"/>
+    <ROW File="SourceAndVersion.txt_3" Component_="copyright.txt" FileName="Source~1.txt|SourceAndVersion.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio-Sharp\SourceAndVersion.txt" SelfReg="false" NextFile="QRCoder.txt"/>
+    <ROW File="SourceAndVersion.txt_4" Component_="QRCoder.txt" FileName="Source~1.txt|SourceAndVersion.txt" Attributes="0" SourcePath="..\Output\Licenses\QR Coder\SourceAndVersion.txt" SelfReg="false" NextFile="License.txt_5"/>
+    <ROW File="SourceAndVersion.txt_5" Component_="License.txt" FileName="Source~1.txt|SourceAndVersion.txt" Attributes="0" SourcePath="..\Output\Licenses\SlimDx\SourceAndVersion.txt" SelfReg="false" NextFile="ajaxloader.gif"/>
     <ROW File="Spanish.png" Component_="png" FileName="Spanish.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Spanish.png" SelfReg="false" NextFile="T.png"/>
     <ROW File="Spanish.xml" Component_="Dutch.xml" FileName="Spanish.xml" Attributes="0" SourcePath="..\Output\Languages\Spanish.xml" SelfReg="false" NextFile="Turkish.xml"/>
     <ROW File="Spanish.xml_1" Component_="Dutch.xml_1" FileName="Spanish.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Spanish.xml" SelfReg="false" NextFile="Turkish.xml_1"/>
@@ -947,6 +1013,10 @@
     <ROW File="Spanish.xml_3" Component_="Dutch.xml_3" FileName="Spanish.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Spanish.xml" SelfReg="false" NextFile="Turkish.xml_3"/>
     <ROW File="Star.png" Component_="Button.png_3" FileName="Star.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Star.png" SelfReg="false" NextFile="TextBG.png"/>
     <ROW File="Star.xcf" Component_="Background.pdn" FileName="Star.xcf" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\Star.xcf" SelfReg="false" NextFile="TimeBar.pdn"/>
+    <ROW File="Swedish.xml" Component_="Dutch.xml" FileName="Swedish.xml" Attributes="0" SourcePath="..\Output\Languages\Swedish.xml" SelfReg="false" NextFile="Asturian.xml_1"/>
+    <ROW File="Swedish.xml_1" Component_="Dutch.xml_1" FileName="Swedish.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Swedish.xml" SelfReg="false" NextFile="Asturian.xml_2"/>
+    <ROW File="Swedish.xml_2" Component_="Dutch.xml_2" FileName="Swedish.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Swedish.xml" SelfReg="false" NextFile="Asturian.xml_3"/>
+    <ROW File="Swedish.xml_3" Component_="Dutch.xml_3" FileName="Swedish.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Swedish.xml" SelfReg="false" NextFile="gpl3.0.txt"/>
     <ROW File="System.Data.SQLite.dll" Component_="System.Data.SQLite.dll" FileName="System~1.dll|System.Data.SQLite.dll" Attributes="0" SourcePath="..\Output\x86\System.Data.SQLite.dll" SelfReg="false" NextFile="acinerella.dll_6"/>
     <ROW File="System.Data.SQLite.dll_3" Component_="System.Data.SQLite.dll_3" FileName="System~1.dll|System.Data.SQLite.dll" Attributes="0" SourcePath="..\Output\x64\System.Data.SQLite.dll" SelfReg="false" NextFile="DJadWalkingAloneLicense.txt"/>
     <ROW File="T.png" Component_="png" FileName="T.png" Attributes="0" SourcePath="..\Output\Cover\Blue\T.png" SelfReg="false" NextFile="U.png"/>
@@ -954,6 +1024,7 @@
     <ROW File="Theme.xml" Component_="Theme.xml" FileName="Theme.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Theme.xml" SelfReg="false" NextFile="Challenge.xml"/>
     <ROW File="Theme.xml_1" Component_="Theme.xml_1" FileName="Theme.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Theme.xml" SelfReg="false" NextFile="ChallengeMedley.xml"/>
     <ROW File="Theme.xml_2" Component_="Theme.xml_2" FileName="Theme.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Theme.xml" SelfReg="false" NextFile="TicTacToe.xml"/>
+    <ROW File="Thumbs.db" Component_="addPlaylist.png" FileName="Thumbs.db" Attributes="6" SourcePath="..\Output\Website\img\Thumbs.db" SelfReg="false" NextFile="wikipedia.png"/>
     <ROW File="TicTacToe.xml" Component_="Challenge.xml" FileName="TicTac~1.xml|TicTacToe.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe.xml" SelfReg="false" NextFile="Avatar_f.png"/>
     <ROW File="TimeBar.pdn" Component_="Background.pdn" FileName="TimeBar.pdn" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\TimeBar.pdn" SelfReg="false" NextFile="TimeLine.pdn"/>
     <ROW File="TimeBar.png" Component_="Button.png_3" FileName="TimeBar.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\TimeBar.png" SelfReg="false" NextFile="TimeBar2.png"/>
@@ -971,10 +1042,10 @@
     <ROW File="VideoIcon.png" Component_="Button.png_3" FileName="VideoI~1.png|VideoIcon.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\VideoIcon.png" SelfReg="false" NextFile="VideoIconBG.png"/>
     <ROW File="VideoIconBG.png" Component_="Button.png_3" FileName="VideoI~2.png|VideoIconBG.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\VideoIconBG.png" SelfReg="false" NextFile="VideoIconCO.png"/>
     <ROW File="VideoIconCO.png" Component_="Button.png_3" FileName="VideoI~3.png|VideoIconCO.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\VideoIconCO.png" SelfReg="false" NextFile="Warning.png"/>
-    <ROW File="Vocaluxe.exe" Component_="Vocaluxe.exe_2" FileName="Vocaluxe.exe" Attributes="0" SourcePath="..\Output\Vocaluxe.exe" SelfReg="false" NextFile="GstreamerHelper.dll" DigSign="true"/>
+    <ROW File="Vocaluxe.exe" Component_="Vocaluxe.exe_2" FileName="Vocaluxe.exe" Attributes="0" SourcePath="..\Output\Vocaluxe.exe" SelfReg="false" NextFile="liba520.dll" DigSign="true"/>
     <ROW File="Vocaluxe.exe.config" Component_="Vocaluxe.exe.config" FileName="Vocalu~2.con|Vocaluxe.exe.config" Attributes="0" SourcePath="..\Output\Vocaluxe.exe.config" SelfReg="false" NextFile="acinerella.dll_5"/>
     <ROW File="Vocaluxe.ico" Component_="LICENSENewtonsoft.Json.txt" FileName="Vocaluxe.ico" Attributes="0" SourcePath="..\Output\Vocaluxe.ico" SelfReg="false" NextFile="CreditsRessourcesDB.sqlite"/>
-    <ROW File="VocaluxeLib.dll" Component_="VocaluxeLib.dll" FileName="Vocalu~1.dll|VocaluxeLib.dll" Attributes="0" SourcePath="..\Output\VocaluxeLib.dll" SelfReg="false" NextFile="LICENSENewtonsoft.Json.txt"/>
+    <ROW File="VocaluxeLib.dll" Component_="VocaluxeLib.dll" FileName="Vocalu~1.dll|VocaluxeLib.dll" Attributes="0" SourcePath="..\Output\VocaluxeLib.dll" SelfReg="false" NextFile="LICENSE.txt"/>
     <ROW File="Vocaluxe_x64.exe" Component_="Vocaluxe_x64.exe" FileName="Vocalu~1.exe|Vocaluxe_x64.exe" Attributes="0" SourcePath="..\Output\Vocaluxe_x64.exe" SelfReg="false" NextFile="Vocaluxe_x64.exe.config" DigSign="true"/>
     <ROW File="Vocaluxe_x64.exe.config" Component_="Vocaluxe_x64.exe.config" FileName="Vocalu~1.con|Vocaluxe_x64.exe.config" Attributes="0" SourcePath="..\Output\Vocaluxe_x64.exe.config" SelfReg="false" NextFile="Vocaluxe.exe.config"/>
     <ROW File="W.png" Component_="png" FileName="W.png" Attributes="0" SourcePath="..\Output\Cover\Blue\W.png" SelfReg="false" NextFile="X.png"/>
@@ -990,14 +1061,22 @@
     <ROW File="Z.png" Component_="png" FileName="Z.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Z.png" SelfReg="false" NextFile="Blue.xml"/>
     <ROW File="acinerella.dll_5" Component_="acinerella.dll_5" FileName="aciner~1.dll|acinerella.dll" Attributes="0" SourcePath="..\Output\x86\acinerella.dll" SelfReg="false" NextFile="avcodec54.dll_5"/>
     <ROW File="acinerella.dll_6" Component_="acinerella.dll_6" FileName="aciner~1.dll|acinerella.dll" Attributes="0" SourcePath="..\Output\x64\acinerella.dll" SelfReg="false" NextFile="avcodec54.dll_6"/>
+    <ROW File="addPlaylist.png" Component_="addPlaylist.png" FileName="addPla~1.png|addPlaylist.png" Attributes="0" SourcePath="..\Output\Website\img\addPlaylist.png" SelfReg="false" NextFile="admin.png"/>
+    <ROW File="admin.png" Component_="addPlaylist.png" FileName="admin.png" Attributes="0" SourcePath="..\Output\Website\img\admin.png" SelfReg="false" NextFile="keyboard.png"/>
+    <ROW File="ajaxloader.gif" Component_="ajaxloader.gif" FileName="ajax-l~1.gif|ajax-loader.gif" Attributes="0" SourcePath="..\Output\Website\css\images\ajax-loader.gif" SelfReg="false" NextFile="alert.png"/>
+    <ROW File="alert.png" Component_="ajaxloader.gif" FileName="alert.png" Attributes="0" SourcePath="..\Output\Website\css\images\alert.png" SelfReg="false" NextFile="icons18black.png"/>
     <ROW File="avcodec54.dll_5" Component_="avcodec54.dll_5" FileName="avcode~1.dll|avcodec-54.dll" Attributes="0" SourcePath="..\Output\x86\avcodec-54.dll" SelfReg="false" NextFile="avformat54.dll_5"/>
     <ROW File="avcodec54.dll_6" Component_="avcodec54.dll_6" FileName="avcode~1.dll|avcodec-54.dll" Attributes="0" SourcePath="..\Output\x64\avcodec-54.dll" SelfReg="false" NextFile="avformat54.dll_6"/>
     <ROW File="avformat54.dll_5" Component_="avformat54.dll_5" FileName="avform~1.dll|avformat-54.dll" Attributes="0" SourcePath="..\Output\x86\avformat-54.dll" SelfReg="false" NextFile="avutil52.dll_5"/>
     <ROW File="avformat54.dll_6" Component_="avformat54.dll_6" FileName="avform~1.dll|avformat-54.dll" Attributes="0" SourcePath="..\Output\x64\avformat-54.dll" SelfReg="false" NextFile="avutil52.dll_6"/>
-    <ROW File="avutil52.dll_5" Component_="avutil52.dll_5" FileName="avutil~1.dll|avutil-52.dll" Attributes="0" SourcePath="..\Output\x86\avutil-52.dll" SelfReg="false" NextFile="GstreamerHelper.dll_5"/>
+    <ROW File="avutil52.dll_5" Component_="avutil52.dll_5" FileName="avutil~1.dll|avutil-52.dll" Attributes="0" SourcePath="..\Output\x86\avutil-52.dll" SelfReg="false" NextFile="liba520.dll_5"/>
     <ROW File="avutil52.dll_6" Component_="avutil52.dll_6" FileName="avutil~1.dll|avutil-52.dll" Attributes="0" SourcePath="..\Output\x64\avutil-52.dll" SelfReg="false" NextFile="hidapi.dll_6"/>
+    <ROW File="copyright.txt" Component_="copyright.txt" FileName="copyri~1.txt|copyright.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio-Sharp\copyright.txt" SelfReg="false" NextFile="license.txt_4"/>
     <ROW File="copyrightNeonGlowIcons.txt" Component_="Button.png_3" FileName="copyri~1.txt|copyright Neon Glow Icons.txt" Attributes="0" SourcePath="..\Output\Themes\Ambient\copyright Neon Glow Icons.txt" SelfReg="false" NextFile="CoverBackground.png"/>
+    <ROW File="cs.json" Component_="cs.json" FileName="cs~1.jso|cs.json" Attributes="0" SourcePath="..\Output\Website\locales\cs.json" SelfReg="false" NextFile="de.json"/>
+    <ROW File="de.json" Component_="cs.json" FileName="de~1.jso|de.json" Attributes="0" SourcePath="..\Output\Website\locales\de.json" SelfReg="false" NextFile="en.json"/>
     <ROW File="decades.xcf" Component_="decades.xcf" FileName="decades.xcf" Attributes="0" SourcePath="..\Output\Cover\Blue\Resources\decades.xcf" SelfReg="false" NextFile="language.xcf"/>
+    <ROW File="en.json" Component_="cs.json" FileName="en~1.jso|en.json" Attributes="0" SourcePath="..\Output\Website\locales\en.json" SelfReg="false" NextFile="fr.json"/>
     <ROW File="er.png" Component_="png" FileName="1900er.png" Attributes="0" SourcePath="..\Output\Cover\Blue\1900er.png" SelfReg="false" NextFile="er.png_1"/>
     <ROW File="er.png_1" Component_="png" FileName="1910er.png" Attributes="0" SourcePath="..\Output\Cover\Blue\1910er.png" SelfReg="false" NextFile="er.png_2"/>
     <ROW File="er.png_10" Component_="png" FileName="80er.png" Attributes="0" SourcePath="..\Output\Cover\Blue\80er.png" SelfReg="false" NextFile="er.png_11"/>
@@ -1010,14 +1089,32 @@
     <ROW File="er.png_7" Component_="png" FileName="50er.png" Attributes="0" SourcePath="..\Output\Cover\Blue\50er.png" SelfReg="false" NextFile="er.png_8"/>
     <ROW File="er.png_8" Component_="png" FileName="60er.png" Attributes="0" SourcePath="..\Output\Cover\Blue\60er.png" SelfReg="false" NextFile="er.png_9"/>
     <ROW File="er.png_9" Component_="png" FileName="70er.png" Attributes="0" SourcePath="..\Output\Cover\Blue\70er.png" SelfReg="false" NextFile="er.png_10"/>
+    <ROW File="fr.json" Component_="cs.json" FileName="fr~1.jso|fr.json" Attributes="0" SourcePath="..\Output\Website\locales\fr.json" SelfReg="false" NextFile="sv.json"/>
+    <ROW File="glibsharp.dll" Component_="glibsharp.dll" FileName="glib-s~1.dll|glib-sharp.dll" Attributes="0" SourcePath="..\Output\glib-sharp.dll" SelfReg="false" NextFile="gstreamersharp.dll"/>
+    <ROW File="gpl3.0.txt" Component_="gpl3.0.txt" FileName="gpl-30~1.txt|gpl-3.0.txt" Attributes="0" SourcePath="..\Output\Licenses\AForge\gpl-3.0.txt" SelfReg="false" NextFile="lgpl3.0.txt"/>
+    <ROW File="gstreamersharp.dll" Component_="gstreamersharp.dll" FileName="gstrea~1.dll|gstreamer-sharp.dll" Attributes="0" SourcePath="..\Output\gstreamer-sharp.dll" SelfReg="false" NextFile="Interop.NetFwTypeLib.dll"/>
     <ROW File="guest1.xml" Component_="Avatar_f.png" FileName="guest1.xml" Attributes="0" SourcePath="..\Output\Profiles\guest1.xml" SelfReg="false" NextFile="guest2.xml"/>
     <ROW File="guest2.xml" Component_="Avatar_f.png" FileName="guest2.xml" Attributes="0" SourcePath="..\Output\Profiles\guest2.xml" SelfReg="false" NextFile="guest3.xml"/>
     <ROW File="guest3.xml" Component_="Avatar_f.png" FileName="guest3.xml" Attributes="0" SourcePath="..\Output\Profiles\guest3.xml" SelfReg="false" NextFile="Hz.mp3"/>
     <ROW File="hd_glow1920x1080.jpg" Component_="Background.pdn" FileName="hd_glo~1.jpg|hd_glow-1920x1080.jpg" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\hd_glow-1920x1080.jpg" SelfReg="false" NextFile="LyricHelper.xcf"/>
-    <ROW File="hidapi.dll_5" Component_="hidapi.dll_5" FileName="hidapi.dll" Attributes="0" SourcePath="..\Output\x86\hidapi.dll" SelfReg="false" NextFile="portaudio_x86.dll"/>
-    <ROW File="hidapi.dll_6" Component_="hidapi.dll_6" FileName="hidapi.dll" Attributes="0" SourcePath="..\Output\x64\hidapi.dll" SelfReg="false" NextFile="portaudio_x64.dll_2"/>
+    <ROW File="hidapi.dll_5" Component_="hidapi.dll_5" FileName="hidapi.dll" Attributes="0" SourcePath="..\Output\x86\hidapi.dll" SelfReg="false" NextFile="SlimDX.dll_5"/>
+    <ROW File="hidapi.dll_6" Component_="hidapi.dll_6" FileName="hidapi.dll" Attributes="0" SourcePath="..\Output\x64\hidapi.dll" SelfReg="false" NextFile="SlimDX.dll_6"/>
+    <ROW File="i18next1.7.1.min.js" Component_="i18next1.7.1.min.js" FileName="i18nex~1.js|i18next-1.7.1.min.js" Attributes="0" SourcePath="..\Output\Website\js\i18next-1.7.1.min.js" SelfReg="false" NextFile="jquery1.9.1.min.js"/>
+    <ROW File="icons18black.png" Component_="ajaxloader.gif" FileName="icons-~1.png|icons-18-black.png" Attributes="0" SourcePath="..\Output\Website\css\images\icons-18-black.png" SelfReg="false" NextFile="icons18white.png"/>
+    <ROW File="icons18white.png" Component_="ajaxloader.gif" FileName="icons-~2.png|icons-18-white.png" Attributes="0" SourcePath="..\Output\Website\css\images\icons-18-white.png" SelfReg="false" NextFile="icons36black.png"/>
+    <ROW File="icons36black.png" Component_="ajaxloader.gif" FileName="icons-~3.png|icons-36-black.png" Attributes="0" SourcePath="..\Output\Website\css\images\icons-36-black.png" SelfReg="false" NextFile="icons36white.png"/>
+    <ROW File="icons36white.png" Component_="ajaxloader.gif" FileName="icons-~4.png|icons-36-white.png" Attributes="0" SourcePath="..\Output\Website\css\images\icons-36-white.png" SelfReg="false" NextFile="jquery.mobile1.3.2.min.css"/>
+    <ROW File="index.html" Component_="index.html" FileName="index~1.htm|index.html" Attributes="0" SourcePath="..\Output\Website\index.html" SelfReg="false" NextFile="i18next1.7.1.min.js"/>
+    <ROW File="jquery.mobile.theme1.3.2.min.css" Component_="jquery.mobile1.3.2.min.css" FileName="jquery~2.css|jquery.mobile.theme-1.3.2.min.css" Attributes="0" SourcePath="..\Output\Website\css\jquery.mobile.theme-1.3.2.min.css" SelfReg="false" NextFile="style.css"/>
+    <ROW File="jquery.mobile1.3.2.min.css" Component_="jquery.mobile1.3.2.min.css" FileName="jquery~1.css|jquery.mobile-1.3.2.min.css" Attributes="0" SourcePath="..\Output\Website\css\jquery.mobile-1.3.2.min.css" SelfReg="false" NextFile="jquery.mobile.theme1.3.2.min.css"/>
+    <ROW File="jquery.mobile1.3.2.min.js" Component_="i18next1.7.1.min.js" FileName="jquery~3.js|jquery.mobile-1.3.2.min.js" Attributes="0" SourcePath="..\Output\Website\js\jquery.mobile-1.3.2.min.js" SelfReg="false" NextFile="jquery.ui.touchpunch.min.js"/>
+    <ROW File="jquery.ui.touchpunch.min.js" Component_="i18next1.7.1.min.js" FileName="jquery~4.js|jquery.ui.touch-punch.min.js" Attributes="0" SourcePath="..\Output\Website\js\jquery.ui.touch-punch.min.js" SelfReg="false" NextFile="main.js"/>
+    <ROW File="jquery1.9.1.min.js" Component_="i18next1.7.1.min.js" FileName="jquery~1.js|jquery-1.9.1.min.js" Attributes="0" SourcePath="..\Output\Website\js\jquery-1.9.1.min.js" SelfReg="false" NextFile="jqueryui1.10.3.custom.min.js"/>
+    <ROW File="jqueryui1.10.3.custom.min.js" Component_="i18next1.7.1.min.js" FileName="jquery~2.js|jquery-ui-1.10.3.custom.min.js" Attributes="0" SourcePath="..\Output\Website\js\jquery-ui-1.10.3.custom.min.js" SelfReg="false" NextFile="jquery.mobile1.3.2.min.js"/>
+    <ROW File="keyboard.png" Component_="addPlaylist.png" FileName="keyboard.png" Attributes="0" SourcePath="..\Output\Website\img\keyboard.png" SelfReg="false" NextFile="logout.png"/>
     <ROW File="language.xcf" Component_="decades.xcf" FileName="language.xcf" Attributes="0" SourcePath="..\Output\Cover\Blue\Resources\language.xcf" SelfReg="false" NextFile="letter.xcf"/>
     <ROW File="letter.xcf" Component_="decades.xcf" FileName="letter.xcf" Attributes="0" SourcePath="..\Output\Cover\Blue\Resources\letter.xcf" SelfReg="false" NextFile="no_cover.xcf"/>
+    <ROW File="lgpl3.0.txt" Component_="gpl3.0.txt" FileName="lgpl-3~1.txt|lgpl-3.0.txt" Attributes="0" SourcePath="..\Output\Licenses\AForge\lgpl-3.0.txt" SelfReg="false" NextFile="License.txt_1"/>
     <ROW File="libFLAC8.dll" Component_="libFLAC8.dll" FileName="libFLA~1.dll|libFLAC-8.dll" Attributes="0" SourcePath="..\Output\x64\gstreamer\libFLAC-8.dll" SelfReg="false" NextFile="libfontconfig1.dll"/>
     <ROW File="libFLAC8.dll_5" Component_="libFLAC8.dll_5" FileName="libFLA~1.dll|libFLAC-8.dll" Attributes="0" SourcePath="..\Output\x86\gstreamer\libFLAC-8.dll" SelfReg="false" NextFile="libfontconfig1.dll_5"/>
     <ROW File="liba520.dll" Component_="liba520.dll" FileName="liba52-0.dll" Attributes="0" SourcePath="..\Output\x64\gstreamer\liba52-0.dll" SelfReg="false" NextFile="libass4.dll"/>
@@ -1470,12 +1567,17 @@
     <ROW File="libxml22.dll_5" Component_="libxml22.dll_5" FileName="libxml~1.dll|libxml2-2.dll" Attributes="0" SourcePath="..\Output\x86\gstreamer\libxml2-2.dll" SelfReg="false" NextFile="libz.dll_5"/>
     <ROW File="libz.dll" Component_="libz.dll" FileName="libz.dll" Attributes="0" SourcePath="..\Output\x64\gstreamer\libz.dll" SelfReg="false" NextFile="Vocaluxe_x64.exe"/>
     <ROW File="libz.dll_5" Component_="libz.dll_5" FileName="libz.dll" Attributes="0" SourcePath="..\Output\x86\gstreamer\libz.dll" SelfReg="false" NextFile="hidapi.dll_5"/>
+    <ROW File="license.txt_4" Component_="copyright.txt" FileName="license.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio-Sharp\license.txt" SelfReg="false" NextFile="readme.txt_3"/>
+    <ROW File="logout.png" Component_="addPlaylist.png" FileName="logout.png" Attributes="0" SourcePath="..\Output\Website\img\logout.png" SelfReg="false" NextFile="music.png"/>
+    <ROW File="main.js" Component_="i18next1.7.1.min.js" FileName="main.js" Attributes="0" SourcePath="..\Output\Website\js\main.js" SelfReg="false" NextFile="cs.json"/>
+    <ROW File="music.png" Component_="addPlaylist.png" FileName="music.png" Attributes="0" SourcePath="..\Output\Website\img\music.png" SelfReg="false" NextFile="noCover.png_1"/>
     <ROW File="neonarrowrighticonblack250.jpg" Component_="Background.pdn" FileName="neon-a~1.jpg|neon-arrow-right-icon-black-250.jpg" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\neon-arrow-right-icon-black-250.jpg" SelfReg="false" NextFile="neonarrowupiconblack250.jpg"/>
     <ROW File="neonarrowupiconblack250.jpg" Component_="Background.pdn" FileName="neon-a~2.jpg|neon-arrow-up-icon-black-250.jpg" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\neon-arrow-up-icon-black-250.jpg" SelfReg="false" NextFile="neonfingerpointiconblack250.jpg"/>
     <ROW File="neonfingerpointiconblack250.jpg" Component_="Background.pdn" FileName="neon-f~1.jpg|neon-finger-point-icon-black-250.jpg" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\neon-finger-point-icon-black-250.jpg" SelfReg="false" NextFile="neonmicrophoneiconblack250.jpg"/>
     <ROW File="neonmicrophoneiconblack250.jpg" Component_="Background.pdn" FileName="neon-m~1.jpg|neon-microphone-icon-black-250.jpg" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\neon-microphone-icon-black-250.jpg" SelfReg="false" NextFile="neonpiecharticonblack250.jpg"/>
     <ROW File="neonpiecharticonblack250.jpg" Component_="Background.pdn" FileName="neon-p~1.jpg|neon-pie-chart-icon-black-250.jpg" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\neon-pie-chart-icon-black-250.jpg" SelfReg="false" NextFile="neonvideocameraiconblack250.jpg"/>
     <ROW File="neonvideocameraiconblack250.jpg" Component_="Background.pdn" FileName="neon-v~1.jpg|neon-video-camera-icon-black-250.jpg" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\neon-video-camera-icon-black-250.jpg" SelfReg="false" NextFile="NextIcon.psd"/>
+    <ROW File="noCover.png_1" Component_="addPlaylist.png" FileName="noCover.png" Attributes="0" SourcePath="..\Output\Website\img\noCover.png" SelfReg="false" NextFile="photo.png"/>
     <ROW File="no_cover.xcf" Component_="decades.xcf" FileName="no_cover.xcf" Attributes="0" SourcePath="..\Output\Cover\Blue\Resources\no_cover.xcf" SelfReg="false" NextFile="S.png"/>
     <ROW File="notes_bg_left.png" Component_="Button.png_3" FileName="notes_~1.png|notes_bg_left.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\notes_bg_left.png" SelfReg="false" NextFile="notes_bg_mid.png"/>
     <ROW File="notes_bg_left.xcf" Component_="Background.pdn" FileName="notes_~1.xcf|notes_bg_left.xcf" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\notes_bg_left.xcf" SelfReg="false" NextFile="notes_bg_mid.xcf"/>
@@ -1489,16 +1591,25 @@
     <ROW File="notes_mid.xcf" Component_="Background.pdn" FileName="notes_~5.xcf|notes_mid.xcf" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\notes_mid.xcf" SelfReg="false" NextFile="notes_right.xcf"/>
     <ROW File="notes_right.png" Component_="Button.png_3" FileName="notes_~6.png|notes_right.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\notes_right.png" SelfReg="false" NextFile="Pause.png"/>
     <ROW File="notes_right.xcf" Component_="Background.pdn" FileName="notes_~6.xcf|notes_right.xcf" Attributes="0" SourcePath="..\Output\Themes\Ambient\Resources\notes_right.xcf" SelfReg="false" NextFile="Pause.PSD"/>
+    <ROW File="photo.png" Component_="addPlaylist.png" FileName="photo.png" Attributes="0" SourcePath="..\Output\Website\img\photo.png" SelfReg="false" NextFile="playlist.png"/>
+    <ROW File="playlist.png" Component_="addPlaylist.png" FileName="playlist.png" Attributes="0" SourcePath="..\Output\Website\img\playlist.png" SelfReg="false" NextFile="playlists.png"/>
+    <ROW File="playlists.png" Component_="addPlaylist.png" FileName="playli~1.png|playlists.png" Attributes="0" SourcePath="..\Output\Website\img\playlists.png" SelfReg="false" NextFile="profile.png"/>
     <ROW File="png" Component_="png" FileName="#.png" Attributes="0" SourcePath="..\Output\Cover\Blue\#.png" SelfReg="false" NextFile="er.png"/>
     <ROW File="points_bar.png" Component_="Button.png_3" FileName="points~1.png|points_bar.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\points_bar.png" SelfReg="false" NextFile="points_bar_bg.png"/>
     <ROW File="points_bar_bg.png" Component_="Button.png_3" FileName="points~2.png|points_bar_bg.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\points_bar_bg.png" SelfReg="false" NextFile="Popup.png_3"/>
-    <ROW File="portaudio_x64.dll_2" Component_="portaudio_x64.dll_2" FileName="portau~1.dll|portaudio_x64.dll" Attributes="0" SourcePath="..\Output\x64\portaudio_x64.dll" SelfReg="false" NextFile="SlimDX.dll_6"/>
-    <ROW File="portaudio_x86.dll" Component_="portaudio_x86.dll" FileName="portau~1.dll|portaudio_x86.dll" Attributes="0" SourcePath="..\Output\x86\portaudio_x86.dll" SelfReg="false" NextFile="SlimDX.dll_5"/>
+    <ROW File="profile.png" Component_="addPlaylist.png" FileName="profile.png" Attributes="0" SourcePath="..\Output\Website\img\profile.png" SelfReg="false" NextFile="profiles.png"/>
+    <ROW File="profiles.png" Component_="addPlaylist.png" FileName="profiles.png" Attributes="0" SourcePath="..\Output\Website\img\profiles.png" SelfReg="false" NextFile="spotify.png"/>
     <ROW File="readme.txt" Component_="FreeSans.ttf" FileName="readme.txt" Attributes="0" SourcePath="..\Output\Fonts\FreeSans\readme.txt" SelfReg="false" NextFile="Logo.png"/>
+    <ROW File="readme.txt_3" Component_="copyright.txt" FileName="readme.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio-Sharp\readme.txt" SelfReg="false" NextFile="SourceAndVersion.txt_3"/>
+    <ROW File="spotify.png" Component_="addPlaylist.png" FileName="spotify.png" Attributes="0" SourcePath="..\Output\Website\img\spotify.png" SelfReg="false" NextFile="Thumbs.db"/>
+    <ROW File="style.css" Component_="jquery.mobile1.3.2.min.css" FileName="style.css" Attributes="0" SourcePath="..\Output\Website\css\style.css" SelfReg="false" NextFile="addPlaylist.png"/>
+    <ROW File="sv.json" Component_="cs.json" FileName="sv~1.jso|sv.json" Attributes="0" SourcePath="..\Output\Website\locales\sv.json" SelfReg="false"/>
     <ROW File="swresample0.dll_5" Component_="swresample0.dll_5" FileName="swresa~1.dll|swresample-0.dll" Attributes="0" SourcePath="..\Output\x86\swresample-0.dll" SelfReg="false" NextFile="swscale2.dll_5"/>
     <ROW File="swresample0.dll_6" Component_="swresample0.dll_6" FileName="swresa~1.dll|swresample-0.dll" Attributes="0" SourcePath="..\Output\x64\swresample-0.dll" SelfReg="false" NextFile="swscale2.dll_6"/>
     <ROW File="swscale2.dll_5" Component_="swscale2.dll_5" FileName="swscal~1.dll|swscale-2.dll" Attributes="0" SourcePath="..\Output\x86\swscale-2.dll" SelfReg="false" NextFile="System.Data.SQLite.dll"/>
     <ROW File="swscale2.dll_6" Component_="swscale2.dll_6" FileName="swscal~1.dll|swscale-2.dll" Attributes="0" SourcePath="..\Output\x64\swscale-2.dll" SelfReg="false" NextFile="System.Data.SQLite.dll_3"/>
+    <ROW File="wikipedia.png" Component_="addPlaylist.png" FileName="wikipe~1.png|wikipedia.png" Attributes="0" SourcePath="..\Output\Website\img\wikipedia.png" SelfReg="false" NextFile="youtube.png"/>
+    <ROW File="youtube.png" Component_="addPlaylist.png" FileName="youtube.png" Attributes="0" SourcePath="..\Output\Website\img\youtube.png" SelfReg="false" NextFile="index.html"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.AiRemoveFileComponent">
     <ROW RemoveFile="Config.xml" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="1"/>
@@ -1509,7 +1620,7 @@
     <ROW RemoveFile="Benchmark1.log" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="." Languages="de;en;nl;fr;hu;sv;es;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="4" LangsDialog="true" UseLargeSchema="true" ExeName="vocaluxe-[|ProductVersion]-setup" MsiPackageType="AI_ALL" UACExecutionLevel="2"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="." Languages="de;en;nl;fr;hu;sv;es;tr;cs;it" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="4" LangsDialog="true" UseLargeSchema="true" ExeName="vocaluxe-[|ProductVersion]-setup" MsiPackageType="AI_ALL" UACExecutionLevel="2"/>
     <ATTRIBUTE name="CompConditionPolicy" value="0"/>
     <ATTRIBUTE name="CurrentBuild" value="DefaultBuild"/>
   </COMPONENT>
@@ -1523,6 +1634,8 @@
     <ROW Path="&lt;AI_DICTS&gt;ui_sv.ail"/>
     <ROW Path="&lt;AI_DICTS&gt;ui_es.ail"/>
     <ROW Path="&lt;AI_DICTS&gt;ui_tr.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;ui_cs.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;ui_it.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
     <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>
@@ -1663,6 +1776,19 @@
     <ROW Directory_="Resources_1_Dir" Component_="Resources_1"/>
     <ROW Directory_="Changelog_Dir" Component_="Changelog"/>
     <ROW Directory_="SHORTCUTDIR" Component_="SHORTCUTDIR"/>
+    <ROW Directory_="Licenses_Dir" Component_="Licenses"/>
+    <ROW Directory_="AForge_Dir" Component_="AForge"/>
+    <ROW Directory_="Newtonsoft.Json_Dir" Component_="Newtonsoft.Json"/>
+    <ROW Directory_="PortAudio_Dir" Component_="PortAudio"/>
+    <ROW Directory_="PortAudioSharp_Dir" Component_="PortAudioSharp"/>
+    <ROW Directory_="QRCoder_Dir" Component_="QRCoder"/>
+    <ROW Directory_="SlimDx_Dir" Component_="SlimDx"/>
+    <ROW Directory_="Website_Dir" Component_="Website"/>
+    <ROW Directory_="css_Dir" Component_="css"/>
+    <ROW Directory_="images_Dir" Component_="images"/>
+    <ROW Directory_="img_Dir" Component_="img"/>
+    <ROW Directory_="js_Dir" Component_="js"/>
+    <ROW Directory_="locales_Dir" Component_="locales"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_AiRemoveFilesCommit" Type="11777" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesCommit" WithoutSeq="true"/>
@@ -1751,9 +1877,9 @@
     <ROW Action="AI_DEL_EMPTY_SHORTCUTDIR" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6402"/>
     <ROW Action="AI_DATA_SETTER_1" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6401"/>
     <ROW Action="AI_RemoveExternalUIStub" Condition="(REMOVE=&quot;ALL&quot;) AND ((VersionNT &gt; 500) OR((VersionNT = 500) AND (ServicePackLevel &gt;= 4)))" Sequence="1501"/>
-    <ROW Action="AI_AiRemoveFilesImmediate" Sequence="3499"/>
     <ROW Action="AI_AiRemoveFilesRollback" Sequence="3099"/>
     <ROW Action="AI_PromptUserBasicUI" Condition="((REMOVE = &quot;ALL&quot;) AND (NOT UPGRADINGPRODUCTCODE))" Sequence="2501"/>
+    <ROW Action="AI_AiRemoveFilesImmediate" Sequence="3499"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
     <ROW Action="ExecuteAction" Sequence="1298" SeqType="0" MsiKey="ExecuteAction"/>
@@ -1810,6 +1936,19 @@
     <ROW LockObject="Screens_3_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
     <ROW LockObject="Resources_1_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
     <ROW LockObject="Changelog_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="Licenses_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="AForge_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="Newtonsoft.Json_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="PortAudio_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="PortAudioSharp_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="QRCoder_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="SlimDx_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="Website_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="css_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="images_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="img_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="js_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="locales_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
     <ROW Signature_="AI_EXE_PATH_CU" Root="1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>
@@ -1883,5 +2022,11 @@
     <ROW SearchKey="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4_DIRECTX_9_SEARCH" Prereq="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" SearchType="2" SearchString="HKLM\Software\Microsoft\DirectX\Version" VerMin="4.09" Order="1" Property="AI_DIRECTX_9_PREREQSEARCH_PROP"/>
     <ROW SearchKey="C67108D39D05435F9BE6B977F2CCED25_VC_2012_SEARCH" Prereq="C67108D39D05435F9BE6B977F2CCED25" SearchType="2" SearchString="HKLM\Software\Microsoft\DevDiv\vc\Servicing\11.0\RuntimeMinimum\Version" VerMin="11.0" Order="1" Property="AI_VC_2012_PREREQSEARCH_X64_PROP"/>
     <ROW SearchKey="EF36CDD6CE40CFA978040EA5CBA799_VC_2012_SEARCH" Prereq="EF36CDD6CE40CFA978040EA5CBA799" SearchType="2" SearchString="HKLM\Software\Microsoft\DevDiv\vc\Servicing\11.0\RuntimeMinimum\Version" VerMin="11.0" Order="1" Property="AI_VC_2012_PREREQSEARCH_PROP" Platform="1"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.SynchronizedFolderComponent">
+    <ROW Directory_="Languages_1_Dir" SourcePath="..\Output\PartyModes\Challenge\Languages" Feature="AIOtherFiles" IncludePattern="*.xml" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6"/>
+    <ROW Directory_="Languages_Dir" SourcePath="..\Output\Languages" Feature="AIOtherFiles" IncludePattern="*.xml" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6"/>
+    <ROW Directory_="Languages_2_Dir" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages" Feature="AIOtherFiles" IncludePattern="*.xml" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6"/>
+    <ROW Directory_="Languages_3_Dir" SourcePath="..\Output\PartyModes\TicTacToe\Languages" Feature="AIOtherFiles" IncludePattern="*.xml" ExcludePattern="*~|#*#|%*%|._|CVS|.cvsignore|SCCS|vssver.scc|mssccprj.scc|vssver2.scc|.svn|.DS_Store" ExcludeFlags="6"/>
   </COMPONENT>
 </DOCUMENT>

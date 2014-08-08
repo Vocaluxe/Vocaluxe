@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallenge", "Party
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallengeMedley", "PartyModes\PartyModeChallengeMedley\PartyModeChallengeMedley.csproj", "{6F3E1874-F28A-40E9-AFBD-31934D593678}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLib", "ClientServerLib\ClientServerLib\ServerLib.csproj", "{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServerLib", "ServerLib\ServerLib.csproj", "{EC5167E4-CCFB-4CEE-987C-CF816F1062A3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebserverInitalConfig", "WebserverInitalConfig\WebserverInitalConfig.csproj", "{55F89808-4E79-4FFE-BC13-48258913F5C9}"
 EndProject

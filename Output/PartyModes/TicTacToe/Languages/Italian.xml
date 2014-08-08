@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="language">Italiano</string>
   <string name="TR_PARTYMODE_NAME">Tic-Tac-Toe</string>
   <string name="TR_BUTTON_YES">Si</string>
   <string name="TR_BUTTON_NO">No</string>

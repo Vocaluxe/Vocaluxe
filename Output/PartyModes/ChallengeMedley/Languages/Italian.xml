@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
+  <string name="language">Italiano</string>
   <string name="TR_BUTTON_NEXT">Prossimo</string>
   <string name="TR_BUTTON_BACK">Indietro</string>
   <string name="TR_BUTTON_START">Inizia</string>

@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Net;
+using System.Windows.Forms;
 
 namespace ServerLib
 {
@@ -159,6 +160,7 @@ namespace ServerLib
                     catch (CommunicationException)
                     {
                         _Host.Abort();
+                        MessageBox.Show("Problem while initialization of webserver. You may use a different port (Change in config.xml)");
                     }
                 }
                 else
