@@ -865,29 +865,34 @@ namespace Vocaluxe.Base
 
     class CBplaylist : IPlaylist
     {
-        public void SetPlaylistName(int playlistID, string name)
+        public void SetName(int playlistID, string name)
         {
-            CPlaylists.SetPlaylistName(playlistID, name);
+            CPlaylists.SetName(playlistID, name);
         }
 
-        public List<string> GetPlaylistNames()
+        public List<string> GetNames()
         {
-            return CPlaylists.PlaylistNames;
+            return CPlaylists.Names;
         }
 
-        public string GetPlaylistName(int playlistID)
+        public bool Exists(int playlistID)
         {
-            return CPlaylists.GetPlaylistName(playlistID);
+            return CPlaylists.Get(playlistID) != null;
         }
 
-        public void DeletePlaylist(int playlistID)
+        public string GetName(int playlistID)
         {
-            CPlaylists.DeletePlaylist(playlistID);
+            return CPlaylists.GetName(playlistID);
         }
 
-        public void SavePlaylist(int playlistID)
+        public void Delete(int playlistID)
         {
-            CPlaylists.SavePlaylist(playlistID);
+            CPlaylists.Delete(playlistID);
+        }
+
+        public void Save(int playlistID)
+        {
+            CPlaylists.Save(playlistID);
         }
 
         public int GetNumPlaylists()
@@ -895,49 +900,49 @@ namespace Vocaluxe.Base
             return CPlaylists.NumPlaylists;
         }
 
-        public void AddPlaylistSong(int playlistID, int songID)
+        public void AddSong(int playlistID, int songID)
         {
-            CPlaylists.AddPlaylistSong(playlistID, songID);
+            CPlaylists.AddSong(playlistID, songID);
         }
 
-        public void AddPlaylistSong(int playlistID, int songID, EGameMode gameMode)
+        public void AddSong(int playlistID, int songID, EGameMode gameMode)
         {
-            CPlaylists.AddPlaylistSong(playlistID, songID, gameMode);
+            CPlaylists.AddSong(playlistID, songID, gameMode);
         }
 
-        public void InsertPlaylistSong(int playlistID, int positionIndex, int songID, EGameMode gameMode)
+        public void InsertSong(int playlistID, int positionIndex, int songID, EGameMode gameMode)
         {
-            CPlaylists.InsertPlaylistSong(playlistID, positionIndex, songID, gameMode);
+            CPlaylists.InsertSong(playlistID, positionIndex, songID, gameMode);
         }
 
-        public void MovePlaylistSong(int playlistID, int sourceIndex, int destIndex)
+        public void MoveSong(int playlistID, int sourceIndex, int destIndex)
         {
-            CPlaylists.MovePlaylistSong(playlistID, sourceIndex, destIndex);
+            CPlaylists.MoveSong(playlistID, sourceIndex, destIndex);
         }
 
-        public void MovePlaylistSongDown(int playlistID, int songIndex)
+        public void MoveSongDown(int playlistID, int songIndex)
         {
-            CPlaylists.MovePlaylistSongDown(playlistID, songIndex);
+            CPlaylists.MovePSongDown(playlistID, songIndex);
         }
 
-        public void MovePlaylistSongUp(int playlistID, int songIndex)
+        public void MoveSongUp(int playlistID, int songIndex)
         {
-            CPlaylists.MovePlaylistSongUp(playlistID, songIndex);
+            CPlaylists.MoveSongUp(playlistID, songIndex);
         }
 
-        public void DeletePlaylistSong(int playlistID, int songIndex)
+        public void DeleteSong(int playlistID, int songIndex)
         {
-            CPlaylists.DeletePlaylistSong(playlistID, songIndex);
+            CPlaylists.DeleteSong(playlistID, songIndex);
         }
 
-        public int GetPlaylistSongCount(int playlistID)
+        public int GetSongCount(int playlistID)
         {
-            return CPlaylists.GetPlaylistSongCount(playlistID);
+            return CPlaylists.GetSongCount(playlistID);
         }
 
-        public CPlaylistSong GetPlaylistSong(int playlistID, int songIndex)
+        public CPlaylistSong GetSong(int playlistID, int songIndex)
         {
-            return CPlaylists.GetPlaylistSong(playlistID, songIndex);
+            return CPlaylists.GetSong(playlistID, songIndex);
         }
     }
 }

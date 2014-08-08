@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Xml;
 using Vocaluxe.Base;
 using VocaluxeLib;
@@ -28,25 +29,20 @@ namespace Vocaluxe.Lib.Playlist
 {
     public class CPlaylistFile
     {
-        public string Name;
+        public string Name = "";
         public string File;
-        public int Id = -1;
+        public readonly int Id = -1;
         public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
-        public CPlaylistFile()
-        {
-            Name = string.Empty;
-            File = string.Empty;
-        }
-
-        public CPlaylistFile(string file, int id)
+        public CPlaylistFile(int id, string file = "")
         {
             Id = id;
             File = file;
-            _LoadPlaylist();
+            if (File != "")
+                _Load();
         }
 
-        public void SavePlaylist()
+        public void Save()
         {
             if (File == "")
             {
@@ -113,43 +109,34 @@ namespace Vocaluxe.Lib.Playlist
             }
         }
 
-        private void _LoadPlaylist()
+        private void _Load()
         {
             CXMLReader xmlReader = CXMLReader.OpenFile(File);
             if (xmlReader == null)
                 return;
 
-            string value = String.Empty;
-            if (xmlReader.GetValue("//root/Info/PlaylistName", out value, value))
+            string value;
+            if (xmlReader.GetValue("//root/Info/PlaylistName", out value, ""))
             {
                 Name = value;
 
                 Songs = new List<CPlaylistSong>();
 
                 List<string> songs = xmlReader.GetValues("Songs");
-                var gm = EGameMode.TR_GAMEMODE_NORMAL;
 
-                foreach (string song in songs)
+                foreach (string songEntry in songs)
                 {
                     string artist;
                     string title;
-                    xmlReader.GetValue("//root/Songs/" + song + "/Artist", out artist, String.Empty);
-                    xmlReader.GetValue("//root/Songs/" + song + "/Title", out title, String.Empty);
-                    xmlReader.TryGetEnumValue("//root/Songs/" + song + "/GameMode", ref gm);
+                    xmlReader.GetValue("//root/Songs/" + songEntry + "/Artist", out artist, String.Empty);
+                    xmlReader.GetValue("//root/Songs/" + songEntry + "/Title", out title, String.Empty);
+                    EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
+                    xmlReader.TryGetEnumValue("//root/Songs/" + songEntry + "/GameMode", ref gm);
 
-                    var playlistSong = new CPlaylistSong {SongID = -1};
-
-                    foreach (CSong curSong in CSongs.AllSongs)
+                    CSong plSong = CSongs.AllSongs.FirstOrDefault(song => song.Artist == artist && song.Title == title);
+                    if (plSong != null)
                     {
-                        if (curSong.Artist != artist || curSong.Title != title)
-                            continue;
-                        playlistSong.SongID = curSong.ID;
-                        break;
-                    }
-
-                    if (playlistSong.SongID != -1)
-                    {
-                        playlistSong.GameMode = gm;
+                        var playlistSong = new CPlaylistSong(plSong.ID, gm);
                         Songs.Add(playlistSong);
                     }
                     else
@@ -173,7 +160,7 @@ namespace Vocaluxe.Lib.Playlist
 
         public void AddSong(int songID, EGameMode gm)
         {
-            var song = new CPlaylistSong {SongID = songID, GameMode = gm};
+            var song = new CPlaylistSong(songID, gm);
 
             Songs.Add(song);
         }
@@ -183,31 +170,31 @@ namespace Vocaluxe.Lib.Playlist
             Songs.RemoveAt(songNr);
         }
 
-        public void SongUp(int songNr)
+        public void MoveSongUp(int songNr)
         {
-            if (songNr < Songs.Count - 1 && songNr > 0)
+            if (songNr < Songs.Count && songNr > 0)
                 Songs.Reverse(songNr - 1, 2);
         }
 
-        public void SongDown(int songNr)
+        public void MoveSongDown(int songNr)
         {
             if (songNr < Songs.Count - 1 && songNr >= 0)
                 Songs.Reverse(songNr, 2);
         }
 
-        public void SongMove(int sourceNr, int destNr)
+        public void MoveSong(int sourceNr, int destNr)
         {
-            if (sourceNr < 0 || destNr < 0 || sourceNr == destNr || sourceNr > Songs.Count - 1 || destNr > Songs.Count - 1)
+            if (sourceNr < 0 || destNr < 0 || sourceNr == destNr || sourceNr >= Songs.Count || destNr >= Songs.Count)
                 return;
 
-            var ps = new CPlaylistSong(Songs[sourceNr]);
+            CPlaylistSong song = Songs[sourceNr];
             Songs.RemoveAt(sourceNr);
-            Songs.Insert(destNr, ps);
+            Songs.Insert(destNr, song);
         }
 
-        public void SongInsert(int destNr, int songID, EGameMode gm)
+        public void InsertSong(int destNr, int songID, EGameMode gm)
         {
-            if (destNr < 0 || destNr > Songs.Count - 1)
+            if (destNr < 0 || destNr >= Songs.Count)
                 return;
 
             CPlaylistSong ps = new CPlaylistSong(songID, gm);

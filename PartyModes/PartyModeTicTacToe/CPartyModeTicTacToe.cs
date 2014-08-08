@@ -655,9 +655,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 switch (_GameData.SongSource)
                 {
                     case ESongSource.TR_PLAYLIST:
-                        for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(_GameData.PlaylistID); i++)
+                        for (int i = 0; i < CBase.Playlist.GetSongCount(_GameData.PlaylistID); i++)
                         {
-                            int id = CBase.Playlist.GetPlaylistSong(_GameData.PlaylistID, i).SongID;
+                            int id = CBase.Playlist.GetSong(_GameData.PlaylistID, i).SongID;
                             // ReSharper disable LoopCanBeConvertedToQuery
                             foreach (EGameMode mode in CBase.Songs.GetSongByID(id).AvailableGameModes)
                                 // ReSharper restore LoopCanBeConvertedToQuery

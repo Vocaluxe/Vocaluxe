@@ -31,13 +31,14 @@ namespace Vocaluxe.Base
     static class CPlaylists
     {
         private static List<CPlaylistFile> _Playlists;
+        private static int _NextID;
 
-        public static CPlaylistFile[] Playlists
+        public static IEnumerable<CPlaylistFile> Playlists
         {
-            get { return _Playlists.ToArray(); }
+            get { return _Playlists.AsReadOnly(); }
         }
 
-        public static List<string> PlaylistNames
+        public static List<string> Names
         {
             get { return _Playlists.Select(t => t.Name).ToList(); }
         }
@@ -49,10 +50,10 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            LoadPlaylists();
+            Load();
             _ConvertUSDXPlaylists();
 
-            _SortPlaylistsByName();
+            _SortByName();
         }
 
         private static void _ConvertUSDXPlaylists()
@@ -63,12 +64,12 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 CPlaylistFile playlist = _ConvertUSDXPlaylist(file);
-                playlist.SavePlaylist();
+                playlist.Save();
                 _Playlists.Add(playlist);
             }
         }
 
-        public static void LoadPlaylists()
+        public static void Load()
         {
             _Playlists = new List<CPlaylistFile>();
 
@@ -77,148 +78,141 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                CPlaylistFile playlist = new CPlaylistFile(file, files.IndexOf(file));
+                CPlaylistFile playlist = new CPlaylistFile(files.IndexOf(file), file);
                 _Playlists.Add(playlist);
             }
         }
 
-        public static string GetPlaylistName(int playlistID)
+        public static CPlaylistFile Get(int playlistID)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return "Error: Can't find Playlist";
-
-            return _Playlists[playlistID].Name;
+            return _Playlists.FirstOrDefault(pl => pl.Id == playlistID);
         }
 
-        public static void SetPlaylistName(int playlistID, string name)
+        public static string GetName(int playlistID)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return;
-
-            _Playlists[playlistID].Name = name;
+            CPlaylistFile pl = Get(playlistID);
+            return pl == null ? "Error: Can't find Playlist" : pl.Name;
         }
 
-        public static void DeletePlaylist(int playlistID)
+        public static void SetName(int playlistID, string name)
         {
-            if (playlistID < 0 || playlistID >= _Playlists.Count)
+            CPlaylistFile pl = Get(playlistID);
+
+            if (pl != null)
+                pl.Name = name;
+        }
+
+        public static void Delete(int playlistID)
+        {
+            CPlaylistFile pl = Get(playlistID);
+            if (pl == null)
                 return;
-            if (_Playlists[playlistID].File != "")
+            if (pl.File != "" && File.Exists(pl.File))
             {
                 try
                 {
-                    File.Delete(_Playlists[playlistID].File);
+                    File.Delete(pl.File);
                 }
                 catch (Exception)
                 {
                     CLog.LogError("Can't delete Playlist File " + _Playlists[playlistID].File + ".xml");
                 }
             }
-            _Playlists.RemoveAt(playlistID);
+            _Playlists.Remove(pl);
         }
 
-        public static void SavePlaylist(int playlistID)
+        public static void Save(int playlistID)
         {
-            if (playlistID < 0 || playlistID >= _Playlists.Count)
-                return;
-            _Playlists[playlistID].SavePlaylist();
+            CPlaylistFile pl = Get(playlistID);
+            if (pl != null)
+                pl.Save();
         }
 
-        public static int NewPlaylist()
+        public static int NewPlaylist(string name = "New Playlist")
         {
-            CPlaylistFile pl = new CPlaylistFile {Name = "New Playlist", Id = _Playlists.Count};
+            CPlaylistFile pl = new CPlaylistFile(_NextID++) {Name = name};
             _Playlists.Add(pl);
-            return _Playlists.Count - 1;
+            return pl.Id;
         }
 
-        public static void AddPlaylistSong(int playlistID, int songID)
+        public static void AddSong(int playlistID, int songID)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return;
-
-            _Playlists[playlistID].AddSong(songID);
+            CPlaylistFile pl = Get(playlistID);
+            if (pl != null)
+                pl.AddSong(songID);
         }
 
-        public static void AddPlaylistSong(int playlistID, int songID, EGameMode gameMode)
+        public static void AddSong(int playlistID, int songID, EGameMode gameMode)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return;
-
-            _Playlists[playlistID].AddSong(songID, gameMode);
+            CPlaylistFile pl = Get(playlistID);
+            if (pl != null)
+                pl.AddSong(songID, gameMode);
         }
 
-        public static void InsertPlaylistSong(int playlistID, int positionIndex, int songID, EGameMode gameMode)
+        public static void InsertSong(int playlistID, int positionIndex, int songID, EGameMode gameMode)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return;
-
-            _Playlists[playlistID].SongInsert(positionIndex, songID, gameMode);
+            CPlaylistFile pl = Get(playlistID);
+            if (pl != null)
+                pl.InsertSong(positionIndex, songID, gameMode);
         }
 
-        public static void MovePlaylistSong(int playlistID, int sourceIndex, int destIndex)
+        public static void MoveSong(int playlistID, int sourceIndex, int destIndex)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return;
-
-            _Playlists[playlistID].SongMove(sourceIndex, destIndex);
+            CPlaylistFile pl = Get(playlistID);
+            if (pl != null)
+                pl.MoveSong(sourceIndex, destIndex);
         }
 
-        public static void MovePlaylistSongDown(int playlistID, int songIndex)
+        public static void MovePSongDown(int playlistID, int songIndex)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return;
-
-            _Playlists[playlistID].SongDown(songIndex);
+            CPlaylistFile pl = Get(playlistID);
+            if (pl != null)
+                pl.MoveSongDown(songIndex);
         }
 
-        public static void MovePlaylistSongUp(int playlistID, int songIndex)
+        public static void MoveSongUp(int playlistID, int songIndex)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return;
-
-            _Playlists[playlistID].SongUp(songIndex);
+            CPlaylistFile pl = Get(playlistID);
+            if (pl != null)
+                pl.MoveSongUp(songIndex);
         }
 
-        public static void DeletePlaylistSong(int playlistID, int songIndex)
+        public static void DeleteSong(int playlistID, int songIndex)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return;
-
-            _Playlists[playlistID].DeleteSong(songIndex);
+            CPlaylistFile pl = Get(playlistID);
+            if (pl != null)
+                pl.DeleteSong(songIndex);
         }
 
-        public static int GetPlaylistSongCount(int playlistID)
+        public static int GetSongCount(int playlistID)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
-                return 0;
-
-            return _Playlists[playlistID].Songs.Count;
+            CPlaylistFile pl = Get(playlistID);
+            return pl != null ? pl.Songs.Count : -1;
         }
 
-        public static CPlaylistSong GetPlaylistSong(int playlistID, int songIndex)
+        public static CPlaylistSong GetSong(int playlistID, int songIndex)
         {
-            if (playlistID >= _Playlists.Count || playlistID < 0)
+            CPlaylistFile pl = Get(playlistID);
+            if (pl == null || songIndex >= pl.Songs.Count)
                 return null;
 
-            if (songIndex >= _Playlists[playlistID].Songs.Count)
-                return null;
-
-            return _Playlists[playlistID].Songs[songIndex];
+            return pl.Songs[songIndex];
         }
 
         #region private methods
-        private static void _SortPlaylistsByName()
+        private static void _SortByName()
         {
-            _Playlists.Sort(_CompareByPlaylistName);
+            _Playlists.Sort(_CompareByName);
         }
 
-        private static int _CompareByPlaylistName(CPlaylistFile a, CPlaylistFile b)
+        private static int _CompareByName(CPlaylistFile a, CPlaylistFile b)
         {
             return String.CompareOrdinal(a.Name, b.Name);
         }
 
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)
         {
-            var pl = new CPlaylistFile();
+            var pl = new CPlaylistFile(_NextID++);
             ReadOnlyCollection<CSong> allSongs = CSongs.AllSongs;
 
             if (!File.Exists(file))
@@ -234,30 +228,23 @@ namespace Vocaluxe.Base
                         int pos = line.IndexOf(":", StringComparison.Ordinal);
                         if (pos <= 0)
                             continue;
-                        //Name or comment
                         if (line[0] == '#')
                         {
+                            //Name or comment
                             string identifier = line.Substring(1, pos - 1).Trim();
                             string value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
                             if (identifier.ToUpper() == "NAME")
                                 pl.Name = value;
                         }
-                            //Song
                         else
                         {
+                            //Song
                             string artist = line.Substring(0, pos - 1).Trim();
                             string title = line.Substring(pos + 1, line.Length - pos - 1).Trim();
-                            bool found = false;
-                            foreach (CSong song in allSongs)
-                            {
-                                if (song.Artist == artist && song.Title == title)
-                                {
-                                    pl.AddSong(song.ID);
-                                    found = true;
-                                    break;
-                                }
-                            }
-                            if (!found)
+                            CSong plSong = allSongs.FirstOrDefault(song => song.Artist == artist && song.Title == title);
+                            if (plSong != null)
+                                pl.AddSong(plSong.ID);
+                            else
                                 CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + file);
                         }
                     }
