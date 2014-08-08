@@ -335,7 +335,7 @@ namespace Vocaluxe.Base
             return CBackgroundMusic.VideoEnabled;
         }
 
-        public void SetStatus(bool disabled)
+        public void SetDisabled(bool disabled)
         {
             CBackgroundMusic.Disabled = disabled;
         }

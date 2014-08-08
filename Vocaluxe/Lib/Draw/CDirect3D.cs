@@ -320,7 +320,6 @@ namespace Vocaluxe.Lib.Draw
             }
             else
                 _DoResize();
-            ;
         }
 
         /// <summary>

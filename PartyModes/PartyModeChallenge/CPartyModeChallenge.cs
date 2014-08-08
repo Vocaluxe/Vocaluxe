@@ -270,7 +270,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         public override void UpdateGame()
         {
             /*
-            if (CBase.Songs.GetCurrentCategoryIndex() != -1 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
+            if (CBase.Songs.IsInCategory() || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
                 _ScreenSongOptions.Selection.RandomOnly = true;
             else
                 _ScreenSongOptions.Selection.RandomOnly = false;*/
