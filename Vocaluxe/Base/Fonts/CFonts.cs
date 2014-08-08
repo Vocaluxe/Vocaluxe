@@ -341,11 +341,11 @@ namespace Vocaluxe.Base.Fonts
         /// <returns></returns>
         private static void _LoadFontList()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderFonts, CSettings.FileFonts));
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameFonts, CSettings.FileNameFonts));
             if (xmlReader == null)
                 return;
 
-            _LoadFontFiles(xmlReader, Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderFonts));
+            _LoadFontFiles(xmlReader, Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameFonts));
         }
 
         /// <summary>

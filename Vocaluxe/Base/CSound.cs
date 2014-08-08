@@ -85,7 +85,7 @@ namespace Vocaluxe.Base
         }
 
         #region Stream Handling
-        public static int Load(string media, bool loop=false, bool prescan=false)
+        public static int Load(string media, bool loop = false, bool prescan = false)
         {
             return _Playback.Load(media, loop, prescan);
         }
@@ -176,11 +176,11 @@ namespace Vocaluxe.Base
         #region Sounds
         public static int PlaySound(ESounds sound, bool fade = true)
         {
-            string file = Path.Combine(Environment.CurrentDirectory, CSettings.FolderSounds);
+            string file = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSounds);
             switch (sound)
             {
                 case ESounds.T440:
-                    file = Path.Combine(file, CSettings.SoundT440);
+                    file = Path.Combine(file, CSettings.FileNameSoundT440);
                     break;
                 default:
                     return -1;

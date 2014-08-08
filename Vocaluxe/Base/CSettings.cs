@@ -74,44 +74,48 @@ namespace Vocaluxe.Base
         public static readonly string ProgramFolder = AppDomain.CurrentDomain.BaseDirectory;
 
 #if INSTALLER
-        public static readonly string DataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vocaluxe");
+        public static readonly string DataFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Vocaluxe");
 #else
-        public static readonly string DataPath = ProgramFolder;
+        public static readonly string DataFolder = ProgramFolder;
 #endif
 
-        public const string Icon = "Vocaluxe.ico";
-        public const string Logo = "Logo.png";
         public const string FallbackLanguage = "English";
-        public const string FileFonts = "Fonts.xml";
 
-        public const string FileOldHighscoreDB = "Ultrastar.db";
-        public const string FileCoverDB = "CoverDB.sqlite";
-        public const string FileCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
-        public const string FilePerformanceLog = "Performance.log";
-        public const string FileErrorLog = "Error.log";
-        public const string FileBenchmarkLog = "Benchmark.log";
-        public const string FileDebugLog = "Debug.log";
-        public const string FileSongInfoLog = "SongInformation.log";
+        public const string FileNameIcon = "Vocaluxe.ico";
+        public const string FileNameLogo = "Logo.png";
+        public const string FileNameFonts = "Fonts.xml";
 
-        public const string SoundT440 = "440Hz.mp3";
+        public const string FileNameOldHighscoreDB = "Ultrastar.db";
+        public const string FileNameCoverDB = "CoverDB.sqlite";
+        public const string FileNameCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
 
-        public const string FolderCover = "Cover";
-        public const string FolderGraphics = "Graphics";
-        public const string FolderFonts = "Fonts";
-        public const string FolderThemes = "Themes";
-        public const string FolderThemeFonts = "Fonts";
-        public const string FolderScreens = "Screens";
-        public const string FolderPhotos = "Photos";
-        public const string FolderSounds = "Sounds";
-        public const string FolderLanguages = "Languages";
-        public const string FolderScreenshots = "Screenshots";
-        public const string FolderBackgroundMusic = "BackgroundMusic";
+        public const string FileNamePerformanceLog = "Performance.log";
+        public const string FileNameErrorLog = "Error.log";
+        public const string FileNameBenchmarkLog = "Benchmark.log";
+        public const string FileNameDebugLog = "Debug.log";
+        public const string FileNameSongInfoLog = "SongInformation.log";
 
-        public const string FolderPartyModes = "PartyModes";
-        public const string FolderPartyModeCode = "Code";
-        public const string FolderPartyModeScreens = "Screens";
-        public const string FolderPartyModeLanguages = "Languages";
-        public const string FolderPartyModeFonts = "Fonts";
+        public const string FileNameSoundT440 = "440Hz.mp3";
+
+        public const string FolderNameSongs = "Songs";
+        public const string FolderNameProfiles = "Profiles";
+        public const string FolderNameCover = "Cover";
+        public const string FolderNameGraphics = "Graphics";
+        public const string FolderNameFonts = "Fonts";
+        public const string FolderNameThemes = "Themes";
+        public const string FolderNameThemeFonts = "Fonts";
+        public const string FolderNameScreens = "Screens";
+        public const string FolderNamePhotos = "Photos";
+        public const string FolderNameSounds = "Sounds";
+        public const string FolderNameLanguages = "Languages";
+        public const string FolderNameScreenshots = "Screenshots";
+        public const string FolderNameBackgroundMusic = "BackgroundMusic";
+
+        public const string FolderNamePartyModes = "PartyModes";
+        public const string FolderNamePartyModeCode = "Code";
+        public const string FolderNamePartyModeScreens = "Screens";
+        public const string FolderNamePartyModeLanguages = "Languages";
+        public const string FolderNamePartyModeFonts = "Fonts";
 
         public const string LinkAndroidApp = "https://build.phonegap.com/apps/639714/download/android/?qr_key=uY98ymvTr6K144RyTdhs";
         public const string LinkSymbianApp = "https://build.phonegap.com/apps/639714/download/symbian/?qr_key=uY98ymvTr6K144RyTdhs";
@@ -213,12 +217,12 @@ namespace Vocaluxe.Base
         {
             var folders = new List<string>
                 {
-                    Path.Combine(Environment.CurrentDirectory, FolderCover),
-                    Path.Combine(Environment.CurrentDirectory, FolderFonts),
-                    Path.Combine(DataPath, FolderScreenshots),
-                    Path.Combine(Environment.CurrentDirectory, FolderBackgroundMusic),
-                    Path.Combine(Environment.CurrentDirectory, FolderSounds),
-                    Path.Combine(DataPath, CConfig.FolderPlaylists)
+                    Path.Combine(ProgramFolder, FolderNameCover),
+                    Path.Combine(ProgramFolder, FolderNameFonts),
+                    Path.Combine(DataFolder, FolderNameScreenshots),
+                    Path.Combine(ProgramFolder, FolderNameBackgroundMusic),
+                    Path.Combine(ProgramFolder, FolderNameSounds),
+                    Path.Combine(DataFolder, CConfig.FolderPlaylists)
                 };
             folders.AddRange(CConfig.ProfileFolders);
             folders.AddRange(CConfig.SongFolders);

@@ -342,7 +342,7 @@ namespace Vocaluxe.Base.Server
                 return false;
 
             string name = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
-            string filePath = _SaveImage(photoData.Photo, name, CSettings.FolderPhotos);
+            string filePath = _SaveImage(photoData.Photo, name, CSettings.FolderNamePhotos);
             if (!string.IsNullOrEmpty(filePath))
             {
                 _PhotosOfThisRound.Add(filePath);
@@ -549,7 +549,7 @@ namespace Vocaluxe.Base.Server
             return new SPlaylistInfo
                 {
                     PlaylistId = playlist.Id,
-                    PlaylistName = playlist.PlaylistName,
+                    PlaylistName = playlist.Name,
                     SongCount = playlist.Songs.Count,
                     LastChanged = DateTime.Now.ToLongDateString()
                 };
@@ -565,7 +565,7 @@ namespace Vocaluxe.Base.Server
         private static int _AddPlaylist(string playlistName)
         {
             int newPlaylistId = CPlaylists.NewPlaylist();
-            CPlaylists.Playlists[newPlaylistId].PlaylistName = playlistName;
+            CPlaylists.Playlists[newPlaylistId].Name = playlistName;
             CPlaylists.SavePlaylist(newPlaylistId);
 
             return newPlaylistId;
@@ -682,19 +682,10 @@ namespace Vocaluxe.Base.Server
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            string filename = Path.Combine(folder, name);
-            if (File.Exists(filename + "." + extension))
-            {
-                int i = 0;
-                while (File.Exists(filename + "_" + i + "." + extension))
-                    i++;
-                filename = filename + "_" + i + "." + extension;
-            }
-            else
-                filename = filename + "." + extension;
+            string file = CHelper.GetUniqueFileName(folder, name + "." + extension);
 
-            avatarImage.Save(filename);
-            return filename;
+            avatarImage.Save(file);
+            return file;
         }
     }
 }

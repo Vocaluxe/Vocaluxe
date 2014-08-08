@@ -55,7 +55,7 @@ namespace WebserverInitalConfig
                         ProcessStartInfo proc = new ProcessStartInfo
                             {
                                 UseShellExecute = true,
-                                WorkingDirectory = Environment.CurrentDirectory,
+                                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
                                 FileName = Process.GetCurrentProcess().MainModule.FileName,
                                 Arguments = args[0] + " " + args[1],
                                 Verb = "runas",

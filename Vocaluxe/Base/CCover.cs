@@ -143,7 +143,7 @@ namespace Vocaluxe.Base
         {
             _CoverThemes.Clear();
 
-            const string path = CSettings.FolderCover;
+            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover);
             List<string> files = CHelper.ListFiles(path, "*.xml");
 
             foreach (string file in files)
@@ -179,10 +179,10 @@ namespace Vocaluxe.Base
 
             var ignoreList = new List<string>();
 
-            string coverPath = Path.Combine(CSettings.FolderCover, coverTheme.Folder);
+            string coverPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder);
             List<string> files = CHelper.ListImageFiles(coverPath, true, true);
 
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.FolderCover, coverTheme.File));
+            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.File));
             lock (_Covers)
             {
                 if (xmlReader != null)
@@ -195,7 +195,7 @@ namespace Vocaluxe.Base
                         string filePath;
                         xmlReader.GetValue("//root/Cover/" + coverName + "/Name", out name, String.Empty);
                         xmlReader.GetValue("//root/Cover/" + coverName + "/Path", out filePath, String.Empty);
-                        string coverFilePath = Path.Combine(CSettings.FolderCover, Path.Combine(coverTheme.Folder, filePath));
+                        string coverFilePath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder, filePath);
                         if (!File.Exists(coverFilePath))
                             continue;
 

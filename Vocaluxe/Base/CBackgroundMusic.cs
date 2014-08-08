@@ -135,7 +135,7 @@ namespace Vocaluxe.Base
             if (_Initialized)
                 return;
 
-            List<string> soundFiles = CHelper.ListSoundFiles(CSettings.FolderBackgroundMusic, true, true);
+            List<string> soundFiles = CHelper.ListSoundFiles(CSettings.FolderNameBackgroundMusic, true, true);
 
             foreach (string path in soundFiles)
                 _BGMusicFiles.Add(new CPlaylistElement(path));

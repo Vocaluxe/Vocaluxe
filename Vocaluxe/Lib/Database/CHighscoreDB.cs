@@ -47,7 +47,7 @@ namespace Vocaluxe.Lib.Database
 
         public override bool Init()
         {
-            string oldDBFilePath = Path.Combine(Environment.CurrentDirectory, CSettings.FileOldHighscoreDB);
+            string oldDBFilePath = Path.Combine(CSettings.DataFolder, CSettings.FileNameOldHighscoreDB);
             if (File.Exists(oldDBFilePath))
             {
                 if (File.Exists(_FilePath))

@@ -1345,8 +1345,8 @@ namespace Vocaluxe.Screens
                 _OpenPlaylist(_Playlist.ActivePlaylistID);
 
                 //Add new playlist to select-slide
-                _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValue(CPlaylists.Playlists[_Playlist.ActivePlaylistID].PlaylistName);
-                _SelectSlides[_SelectSlideOptionsPlaylistOpen].AddValue(CPlaylists.Playlists[_Playlist.ActivePlaylistID].PlaylistName);
+                _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValue(CPlaylists.Playlists[_Playlist.ActivePlaylistID].Name);
+                _SelectSlides[_SelectSlideOptionsPlaylistOpen].AddValue(CPlaylists.Playlists[_Playlist.ActivePlaylistID].Name);
             }
                 //Add song to loaded playlist
             else

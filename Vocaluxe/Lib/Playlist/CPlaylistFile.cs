@@ -28,31 +28,31 @@ namespace Vocaluxe.Lib.Playlist
 {
     public class CPlaylistFile
     {
-        public string PlaylistName;
-        public string PlaylistFile;
+        public string Name;
+        public string File;
         public int Id = -1;
         public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
         public CPlaylistFile()
         {
-            PlaylistName = string.Empty;
-            PlaylistFile = string.Empty;
+            Name = string.Empty;
+            File = string.Empty;
         }
 
         public CPlaylistFile(string file, int id)
         {
             Id = id;
-            PlaylistFile = file;
+            File = file;
             _LoadPlaylist();
         }
 
         public void SavePlaylist()
         {
-            if (PlaylistFile == "")
+            if (File == "")
             {
                 string filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery
-                foreach (char chr in PlaylistName)
+                foreach (char chr in Name)
                     // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (char.IsLetter(chr))
@@ -62,25 +62,17 @@ namespace Vocaluxe.Lib.Playlist
                 if (filename == "")
                     filename = "1";
 
-                int i = 0;
-                while (File.Exists(Path.Combine(CSettings.DataPath, CConfig.FolderPlaylists, filename + ".xml")))
-                {
-                    i++;
-                    if (!File.Exists(Path.Combine(CSettings.DataPath, CConfig.FolderPlaylists, filename + i + ".xml")))
-                        filename += i;
-                }
-
-                PlaylistFile = Path.Combine(CSettings.DataPath, CConfig.FolderPlaylists, filename + ".xml");
+                File = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CConfig.FolderPlaylists), filename + ".xml");
             }
 
             XmlWriter writer;
             try
             {
-                writer = XmlWriter.Create(PlaylistFile, CConfig.XMLSettings);
+                writer = XmlWriter.Create(File, CConfig.XMLSettings);
             }
             catch (Exception e)
             {
-                CLog.LogError("Error creating/opening Playlist File " + PlaylistFile + ": " + e.Message);
+                CLog.LogError("Error creating/opening Playlist File " + File + ": " + e.Message);
                 return;
             }
 
@@ -90,7 +82,7 @@ namespace Vocaluxe.Lib.Playlist
                 writer.WriteStartElement("root");
 
                 writer.WriteStartElement("Info");
-                writer.WriteElementString("PlaylistName", PlaylistName);
+                writer.WriteElementString("PlaylistName", Name);
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("Songs");
@@ -123,14 +115,14 @@ namespace Vocaluxe.Lib.Playlist
 
         private void _LoadPlaylist()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(PlaylistFile);
+            CXMLReader xmlReader = CXMLReader.OpenFile(File);
             if (xmlReader == null)
                 return;
 
             string value = String.Empty;
             if (xmlReader.GetValue("//root/Info/PlaylistName", out value, value))
             {
-                PlaylistName = value;
+                Name = value;
 
                 Songs = new List<CPlaylistSong>();
 
@@ -161,11 +153,11 @@ namespace Vocaluxe.Lib.Playlist
                         Songs.Add(playlistSong);
                     }
                     else
-                        CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + PlaylistFile);
+                        CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + File);
                 }
             }
             else
-                CLog.LogError("Can't find PlaylistName in Playlist File: " + PlaylistFile);
+                CLog.LogError("Can't find PlaylistName in Playlist File: " + File);
         }
 
         public void AddSong(int songID)

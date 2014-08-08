@@ -231,7 +231,7 @@ namespace Vocaluxe.Base
 
         public string GetDataPath()
         {
-            return CSettings.DataPath;
+            return CSettings.DataFolder;
         }
 
         public float GetSlideShowImageTime()

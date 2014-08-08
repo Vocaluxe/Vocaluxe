@@ -119,7 +119,7 @@ namespace Vocaluxe.Lib.Database
                 {
                     foreach (string file in _FilesV1)
                     {
-                        string filePath = Path.Combine(Environment.CurrentDirectory, file);
+                        string filePath = Path.Combine(CSettings.ProgramFolder, file);
                         if (!_AddImageToCreditsDB(filePath, transaction))
                         {
                             transaction.Rollback();

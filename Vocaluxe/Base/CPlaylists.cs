@@ -39,7 +39,7 @@ namespace Vocaluxe.Base
 
         public static List<string> PlaylistNames
         {
-            get { return _Playlists.Select(t => t.PlaylistName).ToList(); }
+            get { return _Playlists.Select(t => t.Name).ToList(); }
         }
 
         public static int NumPlaylists
@@ -58,7 +58,7 @@ namespace Vocaluxe.Base
         private static void _ConvertUSDXPlaylists()
         {
             var files = new List<string>();
-            files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.DataPath, CConfig.FolderPlaylists), "*.upl", true, true));
+            files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.DataFolder, CConfig.FolderPlaylists), "*.upl", true, true));
 
             foreach (string file in files)
             {
@@ -73,7 +73,7 @@ namespace Vocaluxe.Base
             _Playlists = new List<CPlaylistFile>();
 
             var files = new List<string>();
-            files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.DataPath, CConfig.FolderPlaylists), "*.xml", true, true));
+            files.AddRange(CHelper.ListFiles(Path.Combine(CSettings.DataFolder, CConfig.FolderPlaylists), "*.xml", true, true));
 
             foreach (string file in files)
             {
@@ -87,7 +87,7 @@ namespace Vocaluxe.Base
             if (playlistID >= _Playlists.Count || playlistID < 0)
                 return "Error: Can't find Playlist";
 
-            return _Playlists[playlistID].PlaylistName;
+            return _Playlists[playlistID].Name;
         }
 
         public static void SetPlaylistName(int playlistID, string name)
@@ -95,22 +95,22 @@ namespace Vocaluxe.Base
             if (playlistID >= _Playlists.Count || playlistID < 0)
                 return;
 
-            _Playlists[playlistID].PlaylistName = name;
+            _Playlists[playlistID].Name = name;
         }
 
         public static void DeletePlaylist(int playlistID)
         {
             if (playlistID < 0 || playlistID >= _Playlists.Count)
                 return;
-            if (_Playlists[playlistID].PlaylistFile != "")
+            if (_Playlists[playlistID].File != "")
             {
                 try
                 {
-                    File.Delete(_Playlists[playlistID].PlaylistFile);
+                    File.Delete(_Playlists[playlistID].File);
                 }
                 catch (Exception)
                 {
-                    CLog.LogError("Can't delete Playlist File " + _Playlists[playlistID].PlaylistFile + ".xml");
+                    CLog.LogError("Can't delete Playlist File " + _Playlists[playlistID].File + ".xml");
                 }
             }
             _Playlists.RemoveAt(playlistID);
@@ -125,7 +125,7 @@ namespace Vocaluxe.Base
 
         public static int NewPlaylist()
         {
-            CPlaylistFile pl = new CPlaylistFile {PlaylistName = "New Playlist", Id = _Playlists.Count};
+            CPlaylistFile pl = new CPlaylistFile {Name = "New Playlist", Id = _Playlists.Count};
             _Playlists.Add(pl);
             return _Playlists.Count - 1;
         }
@@ -213,7 +213,7 @@ namespace Vocaluxe.Base
 
         private static int _CompareByPlaylistName(CPlaylistFile a, CPlaylistFile b)
         {
-            return String.CompareOrdinal(a.PlaylistName, b.PlaylistName);
+            return String.CompareOrdinal(a.Name, b.Name);
         }
 
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)
@@ -240,7 +240,7 @@ namespace Vocaluxe.Base
                             string identifier = line.Substring(1, pos - 1).Trim();
                             string value = line.Substring(pos + 1, line.Length - pos - 1).Trim();
                             if (identifier.ToUpper() == "NAME")
-                                pl.PlaylistName = value;
+                                pl.Name = value;
                         }
                             //Song
                         else

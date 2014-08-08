@@ -111,7 +111,7 @@ namespace Vocaluxe.Lib.Draw
 
         public COpenGL()
         {
-            Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
+            Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
 
             for (int i = 1; i < _MaxID; i++)
                 _IDs.Enqueue(i);
@@ -534,12 +534,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void MakeScreenShot()
         {
-            const string file = "Screenshot_";
-            string path = Path.Combine(CSettings.DataPath, CSettings.FolderScreenshots);
-
-            int i = 0;
-            while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".bmp")))
-                i++;
+            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.bmp");
 
             int width = GetScreenWidth();
             int height = GetScreenHeight();
@@ -552,7 +547,7 @@ namespace Vocaluxe.Lib.Draw
                 screen.UnlockBits(bmpData);
 
                 screen.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                screen.Save(Path.Combine(path, file + i.ToString("00000") + ".bmp"), ImageFormat.Bmp);
+                screen.Save(file, ImageFormat.Bmp);
             }
         }
 
