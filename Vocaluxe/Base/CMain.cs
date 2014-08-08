@@ -577,6 +577,16 @@ namespace Vocaluxe.Base
         {
             return CGame.GetNumSongs();
         }
+
+        public CSong GetSong()
+        {
+            return CGame.GetSong();
+        }
+
+        public CSong GetSong(int round)
+        {
+            return CGame.GetSong(round);
+        }
     }
 
     class CBprofiles : IProfiles

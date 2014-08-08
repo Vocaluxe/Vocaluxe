@@ -196,6 +196,8 @@ namespace VocaluxeLib
         void Reset();
         void ClearSongs();
         int GetNumSongs();
+        CSong GetSong();
+        CSong GetSong(int round);
     }
 
     public interface IRecording

@@ -60,7 +60,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _LastKnownNumSongs;
         private int _LastKnownCategory = -1;
 
-        private bool _MouseWasInRect = false;
+        private bool _MouseWasInRect;
 
         public override float SelectedTileZoomFactor
         {
@@ -76,12 +76,17 @@ namespace VocaluxeLib.Menu.SongMenu
                 //Update list in case we scrolled 
                 _UpdateList();
 
-                foreach (CStatic tile in _Tiles)
-                    tile.Selected = false;
-                int tileNr = _SelectionNr - _Offset;
-                if (tileNr >= 0 && tileNr < _Tiles.Count)
-                    _Tiles[tileNr].Selected = true;
+                _UpdateTileSelection();
             }
+        }
+
+        private void _UpdateTileSelection()
+        {
+            foreach (CStatic tile in _Tiles)
+                tile.Selected = false;
+            int tileNr = _SelectionNr - _Offset;
+            if (tileNr >= 0 && tileNr < _Tiles.Count)
+                _Tiles[tileNr].Selected = true;
         }
 
         public override bool SmallView
@@ -93,6 +98,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 base.SmallView = value;
                 _InitTiles();
                 _UpdateList(true);
+                _UpdateTileSelection();
             }
         }
 
@@ -262,19 +268,9 @@ namespace VocaluxeLib.Menu.SongMenu
             else
             {
                 if (CBase.Songs.IsInCategory())
-                {
-                    if (_SelectionNr < 0)
-                        SetSelectedSong(0);
-                    else
-                        SetSelectedSong(_SelectionNr);
-                }
+                    SetSelectedSong(_SelectionNr < 0 ? 0 : _SelectionNr);
                 else
-                {
-                    if (_SelectionNr < 0)
-                        SetSelectedCategory(0);
-                    else
-                        SetSelectedCategory(_SelectionNr);
-                }
+                    SetSelectedCategory(_SelectionNr < 0 ? 0 : _SelectionNr);
             }
             _PreviewNr = _SelectionNr;
             _AfterCategoryChange();

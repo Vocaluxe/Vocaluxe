@@ -457,6 +457,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         public override void LeavingHighscore()
         {
+            for (int i = 0; i < CBase.Game.GetNumSongs();i++ )
+                CBase.Songs.AddPartySongSung(CBase.Game.GetSong(i).ID);
             _GameData.CurrentRoundNr++;
             CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
@@ -542,7 +544,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             {
                 int songID = ids[CBase.Game.GetRandom(ids.Count)];
                 CBase.Game.AddSong(songID, EGameMode.TR_GAMEMODE_MEDLEY);
-                CBase.Songs.AddPartySongSung(songID);
                 ids.Remove(songID);
                 s++;
             }

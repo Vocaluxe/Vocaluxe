@@ -515,12 +515,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
             CBase.Game.AddSong(songID, gm);
 
-            CBase.Songs.AddPartySongSung(songID);
             CBase.Graphics.FadeTo(EScreens.ScreenSing);
         }
 
         public override void LeavingHighscore()
         {
+            CBase.Songs.AddPartySongSung(CBase.Game.GetSong(0).ID);
             _UpdateScores();
             CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
