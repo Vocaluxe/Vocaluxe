@@ -498,7 +498,6 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             base._EnterCategory(categoryNr);
 
-            _PreviewNr = 0;
             SetSelectedSong(0);
             _UpdateListIfRequired();
         }
@@ -507,7 +506,6 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             base._LeaveCategory();
 
-            _PreviewNr = 0;
             SetSelectedCategory(0);
             _UpdateListIfRequired();
         }

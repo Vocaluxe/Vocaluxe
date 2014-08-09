@@ -449,6 +449,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _SelectionNr = categoryNr;
             else
                 _SelectionNr = -1;
+            _PreviewNr = _SelectionNr;
         }
 
         public virtual void UnloadTextures() {}
@@ -547,6 +548,11 @@ namespace VocaluxeLib.Menu.SongMenu
             _PreviewVideoStream = -1;
 
             CBase.Drawing.RemoveTexture(ref _Vidtex);
+
+            //Make sure we don't have a preview here otherwise a change won't be recognized
+            //(e.g. leave a category with one song and set preview to 0 --> previewOld=previewNew=0 --> No change --> Old data shown
+            //Use internal nr because this function gets called from withing setPreviewNr
+            _PreviewNrInternal = -1;
         }
 
         #region ThemeEdit
