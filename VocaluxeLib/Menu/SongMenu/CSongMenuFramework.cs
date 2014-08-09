@@ -121,12 +121,6 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        protected int _PreviewSongStream { get; private set; }
-
-        protected int _PreviewVideoStream { get; private set; }
-        private CFading _VideoFading;
-        protected CTexture _Vidtex;
-
         private SColorF _ColorInternal;
         protected SColorF _Color
         {
@@ -160,8 +154,6 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             Visible = true;
             _PartyModeID = partyModeID;
-            _PreviewVideoStream = -1;
-            _PreviewSongStream = -1;
             _Theme = new SThemeSongMenu
                 {
                     SongMenuTileBoard =
@@ -354,7 +346,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (!_Initialized)
                 return;
-
+            /*
             if (_PreviewSongStream == -1 || _PreviewVideoStream == -1)
                 return;
 
@@ -380,7 +372,7 @@ namespace VocaluxeLib.Menu.SongMenu
                             _VideoFading = null;
                     }
                 }
-            }
+            }*/
         }
 
         public virtual void OnShow() {}
@@ -399,8 +391,8 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!_Initialized || !Visible)
                 return;
 
-            if (_PreviewVideoStream != -1)
-                CBase.Drawing.DrawTexture(_Vidtex, new SRectF(0, 0, 1280, 720, 0));
+            if (CBase.PreviewPlayer.IsPlaying())
+                CBase.Drawing.DrawTexture(CBase.PreviewPlayer.GetVideoTexture(), new SRectF(0, 0, 1280, 720, 0));
         }
 
         public bool IsMouseOverSelectedSong(SMouseEvent mEvent)
@@ -509,44 +501,23 @@ namespace VocaluxeLib.Menu.SongMenu
             if (song == null)
                 return;
 
-            //TODO: Using prescan here causes Vocaluxe to hang a bit on loading the song but we need the length below
-            _PreviewSongStream = CBase.Sound.Load(Path.Combine(song.Folder, song.MP3FileName), true, true);
+            CBase.PreviewPlayer.Load(song);
 
             float startposition = song.Preview.StartTime;
-            float length = CBase.Sound.GetLength(_PreviewSongStream);
+
+            float length = CBase.PreviewPlayer.GetLength();
 
             if (song.Preview.Source == EDataSource.None)
                 startposition = length / 4f;
             else if (startposition > length - 5f)
                 startposition = Math.Max(0f, Math.Min(length / 4f, length - 5f));
 
-            CBase.Sound.SetPosition(_PreviewSongStream, startposition);
-            CBase.Sound.Play(_PreviewSongStream);
-            CBase.Sound.SetStreamVolume(_PreviewSongStream, 0f);
-            CBase.Sound.Fade(_PreviewSongStream, 100f, 3f);
-
-            if (song.VideoFileName != "" && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
-            {
-                _PreviewVideoStream = CBase.Video.Load(Path.Combine(song.Folder, song.VideoFileName));
-                if (_PreviewVideoStream == -1)
-                    return;
-                CBase.Video.SetLoop(_PreviewVideoStream);
-                CBase.Video.Skip(_PreviewVideoStream, startposition, song.VideoGap);
-                _VideoFading = new CFading(0f, 1f, 3f);
-            }
+            CBase.PreviewPlayer.Play(startposition);
         }
 
         protected void _ResetPreview()
         {
-            if (_PreviewSongStream >= 0)
-                CBase.Sound.Fade(_PreviewSongStream, 0f, 0.75f, EStreamAction.Close);
-
-            _PreviewSongStream = -1;
-
-            CBase.Video.Close(_PreviewVideoStream);
-            _PreviewVideoStream = -1;
-
-            CBase.Drawing.RemoveTexture(ref _Vidtex);
+            CBase.PreviewPlayer.Stop();
         }
 
         #region ThemeEdit

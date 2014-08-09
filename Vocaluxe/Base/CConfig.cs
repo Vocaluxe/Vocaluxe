@@ -263,6 +263,8 @@ namespace Vocaluxe.Base
             xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicUseStart", ref BackgroundMusicUseStart);
             xmlReader.TryGetIntValueRange("//root/Sound/PreviewMusicVolume", ref _PreviewMusicVolume);
             xmlReader.TryGetIntValueRange("//root/Sound/GameMusicVolume", ref _GameMusicVolume);
+
+            CPreviewPlayer.UpdateVolume();
             #endregion Sound
 
             #region Game

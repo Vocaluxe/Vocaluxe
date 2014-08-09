@@ -315,4 +315,17 @@ namespace VocaluxeLib
         int GetSongCount(int playlistID);
         CPlaylistSong GetSong(int playlistID, int songIndex);
     }
+
+    public interface IPreviewPlayer
+    {
+        void Play(float start = -1);
+        void Load(CSong song, float start = 0f);
+        void Stop();
+        void Pause();
+        CTexture GetCover();
+        CTexture GetVideoTexture();
+        bool IsPlaying();
+        float GetLength();
+
+    }
 }

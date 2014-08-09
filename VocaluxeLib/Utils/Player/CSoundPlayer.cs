@@ -38,6 +38,16 @@ namespace VocaluxeLib.Utils.Player
             }
         }
 
+        public float Length
+        {
+            get
+            {
+                if (_StreamID == -1)
+                    return 0;
+                return CBase.Sound.GetLength(_StreamID);
+            }
+        }
+
         public bool RepeatSong;
         public bool IsPlaying { get; private set; }
 
