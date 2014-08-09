@@ -115,7 +115,10 @@ namespace VocaluxeLib.Menu.SongMenu
                     _PlaySong(value);
                 }
                 else if (value >= CBase.Songs.GetNumCategories())
+                {
                     value = -1;
+                    CBase.PreviewPlayer.Stop();
+                }
 
                 _PreviewNrInternal = value;
             }
