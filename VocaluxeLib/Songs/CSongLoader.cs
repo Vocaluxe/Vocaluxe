@@ -240,7 +240,7 @@ namespace VocaluxeLib.Songs
                                 break;
                             case "LANGUAGE":
                                 if (value.Length > 1)
-                                    _Song.Languages.Add(value);
+                                    _Song.Languages.Add(_UnifyLanguage(value));
                                 else
                                     _LogWarning("Invalid language");
                                 break;
@@ -447,6 +447,27 @@ namespace VocaluxeLib.Songs
                     _Song.TitleSorting = _Song.Title;
 
                 return true;
+            }
+
+            private static string _UnifyLanguage(string lang)
+            {
+                if (lang != "")
+                {
+                    lang = Char.ToUpperInvariant(lang[0]) + lang.Substring(1).ToLowerInvariant();
+                    switch (lang)
+                    {
+                        case "Englisch":
+                            lang = "English";
+                            break;
+                        case "Deutsch":
+                            lang = "German";
+                            break;
+                        case "Spanisch":
+                            lang = "Spanish";
+                            break;
+                    }
+                }
+                return lang;
             }
 
             private enum ENoteReadMode
