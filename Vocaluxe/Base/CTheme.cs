@@ -485,12 +485,12 @@ namespace Vocaluxe.Base
                         skin.PartyModeID = theme.PartyModeID;
 
                         skin.SkinList = new Dictionary<string, CSkinElement>();
-                        List<string> names = xmlReader.GetValues("Skins");
+                        List<string> names = xmlReader.GetNames("//root/Skins/*");
                         foreach (string str in names)
                             skin.SkinList[str] = new CSkinElement();
 
                         skin.VideoList = new Dictionary<string, CVideoSkinElement>();
-                        names = xmlReader.GetValues("Videos");
+                        names = xmlReader.GetNames("//root/Videos/*");
                         foreach (string str in names)
                             skin.VideoList[str] = new CVideoSkinElement();
                         _Skins.Add(skin);
@@ -665,7 +665,7 @@ namespace Vocaluxe.Base
             }
 
             var colorScheme = new List<SColorScheme>();
-            List<string> names = xmlReader.GetValues("ColorSchemes");
+            List<string> names = xmlReader.GetNames("//root/ColorSchemes/*");
             foreach (string str in names)
             {
                 var scheme = new SColorScheme {Name = str};

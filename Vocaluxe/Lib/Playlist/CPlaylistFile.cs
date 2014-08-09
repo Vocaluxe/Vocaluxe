@@ -122,7 +122,7 @@ namespace Vocaluxe.Lib.Playlist
 
                 Songs = new List<CPlaylistSong>();
 
-                List<string> songs = xmlReader.GetValues("Songs");
+                List<string> songs = xmlReader.GetNames("//root/Songs/*");
 
                 foreach (string songEntry in songs)
                 {
