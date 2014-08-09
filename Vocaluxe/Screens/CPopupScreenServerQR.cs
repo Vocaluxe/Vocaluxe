@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Server;
 using VocaluxeLib;
@@ -75,12 +76,24 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
-            if (mouseEvent.LB)
+            if (mouseEvent.LB || mouseEvent.RB)
             {
                 CGraphics.HidePopup(EPopupScreens.PopupServerQR);
                 return true;
             }
             return false;
+        }
+
+        public override bool HandleInput(SKeyEvent keyEvent)
+        {
+            switch (keyEvent.Key)
+            {
+                case Keys.Escape:
+                case Keys.Back:
+                    CGraphics.HidePopup(EPopupScreens.PopupServerQR);
+                    return true;
+            }
+            return base.HandleInput(keyEvent);
         }
 
         public override bool UpdateGame()

@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -63,13 +64,44 @@ namespace VocaluxeLib
             return (int)result;
         }
 
+        /// <summary>
+        ///     Makes sure val is between min and max
+        ///     Asserts that min&lt;=max
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns>Clamped value</returns>
         public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>
         {
+            Debug.Assert(min.CompareTo(max) <= 0);
             if (val.CompareTo(min) < 0)
                 return min;
             if (val.CompareTo(max) > 0)
                 return max;
             return val;
+        }
+
+        /// <summary>
+        ///     Makes sure val is between min and max but also handles the case where min&gt;max
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="preferMin"></param>
+        /// <returns>Clamped value</returns>
+        public static T Clamp<T>(this T val, T min, T max, bool preferMin) where T : IComparable<T>
+        {
+            if (min.CompareTo(max) > 0)
+            {
+                if (preferMin)
+                    max = min;
+                else
+                    min = max;
+            }
+            return Clamp(val, min, max);
         }
 
         /// <summary>
@@ -86,32 +118,6 @@ namespace VocaluxeLib
             }
 
             return result;
-        }
-
-        public static int TryReadInt(StreamReader sr)
-        {
-            string value = String.Empty;
-
-            try
-            {
-                int tmp = sr.Peek();
-                //Check for ' ', ?, ?, \n, \r, E
-                while (tmp != 32 && tmp != 19 && tmp != 16 && tmp != 13 && tmp != 10 && tmp != 69)
-                {
-                    if (sr.EndOfStream)
-                        break;
-
-                    var chr = (char)sr.Read();
-                    value += chr.ToString();
-                    tmp = sr.Peek();
-                }
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-            int result;
-            return Int32.TryParse(value, out result) ? result : 0;
         }
 
         public static void SetRect(SRectF bounds, out SRectF rect, float rectAspect, EAspect aspect)
@@ -279,13 +285,12 @@ namespace VocaluxeLib
         /// </summary>
         /// <param name="path">Path in which the file should be stored</param>
         /// <param name="filename">filename (including extension)</param>
+        /// <param name="withPath">Whether the fullpath or only the filename should be returned</param>
         /// <returns></returns>
         public static string GetUniqueFileName(string path, string filename, bool withPath = true)
         {
             string ext = Path.GetExtension(filename);
-            filename = Path.GetFileNameWithoutExtension(filename);
-            if (filename == null)
-                filename = "1";
+            filename = Path.GetFileNameWithoutExtension(filename) ?? "1";
             if (File.Exists(Path.Combine(path, filename + ext)))
             {
                 int i = 1;

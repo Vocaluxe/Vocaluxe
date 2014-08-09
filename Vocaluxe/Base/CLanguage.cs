@@ -168,7 +168,7 @@ namespace Vocaluxe.Base
         private static bool _LoadLanguageEntries(CXMLReader xmlReader, out Dictionary<string, string> texts)
         {
             texts = new Dictionary<string, string>();
-            IEnumerable<string> names = xmlReader.GetAttributes("resources", "name");
+            IEnumerable<string> names = xmlReader.GetAttributes("//resources/string", "name");
             foreach (string name in names)
             {
                 string value;

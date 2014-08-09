@@ -353,8 +353,7 @@ namespace Vocaluxe.Base
                 if (!eventsAvailable)
                     keyEvent = inputKeyEvent;
 
-                if (keyEvent.Key == Keys.Left || keyEvent.Key == Keys.Right || keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down || keyEvent.Key == Keys.NumPad0 ||
-                    keyEvent.Key == Keys.D0)
+                if (keyEvent.IsArrowKey() || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0)
                 {
                     _Cursor.Deactivate();
 
