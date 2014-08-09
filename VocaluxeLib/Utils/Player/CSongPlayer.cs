@@ -159,10 +159,14 @@ namespace VocaluxeLib.Utils.Player
         public new void TogglePause()
         {
             base.TogglePause();
-            if (_Video != -1)
+            if (!IsPlaying && _Video != -1)
             {
                 CBase.Video.Pause(_Video);
                 CBase.Video.Skip(_Video, CBase.Sound.GetPosition(_StreamID) + _FadeTime, _Song.VideoGap);
+            }
+            else if(_Video != -1)
+            {
+                CBase.Video.Resume(_Video);
             }
         }
 

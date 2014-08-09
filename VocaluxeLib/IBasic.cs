@@ -35,6 +35,8 @@ namespace VocaluxeLib
         void SetBackgroundMusicVolume(int newVolume);
         int GetBackgroundMusicVolume();
 
+        EOffOn GetBackgroundMusicStatus();
+
         int GetPreviewMusicVolume();
 
         EOffOn GetVideosToBackground();
@@ -150,6 +152,8 @@ namespace VocaluxeLib
         void FadeTo(EScreens nextScreen);
 
         float GetGlobalAlpha();
+
+        EScreens GetNextScreen();
     }
 
     public interface ILog
@@ -321,7 +325,7 @@ namespace VocaluxeLib
         void Play(float start = -1);
         void Load(CSong song, float start = 0f);
         void Stop();
-        void Pause();
+        void TogglePause();
         CTexture GetCover();
         CTexture GetVideoTexture();
         bool IsPlaying();

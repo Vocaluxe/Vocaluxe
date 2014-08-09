@@ -566,6 +566,9 @@ namespace Vocaluxe.Screens
         {
             base.OnClose();
             CRecord.Stop();
+
+            if (CGraphics.NextScreen != EScreens.ScreenSong && CPreviewPlayer.IsPlaying)
+                CPreviewPlayer.TogglePause();
         }
 
         public override bool Draw()

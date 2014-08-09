@@ -716,9 +716,14 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            CBackgroundMusic.Disabled = false;
-            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
+
             _SongMenu.OnHide();
+
+            if (CGraphics.NextScreen != EScreens.ScreenNames || CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
+            {
+                CBackgroundMusic.Disabled = false;
+                CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
+            }
         }
 
         private void _HandlePartySongSelection(int songNr)

@@ -51,7 +51,7 @@ namespace Vocaluxe.Base
             _Player.Play();
         }
 
-        public static void Pause()
+        public static void TogglePause()
         {
             _Player.TogglePause();
         }

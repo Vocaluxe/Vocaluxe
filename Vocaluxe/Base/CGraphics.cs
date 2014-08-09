@@ -60,6 +60,11 @@ namespace Vocaluxe.Base
             get { return _CurrentScreen; }
         }
 
+        public static EScreens NextScreen
+        {
+            get { return _NextScreen; }
+        }
+
         #region public methods
         public static void Init()
         {

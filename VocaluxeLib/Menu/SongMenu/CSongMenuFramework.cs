@@ -376,10 +376,11 @@ namespace VocaluxeLib.Menu.SongMenu
         }
 
         public virtual void OnShow() {}
-
+        
         public virtual void OnHide()
         {
-            _ResetPreview();
+            if(CBase.Graphics.GetNextScreen() != EScreens.ScreenNames || CBase.Config.GetBackgroundMusicStatus() == EOffOn.TR_CONFIG_OFF)
+                _ResetPreview();
         }
 
         public abstract bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options);

@@ -110,7 +110,11 @@ namespace VocaluxeLib.Menu.SongMenu
             set
             {
                 if (value == base._PreviewNr)
+                {
+                    if (!CBase.PreviewPlayer.IsPlaying())
+                        CBase.PreviewPlayer.Play();
                     return;
+                }
                 base._PreviewNr = value;
                 _UpdatePreview();
             }

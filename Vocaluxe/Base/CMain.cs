@@ -77,6 +77,11 @@ namespace Vocaluxe.Base
             return CConfig.BackgroundMusicVolume;
         }
 
+        public EOffOn GetBackgroundMusicStatus()
+        {
+            return CConfig.BackgroundMusic;
+        }
+
         public int GetPreviewMusicVolume()
         {
             return CConfig.PreviewMusicVolume;
@@ -435,6 +440,11 @@ namespace Vocaluxe.Base
         public float GetGlobalAlpha()
         {
             return CGraphics.GlobalAlpha;
+        }
+
+        public EScreens GetNextScreen()
+        {
+            return CGraphics.NextScreen;
         }
     }
 
@@ -979,9 +989,9 @@ namespace Vocaluxe.Base
             CPreviewPlayer.Stop();
         }
 
-        public void Pause()
+        public void TogglePause()
         {
-            CPreviewPlayer.Pause();
+            CPreviewPlayer.TogglePause();
         }
 
         public CTexture GetCover()
