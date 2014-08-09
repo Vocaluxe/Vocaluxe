@@ -51,7 +51,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CDrawWinForm()
         {
-            Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
+            Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
 
             _Keys = new CKeys();
             _Mouse = new CMouse();
@@ -304,14 +304,9 @@ namespace Vocaluxe.Lib.Draw
 
         public void MakeScreenShot()
         {
-            const string file = "Screenshot_";
-            string path = Path.Combine(CSettings.DataPath, CSettings.FolderScreenshots);
+            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.bmp");
 
-            int i = 0;
-            while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".png")))
-                i++;
-
-            _Backbuffer.Save(Path.Combine(path, file + i.ToString("00000") + ".png"), ImageFormat.Png);
+            _Backbuffer.Save(file, ImageFormat.Png);
         }
 
         public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)

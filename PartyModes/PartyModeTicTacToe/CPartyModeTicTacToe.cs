@@ -329,7 +329,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public override void UpdateGame()
         {
             /*
-            if (CBase.Songs.GetCurrentCategoryIndex() != -1 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
+            if (CBase.Songs.IsInCategory() || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
                 _ScreenSongOptions.Selection.RandomOnly = true;
             else
                 _ScreenSongOptions.Selection.RandomOnly = false;*/
@@ -515,12 +515,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
             CBase.Game.AddSong(songID, gm);
 
-            CBase.Songs.AddPartySongSung(songID);
             CBase.Graphics.FadeTo(EScreens.ScreenSing);
         }
 
         public override void LeavingHighscore()
         {
+            CBase.Songs.AddPartySongSung(CBase.Game.GetSong(0).ID);
             _UpdateScores();
             CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
@@ -655,9 +655,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 switch (_GameData.SongSource)
                 {
                     case ESongSource.TR_PLAYLIST:
-                        for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(_GameData.PlaylistID); i++)
+                        for (int i = 0; i < CBase.Playlist.GetSongCount(_GameData.PlaylistID); i++)
                         {
-                            int id = CBase.Playlist.GetPlaylistSong(_GameData.PlaylistID, i).SongID;
+                            int id = CBase.Playlist.GetSong(_GameData.PlaylistID, i).SongID;
                             // ReSharper disable LoopCanBeConvertedToQuery
                             foreach (EGameMode mode in CBase.Songs.GetSongByID(id).AvailableGameModes)
                                 // ReSharper restore LoopCanBeConvertedToQuery

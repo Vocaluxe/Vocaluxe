@@ -433,7 +433,6 @@ namespace Vocaluxe.Screens
             _UpdateAvatars();
             _UpdateNames();
 
-            CBackgroundMusic.Disabled = true;
             _CloseSong();
             CSound.SetGlobalVolume(CConfig.GameMusicVolume);
         }
@@ -441,6 +440,7 @@ namespace Vocaluxe.Screens
         public override void OnShowFinish()
         {
             base.OnShowFinish();
+            CBackgroundMusic.Disabled = true;
 
             CGame.Start();
             _LoadNextSong();

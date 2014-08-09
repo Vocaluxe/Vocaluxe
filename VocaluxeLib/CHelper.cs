@@ -114,6 +114,15 @@ namespace VocaluxeLib
             return Int32.TryParse(value, out result) ? result : 0;
         }
 
+        public static void SetRect(SRectF bounds, out SRectF rect, float rectAspect, EAspect aspect)
+        {
+            var bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
+            RectangleF rect2;
+            SetRect(bounds2, out rect2, rectAspect, aspect);
+
+            rect = new SRectF(rect2.X, rect2.Y, rect2.Width, rect2.Height, bounds.Z);
+        }
+
         public static void SetRect(RectangleF bounds, out RectangleF rect, float rectAspect, EAspect aspect)
         {
             float boundsW = bounds.Width;
@@ -263,6 +272,30 @@ namespace VocaluxeLib
         public static bool IsInBounds(SRectF bounds, int x, int y)
         {
             return (bounds.X <= x) && (bounds.X + bounds.W >= x) && (bounds.Y <= y) && (bounds.Y + bounds.H >= y);
+        }
+
+        /// <summary>
+        ///     Returns a filename that is unique in that path
+        /// </summary>
+        /// <param name="path">Path in which the file should be stored</param>
+        /// <param name="filename">filename (including extension)</param>
+        /// <returns></returns>
+        public static string GetUniqueFileName(string path, string filename, bool withPath = true)
+        {
+            string ext = Path.GetExtension(filename);
+            filename = Path.GetFileNameWithoutExtension(filename);
+            if (filename == null)
+                filename = "1";
+            if (File.Exists(Path.Combine(path, filename + ext)))
+            {
+                int i = 1;
+                while (File.Exists(Path.Combine(path, filename + "_" + i + ext)))
+                    i++;
+                filename += "_" + i;
+            }
+            if (withPath)
+                filename = Path.Combine(path, filename);
+            return filename + ext;
         }
     }
 

@@ -378,7 +378,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public override void OnClose()
         {
             base.OnClose();
-            CBase.BackgroundMusic.SetStatus(false);
+            CBase.BackgroundMusic.SetDisabled(false);
             CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
         }
 
@@ -501,7 +501,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
             CSong song = CBase.Songs.GetSongByID(songID);
 
-            CBase.BackgroundMusic.SetStatus(true);
+            CBase.BackgroundMusic.SetDisabled(true);
 
             _PreviewStream = CBase.Sound.Load(song.GetMP3());
             CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);
@@ -525,7 +525,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             int songID = _Fields[_SelectedField].Content.SongID;
             CSong song = CBase.Songs.GetSongByID(songID);
-            CBase.BackgroundMusic.SetStatus(true);
+            CBase.BackgroundMusic.SetDisabled(true);
 
             _PreviewStream = CBase.Sound.Load(song.GetMP3());
             CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);

@@ -120,7 +120,7 @@ namespace VocaluxeLib
         bool SongHasVideo();
         bool VideoEnabled();
 
-        void SetStatus(bool disabled);
+        void SetDisabled(bool disabled);
         void Next();
         void Previous();
         void Pause();
@@ -198,6 +198,8 @@ namespace VocaluxeLib
         void Reset();
         void ClearSongs();
         int GetNumSongs();
+        CSong GetSong();
+        CSong GetSong(int round);
     }
 
     public interface IRecording
@@ -292,24 +294,25 @@ namespace VocaluxeLib
 
     public interface IPlaylist
     {
-        string GetPlaylistName(int playlistID);
-        List<string> GetPlaylistNames();
+        bool Exists(int playlistID);
+        string GetName(int playlistID);
+        List<string> GetNames();
 
-        void SetPlaylistName(int playlistID, string name);
-        void DeletePlaylist(int playlistID);
-        void SavePlaylist(int playlistID);
+        void SetName(int playlistID, string name);
+        void Delete(int playlistID);
+        void Save(int playlistID);
         int GetNumPlaylists();
 
-        void AddPlaylistSong(int playlistID, int songID);
-        void AddPlaylistSong(int playlistID, int songID, EGameMode gameMode);
-        void InsertPlaylistSong(int playlistID, int positionIndex, int songID, EGameMode gameMode);
+        void AddSong(int playlistID, int songID);
+        void AddSong(int playlistID, int songID, EGameMode gameMode);
+        void InsertSong(int playlistID, int positionIndex, int songID, EGameMode gameMode);
 
-        void MovePlaylistSong(int playlistID, int sourceIndex, int destIndex);
-        void MovePlaylistSongDown(int playlistID, int songIndex);
-        void MovePlaylistSongUp(int playlistID, int songIndex);
-        void DeletePlaylistSong(int playlistID, int songIndex);
+        void MoveSong(int playlistID, int sourceIndex, int destIndex);
+        void MoveSongDown(int playlistID, int songIndex);
+        void MoveSongUp(int playlistID, int songIndex);
+        void DeleteSong(int playlistID, int songIndex);
 
-        int GetPlaylistSongCount(int playlistID);
-        CPlaylistSong GetPlaylistSong(int playlistID, int songIndex);
+        int GetSongCount(int playlistID);
+        CPlaylistSong GetSong(int playlistID, int songIndex);
     }
 }

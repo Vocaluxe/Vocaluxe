@@ -84,7 +84,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CDirect3D()
         {
-            Icon = new Icon(Path.Combine(Environment.CurrentDirectory, CSettings.Icon));
+            Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
 
             //Fill Queue with 100000 IDs
             for (int i = 0; i < _MaxID; i++)
@@ -320,7 +320,6 @@ namespace Vocaluxe.Lib.Draw
             }
             else
                 _DoResize();
-            ;
         }
 
         /// <summary>
@@ -731,18 +730,13 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public void MakeScreenShot()
         {
-            const string file = "Screenshot_";
-            string path = Path.Combine(CSettings.DataPath, CSettings.FolderScreenshots);
-
-            int i = 0;
-            while (File.Exists(Path.Combine(path, file + i.ToString("00000") + ".bmp")))
-                i++;
+            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.bmp");
 
             //create a surface of the frame
             using (Surface surface = _Device.GetBackBuffer(0, 0))
             {
                 var screen = new Bitmap(Surface.ToStream(surface, ImageFileFormat.Bmp));
-                screen.Save(Path.Combine(path, file + i.ToString("00000") + ".bmp"), ImageFormat.Bmp);
+                screen.Save(file, ImageFormat.Bmp);
                 screen.Dispose();
             }
         }

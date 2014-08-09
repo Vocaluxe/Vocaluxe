@@ -33,16 +33,29 @@ namespace VocaluxeLib.Menu.SongMenu
             _CreateSongMenu();
         }
 
+        #region ISongMenu
         public bool Selected
         {
-            get { return _SongMenu.IsSelected(); }
-            set { _SongMenu.SetSelected(value); }
+            get { return _SongMenu.Selected; }
+            set { _SongMenu.Selected = value; }
         }
 
         public bool Visible
         {
-            get { return _SongMenu.IsVisible(); }
-            set { _SongMenu.SetVisible(value); }
+            get { return _SongMenu.Visible; }
+            set { _SongMenu.Visible = value; }
+        }
+
+        public bool Active
+        {
+            get { return _SongMenu.Active; }
+            set { _SongMenu.Active = value; }
+        }
+
+        public bool SmallView
+        {
+            get { return _SongMenu.SmallView; }
+            set { _SongMenu.SmallView = value; }
         }
 
         public SRectF Rect
@@ -50,7 +63,6 @@ namespace VocaluxeLib.Menu.SongMenu
             get { return _SongMenu.Rect; }
         }
 
-        #region ISongMenu
         public void Update(SScreenSongOptions songOptions)
         {
             _SongMenu.Update(songOptions);
@@ -66,14 +78,14 @@ namespace VocaluxeLib.Menu.SongMenu
             _SongMenu.OnHide();
         }
 
-        public void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions)
+        public bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options)
         {
-            _SongMenu.HandleInput(ref keyEvent, songOptions);
+            return _SongMenu.HandleInput(ref keyEvent, options);
         }
 
-        public void HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions)
+        public bool HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions)
         {
-            _SongMenu.HandleMouse(ref mouseEvent, songOptions);
+            return _SongMenu.HandleMouse(ref mouseEvent, songOptions);
         }
 
         public void Draw()
@@ -81,24 +93,19 @@ namespace VocaluxeLib.Menu.SongMenu
             _SongMenu.Draw();
         }
 
-        public bool IsActive()
+        public bool IsMouseOverSelectedSong(SMouseEvent mEvent)
         {
-            return _SongMenu.IsActive();
+            return _SongMenu.IsMouseOverSelectedSong(mEvent);
         }
 
-        public void SetActive(bool active)
+        public int GetPreviewSongNr()
         {
-            _SongMenu.SetActive(active);
+            return _SongMenu.GetPreviewSongNr();
         }
 
-        public bool IsMouseOverActualSelection(SMouseEvent mEvent)
+        public int GetSelectedSongNr()
         {
-            return _SongMenu.IsMouseOverActualSelection(mEvent);
-        }
-
-        public int GetSelectedSong()
-        {
-            return _SongMenu.GetSelectedSong();
+            return _SongMenu.GetSelectedSongNr();
         }
 
         public CStatic GetSelectedSongCover()
@@ -121,44 +128,14 @@ namespace VocaluxeLib.Menu.SongMenu
             _SongMenu.SetSelectedCategory(categoryNr);
         }
 
-        public bool EnterCurrentCategory()
+        public bool EnterSelectedCategory()
         {
-            return _SongMenu.EnterCurrentCategory();
+            return _SongMenu.EnterSelectedCategory();
         }
 
-        public int GetActualSelection()
+        public int GetPreviewSong()
         {
-            return _SongMenu.GetActualSelection();
-        }
-
-        public bool IsSelected()
-        {
-            return _SongMenu.IsSelected();
-        }
-
-        public void SetSelected(bool selected)
-        {
-            _SongMenu.SetSelected(selected);
-        }
-
-        public bool IsVisible()
-        {
-            return _SongMenu.IsVisible();
-        }
-
-        public void SetVisible(bool visible)
-        {
-            _SongMenu.SetVisible(visible);
-        }
-
-        public bool IsSmallView()
-        {
-            return _SongMenu.IsSmallView();
-        }
-
-        public void SetSmallView(bool smallView)
-        {
-            _SongMenu.SetSmallView(smallView);
+            return _SongMenu.GetPreviewSong();
         }
         #endregion ISongMenu
 

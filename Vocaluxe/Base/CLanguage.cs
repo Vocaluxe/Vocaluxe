@@ -74,7 +74,7 @@ namespace Vocaluxe.Base
             _Languages = new List<SLanguage>();
 
             var files = new List<string>();
-            files.AddRange(CHelper.ListFiles(CSettings.FolderLanguages, "*.xml", true, true));
+            files.AddRange(CHelper.ListFiles(CSettings.FolderNameLanguages, "*.xml", true, true));
 
             foreach (string file in files)
                 _LoadLanguageFile(file);
@@ -214,7 +214,7 @@ namespace Vocaluxe.Base
 
         private static void _LoadLanguageFile(string fileName)
         {
-            var lang = new SLanguage {LanguageFilePath = Path.Combine(CSettings.FolderLanguages, fileName)};
+            var lang = new SLanguage {LanguageFilePath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameLanguages, fileName)};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(lang.LanguageFilePath);
             if (xmlReader == null)

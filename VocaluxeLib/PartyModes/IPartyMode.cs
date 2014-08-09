@@ -44,7 +44,7 @@ namespace VocaluxeLib.PartyModes
     public struct SSelectionOptions
     {
         /// <summary>
-        ///     If != -1, the SongMenu should set the song selection on the provided song index (visible index) if possible
+        ///     If != -1, the SongMenu should set the song selection to the provided song index (visible index) if possible
         /// </summary>
         public int SongIndex;
 

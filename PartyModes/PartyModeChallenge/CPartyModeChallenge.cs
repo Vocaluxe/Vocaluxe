@@ -270,7 +270,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         public override void UpdateGame()
         {
             /*
-            if (CBase.Songs.GetCurrentCategoryIndex() != -1 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
+            if (CBase.Songs.IsInCategory() || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
                 _ScreenSongOptions.Selection.RandomOnly = true;
             else
                 _ScreenSongOptions.Selection.RandomOnly = false;*/
@@ -475,12 +475,12 @@ namespace VocaluxeLib.PartyModes.Challenge
                     players[i].ProfileID = -1;
             }
 
-            CBase.Songs.AddPartySongSung(songID);
             CBase.Graphics.FadeTo(EScreens.ScreenSing);
         }
 
         public override void LeavingHighscore()
         {
+            CBase.Songs.AddPartySongSung(CBase.Game.GetSong(0).ID);
             _GameData.CurrentRoundNr++;
             CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
         }
