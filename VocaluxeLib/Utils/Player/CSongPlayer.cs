@@ -106,6 +106,8 @@ namespace VocaluxeLib.Utils.Player
             if (song == null)
                 return;
 
+            Close();
+
             _Song = song;
             _LoadVideo();
             base.Load(Path.Combine(song.Folder, song.MP3FileName), position, autoplay);
@@ -115,6 +117,8 @@ namespace VocaluxeLib.Utils.Player
         {
             if (String.IsNullOrEmpty(file))
                 return;
+
+            Close();
 
             _Song = null;
             base.Load(file, position, autoplay);

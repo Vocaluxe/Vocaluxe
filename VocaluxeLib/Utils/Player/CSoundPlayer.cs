@@ -73,6 +73,8 @@ namespace VocaluxeLib.Utils.Player
             if (IsPlaying)
                 Stop();
 
+            Close();
+
             _StreamID = CBase.Sound.Load(file, false, true);
             if (position > 0f)
                 Position = position;
