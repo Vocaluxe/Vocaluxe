@@ -32,9 +32,9 @@ namespace Vocaluxe.Base
 
         public static bool Init()
         {
-            _HighscoreDB = new CHighscoreDB(Path.Combine(Environment.CurrentDirectory, CConfig.FileHighscoreDB));
-            _CoverDB = new CCoverDB(Path.Combine(Environment.CurrentDirectory, CSettings.FileCoverDB));
-            _ResourceDB = new CResourceDB(Path.Combine(Environment.CurrentDirectory, CSettings.FileCreditsRessourcesDB));
+            _HighscoreDB = new CHighscoreDB(CConfig.FileHighscoreDB);
+            _CoverDB = new CCoverDB(Path.Combine(CSettings.DataFolder, CSettings.FileNameCoverDB));
+            _ResourceDB = new CResourceDB(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameCreditsRessourcesDB));
 
             if (!_HighscoreDB.Init())
             {

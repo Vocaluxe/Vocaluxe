@@ -1265,9 +1265,8 @@ namespace Vocaluxe.Screens
 
         private void _OpenPlaylist(int playlistID)
         {
-            if (CPlaylists.Playlists.Length > playlistID && playlistID >= 0)
+            if (_Playlist.LoadPlaylist(playlistID))
             {
-                _Playlist.LoadPlaylist(playlistID);
                 _SongMenu.SmallView = true;
                 _Playlist.Visible = true;
             }
@@ -1289,17 +1288,17 @@ namespace Vocaluxe.Screens
         {
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Clear();
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValue("TR_SCREENSONG_NEWPLAYLIST");
-            _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValues(CPlaylists.PlaylistNames);
+            _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValues(CPlaylists.Names);
             _SelectSlides[_SelectSlideOptionsPlaylistOpen].Clear();
-            _SelectSlides[_SelectSlideOptionsPlaylistOpen].AddValues(CPlaylists.PlaylistNames);
+            _SelectSlides[_SelectSlideOptionsPlaylistOpen].AddValues(CPlaylists.Names);
         }
 
         private void _OpenAndAddPlaylistAction()
         {
-            //Open an existing playlist and add song
             if (_Playlist.ActivePlaylistID != (_SelectSlides[_SelectSlideOptionsPlaylistAdd].Selection - 1) &&
                 (_SelectSlides[_SelectSlideOptionsPlaylistAdd].Selection - 1) != -1)
             {
+                //Open an existing playlist and add song
                 //Check selected game-mode
                 EGameMode gm;
                 if (_AvailableGameModes.Count >= _SelectSlides[_SelectSlideOptionsMode].Selection)
@@ -1315,7 +1314,7 @@ namespace Vocaluxe.Screens
                     _Playlist.ActivePlaylistID = _SelectSlides[_SelectSlideOptionsPlaylistAdd].Selection - 1;
 
                     //Add song to playlist
-                    CPlaylists.Playlists[_Playlist.ActivePlaylistID].AddSong(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID, gm);
+                    CPlaylists.AddSong(_Playlist.ActivePlaylistID, CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID, gm);
 
                     //Open playlist
                     _OpenPlaylist(_Playlist.ActivePlaylistID);
@@ -1323,9 +1322,9 @@ namespace Vocaluxe.Screens
                     _Playlist.ScrollToBottom();
                 }
             }
-                //Create a new playlist and add song
             else if ((_SelectSlides[_SelectSlideOptionsPlaylistAdd].Selection - 1) == -1)
             {
+                //Create a new playlist and add song
                 //Check selected game-mode
                 EGameMode gm;
                 if (_AvailableGameModes.Count >= _SelectSlides[_SelectSlideOptionsMode].Selection)
@@ -1339,18 +1338,18 @@ namespace Vocaluxe.Screens
                 _Playlist.ActivePlaylistID = CPlaylists.NewPlaylist();
 
                 //Add song to playlist
-                CPlaylists.Playlists[_Playlist.ActivePlaylistID].AddSong(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID, gm);
+                CPlaylists.AddSong(_Playlist.ActivePlaylistID, CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID, gm);
 
                 //Open playlist
                 _OpenPlaylist(_Playlist.ActivePlaylistID);
 
                 //Add new playlist to select-slide
-                _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValue(CPlaylists.Playlists[_Playlist.ActivePlaylistID].PlaylistName);
-                _SelectSlides[_SelectSlideOptionsPlaylistOpen].AddValue(CPlaylists.Playlists[_Playlist.ActivePlaylistID].PlaylistName);
+                _SelectSlides[_SelectSlideOptionsPlaylistAdd].AddValue(CPlaylists.GetName(_Playlist.ActivePlaylistID));
+                _SelectSlides[_SelectSlideOptionsPlaylistOpen].AddValue(CPlaylists.GetName(_Playlist.ActivePlaylistID));
             }
-                //Add song to loaded playlist
             else
             {
+                //Add song to loaded playlist
                 //Check selected game-mode
                 EGameMode gm;
                 if (_AvailableGameModes.Count >= _SelectSlides[_SelectSlideOptionsMode].Selection)
@@ -1359,7 +1358,7 @@ namespace Vocaluxe.Screens
                     gm = EGameMode.TR_GAMEMODE_DUET;
                 else
                     gm = EGameMode.TR_GAMEMODE_NORMAL;
-                CPlaylists.Playlists[_Playlist.ActivePlaylistID].AddSong(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID, gm);
+                CPlaylists.AddSong(_Playlist.ActivePlaylistID, CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID, gm);
                 _Playlist.UpdatePlaylist();
                 _Playlist.ScrollToBottom();
             }

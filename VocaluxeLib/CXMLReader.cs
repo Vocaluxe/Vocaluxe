@@ -62,10 +62,7 @@ namespace VocaluxeLib
         {
             string val;
             if (GetValue(cast, out val, Enum.GetName(typeof(T), value)))
-            {
-                CHelper.TryParse(val, out value, true);
-                return true;
-            }
+                return CHelper.TryParse(val, out value, true);
             return false;
         }
 

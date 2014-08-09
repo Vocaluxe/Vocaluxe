@@ -345,13 +345,8 @@ namespace Vocaluxe.Screens
 
         private void _OnSaveSnapshot()
         {
-            string filename = Path.Combine(CSettings.DataPath, CConfig.ProfileFolders[0], "snapshot");
-            int i = 0;
-            while (File.Exists(filename + i + ".png"))
-                i++;
-
-            filename = filename + i + ".png";
-            _Snapshot.Save(filename, ImageFormat.Png);
+            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CConfig.ProfileFolders[0]), "snapshot.png");
+            _Snapshot.Save(file, ImageFormat.Png);
 
             _Snapshot = null;
             CDraw.RemoveTexture(ref _WebcamTexture);
@@ -361,7 +356,7 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonTakeSnapshot].Visible = false;
             _Buttons[_ButtonWebcam].Visible = CWebcam.IsDeviceAvailable();
 
-            int id = CProfiles.NewAvatar(filename);
+            int id = CProfiles.NewAvatar(file);
             CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].ValueIndex, id);
             _LoadAvatars(false);
         }

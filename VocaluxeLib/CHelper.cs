@@ -273,6 +273,30 @@ namespace VocaluxeLib
         {
             return (bounds.X <= x) && (bounds.X + bounds.W >= x) && (bounds.Y <= y) && (bounds.Y + bounds.H >= y);
         }
+
+        /// <summary>
+        ///     Returns a filename that is unique in that path
+        /// </summary>
+        /// <param name="path">Path in which the file should be stored</param>
+        /// <param name="filename">filename (including extension)</param>
+        /// <returns></returns>
+        public static string GetUniqueFileName(string path, string filename, bool withPath = true)
+        {
+            string ext = Path.GetExtension(filename);
+            filename = Path.GetFileNameWithoutExtension(filename);
+            if (filename == null)
+                filename = "1";
+            if (File.Exists(Path.Combine(path, filename + ext)))
+            {
+                int i = 1;
+                while (File.Exists(Path.Combine(path, filename + "_" + i + ext)))
+                    i++;
+                filename += "_" + i;
+            }
+            if (withPath)
+                filename = Path.Combine(path, filename);
+            return filename + ext;
+        }
     }
 
     static class CEncoding

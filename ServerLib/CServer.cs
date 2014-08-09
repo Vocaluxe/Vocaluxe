@@ -187,7 +187,7 @@ namespace ServerLib
             ProcessStartInfo info = new ProcessStartInfo
                 {
                     FileName = "VocaluxeServerConfig.exe",
-                    WorkingDirectory = Environment.CurrentDirectory,
+                    WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
                     Arguments = port + " " + (_Encrypted ? "true" : "false") + (reserve ? " reserve" : ""),
                     UseShellExecute = true,
                     CreateNoWindow = true,

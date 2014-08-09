@@ -301,6 +301,7 @@ namespace Vocaluxe
             if (args.Name.IndexOf(".resources", StringComparison.Ordinal) >= 0)
                 return null;
 
+            Assembly assembly = null;
             string[] arr = args.Name.Split(new char[] {','});
             if (arr.Length > 0)
             {
@@ -311,27 +312,25 @@ namespace Vocaluxe
 #if ARCH_X64
                 string path = "x64";
 #endif
-                path = Path.Combine(path, arr[0] + ".dll");
+                path = Path.Combine(CSettings.ProgramFolder, path, arr[0] + ".dll");
                 try
                 {
-                    Assembly assembly;
+                    assembly = Assembly.LoadFrom(path);
+                }
+                catch (FileLoadException e1)
+                {
+                    //possibly loading from network, this would work always but better use the normal LoadFrom for more specific errors
                     try
                     {
-                        assembly = Assembly.LoadFrom(path);
-                    }
-                    catch (FileLoadException)
-                    {
-                        //possibly loading from network, this would work always but better use the normal LoadFrom for more specific errors
                         assembly = Assembly.Load(File.ReadAllBytes(path));
                     }
-                    return assembly;
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("Cannot load assembly " + args.Name + " from " + path + ": " + e);
+                    catch (Exception e)
+                    {
+                        CLog.LogError("Cannot load assembly " + args.Name + " from " + path + ": " + e + "\r\nOuter Error: " + e1);
+                    }
                 }
             }
-            return null;
+            return assembly;
         }
 
         private static readonly Mutex _Mutex = new Mutex(false, Application.ProductName + "-SingleInstanceMutex");

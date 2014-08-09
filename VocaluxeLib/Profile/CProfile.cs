@@ -120,19 +120,8 @@ namespace VocaluxeLib.Profile
                 if (filename == "")
                     filename = "1";
 
-                int i = 0;
-                while (File.Exists(Path.Combine(FilePath, filename + ".xml")))
-                {
-                    i++;
-                    if (!File.Exists(Path.Combine(FilePath, filename + i + ".xml")))
-                        filename += i;
-                }
-
-                FileName = filename + ".xml";
+                FileName = CHelper.GetUniqueFileName(FilePath, filename + ".xml", false);
             }
-
-            if (FileName == String.Empty)
-                return;
 
             XmlWriter writer;
             try

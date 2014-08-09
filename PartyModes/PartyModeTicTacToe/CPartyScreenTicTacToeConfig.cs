@@ -180,11 +180,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectSlides[_SelectSlideSongSource].Clear();
             _SelectSlides[_SelectSlideSongSource].SetValues<ESongSource>((int)_Data.ScreenConfig.SongSource);
 
-            List<string> playlists = CBase.Playlist.GetPlaylistNames();
+            List<string> playlists = CBase.Playlist.GetNames();
             _SelectSlides[_SelectSlidePlaylist].Clear();
             for (int i = 0; i < playlists.Count; i++)
             {
-                string value = playlists[i] + " (" + CBase.Playlist.GetPlaylistSongCount(i) + " " + CBase.Language.Translate("TR_SONGS", _PartyModeID) + ")";
+                string value = playlists[i] + " (" + CBase.Playlist.GetSongCount(i) + " " + CBase.Language.Translate("TR_SONGS", _PartyModeID) + ")";
                 _SelectSlides[_SelectSlidePlaylist].AddValue(value);
             }
             _SelectSlides[_SelectSlidePlaylist].Selection = _Data.ScreenConfig.PlaylistID;
@@ -241,12 +241,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 if (CBase.Playlist.GetNumPlaylists() > 0)
                 {
-                    if (CBase.Playlist.GetPlaylistSongCount(_Data.ScreenConfig.PlaylistID) > 0)
+                    if (CBase.Playlist.GetSongCount(_Data.ScreenConfig.PlaylistID) > 0)
                     {
                         _ConfigOk = false;
-                        for (int i = 0; i < CBase.Playlist.GetPlaylistSongCount(_Data.ScreenConfig.PlaylistID); i++)
+                        for (int i = 0; i < CBase.Playlist.GetSongCount(_Data.ScreenConfig.PlaylistID); i++)
                         {
-                            int id = CBase.Playlist.GetPlaylistSong(_Data.ScreenConfig.PlaylistID, i).SongID;
+                            int id = CBase.Playlist.GetSong(_Data.ScreenConfig.PlaylistID, i).SongID;
                             _ConfigOk = CBase.Songs.GetSongByID(id).AvailableGameModes.Any(mode => mode == gm);
                             if (_ConfigOk)
                                 break;

@@ -266,13 +266,13 @@ namespace Vocaluxe.Base
             {
                 CFonts.LoadThemeFonts(
                     _Themes[themeIndex].Name,
-                    Path.Combine(Path.Combine(_Themes[themeIndex].Path, _Themes[themeIndex].SkinFolder), CSettings.FolderThemeFonts),
+                    Path.Combine(Path.Combine(_Themes[themeIndex].Path, _Themes[themeIndex].SkinFolder), CSettings.FolderNameThemeFonts),
                     xmlReader);
             }
             else
             {
                 CFonts.LoadPartyModeFonts(_Themes[themeIndex].PartyModeID,
-                                          Path.Combine(_Themes[themeIndex].Path, CSettings.FolderPartyModeFonts),
+                                          Path.Combine(_Themes[themeIndex].Path, CSettings.FolderNamePartyModeFonts),
                                           xmlReader);
             }
             return true;
@@ -385,11 +385,11 @@ namespace Vocaluxe.Base
         {
             _Themes.Clear();
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), CSettings.FolderThemes);
-            List<string> files = CHelper.ListFiles(path, "*.xml");
+            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameThemes);
+            List<string> files = CHelper.ListFiles(path, "*.xml", false, true);
 
             foreach (string file in files)
-                AddTheme(Path.Combine(path, file), -1);
+                AddTheme(file, -1);
         }
 
         public static bool AddTheme(string filePath, int partyModeID)
@@ -546,7 +546,7 @@ namespace Vocaluxe.Base
             if (themeIndex != -1)
             {
                 path = Path.Combine(_Themes[themeIndex].Path, _Themes[themeIndex].SkinFolder);
-                path = Path.Combine(path, CSettings.FolderScreens);
+                path = Path.Combine(path, CSettings.FolderNameScreens);
             }
             else
                 CLog.LogError("Can't find current Theme");
