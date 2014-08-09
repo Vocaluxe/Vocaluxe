@@ -72,7 +72,7 @@ namespace VocaluxeLib.Menu.SongMenu
             set
             {
                 int max = CBase.Songs.IsInCategory() ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
-                base._SelectionNr = value.Clamp(-1, max - 1);
+                base._SelectionNr = value.Clamp(-1, max - 1, true);
                 //Update list in case we scrolled 
                 _UpdateList();
 
@@ -544,7 +544,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private int _GetOffsetForPosition(int index, int rowNum = 0)
         {
-            return (index / _NumW) * _NumW - (_NumW * rowNum.Clamp(0, _NumH - 1));
+            return (index / _NumW) * _NumW - (_NumW * rowNum.Clamp(0, _NumH - 1, true));
         }
 
         private void _UpdateList(bool force = false)
@@ -564,7 +564,7 @@ namespace VocaluxeLib.Menu.SongMenu
             bool isInCategory = CBase.Songs.IsInCategory();
             int itemCount = isInCategory ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
 
-            offset = offset.Clamp(0, _GetOffsetForPosition(itemCount, _NumH - 1));
+            offset = offset.Clamp(0, _GetOffsetForPosition(itemCount, _NumH - 1), true);
 
             if (offset == _Offset && !force)
                 return;
