@@ -40,7 +40,7 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             _LoadCoverThemes();
-            _LoadCover(CConfig.CoverTheme);
+            _LoadCovers(CConfig.CoverTheme);
         }
 
         public static void Close()
@@ -107,7 +107,7 @@ namespace Vocaluxe.Base
         public static void ReloadCovers()
         {
             _UnloadCovers();
-            _LoadCover(CConfig.CoverTheme);
+            _LoadCovers(CConfig.CoverTheme);
         }
 
         private static void _UnloadCovers()
@@ -170,7 +170,7 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Loads all cover which are defined in the cover config file.
         /// </summary>
-        private static void _LoadCover(string coverThemeName)
+        private static void _LoadCovers(string coverThemeName)
         {
             SCoverTheme coverTheme = _CoverTheme(coverThemeName);
 
