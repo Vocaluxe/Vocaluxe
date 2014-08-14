@@ -5,4 +5,42 @@
 		<Folder>Blue</Folder>
 		<Author>flokuep</Author>
 	</Info>
+	<MissingCover>
+	<Default>
+		<Text>
+			<!--<Text>: Nothing or translation tag-->
+			<Text>%TEXT%</Text>
+			<!--<Font>: Text font name-->
+			<Font>Outline</Font>
+			<!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+			<Style>Bold</Style>
+			<Size>500</Size>
+			<!--<Color>: Text color from ColorScheme (high priority)-->
+			<!--or <R>, <G>, <B>, <A> (lower priority)-->
+			<R>0</R><G>1</G><B>1</B><A>0.5</A>
+			<Margin>24</Margin>
+			<Indent>100</Indent>
+		</Text>
+		<Image>EmptyCover.png</Image>
+		<ShowFirstCover>true</ShowFirstCover>
+		<ImageAlpha>0.8</ImageAlpha>
+	</Default>
+	<Folder>
+		<Text>
+			<!--<Text>: Nothing or translation tag-->
+			<Text>%TEXT%</Text>
+			<!--<Font>: Text font name-->
+			<Font>Outline</Font>
+			<!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+			<Style>Bold</Style>
+			<Size>500</Size>
+			<!--<Color>: Text color from ColorScheme (high priority)-->
+			<!--or <R>, <G>, <B>, <A> (lower priority)-->
+			<R>0</R><G>1</G><B>0</B><A>0.5</A>
+			<Margin>24</Margin>
+			<Indent>100</Indent>
+		</Text>
+		<Image>EmptyCover.png</Image>
+	</Folder>
+	</MissingCover>
 </root>
