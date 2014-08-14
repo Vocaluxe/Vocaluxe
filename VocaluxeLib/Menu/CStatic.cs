@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.Xml;
 using VocaluxeLib.Draw;
 

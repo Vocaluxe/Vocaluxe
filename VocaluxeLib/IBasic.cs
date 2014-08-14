@@ -152,7 +152,7 @@ namespace VocaluxeLib
 
     public interface ILog
     {
-        void LogError(string errorText);
+        void LogError(string errorText, bool showMsg = false, bool exit = false);
         void LogDebug(string text);
         void LogSongInfo(string text);
     }
