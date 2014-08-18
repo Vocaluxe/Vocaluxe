@@ -119,16 +119,23 @@ namespace VocaluxeLib
     {
         bool IsDisabled();
         bool IsPlaying();
+        bool IsPlayingPreview();
         bool SongHasVideo();
         bool VideoEnabled();
+        float GetLength();
 
         void SetDisabled(bool disabled);
         void Next();
         void Previous();
         void Pause();
         void Play();
+        void Stop();
 
         CTexture GetVideoTexture();
+
+        void LoadPreview(CSong song, float start = 0f);
+        void PlayPreview(float start = -1f);
+
     }
 
     public interface IDrawing

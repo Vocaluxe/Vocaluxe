@@ -111,8 +111,8 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (value == base._PreviewNr)
                 {
-                    if (!CBase.PreviewPlayer.IsPlaying())
-                        CBase.PreviewPlayer.Play();
+                    if (!CBase.BackgroundMusic.IsPlaying())
+                        CBase.BackgroundMusic.PlayPreview();
                     return;
                 }
                 base._PreviewNr = value;
@@ -183,7 +183,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (songOptions.Selection.RandomOnly)
                 _PreviewNr = _SelectionNr;
 
-            if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.PreviewPlayer.GetLength() > 0)
+            if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.BackgroundMusic.GetLength() > 0)
                 _UpdateLength(CBase.Songs.GetVisibleSong(_PreviewNr));
         }
 
@@ -248,7 +248,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (song == null)
                 return;
-            float time = CBase.PreviewPlayer.GetLength();
+            float time = CBase.BackgroundMusic.GetLength();
             if (Math.Abs(song.Finish) > 0.001)
                 time = song.Finish;
 
@@ -467,7 +467,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _TextBG.Draw();
 
-            CTexture vidtex = CBase.PreviewPlayer.GetVideoTexture();
+            CTexture vidtex = CBase.BackgroundMusic.GetVideoTexture();
 
             if (vidtex != null)
             {

@@ -117,7 +117,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 else if (value >= CBase.Songs.GetNumCategories())
                 {
                     value = -1;
-                    CBase.PreviewPlayer.Stop();
+                    CBase.BackgroundMusic.Stop();
                 }
 
                 _PreviewNrInternal = value;
@@ -395,8 +395,8 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!_Initialized || !Visible)
                 return;
 
-            if (CBase.PreviewPlayer.IsPlaying())
-                CBase.Drawing.DrawTexture(CBase.PreviewPlayer.GetVideoTexture(), new SRectF(0, 0, 1280, 720, 0));
+            if (CBase.BackgroundMusic.IsPlaying())
+                CBase.Drawing.DrawTexture(CBase.BackgroundMusic.GetVideoTexture(), new SRectF(0, 0, 1280, 720, 0));
         }
 
         public bool IsMouseOverSelectedSong(SMouseEvent mEvent)
@@ -506,23 +506,23 @@ namespace VocaluxeLib.Menu.SongMenu
             if (song == null)
                 return;
 
-            CBase.PreviewPlayer.Load(song);
+            CBase.BackgroundMusic.LoadPreview(song);
 
             float startposition = song.Preview.StartTime;
 
-            float length = CBase.PreviewPlayer.GetLength();
+            float length = CBase.BackgroundMusic.GetLength();
 
             if (song.Preview.Source == EDataSource.None)
                 startposition = length / 4f;
             else if (startposition > length - 5f)
                 startposition = Math.Max(0f, Math.Min(length / 4f, length - 5f));
 
-            CBase.PreviewPlayer.Play(startposition);
+            CBase.BackgroundMusic.PlayPreview(startposition);
         }
 
         protected void _ResetPreview()
         {
-            CBase.PreviewPlayer.Stop();
+            CBase.BackgroundMusic.Stop();
 
             //Make sure we don't have a preview here otherwise a change won't be recognized
             //(e.g. leave a category with one song and set preview to 0 --> previewOld=previewNew=0 --> No change --> Old data shown

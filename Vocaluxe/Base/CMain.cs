@@ -51,12 +51,11 @@ namespace Vocaluxe.Base
         private static readonly IDataBase _DataBase = new CBdataBase();
         private static readonly IControllers _Controller = new CBcontrollers();
         private static readonly IPlaylist _Playlist = new CBplaylist();
-        private static readonly IPreviewPlayer _PreviewPlayer = new CBpreviewPlayer();
 
         public static void Init()
         {
             CBase.Assign(_Config, _Settings, _Theme, _Log, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
-                         _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist, _PreviewPlayer);
+                         _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist);
         }
     }
 
@@ -346,9 +345,19 @@ namespace Vocaluxe.Base
             return CBackgroundMusic.VideoEnabled;
         }
 
+        public bool IsPlayingPreview()
+        {
+            return CBackgroundMusic.IsPlayingPreview;
+        }
+
         public void SetDisabled(bool disabled)
         {
             CBackgroundMusic.Disabled = disabled;
+        }
+
+        public float GetLength()
+        {
+            return CBackgroundMusic.Length;
         }
 
         public void Next()
@@ -369,6 +378,21 @@ namespace Vocaluxe.Base
         public void Play()
         {
             CBackgroundMusic.Play();
+        }
+
+        public void Stop()
+        {
+            CBackgroundMusic.Stop();
+        }
+
+        public void LoadPreview(CSong song, float start = 0f)
+        {
+            CBackgroundMusic.LoadPreview(song, start);
+        }
+
+        public void PlayPreview(float start = -1f)
+        {
+            CBackgroundMusic.PlayPreview(start);
         }
 
         public CTexture GetVideoTexture()
@@ -969,49 +993,6 @@ namespace Vocaluxe.Base
         public CPlaylistSong GetSong(int playlistID, int songIndex)
         {
             return CPlaylists.GetSong(playlistID, songIndex);
-        }
-    }
-
-    class CBpreviewPlayer : IPreviewPlayer
-    {
-        public void Play(float start = -1)
-        {
-            CPreviewPlayer.Play();
-        }
-
-        public void Load(CSong song, float start = 0f)
-        {
-            CPreviewPlayer.Load(song, start);
-        }
-
-        public void Stop()
-        {
-            CPreviewPlayer.Stop();
-        }
-
-        public void TogglePause()
-        {
-            CPreviewPlayer.TogglePause();
-        }
-
-        public CTexture GetCover()
-        {
-            return CPreviewPlayer.Cover;
-        }
-
-        public CTexture GetVideoTexture()
-        {
-            return CPreviewPlayer.VideoTexture;
-        }
-
-        public bool IsPlaying()
-        {
-            return CPreviewPlayer.IsPlaying;
-        }
-
-        public float GetLength()
-        {
-            return CPreviewPlayer.Length;
         }
     }
 }

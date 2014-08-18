@@ -662,11 +662,6 @@ namespace Vocaluxe.Screens
 
             _Texts[_TextCategory].Text = CSongs.GetCurrentCategoryName();
 
-            if (CSongs.IsInCategory || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
-                CBackgroundMusic.Disabled = true;
-            else
-                CBackgroundMusic.Disabled = false;
-
             string selectionText = "";
             if (CSongs.IsInCategory)
             {

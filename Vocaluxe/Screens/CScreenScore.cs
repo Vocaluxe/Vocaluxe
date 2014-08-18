@@ -123,8 +123,7 @@ namespace Vocaluxe.Screens
 
         public override void OnShow()
         {
-            if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
-                CPreviewPlayer.TogglePause();
+            CBackgroundMusic.Disabled = false;
 
             base.OnShow();
             //-1 --> Show average

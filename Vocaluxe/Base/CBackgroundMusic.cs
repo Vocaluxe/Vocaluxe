@@ -31,6 +31,7 @@ namespace Vocaluxe.Base
         private static bool _Initialized;
 
         private static CSongPlayer _SongPlayer;
+        private static CSongPlayer _PreviewPlayer;
 
         private static bool _OwnSongsAvailable;
         private static EBackgroundMusicSource _MusicSource;
@@ -46,6 +47,7 @@ namespace Vocaluxe.Base
         private static bool _OwnMusicAdded;
         private static bool _BackgroundMusicAdded;
         private static bool _Disabled;
+        private static bool _PlaysPreview;
 
         public static bool VideoEnabled
         {
@@ -83,18 +85,28 @@ namespace Vocaluxe.Base
             get { return _SongPlayer.SongHasVideo; }
         }
 
-        public static bool IsPlaying { get { return _SongPlayer.IsPlaying; } }
+        public static bool IsPlaying { get { return _PlaysPreview ? _PreviewPlayer.IsPlaying : _SongPlayer.IsPlaying; } }
+
+        public static bool IsPlayingPreview { get { return _PlaysPreview; } }
 
         public static string ArtistAndTitle
         {
-            get { 
-                return  _BGMusicFiles.Contains(_CurrentPlaylistElement) ? Path.GetFileNameWithoutExtension(_CurrentPlaylistElement.MusicFilePath) :_SongPlayer.ArtistAndTitle;
+            get {
+                if (_PlaysPreview)
+                    return _PreviewPlayer.ArtistAndTitle;
+                else
+                    return _BGMusicFiles.Contains(_CurrentPlaylistElement) ? Path.GetFileNameWithoutExtension(_CurrentPlaylistElement.MusicFilePath) : _SongPlayer.ArtistAndTitle;
             }
+        }
+
+        public static float Length
+        {
+            get { return _PlaysPreview ? _PreviewPlayer.Length : _SongPlayer.Length; }
         }
 
         public static CTexture Cover
         {
-            get { return _SongPlayer.Cover; }
+            get { return _PlaysPreview ? _PreviewPlayer.Cover : _SongPlayer.Cover; }
         }
 
         //Use this to set whether own songs are available for access
@@ -129,6 +141,10 @@ namespace Vocaluxe.Base
             _SongPlayer = new CSongPlayer();
             _SongPlayer.Volume = CConfig.BackgroundMusicVolume;
 
+            _PreviewPlayer = new CSongPlayer();
+            _PreviewPlayer.Volume = CConfig.PreviewMusicVolume;
+            _PreviewPlayer.RepeatSong = true;
+
             _VideoEnabled = (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON);
             SetMusicSource(CConfig.BackgroundMusicSource);
             _Initialized = true;
@@ -137,6 +153,7 @@ namespace Vocaluxe.Base
         public static void Close()
         {
             _SongPlayer.Close();
+            _PreviewPlayer.Close();
 
             _BGMusicFiles.Clear();
             _NotPlayedFiles.Clear();
@@ -147,16 +164,17 @@ namespace Vocaluxe.Base
 
         public static void Play()
         {
-            if (IsPlaying || CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
+            if (IsPlaying || (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF && !_PlaysPreview))
                 return;
 
-            if (_SongPlayer.SongLoaded)
-            {
-                //Resume
-                _SongPlayer.TogglePause();
-            }
+            if (_PlaysPreview)
+                _PreviewPlayer.TogglePause();
             else
-                Next();
+                if (_SongPlayer.SongLoaded)
+                    //Resume
+                    _SongPlayer.TogglePause();
+                else
+                    Next();
         }
 
         public static void Stop()
@@ -164,9 +182,17 @@ namespace Vocaluxe.Base
             if (!IsPlaying)
                 return;
 
-            _SongPlayer.Stop();
-
-            _CurrentPlaylistElement = null;
+            if (_PlaysPreview)
+            {
+                _PreviewPlayer.Stop();
+                _PlaysPreview = false;
+                Play();
+            }
+            else
+            {
+                _SongPlayer.Stop();
+                _CurrentPlaylistElement = null;
+            }
         }
 
         public static void Pause()
@@ -174,65 +200,79 @@ namespace Vocaluxe.Base
             if (!IsPlaying)
                 return;
 
-            _SongPlayer.TogglePause();
+            if (_PlaysPreview)
+                _PreviewPlayer.TogglePause();
+            else
+                _SongPlayer.TogglePause();
         }
 
         public static void Next()
         {
-            Stop(); //stop last song if any
-            if (_PreviousMusicIndex < _PreviousFiles.Count - 2)
+            if (!_PlaysPreview)
             {
-                //We are in the previous list and next element exists
-                _PreviousMusicIndex++;
-                _CurrentPlaylistElement = _PreviousFiles[_PreviousMusicIndex];
-            }
-            else
-            {
-                //We are not in the previous list (anymore)
-                if (_NotPlayedFiles.Count == 0)
+                Stop(); //stop last song if any
+                if (_PreviousMusicIndex < _PreviousFiles.Count - 2)
                 {
-                    if (_PreviousFiles.Count == 0)
-                        return; //No songs to play
-                    _NotPlayedFiles.AddRange(_PreviousFiles);
+                    //We are in the previous list and next element exists
+                    _PreviousMusicIndex++;
+                    _CurrentPlaylistElement = _PreviousFiles[_PreviousMusicIndex];
                 }
+                else
+                {
+                    //We are not in the previous list (anymore)
+                    if (_NotPlayedFiles.Count == 0)
+                    {
+                        if (_PreviousFiles.Count == 0)
+                            return; //No songs to play
+                        _NotPlayedFiles.AddRange(_PreviousFiles);
+                    }
 
-                _CurrentPlaylistElement = _NotPlayedFiles[CGame.Rand.Next(_NotPlayedFiles.Count)];
-                _NotPlayedFiles.Remove(_CurrentPlaylistElement);
+                    _CurrentPlaylistElement = _NotPlayedFiles[CGame.Rand.Next(_NotPlayedFiles.Count)];
+                    _NotPlayedFiles.Remove(_CurrentPlaylistElement);
 
-                _PreviousFiles.Add(_CurrentPlaylistElement);
-                _PreviousMusicIndex = _PreviousFiles.Count - 1;
+                    _PreviousFiles.Add(_CurrentPlaylistElement);
+                    _PreviousMusicIndex = _PreviousFiles.Count - 1;
+                }
+                _StartSong();
             }
-            _StartSong();
         }
 
         public static void Previous()
         {
-            if (_PreviousMusicIndex < 0)
-                return;
-            Debug.Assert(_CurrentPlaylistElement != null);
-            if (_SongPlayer.Position <= 1.5f && _PreviousMusicIndex > 0)
+            if (!_PlaysPreview)
             {
-                Stop(); //stop last song
-                _PreviousMusicIndex--;
+                if (_PreviousMusicIndex < 0)
+                    return;
+                Debug.Assert(_CurrentPlaylistElement != null);
+                if (_SongPlayer.Position <= 1.5f && _PreviousMusicIndex > 0)
+                {
+                    Stop(); //stop last song
+                    _PreviousMusicIndex--;
 
-                _CurrentPlaylistElement = _PreviousFiles[_PreviousMusicIndex];
+                    _CurrentPlaylistElement = _PreviousFiles[_PreviousMusicIndex];
+                }
+                _StartSong();
             }
-            _StartSong();
         }
 
         public static void Update()
         {
-            if (!IsPlaying && !_SongPlayer.SongLoaded)
+            if (!IsPlaying && (!_SongPlayer.SongLoaded || !_PreviewPlayer.SongLoaded) )
                 return;
 
-            _SongPlayer.Update();
-            if (_SongPlayer.IsFinished)
-                Next();
+            if (_PlaysPreview)
+                _PreviewPlayer.Update();
+            else
+            {
+                _SongPlayer.Update();
+                if (_SongPlayer.IsFinished)
+                    Next();
+            }
         }
 
         public static CTexture GetVideoTexture()
         {
-            return _SongPlayer.GetVideoTexture();
+            return _PlaysPreview ? _PreviewPlayer.GetVideoTexture() : _SongPlayer.GetVideoTexture();
         }
 
         public static void SetMusicSource(EBackgroundMusicSource source)
@@ -256,6 +296,28 @@ namespace Vocaluxe.Base
                     _AddOwnMusic();
                     break;
             }
+        }
+
+        public static void LoadPreview(CSong song, float start = 0f)
+        {
+            Stop();
+
+            if (song == null)
+                return;
+
+            if (start == 0f)
+                start = song.Preview.StartTime;
+
+            _PlaysPreview = true;
+            _PreviewPlayer.Load(song, start);
+        }
+
+        public static void PlayPreview(float start = -1f)
+        {
+            if (start > -1f)
+                _PreviewPlayer.Position = start;
+
+            Play();
         }
 
         /// <summary>

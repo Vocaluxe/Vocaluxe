@@ -217,7 +217,6 @@
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
     <Compile Include="Base\CPlaylistElement.cs" />
-    <Compile Include="Base\CPreviewPlayer.cs" />
     <Compile Include="Base\CRecord.cs" />
     <Compile Include="Base\CVideoPlayer.cs" />
     <Compile Include="COSFunctions.cs" />

@@ -38,12 +38,10 @@ namespace VocaluxeLib
         public static IDataBase DataBase;
         public static IControllers Controller;
         public static IPlaylist Playlist;
-        public static IPreviewPlayer PreviewPlayer;
 
         public static void Assign(IConfig config, ISettings settings, ITheme theme, ILog log, IBackgroundMusic backgroundMusic,
                                   IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
-                                  ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IControllers controller, IPlaylist playlist,
-                                  IPreviewPlayer previewPlayer)
+                                  ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IControllers controller, IPlaylist playlist)
         {
             Config = config;
             Settings = settings;
@@ -64,7 +62,6 @@ namespace VocaluxeLib
             DataBase = dataBase;
             Controller = controller;
             Playlist = playlist;
-            PreviewPlayer = previewPlayer;
         }
     }
 }
