@@ -310,6 +310,19 @@ namespace Vocaluxe.Base
 
             _PlaysPreview = true;
             _PreviewPlayer.Load(song, start);
+
+            float startposition = song.Preview.StartTime;
+
+            float length = _PreviewPlayer.Length;
+
+            if (song.Preview.Source == EDataSource.None)
+                startposition = length / 4f;
+            else if (startposition > length - 5f)
+                startposition = Math.Max(0f, Math.Min(length / 4f, length - 5f));
+
+            _PreviewPlayer.Position = startposition;
+
+            Play();
         }
 
         public static void PlayPreview(float start = -1f)

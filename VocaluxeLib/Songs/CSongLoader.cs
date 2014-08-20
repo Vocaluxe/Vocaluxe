@@ -416,6 +416,7 @@ namespace VocaluxeLib.Songs
                     {
                         //PreviewStart is not set or <=0
                         _Song.Preview.StartTime = (headerFlags & EHeaderFlags.MedleyStartBeat) != 0 ? CBase.Game.GetTimeFromBeats(_Song.Medley.StartBeat, _Song.BPM) : 0f;
+                        _Song.Preview.Source = EDataSource.Calculated;
                     }
 
                     if ((headerFlags & EHeaderFlags.MedleyStartBeat) != 0 && (headerFlags & EHeaderFlags.MedleyEndBeat) != 0)

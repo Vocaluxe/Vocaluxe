@@ -507,17 +507,6 @@ namespace VocaluxeLib.Menu.SongMenu
                 return;
 
             CBase.BackgroundMusic.LoadPreview(song);
-
-            float startposition = song.Preview.StartTime;
-
-            float length = CBase.BackgroundMusic.GetLength();
-
-            if (song.Preview.Source == EDataSource.None)
-                startposition = length / 4f;
-            else if (startposition > length - 5f)
-                startposition = Math.Max(0f, Math.Min(length / 4f, length - 5f));
-
-            CBase.BackgroundMusic.PlayPreview(startposition);
         }
 
         protected void _ResetPreview()
