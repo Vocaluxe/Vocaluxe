@@ -346,7 +346,7 @@ namespace Vocaluxe.Base
 
             //otherwhise load
             if (_BGMusicFiles.Contains(_CurrentPlaylistElement))
-                _SongPlayer.Load(_CurrentPlaylistElement.MusicFilePath, 0f, true);
+                _SongPlayer.LoadFile(_CurrentPlaylistElement.MusicFilePath, 0f, true);
             else
             {
                 //Seek to #Start-Tag, if found

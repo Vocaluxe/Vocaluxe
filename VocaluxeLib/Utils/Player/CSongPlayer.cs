@@ -113,7 +113,7 @@ namespace VocaluxeLib.Utils.Player
             base.Load(Path.Combine(song.Folder, song.MP3FileName), position, autoplay);
         }
 
-        public void Load(string file, float position = 0f, bool autoplay = false)
+        public void LoadFile(string file, float position = 0f, bool autoplay = false)
         {
             if (String.IsNullOrEmpty(file))
                 return;
@@ -167,25 +167,6 @@ namespace VocaluxeLib.Utils.Player
             else if(_Video != -1)
             {
                 CBase.Video.Resume(_Video);
-            }
-        }
-
-        public new void Update()
-        {
-            if (_StreamID == -1 || !IsPlaying)
-                return;
-
-            float timeToPlay;
-            float len = CBase.Sound.GetLength(_StreamID);
-            timeToPlay = (len > 0f) ? len - CBase.Sound.GetPosition(_StreamID) : _FadeTime + 1f;
-
-            bool finished = CBase.Sound.IsFinished(_StreamID);
-            if (timeToPlay <= _FadeTime || finished)
-            {
-                if (RepeatSong)
-                    Play();
-                else
-                    Stop();
             }
         }
 
