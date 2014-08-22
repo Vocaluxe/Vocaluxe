@@ -67,6 +67,24 @@ namespace VocaluxeLib.Utils.Player
             get { return _StreamID != -1; }
         }
 
+        public float Position
+        {
+            get
+            {
+                if (_StreamID == -1)
+                    return -1;
+                return CBase.Sound.GetPosition(_StreamID);
+            }
+            set
+            {
+                if (_StreamID == -1)
+                    return;
+                CBase.Sound.SetPosition(_StreamID, value);
+                CBase.Video.Skip(_Video, value, _Song.VideoGap);
+                _StartPosition = value;
+            }
+        }
+
         public CSongPlayer(bool loop = false) : base(loop) { }
 
         public CSongPlayer(CSong song, bool loop = false, float position = 0f, bool autoplay = false)

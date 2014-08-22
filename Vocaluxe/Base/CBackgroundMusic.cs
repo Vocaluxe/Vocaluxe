@@ -320,6 +320,9 @@ namespace Vocaluxe.Base
             else if (startposition > length - 5f)
                 startposition = Math.Max(0f, Math.Min(length / 4f, length - 5f));
 
+            if (startposition >= 0.5f)
+                startposition -= 0.5f;
+
             _PreviewPlayer.Position = startposition;
 
             Play();
