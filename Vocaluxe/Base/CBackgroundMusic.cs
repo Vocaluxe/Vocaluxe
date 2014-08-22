@@ -164,7 +164,7 @@ namespace Vocaluxe.Base
 
         public static void Play()
         {
-            if (IsPlaying || (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF && !_PlaysPreview))
+            if (IsPlaying || (CConfig.BackgroundMusic != EBackgroundMusicOffOn.TR_CONFIG_ON && !_PlaysPreview))
                 return;
 
             if (_PlaysPreview)

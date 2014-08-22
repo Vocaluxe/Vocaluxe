@@ -714,7 +714,7 @@ namespace Vocaluxe.Screens
 
             _SongMenu.OnHide();
 
-            if (CGraphics.NextScreen != EScreens.ScreenNames || CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
+            if (CGraphics.NextScreen != EScreens.ScreenNames || CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
             {
                 CBackgroundMusic.Disabled = false;
                 CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);

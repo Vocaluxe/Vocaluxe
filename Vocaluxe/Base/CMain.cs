@@ -76,7 +76,7 @@ namespace Vocaluxe.Base
             return CConfig.BackgroundMusicVolume;
         }
 
-        public EOffOn GetBackgroundMusicStatus()
+        public EBackgroundMusicOffOn GetBackgroundMusicStatus()
         {
             return CConfig.BackgroundMusic;
         }

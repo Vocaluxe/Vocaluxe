@@ -35,7 +35,7 @@ namespace VocaluxeLib
         void SetBackgroundMusicVolume(int newVolume);
         int GetBackgroundMusicVolume();
 
-        EOffOn GetBackgroundMusicStatus();
+        EBackgroundMusicOffOn GetBackgroundMusicStatus();
 
         int GetPreviewMusicVolume();
 
