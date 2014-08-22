@@ -111,7 +111,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (value == base._PreviewNr)
                 {
-                    if (!CBase.BackgroundMusic.IsPlaying())
+                    if (!CBase.BackgroundMusic.IsPlaying() && value != -1)
                         CBase.BackgroundMusic.PlayPreview();
                     return;
                 }

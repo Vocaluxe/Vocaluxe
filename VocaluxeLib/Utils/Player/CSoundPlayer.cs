@@ -84,7 +84,7 @@ namespace VocaluxeLib.Utils.Player
 
         public void Play()
         {
-            if (_StreamID == -1)
+            if (_StreamID == -1 || IsPlaying)
                 return;
 
             CBase.Sound.SetPosition(_StreamID, _StartPosition);
