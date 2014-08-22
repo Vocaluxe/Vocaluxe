@@ -333,6 +333,12 @@ namespace Vocaluxe.Base
             Play();
         }
 
+        public static void StopPreview()
+        {
+            _PreviewPlayer.Close();
+            _PlaysPreview = false;
+        }
+
         /// <summary>
         ///     (Re-)Starts the _CurrentPlaylistElement
         /// </summary>

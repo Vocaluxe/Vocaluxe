@@ -500,7 +500,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _PlaySong(int nr)
         {
-            _ResetPreview();
+            _PreviewNrInternal = -1;
+
+            CBase.BackgroundMusic.StopPreview();
 
             CSong song = CBase.Songs.GetVisibleSong(nr);
             if (song == null)

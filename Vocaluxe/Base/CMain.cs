@@ -395,6 +395,11 @@ namespace Vocaluxe.Base
             CBackgroundMusic.PlayPreview(start);
         }
 
+        public void StopPreview()
+        {
+            CBackgroundMusic.StopPreview();
+        }
+
         public CTexture GetVideoTexture()
         {
             return CBackgroundMusic.GetVideoTexture();
