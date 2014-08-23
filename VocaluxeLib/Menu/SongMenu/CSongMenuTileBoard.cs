@@ -57,8 +57,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _Offset;
 
         private float _Length = -1f;
-        private int _LastKnownNumSongs;
-        private int _LastKnownCategory = -1;
+        private int _LastKnownElements;
+        private int _LastKnownCategory;
 
         private bool _MouseWasInRect;
 
@@ -72,7 +72,7 @@ namespace VocaluxeLib.Menu.SongMenu
             set
             {
                 int max = CBase.Songs.IsInCategory() ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
-                base._SelectionNr = value.Clamp(-1, max - 1);
+                base._SelectionNr = value.Clamp(-1, max - 1, true);
                 //Update list in case we scrolled 
                 _UpdateList();
 
@@ -263,17 +263,18 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public override void OnShow()
         {
-            if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && CBase.Songs.GetNumCategories() > 0 && !CBase.Songs.IsInCategory())
-                _EnterCategory(0);
-            else
+            _LastKnownElements = -1; //Force refresh of list
+            if (!CBase.Songs.IsInCategory())
             {
-                if (CBase.Songs.IsInCategory())
-                    SetSelectedSong(_SelectionNr < 0 ? 0 : _SelectionNr);
-                else
-                    SetSelectedCategory(_SelectionNr < 0 ? 0 : _SelectionNr);
+                if ((CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && CBase.Songs.GetNumCategories() > 0) || CBase.Songs.GetNumCategories() == 1)
+                    _EnterCategory(0);
             }
+            if (CBase.Songs.IsInCategory())
+                SetSelectedSong(_SelectionNr < 0 ? 0 : _SelectionNr);
+            else
+                SetSelectedCategory(_SelectionNr < 0 ? 0 : _SelectionNr);
             _PreviewNr = _SelectionNr;
-            _AfterCategoryChange();
+            _UpdateListIfRequired();
         }
 
         public override bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options)
@@ -497,18 +498,16 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             base._EnterCategory(categoryNr);
 
-            _PreviewNr = 0;
             SetSelectedSong(0);
-            _AfterCategoryChange();
+            _UpdateListIfRequired();
         }
 
         protected override void _LeaveCategory()
         {
             base._LeaveCategory();
 
-            _PreviewNr = 0;
             SetSelectedCategory(0);
-            _AfterCategoryChange();
+            _UpdateListIfRequired();
         }
 
         private void _NextCategory()
@@ -529,20 +528,21 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        private void _AfterCategoryChange()
+        private void _UpdateListIfRequired()
         {
-            if ((_LastKnownNumSongs == CBase.Songs.GetNumSongsVisible()) && (_LastKnownCategory == CBase.Songs.GetCurrentCategoryIndex()))
+            int curElements = CBase.Songs.IsInCategory() ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
+            if ((_LastKnownElements == curElements) && (_LastKnownCategory == CBase.Songs.GetCurrentCategoryIndex()))
                 return;
 
             _LastKnownCategory = CBase.Songs.GetCurrentCategoryIndex();
-            _LastKnownNumSongs = CBase.Songs.GetNumSongsVisible();
+            _LastKnownElements = curElements;
             CBase.Songs.UpdateRandomSongList();
             _UpdateList(true);
         }
 
         private int _GetOffsetForPosition(int index, int rowNum = 0)
         {
-            return (index / _NumW) * _NumW - (_NumW * rowNum.Clamp(0, _NumH - 1));
+            return (index / _NumW) * _NumW - (_NumW * rowNum.Clamp(0, _NumH - 1, true));
         }
 
         private void _UpdateList(bool force = false)
@@ -562,7 +562,7 @@ namespace VocaluxeLib.Menu.SongMenu
             bool isInCategory = CBase.Songs.IsInCategory();
             int itemCount = isInCategory ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
 
-            offset = offset.Clamp(0, _GetOffsetForPosition(itemCount, _NumH - 1));
+            offset = offset.Clamp(0, _GetOffsetForPosition(itemCount, _NumH - 1), true);
 
             if (offset == _Offset && !force)
                 return;

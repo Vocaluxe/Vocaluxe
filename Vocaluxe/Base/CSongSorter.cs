@@ -155,7 +155,7 @@ namespace Vocaluxe.Base
                 list.Add(new CSongPointer(song.ID, value));
             else
             {
-                if (list.Count == 0)
+                if (values.Count == 0)
                     list.Add(new CSongPointer(song.ID, ""));
                 else
                     list.AddRange(values.Select(val => new CSongPointer(song.ID, val)));

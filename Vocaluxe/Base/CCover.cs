@@ -188,7 +188,7 @@ namespace Vocaluxe.Base
                 if (xmlReader != null)
                 {
                     _Covers.Clear();
-                    List<string> cover = xmlReader.GetValues("Cover");
+                    List<string> cover = xmlReader.GetNames("//root/Cover/*");
                     foreach (string coverName in cover)
                     {
                         string name;

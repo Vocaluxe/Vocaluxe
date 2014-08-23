@@ -246,10 +246,10 @@ namespace Vocaluxe.Base
             loaded &= xmlReader.GetValue("//root/Info/Author", out pm.Author, "ERROR Author");
             loaded &= xmlReader.GetValue("//root/Info/Folder", out pm.Folder, "ERROR Folder");
             loaded &= xmlReader.GetValue("//root/Info/PartyModeFile", out pm.PartyModeFile, "ERROR PartyModeFile");
-            loaded &= xmlReader.GetInnerValues("PartyScreens", ref pm.ScreenFiles);
             loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMajor", ref pm.PartyModeVersionMajor);
             loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMinor", ref pm.PartyModeVersionMinor);
             loaded &= xmlReader.GetValue("//root/Info/TargetAudience", out pm.TargetAudience, "ERROR TargetAudience");
+            loaded &= xmlReader.GetValues("//root/PartyScreens/*", ref pm.ScreenFiles);
 
             if (!loaded)
             {

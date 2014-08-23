@@ -284,7 +284,7 @@ namespace Vocaluxe.Screens
             else
             {
                 _Pos += num;
-                _Pos = _Pos.Clamp(0, _Scores[_Round].Count - 1);
+                _Pos = _Pos.Clamp(0, _Scores[_Round].Count - 1, true);
             }
         }
 

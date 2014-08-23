@@ -16,7 +16,9 @@
 #endregion
 
 using System;
+#if WIN
 using System.Diagnostics;
+#endif
 using System.ServiceModel;
 using System.ServiceModel.Web;
 using System.Net;
@@ -160,7 +162,7 @@ namespace ServerLib
                     catch (CommunicationException)
                     {
                         _Host.Abort();
-                        MessageBox.Show("Problem while initialization of webserver. You may use a different port (Change in config.xml)");
+                        MessageBox.Show("Problem while initialization of webserver. You may try a different port (Change it in config.xml)");
                     }
                 }
                 else
@@ -188,7 +190,7 @@ namespace ServerLib
                 {
                     FileName = "VocaluxeServerConfig.exe",
                     WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                    Arguments = port + " " + (_Encrypted ? "true" : "false") + (reserve ? " reserve" : ""),
+                    Arguments = AppDomain.CurrentDomain.FriendlyName + " " + port + " " + (_Encrypted ? "true" : "false") + (reserve ? " true" : ""),
                     UseShellExecute = true,
                     CreateNoWindow = true,
                     WindowStyle = ProcessWindowStyle.Hidden,
@@ -198,10 +200,15 @@ namespace ServerLib
                 using (Process p = Process.Start(info))
                 {
                     p.WaitForExit();
+                    if (p.ExitCode != 0)
+                        MessageBox.Show("Registering the Server failed (Code " + p.ExitCode + ")!\r\nThe Server might not work correctly.");
                     p.Close();
                 }
             }
-            catch (Exception) {}
+            catch (Exception e)
+            {
+                MessageBox.Show("Registering the Server failed (" + e + ")!\r\nThe Server might not work correctly.");
+            }
 #else
 
     //Required?

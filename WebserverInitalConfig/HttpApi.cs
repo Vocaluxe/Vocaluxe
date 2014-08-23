@@ -25,6 +25,7 @@ using System.Security.Cryptography.X509Certificates;
 
 namespace WebserverInitalConfig
 {
+    // ReSharper disable InconsistentNaming
     static class HttpApi
     {
         private static readonly HTTPAPI_VERSION HttpApiVersion = new HTTPAPI_VERSION(1, 0);
@@ -144,6 +145,14 @@ namespace WebserverInitalConfig
             public HTTP_SERVICE_CONFIG_URLACL_PARAM ParamDesc;
         }
 
+        [StructLayout(LayoutKind.Sequential)]
+        private struct HTTP_SERVICE_CONFIG_URLACL_QUERY
+        {
+            public HTTP_SERVICE_CONFIG_QUERY_TYPE QueryDesc;
+            public HTTP_SERVICE_CONFIG_URLACL_KEY KeyDesc;
+            public uint dwToken;
+        }
+
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct HTTP_SERVICE_CONFIG_URLACL_KEY
         {
@@ -227,7 +236,7 @@ namespace WebserverInitalConfig
                         if (retVal == ERROR_FILE_NOT_FOUND)
                             return;
 
-                        if (ERROR_INSUFFICIENT_BUFFER == retVal) // ERROR_INSUFFICIENT_BUFFER = 122
+                        if (ERROR_INSUFFICIENT_BUFFER == retVal)
                         {
                             pOutputConfigInfo = Marshal.AllocCoTaskMem(returnLength);
 
@@ -431,7 +440,7 @@ namespace WebserverInitalConfig
                                                                        IntPtr.Zero);
                                 if (ERROR_NO_MORE_ITEMS == retVal)
                                     break;
-                                if (ERROR_INSUFFICIENT_BUFFER == retVal) // ERROR_INSUFFICIENT_BUFFER = 122
+                                if (ERROR_INSUFFICIENT_BUFFER == retVal)
                                 {
                                     pOutputConfigInfo = Marshal.AllocCoTaskMem(returnLength);
 
@@ -485,6 +494,101 @@ namespace WebserverInitalConfig
             return result.ToArray();
         }
 
+        private static HTTP_SERVICE_CONFIG_URLACL_SET QueryReservation(string networkURL)
+        {
+            if (String.IsNullOrEmpty(networkURL))
+                throw new ArgumentNullException("networkURL");
+            HTTP_SERVICE_CONFIG_URLACL_SET res = new HTTP_SERVICE_CONFIG_URLACL_SET();
+            res.KeyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY("");
+            CallHttpApi(
+                delegate
+                    {
+                        HTTP_SERVICE_CONFIG_URLACL_QUERY inputquery = new HTTP_SERVICE_CONFIG_URLACL_QUERY
+                            {
+                                QueryDesc = HTTP_SERVICE_CONFIG_QUERY_TYPE.HttpServiceConfigQueryExact,
+                                KeyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY(networkURL)
+                            };
+
+                        IntPtr pInputQuery = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_QUERY)));
+                        Marshal.StructureToPtr(inputquery, pInputQuery, false);
+                        IntPtr pOutputConfigInfo = IntPtr.Zero;
+                        int returnLength = 0;
+                        try
+                        {
+                            uint retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
+                                                                        HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
+                                                                        pInputQuery,
+                                                                        Marshal.SizeOf(inputquery),
+                                                                        pOutputConfigInfo,
+                                                                        returnLength,
+                                                                        out returnLength,
+                                                                        IntPtr.Zero);
+                            if (ERROR_INSUFFICIENT_BUFFER == retVal)
+                            {
+                                pOutputConfigInfo = Marshal.AllocCoTaskMem(returnLength);
+                                retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
+                                                                       HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
+                                                                       pInputQuery,
+                                                                       Marshal.SizeOf(inputquery),
+                                                                       pOutputConfigInfo,
+                                                                       returnLength,
+                                                                       out returnLength,
+                                                                       IntPtr.Zero);
+                                if (ERROR_FILE_NOT_FOUND == retVal)
+                                    return;
+                                ThrowWin32ExceptionIfError(retVal);
+                                res = (HTTP_SERVICE_CONFIG_URLACL_SET)Marshal.PtrToStructure(pOutputConfigInfo, typeof(HTTP_SERVICE_CONFIG_URLACL_SET));
+                            }
+                            else if (ERROR_FILE_NOT_FOUND == retVal)
+                                return;
+                            else
+                                ThrowWin32ExceptionIfError(retVal);
+                        }
+                        finally
+                        {
+                            Marshal.FreeCoTaskMem(pInputQuery);
+                            if (pOutputConfigInfo != IntPtr.Zero)
+                                Marshal.FreeCoTaskMem(pOutputConfigInfo);
+                        }
+                    }
+                );
+            return res;
+        }
+
+        public static uint DeleteReservation(string networkURL)
+        {
+            uint retVal = NOERROR;
+            if (String.IsNullOrEmpty(networkURL))
+                throw new ArgumentNullException("networkURL");
+            HTTP_SERVICE_CONFIG_URLACL_SET oldReservation = QueryReservation(networkURL);
+            if (oldReservation.KeyDesc.pUrlPrefix == "" && networkURL.Contains("+"))
+            {
+                networkURL = networkURL.Replace('+', '*');
+                oldReservation = QueryReservation(networkURL);
+            }
+            if (oldReservation.KeyDesc.pUrlPrefix == "")
+                return ERROR_FILE_NOT_FOUND;
+            CallHttpApi(
+                delegate
+                    {
+                        IntPtr pInputConfigInfo = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_SET)));
+                        Marshal.StructureToPtr(oldReservation, pInputConfigInfo, false);
+                        try
+                        {
+                            retVal = HttpDeleteServiceConfiguration(IntPtr.Zero,
+                                                                    HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
+                                                                    pInputConfigInfo,
+                                                                    Marshal.SizeOf(oldReservation),
+                                                                    IntPtr.Zero);
+                        }
+                        finally
+                        {
+                            Marshal.FreeCoTaskMem(pInputConfigInfo);
+                        }
+                    });
+            return retVal;
+        }
+
         public static void ReserveURL(string networkURL, string securityDescriptor)
         {
             if (String.IsNullOrEmpty(networkURL))
@@ -495,7 +599,7 @@ namespace WebserverInitalConfig
             CallHttpApi(
                 delegate
                     {
-                        uint retVal = (uint)NOERROR; // NOERROR = 0
+                        uint retVal;
 
                         HTTP_SERVICE_CONFIG_URLACL_KEY keyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY(networkURL);
                         HTTP_SERVICE_CONFIG_URLACL_PARAM paramDesc = new HTTP_SERVICE_CONFIG_URLACL_PARAM(securityDescriptor);
@@ -514,13 +618,15 @@ namespace WebserverInitalConfig
                                                                  Marshal.SizeOf(inputConfigInfoSet),
                                                                  IntPtr.Zero);
 
-                            if (ERROR_ALREADY_EXISTS == retVal) // ERROR_ALREADY_EXISTS = 183
+                            if (ERROR_ALREADY_EXISTS == retVal)
                             {
-                                retVal = HttpDeleteServiceConfiguration(IntPtr.Zero,
-                                                                        HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
-                                                                        pInputConfigInfo,
-                                                                        Marshal.SizeOf(inputConfigInfoSet),
-                                                                        IntPtr.Zero);
+                                retVal = DeleteReservation(networkURL);
+                                if (ERROR_FILE_NOT_FOUND == retVal)
+                                {
+                                    string networkURLOld = networkURL.Contains("https") ? networkURL.Replace("https", "http") :
+                                                               networkURL.Replace("http", "https");
+                                    retVal = DeleteReservation(networkURLOld);
+                                }
 
                                 if (NOERROR == retVal)
                                 {
@@ -530,41 +636,11 @@ namespace WebserverInitalConfig
                                                                          Marshal.SizeOf(inputConfigInfoSet),
                                                                          IntPtr.Zero);
                                 }
-                                else if (ERROR_FILE_NOT_FOUND == retVal) // ERROR_FILE_NOT_FOUND = 2
-                                {
-                                    string networkURLOld = networkURL.Contains("https") ? networkURL.Replace("https", "http") :
-                                                               networkURL.Replace("http", "https");
-                                    HTTP_SERVICE_CONFIG_URLACL_KEY keyDescOld = new HTTP_SERVICE_CONFIG_URLACL_KEY(networkURLOld);
-                                    HTTP_SERVICE_CONFIG_URLACL_PARAM paramDescOld = new HTTP_SERVICE_CONFIG_URLACL_PARAM(securityDescriptor);
-
-                                    HTTP_SERVICE_CONFIG_URLACL_SET inputConfigInfoSetOld = new HTTP_SERVICE_CONFIG_URLACL_SET();
-                                    inputConfigInfoSetOld.KeyDesc = keyDescOld;
-                                    inputConfigInfoSetOld.ParamDesc = paramDescOld;
-
-                                    IntPtr pInputConfigInfoOld = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_SET)));
-                                    Marshal.StructureToPtr(inputConfigInfoSetOld, pInputConfigInfoOld, false);
-
-                                    retVal = HttpDeleteServiceConfiguration(IntPtr.Zero,
-                                                                            HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
-                                                                            pInputConfigInfoOld,
-                                                                            Marshal.SizeOf(inputConfigInfoSetOld),
-                                                                            IntPtr.Zero);
-
-                                    if (NOERROR == retVal)
-                                    {
-                                        retVal = HttpSetServiceConfiguration(IntPtr.Zero,
-                                                                             HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
-                                                                             pInputConfigInfo,
-                                                                             Marshal.SizeOf(inputConfigInfoSet),
-                                                                             IntPtr.Zero);
-                                    }
-                                }
                             }
                         }
                         finally
                         {
                             Marshal.FreeCoTaskMem(pInputConfigInfo);
-                            HttpTerminate(HTTP_INITIALIZE_CONFIG, IntPtr.Zero);
                         }
                         if (NOERROR != retVal)
                             ThrowWin32ExceptionIfError(retVal);

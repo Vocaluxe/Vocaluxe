@@ -71,7 +71,7 @@ namespace Vocaluxe.Base
             {
                 if (songPointer.SortString != "")
                 {
-                    if (lastCategory == null || songPointer.SortString != lastCategory.Name)
+                    if (lastCategory == null || String.Compare(songPointer.SortString, lastCategory.Name, StringComparison.CurrentCultureIgnoreCase) != 0)
                     {
                         lastCategory = new CCategory(songPointer.SortString);
                         _Categories.Add(lastCategory);
