@@ -569,6 +569,8 @@ namespace Vocaluxe.Screens
             _Texts[_TextSongName].Text = String.Empty;
             _Texts[_TextDuetName1].Text = String.Empty;
             _Texts[_TextDuetName2].Text = String.Empty;
+            _Texts[_TextMedleyCountdown].Visible = false;
+            _Texts[_TextMedleyCountdown].Text = String.Empty;
         }
 
         private void _LoadNextSong()
