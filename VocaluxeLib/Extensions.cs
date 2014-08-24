@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace VocaluxeLib
 {
@@ -91,28 +92,13 @@ namespace VocaluxeLib
             return value.IndexOf(other, StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
+        private static Regex _MultipleWhiteSpaceRegEx = new Regex(@" {2,}");
+
         public static string TrimMultipleWs(this string value)
         {
             if (string.IsNullOrEmpty(value))
                 return "";
-            int start = 0;
-            int len = value.Length;
-            while (value[start] == ' ')
-            {
-                start++;
-                if (start >= len)
-                    return "";
-            }
-            if (start > 0)
-                start--;
-            int end = --len;
-            while (value[end] == ' ')
-                end--;
-            if (end < len)
-                end++;
-            if (end - start < len)
-                value = value.Substring(start, end - start + 1);
-            return value;
+            return _MultipleWhiteSpaceRegEx.Replace(value, " ");
         }
 
         /// <summary>

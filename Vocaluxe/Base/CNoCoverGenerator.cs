@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -37,17 +38,27 @@ namespace Vocaluxe.Base
     {
         private readonly bool _Valid;
         private readonly string _Text;
+        private readonly SColorF _BGColor;
         private readonly SColorF _TextColor;
-        private readonly string _TextColorName;
-        private readonly float _TextMargin;
-        private readonly float _TextIndent;
+        private readonly int _TextMarginLeft;
+        private readonly int _TextMarginRight;
+        private readonly int _TextMarginTop;
+        private readonly int _TextMarginBottom;
+        private readonly int _TextIndent;
         private readonly int _TextSize;
         private readonly string _Font;
         private readonly EStyle _Style;
         private readonly string _Image;
         private readonly bool _ShowFirstCover;
         private readonly float _ImageAlpha;
-        private const float _LineSpace = 5;
+        private const int _LineSpace = 5;
+
+        /// <summary>
+        ///     Split lines after special chars, descending priority
+        /// </summary>
+        private static readonly char[] _SplitCharPreferences = {':', '/', '-'};
+        private static readonly char[] _SplitCharAfter = {':', '/', '-', ' ', ')', '.', '*', ','};
+        private static readonly char[] _SplitCharBefore = {'('};
 
         public CNoCoverGenerator(CXMLReader xmlReader, string xPath, string basePath)
         {
@@ -58,29 +69,85 @@ namespace Vocaluxe.Base
             _Valid &= xmlReader.GetValue(xPath + "/Text/Font", out _Font);
             _Valid &= xmlReader.TryGetEnumValue(xPath + "/Text/Style", ref _Style);
             _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/Size", ref _TextSize);
-            if (xmlReader.GetValue(xPath + "/Text/Color", out _TextColorName))
-                _Valid &= CBase.Theme.GetColor(_TextColorName, CBase.Theme.GetSkinIndex(-1), out _TextColor);
+            string colorName;
+            if (xmlReader.GetValue(xPath + "/Text/Color", out colorName))
+                _Valid &= CBase.Theme.GetColor(colorName, CBase.Theme.GetSkinIndex(-1), out _TextColor);
             else
                 _Valid &= xmlReader.TryGetColorFromRGBA(xPath + "/Text", ref _TextColor);
-            _Valid &= xmlReader.TryGetFloatValue(xPath + "/Text/Margin", ref _TextMargin);
-            if (!xmlReader.TryGetFloatValue(xPath + "/Text/Indent", ref _TextIndent))
-                _TextIndent = 6 * _TextMargin;
+            int tmpMargin = 0;
+            bool marginSet = xmlReader.TryGetIntValue(xPath + "/Text/Margin", ref tmpMargin);
+            if (marginSet)
+            {
+                _TextMarginLeft = tmpMargin;
+                _TextMarginRight = tmpMargin;
+                _TextMarginTop = tmpMargin;
+                _TextMarginBottom = tmpMargin;
+            }
+            _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/MarginLeft", ref _TextMarginLeft) || marginSet;
+            _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/MarginRight", ref _TextMarginRight) || marginSet;
+            _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/MarginTop", ref _TextMarginTop) || marginSet;
+            _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/MarginBottom", ref _TextMarginBottom) || marginSet;
+            if (!xmlReader.TryGetIntValue(xPath + "/Text/Indent", ref _TextIndent))
+                _TextIndent = 6 * (_TextMarginLeft + _TextMarginRight) / 2;
+
+            if (xmlReader.GetValue(xPath + "/Background/Color", out colorName))
+                _Valid &= CBase.Theme.GetColor(colorName, CBase.Theme.GetSkinIndex(-1), out _BGColor);
+            else
+                _Valid &= xmlReader.TryGetColorFromRGBA(xPath + "/Background", ref _BGColor);
             _Valid &= xmlReader.GetValue(xPath + "/Image", out _Image);
             string tmp;
             if (xmlReader.GetValue(xPath + "/ShowFirstCover", out tmp))
                 Boolean.TryParse(tmp, out _ShowFirstCover);
             else
                 _ShowFirstCover = false;
-            if (!xmlReader.TryGetFloatValue(xPath + "/ImageAlpha", ref _ImageAlpha))
-                _ImageAlpha = 0.5f;
-            else
-                _ImageAlpha = _ImageAlpha.Clamp(0f, 1f);
+            _ImageAlpha = !xmlReader.TryGetFloatValue(xPath + "/ImageAlpha", ref _ImageAlpha) ? 0.5f : _ImageAlpha.Clamp(0f, 1f);
             if (_Valid)
             {
                 // ReSharper disable AssignNullToNotNullAttribute
                 _Image = Path.Combine(basePath, _Image);
                 // ReSharper restore AssignNullToNotNullAttribute
                 _Valid = File.Exists(_Image);
+                GetCover("Astrid Lindgren (Madicken)", null);
+                GetCover("David Guetta ft. Flo Rida & Nicki Minaj", null);
+            }
+        }
+
+        private class CTextElement
+        {
+            public readonly string Text;
+            public float Width, Height;
+            private readonly Graphics _Graphics;
+            private readonly Font _Font;
+            private float _WidthTrimmed = -1;
+            public float WidthTrimmed
+            {
+                get
+                {
+                    if (_WidthTrimmed < 0f)
+                    {
+                        string text = Text.TrimEnd(null);
+                        _WidthTrimmed = text.Length == Text.Length ? Width : _Graphics.MeasureString(text, _Font, -1, StringFormat.GenericTypographic).Width;
+                    }
+                    return _WidthTrimmed;
+                }
+            }
+            public int Line;
+
+            public CTextElement(string text, Graphics g, Font font)
+            {
+                Text = text;
+                SizeF dimensions = g.MeasureString(text, font, -1, StringFormat.GenericTypographic);
+                Width = dimensions.Width;
+                Height = (dimensions.Height + CFonts.Height) / 2;
+                _Graphics = g;
+                _Font = font;
+            }
+
+            public void AdjustSize(float factor)
+            {
+                Width *= factor;
+                _WidthTrimmed *= factor;
+                Height *= factor;
             }
         }
 
@@ -89,47 +156,43 @@ namespace Vocaluxe.Base
             if (!_Valid)
                 return null;
             text = CLanguage.Translate(_Text.Replace("%TEXT%", text));
-            using (Bitmap bmp = new Bitmap(_Image))
+            using (Bitmap bmpImage = new Bitmap(_Image))
+            using (Bitmap bmp = new Bitmap(bmpImage.Width, bmpImage.Height, PixelFormat.Format32bppArgb))
             using (Graphics g = Graphics.FromImage(bmp))
             {
                 g.SmoothingMode = SmoothingMode.AntiAlias;
                 g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                 g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
+                g.Clear(_BGColor.AsColor());
+
+                ImageAttributes ia = null;
                 if (_ShowFirstCover && !String.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
                 {
-                    ColorMatrix cm = new ColorMatrix {Matrix33 = 1f - _ImageAlpha};
-                    ImageAttributes ia = new ImageAttributes();
-                    ia.SetColorMatrix(cm);
                     using (Bitmap bmp2 = new Bitmap(firstCoverPath))
-                        g.DrawImage(bmp2, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp2.Width, bmp2.Height, GraphicsUnit.Pixel, ia);
+                        g.DrawImage(bmp2, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp2.Width, bmp2.Height, GraphicsUnit.Pixel);
+                    ColorMatrix cm = new ColorMatrix {Matrix33 = _ImageAlpha};
+                    ia = new ImageAttributes();
+                    ia.SetColorMatrix(cm);
                 }
+                g.DrawImage(bmpImage, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, ia);
+
                 if (text != "")
                 {
-                    List<string> lines = _SplitText(text);
+                    IEnumerable<string> textParts = _SplitText(text);
                     CFonts.SetFont(_Font);
                     CFonts.Style = _Style;
-                    float allowedWidth = bmp.Width - 2 * _TextMargin;
-                    if (lines.Count > 1)
-                        allowedWidth -= _TextIndent;
-                    float allowedHeight = bmp.Height - 2 * _TextMargin - _LineSpace * (lines.Count - 1);
-                    CFonts.Height = allowedHeight / lines.Count;
+                    CFonts.Height = bmp.Height - _TextMarginTop - _TextMarginBottom;
                     Font fo = CFonts.GetFont();
-                    List<SizeF> sizes = lines.Select(line => g.MeasureString(line, fo, -1, StringFormat.GenericTypographic)).ToList();
-                    float maxWidth = sizes.Select(s => s.Width).Max();
-                    float maxHeight = sizes.Select(s => s.Height).Max();
-                    maxHeight = (maxHeight + CFonts.Height) / 2;
-                    if (maxWidth > allowedWidth)
-                    {
-                        CFonts.Height *= allowedWidth / maxWidth;
-                        maxHeight *= allowedWidth / maxWidth;
-                    }
-                    if (maxHeight > _TextSize)
-                    {
-                        CFonts.Height *= _TextSize / maxHeight;
-                        maxHeight = _TextSize;
-                    }
+                    List<CTextElement> elements = textParts.Select(line => new CTextElement(line, g, fo)).ToList();
+                    float factor = _DistributeText(elements, bmp.Width, bmp.Height);
+                    foreach (CTextElement element in elements)
+                        element.AdjustSize(factor);
+                    CFonts.Height *= factor / (1f + CFonts.Outline); //Adjust for outline size
                     fo = CFonts.GetFont();
+
+                    float maxHeight = elements.Select(el => el.Height).Max();
+                    int lineCount = elements.Last().Line + 1;
 
                     //Have to use size in em not pixels!
                     float emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
@@ -142,134 +205,320 @@ namespace Vocaluxe.Base
                     {
                         pen.LineJoin = LineJoin.Round;
                         pen.Alignment = PenAlignment.Outset;
-                        float top = (allowedHeight - maxHeight * lines.Count) / 2;
-                        for (int i = 0; i < lines.Count; i++)
+                        float top = (bmp.Height - _TextMarginBottom - _TextMarginTop - maxHeight * lineCount) / 2 + _TextMarginTop;
+                        int nextLineEl = 0;
+                        for (int i = 0; i < lineCount; i++)
                         {
-                            string line = lines[i];
+                            int firstEl = nextLineEl;
+                            for (; nextLineEl < elements.Count; nextLineEl++)
+                            {
+                                if (elements[nextLineEl].Line > i)
+                                    break;
+                            }
+
+                            string line = elements.GetRange(firstEl, nextLineEl - firstEl).Aggregate("", (current, element) => current + element.Text);
                             float left;
-                            if (lines.Count == 1 || (i == 1 && lines.Count == 3))
+                            if (lineCount == 1 || (i == 1 && lineCount == 3))
                             {
                                 //Center Text if this is the only line or the middle line
-                                float width = g.MeasureString(line, fo, -1, StringFormat.GenericTypographic).Width;
-                                left = (bmp.Width - width) / 2;
+                                float width = _GetWidth(elements, firstEl, nextLineEl - 1);
+                                left = (bmp.Width - _TextMarginLeft - _TextMarginRight - width) / 2 + _TextMarginLeft;
                             }
-                            else if (i == lines.Count - 1)
+                            else if (i == lineCount - 1)
                             {
                                 //Place last line at right
-                                float width = g.MeasureString(line, fo, -1, StringFormat.GenericTypographic).Width;
-                                left = bmp.Width - width - _TextMargin;
+                                float width = _GetWidth(elements, firstEl, nextLineEl - 1);
+                                left = bmp.Width - width - _TextMarginRight;
                             }
                             else
-                                left = _TextMargin;
+                                left = _TextMarginLeft;
                             //g.DrawString(line, fo, new SolidBrush(_TextColor.AsColor()), left, top, StringFormat.GenericTypographic);
                             path.AddString(line, fo.FontFamily, (int)fo.Style, emSize, new PointF(left, top), StringFormat.GenericTypographic);
                             top += maxHeight + _LineSpace;
                         }
                         g.DrawPath(pen, path);
-                        // ReSharper disable ImpureMethodCallOnReadonlyValueField
                         g.FillPath(new SolidBrush(_TextColor.AsColor()), path);
-                        // ReSharper restore ImpureMethodCallOnReadonlyValueField
                     }
                 }
                 return CDraw.AddTexture(bmp);
             }
         }
 
-        private static List<string> _SplitText(string text)
+        /// <summary>
+        ///     Distributes the text among max. 3 lines maximizing the height of the line<br />
+        ///     Sets the Line field in the elements
+        /// </summary>
+        /// <param name="elements">Text with set Width and Height</param>
+        /// <param name="width">Image Width</param>
+        /// <param name="height">Image Height</param>
+        /// <returns>Factor for resizing the text (Maximizing this factor means maximizing the height)</returns>
+        private float _DistributeText(List<CTextElement> elements, int width, int height)
         {
-            text = text.Replace(".", ". ").Replace("-", "- ").Replace("  ", " ");
-            string[] parts = text.Split(' ');
-            List<string> lines = new List<string>();
-            string line = "";
-            bool appendingName = false;
-            foreach (string part in parts)
-            {
-                if (part.Length == 1 && !Char.IsLetter(part, 0))
-                {
-                    //Add non-letter chars to the end of the line (e.g. in "19 - 20")
-                    line = (line != "" ? " " : "") + part;
-                    appendingName = false;
-                }
-                else if (part.Length == 1 || (part.Length == 2 && part[1] == '.'))
-                {
-                    //We have something like the initials (e.g. "J. R. R. Tolkien") - Keep them together
-                    if (!appendingName && line != "")
-                    {
-                        //When we are not already appending those, add the last line and start a new one
-                        lines.Add(line);
-                        line = part;
-                    }
-                    line = (line != "" ? " " : "") + part;
-                    appendingName = true;
-                }
-                else
-                {
-                    if (line != "")
-                        lines.Add(line);
-                    line = part;
-                    appendingName = false;
-                }
-            }
-            if (line != "")
-                lines.Add(line);
+            int availableWidth = width - _TextMarginLeft - _TextMarginRight;
+            int availableHeight = height - _TextMarginTop - _TextMarginBottom;
 
-            int i;
-            //If we have more than 3 lines try to distribute them evenly
-            if (lines.Count > 3)
-            {
-                int len = lines.Sum(el => el.Length) + lines.Count - 1;
-                int avgLen = (int)Math.Ceiling(len / 3d);
-                i = 1;
-                while (i < lines.Count)
-                {
-                    string prev = lines[i - 1];
-                    string cur = lines[i];
-                    if (prev.Length + cur.Length <= avgLen)
-                    {
-                        lines[i - 1] += " " + cur;
-                        lines.RemoveAt(i);
-                    }
-                    else
-                        i++;
-                }
-            }
+            float textHeight = elements.Select(el => el.Height).Max();
 
-            //Further reduce the lines by taking the longest line as the max length
-            i = 1;
-            while (i < lines.Count)
-            {
-                string prev = lines[i - 1];
-                string cur = lines[i];
-                if (prev.Length + cur.Length <= lines.Max(el => el.Length))
-                {
-                    lines[i - 1] += " " + cur;
-                    lines.RemoveAt(i);
-                }
-                else
-                    i++;
-            }
+            //Try 1 line:
+            float textWidth = _GetWidth(elements, 0);
+            int maxHeight = Math.Min(availableHeight, _TextSize);
+            float factorH = maxHeight / textHeight;
+            float factorW = availableWidth / textWidth;
+            if (factorH <= factorW)
+                return factorH; //Limited by Height
+            float factor1 = factorW;
 
-            //If we still have more than 3 lines be more agressive
-            while (lines.Count > 3)
+            //Try 2 lines
+            if (elements.Count == 1)
             {
-                //Join the shortest line with shortest neighbour
-                int minLen = lines.Min(el => el.Length);
-                for (i = 0; i < lines.Count; i++)
-                {
-                    if (lines[i].Length != minLen)
-                        continue;
-                    int other;
-                    if (i == 0)
-                        other = 1;
-                    else if (i == lines.Count - 1)
-                        other = i - 1;
-                    else if (lines[i - 1].Length < lines[i + 1].Length)
-                        other = i - 1;
-                    else
-                        other = i + 1;
-                    lines[i] += " " + lines[other];
-                    lines.RemoveAt(other);
+                //Only 1 element -> 1 line
+                return factor1;
+            }
+            availableWidth -= _TextIndent;
+            maxHeight = Math.Min(availableHeight / 2 - _LineSpace, _TextSize);
+            factorH = maxHeight / textHeight;
+            if (factorH <= factor1)
+                return factor1; //Cannot get any bigger with more lines
+            int splitEl = _GetSplitElement(elements, textWidth / 2);
+            Debug.Assert(splitEl >= 0 && splitEl < elements.Count - 1);
+            float width1 = _GetWidth(elements, 0, splitEl);
+            float width2 = _GetWidth(elements, splitEl + 1);
+            factorW = availableWidth / Math.Max(width1, width2);
+            if (factorH <= factorW)
+            {
+                // Assertion: factorH>factor1 (check above) && factorH<=factorW --> Min(factorH,factorW)>factor 1
+                // but for 2 lines it is limited by height
+                // --> Use 2 lines
+                _SetLine(elements, splitEl + 1, elements.Count - 1, 1);
+                return factorH;
+            }
+            // factor2 < factorH && factorH>factor1
+            float factor2 = factorW;
+
+            //Try 3 lines
+            maxHeight = Math.Min(availableHeight / 3 - 2 * _LineSpace, _TextSize);
+            factorH = maxHeight / textHeight;
+            if (elements.Count == 2 || factorH <= Math.Max(factor1, factor2))
+            {
+                //Only 2 elements or cannot get any bigger
+                if (factor2 <= factor1)
+                    return factor1;
+                _SetLine(elements, splitEl + 1, elements.Count - 1, 1);
+                return factor2;
+            }
+            int splitEl21 = _GetSplitElement(elements, textWidth / 3, false);
+            int splitEl22 = _GetSplitElement(elements, textWidth / 3, true, splitEl21 + 1);
+            Debug.Assert(splitEl21 >= 0 && splitEl21 < splitEl22 && splitEl22 < elements.Count - 1);
+            float width21 = _GetWidth(elements, 0, splitEl21);
+            float width22 = _GetWidth(elements, splitEl21 + 1, splitEl22);
+            float width23 = _GetWidth(elements, splitEl22 + 1);
+            factorW = availableWidth / Math.Max(Math.Max(width21, width22), width23);
+            float factor3 = Math.Min(factorH, factorW);
+            if (factor3 > Math.Max(factor1, factor2))
+            {
+                _SetLine(elements, splitEl21 + 1, splitEl22, 1);
+                _SetLine(elements, splitEl22 + 1, elements.Count - 1, 2);
+                return factor3;
+            }
+            if (factor2 > factor1)
+            {
+                _SetLine(elements, splitEl + 1, elements.Count - 1, 1);
+                return factor2;
+            }
+            return factor1;
+        }
+
+        /// <summary>
+        ///     Returns the width of the elements with index from start to end of the list (inclusive) if they are put on 1 line
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="start"></param>
+        /// <returns></returns>
+        private static float _GetWidth(List<CTextElement> list, int start)
+        {
+            return _GetWidth(list, start, list.Count - 1);
+        }
+
+        /// <summary>
+        ///     Returns the width of the elements with index from start to end (inclusive) if they are put on 1 line
+        /// </summary>
+        /// <param name="list"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        private static float _GetWidth(List<CTextElement> list, int start, int end)
+        {
+            if (start < 0)
+                start = 0;
+            if (end >= list.Count)
+                end = list.Count - 1;
+            if (start > end)
+                return 0f;
+            float width = list.GetRange(start, end - start).Select(el => el.Width).Sum();
+            return width + list[end].WidthTrimmed;
+        }
+
+        private static void _SetLine(List<CTextElement> list, int start, int end, int line)
+        {
+            for (int i = start; i <= end; i++)
+                list[i].Line = line;
+        }
+
+        /// <summary>
+        ///     Find the element after which to split the line
+        /// </summary>
+        /// <param name="elements">List with elements, width must be set</param>
+        /// <param name="requestedWidth">The requested line width</param>
+        /// <param name="singleSplit">Split on one point or two</param>
+        /// <param name="startElement">First element on line</param>
+        /// <returns>Index of element AFTER which to split</returns>
+        private static int _GetSplitElement(List<CTextElement> elements, float requestedWidth, bool singleSplit = true, int startElement = 0)
+        {
+            //Assert we have enough elements
+            Debug.Assert(singleSplit && elements.Count - startElement >= 2 || !singleSplit && elements.Count - startElement >= 3);
+            float curWidth = 0f;
+            int splitEl;
+            for (splitEl = startElement; splitEl < elements.Count; splitEl++)
+            {
+                curWidth += elements[splitEl].Width;
+                if (curWidth >= requestedWidth)
                     break;
+            }
+
+            // At this point we can either keep splitEl on this line for move it to the next line
+            // ==> line with splitEl is to long, without it is to short. so find the best option
+            // Check if line starts or ends with a long word, than put that on a single line
+            if (splitEl == startElement)
+                return splitEl;
+            // These 2 conditions also cover if the text fits on 1 line
+            if (!singleSplit && splitEl >= elements.Count - 2)
+                return elements.Count - 3; // Make sure we have 2 elements left if in multi split mode!
+            if (splitEl >= elements.Count - 1)
+                return elements.Count - 2; // Make sure we have 1 element left!
+
+            float diffWith = curWidth - requestedWidth;
+            float diffWithout = requestedWidth - (curWidth - elements[splitEl].Width);
+            if (!singleSplit)
+            {
+                // If we split in 3 lines, add the error of the next 2 lines to the current error for both cases
+                int splitEl2 = _GetSplitElement(elements, requestedWidth, true, splitEl + 1);
+                int splitEl3 = _GetSplitElement(elements, requestedWidth, true, splitEl);
+                diffWith += Math.Abs(requestedWidth - _GetWidth(elements, splitEl + 1, splitEl2)) + Math.Abs(requestedWidth - _GetWidth(elements, splitEl2 + 1));
+                diffWithout += Math.Abs(requestedWidth - _GetWidth(elements, splitEl, splitEl3)) + Math.Abs(requestedWidth - _GetWidth(elements, splitEl3 + 1));
+            }
+            float diff = diffWith - diffWithout;
+            //Differences below this value are considered acceptable
+            float equalDist = requestedWidth * 0.025f;
+            if (diff > equalDist)
+                return splitEl - 1; // width error with element is much higher than without -> put element on next line
+            if (diff < -equalDist)
+                return splitEl; // width error with element is much less than without -> keep element on line
+
+            //The real split would be somewhere in the middle of the element so we can move it to either line
+            string tmp = elements[splitEl].Text.TrimEnd(null);
+            char lastCharWith = tmp[tmp.Length - 1];
+            tmp = elements[splitEl - 1].Text.TrimEnd(null);
+            char lastCharWithout = tmp[tmp.Length - 1];
+            //Check if last chars are special chars
+            if (Char.IsLetterOrDigit(lastCharWith))
+            {
+                if (Char.IsLetterOrDigit(lastCharWithout))
+                    return startElement == 0 ? splitEl : splitEl - 1; //Both are alphanumeric, favor longer first lines but shorter middle lines
+                return splitEl - 1; //Split after non-alphanumeric char
+            }
+            if (Char.IsLetterOrDigit(lastCharWithout))
+                return splitEl; //Split after non-alphanumeric char
+
+            int indexWith = Array.IndexOf(_SplitCharPreferences, lastCharWith);
+            int indexWithout = Array.IndexOf(_SplitCharPreferences, lastCharWithout);
+            if (indexWith <= indexWithout)
+                return startElement == 0 ? splitEl : splitEl - 1; //favor longer first lines but shorter middle lines
+            return splitEl - 1;
+        }
+
+        /// <summary>
+        ///     Split the text in parts that can then be distributet among the lines
+        /// </summary>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        private static IEnumerable<string> _SplitText(string text)
+        {
+            Debug.Assert(!String.IsNullOrWhiteSpace(text));
+
+            text = text.Trim().TrimMultipleWs();
+            List<string> lines = new List<string>();
+            if (text.Length == 1)
+            {
+                lines.Add(text);
+                return lines;
+            }
+            //Split the text on non-letter chars
+            int curStart = 0;
+            for (int i = 1; i < text.Length - 1; i++)
+            {
+                if ((Array.IndexOf(_SplitCharAfter, text[i]) >= 0 && (Char.IsLetterOrDigit(text, i + 1) || Array.IndexOf(_SplitCharBefore, text[i + 1]) >= 0)) ||
+                    (Char.IsLetterOrDigit(text, i) && Array.IndexOf(_SplitCharBefore, text[i + 1]) >= 0))
+                {
+                    lines.Add(text.Substring(curStart, i - curStart + 1));
+                    curStart = ++i;
+                }
+            }
+            //Add the rest
+            lines.Add(text.Substring(curStart));
+
+            //Check for initials (like J. R.R. Tolkien) and join them
+            curStart = -1;
+            string curText = "";
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string part = lines[i].Trim();
+                if (part.Length == 2 && part[1] == '.')
+                {
+                    //Initials found, continue or start new
+                    if (curStart < 0)
+                        curStart = i;
+                    curText += lines[i];
+                }
+                else if (curStart >= 0)
+                {
+                    //Initials end
+                    if (curStart < i - 1)
+                    {
+                        //More than 1 part
+                        lines[curStart] = curText;
+                        lines.RemoveRange(curStart + 1, i - curStart - 1);
+                        i = curStart;
+                    }
+                    curText = "";
+                    curStart = -1;
+                }
+            }
+            //Handle last part
+            if (curStart >= 0)
+            {
+                //Initials end
+                if (curStart < lines.Count - 1)
+                {
+                    //More than 1 part
+                    lines[curStart] = curText;
+                    lines.RemoveRange(curStart + 1, lines.Count - curStart - 1);
+                }
+            }
+
+            // Remove single char lines
+            for (int i = 0; i < lines.Count; i++)
+            {
+                string part = lines[i];
+                if (part.Trim().Length == 1)
+                {
+                    lines.RemoveAt(i);
+                    if (i == 0)
+                        lines[0] = part + lines[0];
+                    else
+                    {
+                        lines[i - 1] += part;
+                        i--;
+                    }
                 }
             }
             return lines;

@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Windows.Forms;
 using VocaluxeLib.Songs;
@@ -48,6 +49,7 @@ namespace VocaluxeLib
             A = color.A;
         }
 
+        [Pure]
         public Color AsColor()
         {
             return Color.FromArgb((int)(A * 255), (int)(R * 255), (int)(G * 255), (int)(B * 255));
