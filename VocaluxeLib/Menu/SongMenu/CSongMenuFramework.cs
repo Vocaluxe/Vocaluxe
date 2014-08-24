@@ -349,40 +349,13 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (!_Initialized)
                 return;
-            /*
-            if (_PreviewSongStream == -1 || _PreviewVideoStream == -1)
-                return;
-
-            if (CBase.Video.IsFinished(_PreviewVideoStream) || CBase.Sound.IsFinished(_PreviewSongStream))
-            {
-                CBase.Video.Close(_PreviewVideoStream);
-                _PreviewVideoStream = -1;
-                return;
-            }
-
-            float time = CBase.Sound.GetPosition(_PreviewSongStream);
-
-            float vtime;
-            if (CBase.Video.GetFrame(_PreviewVideoStream, ref _Vidtex, time, out vtime))
-            {
-                if (_Vidtex != null)
-                {
-                    if (_VideoFading != null)
-                    {
-                        bool finished;
-                        _Vidtex.Color.A = _VideoFading.GetValue(out finished);
-                        if (finished)
-                            _VideoFading = null;
-                    }
-                }
-            }*/
         }
 
         public virtual void OnShow() {}
         
         public virtual void OnHide()
         {
-            if(CBase.Graphics.GetNextScreen() != EScreens.ScreenNames || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            if(CBase.Graphics.GetNextScreen() != EScreens.ScreenNames)
                 _ResetPreview();
         }
 
@@ -513,6 +486,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
         protected void _ResetPreview(bool playBGagain = true)
         {
+            if (_PreviewNrInternal == -1)
+                return;
+
             CBase.BackgroundMusic.StopPreview();
 
             if (playBGagain)

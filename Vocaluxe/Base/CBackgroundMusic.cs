@@ -67,11 +67,10 @@ namespace Vocaluxe.Base
             get { return _Disabled; }
             set
             {
+                if (Disabled == value)
+                    return;
                 _Disabled = value;
-                if (_Disabled)
-                    Pause();
-                else
-                    Play();
+                Pause();
             }
         }
 
@@ -191,7 +190,7 @@ namespace Vocaluxe.Base
             {
                 _PreviewPlayer.Stop();
                 _PlaysPreview = false;
-                Play();
+                Pause();
             }
             else
             {
@@ -202,13 +201,17 @@ namespace Vocaluxe.Base
 
         public static void Pause()
         {
-            if (!IsPlaying)
-                return;
-
             if (_PlaysPreview)
+            {
+                if (!_PreviewPlayer.SongLoaded)
+                    return;
                 _PreviewPlayer.TogglePause();
+            }
             else
-                _SongPlayer.TogglePause();
+                if (!_SongPlayer.SongLoaded)
+                    Next();
+                else
+                    _SongPlayer.TogglePause();
         }
 
         public static void Next()
@@ -305,7 +308,10 @@ namespace Vocaluxe.Base
 
         public static void LoadPreview(CSong song, float start = 0f)
         {
-            Stop();
+            if (!_PlaysPreview)
+                Pause();
+            else
+                StopPreview();
 
             if (song == null)
                 return;
