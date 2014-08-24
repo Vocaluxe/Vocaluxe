@@ -48,9 +48,9 @@ namespace VocaluxeLib.Utils.Player
         }
 
         public bool RepeatSong;
-        public bool IsPlaying { get; private set; }
+        public bool IsPlaying { get; protected set; }
 
-        public bool IsFinished { get { return CBase.Sound.IsFinished(_StreamID); } }
+        public bool IsFinished { get { return RepeatSong ? false : CBase.Sound.IsFinished(_StreamID); } }
 
         public CSoundPlayer(bool loop = false)
         {
@@ -131,7 +131,11 @@ namespace VocaluxeLib.Utils.Player
             if (timeToPlay <= _FadeTime || finished)
             {
                 if (RepeatSong)
+                {
+                    //Set to false for restarting
+                    IsPlaying = false;
                     Play();
+                }
                 else
                     Stop();
             }

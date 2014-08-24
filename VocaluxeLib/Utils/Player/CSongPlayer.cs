@@ -162,6 +162,7 @@ namespace VocaluxeLib.Utils.Player
             }
             base.TogglePause();
         }
+       
 
         private void _LoadVideo()
         {

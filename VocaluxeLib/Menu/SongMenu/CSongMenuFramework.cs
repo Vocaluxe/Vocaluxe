@@ -475,8 +475,6 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             _PreviewNrInternal = -1;
 
-            CBase.BackgroundMusic.StopPreview();
-
             CSong song = CBase.Songs.GetVisibleSong(nr);
             if (song == null)
                 return;
