@@ -537,8 +537,6 @@ namespace Vocaluxe.Screens
             _CloseSong();
             if (_Webcam)
                 CWebcam.Stop();
-            CBackgroundMusic.Disabled = false;
-            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
         }
 
         private void _CloseSong()

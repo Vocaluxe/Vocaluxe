@@ -115,7 +115,7 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonPrevious].Selected)
                             CBackgroundMusic.Previous();
                         if (_Buttons[_ButtonPlay].Selected)
-                            CBackgroundMusic.Play();
+                            CBackgroundMusic.Pause();
                         if (_Buttons[_ButtonPause].Selected)
                             CBackgroundMusic.Pause();
                         if (_Buttons[_ButtonRepeat].Selected)
@@ -143,7 +143,7 @@ namespace Vocaluxe.Screens
                 if (_Buttons[_ButtonPrevious].Selected)
                     CBackgroundMusic.Previous();
                 if (_Buttons[_ButtonPlay].Selected)
-                    CBackgroundMusic.Play();
+                    CBackgroundMusic.Pause();
                 if (_Buttons[_ButtonPause].Selected)
                     CBackgroundMusic.Pause();
                 if (_Buttons[_ButtonRepeat].Selected)
@@ -166,6 +166,17 @@ namespace Vocaluxe.Screens
                 return false;
             }
             return true;
+        }
+
+        public override void OnShow()
+        {
+            base.OnShow();
+            _Buttons[_ButtonNext].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonPause].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonPlay].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonPrevious].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonRepeat].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonSing].Visible = !CBackgroundMusic.IsPlayingPreview;
         }
 
         public override bool UpdateGame()

@@ -152,6 +152,9 @@ namespace Vocaluxe.Screens
             {
                 CBackgroundMusic.OwnSongsAvailable = true;
 
+                if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON || CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
+                    CBackgroundMusic.VideoEnabled = true;
+
                 CBackgroundMusic.Play();
             }
 

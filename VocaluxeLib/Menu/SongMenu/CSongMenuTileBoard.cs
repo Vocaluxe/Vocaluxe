@@ -110,7 +110,11 @@ namespace VocaluxeLib.Menu.SongMenu
             set
             {
                 if (value == base._PreviewNr)
+                {
+                    if (!CBase.BackgroundMusic.IsPlaying() && value != -1)
+                        CBase.BackgroundMusic.PlayPreview();
                     return;
+                }
                 base._PreviewNr = value;
                 _UpdatePreview();
             }
@@ -179,7 +183,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (songOptions.Selection.RandomOnly)
                 _PreviewNr = _SelectionNr;
 
-            if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.Sound.GetLength(_PreviewSongStream) > 0)
+            if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.BackgroundMusic.GetLength() > 0)
                 _UpdateLength(CBase.Songs.GetVisibleSong(_PreviewNr));
         }
 
@@ -244,7 +248,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (song == null)
                 return;
-            float time = CBase.Sound.GetLength(_PreviewSongStream);
+            float time = CBase.BackgroundMusic.GetLength();
             if (Math.Abs(song.Finish) > 0.001)
                 time = song.Finish;
 
@@ -463,18 +467,20 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _TextBG.Draw();
 
-            if (_Vidtex != null && _PreviewVideoStream != -1)
+            CTexture vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
+
+            if (vidtex != null)
             {
-                if (_Vidtex.Color.A < 1)
+                if (vidtex.Color.A < 1)
                     _CoverBig.Draw(EAspect.Crop);
                 var bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
                 RectangleF rect;
-                CHelper.SetRect(bounds, out rect, _Vidtex.OrigAspect, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, vidtex.OrigAspect, EAspect.Crop);
                 var vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
                 var vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
 
-                CBase.Drawing.DrawTexture(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds);
-                CBase.Drawing.DrawTextureReflection(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
+                CBase.Drawing.DrawTexture(vidtex, vidRect, vidtex.Color, vidRectBounds);
+                CBase.Drawing.DrawTextureReflection(vidtex, vidRect, vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
             else
                 _CoverBig.Draw(EAspect.Crop);

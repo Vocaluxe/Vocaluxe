@@ -76,6 +76,11 @@ namespace Vocaluxe.Base
             return CConfig.BackgroundMusicVolume;
         }
 
+        public EBackgroundMusicOffOn GetBackgroundMusicStatus()
+        {
+            return CConfig.BackgroundMusic;
+        }
+
         public int GetPreviewMusicVolume()
         {
             return CConfig.PreviewMusicVolume;
@@ -243,6 +248,11 @@ namespace Vocaluxe.Base
         {
             return CSettings.SlideShowFadeTime;
         }
+
+        public float GetSoundPlayerFadeTime()
+        {
+            return CSettings.SoundPlayerFadeTime;
+        }
     }
 
     class CBtheme : ITheme
@@ -335,9 +345,19 @@ namespace Vocaluxe.Base
             return CBackgroundMusic.VideoEnabled;
         }
 
+        public bool IsPlayingPreview()
+        {
+            return CBackgroundMusic.IsPlayingPreview;
+        }
+
         public void SetDisabled(bool disabled)
         {
             CBackgroundMusic.Disabled = disabled;
+        }
+
+        public float GetLength()
+        {
+            return CBackgroundMusic.Length;
         }
 
         public void Next()
@@ -358,6 +378,26 @@ namespace Vocaluxe.Base
         public void Play()
         {
             CBackgroundMusic.Play();
+        }
+
+        public void Stop()
+        {
+            CBackgroundMusic.Stop();
+        }
+
+        public void LoadPreview(CSong song, float start = 0f)
+        {
+            CBackgroundMusic.LoadPreview(song, start);
+        }
+
+        public void PlayPreview(float start = -1f)
+        {
+            CBackgroundMusic.PlayPreview(start);
+        }
+
+        public void StopPreview()
+        {
+            CBackgroundMusic.StopPreview();
         }
 
         public CTexture GetVideoTexture()
@@ -429,6 +469,11 @@ namespace Vocaluxe.Base
         public float GetGlobalAlpha()
         {
             return CGraphics.GlobalAlpha;
+        }
+
+        public EScreens GetNextScreen()
+        {
+            return CGraphics.NextScreen;
         }
     }
 
@@ -784,6 +829,16 @@ namespace Vocaluxe.Base
         {
             CVideo.SetLoop(streamID, loop);
         }
+
+        public void Pause(int streamID)
+        {
+            CVideo.Pause(streamID);
+        }
+
+        public void Resume(int streamID)
+        {
+            CVideo.Resume(streamID);
+        }
     }
 
     class CBsound : ISound
@@ -803,9 +858,14 @@ namespace Vocaluxe.Base
             CSound.Play(soundStream);
         }
 
-        public void Fade(int soundStream, float targetVolume, float duration)
+        public void Fade(int soundStream, float targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
-            CSound.Fade(soundStream, targetVolume, duration);
+            CSound.Fade(soundStream, targetVolume, duration, afterFadeAction);
+        }
+
+        public void Close(int soundStream)
+        {
+            CSound.Close(soundStream);
         }
 
         public bool IsFinished(int soundStream)
@@ -821,11 +881,6 @@ namespace Vocaluxe.Base
         public float GetLength(int soundStream)
         {
             return CSound.GetLength(soundStream);
-        }
-
-        public void FadeAndClose(int soundStream, float targetVolume, float duration)
-        {
-            CSound.FadeAndClose(soundStream, targetVolume, duration);
         }
 
         public void SetStreamVolume(int soundStream, float volume)
