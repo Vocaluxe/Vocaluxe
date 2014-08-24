@@ -35,7 +35,6 @@ namespace VocaluxeLib.Utils.Player
                 }
             }
         }
-        public bool CanSing { get; private set; }
         public int SongID
         {
             get { return _Song == null ? -1 : _Song.ID; }

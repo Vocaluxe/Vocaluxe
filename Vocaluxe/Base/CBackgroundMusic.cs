@@ -60,7 +60,18 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static bool CanSing { get { return _BGMusicFiles.Contains(_CurrentPlaylistElement) ? false : _SongPlayer.CanSing; } }
+        public static bool CanSing 
+        { 
+            get 
+            {
+                if (_PlaysPreview)
+                    return false;
+                else
+                    if (_BGMusicFiles.Contains(_CurrentPlaylistElement))
+                        return false;
+                    else return true;
+            } 
+        }
 
         public static bool Disabled
         {
