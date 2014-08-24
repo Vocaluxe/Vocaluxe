@@ -341,7 +341,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void Init()
         {
-            _ResetPreview();
+            _ResetPreview(false);
             _Initialized = true;
         }
 
@@ -482,7 +482,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (categoryNr >= CBase.Songs.GetNumCategories())
                 return;
 
-            _ResetPreview();
+            _ResetPreview(false);
             CBase.Songs.SetCategory(categoryNr);
         }
 
@@ -511,9 +511,12 @@ namespace VocaluxeLib.Menu.SongMenu
             CBase.BackgroundMusic.LoadPreview(song);
         }
 
-        protected void _ResetPreview()
+        protected void _ResetPreview(bool playBGagain = true)
         {
-            CBase.BackgroundMusic.Stop();
+            CBase.BackgroundMusic.StopPreview();
+
+            if (playBGagain)
+                CBase.BackgroundMusic.Play();
 
             //Make sure we don't have a preview here otherwise a change won't be recognized
             //(e.g. leave a category with one song and set preview to 0 --> previewOld=previewNew=0 --> No change --> Old data shown

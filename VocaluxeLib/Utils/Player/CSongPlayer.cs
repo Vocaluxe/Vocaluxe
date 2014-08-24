@@ -67,23 +67,6 @@ namespace VocaluxeLib.Utils.Player
             get { return _StreamID != -1; }
         }
 
-        public float Position
-        {
-            get
-            {
-                if (_StreamID == -1)
-                    return -1;
-                return CBase.Sound.GetPosition(_StreamID);
-            }
-            set
-            {
-                if (_StreamID == -1)
-                    return;
-                CBase.Sound.SetPosition(_StreamID, value);
-                CBase.Video.Skip(_Video, value, _Song.VideoGap);
-                _StartPosition = value;
-            }
-        }
 
         public CSongPlayer(bool loop = false) : base(loop) { }
 
@@ -124,11 +107,15 @@ namespace VocaluxeLib.Utils.Player
             if (song == null)
                 return;
 
-            Close();
+            Stop();
 
             _Song = song;
+         
+            base.Load(Path.Combine(song.Folder, song.MP3FileName), position, false);
             _LoadVideo();
-            base.Load(Path.Combine(song.Folder, song.MP3FileName), position, autoplay);
+
+            if (autoplay)
+                Play();
         }
 
         public void LoadFile(string file, float position = 0f, bool autoplay = false)
@@ -136,35 +123,23 @@ namespace VocaluxeLib.Utils.Player
             if (String.IsNullOrEmpty(file))
                 return;
 
-            Close();
+            Stop();
 
-            _Song = null;
             base.Load(file, position, autoplay);
-        }
-
-        public new void Close()
-        {
-            base.Close();
-
-            if (_Video != -1)
-            {
-                CBase.Video.Close(_Video);
-                CBase.Drawing.RemoveTexture(ref _CurrentVideoTexture);
-                _Video = -1;
-            }
         }
 
         public new void Play()
         {
-            base.Play();
-
-            if (_VideoEnabled && _Video != -1)
-                CBase.Video.Resume(_Video);
+            CBase.Sound.SetPosition(_StreamID, _StartPosition);
+            CBase.Video.Skip(_Video, _StartPosition, _Song.VideoGap);
+            TogglePause();
         }
 
         public new void Stop()
         {
             base.Stop();
+
+            _Song = null;
 
             if (_Video != -1)
             {
@@ -176,8 +151,7 @@ namespace VocaluxeLib.Utils.Player
 
         public new void TogglePause()
         {
-            base.TogglePause();
-            if (!IsPlaying && _Video != -1)
+            if (IsPlaying && _Video != -1)
             {
                 CBase.Video.Pause(_Video);
                 CBase.Video.Skip(_Video, CBase.Sound.GetPosition(_StreamID) + _FadeTime, _Song.VideoGap);
@@ -186,6 +160,7 @@ namespace VocaluxeLib.Utils.Player
             {
                 CBase.Video.Resume(_Video);
             }
+            base.TogglePause();
         }
 
         private void _LoadVideo()
@@ -197,8 +172,14 @@ namespace VocaluxeLib.Utils.Player
             if (_Video != -1 || String.IsNullOrEmpty(videoFilePath))
                 return;
             _Video = CBase.Video.Load(videoFilePath);
-            CBase.Video.Skip(_Video, 0f, _Song.VideoGap + _StartPosition); //Use gap, otherwhise we will overwrite position in GetVideoTexture
+            CBase.Video.Skip(_Video, 0f, _Song.VideoGap); //Use gap, otherwhise we will overwrite position in GetVideoTexture
             _VideoFading = new CFading(0f, 1f, 3f);
+
+            if (IsPlaying)
+            {
+                CBase.Video.Skip(_Video, Position, _Song.VideoGap);
+                CBase.Video.Resume(_Video);
+            }
         }
     }
 }

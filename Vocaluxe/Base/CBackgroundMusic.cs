@@ -51,8 +51,13 @@ namespace Vocaluxe.Base
 
         public static bool VideoEnabled
         {
-            get { return _SongPlayer.VideoEnabled; }
-            set { _SongPlayer.VideoEnabled = value; }
+            get { return _PlaysPreview ? _PreviewPlayer.VideoEnabled : _SongPlayer.VideoEnabled; }
+            set { 
+                if(_PlaysPreview)
+                    _PreviewPlayer.VideoEnabled = value;
+                else 
+                    _SongPlayer.VideoEnabled = value;
+            }
         }
 
         public static bool CanSing { get { return _BGMusicFiles.Contains(_CurrentPlaylistElement) ? false : _SongPlayer.CanSing; } }
@@ -152,8 +157,8 @@ namespace Vocaluxe.Base
 
         public static void Close()
         {
-            _SongPlayer.Close();
-            _PreviewPlayer.Close();
+            _SongPlayer.Stop();
+            _PreviewPlayer.Stop();
 
             _BGMusicFiles.Clear();
             _NotPlayedFiles.Clear();
@@ -168,7 +173,7 @@ namespace Vocaluxe.Base
                 return;
 
             if (_PlaysPreview)
-                _PreviewPlayer.TogglePause();
+                _PreviewPlayer.Play();
             else
                 if (_SongPlayer.SongLoaded)
                     //Resume
@@ -338,7 +343,7 @@ namespace Vocaluxe.Base
 
         public static void StopPreview()
         {
-            _PreviewPlayer.Close();
+            _PreviewPlayer.Stop();
             _PlaysPreview = false;
         }
 
@@ -350,7 +355,7 @@ namespace Vocaluxe.Base
             Debug.Assert(_CurrentPlaylistElement != null);
 
             //If current song same as loaded restart only
-            if (_CurrentPlaylistElement.SongID == _SongPlayer.SongID)
+            if (_CurrentPlaylistElement.SongID == _SongPlayer.SongID && _SongPlayer.SongLoaded)
                 _SongPlayer.Play();
 
             //otherwhise load

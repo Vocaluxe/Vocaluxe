@@ -28,7 +28,6 @@ namespace VocaluxeLib.Utils.Player
             set { 
                 if(_StreamID == -1)
                     return;
-                CBase.Sound.SetPosition(_StreamID, value);
                 _StartPosition = value;
             }
             get { 
@@ -73,8 +72,6 @@ namespace VocaluxeLib.Utils.Player
             if (IsPlaying)
                 Stop();
 
-            Close();
-
             _StreamID = CBase.Sound.Load(file, false, true);
             if (position > 0f)
                 Position = position;
@@ -115,7 +112,9 @@ namespace VocaluxeLib.Utils.Player
             if (_StreamID == -1 || !IsPlaying)
                 return;
 
-            CBase.Sound.Fade(_StreamID, 0f, _FadeTime, EStreamAction.Stop);
+            CBase.Sound.Fade(_StreamID, 0f, _FadeTime, EStreamAction.Close);
+            _StreamID = -1;
+
             IsPlaying = false;
         }
 
@@ -137,16 +136,6 @@ namespace VocaluxeLib.Utils.Player
                     Stop();
             }
         
-        }
-
-        public void Close()
-        {
-            if (_StreamID == -1)
-                return;
-
-            CBase.Sound.Close(_StreamID);
-            _StreamID = -1;
-            IsPlaying = false;
         }
 
         private void _ApplyVolume()

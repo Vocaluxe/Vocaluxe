@@ -467,7 +467,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _TextBG.Draw();
 
-            CTexture vidtex = CBase.BackgroundMusic.GetVideoTexture();
+            CTexture vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
 
             if (vidtex != null)
             {

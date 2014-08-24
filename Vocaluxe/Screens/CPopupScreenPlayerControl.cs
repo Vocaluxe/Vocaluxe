@@ -168,6 +168,17 @@ namespace Vocaluxe.Screens
             return true;
         }
 
+        public override void OnShow()
+        {
+            base.OnShow();
+            _Buttons[_ButtonNext].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonPause].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonPlay].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonPrevious].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonRepeat].Visible = !CBackgroundMusic.IsPlayingPreview;
+            _Buttons[_ButtonSing].Visible = !CBackgroundMusic.IsPlayingPreview;
+        }
+
         public override bool UpdateGame()
         {
             _Statics[_StaticCover].Visible = !_VideoPreviewInt || !CBackgroundMusic.SongHasVideo;
