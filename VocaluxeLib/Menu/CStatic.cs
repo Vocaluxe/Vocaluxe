@@ -16,17 +16,24 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeStatic
+    [XmlType("Static")]
+    public struct SThemeStatic
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
+        [XmlElement("Skin")]
         public string TextureName;
+        [XmlElement("ColorName")]
         public string ColorName;
+        public SColorF Color;
+        public SRectF Rect;
+        public SReflection Reflection;
     }
 
     public class CStatic : IMenuElement
@@ -62,6 +69,11 @@ namespace VocaluxeLib.Menu
         public float Alpha = 1;
 
         public EAspect Aspect = EAspect.Stretch;
+
+        public CStatic()
+        {
+
+        }
 
         public CStatic(int partyModeID)
         {
@@ -114,6 +126,8 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
+            _Theme.Rect = new SRectF(Rect);
+
             if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
                 _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
             else
@@ -124,14 +138,20 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
+            _Theme.Color = new SColorF(Color);
+
             if (xmlReader.ItemExists(item + "/Reflection"))
             {
                 Reflection = true;
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
+                _Theme.Reflection = new SReflection(true, ReflectionHeight, ReflectionSpace);
             }
             else
+            {
                 Reflection = false;
+                _Theme.Reflection = new SReflection(false, 0f, 0f);
+            }
 
             if (_ThemeLoaded)
             {
@@ -227,6 +247,11 @@ namespace VocaluxeLib.Menu
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        public SThemeStatic GetTheme()
+        {
+            return _Theme;
         }
 
         #region ThemeEdit

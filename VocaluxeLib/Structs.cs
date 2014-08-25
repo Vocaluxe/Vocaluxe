@@ -17,8 +17,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using VocaluxeLib.Songs;
 
 namespace VocaluxeLib
@@ -27,9 +29,13 @@ namespace VocaluxeLib
     #region Drawing
     public struct SColorF
     {
+        [XmlElement("R")]
         public float R;
+        [XmlElement("G")]
         public float G;
+        [XmlElement("B")]
         public float B;
+        [XmlElement("A")]
         public float A;
 
         public SColorF(float r, float g, float b, float a)
@@ -48,19 +54,27 @@ namespace VocaluxeLib
             A = color.A;
         }
 
+        [Pure]
         public Color AsColor()
         {
             return Color.FromArgb((int)(A * 255), (int)(R * 255), (int)(G * 255), (int)(B * 255));
         }
     }
 
+    [XmlRoot()]
     public struct SRectF
     {
+        [XmlElement("X")]
         public float X;
+        [XmlElement("Y")]
         public float Y;
+        [XmlElement("W")]
         public float W;
+        [XmlElement("H")]
         public float H;
+        [XmlElement("Z")]
         public float Z;
+        [XmlIgnore]
         public float Rotation; //0..360°
 
         public SRectF(float x, float y, float w, float h, float z)
@@ -81,6 +95,31 @@ namespace VocaluxeLib
             H = rect.H;
             Z = rect.Z;
             Rotation = 0f;
+        }
+    }
+
+    [XmlRoot("Reflection")]
+    public struct SReflection
+    {
+        [XmlAttributeAttribute(AttributeName = "Enabled")]
+        public bool Enabled;
+        [XmlElement("Height")]
+        public float Height;
+        [XmlElement("Space")]
+        public float Space;
+
+        public SReflection(bool enabled, float height, float space)
+        {
+            Enabled = enabled;
+            Height = height;
+            Space = space;
+        }
+
+        public SReflection(SReflection refl)
+        {
+            Enabled = refl.Enabled;
+            Height = refl.Height;
+            Space = refl.Space;
         }
     }
 

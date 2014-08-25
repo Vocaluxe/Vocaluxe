@@ -21,6 +21,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
@@ -267,6 +268,17 @@ namespace VocaluxeLib.Menu
 
                 writer.Flush();
             }
+
+            //This is only test-stuff and will be removed later
+            XmlSerializer serializer = new XmlSerializer(typeof(List<SThemeStatic>));
+            TextWriter textWriter = new StreamWriter(@Path.Combine(_ThemePath, ThemeName + "_test.xml"));
+
+            List<SThemeStatic> staticsThemes = new List<SThemeStatic>();
+            foreach (CStatic st in _Statics)
+                staticsThemes.Add(st.GetTheme());
+
+            serializer.Serialize(textWriter, staticsThemes);
+            textWriter.Close();
         }
 
         public virtual void ReloadTextures()
