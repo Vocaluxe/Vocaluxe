@@ -25,7 +25,7 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenOptionsVideo : CMenu
+    public class CScreenOptionsVideo : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion

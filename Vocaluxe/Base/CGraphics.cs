@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
+using System.Xml.Serialization;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Screens;
 using VocaluxeLib;
@@ -160,8 +162,19 @@ namespace Vocaluxe.Base
         public static void SaveTheme()
         {
             CTheme.SaveTheme();
-            foreach (IMenu screen in _Screens)
-                screen.SaveTheme();
+            foreach (CMenu screen in _Screens)
+            {
+                if (screen.ThemePath == null || screen.ThemeName == "ScreenTest")
+                    continue;
+
+                TextWriter textWriter = new StreamWriter(@Path.Combine(screen.ThemePath, screen.ThemeName + "_test.xml"));
+                Type[] screens = { typeof(CScreenHighscore), typeof(CScreenLoad), typeof(CScreenMain), typeof(CScreenNames), typeof(CScreenOptions), 
+                                 typeof(CScreenOptionsGame), typeof(CScreenOptionsLyrics), typeof(CScreenOptionsRecord), typeof(CScreenOptionsSound),
+                                 typeof(CScreenOptionsTheme), typeof(CScreenOptionsVideo), typeof(CScreenOptionsVideoAdjustments), typeof(CScreenParty), 
+                                 typeof(CScreenPartyDummy), typeof(CScreenProfiles), typeof(CScreenScore), typeof(CScreenSing), typeof(CScreenSong) };
+                XmlSerializer serializer = new XmlSerializer(typeof(CMenu), screens);
+                serializer.Serialize(textWriter, screen);
+            }
 
             foreach (IMenu popup in _PopupScreens)
                 popup.SaveTheme();

@@ -34,55 +34,251 @@ namespace VocaluxeLib.Menu
         public float Z;
     }
 
+    [XmlType("Screen")]
     public abstract class CMenu : IMenu
     {
+        [XmlIgnore]
         private List<CInteraction> _Interactions;
+        [XmlIgnore]
         private int _Selection;
-        private string _ThemePath = String.Empty;
+        [XmlIgnore]
+        public string ThemePath { get; private set; }
+        [XmlIgnore]
         protected int _PartyModeID = -1;
 
+        [XmlIgnore]
         private int _PrevMouseX;
+        [XmlIgnore]
         private int _PrevMouseY;
 
+        [XmlIgnore]
         private int _MouseDX;
+        [XmlIgnore]
         private int _MouseDY;
 
+        [XmlIgnore]
         protected bool _Active;
 
+        [XmlElement("ScreenVersion")]
         protected abstract int _ScreenVersion { get; }
-        public string ThemeName { get; private set; }
+        [XmlAttributeAttribute(AttributeName = "Name")]
+        public string ThemeName { get; set; }
 
         // ReSharper disable MemberCanBePrivate.Global
+        [XmlIgnore]
         protected string[] _ThemeBackgrounds;
+        [XmlIgnore]
         protected string[] _ThemeStatics;
+        [XmlIgnore]
         protected string[] _ThemeTexts;
+        [XmlIgnore]
         protected string[] _ThemeButtons;
+        [XmlIgnore]
         protected string[] _ThemeSongMenus;
+        [XmlIgnore]
         protected string[] _ThemeLyrics;
+        [XmlIgnore]
         protected string[] _ThemeSelectSlides;
+        [XmlIgnore]
         protected string[] _ThemeSingNotes;
+        [XmlIgnore]
         protected string[] _ThemeNameSelections;
+        [XmlIgnore]
         protected string[] _ThemeEqualizers;
+        [XmlIgnore]
         protected string[] _ThemePlaylists;
+        [XmlIgnore]
         protected string[] _ThemeParticleEffects;
+        [XmlIgnore]
         protected string[] _ThemeScreenSettings;
 
+        [XmlArray("Backgrounds")]
+        public List<SThemeBackground> ThemeBackgrounds
+        {
+            get
+            {
+                List<SThemeBackground> list = new List<SThemeBackground>();
+                foreach (CBackground el in _Backgrounds)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("Statics")]
+        public List<SThemeStatic> ThemeStatics
+        {
+            get
+            {
+                List<SThemeStatic> list = new List<SThemeStatic>();
+                foreach (CStatic el in _Statics)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("Texts")]
+        public List<SThemeText> ThemeTexts
+        {
+            get
+            {
+                List<SThemeText> list = new List<SThemeText>();
+                foreach (CText el in _Texts)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("Buttons")]
+        public List<SThemeButton> ThemeButtons
+        {
+            get
+            {
+                List<SThemeButton> list = new List<SThemeButton>();
+                foreach (CButton el in _Buttons)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("SongMenus")]
+        public List<SThemeSongMenu> ThemeSongMenus
+        {
+            get
+            {
+                List<SThemeSongMenu> list = new List<SThemeSongMenu>();
+                foreach (CSongMenu el in _SongMenus)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("Lyrics")]
+        public List<SThemeLyrics> ThemeLyrics
+        {
+            get
+            {
+                List<SThemeLyrics> list = new List<SThemeLyrics>();
+                foreach (CLyric el in _Lyrics)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("SelectSlides")]
+        public List<SThemeSelectSlide> ThemeSelectSlides
+        {
+            get
+            {
+                List<SThemeSelectSlide> list = new List<SThemeSelectSlide>();
+                foreach (CSelectSlide el in _SelectSlides)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("SingNotes")]
+        public List<SThemeSingBar> ThemeSingNotes
+        {
+            get
+            {
+                List<SThemeSingBar> list = new List<SThemeSingBar>();
+                foreach (CSingNotes el in _SingNotes)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("NameSelections")]
+        public List<SThemeNameSelection> ThemeNameSelections
+        {
+            get
+            {
+                List<SThemeNameSelection> list = new List<SThemeNameSelection>();
+                foreach (CNameSelection el in _NameSelections)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("Equalizers")]
+        public List<SThemeEqualizer> ThemeEqualizers
+        {
+            get
+            {
+                List<SThemeEqualizer> list = new List<SThemeEqualizer>();
+                foreach (CEqualizer el in _Equalizers)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("Playlists")]
+        public List<SThemePlaylist> ThemePlaylists
+        {
+            get
+            {
+                List<SThemePlaylist> list = new List<SThemePlaylist>();
+                foreach (CPlaylist el in _Playlists)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("ParticleEffects")]
+        public List<SThemeParticleEffect> ThemeParticleEffects
+        {
+            get
+            {
+                List<SThemeParticleEffect> list = new List<SThemeParticleEffect>();
+                foreach (CParticleEffect el in _ParticleEffects)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlArray("ScreenSettings")]
+        public List<SScreenSetting> ThemeScreenSettings
+        {
+            get
+            {
+                List<SScreenSetting> list = new List<SScreenSetting>();
+                foreach (CScreenSetting el in _ScreenSettings)
+                    if (el.ThemeLoaded)
+                        list.Add(el.GetTheme());
+                return list;
+            }
+        }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CButton> _Buttons { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CText> _Texts { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CBackground> _Backgrounds { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CStatic> _Statics { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CSelectSlide> _SelectSlides { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CSongMenu> _SongMenus { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CLyric> _Lyrics { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CSingNotes> _SingNotes { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CNameSelection> _NameSelections { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CEqualizer> _Equalizers { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CPlaylist> _Playlists { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CParticleEffect> _ParticleEffects { get; private set; }
+        [XmlIgnore]
         protected COrderedDictionaryLite<CScreenSetting> _ScreenSettings { get; private set; }
         // ReSharper restore MemberCanBePrivate.Global
 
+        [XmlIgnore]
         protected SRectF _ScreenArea;
+        [XmlIgnore]
         public SRectF ScreenArea
         {
             get { return _ScreenArea; }
@@ -172,7 +368,7 @@ namespace VocaluxeLib.Menu
 
             if (versionCheck && skinIndex != -1)
             {
-                _ThemePath = xmlPath;
+                ThemePath = xmlPath;
                 _LoadThemeBasics(xmlReader, skinIndex);
 
                 _LoadThemeElement<CBackground>(_ThemeBackgrounds, _AddBackground, xmlReader, skinIndex);
@@ -193,11 +389,11 @@ namespace VocaluxeLib.Menu
 
         public virtual void SaveTheme()
         {
-            if (_ThemePath == "")
+            if (ThemePath == "")
                 return;
 
 
-            string file = Path.Combine(_ThemePath, ThemeName + ".xml");
+            string file = Path.Combine(ThemePath, ThemeName + ".xml");
             using (XmlWriter writer = XmlWriter.Create(file, CBase.Config.GetXMLSettings()))
             {
                 writer.WriteStartDocument();
@@ -270,7 +466,7 @@ namespace VocaluxeLib.Menu
             }
 
             //This is only test-stuff and will be removed later
-            TextWriter textWriter = new StreamWriter(@Path.Combine(_ThemePath, ThemeName + "_test.xml"));
+            TextWriter textWriter = new StreamWriter(@Path.Combine(ThemePath, ThemeName + "_test.xml"));
 
             //Backgrounds
             XmlSerializer serializer = new XmlSerializer(typeof(List<SThemeBackground>));
@@ -465,7 +661,7 @@ namespace VocaluxeLib.Menu
 
         public virtual void ReloadTheme(string xmlPath)
         {
-            if (_ThemePath == "")
+            if (ThemePath == "")
                 return;
 
             UnloadTextures();
