@@ -63,6 +63,11 @@ namespace VocaluxeLib.Menu.SongMenu
             get { return _SongMenu.Rect; }
         }
 
+        public bool ThemeLoaded
+        {
+            get { return _SongMenu.ThemeLoaded; }
+        }
+
         public void Update(SScreenSongOptions songOptions)
         {
             _SongMenu.Update(songOptions);
@@ -178,6 +183,11 @@ namespace VocaluxeLib.Menu.SongMenu
         public void ResizeElement(int stepW, int stepH)
         {
             _SongMenu.ResizeElement(stepW, stepH);
+        }
+
+        public SThemeSongMenu GetTheme()
+        {
+            return _SongMenu.GetTheme();
         }
         #endregion IMenuElement
 

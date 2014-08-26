@@ -17,19 +17,36 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeButton
+    [XmlType("Button")]
+    public struct SThemeButton
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
-        public string ColorName;
-        public string SelColorName;
-
+        [XmlElement("Skin")]
         public string TextureName;
+        [XmlElement("SkinSelected")]
         public string SelTextureName;
+        public SRectF Rect;
+        [XmlElement("ColorName")]
+        public string ColorName;
+        [XmlElement("Color")]
+        public SColorF Color;
+        [XmlElement("SelColorName")]
+        public string SelColorName;
+        [XmlElement("SelColor")]
+        public SColorF SelColor;
+        [XmlElement("Text")]
+        public SThemeText Text;
+        [XmlElement("Reflection")]
+        public SReflection Reflection;
+        [XmlElement("SelReflection")]
+        public SReflection SelReflection;       
     }
 
     public class CButton : IMenuElement
@@ -84,6 +101,11 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         public CButton(int partyModeID)
@@ -177,22 +199,37 @@ namespace VocaluxeLib.Menu
                 _Reflection = true;
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref _ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref _ReflectionHeight);
+
+                _Theme.Reflection = new SReflection(true, _ReflectionHeight, _ReflectionSpace);
             }
             else
+            {
                 _Reflection = false;
+                _Theme.Reflection = new SReflection(false, 0f, 0f);
+            }
 
             if (xmlReader.ItemExists(item + "/SReflection"))
             {
                 _SelReflection = true;
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Space", ref _SelReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Height", ref _SelReflectionHeight);
+
+                _Theme.SelReflection = new SReflection(true, _SelReflectionHeight, _SelReflectionSpace);
             }
             else
+            {
                 _SelReflection = false;
+                _Theme.SelReflection = new SReflection(false, 0f, 0f);
+            }
 
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
+                _Theme.Rect = new SRectF(Rect);
+                _Theme.Color = new SColorF(Color);
+                _Theme.SelColor = new SColorF(SelColor);
+                _Theme.Text = Text.GetTheme();
+
                 LoadTextures();
             }
             return _ThemeLoaded;
@@ -352,11 +389,19 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
+        public SThemeButton GetTheme()
+        {
+            return _Theme;
+        }
+
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
             Rect.X += stepX;
             Rect.Y += stepY;
+
+            _Theme.Rect.X += stepX;
+            _Theme.Rect.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -368,6 +413,9 @@ namespace VocaluxeLib.Menu
             Rect.H += stepH;
             if (Rect.H <= 0)
                 Rect.H = 1;
+
+            _Theme.Rect.W = Rect.W;
+            _Theme.Rect.H = Rect.H;
         }
         #endregion ThemeEdit
     }

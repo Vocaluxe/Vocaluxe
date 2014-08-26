@@ -19,15 +19,31 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeParticleEffect
+    [XmlType("ParticleEffect")]
+    public struct SThemeParticleEffect
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
+
+        [XmlElement("Skin")]
         public string TextureName;
+        [XmlElement("Rect")]
+        public SRectF Rect;
+        [XmlElement("ColorName")]
         public string ColorName;
+        [XmlElement("Color")]
+        public SColorF Color;
+        [XmlElement("Type")]
+        public EParticleType Type;
+        [XmlElement("Size")]
+        public float Size;
+        [XmlElement("MaxNumber")]
+        public int MaxNumber;
     }
 
     public enum EParticleType
@@ -321,6 +337,11 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
+        }
+
         public bool IsAlive
         {
             get { return _Stars.Count > 0 || !_SpawnTimer.IsRunning; }
@@ -399,6 +420,11 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
+                _Theme.Rect = new SRectF(Rect);
+                _Theme.Color = new SColorF(Color);
+                _Theme.Type = _Type;
+                _Theme.Size = _Size;
+                _Theme.MaxNumber = _MaxNumber;
                 LoadTextures();
             }
             return _ThemeLoaded;
@@ -606,11 +632,19 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
+        public SThemeParticleEffect GetTheme()
+        {
+            return _Theme;
+        }
+
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
             Rect.X += stepX;
             Rect.Y += stepY;
+
+            _Theme.Rect.X += stepX;
+            _Theme.Rect.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -622,6 +656,9 @@ namespace VocaluxeLib.Menu
             Rect.H += stepH;
             if (Rect.H <= 0)
                 Rect.H = 1;
+
+            _Theme.Rect.W = Rect.W;
+            _Theme.Rect.H = Rect.H;
         }
         #endregion ThemeEdit
     }

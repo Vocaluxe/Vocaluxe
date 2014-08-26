@@ -17,11 +17,12 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
-    enum ESettingType
+    public enum ESettingType
     {
         Int,
         String,
@@ -29,10 +30,14 @@ namespace VocaluxeLib.Menu
         Texture
     }
 
-    struct SScreenSetting
+    [XmlType("ScreenSetting")]
+    public struct SScreenSetting
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
+        [XmlElement("Value")]
         public string Value;
+        [XmlElement("Type")]
         public ESettingType Type;
     }
 
@@ -49,6 +54,11 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         public CScreenSetting(int partyModeID)
@@ -112,6 +122,11 @@ namespace VocaluxeLib.Menu
         public void LoadTextures() {}
 
         public void ReloadTextures() {}
+
+        public SScreenSetting GetTheme()
+        {
+            return _Theme;
+        }
 
         #region Private
         private int _GetIntValue(string value)

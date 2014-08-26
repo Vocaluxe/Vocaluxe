@@ -17,16 +17,28 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeLyrics
+    [XmlType("Lyric")]
+    public struct SThemeLyrics
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
+        [XmlElement("Rect")]
+        public SRectF Rect;
+
+        [XmlElement("ColorName")]
         public string ColorName;
+        [XmlElement("Color")]
+        public SColorF Color;
+        [XmlElement("SColorName")]
         public string SelColorName;
+        [XmlElement("SColor")]
+        public SColorF SColor;
     }
 
     public class CLyric : IMenuElement
@@ -54,6 +66,11 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         public SRectF Rect
@@ -141,6 +158,10 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
+                _Theme.Color = new SColorF(_Color);
+                _Theme.SColor = new SColorF(_ColorProcessed);
+                _Theme.Rect = new SRectF(Rect);
+
                 LoadTextures();
                 _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
             }
@@ -480,6 +501,11 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
+        public SThemeLyrics GetTheme()
+        {
+            return _Theme;
+        }
+
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
@@ -487,6 +513,7 @@ namespace VocaluxeLib.Menu
             rect.X += stepX;
             rect.Y += stepY;
             Rect = rect;
+            _Theme.Rect = rect;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -501,6 +528,7 @@ namespace VocaluxeLib.Menu
                 rect.H = 1;
 
             Rect = rect;
+            _Theme.Rect = rect;
         }
         #endregion ThemeEdit
     }

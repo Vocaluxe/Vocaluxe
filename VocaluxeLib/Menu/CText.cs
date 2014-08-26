@@ -18,16 +18,43 @@
 using System;
 using System.Drawing;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeText
+    [XmlType("Text")]
+    public struct SThemeText
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
-        public string Text;
+        [XmlElement("X")]
+        public float X;
+        [XmlElement("Y")]
+        public float Y;
+        [XmlElement("Z")]
+        public float Z;
+        [XmlElement("H")]
+        public float Height;
+        [XmlElement("ColorName")]
         public string ColorName;
+        public SColorF Color;
+        [XmlElement("SColorName")]
         public string SelColorName; //for Buttons
+        public SColorF SColor;
+        [XmlElement("Align")]
+        public EAlignment Align;
+        [XmlElement("ResizeAlign")]
+        public EHAlignment ResizeAlign;
+        [XmlElement("Style")]
+        public EStyle Style;
+        [XmlElement("Font")]
+        public string Font;
+        [XmlElement("Text")]
+        public string Text;
+        public SReflection Reflection;
+        
+        
     }
 
     public class CText : IMenuElement
@@ -40,6 +67,11 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         private bool _ButtonText;
@@ -359,10 +391,24 @@ namespace VocaluxeLib.Menu
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
+                _Theme.Reflection = new SReflection(true, ReflectionSpace, ReflectionHeight);
             }
+            else
+                _Theme.Reflection = new SReflection(false, 0f, 0f);
 
             // Set values
             _Theme.Name = elementName;
+            _Theme.Align = _Align;
+            _Theme.Color = Color;
+            _Theme.Font = _Font;
+            _Theme.ResizeAlign = _ResizeAlign;
+            _Theme.SColor = SelColor;
+            _Theme.Style = _Style;
+            _Theme.X = _X;
+            _Theme.Y = _Y;
+            _Theme.Z = _Z;
+            _Theme.Height = _Height;
+
             _ButtonText = buttonText;
             _PositionNeedsUpdate = true;
 
@@ -534,11 +580,19 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
+        public SThemeText GetTheme()
+        {
+            return _Theme;
+        }
+
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
             X += stepX;
             Y += stepY;
+
+            _Theme.X += stepX;
+            _Theme.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -546,6 +600,8 @@ namespace VocaluxeLib.Menu
             Height += stepH;
             if (Height <= 0)
                 Height = 1;
+
+            _Theme.Height = _Height;
         }
         #endregion ThemeEdit
 

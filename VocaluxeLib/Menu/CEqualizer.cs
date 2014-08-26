@@ -17,26 +17,46 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace VocaluxeLib.Menu
 {
-    enum EEqualizerStyle
+    public enum EEqualizerStyle
     {
         Columns
     }
 
-    struct SThemeEqualizer
+    [XmlType("Equalizer")]
+    public struct SThemeEqualizer
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
-        public string ColorName;
-        public string MaxColorName;
+        [XmlElement("Skin")]
         public string TextureName;
 
-        public int NumBars;
+        [XmlElement("Rect")]
+        public SRectF Rect;
 
+        [XmlElement("NumBars")]
+        public int NumBars;
+        [XmlElement("Space")]
+        public float Space;
+        [XmlElement("Style")]
         public EEqualizerStyle Style;
+        [XmlElement("DrawNegative")]
         public EOffOn DrawNegative;
+
+        [XmlElement("ColorName")]
+        public string ColorName;
+        [XmlElement("Color")]
+        public SColorF Color;
+        [XmlElement("MaxColorName")]
+        public string MaxColorName;
+        [XmlElement("MaxColor")]
+        public SColorF MaxColor;
+        [XmlElement("Reflection")]
+        public SReflection Reflection;
     }
 
     public class CEqualizer : IMenuElement
@@ -61,6 +81,11 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         private float[] _Bars;
@@ -133,13 +158,23 @@ namespace VocaluxeLib.Menu
                 Reflection = true;
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
+
+                _Theme.Reflection = new SReflection(true, ReflectionHeight, ReflectionSpace);
             }
             else
+            {
                 Reflection = false;
+                _Theme.Reflection = new SReflection(false, 0f, 0f);
+            }
 
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
+                _Theme.Space = Space;
+                _Theme.Color = new SColorF(Color);
+                _Theme.MaxColor = new SColorF(MaxColor);
+                _Theme.Rect = Rect;
+
                 _Bars = new float[_Theme.NumBars];
                 for (int i = 0; i < _Bars.Length; i++)
                     _Bars[i] = 0f;
@@ -299,11 +334,19 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
+        public SThemeEqualizer GetTheme()
+        {
+            return _Theme;
+        }
+
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
             Rect.X += stepX;
             Rect.Y += stepY;
+
+            _Theme.Rect.X += stepX;
+            _Theme.Rect.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -312,9 +355,13 @@ namespace VocaluxeLib.Menu
             if (Rect.W <= 0)
                 Rect.W = 1;
 
+            _Theme.Rect.W = Rect.W;
+
             Rect.H += stepH;
             if (Rect.H <= 0)
                 Rect.H = 1;
+
+            _Theme.Rect.H = Rect.H;
         }
         #endregion ThemeEdit
     }

@@ -48,6 +48,11 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
+        }
+
         private CTexture _Texture;
         public CTexture Texture
         {

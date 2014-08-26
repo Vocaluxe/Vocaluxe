@@ -19,36 +19,88 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeSelectSlide
+    [XmlType("SelectSlide")]
+    public struct SThemeSelectSlide
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
+        [XmlElement("Skin")]
         public string TextureName;
+        [XmlElement("SkinArrowLeft")]
         public string TextureArrowLeftName;
+        [XmlElement("SkinArrowRight")]
         public string TextureArrowRightName;
 
+        [XmlElement("SkinSelected")]
         public string SelTextureName;
+        [XmlElement("SkinArrowLeftSelected")]
         public string SelTextureArrowLeftName;
+        [XmlElement("SkinArrowRightSelected")]
         public string SelTextureArrowRightName;
 
+        [XmlElement("SkinHighlighted")]
         public string HighlightTextureName;
 
+        [XmlElement("Rect")]
+        public SRectF Rect;
+        [XmlElement("RectArrowLeft")]
+        public SRectF RectArrowLeft;
+        [XmlElement("RectArrowRight")]
+        public SRectF RectArrowRight;
+
+        [XmlElement("ColorName")]
         public string ColorName;
+        [XmlElement("Color")]
+        public SColorF Color;
+        [XmlElement("SColorName")]
         public string SelColorName;
+        [XmlElement("SColor")]
+        public SColorF SColor;
+        [XmlElement("HColorName")]
         public string HighlightColorName;
+        [XmlElement("HColor")]
+        public SColorF HColor;
 
+        [XmlElement("ArrowColorName")]
         public string ArrowColorName;
+        [XmlElement("ArrowColor")]
+        public SColorF ArrowColor;
+        [XmlElement("ArrowSColorName")]
         public string SelArrowColorName;
+        [XmlElement("ArrowSColor")]
+        public SColorF ArrowSColor;
 
+        [XmlElement("TextColorName")]
         public string TextColorName;
+        [XmlElement("TextColor")]
+        public SColorF TextColor;
+        [XmlElement("TextSColorName")]
         public string SelTextColorName;
+        [XmlElement("TextSColor")]
+        public SColorF TextSColor;
 
+        [XmlElement("TextH")]
+        public float TextH;
+        [XmlElement("TextRelativeX")]
+        public float TextRelativeX;
+        [XmlElement("TextRelativeY")]
+        public float TextRelativeY;
+        [XmlElement("TextMaxW")]
+        public float TextMaxW;
+
+        [XmlElement("TextFont")]
         public string TextFont;
+        [XmlElement("TextStyle")]
         public EStyle TextStyle;
+
+        [XmlElement("NumVisible")]
+        public int NumVisible;
     }
 
     public class CSelectSlide : IMenuElement, ICloneable
@@ -60,6 +112,11 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         public SRectF Rect;
@@ -356,6 +413,22 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
+                _Theme.ArrowColor = new SColorF(ColorArrow);
+                _Theme.ArrowSColor = new SColorF(SelColorArrow);
+                _Theme.Color = new SColorF(Color);
+                _Theme.HColor = new SColorF(HighlightColor);
+                _Theme.NumVisible = _NumVisible;
+                _Theme.Rect = new SRectF(Rect);
+                _Theme.RectArrowLeft = new SRectF(RectArrowLeft);
+                _Theme.RectArrowRight = new SRectF(RectArrowRight);
+                _Theme.SColor = new SColorF(SelColor);
+                _Theme.TextColor = new SColorF(TextColor);
+                _Theme.TextH = TextH;
+                _Theme.TextMaxW = MaxW;
+                _Theme.TextRelativeX = TextRelativeX;
+                _Theme.TextRelativeY = TextRelativeY;
+                _Theme.TextSColor = new SColorF(SelTextColor);
+
                 LoadTextures();
             }
             return _ThemeLoaded;
@@ -809,6 +882,11 @@ namespace VocaluxeLib.Menu
             }
         }
 
+        public SThemeSelectSlide GetTheme()
+        {
+            return _Theme;
+        }
+
         public void UnloadTextures() {}
 
         public void LoadTextures()
@@ -853,18 +931,27 @@ namespace VocaluxeLib.Menu
             {
                 Rect.X += stepX;
                 Rect.Y += stepY;
+
+                _Theme.Rect.X += stepX;
+                _Theme.Rect.Y += stepY;
             }
 
             if (_ArrowLeftSelected)
             {
                 RectArrowLeft.X += stepX;
                 RectArrowLeft.Y += stepY;
+
+                _Theme.RectArrowLeft.X += stepX;
+                _Theme.RectArrowLeft.Y += stepY;
             }
 
             if (_ArrowRightSelected)
             {
                 RectArrowRight.X += stepX;
                 RectArrowRight.Y += stepY;
+
+                _Theme.RectArrowRight.X += stepX;
+                _Theme.RectArrowRight.Y += stepY;
             }
         }
 
@@ -879,6 +966,9 @@ namespace VocaluxeLib.Menu
                 Rect.H += stepH;
                 if (Rect.H <= 0)
                     Rect.H = 1;
+
+                _Theme.Rect.W = Rect.W;
+                _Theme.Rect.H = Rect.H;
             }
 
             if (_ArrowLeftSelected)
@@ -890,6 +980,9 @@ namespace VocaluxeLib.Menu
                 RectArrowLeft.H += stepH;
                 if (RectArrowLeft.H <= 0)
                     RectArrowLeft.H = 1;
+
+                _Theme.RectArrowLeft.W = RectArrowLeft.W;
+                _Theme.RectArrowLeft.H = RectArrowLeft.H;
             }
 
             if (_ArrowRightSelected)
@@ -901,6 +994,9 @@ namespace VocaluxeLib.Menu
                 RectArrowRight.H += stepH;
                 if (RectArrowRight.H <= 0)
                     RectArrowRight.H = 1;
+
+                _Theme.RectArrowRight.W = RectArrowRight.W;
+                _Theme.RectArrowRight.H = RectArrowRight.H;
             }
         }
         #endregion ThemeEdit

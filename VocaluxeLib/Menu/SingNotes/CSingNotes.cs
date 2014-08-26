@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Songs;
 
@@ -40,21 +41,43 @@ namespace VocaluxeLib.Menu.SingNotes
         public List<CParticleEffect> PerfectLineTwinkle;
     }
 
-    struct SThemeSingBar
+    [XmlType("Position")]
+    public struct SBarPosition 
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
+        public string Name;
+        public SRectF Rect;
+    }
+
+    [XmlType("SingBar")]
+    public struct SThemeSingBar
+    {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
+        [XmlElement("SkinLeft")]
         public string SkinLeftName;
+        [XmlElement("SkinMiddle")]
         public string SkinMiddleName;
+        [XmlElement("SkinRight")]
         public string SkinRightName;
 
+        [XmlElement("SkinBackgroundLeft")]
         public string SkinBackgroundLeftName;
+        [XmlElement("SkinBackgroundMiddle")]
         public string SkinBackgroundMiddleName;
+        [XmlElement("SkinBackgroundRight")]
         public string SkinBackgroundRightName;
 
+        [XmlElement("SkinGoldenStar")]
         public string SkinGoldenStarName;
+        [XmlElement("SkinToneHelper")]
         public string SkinToneHelperName;
+        [XmlElement("SkinPerfectNoteStart")]
         public string SkinPerfectNoteStarName;
+
+        [XmlArray("BarPositions")]
+        public SBarPosition[] BarPos;
     }
 
     public abstract class CSingNotes : IMenuElement
@@ -78,6 +101,7 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeSingBar();
+            _Theme.BarPos = new SBarPosition[CHelper.Sum(CBase.Settings.GetMaxNumPlayer())];
             _ThemeLoaded = false;
 
             _PlayerNotes = new List<SPlayerNotes>();
@@ -87,6 +111,11 @@ namespace VocaluxeLib.Menu.SingNotes
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
@@ -106,6 +135,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinToneHelper", out _Theme.SkinToneHelperName, String.Empty);
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinPerfectNoteStar", out _Theme.SkinPerfectNoteStarName, String.Empty);
 
+            int i = 0;
             BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
             for (int numplayer = 0; numplayer < CBase.Settings.GetMaxNumPlayer(); numplayer++)
             {
@@ -120,6 +150,9 @@ namespace VocaluxeLib.Menu.SingNotes
                         _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref BarPos[player, numplayer].Z);
                         _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref BarPos[player, numplayer].W);
                         _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref BarPos[player, numplayer].H);
+                        _Theme.BarPos[i].Name = "P" + (player + 1) + "N" + (numplayer + 1);
+                        _Theme.BarPos[i].Rect = new SRectF(BarPos[player, numplayer]);
+                        i++;
                     }
                 }
             }
@@ -449,6 +482,11 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        public SThemeSingBar GetTheme()
+        {
+            return _Theme;
         }
 
         private int _FindPlayerNotes(int id)

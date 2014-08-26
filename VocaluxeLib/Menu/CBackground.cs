@@ -63,6 +63,10 @@ namespace VocaluxeLib.Menu
         private readonly List<CTexture> _SlideShowTextures = new List<CTexture>();
 
         public SColorF Color;
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
+        }
 
         public string GetThemeName()
         {

@@ -276,15 +276,105 @@ namespace VocaluxeLib.Menu
             XmlSerializer serializer = new XmlSerializer(typeof(List<SThemeBackground>));
             List<SThemeBackground> backgroundThemes = new List<SThemeBackground>();
             foreach (CBackground bg in _Backgrounds)
-                backgroundThemes.Add(bg.GetTheme());
+                if(bg.ThemeLoaded)
+                    backgroundThemes.Add(bg.GetTheme());
             serializer.Serialize(textWriter, backgroundThemes);
 
             //Statics
             serializer = new XmlSerializer(typeof(List<SThemeStatic>));
             List<SThemeStatic> staticsThemes = new List<SThemeStatic>();
             foreach (CStatic st in _Statics)
-                staticsThemes.Add(st.GetTheme());
+                if(st.ThemeLoaded)
+                    staticsThemes.Add(st.GetTheme());
             serializer.Serialize(textWriter, staticsThemes);
+
+            //Texts
+            serializer = new XmlSerializer(typeof(List<SThemeText>));
+            List<SThemeText> textsThemes = new List<SThemeText>();
+            foreach (CText txt in _Texts)
+                if(txt.ThemeLoaded)
+                    textsThemes.Add(txt.GetTheme());
+            serializer.Serialize(textWriter, textsThemes);
+
+            //Buttons
+            serializer = new XmlSerializer(typeof(List<SThemeButton>));
+            List<SThemeButton> buttonsThemes = new List<SThemeButton>();
+            foreach (CButton btn in _Buttons)
+                if (btn.ThemeLoaded)
+                    buttonsThemes.Add(btn.GetTheme());
+            serializer.Serialize(textWriter, buttonsThemes);
+
+            //SelectSlides
+            serializer = new XmlSerializer(typeof(List<SThemeSelectSlide>));
+            List<SThemeSelectSlide> selslidesThemes = new List<SThemeSelectSlide>();
+            foreach (CSelectSlide ss in _SelectSlides)
+                if (ss.ThemeLoaded)
+                    selslidesThemes.Add(ss.GetTheme());
+            serializer.Serialize(textWriter, selslidesThemes);
+
+            //SongMenu
+            serializer = new XmlSerializer(typeof(List<SThemeSongMenu>));
+            List<SThemeSongMenu> smThemes = new List<SThemeSongMenu>();
+            foreach (CSongMenu sm in _SongMenus)
+                if (sm.ThemeLoaded)
+                    smThemes.Add(sm.GetTheme());
+            serializer.Serialize(textWriter, smThemes);
+
+            //Lyrics
+            serializer = new XmlSerializer(typeof(List<SThemeLyrics>));
+            List<SThemeLyrics> lyThemes = new List<SThemeLyrics>();
+            foreach (CLyric ly in _Lyrics)
+                if (ly.ThemeLoaded)
+                    lyThemes.Add(ly.GetTheme());
+            serializer.Serialize(textWriter, lyThemes);
+
+            //Singbars
+            serializer = new XmlSerializer(typeof(List<SThemeSingBar>));
+            List<SThemeSingBar> snThemes = new List<SThemeSingBar>();
+            foreach (CSingNotes sn in _SingNotes)
+                if (sn.ThemeLoaded)
+                    snThemes.Add(sn.GetTheme());
+            serializer.Serialize(textWriter, snThemes);
+
+            //NameSelections
+            serializer = new XmlSerializer(typeof(List<SThemeNameSelection>));
+            List<SThemeNameSelection> nsThemes = new List<SThemeNameSelection>();
+            foreach (CNameSelection ns in _NameSelections)
+                if (ns.ThemeLoaded)
+                    nsThemes.Add(ns.GetTheme());
+            serializer.Serialize(textWriter, nsThemes);
+
+            //Equalizers
+            serializer = new XmlSerializer(typeof(List<SThemeEqualizer>));
+            List<SThemeEqualizer> eqThemes = new List<SThemeEqualizer>();
+            foreach (CEqualizer eq in _Equalizers)
+                if (eq.ThemeLoaded)
+                    eqThemes.Add(eq.GetTheme());
+            serializer.Serialize(textWriter, eqThemes);
+
+            //Playlists
+            serializer = new XmlSerializer(typeof(List<SThemePlaylist>));
+            List<SThemePlaylist> plThemes = new List<SThemePlaylist>();
+            foreach (CPlaylist pl in _Playlists)
+                if (pl.ThemeLoaded)
+                    plThemes.Add(pl.GetTheme());
+            serializer.Serialize(textWriter, plThemes);
+
+            //ParticleEffects
+            serializer = new XmlSerializer(typeof(List<SThemeParticleEffect>));
+            List<SThemeParticleEffect> peThemes = new List<SThemeParticleEffect>();
+            foreach (CParticleEffect pe in _ParticleEffects)
+                if (pe.ThemeLoaded)
+                    peThemes.Add(pe.GetTheme());
+            serializer.Serialize(textWriter, peThemes);
+
+            //ScreenSettings
+            serializer = new XmlSerializer(typeof(List<SScreenSetting>));
+            List<SScreenSetting> seThemes = new List<SScreenSetting>();
+            foreach (CScreenSetting se in _ScreenSettings)
+                if (se.ThemeLoaded)
+                    seThemes.Add(se.GetTheme());
+            serializer.Serialize(textWriter, seThemes);
 
             textWriter.Close();
         }
