@@ -18,6 +18,7 @@
 using System;
 using System.Drawing;
 using System.Xml;
+using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
 using VocaluxeLib.Draw;
@@ -33,18 +34,22 @@ namespace VocaluxeLib.Menu
         Video
     }
 
-    struct SThemeBackground
+    [XmlType("Background")]
+    public struct SThemeBackground
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
-
+        [XmlElement("Type")]
         public EBackgroundTypes Type;
-
+        [XmlArray]
         public List<string> SlideShowTextures;
-
+        [XmlElement("Video")]
         public string VideoName;
+        [XmlElement("Skin")]
         public string TextureName;
-
+        [XmlElement("ColorName")]
         public string ColorName;
+        public SColorF Color;
     }
 
     public class CBackground : IMenuElement
@@ -100,6 +105,8 @@ namespace VocaluxeLib.Menu
                 if (_Theme.Type != EBackgroundTypes.None)
                     _ThemeLoaded &= success;
             }
+
+            _Theme.Color = new SColorF(Color);
 
             int i = 1;
 
@@ -243,6 +250,11 @@ namespace VocaluxeLib.Menu
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        public SThemeBackground GetTheme()
+        {
+            return _Theme;
         }
         #endregion public
 

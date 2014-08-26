@@ -270,14 +270,22 @@ namespace VocaluxeLib.Menu
             }
 
             //This is only test-stuff and will be removed later
-            XmlSerializer serializer = new XmlSerializer(typeof(List<SThemeStatic>));
             TextWriter textWriter = new StreamWriter(@Path.Combine(_ThemePath, ThemeName + "_test.xml"));
 
+            //Backgrounds
+            XmlSerializer serializer = new XmlSerializer(typeof(List<SThemeBackground>));
+            List<SThemeBackground> backgroundThemes = new List<SThemeBackground>();
+            foreach (CBackground bg in _Backgrounds)
+                backgroundThemes.Add(bg.GetTheme());
+            serializer.Serialize(textWriter, backgroundThemes);
+
+            //Statics
+            serializer = new XmlSerializer(typeof(List<SThemeStatic>));
             List<SThemeStatic> staticsThemes = new List<SThemeStatic>();
             foreach (CStatic st in _Statics)
                 staticsThemes.Add(st.GetTheme());
-
             serializer.Serialize(textWriter, staticsThemes);
+
             textWriter.Close();
         }
 
