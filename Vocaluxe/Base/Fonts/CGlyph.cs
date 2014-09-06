@@ -64,7 +64,7 @@ namespace Vocaluxe.Base.Fonts
                 if (chr != ' ')
                 {
                     //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped
-                    _BoundingBox = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
+                    _BoundingBox = g.MeasureString(chrString, fo, -1, StringFormat.GenericTypographic);
                     // ReSharper disable CompareOfFloatsByEqualityOperator
                     if (_BoundingBox.Height == 0)
                         // ReSharper restore CompareOfFloatsByEqualityOperator

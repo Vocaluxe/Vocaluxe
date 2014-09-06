@@ -173,10 +173,11 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
-                // Init Font
-                CLog.StartBenchmark("Init Font");
-                CFonts.Init();
-                CLog.StopBenchmark("Init Font");
+                // Init Fonts
+                CLog.StartBenchmark("Init Fonts");
+                if (!CFonts.Init())
+                    throw new CLoadingException("fonts");
+                CLog.StopBenchmark("Init Fonts");
 
                 Application.DoEvents();
 
@@ -264,6 +265,7 @@ namespace Vocaluxe
                 CVocaluxeServer.Close();
                 CGraphics.Close();
                 CCover.Close();
+                CFonts.Close();
                 CBackgroundMusic.Close();
                 CWebcam.Close();
                 CDataBase.Close();

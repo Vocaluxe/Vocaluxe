@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Text;
+using System.Xml.Serialization;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -154,15 +155,14 @@ namespace Vocaluxe.Base.Fonts
         }
     }
 
-    struct SFont
+    struct SFontFamily
     {
         public string Name;
 
-        public bool IsThemeFont;
         public int PartyModeID;
         public string ThemeName;
-
         public string Folder;
+
         public string FileNormal;
         public string FileItalic;
         public string FileBold;
