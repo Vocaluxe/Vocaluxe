@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -25,6 +26,38 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base.Fonts
 {
+    struct SFont
+    {
+        public string Name;
+        public EStyle Style;
+        public float Height;
+    }
+
+    /// <summary>
+    ///     Struct used for describing a font family (a type of text with 4 different styles)
+    /// </summary>
+    struct SFontFamily
+    {
+        public string Name;
+
+        public int PartyModeID;
+        public string ThemeName;
+        public string Folder;
+
+        public string FileNormal;
+        public string FileItalic;
+        public string FileBold;
+        public string FileBoldItalic;
+
+        public float Outline; //0..1, 0=not outline 1=100% outline
+        public SColorF OutlineColor;
+
+        public CFontStyle Normal;
+        public CFontStyle Italic;
+        public CFontStyle Bold;
+        public CFontStyle BoldItalic;
+    }
+
     static class CFonts
     {
         private static bool _IsInitialized;
@@ -40,16 +73,6 @@ namespace Vocaluxe.Base.Fonts
         {
             get { return _Height; }
             set { _Height = value < 0f ? 0f : value; }
-        }
-
-        public static float Outline
-        {
-            get { return _FontFamilies[_CurrentFont].Outline; }
-        }
-
-        public static SColorF OutlineColor
-        {
-            get { return _FontFamilies[_CurrentFont].OutlineColor; }
         }
 
         public static bool Init()
@@ -74,12 +97,7 @@ namespace Vocaluxe.Base.Fonts
             _IsInitialized = false;
         }
 
-        public static Font GetFont()
-        {
-            return _GetCurrentFont().GetFont();
-        }
-
-        private static CFont _GetCurrentFont()
+        private static CFontStyle _GetCurrentFont()
         {
             switch (Style)
             {
@@ -92,8 +110,7 @@ namespace Vocaluxe.Base.Fonts
                 case EStyle.BoldItalic:
                     return _FontFamilies[_CurrentFont].BoldItalic;
             }
-            //Just in case...
-            return _FontFamilies[_CurrentFont].Normal;
+            throw new ArgumentException("Invalid Style: " + Style);
         }
 
         #region DrawText
@@ -125,13 +142,13 @@ namespace Vocaluxe.Base.Fonts
                 return;
 
             Height = h;
-            CFont font = _GetCurrentFont();
+            CFontStyle font = _GetCurrentFont();
 
             float dx = x;
             foreach (char chr in text)
             {
-                font.DrawGlyph(chr, dx, y, z, color);
-                dx += font.GetWidth(chr);
+                font.DrawGlyph(chr, h, dx, y, z, color);
+                dx += font.GetWidth(chr, h);
             }
         }
 
@@ -144,13 +161,13 @@ namespace Vocaluxe.Base.Fonts
                 return;
 
             Height = h;
-            CFont font = _GetCurrentFont();
+            CFontStyle font = _GetCurrentFont();
 
             float dx = x;
             foreach (char chr in text)
             {
-                font.DrawGlyphReflection(chr, dx, y, z, color, rspace, rheight);
-                dx += font.GetWidth(chr);
+                font.DrawGlyphReflection(chr, h, dx, y, z, color, rspace, rheight);
+                dx += font.GetWidth(chr, h);
             }
         }
 
@@ -172,11 +189,11 @@ namespace Vocaluxe.Base.Fonts
             float x1 = x + w * begin;
             float x2 = x + w * end;
 
-            CFont font = _GetCurrentFont();
+            CFontStyle font = _GetCurrentFont();
 
             foreach (char chr in text)
             {
-                float w2 = font.GetWidth(chr);
+                float w2 = font.GetWidth(chr, h);
                 float b = (x1 - dx) / w2;
 
                 if (b < 1f)
@@ -188,30 +205,13 @@ namespace Vocaluxe.Base.Fonts
                     {
                         if (e > 1f)
                             e = 1f;
-                        font.DrawGlyph(chr, dx, y, z, color, b, e);
+                        font.DrawGlyph(chr, h, dx, y, z, color, b, e);
                     }
                 }
                 dx += w2;
             }
         }
         #endregion DrawText
-
-        public static FontStyle GetFontStyle()
-        {
-            switch (Style)
-            {
-                case EStyle.Normal:
-                    return FontStyle.Regular;
-                case EStyle.Italic:
-                    return FontStyle.Italic;
-                case EStyle.Bold:
-                    return FontStyle.Bold;
-                case EStyle.BoldItalic:
-                    return FontStyle.Bold | FontStyle.Italic;
-                default:
-                    return FontStyle.Regular;
-            }
-        }
 
         public static void SetFont(string fontName)
         {
@@ -259,14 +259,14 @@ namespace Vocaluxe.Base.Fonts
 
         public static float GetTextWidth(string text)
         {
-            CFont font = _GetCurrentFont();
-            return text.Sum(chr => font.GetWidth(chr));
+            CFontStyle font = _GetCurrentFont();
+            return text.Sum(chr => font.GetWidth(chr, Height));
         }
 
         public static float GetTextHeight(string text)
         {
-            CFont font = _GetCurrentFont();
-            return text == "" ? 0 : text.Select(font.GetHeight).Max();
+            CFontStyle font = _GetCurrentFont();
+            return text == "" ? 0 : text.Select(chr => font.GetHeight(chr, Height)).Max();
         }
 
         private static int _GetFontIndex(string fontName)
@@ -365,10 +365,10 @@ namespace Vocaluxe.Base.Fonts
 
                 if (ok)
                 {
-                    sf.Normal = new CFont(Path.Combine(fontFolder, sf.Folder, sf.FileNormal));
-                    sf.Italic = new CFont(Path.Combine(fontFolder, sf.Folder, sf.FileItalic));
-                    sf.Bold = new CFont(Path.Combine(fontFolder, sf.Folder, sf.FileBold));
-                    sf.BoldItalic = new CFont(Path.Combine(fontFolder, sf.Folder, sf.FileBoldItalic));
+                    sf.Normal = new CFontStyle(Path.Combine(fontFolder, sf.Folder, sf.FileNormal), EStyle.Normal, sf.Outline, sf.OutlineColor);
+                    sf.Italic = new CFontStyle(Path.Combine(fontFolder, sf.Folder, sf.FileItalic), EStyle.Italic, sf.Outline, sf.OutlineColor);
+                    sf.Bold = new CFontStyle(Path.Combine(fontFolder, sf.Folder, sf.FileBold), EStyle.Bold, sf.Outline, sf.OutlineColor);
+                    sf.BoldItalic = new CFontStyle(Path.Combine(fontFolder, sf.Folder, sf.FileBoldItalic), EStyle.BoldItalic, sf.Outline, sf.OutlineColor);
                     _FontFamilies.Add(sf);
                 }
                 else
@@ -455,13 +455,13 @@ namespace Vocaluxe.Base.Fonts
                 foreach (char chr in text)
                 {
                     Style = EStyle.Normal;
-                    _FontFamilies[_CurrentFont].Normal.GetOrAddGlyph(chr);
+                    _FontFamilies[_CurrentFont].Normal.GetOrAddGlyph(chr, Height);
                     Style = EStyle.Bold;
-                    _FontFamilies[_CurrentFont].Bold.GetOrAddGlyph(chr);
+                    _FontFamilies[_CurrentFont].Bold.GetOrAddGlyph(chr, Height);
                     Style = EStyle.Italic;
-                    _FontFamilies[_CurrentFont].Italic.GetOrAddGlyph(chr);
+                    _FontFamilies[_CurrentFont].Italic.GetOrAddGlyph(chr, Height);
                     Style = EStyle.BoldItalic;
-                    _FontFamilies[_CurrentFont].BoldItalic.GetOrAddGlyph(chr);
+                    _FontFamilies[_CurrentFont].BoldItalic.GetOrAddGlyph(chr, Height);
                 }
             }
             Style = EStyle.Normal;
