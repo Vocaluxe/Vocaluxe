@@ -88,20 +88,25 @@ namespace VocaluxeLib
             return GetValue(xPath, out val, value.ToString()) && CHelper.TryParse(val, out value);
         }
 
+        /// <summary>
+        ///     Gets a normalized (0&lt;=x&lt;=1) float value
+        /// </summary>
+        /// <param name="xPath"></param>
+        /// <param name="value"></param>
+        /// <returns>True if exists and is normalized</returns>
+        public bool TryGetNormalizedFloatValue(string xPath, ref float value)
+        {
+            string val;
+            return GetValue(xPath, out val, value.ToString()) && CHelper.TryParse(val, out value) && value.InRange(0f, 1f);
+        }
+
         public bool TryGetColorFromRGBA(string xPath, ref SColorF value)
         {
             bool result = true;
-            result &= TryGetFloatValue(xPath + "/R", ref value.R);
-            result &= TryGetFloatValue(xPath + "/G", ref value.G);
-            result &= TryGetFloatValue(xPath + "/B", ref value.B);
-            result &= TryGetFloatValue(xPath + "/A", ref value.A);
-            if (result)
-            {
-                value.R = value.R.Clamp(0f, 1f);
-                value.G = value.G.Clamp(0f, 1f);
-                value.B = value.B.Clamp(0f, 1f);
-                value.A = value.A.Clamp(0f, 1f);
-            }
+            result &= TryGetNormalizedFloatValue(xPath + "/R", ref value.R);
+            result &= TryGetNormalizedFloatValue(xPath + "/G", ref value.G);
+            result &= TryGetNormalizedFloatValue(xPath + "/B", ref value.B);
+            result &= TryGetNormalizedFloatValue(xPath + "/A", ref value.A);
             return result;
         }
 

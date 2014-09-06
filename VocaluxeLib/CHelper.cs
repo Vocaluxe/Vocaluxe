@@ -64,6 +64,12 @@ namespace VocaluxeLib
             return (int)result;
         }
 
+        public static bool InRange<T>(this T val, T min, T max) where T : IComparable<T>
+        {
+            Debug.Assert(min.CompareTo(max) <= 0);
+            return val.CompareTo(min) >= 0 && val.CompareTo(max) <= 0;
+        }
+
         /// <summary>
         ///     Makes sure val is between min and max
         ///     Asserts that min&lt;=max
