@@ -79,7 +79,18 @@ namespace VocaluxeLib.Menu
             }
         }
         public bool Visible = true;
-        public bool Enabled = true;
+        private bool _Enabled = true;
+
+        public bool Enabled
+        {
+            get { return _Enabled; }
+            set
+            {
+                _Enabled = value;
+                if (!_Enabled)
+                    _Selected = false;
+            }
+        }
 
         public string GetThemeName()
         {
@@ -116,7 +127,7 @@ namespace VocaluxeLib.Menu
             _SelText = new CText(button._SelText);
             Selected = false;
             EditMode = false;
-            Enabled = button.Enabled;
+            _Enabled = button._Enabled;
 
             _Reflection = button._Reflection;
             _ReflectionHeight = button._ReflectionHeight;
@@ -281,7 +292,7 @@ namespace VocaluxeLib.Menu
 
             CTexture texture;
 
-            if (!Selected && !Pressed || !Enabled)
+            if (!Selected && !Pressed || !_Enabled)
             {
                 texture = Texture ?? CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
