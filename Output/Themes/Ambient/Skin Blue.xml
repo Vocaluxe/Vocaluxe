@@ -140,7 +140,7 @@
       <R>0,675</R>
       <G>0,890</G>
       <B>0,969</B>
-      <A>1,000</A>
+      <A>0,600</A>
     </StaticWarningColor>
     <ButtonColor>
       <R>0,675</R>
@@ -227,9 +227,9 @@
       <A>1,000</A>
     </TextBlack>
     <TextWhite>
-      <R>0,000</R>
-      <G>0,000</G>
-      <B>0,000</B>
+      <R>1,000</R>
+      <G>1,000</G>
+      <B>1,000</B>
       <A>1,000</A>
     </TextWhite>
     <Visible>
