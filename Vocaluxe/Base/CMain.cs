@@ -452,39 +452,24 @@ namespace Vocaluxe.Base
 
     class CBfonts : IFonts
     {
-        public void SetFont(string fontName)
-        {
-            CFonts.SetFont(fontName);
-        }
-
-        public void SetStyle(EStyle fontStyle)
-        {
-            CFonts.Style = fontStyle;
-        }
-
         public RectangleF GetTextBounds(CText text)
         {
             return CFonts.GetTextBounds(text);
         }
 
-        public RectangleF GetTextBounds(CText text, float textHeight)
+        public void DrawText(string text, CFont font, float x, float y, float z, SColorF color)
         {
-            return CFonts.GetTextBounds(text, textHeight);
+            CFonts.DrawText(text, font, x, y, z, color);
         }
 
-        public void DrawText(string text, float textHeight, float x, float y, float z, SColorF color)
+        public void DrawTextReflection(string text, CFont font, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight)
         {
-            CFonts.DrawText(text, textHeight, x, y, z, color);
+            CFonts.DrawTextReflection(text, font, x, y, z, color, reflectionSpace, reflectionHeight);
         }
 
-        public void DrawTextReflection(string text, float textHeight, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight)
+        public void DrawText(string text, CFont font, float x, float y, float z, SColorF color, float begin, float end)
         {
-            CFonts.DrawTextReflection(text, textHeight, x, y, z, color, reflectionSpace, reflectionHeight);
-        }
-
-        public void DrawText(string text, float textHeight, float x, float y, float z, SColorF color, float begin, float end)
-        {
-            CFonts.DrawText(text, textHeight, x, y, z, color, begin, end);
+            CFonts.DrawText(text, font, x, y, z, color, begin, end);
         }
     }
 

@@ -26,13 +26,6 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base.Fonts
 {
-    struct SFont
-    {
-        public string Name;
-        public EStyle Style;
-        public float Height;
-    }
-
     /// <summary>
     ///     Struct used for describing a font family (a type of text with 4 different styles)
     /// </summary>
@@ -62,24 +55,14 @@ namespace Vocaluxe.Base.Fonts
     {
         private static bool _IsInitialized;
         private static readonly List<SFontFamily> _FontFamilies = new List<SFontFamily>();
-        private static int _CurrentFont;
-        private static float _Height = 1f;
+        private static readonly List<String> _LoggedMissingFonts = new List<string>();
 
         public static int PartyModeID { get; set; }
-
-        public static EStyle Style = EStyle.Normal;
-
-        public static float Height
-        {
-            get { return _Height; }
-            set { _Height = value < 0f ? 0f : value; }
-        }
 
         public static bool Init()
         {
             if (_IsInitialized)
                 return false;
-            _CurrentFont = 0;
             PartyModeID = -1;
             return _LoadDefaultFonts();
         }
@@ -97,132 +80,95 @@ namespace Vocaluxe.Base.Fonts
             _IsInitialized = false;
         }
 
-        private static CFontStyle _GetCurrentFont()
-        {
-            switch (Style)
-            {
-                case EStyle.Normal:
-                    return _FontFamilies[_CurrentFont].Normal;
-                case EStyle.Italic:
-                    return _FontFamilies[_CurrentFont].Italic;
-                case EStyle.Bold:
-                    return _FontFamilies[_CurrentFont].Bold;
-                case EStyle.BoldItalic:
-                    return _FontFamilies[_CurrentFont].BoldItalic;
-            }
-            throw new ArgumentException("Invalid Style: " + Style);
-        }
-
         #region DrawText
-        public static void DrawText(string text, int x, int y, int h)
+        /// <summary>
+        ///     Draws a black text
+        /// </summary>
+        /// <param name="text">The text to be drawn</param>
+        /// <param name="font">The texts font</param>
+        /// <param name="x">The texts x-position</param>
+        /// <param name="y">The texts y-position</param>
+        /// <param name="z">The texts z-position</param>
+        public static void DrawText(string text, CFont font, float x, float y, float z)
         {
-            DrawText(text, h, x, y, 0f, new SColorF(0f, 0f, 0f, 1f));
-        }
-
-        public static void DrawText(string text, float x, float y, float z)
-        {
-            DrawText(text, Height, x, y, z, new SColorF(0f, 0f, 0f, 1f));
+            DrawText(text, font, x, y, z, new SColorF(0f, 0f, 0f, 1f));
         }
 
         /// <summary>
-        ///     Draws a text string
+        ///     Draws a text
         /// </summary>
         /// <param name="text">The text to be drawn</param>
-        /// <param name="x">The text's x-position</param>
-        /// <param name="y">The text's y-position</param>
-        /// <param name="h">The text's height</param>
-        /// <param name="z">The text's z-position</param>
+        /// <param name="font">The texts font</param>
+        /// <param name="x">The texts x-position</param>
+        /// <param name="y">The texts y-position</param>
+        /// <param name="z">The texts z-position</param>
         /// <param name="color">The text color</param>
-        public static void DrawText(string text, float h, float x, float y, float z, SColorF color)
+        public static void DrawText(string text, CFont font, float x, float y, float z, SColorF color)
         {
-            if (h <= 0f)
+            if (font.Height <= 0f || text == "")
                 return;
 
-            if (text == "")
-                return;
-
-            Height = h;
-            CFontStyle font = _GetCurrentFont();
+            CFontStyle fontStyle = _GetFontStyle(font);
 
             float dx = x;
             foreach (char chr in text)
             {
-                font.DrawGlyph(chr, h, dx, y, z, color);
-                dx += font.GetWidth(chr, h);
+                fontStyle.DrawGlyph(chr, font.Height, dx, y, z, color);
+                dx += fontStyle.GetWidth(chr, font.Height);
             }
         }
 
-        public static void DrawTextReflection(string text, float h, float x, float y, float z, SColorF color, float rspace, float rheight)
+        public static void DrawTextReflection(string text, CFont font, float x, float y, float z, SColorF color, float rspace, float rheight)
         {
-            if (h <= 0f)
+            if (font.Height <= 0f || text == "")
                 return;
 
-            if (text == "")
-                return;
-
-            Height = h;
-            CFontStyle font = _GetCurrentFont();
+            CFontStyle fontStyle = _GetFontStyle(font);
 
             float dx = x;
             foreach (char chr in text)
             {
-                font.DrawGlyphReflection(chr, h, dx, y, z, color, rspace, rheight);
-                dx += font.GetWidth(chr, h);
+                fontStyle.DrawGlyphReflection(chr, font.Height, dx, y, z, color, rspace, rheight);
+                dx += fontStyle.GetWidth(chr, font.Height);
             }
         }
 
-        public static void DrawText(string text, float h, float x, float y, float z, SColorF color, float begin, float end)
+        public static void DrawText(string text, CFont font, float x, float y, float z, SColorF color, float begin, float end)
         {
-            if (h <= 0f)
+            if (font.Height <= 0f || text == "")
                 return;
 
-            if (text == "")
-                return;
-
-            Height = h;
-
-            float dx = x;
-            float w = GetTextWidth(text);
+            float w = GetTextWidth(text, font);
             if (w <= 0f)
                 return;
 
-            float x1 = x + w * begin;
-            float x2 = x + w * end;
+            float xStart = x + w * begin;
+            float xEnd = x + w * end;
+            float xCur = x;
 
-            CFontStyle font = _GetCurrentFont();
+            CFontStyle fontStyle = _GetFontStyle(font);
 
             foreach (char chr in text)
             {
-                float w2 = font.GetWidth(chr, h);
-                float b = (x1 - dx) / w2;
+                float w2 = fontStyle.GetWidth(chr, font.Height);
+                float b = (xStart - xCur) / w2;
 
                 if (b < 1f)
                 {
                     if (b < 0f)
                         b = 0f;
-                    float e = (x2 - dx) / w2;
+                    float e = (xEnd - xCur) / w2;
                     if (e > 0f)
                     {
                         if (e > 1f)
                             e = 1f;
-                        font.DrawGlyph(chr, h, dx, y, z, color, b, e);
+                        fontStyle.DrawGlyph(chr, font.Height, xCur, y, z, color, b, e);
                     }
                 }
-                dx += w2;
+                xCur += w2;
             }
         }
         #endregion DrawText
-
-        public static void SetFont(string fontName)
-        {
-            int index = _GetPartyFontIndex(fontName, PartyModeID);
-            if (index < 0)
-                index = _GetThemeFontIndex(fontName, CConfig.Theme);
-            if (index < 0)
-                index = _GetFontIndex(fontName);
-            if (index >= 0)
-                _CurrentFont = index;
-        }
 
         /// <summary>
         ///     Calculates the bounds for a CText object
@@ -231,42 +177,50 @@ namespace Vocaluxe.Base.Fonts
         /// <returns>RectangleF object containing the bounds</returns>
         public static RectangleF GetTextBounds(CText text)
         {
-            return GetTextBounds(text, text.Height);
+            return new RectangleF(text.X, text.Y, GetTextWidth(text.TranslatedText, text.Font), GetTextHeight(text.TranslatedText, text.Font));
         }
 
-        /// <summary>
-        ///     Calculates the bounds for a CText object
-        /// </summary>
-        /// <param name="text">The CText object of which the bounds should be calculated for</param>
-        /// <param name="height">The height of the CText object</param>
-        /// <returns>RectangleF object containing the bounds</returns>
-        public static RectangleF GetTextBounds(CText text, float height)
+        private static CFontStyle _GetFontStyle(CFont font)
         {
-            float oldHeight = Height;
-            int oldFont = _CurrentFont;
-            EStyle oldStyle = Style;
-            Height = height;
-            SetFont(text.Font);
-            Style = text.Style;
-            var result = new RectangleF(text.X, text.Y, GetTextWidth(CLanguage.Translate(text.Text, text.TranslationID)),
-                                        GetTextHeight(CLanguage.Translate(text.Text, text.TranslationID)));
-            //restore old values
-            Height = oldHeight;
-            _CurrentFont = oldFont;
-            Style = oldStyle;
-            return result;
+            int index = _GetPartyFontIndex(font.Name, PartyModeID);
+            if (index < 0)
+                index = _GetThemeFontIndex(font.Name, CConfig.Theme);
+            if (index < 0)
+                index = _GetFontIndex(font.Name);
+            if (index < 0)
+            {
+                if (!_LoggedMissingFonts.Contains(font.Name))
+                {
+                    _LoggedMissingFonts.Add(font.Name);
+                    CLog.LogError("Font \"" + font.Name + "\" not found!");
+                }
+                index = 0;
+            }
+
+            switch (font.Style)
+            {
+                case EStyle.Normal:
+                    return _FontFamilies[index].Normal;
+                case EStyle.Italic:
+                    return _FontFamilies[index].Italic;
+                case EStyle.Bold:
+                    return _FontFamilies[index].Bold;
+                case EStyle.BoldItalic:
+                    return _FontFamilies[index].BoldItalic;
+            }
+            throw new ArgumentException("Invalid Style: " + font.Style);
         }
 
-        public static float GetTextWidth(string text)
+        public static float GetTextWidth(string text, CFont font)
         {
-            CFontStyle font = _GetCurrentFont();
-            return text.Sum(chr => font.GetWidth(chr, Height));
+            CFontStyle fontStyle = _GetFontStyle(font);
+            return text.Sum(chr => fontStyle.GetWidth(chr, font.Height));
         }
 
-        public static float GetTextHeight(string text)
+        public static float GetTextHeight(string text, CFont font)
         {
-            CFontStyle font = _GetCurrentFont();
-            return text == "" ? 0 : text.Select(chr => font.GetHeight(chr, Height)).Max();
+            CFontStyle fontStyle = _GetFontStyle(font);
+            return text == "" ? 0 : text.Select(chr => fontStyle.GetHeight(chr, font.Height)).Max();
         }
 
         private static int _GetFontIndex(string fontName)
@@ -448,24 +402,16 @@ namespace Vocaluxe.Base.Fonts
         {
             const string text = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
-            for (int i = 0; i < _FontFamilies.Count; i++)
+            foreach (SFontFamily fontFamily in _FontFamilies)
             {
-                _CurrentFont = i;
-
                 foreach (char chr in text)
                 {
-                    Style = EStyle.Normal;
-                    _FontFamilies[_CurrentFont].Normal.GetOrAddGlyph(chr, Height);
-                    Style = EStyle.Bold;
-                    _FontFamilies[_CurrentFont].Bold.GetOrAddGlyph(chr, Height);
-                    Style = EStyle.Italic;
-                    _FontFamilies[_CurrentFont].Italic.GetOrAddGlyph(chr, Height);
-                    Style = EStyle.BoldItalic;
-                    _FontFamilies[_CurrentFont].BoldItalic.GetOrAddGlyph(chr, Height);
+                    fontFamily.Normal.GetOrAddGlyph(chr, -1);
+                    fontFamily.Bold.GetOrAddGlyph(chr, -1);
+                    fontFamily.Italic.GetOrAddGlyph(chr, -1);
+                    fontFamily.BoldItalic.GetOrAddGlyph(chr, -1);
                 }
             }
-            Style = EStyle.Normal;
-            SetFont("Normal");
         }
     }
 }

@@ -446,7 +446,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _RoundsTableScrollArea.Y = numberY;
             _RoundsTableScrollArea.W = CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20;
 
-            float delta = _Texts[_TextRoundNumber].Height;
+            float delta = _Texts[_TextRoundNumber].Rect.H;
 
             //Update statics and texts for rounds
             foreach (CRoundsTableRow roundRow in _RoundsTable)
@@ -479,7 +479,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                         roundRow.TextScores[column].Y = numberY + delta;
                         roundRow.TextScores[column].MaxWidth = maxw;
                     }
-                    numberY = numberY + delta + delta;
+                    numberY = numberY + 2*delta;
                 }
                 numberY = numberY + delta / 2;
             }
@@ -532,7 +532,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _PlayerTableScrollArea = new SRectF {X = _Texts[_TextPosition].X, Y = _Texts[_TextPosition].Y, W = _Texts[_TextGamePoints].X - _Texts[_TextPosition].X};
 
             _PlayerTable = new List<STableRow>();
-            float delta = _Texts[_TextPosition].Height * 1.2f;
+            float delta = _Texts[_TextPosition].Rect.H * 1.2f;
 
             float h = 0;
 

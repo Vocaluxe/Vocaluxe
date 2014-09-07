@@ -138,7 +138,7 @@ namespace Vocaluxe.Base.Fonts
             CGlyph glyph;
             if (!_Glyphs.TryGetValue(chr, out glyph))
             {
-                float maxHeight = (_MaxGlyphHeight + 50 >= height) ? _MaxGlyphHeight : (float)Math.Round(height / 50) * 50;
+                float maxHeight = (height < 0 || _MaxGlyphHeight + 50 >= height) ? _MaxGlyphHeight : (float)Math.Round(height / 50) * 50;
                 glyph = new CGlyph(chr, this, maxHeight);
                 _Glyphs.Add(chr, glyph);
             }
