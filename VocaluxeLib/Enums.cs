@@ -248,6 +248,13 @@ namespace VocaluxeLib
         // ReSharper restore InconsistentNaming
     }
 
+    public enum EBackgroundMusicOffOn
+    {
+        TR_CONFIG_OFF,
+        TR_CONFIG_ONLY_SONG,
+        TR_CONFIG_ON
+    }
+
     public enum EPlayerInfo
     {
         // ReSharper disable InconsistentNaming
@@ -287,6 +294,14 @@ namespace VocaluxeLib
         Zoom
     }
     #endregion Config
+
+    public enum EStreamAction
+    {
+        Nothing,
+        Pause,
+        Stop,
+        Close
+    }
 
     public enum EProgramState
     {

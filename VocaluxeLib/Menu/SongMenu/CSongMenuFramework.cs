@@ -115,17 +115,14 @@ namespace VocaluxeLib.Menu.SongMenu
                     _PlaySong(value);
                 }
                 else if (value >= CBase.Songs.GetNumCategories())
+                {
                     value = -1;
+                    CBase.BackgroundMusic.Stop();
+                }
 
                 _PreviewNrInternal = value;
             }
         }
-
-        protected int _PreviewSongStream { get; private set; }
-
-        protected int _PreviewVideoStream { get; private set; }
-        private CFading _VideoFading;
-        protected CTexture _Vidtex;
 
         private SColorF _ColorInternal;
         protected SColorF _Color
@@ -160,8 +157,6 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             Visible = true;
             _PartyModeID = partyModeID;
-            _PreviewVideoStream = -1;
-            _PreviewSongStream = -1;
             _Theme = new SThemeSongMenu
                 {
                     SongMenuTileBoard =
@@ -346,7 +341,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void Init()
         {
-            _ResetPreview();
+            _ResetPreview(false);
             _Initialized = true;
         }
 
@@ -354,40 +349,14 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (!_Initialized)
                 return;
-
-            if (_PreviewSongStream == -1 || _PreviewVideoStream == -1)
-                return;
-
-            if (CBase.Video.IsFinished(_PreviewVideoStream) || CBase.Sound.IsFinished(_PreviewSongStream))
-            {
-                CBase.Video.Close(_PreviewVideoStream);
-                _PreviewVideoStream = -1;
-                return;
-            }
-
-            float time = CBase.Sound.GetPosition(_PreviewSongStream);
-
-            float vtime;
-            if (CBase.Video.GetFrame(_PreviewVideoStream, ref _Vidtex, time, out vtime))
-            {
-                if (_Vidtex != null)
-                {
-                    if (_VideoFading != null)
-                    {
-                        bool finished;
-                        _Vidtex.Color.A = _VideoFading.GetValue(out finished);
-                        if (finished)
-                            _VideoFading = null;
-                    }
-                }
-            }
         }
 
         public virtual void OnShow() {}
-
+        
         public virtual void OnHide()
         {
-            _ResetPreview();
+            if(CBase.Graphics.GetNextScreen() != EScreens.ScreenNames)
+                _ResetPreview();
         }
 
         public abstract bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options);
@@ -399,8 +368,8 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!_Initialized || !Visible)
                 return;
 
-            if (_PreviewVideoStream != -1)
-                CBase.Drawing.DrawTexture(_Vidtex, new SRectF(0, 0, 1280, 720, 0));
+            if (CBase.BackgroundMusic.IsPlaying())
+                CBase.Drawing.DrawTexture(CBase.BackgroundMusic.GetVideoTexture(), new SRectF(0, 0, 1280, 720, 0));
         }
 
         public bool IsMouseOverSelectedSong(SMouseEvent mEvent)
@@ -486,7 +455,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (categoryNr >= CBase.Songs.GetNumCategories())
                 return;
 
-            _ResetPreview();
+            _ResetPreview(false);
             CBase.Songs.SetCategory(categoryNr);
         }
 
@@ -504,50 +473,24 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _PlaySong(int nr)
         {
-            _ResetPreview();
+            _PreviewNrInternal = -1;
 
             CSong song = CBase.Songs.GetVisibleSong(nr);
             if (song == null)
                 return;
 
-            //TODO: Using prescan here causes Vocaluxe to hang a bit on loading the song but we need the length below
-            _PreviewSongStream = CBase.Sound.Load(Path.Combine(song.Folder, song.MP3FileName), true, true);
-
-            float startposition = song.Preview.StartTime;
-            float length = CBase.Sound.GetLength(_PreviewSongStream);
-
-            if (song.Preview.Source == EDataSource.None)
-                startposition = length / 4f;
-            else if (startposition > length - 5f)
-                startposition = Math.Max(0f, Math.Min(length / 4f, length - 5f));
-
-            CBase.Sound.SetPosition(_PreviewSongStream, startposition);
-            CBase.Sound.Play(_PreviewSongStream);
-            CBase.Sound.SetStreamVolume(_PreviewSongStream, 0f);
-            CBase.Sound.Fade(_PreviewSongStream, 100f, 3f);
-
-            if (song.VideoFileName != "" && CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
-            {
-                _PreviewVideoStream = CBase.Video.Load(Path.Combine(song.Folder, song.VideoFileName));
-                if (_PreviewVideoStream == -1)
-                    return;
-                CBase.Video.SetLoop(_PreviewVideoStream);
-                CBase.Video.Skip(_PreviewVideoStream, startposition, song.VideoGap);
-                _VideoFading = new CFading(0f, 1f, 3f);
-            }
+            CBase.BackgroundMusic.LoadPreview(song);
         }
 
-        protected void _ResetPreview()
+        protected void _ResetPreview(bool playBGagain = true)
         {
-            if (_PreviewSongStream >= 0)
-                CBase.Sound.FadeAndClose(_PreviewSongStream, 0f, 0.75f);
+            if (_PreviewNrInternal == -1)
+                return;
 
-            _PreviewSongStream = -1;
+            CBase.BackgroundMusic.StopPreview();
 
-            CBase.Video.Close(_PreviewVideoStream);
-            _PreviewVideoStream = -1;
-
-            CBase.Drawing.RemoveTexture(ref _Vidtex);
+            if (playBGagain)
+                CBase.BackgroundMusic.Play();
 
             //Make sure we don't have a preview here otherwise a change won't be recognized
             //(e.g. leave a category with one song and set preview to 0 --> previewOld=previewNew=0 --> No change --> Old data shown

@@ -194,7 +194,7 @@ namespace VocaluxeLib.Menu
 
             if (!String.IsNullOrEmpty(_Theme.TextureName) &&
                 (_Theme.Type == EBackgroundTypes.Texture ||
-                 (_Theme.Type == EBackgroundTypes.Video && (CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF || !ok))))
+                 (_Theme.Type == EBackgroundTypes.Video && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF)))
                 ok = _DrawTexture();
 
             if (_Theme.Type == EBackgroundTypes.Color || _Theme.Type == EBackgroundTypes.Texture && !ok ||

@@ -60,6 +60,11 @@ namespace Vocaluxe.Base
             get { return _CurrentScreen; }
         }
 
+        public static EScreens NextScreen
+        {
+            get { return _NextScreen; }
+        }
+
         #region public methods
         public static void Init()
         {
@@ -335,7 +340,7 @@ namespace Vocaluxe.Base
             bool popupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
             //Hide volume control for bg-music if bg-music is disabled
             if (popupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || CSongs.Category == -1)
-                && _CurrentScreen != EScreens.ScreenSing && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_OFF)
+                && _CurrentScreen != EScreens.ScreenSing && CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 popupVolumeControlAllowed = false;
 
 
@@ -391,13 +396,13 @@ namespace Vocaluxe.Base
 
                 if (popupPlayerControlAllowed && keyEvent.Key == Keys.Tab)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                     else
                         HidePopup(EPopupScreens.PopupPlayerControl);
                 }
 
-                if (popupPlayerControlAllowed && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+                if (popupPlayerControlAllowed && CConfig.BackgroundMusic != EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 {
                     if (keyEvent.Key == Keys.MediaNextTrack)
                         CBackgroundMusic.Next();
@@ -497,7 +502,7 @@ namespace Vocaluxe.Base
                 bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, mouseEvent);
                 if (popupPlayerControlAllowed && isOverPopupPlayerControl)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                 }
 
