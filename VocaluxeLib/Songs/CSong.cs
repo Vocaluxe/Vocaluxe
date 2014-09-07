@@ -458,7 +458,10 @@ namespace VocaluxeLib.Songs
             if (Preview.Source == EDataSource.None)
             {
                 if (Medley.Source != EDataSource.None)
+                {
                     Preview.StartTime = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM);
+                    Preview.Source = EDataSource.Calculated;
+                }
             }
         }
 

@@ -662,11 +662,6 @@ namespace Vocaluxe.Screens
 
             _Texts[_TextCategory].Text = CSongs.GetCurrentCategoryName();
 
-            if (CSongs.IsInCategory || CConfig.Tabs == EOffOn.TR_CONFIG_OFF)
-                CBackgroundMusic.Disabled = true;
-            else
-                CBackgroundMusic.Disabled = false;
-
             string selectionText = "";
             if (CSongs.IsInCategory)
             {
@@ -716,9 +711,14 @@ namespace Vocaluxe.Screens
         public override void OnClose()
         {
             base.OnClose();
-            CBackgroundMusic.Disabled = false;
-            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
+
             _SongMenu.OnHide();
+
+            if (CGraphics.NextScreen != EScreens.ScreenNames)
+            {
+                CBackgroundMusic.Disabled = false;
+                CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
+            }
         }
 
         private void _HandlePartySongSelection(int songNr)
