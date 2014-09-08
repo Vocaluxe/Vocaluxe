@@ -888,7 +888,7 @@ namespace Vocaluxe.Base
             for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
                 CGame.Players[j].ProfileID = -1;
-                if (Players[j] == "" || profiles == null)
+                if (Players[j] == "")
                     continue;
 
                 foreach (CProfile profile in profiles)

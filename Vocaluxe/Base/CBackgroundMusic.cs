@@ -184,7 +184,7 @@ namespace Vocaluxe.Base
 
             if (_PlaysPreview)
                 _PreviewPlayer.Play();
-            else
+            else if(CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 if (_SongPlayer.SongLoaded)
                     //Resume
                     _SongPlayer.TogglePause();
@@ -218,11 +218,13 @@ namespace Vocaluxe.Base
                     return;
                 _PreviewPlayer.TogglePause();
             }
-            else
+            else if (CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
+            {
                 if (!_SongPlayer.SongLoaded)
                     Next();
                 else
                     _SongPlayer.TogglePause();
+            }
         }
 
         public static void Next()

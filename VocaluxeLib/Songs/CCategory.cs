@@ -56,18 +56,11 @@ namespace VocaluxeLib.Songs
             return Songs.Count(sp => !sp.IsSung);
         }
 
-        public CCategory(string name, CTexture coverSmall, CTexture coverBig)
+        public CSong GetSong(int numInCategory)
         {
-            Name = name;
-            CoverTextureSmall = coverSmall;
-            CoverTextureBig = coverBig;
-        }
-
-        public CCategory(CCategory cat)
-        {
-            Name = cat.Name;
-            CoverTextureSmall = cat.CoverTextureSmall;
-            CoverTextureBig = cat.CoverTextureBig;
+            if (numInCategory >= 0 && numInCategory < Songs.Count)
+                return CBase.Songs.GetSongByID(Songs[numInCategory].SongID);
+            return null;
         }
     }
 }

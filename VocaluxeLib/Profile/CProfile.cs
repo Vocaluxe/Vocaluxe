@@ -84,18 +84,21 @@ namespace VocaluxeLib.Profile
             {
                 PlayerName = value;
                 string avatarFileName;
-                xmlReader.TryGetEnumValue("//root/Info/Difficulty", ref Difficulty);
-                xmlReader.GetValue("//root/Info/Avatar", out avatarFileName, String.Empty);
+                bool ok = xmlReader.TryGetEnumValue("//root/Info/Difficulty", ref Difficulty);
+                ok &= xmlReader.GetValue("//root/Info/Avatar", out avatarFileName);
                 Avatar = CBase.Profiles.GetAvatarByFilename(avatarFileName);
-                xmlReader.TryGetEnumValue("//root/Info/UserRole", ref UserRole);
-                xmlReader.TryGetEnumValue("//root/Info/Active", ref Active);
+                ok &= Avatar != null;
+                ok &= xmlReader.TryGetEnumValue("//root/Info/UserRole", ref UserRole);
+                ok &= xmlReader.TryGetEnumValue("//root/Info/Active", ref Active);
                 string passwordHash;
-                xmlReader.GetValue("//root/Info/PasswordHash", out passwordHash, "");
+                xmlReader.GetValue("//root/Info/PasswordHash", out passwordHash);
                 PasswordHash = !string.IsNullOrEmpty(passwordHash) ? Convert.FromBase64String(passwordHash) : null;
                 string passwordSalt;
-                xmlReader.GetValue("//root/Info/PasswordSalt", out passwordSalt, "");
+                xmlReader.GetValue("//root/Info/PasswordSalt", out passwordSalt);
                 PasswordSalt = !string.IsNullOrEmpty(passwordSalt) ? Convert.FromBase64String(passwordSalt) : null;
-                return true;
+                if (!ok)
+                    CBase.Log.LogError("Error loading profile file: " + FileName);
+                return ok;
             }
 
             CBase.Log.LogError("Can't find PlayerName in Profile File: " + FileName);

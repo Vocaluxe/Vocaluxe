@@ -92,6 +92,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">Party</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Optionen</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profile</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">Keine Profile gefunden!</string>
   <string name="TR_SCREENPARTY_TITLE">Party-Modus Auswahl</string>
   <string name="TR_SCREENPARTY_MODES">Party-Modus</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Beschreibung</string>

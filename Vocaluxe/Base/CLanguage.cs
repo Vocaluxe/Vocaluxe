@@ -180,7 +180,7 @@ namespace Vocaluxe.Base
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Error reading language file " + xmlReader.FileName + ": " + e.Message);
+                    CLog.LogError("Error reading language file " + xmlReader.FilePath + ": " + e.Message);
                     return false;
                 }
             }
