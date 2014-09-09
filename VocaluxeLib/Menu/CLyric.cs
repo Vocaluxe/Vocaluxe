@@ -31,14 +31,10 @@ namespace VocaluxeLib.Menu
         [XmlElement("Rect")]
         public SRectF Rect;
 
-        [XmlElement("ColorName")]
-        public string ColorName;
         [XmlElement("Color")]
-        public SColorF Color;
-        [XmlElement("SColorName")]
-        public string SelColorName;
+        public SThemeColor Color;
         [XmlElement("SColor")]
-        public SColorF SColor;
+        public SThemeColor SColor;
     }
 
     public class CLyric : IMenuElement
@@ -135,8 +131,8 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _MaxW);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _H);
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out _Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out _Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _Color.R);
@@ -145,8 +141,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, skinIndex, out _ColorProcessed);
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.SColor.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColor.Name, skinIndex, out _ColorProcessed);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref _ColorProcessed.R);
@@ -158,8 +154,8 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                _Theme.Color = new SColorF(_Color);
-                _Theme.SColor = new SColorF(_ColorProcessed);
+                _Theme.Color.Color = new SColorF(_Color);
+                _Theme.SColor.Color = new SColorF(_ColorProcessed);
                 _Theme.Rect = new SRectF(Rect);
 
                 LoadTextures();
@@ -183,8 +179,8 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Lyric text color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
+                if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                    writer.WriteElementString("Color", _Theme.Color.Name);
                 else
                 {
                     writer.WriteElementString("R", _Color.R.ToString("#0.00"));
@@ -195,8 +191,8 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<SColor>: Highlighted lyric color from ColorScheme (high priority)");
                 writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.SelColorName))
-                    writer.WriteElementString("SColor", _Theme.SelColorName);
+                if (!String.IsNullOrEmpty(_Theme.SColor.Name))
+                    writer.WriteElementString("SColor", _Theme.SColor.Name);
                 else
                 {
                     writer.WriteElementString("SR", _ColorProcessed.R.ToString("#0.00"));
@@ -488,11 +484,11 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                _Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                _Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
 
-            if (!String.IsNullOrEmpty(_Theme.SelColorName))
-                _ColorProcessed = CBase.Theme.GetColor(_Theme.SelColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.SColor.Name))
+                _ColorProcessed = CBase.Theme.GetColor(_Theme.SColor.Name, _PartyModeID);
         }
 
         public void ReloadTextures()

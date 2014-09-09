@@ -34,10 +34,8 @@ namespace VocaluxeLib.Menu
         public string TextureName;
         [XmlElement("Rect")]
         public SRectF Rect;
-        [XmlElement("ColorName")]
-        public string ColorName;
         [XmlElement("Color")]
-        public SColorF Color;
+        public SThemeColor Color;
         [XmlElement("Type")]
         public EParticleType Type;
         [XmlElement("Size")]
@@ -403,8 +401,8 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -421,7 +419,7 @@ namespace VocaluxeLib.Menu
             {
                 _Theme.Name = elementName;
                 _Theme.Rect = new SRectF(Rect);
-                _Theme.Color = new SColorF(Color);
+                _Theme.Color.Color = new SColorF(Color);
                 _Theme.Type = _Type;
                 _Theme.Size = _Size;
                 _Theme.MaxNumber = _MaxNumber;
@@ -448,8 +446,8 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: ParticleEffect color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
+                if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                    writer.WriteElementString("Color", _Theme.Color.Name);
                 else
                 {
                     writer.WriteElementString("R", Color.R.ToString("#0.00"));
@@ -620,8 +618,8 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
             if (!String.IsNullOrEmpty(_Theme.TextureName))
                 Texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
         }

@@ -47,14 +47,10 @@ namespace VocaluxeLib.Menu
         [XmlElement("DrawNegative")]
         public EOffOn DrawNegative;
 
-        [XmlElement("ColorName")]
-        public string ColorName;
         [XmlElement("Color")]
-        public SColorF Color;
-        [XmlElement("MaxColorName")]
-        public string MaxColorName;
+        public SThemeColor Color;
         [XmlElement("MaxColor")]
-        public SColorF MaxColor;
+        public SThemeColor MaxColor;
         [XmlElement("Reflection")]
         public SReflection Reflection;
     }
@@ -132,8 +128,8 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/DrawNegative", ref _Theme.DrawNegative);
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -142,8 +138,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/MaxColor", out _Theme.MaxColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/MaxColor", out _Theme.MaxColor.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.MaxColor.Name, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/MaxR", ref MaxColor.R);
@@ -171,8 +167,8 @@ namespace VocaluxeLib.Menu
             {
                 _Theme.Name = elementName;
                 _Theme.Space = Space;
-                _Theme.Color = new SColorF(Color);
-                _Theme.MaxColor = new SColorF(MaxColor);
+                _Theme.Color.Color = new SColorF(Color);
+                _Theme.MaxColor.Color = new SColorF(MaxColor);
                 _Theme.Rect = Rect;
 
                 _Bars = new float[_Theme.NumBars];
@@ -210,8 +206,8 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Equalizer color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
+                if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                    writer.WriteElementString("Color", _Theme.Color.Name);
                 else
                 {
                     writer.WriteElementString("R", Color.R.ToString("#0.00"));
@@ -221,8 +217,8 @@ namespace VocaluxeLib.Menu
                 }
                 writer.WriteComment("<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)");
                 writer.WriteComment("or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("MaxColor", _Theme.ColorName);
+                if (!String.IsNullOrEmpty(_Theme.MaxColor.Name))
+                    writer.WriteElementString("MaxColor", _Theme.MaxColor.Name);
                 else
                 {
                     writer.WriteElementString("MaxR", Color.R.ToString("#0.00"));
@@ -321,11 +317,11 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
 
-            if (!String.IsNullOrEmpty(_Theme.MaxColorName))
-                MaxColor = CBase.Theme.GetColor(_Theme.MaxColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.MaxColor.Name))
+                MaxColor = CBase.Theme.GetColor(_Theme.MaxColor.Name, _PartyModeID);
         }
 
         public void ReloadTextures()

@@ -47,9 +47,7 @@ namespace VocaluxeLib.Menu
         public string VideoName;
         [XmlElement("Skin")]
         public string TextureName;
-        [XmlElement("ColorName")]
-        public string ColorName;
-        public SColorF Color;
+        public SThemeColor Color;
     }
 
     public class CBackground : IMenuElement
@@ -96,8 +94,8 @@ namespace VocaluxeLib.Menu
             bool tex = xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
             _ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
             else
             {
                 bool success = true;
@@ -110,7 +108,7 @@ namespace VocaluxeLib.Menu
                     _ThemeLoaded &= success;
             }
 
-            _Theme.Color = new SColorF(Color);
+            _Theme.Color.Color = new SColorF(Color);
 
             int i = 1;
 
@@ -152,8 +150,8 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Background color for type \"Color\" from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
+                if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                    writer.WriteElementString("Color", _Theme.Color.Name);
                 else
                 {
                     if (_Theme.Type != EBackgroundTypes.None)
@@ -222,8 +220,8 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
 
             foreach (string s in _Theme.SlideShowTextures)
                 _SlideShowTextures.Add(CBase.Theme.GetSkinTexture(s, _PartyModeID));

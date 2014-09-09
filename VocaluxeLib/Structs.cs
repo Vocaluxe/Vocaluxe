@@ -61,18 +61,25 @@ namespace VocaluxeLib
         }
     }
 
-    [XmlRoot()]
+    //Use for holding theme-colors
+    [XmlRoot("Color")]
+    public struct SThemeColor
+    {
+        public SColorF Color;
+        public string Name;
+
+        //Needed for serialization
+        public bool ColorSpecified { get { return Name == ""; } }
+        public bool NameSpecified { get { return Name != ""; } }
+
+    }
+
     public struct SRectF
     {
-        [XmlElement("X")]
         public float X;
-        [XmlElement("Y")]
         public float Y;
-        [XmlElement("W")]
         public float W;
-        [XmlElement("H")]
         public float H;
-        [XmlElement("Z")]
         public float Z;
         [XmlIgnore]
         public float Rotation; //0..360°
@@ -103,10 +110,12 @@ namespace VocaluxeLib
     {
         [XmlAttributeAttribute(AttributeName = "Enabled")]
         public bool Enabled;
-        [XmlElement("Height")]
         public float Height;
-        [XmlElement("Space")]
         public float Space;
+
+        //Needed for serialization
+        public bool HeightSpecified { get { return Enabled; } }
+        public bool SpaceSpecified { get { return Enabled; } }
 
         public SReflection(bool enabled, float height, float space)
         {

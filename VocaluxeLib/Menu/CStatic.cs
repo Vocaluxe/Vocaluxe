@@ -29,9 +29,7 @@ namespace VocaluxeLib.Menu
         public string Name;
         [XmlElement("Skin")]
         public string TextureName;
-        [XmlElement("ColorName")]
-        public string ColorName;
-        public SColorF Color;
+        public SThemeColor Color;
         public SRectF Rect;
         public SReflection Reflection;
     }
@@ -133,8 +131,8 @@ namespace VocaluxeLib.Menu
 
             _Theme.Rect = new SRectF(Rect);
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -143,7 +141,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            _Theme.Color = new SColorF(Color);
+            _Theme.Color.Color = new SColorF(Color);
 
             if (xmlReader.ItemExists(item + "/Reflection"))
             {
@@ -184,8 +182,8 @@ namespace VocaluxeLib.Menu
 
                 writer.WriteComment("<Color>: Static color from ColorScheme (high priority)");
                 writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
+                if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                    writer.WriteElementString("Color", _Theme.Color.Name);
                 else
                 {
                     writer.WriteElementString("R", Color.R.ToString("#0.00"));
@@ -244,8 +242,8 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
         }
 
         public void ReloadTextures()
