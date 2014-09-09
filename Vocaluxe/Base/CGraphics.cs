@@ -167,13 +167,7 @@ namespace Vocaluxe.Base
                 if (screen.ThemePath == null || screen.ThemeName == "ScreenTest")
                     continue;
 
-                TextWriter textWriter = new StreamWriter(@Path.Combine(screen.ThemePath, screen.ThemeName + "_test.xml"));
-                Type[] screens = { typeof(CScreenHighscore), typeof(CScreenLoad), typeof(CScreenMain), typeof(CScreenNames), typeof(CScreenOptions), 
-                                 typeof(CScreenOptionsGame), typeof(CScreenOptionsLyrics), typeof(CScreenOptionsRecord), typeof(CScreenOptionsSound),
-                                 typeof(CScreenOptionsTheme), typeof(CScreenOptionsVideo), typeof(CScreenOptionsVideoAdjustments), typeof(CScreenParty), 
-                                 typeof(CScreenPartyDummy), typeof(CScreenProfiles), typeof(CScreenScore), typeof(CScreenSing), typeof(CScreenSong) };
-                XmlSerializer serializer = new XmlSerializer(typeof(CMenu), screens);
-                serializer.Serialize(textWriter, screen);
+                screen.SaveTheme();
             }
 
             foreach (IMenu popup in _PopupScreens)
