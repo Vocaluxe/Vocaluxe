@@ -35,6 +35,8 @@ namespace VocaluxeLib
         void SetBackgroundMusicVolume(int newVolume);
         int GetBackgroundMusicVolume();
 
+        EBackgroundMusicOffOn GetBackgroundMusicStatus();
+
         int GetPreviewMusicVolume();
 
         EOffOn GetVideosToBackground();
@@ -89,6 +91,8 @@ namespace VocaluxeLib
 
         float GetSlideShowImageTime();
         float GetSlideShowFadeTime();
+
+        float GetSoundPlayerFadeTime();
     }
 
     public interface ITheme
@@ -115,16 +119,24 @@ namespace VocaluxeLib
     {
         bool IsDisabled();
         bool IsPlaying();
+        bool IsPlayingPreview();
         bool SongHasVideo();
         bool VideoEnabled();
+        float GetLength();
 
         void SetDisabled(bool disabled);
         void Next();
         void Previous();
         void Pause();
         void Play();
+        void Stop();
 
         CTexture GetVideoTexture();
+
+        void LoadPreview(CSong song, float start = 0f);
+        void PlayPreview(float start = -1f);
+        void StopPreview();
+
     }
 
     public interface IDrawing
@@ -148,6 +160,8 @@ namespace VocaluxeLib
         void FadeTo(EScreens nextScreen);
 
         float GetGlobalAlpha();
+
+        EScreens GetNextScreen();
     }
 
     public interface ILog
@@ -159,15 +173,11 @@ namespace VocaluxeLib
 
     public interface IFonts
     {
-        void SetFont(string fontName);
-        void SetStyle(EStyle fontStyle);
-
         RectangleF GetTextBounds(CText text);
-        RectangleF GetTextBounds(CText text, float textHeight);
 
-        void DrawText(string text, float textHeight, float x, float y, float z, SColorF color);
-        void DrawTextReflection(string text, float textHeight, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight);
-        void DrawText(string text, float textHeight, float x, float y, float z, SColorF color, float begin, float end);
+        void DrawText(string text, CFont font, float x, float y, float z, SColorF color);
+        void DrawTextReflection(string text, CFont font, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight);
+        void DrawText(string text, CFont font, float x, float y, float z, SColorF color, float begin, float end);
     }
 
     public interface ILanguage
@@ -255,6 +265,8 @@ namespace VocaluxeLib
         bool IsFinished(int streamID);
         bool Close(int streamID);
         void SetLoop(int streamID, bool loop = true);
+        void Resume(int streamID);
+        void Pause(int streamID);
     }
 
     public interface ISound
@@ -262,12 +274,12 @@ namespace VocaluxeLib
         int Load(string soundFile, bool loop = false, bool prescan = false);
         void SetPosition(int soundStream, float newPosition);
         void Play(int soundStream);
-        void Fade(int soundStream, float targetVolume, float duration);
+        void Fade(int soundStream, float targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
+        void Close(int soundStream);
 
         bool IsFinished(int soundStream);
         float GetPosition(int soundStream);
         float GetLength(int soundStream);
-        void FadeAndClose(int soundStream, float targetVolume, float duration);
 
         void SetStreamVolume(int soundStream, float volume);
     }
@@ -310,5 +322,18 @@ namespace VocaluxeLib
 
         int GetSongCount(int playlistID);
         CPlaylistSong GetSong(int playlistID, int songIndex);
+    }
+
+    public interface IPreviewPlayer
+    {
+        void Play(float start = -1);
+        void Load(CSong song, float start = 0f);
+        void Stop();
+        void TogglePause();
+        CTexture GetCover();
+        CTexture GetVideoTexture();
+        bool IsPlaying();
+        float GetLength();
+
     }
 }

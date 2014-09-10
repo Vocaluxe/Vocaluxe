@@ -52,7 +52,7 @@ namespace Vocaluxe.Screens
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
-            _SelectSlides[_SelectSlideBackgroundMusic].SetValues<EOffOn>((int)CConfig.BackgroundMusic);
+            _SelectSlides[_SelectSlideBackgroundMusic].SetValues<EBackgroundMusicOffOn>((int)CConfig.BackgroundMusic);
             _SelectSlides[_SelectSlideBackgroundMusicVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
             _SelectSlides[_SelectSlideBackgroundMusicVolume].Selection = CConfig.BackgroundMusicVolume / 5;
@@ -150,14 +150,14 @@ namespace Vocaluxe.Screens
         {
             CConfig.GameMusicVolume = _SelectSlides[_SelectSlideGameMusicVolume].Selection * 5;
             CConfig.PreviewMusicVolume = _SelectSlides[_SelectSlidePreviewMusicVolume].Selection * 5;
-            CConfig.BackgroundMusic = (EOffOn)_SelectSlides[_SelectSlideBackgroundMusic].Selection;
+            CConfig.BackgroundMusic = (EBackgroundMusicOffOn)_SelectSlides[_SelectSlideBackgroundMusic].Selection;
             CConfig.BackgroundMusicSource = (EBackgroundMusicSource)_SelectSlides[_SelectSlideBackgroundMusicSource].Selection;
             CConfig.BackgroundMusicVolume = _SelectSlides[_SelectSlideBackgroundMusicVolume].Selection * 5;
             CConfig.SaveConfig();
 
             CBackgroundMusic.SetMusicSource(CConfig.BackgroundMusicSource);
             CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
-            if (CConfig.BackgroundMusic == EOffOn.TR_CONFIG_ON)
+            if (CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                 CBackgroundMusic.Play();
             else
                 CBackgroundMusic.Pause();

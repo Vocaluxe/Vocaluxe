@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CFading.cs" />
+    <Compile Include="CFont.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IBasic.cs" />
@@ -135,6 +136,8 @@
     <Compile Include="PartyModes\IPartyMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\CWavFile.cs" />
+    <Compile Include="Utils\Player\CSongPlayer.cs" />
+    <Compile Include="Utils\Player\CSoundPlayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

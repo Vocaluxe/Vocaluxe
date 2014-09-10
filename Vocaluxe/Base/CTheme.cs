@@ -266,7 +266,7 @@ namespace Vocaluxe.Base
             {
                 CFonts.LoadThemeFonts(
                     _Themes[themeIndex].Name,
-                    Path.Combine(Path.Combine(_Themes[themeIndex].Path, _Themes[themeIndex].SkinFolder), CSettings.FolderNameThemeFonts),
+                    Path.Combine(_Themes[themeIndex].Path, _Themes[themeIndex].SkinFolder, CSettings.FolderNameThemeFonts),
                     xmlReader);
             }
             else

@@ -36,26 +36,13 @@ namespace Vocaluxe.Base.Fonts
         private readonly RectangleF _DrawBounding;
         public readonly float MaxHeight;
 
-        public float Width
-        {
-            get { return _BoundingBox.Width * _GetFactor(); }
-        }
-
-        public float Height
-        {
-            get { return _BoundingBox.Height * _GetFactor(); }
-        }
-
-        public CGlyph(char chr, float maxHeight)
+        public CGlyph(char chr, CFontStyle fontStyle, float maxHeight)
         {
             MaxHeight = maxHeight;
-            float oldHeight = CFonts.Height;
-            float outline = CFonts.Outline;
-            float outlineSize = outline * maxHeight;
+            float outlineSize = fontStyle.Outline * maxHeight;
             string chrString = chr.ToString();
 
-            CFonts.Height = maxHeight;
-            Font fo = CFonts.GetFont();
+            Font fo = fontStyle.GetSystemFont(maxHeight);
             SizeF fullSize;
             Size bmpSize;
             using (Graphics g = Graphics.FromHwnd(IntPtr.Zero))
@@ -64,7 +51,7 @@ namespace Vocaluxe.Base.Fonts
                 if (chr != ' ')
                 {
                     //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped
-                    _BoundingBox = g.MeasureString(chrString, fo, -1, new StringFormat(StringFormat.GenericTypographic));
+                    _BoundingBox = g.MeasureString(chrString, fo, -1, StringFormat.GenericTypographic);
                     // ReSharper disable CompareOfFloatsByEqualityOperator
                     if (_BoundingBox.Height == 0)
                         // ReSharper restore CompareOfFloatsByEqualityOperator
@@ -105,7 +92,7 @@ namespace Vocaluxe.Base.Fonts
                         float emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
                         path.AddString(chrString, fo.FontFamily, (int)fo.Style, emSize, point, new StringFormat());
 
-                        using (var pen = new Pen(CFonts.OutlineColor.AsColor(), outlineSize))
+                        using (var pen = new Pen(fontStyle.OutlineColor.AsColor(), outlineSize))
                         {
                             pen.LineJoin = LineJoin.Round;
                             g.DrawPath(pen, path);
@@ -134,7 +121,6 @@ namespace Vocaluxe.Base.Fonts
                     }
                 }
             }
-            CFonts.Height = oldHeight;
         }
 
         public void UnloadTexture()
@@ -142,15 +128,25 @@ namespace Vocaluxe.Base.Fonts
             CDraw.RemoveTexture(ref _Texture);
         }
 
-        private float _GetFactor()
+        private float _GetFactor(float fontHeight)
         {
-            return CFonts.Height / _BoundingBox.Height;
+            return fontHeight / _BoundingBox.Height;
         }
 
-        public void GetTextureAndRect(float x, float y, float z, out CTexture texture, out SRectF rect)
+        public float GetWidth(float fontHeight)
+        {
+            return _BoundingBox.Width * _GetFactor(fontHeight);
+        }
+
+        public float GetHeight(float fontHeight)
+        {
+            return _BoundingBox.Height * _GetFactor(fontHeight);
+        }
+
+        public void GetTextureAndRect(float fontHeight, float x, float y, float z, out CTexture texture, out SRectF rect)
         {
             texture = _Texture;
-            float factor = _GetFactor();
+            float factor = _GetFactor(fontHeight);
             x += _DrawBounding.X * factor;
             y += _DrawBounding.Y * factor;
             float h = _DrawBounding.Height * factor;

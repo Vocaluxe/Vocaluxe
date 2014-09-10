@@ -537,8 +537,6 @@ namespace Vocaluxe.Screens
             _CloseSong();
             if (_Webcam)
                 CWebcam.Stop();
-            CBackgroundMusic.Disabled = false;
-            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
         }
 
         private void _CloseSong()
@@ -569,6 +567,8 @@ namespace Vocaluxe.Screens
             _Texts[_TextSongName].Text = String.Empty;
             _Texts[_TextDuetName1].Text = String.Empty;
             _Texts[_TextDuetName2].Text = String.Empty;
+            _Texts[_TextMedleyCountdown].Visible = false;
+            _Texts[_TextMedleyCountdown].Text = String.Empty;
         }
 
         private void _LoadNextSong()
@@ -991,13 +991,13 @@ namespace Vocaluxe.Screens
                 float partSeconds = timeDiff - fullSeconds;
                 _Texts[_TextMedleyCountdown].Visible = true;
                 _Texts[_TextMedleyCountdown].Text = fullSeconds.ToString();
-                float h = partSeconds * CSettings.RenderH;
-                float w = CFonts.GetTextBounds(_Texts[_TextMedleyCountdown], h).Width;
-                float x = CSettings.RenderW / 2 - w / 2;
-                float y = CSettings.RenderH / 2 - h / 2;
+                _Texts[_TextMedleyCountdown].Font.Height = partSeconds * CSettings.RenderH;
+
+                RectangleF textBounds = CFonts.GetTextBounds(_Texts[_TextMedleyCountdown]);
+                float x = CSettings.RenderW / 2 - textBounds.Width / 2;
+                float y = CSettings.RenderH / 2 - textBounds.Height / 2;
                 _Texts[_TextMedleyCountdown].X = x;
                 _Texts[_TextMedleyCountdown].Y = y;
-                _Texts[_TextMedleyCountdown].Height = h;
             }
             else
                 _Texts[_TextMedleyCountdown].Visible = false;

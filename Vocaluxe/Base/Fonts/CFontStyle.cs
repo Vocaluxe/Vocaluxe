@@ -24,48 +24,64 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base.Fonts
 {
-    class CFont : IDisposable
+    class CFontStyle : IDisposable
     {
-        private readonly Dictionary<char, CGlyph> _Glyphs;
+        private readonly string _FilePath;
+        private readonly EStyle _Style;
+        public readonly float Outline; //0..1, 0=not outline 1=100% outline
+        public readonly SColorF OutlineColor;
+        private readonly float _MaxGlyphHeight;
+        private readonly Dictionary<char, CGlyph> _Glyphs = new Dictionary<char, CGlyph>();
         private PrivateFontCollection _Fonts;
         private FontFamily _Family;
-        private readonly float _MaxGlyphHeight;
 
-        private readonly string _FilePath;
-
-        private bool _Disposed;
-
-        public CFont(string file)
+        public CFontStyle(string file, EStyle style, float outline, SColorF outlineColor)
         {
             _FilePath = file;
-
-            _Glyphs = new Dictionary<char, CGlyph>();
+            _Style = style;
+            Outline = outline;
+            OutlineColor = outlineColor;
 
             switch (CConfig.TextureQuality)
             {
                 case ETextureQuality.TR_CONFIG_TEXTURE_LOWEST:
-                    _MaxGlyphHeight = 25f;
+                    _MaxGlyphHeight = 20f;
                     break;
                 case ETextureQuality.TR_CONFIG_TEXTURE_LOW:
-                    _MaxGlyphHeight = 50f;
+                    _MaxGlyphHeight = 40f;
                     break;
                 case ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM:
-                    _MaxGlyphHeight = 100f;
+                    _MaxGlyphHeight = 60f;
                     break;
                 case ETextureQuality.TR_CONFIG_TEXTURE_HIGH:
-                    _MaxGlyphHeight = 200f;
+                    _MaxGlyphHeight = 80f;
                     break;
                 case ETextureQuality.TR_CONFIG_TEXTURE_HIGHEST:
-                    _MaxGlyphHeight = 400f;
-                    break;
-                default:
                     _MaxGlyphHeight = 100f;
                     break;
+                default:
+                    _MaxGlyphHeight = 60f;
+                    break;
             }
-            _MaxGlyphHeight = 50;
         }
 
-        public Font GetFont()
+        private FontStyle _GetSystemFontStyle()
+        {
+            switch (_Style)
+            {
+                case EStyle.Normal:
+                    return FontStyle.Regular;
+                case EStyle.Italic:
+                    return FontStyle.Italic;
+                case EStyle.Bold:
+                    return FontStyle.Bold;
+                case EStyle.BoldItalic:
+                    return FontStyle.Bold | FontStyle.Italic;
+            }
+            throw new ArgumentException("Invalid style: " + _Style);
+        }
+
+        public Font GetSystemFont(float height)
         {
             if (_Fonts == null)
             {
@@ -80,100 +96,83 @@ namespace Vocaluxe.Base.Fonts
                     CLog.LogError("Error opening font file " + _FilePath + ": " + e.Message);
                 }
             }
-            return new Font(_Family, CFonts.Height, CFonts.GetFontStyle(), GraphicsUnit.Pixel);
+            return new Font(_Family, height, _GetSystemFontStyle(), GraphicsUnit.Pixel);
         }
 
-        public void DrawGlyph(char chr, float x, float y, float z, SColorF color)
+        public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color)
         {
             CTexture texture;
             SRectF rect;
-            GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
+            GetOrAddGlyph(chr, fontHeight).GetTextureAndRect(fontHeight, x, y, z, out texture, out rect);
             CDraw.DrawTexture(texture, rect, color);
         }
 
-        public void DrawGlyph(char chr, float x, float y, float z, SColorF color, float begin, float end)
+        public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color, float begin, float end)
         {
             CTexture texture;
             SRectF rect;
-            GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
+            GetOrAddGlyph(chr, fontHeight).GetTextureAndRect(fontHeight, x, y, z, out texture, out rect);
             CDraw.DrawTexture(texture, rect, color, begin, end);
         }
 
-        public void DrawGlyphReflection(char chr, float x, float y, float z, SColorF color, float rspace, float rheight)
+        public void DrawGlyphReflection(char chr, float fontHeight, float x, float y, float z, SColorF color, float rspace, float rheight)
         {
             CTexture texture;
             SRectF rect;
-            GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
+            GetOrAddGlyph(chr, fontHeight).GetTextureAndRect(fontHeight, x, y, z, out texture, out rect);
             CDraw.DrawTextureReflection(texture, rect, color, rect, rspace, rheight);
         }
 
-        public float GetWidth(char chr)
+        public float GetWidth(char chr, float height)
         {
-            return GetOrAddGlyph(chr).Width;
+            return GetOrAddGlyph(chr, height).GetWidth(height);
         }
 
-        public float GetHeight(char chr)
+        public float GetHeight(char chr, float height)
         {
-            return GetOrAddGlyph(chr).Height;
+            return GetOrAddGlyph(chr, height).GetHeight(height);
         }
 
-        public CGlyph GetOrAddGlyph(char chr)
+        public CGlyph GetOrAddGlyph(char chr, float height)
         {
             CGlyph glyph;
             if (!_Glyphs.TryGetValue(chr, out glyph))
             {
-                glyph = new CGlyph(chr, _MaxGlyphHeight);
+                float maxHeight = (height < 0 || _MaxGlyphHeight + 50 >= height) ? _MaxGlyphHeight : (float)Math.Round(height / 50) * 50;
+                glyph = new CGlyph(chr, this, maxHeight);
                 _Glyphs.Add(chr, glyph);
             }
-            if (glyph.MaxHeight + 50 < CFonts.Height)
+            if (glyph.MaxHeight + 50 < height)
             {
                 glyph.UnloadTexture();
-                glyph = new CGlyph(chr, (float)Math.Round(CFonts.Height / 50) * 50);
+                glyph = new CGlyph(chr, this, (float)Math.Round(height / 50) * 50);
                 _Glyphs[chr] = glyph;
             }
             return glyph;
         }
 
-        public void UnloadGlyphs()
+        private void _UnloadGlyphs()
         {
             foreach (CGlyph glyph in _Glyphs.Values)
                 glyph.UnloadTexture();
             _Glyphs.Clear();
         }
 
+        private bool _Disposed;
+
         public void Dispose()
         {
             if (!_Disposed)
             {
                 if (_Fonts != null)
+                {
                     _Fonts.Dispose();
-                UnloadGlyphs();
+                    _Fonts = null;
+                }
+                _UnloadGlyphs();
                 _Disposed = true;
             }
             GC.SuppressFinalize(this);
         }
-    }
-
-    struct SFont
-    {
-        public string Name;
-
-        public bool IsThemeFont;
-        public int PartyModeID;
-        public string ThemeName;
-
-        public string Folder;
-        public string FileNormal;
-        public string FileItalic;
-        public string FileBold;
-        public string FileBoldItalic;
-
-        public float Outline; //0..1, 0=not outline 1=100% outline
-        public SColorF OutlineColor;
-
-        public CFont Normal;
-        public CFont Italic;
-        public CFont Bold;
-        public CFont BoldItalic;
     }
 }

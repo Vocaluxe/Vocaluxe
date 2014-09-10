@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Playback
 {

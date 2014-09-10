@@ -123,6 +123,8 @@ namespace Vocaluxe.Screens
 
         public override void OnShow()
         {
+            CBackgroundMusic.Disabled = false;
+
             base.OnShow();
             //-1 --> Show average
             _Round = CGame.NumRounds > 1 ? -1 : 0;

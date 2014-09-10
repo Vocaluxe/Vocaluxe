@@ -242,7 +242,7 @@
     <Compile Include="Base\CDraw.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPt1.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CSyncTimer.cs" />
-    <Compile Include="Base\Fonts\CFont.cs" />
+    <Compile Include="Base\Fonts\CFontStyle.cs" />
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CController.cs" />
     <Compile Include="Base\CLanguage.cs" />

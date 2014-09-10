@@ -32,11 +32,9 @@ namespace VocaluxeLib.PartyModes
         public override void LoadTheme(string xmlPath)
         {
             _Warning = GetNewText();
-            _Warning.Height = 100f;
+            _Warning.Font.Height = 100f;
             _Warning.X = 150;
             _Warning.Y = 300;
-            _Warning.Font = "Normal";
-            _Warning.Style = EStyle.Normal;
             _Warning.Color = new SColorF(1f, 0f, 0f, 1f);
             _Warning.SelColor = new SColorF(1f, 0f, 0f, 1f);
             _Warning.Text = "SOMETHING WENT WRONG!";
