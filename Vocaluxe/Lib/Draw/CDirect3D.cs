@@ -37,7 +37,6 @@ namespace Vocaluxe.Lib.Draw
     class CDirect3D : RenderForm, IDraw
     {
         #region private vars
-        private const int _MaxID = 100000;
 
         private readonly CKeys _Keys;
         private readonly CMouse _Mouse;
@@ -53,9 +52,6 @@ namespace Vocaluxe.Lib.Draw
 
         private readonly Dictionary<int, Texture> _D3DTextures = new Dictionary<int, Texture>();
         private readonly Queue<STextureQueue> _TexturesToLoad = new Queue<STextureQueue>();
-        private readonly Queue<int> _IDs = new Queue<int>(_MaxID);
-
-        private readonly Object _MutexTexture = new Object();
 
         private VertexBuffer _VertexBuffer;
         private IndexBuffer _IndexBuffer;
@@ -76,7 +72,6 @@ namespace Vocaluxe.Lib.Draw
         private readonly Queue<Texture> _VerticesTextures = new Queue<Texture>();
         private readonly Queue<SlimDX.Matrix> _VerticesRotationMatrices = new Queue<SlimDX.Matrix>();
 
-        private readonly bool _NonPowerOf2TextureSupported;
         #endregion private vars
 
         /// <summary>
@@ -85,10 +80,6 @@ namespace Vocaluxe.Lib.Draw
         public CDirect3D()
         {
             Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
-
-            //Fill Queue with 100000 IDs
-            for (int i = 0; i < _MaxID; i++)
-                _IDs.Enqueue(i);
 
             _Keys = new CKeys();
             try
@@ -177,10 +168,10 @@ namespace Vocaluxe.Lib.Draw
             CreateFlags flags = (caps.DeviceCaps & DeviceCaps.HWTransformAndLight) != 0 ? CreateFlags.HardwareVertexProcessing : CreateFlags.SoftwareVertexProcessing;
 
             //Check if Pow2 textures are needed
-            _NonPowerOf2TextureSupported = true;
-            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.Pow2) == 0;
-            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.NonPow2Conditional) == 0;
-            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.SquareOnly) == 0;
+            CDrawHelper.NonPowerOf2TextureSupported = true;
+            CDrawHelper.NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.Pow2) == 0;
+            CDrawHelper.NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.NonPow2Conditional) == 0;
+            CDrawHelper.NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.SquareOnly) == 0;
 
             try
             {
@@ -689,20 +680,19 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CTexture CopyScreen()
         {
-            CTexture texture = _GetNewTexture(_W, _H);
+            CTexture texture = CDrawHelper.GetNewTexture(_W, _H);
 
             Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
             var tex = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
             Surface textureSurface = tex.GetSurfaceLevel(0);
             Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0, new Rectangle(0, 0, _W, _H), new Rectangle(0, 0, _W, _H));
             backbufferSurface.Dispose();
-            lock (_MutexTexture)
+            lock (_D3DTextures)
             {
-                texture.ID = _IDs.Dequeue();
                 _D3DTextures.Add(texture.ID, tex);
-
-                return texture;
             }
+
+            return texture;
         }
 
         /// <summary>
@@ -711,8 +701,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture">The texture in which the frame is copied to</param>
         public void CopyScreen(ref CTexture texture)
         {
-            //Check for actual texture sizes! (W2/H2) as it may be up/downsized compared to OrigSize
-            if (!_TextureExists(texture) || texture.W2 != GetScreenWidth() || texture.H2 != GetScreenHeight())
+            if (!_TextureExists(texture) || texture.DataSize.Width != GetScreenWidth() || texture.DataSize.Height != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -860,15 +849,15 @@ namespace Vocaluxe.Lib.Draw
 
             int w = Math.Min(bmp.Width, maxSize);
             int h = Math.Min(bmp.Height, maxSize);
-            w = _CheckForNextPowerOf2(w);
-            h = _CheckForNextPowerOf2(h);
 
-            var texture = new CTexture(bmp.Width, bmp.Height, w, h, true);
+            CTexture texture = CDrawHelper.GetNewTexture(bmp.Width,bmp.Height,w, h);
 
             Bitmap bmp2 = null;
             byte[] data;
             try
             {
+                w = texture.W2;
+                h = texture.H2;
                 if (bmp.Width != w || bmp.Height != h)
                 {
                     //Create a new Bitmap with the new sizes
@@ -881,6 +870,7 @@ namespace Vocaluxe.Lib.Draw
                         g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
                     }
                     bmp = bmp2;
+                    texture.DataSize = new Size(w, h);
                 }
 
                 //Fill the new Bitmap with the texture data
@@ -895,33 +885,32 @@ namespace Vocaluxe.Lib.Draw
                     bmp2.Dispose();
             }
 
-            return _AddTexture(texture, w, data);
+            return _AddTexture(texture, data);
         }
 
         public CTexture AddTexture(int w, int h, byte[] data)
         {
-            CTexture texture = _GetNewTexture(w, h);
-            return _AddTexture(texture, w, data);
+            CTexture texture = CDrawHelper.GetNewTexture(w, h);
+            return _AddTexture(texture, data);
         }
 
-        private CTexture _AddTexture(CTexture texture, int w, byte[] data)
+        private CTexture _AddTexture(CTexture texture, byte[] data)
         {
-            Texture t = _CreateTexture(texture.W2, texture.H2, w, data);
+            Texture t = _CreateTexture(texture, data);
 
-            lock (_MutexTexture)
+            lock (_D3DTextures)
             {
-                texture.ID = _IDs.Dequeue();
                 _D3DTextures.Add(texture.ID, t);
             }
             return texture;
         }
 
-        private Texture _CreateTexture(int textureW, int textureH, int w, byte[] data)
+        private Texture _CreateTexture(CTexture texture, byte[] data)
         {
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
-            var t = new Texture(_Device, textureW, textureH, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
-            _WriteDataToTexture(t, w, data);
+            var t = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+            _WriteDataToTexture(t, texture.DataSize.Width, data);
             return t;
         }
 
@@ -946,21 +935,14 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture EnqueueTexture(int w, int h, byte[] data)
         {
-            CTexture texture = _GetNewTexture(w, h);
+            CTexture texture = CDrawHelper.GetNewTexture(w, h);
 
-            lock (_MutexTexture)
+            lock (_D3DTextures)
             {
-                texture.ID = _IDs.Dequeue();
                 _D3DTextures.Add(texture.ID, null);
-                var queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
-                _TexturesToLoad.Enqueue(queue);
+                _TexturesToLoad.Enqueue(new STextureQueue(texture, data));
             }
             return texture;
-        }
-
-        private CTexture _GetNewTexture(int w, int h)
-        {
-            return new CTexture(w, h, _CheckForNextPowerOf2(w), _CheckForNextPowerOf2(h));
         }
         #endregion adding
 
@@ -975,10 +957,17 @@ namespace Vocaluxe.Lib.Draw
         /// <returns>True if succeeded</returns>
         public bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
         {
-            //Check if texture exists and extend matches
-            if (!_TextureExists(texture) || texture.UsedWidth != w || texture.UsedHeight != h)
+            if (!_TextureExists(texture))
                 return false;
-            lock (_MutexTexture)
+            if (texture.DataSize.Width != w || texture.DataSize.Height != h)
+            {
+                if (texture.W2 > w || texture.H2 > h)
+                    return false; // Texture memory to small
+                if (texture.W2 * 0.9 < w || texture.H2 * 0.9 < h)
+                    return false; // Texture memory to big
+                texture.DataSize = new Size(w, h);
+            }
+            lock (_D3DTextures)
             {
                 _WriteDataToTexture(_D3DTextures[texture.ID], w, data);
             }
@@ -1003,7 +992,7 @@ namespace Vocaluxe.Lib.Draw
         /// <returns>True if the texture exists</returns>
         private bool _TextureExists(CTexture texture)
         {
-            lock (_MutexTexture)
+            lock (_D3DTextures)
             {
                 return texture != null && _D3DTextures.ContainsKey(texture.ID);
             }
@@ -1015,15 +1004,16 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture">The texture to be removed</param>
         public void RemoveTexture(ref CTexture texture)
         {
-            if (_TextureExists(texture))
-            {
-                lock (_MutexTexture)
+            if(texture==null) return;
+                lock (_D3DTextures)
                 {
-                    _D3DTextures[texture.ID].Dispose();
-                    _D3DTextures.Remove(texture.ID);
-                    _IDs.Enqueue(texture.ID);
+                    Texture t;
+                    if (_D3DTextures.TryGetValue(texture.ID, out t))
+                    {
+                        if(t!=null) t.Dispose();
+                        _D3DTextures.Remove(texture.ID);
+                    }
                 }
-            }
             texture = null;
         }
 
@@ -1282,17 +1272,16 @@ namespace Vocaluxe.Lib.Draw
 
         private void _CheckQueue()
         {
-            lock (_MutexTexture)
+            lock (_D3DTextures)
             {
                 while (_TexturesToLoad.Count > 0)
                 {
                     STextureQueue q = _TexturesToLoad.Dequeue();
-                    Texture t;
-                    if (_D3DTextures.TryGetValue(q.ID, out t) && t != null)
+                    if (!_D3DTextures.ContainsKey(q.Texture.ID))
                         continue;
 
-                    t = _CreateTexture(q.TextureWidth, q.TextureHeight, q.DataWidth, q.Data);
-                    _D3DTextures[q.ID] = t;
+                    Texture t = _CreateTexture(q.Texture, q.Data);
+                    _D3DTextures[q.Texture.ID] = t;
                 }
             }
         }
@@ -1310,20 +1299,6 @@ namespace Vocaluxe.Lib.Draw
         #endregion implementation
 
         #region utility
-        /// <summary>
-        ///     Calculates the next power of two if the device has the POW2 flag set
-        /// </summary>
-        /// <param name="n">The value of which the next power of two will be calculated</param>
-        /// <returns>The next power of two</returns>
-        private int _CheckForNextPowerOf2(int n)
-        {
-            if (_NonPowerOf2TextureSupported)
-                return n;
-            if (n < 0)
-                throw new ArgumentOutOfRangeException("n", "Must be positive.");
-            return (int)Math.Pow(2, Math.Ceiling(Math.Log(n, 2)));
-        }
-
         private SlimDX.Matrix _CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
         {
             SlimDX.Matrix originTranslation = SlimDX.Matrix.Translation(new Vector3(-(float)CSettings.RenderW / 2, (float)CSettings.RenderH / 2, 0));

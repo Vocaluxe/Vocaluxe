@@ -63,20 +63,12 @@ namespace Vocaluxe.Lib.Draw
 
     struct STextureQueue
     {
-        public readonly int ID;
-        public readonly int TextureWidth;
-        public readonly int TextureHeight;
-        public readonly int DataWidth;
-        public readonly int DataHeight;
+        public readonly CTexture Texture;
         public readonly byte[] Data;
 
-        public STextureQueue(int id, int textureWidth, int textureHeight, int dataWidth, int dataHeight, byte[] data)
+        public STextureQueue(CTexture texture, byte[] data)
         {
-            ID = id;
-            TextureWidth = textureWidth;
-            TextureHeight = textureHeight;
-            DataWidth = dataWidth;
-            DataHeight = dataHeight;
+            Texture = texture;
             Data = data;
         }
     }
@@ -84,8 +76,6 @@ namespace Vocaluxe.Lib.Draw
     class COpenGL : Form, IDraw
     {
         #region private vars
-        private const int _MaxID = 100000;
-
         private readonly CKeys _Keys;
         private readonly CMouse _Mouse;
         private bool _Run;
@@ -96,10 +86,7 @@ namespace Vocaluxe.Lib.Draw
         private bool _Fullscreen;
 
         private readonly Dictionary<int, CTexture> _Textures = new Dictionary<int, CTexture>();
-        private readonly Queue<int> _IDs = new Queue<int>(_MaxID);
         private readonly Queue<STextureQueue> _TexturesToLoad = new Queue<STextureQueue>();
-
-        private readonly Object _MutexTexture = new Object();
 
         private int _H = 1;
         private int _W = 1;
@@ -112,9 +99,6 @@ namespace Vocaluxe.Lib.Draw
         public COpenGL()
         {
             Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
-
-            for (int i = 1; i < _MaxID; i++)
-                _IDs.Enqueue(i);
 
             //Check AA Mode
             CConfig.AAMode = (EAntiAliasingModes)_CheckAntiAliasingMode((int)CConfig.AAMode);
@@ -161,6 +145,8 @@ namespace Vocaluxe.Lib.Draw
 
             ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
             CenterToScreen();
+
+            CDrawHelper.NonPowerOf2TextureSupported = false;
         }
 
         #region Helpers
@@ -490,7 +476,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture CopyScreen()
         {
-            CTexture texture = _GetNewTexture(_W, _H);
+            CTexture texture = CDrawHelper.GetNewTexture(_W, _H);
 
             texture.Name = GL.GenTexture();
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
@@ -504,10 +490,8 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             // Add to Texture List
-
-            lock (_MutexTexture)
+            lock (_Textures)
             {
-                texture.ID = _IDs.Dequeue();
                 _Textures[texture.ID] = texture;
             }
 
@@ -517,7 +501,7 @@ namespace Vocaluxe.Lib.Draw
         public void CopyScreen(ref CTexture texture)
         {
             //Check for actual texture sizes as it may be downsized compared to OrigSize
-            if (!_TextureExists(texture) || texture.UsedWidth != GetScreenWidth() || texture.UsedHeight != GetScreenHeight())
+            if (!_TextureExists(texture) || texture.DataSize.Width != GetScreenWidth() || texture.DataSize.Height != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -691,10 +675,9 @@ namespace Vocaluxe.Lib.Draw
 
             int w = Math.Min(bmp.Width, maxSize);
             int h = Math.Min(bmp.Height, maxSize);
-            w = MathHelper.NextPowerOfTwo(w);
-            h = MathHelper.NextPowerOfTwo(h);
 
-            var texture = new CTexture(bmp.Width, bmp.Height, w, h, true) {Name = GL.GenTexture()};
+            CTexture texture = CDrawHelper.GetNewTexture(w, h);
+            texture.Name = GL.GenTexture();
 
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
             Bitmap bmp2 = null;
@@ -736,9 +719,8 @@ namespace Vocaluxe.Lib.Draw
             // Add to Texture List
             texture.TexturePath = String.Empty;
 
-            lock (_MutexTexture)
+            lock (_Textures)
             {
-                texture.ID = _IDs.Dequeue();
                 _Textures[texture.ID] = texture;
             }
 
@@ -747,20 +729,19 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture AddTexture(int w, int h, byte[] data)
         {
-            CTexture texture = _GetNewTexture(w, h);
+            CTexture texture = CDrawHelper.GetNewTexture(w, h);
 
-            _CreateTexture(texture, w, h, data);
+            _CreateTexture(texture, data);
 
-            lock (_MutexTexture)
+            lock (_Textures)
             {
-                texture.ID = _IDs.Dequeue();
                 _Textures[texture.ID] = texture;
             }
 
             return texture;
         }
 
-        private void _CreateTexture(CTexture texture, int w, int h, byte[] data)
+        private void _CreateTexture(CTexture texture, byte[] data)
         {
             if (_UsePBO)
             {
@@ -782,7 +763,7 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
+            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.OrigSize.Width, texture.OrigSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
@@ -795,31 +776,32 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture EnqueueTexture(int w, int h, byte[] data)
         {
-            CTexture texture = _GetNewTexture(w, h);
+            CTexture texture = CDrawHelper.GetNewTexture(w, h);
 
-            lock (_MutexTexture)
+            lock (_Textures)
             {
-                texture.ID = _IDs.Dequeue();
-                var queue = new STextureQueue(texture.ID, texture.W2, texture.H2, w, h, data);
+                var queue = new STextureQueue(texture, data);
                 _TexturesToLoad.Enqueue(queue);
                 _Textures[texture.ID] = texture;
             }
 
             return texture;
         }
-
-        private static CTexture _GetNewTexture(int w, int h)
-        {
-            return new CTexture(w, h, MathHelper.NextPowerOfTwo(w), MathHelper.NextPowerOfTwo(h));
-        }
         #endregion adding
 
         #region updating
         public bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
         {
-            //Check if texture exists and extend matches
-            if (!_TextureExists(texture) || texture.UsedWidth != w || texture.UsedHeight != h)
+            if (!_TextureExists(texture))
                 return false;
+            if (texture.DataSize.Width != w || texture.DataSize.Height != h)
+            {
+                if (texture.W2 > w || texture.H2 > h)
+                    return false; // Texture memory to small
+                if (texture.W2 * 0.9 < w || texture.H2 * 0.9 < h)
+                    return false; // Texture memory to big
+                texture.DataSize = new Size(w, h);
+            }
             if (_UsePBO)
             {
                 GL.BindBuffer(BufferTarget.PixelUnpackBuffer, texture.PBO);
@@ -865,27 +847,25 @@ namespace Vocaluxe.Lib.Draw
 
         public void RemoveTexture(ref CTexture texture)
         {
-            if (_TextureExists(texture, false))
+            lock (_Textures)
             {
-                lock (_MutexTexture)
+                if (_TextureExists(texture))
                 {
-                    _IDs.Enqueue(texture.ID);
                     GL.DeleteTexture(texture.Name);
                     if (texture.PBO > 0)
                         GL.DeleteBuffers(1, ref texture.PBO);
-                    _Textures.Remove(texture.ID);
                 }
+                _Textures.Remove(texture.ID);
             }
             texture = null;
         }
 
-        private bool _TextureExists(CTexture texture, bool checkIfLoaded = true)
+        private bool _TextureExists(CTexture texture)
         {
-            lock (_MutexTexture)
+            lock (_Textures)
             {
-                if (texture != null && _Textures.ContainsKey(texture.ID))
+                if (texture != null && _Textures.ContainsKey(texture.ID) && texture.Name>0)
                 {
-                    if (!checkIfLoaded || _Textures[texture.ID].Name > 0)
                         return true;
                 }
             }
@@ -1154,16 +1134,15 @@ namespace Vocaluxe.Lib.Draw
 
         private void _CheckQueue()
         {
-            lock (_MutexTexture)
+            lock (_Textures)
             {
                 while (_TexturesToLoad.Count > 0)
                 {
                     STextureQueue q = _TexturesToLoad.Dequeue();
-                    CTexture texture;
-                    if (!_Textures.TryGetValue(q.ID, out texture))
+                    if (!_Textures.ContainsKey(q.Texture.ID))
                         continue;
 
-                    _CreateTexture(texture, q.DataWidth, q.DataHeight, q.Data);
+                    _CreateTexture(q.Texture, q.Data);
                 }
             }
         }

@@ -332,7 +332,7 @@ namespace Vocaluxe.Lib.Draw
 
         private CTexture _GetNewTexture(int w, int h)
         {
-            return new CTexture(w, h) {ID = _Bitmaps.Count - 1};
+            return new CTexture(_Bitmaps.Count - 1, new Size(w, h), new Size(w, h));
         }
 
         public CTexture AddTexture(string texturePath)
