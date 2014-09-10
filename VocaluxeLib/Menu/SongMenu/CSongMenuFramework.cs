@@ -266,6 +266,15 @@ namespace VocaluxeLib.Menu.SongMenu
                 };
         }
 
+        protected CSongMenuFramework(SThemeSongMenu theme, int partyModeID)
+        {
+            Visible = true;
+            _PartyModeID = partyModeID;
+            _Theme = new SThemeSongMenu(theme);
+
+            LoadTextures();
+        }
+
         #region Theme
         public string GetThemeName()
         {

@@ -311,6 +311,20 @@ namespace VocaluxeLib.Menu
             Visible = slide.Visible;
         }
 
+        public CSelectSlide(SThemeSelectSlide theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SThemeSelectSlide(theme);
+
+            _Selected = false;
+            _Textures = new List<CTexture>();
+            _ValueIndexes = new List<int>();
+            _ValueNames = new List<string>();
+            _ValuePartyModeIDs = new List<int>();
+
+            LoadTextures();
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             string item = xmlPath + "/" + elementName;

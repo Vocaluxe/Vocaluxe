@@ -90,6 +90,14 @@ namespace VocaluxeLib.Menu
 
             Color = new SColorF(0f, 0f, 0f, 1f);
         }
+
+        public CBackground(SThemeBackground theme, int partyModeID)
+        {
+            _Theme = new SThemeBackground(theme);
+            _PartyModeID = partyModeID;
+
+            LoadTextures();
+        }
         #endregion Constructors
 
         #region public

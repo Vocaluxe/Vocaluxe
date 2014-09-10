@@ -75,6 +75,12 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded = false;
         }
 
+        public CScreenSetting(SScreenSetting theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SScreenSetting(theme);
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             string item = xmlPath + "/" + elementName;

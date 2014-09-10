@@ -350,6 +350,14 @@ namespace VocaluxeLib.Menu
             ReflectionHeight = rheight;
         }
 
+        public CText(SThemeText theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SThemeText(theme);
+
+            LoadTextures();
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             return LoadTheme(xmlPath, elementName, xmlReader, skinIndex, false);

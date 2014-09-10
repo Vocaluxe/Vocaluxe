@@ -137,6 +137,17 @@ namespace VocaluxeLib.Menu
             EditMode = false;
         }
 
+        public CButton(SThemeButton theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SThemeButton(theme);
+
+            Selected = false;
+            EditMode = false;
+
+            LoadTextures();
+        }
+
         public CButton(CButton button)
         {
             _PartyModeID = button._PartyModeID;

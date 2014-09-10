@@ -307,6 +307,24 @@ namespace VocaluxeLib.Menu
             Selected = false;
         }
 
+        public CPlaylist(SThemePlaylist theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SThemePlaylist(theme);
+
+            CompleteRect = new SRectF();
+            _PlaylistElements = new List<CPlaylistElement>();
+            _PlaylistElementContents = new List<CPlaylistElementContent>();
+
+            _Interactions = new CObjectInteractions();
+            _ChangeOrderElement = new CPlaylistElement();
+
+            Visible = false;
+            Selected = false;
+
+            LoadTextures();
+        }
+
         public void Init()
         {
             _Interactions.Clear();

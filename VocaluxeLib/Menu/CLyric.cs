@@ -128,6 +128,19 @@ namespace VocaluxeLib.Menu
             LyricStyle = ELyricStyle.Fill;
         }
 
+        public CLyric(SThemeLyrics theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SThemeLyrics(theme);
+
+            _Line = new CSongLine();
+            _Text = new CText(_PartyModeID);
+
+            LyricStyle = ELyricStyle.Fill;
+
+            LoadTextures();
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             string item = xmlPath + "/" + elementName;

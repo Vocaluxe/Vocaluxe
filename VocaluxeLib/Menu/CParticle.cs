@@ -170,6 +170,8 @@ namespace VocaluxeLib.Menu
             _MaxAge = maxage;
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
+
+
         #endregion Constructors
 
         public void Update()
@@ -397,6 +399,18 @@ namespace VocaluxeLib.Menu
             _SpawnTimer = new Stopwatch();
             _NextSpawnTime = 0f;
             Visible = true;
+        }
+
+        public CParticleEffect(SThemeParticleEffect theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SThemeParticleEffect(theme);
+            _Stars = new List<CParticle>();
+            _SpawnTimer = new Stopwatch();
+            _NextSpawnTime = 0f;
+            Visible = true;
+
+            LoadTextures();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)

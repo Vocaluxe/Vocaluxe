@@ -125,6 +125,14 @@ namespace VocaluxeLib.Menu
             Rect = rect;
         }
 
+        public CStatic(SThemeStatic theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SThemeStatic(theme);
+
+            LoadTextures();
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             string item = xmlPath + "/" + elementName;

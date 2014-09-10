@@ -121,6 +121,17 @@ namespace VocaluxeLib.Menu
             ReflectionHeight = 0f;
         }
 
+        public CEqualizer(SThemeEqualizer theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SThemeEqualizer(theme);
+
+            Visible = true;
+            ScreenHandles = false;
+
+            LoadTextures();
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             string item = xmlPath + "/" + elementName;

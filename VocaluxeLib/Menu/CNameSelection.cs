@@ -175,6 +175,18 @@ namespace VocaluxeLib.Menu
             _UsedProfiles = new List<int>();
         }
 
+        public CNameSelection(SThemeNameSelection theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = new SThemeNameSelection(theme);
+
+            _Tiles = new List<CTile>();
+            _VisibleProfiles = new List<int>();
+            _UsedProfiles = new List<int>();
+
+            LoadTextures();
+        }
+
         public void Init()
         {
             _PrepareTiles();
