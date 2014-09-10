@@ -180,22 +180,24 @@ namespace Vocaluxe.Base.Fonts
             return new RectangleF(text.X, text.Y, GetTextWidth(text.TranslatedText, text.Font), GetTextHeight(text.TranslatedText, text.Font));
         }
 
+        public static Font GetSystemFont(CFont font)
+        {
+            return _GetFontStyle(font).GetSystemFont(font.Height);
+        }
+
+        public static float GetOutlineSize(CFont font)
+        {
+            return _FontFamilies[_GetFontIndex(font.Name)].Outline;
+        }
+
+        public static SColorF GetOutlineColor(CFont font)
+        {
+            return _FontFamilies[_GetFontIndex(font.Name)].OutlineColor;
+        }
+
         private static CFontStyle _GetFontStyle(CFont font)
         {
-            int index = _GetPartyFontIndex(font.Name, PartyModeID);
-            if (index < 0)
-                index = _GetThemeFontIndex(font.Name, CConfig.Theme);
-            if (index < 0)
-                index = _GetFontIndex(font.Name);
-            if (index < 0)
-            {
-                if (!_LoggedMissingFonts.Contains(font.Name))
-                {
-                    _LoggedMissingFonts.Add(font.Name);
-                    CLog.LogError("Font \"" + font.Name + "\" not found!");
-                }
-                index = 0;
-            }
+            int index = _GetFontIndex(font.Name);
 
             switch (font.Style)
             {
@@ -225,13 +227,29 @@ namespace Vocaluxe.Base.Fonts
 
         private static int _GetFontIndex(string fontName)
         {
+            int index = _GetPartyFontIndex(fontName, PartyModeID);
+            if (index < 0)
+                index = _GetThemeFontIndex(fontName, CConfig.Theme);
+            if (index >= 0)
+                return index;
             for (int i = 0; i < _FontFamilies.Count; i++)
             {
                 if (_FontFamilies[i].Name == fontName)
                     return i;
             }
+            if (index < 0)
+            {
+                if (!_LoggedMissingFonts.Contains(fontName))
+                {
+                    _LoggedMissingFonts.Add(fontName);
+                    CLog.LogError("Font \"" + fontName + "\" not found!");
+                }
+                if (_FontFamilies.Count == 0)
+                    CLog.LogError("No fonts found!", true, true);
+                index = 0;
+            }
 
-            return -1;
+            return index;
         }
 
         private static int _GetThemeFontIndex(string fontName, string themeName)

@@ -138,7 +138,7 @@ namespace Vocaluxe.Base
                 Text = text;
                 SizeF dimensions = g.MeasureString(text, font, -1, StringFormat.GenericTypographic);
                 Width = dimensions.Width;
-                Height = (dimensions.Height + CFonts.Height) / 2;
+                Height = (dimensions.Height + font.Height) / 2;
                 _Graphics = g;
                 _Font = font;
             }
@@ -180,24 +180,22 @@ namespace Vocaluxe.Base
                 if (text != "")
                 {
                     IEnumerable<string> textParts = _SplitText(text);
-                    CFonts.SetFont(_Font);
-                    CFonts.Style = _Style;
-                    CFonts.Height = bmp.Height - _TextMarginTop - _TextMarginBottom;
-                    Font fo = CFonts.GetFont();
+                    CFont font = new CFont(_Font, _Style, bmp.Height - _TextMarginTop - _TextMarginBottom);
+                    Font fo = CFonts.GetSystemFont(font);
                     List<CTextElement> elements = textParts.Select(line => new CTextElement(line, g, fo)).ToList();
                     float factor = _DistributeText(elements, bmp.Width, bmp.Height);
                     foreach (CTextElement element in elements)
                         element.AdjustSize(factor);
-                    CFonts.Height *= factor / (1f + CFonts.Outline); //Adjust for outline size
-                    fo = CFonts.GetFont();
+                    font.Height *= factor / (1f + CFonts.GetOutlineSize(font)); //Adjust for outline size
+                    fo = CFonts.GetSystemFont(font);
 
                     float maxHeight = elements.Select(el => el.Height).Max();
                     int lineCount = elements.Last().Line + 1;
 
                     //Have to use size in em not pixels!
                     float emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
-                    float outlineSize = CFonts.Outline * CFonts.Height;
-                    SColorF outlineColorF = CFonts.OutlineColor;
+                    float outlineSize = CFonts.GetOutlineSize(font) * font.Height;
+                    SColorF outlineColorF = CFonts.GetOutlineColor(font);
                     outlineColorF.A = outlineColorF.A * _TextColor.A;
 
                     using (var path = new GraphicsPath())
