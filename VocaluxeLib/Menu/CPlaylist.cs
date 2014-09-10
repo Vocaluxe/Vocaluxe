@@ -119,6 +119,37 @@ namespace VocaluxeLib.Menu
         public SThemeSelectSlide SSelectSlideGameMode;
         [XmlIgnore]
         public CSelectSlide SelectSlideGameMode;
+
+        public SThemePlaylist(SThemePlaylist theme)
+        {
+            Name = theme.Name;
+            Rect = theme.Rect;
+            EntryHeight = theme.EntryHeight;
+            TextureBackgroundName = theme.TextureBackgroundName;
+            SelTextureBackgroundName = theme.SelTextureBackgroundName;
+            ColorBackground = new SThemeColor(theme.ColorBackground);
+            SelColorBackground = new SThemeColor(theme.SelColorBackground);
+            SText1 = new SThemeText(theme.SText1);
+            Text1 = new CText(theme.Text1);
+            SStaticCover = new SThemeStatic(theme.SStaticCover);
+            StaticCover = new CStatic(theme.StaticCover);
+            SStaticPlaylistHeader = new SThemeStatic(theme.SStaticPlaylistHeader);
+            StaticPlaylistHeader = new CStatic(theme.StaticPlaylistHeader);
+            SStaticPlaylistFooter = new SThemeStatic(theme.SStaticPlaylistFooter);
+            StaticPlaylistFooter = new CStatic(theme.StaticPlaylistFooter);
+            SButtonPlaylistName = new SThemeButton(theme.SButtonPlaylistName);
+            ButtonPlaylistName = new CButton(theme.ButtonPlaylistName);
+            SButtonPlaylistClose = new SThemeButton(theme.SButtonPlaylistClose);
+            ButtonPlaylistClose = new CButton(theme.ButtonPlaylistClose);
+            SButtonPlaylistSave = new SThemeButton(theme.SButtonPlaylistSave);
+            ButtonPlaylistSave = new CButton(theme.ButtonPlaylistSave);
+            SButtonPlaylistDelete = new SThemeButton(theme.SButtonPlaylistDelete);
+            ButtonPlaylistDelete = new CButton(theme.ButtonPlaylistDelete);
+            SButtonPlaylistSing = new SThemeButton(theme.SButtonPlaylistSing);
+            ButtonPlaylistSing = new CButton(theme.ButtonPlaylistSing);
+            SSelectSlideGameMode = new SThemeSelectSlide(theme.SSelectSlideGameMode);
+            SelectSlideGameMode = new CSelectSlide(theme.SelectSlideGameMode);
+        }
     }
 
     public class CPlaylist : IMenuElement
@@ -1297,7 +1328,7 @@ namespace VocaluxeLib.Menu
 
         public SThemePlaylist GetTheme()
         {
-            return _Theme;
+            return new SThemePlaylist(_Theme);
         }
 
         #region ThemeEdit

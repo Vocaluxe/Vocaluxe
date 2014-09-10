@@ -42,6 +42,17 @@ namespace VocaluxeLib.Menu
         public float Size;
         [XmlElement("MaxNumber")]
         public int MaxNumber;
+
+        public SThemeParticleEffect(SThemeParticleEffect theme)
+        {
+            Name = theme.Name;
+            TextureName = theme.TextureName;
+            Rect = new SRectF(theme.Rect);
+            Color = new SThemeColor(theme.Color);
+            Type = theme.Type;
+            Size = theme.Size;
+            MaxNumber = theme.MaxNumber;
+        }
     }
 
     public enum EParticleType
@@ -632,7 +643,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeParticleEffect GetTheme()
         {
-            return _Theme;
+            return new SThemeParticleEffect(_Theme);
         }
 
         #region ThemeEdit

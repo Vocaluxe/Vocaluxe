@@ -72,6 +72,11 @@ namespace VocaluxeLib
         public bool ColorSpecified { get { return Name == ""; } }
         public bool NameSpecified { get { return Name != ""; } }
 
+        public SThemeColor(SThemeColor theme)
+        {
+            Color = new SColorF(theme.Color);
+            Name = theme.Name;
+        }
     }
 
     public struct SRectF

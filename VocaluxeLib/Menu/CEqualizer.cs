@@ -53,6 +53,20 @@ namespace VocaluxeLib.Menu
         public SThemeColor MaxColor;
         [XmlElement("Reflection")]
         public SReflection Reflection;
+
+        public SThemeEqualizer(SThemeEqualizer theme)
+        {
+            Name = theme.Name;
+            TextureName = theme.TextureName;
+            Rect = new SRectF(theme.Rect);
+            NumBars = theme.NumBars;
+            Space = theme.Space;
+            Style = theme.Style;
+            DrawNegative = theme.DrawNegative;
+            Color = new SThemeColor(theme.Color);
+            MaxColor = new SThemeColor(theme.MaxColor);
+            Reflection = new SReflection(theme.Reflection);
+        }
     }
 
     public class CEqualizer : IMenuElement
@@ -332,7 +346,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeEqualizer GetTheme()
         {
-            return _Theme;
+            return new SThemeEqualizer(_Theme);
         }
 
         #region ThemeEdit

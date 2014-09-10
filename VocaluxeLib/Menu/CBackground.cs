@@ -48,6 +48,16 @@ namespace VocaluxeLib.Menu
         [XmlElement("Skin")]
         public string TextureName;
         public SThemeColor Color;
+
+        public SThemeBackground(SThemeBackground theme)
+        {
+            Name = theme.Name;
+            Type = theme.Type;
+            SlideShowTextures = theme.SlideShowTextures;
+            VideoName = theme.VideoName;
+            TextureName = theme.TextureName;
+            Color = new SThemeColor(theme.Color);
+        }
     }
 
     public class CBackground : IMenuElement
@@ -256,7 +266,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeBackground GetTheme()
         {
-            return _Theme;
+            return new SThemeBackground(_Theme);
         }
         #endregion public
 

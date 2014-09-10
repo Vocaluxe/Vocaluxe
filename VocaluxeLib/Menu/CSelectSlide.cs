@@ -87,6 +87,35 @@ namespace VocaluxeLib.Menu
 
         [XmlElement("NumVisible")]
         public int NumVisible;
+
+        public SThemeSelectSlide(SThemeSelectSlide theme)
+        {
+            Name = theme.Name;
+            TextureName = theme.TextureName;
+            TextureArrowLeftName = theme.TextureArrowLeftName;
+            TextureArrowRightName = theme.TextureArrowRightName;
+            SelTextureName = theme.SelTextureName;
+            SelTextureArrowLeftName = theme.SelTextureArrowLeftName;
+            SelTextureArrowRightName = theme.SelTextureArrowRightName;
+            HighlightTextureName = theme.HighlightTextureName;
+            Rect = new SRectF(theme.Rect);
+            RectArrowLeft = new SRectF(theme.RectArrowLeft);
+            RectArrowRight = new SRectF(theme.RectArrowRight);
+            Color = new SThemeColor(theme.Color);
+            SColor = new SThemeColor(theme.SColor);
+            HColor = new SThemeColor(theme.HColor);
+            ArrowColor = new SThemeColor(theme.ArrowColor);
+            ArrowSColor = new SThemeColor(theme.ArrowSColor);
+            TextColor = new SThemeColor(theme.TextColor);
+            TextSColor = new SThemeColor(theme.TextSColor);
+            TextH = theme.TextH;
+            TextRelativeX = theme.TextRelativeX;
+            TextRelativeY = theme.TextRelativeY;
+            TextMaxW = theme.TextMaxW;
+            TextFont = theme.TextFont;
+            TextStyle = theme.TextStyle;
+            NumVisible = theme.NumVisible;
+        }
     }
 
     public class CSelectSlide : IMenuElement, ICloneable
@@ -870,7 +899,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeSelectSlide GetTheme()
         {
-            return _Theme;
+            return new SThemeSelectSlide(_Theme);
         }
 
         public void UnloadTextures() {}

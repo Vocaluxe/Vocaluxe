@@ -42,7 +42,20 @@ namespace VocaluxeLib.Menu
         [XmlElement("Reflection")]
         public SReflection Reflection;
         [XmlElement("SelReflection")]
-        public SReflection SelReflection;       
+        public SReflection SelReflection;
+
+        public SThemeButton(SThemeButton theme)
+        {
+            Name = theme.Name;
+            TextureName = theme.TextureName;
+            SelTextureName = theme.SelTextureName;
+            Rect = new SRectF(theme.Rect);
+            Color = new SThemeColor(theme.Color);
+            SelColor = new SThemeColor(theme.SelColor);
+            Text = new SThemeText(theme.Text);
+            Reflection = new SReflection(theme.Reflection);
+            SelReflection = new SReflection(theme.SelReflection);
+        }
     }
 
     public class CButton : IMenuElement
@@ -396,7 +409,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeButton GetTheme()
         {
-            return _Theme;
+            return new SThemeButton(_Theme);
         }
 
         #region ThemeEdit

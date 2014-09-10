@@ -39,6 +39,13 @@ namespace VocaluxeLib.Menu
         public string Value;
         [XmlElement("Type")]
         public ESettingType Type;
+
+        public SScreenSetting(SScreenSetting theme)
+        {
+            Name = theme.Name;
+            Value = theme.Value;
+            Type = theme.Type;
+        }
     }
 
     // ReSharper disable ClassNeverInstantiated.Global
@@ -125,7 +132,7 @@ namespace VocaluxeLib.Menu
 
         public SScreenSetting GetTheme()
         {
-            return _Theme;
+            return new SScreenSetting(_Theme);
         }
 
         #region Private

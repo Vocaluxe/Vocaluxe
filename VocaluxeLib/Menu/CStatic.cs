@@ -32,6 +32,15 @@ namespace VocaluxeLib.Menu
         public SThemeColor Color;
         public SRectF Rect;
         public SReflection Reflection;
+
+        public SThemeStatic(SThemeStatic theme)
+        {
+            Name = theme.Name;
+            TextureName = theme.TextureName;
+            Color = new SThemeColor(theme.Color);
+            Rect = new SRectF(theme.Rect);
+            Reflection = new SReflection(theme.Reflection);
+        }
     }
 
     public class CStatic : IMenuElement
@@ -254,7 +263,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeStatic GetTheme()
         {
-            return _Theme;
+            return new SThemeStatic(_Theme);
         }
 
         #region ThemeEdit
