@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -49,6 +50,14 @@ namespace Vocaluxe.Base.Fonts
         public CFontStyle Italic;
         public CFontStyle Bold;
         public CFontStyle BoldItalic;
+
+        public void Dispose()
+        {
+            Normal.Dispose();
+            Italic.Dispose();
+            Bold.Dispose();
+            BoldItalic.Dispose();
+        }
     }
 
     static class CFonts
@@ -70,12 +79,7 @@ namespace Vocaluxe.Base.Fonts
         public static void Close()
         {
             foreach (SFontFamily font in _FontFamilies)
-            {
-                font.Normal.Dispose();
-                font.Bold.Dispose();
-                font.Italic.Dispose();
-                font.BoldItalic.Dispose();
-            }
+                font.Dispose();
             _FontFamilies.Clear();
             _IsInitialized = false;
         }
@@ -227,35 +231,36 @@ namespace Vocaluxe.Base.Fonts
 
         private static int _GetFontIndex(string fontName)
         {
-            int index = _GetPartyFontIndex(fontName, PartyModeID);
-            if (index < 0)
-                index = _GetThemeFontIndex(fontName, CConfig.Theme);
-            if (index >= 0)
-                return index;
-            for (int i = 0; i < _FontFamilies.Count; i++)
+            if (fontName != "")
             {
-                if (_FontFamilies[i].Name == fontName)
-                    return i;
-            }
-            if (index < 0)
-            {
+                int index = _GetPartyFontIndex(fontName, PartyModeID);
+                if (index < 0)
+                    index = _GetThemeFontIndex(fontName, CConfig.Theme);
+                if (index >= 0)
+                    return index;
+                for (int i = 0; i < _FontFamilies.Count; i++)
+                {
+                    if (_FontFamilies[i].Name == fontName)
+                        return i;
+                }
                 if (!_LoggedMissingFonts.Contains(fontName))
                 {
                     _LoggedMissingFonts.Add(fontName);
                     CLog.LogError("Font \"" + fontName + "\" not found!");
                 }
-                if (_FontFamilies.Count == 0)
-                    CLog.LogError("No fonts found!", true, true);
-                index = 0;
             }
+            else
+                CLog.LogError("Empty fontName requested", false, false, new Exception());
 
-            return index;
+            if (_FontFamilies.Count == 0)
+                CLog.LogError("No fonts found!", true, true);
+
+            return 0;
         }
 
         private static int _GetThemeFontIndex(string fontName, string themeName)
         {
-            if (themeName == "" || fontName == "")
-                return -1;
+            Debug.Assert(fontName != "" && themeName != "");
 
             for (int i = 0; i < _FontFamilies.Count; i++)
             {
@@ -268,8 +273,7 @@ namespace Vocaluxe.Base.Fonts
 
         private static int _GetPartyFontIndex(string fontName, int partyModeID)
         {
-            if (partyModeID == -1 || fontName == "")
-                return -1;
+            Debug.Assert(fontName != "");
 
             for (int i = 0; i < _FontFamilies.Count; i++)
             {
@@ -405,10 +409,7 @@ namespace Vocaluxe.Base.Fonts
             {
                 if (_FontFamilies[index].ThemeName == themeName)
                 {
-                    _FontFamilies[index].Normal.Dispose();
-                    _FontFamilies[index].Italic.Dispose();
-                    _FontFamilies[index].Bold.Dispose();
-                    _FontFamilies[index].BoldItalic.Dispose();
+                    _FontFamilies[index].Dispose();
                     _FontFamilies.RemoveAt(index);
                 }
                 else
