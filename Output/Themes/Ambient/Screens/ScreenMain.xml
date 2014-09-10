@@ -3,12 +3,13 @@
   <ScreenMain>
     <ScreenVersion>2</ScreenVersion>
     <Background1>
-      <!--<Type>: Background type: None, Color, Texture, Video-->
+      <!--<Type>: Background type: None, Color, Texture, SlideShow, Video-->
       <Type>Video</Type>
       <!--<Video>: Background video name-->
       <Video>BG_Video</Video>
       <!--<Skin>: Background Texture name-->
       <Skin>BG_Default</Skin>
+      <!--<SlideShow%>: Texture name for slide-show-->
       <!--<Color>: Background color for type "Color" from ColorScheme (high priority)-->
       <!--or <R>, <G>, <B>, <A> (lower priority)-->
       <Color>BackgroundColor</Color>
@@ -29,6 +30,81 @@
       <!--   <Space>: Reflection Space-->
       <!--   <Height>: Reflection Height-->
     </StaticMenuBar>
+    <StaticWarningProfiles>
+      <!--<Skin>: Texture name-->
+      <Skin>TextBG</Skin>
+      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
+      <X>150</X>
+      <Y>610</Y>
+      <Z>-1,90</Z>
+      <W>355</W>
+      <H>30</H>
+      <!--<Color>: Static color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>StaticWarningColor</Color>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </StaticWarningProfiles>
+    <TextRelease>
+      <!--<X>, <Y>: Text position-->
+      <X>10</X>
+      <Y>690</Y>
+      <!--<Z>: Text position-->
+      <Z>-1,00</Z>
+      <!--<H>: Text height-->
+      <H>15</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>TextWhite</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextWhite</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Left</Align>
+      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <ResizeAlign>Center</ResizeAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Normal</Style>
+      <!--<Font>: Text font name-->
+      <Font>Normal</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text />
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextRelease>
+    <TextWarningProfiles>
+      <!--<X>, <Y>: Text position-->
+      <X>320</X>
+      <Y>612</Y>
+      <!--<Z>: Text position-->
+      <Z>-2,00</Z>
+      <!--<H>: Text height-->
+      <H>27</H>
+      <!--<MaxW>: Maximum text width (if exists)-->
+      <MaxW>355</MaxW>
+      <!--<Color>: Text color from ColorScheme (high priority)-->
+      <!--or <R>, <G>, <B>, <A> (lower priority)-->
+      <Color>TextWarningColor</Color>
+      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
+      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
+      <SColor>TextWarningColor</SColor>
+      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Align>Center</Align>
+      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
+      <ResizeAlign>Center</ResizeAlign>
+      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <Style>Bold</Style>
+      <!--<Font>: Text font name-->
+      <Font>Outline</Font>
+      <!--<Text>: Nothing or translation tag-->
+      <Text>TR_SCREENMAIN_TEXT_NOPROFILES</Text>
+      <!--<Reflection> If exists:-->
+      <!--   <Space>: Reflection Space-->
+      <!--   <Height>: Reflection Height-->
+    </TextWarningProfiles>
     <ButtonSing>
       <!--<Skin>: Texture name-->
       <Skin>Button</Skin>
@@ -314,79 +390,5 @@
         <Height>26</Height>
       </SReflection>
     </ButtonExit>
-	<TextRelease>
-      <!--<X>, <Y>: Text position-->
-      <X>10</X>
-      <Y>690</Y>
-      <!--<Z>: Text position-->
-      <Z>-1</Z>
-      <!--<H>: Text height-->
-      <H>15</H>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>TextWhite</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextWhite</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
-      <Align>Left</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <Style>Normal</Style>
-      <!--<Font>: Text font name-->
-      <Font>Normal</Font>
-      <!--<Text>: Nothing or translation tag-->
-      <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRelease>
-	<StaticWarningProfiles>
-      <!--<Skin>: Texture name-->
-      <Skin>TextBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>150</X>
-      <Y>610</Y>
-      <Z>-1,90</Z>
-      <W>355</W>
-      <H>30</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticWarningColor</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticWarningProfiles>
-	<TextWarningProfiles>
-      <!--<X>, <Y>: Text position-->
-      <X>320</X>
-      <Y>612</Y>
-      <!--<Z>: Text position-->
-      <Z>-2,00</Z>
-      <!--<H>: Text height-->
-      <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <MaxW>355</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>TextWarningColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextWarningColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
-      <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <Style>Bold</Style>
-      <!--<Font>: Text font name-->
-      <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENMAIN_TEXT_NOPROFILES</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextWarningProfiles>
   </ScreenMain>
 </root>
