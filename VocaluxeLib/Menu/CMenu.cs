@@ -28,7 +28,7 @@ using VocaluxeLib.Menu.SongMenu;
 
 namespace VocaluxeLib.Menu
 {
-    public struct SScreenInformations
+    public struct SScreenInformation
     {
         public string ScreenName;
         public int ScreenVersion;
@@ -37,33 +37,33 @@ namespace VocaluxeLib.Menu
     public struct STheme
     {
         [XmlElement("Informations")]
-        public SScreenInformations ScreenInformations;
+        public SScreenInformation ScreenInformation;
         [XmlArray("Backgrounds")]
-        public List<SThemeBackground> ThemeBackgrounds;
+        public List<SThemeBackground> Backgrounds;
         [XmlArray("Statics")]
-        public List<SThemeStatic> ThemeStatics;
+        public List<SThemeStatic> Statics;
         [XmlArray("Texts")]
-        public List<SThemeText> ThemeTexts;
+        public List<SThemeText> Texts;
         [XmlArray("Buttons")]
-        public List<SThemeButton> ThemeButtons;
+        public List<SThemeButton> Buttons;
         [XmlArray("SongMenus")]
-        public List<SThemeSongMenu> ThemeSongMenus;
+        public List<SThemeSongMenu> SongMenus;
         [XmlArray("Lyrics")]
-        public List<SThemeLyrics> ThemeLyrics;
+        public List<SThemeLyrics> Lyrics;
         [XmlArray("SelectSlides")]
-        public List<SThemeSelectSlide> ThemeSelectSlides;
+        public List<SThemeSelectSlide> SelectSlides;
         [XmlArray("SingNotes")]
-        public List<SThemeSingBar> ThemeSingNotes;
+        public List<SThemeSingBar> SingNotes;
         [XmlArray("NameSelections")]
-        public List<SThemeNameSelection> ThemeNameSelections;
+        public List<SThemeNameSelection> NameSelections;
         [XmlArray("Equalizers")]
-        public List<SThemeEqualizer> ThemeEqualizers;
+        public List<SThemeEqualizer> Equalizers;
         [XmlArray("Playlists")]
-        public List<SThemePlaylist> ThemePlaylists;
+        public List<SThemePlaylist> Playlists;
         [XmlArray("ParticleEffects")]
-        public List<SThemeParticleEffect> ThemeParticleEffects;
+        public List<SThemeParticleEffect> ParticleEffects;
         [XmlArray("ScreenSettings")]
-        public List<SScreenSetting> ThemeScreenSettings;
+        public List<SScreenSetting> ScreenSettings;
     }
 
     struct SZSort
@@ -229,21 +229,21 @@ namespace VocaluxeLib.Menu
                 _LoadThemeElement<CScreenSetting>(_ThemeScreenSettings, _AddScreenSetting, xmlReader, skinIndex);
             }
 
-            Theme.ScreenInformations.ScreenName = ThemeName;
-            Theme.ScreenInformations.ScreenVersion = _ScreenVersion;
-            Theme.ThemeBackgrounds = new List<SThemeBackground>();
-            Theme.ThemeStatics = new List<SThemeStatic>();
-            Theme.ThemeTexts = new List<SThemeText>();
-            Theme.ThemeButtons = new List<SThemeButton>();
-            Theme.ThemeSongMenus = new List<SThemeSongMenu>();
-            Theme.ThemeLyrics = new List<SThemeLyrics>();
-            Theme.ThemeSelectSlides = new List<SThemeSelectSlide>();
-            Theme.ThemeSingNotes = new List<SThemeSingBar>();
-            Theme.ThemeNameSelections = new List<SThemeNameSelection>();
-            Theme.ThemeEqualizers = new List<SThemeEqualizer>();
-            Theme.ThemePlaylists = new List<SThemePlaylist>();
-            Theme.ThemeParticleEffects = new List<SThemeParticleEffect>();
-            Theme.ThemeScreenSettings = new List<SScreenSetting>();
+            Theme.ScreenInformation.ScreenName = ThemeName;
+            Theme.ScreenInformation.ScreenVersion = _ScreenVersion;
+            Theme.Backgrounds = new List<SThemeBackground>();
+            Theme.Statics = new List<SThemeStatic>();
+            Theme.Texts = new List<SThemeText>();
+            Theme.Buttons = new List<SThemeButton>();
+            Theme.SongMenus = new List<SThemeSongMenu>();
+            Theme.Lyrics = new List<SThemeLyrics>();
+            Theme.SelectSlides = new List<SThemeSelectSlide>();
+            Theme.SingNotes = new List<SThemeSingBar>();
+            Theme.NameSelections = new List<SThemeNameSelection>();
+            Theme.Equalizers = new List<SThemeEqualizer>();
+            Theme.Playlists = new List<SThemePlaylist>();
+            Theme.ParticleEffects = new List<SThemeParticleEffect>();
+            Theme.ScreenSettings = new List<SScreenSetting>();
         }
 
         public virtual void SaveTheme()
@@ -329,27 +329,27 @@ namespace VocaluxeLib.Menu
 
             //Have to add theme-stuff manually, later it will be done while de-serialization
             foreach(CBackground el in _Backgrounds)
-                Theme.ThemeBackgrounds.Add(el.GetTheme());
+                Theme.Backgrounds.Add(el.GetTheme());
             foreach (CButton el in _Buttons)
-                Theme.ThemeButtons.Add(el.GetTheme());
+                Theme.Buttons.Add(el.GetTheme());
             foreach (CEqualizer el in _Equalizers)
-                Theme.ThemeEqualizers.Add(el.GetTheme());
+                Theme.Equalizers.Add(el.GetTheme());
             foreach (CLyric el in _Lyrics)
-                Theme.ThemeLyrics.Add(el.GetTheme());
+                Theme.Lyrics.Add(el.GetTheme());
             foreach (CNameSelection el in _NameSelections)
-                Theme.ThemeNameSelections.Add(el.GetTheme());
+                Theme.NameSelections.Add(el.GetTheme());
             foreach (CParticleEffect el in _ParticleEffects)
-                Theme.ThemeParticleEffects.Add(el.GetTheme());
+                Theme.ParticleEffects.Add(el.GetTheme());
             foreach (CPlaylist el in _Playlists)
-                Theme.ThemePlaylists.Add(el.GetTheme());
+                Theme.Playlists.Add(el.GetTheme());
             foreach (CScreenSetting el in _ScreenSettings)
-                Theme.ThemeScreenSettings.Add(el.GetTheme());
+                Theme.ScreenSettings.Add(el.GetTheme());
             foreach (CSelectSlide el in _SelectSlides)
-                Theme.ThemeSelectSlides.Add(el.GetTheme());
+                Theme.SelectSlides.Add(el.GetTheme());
             foreach (CStatic el in _Statics)
-                Theme.ThemeStatics.Add(el.GetTheme());
+                Theme.Statics.Add(el.GetTheme());
             foreach (CText el in _Texts)
-                Theme.ThemeTexts.Add(el.GetTheme());
+                Theme.Texts.Add(el.GetTheme());
 
             XmlSerializer serializer = new XmlSerializer(typeof(STheme));
             serializer.Serialize(textWriter, Theme);
