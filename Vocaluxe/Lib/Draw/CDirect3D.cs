@@ -34,10 +34,20 @@ using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Draw
 {
-    class CDirect3D : RenderForm, IDraw
+    class CRenderFormHook : RenderForm, CDrawBaseWindows.IFormHook
+    {
+        public CDrawBaseWindows.MessageEventHandler OnMessage { private get; set; }
+
+        protected override void WndProc(ref Message m)
+        {
+            if (OnMessage(ref m))
+                base.WndProc(ref m);
+        }
+    }
+
+    class CDirect3D : CDrawBaseWindows, IDraw
     {
         #region private vars
-
         private readonly CKeys _Keys;
         private readonly CMouse _Mouse;
         private bool _Run;
@@ -46,8 +56,6 @@ namespace Vocaluxe.Lib.Draw
         private readonly Device _Device;
         private readonly PresentParameters _PresentParameters;
 
-        private bool _Fullscreen;
-        private Size _OldSize;
         private Size _SizeBeforeMinimize;
 
         private readonly Dictionary<int, Texture> _D3DTextures = new Dictionary<int, Texture>();
@@ -71,7 +79,6 @@ namespace Vocaluxe.Lib.Draw
         private readonly Queue<STexturedColoredVertex> _Vertices = new Queue<STexturedColoredVertex>();
         private readonly Queue<Texture> _VerticesTextures = new Queue<Texture>();
         private readonly Queue<SlimDX.Matrix> _VerticesRotationMatrices = new Queue<SlimDX.Matrix>();
-
         #endregion private vars
 
         /// <summary>
@@ -79,8 +86,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CDirect3D()
         {
-            Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
-
+            _Form = new CRenderFormHook();
             _Keys = new CKeys();
             try
             {
@@ -91,25 +97,26 @@ namespace Vocaluxe.Lib.Draw
                 CLog.LogError("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109", true, true, e);
             }
 
-            Paint += _OnPaintEvent;
-            Closing += _OnClosingEvent;
-            Resize += _OnResizeEvent;
+            _Form.Closing += _OnClosingEvent;
+            _Form.Resize += _OnResize;
+            _Form.Load += _OnLoad;
 
-            KeyDown += _OnKeyDown;
-            PreviewKeyDown += _OnPreviewKeyDown;
-            KeyPress += _OnKeyPress;
-            KeyUp += _OnKeyUp;
+
+            _Form.KeyDown += _OnKeyDown;
+            _Form.PreviewKeyDown += _OnPreviewKeyDown;
+            _Form.KeyPress += _OnKeyPress;
+            _Form.KeyUp += _OnKeyUp;
 
             _Mouse = new CMouse();
-            MouseMove += _OnMouseMove;
-            MouseWheel += _OnMouseWheel;
-            MouseDown += _OnMouseDown;
-            MouseUp += _OnMouseUp;
-            MouseLeave += _OnMouseLeave;
-            MouseEnter += _OnMouseEnter;
+            _Form.MouseMove += _OnMouseMove;
+            _Form.MouseWheel += _OnMouseWheel;
+            _Form.MouseDown += _OnMouseDown;
+            _Form.MouseUp += _OnMouseUp;
+            _Form.MouseLeave += _OnMouseLeave;
+            _Form.MouseEnter += _OnMouseEnter;
 
-            ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
-            _SizeBeforeMinimize = ClientSize;
+            _Form.ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
+            _SizeBeforeMinimize = _Form.ClientSize;
 
             _PresentParameters = new PresentParameters
                 {
@@ -168,14 +175,14 @@ namespace Vocaluxe.Lib.Draw
             CreateFlags flags = (caps.DeviceCaps & DeviceCaps.HWTransformAndLight) != 0 ? CreateFlags.HardwareVertexProcessing : CreateFlags.SoftwareVertexProcessing;
 
             //Check if Pow2 textures are needed
-            CDrawHelper.NonPowerOf2TextureSupported = true;
-            CDrawHelper.NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.Pow2) == 0;
-            CDrawHelper.NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.NonPow2Conditional) == 0;
-            CDrawHelper.NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.SquareOnly) == 0;
+            _NonPowerOf2TextureSupported = true;
+            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.Pow2) == 0;
+            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.NonPow2Conditional) == 0;
+            _NonPowerOf2TextureSupported &= (caps.TextureCaps & TextureCaps.SquareOnly) == 0;
 
             try
             {
-                _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, Handle, flags, _PresentParameters);
+                _Device = new Device(_D3D, _D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, _Form.Handle, flags, _PresentParameters);
             }
             finally
             {
@@ -187,52 +194,23 @@ namespace Vocaluxe.Lib.Draw
                 }
             }
 
-            CenterToScreen();
+            _CenterToScreen();
         }
 
         #region form events
-        private void _OnPaintEvent(object sender, PaintEventArgs e) {}
-
-        private void _OnResizeEvent(object sender, EventArgs e) {}
-
         private void _OnClosingEvent(object sender, CancelEventArgs e)
         {
             _Run = false;
         }
 
-        protected override void OnLoad(EventArgs e)
+        private void _OnLoad(object sender, EventArgs e)
         {
             _Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0);
         }
 
-        protected override void OnResize(EventArgs e)
+        private void _OnResize(object sender, EventArgs e)
         {
-            base.OnResize(e);
             _DoResize();
-        }
-
-        protected override void WndProc(ref Message m)
-        {
-            switch (m.Msg)
-            {
-                case 0x112: // WM_SYSCOMMAND
-                    switch ((int)m.WParam & 0xFFF0)
-                    {
-                        case 0xF100: // SC_KEYMENU
-                            m.Result = IntPtr.Zero;
-                            break;
-                        case 0xF140: // SC_SCREENSAVER
-                        case 0xF170: // SC_MONITORPOWER
-                            break;
-                        default:
-                            base.WndProc(ref m);
-                            break;
-                    }
-                    break;
-                default:
-                    base.WndProc(ref m);
-                    break;
-            }
         }
         #endregion form events
 
@@ -240,15 +218,15 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Resizes the viewport
         /// </summary>
-        private void _DoResize()
+        protected override void _DoResize()
         {
             // The window was minimized, so restore it to the last known size
-            if (ClientSize.Width == 0 || ClientSize.Height == 0)
-                ClientSize = _SizeBeforeMinimize;
+            if (_Form.ClientSize.Width == 0 || _Form.ClientSize.Height == 0)
+                _Form.ClientSize = _SizeBeforeMinimize;
             if (!_Run)
                 return;
-            _H = ClientSize.Height;
-            _W = ClientSize.Width;
+            _H = _Form.ClientSize.Height;
+            _W = _Form.ClientSize.Width;
             _Y = 0;
             _X = 0;
 
@@ -256,18 +234,18 @@ namespace Vocaluxe.Lib.Draw
             {
                 //The windows's width is too big
                 _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
-                _X = (ClientSize.Width - _W) / 2;
+                _X = (_Form.ClientSize.Width - _W) / 2;
             }
             else
             {
                 //The windows's height is too big
                 _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
-                _Y = (ClientSize.Height - _H) / 2;
+                _Y = (_Form.ClientSize.Height - _H) / 2;
             }
 
             //Apply the new sizes to the PresentParameters
-            _PresentParameters.BackBufferWidth = ClientSize.Width;
-            _PresentParameters.BackBufferHeight = ClientSize.Height;
+            _PresentParameters.BackBufferWidth = _Form.ClientSize.Width;
+            _PresentParameters.BackBufferHeight = _Form.ClientSize.Height;
             ClearScreen();
             //To set new PresentParameters the device has to be resetted
             _Reset();
@@ -277,52 +255,22 @@ namespace Vocaluxe.Lib.Draw
             //Set the new Viewport
             _Device.Viewport = new Viewport(_X, _Y, _W, _H);
             //Store size so it can get restored after the window gets minimized
-            _SizeBeforeMinimize = ClientSize;
+            _SizeBeforeMinimize = _Form.ClientSize;
         }
 
+        // ReSharper disable RedundantOverridenMember
         /// <summary>
         ///     Triggers the Fullscreen mode
         /// </summary>
-        private void _EnterFullScreen()
+        protected override void _EnterFullScreen()
         {
             //This currently not using real fullscreen mode but a borderless window
             //Real fullscreen could be gained setting _PresentParameters.Windowed = true
             //And calling Reset() and Init() after
-            _OldSize = ClientSize;
-
-            int screenNr = 0;
-            for (int i = 0; i < Screen.AllScreens.Length; i++)
-            {
-                Screen scr = Screen.AllScreens[i];
-                if (scr.Bounds.Top <= Top && scr.Bounds.Left <= Left)
-                    screenNr = i;
-            }
-
-            ClientSize = new Size(Screen.AllScreens[screenNr].Bounds.Width, Screen.AllScreens[screenNr].Bounds.Height);
-            FormBorderStyle = FormBorderStyle.None;
-            CenterToScreen();
-            _Fullscreen = true;
-
-            if (WindowState == FormWindowState.Maximized)
-            {
-                WindowState = FormWindowState.Normal;
-                _DoResize();
-                WindowState = FormWindowState.Maximized;
-            }
-            else
-                _DoResize();
+            base._EnterFullScreen();
         }
 
-        /// <summary>
-        ///     Triggers the windowed mode
-        /// </summary>
-        private void _LeaveFullScreen()
-        {
-            ClientSize = _OldSize;
-            FormBorderStyle = FormBorderStyle.Sizable;
-            CenterToScreen();
-            _Fullscreen = false;
-        }
+        // ReSharper restore RedundantOverridenMember
         #endregion resize
 
         #region mouse event handlers
@@ -388,11 +336,14 @@ namespace Vocaluxe.Lib.Draw
         ///     Inits the Device
         /// </summary>
         /// <returns>True if it succeeded else false</returns>
-        public bool Init()
+        public override bool Init()
         {
+            if (!base.Init())
+                return false;
+
             if (_Device.Disposed)
                 return false;
-            Text = CSettings.GetFullVersionText();
+
             _AdjustNewBorders();
 
             _VertexBuffer = new VertexBuffer(_Device, CSettings.VertexBufferElements * (4 * Marshal.SizeOf(typeof(STexturedColoredVertex))), Usage.WriteOnly | Usage.Dynamic,
@@ -468,7 +419,7 @@ namespace Vocaluxe.Lib.Draw
         {
             _Run = true;
             int delay = 0;
-            Show();
+            _Form.Show();
 
             if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
                 _EnterFullScreen();
@@ -513,12 +464,7 @@ namespace Vocaluxe.Lib.Draw
                 }
                 //Apply fullscreen mode
                 if ((CConfig.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
-                {
-                    if (!_Fullscreen)
-                        _EnterFullScreen();
-                    else
-                        _LeaveFullScreen();
-                }
+                    _ToggleFullScreen();
 
                 //Apply border changes
                 if (_BorderLeft != CConfig.BorderLeft || _BorderRight != CConfig.BorderRight || _BorderTop != CConfig.BorderTop || _BorderBottom != CConfig.BorderBottom)
@@ -531,16 +477,19 @@ namespace Vocaluxe.Lib.Draw
                     _AdjustNewBorders();
                 }
 
-                if (CTime.IsRunning())
-                    delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
+                if (CConfig.VSync == EOffOn.TR_CONFIG_ON)
+                {
+                    if (CTime.IsRunning())
+                        delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
 
-                if (delay >= 1 && CConfig.VSync == EOffOn.TR_CONFIG_OFF)
-                    Thread.Sleep(delay);
+                    if (delay >= 1 && delay < 500)
+                        Thread.Sleep(delay);
+                }
                 //Calculate the FPS Rate and restart the timer after a frame
                 CTime.CalculateFPS();
                 CTime.Restart();
             }
-            Close();
+            _Form.Close();
         }
 
         /// <summary>
@@ -578,7 +527,7 @@ namespace Vocaluxe.Lib.Draw
         {
             try
             {
-                Close();
+                _Form.Close();
             }
             catch {}
             //Dispose all textures
@@ -680,7 +629,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CTexture CopyScreen()
         {
-            CTexture texture = CDrawHelper.GetNewTexture(_W, _H);
+            CTexture texture = GetNewTexture(_W, _H);
 
             Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
             var tex = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
@@ -850,7 +799,7 @@ namespace Vocaluxe.Lib.Draw
             int w = Math.Min(bmp.Width, maxSize);
             int h = Math.Min(bmp.Height, maxSize);
 
-            CTexture texture = CDrawHelper.GetNewTexture(bmp.Width,bmp.Height,w, h);
+            CTexture texture = GetNewTexture(bmp.Width, bmp.Height, w, h);
 
             Bitmap bmp2 = null;
             byte[] data;
@@ -890,7 +839,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture AddTexture(int w, int h, byte[] data)
         {
-            CTexture texture = CDrawHelper.GetNewTexture(w, h);
+            CTexture texture = GetNewTexture(w, h);
             return _AddTexture(texture, data);
         }
 
@@ -935,7 +884,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTexture EnqueueTexture(int w, int h, byte[] data)
         {
-            CTexture texture = CDrawHelper.GetNewTexture(w, h);
+            CTexture texture = GetNewTexture(w, h);
 
             lock (_D3DTextures)
             {
@@ -1004,16 +953,18 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture">The texture to be removed</param>
         public void RemoveTexture(ref CTexture texture)
         {
-            if(texture==null) return;
-                lock (_D3DTextures)
+            if (texture == null)
+                return;
+            lock (_D3DTextures)
+            {
+                Texture t;
+                if (_D3DTextures.TryGetValue(texture.ID, out t))
                 {
-                    Texture t;
-                    if (_D3DTextures.TryGetValue(texture.ID, out t))
-                    {
-                        if(t!=null) t.Dispose();
-                        _D3DTextures.Remove(texture.ID);
-                    }
+                    if (t != null)
+                        t.Dispose();
+                    _D3DTextures.Remove(texture.ID);
                 }
+            }
             texture = null;
         }
 
