@@ -136,7 +136,6 @@ namespace VocaluxeLib
         void LoadPreview(CSong song, float start = 0f);
         void PlayPreview(float start = -1f);
         void StopPreview();
-
     }
 
     public interface IDrawing
@@ -338,6 +337,5 @@ namespace VocaluxeLib
         CTexture GetVideoTexture();
         bool IsPlaying();
         float GetLength();
-
     }
 }

@@ -19,12 +19,12 @@ using System.Drawing;
 
 namespace VocaluxeLib.Draw
 {
+    /// <summary>
+    ///     Reference to a texture in the drawing driver
+    /// </summary>
     public class CTexture
     {
         public readonly int ID;
-        public int PBO;
-        //Only used by OpenGL (the texture "name" according to the specs)
-        public int Name = -1;
 
         public string TexturePath = "";
 
@@ -117,8 +117,8 @@ namespace VocaluxeLib.Draw
 
         private void _CalcRatios()
         {
-                WidthRatio = (float)_DataSize.Width / _W2;
-                HeightRatio = (float)_DataSize.Height / _H2;
+            WidthRatio = (float)_DataSize.Width / _W2;
+            HeightRatio = (float)_DataSize.Height / _H2;
         }
     }
 }
