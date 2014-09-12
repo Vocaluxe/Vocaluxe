@@ -261,6 +261,16 @@ namespace VocaluxeLib.Menu
         {
             if (!String.IsNullOrEmpty(_Theme.Color.Name))
                 Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                Color = _Theme.Color.Color;
+
+            Rect = new SRectF(_Theme.Rect);
+            Reflection = _Theme.Reflection.Enabled;
+            if (Reflection)
+            {
+                ReflectionSpace = _Theme.Reflection.Height;
+                ReflectionHeight = _Theme.Reflection.Space;
+            }
         }
 
         public void ReloadTextures()

@@ -922,24 +922,50 @@ namespace VocaluxeLib.Menu
         {
             if (!String.IsNullOrEmpty(_Theme.Color.Name))
                 Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                Color = _Theme.Color.Color;
 
             if (!String.IsNullOrEmpty(_Theme.SColor.Name))
                 SelColor = CBase.Theme.GetColor(_Theme.SColor.Name, _PartyModeID);
+            else
+                SelColor = _Theme.SColor.Color;
 
             if (!String.IsNullOrEmpty(_Theme.HColor.Name))
                 HighlightColor = CBase.Theme.GetColor(_Theme.HColor.Name, _PartyModeID);
+            else
+                HighlightColor = _Theme.HColor.Color;
 
             if (!String.IsNullOrEmpty(_Theme.ArrowColor.Name))
                 ColorArrow = CBase.Theme.GetColor(_Theme.ArrowColor.Name, _PartyModeID);
+            else
+                ColorArrow = _Theme.ArrowColor.Color;
 
             if (!String.IsNullOrEmpty(_Theme.ArrowSColor.Name))
                 SelColorArrow = CBase.Theme.GetColor(_Theme.ArrowSColor.Name, _PartyModeID);
+            else
+                SelColorArrow = _Theme.ArrowSColor.Color;
 
             if (!String.IsNullOrEmpty(_Theme.TextColor.Name))
                 TextColor = CBase.Theme.GetColor(_Theme.TextColor.Name, _PartyModeID);
+            else
+                TextColor = _Theme.TextColor.Color;
 
             if (!String.IsNullOrEmpty(_Theme.TextSColor.Name))
                 SelTextColor = CBase.Theme.GetColor(_Theme.TextSColor.Name, _PartyModeID);
+            else
+                SelTextColor = _Theme.TextSColor.Color;
+
+            Rect = _Theme.Rect;
+            RectArrowLeft = _Theme.RectArrowLeft;
+            RectArrowRight = _Theme.RectArrowRight;
+
+            NumVisible = _Theme.NumVisible;
+
+            TextH = _Theme.TextH;
+            TextRelativeX = _Theme.TextRelativeX;
+            TextRelativeY = _Theme.TextRelativeY;
+            MaxW = _Theme.TextMaxW;
+
         }
 
         public void ReloadTextures()

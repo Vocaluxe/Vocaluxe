@@ -36,6 +36,8 @@ namespace VocaluxeLib.Menu
         public float Z;
         [XmlElement("H")]
         public float Height;
+        [XmlElement("MaxW")]
+        public float MaxWidth;
         public SThemeColor Color;
         public SThemeColor SColor; //for Buttons
         [XmlElement("Align")]
@@ -57,6 +59,7 @@ namespace VocaluxeLib.Menu
             Y = theme.Y;
             Z = theme.Z;
             Height = theme.Height;
+            MaxWidth = theme.MaxWidth;
             Color = new SThemeColor(theme.Color);
             SColor = new SThemeColor(theme.SColor);
             Align = theme.Align;
@@ -423,6 +426,7 @@ namespace VocaluxeLib.Menu
             _Theme.ResizeAlign = _ResizeAlign;
             _Theme.SColor.Color = SelColor;
             _Theme.Style = _Style;
+            _Theme.MaxWidth = _MaxWidth;
             _Theme.X = _X;
             _Theme.Y = _Y;
             _Theme.Z = _Z;
@@ -588,9 +592,32 @@ namespace VocaluxeLib.Menu
         {
             if (!String.IsNullOrEmpty(_Theme.Color.Name))
                 Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                Color = new SColorF(_Theme.Color.Color);
 
             if (!String.IsNullOrEmpty(_Theme.SColor.Name))
                 SelColor = CBase.Theme.GetColor(_Theme.SColor.Name, _PartyModeID);
+            else
+                SelColor = new SColorF(_Theme.SColor.Color);
+
+            _X = _Theme.X;
+            _Y = _Theme.Y;
+            _Z = _Theme.Z;
+            _Height = _Theme.Height;
+            _MaxWidth = _Theme.MaxWidth;
+            _Align = _Theme.Align;
+            _ResizeAlign = _Theme.ResizeAlign;
+            _Style = _Theme.Style;
+            _Font = _Theme.Font;
+
+            if (_Theme.Reflection.Enabled)
+            {
+                ReflectionSpace = _Theme.Reflection.Space;
+                ReflectionHeight = _Theme.Reflection.Height;
+            }
+
+            Text = _Theme.Text;
+            Selected = false;
         }
 
         public void ReloadTextures()
