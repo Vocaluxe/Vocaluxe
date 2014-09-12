@@ -136,10 +136,6 @@ namespace Vocaluxe.Lib.Draw
             _Control.MouseLeave += _OnMouseLeave;
             _Control.MouseEnter += _OnMouseEnter;
 
-            _Form.ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
-
-            _CenterToScreen();
-
             _NonPowerOf2TextureSupported = false;
         }
 
@@ -220,14 +216,15 @@ namespace Vocaluxe.Lib.Draw
             _Y = 0;
             _X = 0;
 
-
             if (_W / (float)_H > CSettings.GetRenderAspect())
             {
+                //The windows width is too big
                 _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
                 _X = (_Control.Width - _W) / 2;
             }
             else
             {
+                //The windows height is too big
                 _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
                 _Y = (_Control.Height - _H) / 2;
             }
@@ -268,6 +265,7 @@ namespace Vocaluxe.Lib.Draw
         protected override void _OnAfterDraw()
         {
             _Control.SwapBuffers();
+            Application.DoEvents();
         }
 
         public int GetScreenWidth()

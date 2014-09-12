@@ -49,8 +49,6 @@ namespace Vocaluxe.Lib.Draw
         private readonly Device _Device;
         private readonly PresentParameters _PresentParameters;
 
-        private Size _SizeBeforeMinimize;
-
         private VertexBuffer _VertexBuffer;
         private IndexBuffer _IndexBuffer;
 
@@ -92,9 +90,6 @@ namespace Vocaluxe.Lib.Draw
             _Form.MouseUp += _OnMouseUp;
             _Form.MouseLeave += _OnMouseLeave;
             _Form.MouseEnter += _OnMouseEnter;
-
-            _Form.ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
-            _SizeBeforeMinimize = _Form.ClientSize;
 
             _PresentParameters = new PresentParameters
                 {
@@ -175,8 +170,6 @@ namespace Vocaluxe.Lib.Draw
                         true, true);
                 }
             }
-
-            _CenterToScreen();
         }
 
         #region form events
@@ -200,13 +193,13 @@ namespace Vocaluxe.Lib.Draw
 
             if (_W / (float)_H > CSettings.GetRenderAspect())
             {
-                //The windows's width is too big
+                //The windows width is too big
                 _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
                 _X = (_Form.ClientSize.Width - _W) / 2;
             }
             else
             {
-                //The windows's height is too big
+                //The windows height is too big
                 _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
                 _Y = (_Form.ClientSize.Height - _H) / 2;
             }
@@ -580,7 +573,6 @@ namespace Vocaluxe.Lib.Draw
 
         #region Textures
 
-        #region adding
         protected override Texture _CreateTexture(CTexture texture, byte[] data)
         {
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
@@ -608,9 +600,7 @@ namespace Vocaluxe.Lib.Draw
             }
             t.UnlockRectangle(0);
         }
-        #endregion adding
 
-        #region updating
         /// <summary>
         ///     Updates the data of a texture
         /// </summary>
@@ -637,7 +627,6 @@ namespace Vocaluxe.Lib.Draw
             }
             return true;
         }
-        #endregion updating
 
         #region drawing
         /// <summary>
@@ -921,7 +910,6 @@ namespace Vocaluxe.Lib.Draw
         }
         #endregion utility
 
-        #region TexturedColoredVertex
         private struct STexturedColoredVertex
         {
             private static VertexDeclaration _Declaration;
@@ -954,6 +942,5 @@ namespace Vocaluxe.Lib.Draw
                 return _Declaration;
             }
         }
-        #endregion TexturedColoredVertex
     }
 }
