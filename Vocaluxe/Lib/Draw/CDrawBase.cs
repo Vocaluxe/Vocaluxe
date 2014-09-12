@@ -303,6 +303,8 @@ namespace Vocaluxe.Lib.Draw
 
         protected TTextureType _GetTexture(CTexture textureRef)
         {
+            if (textureRef == null)
+                return null;
             TTextureType texture;
             _Textures.TryGetValue(textureRef.ID, out texture);
             return texture;
