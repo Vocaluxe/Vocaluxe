@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Drawing;
 using System.Runtime.InteropServices;
 
 namespace Vocaluxe
@@ -66,6 +67,10 @@ namespace Vocaluxe
             {
                 try
                 {
+                    // SetDefaultDllDirectories may cause a bug: http://stackoverflow.com/questions/25818073/using-setdefaultdlldirectories-breaks-font-handling
+#pragma warning disable 168
+                    Font dummyForWorkaround = SystemFonts.DefaultFont;
+#pragma warning restore 168
                     CWindowsFunctions.SetDefaultDllDirectories(CWindowsFunctions.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
                 }
                 catch (Exception)
