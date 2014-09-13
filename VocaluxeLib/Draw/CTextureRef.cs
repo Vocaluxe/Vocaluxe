@@ -24,7 +24,7 @@ namespace VocaluxeLib.Draw
     /// </summary>
     public class CTextureRef
     {
-        public readonly int ID;
+        public int ID;
 
         public string TexturePath = "";
 
@@ -113,6 +113,16 @@ namespace VocaluxeLib.Draw
             Rect = new SRectF(0f, 0f, origSize.Width, origSize.Height, 0f);
 
             _CalcRatios();
+        }
+
+        ~CTextureRef()
+        {
+            if (ID >= 0)
+            {
+                //Free textures that are no longer reference
+                CTextureRef tmp = this;
+                CBase.Drawing.RemoveTexture(ref tmp);
+            }
         }
 
         private void _CalcRatios()

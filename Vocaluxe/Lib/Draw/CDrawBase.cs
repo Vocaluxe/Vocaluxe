@@ -383,6 +383,7 @@ namespace Vocaluxe.Lib.Draw
                     _Textures.Remove(texture.ID);
                 }
             }
+            texture.ID = -1;
             texture = null;
         }
 

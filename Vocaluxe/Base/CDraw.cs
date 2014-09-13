@@ -177,7 +177,9 @@ namespace Vocaluxe.Base
 
         public static void RemoveTexture(ref CTextureRef texture)
         {
-            _Draw.RemoveTexture(ref texture);
+            // Disposed textures call this, possibly at program end!
+            if (_Draw != null)
+                _Draw.RemoveTexture(ref texture);
         }
 
         public static void DrawTexture(CTextureRef texture)
