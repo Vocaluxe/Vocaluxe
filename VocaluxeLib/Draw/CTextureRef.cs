@@ -25,6 +25,7 @@ namespace VocaluxeLib.Draw
     public class CTextureRef
     {
         public int ID;
+        public int RefCount = 1;
 
         public string TexturePath = "";
 

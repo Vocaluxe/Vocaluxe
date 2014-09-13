@@ -39,6 +39,7 @@ namespace Vocaluxe.Lib.Draw
         private int _NextID;
 
         protected readonly Dictionary<int, TTextureType> _Textures = new Dictionary<int, TTextureType>();
+        protected readonly Dictionary<string, WeakReference> _TextureCache = new Dictionary<string, WeakReference>();
         private readonly Queue<STextureQueue> _TexturesToLoad = new Queue<STextureQueue>();
 
         protected int _H;
@@ -75,6 +76,7 @@ namespace Vocaluxe.Lib.Draw
                         texture.Dispose();
                 }
                 _Textures.Clear();
+                _TextureCache.Clear();
             }
         }
 
@@ -178,6 +180,23 @@ namespace Vocaluxe.Lib.Draw
         /// <returns>A STexture object containing the added texture</returns>
         public CTextureRef AddTexture(string texturePath)
         {
+            CTextureRef textureRef;
+            lock (_Textures)
+            {
+                WeakReference reference;
+                if (_TextureCache.TryGetValue(texturePath, out reference))
+                {
+                    if (!reference.IsAlive)
+                        _TextureCache.Remove(texturePath);
+                    else
+                    {
+                        textureRef = (CTextureRef)reference.Target;
+                        textureRef.RefCount++;
+                        return textureRef;
+                    }
+                }
+            }
+
             if (!File.Exists(texturePath))
             {
                 CLog.LogError("Can't find File: " + texturePath);
@@ -193,16 +212,19 @@ namespace Vocaluxe.Lib.Draw
                 CLog.LogError("Error loading Texture: " + texturePath);
                 return null;
             }
-            CTextureRef s;
             try
             {
-                s = AddTexture(bmp, texturePath);
+                textureRef = AddTexture(bmp, texturePath);
             }
             finally
             {
                 bmp.Dispose();
             }
-            return s;
+            lock (_Textures)
+            {
+                _TextureCache[texturePath] = new WeakReference(textureRef);
+            }
+            return textureRef;
         }
 
         public CTextureRef AddTexture(Bitmap bmp)
@@ -375,15 +397,19 @@ namespace Vocaluxe.Lib.Draw
                 return;
             lock (_Textures)
             {
-                TTextureType t;
-                if (_Textures.TryGetValue(texture.ID, out t))
+                if (--texture.RefCount <= 0)
                 {
-                    if (t != null)
-                        t.Dispose();
-                    _Textures.Remove(texture.ID);
+                    TTextureType t;
+                    if (_Textures.TryGetValue(texture.ID, out t))
+                    {
+                        if (t != null)
+                            t.Dispose();
+                        _Textures.Remove(texture.ID);
+                    }
+                    _TextureCache.Remove(texture.TexturePath);
                 }
+                texture.ID = -1;
             }
-            texture.ID = -1;
             texture = null;
         }
 
