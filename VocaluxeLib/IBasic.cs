@@ -99,8 +99,8 @@ namespace VocaluxeLib
     {
         string GetThemeScreensPath(int partyModeID);
         int GetSkinIndex(int partyModeID);
-        CTexture GetSkinTexture(string textureName, int partyModeID);
-        CTexture GetSkinVideoTexture(string videoName, int partyModeID);
+        CTextureRef GetSkinTexture(string textureName, int partyModeID);
+        CTextureRef GetSkinVideoTexture(string videoName, int partyModeID);
 
         void SkinVideoResume(string videoName, int partyModeID);
         void SkinVideoPause(string videoName, int partyModeID);
@@ -131,7 +131,7 @@ namespace VocaluxeLib
         void Play();
         void Stop();
 
-        CTexture GetVideoTexture();
+        CTextureRef GetVideoTexture();
 
         void LoadPreview(CSong song, float start = 0f);
         void PlayPreview(float start = -1f);
@@ -140,13 +140,13 @@ namespace VocaluxeLib
 
     public interface IDrawing
     {
-        void DrawTexture(CTexture texture, SRectF rect);
-        void DrawTexture(CTexture texture, SRectF rect, SColorF color);
-        void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
-        void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight);
+        void DrawTexture(CTextureRef texture, SRectF rect);
+        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color);
+        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
+        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight);
 
-        CTexture AddTexture(string fileName);
-        void RemoveTexture(ref CTexture texture);
+        CTextureRef AddTexture(string fileName);
+        void RemoveTexture(ref CTextureRef texture);
 
         void DrawColor(SColorF color, SRectF rect);
         void DrawColorReflection(SColorF color, SRectF rect, float space, float height);
@@ -223,7 +223,7 @@ namespace VocaluxeLib
         CProfile[] GetProfiles();
         EGameDifficulty GetDifficulty(int profileID);
         string GetPlayerName(int profileID, int playerNum = 0);
-        CTexture GetAvatar(int profileID);
+        CTextureRef GetAvatar(int profileID);
         CAvatar GetAvatarByFilename(string fileName);
         bool IsProfileIDValid(int profileID);
         bool IsGuest(int profileID);
@@ -264,7 +264,7 @@ namespace VocaluxeLib
     {
         int Load(string videoFileName);
         bool Skip(int streamID, float startPosition, float videoGap);
-        bool GetFrame(int streamID, ref CTexture videoTexture, float time, out float videoTime);
+        bool GetFrame(int streamID, ref CTextureRef videoTexture, float time, out float videoTime);
         bool IsFinished(int streamID);
         bool Close(int streamID);
         void SetLoop(int streamID, bool loop = true);
@@ -289,12 +289,12 @@ namespace VocaluxeLib
 
     public interface ICover
     {
-        CTexture GetNoCover();
+        CTextureRef GetNoCover();
     }
 
     public interface IDataBase
     {
-        bool GetCover(string fileName, ref CTexture texture, int coverSize);
+        bool GetCover(string fileName, ref CTextureRef texture, int coverSize);
         bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID);
     }
 
@@ -333,8 +333,8 @@ namespace VocaluxeLib
         void Load(CSong song, float start = 0f);
         void Stop();
         void TogglePause();
-        CTexture GetCover();
-        CTexture GetVideoTexture();
+        CTextureRef GetCover();
+        CTextureRef GetVideoTexture();
         bool IsPlaying();
         float GetLength();
     }

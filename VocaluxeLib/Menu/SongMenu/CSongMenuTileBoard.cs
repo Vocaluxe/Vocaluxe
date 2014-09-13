@@ -37,8 +37,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private CStatic _MedleyCalcIcon;
         private CStatic _MedleyTagIcon;
 
-        private CTexture _CoverBigBGTexture;
-        private CTexture _CoverBGTexture;
+        private CTextureRef _CoverBigBGTexture;
+        private CTextureRef _CoverBGTexture;
 
         private CText _Artist;
         private CText _Title;
@@ -467,7 +467,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _TextBG.Draw();
 
-            CTexture vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
+            CTextureRef vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
 
             if (vidtex != null)
             {

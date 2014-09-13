@@ -201,7 +201,7 @@ namespace Vocaluxe.Lib.Webcam
             }
         }
 
-        public bool GetFrame(ref CTexture frame)
+        public bool GetFrame(ref CTextureRef frame)
         {
             lock (_MutexData)
             {

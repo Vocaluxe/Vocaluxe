@@ -63,7 +63,7 @@ namespace Vocaluxe.Lib.Database
             }
         }
 
-        public bool GetCover(string coverPath, ref CTexture tex, int maxSize)
+        public bool GetCover(string coverPath, ref CTextureRef tex, int maxSize)
         {
             if (_Connection == null)
                 return false;

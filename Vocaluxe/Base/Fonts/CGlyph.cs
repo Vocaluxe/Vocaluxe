@@ -31,7 +31,7 @@ namespace Vocaluxe.Base.Fonts
 {
     class CGlyph
     {
-        private CTexture _Texture;
+        private CTextureRef _Texture;
         private readonly SizeF _BoundingBox;
         private readonly RectangleF _DrawBounding;
         public readonly float MaxHeight;
@@ -147,7 +147,7 @@ namespace Vocaluxe.Base.Fonts
             return CFonts.Height / _BoundingBox.Height;
         }
 
-        public void GetTextureAndRect(float x, float y, float z, out CTexture texture, out SRectF rect)
+        public void GetTextureAndRect(float x, float y, float z, out CTextureRef texture, out SRectF rect)
         {
             texture = _Texture;
             float factor = _GetFactor();

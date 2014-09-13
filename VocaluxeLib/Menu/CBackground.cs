@@ -55,7 +55,7 @@ namespace VocaluxeLib.Menu
 
         private int _SlideShowCurrent;
         private readonly Stopwatch _SlideShowTimer = new Stopwatch();
-        private readonly List<CTexture> _SlideShowTextures = new List<CTexture>();
+        private readonly List<CTextureRef> _SlideShowTextures = new List<CTextureRef>();
 
         public SColorF Color;
 
@@ -223,7 +223,7 @@ namespace VocaluxeLib.Menu
             _Theme.Type = EBackgroundTypes.SlideShow;
             if (!String.IsNullOrEmpty(image))
             {
-                CTexture texture = CBase.Drawing.AddTexture(image);
+                CTextureRef texture = CBase.Drawing.AddTexture(image);
                 if (texture != null)
                     _SlideShowTextures.Add(texture);
             }
@@ -231,9 +231,9 @@ namespace VocaluxeLib.Menu
 
         public void RemoveSlideShowTextures()
         {
-            foreach (CTexture tex in _SlideShowTextures)
+            foreach (CTextureRef tex in _SlideShowTextures)
             {
-                CTexture texture = tex;
+                CTextureRef texture = tex;
                 CBase.Drawing.RemoveTexture(ref texture);
             }
             _SlideShowTextures.Clear();
@@ -256,7 +256,7 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawTexture()
         {
-            CTexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            CTextureRef texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             if (texture != null)
             {
                 var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
@@ -288,7 +288,7 @@ namespace VocaluxeLib.Menu
                         _SlideShowCurrent = 0;
                 }
 
-                CTexture texture = _SlideShowTextures[_SlideShowCurrent];
+                CTextureRef texture = _SlideShowTextures[_SlideShowCurrent];
 
                 if (texture == null)
                     return false;
@@ -323,7 +323,7 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawVideo()
         {
-            CTexture videoTexture = CBase.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
+            CTextureRef videoTexture = CBase.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
             if (videoTexture != null)
             {
                 var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
@@ -338,7 +338,7 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawBackgroundMusicVideo()
         {
-            CTexture videoTexture = CBase.BackgroundMusic.GetVideoTexture();
+            CTextureRef videoTexture = CBase.BackgroundMusic.GetVideoTexture();
             if (videoTexture != null)
             {
                 var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());

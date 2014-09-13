@@ -61,7 +61,7 @@ namespace Vocaluxe.Base
             get { return _Song != null ? _Song.Finish : 0f; }
         }
 
-        public CTexture Cover
+        public CTextureRef Cover
         {
             get { return _Song != null ? _Song.CoverTextureSmall : CCover.NoCover; }
         }

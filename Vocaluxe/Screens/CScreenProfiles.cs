@@ -64,7 +64,7 @@ namespace Vocaluxe.Screens
 
         private EEditMode _EditMode;
 
-        private CTexture _WebcamTexture;
+        private CTextureRef _WebcamTexture;
         private Bitmap _Snapshot;
 
         public override void Init()

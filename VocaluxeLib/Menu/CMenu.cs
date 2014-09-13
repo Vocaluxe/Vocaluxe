@@ -476,7 +476,7 @@ namespace VocaluxeLib.Menu
             return new CStatic(oldStatic);
         }
 
-        public CStatic GetNewStatic(CTexture texture, SColorF color, SRectF rect)
+        public CStatic GetNewStatic(CTextureRef texture, SColorF color, SRectF rect)
         {
             return new CStatic(_PartyModeID, texture, color, rect);
         }
@@ -521,7 +521,7 @@ namespace VocaluxeLib.Menu
             return new CPlaylist(_PartyModeID);
         }
 
-        public CParticleEffect GetNewParticleEffect(int maxNumber, SColorF color, SRectF area, CTexture texture, float size, EParticleType type)
+        public CParticleEffect GetNewParticleEffect(int maxNumber, SColorF color, SRectF area, CTextureRef texture, float size, EParticleType type)
         {
             return new CParticleEffect(_PartyModeID, maxNumber, color, area, texture, size, type);
         }

@@ -52,7 +52,7 @@ namespace Vocaluxe.Lib.Draw
         private VertexBuffer _VertexBuffer;
         private IndexBuffer _IndexBuffer;
 
-        private CTexture _BlankTexture;
+        private CTextureRef _BlankTexture;
 
         private readonly Queue<STexturedColoredVertex> _Vertices = new Queue<STexturedColoredVertex>();
         private readonly Queue<Texture> _VerticesTextures = new Queue<Texture>();
@@ -466,9 +466,9 @@ namespace Vocaluxe.Lib.Draw
         ///     Copies the current frame into a texture
         ///     <returns>A texture holding the current frame</returns>
         /// </summary>
-        public CTexture CopyScreen()
+        public CTextureRef CopyScreen()
         {
-            CTexture texture = _GetNewTextureRef(_W, _H);
+            CTextureRef texture = _GetNewTextureRef(_W, _H);
 
             Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
             var tex = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
@@ -487,7 +487,7 @@ namespace Vocaluxe.Lib.Draw
         ///     Copies the current frame into a texture
         /// </summary>
         /// <param name="texture">The texture in which the frame is copied to</param>
-        public void CopyScreen(ref CTexture texture)
+        public void CopyScreen(ref CTextureRef texture)
         {
             if (!_TextureExists(texture) || texture.DataSize.Width != GetScreenWidth() || texture.DataSize.Height != GetScreenHeight())
             {
@@ -566,7 +566,7 @@ namespace Vocaluxe.Lib.Draw
         #endregion Basic Draw Methods
 
         #region Textures
-        protected override Texture _CreateTexture(CTexture texture, byte[] data)
+        protected override Texture _CreateTexture(CTextureRef texture, byte[] data)
         {
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
@@ -602,7 +602,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="h"></param>
         /// <param name="data">A byte array containing the new texture's data</param>
         /// <returns>True if succeeded</returns>
-        public override bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
+        public override bool UpdateTexture(CTextureRef texture, int w, int h, byte[] data)
         {
             if (!_TextureExists(texture))
                 return false;
@@ -626,7 +626,7 @@ namespace Vocaluxe.Lib.Draw
         ///     Draws a texture
         /// </summary>
         /// <param name="texture">The texture to be drawn</param>
-        public void DrawTexture(CTexture texture)
+        public void DrawTexture(CTextureRef texture)
         {
             if (texture == null)
                 return;
@@ -638,7 +638,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         /// <param name="texture">The texture to be drawn</param>
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        public void DrawTexture(CTexture texture, SRectF rect)
+        public void DrawTexture(CTextureRef texture, SRectF rect)
         {
             if (texture == null)
                 return;
@@ -652,7 +652,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false)
         {
             if (rect.W < 1 || rect.H < 1)
                 return;
@@ -698,7 +698,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
         /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1 ||
                 Math.Abs(color.A) < 0.01)
@@ -775,7 +775,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="begin">A Value ranging from 0 to 1 containing the beginning of the texture</param>
         /// <param name="end">A Value ranging from 0 to 1 containing the ending of the texture</param>
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, float begin, float end)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end)
         {
             if (!_TextureExists(texture))
                 return;
@@ -819,7 +819,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
         /// <param name="space">The space between the texture and the reflection</param>
         /// <param name="height">The height of the reflection</param>
-        public void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
             if (!_TextureExists(texture))
                 return;

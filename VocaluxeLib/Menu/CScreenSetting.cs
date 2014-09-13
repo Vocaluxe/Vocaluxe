@@ -126,7 +126,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private CTexture _GetTextureValue(string value)
+        private CTextureRef _GetTextureValue(string value)
         {
             return CBase.Theme.GetSkinTexture(value, _PartyModeID);
         }

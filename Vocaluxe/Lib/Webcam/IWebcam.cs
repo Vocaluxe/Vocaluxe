@@ -58,7 +58,7 @@ namespace Vocaluxe.Lib.Webcam
         /// </summary>
         /// <param name="frame"></param>
         /// <returns></returns>
-        bool GetFrame(ref CTexture frame);
+        bool GetFrame(ref CTextureRef frame);
 
         /// <summary>
         ///     Gets the last captured frame as a bitma

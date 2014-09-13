@@ -44,7 +44,7 @@ namespace Vocaluxe.Base
     class CSkinElement
     {
         public string Value;
-        public CTexture Texture;
+        public CTextureRef Texture;
     }
 
     class CVideoSkinElement : CSkinElement
@@ -554,7 +554,7 @@ namespace Vocaluxe.Base
             return path;
         }
 
-        public static CTexture GetSkinTexture(string textureName, int partyModeID)
+        public static CTextureRef GetSkinTexture(string textureName, int partyModeID)
         {
             int skinIndex = GetSkinIndex(partyModeID);
             CSkinElement sk;
@@ -597,7 +597,7 @@ namespace Vocaluxe.Base
             return null;
         }
 
-        public static CTexture GetSkinVideoTexture(string videoName, int partyModeID)
+        public static CTextureRef GetSkinVideoTexture(string videoName, int partyModeID)
         {
             CVideoSkinElement sk = GetSkinVideo(videoName, partyModeID);
             if (sk == null)

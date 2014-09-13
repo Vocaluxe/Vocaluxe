@@ -15,10 +15,10 @@ namespace Vocaluxe.Lib.Draw
 {
     struct STextureQueue
     {
-        public readonly CTexture Texture;
+        public readonly CTextureRef Texture;
         public readonly byte[] Data;
 
-        public STextureQueue(CTexture texture, byte[] data)
+        public STextureQueue(CTextureRef texture, byte[] data)
         {
             Texture = texture;
             Data = data;
@@ -141,7 +141,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected abstract TTextureType _CreateTexture(CTexture texture, byte[] data);
+        protected abstract TTextureType _CreateTexture(CTextureRef texture, byte[] data);
 
         /// <summary>
         ///     Creates the texture specified by the reference and fills it with the given data<br />
@@ -150,14 +150,14 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texture"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected virtual TTextureType _CreateTexture(CTexture texture, IntPtr data)
+        protected virtual TTextureType _CreateTexture(CTextureRef texture, IntPtr data)
         {
             byte[] dataArray = new byte[4 * texture.DataSize.Width * texture.DataSize.Height];
             Marshal.Copy(data, dataArray, 0, dataArray.Length);
             return _CreateTexture(texture, dataArray);
         }
 
-        protected CTexture _GetNewTextureRef(int origWidth, int origHeight, int dataWidth = 0, int dataHeight = 0)
+        protected CTextureRef _GetNewTextureRef(int origWidth, int origHeight, int dataWidth = 0, int dataHeight = 0)
         {
             Debug.Assert(origWidth > 0 && origHeight > 0);
             Debug.Assert(dataWidth > 0 || dataHeight <= 0);
@@ -168,7 +168,7 @@ namespace Vocaluxe.Lib.Draw
             }
             Size origSize = new Size(origWidth, origHeight);
             Size dataSize = (dataHeight > 0) ? new Size(dataWidth, dataHeight) : origSize;
-            return new CTexture(id, origSize, dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
+            return new CTextureRef(id, origSize, dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
         }
 
         /// <summary>
@@ -176,7 +176,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         /// <param name="texturePath">The texture's filepath</param>
         /// <returns>A STexture object containing the added texture</returns>
-        public CTexture AddTexture(string texturePath)
+        public CTextureRef AddTexture(string texturePath)
         {
             if (!File.Exists(texturePath))
             {
@@ -193,7 +193,7 @@ namespace Vocaluxe.Lib.Draw
                 CLog.LogError("Error loading Texture: " + texturePath);
                 return null;
             }
-            CTexture s;
+            CTextureRef s;
             try
             {
                 s = AddTexture(bmp, texturePath);
@@ -205,7 +205,7 @@ namespace Vocaluxe.Lib.Draw
             return s;
         }
 
-        public CTexture AddTexture(Bitmap bmp)
+        public CTextureRef AddTexture(Bitmap bmp)
         {
             return AddTexture(bmp, "");
         }
@@ -216,7 +216,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="bmp">The Bitmap of which the texure will be created from</param>
         /// <param name="texturePath"></param>
         /// <returns>A STexture object containing the added texture</returns>
-        public CTexture AddTexture(Bitmap bmp, string texturePath)
+        public CTextureRef AddTexture(Bitmap bmp, string texturePath)
         {
             if (bmp.Height == 0 || bmp.Width == 0)
                 return null;
@@ -247,7 +247,7 @@ namespace Vocaluxe.Lib.Draw
             int w = Math.Min(bmp.Width, maxSize);
             int h = Math.Min(bmp.Height, maxSize);
 
-            CTexture texture = _GetNewTextureRef(bmp.Width, bmp.Height, w, h);
+            CTextureRef texture = _GetNewTextureRef(bmp.Width, bmp.Height, w, h);
             texture.TexturePath = texturePath;
 
             Bitmap bmp2 = null;
@@ -285,14 +285,14 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        public CTexture AddTexture(int w, int h, byte[] data)
+        public CTextureRef AddTexture(int w, int h, byte[] data)
         {
-            CTexture texture = _GetNewTextureRef(w, h);
+            CTextureRef texture = _GetNewTextureRef(w, h);
             _AddTexture(texture, data);
             return texture;
         }
 
-        private void _AddTexture(CTexture texture, byte[] data)
+        private void _AddTexture(CTextureRef texture, byte[] data)
         {
             TTextureType t = _CreateTexture(texture, data);
             lock (_Textures)
@@ -301,7 +301,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        private void _AddTexture(CTexture texture, IntPtr data)
+        private void _AddTexture(CTextureRef texture, IntPtr data)
         {
             TTextureType t = _CreateTexture(texture, data);
             lock (_Textures)
@@ -310,9 +310,9 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public CTexture EnqueueTexture(int w, int h, byte[] data)
+        public CTextureRef EnqueueTexture(int w, int h, byte[] data)
         {
-            CTexture texture = _GetNewTextureRef(w, h);
+            CTextureRef texture = _GetNewTextureRef(w, h);
 
             lock (_Textures)
             {
@@ -330,9 +330,9 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="h"></param>
         /// <param name="data">A byte array containing the new texture's data</param>
         /// <returns>True if succeeded</returns>
-        public abstract bool UpdateTexture(CTexture texture, int w, int h, byte[] data);
+        public abstract bool UpdateTexture(CTextureRef texture, int w, int h, byte[] data);
 
-        public bool UpdateOrAddTexture(ref CTexture texture, int w, int h, byte[] data)
+        public bool UpdateOrAddTexture(ref CTextureRef texture, int w, int h, byte[] data)
         {
             if (!UpdateTexture(texture, w, h, data))
             {
@@ -347,7 +347,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         /// <param name="texture">The texture to check</param>
         /// <returns>True if the texture exists</returns>
-        protected bool _TextureExists(CTexture texture)
+        protected bool _TextureExists(CTextureRef texture)
         {
             lock (_Textures)
             {
@@ -356,7 +356,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        protected TTextureType _GetTexture(CTexture textureRef)
+        protected TTextureType _GetTexture(CTextureRef textureRef)
         {
             if (textureRef == null)
                 return null;
@@ -369,7 +369,7 @@ namespace Vocaluxe.Lib.Draw
         ///     Removes a texture from the Vram
         /// </summary>
         /// <param name="texture">The texture to be removed</param>
-        public void RemoveTexture(ref CTexture texture)
+        public void RemoveTexture(ref CTextureRef texture)
         {
             if (texture == null)
                 return;

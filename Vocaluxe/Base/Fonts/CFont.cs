@@ -85,7 +85,7 @@ namespace Vocaluxe.Base.Fonts
 
         public void DrawGlyph(char chr, float x, float y, float z, SColorF color)
         {
-            CTexture texture;
+            CTextureRef texture;
             SRectF rect;
             GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
             CDraw.DrawTexture(texture, rect, color);
@@ -93,7 +93,7 @@ namespace Vocaluxe.Base.Fonts
 
         public void DrawGlyph(char chr, float x, float y, float z, SColorF color, float begin, float end)
         {
-            CTexture texture;
+            CTextureRef texture;
             SRectF rect;
             GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
             CDraw.DrawTexture(texture, rect, color, begin, end);
@@ -101,7 +101,7 @@ namespace Vocaluxe.Base.Fonts
 
         public void DrawGlyphReflection(char chr, float x, float y, float z, SColorF color, float rspace, float rheight)
         {
-            CTexture texture;
+            CTextureRef texture;
             SRectF rect;
             GetOrAddGlyph(chr).GetTextureAndRect(x, y, z, out texture, out rect);
             CDraw.DrawTextureReflection(texture, rect, color, rect, rspace, rheight);

@@ -69,9 +69,9 @@ namespace VocaluxeLib.Menu
         public SRectF Rect;
         private readonly List<CTile> _Tiles;
 
-        private CTexture _TextureEmptyTile;
-        private CTexture _TextureTileSelected;
-        public CTexture TextureEmptyTile
+        private CTextureRef _TextureEmptyTile;
+        private CTextureRef _TextureTileSelected;
+        public CTextureRef TextureEmptyTile
         {
             get { return _TextureEmptyTile; }
         }

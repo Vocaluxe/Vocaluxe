@@ -130,12 +130,12 @@ namespace Vocaluxe.Base
             _Draw.ClearScreen();
         }
 
-        public static CTexture CopyScreen()
+        public static CTextureRef CopyScreen()
         {
             return _Draw.CopyScreen();
         }
 
-        public static void CopyScreen(ref CTexture texture)
+        public static void CopyScreen(ref CTextureRef texture)
         {
             _Draw.CopyScreen(ref texture);
         }
@@ -145,67 +145,67 @@ namespace Vocaluxe.Base
             _Draw.MakeScreenShot();
         }
 
-        public static CTexture AddTexture(Bitmap bitmap)
+        public static CTextureRef AddTexture(Bitmap bitmap)
         {
             return _Draw.AddTexture(bitmap);
         }
 
-        public static CTexture AddTexture(string texturePath)
+        public static CTextureRef AddTexture(string texturePath)
         {
             return _Draw.AddTexture(texturePath);
         }
 
-        public static CTexture AddTexture(int w, int h, byte[] data)
+        public static CTextureRef AddTexture(int w, int h, byte[] data)
         {
             return _Draw.AddTexture(w, h, data);
         }
 
-        public static CTexture EnqueueTexture(int w, int h, byte[] data)
+        public static CTextureRef EnqueueTexture(int w, int h, byte[] data)
         {
             return _Draw.EnqueueTexture(w, h, data);
         }
 
-        public static bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
+        public static bool UpdateTexture(CTextureRef texture, int w, int h, byte[] data)
         {
             return _Draw.UpdateTexture(texture, w, h, data);
         }
 
-        public static bool UpdateOrAddTexture(ref CTexture texture, int w, int h, byte[] data)
+        public static bool UpdateOrAddTexture(ref CTextureRef texture, int w, int h, byte[] data)
         {
             return _Draw.UpdateOrAddTexture(ref texture, w, h, data);
         }
 
-        public static void RemoveTexture(ref CTexture texture)
+        public static void RemoveTexture(ref CTextureRef texture)
         {
             _Draw.RemoveTexture(ref texture);
         }
 
-        public static void DrawTexture(CTexture texture)
+        public static void DrawTexture(CTextureRef texture)
         {
             _Draw.DrawTexture(texture);
         }
 
-        public static void DrawTexture(CTexture texture, SRectF rect)
+        public static void DrawTexture(CTextureRef texture, SRectF rect)
         {
             _Draw.DrawTexture(texture, rect);
         }
 
-        public static void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false)
+        public static void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false)
         {
             _Draw.DrawTexture(texture, rect, color, mirrored);
         }
 
-        public static void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public static void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             _Draw.DrawTexture(texture, rect, color, bounds, mirrored);
         }
 
-        public static void DrawTexture(CTexture texture, SRectF rect, SColorF color, float begin, float end)
+        public static void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end)
         {
             _Draw.DrawTexture(texture, rect, color, begin, end);
         }
 
-        public static void DrawTexture(CStatic staticBounds, CTexture texture, EAspect aspect)
+        public static void DrawTexture(CStatic staticBounds, CTextureRef texture, EAspect aspect)
         {
             if (texture == null)
                 return;
@@ -218,7 +218,7 @@ namespace Vocaluxe.Base
                         texture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
         }
 
-        public static void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        public static void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
             _Draw.DrawTextureReflection(texture, rect, color, bounds, space, height);
         }

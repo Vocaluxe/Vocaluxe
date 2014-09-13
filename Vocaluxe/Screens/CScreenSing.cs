@@ -99,9 +99,9 @@ namespace Vocaluxe.Screens
         private const float _Volume = 100f;
         private int _CurrentVideo = -1;
         private EAspect _VideoAspect = EAspect.Crop;
-        private CTexture _CurrentVideoTexture;
-        private CTexture _CurrentWebcamFrameTexture;
-        private CTexture _Background;
+        private CTextureRef _CurrentVideoTexture;
+        private CTextureRef _CurrentWebcamFrameTexture;
+        private CTextureRef _Background;
 
         private float _CurrentTime;
         private float _FinishTime;
@@ -450,7 +450,7 @@ namespace Vocaluxe.Screens
         {
             if (_Active)
             {
-                CTexture background;
+                CTextureRef background;
                 var aspect = EAspect.Crop;
                 if (_CurrentVideo != -1 && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
                 {

@@ -32,10 +32,10 @@ namespace Vocaluxe.Base
 
     static class CCover
     {
-        private static readonly Dictionary<string, CTexture> _Covers = new Dictionary<string, CTexture>();
+        private static readonly Dictionary<string, CTextureRef> _Covers = new Dictionary<string, CTextureRef>();
         private static readonly List<SCoverTheme> _CoverThemes = new List<SCoverTheme>();
 
-        public static CTexture NoCover { get; private set; }
+        public static CTextureRef NoCover { get; private set; }
 
         public static void Init()
         {
@@ -81,7 +81,7 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Returns a STexture for a given cover name. Returns "NoCover" if the cover does not exist.
         /// </summary>
-        public static CTexture Cover(string name)
+        public static CTextureRef Cover(string name)
         {
             lock (_Covers)
             {
@@ -116,7 +116,7 @@ namespace Vocaluxe.Base
             {
                 foreach (string key in _Covers.Keys)
                 {
-                    CTexture texture = _Covers[key];
+                    CTextureRef texture = _Covers[key];
                     CDraw.RemoveTexture(ref texture);
                 }
                 _Covers.Clear();

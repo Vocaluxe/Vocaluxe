@@ -75,7 +75,7 @@ namespace Vocaluxe.Base
             return _VideoDecoder.GetLength(streamID);
         }
 
-        public static bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
+        public static bool GetFrame(int streamID, ref CTextureRef frame, float time, out float videoTime)
         {
             return _VideoDecoder.GetFrame(streamID, ref frame, time, out videoTime);
         }

@@ -24,8 +24,8 @@ namespace VocaluxeLib.Songs
     public class CCategory
     {
         public readonly string Name;
-        private CTexture _CoverTextureSmall;
-        private CTexture _CoverTextureBig;
+        private CTextureRef _CoverTextureSmall;
+        private CTextureRef _CoverTextureBig;
         public readonly List<CSongPointer> Songs = new List<CSongPointer>();
 
         public CCategory(string name)
@@ -33,14 +33,14 @@ namespace VocaluxeLib.Songs
             Name = name;
         }
 
-        public CTexture CoverTextureSmall
+        public CTextureRef CoverTextureSmall
         {
             get { return _CoverTextureSmall; }
 
             set { _CoverTextureSmall = value; }
         }
 
-        public CTexture CoverTextureBig
+        public CTextureRef CoverTextureBig
         {
             get { return _CoverTextureBig ?? _CoverTextureSmall; }
             set

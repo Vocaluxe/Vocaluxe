@@ -38,8 +38,8 @@ namespace VocaluxeLib.Menu
         private bool _ThemeLoaded;
         private readonly int _PartyModeID;
 
-        public CTexture Texture;
-        public CTexture SelTexture;
+        public CTextureRef Texture;
+        public CTextureRef SelTexture;
         public SRectF Rect;
         public SColorF Color;
         public SColorF SelColor;
@@ -290,7 +290,7 @@ namespace VocaluxeLib.Menu
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme && !forceDraw)
                 return;
 
-            CTexture texture;
+            CTextureRef texture;
 
             if (!Selected && !Pressed || !_Enabled)
             {

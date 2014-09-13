@@ -275,9 +275,9 @@ namespace Vocaluxe.Lib.Draw
             GL.Ortho(-CConfig.BorderLeft, CConfig.BorderRight + CSettings.RenderW, CConfig.BorderBottom + CSettings.RenderH, -CConfig.BorderTop, CSettings.ZNear, CSettings.ZFar);
         }
 
-        public CTexture CopyScreen()
+        public CTextureRef CopyScreen()
         {
-            CTexture texture = _GetNewTextureRef(_W, _H);
+            CTextureRef texture = _GetNewTextureRef(_W, _H);
 
             CGLTexture t = new CGLTexture(GL.GenTexture());
             GL.BindTexture(TextureTarget.Texture2D, t.Name);
@@ -299,7 +299,7 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        public void CopyScreen(ref CTexture texture)
+        public void CopyScreen(ref CTextureRef texture)
         {
             //Check for actual texture sizes as it may be downsized compared to OrigSize
             if (!_TextureExists(texture) || texture.DataSize.Width != GetScreenWidth() || texture.DataSize.Height != GetScreenHeight())
@@ -419,7 +419,7 @@ namespace Vocaluxe.Lib.Draw
         #region Textures
 
         #region adding
-        protected override CGLTexture _CreateTexture(CTexture texture, IntPtr data)
+        protected override CGLTexture _CreateTexture(CTextureRef texture, IntPtr data)
         {
             CGLTexture t = new CGLTexture(GL.GenTexture());
 
@@ -439,7 +439,7 @@ namespace Vocaluxe.Lib.Draw
             return t;
         }
 
-        protected override CGLTexture _CreateTexture(CTexture texture, byte[] data)
+        protected override CGLTexture _CreateTexture(CTextureRef texture, byte[] data)
         {
             CGLTexture t = new CGLTexture(GL.GenTexture());
 
@@ -476,7 +476,7 @@ namespace Vocaluxe.Lib.Draw
         #endregion adding
 
         #region updating
-        public override bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
+        public override bool UpdateTexture(CTextureRef texture, int w, int h, byte[] data)
         {
             CGLTexture t = _GetTexture(texture);
             if (t == null)
@@ -524,21 +524,21 @@ namespace Vocaluxe.Lib.Draw
         #endregion updating
 
         #region drawing
-        public void DrawTexture(CTexture texture)
+        public void DrawTexture(CTextureRef texture)
         {
             if (texture == null)
                 return;
             DrawTexture(texture, texture.Rect, texture.Color);
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect)
+        public void DrawTexture(CTextureRef texture, SRectF rect)
         {
             if (texture == null)
                 return;
             DrawTexture(texture, rect, texture.Color);
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false)
         {
             CGLTexture t = _GetTexture(texture);
             if (t == null)
@@ -601,7 +601,7 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             CGLTexture t = _GetTexture(texture);
             if (t == null)
@@ -696,7 +696,7 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, float begin, float end)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end)
         {
             CGLTexture t = _GetTexture(texture);
             if (t == null)
@@ -729,7 +729,7 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
             CGLTexture t = _GetTexture(texture);
             if (t == null)

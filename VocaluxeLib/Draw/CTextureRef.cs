@@ -22,7 +22,7 @@ namespace VocaluxeLib.Draw
     /// <summary>
     ///     Reference to a texture in the drawing driver
     /// </summary>
-    public class CTexture
+    public class CTextureRef
     {
         public readonly int ID;
 
@@ -102,7 +102,7 @@ namespace VocaluxeLib.Draw
         /// <param name="dataSize">Size of the data used</param>
         /// <param name="texWidth">Width in video memory</param>
         /// <param name="texHeight">Height in video memory</param>
-        public CTexture(int id, Size origSize, Size dataSize, int texWidth = 0, int texHeight = 0)
+        public CTextureRef(int id, Size origSize, Size dataSize, int texWidth = 0, int texHeight = 0)
         {
             ID = id;
             _DataSize = dataSize;

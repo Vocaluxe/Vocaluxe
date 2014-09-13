@@ -40,8 +40,8 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
-        private CTexture _Texture;
-        public CTexture Texture
+        private CTextureRef _Texture;
+        public CTextureRef Texture
         {
             get { return _Texture ?? CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
 
@@ -83,7 +83,7 @@ namespace VocaluxeLib.Menu
             Visible = s.Visible;
         }
 
-        public CStatic(int partyModeID, CTexture texture, SColorF color, SRectF rect)
+        public CStatic(int partyModeID, CTextureRef texture, SColorF color, SRectF rect)
         {
             _PartyModeID = partyModeID;
 
@@ -192,7 +192,7 @@ namespace VocaluxeLib.Menu
 
         public void Draw(EAspect aspect, float scale = 1f, float zModify = 0f, bool forceDraw = false)
         {
-            CTexture texture = Texture;
+            CTextureRef texture = Texture;
             SRectF bounds = Rect.Scale(scale);
             SRectF rect;
             if (aspect != EAspect.Stretch && texture != null)

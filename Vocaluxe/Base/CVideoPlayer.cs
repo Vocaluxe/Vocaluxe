@@ -7,7 +7,7 @@ namespace Vocaluxe.Base
 {
     class CVideoPlayer
     {
-        private CTexture _VideoTexture;
+        private CTextureRef _VideoTexture;
         private int _VideoStream;
         private readonly Stopwatch _VideoTimer = new Stopwatch();
         private bool _Finished;
