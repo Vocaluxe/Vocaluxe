@@ -69,7 +69,8 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CDirect3D()
         {
-            _Form = new CRenderFormHook();
+            _Form = new CRenderFormHook {ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH)};
+
             try
             {
                 _D3D = new Direct3D();
@@ -184,37 +185,45 @@ namespace Vocaluxe.Lib.Draw
             // The window was minimized, so restore it to the last known size
             if (_Form.ClientSize.Width == 0 || _Form.ClientSize.Height == 0)
                 _Form.ClientSize = _SizeBeforeMinimize;
-            if (!_Run)
-                return;
-            _H = _Form.ClientSize.Height;
-            _W = _Form.ClientSize.Width;
+
+            int newH = _Form.ClientSize.Height;
+            int newW = _Form.ClientSize.Width;
             _Y = 0;
             _X = 0;
 
-            if (_W / (float)_H > CSettings.GetRenderAspect())
+            if (newW / (float)newH > CSettings.GetRenderAspect())
             {
                 //The windows width is too big
-                _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
-                _X = (_Form.ClientSize.Width - _W) / 2;
+                newW = (int)Math.Round(newH * CSettings.GetRenderAspect());
+                _X = (_Form.ClientSize.Width - newW) / 2;
             }
             else
             {
                 //The windows height is too big
-                _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
-                _Y = (_Form.ClientSize.Height - _H) / 2;
+                newH = (int)Math.Round(newW / CSettings.GetRenderAspect());
+                _Y = (_Form.ClientSize.Height - newH) / 2;
             }
+
+            if (_H == newH && _W == newW)
+                return;
+            _H = newH;
+            _W = newW;
+
 
             //Apply the new sizes to the PresentParameters
             _PresentParameters.BackBufferWidth = _Form.ClientSize.Width;
             _PresentParameters.BackBufferHeight = _Form.ClientSize.Height;
-            ClearScreen();
-            //To set new PresentParameters the device has to be resetted
-            _Reset();
-            //All configurations got flushed due to Reset(), so apply them again
-            Init();
+            if (_Run)
+            {
+                ClearScreen();
+                //To set new PresentParameters the device has to be resetted
+                _Reset();
+                //All configurations got flushed due to Reset(), so apply them again
+                _InitDevice();
+                //Set the new Viewport
+                _Device.Viewport = new Viewport(_X, _Y, _W, _H);
+            }
 
-            //Set the new Viewport
-            _Device.Viewport = new Viewport(_X, _Y, _W, _H);
             //Store size so it can get restored after the window gets minimized
             _SizeBeforeMinimize = _Form.ClientSize;
         }
@@ -249,6 +258,21 @@ namespace Vocaluxe.Lib.Draw
             if (_Device.Disposed)
                 return false;
 
+            _InitDevice();
+
+            //This creates a new white texture and adds it to the texture pool
+            //This texture is used for the DrawRect method
+            using (var blankMap = new Bitmap(1, 1))
+            using (Graphics g = Graphics.FromImage(blankMap))
+            {
+                g.Clear(Color.White);
+                _BlankTexture = AddTexture(blankMap);
+            }
+            return true;
+        }
+
+        private void _InitDevice()
+        {
             _AdjustNewBorders();
 
             _VertexBuffer = new VertexBuffer(_Device, CSettings.VertexBufferElements * (4 * Marshal.SizeOf(typeof(STexturedColoredVertex))), Usage.WriteOnly | Usage.Dynamic,
@@ -304,17 +328,6 @@ namespace Vocaluxe.Lib.Draw
             stream.WriteRange(indices);
             _IndexBuffer.Unlock();
             _Device.Indices = _IndexBuffer;
-
-            //This creates a new white texture and adds it to the texture pool
-            //This texture is used for the DrawRect method
-            using (var blankMap = new Bitmap(1, 1))
-            {
-                Graphics g = Graphics.FromImage(blankMap);
-                g.Clear(Color.White);
-                g.Dispose();
-                _BlankTexture = AddTexture(blankMap);
-            }
-            return true;
         }
 
         protected override void _OnBeforeDraw()
@@ -342,7 +355,7 @@ namespace Vocaluxe.Lib.Draw
                 if (_Device.TestCooperativeLevel() == ResultCode.DeviceNotReset)
                 {
                     _Reset();
-                    Init();
+                    _InitDevice();
                 }
             }
             Application.DoEvents();
@@ -382,7 +395,7 @@ namespace Vocaluxe.Lib.Draw
         public override void Unload()
         {
             base.Unload();
-            STexturedColoredVertex.GetDeclaration(_Device).Dispose();
+            STexturedColoredVertex.DisposeDeclaration();
             _VertexBuffer.Dispose();
             _IndexBuffer.Dispose();
             _Device.Dispose();
@@ -572,7 +585,6 @@ namespace Vocaluxe.Lib.Draw
         #endregion Basic Draw Methods
 
         #region Textures
-
         protected override Texture _CreateTexture(CTexture texture, byte[] data)
         {
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
@@ -661,7 +673,40 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="mirrored">True if the texture should be mirrored</param>
         public void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false)
         {
-            DrawTexture(texture, rect, color, new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, rect.Z), mirrored);
+            if (rect.W < 1 || rect.H < 1)
+                return;
+
+            Texture t = _GetTexture(texture);
+            if (t == null)
+                return;
+
+            //Calculate the position
+            float x1 = 0;
+            float x2 = texture.WidthRatio;
+            float y1 = 0;
+            float y2 = texture.HeightRatio;
+
+            //Calculate the size
+            float rx1 = rect.X;
+            float rx2 = rect.X + rect.W;
+            float ry1 = rect.Y;
+            float ry2 = rect.Y + rect.H;
+
+            color.A *= CGraphics.GlobalAlpha;
+
+            Color c = color.AsColor();
+
+            if (mirrored)
+            {
+                y1 = -y1;
+                y2 = -y2;
+            }
+            var vert = new STexturedColoredVertex[4];
+            vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
+            vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
+            vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
+            vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
+            _AddToVertexBuffer(vert, t, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
         }
 
         /// <summary>
@@ -674,9 +719,18 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="mirrored">True if the texture should be mirrored</param>
         public void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
-            if (!_TextureExists(texture))
+            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1 ||
+                Math.Abs(color.A) < 0.01)
                 return;
-            if (_Textures[texture.ID] == null)
+
+            if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
+                return;
+
+            if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
+                return;
+
+            Texture t = _GetTexture(texture);
+            if (t == null)
                 return;
 
             //Calculate the position
@@ -715,43 +769,21 @@ namespace Vocaluxe.Lib.Draw
             if (ry2 > bounds.Y + bounds.H)
                 ry2 = bounds.Y + bounds.H;
 
-            //Align the pixels because Direct3D expects the pixels to be the left top corner
-            rx1 -= 0.5f;
-            ry1 -= 0.5f;
-            rx2 -= 0.5f;
-            ry2 -= 0.5f;
-
             color.A *= CGraphics.GlobalAlpha;
-
-            if (color.A > 1)
-                color.A = 1;
-            if (color.R > 1)
-                color.R = 1;
-            if (color.G > 1)
-                color.G = 1;
-            if (color.B > 1)
-                color.B = 1;
 
             Color c = color.AsColor();
 
-            if (!mirrored)
+            if (mirrored)
             {
-                var vert = new STexturedColoredVertex[4];
-                vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
-                vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
-                vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
-                vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
-                _AddToVertexBuffer(vert, _Textures[texture.ID], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
+                y1 = -y1;
+                y2 = -y2;
             }
-            else
-            {
-                var vert = new STexturedColoredVertex[4];
-                vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y1), c.ToArgb());
-                vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, -y2), c.ToArgb());
-                vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y2), c.ToArgb());
-                vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, -y1), c.ToArgb());
-                _AddToVertexBuffer(vert, _Textures[texture.ID], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
-            }
+            var vert = new STexturedColoredVertex[4];
+            vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
+            vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
+            vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
+            vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
+            _AddToVertexBuffer(vert, t, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
         }
 
         /// <summary>
@@ -940,6 +972,15 @@ namespace Vocaluxe.Lib.Draw
                     _Declaration = new VertexDeclaration(device, _Elements);
 
                 return _Declaration;
+            }
+
+            public static void DisposeDeclaration()
+            {
+                if (_Declaration != null && !_Declaration.Disposed)
+                {
+                    _Declaration.Dispose();
+                    _Declaration = null;
+                }
             }
         }
     }

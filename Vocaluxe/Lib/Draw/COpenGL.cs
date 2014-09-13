@@ -99,7 +99,8 @@ namespace Vocaluxe.Lib.Draw
 
         public COpenGL()
         {
-            _Form = new CFormHook();
+            _Form = new CFormHook {ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH)};
+
             //Check AA Mode
             CConfig.AAMode = (EAntiAliasingModes)_CheckAntiAliasingMode((int)CConfig.AAMode);
 
@@ -440,11 +441,12 @@ namespace Vocaluxe.Lib.Draw
 
             GL.BindTexture(TextureTarget.Texture2D, t.Name);
 
+            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.DataSize.Width, texture.DataSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
@@ -478,8 +480,8 @@ namespace Vocaluxe.Lib.Draw
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.OrigSize.Width, texture.OrigSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureParameterName.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureParameterName.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
@@ -554,7 +556,65 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false)
         {
-            DrawTexture(texture, rect, color, new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, rect.Z), mirrored);
+            CGLTexture t = _GetTexture(texture);
+            if (t == null)
+                return;
+
+            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(color.A) < 0.01)
+                return;
+
+            GL.BindTexture(TextureTarget.Texture2D, t.Name);
+
+            float x1 = 0;
+            float x2 = texture.WidthRatio;
+            float y1 = 0;
+            float y2 = texture.HeightRatio;
+
+            float rx1 = rect.X;
+            float rx2 = rect.X + rect.W;
+            float ry1 = rect.Y;
+            float ry2 = rect.Y + rect.H;
+
+            GL.Enable(EnableCap.Blend);
+            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+
+            GL.MatrixMode(MatrixMode.Texture);
+            GL.PushMatrix();
+
+            if (Math.Abs(rect.Rotation) > float.Epsilon)
+            {
+                GL.Translate(0.5f, 0.5f, 0);
+                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                GL.Translate(-0.5f, -0.5f, 0);
+            }
+
+            if (mirrored)
+            {
+                float tmp = ry2;
+                ry2 = ry1;
+                ry1 = tmp;
+            }
+
+            GL.Begin(BeginMode.Quads);
+
+            GL.TexCoord2(x1, y1);
+            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+
+            GL.TexCoord2(x1, y2);
+            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+
+            GL.TexCoord2(x2, y2);
+            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+
+            GL.TexCoord2(x2, y1);
+            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+
+            GL.End();
+
+            GL.PopMatrix();
+
+            GL.Disable(EnableCap.Blend);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
         public void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
@@ -563,8 +623,8 @@ namespace Vocaluxe.Lib.Draw
             if (t == null)
                 return;
 
-            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon ||
-                Math.Abs(color.A) < float.Epsilon)
+            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1 ||
+                Math.Abs(color.A) < 0.01)
                 return;
 
             if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
@@ -623,42 +683,28 @@ namespace Vocaluxe.Lib.Draw
                 GL.Translate(-0.5f, -0.5f, 0);
             }
 
-            if (!mirrored)
+            if (mirrored)
             {
-                GL.Begin(BeginMode.Quads);
-
-                GL.TexCoord2(x1, y1);
-                GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-                GL.TexCoord2(x1, y2);
-                GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-                GL.TexCoord2(x2, y2);
-                GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-                GL.TexCoord2(x2, y1);
-                GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-                GL.End();
+                float tmp = ry2;
+                ry2 = ry1;
+                ry1 = tmp;
             }
-            else
-            {
-                GL.Begin(BeginMode.Quads);
 
-                GL.TexCoord2(x2, y2);
-                GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+            GL.Begin(BeginMode.Quads);
 
-                GL.TexCoord2(x2, y1);
-                GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+            GL.TexCoord2(x1, y1);
+            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
 
-                GL.TexCoord2(x1, y1);
-                GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+            GL.TexCoord2(x1, y2);
+            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
 
-                GL.TexCoord2(x1, y2);
-                GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+            GL.TexCoord2(x2, y2);
+            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
 
-                GL.End();
-            }
+            GL.TexCoord2(x2, y1);
+            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+
+            GL.End();
 
             GL.PopMatrix();
 

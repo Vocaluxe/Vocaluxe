@@ -180,7 +180,6 @@ namespace Vocaluxe.Lib.Draw
             _Form.Resize += _OnResize;
             _Form.Load += _OnLoad;
 
-            _Form.ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
             _SizeBeforeMinimize = _Form.ClientSize;
             _CenterToScreen();
 

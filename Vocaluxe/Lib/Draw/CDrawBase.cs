@@ -148,7 +148,7 @@ namespace Vocaluxe.Lib.Draw
             CTexture s;
             try
             {
-                s = AddTexture(bmp);
+                s = AddTexture(bmp, texturePath);
             }
             finally
             {
@@ -157,12 +157,18 @@ namespace Vocaluxe.Lib.Draw
             return s;
         }
 
+        public CTexture AddTexture(Bitmap bmp)
+        {
+            return AddTexture(bmp, "");
+        }
+
         /// <summary>
         ///     Adds a texture and stores it in the Vram
         /// </summary>
         /// <param name="bmp">The Bitmap of which the texure will be created from</param>
+        /// <param name="texturePath"></param>
         /// <returns>A STexture object containing the added texture</returns>
-        public CTexture AddTexture(Bitmap bmp)
+        public CTexture AddTexture(Bitmap bmp, string texturePath)
         {
             if (bmp.Height == 0 || bmp.Width == 0)
                 return null;
@@ -194,6 +200,7 @@ namespace Vocaluxe.Lib.Draw
             int h = Math.Min(bmp.Height, maxSize);
 
             CTexture texture = _GetNewTextureRef(bmp.Width, bmp.Height, w, h);
+            texture.TexturePath = texturePath;
 
             Bitmap bmp2 = null;
             try
