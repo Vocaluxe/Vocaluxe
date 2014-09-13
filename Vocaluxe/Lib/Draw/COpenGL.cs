@@ -88,18 +88,12 @@ namespace Vocaluxe.Lib.Draw
     {
         #region private vars
         private readonly GLControl _Control;
-
-        private int _H = 1;
-        private int _W = 1;
-        private int _Y;
-        private int _X;
-
         private bool _UsePBO;
         #endregion private vars
 
         public COpenGL()
         {
-            _Form = new CFormHook {ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH)};
+            _Form = new CFormHook();
 
             //Check AA Mode
             CConfig.AAMode = (EAntiAliasingModes)_CheckAntiAliasingMode((int)CConfig.AAMode);
@@ -214,25 +208,10 @@ namespace Vocaluxe.Lib.Draw
         {
             _H = _Control.Height;
             _W = _Control.Width;
-            _Y = 0;
-            _X = 0;
+            _CurrentAlignment = CConfig.ScreenAlignment;
 
-            if (_W / (float)_H > CSettings.GetRenderAspect())
-            {
-                //The windows width is too big
-                _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
-                _X = (_Control.Width - _W) / 2;
-            }
-            else
-            {
-                //The windows height is too big
-                _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
-                _Y = (_Control.Height - _H) / 2;
-            }
-
-            GL.MatrixMode(MatrixMode.Projection);
-            GL.LoadIdentity();
-            GL.Ortho(0, CSettings.RenderW, CSettings.RenderH, 0, CSettings.ZNear, CSettings.ZFar);
+            _AdjustAspect(true);
+            _AdjustNewBorders();
             GL.Viewport(_X, _Y, _W, _H);
         }
 
@@ -243,6 +222,9 @@ namespace Vocaluxe.Lib.Draw
         {
             if (!base.Init())
                 return false;
+
+            //OpenGL needs that here but D3D needs it in the constructor, so do NOT unify!
+            _Form.ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
 
             // Init Texturing
             GL.Enable(EnableCap.Texture2D);
@@ -288,7 +270,9 @@ namespace Vocaluxe.Lib.Draw
 
         protected override void _AdjustNewBorders()
         {
-            //TODO: Implement!!!
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            GL.Ortho(-CConfig.BorderLeft, CConfig.BorderRight + CSettings.RenderW, CConfig.BorderBottom + CSettings.RenderH, -CConfig.BorderTop, CSettings.ZNear, CSettings.ZFar);
         }
 
         public CTexture CopyScreen()

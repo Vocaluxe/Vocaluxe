@@ -353,32 +353,55 @@ namespace Vocaluxe.Base
                 if (!eventsAvailable)
                     keyEvent = inputKeyEvent;
 
-                if (keyEvent.IsArrowKey() || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0)
+                if (keyEvent.IsArrowKey() || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0 || keyEvent.Key == Keys.Add)
                 {
                     _Cursor.Deactivate();
 
-                    if (keyEvent.ModAlt && keyEvent.ModCtrl && keyEvent.ModShift)
+                    if (keyEvent.ModAlt && keyEvent.ModCtrl)
                     {
                         switch (keyEvent.Key)
                         {
-                            case Keys.Left:
-                                CConfig.BorderLeft -= 1;
-                                CConfig.BorderRight -= 1;
-                                CConfig.BorderTop -= 1;
-                                CConfig.BorderBottom -= 1;
-                                break;
                             case Keys.Right:
-                                CConfig.BorderLeft += 1;
-                                CConfig.BorderRight += 1;
-                                CConfig.BorderTop += 1;
-                                CConfig.BorderBottom += 1;
+                                if (keyEvent.ModShift)
+                                    CConfig.BorderLeft++;
+                                else
+                                    CConfig.BorderRight--;
+                                break;
+                            case Keys.Left:
+                                if (keyEvent.ModShift)
+                                    CConfig.BorderLeft--;
+                                else
+                                    CConfig.BorderRight++;
+                                break;
+                            case Keys.Down:
+                                if (keyEvent.ModShift)
+                                    CConfig.BorderTop++;
+                                else
+                                    CConfig.BorderBottom--;
+                                break;
+                            case Keys.Up:
+                                if (keyEvent.ModShift)
+                                    CConfig.BorderTop--;
+                                else
+                                    CConfig.BorderBottom++;
                                 break;
                             case Keys.D0:
                             case Keys.NumPad0:
-                                CConfig.BorderLeft = 0;
-                                CConfig.BorderRight = 0;
-                                CConfig.BorderTop = 0;
-                                CConfig.BorderBottom = 0;
+                                CConfig.BorderLeft = CConfig.BorderRight = CConfig.BorderTop = CConfig.BorderBottom = 0;
+                                break;
+                            case Keys.Add:
+                                switch (CConfig.ScreenAlignment)
+                                {
+                                    case EGeneralAlignment.Middle:
+                                        CConfig.ScreenAlignment = EGeneralAlignment.End;
+                                        break;
+                                    case EGeneralAlignment.End:
+                                        CConfig.ScreenAlignment = EGeneralAlignment.Start;
+                                        break;
+                                    default:
+                                        CConfig.ScreenAlignment = EGeneralAlignment.Middle;
+                                        break;
+                                }
                                 break;
                         }
                         CConfig.SaveConfig();

@@ -52,11 +52,6 @@ namespace Vocaluxe.Lib.Draw
         private VertexBuffer _VertexBuffer;
         private IndexBuffer _IndexBuffer;
 
-        private int _H = 1;
-        private int _W = 1;
-        private int _Y;
-        private int _X;
-
         private CTexture _BlankTexture;
 
         private readonly Queue<STexturedColoredVertex> _Vertices = new Queue<STexturedColoredVertex>();
@@ -186,29 +181,14 @@ namespace Vocaluxe.Lib.Draw
             if (_Form.ClientSize.Width == 0 || _Form.ClientSize.Height == 0)
                 _Form.ClientSize = _SizeBeforeMinimize;
 
-            int newH = _Form.ClientSize.Height;
-            int newW = _Form.ClientSize.Width;
-            _Y = 0;
-            _X = 0;
-
-            if (newW / (float)newH > CSettings.GetRenderAspect())
-            {
-                //The windows width is too big
-                newW = (int)Math.Round(newH * CSettings.GetRenderAspect());
-                _X = (_Form.ClientSize.Width - newW) / 2;
-            }
-            else
-            {
-                //The windows height is too big
-                newH = (int)Math.Round(newW / CSettings.GetRenderAspect());
-                _Y = (_Form.ClientSize.Height - newH) / 2;
-            }
-
-            if (_H == newH && _W == newW)
+            if (_H == _Form.ClientSize.Height && _W == _Form.ClientSize.Width && CConfig.ScreenAlignment == _CurrentAlignment)
                 return;
-            _H = newH;
-            _W = newW;
 
+            _CurrentAlignment = CConfig.ScreenAlignment;
+            _H = _Form.ClientSize.Height;
+            _W = _Form.ClientSize.Width;
+
+            _AdjustAspect(false);
 
             //Apply the new sizes to the PresentParameters
             _PresentParameters.BackBufferWidth = _Form.ClientSize.Width;
@@ -220,7 +200,6 @@ namespace Vocaluxe.Lib.Draw
                 _Reset();
                 //All configurations got flushed due to Reset(), so apply them again
                 _InitDevice();
-                //Set the new Viewport
                 _Device.Viewport = new Viewport(_X, _Y, _W, _H);
             }
 
@@ -376,10 +355,12 @@ namespace Vocaluxe.Lib.Draw
 
         protected override void _AdjustNewBorders()
         {
-            Matrix translate = Matrix.Translation(new Vector3(-(float)CSettings.RenderW / 2, (float)CSettings.RenderH / 2, 0));
+            const float dx = (float)CSettings.RenderW / 2;
+            const float dy = (float)CSettings.RenderH / 2;
+            Matrix translate = Matrix.Translation(new Vector3(-dx, dy, 0));
             Matrix projection = Matrix.OrthoOffCenterLH(
-                -(float)CSettings.RenderW / 2 - _BorderLeft, (float)CSettings.RenderW / 2 + _BorderRight,
-                -(float)CSettings.RenderH / 2 - _BorderBottom, (float)CSettings.RenderH / 2 + _BorderTop,
+                -dx - _BorderLeft, dx + _BorderRight,
+                -dy - _BorderBottom, dy + _BorderTop,
                 CSettings.ZNear, CSettings.ZFar);
 
             if (_Device.SetTransform(TransformState.Projection, projection).IsFailure)

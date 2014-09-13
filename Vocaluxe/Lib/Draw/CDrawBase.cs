@@ -41,10 +41,16 @@ namespace Vocaluxe.Lib.Draw
         protected readonly Dictionary<int, TTextureType> _Textures = new Dictionary<int, TTextureType>();
         private readonly Queue<STextureQueue> _TexturesToLoad = new Queue<STextureQueue>();
 
+        protected int _H;
+        protected int _W;
+        protected int _Y;
+        protected int _X;
+
         protected int _BorderLeft;
         protected int _BorderRight;
         protected int _BorderTop;
         protected int _BorderBottom;
+        protected EGeneralAlignment _CurrentAlignment = EGeneralAlignment.Middle;
 
         public abstract void ClearScreen();
         protected abstract void _AdjustNewBorders();
@@ -69,6 +75,48 @@ namespace Vocaluxe.Lib.Draw
                         texture.Dispose();
                 }
                 _Textures.Clear();
+            }
+        }
+
+        protected void _AdjustAspect(bool reverse)
+        {
+            if (_W / (float)_H > CSettings.GetRenderAspect())
+            {
+                //The windows width is too big
+                int old = _W;
+                _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
+                int diff = old - _W;
+                switch (_CurrentAlignment)
+                {
+                    case EGeneralAlignment.Start:
+                        _X = 0;
+                        break;
+                    case EGeneralAlignment.Middle:
+                        _X = diff / 2;
+                        break;
+                    case EGeneralAlignment.End:
+                        _X = diff;
+                        break;
+                }
+            }
+            else
+            {
+                //The windows height is too big
+                int old = _H;
+                _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
+                int diff = old - _H;
+                switch (_CurrentAlignment)
+                {
+                    case EGeneralAlignment.Start:
+                        _Y = reverse ? diff : 0;
+                        break;
+                    case EGeneralAlignment.Middle:
+                        _Y = diff / 2;
+                        break;
+                    case EGeneralAlignment.End:
+                        _Y = reverse ? 0 : diff;
+                        break;
+                }
             }
         }
 
@@ -403,6 +451,9 @@ namespace Vocaluxe.Lib.Draw
 
                     _AdjustNewBorders();
                 }
+
+                if (_CurrentAlignment != CConfig.ScreenAlignment)
+                    _DoResize();
 
                 if (CConfig.VSync == EOffOn.TR_CONFIG_OFF)
                 {

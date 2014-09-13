@@ -212,8 +212,8 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcam-Resolution</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Screen adjustments</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Press CTR + ALT + SHIFT + Arrows to adjust screen</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + SHIFT + 0 to reset</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Press CTR + ALT (+ SHIFT) + Arrows|"+" to adjust screen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + 0 to reset</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Top left</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Top right</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Bottom left</string>

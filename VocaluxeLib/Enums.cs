@@ -46,6 +46,13 @@ namespace VocaluxeLib
         Stretch
     }
 
+    public enum EGeneralAlignment
+    {
+        Middle,
+        Start,
+        End
+    }
+
     public enum EAlignment
     {
         Left,
