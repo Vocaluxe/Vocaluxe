@@ -339,6 +339,7 @@ namespace VocaluxeLib.Menu
 
             foreach (CNameSelection ns in _NameSelections)
                 ns.UnloadTextures();
+
             foreach (CPlaylist pls in _Playlists)
                 pls.UnloadTextures();
 

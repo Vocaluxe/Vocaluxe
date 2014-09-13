@@ -142,10 +142,7 @@ namespace Vocaluxe.Lib.Sound.Playback
             {
                 int index = _GetStreamIndex(streamID);
                 if (index >= 0)
-                {
                     _Streams[index].Close();
-                    _Streams.RemoveAt(index);
-                }
             }
         }
 

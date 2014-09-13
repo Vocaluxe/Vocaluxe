@@ -15,6 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using VocaluxeLib.PartyModes;
+
 namespace VocaluxeLib.Menu.SongMenu
 {
     class CSongMenuDreidel : CSongMenuFramework
@@ -30,13 +32,6 @@ namespace VocaluxeLib.Menu.SongMenu
         private CText _Artist;
         private CText _Title;
         private CText _SongLength;
-
-        private int _actualSelection = -1;
-
-        public override int GetActualSelection()
-        {
-            return _actualSelection;
-        }
         */
 
         public CSongMenuDreidel(int partyModeID)
@@ -59,5 +54,25 @@ namespace VocaluxeLib.Menu.SongMenu
         }
 
         // ReSharper restore RedundantOverridenMember
+
+        public override float SelectedTileZoomFactor
+        {
+            get { return 1.2f; }
+        }
+
+        public override bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options)
+        {
+            return false;
+        }
+
+        public override bool HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions)
+        {
+            return false;
+        }
+
+        public override CStatic GetSelectedSongCover()
+        {
+            return null;
+        }
     }
 }

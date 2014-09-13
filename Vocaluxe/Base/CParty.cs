@@ -218,7 +218,7 @@ namespace Vocaluxe.Base
         private static void _LoadPartyModes()
         {
             var files = new List<string>();
-            files.AddRange(CHelper.ListFiles(CSettings.FolderPartyModes, "*.xml", false, true));
+            files.AddRange(CHelper.ListFiles(CSettings.FolderNamePartyModes, "*.xml", false, true));
 
             foreach (string file in files)
             {
@@ -246,10 +246,10 @@ namespace Vocaluxe.Base
             loaded &= xmlReader.GetValue("//root/Info/Author", out pm.Author, "ERROR Author");
             loaded &= xmlReader.GetValue("//root/Info/Folder", out pm.Folder, "ERROR Folder");
             loaded &= xmlReader.GetValue("//root/Info/PartyModeFile", out pm.PartyModeFile, "ERROR PartyModeFile");
-            loaded &= xmlReader.GetInnerValues("PartyScreens", ref pm.ScreenFiles);
             loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMajor", ref pm.PartyModeVersionMajor);
             loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMinor", ref pm.PartyModeVersionMinor);
             loaded &= xmlReader.GetValue("//root/Info/TargetAudience", out pm.TargetAudience, "ERROR TargetAudience");
+            loaded &= xmlReader.GetValues("//root/PartyScreens/*", ref pm.ScreenFiles);
 
             if (!loaded)
             {
@@ -269,7 +269,8 @@ namespace Vocaluxe.Base
                 return pm;
             }
 
-            string pathToCode = Path.Combine(Path.Combine(CSettings.FolderPartyModes, pm.Folder), CSettings.FolderPartyModeCode);
+            string pathToPm = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNamePartyModes, pm.Folder);
+            string pathToCode = Path.Combine(pathToPm, CSettings.FolderNamePartyModeCode);
 
             var filesToCompile = new List<string>();
             filesToCompile.AddRange(CHelper.ListFiles(pathToCode, "*.cs", false, true));
@@ -278,7 +279,7 @@ namespace Vocaluxe.Base
             if (output == null)
                 return pm;
 
-            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyModeID, Path.Combine(Path.Combine(CSettings.FolderPartyModes, pm.Folder), CSettings.FolderPartyModeLanguages)))
+            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyModeID, Path.Combine(pathToPm, CSettings.FolderNamePartyModeLanguages)))
             {
                 CLog.LogError("Error loading language files for PartyMode: " + file);
                 return pm;
@@ -301,9 +302,9 @@ namespace Vocaluxe.Base
                 return pm;
             }
             pm.PartyMode.Initialize();
-            pm.PartyMode.SetFolder(Path.Combine(Directory.GetCurrentDirectory(), Path.Combine(CSettings.FolderPartyModes, pm.Folder)));
+            pm.PartyMode.SetFolder(pathToPm);
 
-            if (!CTheme.AddTheme(Path.Combine(pm.PartyMode.GetFolder(), "Theme.xml"), pm.PartyModeID))
+            if (!CTheme.AddTheme(Path.Combine(pathToPm, "Theme.xml"), pm.PartyModeID))
                 return pm;
 
             int themeIndex = CTheme.GetThemeIndex(pm.PartyModeID);
@@ -318,7 +319,7 @@ namespace Vocaluxe.Base
 
             foreach (string screenfile in pm.ScreenFiles)
             {
-                string xmlPath = Path.Combine(Path.Combine(CSettings.FolderPartyModes, pm.Folder), CSettings.FolderPartyModeScreens);
+                string xmlPath = Path.Combine(pathToPm, CSettings.FolderNamePartyModeScreens);
                 CMenuParty screen = _GetPartyScreenInstance(output, screenfile, pm.Folder);
 
                 if (screen != null)

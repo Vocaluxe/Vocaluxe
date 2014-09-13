@@ -15,15 +15,10 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using VocaluxeLib;
+
 namespace Vocaluxe.Lib.Sound.Playback
 {
-    public enum EStreamAction
-    {
-        Nothing,
-        Pause,
-        Stop,
-        Close
-    }
 
     interface IPlayback
     {

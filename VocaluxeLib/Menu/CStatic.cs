@@ -188,43 +188,20 @@ namespace VocaluxeLib.Menu
 
         public void Draw(bool forceDraw = false)
         {
-            Draw(1f, Rect.Z, Aspect, forceDraw);
+            Draw(Aspect, 1f, 0f, forceDraw);
         }
 
-        public void Draw(EAspect aspect)
-        {
-            Draw(1f, Rect.Z, aspect);
-        }
-
-        public void Draw(float scale, EAspect aspect)
-        {
-            Draw(scale, Rect.Z, aspect);
-        }
-
-        public void Draw(float scale, float z, EAspect aspect, bool forceDraw = false)
+        public void Draw(EAspect aspect, float scale = 1f, float zModify = 0f, bool forceDraw = false)
         {
             CTexture texture = Texture ?? new CTexture((int)Rect.W, (int)Rect.H);
 
-            var bounds = new SRectF(
-                Rect.X - Rect.W * (scale - 1f),
-                Rect.Y - Rect.H * (scale - 1f),
-                Rect.W + 2 * Rect.W * (scale - 1f),
-                Rect.H + 2 * Rect.H * (scale - 1f),
-                z);
-
-            SRectF rect = bounds;
-
+            SRectF bounds = Rect.Scale(scale);
+            SRectF rect;
             if (aspect != EAspect.Stretch)
-            {
-                var bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
-                RectangleF rect2;
-                CHelper.SetRect(bounds2, out rect2, texture.OrigAspect, aspect);
-
-                rect.X = rect2.X;
-                rect.Y = rect2.Y;
-                rect.W = rect2.Width;
-                rect.H = rect2.Height;
-            }
+                CHelper.SetRect(bounds, out rect, texture.OrigAspect, aspect);
+            else
+                rect = bounds;
+            rect.Z = Rect.Z + zModify;
 
             var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
             if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))

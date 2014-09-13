@@ -60,9 +60,10 @@ namespace WebserverInitalConfig
             HttpApi.ReserveURL(networkString, "D:(A;;GX;;;S-1-1-0)");
         }
 
-        public void ReserveUrl()
+        public void ReserveUrl(bool secure)
         {
-            _ReserveUrl("https://+:" + _Port + "/");
+            string http = secure ? "https" : "http";
+            _ReserveUrl(http + "://+:" + _Port + "/");
         }
 
         private void _BindCert(X509Certificate cert)

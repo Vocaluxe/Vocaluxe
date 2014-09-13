@@ -76,6 +76,7 @@
   <string name="TR_CONFIG_OWN_MUSIC">Own Music and Background Music</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">No own Music</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Only own Music</string>
+  <string name="TR_CONFIG_ONLY_SONG">Only selected song</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">All</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Only names and avatars</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Nothing</string>

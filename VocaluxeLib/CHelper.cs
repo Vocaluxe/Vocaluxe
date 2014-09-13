@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -63,13 +64,44 @@ namespace VocaluxeLib
             return (int)result;
         }
 
+        /// <summary>
+        ///     Makes sure val is between min and max
+        ///     Asserts that min&lt;=max
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns>Clamped value</returns>
         public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>
         {
+            Debug.Assert(min.CompareTo(max) <= 0);
             if (val.CompareTo(min) < 0)
                 return min;
             if (val.CompareTo(max) > 0)
                 return max;
             return val;
+        }
+
+        /// <summary>
+        ///     Makes sure val is between min and max but also handles the case where min&gt;max
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="preferMin"></param>
+        /// <returns>Clamped value</returns>
+        public static T Clamp<T>(this T val, T min, T max, bool preferMin) where T : IComparable<T>
+        {
+            if (min.CompareTo(max) > 0)
+            {
+                if (preferMin)
+                    max = min;
+                else
+                    min = max;
+            }
+            return Clamp(val, min, max);
         }
 
         /// <summary>
@@ -88,30 +120,13 @@ namespace VocaluxeLib
             return result;
         }
 
-        public static int TryReadInt(StreamReader sr)
+        public static void SetRect(SRectF bounds, out SRectF rect, float rectAspect, EAspect aspect)
         {
-            string value = String.Empty;
+            var bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
+            RectangleF rect2;
+            SetRect(bounds2, out rect2, rectAspect, aspect);
 
-            try
-            {
-                int tmp = sr.Peek();
-                //Check for ' ', ?, ?, \n, \r, E
-                while (tmp != 32 && tmp != 19 && tmp != 16 && tmp != 13 && tmp != 10 && tmp != 69)
-                {
-                    if (sr.EndOfStream)
-                        break;
-
-                    var chr = (char)sr.Read();
-                    value += chr.ToString();
-                    tmp = sr.Peek();
-                }
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-            int result;
-            return Int32.TryParse(value, out result) ? result : 0;
+            rect = new SRectF(rect2.X, rect2.Y, rect2.Width, rect2.Height, bounds.Z);
         }
 
         public static void SetRect(RectangleF bounds, out RectangleF rect, float rectAspect, EAspect aspect)
@@ -263,6 +278,29 @@ namespace VocaluxeLib
         public static bool IsInBounds(SRectF bounds, int x, int y)
         {
             return (bounds.X <= x) && (bounds.X + bounds.W >= x) && (bounds.Y <= y) && (bounds.Y + bounds.H >= y);
+        }
+
+        /// <summary>
+        ///     Returns a filename that is unique in that path
+        /// </summary>
+        /// <param name="path">Path in which the file should be stored</param>
+        /// <param name="filename">filename (including extension)</param>
+        /// <param name="withPath">Whether the fullpath or only the filename should be returned</param>
+        /// <returns></returns>
+        public static string GetUniqueFileName(string path, string filename, bool withPath = true)
+        {
+            string ext = Path.GetExtension(filename);
+            filename = Path.GetFileNameWithoutExtension(filename) ?? "1";
+            if (File.Exists(Path.Combine(path, filename + ext)))
+            {
+                int i = 1;
+                while (File.Exists(Path.Combine(path, filename + "_" + i + ext)))
+                    i++;
+                filename += "_" + i;
+            }
+            if (withPath)
+                filename = Path.Combine(path, filename);
+            return filename + ext;
         }
     }
 

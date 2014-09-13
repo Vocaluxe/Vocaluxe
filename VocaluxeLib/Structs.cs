@@ -132,6 +132,15 @@ namespace VocaluxeLib
             if (ctrl)
                 Mod |= EModifier.Ctrl;
         }
+
+        /// <summary>
+        ///     Returns true if this is about an arrow key (left, right, up down)
+        /// </summary>
+        /// <returns>True if Key is an arrow key</returns>
+        public bool IsArrowKey()
+        {
+            return Key == Keys.Left || Key == Keys.Right || Key == Keys.Up || Key == Keys.Down;
+        }
     }
 
     public struct SMouseEvent

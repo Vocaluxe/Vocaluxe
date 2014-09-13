@@ -57,52 +57,44 @@ namespace VocaluxeLib
             }
         }
 
-        public bool TryGetEnumValue<T>(string cast, ref T value)
+        public bool TryGetEnumValue<T>(string xPath, ref T value)
             where T : struct
         {
             string val;
-            if (GetValue(cast, out val, Enum.GetName(typeof(T), value)))
-            {
-                CHelper.TryParse(val, out value, true);
-                return true;
-            }
+            if (GetValue(xPath, out val, Enum.GetName(typeof(T), value)))
+                return CHelper.TryParse(val, out value, true);
             return false;
         }
 
-        public bool TryGetIntValue(string cast, ref int value)
+        public bool TryGetIntValue(string xPath, ref int value)
         {
             string val;
-            if (GetValue(cast, out val, value.ToString()))
+            if (GetValue(xPath, out val, value.ToString()))
                 return int.TryParse(val, out value);
             return false;
         }
 
-        public bool TryGetIntValueRange(string cast, ref int value, int min = 0, int max = 100)
+        public bool TryGetIntValueRange(string xPath, ref int value, int min = 0, int max = 100)
         {
-            bool result = TryGetIntValue(cast, ref value);
+            bool result = TryGetIntValue(xPath, ref value);
             if (result)
-            {
-                if (value < min)
-                    value = min;
-                else if (value > max)
-                    value = max;
-            }
+                value = value.Clamp(min, max);
             return result;
         }
 
-        public bool TryGetFloatValue(string cast, ref float value)
+        public bool TryGetFloatValue(string xPath, ref float value)
         {
             string val;
-            return GetValue(cast, out val, value.ToString()) && CHelper.TryParse(val, out value);
+            return GetValue(xPath, out val, value.ToString()) && CHelper.TryParse(val, out value);
         }
 
-        public bool GetValue(string cast, out string value, string defaultValue)
+        public bool GetValue(string xPath, out string value, string defaultValue)
         {
             int resultCt = 0;
             string val = string.Empty;
 
-            _Navigator.MoveToFirstChild();
-            XPathNodeIterator iterator = _Navigator.Select(cast);
+            _Navigator.MoveToRoot();
+            XPathNodeIterator iterator = _Navigator.Select(xPath);
 
             while (iterator.MoveNext())
             {
@@ -119,77 +111,45 @@ namespace VocaluxeLib
             return true;
         }
 
-        public List<string> GetValues(string cast)
+        public List<string> GetNames(string xPath)
         {
             var values = new List<string>();
 
             _Navigator.MoveToRoot();
-            _Navigator.MoveToFirstChild();
-            _Navigator.MoveToFirstChild();
-
-            while (_Navigator.Name != cast)
-                _Navigator.MoveToNext();
-
-            _Navigator.MoveToFirstChild();
-
-            values.Add(_Navigator.LocalName);
-            while (_Navigator.MoveToNext())
-                values.Add(_Navigator.LocalName);
-
-            return values;
-        }
-
-        public IEnumerable<string> GetAttributes(string cast, string attribute)
-        {
-            var values = new List<string>();
-
-            _Navigator.MoveToRoot();
-            _Navigator.MoveToFirstChild();
-
-            while (_Navigator.Name != cast)
-                _Navigator.MoveToNext();
-
-            _Navigator.MoveToFirstChild();
-
-            values.Add(_Navigator.LocalName);
-            while (_Navigator.MoveToNext())
-                values.Add(_Navigator.GetAttribute(attribute, ""));
-
-            return values;
-        }
-
-        public bool GetInnerValues(string cast, ref List<string> values)
-        {
-            _Navigator.MoveToRoot();
-            _Navigator.MoveToFirstChild();
-            _Navigator.MoveToFirstChild();
-
-            while (_Navigator.Name != cast)
-                _Navigator.MoveToNext();
-
-            _Navigator.MoveToFirstChild();
-
-            values.Add(_Navigator.Value);
-            while (_Navigator.MoveToNext())
-                values.Add(_Navigator.Value);
-
-            return true;
-        }
-
-        public bool ItemExists(string cast)
-        {
-            int results = 0;
-
-            _Navigator.MoveToFirstChild();
-            XPathNodeIterator iterator = _Navigator.Select(cast);
-
+            XPathNodeIterator iterator = _Navigator.Select(xPath);
             while (iterator.MoveNext())
-                results++;
+                values.Add(iterator.Current.LocalName);
 
-            if (results == 0)
-                return false;
+            return values;
+        }
+
+        public IEnumerable<string> GetAttributes(string xPath, string attribute)
+        {
+            var values = new List<string>();
+
+            _Navigator.MoveToRoot();
+            XPathNodeIterator iterator = _Navigator.Select(xPath);
+            while (iterator.MoveNext())
+                values.Add(iterator.Current.GetAttribute(attribute, ""));
+
+            return values;
+        }
+
+        public bool GetValues(string xPath, ref List<string> values)
+        {
+            _Navigator.MoveToRoot();
+            XPathNodeIterator iterator = _Navigator.Select(xPath);
+            while (iterator.MoveNext())
+                values.Add(iterator.Current.Value);
 
             return true;
+        }
+
+        public bool ItemExists(string xPath)
+        {
+            _Navigator.MoveToRoot();
+
+            return _Navigator.Select(xPath).MoveNext();
         }
     }
 }

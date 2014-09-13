@@ -29,7 +29,7 @@ namespace Vocaluxe
 
         public CSplashScreen()
         {
-            string path = Path.Combine(Environment.CurrentDirectory, Path.Combine(CSettings.FolderGraphics, CSettings.Logo));
+            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameLogo);
             if (File.Exists(path))
             {
                 try
@@ -45,7 +45,7 @@ namespace Vocaluxe
             else
                 CLog.LogError("Can't find " + path);
 
-            path = Path.Combine(Environment.CurrentDirectory, CSettings.Icon);
+            path = Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon);
             if (File.Exists(path))
             {
                 try

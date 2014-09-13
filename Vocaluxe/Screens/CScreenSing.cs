@@ -433,7 +433,6 @@ namespace Vocaluxe.Screens
             _UpdateAvatars();
             _UpdateNames();
 
-            CBackgroundMusic.Disabled = true;
             _CloseSong();
             CSound.SetGlobalVolume(CConfig.GameMusicVolume);
         }
@@ -441,6 +440,7 @@ namespace Vocaluxe.Screens
         public override void OnShowFinish()
         {
             base.OnShowFinish();
+            CBackgroundMusic.Disabled = true;
 
             CGame.Start();
             _LoadNextSong();
@@ -537,8 +537,6 @@ namespace Vocaluxe.Screens
             _CloseSong();
             if (_Webcam)
                 CWebcam.Stop();
-            CBackgroundMusic.Disabled = false;
-            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
         }
 
         private void _CloseSong()
@@ -569,6 +567,8 @@ namespace Vocaluxe.Screens
             _Texts[_TextSongName].Text = String.Empty;
             _Texts[_TextDuetName1].Text = String.Empty;
             _Texts[_TextDuetName2].Text = String.Empty;
+            _Texts[_TextMedleyCountdown].Visible = false;
+            _Texts[_TextMedleyCountdown].Text = String.Empty;
         }
 
         private void _LoadNextSong()

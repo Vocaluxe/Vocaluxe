@@ -378,8 +378,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public override void OnClose()
         {
             base.OnClose();
-            CBase.BackgroundMusic.SetStatus(false);
-            CBase.Sound.FadeAndClose(_PreviewStream, 0f, 0.5f);
+            CBase.BackgroundMusic.SetDisabled(false);
+            CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
         }
 
         private void _CreateFields()
@@ -501,7 +501,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
             CSong song = CBase.Songs.GetSongByID(songID);
 
-            CBase.BackgroundMusic.SetStatus(true);
+            CBase.BackgroundMusic.SetDisabled(true);
 
             _PreviewStream = CBase.Sound.Load(song.GetMP3());
             CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);
@@ -525,7 +525,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             int songID = _Fields[_SelectedField].Content.SongID;
             CSong song = CBase.Songs.GetSongByID(songID);
-            CBase.BackgroundMusic.SetStatus(true);
+            CBase.BackgroundMusic.SetDisabled(true);
 
             _PreviewStream = CBase.Sound.Load(song.GetMP3());
             CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);
@@ -574,7 +574,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     {
                         _GameData.NumJokerRandom[teamNr]--;
                         if (!CBase.Sound.IsFinished(_PreviewStream))
-                            CBase.Sound.FadeAndClose(_PreviewStream, 0, 1);
+                            CBase.Sound.Fade(_PreviewStream, 0, 1, EStreamAction.Close);
                         _FieldSelected(true);
                     }
                     break;
@@ -586,7 +586,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _GameData.NumJokerRetry[teamNr]--;
                         _GameData.Team = teamNr;
                         if (!CBase.Sound.IsFinished(_PreviewStream))
-                            CBase.Sound.FadeAndClose(_PreviewStream, 0, 1);
+                            CBase.Sound.Fade(_PreviewStream, 0, 1, EStreamAction.Close);
                         _Status = EStatus.JokerRetry;
                         _OldSelectedField = _SelectedField;
                         _SelectedField = -1;
@@ -627,7 +627,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _NextRound()
         {
-            CBase.Sound.FadeAndClose(_PreviewStream, 0f, 0.5f);
+            CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
             _Data.ScreenMain.Rounds = _GameData.Rounds;
             _Data.ScreenMain.FadeToNameSelection = false;
             _Data.ScreenMain.FadeToSinging = true;
@@ -640,7 +640,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _EndParty()
         {
-            CBase.Sound.FadeAndClose(_PreviewStream, 0f, 0.5f);
+            CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
             _FadeTo(EScreens.ScreenParty);
         }
 
@@ -659,7 +659,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _Back()
         {
-            CBase.Sound.FadeAndClose(_PreviewStream, 0f, 0.5f);
+            CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
             _Data.ScreenMain.FadeToNameSelection = true;
             _Data.ScreenMain.FadeToSinging = false;
             _Data.ScreenMain.SingRoundNr = _SelectedField;

@@ -46,11 +46,9 @@ namespace Vocaluxe.Base
         private static bool _Initialized;
 
         // Base file and folder names (formerly from CSettings but they can be changed)
-        private const string _FolderProfiles = "Profiles"; //Use ProfileFolders for access
-        private const string _FolderSongs = "Songs"; //Use SongFolders for access
-        public static string FolderPlaylists = "Playlists";
-        public static string FileHighscoreDB = "HighscoreDB.sqlite";
-        private static string _FileConfig = "Config.xml";
+        public static string FolderPlaylists = Path.Combine(CSettings.DataFolder, "Playlists");
+        public static string FileHighscoreDB = Path.Combine(CSettings.DataFolder, "HighscoreDB.sqlite");
+        private static string _FileConfig = Path.Combine(CSettings.DataFolder, "Config.xml");
 
         // Debug
         public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
@@ -99,7 +97,7 @@ namespace Vocaluxe.Base
         public static EBufferSize AudioBufferSize = EBufferSize.B2048;
         public static int AudioLatency;
         private static int _BackgroundMusicVolume = 30;
-        public static EOffOn BackgroundMusic = EOffOn.TR_CONFIG_ON;
+        public static EBackgroundMusicOffOn BackgroundMusic = EBackgroundMusicOffOn.TR_CONFIG_ON;
         public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
         public static EOffOn BackgroundMusicUseStart = EOffOn.TR_CONFIG_ON;
         private static int _PreviewMusicVolume = 50;
@@ -108,10 +106,10 @@ namespace Vocaluxe.Base
         //Folders
         public static readonly List<string> SongFolders = new List<string>
             {
-                Path.Combine(Directory.GetCurrentDirectory(), _FolderSongs)
+                Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 
 #if INSTALLER
-            ,Path.Combine(CSettings.DataPath, CSettings.FolderSongs);           
+            ,Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs);           
 #endif
             };
         /// <summary>
@@ -121,9 +119,9 @@ namespace Vocaluxe.Base
         public static readonly List<string> ProfileFolders = new List<string>
             {
 #if INSTALLER
-                Path.Combine(Environment.CurrentDirectory, CSettings.FolderProfiles),
+                Path.Combine(Environment.CurrentDirectory, CSettings.FolderNameProfiles),
 #endif
-                Path.Combine(CSettings.DataPath, _FolderProfiles)
+                Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
             };
 
         // Game
@@ -202,7 +200,7 @@ namespace Vocaluxe.Base
                 return;
 
             // Init config file
-            if (!File.Exists(Path.Combine(CSettings.DataPath, _FileConfig)))
+            if (!File.Exists(_FileConfig))
                 SaveConfig();
             else
                 _LoadConfig();
@@ -212,7 +210,7 @@ namespace Vocaluxe.Base
 
         private static void _LoadConfig()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.DataPath, _FileConfig));
+            CXMLReader xmlReader = CXMLReader.OpenFile(_FileConfig);
             if (xmlReader == null)
                 return;
 
@@ -357,7 +355,7 @@ namespace Vocaluxe.Base
             XmlWriter writer = null;
             try
             {
-                writer = XmlWriter.Create(Path.Combine(CSettings.DataPath, _FileConfig), XMLSettings);
+                writer = XmlWriter.Create(_FileConfig, XMLSettings);
                 writer.WriteStartDocument();
                 writer.WriteStartElement("root");
 
@@ -373,7 +371,7 @@ namespace Vocaluxe.Base
                 writer.WriteElementString("Screens", Screen.AllScreens.Length.ToString());
                 writer.WriteElementString("PrimaryScreenResolution", Screen.PrimaryScreen.Bounds.Size.ToString());
 
-                writer.WriteElementString("Directory", Environment.CurrentDirectory);
+                writer.WriteElementString("Directory", CSettings.ProgramFolder);
 
                 writer.WriteEndElement();
 
@@ -480,8 +478,8 @@ namespace Vocaluxe.Base
                 writer.WriteComment("AudioLatency from -500 to 500 ms");
                 writer.WriteElementString("AudioLatency", AudioLatency.ToString());
 
-                writer.WriteComment("Background Music: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EOffOn), BackgroundMusic));
+                writer.WriteComment("Background Music: " + CHelper.ListStrings(Enum.GetNames(typeof(EBackgroundMusicOffOn))));
+                writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EBackgroundMusicOffOn), BackgroundMusic));
 
                 writer.WriteComment("Background Music Volume from 0 to 100");
                 writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
@@ -806,10 +804,8 @@ namespace Vocaluxe.Base
             //Check each parameter
             for (int i = 0; i < _Params.Count; i++)
             {
-                //Switch parameter as lower case
-                string param = _Params[i];
-
-                param = param.ToLower();
+                //Switch parameter to lower case
+                string param = _Params[i].ToLower();
 
                 string value = _Values[i];
 

@@ -42,7 +42,7 @@ namespace Vocaluxe.Base
             {
                 if (_LogFile != null)
                     return;
-                _LogFile = new StreamWriter(Path.Combine(CSettings.DataPath, _LogFileName), false, Encoding.UTF8);
+                _LogFile = new StreamWriter(Path.Combine(CSettings.DataFolder, _LogFileName), false, Encoding.UTF8);
 
                 _LogFile.WriteLine(_LogName + " " + CSettings.GetFullVersionText() + " " + DateTime.Now);
                 _LogFile.WriteLine("----------------------------------------");
@@ -117,11 +117,11 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            _ErrorLog = new CErrorLogFile(CSettings.FileErrorLog, "Error-Log");
-            _PerformanceLog = new CLogFile(CSettings.FilePerformanceLog, "Performance-Log");
-            _BenchmarkLog = new CLogFile(CSettings.FileBenchmarkLog, "Benchmark-Log");
-            _DebugLog = new CLogFile(CSettings.FileDebugLog, "Debug-Log");
-            _SongInfoLog = new CLogFile(CSettings.FileSongInfoLog, "Song-Information-Log");
+            _ErrorLog = new CErrorLogFile(CSettings.FileNameErrorLog, "Error-Log");
+            _PerformanceLog = new CLogFile(CSettings.FileNamePerformanceLog, "Performance-Log");
+            _BenchmarkLog = new CLogFile(CSettings.FileNameBenchmarkLog, "Benchmark-Log");
+            _DebugLog = new CLogFile(CSettings.FileNameDebugLog, "Debug-Log");
+            _SongInfoLog = new CLogFile(CSettings.FileNameSongInfoLog, "Song-Information-Log");
 
             _BenchmarkTimer = new Stopwatch[_MaxBenchmarks];
             for (int i = 0; i < _BenchmarkTimer.Length; i++)

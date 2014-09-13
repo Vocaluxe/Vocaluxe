@@ -35,6 +35,8 @@ namespace VocaluxeLib
         void SetBackgroundMusicVolume(int newVolume);
         int GetBackgroundMusicVolume();
 
+        EBackgroundMusicOffOn GetBackgroundMusicStatus();
+
         int GetPreviewMusicVolume();
 
         EOffOn GetVideosToBackground();
@@ -89,6 +91,8 @@ namespace VocaluxeLib
 
         float GetSlideShowImageTime();
         float GetSlideShowFadeTime();
+
+        float GetSoundPlayerFadeTime();
     }
 
     public interface ITheme
@@ -115,16 +119,24 @@ namespace VocaluxeLib
     {
         bool IsDisabled();
         bool IsPlaying();
+        bool IsPlayingPreview();
         bool SongHasVideo();
         bool VideoEnabled();
+        float GetLength();
 
-        void SetStatus(bool disabled);
+        void SetDisabled(bool disabled);
         void Next();
         void Previous();
         void Pause();
         void Play();
+        void Stop();
 
         CTexture GetVideoTexture();
+
+        void LoadPreview(CSong song, float start = 0f);
+        void PlayPreview(float start = -1f);
+        void StopPreview();
+
     }
 
     public interface IDrawing
@@ -148,6 +160,8 @@ namespace VocaluxeLib
         void FadeTo(EScreens nextScreen);
 
         float GetGlobalAlpha();
+
+        EScreens GetNextScreen();
     }
 
     public interface ILog
@@ -196,6 +210,8 @@ namespace VocaluxeLib
         void Reset();
         void ClearSongs();
         int GetNumSongs();
+        CSong GetSong();
+        CSong GetSong(int round);
     }
 
     public interface IRecording
@@ -253,6 +269,8 @@ namespace VocaluxeLib
         bool IsFinished(int streamID);
         bool Close(int streamID);
         void SetLoop(int streamID, bool loop = true);
+        void Resume(int streamID);
+        void Pause(int streamID);
     }
 
     public interface ISound
@@ -260,12 +278,12 @@ namespace VocaluxeLib
         int Load(string soundFile, bool loop = false, bool prescan = false);
         void SetPosition(int soundStream, float newPosition);
         void Play(int soundStream);
-        void Fade(int soundStream, float targetVolume, float duration);
+        void Fade(int soundStream, float targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
+        void Close(int soundStream);
 
         bool IsFinished(int soundStream);
         float GetPosition(int soundStream);
         float GetLength(int soundStream);
-        void FadeAndClose(int soundStream, float targetVolume, float duration);
 
         void SetStreamVolume(int soundStream, float volume);
     }
@@ -288,24 +306,38 @@ namespace VocaluxeLib
 
     public interface IPlaylist
     {
-        string GetPlaylistName(int playlistID);
-        List<string> GetPlaylistNames();
+        bool Exists(int playlistID);
+        string GetName(int playlistID);
+        List<string> GetNames();
 
-        void SetPlaylistName(int playlistID, string name);
-        void DeletePlaylist(int playlistID);
-        void SavePlaylist(int playlistID);
+        void SetName(int playlistID, string name);
+        void Delete(int playlistID);
+        void Save(int playlistID);
         int GetNumPlaylists();
 
-        void AddPlaylistSong(int playlistID, int songID);
-        void AddPlaylistSong(int playlistID, int songID, EGameMode gameMode);
-        void InsertPlaylistSong(int playlistID, int positionIndex, int songID, EGameMode gameMode);
+        void AddSong(int playlistID, int songID);
+        void AddSong(int playlistID, int songID, EGameMode gameMode);
+        void InsertSong(int playlistID, int positionIndex, int songID, EGameMode gameMode);
 
-        void MovePlaylistSong(int playlistID, int sourceIndex, int destIndex);
-        void MovePlaylistSongDown(int playlistID, int songIndex);
-        void MovePlaylistSongUp(int playlistID, int songIndex);
-        void DeletePlaylistSong(int playlistID, int songIndex);
+        void MoveSong(int playlistID, int sourceIndex, int destIndex);
+        void MoveSongDown(int playlistID, int songIndex);
+        void MoveSongUp(int playlistID, int songIndex);
+        void DeleteSong(int playlistID, int songIndex);
 
-        int GetPlaylistSongCount(int playlistID);
-        CPlaylistSong GetPlaylistSong(int playlistID, int songIndex);
+        int GetSongCount(int playlistID);
+        CPlaylistSong GetSong(int playlistID, int songIndex);
+    }
+
+    public interface IPreviewPlayer
+    {
+        void Play(float start = -1);
+        void Load(CSong song, float start = 0f);
+        void Stop();
+        void TogglePause();
+        CTexture GetCover();
+        CTexture GetVideoTexture();
+        bool IsPlaying();
+        float GetLength();
+
     }
 }

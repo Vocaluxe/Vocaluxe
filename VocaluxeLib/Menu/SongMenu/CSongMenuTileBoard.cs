@@ -37,8 +37,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private CStatic _MedleyCalcIcon;
         private CStatic _MedleyTagIcon;
 
-        private CTexture _CoverBigTexture;
-        private CTexture _CoverTexture;
+        private CTexture _CoverBigBGTexture;
+        private CTexture _CoverBGTexture;
 
         private CText _Artist;
         private CText _Title;
@@ -53,62 +53,79 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _TileW;
         private int _TileH;
 
-        private int _Offset = -1;
-        private int _ActualSelection = -1;
-
-        private bool _SmallView;
+        // Offset is the song or categoryNr of the tile in the left upper corner
+        private int _Offset;
 
         private float _Length = -1f;
+        private int _LastKnownElements;
+        private int _LastKnownCategory;
+
+        private bool _MouseWasInRect;
+
+        public override float SelectedTileZoomFactor
+        {
+            get { return 1.2f; }
+        }
+
+        protected override int _SelectionNr
+        {
+            set
+            {
+                int max = CBase.Songs.IsInCategory() ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
+                base._SelectionNr = value.Clamp(-1, max - 1, true);
+                //Update list in case we scrolled 
+                _UpdateList();
+
+                _UpdateTileSelection();
+            }
+        }
+
+        private void _UpdateTileSelection()
+        {
+            foreach (CStatic tile in _Tiles)
+                tile.Selected = false;
+            int tileNr = _SelectionNr - _Offset;
+            if (tileNr >= 0 && tileNr < _Tiles.Count)
+                _Tiles[tileNr].Selected = true;
+        }
+
+        public override bool SmallView
+        {
+            set
+            {
+                if (SmallView == value)
+                    return;
+                base.SmallView = value;
+                _InitTiles();
+                _UpdateList(true);
+                _UpdateTileSelection();
+            }
+        }
 
         public CSongMenuTileBoard(int partyModeID)
             : base(partyModeID) {}
 
-        protected override int _PreviewId
+        protected override int _PreviewNr
         {
             set
             {
-                if (value == base._PreviewId)
+                if (value == base._PreviewNr)
+                {
+                    if (!CBase.BackgroundMusic.IsPlaying() && value != -1)
+                        CBase.BackgroundMusic.PlayPreview();
                     return;
-                base._PreviewId = value;
+                }
+                base._PreviewNr = value;
                 _UpdatePreview();
             }
-        }
-
-        public override int GetActualSelection()
-        {
-            return _ActualSelection;
         }
 
         public override void Init()
         {
             base.Init();
 
-            Rect = _Theme.SongMenuTileBoard.TileRect;
-
-            _NumW = _Theme.SongMenuTileBoard.NumW;
-            _NumH = _Theme.SongMenuTileBoard.NumH;
             _SpaceW = _Theme.SongMenuTileBoard.SpaceW;
             _SpaceH = _Theme.SongMenuTileBoard.SpaceH;
-
-            _TileW = (int)((_Theme.SongMenuTileBoard.TileRect.W - _SpaceW * (_NumW - 1)) / _NumW);
-            _TileH = (int)((_Theme.SongMenuTileBoard.TileRect.H - _SpaceH * (_NumH - 1)) / _NumH);
-
-            _CoverTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
-            _CoverBigTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
-
-            _Tiles = new List<CStatic>();
-            for (int i = 0; i < _NumH; i++)
-            {
-                for (int j = 0; j < _NumW; j++)
-                {
-                    var rect = new SRectF(_Theme.SongMenuTileBoard.TileRect.X + j * (_TileW + _SpaceW),
-                                          _Theme.SongMenuTileBoard.TileRect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
-                    var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
-                    _Tiles.Add(tile);
-                }
-            }
-
-            _ScrollRect = new SRectF(0, 0, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), _Theme.SongMenuTileBoard.TileRect.Z);
 
             _CoverBig = _Theme.SongMenuTileBoard.StaticCoverBig;
             _TextBG = _Theme.SongMenuTileBoard.StaticTextBG;
@@ -121,8 +138,42 @@ namespace VocaluxeLib.Menu.SongMenu
             _Title = _Theme.SongMenuTileBoard.TextTitle;
             _SongLength = _Theme.SongMenuTileBoard.TextSongLength;
 
-            _PreviewId = -1;
-            _Offset = 0;
+            _PreviewNr = -1;
+            _InitTiles();
+        }
+
+        private void _InitTiles()
+        {
+            if (SmallView)
+            {
+                _NumH = _Theme.SongMenuTileBoard.NumHsmall;
+                _NumW = _Theme.SongMenuTileBoard.NumWsmall;
+                Rect = _Theme.SongMenuTileBoard.TileRectSmall;
+            }
+            else
+            {
+                _NumH = _Theme.SongMenuTileBoard.NumH;
+                _NumW = _Theme.SongMenuTileBoard.NumW;
+                Rect = _Theme.SongMenuTileBoard.TileRect;
+            }
+
+            _TileW = (int)((Rect.W - _SpaceW * (_NumW - 1)) / _NumW);
+            _TileH = (int)((Rect.H - _SpaceH * (_NumH - 1)) / _NumH);
+
+            _CoverBGTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
+            _CoverBigBGTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
+
+            _Tiles = new List<CStatic>();
+            for (int i = 0; i < _NumH; i++)
+            {
+                for (int j = 0; j < _NumW; j++)
+                {
+                    var rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
+                    var tile = new CStatic(_PartyModeID, _CoverBGTexture, _Color, rect);
+                    _Tiles.Add(tile);
+                }
+            }
+            _ScrollRect = new SRectF(0, 0, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), Rect.Z);
         }
 
         public override void Update(SScreenSongOptions songOptions)
@@ -130,21 +181,16 @@ namespace VocaluxeLib.Menu.SongMenu
             base.Update(songOptions);
 
             if (songOptions.Selection.RandomOnly)
-            {
-                _Locked = _PreviewId;
-                _ActualSelection = _PreviewId;
-                for (int i = 0; i < _Tiles.Count; i++)
-                    _Tiles[i].Selected = _Locked == i + _Offset;
-            }
+                _PreviewNr = _SelectionNr;
 
-            if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.Sound.GetLength(_PreviewSongStream) > 0)
-                _UpdateLength(CBase.Songs.GetVisibleSong(_PreviewId));
+            if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.BackgroundMusic.GetLength() > 0)
+                _UpdateLength(CBase.Songs.GetVisibleSong(_PreviewNr));
         }
 
         private void _UpdatePreview()
         {
             //First hide everything so we just have to set what we actually want
-            _CoverBig.Texture = _CoverBigTexture;
+            _CoverBig.Texture = _CoverBigBGTexture;
             _Artist.Text = String.Empty;
             _Title.Text = String.Empty;
             _SongLength.Text = String.Empty;
@@ -155,12 +201,12 @@ namespace VocaluxeLib.Menu.SongMenu
             _Length = -1f;
 
             //Check if nothing is selected (for preview)
-            if (_PreviewId < 0)
+            if (_PreviewNr < 0)
                 return;
 
             if (CBase.Songs.IsInCategory())
             {
-                CSong song = CBase.Songs.GetVisibleSong(_PreviewId);
+                CSong song = CBase.Songs.GetVisibleSong(_PreviewNr);
                 //Check if we have a valid song (song still visible, index >=0 etc is checked by framework)
                 if (song == null)
                 {
@@ -185,7 +231,7 @@ namespace VocaluxeLib.Menu.SongMenu
             }
             else
             {
-                CCategory category = CBase.Songs.GetCategory(_PreviewId);
+                CCategory category = CBase.Songs.GetCategory(_PreviewNr);
                 //Check if we have a valid category
                 if (category == null)
                     return;
@@ -202,7 +248,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             if (song == null)
                 return;
-            float time = CBase.Sound.GetLength(_PreviewSongStream);
+            float time = CBase.BackgroundMusic.GetLength();
             if (Math.Abs(song.Finish) > 0.001)
                 time = song.Finish;
 
@@ -221,272 +267,223 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public override void OnShow()
         {
-            if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && CBase.Songs.GetNumCategories() > 0 && !CBase.Songs.IsInCategory())
-                _EnterCategory(0);
-            _ActualSelection = -1;
-            _Locked = -1;
-            _UpdateList(0, true);
-            //AfterCategoryChange();
-            SetSelectedSong(_PreviewId);
-            _AfterCategoryChange();
-
-            if (_PreviewId < 0)
+            _LastKnownElements = -1; //Force refresh of list
+            if (!CBase.Songs.IsInCategory())
             {
-                _PreviewId = 0;
-                _Locked = 0;
+                if ((CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && CBase.Songs.GetNumCategories() > 0) || CBase.Songs.GetNumCategories() == 1)
+                    _EnterCategory(0);
             }
-
-            if (CBase.Songs.GetNumSongsVisible() == 0 && CBase.Songs.GetSearchFilter() != "")
-            {
-                _PreviewId = -1;
-                _Locked = -1;
-            }
+            if (CBase.Songs.IsInCategory())
+                SetSelectedSong(_SelectionNr < 0 ? 0 : _SelectionNr);
+            else
+                SetSelectedCategory(_SelectionNr < 0 ? 0 : _SelectionNr);
+            _PreviewNr = _SelectionNr;
+            _UpdateListIfRequired();
         }
 
-        public override void HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions songOptions)
+        public override bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options)
         {
-            base.HandleInput(ref keyEvent, songOptions);
+            if (keyEvent.KeyPressed)
+                return false;
 
-            if (!keyEvent.KeyPressed)
+            bool moveAllowed = !options.Selection.RandomOnly || (options.Selection.CategoryChangeAllowed && !CBase.Songs.IsInCategory());
+            bool catChangePossible = CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && options.Selection.CategoryChangeAllowed;
+
+            //If nothing selected set a reasonable default value
+            if (keyEvent.IsArrowKey() && moveAllowed && _SelectionNr < 0)
+                _SelectionNr = (_PreviewNr < 0) ? _Offset : _PreviewNr;
+
+            switch (keyEvent.Key)
             {
-                if (!(keyEvent.Key == Keys.Left || keyEvent.Key == Keys.Right || keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down ||
-                      keyEvent.Key == Keys.Escape || keyEvent.Key == Keys.Back || keyEvent.Key == Keys.Enter ||
-                      keyEvent.Key == Keys.PageDown || keyEvent.Key == Keys.PageUp))
-                    return;
-
-                bool sel = _Tiles.Any(tile => tile.Selected);
-
-                if ((_Locked == -1 || !sel) &&
-                    (keyEvent.Key != Keys.Escape && keyEvent.Key != Keys.Back && keyEvent.Key != Keys.PageUp && keyEvent.Key != Keys.PageDown))
-                {
-                    if (_PreviewId > -1)
-                        _Locked = _PreviewId;
+                case Keys.Enter:
+                    if (CBase.Songs.IsInCategory())
+                    {
+                        if (_SelectionNr >= 0 && _PreviewNr != _SelectionNr)
+                        {
+                            _PreviewNr = _SelectionNr;
+                            keyEvent.Handled = true;
+                        }
+                    }
                     else
                     {
-                        _Locked = 0;
-                        _ActualSelection = 0;
-                        _PreviewId = 0;
-                        _UpdateList(0, true);
+                        _EnterCategory(_PreviewNr);
+                        keyEvent.Handled = true;
                     }
-                }
-                else
-                {
-                    switch (keyEvent.Key)
+                    break;
+
+                case Keys.Escape:
+                case Keys.Back:
+                    if (CBase.Songs.IsInCategory() && catChangePossible)
                     {
-                        case Keys.Enter:
-                            if (!CBase.Songs.IsInCategory())
-                            {
-                                _EnterCategory(_PreviewId);
-                                keyEvent.Handled = true;
-                            }
-                            else if (_ActualSelection > -1 && _PreviewId >= 0)
-                                _Locked = _ActualSelection;
-                            break;
-
-                        case Keys.Escape:
-                        case Keys.Back:
-                            if (CBase.Songs.IsInCategory() && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && songOptions.Selection.CategoryChangeAllowed)
-                            {
-                                _ShowCategories();
-                                keyEvent.Handled = true;
-                            }
-                            //else if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF)
-                            //{
-                            //    CGraphics.FadeTo(EScreens.ScreenMain);
-                            //}
-                            break;
-
-                        case Keys.PageUp:
-                            if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && songOptions.Selection.CategoryChangeAllowed)
-                                _PrevCategory();
-                            break;
-
-                        case Keys.PageDown:
-                            if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && songOptions.Selection.CategoryChangeAllowed)
-                                _NextCategory();
-                            break;
-
-                        case Keys.Left:
-                            if (_Locked > 0 && (!songOptions.Selection.RandomOnly || songOptions.Selection.CategoryChangeAllowed && !CBase.Songs.IsInCategory()))
-                            {
-                                _Locked--;
-                                _UpdateList();
-                            }
-                            break;
-
-                        case Keys.Right:
-                            if (!CBase.Songs.IsInCategory() && songOptions.Selection.CategoryChangeAllowed)
-                            {
-                                if (_Locked < CBase.Songs.GetNumCategories() - 1)
-                                {
-                                    _Locked++;
-                                    _UpdateList();
-                                }
-                            }
-                            else
-                            {
-                                if (CBase.Songs.IsInCategory() && _Locked < CBase.Songs.GetNumSongsVisible() - 1 && !songOptions.Selection.RandomOnly)
-                                {
-                                    _Locked++;
-                                    _UpdateList();
-                                }
-                            }
-                            break;
-
-                        case Keys.Up:
-                            if (keyEvent.ModShift && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && songOptions.Selection.CategoryChangeAllowed)
-                            {
-                                _PrevCategory();
-                                break;
-                            }
-
-                            if (_Locked > _NumW - 1 &&
-                                (!songOptions.Selection.RandomOnly || songOptions.Selection.CategoryChangeAllowed && !CBase.Songs.IsInCategory()))
-                            {
-                                _Locked -= _NumW;
-                                _UpdateList();
-                            }
-                            break;
-
-                        case Keys.Down:
-                            if (keyEvent.ModShift && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && songOptions.Selection.CategoryChangeAllowed)
-                            {
-                                _NextCategory();
-                                break;
-                            }
-
-                            if (!CBase.Songs.IsInCategory() && songOptions.Selection.CategoryChangeAllowed)
-                            {
-                                if (_Locked < CBase.Songs.GetNumCategories() - _NumW)
-                                {
-                                    _Locked += _NumW;
-                                    _UpdateList();
-                                }
-                            }
-                            else if (_Locked < CBase.Songs.GetNumSongsVisible() - _NumW && !songOptions.Selection.RandomOnly)
-                            {
-                                _Locked += _NumW;
-                                _UpdateList();
-                            }
-                            break;
+                        _LeaveCategory();
+                        keyEvent.Handled = true;
                     }
-                }
+                    break;
 
-                if (!keyEvent.Handled)
-                {
-                    _ActualSelection = _Locked;
-                    _PreviewId = _Locked;
+                case Keys.PageUp:
+                    if (catChangePossible)
+                    {
+                        _PrevCategory();
+                        keyEvent.Handled = true;
+                    }
+                    break;
 
-                    for (int i = 0; i < _Tiles.Count; i++)
-                        _Tiles[i].Selected = _Locked == i + _Offset;
-                }
+                case Keys.PageDown:
+                    if (catChangePossible)
+                    {
+                        _NextCategory();
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.Left:
+                    //Check for >0 so we do not allow selection of nothing (-1)
+                    if (_SelectionNr > 0 && moveAllowed)
+                    {
+                        _SelectionNr--;
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.Right:
+                    if (moveAllowed)
+                    {
+                        _SelectionNr++;
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.Up:
+                    if (keyEvent.ModShift)
+                    {
+                        if (catChangePossible)
+                        {
+                            _PrevCategory();
+                            keyEvent.Handled = true;
+                        }
+                    }
+                    else if (_SelectionNr >= _NumW && moveAllowed)
+                    {
+                        _SelectionNr -= _NumW;
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.Down:
+                    if (keyEvent.ModShift)
+                    {
+                        if (catChangePossible)
+                        {
+                            _NextCategory();
+                            keyEvent.Handled = true;
+                        }
+                    }
+                    else if (moveAllowed)
+                    {
+                        _SelectionNr += _NumW;
+                        keyEvent.Handled = true;
+                    }
+                    break;
             }
+            if (!CBase.Songs.IsInCategory())
+                _PreviewNr = _SelectionNr;
+            return keyEvent.Handled;
         }
 
-        public override void HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions)
+        public override bool HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions)
         {
-            base.HandleMouse(ref mouseEvent, songOptions);
-
-            int i = 0;
-            bool sel = false;
-            int lastselection = _ActualSelection;
-
             if (!songOptions.Selection.RandomOnly || (!CBase.Songs.IsInCategory() && songOptions.Selection.CategoryChangeAllowed))
             {
+                if (mouseEvent.Wheel != 0 && CHelper.IsInBounds(_ScrollRect, mouseEvent))
+                    _UpdateList(_Offset + _NumW * mouseEvent.Wheel);
+
+                int lastSelection = _SelectionNr;
+                int i = 0;
+                bool somethingSelected = false;
                 foreach (CStatic tile in _Tiles)
                 {
-                    if (tile.Texture != _CoverTexture && CHelper.IsInBounds(tile.Rect, mouseEvent) && !sel)
+                    if (tile.Texture != _CoverBGTexture && CHelper.IsInBounds(tile.Rect, mouseEvent))
                     {
-                        if (mouseEvent.LB || !CBase.Songs.IsInCategory())
-                        {
-                            if (_PreviewId == i + _Offset)
-                                _Locked = _PreviewId;
-                            else
-                            {
-                                _PreviewId = i + _Offset;
-                                _Locked = -1;
-                            }
-                        }
-                        tile.Selected = true;
-                        _ActualSelection = i + _Offset;
-                        sel = true;
+                        somethingSelected = true;
+                        _SelectionNr = i + _Offset;
+                        if (!CBase.Songs.IsInCategory())
+                            _PreviewNr = i + _Offset;
+                        break;
                     }
-                    else
-                        tile.Selected = false;
                     i++;
                 }
+                //Reset selection only if we moved out of the rect to avoid loosing it when selecting random songs
+                if (_MouseWasInRect && !somethingSelected)
+                    _SelectionNr = -1;
+                if (mouseEvent.Sender == ESender.WiiMote && _SelectionNr != lastSelection && _SelectionNr != -1)
+                    CBase.Controller.SetRumble(0.050f);
             }
-            else
-                sel = true;
+            _MouseWasInRect = CHelper.IsInBounds(Rect, mouseEvent);
 
-            if (mouseEvent.Sender == ESender.WiiMote && _ActualSelection != lastselection && _ActualSelection != -1)
-                CBase.Controller.SetRumble(0.050f);
-
-            if (!sel)
-                _ActualSelection = -1;
-
-            if (mouseEvent.RB && (CBase.Songs.GetNumCategories() > 0) && CBase.Songs.IsInCategory() && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON &&
-                songOptions.Selection.CategoryChangeAllowed)
+            if (mouseEvent.RB)
             {
-                _ShowCategories();
-                mouseEvent.Handled = true;
-                return;
-            }
-            if (mouseEvent.RB && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !songOptions.Selection.PartyMode)
-                CBase.Graphics.FadeTo(EScreens.ScreenMain);
-            else if (_PreviewId != -1 && mouseEvent.LB && CBase.Songs.GetCurrentCategoryIndex() != -1 && !songOptions.Selection.PartyMode)
-            {
-                if (CHelper.IsInBounds(_CoverBig.Rect, mouseEvent) || CHelper.IsInBounds(_TextBG.Rect, mouseEvent))
-                    _Locked = _PreviewId;
-            }
-            else if (mouseEvent.LB && (!CBase.Songs.IsInCategory()))
-            {
-                foreach (CStatic tile in _Tiles)
+                if (CBase.Songs.IsInCategory() && CBase.Songs.GetNumCategories() > 0 && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON &&
+                    songOptions.Selection.CategoryChangeAllowed)
                 {
-                    if (tile.Texture != _CoverTexture && CHelper.IsInBounds(tile.Rect, mouseEvent))
-                    {
-                        _EnterCategory(_PreviewId);
-                        mouseEvent.Handled = true;
-                        return;
-                    }
+                    _LeaveCategory();
+                    return true;
+                }
+                if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !songOptions.Selection.PartyMode)
+                {
+                    CBase.Graphics.FadeTo(EScreens.ScreenMain);
+                    return true;
                 }
             }
-
-            if (mouseEvent.Wheel != 0 && CHelper.IsInBounds(_ScrollRect, mouseEvent) &&
-                (!songOptions.Selection.RandomOnly || !CBase.Songs.IsInCategory() && songOptions.Selection.CategoryChangeAllowed))
-                _UpdateList(_Offset + _NumW * mouseEvent.Wheel);
+            else if (mouseEvent.LB)
+            {
+                if (_SelectionNr >= 0 && _MouseWasInRect)
+                {
+                    if (CBase.Songs.IsInCategory())
+                    {
+                        if (_PreviewNr == _SelectionNr)
+                            return false;
+                        _PreviewNr = _SelectionNr;
+                    }
+                    else
+                        EnterSelectedCategory();
+                    return true;
+                }
+            }
+            return false;
         }
 
         public override void Draw()
         {
             foreach (CStatic tile in _Tiles)
             {
-                if (tile.Selected && _Active)
-                    tile.Draw(1.2f, tile.Rect.Z - 0.1f, EAspect.Crop);
+                if (tile.Selected && Active)
+                    tile.Draw(EAspect.Crop, SelectedTileZoomFactor, -0.1f);
                 else
                 {
-                    EAspect aspect = (tile.Texture != _CoverTexture) ? EAspect.Crop : EAspect.Stretch;
-                    tile.Draw(1f, tile.Rect.Z, aspect);
+                    EAspect aspect = (tile.Texture != _CoverBGTexture) ? EAspect.Crop : EAspect.Stretch;
+                    tile.Draw(aspect);
                 }
             }
 
             _TextBG.Draw();
 
-            if (_Vidtex != null && _PreviewVideoStream != -1)
+            CTexture vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
+
+            if (vidtex != null)
             {
-                if (_Vidtex.Color.A < 1)
-                    _CoverBig.Draw(1f, EAspect.Crop);
+                if (vidtex.Color.A < 1)
+                    _CoverBig.Draw(EAspect.Crop);
                 var bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
                 RectangleF rect;
-                CHelper.SetRect(bounds, out rect, _Vidtex.OrigAspect, EAspect.Crop);
+                CHelper.SetRect(bounds, out rect, vidtex.OrigAspect, EAspect.Crop);
                 var vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
                 var vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
 
-                CBase.Drawing.DrawTexture(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds);
-                CBase.Drawing.DrawTextureReflection(_Vidtex, vidRect, _Vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
+                CBase.Drawing.DrawTexture(vidtex, vidRect, vidtex.Color, vidRectBounds);
+                CBase.Drawing.DrawTextureReflection(vidtex, vidRect, vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
             else
-                _CoverBig.Draw(1f, EAspect.Crop);
+                _CoverBig.Draw(EAspect.Crop);
 
 
             _Artist.Draw();
@@ -498,104 +495,30 @@ namespace VocaluxeLib.Menu.SongMenu
             _MedleyTagIcon.Draw();
         }
 
-        public override int GetSelectedSong()
-        {
-            return _Locked;
-        }
-
-        public override bool IsMouseOverActualSelection(SMouseEvent mEvent)
-        {
-            CStatic selCov = GetSelectedSongCover();
-            if (selCov.Texture == null)
-                return false;
-            var rect = new SRectF(selCov.Rect.X - selCov.Rect.W * 0.2f, selCov.Rect.Y - selCov.Rect.H * 0.2f, selCov.Rect.W * 1.2f, selCov.Rect.H * 1.2f, selCov.Rect.Z);
-            return CHelper.IsInBounds(rect, mEvent);
-        }
-
         public override CStatic GetSelectedSongCover()
         {
-            foreach (CStatic tile in _Tiles)
-            {
-                if (tile.Selected)
-                    return new CStatic(tile);
-            }
-            return new CStatic(_PartyModeID);
+            return _Tiles.FirstOrDefault(tile => tile.Selected);
         }
 
-        private void _SetSelectedTile(int itemNr)
+        protected override void _EnterCategory(int categoryNr)
         {
-            bool sel = _Tiles.Any(tile => tile.Selected);
+            base._EnterCategory(categoryNr);
 
-            if (_Locked == -1 || !sel)
-            {
-                if (_PreviewId > -1)
-                    _Locked = _PreviewId;
-                else
-                {
-                    _Locked = 0;
-                    _ActualSelection = 0;
-                    _PreviewId = 0;
-                    _UpdateList(0, true);
-                }
-            }
-
-            foreach (CStatic tile in _Tiles)
-                tile.Selected = false;
-
-            _PreviewId = itemNr;
-            _Locked = itemNr;
-
-            _UpdateList(true);
-
-            _PreviewId = _Locked;
-            _ActualSelection = _Locked;
-
-            if (_Locked - _Offset >= 0)
-                _Tiles[_Locked - _Offset].Selected = true;
+            SetSelectedSong(0);
+            _UpdateListIfRequired();
         }
 
-        public override void SetSelectedSong(int visibleSongNr)
+        protected override void _LeaveCategory()
         {
-            _PlaySong(visibleSongNr);
-            base.SetSelectedSong(visibleSongNr);
+            base._LeaveCategory();
 
-            if (visibleSongNr >= 0 && visibleSongNr < CBase.Songs.GetNumSongsVisible())
-                _SetSelectedTile(visibleSongNr);
-        }
-
-        public override void SetSelectedCategory(int categoryNr)
-        {
-            base.SetSelectedCategory(categoryNr);
-
-            if (categoryNr >= 0 && categoryNr < CBase.Songs.GetNumCategories())
-                _SetSelectedTile(categoryNr);
-        }
-
-        protected override void _EnterCategory(int cat)
-        {
-            base._EnterCategory(cat);
-
-            _PreviewId = 0;
-            _Locked = -1;
-            _ActualSelection = 0;
-            _AfterCategoryChange();
-            _Locked = 0;
-        }
-
-        protected override void _ShowCategories()
-        {
-            base._ShowCategories();
-
-            _PreviewId = 0;
-            _Locked = -1;
-            _ActualSelection = 0;
-            _AfterCategoryChange();
-            _Locked = 0;
+            SetSelectedCategory(0);
+            _UpdateListIfRequired();
         }
 
         private void _NextCategory()
         {
-            if (CBase.Songs.GetCurrentCategoryIndex() > -1)
+            if (CBase.Songs.IsInCategory())
             {
                 CBase.Songs.NextCategory();
                 _EnterCategory(CBase.Songs.GetCurrentCategoryIndex());
@@ -604,33 +527,40 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _PrevCategory()
         {
-            if (CBase.Songs.GetCurrentCategoryIndex() > -1)
+            if (CBase.Songs.IsInCategory())
             {
                 CBase.Songs.PrevCategory();
                 _EnterCategory(CBase.Songs.GetCurrentCategoryIndex());
             }
         }
 
-        private void _AfterCategoryChange()
+        private void _UpdateListIfRequired()
         {
-            foreach (CStatic tile in _Tiles)
-                tile.Selected = false;
-
-            if (_ActualSelection >= 0 && _ActualSelection < _Tiles.Count)
-                _Tiles[_ActualSelection].Selected = true;
-
-            if ((_LastKnownNumSongs == CBase.Songs.GetNumSongsVisible()) && (_LastKnownCategory == CBase.Songs.GetCurrentCategoryIndex()))
+            int curElements = CBase.Songs.IsInCategory() ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
+            if ((_LastKnownElements == curElements) && (_LastKnownCategory == CBase.Songs.GetCurrentCategoryIndex()))
                 return;
 
             _LastKnownCategory = CBase.Songs.GetCurrentCategoryIndex();
-            _LastKnownNumSongs = CBase.Songs.GetNumSongsVisible();
-            _UpdateList(0, true);
+            _LastKnownElements = curElements;
             CBase.Songs.UpdateRandomSongList();
+            _UpdateList(true);
+        }
+
+        private int _GetOffsetForPosition(int index, int rowNum = 0)
+        {
+            return (index / _NumW) * _NumW - (_NumW * rowNum.Clamp(0, _NumH - 1, true));
         }
 
         private void _UpdateList(bool force = false)
         {
-            _UpdateList((_Locked / _NumW) * _NumW - (_NumW * (_NumH - 2)), force);
+            int offset;
+            if (_SelectionNr < _Offset && _SelectionNr >= 0)
+                offset = _GetOffsetForPosition(_SelectionNr);
+            else if (_SelectionNr >= _Offset + _NumW * _NumH)
+                offset = _GetOffsetForPosition(_SelectionNr, _NumH);
+            else
+                offset = _Offset;
+            _UpdateList(offset, force);
         }
 
         private void _UpdateList(int offset, bool force = false)
@@ -638,11 +568,7 @@ namespace VocaluxeLib.Menu.SongMenu
             bool isInCategory = CBase.Songs.IsInCategory();
             int itemCount = isInCategory ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
 
-            if (offset >= (itemCount / _NumW) * _NumW - (_NumW * (_NumH - 1)))
-                offset = (itemCount / _NumW) * _NumW - (_NumW * (_NumH - 1));
-
-            if (offset < 0)
-                offset = 0;
+            offset = offset.Clamp(0, _GetOffsetForPosition(itemCount, _NumH - 1), true);
 
             if (offset == _Offset && !force)
                 return;
@@ -656,56 +582,11 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
                 else
                 {
-                    _Tiles[i].Texture = _CoverTexture;
+                    _Tiles[i].Texture = _CoverBGTexture;
                     _Tiles[i].Color = _Color;
                 }
             }
             _Offset = offset;
-        }
-
-        public override void SetSmallView(bool smallView)
-        {
-            base.SetSmallView(smallView);
-
-            _SmallView = smallView;
-
-            if (_SmallView)
-            {
-                _NumH = _Theme.SongMenuTileBoard.NumHsmall;
-                _NumW = _Theme.SongMenuTileBoard.NumWsmall;
-                Rect = _Theme.SongMenuTileBoard.TileRectSmall;
-            }
-            else
-            {
-                _NumH = _Theme.SongMenuTileBoard.NumH;
-                _NumW = _Theme.SongMenuTileBoard.NumW;
-                Rect = _Theme.SongMenuTileBoard.TileRect;
-            }
-
-            _TileW = (int)((Rect.W - _SpaceW * (_NumW - 1)) / _NumW);
-            _TileH = (int)((Rect.H - _SpaceH * (_NumH - 1)) / _NumH);
-
-            _CoverTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
-            _CoverBigTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
-
-            _Tiles = new List<CStatic>();
-            for (int i = 0; i < _NumH; i++)
-            {
-                for (int j = 0; j < _NumW; j++)
-                {
-                    var rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
-                    var tile = new CStatic(_PartyModeID, _CoverTexture, Color, rect);
-                    _Tiles.Add(tile);
-                }
-            }
-
-            _ScrollRect = new SRectF(0, 0, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), Rect.Z);
-            _UpdateList(true);
-        }
-
-        public override bool IsSmallView()
-        {
-            return _SmallView;
         }
 
         public override void LoadTextures()
