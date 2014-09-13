@@ -117,8 +117,25 @@ namespace VocaluxeLib.Draw
 
         private void _CalcRatios()
         {
-            WidthRatio = (float)_DataSize.Width / _W2;
-            HeightRatio = (float)_DataSize.Height / _H2;
+            // OpenGL has a problem with partial (NPOT) textures, so we remove 1 pixel
+            if (_DataSize.Width == _W2)
+                WidthRatio = 1f;
+            else
+            {
+                int mod = 0;
+                if (_DataSize.Width > 1)
+                    mod = -1;
+                WidthRatio = (float)(_DataSize.Width + mod) / _W2;
+            }
+            if (_DataSize.Height == _H2)
+                WidthRatio = 1f;
+            else
+            {
+                int mod = 0;
+                if (_DataSize.Height > 1)
+                    mod = -1;
+                HeightRatio = (float)(_DataSize.Height + mod) / _H2;
+            }
         }
     }
 }
