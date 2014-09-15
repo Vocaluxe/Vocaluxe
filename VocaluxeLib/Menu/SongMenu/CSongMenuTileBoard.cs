@@ -141,15 +141,15 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 _Theme.Name = elementName;
 
-                _Theme.SongMenuTileBoard.STextArtist = _Artist.GetTheme();
-                _Theme.SongMenuTileBoard.STextSongLength = _SongLength.GetTheme();
-                _Theme.SongMenuTileBoard.STextTitle = _Title.GetTheme();
-                _Theme.SongMenuTileBoard.SStaticCoverBig = _CoverBig.GetTheme();
-                _Theme.SongMenuTileBoard.SStaticDuetIcon = _DuetIcon.GetTheme();
-                _Theme.SongMenuTileBoard.SStaticMedleyCalcIcon = _MedleyCalcIcon.GetTheme();
-                _Theme.SongMenuTileBoard.SStaticMedleyTagIcon = _MedleyTagIcon.GetTheme();
-                _Theme.SongMenuTileBoard.SStaticTextBG = _TextBG.GetTheme();
-                _Theme.SongMenuTileBoard.SStaticVideoIcon = _VideoIcon.GetTheme();
+                _Theme.SongMenuTileBoard.TextArtist = _Artist.GetTheme();
+                _Theme.SongMenuTileBoard.TextSongLength = _SongLength.GetTheme();
+                _Theme.SongMenuTileBoard.TextTitle = _Title.GetTheme();
+                _Theme.SongMenuTileBoard.StaticCoverBig = _CoverBig.GetTheme();
+                _Theme.SongMenuTileBoard.StaticDuetIcon = _DuetIcon.GetTheme();
+                _Theme.SongMenuTileBoard.StaticMedleyCalcIcon = _MedleyCalcIcon.GetTheme();
+                _Theme.SongMenuTileBoard.StaticMedleyTagIcon = _MedleyTagIcon.GetTheme();
+                _Theme.SongMenuTileBoard.StaticTextBG = _TextBG.GetTheme();
+                _Theme.SongMenuTileBoard.StaticVideoIcon = _VideoIcon.GetTheme();
 
                 LoadTextures();
                 Init();
@@ -670,15 +670,15 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             base.LoadTextures();
 
-            _Artist = new CText(_Theme.SongMenuTileBoard.STextArtist, _PartyModeID);
-            _Title = new CText(_Theme.SongMenuTileBoard.STextTitle, _PartyModeID);
-            _SongLength = new CText(_Theme.SongMenuTileBoard.STextSongLength, _PartyModeID);
-            _CoverBig = new CStatic(_Theme.SongMenuTileBoard.SStaticCoverBig, _PartyModeID);
-            _TextBG = new CStatic(_Theme.SongMenuTileBoard.SStaticTextBG, _PartyModeID);
-            _DuetIcon = new CStatic(_Theme.SongMenuTileBoard.SStaticDuetIcon, _PartyModeID);
-            _VideoIcon = new CStatic(_Theme.SongMenuTileBoard.SStaticVideoIcon, _PartyModeID);
-            _MedleyCalcIcon = new CStatic(_Theme.SongMenuTileBoard.SStaticMedleyCalcIcon, _PartyModeID);
-            _MedleyTagIcon = new CStatic(_Theme.SongMenuTileBoard.SStaticMedleyTagIcon, _PartyModeID);
+            _Artist = new CText(_Theme.SongMenuTileBoard.TextArtist, _PartyModeID);
+            _Title = new CText(_Theme.SongMenuTileBoard.TextTitle, _PartyModeID);
+            _SongLength = new CText(_Theme.SongMenuTileBoard.TextSongLength, _PartyModeID);
+            _CoverBig = new CStatic(_Theme.SongMenuTileBoard.StaticCoverBig, _PartyModeID);
+            _TextBG = new CStatic(_Theme.SongMenuTileBoard.StaticTextBG, _PartyModeID);
+            _DuetIcon = new CStatic(_Theme.SongMenuTileBoard.StaticDuetIcon, _PartyModeID);
+            _VideoIcon = new CStatic(_Theme.SongMenuTileBoard.StaticVideoIcon, _PartyModeID);
+            _MedleyCalcIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyCalcIcon, _PartyModeID);
+            _MedleyTagIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyTagIcon, _PartyModeID);
 
             Init();
         }

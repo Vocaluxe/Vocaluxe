@@ -40,16 +40,6 @@ namespace VocaluxeLib.Menu
         public string TextureTileSelectedName;
         [XmlElement("Tiles")]
         public SThemeNameSelectionTiles Tiles;
-
-        public SThemeNameSelection(SThemeNameSelection theme)
-        {
-            Name = theme.Name;
-            Rect = new SRectF(theme.Rect);
-            TextureEmptyTileName = theme.TextureEmptyTileName;
-            ColorEmptyTile = new SThemeColor(theme.ColorEmptyTile);
-            TextureTileSelectedName = theme.TextureTileSelectedName;
-            Tiles = new SThemeNameSelectionTiles(theme.Tiles);
-        }
     }
 
     public struct SThemeNameSelectionTiles
@@ -68,17 +58,6 @@ namespace VocaluxeLib.Menu
         public float SpaceH;
         [XmlElement("Name")]
         public SThemeNameSelectionName Name;
-
-        public SThemeNameSelectionTiles(SThemeNameSelectionTiles theme)
-        {
-            W = theme.W;
-            H = theme.H;
-            NumW = theme.NumW;
-            NumH = theme.NumH;
-            SpaceW = theme.SpaceW;
-            SpaceH = theme.SpaceH;
-            Name = new SThemeNameSelectionName(theme.Name);
-        }
     }
 
     public struct SThemeNameSelectionName
@@ -93,15 +72,6 @@ namespace VocaluxeLib.Menu
         public EStyle Style;
         [XmlElement("Color")]
         public SThemeColor Color;
-
-        public SThemeNameSelectionName(SThemeNameSelectionName theme)
-        {
-            Space = theme.Space;
-            Height = theme.Height;
-            Font = theme.Font;
-            Style = theme.Style;
-            Color = new SThemeColor(theme.Color);
-        }
     }
 
     public class CNameSelection : IMenuElement
@@ -176,7 +146,7 @@ namespace VocaluxeLib.Menu
         public CNameSelection(SThemeNameSelection theme, int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeNameSelection(theme);
+            _Theme = theme;
 
             _Tiles = new List<CTile>();
             _VisibleProfiles = new List<int>();
@@ -647,7 +617,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeNameSelection GetTheme()
         {
-            return new SThemeNameSelection(_Theme);
+            return _Theme;
         }
 
         #region ThemeEdit

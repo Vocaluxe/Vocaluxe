@@ -51,24 +51,6 @@ namespace VocaluxeLib.Menu
         [XmlElement("Text")]
         public string Text;
         public SReflection Reflection;
-
-        public SThemeText(SThemeText theme)
-        {
-            Name = theme.Name;
-            X = theme.X;
-            Y = theme.Y;
-            Z = theme.Z;
-            Height = theme.Height;
-            MaxWidth = theme.MaxWidth;
-            Color = new SThemeColor(theme.Color);
-            SColor = new SThemeColor(theme.SColor);
-            Align = theme.Align;
-            ResizeAlign = theme.ResizeAlign;
-            Style = theme.Style;
-            Font = theme.Font;
-            Text = theme.Text;
-            Reflection = new SReflection(theme.Reflection);
-        }
     }
 
     public class CText : IMenuElement
@@ -356,7 +338,7 @@ namespace VocaluxeLib.Menu
         public CText(SThemeText theme, int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeText(theme);
+            _Theme = theme;
 
             LoadTextures();
         }
@@ -628,7 +610,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeText GetTheme()
         {
-            return new SThemeText(_Theme);
+            return _Theme;
         }
 
         #region ThemeEdit

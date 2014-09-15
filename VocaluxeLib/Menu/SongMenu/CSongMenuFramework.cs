@@ -63,7 +63,7 @@ namespace VocaluxeLib.Menu.SongMenu
             MedleyCalcIcon = theme.MedleyCalcIcon;
             MedleyTagIcon = theme.MedleyTagIcon;
             Color = new SThemeColor(theme.Color);
-            SongMenuTileBoard = new SThemeSongMenuTileBoard(theme.SongMenuTileBoard);
+            SongMenuTileBoard = theme.SongMenuTileBoard;
         }
     }
 
@@ -111,45 +111,24 @@ namespace VocaluxeLib.Menu.SongMenu
         public SRectF TileRectSmall;
 
         [XmlElement("TextArtist")]
-        public SThemeText STextArtist;
+        public SThemeText TextArtist;
         [XmlElement("TextTitle")]
-        public SThemeText STextTitle;
+        public SThemeText TextTitle;
         [XmlElement("TextSongLength")]
-        public SThemeText STextSongLength;
+        public SThemeText TextSongLength;
 
         [XmlElement("StaticCoverBig")]
-        public SThemeStatic SStaticCoverBig;
+        public SThemeStatic StaticCoverBig;
         [XmlElement("StaticTextBG")]
-        public SThemeStatic SStaticTextBG;
+        public SThemeStatic StaticTextBG;
         [XmlElement("StaticDuetIcon")]
-        public SThemeStatic SStaticDuetIcon;
+        public SThemeStatic StaticDuetIcon;
         [XmlElement("StaticVideoIcon")]
-        public SThemeStatic SStaticVideoIcon;
+        public SThemeStatic StaticVideoIcon;
         [XmlElement("StaticMedleyCalcIcon")]
-        public SThemeStatic SStaticMedleyCalcIcon;
+        public SThemeStatic StaticMedleyCalcIcon;
         [XmlElement("StaticMedleyTagIcon")]
-        public SThemeStatic SStaticMedleyTagIcon;
-
-        public SThemeSongMenuTileBoard(SThemeSongMenuTileBoard theme)
-        {
-            NumW = theme.NumW;
-            NumH = theme.NumH;
-            NumWsmall = theme.NumWsmall;
-            NumHsmall = theme.NumHsmall;
-            SpaceW = theme.SpaceW;
-            SpaceH = theme.SpaceH;
-            TileRect = new SRectF(theme.TileRect);
-            TileRectSmall = new SRectF(theme.TileRectSmall);
-            STextArtist = new SThemeText(theme.STextArtist);
-            STextTitle = new SThemeText(theme.STextTitle);           
-            STextSongLength = new SThemeText(theme.STextSongLength);            
-            SStaticCoverBig = new SThemeStatic(theme.SStaticCoverBig);           
-            SStaticTextBG = new SThemeStatic(theme.SStaticTextBG);           
-            SStaticDuetIcon = new SThemeStatic(theme.SStaticDuetIcon);           
-            SStaticVideoIcon = new SThemeStatic(theme.SStaticVideoIcon);           
-            SStaticMedleyCalcIcon = new SThemeStatic(theme.SStaticMedleyCalcIcon);         
-            SStaticMedleyTagIcon = new SThemeStatic(theme.SStaticMedleyTagIcon);
-        }
+        public SThemeStatic StaticMedleyTagIcon;
     }
 
     abstract class CSongMenuFramework : ISongMenu

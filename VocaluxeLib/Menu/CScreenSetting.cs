@@ -39,13 +39,6 @@ namespace VocaluxeLib.Menu
         public string Value;
         [XmlElement("Type")]
         public ESettingType Type;
-
-        public SScreenSetting(SScreenSetting theme)
-        {
-            Name = theme.Name;
-            Value = theme.Value;
-            Type = theme.Type;
-        }
     }
 
     // ReSharper disable ClassNeverInstantiated.Global
@@ -78,7 +71,7 @@ namespace VocaluxeLib.Menu
         public CScreenSetting(SScreenSetting theme, int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SScreenSetting(theme);
+            _Theme = theme;
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
@@ -138,7 +131,7 @@ namespace VocaluxeLib.Menu
 
         public SScreenSetting GetTheme()
         {
-            return new SScreenSetting(_Theme);
+            return _Theme;
         }
 
         #region Private

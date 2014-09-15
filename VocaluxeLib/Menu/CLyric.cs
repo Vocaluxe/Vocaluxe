@@ -35,14 +35,6 @@ namespace VocaluxeLib.Menu
         public SThemeColor Color;
         [XmlElement("SColor")]
         public SThemeColor SColor;
-
-        public SThemeLyrics(SThemeLyrics theme)
-        {
-            Name = theme.Name;
-            Rect = new SRectF(theme.Rect);
-            Color = new SThemeColor(theme.Color);
-            SColor = new SThemeColor(theme.SColor);
-        }
     }
 
     public class CLyric : IMenuElement
@@ -131,7 +123,7 @@ namespace VocaluxeLib.Menu
         public CLyric(SThemeLyrics theme, int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeLyrics(theme);
+            _Theme = theme;
 
             _Line = new CSongLine();
             _Text = new CText(_PartyModeID);
@@ -526,7 +518,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeLyrics GetTheme()
         {
-            return new SThemeLyrics(_Theme);
+            return _Theme;
         }
 
         #region ThemeEdit
