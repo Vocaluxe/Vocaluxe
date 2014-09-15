@@ -344,9 +344,22 @@ namespace VocaluxeLib.Menu
         {
             if (!String.IsNullOrEmpty(_Theme.Color.Name))
                 Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                Color = _Theme.Color.Color;
 
             if (!String.IsNullOrEmpty(_Theme.MaxColor.Name))
                 MaxColor = CBase.Theme.GetColor(_Theme.MaxColor.Name, _PartyModeID);
+            else
+                MaxColor = _Theme.MaxColor.Color;
+
+            Rect = _Theme.Rect;
+            Space = _Theme.Space;
+            Reflection = _Theme.Reflection.Enabled;
+            if(Reflection)
+            {
+                ReflectionHeight = _Theme.Reflection.Height;
+                ReflectionSpace = _Theme.Reflection.Space;
+            }
         }
 
         public void ReloadTextures()

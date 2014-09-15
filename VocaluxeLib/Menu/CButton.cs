@@ -39,6 +39,9 @@ namespace VocaluxeLib.Menu
         public SThemeColor SelColor;
         [XmlElement("Text")]
         public SThemeText Text;
+        [XmlElement("SText")]
+        public SThemeText SText;
+        public bool STextSpecified;
         [XmlElement("Reflection")]
         public SReflection Reflection;
         [XmlElement("SelReflection")]
@@ -53,8 +56,10 @@ namespace VocaluxeLib.Menu
             Color = new SThemeColor(theme.Color);
             SelColor = new SThemeColor(theme.SelColor);
             Text = new SThemeText(theme.Text);
+            SText = new SThemeText(theme.SText);
             Reflection = new SReflection(theme.Reflection);
             SelReflection = new SReflection(theme.SelReflection);
+            STextSpecified = theme.STextSpecified;
         }
     }
 
@@ -70,9 +75,8 @@ namespace VocaluxeLib.Menu
         public SColorF Color;
         public SColorF SelColor;
 
-        private bool _IsSelText;
-        public readonly CText Text;
-        private readonly CText _SelText;
+        public CText Text;
+        private CText _SelText;
 
         private bool _Reflection;
         private float _ReflectionSpace;
@@ -216,7 +220,7 @@ namespace VocaluxeLib.Menu
             Text.Z = Rect.Z;
             if (xmlReader.ItemExists(item + "/SText"))
             {
-                _IsSelText = true;
+                _Theme.STextSpecified = true;
                 _ThemeLoaded &= _SelText.LoadTheme(item, "SText", xmlReader, skinIndex, true);
                 _SelText.Z = Rect.Z;
             }
@@ -258,6 +262,7 @@ namespace VocaluxeLib.Menu
                 _Theme.Color.Color = new SColorF(Color);
                 _Theme.SelColor.Color = new SColorF(SelColor);
                 _Theme.Text = Text.GetTheme();
+                _Theme.SText = _SelText.GetTheme();
 
                 LoadTextures();
             }
@@ -308,7 +313,7 @@ namespace VocaluxeLib.Menu
                 }
 
                 Text.SaveTheme(writer);
-                if (_IsSelText)
+                if (_Theme.STextSpecified)
                     _SelText.SaveTheme(writer);
 
                 writer.WriteComment("<Reflection> If exists:");
@@ -361,7 +366,7 @@ namespace VocaluxeLib.Menu
                 else
                     Text.DrawRelative(Rect.X, Rect.Y);
             }
-            else if (!_IsSelText)
+            else if (!_Theme.STextSpecified)
             {
                 texture = Texture ?? CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
 
@@ -375,7 +380,7 @@ namespace VocaluxeLib.Menu
                 else
                     Text.DrawRelative(Rect.X, Rect.Y);
             }
-            else if (_IsSelText)
+            else if (_Theme.STextSpecified)
             {
                 texture = SelTexture ?? CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
 
@@ -403,13 +408,40 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
+            Text = new CText(_Theme.Text, _PartyModeID);
             Text.LoadTextures();
+
+            if (_Theme.STextSpecified)
+            {
+                _SelText = new CText(_Theme.SText, _PartyModeID);
+                _SelText.LoadTextures();
+            }
 
             if (!String.IsNullOrEmpty(_Theme.Color.Name))
                 Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                Color = _Theme.Color.Color;
 
             if (!String.IsNullOrEmpty(_Theme.SelColor.Name))
                 SelColor = CBase.Theme.GetColor(_Theme.SelColor.Name, _PartyModeID);
+            else
+                SelColor = _Theme.SelColor.Color;
+
+            Rect = _Theme.Rect;
+
+            _Reflection = _Theme.Reflection.Enabled;
+            if (_Reflection)
+            {
+                _ReflectionHeight = _Theme.Reflection.Height;
+                _ReflectionSpace = _Theme.Reflection.Space;
+            }
+
+            _SelReflection = _Theme.Reflection.Enabled;
+            if (_SelReflection)
+            {
+                _SelReflectionHeight = _Theme.SelReflection.Height;
+                _SelReflectionSpace = _Theme.SelReflection.Space;
+            }
         }
 
         public void ReloadTextures()

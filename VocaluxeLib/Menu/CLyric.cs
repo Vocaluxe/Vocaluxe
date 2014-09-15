@@ -507,9 +507,15 @@ namespace VocaluxeLib.Menu
         {
             if (!String.IsNullOrEmpty(_Theme.Color.Name))
                 _Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                _Color = _Theme.Color.Color;
 
             if (!String.IsNullOrEmpty(_Theme.SColor.Name))
                 _ColorProcessed = CBase.Theme.GetColor(_Theme.SColor.Name, _PartyModeID);
+            else
+                _ColorProcessed = _Theme.SColor.Color;
+
+            Rect = _Theme.Rect;
         }
 
         public void ReloadTextures()

@@ -62,6 +62,10 @@ namespace VocaluxeLib.Menu
         public int NumW;
         [XmlElement("NumH")]
         public int NumH;
+        [XmlElement("SpaceW")]
+        public float SpaceW;
+        [XmlElement("SpaceH")]
+        public float SpaceH;
         [XmlElement("Name")]
         public SThemeNameSelectionName Name;
 
@@ -71,6 +75,8 @@ namespace VocaluxeLib.Menu
             H = theme.H;
             NumW = theme.NumW;
             NumH = theme.NumH;
+            SpaceW = theme.SpaceW;
+            SpaceH = theme.SpaceH;
             Name = new SThemeNameSelectionName(theme.Name);
         }
     }
@@ -143,14 +149,6 @@ namespace VocaluxeLib.Menu
 
         public SColorF ColorEmptyTile;
 
-        private int _NumW;
-        private int _NumH;
-
-        private float _SpaceW;
-        private float _SpaceH;
-
-        private int _TileW;
-        private int _TileH;
 
         public int Offset;
         private int _ActualSelection = -1;
@@ -194,7 +192,7 @@ namespace VocaluxeLib.Menu
             _PlayerSelector = new CStatic(_PartyModeID)
                 {
                     Texture = _TextureTileSelected,
-                    Rect = new SRectF(0, 0, _TileW + 6, _TileH + 6, Rect.Z - 0.5f),
+                    Rect = new SRectF(0, 0, _Theme.Tiles.W + 6, _Theme.Tiles.H + 6, Rect.Z - 0.5f),
                     Visible = false
                 };
 
@@ -228,12 +226,12 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", out _Theme.TextureTileSelectedName, String.Empty);
 
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _TileW);
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _TileH);
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumW", ref _NumW);
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumH", ref _NumH);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceW", ref _SpaceW);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceH", ref _SpaceH);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _Theme.Tiles.W);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _Theme.Tiles.H);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumW", ref _Theme.Tiles.NumW);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumH", ref _Theme.Tiles.NumH);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceW", ref _Theme.Tiles.SpaceW);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceH", ref _Theme.Tiles.SpaceH);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/Space", ref _Theme.Tiles.Name.Space);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/H", ref _Theme.Tiles.Name.Height);
             _ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", out _Theme.Tiles.Name.Font, "Normal");
@@ -256,10 +254,6 @@ namespace VocaluxeLib.Menu
                 _Theme.Name = elementName;
 
                 _Theme.Rect = new SRectF(Rect);
-                _Theme.Tiles.H = _TileH;
-                _Theme.Tiles.W = _TileW;
-                _Theme.Tiles.NumH = _NumH;
-                _Theme.Tiles.NumW = _NumW;
                 _Theme.ColorEmptyTile.Color = new SColorF(ColorEmptyTile);
 
                 LoadTextures();
@@ -301,14 +295,14 @@ namespace VocaluxeLib.Menu
                 writer.WriteComment("<Tiles>: Options for tiles");
                 writer.WriteStartElement("Tiles");
                 writer.WriteComment("<W>, <H>: Width and height of tile");
-                writer.WriteElementString("W", _TileW.ToString());
-                writer.WriteElementString("H", _TileH.ToString());
+                writer.WriteElementString("W", _Theme.Tiles.W.ToString());
+                writer.WriteElementString("H", _Theme.Tiles.H.ToString());
                 writer.WriteComment("<NumW>, <NumH>: Number of tiles");
-                writer.WriteElementString("NumW", _NumW.ToString());
-                writer.WriteElementString("NumH", _NumH.ToString());
+                writer.WriteElementString("NumW", _Theme.Tiles.NumW.ToString());
+                writer.WriteElementString("NumH", _Theme.Tiles.NumH.ToString());
                 writer.WriteComment("<SpaceW>, <SpaceH>: Space between tiles");
-                writer.WriteElementString("SpaceW", _SpaceW.ToString("#0.00"));
-                writer.WriteElementString("SpaceH", _SpaceH.ToString("#0.00"));
+                writer.WriteElementString("SpaceW", _Theme.Tiles.SpaceW.ToString("#0.00"));
+                writer.WriteElementString("SpaceH", _Theme.Tiles.SpaceH.ToString("#0.00"));
                 writer.WriteComment("<Name>: Options for player-name");
                 writer.WriteStartElement("Name");
                 writer.WriteComment("<Space>: Space between name and tile");
@@ -395,20 +389,20 @@ namespace VocaluxeLib.Menu
                     break;
 
                 case Keys.Up:
-                    if (_ActualSelection - _NumW > -1)
-                        _ActualSelection -= _NumW;
+                    if (_ActualSelection - _Theme.Tiles.NumW > -1)
+                        _ActualSelection -= _Theme.Tiles.NumW;
                     else if (Offset > 0)
                     {
                         UpdateList(Offset - 1);
-                        _ActualSelection += _Tiles.Count - _NumW;
+                        _ActualSelection += _Tiles.Count - _Theme.Tiles.NumW;
                     }
                     break;
 
                 case Keys.Down:
-                    if (_ActualSelection + _NumW < _Tiles.Count)
+                    if (_ActualSelection + _Theme.Tiles.NumW < _Tiles.Count)
                     {
-                        if (_Tiles[_ActualSelection + _NumW].ProfileID != -1)
-                            _ActualSelection += _NumW;
+                        if (_Tiles[_ActualSelection + _Theme.Tiles.NumW].ProfileID != -1)
+                            _ActualSelection += _Theme.Tiles.NumW;
                     }
                     else
                     {
@@ -416,7 +410,7 @@ namespace VocaluxeLib.Menu
                         UpdateList(Offset + 1);
                         if (offset != Offset)
                         {
-                            _ActualSelection = _ActualSelection - _Tiles.Count + _NumW;
+                            _ActualSelection = _ActualSelection - _Tiles.Count + _Theme.Tiles.NumW;
                             if (_Tiles[_ActualSelection].ProfileID == -1)
                             {
                                 for (int i = _Tiles.Count - 1; i >= 0; i--)
@@ -558,9 +552,13 @@ namespace VocaluxeLib.Menu
 
             if (!String.IsNullOrEmpty(_Theme.ColorEmptyTile.Name))
                 ColorEmptyTile = CBase.Theme.GetColor(_Theme.ColorEmptyTile.Name, _PartyModeID);
+            else
+                ColorEmptyTile = _Theme.ColorEmptyTile.Color;
 
             if (!String.IsNullOrEmpty(_Theme.Tiles.Name.Color.Name))
                 _Theme.Tiles.Name.Color.Color = CBase.Theme.GetColor(_Theme.Tiles.Name.Color.Name, _PartyModeID);
+
+            Rect = _Theme.Rect;
         }
 
         public void ReloadTextures()
@@ -616,11 +614,11 @@ namespace VocaluxeLib.Menu
         private void _PrepareTiles()
         {
             _Tiles.Clear();
-            for (int i = 0; i < _NumH; i++)
+            for (int i = 0; i < _Theme.Tiles.NumH; i++)
             {
-                for (int j = 0; j < _NumW; j++)
+                for (int j = 0; j < _Theme.Tiles.NumW; j++)
                 {
-                    var rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
+                    var rect = new SRectF(Rect.X + j * (_Theme.Tiles.W + _Theme.Tiles.SpaceW), Rect.Y + i * (_Theme.Tiles.H + _Theme.Tiles.SpaceH), _Theme.Tiles.W, _Theme.Tiles.H, Rect.Z);
                     var tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect) {Aspect = EAspect.Crop};
                     var tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.Tiles.Name.Space, rect.Z, _Theme.Tiles.Name.Height, rect.W, EAlignment.Center, _Theme.Tiles.Name.Style,
                                              _Theme.Tiles.Name.Font, _Theme.Tiles.Name.Color.Color, "");

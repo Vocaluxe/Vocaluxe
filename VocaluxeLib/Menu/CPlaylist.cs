@@ -372,53 +372,6 @@ namespace VocaluxeLib.Menu
                 _Theme.SButtonPlaylistSave =ButtonPlaylistSave.GetTheme();
                 _Theme.SButtonPlaylistDelete =ButtonPlaylistDelete.GetTheme();
 
-                //Check for highest x/y-coords
-                CompleteRect = Rect;
-                //ButtonPlaylistClose
-                if (ButtonPlaylistClose.Rect.X < CompleteRect.X)
-                    CompleteRect.X = ButtonPlaylistClose.Rect.X;
-                if (ButtonPlaylistClose.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = ButtonPlaylistClose.Rect.Y;
-                if (ButtonPlaylistClose.Rect.W + ButtonPlaylistClose.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = ButtonPlaylistClose.Rect.W + ButtonPlaylistClose.Rect.X - CompleteRect.X;
-                if (ButtonPlaylistClose.Rect.Y + ButtonPlaylistClose.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = ButtonPlaylistClose.Rect.H + ButtonPlaylistClose.Rect.Y - CompleteRect.Y;
-                //ButtonPlaylistName
-                if (ButtonPlaylistName.Rect.X < CompleteRect.X)
-                    CompleteRect.X = ButtonPlaylistName.Rect.X;
-                if (ButtonPlaylistName.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = ButtonPlaylistName.Rect.Y;
-                if (ButtonPlaylistName.Rect.W + ButtonPlaylistName.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = ButtonPlaylistName.Rect.W + ButtonPlaylistName.Rect.X - CompleteRect.X;
-                if (ButtonPlaylistName.Rect.Y + ButtonPlaylistName.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = ButtonPlaylistName.Rect.H + ButtonPlaylistName.Rect.Y - CompleteRect.Y;
-                //ButtonPlaylistSing
-                if (ButtonPlaylistSing.Rect.X < CompleteRect.X)
-                    CompleteRect.X = ButtonPlaylistSing.Rect.X;
-                if (ButtonPlaylistSing.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = ButtonPlaylistSing.Rect.Y;
-                if (ButtonPlaylistSing.Rect.W + ButtonPlaylistSing.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = ButtonPlaylistSing.Rect.W + ButtonPlaylistSing.Rect.X - CompleteRect.X;
-                if (ButtonPlaylistSing.Rect.Y + ButtonPlaylistSing.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = ButtonPlaylistSing.Rect.H + ButtonPlaylistSing.Rect.Y - CompleteRect.Y;
-                //ButtonPlaylistSave
-                if (ButtonPlaylistSave.Rect.X < CompleteRect.X)
-                    CompleteRect.X = ButtonPlaylistSave.Rect.X;
-                if (ButtonPlaylistSave.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = ButtonPlaylistSave.Rect.Y;
-                if (ButtonPlaylistSave.Rect.W + ButtonPlaylistSave.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = ButtonPlaylistSave.Rect.W + ButtonPlaylistSave.Rect.X - CompleteRect.X;
-                if (ButtonPlaylistSave.Rect.Y + ButtonPlaylistSave.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = ButtonPlaylistSave.Rect.H + ButtonPlaylistSave.Rect.Y - CompleteRect.Y;
-                //ButtonPlaylistDelete
-                if (ButtonPlaylistDelete.Rect.X < CompleteRect.X)
-                    CompleteRect.X = ButtonPlaylistDelete.Rect.X;
-                if (ButtonPlaylistDelete.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = ButtonPlaylistDelete.Rect.Y;
-                if (ButtonPlaylistDelete.Rect.W + ButtonPlaylistDelete.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = ButtonPlaylistDelete.Rect.W + ButtonPlaylistDelete.Rect.X - CompleteRect.X;
-                if (ButtonPlaylistDelete.Rect.Y + ButtonPlaylistDelete.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = ButtonPlaylistDelete.Rect.H + ButtonPlaylistDelete.Rect.Y - CompleteRect.Y;
                 LoadTextures();
             }
             return _ThemeLoaded;
@@ -540,9 +493,15 @@ namespace VocaluxeLib.Menu
         {
             if (!String.IsNullOrEmpty(_Theme.ColorBackground.Name))
                 BackgroundColor = CBase.Theme.GetColor(_Theme.ColorBackground.Name, _PartyModeID);
+            else
+                BackgroundColor = _Theme.ColorBackground.Color;
 
             if (!String.IsNullOrEmpty(_Theme.SelColorBackground.Name))
                 BackgroundSelColor = CBase.Theme.GetColor(_Theme.SelColorBackground.Name, _PartyModeID);
+            else
+                BackgroundSelColor = _Theme.SelColorBackground.Color;
+
+            Rect = _Theme.Rect;
 
             Text1.LoadTextures();
             ButtonPlaylistClose.LoadTextures();
@@ -556,6 +515,8 @@ namespace VocaluxeLib.Menu
             StaticPlaylistHeader.LoadTextures();
 
             SelectSlideGameMode.LoadTextures();
+
+            _UpdateRect();
 
             Init();
         }
@@ -1317,6 +1278,57 @@ namespace VocaluxeLib.Menu
         public SThemePlaylist GetTheme()
         {
             return _Theme;
+        }
+
+        private void _UpdateRect()
+        {
+            //Check for highest x/y-coords
+            CompleteRect = Rect;
+            //ButtonPlaylistClose
+            if (ButtonPlaylistClose.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistClose.Rect.X;
+            if (ButtonPlaylistClose.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistClose.Rect.Y;
+            if (ButtonPlaylistClose.Rect.W + ButtonPlaylistClose.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistClose.Rect.W + ButtonPlaylistClose.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistClose.Rect.Y + ButtonPlaylistClose.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistClose.Rect.H + ButtonPlaylistClose.Rect.Y - CompleteRect.Y;
+            //ButtonPlaylistName
+            if (ButtonPlaylistName.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistName.Rect.X;
+            if (ButtonPlaylistName.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistName.Rect.Y;
+            if (ButtonPlaylistName.Rect.W + ButtonPlaylistName.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistName.Rect.W + ButtonPlaylistName.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistName.Rect.Y + ButtonPlaylistName.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistName.Rect.H + ButtonPlaylistName.Rect.Y - CompleteRect.Y;
+            //ButtonPlaylistSing
+            if (ButtonPlaylistSing.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistSing.Rect.X;
+            if (ButtonPlaylistSing.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistSing.Rect.Y;
+            if (ButtonPlaylistSing.Rect.W + ButtonPlaylistSing.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistSing.Rect.W + ButtonPlaylistSing.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistSing.Rect.Y + ButtonPlaylistSing.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistSing.Rect.H + ButtonPlaylistSing.Rect.Y - CompleteRect.Y;
+            //ButtonPlaylistSave
+            if (ButtonPlaylistSave.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistSave.Rect.X;
+            if (ButtonPlaylistSave.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistSave.Rect.Y;
+            if (ButtonPlaylistSave.Rect.W + ButtonPlaylistSave.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistSave.Rect.W + ButtonPlaylistSave.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistSave.Rect.Y + ButtonPlaylistSave.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistSave.Rect.H + ButtonPlaylistSave.Rect.Y - CompleteRect.Y;
+            //ButtonPlaylistDelete
+            if (ButtonPlaylistDelete.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistDelete.Rect.X;
+            if (ButtonPlaylistDelete.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistDelete.Rect.Y;
+            if (ButtonPlaylistDelete.Rect.W + ButtonPlaylistDelete.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistDelete.Rect.W + ButtonPlaylistDelete.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistDelete.Rect.Y + ButtonPlaylistDelete.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistDelete.Rect.H + ButtonPlaylistDelete.Rect.Y - CompleteRect.Y;
         }
 
         #region ThemeEdit

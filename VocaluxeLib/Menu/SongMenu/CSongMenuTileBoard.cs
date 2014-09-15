@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using System.Xml;
 using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
@@ -46,9 +47,6 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private int _NumW;
         private int _NumH;
-
-        private float _SpaceW;
-        private float _SpaceH;
 
         private int _TileW;
         private int _TileH;
@@ -120,23 +118,102 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
+        public override bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
+        {
+            string item = xmlPath + "/" + elementName;
+
+            bool themeLoaded = true;
+            themeLoaded &= base.LoadTheme(xmlPath, elementName, xmlReader, skinIndex);
+
+
+            themeLoaded &= _Artist.LoadTheme(item + "/SongMenuTileBoard", "TextArtist", xmlReader, skinIndex);
+            themeLoaded &= _Title.LoadTheme(item + "/SongMenuTileBoard", "TextTitle", xmlReader, skinIndex);
+            themeLoaded &= _SongLength.LoadTheme(item + "/SongMenuTileBoard", "TextSongLength", xmlReader, skinIndex);
+
+            themeLoaded &= _CoverBig.LoadTheme(item + "/SongMenuTileBoard", "StaticCoverBig", xmlReader, skinIndex);
+            themeLoaded &= _TextBG.LoadTheme(item + "/SongMenuTileBoard", "StaticTextBG", xmlReader, skinIndex);
+            themeLoaded &= _DuetIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticDuetIcon", xmlReader, skinIndex);
+            themeLoaded &= _VideoIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticVideoIcon", xmlReader, skinIndex);
+            themeLoaded &= _MedleyCalcIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyCalcIcon", xmlReader, skinIndex);
+            themeLoaded &= _MedleyTagIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyTagIcon", xmlReader, skinIndex);
+
+            if (themeLoaded)
+            {
+                _Theme.Name = elementName;
+
+                _Theme.SongMenuTileBoard.STextArtist = _Artist.GetTheme();
+                _Theme.SongMenuTileBoard.STextSongLength = _SongLength.GetTheme();
+                _Theme.SongMenuTileBoard.STextTitle = _Title.GetTheme();
+                _Theme.SongMenuTileBoard.SStaticCoverBig = _CoverBig.GetTheme();
+                _Theme.SongMenuTileBoard.SStaticDuetIcon = _DuetIcon.GetTheme();
+                _Theme.SongMenuTileBoard.SStaticMedleyCalcIcon = _MedleyCalcIcon.GetTheme();
+                _Theme.SongMenuTileBoard.SStaticMedleyTagIcon = _MedleyTagIcon.GetTheme();
+                _Theme.SongMenuTileBoard.SStaticTextBG = _TextBG.GetTheme();
+                _Theme.SongMenuTileBoard.SStaticVideoIcon = _VideoIcon.GetTheme();
+
+                LoadTextures();
+                Init();
+            }
+
+            return themeLoaded;
+        }
+
+        public override bool SaveTheme(XmlWriter writer)
+        {
+            writer.WriteComment("<SongMenuTileBoard>: Config for TileBoard view");
+            writer.WriteStartElement("SongMenuTileBoard");
+
+            writer.WriteComment("<NumW>: Number of tiles horizontal");
+            writer.WriteElementString("NumW", _Theme.SongMenuTileBoard.NumW.ToString());
+
+            writer.WriteComment("<NumH>: Number of tiles vertical");
+            writer.WriteElementString("NumH", _Theme.SongMenuTileBoard.NumH.ToString());
+
+            writer.WriteComment("<SpaceW>: Space between tiles horizontal");
+            writer.WriteElementString("SpaceW", _Theme.SongMenuTileBoard.SpaceW.ToString("#0.00"));
+
+            writer.WriteComment("<SpaceH>: Space between tiles vertical");
+            writer.WriteElementString("SpaceH", _Theme.SongMenuTileBoard.SpaceH.ToString("#0.00"));
+
+            writer.WriteComment("<NumWsmall>: Number of tiles horizontal in small-mode");
+            writer.WriteElementString("NumWsmall", _Theme.SongMenuTileBoard.NumWsmall.ToString());
+
+            writer.WriteComment("<NumHsmall>: Number of tiles vertical in small-mode");
+            writer.WriteElementString("NumHsmall", _Theme.SongMenuTileBoard.NumHsmall.ToString());
+
+            writer.WriteComment("<TileRectX>, <TileRectY>, <TileRectZ>, <TileRectW>, <TileRectH>: SongMenu position, width and height");
+            writer.WriteElementString("TileRectX", _Theme.SongMenuTileBoard.TileRect.X.ToString("#0"));
+            writer.WriteElementString("TileRectY", _Theme.SongMenuTileBoard.TileRect.Y.ToString("#0"));
+            writer.WriteElementString("TileRectZ", _Theme.SongMenuTileBoard.TileRect.Z.ToString("#0.00"));
+            writer.WriteElementString("TileRectW", _Theme.SongMenuTileBoard.TileRect.W.ToString("#0"));
+            writer.WriteElementString("TileRectH", _Theme.SongMenuTileBoard.TileRect.H.ToString("#0"));
+
+            writer.WriteComment("<TileRectSmallX>, <TileRectSmallY>, <TileRectSmallZ>, <TileRectSmallW>, <TileRectSmallH>: SongMenu position, width and height in small-mode");
+            writer.WriteElementString("TileRectSmallX", _Theme.SongMenuTileBoard.TileRectSmall.X.ToString("#0"));
+            writer.WriteElementString("TileRectSmallY", _Theme.SongMenuTileBoard.TileRectSmall.Y.ToString("#0"));
+            writer.WriteElementString("TileRectSmallZ", _Theme.SongMenuTileBoard.TileRectSmall.Z.ToString("#0.00"));
+            writer.WriteElementString("TileRectSmallW", _Theme.SongMenuTileBoard.TileRectSmall.W.ToString("#0"));
+            writer.WriteElementString("TileRectSmallH", _Theme.SongMenuTileBoard.TileRectSmall.H.ToString("#0"));
+
+            _Artist.SaveTheme(writer);
+            _Title.SaveTheme(writer);
+            _SongLength.SaveTheme(writer);
+
+            _CoverBig.SaveTheme(writer);
+            _TextBG.SaveTheme(writer);
+            _DuetIcon.SaveTheme(writer);
+            _VideoIcon.SaveTheme(writer);
+            _MedleyCalcIcon.SaveTheme(writer);
+            _MedleyTagIcon.SaveTheme(writer);
+
+            writer.WriteEndElement();
+
+            return true;
+        }
+
         public override void Init()
         {
             base.Init();
-
-            _SpaceW = _Theme.SongMenuTileBoard.SpaceW;
-            _SpaceH = _Theme.SongMenuTileBoard.SpaceH;
-
-            _CoverBig = _Theme.SongMenuTileBoard.StaticCoverBig;
-            _TextBG = _Theme.SongMenuTileBoard.StaticTextBG;
-            _DuetIcon = _Theme.SongMenuTileBoard.StaticDuetIcon;
-            _VideoIcon = _Theme.SongMenuTileBoard.StaticVideoIcon;
-            _MedleyCalcIcon = _Theme.SongMenuTileBoard.StaticMedleyCalcIcon;
-            _MedleyTagIcon = _Theme.SongMenuTileBoard.StaticMedleyTagIcon;
-
-            _Artist = _Theme.SongMenuTileBoard.TextArtist;
-            _Title = _Theme.SongMenuTileBoard.TextTitle;
-            _SongLength = _Theme.SongMenuTileBoard.TextSongLength;
 
             _PreviewNr = -1;
             _InitTiles();
@@ -157,8 +234,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 Rect = _Theme.SongMenuTileBoard.TileRect;
             }
 
-            _TileW = (int)((Rect.W - _SpaceW * (_NumW - 1)) / _NumW);
-            _TileH = (int)((Rect.H - _SpaceH * (_NumH - 1)) / _NumH);
+            _TileW = (int)((Rect.W - _Theme.SongMenuTileBoard.SpaceW * (_NumW - 1)) / _NumW);
+            _TileH = (int)((Rect.H - _Theme.SongMenuTileBoard.SpaceH * (_NumH - 1)) / _NumH);
 
             _CoverBGTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
             _CoverBigBGTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
@@ -168,7 +245,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 for (int j = 0; j < _NumW; j++)
                 {
-                    var rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
+                    var rect = new SRectF(Rect.X + j * (_TileW + _Theme.SongMenuTileBoard.SpaceW), Rect.Y + i * (_TileH + _Theme.SongMenuTileBoard.SpaceH), _TileW, _TileH, Rect.Z);
                     var tile = new CStatic(_PartyModeID, _CoverBGTexture, _Color, rect);
                     _Tiles.Add(tile);
                 }
@@ -593,16 +670,17 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             base.LoadTextures();
 
-            _Theme.SongMenuTileBoard.StaticCoverBig.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticTextBG.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticDuetIcon.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticVideoIcon.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticMedleyCalcIcon.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticMedleyTagIcon.ReloadTextures();
+            _Artist = new CText(_Theme.SongMenuTileBoard.STextArtist, _PartyModeID);
+            _Title = new CText(_Theme.SongMenuTileBoard.STextTitle, _PartyModeID);
+            _SongLength = new CText(_Theme.SongMenuTileBoard.STextSongLength, _PartyModeID);
+            _CoverBig = new CStatic(_Theme.SongMenuTileBoard.SStaticCoverBig, _PartyModeID);
+            _TextBG = new CStatic(_Theme.SongMenuTileBoard.SStaticTextBG, _PartyModeID);
+            _DuetIcon = new CStatic(_Theme.SongMenuTileBoard.SStaticDuetIcon, _PartyModeID);
+            _VideoIcon = new CStatic(_Theme.SongMenuTileBoard.SStaticVideoIcon, _PartyModeID);
+            _MedleyCalcIcon = new CStatic(_Theme.SongMenuTileBoard.SStaticMedleyCalcIcon, _PartyModeID);
+            _MedleyTagIcon = new CStatic(_Theme.SongMenuTileBoard.SStaticMedleyTagIcon, _PartyModeID);
 
-            _Theme.SongMenuTileBoard.TextArtist.ReloadTextures();
-            _Theme.SongMenuTileBoard.TextTitle.ReloadTextures();
-            _Theme.SongMenuTileBoard.TextSongLength.ReloadTextures();
+            Init();
         }
     }
 }
