@@ -139,7 +139,7 @@ namespace VocaluxeLib.Draw
                 WidthRatio = (float)(_DataSize.Width + mod) / _W2;
             }
             if (_DataSize.Height == _H2)
-                WidthRatio = 1f;
+                HeightRatio = 1f;
             else
             {
                 int mod = 0;
