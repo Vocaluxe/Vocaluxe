@@ -87,22 +87,6 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Type>: Type of theme-setting-value: " + CHelper.ListStrings(Enum.GetNames(typeof(ESettingType))));
-                writer.WriteElementString("Type", Enum.GetName(typeof(ESettingType), _Theme.Type));
-                writer.WriteComment("<Value>: Value of theme-setting");
-                writer.WriteElementString("Value", _Theme.Value);
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
-        }
-
         public object GetValue()
         {
             switch (_Theme.Type)

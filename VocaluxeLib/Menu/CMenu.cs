@@ -199,6 +199,89 @@ namespace VocaluxeLib.Menu
 
         public virtual void LoadTheme(string xmlPath)
         {
+            if (CBase.Config.GetLoadOldThemeFiles())
+            {
+                LoadThemeOld(xmlPath);
+                return;
+            }
+
+            ThemePath = xmlPath;
+
+            string file = Path.Combine(xmlPath, ThemeName + ".xml");
+            int skinIndex = CBase.Theme.GetSkinIndex(_PartyModeID);
+
+            Theme.ScreenInformation = new SScreenInformation();
+            Theme.Backgrounds = new List<SThemeBackground>();
+            Theme.Statics = new List<SThemeStatic>();
+            Theme.Texts = new List<SThemeText>();
+            Theme.Buttons = new List<SThemeButton>();
+            Theme.SongMenus = new List<SThemeSongMenu>();
+            Theme.Lyrics = new List<SThemeLyrics>();
+            Theme.SelectSlides = new List<SThemeSelectSlide>();
+            Theme.SingNotes = new List<SThemeSingBar>();
+            Theme.NameSelections = new List<SThemeNameSelection>();
+            Theme.Equalizers = new List<SThemeEqualizer>();
+            Theme.Playlists = new List<SThemePlaylist>();
+            Theme.ParticleEffects = new List<SThemeParticleEffect>();
+            Theme.ScreenSettings = new List<SScreenSetting>();
+
+            try
+            {
+                TextReader textReader = new StreamReader(file);
+                XmlSerializer deserializer = new XmlSerializer(typeof(STheme));
+                Theme = (STheme)deserializer.Deserialize(textReader);
+
+                foreach (SThemeBackground bg in Theme.Backgrounds)
+                    _AddBackground(new CBackground(bg, _PartyModeID), bg.Name);
+
+                foreach (SThemeButton bt in Theme.Buttons)
+                    _AddButton(new CButton(bt, _PartyModeID), bt.Name);
+
+                foreach (SThemeEqualizer eq in Theme.Equalizers)
+                    _AddEqualizer(new CEqualizer(eq, _PartyModeID), eq.Name);
+
+                foreach (SThemeLyrics ly in Theme.Lyrics)
+                    _AddLyric(new CLyric(ly, _PartyModeID), ly.Name);
+
+                foreach (SThemeNameSelection ns in Theme.NameSelections)
+                    _AddNameSelection(new CNameSelection(ns, _PartyModeID), ns.Name);
+
+                foreach (SThemeParticleEffect pe in Theme.ParticleEffects)
+                    _AddParticleEffect(new CParticleEffect(pe, _PartyModeID), pe.Name);
+
+                foreach(SThemePlaylist pl in Theme.Playlists)
+                    _AddPlaylist(new CPlaylist(pl, _PartyModeID), pl.Name);
+
+                foreach (SScreenSetting ss in Theme.ScreenSettings)
+                    _AddScreenSetting(new CScreenSetting(ss, _PartyModeID), ss.Name);
+
+                foreach (SThemeSelectSlide sl in Theme.SelectSlides)
+                    _AddSelectSlide(new CSelectSlide(sl, _PartyModeID), sl.Name);
+
+                foreach (SThemeSingBar sb in Theme.SingNotes)
+                    _AddSingNote(new CSingNotesClassic(sb, _PartyModeID), sb.Name);
+
+                foreach (SThemeSongMenu sm in Theme.SongMenus)
+                    _AddSongMenu(new CSongMenu(sm, _PartyModeID), sm.Name);
+
+                foreach (SThemeStatic st in Theme.Statics)
+                    _AddStatic(new CStatic(st, _PartyModeID), st.Name);
+
+                foreach (SThemeText te in Theme.Texts)
+                    _AddText(new CText(te, _PartyModeID), te.Name);  
+            }
+            catch (InvalidOperationException e)
+            {
+                CBase.Log.LogError("Error while reading " + ThemeName + ".xml", true, true);
+            }
+            catch (Exception e)
+            {
+                CBase.Log.LogError(e.Message + e.StackTrace, true, true);
+            }
+        }
+
+        public virtual void LoadThemeOld(string xmlPath)
+        {
             string file = Path.Combine(xmlPath, ThemeName + ".xml");
 
             CXMLReader xmlReader = CXMLReader.OpenFile(file);
@@ -248,113 +331,53 @@ namespace VocaluxeLib.Menu
 
         public virtual void SaveTheme()
         {
-            if (ThemePath == "")
-                return;
-
-
-            string file = Path.Combine(ThemePath, ThemeName + ".xml");
-            using (XmlWriter writer = XmlWriter.Create(file, CBase.Config.GetXMLSettings()))
+            if (CBase.Config.GetLoadOldThemeFiles())
             {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("root");
-
-                writer.WriteStartElement(ThemeName);
-
-                // Screen Version
-                writer.WriteElementString("ScreenVersion", _ScreenVersion.ToString());
-
-                // Backgrounds
-                foreach (CBackground bg in _Backgrounds)
-                    bg.SaveTheme(writer);
-
-                // Statics
-                foreach (CStatic st in _Statics)
-                    st.SaveTheme(writer);
-
-                // Texts
-                foreach (CText txt in _Texts)
-                    txt.SaveTheme(writer);
-
-                // Buttons
-                foreach (CButton bt in _Buttons)
-                    bt.SaveTheme(writer);
-
-                // SelectSlides
-                foreach (CSelectSlide ss in _SelectSlides)
-                    ss.SaveTheme(writer);
-
-                // SongMenus
-                foreach (CSongMenu sm in _SongMenus)
-                    sm.SaveTheme(writer);
-
-                // Lyrics
-                foreach (CLyric ly in _Lyrics)
-                    ly.SaveTheme(writer);
-
-                // SingBars
-                foreach (CSingNotes sn in _SingNotes)
-                    sn.SaveTheme(writer);
-
-                // NameSelections
-                foreach (CNameSelection ns in _NameSelections)
-                    ns.SaveTheme(writer);
-
-                //Equalizers
-                foreach (CEqualizer eq in _Equalizers)
-                    eq.SaveTheme(writer);
-
-                //Playlists
-                foreach (CPlaylist pl in _Playlists)
-                    pl.SaveTheme(writer);
-
-                //ParticleEffects
-                foreach (CParticleEffect pa in _ParticleEffects)
-                    pa.SaveTheme(writer);
-
-                //ScreenSettings
-                foreach (CScreenSetting cs in _ScreenSettings)
-                    cs.SaveTheme(writer);
-
-                writer.WriteEndElement();
-
-                // End of File
-                writer.WriteEndElement(); //end of root
-                writer.WriteEndDocument();
-
-                writer.Flush();
+                //Have to add theme-stuff manually, later it will be done while de-serialization
+                foreach (CBackground el in _Backgrounds)
+                    Theme.Backgrounds.Add(el.GetTheme());
+                foreach (CButton el in _Buttons)
+                    Theme.Buttons.Add(el.GetTheme());
+                foreach (CEqualizer el in _Equalizers)
+                    Theme.Equalizers.Add(el.GetTheme());
+                foreach (CLyric el in _Lyrics)
+                    Theme.Lyrics.Add(el.GetTheme());
+                foreach (CNameSelection el in _NameSelections)
+                    Theme.NameSelections.Add(el.GetTheme());
+                foreach (CParticleEffect el in _ParticleEffects)
+                    Theme.ParticleEffects.Add(el.GetTheme());
+                foreach (CPlaylist el in _Playlists)
+                    Theme.Playlists.Add(el.GetTheme());
+                foreach (CScreenSetting el in _ScreenSettings)
+                    Theme.ScreenSettings.Add(el.GetTheme());
+                foreach (CSelectSlide el in _SelectSlides)
+                    Theme.SelectSlides.Add(el.GetTheme());
+                foreach (CStatic el in _Statics)
+                    Theme.Statics.Add(el.GetTheme());
+                foreach (CText el in _Texts)
+                    Theme.Texts.Add(el.GetTheme());
+                foreach (CSongMenu el in _SongMenus)
+                    Theme.SongMenus.Add(el.GetTheme());
+                foreach (CSingNotes el in _SingNotes)
+                    Theme.SingNotes.Add(el.GetTheme());
             }
 
-            //This is only test-stuff and will be changed later
-            TextWriter textWriter = new StreamWriter(@Path.Combine(ThemePath, ThemeName + "_test.xml"));
+            if (ThemePath == "" || ThemePath == null)
+                return;
 
-            //Have to add theme-stuff manually, later it will be done while de-serialization
-            foreach(CBackground el in _Backgrounds)
-                Theme.Backgrounds.Add(el.GetTheme());
-            foreach (CButton el in _Buttons)
-                Theme.Buttons.Add(el.GetTheme());
-            foreach (CEqualizer el in _Equalizers)
-                Theme.Equalizers.Add(el.GetTheme());
-            foreach (CLyric el in _Lyrics)
-                Theme.Lyrics.Add(el.GetTheme());
-            foreach (CNameSelection el in _NameSelections)
-                Theme.NameSelections.Add(el.GetTheme());
-            foreach (CParticleEffect el in _ParticleEffects)
-                Theme.ParticleEffects.Add(el.GetTheme());
-            foreach (CPlaylist el in _Playlists)
-                Theme.Playlists.Add(el.GetTheme());
-            foreach (CScreenSetting el in _ScreenSettings)
-                Theme.ScreenSettings.Add(el.GetTheme());
-            foreach (CSelectSlide el in _SelectSlides)
-                Theme.SelectSlides.Add(el.GetTheme());
-            foreach (CStatic el in _Statics)
-                Theme.Statics.Add(el.GetTheme());
-            foreach (CText el in _Texts)
-                Theme.Texts.Add(el.GetTheme());
+            try
+            {
+                TextWriter textWriter = new StreamWriter(@Path.Combine(ThemePath, ThemeName + ".xml"));
 
-            XmlSerializer serializer = new XmlSerializer(typeof(STheme));
-            serializer.Serialize(textWriter, Theme);
+                XmlSerializer serializer = new XmlSerializer(typeof(STheme));
+                serializer.Serialize(textWriter, Theme);
 
-            textWriter.Close();
+                textWriter.Close();
+            }
+            catch (Exception e)
+            {
+                CBase.Log.LogError("Error while saving theme-file: " + ThemeName + " " + e.Message, true);
+            }
         }
 
         public virtual void ReloadTextures()

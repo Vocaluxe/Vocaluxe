@@ -155,6 +155,11 @@ namespace Vocaluxe.Base
         {
             return CConfig.XMLSettings;
         }
+
+        public bool GetLoadOldThemeFiles()
+        {
+            return CConfig.LoadOldThemeFiles;
+        }
     }
 
     class CBsettings : ISettings

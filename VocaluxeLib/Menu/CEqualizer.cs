@@ -182,77 +182,9 @@ namespace VocaluxeLib.Menu
                 _Theme.MaxColor.Color = new SColorF(MaxColor);
                 _Theme.Rect = Rect;
 
-                _Bars = new float[_Theme.NumBars];
-                for (int i = 0; i < _Bars.Length; i++)
-                    _Bars[i] = 0f;
                 LoadTextures();
             }
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Skin>: Texture name");
-                writer.WriteElementString("Skin", _Theme.TextureName);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height");
-                writer.WriteElementString("X", Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", Rect.W.ToString("#0"));
-                writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-                writer.WriteComment("<NumBars>: Number of equalizer-elements.");
-                writer.WriteElementString("NumBars", _Theme.NumBars.ToString("#0"));
-                writer.WriteComment("<Space>: Space between equalizer-elements.");
-                writer.WriteElementString("Space", Space.ToString("#0.00"));
-                writer.WriteComment("<Style>: Style of equalizer-elements: " + CHelper.ListStrings(Enum.GetNames(typeof(EEqualizerStyle))));
-                writer.WriteElementString("Style", Enum.GetName(typeof(EEqualizerStyle), _Theme.Style));
-                writer.WriteComment("<DrawNegative>: Draw negative values: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("DrawNegative", Enum.GetName(typeof(EOffOn), _Theme.DrawNegative));
-
-                writer.WriteComment("<Color>: Equalizer color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                    writer.WriteElementString("Color", _Theme.Color.Name);
-                else
-                {
-                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                }
-                writer.WriteComment("<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)");
-                writer.WriteComment("or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.MaxColor.Name))
-                    writer.WriteElementString("MaxColor", _Theme.MaxColor.Name);
-                else
-                {
-                    writer.WriteElementString("MaxR", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("MaxG", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("MaxB", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("MaxA", Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<Reflection> If exists:");
-                writer.WriteComment("   <Space>: Reflection Space");
-                writer.WriteComment("   <Height>: Reflection Height");
-                if (Reflection)
-                {
-                    writer.WriteStartElement("Reflection");
-                    writer.WriteElementString("Space", ReflectionSpace.ToString("#0"));
-                    writer.WriteElementString("Height", ReflectionHeight.ToString("#0"));
-                    writer.WriteEndElement();
-                }
-
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
         }
 
         public void Update(float[] weights, float volume)
@@ -346,6 +278,10 @@ namespace VocaluxeLib.Menu
                 ReflectionHeight = _Theme.Reflection.Height;
                 ReflectionSpace = _Theme.Reflection.Space;
             }
+
+            _Bars = new float[_Theme.NumBars];
+            for (int i = 0; i < _Bars.Length; i++)
+                _Bars[i] = 0f;
         }
 
         public void ReloadTextures()

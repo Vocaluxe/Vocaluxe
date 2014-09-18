@@ -103,6 +103,9 @@ namespace VocaluxeLib.Menu.SongMenu
         public CSongMenuTileBoard(int partyModeID)
             : base(partyModeID) {}
 
+        public CSongMenuTileBoard(SThemeSongMenu theme, int partyModeID)
+            : base(theme, partyModeID) {}
+
         protected override int _PreviewNr
         {
             set
@@ -156,59 +159,6 @@ namespace VocaluxeLib.Menu.SongMenu
             }
 
             return themeLoaded;
-        }
-
-        public override bool SaveTheme(XmlWriter writer)
-        {
-            writer.WriteComment("<SongMenuTileBoard>: Config for TileBoard view");
-            writer.WriteStartElement("SongMenuTileBoard");
-
-            writer.WriteComment("<NumW>: Number of tiles horizontal");
-            writer.WriteElementString("NumW", _Theme.SongMenuTileBoard.NumW.ToString());
-
-            writer.WriteComment("<NumH>: Number of tiles vertical");
-            writer.WriteElementString("NumH", _Theme.SongMenuTileBoard.NumH.ToString());
-
-            writer.WriteComment("<SpaceW>: Space between tiles horizontal");
-            writer.WriteElementString("SpaceW", _Theme.SongMenuTileBoard.SpaceW.ToString("#0.00"));
-
-            writer.WriteComment("<SpaceH>: Space between tiles vertical");
-            writer.WriteElementString("SpaceH", _Theme.SongMenuTileBoard.SpaceH.ToString("#0.00"));
-
-            writer.WriteComment("<NumWsmall>: Number of tiles horizontal in small-mode");
-            writer.WriteElementString("NumWsmall", _Theme.SongMenuTileBoard.NumWsmall.ToString());
-
-            writer.WriteComment("<NumHsmall>: Number of tiles vertical in small-mode");
-            writer.WriteElementString("NumHsmall", _Theme.SongMenuTileBoard.NumHsmall.ToString());
-
-            writer.WriteComment("<TileRectX>, <TileRectY>, <TileRectZ>, <TileRectW>, <TileRectH>: SongMenu position, width and height");
-            writer.WriteElementString("TileRectX", _Theme.SongMenuTileBoard.TileRect.X.ToString("#0"));
-            writer.WriteElementString("TileRectY", _Theme.SongMenuTileBoard.TileRect.Y.ToString("#0"));
-            writer.WriteElementString("TileRectZ", _Theme.SongMenuTileBoard.TileRect.Z.ToString("#0.00"));
-            writer.WriteElementString("TileRectW", _Theme.SongMenuTileBoard.TileRect.W.ToString("#0"));
-            writer.WriteElementString("TileRectH", _Theme.SongMenuTileBoard.TileRect.H.ToString("#0"));
-
-            writer.WriteComment("<TileRectSmallX>, <TileRectSmallY>, <TileRectSmallZ>, <TileRectSmallW>, <TileRectSmallH>: SongMenu position, width and height in small-mode");
-            writer.WriteElementString("TileRectSmallX", _Theme.SongMenuTileBoard.TileRectSmall.X.ToString("#0"));
-            writer.WriteElementString("TileRectSmallY", _Theme.SongMenuTileBoard.TileRectSmall.Y.ToString("#0"));
-            writer.WriteElementString("TileRectSmallZ", _Theme.SongMenuTileBoard.TileRectSmall.Z.ToString("#0.00"));
-            writer.WriteElementString("TileRectSmallW", _Theme.SongMenuTileBoard.TileRectSmall.W.ToString("#0"));
-            writer.WriteElementString("TileRectSmallH", _Theme.SongMenuTileBoard.TileRectSmall.H.ToString("#0"));
-
-            _Artist.SaveTheme(writer);
-            _Title.SaveTheme(writer);
-            _SongLength.SaveTheme(writer);
-
-            _CoverBig.SaveTheme(writer);
-            _TextBG.SaveTheme(writer);
-            _DuetIcon.SaveTheme(writer);
-            _VideoIcon.SaveTheme(writer);
-            _MedleyCalcIcon.SaveTheme(writer);
-            _MedleyTagIcon.SaveTheme(writer);
-
-            writer.WriteEndElement();
-
-            return true;
         }
 
         public override void Init()

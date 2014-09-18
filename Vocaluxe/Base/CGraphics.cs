@@ -172,6 +172,8 @@ namespace Vocaluxe.Base
 
             foreach (IMenu popup in _PopupScreens)
                 popup.SaveTheme();
+
+            CParty.SaveThemes();
         }
 
         public static void InitFirstScreen()

@@ -137,46 +137,6 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Type>: Background type: " + CHelper.ListStrings(Enum.GetNames(typeof(EBackgroundTypes))));
-                writer.WriteElementString("Type", Enum.GetName(typeof(EBackgroundTypes), _Theme.Type));
-
-                writer.WriteComment("<Video>: Background video name");
-                writer.WriteElementString("Video", _Theme.VideoName);
-
-                writer.WriteComment("<Skin>: Background Texture name");
-                writer.WriteElementString("Skin", _Theme.TextureName);
-
-                writer.WriteComment("<SlideShow%>: Texture name for slide-show");
-                for (int i = 0; i < _Theme.SlideShowTextures.Count; i++)
-                    writer.WriteElementString("SlideShow" + (i + 1), _Theme.SlideShowTextures[i]);
-
-                writer.WriteComment("<Color>: Background color for type \"Color\" from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                    writer.WriteElementString("Color", _Theme.Color.Name);
-                else
-                {
-                    if (_Theme.Type != EBackgroundTypes.None)
-                    {
-                        writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                        writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                        writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                        writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                    }
-                }
-
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
-        }
-
         public void Resume()
         {
             if (_Theme.Type == EBackgroundTypes.Video && !String.IsNullOrEmpty(_Theme.VideoName) && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON)

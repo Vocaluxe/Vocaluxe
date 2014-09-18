@@ -436,47 +436,6 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Skin>: Texture name");
-                writer.WriteElementString("Skin", _Theme.TextureName);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height");
-                writer.WriteElementString("X", Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", Rect.W.ToString("#0"));
-                writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-                writer.WriteComment("<Color>: ParticleEffect color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                    writer.WriteElementString("Color", _Theme.Color.Name);
-                else
-                {
-                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<Type>: Type of ParticleEffect: " + CHelper.ListStrings(Enum.GetNames(typeof(EParticleType))));
-                writer.WriteElementString("Type", Enum.GetName(typeof(EParticleType), _Theme.Type));
-                writer.WriteComment("<Size>: Size of particle");
-                writer.WriteElementString("Size", _Theme.Size.ToString("#0.00"));
-                writer.WriteComment("<MaxNumber>: Max number of drawn particles");
-                writer.WriteElementString("MaxNumber", _Theme.MaxNumber.ToString("#0"));
-
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
-        }
-
         public void Update()
         {
             bool doSpawn = false;

@@ -21,5 +21,8 @@ namespace VocaluxeLib.Menu.SingNotes
     {
         public CSingNotesClassic(int partyModeID)
             : base(partyModeID) {}
+
+        public CSingNotesClassic(SThemeSingBar theme, int partyModeID)
+            : base(theme, partyModeID) {}
     }
 }

@@ -62,6 +62,8 @@ namespace VocaluxeLib
         ///     Get the uniform settings for writing XML files. ALWAYS use this!
         /// </summary>
         XmlWriterSettings GetXMLSettings();
+
+        bool GetLoadOldThemeFiles();
     }
 
     public interface ISettings

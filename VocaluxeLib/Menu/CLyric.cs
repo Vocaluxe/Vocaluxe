@@ -127,6 +127,7 @@ namespace VocaluxeLib.Menu
 
             _Line = new CSongLine();
             _Text = new CText(_PartyModeID);
+            _Width = 1f;
 
             LyricStyle = ELyricStyle.Fill;
 
@@ -175,50 +176,6 @@ namespace VocaluxeLib.Menu
                 _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
             }
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: Lyric position, width and height");
-                writer.WriteElementString("X", _X.ToString("#0"));
-                writer.WriteElementString("Y", _Y.ToString("#0"));
-                writer.WriteElementString("Z", _Z.ToString("#0.00"));
-                writer.WriteElementString("W", _MaxW.ToString("#0"));
-                writer.WriteElementString("H", _H.ToString("#0"));
-
-                writer.WriteComment("<Color>: Lyric text color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                    writer.WriteElementString("Color", _Theme.Color.Name);
-                else
-                {
-                    writer.WriteElementString("R", _Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", _Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", _Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", _Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<SColor>: Highlighted lyric color from ColorScheme (high priority)");
-                writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.SColor.Name))
-                    writer.WriteElementString("SColor", _Theme.SColor.Name);
-                else
-                {
-                    writer.WriteElementString("SR", _ColorProcessed.R.ToString("#0.00"));
-                    writer.WriteElementString("SG", _ColorProcessed.G.ToString("#0.00"));
-                    writer.WriteElementString("SB", _ColorProcessed.B.ToString("#0.00"));
-                    writer.WriteElementString("SA", _ColorProcessed.A.ToString("#0.00"));
-                }
-
-                writer.WriteEndElement();
-
-                return true;
-            }
-            return false;
         }
 
         public void SetLine(CSongLine line)
@@ -508,6 +465,7 @@ namespace VocaluxeLib.Menu
                 _ColorProcessed = _Theme.SColor.Color;
 
             Rect = _Theme.Rect;
+            _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
         }
 
         public void ReloadTextures()

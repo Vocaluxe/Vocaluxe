@@ -126,10 +126,13 @@ namespace VocaluxeLib.Menu
             EditMode = false;
         }
 
-        public CButton(SThemeButton theme, int partyModeID)
+        public CButton(SThemeButton theme, int partyModeID, bool buttonText = false)
         {
             _PartyModeID = partyModeID;
             _Theme = theme;
+
+            Text = new CText(_Theme.Text, _PartyModeID, buttonText);
+            _SelText = new CText(_Theme.SText, _PartyModeID, buttonText);
 
             Selected = false;
             EditMode = false;
@@ -254,82 +257,7 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Skin>: Texture name");
-                writer.WriteElementString("Skin", _Theme.TextureName);
-
-                writer.WriteComment("<SkinSelected>: Texture name for selected button");
-                writer.WriteElementString("SkinSelected", _Theme.SelTextureName);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: Button position, width and height");
-                writer.WriteElementString("X", Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", Rect.W.ToString("#0"));
-                writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-                writer.WriteComment("<Color>: Button color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                    writer.WriteElementString("Color", _Theme.Color.Name);
-                else
-                {
-                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<SColor>: Selected button color from ColorScheme (high priority)");
-                writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.SelColor.Name))
-                    writer.WriteElementString("SColor", _Theme.SelColor.Name);
-                else
-                {
-                    writer.WriteElementString("SR", SelColor.R.ToString("#0.00"));
-                    writer.WriteElementString("SG", SelColor.G.ToString("#0.00"));
-                    writer.WriteElementString("SB", SelColor.B.ToString("#0.00"));
-                    writer.WriteElementString("SA", SelColor.A.ToString("#0.00"));
-                }
-
-                Text.SaveTheme(writer);
-                if (_Theme.STextSpecified)
-                    _SelText.SaveTheme(writer);
-
-                writer.WriteComment("<Reflection> If exists:");
-                writer.WriteComment("   <Space>: Reflection Space");
-                writer.WriteComment("   <Height>: Reflection Height");
-                if (_Reflection)
-                {
-                    writer.WriteStartElement("Reflection");
-                    writer.WriteElementString("Space", _ReflectionSpace.ToString("#0"));
-                    writer.WriteElementString("Height", _ReflectionHeight.ToString("#0"));
-                    writer.WriteEndElement();
-                }
-
-                writer.WriteComment("<SReflection> If exists:");
-                writer.WriteComment("   <Space>: Reflection Space of selected button");
-                writer.WriteComment("   <Height>: Reflection Height of selected button");
-                if (_SelReflection)
-                {
-                    writer.WriteStartElement("SReflection");
-                    writer.WriteElementString("Space", _ReflectionSpace.ToString("#0"));
-                    writer.WriteElementString("Height", _ReflectionHeight.ToString("#0"));
-                    writer.WriteEndElement();
-                }
-
-                writer.WriteEndElement();
-
-                return true;
-            }
-            return false;
-        }
-
+       
         public void Draw(bool forceDraw = false)
         {
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme && !forceDraw)
@@ -427,6 +355,9 @@ namespace VocaluxeLib.Menu
                 _SelReflectionHeight = _Theme.SelReflection.Height;
                 _SelReflectionSpace = _Theme.SelReflection.Space;
             }
+
+            if (_Theme.Rect.Z < Text.Z)
+                Text.Z = _Theme.Rect.Z;
         }
 
         public void ReloadTextures()

@@ -279,48 +279,6 @@ namespace VocaluxeLib.Menu.SongMenu
             return _ThemeLoaded;
         }
 
-        public virtual bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<CoverBackground>: Texture name of cover background/tiles");
-                writer.WriteElementString("CoverBackground", _Theme.CoverBackgroundName);
-
-                writer.WriteComment("<CoverBigBackground>: Texture name of big cover background and info texts");
-                writer.WriteElementString("CoverBigBackground", _Theme.CoverBigBackgroundName);
-
-                writer.WriteComment("<DuetIcon>: Texture name of duet icon");
-                writer.WriteElementString("DuetIcon", _Theme.DuetIconName);
-
-                writer.WriteComment("<VideoIcon>: Texture name of video icon");
-                writer.WriteElementString("VideoIcon", _Theme.VideoIconName);
-
-                writer.WriteComment("<MedleyCalcIcon>: Texture name of medley calc (calculated) icon");
-                writer.WriteElementString("MedleyCalcIcon", _Theme.MedleyCalcIcon);
-
-                writer.WriteComment("<MedleyTagIcon>: Texture name of medley tag (manuelly set) icon");
-                writer.WriteElementString("MedleyTagIcon", _Theme.MedleyTagIcon);
-
-                writer.WriteComment("<Color>: Tile color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                    writer.WriteElementString("Color", _Theme.Color.Name);
-                else
-                {
-                    writer.WriteElementString("R", _Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", _Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", _Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", _Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteEndElement();
-
-                return true;
-            }
-            return false;
-        }
         #endregion Theme
 
         public virtual void Init()
