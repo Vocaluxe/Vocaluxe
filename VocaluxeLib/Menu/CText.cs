@@ -338,6 +338,7 @@ namespace VocaluxeLib.Menu
         public CText(SThemeText theme, int partyModeID, bool buttonText = false)
         {
             _PartyModeID = partyModeID;
+            _TranslationID = partyModeID;
             _Theme = theme;
 
             _ButtonText = buttonText;
