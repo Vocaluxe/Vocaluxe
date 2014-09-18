@@ -196,8 +196,8 @@
       <Font>Outline</Font>
       <Text />
       <Reflection Enabled="true">
-        <Height>24</Height>
-        <Space>26</Space>
+        <Height>26</Height>
+        <Space>24</Space>
       </Reflection>
     </Text>
     <Text Name="TextSelection">
@@ -218,8 +218,8 @@
       <Font>Outline</Font>
       <Text />
       <Reflection Enabled="true">
-        <Height>24</Height>
-        <Space>26</Space>
+        <Height>26</Height>
+        <Space>24</Space>
       </Reflection>
     </Text>
     <Text Name="TextSearchBarTitle">
