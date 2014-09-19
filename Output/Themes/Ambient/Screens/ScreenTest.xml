@@ -1,17 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
-    <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>5</ScreenVersion>
+    <ScreenName>ScreenTest</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
-      <Type>Video</Type>
+      <Type>None</Type>
       <SlideShowTextures />
-      <Video>BG_Video</Video>
-      <Skin>BG_Default</Skin>
+      <Video />
+      <Skin />
       <Color>
-        <Name>BackgroundColor</Name>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>0</B>
+          <A>1</A>
+        </Color>
       </Color>
     </Background>
   </Backgrounds>

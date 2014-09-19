@@ -100,7 +100,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_GAMEMODE_NORMAL</Text>
+      <Text />
       <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNumber1">

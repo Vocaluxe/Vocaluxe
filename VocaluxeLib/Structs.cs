@@ -69,8 +69,8 @@ namespace VocaluxeLib
         public string Name;
 
         //Needed for serialization
-        public bool ColorSpecified { get { return Name == ""; } }
-        public bool NameSpecified { get { return Name != ""; } }
+        public bool ColorSpecified { get { return String.IsNullOrEmpty(Name); } }
+        public bool NameSpecified { get { return !String.IsNullOrEmpty(Name); } }
 
         public SThemeColor(SThemeColor theme)
         {

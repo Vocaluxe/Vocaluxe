@@ -32,7 +32,14 @@
     </Static>
     <Static Name="Static2">
       <Skin>TextBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>0</B>
+          <A>0</A>
+        </Color>
+      </Color>
       <Rect>
         <X>50</X>
         <Y>90</Y>
@@ -44,7 +51,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP1N1">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>1</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>560</X>
         <Y>180</Y>
@@ -61,7 +75,7 @@
       </Color>
       <Rect>
         <X>560</X>
-        <Y>400</Y>
+        <Y>180</Y>
         <W>160</W>
         <H>0</H>
         <Z>0</Z>
@@ -87,7 +101,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP1N2">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>1</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>352</X>
         <Y>180</Y>
@@ -130,7 +151,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP2N2">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>0</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>768</X>
         <Y>180</Y>
@@ -173,7 +201,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP1N3">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>1</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>238</X>
         <Y>180</Y>
@@ -216,7 +251,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP2N3">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>0</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>560</X>
         <Y>180</Y>
@@ -259,7 +301,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP3N3">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>1</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>882</X>
         <Y>180</Y>
@@ -302,7 +351,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP1N4">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>1</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>190</X>
         <Y>180</Y>
@@ -345,7 +401,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP2N4">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>0</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>422</X>
         <Y>180</Y>
@@ -388,7 +451,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP3N4">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>1</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>654</X>
         <Y>180</Y>
@@ -431,7 +501,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP4N4">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0.5</R>
+          <G>0</G>
+          <B>1</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>886</X>
         <Y>180</Y>
@@ -474,7 +551,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP1N5">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>1</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>144</X>
         <Y>180</Y>
@@ -517,7 +601,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP2N5">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>0</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>352</X>
         <Y>180</Y>
@@ -560,7 +651,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP3N5">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>1</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>560</X>
         <Y>180</Y>
@@ -603,7 +701,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP4N5">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0.5</R>
+          <G>0</G>
+          <B>1</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>768</X>
         <Y>180</Y>
@@ -646,7 +751,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP5N5">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>0.8</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>976</X>
         <Y>180</Y>
@@ -689,7 +801,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP1N6">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>1</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>45</X>
         <Y>180</Y>
@@ -732,7 +851,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP2N6">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>0</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>253</X>
         <Y>180</Y>
@@ -775,7 +901,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP3N6">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>1</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>461</X>
         <Y>180</Y>
@@ -818,7 +951,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP4N6">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0.5</R>
+          <G>0</G>
+          <B>1</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>669</X>
         <Y>180</Y>
@@ -861,7 +1001,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP5N6">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>0.8</G>
+          <B>0</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>877</X>
         <Y>180</Y>
@@ -904,7 +1051,14 @@
     </Static>
     <Static Name="StaticPointsBarBGP6N6">
       <Skin>PointsBarBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>0</G>
+          <B>0.5</B>
+          <A>0.75</A>
+        </Color>
+      </Color>
       <Rect>
         <X>1085</X>
         <Y>180</Y>

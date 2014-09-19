@@ -10,7 +10,14 @@
       <SlideShowTextures />
       <Video />
       <Skin />
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>0</B>
+          <A>1</A>
+        </Color>
+      </Color>
     </Background>
   </Backgrounds>
   <Statics>
@@ -128,9 +135,16 @@
     </Static>
     <Static Name="StaticTimePointer">
       <Skin>Pointer</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>0</R>
+          <G>0</G>
+          <B>0</B>
+          <A>1</A>
+        </Color>
+      </Color>
       <Rect>
-        <X>49</X>
+        <X>44</X>
         <Y>702</Y>
         <W>2</W>
         <H>10</H>
@@ -210,7 +224,14 @@
     </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>360</Y>
@@ -236,7 +257,14 @@
     </Static>
     <Static Name="StaticAvatarP1N2">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>160</Y>
@@ -262,7 +290,14 @@
     </Static>
     <Static Name="StaticAvatarP2N2">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>360</Y>
@@ -288,7 +323,14 @@
     </Static>
     <Static Name="StaticAvatarP1N3">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>111</Y>
@@ -314,7 +356,14 @@
     </Static>
     <Static Name="StaticAvatarP2N3">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>274</Y>
@@ -340,7 +389,14 @@
     </Static>
     <Static Name="StaticAvatarP3N3">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>442</Y>
@@ -366,7 +422,14 @@
     </Static>
     <Static Name="StaticAvatarP1N4">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>160</Y>
@@ -392,7 +455,14 @@
     </Static>
     <Static Name="StaticAvatarP2N4">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>360</Y>
@@ -418,7 +488,14 @@
     </Static>
     <Static Name="StaticAvatarP3N4">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>1103</X>
         <Y>160</Y>
@@ -444,7 +521,14 @@
     </Static>
     <Static Name="StaticAvatarP4N4">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>1103</X>
         <Y>360</Y>
@@ -470,7 +554,14 @@
     </Static>
     <Static Name="StaticAvatarP1N5">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>111</Y>
@@ -496,7 +587,14 @@
     </Static>
     <Static Name="StaticAvatarP2N5">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>274</Y>
@@ -522,7 +620,14 @@
     </Static>
     <Static Name="StaticAvatarP3N5">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>442</Y>
@@ -548,7 +653,14 @@
     </Static>
     <Static Name="StaticAvatarP4N5">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>1103</X>
         <Y>160</Y>
@@ -574,7 +686,14 @@
     </Static>
     <Static Name="StaticAvatarP5N5">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>1103</X>
         <Y>360</Y>
@@ -600,7 +719,14 @@
     </Static>
     <Static Name="StaticAvatarP1N6">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>111</Y>
@@ -626,7 +752,14 @@
     </Static>
     <Static Name="StaticAvatarP2N6">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>274</Y>
@@ -652,7 +785,14 @@
     </Static>
     <Static Name="StaticAvatarP3N6">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>442</Y>
@@ -678,7 +818,14 @@
     </Static>
     <Static Name="StaticAvatarP4N6">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>1103</X>
         <Y>111</Y>
@@ -704,7 +851,14 @@
     </Static>
     <Static Name="StaticAvatarP5N6">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>1103</X>
         <Y>274</Y>
@@ -730,7 +884,14 @@
     </Static>
     <Static Name="StaticAvatarP6N6">
       <Skin>Invisible</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <Rect>
         <X>1103</X>
         <Y>442</Y>
@@ -881,7 +1042,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>TextSColor</Name>
       </SColor>
@@ -917,7 +1085,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player1</Name>
       </SColor>
@@ -953,7 +1128,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player2</Name>
       </SColor>
@@ -989,7 +1171,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player1</Name>
       </SColor>
@@ -1025,7 +1214,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player2</Name>
       </SColor>
@@ -1061,7 +1257,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player3</Name>
       </SColor>
@@ -1097,7 +1300,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player1</Name>
       </SColor>
@@ -1133,7 +1343,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player2</Name>
       </SColor>
@@ -1169,7 +1386,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player3</Name>
       </SColor>
@@ -1205,7 +1429,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player4</Name>
       </SColor>
@@ -1241,7 +1472,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player1</Name>
       </SColor>
@@ -1277,7 +1515,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player2</Name>
       </SColor>
@@ -1313,7 +1558,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player3</Name>
       </SColor>
@@ -1349,7 +1601,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player4</Name>
       </SColor>
@@ -1385,7 +1644,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player5</Name>
       </SColor>
@@ -1421,7 +1687,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player1</Name>
       </SColor>
@@ -1457,7 +1730,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player2</Name>
       </SColor>
@@ -1493,7 +1773,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player3</Name>
       </SColor>
@@ -1529,7 +1816,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player4</Name>
       </SColor>
@@ -1565,7 +1859,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player5</Name>
       </SColor>
@@ -1601,7 +1902,14 @@
       <Z>-1</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.4</A>
+        </Color>
+      </Color>
       <SColor>
         <Name>Player6</Name>
       </SColor>

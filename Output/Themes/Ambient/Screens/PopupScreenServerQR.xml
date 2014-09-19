@@ -8,7 +8,14 @@
   <Statics>
     <Static Name="Static1">
       <Skin>SongMenuBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.8</A>
+        </Color>
+      </Color>
       <Rect>
         <X>0</X>
         <Y>0</Y>
@@ -125,7 +132,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
+      <Text>Android</Text>
       <Reflection Enabled="false" />
     </Text>
     <Text Name="Text3">
@@ -144,7 +151,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
+      <Text>Symbian</Text>
       <Reflection Enabled="false" />
     </Text>
     <Text Name="Text4">
@@ -163,7 +170,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
+      <Text>WebOS</Text>
       <Reflection Enabled="false" />
     </Text>
     <Text Name="Text5">
@@ -182,7 +189,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
+      <Text>Windows Phone</Text>
       <Reflection Enabled="false" />
     </Text>
     <Text Name="TextServerAddress">

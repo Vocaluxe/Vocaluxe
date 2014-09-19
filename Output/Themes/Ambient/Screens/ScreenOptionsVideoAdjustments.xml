@@ -10,7 +10,14 @@
       <SlideShowTextures />
       <Video>BG_Video</Video>
       <Skin>BG_Options</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>1</A>
+        </Color>
+      </Color>
     </Background>
   </Backgrounds>
   <Statics />

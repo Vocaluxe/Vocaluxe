@@ -913,7 +913,14 @@
         <Z>0</Z>
       </Rect>
       <SkinEmptyTile>CoverTile</SkinEmptyTile>
-      <ColorEmptyTile />
+      <ColorEmptyTile>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.2</A>
+        </Color>
+      </ColorEmptyTile>
       <SkinTileSelected>PlayerSelector</SkinTileSelected>
       <Tiles>
         <W>100</W>

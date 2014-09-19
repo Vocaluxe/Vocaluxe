@@ -52,7 +52,14 @@
     </Static>
     <Static Name="StaticOptionsBG">
       <Skin>SongMenuBG</Skin>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>1</A>
+        </Color>
+      </Color>
       <Rect>
         <X>40</X>
         <Y>40</Y>
@@ -998,7 +1005,14 @@
       <VideoIcon>VideoIcon</VideoIcon>
       <MedleyCalcIcon>MedleyCalcIcon</MedleyCalcIcon>
       <MedleyTagIcon>MedleyTagIcon</MedleyTagIcon>
-      <Color />
+      <Color>
+        <Color>
+          <R>1</R>
+          <G>1</G>
+          <B>1</B>
+          <A>0.2</A>
+        </Color>
+      </Color>
       <SongMenuTileBoard>
         <NumW>6</NumW>
         <NumH>4</NumH>
@@ -1033,7 +1047,7 @@
             <Name>TextSColor</Name>
           </SColor>
           <Align>Center</Align>
-          <ResizeAlign>Center</ResizeAlign>
+          <ResizeAlign>Top</ResizeAlign>
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
@@ -1052,7 +1066,7 @@
             <Name>TextSColor</Name>
           </SColor>
           <Align>Center</Align>
-          <ResizeAlign>Center</ResizeAlign>
+          <ResizeAlign>Top</ResizeAlign>
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
@@ -1071,7 +1085,7 @@
             <Name>TextSColor</Name>
           </SColor>
           <Align>Center</Align>
-          <ResizeAlign>Center</ResizeAlign>
+          <ResizeAlign>Top</ResizeAlign>
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
