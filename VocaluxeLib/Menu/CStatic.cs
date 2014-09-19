@@ -214,8 +214,8 @@ namespace VocaluxeLib.Menu
             Reflection = _Theme.Reflection.Enabled;
             if (Reflection)
             {
-                ReflectionSpace = _Theme.Reflection.Height;
-                ReflectionHeight = _Theme.Reflection.Space;
+                ReflectionSpace = _Theme.Reflection.Space;
+                ReflectionHeight = _Theme.Reflection.Height;
             }
         }
 
