@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
@@ -10,23 +9,34 @@ using System.Threading;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using System.Diagnostics;
 
 namespace Vocaluxe.Lib.Draw
 {
-    struct STextureQueue
+    abstract class CDrawBase<TTextureType> where TTextureType : CTextureBase, IDisposable
     {
-        public readonly CTextureRef Texture;
-        public readonly byte[] Data;
-
-        public STextureQueue(CTextureRef texture, byte[] data)
+        struct STextureQueue
         {
-            Texture = texture;
-            Data = data;
+            public readonly int TextureID;
+            public readonly Size DataSize;
+            public readonly byte[] Data;
+            public STextureQueue(int textureID, Size dataSize, byte[] data)
+            {
+                TextureID = textureID;
+                DataSize = dataSize;
+                Data = data;
+            }
         }
-    }
 
-    abstract class CDrawBase<TTextureType> where TTextureType : class, IDisposable
-    {
+        struct STextureCacheEntry
+        {
+            public TTextureType Texture;
+            /// <summary>
+            ///     Size of original image (e.g. of bmp)
+            /// </summary>
+            public Size OrigSize;
+        }
+
         protected bool _NonPowerOf2TextureSupported;
         protected bool _Fullscreen;
 
@@ -38,9 +48,12 @@ namespace Vocaluxe.Lib.Draw
         private readonly Object _MutexID = new object();
         private int _NextID;
 
-        protected readonly Dictionary<int, TTextureType> _Textures = new Dictionary<int, TTextureType>();
-        protected readonly Dictionary<string, WeakReference> _TextureCache = new Dictionary<string, WeakReference>();
+        // Maps texture IDs to textures. Multiple IDs can be mapped to one texture (-->texture.RefCount>1)
+        private readonly Dictionary<int, TTextureType> _Textures = new Dictionary<int, TTextureType>();
+        // Maps texturePaths to textures. Texture may have already been disposed (RefCount<=0) or even null
+        private readonly Dictionary<string, STextureCacheEntry> _TextureCache = new Dictionary<string, STextureCacheEntry>();
         private readonly Queue<STextureQueue> _TexturesToLoad = new Queue<STextureQueue>();
+        private int _TextureCount;
 
         protected int _H;
         protected int _W;
@@ -72,8 +85,9 @@ namespace Vocaluxe.Lib.Draw
                 //Dispose all textures
                 foreach (TTextureType texture in _Textures.Values)
                 {
-                    if (texture != null)
+                    if (texture != null && --texture.RefCount<=0)
                         texture.Dispose();
+
                 }
                 _Textures.Clear();
                 _TextureCache.Clear();
@@ -127,7 +141,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         /// <param name="n">The value of which the next power of two will be calculated</param>
         /// <returns>The next power of two</returns>
-        private int _CheckForNextPowerOf2(int n)
+        protected int _CheckForNextPowerOf2(int n)
         {
             if (_NonPowerOf2TextureSupported)
                 return n;
@@ -140,37 +154,54 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Creates the texture specified by the reference and fills it with the given data
         /// </summary>
-        /// <param name="texture"></param>
+        /// <param name="dataSize"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected abstract TTextureType _CreateTexture(CTextureRef texture, byte[] data);
+        protected abstract TTextureType _CreateTexture(Size dataSize, byte[] data);
 
         /// <summary>
         ///     Creates the texture specified by the reference and fills it with the given data<br />
         ///     Data has to be a pointer to an array of size W*H with 4 Byte values for each pixel (e.g. bmpData.Scan0)
         /// </summary>
-        /// <param name="texture"></param>
+        /// <param name="dataSize"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected virtual TTextureType _CreateTexture(CTextureRef texture, IntPtr data)
+        protected virtual TTextureType _CreateTexture(Size dataSize, IntPtr data)
         {
-            byte[] dataArray = new byte[4 * texture.DataSize.Width * texture.DataSize.Height];
+            byte[] dataArray = new byte[4 * dataSize.Width * dataSize.Height];
             Marshal.Copy(data, dataArray, 0, dataArray.Length);
-            return _CreateTexture(texture, dataArray);
+            return _CreateTexture(dataSize, dataArray);
         }
 
-        protected CTextureRef _GetNewTextureRef(int origWidth, int origHeight, int dataWidth = 0, int dataHeight = 0)
+        private void _AddToCache(TTextureType texture, Size origSize, string texturePath)
         {
-            Debug.Assert(origWidth > 0 && origHeight > 0);
-            Debug.Assert(dataWidth > 0 || dataHeight <= 0);
-            int id;
-            lock (_MutexID)
+            if (texture != null && !String.IsNullOrEmpty(texturePath))
             {
-                id = _NextID++;
+                texture.TexturePath = texturePath;
+                STextureCacheEntry cacheEntry=new STextureCacheEntry {OrigSize = origSize, Texture = texture};
+                lock (_Textures)
+                {
+                    _TextureCache[texturePath] = cacheEntry;
+                }
             }
-            Size origSize = new Size(origWidth, origHeight);
-            Size dataSize = (dataHeight > 0) ? new Size(dataWidth, dataHeight) : origSize;
-            return new CTextureRef(id, origSize, dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
+        }
+
+        private CTextureRef _GetFromCache(string texturePath)
+        {
+            lock (_Textures)
+            {
+                STextureCacheEntry cacheEntry;
+                if (_TextureCache.TryGetValue(texturePath, out cacheEntry))
+                {
+                    if (cacheEntry.Texture.RefCount <= 0)
+                        _TextureCache.Remove(texturePath);
+                    else
+                    {
+                        return _GetTextureReference(cacheEntry.OrigSize, cacheEntry.Texture);
+                    }
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -180,22 +211,9 @@ namespace Vocaluxe.Lib.Draw
         /// <returns>A STexture object containing the added texture</returns>
         public CTextureRef AddTexture(string texturePath)
         {
-            CTextureRef textureRef;
-            lock (_Textures)
-            {
-                WeakReference reference;
-                if (_TextureCache.TryGetValue(texturePath, out reference))
-                {
-                    if (!reference.IsAlive)
-                        _TextureCache.Remove(texturePath);
-                    else
-                    {
-                        textureRef = (CTextureRef)reference.Target;
-                        textureRef.RefCount++;
-                        return textureRef;
-                    }
-                }
-            }
+            CTextureRef textureRef = _GetFromCache(texturePath);
+            if (textureRef != null)
+                return textureRef;
 
             if (!File.Exists(texturePath))
             {
@@ -220,16 +238,12 @@ namespace Vocaluxe.Lib.Draw
             {
                 bmp.Dispose();
             }
-            lock (_Textures)
-            {
-                _TextureCache[texturePath] = new WeakReference(textureRef);
-            }
             return textureRef;
         }
 
         public CTextureRef AddTexture(Bitmap bmp)
         {
-            return AddTexture(bmp, "");
+            return AddTexture(bmp, null);
         }
 
         /// <summary>
@@ -266,18 +280,17 @@ namespace Vocaluxe.Lib.Draw
                     break;
             }
 
-            int w = Math.Min(bmp.Width, maxSize);
-            int h = Math.Min(bmp.Height, maxSize);
-
-            CTextureRef texture = _GetNewTextureRef(bmp.Width, bmp.Height, w, h);
-            texture.TexturePath = texturePath;
+            Size origSize=new Size(bmp.Width, bmp.Height);
 
             Bitmap bmp2 = null;
+            TTextureType texture;
             try
             {
+                // Make sure maxSize is a power of 2 if required
+                maxSize = _CheckForNextPowerOf2(maxSize);
                 // Do not stretch the texture, only make it smaller
-                w = Math.Min(bmp.Width, texture.W2);
-                h = Math.Min(bmp.Height, texture.H2);
+                int w = Math.Min(bmp.Width, maxSize);
+                int h = Math.Min(bmp.Height, maxSize);
                 if (bmp.Width != w || bmp.Height != h)
                 {
                     //Create a new Bitmap with the new sizes
@@ -290,12 +303,11 @@ namespace Vocaluxe.Lib.Draw
                         g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
                     }
                     bmp = bmp2;
-                    texture.DataSize = new Size(w, h);
                 }
 
                 //Fill the new Bitmap with the texture data
                 BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                _AddTexture(texture, bmpData.Scan0);
+                texture=_CreateTexture(new Size(w,h), bmpData.Scan0);
                 bmp.UnlockBits(bmpData);
             }
             finally
@@ -304,44 +316,64 @@ namespace Vocaluxe.Lib.Draw
                     bmp2.Dispose();
             }
 
-            return texture;
+            _AddToCache(texture, origSize, texturePath);
+            return _GetTextureReference(origSize,texture);
         }
 
         public CTextureRef AddTexture(int w, int h, byte[] data)
         {
-            CTextureRef texture = _GetNewTextureRef(w, h);
-            _AddTexture(texture, data);
-            return texture;
+            TTextureType texture = _CreateTexture(new Size(w, h), data);
+            return _GetTextureReference(w,h, texture);
         }
 
-        private void _AddTexture(CTextureRef texture, byte[] data)
+        /// <summary>
+        /// Method used to add a texture to the texture list and return a TextureRef to it<br/>
+        /// Important: This should be the only function to ever write to _Textures
+        /// </summary>
+        /// <param name="origSize"></param>
+        /// <param name="texture"></param>
+        /// <returns></returns>
+        protected CTextureRef _GetTextureReference(Size origSize, TTextureType texture)
         {
-            TTextureType t = _CreateTexture(texture, data);
+            Debug.Assert(origSize.Width>0 &&  origSize.Height>0);
+            int id;
+            lock (_MutexID)
+            {
+                id = _NextID++;
+            }
+            CTextureRef textureRef = new CTextureRef(id, origSize);
+            if (texture != null)
+                texture.RefCount++;
+            if(texture==null || texture.RefCount==1)
+                _TextureCount++;
             lock (_Textures)
             {
-                _Textures.Add(texture.ID, t);
+                _Textures.Add(id, texture);
             }
+            return textureRef;
         }
 
-        private void _AddTexture(CTextureRef texture, IntPtr data)
+        /// <summary>
+        /// Method used to add a texture to the texture list and return a TextureRef to it<br/>
+        /// Convenience method
+        /// </summary>
+        /// <param name="origWidth"></param>
+        /// <param name="origHeight"></param>
+        /// <param name="texture"></param>
+        /// <returns></returns>
+        protected CTextureRef _GetTextureReference(int origWidth, int origHeight, TTextureType texture)
         {
-            TTextureType t = _CreateTexture(texture, data);
-            lock (_Textures)
-            {
-                _Textures.Add(texture.ID, t);
-            }
+            return _GetTextureReference(new Size(origWidth, origHeight), texture);
         }
 
         public CTextureRef EnqueueTexture(int w, int h, byte[] data)
         {
-            CTextureRef texture = _GetNewTextureRef(w, h);
-
             lock (_Textures)
             {
-                _Textures.Add(texture.ID, null);
-                _TexturesToLoad.Enqueue(new STextureQueue(texture, data));
+                CTextureRef textureRef = _GetTextureReference(w, h, null);
+                _TexturesToLoad.Enqueue(new STextureQueue(textureRef.ID, new Size(w,h),data));
+                return textureRef;
             }
-            return texture;
         }
 
         /// <summary>
@@ -371,11 +403,8 @@ namespace Vocaluxe.Lib.Draw
         /// <returns>True if the texture exists</returns>
         protected bool _TextureExists(CTextureRef texture)
         {
-            lock (_Textures)
-            {
                 TTextureType t;
-                return texture != null && _Textures.TryGetValue(texture.ID, out t) && t != null;
-            }
+            return _GetTexture(texture, out t);
         }
 
         protected TTextureType _GetTexture(CTextureRef textureRef)
@@ -383,8 +412,17 @@ namespace Vocaluxe.Lib.Draw
             if (textureRef == null)
                 return null;
             TTextureType texture;
-            _Textures.TryGetValue(textureRef.ID, out texture);
+            lock (_Textures)
+            {
+                _Textures.TryGetValue(textureRef.ID, out texture);
+            }
             return texture;
+        }
+
+        protected bool _GetTexture(CTextureRef textureRef, out TTextureType texture)
+        {
+            texture = _GetTexture(textureRef);
+            return texture != null;
         }
 
         /// <summary>
@@ -397,41 +435,42 @@ namespace Vocaluxe.Lib.Draw
                 return;
             lock (_Textures)
             {
-                if (--texture.RefCount <= 0)
-                {
                     TTextureType t;
                     if (_Textures.TryGetValue(texture.ID, out t))
                     {
-                        if (t != null)
+                        if (t != null && --t.RefCount <= 0)
+                        {
+                            if(t.TexturePath!=null) _TextureCache.Remove(t.TexturePath);
                             t.Dispose();
+                            _TextureCount--;
+                        }
                         _Textures.Remove(texture.ID);
                     }
-                    _TextureCache.Remove(texture.TexturePath);
-                }
                 texture.ID = -1;
             }
             texture = null;
         }
 
-        protected void _CheckQueue()
+        private void _CheckQueue()
         {
             lock (_Textures)
             {
                 while (_TexturesToLoad.Count > 0)
                 {
                     STextureQueue q = _TexturesToLoad.Dequeue();
-                    if (!_Textures.ContainsKey(q.Texture.ID))
+                    if (!_Textures.ContainsKey(q.TextureID))
                         continue;
 
-                    TTextureType t = _CreateTexture(q.Texture, q.Data);
-                    _Textures[q.Texture.ID] = t;
+                    TTextureType texture = _CreateTexture(q.DataSize, q.Data);
+                    texture.RefCount = 1; //Currently no more than 1 reference to queued textures is possible
+                    _Textures[q.TextureID] = texture;
                 }
             }
         }
 
         public int GetTextureCount()
         {
-            return _Textures.Count;
+            return _TextureCount;
         }
         #endregion
 

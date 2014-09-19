@@ -42,7 +42,24 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class CDirect3D : CDrawBaseWindows<Texture>, IDraw
+    class CD3DTexture:CTextureBase,IDisposable
+    {
+        public readonly Texture D3DTexture;
+        public CD3DTexture(Device device, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, texWidth, texHeight)
+        {
+            D3DTexture = new Texture(device, W2, H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+        }
+
+        public void Dispose()
+        {
+            if(D3DTexture.Disposed)
+                throw new ObjectDisposedException(GetType().Name);
+            D3DTexture.Dispose();
+            RefCount = 0;
+        }
+    }
+
+    class CDirect3D : CDrawBaseWindows<CD3DTexture>, IDraw
     {
         #region private vars
         private readonly Direct3D _D3D;
@@ -167,9 +184,6 @@ namespace Vocaluxe.Lib.Draw
                 }
             }
         }
-
-        #region form events
-        #endregion form events
 
         #region resize
         /// <summary>
@@ -468,37 +482,33 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CTextureRef CopyScreen()
         {
-            CTextureRef texture = _GetNewTextureRef(_W, _H);
-
+            var tex = _CreateTexture(new Size(_W, _H));
             Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
-            var tex = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
-            Surface textureSurface = tex.GetSurfaceLevel(0);
+            Surface textureSurface = tex.D3DTexture.GetSurfaceLevel(0);
             Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0, new Rectangle(0, 0, _W, _H), new Rectangle(0, 0, _W, _H));
             backbufferSurface.Dispose();
-            lock (_Textures)
-            {
-                _Textures.Add(texture.ID, tex);
-            }
 
-            return texture;
+            return _GetTextureReference(_W, _H, tex);
         }
 
         /// <summary>
         ///     Copies the current frame into a texture
         /// </summary>
-        /// <param name="texture">The texture in which the frame is copied to</param>
-        public void CopyScreen(ref CTextureRef texture)
+        /// <param name="textureRef">The texture in which the frame is copied to</param>
+        public void CopyScreen(ref CTextureRef textureRef)
         {
-            if (!_TextureExists(texture) || texture.DataSize.Width != GetScreenWidth() || texture.DataSize.Height != GetScreenHeight())
+            CD3DTexture texture;
+            if (!_GetTexture(textureRef, out texture) || texture.DataSize.Width != GetScreenWidth() || texture.DataSize.Height != GetScreenHeight())
             {
-                RemoveTexture(ref texture);
-                texture = CopyScreen();
+                RemoveTexture(ref textureRef);
+                textureRef = CopyScreen();
             }
             else
             {
                 Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
-                Surface textureSurface = _Textures[texture.ID].GetSurfaceLevel(0);
+                Surface textureSurface = texture.D3DTexture.GetSurfaceLevel(0);
                 Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0);
+                backbufferSurface.Dispose();
             }
         }
 
@@ -566,12 +576,17 @@ namespace Vocaluxe.Lib.Draw
         #endregion Basic Draw Methods
 
         #region Textures
-        protected override Texture _CreateTexture(CTextureRef texture, byte[] data)
+        private CD3DTexture _CreateTexture(Size dataSize)
+        {
+            return new CD3DTexture(_Device, dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
+        }
+
+        protected override CD3DTexture _CreateTexture(Size dataSize, byte[] data)
         {
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
-            var t = new Texture(_Device, texture.W2, texture.H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
-            _WriteDataToTexture(t, texture.DataSize.Width, data);
+            CD3DTexture t = _CreateTexture(dataSize);
+            _WriteDataToTexture(t.D3DTexture, dataSize.Width, data);
             return t;
         }
 
@@ -597,14 +612,15 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Updates the data of a texture
         /// </summary>
-        /// <param name="texture">The texture to update</param>
+        /// <param name="textureRef">The texture to update</param>
         /// <param name="w"></param>
         /// <param name="h"></param>
         /// <param name="data">A byte array containing the new texture's data</param>
         /// <returns>True if succeeded</returns>
-        public override bool UpdateTexture(CTextureRef texture, int w, int h, byte[] data)
+        public override bool UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
         {
-            if (!_TextureExists(texture))
+            CD3DTexture texture;
+            if (!_GetTexture(textureRef, out texture))
                 return false;
             if (texture.DataSize.Width != w || texture.DataSize.Height != h)
             {
@@ -614,10 +630,7 @@ namespace Vocaluxe.Lib.Draw
                     return false; // Texture memory to big
                 texture.DataSize = new Size(w, h);
             }
-            lock (_Textures)
-            {
-                _WriteDataToTexture(_Textures[texture.ID], w, data);
-            }
+                _WriteDataToTexture(texture.D3DTexture, w, data);
             return true;
         }
 
@@ -648,17 +661,17 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Draws a texture
         /// </summary>
-        /// <param name="texture">The texture to be drawn</param>
+        /// <param name="textureRef">The texture to be drawn</param>
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
         {
             if (rect.W < 1 || rect.H < 1)
                 return;
 
-            Texture t = _GetTexture(texture);
-            if (t == null)
+            CD3DTexture texture;
+            if (!_GetTexture(textureRef, out texture))
                 return;
 
             //Calculate the position
@@ -687,18 +700,18 @@ namespace Vocaluxe.Lib.Draw
             vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
             vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
             vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
-            _AddToVertexBuffer(vert, t, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
+            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
         }
 
         /// <summary>
         ///     Draws a texture
         /// </summary>
-        /// <param name="texture">The texture to be drawn</param>
+        /// <param name="textureRef">The texture to be drawn</param>
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
         /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1 ||
                 Math.Abs(color.A) < 0.01)
@@ -710,8 +723,8 @@ namespace Vocaluxe.Lib.Draw
             if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
                 return;
 
-            Texture t = _GetTexture(texture);
-            if (t == null)
+            CD3DTexture texture;
+            if (!_GetTexture(textureRef, out texture))
                 return;
 
             //Calculate the position
@@ -764,22 +777,21 @@ namespace Vocaluxe.Lib.Draw
             vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
             vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
             vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
-            _AddToVertexBuffer(vert, t, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
+            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
         }
 
         /// <summary>
         ///     Draws a texture
         /// </summary>
-        /// <param name="texture">The texture to be drawn</param>
+        /// <param name="textureRef">The texture to be drawn</param>
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="begin">A Value ranging from 0 to 1 containing the beginning of the texture</param>
         /// <param name="end">A Value ranging from 0 to 1 containing the ending of the texture</param>
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
         {
-            if (!_TextureExists(texture))
-                return;
-            if (_Textures[texture.ID] == null)
+            CD3DTexture texture;
+            if (!_GetTexture(textureRef, out texture))
                 return;
 
             float x1 = 0f + begin * texture.WidthRatio;
@@ -807,23 +819,22 @@ namespace Vocaluxe.Lib.Draw
             vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
             vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
             vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
-            _AddToVertexBuffer(vert, _Textures[texture.ID], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
+            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
         }
 
         /// <summary>
         ///     Draws a reflection of a texture
         /// </summary>
-        /// <param name="texture">The texture of which a reflection should be drawn</param>
+        /// <param name="textureRef">The texture of which a reflection should be drawn</param>
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
         /// <param name="space">The space between the texture and the reflection</param>
         /// <param name="height">The height of the reflection</param>
-        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
-            if (!_TextureExists(texture))
-                return;
-            if (_Textures[texture.ID] == null)
+            CD3DTexture texture;
+            if (!_GetTexture(textureRef, out texture))
                 return;
 
             if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon ||
@@ -890,7 +901,7 @@ namespace Vocaluxe.Lib.Draw
             vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), transparent.ToArgb());
             vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), transparent.ToArgb());
             vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
-            _AddToVertexBuffer(vert, _Textures[texture.ID], _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
+            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
         }
         #endregion drawing
 
@@ -898,7 +909,6 @@ namespace Vocaluxe.Lib.Draw
 
         #endregion implementation
 
-        #region utility
         private static Matrix _CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
         {
             Matrix originTranslation = Matrix.Translation(new Vector3(-(float)CSettings.RenderW / 2, (float)CSettings.RenderH / 2, 0));
@@ -921,7 +931,6 @@ namespace Vocaluxe.Lib.Draw
             }
             return originTranslation;
         }
-        #endregion utility
 
         private struct STexturedColoredVertex
         {

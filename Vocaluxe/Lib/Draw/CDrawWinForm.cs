@@ -45,6 +45,7 @@ namespace Vocaluxe.Lib.Draw
         private Rectangle _Bounds;
 
         private readonly Dictionary<int, CTextureRef> _Textures = new Dictionary<int, CTextureRef>();
+        private readonly Dictionary<string, CTextureRef> _TextureCache = new Dictionary<string, CTextureRef>();
         private readonly List<Bitmap> _Bitmaps = new List<Bitmap>();
 
         private readonly Color _ClearColor = Color.DarkBlue;
@@ -64,7 +65,6 @@ namespace Vocaluxe.Lib.Draw
             _G = Graphics.FromImage(_Backbuffer);
             _G.Clear(Color.DarkBlue);
 
-            Paint += _OnPaintEvent;
             Closing += _OnClosingEvent;
             KeyDown += _OnKeyDownEvent;
             KeyPress += _OnKeyPressEvent;
@@ -106,8 +106,6 @@ namespace Vocaluxe.Lib.Draw
 
             frontBuffer.DrawImage(_Backbuffer, new Rectangle(x, y, w, h), new Rectangle(0, 0, _Backbuffer.Width, _Backbuffer.Height), GraphicsUnit.Pixel);
         }
-
-        private void _OnPaintEvent(object sender, PaintEventArgs e) {}
 
         #region FullScreenStuff
         private void _ToggleFullScreen()
@@ -293,7 +291,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void CopyScreen(ref CTextureRef texture)
         {
-            if (!_TextureExists(texture) || texture.W2 != GetScreenWidth() || texture.H2 != GetScreenHeight())
+            if (!_TextureExists(texture) || texture.OrigSize.Width != GetScreenWidth() || texture.OrigSize.Height != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -332,23 +330,22 @@ namespace Vocaluxe.Lib.Draw
 
         private CTextureRef _GetNewTexture(int w, int h)
         {
-            return new CTextureRef(_Bitmaps.Count - 1, new Size(w, h), new Size(w, h));
+            return new CTextureRef(_Bitmaps.Count - 1, new Size(w, h));
         }
 
         public CTextureRef AddTexture(string texturePath)
         {
             if (File.Exists(texturePath))
             {
-                foreach (CTextureRef tex in _Textures.Values)
-                {
-                    if (tex.TexturePath == texturePath)
-                        return tex;
-                }
+                CTextureRef texture;
+                if (_TextureCache.TryGetValue(texturePath, out texture))
+                    return texture;
                 using (var bmp = new Bitmap(texturePath))
                 {
-                    CTextureRef texture = AddTexture(bmp);
-                    texture.TexturePath = texturePath;
+                    texture = AddTexture(bmp);
+                    _TextureCache.Add(texturePath,texture);
                 }
+                return texture;
             }
 
             return null;

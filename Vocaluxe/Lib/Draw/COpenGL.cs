@@ -60,18 +60,18 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class CGLTexture : IDisposable
+    class COGLTexture : CTextureBase,IDisposable
     {
         public int PBO;
         //The texture "name" according to the specs
         public readonly int Name;
 
-        public CGLTexture(int name)
+        private bool _IsDisposed;
+
+        public COGLTexture( int name, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, texWidth, texHeight)
         {
             Name = name;
         }
-
-        private bool _IsDisposed;
 
         public void Dispose()
         {
@@ -81,10 +81,11 @@ namespace Vocaluxe.Lib.Draw
             GL.DeleteTexture(Name);
             if (PBO > 0)
                 GL.DeleteBuffers(1, ref PBO);
+            RefCount = 0;
         }
     }
 
-    class COpenGL : CDrawBaseWindows<CGLTexture>, IDraw
+    class COpenGL : CDrawBaseWindows<COGLTexture>, IDraw
     {
         #region private vars
         private readonly GLControl _Control;
@@ -277,39 +278,34 @@ namespace Vocaluxe.Lib.Draw
 
         public CTextureRef CopyScreen()
         {
-            CTextureRef texture = _GetNewTextureRef(_W, _H);
-
-            CGLTexture t = new CGLTexture(GL.GenTexture());
-            GL.BindTexture(TextureTarget.Texture2D, t.Name);
+            //TODO: Check if _W,_H needs to be used or not
+            Size size = new Size(GetScreenWidth(), GetScreenHeight());
+            COGLTexture texture = _CreateTexture(size);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-            GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, _X, _Y, _W, _H);
+            GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, size.Width,size.Height);//TODO: Use _X,_Y and _W,_H?
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
-            // Add to Texture List
-            lock (_Textures)
-            {
-                _Textures[texture.ID] = t;
-            }
-
-            return texture;
+            return _GetTextureReference(size, texture);
         }
 
-        public void CopyScreen(ref CTextureRef texture)
+        public void CopyScreen(ref CTextureRef textureRef)
         {
+            COGLTexture texture;
             //Check for actual texture sizes as it may be downsized compared to OrigSize
-            if (!_TextureExists(texture) || texture.DataSize.Width != GetScreenWidth() || texture.DataSize.Height != GetScreenHeight())
+            if (!_GetTexture(textureRef, out texture) || texture.DataSize.Width != GetScreenWidth() || texture.DataSize.Height != GetScreenHeight())
             {
-                RemoveTexture(ref texture);
-                texture = CopyScreen();
+                RemoveTexture(ref textureRef);
+                textureRef = CopyScreen();
             }
             else
             {
-                GL.BindTexture(TextureTarget.Texture2D, _Textures[texture.ID].Name);
+                GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
                 GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, GetScreenWidth(), GetScreenHeight());
 
@@ -419,11 +415,16 @@ namespace Vocaluxe.Lib.Draw
         #region Textures
 
         #region adding
-        protected override CGLTexture _CreateTexture(CTextureRef texture, IntPtr data)
+        private COGLTexture _CreateTexture(Size dataSize)
         {
-            CGLTexture t = new CGLTexture(GL.GenTexture());
+            return new COGLTexture(GL.GenTexture(), dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
+        }
 
-            GL.BindTexture(TextureTarget.Texture2D, t.Name);
+        protected override COGLTexture _CreateTexture(Size dataSize, IntPtr data)
+        {
+            COGLTexture texture = _CreateTexture(dataSize);
+
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
@@ -436,19 +437,19 @@ namespace Vocaluxe.Lib.Draw
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
-            return t;
+            return texture;
         }
 
-        protected override CGLTexture _CreateTexture(CTextureRef texture, byte[] data)
+        protected override COGLTexture _CreateTexture(Size dataSize, byte[] data)
         {
-            CGLTexture t = new CGLTexture(GL.GenTexture());
+            COGLTexture texture = _CreateTexture(dataSize);
 
             if (_UsePBO)
             {
                 try
                 {
-                    GL.GenBuffers(1, out t.PBO);
-                    GL.BindBuffer(BufferTarget.PixelUnpackBuffer, t.PBO);
+                    GL.GenBuffers(1, out texture.PBO);
+                    GL.BindBuffer(BufferTarget.PixelUnpackBuffer, texture.PBO);
                     GL.BufferData(BufferTarget.PixelUnpackBuffer, (IntPtr)data.Length, IntPtr.Zero, BufferUsageHint.StreamDraw);
                     GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
                 }
@@ -459,10 +460,10 @@ namespace Vocaluxe.Lib.Draw
                 }
             }
 
-            GL.BindTexture(TextureTarget.Texture2D, t.Name);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.OrigSize.Width, texture.OrigSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
+            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.DataSize.Width, texture.DataSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
@@ -471,15 +472,15 @@ namespace Vocaluxe.Lib.Draw
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
-            return t;
+            return texture;
         }
         #endregion adding
 
         #region updating
-        public override bool UpdateTexture(CTextureRef texture, int w, int h, byte[] data)
+        public override bool UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
         {
-            CGLTexture t = _GetTexture(texture);
-            if (t == null)
+            COGLTexture texture;
+            if (_GetTexture(textureRef,out texture))
                 return false;
             if (texture.DataSize.Width != w || texture.DataSize.Height != h)
             {
@@ -492,14 +493,14 @@ namespace Vocaluxe.Lib.Draw
 
             if (_UsePBO)
             {
-                GL.BindBuffer(BufferTarget.PixelUnpackBuffer, t.PBO);
+                GL.BindBuffer(BufferTarget.PixelUnpackBuffer, texture.PBO);
 
                 IntPtr buffer = GL.MapBuffer(BufferTarget.PixelUnpackBuffer, BufferAccess.WriteOnly);
                 Marshal.Copy(data, 0, buffer, data.Length);
 
                 GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
 
-                GL.BindTexture(TextureTarget.Texture2D, t.Name);
+                GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
                 GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
@@ -511,7 +512,7 @@ namespace Vocaluxe.Lib.Draw
                 return true;
             }
 
-            GL.BindTexture(TextureTarget.Texture2D, t.Name);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
@@ -538,16 +539,16 @@ namespace Vocaluxe.Lib.Draw
             DrawTexture(texture, rect, texture.Color);
         }
 
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
         {
-            CGLTexture t = _GetTexture(texture);
-            if (t == null)
+            COGLTexture texture;
+            if (!_GetTexture(textureRef, out texture))
                 return;
 
             if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(color.A) < 0.01)
                 return;
 
-            GL.BindTexture(TextureTarget.Texture2D, t.Name);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             float x1 = 0;
             float x2 = texture.WidthRatio;
@@ -601,10 +602,10 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
-            CGLTexture t = _GetTexture(texture);
-            if (t == null)
+            COGLTexture texture;
+            if (!_GetTexture(textureRef, out texture))
                 return;
 
             if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1 ||
@@ -617,7 +618,7 @@ namespace Vocaluxe.Lib.Draw
             if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
                 return;
 
-            GL.BindTexture(TextureTarget.Texture2D, t.Name);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
             float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
@@ -696,13 +697,13 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
         {
-            CGLTexture t = _GetTexture(texture);
-            if (t == null)
+            COGLTexture texture;
+            if (!_GetTexture(textureRef, out texture))
                 return;
 
-            GL.BindTexture(TextureTarget.Texture2D, t.Name);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.Enable(EnableCap.Blend);
             GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
@@ -729,10 +730,10 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
-            CGLTexture t = _GetTexture(texture);
-            if (t == null)
+            COGLTexture texture;
+            if (!_GetTexture(textureRef, out texture))
                 return;
 
             if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon ||
@@ -748,7 +749,7 @@ namespace Vocaluxe.Lib.Draw
             if (height > bounds.H)
                 height = bounds.H;
 
-            GL.BindTexture(TextureTarget.Texture2D, t.Name);
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
             float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
