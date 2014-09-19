@@ -832,6 +832,11 @@ namespace Vocaluxe.Base
                         ProfileFolders.Clear();
                         ProfileFolders.Add(value);
                         break;
+
+                    case "oldtheme":
+                        if(value == "yes")
+                            LoadOldThemeFiles = true;
+                        break;
                 }
             }
         }
