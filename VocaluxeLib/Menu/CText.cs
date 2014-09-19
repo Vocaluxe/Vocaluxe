@@ -18,16 +18,39 @@
 using System;
 using System.Drawing;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeText
+    [XmlType("Text")]
+    public struct SThemeText
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
+        [XmlElement("X")]
+        public float X;
+        [XmlElement("Y")]
+        public float Y;
+        [XmlElement("Z")]
+        public float Z;
+        [XmlElement("H")]
+        public float Height;
+        [XmlElement("MaxW")]
+        public float MaxWidth;
+        public SThemeColor Color;
+        public SThemeColor SColor; //for Buttons
+        [XmlElement("Align")]
+        public EAlignment Align;
+        [XmlElement("ResizeAlign")]
+        public EHAlignment ResizeAlign;
+        [XmlElement("Style")]
+        public EStyle Style;
+        [XmlElement("Font")]
+        public string Font;
+        [XmlElement("Text")]
         public string Text;
-        public string ColorName;
-        public string SelColorName; //for Buttons
+        public SReflection Reflection;
     }
 
     public class CText : IMenuElement
@@ -40,6 +63,11 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         private bool _ButtonText;
@@ -307,6 +335,17 @@ namespace VocaluxeLib.Menu
             ReflectionHeight = rheight;
         }
 
+        public CText(SThemeText theme, int partyModeID, bool buttonText = false)
+        {
+            _PartyModeID = partyModeID;
+            _TranslationID = partyModeID;
+            _Theme = theme;
+
+            _ButtonText = buttonText;
+
+            LoadTextures();
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             return LoadTheme(xmlPath, elementName, xmlReader, skinIndex, false);
@@ -326,8 +365,8 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Height);
             xmlReader.TryGetFloatValue(item + "/MaxW", ref _MaxWidth);
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -336,8 +375,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, skinIndex, out SelColor);
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.SColor.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColor.Name, skinIndex, out SelColor);
             else
             {
                 if (xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R))
@@ -359,10 +398,25 @@ namespace VocaluxeLib.Menu
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
+                _Theme.Reflection = new SReflection(true, ReflectionHeight, ReflectionSpace);
             }
+            else
+                _Theme.Reflection = new SReflection(false, 0f, 0f);
 
             // Set values
             _Theme.Name = elementName;
+            _Theme.Align = _Align;
+            _Theme.Color.Color = Color;
+            _Theme.Font = _Font;
+            _Theme.ResizeAlign = _ResizeAlign;
+            _Theme.SColor.Color = SelColor;
+            _Theme.Style = _Style;
+            _Theme.MaxWidth = _MaxWidth;
+            _Theme.X = _X;
+            _Theme.Y = _Y;
+            _Theme.Z = _Z;
+            _Theme.Height = _Height;
+
             _ButtonText = buttonText;
             _PositionNeedsUpdate = true;
 
@@ -371,89 +425,6 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded || _ButtonText)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<X>, <Y>: Text position");
-                writer.WriteElementString("X", X.ToString("#0"));
-                writer.WriteElementString("Y", Y.ToString("#0"));
-
-                if (!_ButtonText)
-                {
-                    writer.WriteComment("<Z>: Text position");
-                    writer.WriteElementString("Z", Z.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<H>: Text height");
-                writer.WriteElementString("H", Height.ToString("#0"));
-
-                writer.WriteComment("<MaxW>: Maximum text width (if exists)");
-                if (MaxWidth > 0)
-                    writer.WriteElementString("MaxW", MaxWidth.ToString("#0"));
-
-                writer.WriteComment("<Color>: Text color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
-                else
-                {
-                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<SColor>: Selected Text color from ColorScheme (high priority)");
-                writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.SelColorName))
-                    writer.WriteElementString("SColor", _Theme.SelColorName);
-                else
-                {
-                    writer.WriteElementString("SR", SelColor.R.ToString("#0.00"));
-                    writer.WriteElementString("SG", SelColor.G.ToString("#0.00"));
-                    writer.WriteElementString("SB", SelColor.B.ToString("#0.00"));
-                    writer.WriteElementString("SA", SelColor.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<Align>: Text align horizontal: " + CHelper.ListStrings(Enum.GetNames(typeof(EAlignment))));
-                writer.WriteElementString("Align", Enum.GetName(typeof(EAlignment), Align));
-
-                writer.WriteComment("<ResizeAlign>: Text align vertical (on downsizing): " + CHelper.ListStrings(Enum.GetNames(typeof(EHAlignment))));
-                writer.WriteElementString("ResizeAlign", Enum.GetName(typeof(EHAlignment), ResizeAlign));
-
-                writer.WriteComment("<Style>: Text style: " + CHelper.ListStrings(Enum.GetNames(typeof(EStyle))));
-                writer.WriteElementString("Style", Enum.GetName(typeof(EStyle), Style));
-
-                writer.WriteComment("<Font>: Text font name");
-                writer.WriteElementString("Font", Font);
-
-                writer.WriteComment("<Text>: Nothing or translation tag");
-                writer.WriteElementString("Text", CBase.Language.TranslationExists(_Theme.Text) ? _Theme.Text : string.Empty);
-
-                if (!_ButtonText)
-                {
-                    writer.WriteComment("<Reflection> If exists:");
-                    writer.WriteComment("   <Space>: Reflection Space");
-                    writer.WriteComment("   <Height>: Reflection Height");
-                }
-
-                if (ReflectionHeight > 0 && !_ButtonText)
-                {
-                    writer.WriteStartElement("Reflection");
-                    writer.WriteElementString("Space", ReflectionSpace.ToString("#0"));
-                    writer.WriteElementString("Height", ReflectionHeight.ToString("#0"));
-                    writer.WriteEndElement();
-                }
-
-                writer.WriteEndElement();
-
-                return true;
-            }
-            return false;
-        }
 
         public void Draw(bool forceDraw = false)
         {
@@ -521,11 +492,36 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                Color = new SColorF(_Theme.Color.Color);
 
-            if (!String.IsNullOrEmpty(_Theme.SelColorName))
-                SelColor = CBase.Theme.GetColor(_Theme.SelColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.SColor.Name))
+                SelColor = CBase.Theme.GetColor(_Theme.SColor.Name, _PartyModeID);
+            else
+                SelColor = new SColorF(_Theme.SColor.Color);
+
+            _X = _Theme.X;
+            _Y = _Theme.Y;
+            _Z = _Theme.Z;
+            _Height = _Theme.Height;
+            _MaxWidth = _Theme.MaxWidth;
+            _Align = _Theme.Align;
+            _ResizeAlign = _Theme.ResizeAlign;
+            _Style = _Theme.Style;
+            _Font = _Theme.Font;
+
+            if (_Theme.Reflection.Enabled)
+            {
+                ReflectionSpace = _Theme.Reflection.Space;
+                ReflectionHeight = _Theme.Reflection.Height;
+            }
+
+            Text = _Theme.Text;
+            Selected = false;
+
+            _ThemeLoaded = true;
         }
 
         public void ReloadTextures()
@@ -534,11 +530,19 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
+        public SThemeText GetTheme()
+        {
+            return _Theme;
+        }
+
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
             X += stepX;
             Y += stepY;
+
+            _Theme.X += stepX;
+            _Theme.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -546,6 +550,8 @@ namespace VocaluxeLib.Menu
             Height += stepH;
             if (Height <= 0)
                 Height = 1;
+
+            _Theme.Height = _Height;
         }
         #endregion ThemeEdit
 

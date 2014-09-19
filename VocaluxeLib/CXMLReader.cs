@@ -24,17 +24,17 @@ namespace VocaluxeLib
     public class CXMLReader
     {
         private readonly XPathNavigator _Navigator;
-        private readonly String _FileName;
+        private readonly String _FilePath;
 
-        public string FileName
+        public string FilePath
         {
-            get { return _FileName; }
+            get { return _FilePath; }
         }
 
         //Private method. Use OpenFile factory method to get an instance
         private CXMLReader(string uri)
         {
-            _FileName = uri;
+            _FilePath = uri;
             var xmlDoc = new XPathDocument(uri);
             _Navigator = xmlDoc.CreateNavigator();
         }
@@ -88,7 +88,24 @@ namespace VocaluxeLib
             return GetValue(xPath, out val, value.ToString()) && CHelper.TryParse(val, out value);
         }
 
-        public bool GetValue(string xPath, out string value, string defaultValue)
+        public bool TryGetColorFromRGBA(string xPath, ref SColorF value)
+        {
+            bool result = true;
+            result &= TryGetFloatValue(xPath + "/R", ref value.R);
+            result &= TryGetFloatValue(xPath + "/G", ref value.G);
+            result &= TryGetFloatValue(xPath + "/B", ref value.B);
+            result &= TryGetFloatValue(xPath + "/A", ref value.A);
+            if (result)
+            {
+                value.R = value.R.Clamp(0f, 1f);
+                value.G = value.G.Clamp(0f, 1f);
+                value.B = value.B.Clamp(0f, 1f);
+                value.A = value.A.Clamp(0f, 1f);
+            }
+            return result;
+        }
+
+        public bool GetValue(string xPath, out string value, string defaultValue = "")
         {
             int resultCt = 0;
             string val = string.Empty;

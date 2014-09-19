@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu
@@ -53,31 +54,51 @@ namespace VocaluxeLib.Menu
         }
     }
 
-    struct SThemePlaylist
+    [XmlType("Playlist")]
+    public struct SThemePlaylist
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
-        public string ColorBackgroundName;
-        public string SelColorBackgroundName;
+        [XmlElement("Rect")]
+        public SRectF Rect;
 
-        public string TextureBackgroundName;
-        public string SelTextureBackgroundName;
-
+        [XmlElement("EntryHeight")]
         public float EntryHeight;
 
-        public CText Text1;
+        [XmlElement("SkinBackground")]
+        public string TextureBackgroundName;
+        [XmlElement("SkinBackgroundSelected")]
+        public string SelTextureBackgroundName;
 
-        public CStatic StaticCover;
-        public CStatic StaticPlaylistHeader;
-        public CStatic StaticPlaylistFooter;
+        [XmlElement("ColorBackground")]
+        public SThemeColor ColorBackground;
+        [XmlElement("SColorBackground")]
+        public SThemeColor SelColorBackground;
 
-        public CButton ButtonPlaylistName;
-        public CButton ButtonPlaylistClose;
-        public CButton ButtonPlaylistSave;
-        public CButton ButtonPlaylistDelete;
-        public CButton ButtonPlaylistSing;
+        [XmlElement("Text1")]
+        public SThemeText SText1;
 
-        public CSelectSlide SelectSlideGameMode;
+        [XmlElement("StaticCover")]
+        public SThemeStatic SStaticCover;
+        [XmlElement("StaticPlaylistHeader")]
+        public SThemeStatic SStaticPlaylistHeader;
+        [XmlElement("StaticPlaylistFooter")]
+        public SThemeStatic SStaticPlaylistFooter;
+
+        [XmlElement("ButtonPlaylistName")]
+        public SThemeButton SButtonPlaylistName;
+        [XmlElement("ButtonPlaylistClose")]
+        public SThemeButton SButtonPlaylistClose;
+        [XmlElement("ButtonPlaylistSave")]
+        public SThemeButton SButtonPlaylistSave; 
+        [XmlElement("ButtonPlaylistDelete")]
+        public SThemeButton SButtonPlaylistDelete;
+        [XmlElement("ButtonPlaylistSing")]
+        public SThemeButton SButtonPlaylistSing;
+
+        [XmlElement("SelectSlideGameMode")]
+        public SThemeSelectSlide SSelectSlideGameMode;
     }
 
     public class CPlaylist : IMenuElement
@@ -150,6 +171,11 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
+        }
+
         private readonly CObjectInteractions _Interactions;
 
         private readonly List<CPlaylistElement> _PlaylistElements;
@@ -159,6 +185,17 @@ namespace VocaluxeLib.Menu
         public SRectF Rect;
         public SColorF BackgroundColor;
         public SColorF BackgroundSelColor;
+
+        public CButton ButtonPlaylistName;
+        public CButton ButtonPlaylistClose; 
+        public CButton ButtonPlaylistSave;
+        public CButton ButtonPlaylistDelete;
+        public CButton ButtonPlaylistSing;
+        public CText Text1;
+        public CSelectSlide SelectSlideGameMode;
+        public CStatic StaticCover;
+        public CStatic StaticPlaylistHeader;
+        public CStatic StaticPlaylistFooter;
 
         public bool Visible;
 
@@ -201,19 +238,17 @@ namespace VocaluxeLib.Menu
         public CPlaylist(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemePlaylist
-                {
-                    Text1 = new CText(_PartyModeID),
-                    StaticCover = new CStatic(_PartyModeID),
-                    StaticPlaylistFooter = new CStatic(_PartyModeID),
-                    StaticPlaylistHeader = new CStatic(_PartyModeID),
-                    ButtonPlaylistName = new CButton(_PartyModeID),
-                    ButtonPlaylistClose = new CButton(_PartyModeID),
-                    ButtonPlaylistDelete = new CButton(_PartyModeID),
-                    ButtonPlaylistSave = new CButton(_PartyModeID),
-                    ButtonPlaylistSing = new CButton(_PartyModeID),
-                    SelectSlideGameMode = new CSelectSlide(_PartyModeID)
-                };
+
+            Text1 = new CText(_PartyModeID);
+            StaticCover = new CStatic(_PartyModeID);
+            StaticPlaylistFooter = new CStatic(_PartyModeID);
+            StaticPlaylistHeader = new CStatic(_PartyModeID);
+            ButtonPlaylistName = new CButton(_PartyModeID);
+            ButtonPlaylistClose = new CButton(_PartyModeID);
+            ButtonPlaylistDelete = new CButton(_PartyModeID);
+            ButtonPlaylistSave = new CButton(_PartyModeID);
+            ButtonPlaylistSing = new CButton(_PartyModeID);
+            SelectSlideGameMode = new CSelectSlide(_PartyModeID);
 
             CompleteRect = new SRectF();
             Rect = new SRectF();
@@ -230,18 +265,48 @@ namespace VocaluxeLib.Menu
             Selected = false;
         }
 
+        public CPlaylist(SThemePlaylist theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = theme;
+
+            CompleteRect = new SRectF();
+            _PlaylistElements = new List<CPlaylistElement>();
+            _PlaylistElementContents = new List<CPlaylistElementContent>();
+
+            _Interactions = new CObjectInteractions();
+            _ChangeOrderElement = new CPlaylistElement();
+
+            Text1 = new CText(_Theme.SText1, _PartyModeID);
+            StaticCover = new CStatic(_Theme.SStaticCover, _PartyModeID);
+            StaticPlaylistFooter = new CStatic(_Theme.SStaticPlaylistFooter, _PartyModeID);
+            StaticPlaylistHeader = new CStatic(_Theme.SStaticPlaylistHeader, _PartyModeID);
+            ButtonPlaylistName = new CButton(_Theme.SButtonPlaylistName, _PartyModeID);
+            ButtonPlaylistClose = new CButton(_Theme.SButtonPlaylistClose, _PartyModeID);
+            ButtonPlaylistDelete = new CButton(_Theme.SButtonPlaylistDelete, _PartyModeID);
+            ButtonPlaylistSave = new CButton(_Theme.SButtonPlaylistSave, _PartyModeID);
+            ButtonPlaylistSing = new CButton(_Theme.SButtonPlaylistSing, _PartyModeID);
+            SelectSlideGameMode = new CSelectSlide(_Theme.SSelectSlideGameMode, _PartyModeID);
+
+
+            Visible = false;
+            Selected = false;
+
+            LoadTextures();
+        }
+
         public void Init()
         {
             _Interactions.Clear();
             _PrepareList();
-            _Interactions.AddStatic(_Theme.StaticCover);
-            _Interactions.AddStatic(_Theme.StaticPlaylistFooter);
-            _Interactions.AddStatic(_Theme.StaticPlaylistHeader);
-            _Interactions.AddButton(_Theme.ButtonPlaylistName);
-            _Interactions.AddButton(_Theme.ButtonPlaylistClose);
-            _Interactions.AddButton(_Theme.ButtonPlaylistDelete);
-            _Interactions.AddButton(_Theme.ButtonPlaylistSave);
-            _Interactions.AddButton(_Theme.ButtonPlaylistSing);
+            _Interactions.AddStatic(StaticCover);
+            _Interactions.AddStatic(StaticPlaylistFooter);
+            _Interactions.AddStatic(StaticPlaylistHeader);
+            _Interactions.AddButton(ButtonPlaylistName);
+            _Interactions.AddButton(ButtonPlaylistClose);
+            _Interactions.AddButton(ButtonPlaylistDelete);
+            _Interactions.AddButton(ButtonPlaylistSave);
+            _Interactions.AddButton(ButtonPlaylistSing);
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
@@ -257,8 +322,8 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
-            if (xmlReader.GetValue(item + "/ColorBackground", out _Theme.ColorBackgroundName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorBackgroundName, skinIndex, out BackgroundColor);
+            if (xmlReader.GetValue(item + "/ColorBackground", out _Theme.ColorBackground.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorBackground.Name, skinIndex, out BackgroundColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundR", ref BackgroundColor.R);
@@ -266,8 +331,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundB", ref BackgroundColor.B);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundA", ref BackgroundColor.A);
             }
-            if (xmlReader.GetValue(item + "/SColorBackground", out _Theme.SelColorBackgroundName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorBackgroundName, skinIndex, out BackgroundSelColor);
+            if (xmlReader.GetValue(item + "/SColorBackground", out _Theme.SelColorBackground.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorBackground.Name, skinIndex, out BackgroundSelColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundR", ref BackgroundSelColor.R);
@@ -276,140 +341,40 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundA", ref BackgroundSelColor.A);
             }
 
-            _ThemeLoaded &= _Theme.Text1.LoadTheme(item, "TextPart1", xmlReader, skinIndex);
+            _ThemeLoaded &= Text1.LoadTheme(item, "TextPart1", xmlReader, skinIndex);
 
-            _ThemeLoaded &= _Theme.StaticCover.LoadTheme(item, "StaticCover", xmlReader, skinIndex);
-            _ThemeLoaded &= _Theme.StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", xmlReader, skinIndex);
-            _ThemeLoaded &= _Theme.StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", xmlReader, skinIndex);
+            _ThemeLoaded &= StaticCover.LoadTheme(item, "StaticCover", xmlReader, skinIndex);
+            _ThemeLoaded &= StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", xmlReader, skinIndex);
+            _ThemeLoaded &= StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", xmlReader, skinIndex);
 
-            _ThemeLoaded &= _Theme.ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", xmlReader, skinIndex);
-            _ThemeLoaded &= _Theme.ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", xmlReader, skinIndex);
-            _ThemeLoaded &= _Theme.ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", xmlReader, skinIndex);
-            _ThemeLoaded &= _Theme.ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", xmlReader, skinIndex);
-            _ThemeLoaded &= _Theme.ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", xmlReader, skinIndex);
+            _ThemeLoaded &= ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", xmlReader, skinIndex);
+            _ThemeLoaded &= ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", xmlReader, skinIndex);
+            _ThemeLoaded &= ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", xmlReader, skinIndex);
+            _ThemeLoaded &= ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", xmlReader, skinIndex);
+            _ThemeLoaded &= ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", xmlReader, skinIndex);
 
-            _ThemeLoaded &= _Theme.SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", xmlReader, skinIndex);
+            _ThemeLoaded &=SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", xmlReader, skinIndex);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/EntryHeight", ref _Theme.EntryHeight);
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
+                _Theme.Rect = Rect;
+                _Theme.ColorBackground.Color = BackgroundColor;
+                _Theme.SelColorBackground.Color = BackgroundSelColor;
+                _Theme.SText1 = Text1.GetTheme();
+                _Theme.SStaticCover = StaticCover.GetTheme();
+                _Theme.SStaticPlaylistFooter = StaticPlaylistFooter.GetTheme();
+                _Theme.SStaticPlaylistHeader = StaticPlaylistHeader.GetTheme();
+                _Theme.SButtonPlaylistName =ButtonPlaylistName.GetTheme();
+                _Theme.SButtonPlaylistSing =ButtonPlaylistSing.GetTheme();
+                _Theme.SButtonPlaylistClose =ButtonPlaylistClose.GetTheme();
+                _Theme.SButtonPlaylistSave =ButtonPlaylistSave.GetTheme();
+                _Theme.SButtonPlaylistDelete =ButtonPlaylistDelete.GetTheme();
 
-                //Check for highest x/y-coords
-                CompleteRect = Rect;
-                //ButtonPlaylistClose
-                if (_Theme.ButtonPlaylistClose.Rect.X < CompleteRect.X)
-                    CompleteRect.X = _Theme.ButtonPlaylistClose.Rect.X;
-                if (_Theme.ButtonPlaylistClose.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = _Theme.ButtonPlaylistClose.Rect.Y;
-                if (_Theme.ButtonPlaylistClose.Rect.W + _Theme.ButtonPlaylistClose.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = _Theme.ButtonPlaylistClose.Rect.W + _Theme.ButtonPlaylistClose.Rect.X - CompleteRect.X;
-                if (_Theme.ButtonPlaylistClose.Rect.Y + _Theme.ButtonPlaylistClose.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = _Theme.ButtonPlaylistClose.Rect.H + _Theme.ButtonPlaylistClose.Rect.Y - CompleteRect.Y;
-                //ButtonPlaylistName
-                if (_Theme.ButtonPlaylistName.Rect.X < CompleteRect.X)
-                    CompleteRect.X = _Theme.ButtonPlaylistName.Rect.X;
-                if (_Theme.ButtonPlaylistName.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = _Theme.ButtonPlaylistName.Rect.Y;
-                if (_Theme.ButtonPlaylistName.Rect.W + _Theme.ButtonPlaylistName.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = _Theme.ButtonPlaylistName.Rect.W + _Theme.ButtonPlaylistName.Rect.X - CompleteRect.X;
-                if (_Theme.ButtonPlaylistName.Rect.Y + _Theme.ButtonPlaylistName.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = _Theme.ButtonPlaylistName.Rect.H + _Theme.ButtonPlaylistName.Rect.Y - CompleteRect.Y;
-                //ButtonPlaylistSing
-                if (_Theme.ButtonPlaylistSing.Rect.X < CompleteRect.X)
-                    CompleteRect.X = _Theme.ButtonPlaylistSing.Rect.X;
-                if (_Theme.ButtonPlaylistSing.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = _Theme.ButtonPlaylistSing.Rect.Y;
-                if (_Theme.ButtonPlaylistSing.Rect.W + _Theme.ButtonPlaylistSing.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = _Theme.ButtonPlaylistSing.Rect.W + _Theme.ButtonPlaylistSing.Rect.X - CompleteRect.X;
-                if (_Theme.ButtonPlaylistSing.Rect.Y + _Theme.ButtonPlaylistSing.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = _Theme.ButtonPlaylistSing.Rect.H + _Theme.ButtonPlaylistSing.Rect.Y - CompleteRect.Y;
-                //ButtonPlaylistSave
-                if (_Theme.ButtonPlaylistSave.Rect.X < CompleteRect.X)
-                    CompleteRect.X = _Theme.ButtonPlaylistSave.Rect.X;
-                if (_Theme.ButtonPlaylistSave.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = _Theme.ButtonPlaylistSave.Rect.Y;
-                if (_Theme.ButtonPlaylistSave.Rect.W + _Theme.ButtonPlaylistSave.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = _Theme.ButtonPlaylistSave.Rect.W + _Theme.ButtonPlaylistSave.Rect.X - CompleteRect.X;
-                if (_Theme.ButtonPlaylistSave.Rect.Y + _Theme.ButtonPlaylistSave.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = _Theme.ButtonPlaylistSave.Rect.H + _Theme.ButtonPlaylistSave.Rect.Y - CompleteRect.Y;
-                //ButtonPlaylistDelete
-                if (_Theme.ButtonPlaylistDelete.Rect.X < CompleteRect.X)
-                    CompleteRect.X = _Theme.ButtonPlaylistDelete.Rect.X;
-                if (_Theme.ButtonPlaylistDelete.Rect.Y < CompleteRect.Y)
-                    CompleteRect.Y = _Theme.ButtonPlaylistDelete.Rect.Y;
-                if (_Theme.ButtonPlaylistDelete.Rect.W + _Theme.ButtonPlaylistDelete.Rect.X > CompleteRect.W + CompleteRect.X)
-                    CompleteRect.W = _Theme.ButtonPlaylistDelete.Rect.W + _Theme.ButtonPlaylistDelete.Rect.X - CompleteRect.X;
-                if (_Theme.ButtonPlaylistDelete.Rect.Y + _Theme.ButtonPlaylistDelete.Rect.H > CompleteRect.Y + CompleteRect.H)
-                    CompleteRect.H = _Theme.ButtonPlaylistDelete.Rect.H + _Theme.ButtonPlaylistDelete.Rect.Y - CompleteRect.Y;
                 LoadTextures();
             }
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: Playlist position, width and height");
-                writer.WriteElementString("X", Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", Rect.W.ToString("#0"));
-                writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-                writer.WriteElementString("EntryHeight", _Theme.EntryHeight.ToString("#0.00"));
-
-                writer.WriteComment("<SkinBackground>: Texture name");
-                writer.WriteElementString("SkinBackground", _Theme.TextureBackgroundName);
-
-                writer.WriteComment("<SkinBackgroundSelected>: Texture name for selected playlist-entry");
-                writer.WriteElementString("SkinBackgroundSelected", _Theme.SelTextureBackgroundName);
-
-                writer.WriteComment("<ColorBackground>: Button color from ColorScheme (high priority)");
-                writer.WriteComment("or <BackgroundR>, <BackgroundG>, <BackgroundB>, <BackgroundA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorBackgroundName))
-                    writer.WriteElementString("ColorBackground", _Theme.ColorBackgroundName);
-                else
-                {
-                    writer.WriteElementString("BackgroundR", BackgroundColor.R.ToString("#0.00"));
-                    writer.WriteElementString("BackgroundG", BackgroundColor.G.ToString("#0.00"));
-                    writer.WriteElementString("BackgroundB", BackgroundColor.B.ToString("#0.00"));
-                    writer.WriteElementString("BackgroundA", BackgroundColor.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<SColorBackground>: Selected paylist-entry color from ColorScheme (high priority)");
-                writer.WriteComment("or <SBackgroundR>, <SBackgroundG>, <SBackgroundB>, <SBackgroundA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.SelColorBackgroundName))
-                    writer.WriteElementString("SColorBackground", _Theme.SelColorBackgroundName);
-                else
-                {
-                    writer.WriteElementString("SBackgroundR", BackgroundSelColor.R.ToString("#0.00"));
-                    writer.WriteElementString("SBackgroundG", BackgroundSelColor.G.ToString("#0.00"));
-                    writer.WriteElementString("SBackgroundB", BackgroundSelColor.B.ToString("#0.00"));
-                    writer.WriteElementString("SBackgroundA", BackgroundSelColor.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("Positions of <TextPart1>, <TextPart2>, <TextPart3>, <StaticCover> and <SelectSlideGameMode> are relative to playlist-entry!");
-                writer.WriteComment("Use placeholders for Text of <TextPart1>, <TextPart2> and <TextPart3>: %t, %a, %l");
-                _Theme.Text1.SaveTheme(writer);
-                _Theme.StaticPlaylistFooter.SaveTheme(writer);
-                _Theme.StaticPlaylistHeader.SaveTheme(writer);
-                _Theme.StaticCover.SaveTheme(writer);
-                _Theme.SelectSlideGameMode.SaveTheme(writer);
-                _Theme.ButtonPlaylistName.SaveTheme(writer);
-                _Theme.ButtonPlaylistClose.SaveTheme(writer);
-                _Theme.ButtonPlaylistDelete.SaveTheme(writer);
-                _Theme.ButtonPlaylistSave.SaveTheme(writer);
-                _Theme.ButtonPlaylistSing.SaveTheme(writer);
-
-                writer.WriteEndElement();
-
-                return true;
-            }
-            return false;
         }
 
         public void Draw(bool forceDraw = false)
@@ -445,40 +410,48 @@ namespace VocaluxeLib.Menu
 
         public void UnloadTextures()
         {
-            _Theme.Text1.UnloadTextures();
-            _Theme.ButtonPlaylistClose.UnloadTextures();
-            _Theme.ButtonPlaylistDelete.UnloadTextures();
-            _Theme.ButtonPlaylistName.UnloadTextures();
-            _Theme.ButtonPlaylistSave.UnloadTextures();
-            _Theme.ButtonPlaylistSing.UnloadTextures();
+            Text1.UnloadTextures();
+            ButtonPlaylistClose.UnloadTextures();
+            ButtonPlaylistDelete.UnloadTextures();
+            ButtonPlaylistName.UnloadTextures();
+            ButtonPlaylistSave.UnloadTextures();
+            ButtonPlaylistSing.UnloadTextures();
 
-            _Theme.StaticCover.UnloadTextures();
-            _Theme.StaticPlaylistFooter.UnloadTextures();
-            _Theme.StaticPlaylistHeader.UnloadTextures();
+            StaticCover.UnloadTextures();
+            StaticPlaylistFooter.UnloadTextures();
+            StaticPlaylistHeader.UnloadTextures();
 
-            _Theme.SelectSlideGameMode.UnloadTextures();
+            SelectSlideGameMode.UnloadTextures();
         }
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorBackgroundName))
-                BackgroundColor = CBase.Theme.GetColor(_Theme.ColorBackgroundName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.ColorBackground.Name))
+                BackgroundColor = CBase.Theme.GetColor(_Theme.ColorBackground.Name, _PartyModeID);
+            else
+                BackgroundColor = _Theme.ColorBackground.Color;
 
-            if (!String.IsNullOrEmpty(_Theme.SelColorBackgroundName))
-                BackgroundSelColor = CBase.Theme.GetColor(_Theme.SelColorBackgroundName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.SelColorBackground.Name))
+                BackgroundSelColor = CBase.Theme.GetColor(_Theme.SelColorBackground.Name, _PartyModeID);
+            else
+                BackgroundSelColor = _Theme.SelColorBackground.Color;
 
-            _Theme.Text1.LoadTextures();
-            _Theme.ButtonPlaylistClose.LoadTextures();
-            _Theme.ButtonPlaylistDelete.LoadTextures();
-            _Theme.ButtonPlaylistName.LoadTextures();
-            _Theme.ButtonPlaylistSave.LoadTextures();
-            _Theme.ButtonPlaylistSing.LoadTextures();
+            Rect = _Theme.Rect;
 
-            _Theme.StaticCover.LoadTextures();
-            _Theme.StaticPlaylistFooter.LoadTextures();
-            _Theme.StaticPlaylistHeader.LoadTextures();
+            Text1.LoadTextures();
+            ButtonPlaylistClose.LoadTextures();
+            ButtonPlaylistDelete.LoadTextures();
+            ButtonPlaylistName.LoadTextures();
+            ButtonPlaylistSave.LoadTextures();
+            ButtonPlaylistSing.LoadTextures();
 
-            _Theme.SelectSlideGameMode.LoadTextures();
+            StaticCover.LoadTextures();
+            StaticPlaylistFooter.LoadTextures();
+            StaticPlaylistHeader.LoadTextures();
+
+            SelectSlideGameMode.LoadTextures();
+
+            _UpdateRect();
 
             Init();
         }
@@ -497,26 +470,26 @@ namespace VocaluxeLib.Menu
                 if (EditMode == EEditMode.PlaylistName)
                 {
                     if (keyEvent.KeyPressed && !Char.IsControl(keyEvent.Unicode))
-                        _Theme.ButtonPlaylistName.Text.Text = _Theme.ButtonPlaylistName.Text.Text + keyEvent.Unicode;
+                        ButtonPlaylistName.Text.Text = ButtonPlaylistName.Text.Text + keyEvent.Unicode;
                     else
                     {
                         switch (keyEvent.Key)
                         {
                             case Keys.Enter:
-                                CBase.Playlist.SetName(ActivePlaylistID, _Theme.ButtonPlaylistName.Text.Text);
+                                CBase.Playlist.SetName(ActivePlaylistID, ButtonPlaylistName.Text.Text);
                                 CBase.Playlist.Save(ActivePlaylistID);
                                 EditMode = EEditMode.None;
-                                _Theme.ButtonPlaylistName.EditMode = false;
+                                ButtonPlaylistName.EditMode = false;
                                 break;
                             case Keys.Escape:
-                                _Theme.ButtonPlaylistName.Text.Text = CBase.Playlist.GetName(ActivePlaylistID);
+                                ButtonPlaylistName.Text.Text = CBase.Playlist.GetName(ActivePlaylistID);
                                 EditMode = EEditMode.None;
-                                _Theme.ButtonPlaylistName.EditMode = false;
+                                ButtonPlaylistName.EditMode = false;
                                 break;
                             case Keys.Delete:
                             case Keys.Back:
-                                if (!String.IsNullOrEmpty(_Theme.ButtonPlaylistName.Text.Text))
-                                    _Theme.ButtonPlaylistName.Text.Text = _Theme.ButtonPlaylistName.Text.Text.Remove(_Theme.ButtonPlaylistName.Text.Text.Length - 1);
+                                if (!String.IsNullOrEmpty(ButtonPlaylistName.Text.Text))
+                                    ButtonPlaylistName.Text.Text = ButtonPlaylistName.Text.Text.Remove(ButtonPlaylistName.Text.Text.Length - 1);
                                 break;
                         }
                     }
@@ -749,38 +722,38 @@ namespace VocaluxeLib.Menu
                 switch (keyEvent.Key)
                 {
                     case Keys.Back:
-                        if (_Theme.ButtonPlaylistName.Selected)
+                        if (ButtonPlaylistName.Selected)
                         {
                             EditMode = EEditMode.PlaylistName;
-                            _Theme.ButtonPlaylistName.EditMode = true;
+                            ButtonPlaylistName.EditMode = true;
                         }
                         else
                             ClosePlaylist();
                         break;
 
                     case Keys.Enter:
-                        if (_Theme.ButtonPlaylistClose.Selected)
+                        if (ButtonPlaylistClose.Selected)
                             ClosePlaylist();
-                        else if (_Theme.ButtonPlaylistSing.Selected)
+                        else if (ButtonPlaylistSing.Selected)
                             _StartPlaylistSongs();
-                        else if (_Theme.ButtonPlaylistSave.Selected)
+                        else if (ButtonPlaylistSave.Selected)
                             CBase.Playlist.Save(ActivePlaylistID);
-                        else if (_Theme.ButtonPlaylistDelete.Selected)
+                        else if (ButtonPlaylistDelete.Selected)
                         {
                             CBase.Playlist.Delete(ActivePlaylistID);
                             ClosePlaylist();
                         }
-                        else if (_Theme.ButtonPlaylistName.Selected)
+                        else if (ButtonPlaylistName.Selected)
                         {
                             if (EditMode != EEditMode.PlaylistName)
                             {
                                 EditMode = EEditMode.PlaylistName;
-                                _Theme.ButtonPlaylistName.EditMode = true;
+                                ButtonPlaylistName.EditMode = true;
                             }
                             else
                             {
                                 EditMode = EEditMode.None;
-                                _Theme.ButtonPlaylistName.EditMode = false;
+                                ButtonPlaylistName.EditMode = false;
                             }
                         }
                         break;
@@ -910,31 +883,31 @@ namespace VocaluxeLib.Menu
                                     _PlaylistElementContents[CurrentPlaylistElement + Offset].Modes[_PlaylistElements[CurrentPlaylistElement].SelectSlide.Selection];
                                 UpdatePlaylist();
                             }
-                            if (_Theme.ButtonPlaylistClose.Selected)
+                            if (ButtonPlaylistClose.Selected)
                             {
                                 ClosePlaylist();
                                 return true;
                             }
-                            if (_Theme.ButtonPlaylistSing.Selected)
+                            if (ButtonPlaylistSing.Selected)
                             {
                                 _StartPlaylistSongs();
                                 return true;
                             }
-                            if (_Theme.ButtonPlaylistSave.Selected)
+                            if (ButtonPlaylistSave.Selected)
                             {
                                 CBase.Playlist.Save(ActivePlaylistID);
                                 return true;
                             }
-                            if (_Theme.ButtonPlaylistDelete.Selected)
+                            if (ButtonPlaylistDelete.Selected)
                             {
                                 CBase.Playlist.Delete(ActivePlaylistID);
                                 ClosePlaylist();
                                 return true;
                             }
-                            if (_Theme.ButtonPlaylistName.Selected)
+                            if (ButtonPlaylistName.Selected)
                             {
                                 EditMode = EEditMode.PlaylistName;
-                                _Theme.ButtonPlaylistName.EditMode = true;
+                                ButtonPlaylistName.EditMode = true;
                                 return true;
                             }
                         }
@@ -1022,13 +995,13 @@ namespace VocaluxeLib.Menu
                         break;
 
                     case EEditMode.PlaylistName:
-                        _Interactions.SetInteractionToButton(_Theme.ButtonPlaylistName);
+                        _Interactions.SetInteractionToButton(ButtonPlaylistName);
                         CurrentPlaylistElement = -1;
                         if (mouseEvent.LB)
                         {
-                            if (_Theme.ButtonPlaylistName.Selected)
+                            if (ButtonPlaylistName.Selected)
                             {
-                                CBase.Playlist.SetName(ActivePlaylistID, _Theme.ButtonPlaylistName.Text.Text);
+                                CBase.Playlist.SetName(ActivePlaylistID, ButtonPlaylistName.Text.Text);
                                 CBase.Playlist.Save(ActivePlaylistID);
                                 EditMode = EEditMode.None;
                                 return true;
@@ -1036,11 +1009,11 @@ namespace VocaluxeLib.Menu
                         }
                         else if (mouseEvent.RB)
                         {
-                            if (_Theme.ButtonPlaylistName.Selected)
+                            if (ButtonPlaylistName.Selected)
                             {
-                                _Theme.ButtonPlaylistName.Text.Text = CBase.Playlist.GetName(ActivePlaylistID);
+                                ButtonPlaylistName.Text.Text = CBase.Playlist.GetName(ActivePlaylistID);
                                 EditMode = EEditMode.None;
-                                _Theme.ButtonPlaylistName.EditMode = false;
+                                ButtonPlaylistName.EditMode = false;
                                 return true;
                             }
                         }
@@ -1104,17 +1077,17 @@ namespace VocaluxeLib.Menu
                     {
                         Background = new CStatic(_PartyModeID, _Theme.TextureBackgroundName, BackgroundColor,
                                                  new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z)),
-                        Cover = new CStatic(_Theme.StaticCover)
+                        Cover = new CStatic(StaticCover)
                     };
 
                 en.Cover.Rect.Y += Rect.Y + (i * _Theme.EntryHeight);
                 en.Cover.Rect.X += Rect.X;
 
-                en.Text1 = new CText(_Theme.Text1);
+                en.Text1 = new CText(Text1);
                 en.Text1.X += Rect.X;
                 en.Text1.Y += Rect.Y + (i * _Theme.EntryHeight);
 
-                en.SelectSlide = new CSelectSlide(_Theme.SelectSlideGameMode);
+                en.SelectSlide = new CSelectSlide(SelectSlideGameMode);
                 en.SelectSlide.Rect.X += Rect.X;
                 en.SelectSlide.Rect.Y += Rect.Y + (i * _Theme.EntryHeight);
                 en.SelectSlide.RectArrowLeft.X += Rect.X;
@@ -1137,7 +1110,7 @@ namespace VocaluxeLib.Menu
             if (!CBase.Playlist.Exists(playlistID))
                 return false;
             ActivePlaylistID = playlistID;
-            _Theme.ButtonPlaylistName.Text.Text = CBase.Playlist.GetName(ActivePlaylistID);
+            ButtonPlaylistName.Text.Text = CBase.Playlist.GetName(ActivePlaylistID);
             _PlaylistElementContents.Clear();
             for (int i = 0; i < CBase.Playlist.GetSongCount(ActivePlaylistID); i++)
             {
@@ -1215,7 +1188,7 @@ namespace VocaluxeLib.Menu
                         CPlaylistElementContent pec = _PlaylistElementContents[Offset + i];
                         CSong song = CBase.Songs.GetSongByID(pec.SongID);
                         _PlaylistElements[i].Cover.Texture = song.CoverTextureSmall;
-                        string t1 = CBase.Language.Translate(_Theme.Text1.Text).Replace("%a", song.Artist).Replace("%t", song.Title);
+                        string t1 = CBase.Language.Translate(Text1.Text).Replace("%a", song.Artist).Replace("%t", song.Title);
                         _PlaylistElements[i].Text1.Text = /*(Offset + i + 1) + ") " + */ t1; //TODO: Add text field for the number
                         _PlaylistElements[i].SelectSlide.Clear();
                         for (int g = 0; g < pec.Modes.Count; g++)
@@ -1235,6 +1208,62 @@ namespace VocaluxeLib.Menu
                     }
                 }
             }
+        }
+
+        public SThemePlaylist GetTheme()
+        {
+            return _Theme;
+        }
+
+        private void _UpdateRect()
+        {
+            //Check for highest x/y-coords
+            CompleteRect = Rect;
+            //ButtonPlaylistClose
+            if (ButtonPlaylistClose.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistClose.Rect.X;
+            if (ButtonPlaylistClose.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistClose.Rect.Y;
+            if (ButtonPlaylistClose.Rect.W + ButtonPlaylistClose.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistClose.Rect.W + ButtonPlaylistClose.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistClose.Rect.Y + ButtonPlaylistClose.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistClose.Rect.H + ButtonPlaylistClose.Rect.Y - CompleteRect.Y;
+            //ButtonPlaylistName
+            if (ButtonPlaylistName.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistName.Rect.X;
+            if (ButtonPlaylistName.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistName.Rect.Y;
+            if (ButtonPlaylistName.Rect.W + ButtonPlaylistName.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistName.Rect.W + ButtonPlaylistName.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistName.Rect.Y + ButtonPlaylistName.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistName.Rect.H + ButtonPlaylistName.Rect.Y - CompleteRect.Y;
+            //ButtonPlaylistSing
+            if (ButtonPlaylistSing.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistSing.Rect.X;
+            if (ButtonPlaylistSing.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistSing.Rect.Y;
+            if (ButtonPlaylistSing.Rect.W + ButtonPlaylistSing.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistSing.Rect.W + ButtonPlaylistSing.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistSing.Rect.Y + ButtonPlaylistSing.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistSing.Rect.H + ButtonPlaylistSing.Rect.Y - CompleteRect.Y;
+            //ButtonPlaylistSave
+            if (ButtonPlaylistSave.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistSave.Rect.X;
+            if (ButtonPlaylistSave.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistSave.Rect.Y;
+            if (ButtonPlaylistSave.Rect.W + ButtonPlaylistSave.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistSave.Rect.W + ButtonPlaylistSave.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistSave.Rect.Y + ButtonPlaylistSave.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistSave.Rect.H + ButtonPlaylistSave.Rect.Y - CompleteRect.Y;
+            //ButtonPlaylistDelete
+            if (ButtonPlaylistDelete.Rect.X < CompleteRect.X)
+                CompleteRect.X = ButtonPlaylistDelete.Rect.X;
+            if (ButtonPlaylistDelete.Rect.Y < CompleteRect.Y)
+                CompleteRect.Y = ButtonPlaylistDelete.Rect.Y;
+            if (ButtonPlaylistDelete.Rect.W + ButtonPlaylistDelete.Rect.X > CompleteRect.W + CompleteRect.X)
+                CompleteRect.W = ButtonPlaylistDelete.Rect.W + ButtonPlaylistDelete.Rect.X - CompleteRect.X;
+            if (ButtonPlaylistDelete.Rect.Y + ButtonPlaylistDelete.Rect.H > CompleteRect.Y + CompleteRect.H)
+                CompleteRect.H = ButtonPlaylistDelete.Rect.H + ButtonPlaylistDelete.Rect.Y - CompleteRect.Y;
         }
 
         #region ThemeEdit

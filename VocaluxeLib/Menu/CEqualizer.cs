@@ -17,26 +17,42 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 
 namespace VocaluxeLib.Menu
 {
-    enum EEqualizerStyle
+    public enum EEqualizerStyle
     {
         Columns
     }
 
-    struct SThemeEqualizer
+    [XmlType("Equalizer")]
+    public struct SThemeEqualizer
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
-        public string ColorName;
-        public string MaxColorName;
+        [XmlElement("Skin")]
         public string TextureName;
 
-        public int NumBars;
+        [XmlElement("Rect")]
+        public SRectF Rect;
 
+        [XmlElement("NumBars")]
+        public int NumBars;
+        [XmlElement("Space")]
+        public float Space;
+        [XmlElement("Style")]
         public EEqualizerStyle Style;
+        [XmlElement("DrawNegative")]
         public EOffOn DrawNegative;
+
+        [XmlElement("Color")]
+        public SThemeColor Color;
+        [XmlElement("MaxColor")]
+        public SThemeColor MaxColor;
+        [XmlElement("Reflection")]
+        public SReflection Reflection;
     }
 
     public class CEqualizer : IMenuElement
@@ -63,6 +79,11 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
+        }
+
         private float[] _Bars;
         private int _MaxBar;
         private float _MaxVolume;
@@ -86,6 +107,17 @@ namespace VocaluxeLib.Menu
             ReflectionHeight = 0f;
         }
 
+        public CEqualizer(SThemeEqualizer theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = theme;
+
+            Visible = true;
+            ScreenHandles = false;
+
+            LoadTextures();
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             string item = xmlPath + "/" + elementName;
@@ -107,8 +139,8 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/DrawNegative", ref _Theme.DrawNegative);
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -117,8 +149,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/MaxColor", out _Theme.MaxColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/MaxColor", out _Theme.MaxColor.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.MaxColor.Name, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/MaxR", ref MaxColor.R);
@@ -133,84 +165,26 @@ namespace VocaluxeLib.Menu
                 Reflection = true;
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
+
+                _Theme.Reflection = new SReflection(true, ReflectionHeight, ReflectionSpace);
             }
             else
+            {
                 Reflection = false;
+                _Theme.Reflection = new SReflection(false, 0f, 0f);
+            }
 
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                _Bars = new float[_Theme.NumBars];
-                for (int i = 0; i < _Bars.Length; i++)
-                    _Bars[i] = 0f;
+                _Theme.Space = Space;
+                _Theme.Color.Color = new SColorF(Color);
+                _Theme.MaxColor.Color = new SColorF(MaxColor);
+                _Theme.Rect = Rect;
+
                 LoadTextures();
             }
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Skin>: Texture name");
-                writer.WriteElementString("Skin", _Theme.TextureName);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: Equalizer position, width and height");
-                writer.WriteElementString("X", Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", Rect.W.ToString("#0"));
-                writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-                writer.WriteComment("<NumBars>: Number of equalizer-elements.");
-                writer.WriteElementString("NumBars", _Theme.NumBars.ToString("#0"));
-                writer.WriteComment("<Space>: Space between equalizer-elements.");
-                writer.WriteElementString("Space", Space.ToString("#0.00"));
-                writer.WriteComment("<Style>: Style of equalizer-elements: " + CHelper.ListStrings(Enum.GetNames(typeof(EEqualizerStyle))));
-                writer.WriteElementString("Style", Enum.GetName(typeof(EEqualizerStyle), _Theme.Style));
-                writer.WriteComment("<DrawNegative>: Draw negative values: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("DrawNegative", Enum.GetName(typeof(EOffOn), _Theme.DrawNegative));
-
-                writer.WriteComment("<Color>: Equalizer color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
-                else
-                {
-                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                }
-                writer.WriteComment("<MaxColor>: Equalizer color for maximal volume from ColorScheme (high priority)");
-                writer.WriteComment("or <MaxR>, <MaxG>, <MaxB>, <MaxA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("MaxColor", _Theme.ColorName);
-                else
-                {
-                    writer.WriteElementString("MaxR", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("MaxG", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("MaxB", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("MaxA", Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<Reflection> If exists:");
-                writer.WriteComment("   <Space>: Reflection Space");
-                writer.WriteComment("   <Height>: Reflection Height");
-                if (Reflection)
-                {
-                    writer.WriteStartElement("Reflection");
-                    writer.WriteElementString("Space", ReflectionSpace.ToString("#0"));
-                    writer.WriteElementString("Height", ReflectionHeight.ToString("#0"));
-                    writer.WriteEndElement();
-                }
-
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
         }
 
         public void Update(float[] weights, float volume)
@@ -286,11 +260,28 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                Color = _Theme.Color.Color;
 
-            if (!String.IsNullOrEmpty(_Theme.MaxColorName))
-                MaxColor = CBase.Theme.GetColor(_Theme.MaxColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.MaxColor.Name))
+                MaxColor = CBase.Theme.GetColor(_Theme.MaxColor.Name, _PartyModeID);
+            else
+                MaxColor = _Theme.MaxColor.Color;
+
+            Rect = _Theme.Rect;
+            Space = _Theme.Space;
+            Reflection = _Theme.Reflection.Enabled;
+            if(Reflection)
+            {
+                ReflectionHeight = _Theme.Reflection.Height;
+                ReflectionSpace = _Theme.Reflection.Space;
+            }
+
+            _Bars = new float[_Theme.NumBars];
+            for (int i = 0; i < _Bars.Length; i++)
+                _Bars[i] = 0f;
         }
 
         public void ReloadTextures()
@@ -299,11 +290,19 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
+        public SThemeEqualizer GetTheme()
+        {
+            return _Theme;
+        }
+
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
             Rect.X += stepX;
             Rect.Y += stepY;
+
+            _Theme.Rect.X += stepX;
+            _Theme.Rect.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -312,9 +311,13 @@ namespace VocaluxeLib.Menu
             if (Rect.W <= 0)
                 Rect.W = 1;
 
+            _Theme.Rect.W = Rect.W;
+
             Rect.H += stepH;
             if (Rect.H <= 0)
                 Rect.H = 1;
+
+            _Theme.Rect.H = Rect.H;
         }
         #endregion ThemeEdit
     }

@@ -302,6 +302,11 @@ namespace VocaluxeLib
                 filename = Path.Combine(path, filename);
             return filename + ext;
         }
+
+        public static int Sum(int n)
+        {
+            return (n * n + n) / 2;
+        }
     }
 
     static class CEncoding

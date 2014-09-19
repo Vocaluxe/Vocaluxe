@@ -457,7 +457,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         public override void LeavingHighscore()
         {
-            for (int i = 0; i < CBase.Game.GetNumSongs();i++ )
+            for (int i = 0; i < CBase.Game.GetNumSongs(); i++)
                 CBase.Songs.AddPartySongSung(CBase.Game.GetSong(i).ID);
             _GameData.CurrentRoundNr++;
             CBase.Graphics.FadeTo(EScreens.ScreenPartyDummy);
@@ -587,12 +587,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private void _SetTeamNames()
         {
             CProfile[] profiles = CBase.Profiles.GetProfiles();
-
-            if (profiles == null)
-            {
-                _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
-                return;
-            }
 
             if (_GameData.NumPlayerAtOnce < 1 || _GameData.ProfileIDs.Count < _GameData.NumPlayerAtOnce || profiles.Length < _GameData.NumPlayerAtOnce)
             {

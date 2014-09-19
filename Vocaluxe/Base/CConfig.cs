@@ -91,6 +91,7 @@ namespace Vocaluxe.Base
         public static EFadePlayerInfo FadePlayerInfo = EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF;
         public static ECoverLoading CoverLoading = ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC;
         public static ELyricStyle LyricStyle = ELyricStyle.Slide;
+        public static bool LoadOldThemeFiles = false;
 
         // Sound
         public static EPlaybackLib PlayBackLib = EPlaybackLib.GstreamerSharp;
@@ -831,6 +832,11 @@ namespace Vocaluxe.Base
                         ProfileFolders.Clear();
                         ProfileFolders.Add(value);
                         break;
+
+                    case "oldtheme":
+                        if(value == "yes")
+                            LoadOldThemeFiles = true;
+                        break;
                 }
             }
         }
@@ -888,7 +894,7 @@ namespace Vocaluxe.Base
             for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
                 CGame.Players[j].ProfileID = -1;
-                if (Players[j] == "" || profiles == null)
+                if (Players[j] == "")
                     continue;
 
                 foreach (CProfile profile in profiles)

@@ -29,7 +29,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenSong : CMenu
+    public class CScreenSong : CMenu
     {
         private enum ESongOptionsView
         {
