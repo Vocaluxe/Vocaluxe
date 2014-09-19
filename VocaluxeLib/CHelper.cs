@@ -152,6 +152,30 @@ namespace VocaluxeLib
                         scaledWidth = boundsH * rectAspect;
                     }
                     break;
+                case EAspect.Zoom1:
+                    if (boundsAspect >= rectAspect)
+                    {
+                        scaledWidth = boundsW * 1.33f;
+                        scaledHeight = boundsW * 1.33f / rectAspect;
+                    }
+                    else
+                    {
+                        scaledHeight = boundsH / 1.33f;
+                        scaledWidth = boundsH / 1.33f * rectAspect;
+                    }
+                    break;
+                case EAspect.Zoom2:
+                    if (boundsAspect >= rectAspect)
+                    {
+                        scaledWidth = boundsW * 1.17f;
+                        scaledHeight = boundsW * 1.17f / rectAspect;
+                    }
+                    else
+                    {
+                        scaledHeight = boundsH / 1.17f;
+                        scaledWidth = boundsH / 1.17f * rectAspect;
+                    }
+                    break;
                 case EAspect.LetterBox:
                     if (boundsAspect <= rectAspect)
                     {

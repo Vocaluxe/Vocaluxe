@@ -271,6 +271,19 @@ namespace Vocaluxe.Screens
                             CSound.SetGlobalVolume(CConfig.GameMusicVolume);
                         }
                         break;
+
+                    case Keys.V:
+                        if (_VideoAspect == EAspect.Zoom2)
+                            _VideoAspect = 0;
+                        else
+                            _VideoAspect++;
+
+                        CSong song = CGame.GetSong();
+                        song.VideoAspect = _VideoAspect;
+
+                        if (CConfig.SaveModifiedSongs == EOffOn.TR_CONFIG_ON)
+                            song.Save();
+                        break;
                 }
             }
 
