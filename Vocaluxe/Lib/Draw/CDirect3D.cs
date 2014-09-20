@@ -42,9 +42,10 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class CD3DTexture:CTextureBase,IDisposable
+    class CD3DTexture : CTextureBase, IDisposable
     {
         public readonly Texture D3DTexture;
+
         public CD3DTexture(Device device, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, texWidth, texHeight)
         {
             D3DTexture = new Texture(device, W2, H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
@@ -52,7 +53,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void Dispose()
         {
-            if(D3DTexture.Disposed)
+            if (D3DTexture.Disposed)
                 throw new ObjectDisposedException(GetType().Name);
             D3DTexture.Dispose();
             RefCount = 0;
@@ -482,7 +483,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CTextureRef CopyScreen()
         {
-            var tex = _CreateTexture(new Size(_W, _H));
+            CD3DTexture tex = _CreateTexture(new Size(_W, _H));
             Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
             Surface textureSurface = tex.D3DTexture.GetSurfaceLevel(0);
             Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0, new Rectangle(0, 0, _W, _H), new Rectangle(0, 0, _W, _H));
@@ -630,7 +631,7 @@ namespace Vocaluxe.Lib.Draw
                     return false; // Texture memory to big
                 texture.DataSize = new Size(w, h);
             }
-                _WriteDataToTexture(texture.D3DTexture, w, data);
+            _WriteDataToTexture(texture.D3DTexture, w, data);
             return true;
         }
 

@@ -396,33 +396,17 @@ namespace Vocaluxe.Lib.Draw
             return true;
         }
 
-        /// <summary>
-        ///     Checks if a texture exists
-        /// </summary>
-        /// <param name="texture">The texture to check</param>
-        /// <returns>True if the texture exists</returns>
-        protected bool _TextureExists(CTextureRef texture)
-        {
-                TTextureType t;
-            return _GetTexture(texture, out t);
-        }
-
-        protected TTextureType _GetTexture(CTextureRef textureRef)
-        {
-            if (textureRef == null)
-                return null;
-            TTextureType texture;
-            lock (_Textures)
-            {
-                _Textures.TryGetValue(textureRef.ID, out texture);
-            }
-            return texture;
-        }
-
         protected bool _GetTexture(CTextureRef textureRef, out TTextureType texture)
         {
-            texture = _GetTexture(textureRef);
-            return texture != null;
+            if (textureRef == null)
+            {
+                texture = null;
+                return false;
+            }
+            lock (_Textures)
+            {
+                return _Textures.TryGetValue(textureRef.ID, out texture) && texture!=null;
+            }
         }
 
         /// <summary>

@@ -21,7 +21,6 @@ using OpenTK.Graphics;
 using System;
 using System.Drawing;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
@@ -29,9 +28,6 @@ using VocaluxeLib.Draw;
 using BeginMode = OpenTK.Graphics.OpenGL.BeginMode;
 using BlendingFactorDest = OpenTK.Graphics.OpenGL.BlendingFactorDest;
 using BlendingFactorSrc = OpenTK.Graphics.OpenGL.BlendingFactorSrc;
-using BufferAccess = OpenTK.Graphics.OpenGL.BufferAccess;
-using BufferTarget = OpenTK.Graphics.OpenGL.BufferTarget;
-using BufferUsageHint = OpenTK.Graphics.OpenGL.BufferUsageHint;
 using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
 using DepthFunction = OpenTK.Graphics.OpenGL.DepthFunction;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
@@ -60,15 +56,14 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class COGLTexture : CTextureBase,IDisposable
+    class COGLTexture : CTextureBase, IDisposable
     {
-        public int PBO;
         //The texture "name" according to the specs
         public readonly int Name;
 
         private bool _IsDisposed;
 
-        public COGLTexture( int name, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, texWidth, texHeight)
+        public COGLTexture(int name, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, texWidth, texHeight)
         {
             Name = name;
         }
@@ -79,8 +74,6 @@ namespace Vocaluxe.Lib.Draw
                 throw new ObjectDisposedException(GetType().Name);
             _IsDisposed = true;
             GL.DeleteTexture(Name);
-            if (PBO > 0)
-                GL.DeleteBuffers(1, ref PBO);
             RefCount = 0;
         }
     }
@@ -89,7 +82,6 @@ namespace Vocaluxe.Lib.Draw
     {
         #region private vars
         private readonly GLControl _Control;
-        private bool _UsePBO;
         #endregion private vars
 
         public COpenGL()
@@ -284,7 +276,7 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-            GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, size.Width,size.Height);//TODO: Use _X,_Y and _W,_H?
+            GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, size.Width, size.Height); //TODO: Use _X,_Y and _W,_H?
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
@@ -426,7 +418,6 @@ namespace Vocaluxe.Lib.Draw
 
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
-            GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.DataSize.Width, texture.DataSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
@@ -443,22 +434,6 @@ namespace Vocaluxe.Lib.Draw
         protected override COGLTexture _CreateTexture(Size dataSize, byte[] data)
         {
             COGLTexture texture = _CreateTexture(dataSize);
-
-            if (_UsePBO)
-            {
-                try
-                {
-                    GL.GenBuffers(1, out texture.PBO);
-                    GL.BindBuffer(BufferTarget.PixelUnpackBuffer, texture.PBO);
-                    GL.BufferData(BufferTarget.PixelUnpackBuffer, (IntPtr)data.Length, IntPtr.Zero, BufferUsageHint.StreamDraw);
-                    GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
-                }
-                catch (Exception e)
-                {
-                    CLog.LogError("PBO creation failed. Using fallback solution.", false, false, e);
-                    _UsePBO = false;
-                }
-            }
 
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
@@ -480,7 +455,7 @@ namespace Vocaluxe.Lib.Draw
         public override bool UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
         {
             COGLTexture texture;
-            if (_GetTexture(textureRef,out texture))
+            if (_GetTexture(textureRef, out texture))
                 return false;
             if (texture.DataSize.Width != w || texture.DataSize.Height != h)
             {
@@ -489,27 +464,6 @@ namespace Vocaluxe.Lib.Draw
                 if (texture.W2 * 0.9 < w || texture.H2 * 0.9 < h)
                     return false; // Texture memory to big
                 texture.DataSize = new Size(w, h);
-            }
-
-            if (_UsePBO)
-            {
-                GL.BindBuffer(BufferTarget.PixelUnpackBuffer, texture.PBO);
-
-                IntPtr buffer = GL.MapBuffer(BufferTarget.PixelUnpackBuffer, BufferAccess.WriteOnly);
-                Marshal.Copy(data, 0, buffer, data.Length);
-
-                GL.UnmapBuffer(BufferTarget.PixelUnpackBuffer);
-
-                GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-                GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-
-                GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
-                GL.BindTexture(TextureTarget.Texture2D, 0);
-                GL.BindBuffer(BufferTarget.PixelUnpackBuffer, 0);
-
-                return true;
             }
 
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
