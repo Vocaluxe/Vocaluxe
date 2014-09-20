@@ -173,7 +173,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="dataSize"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected TTextureType _CreateTexture(Size dataSize, byte[] data)
+        private TTextureType _CreateAndFillTexture(Size dataSize, byte[] data)
         {
             TTextureType texture = _CreateTexture(dataSize);
             _WriteDataToTexture(texture, data);
@@ -187,7 +187,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="dataSize"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected TTextureType _CreateTexture(Size dataSize, IntPtr data)
+        private TTextureType _CreateAndFillTexture(Size dataSize, IntPtr data)
         {
             TTextureType texture = _CreateTexture(dataSize);
             _WriteDataToTexture(texture, data);
@@ -326,7 +326,7 @@ namespace Vocaluxe.Lib.Draw
 
                 //Fill the new Bitmap with the texture data
                 BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                texture = _CreateTexture(new Size(w, h), bmpData.Scan0);
+                texture = _CreateAndFillTexture(new Size(w, h), bmpData.Scan0);
                 bmp.UnlockBits(bmpData);
             }
             finally
@@ -341,7 +341,7 @@ namespace Vocaluxe.Lib.Draw
 
         public CTextureRef AddTexture(int w, int h, byte[] data)
         {
-            TTextureType texture = _CreateTexture(new Size(w, h), data);
+            TTextureType texture = _CreateAndFillTexture(new Size(w, h), data);
             return _GetTextureReference(w, h, texture);
         }
 
@@ -398,21 +398,37 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Updates the data of a texture
         /// </summary>
-        /// <param name="texture">The texture to update</param>
+        /// <param name="textureRef">The texture to update</param>
         /// <param name="w"></param>
         /// <param name="h"></param>
         /// <param name="data">A byte array containing the new texture's data</param>
         /// <returns>True if succeeded</returns>
-        public abstract bool UpdateTexture(CTextureRef texture, int w, int h, byte[] data);
-
-        public bool UpdateOrAddTexture(ref CTextureRef texture, int w, int h, byte[] data)
+        public void UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
         {
-            if (!UpdateTexture(texture, w, h, data))
+            TTextureType texture;
+            if (_GetTexture(textureRef, out texture))
+                return;
+            bool reuseTexture = true;
+            if (texture.DataSize.Width != w || texture.DataSize.Height != h)
             {
-                RemoveTexture(ref texture);
-                texture = AddTexture(w, h, data);
+                if (texture.W2 > w || texture.H2 > h)
+                    reuseTexture = false; // Texture memory to small
+                else if (texture.W2 * 0.9 < w || texture.H2 * 0.9 < h)
+                    reuseTexture = false; // Texture memory to big
+                else
+                    texture.DataSize = new Size(w, h);
             }
-            return true;
+            if (!reuseTexture)
+            {
+                _DisposeTexture(texture);
+                texture = _CreateAndFillTexture(new Size(w, h), data);
+                lock (_Textures)
+                {
+                    _Textures[textureRef.ID] = texture;
+                }
+            }
+            else
+                _WriteDataToTexture(texture, data);
         }
 
         protected bool _GetTexture(CTextureRef textureRef, out TTextureType texture)
@@ -429,30 +445,39 @@ namespace Vocaluxe.Lib.Draw
         }
 
         /// <summary>
+        ///     Decreases the RefCount of a texture and disposes it if necessary
+        /// </summary>
+        /// <param name="texture"></param>
+        private void _DisposeTexture(TTextureType texture)
+        {
+            if (texture != null && --texture.RefCount <= 0)
+            {
+                if (texture.TexturePath != null)
+                    _TextureCache.Remove(texture.TexturePath);
+                texture.Dispose();
+                _TextureCount--;
+            }
+        }
+
+        /// <summary>
         ///     Removes a texture from the Vram
         /// </summary>
-        /// <param name="texture">The texture to be removed</param>
-        public void RemoveTexture(ref CTextureRef texture)
+        /// <param name="textureRef">The texture to be removed</param>
+        public void RemoveTexture(ref CTextureRef textureRef)
         {
-            if (texture == null)
+            if (textureRef == null)
                 return;
             lock (_Textures)
             {
                 TTextureType t;
-                if (_Textures.TryGetValue(texture.ID, out t))
+                if (_Textures.TryGetValue(textureRef.ID, out t))
                 {
-                    if (t != null && --t.RefCount <= 0)
-                    {
-                        if (t.TexturePath != null)
-                            _TextureCache.Remove(t.TexturePath);
-                        t.Dispose();
-                        _TextureCount--;
-                    }
-                    _Textures.Remove(texture.ID);
+                    _DisposeTexture(t);
+                    _Textures.Remove(textureRef.ID);
                 }
-                texture.ID = -1;
+                textureRef.ID = -1;
             }
-            texture = null;
+            textureRef = null;
         }
 
         private void _CheckQueue()
@@ -465,7 +490,7 @@ namespace Vocaluxe.Lib.Draw
                     if (!_Textures.ContainsKey(q.TextureID))
                         continue;
 
-                    TTextureType texture = _CreateTexture(q.DataSize, q.Data);
+                    TTextureType texture = _CreateAndFillTexture(q.DataSize, q.Data);
                     texture.RefCount = 1; //Currently no more than 1 reference to queued textures is possible
                     _Textures[q.TextureID] = texture;
                 }
@@ -566,7 +591,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        protected void _ToggleFullScreen()
+        private void _ToggleFullScreen()
         {
             if (!_Fullscreen)
                 _EnterFullScreen();

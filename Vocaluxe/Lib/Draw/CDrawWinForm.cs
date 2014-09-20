@@ -343,7 +343,7 @@ namespace Vocaluxe.Lib.Draw
                 using (var bmp = new Bitmap(texturePath))
                 {
                     texture = AddTexture(bmp);
-                    _TextureCache.Add(texturePath,texture);
+                    _TextureCache.Add(texturePath, texture);
                 }
                 return texture;
             }
@@ -382,7 +382,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public bool UpdateTexture(CTextureRef texture, int w, int h, byte[] data)
+        public void UpdateTexture(CTextureRef texture, int w, int h, byte[] data)
         {
             if (_TextureExists(texture))
             {
@@ -390,19 +390,7 @@ namespace Vocaluxe.Lib.Draw
                                                                    ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
                 _Bitmaps[texture.ID].UnlockBits(bmpData);
-                return true;
             }
-            return false;
-        }
-
-        public bool UpdateOrAddTexture(ref CTextureRef texture, int w, int h, byte[] data)
-        {
-            if (!UpdateTexture(texture, w, h, data))
-            {
-                RemoveTexture(ref texture);
-                texture = AddTexture(w, h, data);
-            }
-            return true;
         }
 
         public void DrawTexture(CTextureRef texture)

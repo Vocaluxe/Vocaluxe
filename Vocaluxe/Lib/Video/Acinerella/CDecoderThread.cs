@@ -206,7 +206,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 CFramebuffer.CFrame curFrame = _FindFrame(time);
                 if (curFrame != null)
                 {
-                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, curFrame.Data);
+                    if (frame == null)
+                        frame = CDraw.AddTexture(_Width, _Height, curFrame.Data);
+                    else
+                        CDraw.UpdateTexture(frame, _Width, _Height, curFrame.Data);
                     if (!_Paused)
                         curFrame.SetRead();
                     time = curFrame.Time;

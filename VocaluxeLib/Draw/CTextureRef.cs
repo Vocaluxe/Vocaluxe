@@ -56,6 +56,14 @@ namespace VocaluxeLib.Draw
             Rect = new SRectF(0f, 0f, origSize.Width, origSize.Height, 0f);
         }
 
+        public void CopyFieldsFrom(CTextureRef other)
+        {
+            ID = other.ID;
+            OrigSize = other.OrigSize;
+            Rect = other.Rect;
+            Color = other.Color;
+        }
+
         ~CTextureRef()
         {
             if (ID >= 0)

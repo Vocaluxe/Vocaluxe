@@ -207,7 +207,10 @@ namespace Vocaluxe.Lib.Webcam
             {
                 if (_Data != null && _Data.Length == _Width * _Height * 4 && _NewFrameAvailable)
                 {
-                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, _Data);
+                    if (frame == null)
+                        frame = CDraw.AddTexture(_Width, _Height, _Data);
+                    else
+                        CDraw.UpdateTexture(frame, _Width, _Height, _Data);
                     _NewFrameAvailable = false;
                     return true;
                 }

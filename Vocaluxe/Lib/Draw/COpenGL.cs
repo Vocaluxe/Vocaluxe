@@ -434,25 +434,6 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public override bool UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
-        {
-            COGLTexture texture;
-            if (_GetTexture(textureRef, out texture))
-                return false;
-            if (texture.DataSize.Width != w || texture.DataSize.Height != h)
-            {
-                if (texture.W2 > w || texture.H2 > h)
-                    return false; // Texture memory to small
-                if (texture.W2 * 0.9 < w || texture.H2 * 0.9 < h)
-                    return false; // Texture memory to big
-                texture.DataSize = new Size(w, h);
-            }
-
-            _WriteDataToTexture(texture, data);
-
-            return true;
-        }
-
         #region drawing
         public override void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
         {

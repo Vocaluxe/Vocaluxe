@@ -41,8 +41,7 @@ namespace Vocaluxe.Lib.Draw
         CTextureRef AddTexture(Bitmap bitmap);
         CTextureRef AddTexture(int w, int h, byte[] data);
         CTextureRef EnqueueTexture(int w, int h, byte[] data);
-        bool UpdateTexture(CTextureRef texture, int w, int h, byte[] data);
-        bool UpdateOrAddTexture(ref CTextureRef texture, int w, int h, byte[] data);
+        void UpdateTexture(CTextureRef texture, int w, int h, byte[] data);
         void RemoveTexture(ref CTextureRef texture);
 
         // Basic Draw Methods
