@@ -15,11 +15,12 @@ namespace Vocaluxe.Lib.Draw
 {
     abstract class CDrawBase<TTextureType> where TTextureType : CTextureBase, IDisposable
     {
-        struct STextureQueue
+        private struct STextureQueue
         {
             public readonly int TextureID;
             public readonly Size DataSize;
             public readonly byte[] Data;
+
             public STextureQueue(int textureID, Size dataSize, byte[] data)
             {
                 TextureID = textureID;
@@ -28,7 +29,7 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        struct STextureCacheEntry
+        private struct STextureCacheEntry
         {
             public TTextureType Texture;
             /// <summary>
@@ -85,9 +86,8 @@ namespace Vocaluxe.Lib.Draw
                 //Dispose all textures
                 foreach (TTextureType texture in _Textures.Values)
                 {
-                    if (texture != null && --texture.RefCount<=0)
+                    if (texture != null && --texture.RefCount <= 0)
                         texture.Dispose();
-
                 }
                 _Textures.Clear();
                 _TextureCache.Clear();
@@ -151,13 +151,34 @@ namespace Vocaluxe.Lib.Draw
         }
 
         #region Textures
+        protected abstract void _WriteDataToTexture(TTextureType texture, byte[] data);
+
+        protected virtual void _WriteDataToTexture(TTextureType texture, IntPtr data)
+        {
+            byte[] dataArray = new byte[4 * texture.DataSize.Width * texture.DataSize.Height];
+            Marshal.Copy(data, dataArray, 0, dataArray.Length);
+            _WriteDataToTexture(texture, dataArray);
+        }
+
+        /// <summary>
+        ///     Factory method to create a texture of the actual type
+        /// </summary>
+        /// <param name="dataSize"></param>
+        /// <returns></returns>
+        protected abstract TTextureType _CreateTexture(Size dataSize);
+
         /// <summary>
         ///     Creates the texture specified by the reference and fills it with the given data
         /// </summary>
         /// <param name="dataSize"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected abstract TTextureType _CreateTexture(Size dataSize, byte[] data);
+        protected TTextureType _CreateTexture(Size dataSize, byte[] data)
+        {
+            TTextureType texture = _CreateTexture(dataSize);
+            _WriteDataToTexture(texture, data);
+            return texture;
+        }
 
         /// <summary>
         ///     Creates the texture specified by the reference and fills it with the given data<br />
@@ -166,11 +187,11 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="dataSize"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        protected virtual TTextureType _CreateTexture(Size dataSize, IntPtr data)
+        protected TTextureType _CreateTexture(Size dataSize, IntPtr data)
         {
-            byte[] dataArray = new byte[4 * dataSize.Width * dataSize.Height];
-            Marshal.Copy(data, dataArray, 0, dataArray.Length);
-            return _CreateTexture(dataSize, dataArray);
+            TTextureType texture = _CreateTexture(dataSize);
+            _WriteDataToTexture(texture, data);
+            return texture;
         }
 
         private void _AddToCache(TTextureType texture, Size origSize, string texturePath)
@@ -178,7 +199,7 @@ namespace Vocaluxe.Lib.Draw
             if (texture != null && !String.IsNullOrEmpty(texturePath))
             {
                 texture.TexturePath = texturePath;
-                STextureCacheEntry cacheEntry=new STextureCacheEntry {OrigSize = origSize, Texture = texture};
+                STextureCacheEntry cacheEntry = new STextureCacheEntry {OrigSize = origSize, Texture = texture};
                 lock (_Textures)
                 {
                     _TextureCache[texturePath] = cacheEntry;
@@ -196,9 +217,7 @@ namespace Vocaluxe.Lib.Draw
                     if (cacheEntry.Texture.RefCount <= 0)
                         _TextureCache.Remove(texturePath);
                     else
-                    {
                         return _GetTextureReference(cacheEntry.OrigSize, cacheEntry.Texture);
-                    }
                 }
             }
             return null;
@@ -280,7 +299,7 @@ namespace Vocaluxe.Lib.Draw
                     break;
             }
 
-            Size origSize=new Size(bmp.Width, bmp.Height);
+            Size origSize = new Size(bmp.Width, bmp.Height);
 
             Bitmap bmp2 = null;
             TTextureType texture;
@@ -307,7 +326,7 @@ namespace Vocaluxe.Lib.Draw
 
                 //Fill the new Bitmap with the texture data
                 BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                texture=_CreateTexture(new Size(w,h), bmpData.Scan0);
+                texture = _CreateTexture(new Size(w, h), bmpData.Scan0);
                 bmp.UnlockBits(bmpData);
             }
             finally
@@ -317,25 +336,25 @@ namespace Vocaluxe.Lib.Draw
             }
 
             _AddToCache(texture, origSize, texturePath);
-            return _GetTextureReference(origSize,texture);
+            return _GetTextureReference(origSize, texture);
         }
 
         public CTextureRef AddTexture(int w, int h, byte[] data)
         {
             TTextureType texture = _CreateTexture(new Size(w, h), data);
-            return _GetTextureReference(w,h, texture);
+            return _GetTextureReference(w, h, texture);
         }
 
         /// <summary>
-        /// Method used to add a texture to the texture list and return a TextureRef to it<br/>
-        /// Important: This should be the only function to ever write to _Textures
+        ///     Method used to add a texture to the texture list and return a TextureRef to it<br />
+        ///     Important: This should be the only function to ever write to _Textures
         /// </summary>
         /// <param name="origSize"></param>
         /// <param name="texture"></param>
         /// <returns></returns>
         protected CTextureRef _GetTextureReference(Size origSize, TTextureType texture)
         {
-            Debug.Assert(origSize.Width>0 &&  origSize.Height>0);
+            Debug.Assert(origSize.Width > 0 && origSize.Height > 0);
             int id;
             lock (_MutexID)
             {
@@ -344,7 +363,7 @@ namespace Vocaluxe.Lib.Draw
             CTextureRef textureRef = new CTextureRef(id, origSize);
             if (texture != null)
                 texture.RefCount++;
-            if(texture==null || texture.RefCount==1)
+            if (texture == null || texture.RefCount == 1)
                 _TextureCount++;
             lock (_Textures)
             {
@@ -354,8 +373,8 @@ namespace Vocaluxe.Lib.Draw
         }
 
         /// <summary>
-        /// Method used to add a texture to the texture list and return a TextureRef to it<br/>
-        /// Convenience method
+        ///     Method used to add a texture to the texture list and return a TextureRef to it<br />
+        ///     Convenience method
         /// </summary>
         /// <param name="origWidth"></param>
         /// <param name="origHeight"></param>
@@ -371,7 +390,7 @@ namespace Vocaluxe.Lib.Draw
             lock (_Textures)
             {
                 CTextureRef textureRef = _GetTextureReference(w, h, null);
-                _TexturesToLoad.Enqueue(new STextureQueue(textureRef.ID, new Size(w,h),data));
+                _TexturesToLoad.Enqueue(new STextureQueue(textureRef.ID, new Size(w, h), data));
                 return textureRef;
             }
         }
@@ -405,7 +424,7 @@ namespace Vocaluxe.Lib.Draw
             }
             lock (_Textures)
             {
-                return _Textures.TryGetValue(textureRef.ID, out texture) && texture!=null;
+                return _Textures.TryGetValue(textureRef.ID, out texture) && texture != null;
             }
         }
 
@@ -419,17 +438,18 @@ namespace Vocaluxe.Lib.Draw
                 return;
             lock (_Textures)
             {
-                    TTextureType t;
-                    if (_Textures.TryGetValue(texture.ID, out t))
+                TTextureType t;
+                if (_Textures.TryGetValue(texture.ID, out t))
+                {
+                    if (t != null && --t.RefCount <= 0)
                     {
-                        if (t != null && --t.RefCount <= 0)
-                        {
-                            if(t.TexturePath!=null) _TextureCache.Remove(t.TexturePath);
-                            t.Dispose();
-                            _TextureCount--;
-                        }
-                        _Textures.Remove(texture.ID);
+                        if (t.TexturePath != null)
+                            _TextureCache.Remove(t.TexturePath);
+                        t.Dispose();
+                        _TextureCount--;
                     }
+                    _Textures.Remove(texture.ID);
+                }
                 texture.ID = -1;
             }
             texture = null;
@@ -456,6 +476,31 @@ namespace Vocaluxe.Lib.Draw
         {
             return _TextureCount;
         }
+
+        /// <summary>
+        ///     Draws a texture
+        /// </summary>
+        /// <param name="texture">The texture to be drawn</param>
+        public void DrawTexture(CTextureRef texture)
+        {
+            if (texture == null)
+                return;
+            DrawTexture(texture, texture.Rect, texture.Color);
+        }
+
+        /// <summary>
+        ///     Draws a texture
+        /// </summary>
+        /// <param name="texture">The texture to be drawn</param>
+        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
+        public void DrawTexture(CTextureRef texture, SRectF rect)
+        {
+            if (texture == null)
+                return;
+            DrawTexture(texture, rect, texture.Color);
+        }
+
+        public abstract void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false);
         #endregion
 
         /// <summary>

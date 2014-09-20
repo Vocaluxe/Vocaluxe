@@ -273,14 +273,9 @@ namespace Vocaluxe.Lib.Draw
             //TODO: Check if _W,_H needs to be used or not
             Size size = new Size(GetScreenWidth(), GetScreenHeight());
             COGLTexture texture = _CreateTexture(size);
+
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
             GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, size.Width, size.Height); //TODO: Use _X,_Y and _W,_H?
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
-
             GL.BindTexture(TextureTarget.Texture2D, 0);
 
             return _GetTextureReference(size, texture);
@@ -298,9 +293,7 @@ namespace Vocaluxe.Lib.Draw
             else
             {
                 GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
                 GL.CopyTexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, 0, 0, GetScreenWidth(), GetScreenHeight());
-
                 GL.BindTexture(TextureTarget.Texture2D, 0);
             }
         }
@@ -405,53 +398,42 @@ namespace Vocaluxe.Lib.Draw
         #endregion Basic Draw Methods
 
         #region Textures
-
-        #region adding
-        private COGLTexture _CreateTexture(Size dataSize)
+        protected override COGLTexture _CreateTexture(Size dataSize)
         {
-            return new COGLTexture(GL.GenTexture(), dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
-        }
-
-        protected override COGLTexture _CreateTexture(Size dataSize, IntPtr data)
-        {
-            COGLTexture texture = _CreateTexture(dataSize);
-
+            COGLTexture texture = new COGLTexture(GL.GenTexture(), dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.DataSize.Width, texture.DataSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-            GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
             return texture;
         }
 
-        protected override COGLTexture _CreateTexture(Size dataSize, byte[] data)
+        protected override void _WriteDataToTexture(COGLTexture texture, byte[] data)
         {
-            COGLTexture texture = _CreateTexture(dataSize);
-
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.DataSize.Width, texture.DataSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
             GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
-            return texture;
         }
-        #endregion adding
 
-        #region updating
+        protected override void _WriteDataToTexture(COGLTexture texture, IntPtr data)
+        {
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
+
+            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.DataSize.Width, texture.DataSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
+            GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+
         public override bool UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
         {
             COGLTexture texture;
@@ -466,34 +448,13 @@ namespace Vocaluxe.Lib.Draw
                 texture.DataSize = new Size(w, h);
             }
 
-            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-            GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, w, h, PixelFormat.Bgra, PixelType.UnsignedByte, data);
-
-            GL.Ext.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            _WriteDataToTexture(texture, data);
 
             return true;
         }
-        #endregion updating
 
         #region drawing
-        public void DrawTexture(CTextureRef texture)
-        {
-            if (texture == null)
-                return;
-            DrawTexture(texture, texture.Rect, texture.Color);
-        }
-
-        public void DrawTexture(CTextureRef texture, SRectF rect)
-        {
-            if (texture == null)
-                return;
-            DrawTexture(texture, rect, texture.Color);
-        }
-
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
+        public override void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
         {
             COGLTexture texture;
             if (!_GetTexture(textureRef, out texture))

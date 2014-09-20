@@ -237,8 +237,6 @@ namespace Vocaluxe.Lib.Draw
         // ReSharper restore RedundantOverridenMember
         #endregion resize
 
-        #region implementation
-
         #region main stuff
         /// <summary>
         ///     Inits the Device
@@ -577,25 +575,18 @@ namespace Vocaluxe.Lib.Draw
         #endregion Basic Draw Methods
 
         #region Textures
-        private CD3DTexture _CreateTexture(Size dataSize)
-        {
-            return new CD3DTexture(_Device, dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
-        }
-
-        protected override CD3DTexture _CreateTexture(Size dataSize, byte[] data)
+        protected override CD3DTexture _CreateTexture(Size dataSize)
         {
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
-            CD3DTexture t = _CreateTexture(dataSize);
-            _WriteDataToTexture(t.D3DTexture, dataSize.Width, data);
-            return t;
+            return new CD3DTexture(_Device, dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
         }
 
-        private static void _WriteDataToTexture(Texture t, int w, byte[] data)
+        protected override void _WriteDataToTexture(CD3DTexture texture, byte[] data)
         {
             //Lock the texture and fill it with the data
-            DataRectangle rect = t.LockRectangle(0, LockFlags.Discard);
-            int rowWidth = 4 * w;
+            DataRectangle rect = texture.D3DTexture.LockRectangle(0, LockFlags.Discard);
+            int rowWidth = 4 * texture.DataSize.Width;
             if (rowWidth == rect.Pitch)
                 rect.Data.Write(data, 0, data.Length);
             else
@@ -607,7 +598,7 @@ namespace Vocaluxe.Lib.Draw
                     rect.Data.Position = rect.Data.Position - rowWidth + rect.Pitch;
                 }
             }
-            t.UnlockRectangle(0);
+            texture.D3DTexture.UnlockRectangle(0);
         }
 
         /// <summary>
@@ -631,7 +622,7 @@ namespace Vocaluxe.Lib.Draw
                     return false; // Texture memory to big
                 texture.DataSize = new Size(w, h);
             }
-            _WriteDataToTexture(texture.D3DTexture, w, data);
+            _WriteDataToTexture(texture, data);
             return true;
         }
 
@@ -639,34 +630,11 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Draws a texture
         /// </summary>
-        /// <param name="texture">The texture to be drawn</param>
-        public void DrawTexture(CTextureRef texture)
-        {
-            if (texture == null)
-                return;
-            DrawTexture(texture, texture.Rect, texture.Color);
-        }
-
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
-        /// <param name="texture">The texture to be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        public void DrawTexture(CTextureRef texture, SRectF rect)
-        {
-            if (texture == null)
-                return;
-            DrawTexture(texture, rect, texture.Color);
-        }
-
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
         /// <param name="textureRef">The texture to be drawn</param>
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
+        public override void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
         {
             if (rect.W < 1 || rect.H < 1)
                 return;
@@ -907,8 +875,6 @@ namespace Vocaluxe.Lib.Draw
         #endregion drawing
 
         #endregion Textures
-
-        #endregion implementation
 
         private static Matrix _CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
         {
