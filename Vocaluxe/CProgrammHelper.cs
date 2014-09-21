@@ -132,8 +132,7 @@ namespace Vocaluxe
             string path = "x64";
 #endif
             path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + path;
-            COSFunctions.AddLibrarySearchpath(path);
-            COSFunctions.AddLibrarySearchpath(path + Path.DirectorySeparatorChar + "gstreamer");
+            COSFunctions.AddEnvironmentPath(path);
         }
     }
 }
