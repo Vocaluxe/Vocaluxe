@@ -85,7 +85,6 @@
     <ROW Directory="x64_Dir" Directory_Parent="APPDIR" DefaultDir="x64" DirectoryOptions="12"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCompsComponent">
-    <ROW Component="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" ComponentId="{205A5E16-AC61-4E92-A690-BC6B6D046271}" Directory_="APPDIR" Attributes="4" KeyPath="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" Options="2"/>
     <ROW Component="AForge" ComponentId="{F44AC7DE-EEB7-4EAB-B4ED-58019FAEA561}" Directory_="AForge_Dir" Attributes="0"/>
     <ROW Component="AForge.Video.DirectShow.dll" ComponentId="{4E6E1E83-970E-4A11-AF8C-EB7DEDE3C5D9}" Directory_="APPDIR" Attributes="0" KeyPath="AForge.Video.DirectShow.dll"/>
     <ROW Component="AForge.Video.dll" ComponentId="{66736744-2A16-4F54-9A56-803FC01B7AD1}" Directory_="APPDIR" Attributes="0" KeyPath="AForge.Video.dll"/>
@@ -97,7 +96,6 @@
     <ROW Component="Ambient" ComponentId="{DC7427AB-12EF-452E-94C1-7309632BBDDD}" Directory_="Ambient_Dir" Attributes="0"/>
     <ROW Component="Ambient.xml" ComponentId="{0213554B-EF23-4655-8B64-92EFE66F1425}" Directory_="Themes_Dir" Attributes="0" KeyPath="Ambient.xml" Type="0"/>
     <ROW Component="Avatar_f.png" ComponentId="{46E859E0-8764-4B14-9193-2DA48ADB2CA7}" Directory_="Profiles_Dir" Attributes="0" KeyPath="Avatar_f.png" Type="0"/>
-    <ROW Component="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" ComponentId="{47FC4110-B304-48EB-B85F-C327B37602C8}" Directory_="APPDIR" Attributes="4" KeyPath="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" Options="2"/>
     <ROW Component="Background.pdn" ComponentId="{6789F833-D5DD-4DCE-A825-D9AE88FC222C}" Directory_="Resources_1_Dir" Attributes="0" KeyPath="Background.pdn" Type="0"/>
     <ROW Component="BackgroundMusic" ComponentId="{73CD8D8F-F612-476A-B38E-1FEE0F8711A7}" Directory_="BackgroundMusic_Dir" Attributes="0"/>
     <ROW Component="Blue" ComponentId="{867F9F81-FB29-4B94-89A0-6B555414767A}" Directory_="Blue_Dir" Attributes="0"/>
@@ -110,7 +108,6 @@
     <ROW Component="Button.png_1" ComponentId="{C03DF221-6222-4F0C-9107-F337096B9041}" Directory_="Textures_1_Dir" Attributes="0" KeyPath="Button.png_1" Type="0"/>
     <ROW Component="Button.png_2" ComponentId="{36E6D402-A709-4BDD-A7C9-1EF29256120E}" Directory_="Textures_2_Dir" Attributes="0" KeyPath="Button.png_2" Type="0"/>
     <ROW Component="Button.png_3" ComponentId="{EB5D90FA-9A47-4122-8164-06A8621EFEB0}" Directory_="Ambient_Dir" Attributes="0" KeyPath="Button.png_3" Type="0"/>
-    <ROW Component="C67108D39D05435F9BE6B977F2CCED25" ComponentId="{54477978-3E40-4C28-ABAF-0324FC801C37}" Directory_="APPDIR" Attributes="4" KeyPath="C67108D39D05435F9BE6B977F2CCED25" Options="2"/>
     <ROW Component="CChallengeRounds.cs" ComponentId="{A9C362A6-0A1A-40C5-8C43-08EE74353C41}" Directory_="Code_Dir" Attributes="0" KeyPath="CChallengeRounds.cs" Type="0"/>
     <ROW Component="CChallengeRounds.cs_1" ComponentId="{3B5DBFF6-73A5-4B6A-8969-50572F95A668}" Directory_="Code_1_Dir" Attributes="0" KeyPath="CChallengeRounds.cs_1" Type="0"/>
     <ROW Component="CPartyModeTicTacToe.cs" ComponentId="{96DEF297-3EDD-4D5B-9E4C-4C6A1BB96D49}" Directory_="Code_2_Dir" Attributes="0" KeyPath="CPartyModeTicTacToe.cs" Type="0"/>
@@ -130,7 +127,6 @@
     <ROW Component="Dutch.xml_1" ComponentId="{C43533E9-C3AB-46FC-A4D0-B314743B061C}" Directory_="Languages_1_Dir" Attributes="0" KeyPath="Dutch.xml_1" Type="0"/>
     <ROW Component="Dutch.xml_2" ComponentId="{6EBB843F-C68A-4FDC-A9B7-9D28E1E5D5DA}" Directory_="Languages_2_Dir" Attributes="0" KeyPath="Dutch.xml_2" Type="0"/>
     <ROW Component="Dutch.xml_3" ComponentId="{63B7554B-D420-4934-8B4B-E7CBF09598AC}" Directory_="Languages_3_Dir" Attributes="0" KeyPath="Dutch.xml_3" Type="0"/>
-    <ROW Component="EF36CDD6CE40CFA978040EA5CBA799" ComponentId="{1768ABF0-7EF9-4161-827B-A00DBB528DE8}" Directory_="APPDIR" Attributes="4" KeyPath="EF36CDD6CE40CFA978040EA5CBA799" Options="2"/>
     <ROW Component="Fonts" ComponentId="{60DEAE51-0054-4C5A-A92F-3F76BC28A1BE}" Directory_="Fonts_Dir" Attributes="0"/>
     <ROW Component="Fonts.xml" ComponentId="{EA3A6507-8DD0-452E-BD77-6610D0DBAB93}" Directory_="Fonts_Dir" Attributes="0" KeyPath="Fonts.xml" Type="0"/>
     <ROW Component="FreeSans" ComponentId="{250C947D-9405-473E-92D6-6FD36997BE89}" Directory_="FreeSans_Dir" Attributes="0"/>
@@ -248,13 +244,9 @@
     <ROW Component="x86" ComponentId="{F2634242-1280-4509-B10E-234D7BF81FA4}" Directory_="AI_Bin32_Dir" Attributes="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" Title="Visual C++ 2008 SP1 Redistributable" Description="Visual C++ 2008 SP1 Redistributable" Display="21" Level="1" Attributes="0" Components="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C"/>
     <ROW Feature="AI32BitFiles" Title="32-bit" Description="32-bit Executables and Libraries" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="SQLite.Interop.dll_5 SlimDX.dll_5 System.Data.SQLite.dll Vocaluxe.exe.config Vocaluxe.exe_2 acinerella.dll_5 avcodec54.dll_5 avformat54.dll_5 avutil52.dll_5 hidapi.dll_5 swresample0.dll_5 swscale2.dll_5"/>
     <ROW Feature="AI64BitFiles" Title="64-bit" Description="64-bit Executables and Libraries" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="SQLite.Interop.dll_6 SlimDX.dll_6 System.Data.SQLite.dll_3 Vocaluxe_x64.exe Vocaluxe_x64.exe.config acinerella.dll_6 avcodec54.dll_6 avformat54.dll_6 avutil52.dll_6 hidapi.dll_6 swresample0.dll_6 swscale2.dll_6"/>
     <ROW Feature="AIOtherFiles" Title="Common" Description="Shared Resource and Regular Files" Display="5" Level="1" Directory_="APPDIR" Attributes="16" Components="AForge AForge.Video.DirectShow.dll AForge.Video.dll AIShRegAnswer Ambient Ambient.xml Avatar_f.png Background.pdn BackgroundMusic Blue Blue.xml Button.png Button.png_1 Button.png_2 Button.png_3 CChallengeRounds.cs CChallengeRounds.cs_1 CPartyModeTicTacToe.cs Challenge Challenge.xml ChallengeMedley Changelog Changelog_ScreenHighscore.txt ClientServerLib.dll Code Code_1 Code_2 Community.CsharpSqlite.dll Cover DJadWalkingAloneLicense.txt Dutch.xml Dutch.xml_1 Dutch.xml_2 Dutch.xml_3 Fonts Fonts.xml FreeSans FreeSans.ttf Graphics Hz.mp3 InstallLanguage Interop.NetFwTypeLib.dll LICENSE.txt LICENSE.txt_1 LICENSENewtonsoft.Json.txt Languages Languages_1 Languages_2 Languages_3 License.txt Licenses Logo.png Newtonsoft.Json Newtonsoft.Json.dll OpenTK.Compatibility.dll OpenTK.GLControl.dll OpenTK.dll PartyModes PartyScreenChallengeConfig.xml PartyScreenChallengeMedleyConfig.xml PartyScreenTicTacToeConfig.xml PopupScreenPlayerControl.xml PortAudio PortAudio.dll PortAudio.dll_1 PortAudioSharp PortAudioSharp.dll Profiles QRCoder QRCoder.dll QRCoder.txt Resources Resources_1 SHORTCUTDIR Screens Screens_1 Screens_2 Screens_3 Security.Cryptography.dll SlimDx Sounds Textures Textures_1 Textures_2 Theme.xml Theme.xml_1 Theme.xml_2 Themes TicTacToe VocaluxeLib.dll Website addPlaylist.png ajaxloader.gif copyright.txt cs.json css decades.xcf glibsharp.dll gpl3.0.txt gstreamersharp.dll i18next1.7.1.min.js images img index.html jquery.mobile1.3.2.min.css js libgstreamersharpglue1.0.0.dll libgstreamersharpglue1.0.0.dll_1 locales png x64 x86"/>
-    <ROW Feature="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" Title="DirectX 9" Description="DirectX 9" Display="19" Level="1" Attributes="0" Components="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4"/>
-    <ROW Feature="C67108D39D05435F9BE6B977F2CCED25" Title="Visual C++ Redistributable for Visual Studio 2012 x86" Description="Visual C++ Redistributable for Visual Studio 2012 x86" Display="25" Level="1" Attributes="0" Components="C67108D39D05435F9BE6B977F2CCED25"/>
-    <ROW Feature="EF36CDD6CE40CFA978040EA5CBA799" Title="Visual C++ Redistributable for Visual Studio 2012 x64" Description="Visual C++ Redistributable for Visual Studio 2012 x64" Display="23" Level="1" Attributes="0" Components="EF36CDD6CE40CFA978040EA5CBA799"/>
     <ROW Feature="Funktion" Feature_Parent="AIOtherFiles" Title="Videos" Description="Beschreibung" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="BlueBG_Video.mp4 BlueIntroIn.mp4 BlueIntroMid.mp4 BlueIntroOut.mp4 GreenBG_Video.mp4 GreenIntroIn.mp4 GreenIntroMid.mp4 GreenIntroOut.mp4 RedBG_Video.mp4 RedIntroIn.mp4 RedIntroMid.mp4 RedIntroOut.mp4 YellowBG_Video.mp4 YellowIntroIn.mp4 YellowIntroMid.mp4 YellowIntroOut.mp4"/>
     <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="3" Level="0" Directory_="APPDIR" Attributes="0" Components="APPDIR ProductInformation"/>
     <ATTRIBUTE name="CurrentFeature" value="AIOtherFiles"/>
@@ -740,13 +732,8 @@
     <ROW Action="AI_AiRemoveFilesRollback" Description="Stelle gelöschte Dateien wieder her" Template="Datei wiederherstellen: [1]" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesRollback" TemplateLocId="ActionText.Template.AI_AiRemoveFilesRollback"/>
     <ROW Action="AI_DeleteLzma" Description="Lösche die aus dem Archiv extrahierten Dateien" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
     <ROW Action="AI_DeleteRLzma" Description="Lösche die aus dem Archiv extrahierten Dateien" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
-    <ROW Action="AI_DownloadPrereq" Description="Herunterladen der vorausgesetzten Anwendungen" Template="Download [1]{[2] vollständig}" DescriptionLocId="ActionText.Description.AI_DownloadPrereq" TemplateLocId="ActionText.Template.AI_DownloadPrereq"/>
     <ROW Action="AI_ExtractFiles" Description="Extrahiere Dateien aus dem Archiv" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
     <ROW Action="AI_ExtractLzma" Description="Extrahiere Dateien aus dem Archiv" DescriptionLocId="ActionText.Description.AI_ExtractLzma" TemplateLocId="-"/>
-    <ROW Action="AI_ExtractPrereq" Description="Auspacken der vorausgesetzten Anwendungen" Template="Auspacken [1]{[2] vollständig}" DescriptionLocId="ActionText.Description.AI_ExtractPrereq" TemplateLocId="ActionText.Template.AI_ExtractPrereq"/>
-    <ROW Action="AI_InstallPostPrerequisite" Description="Installiere vorausgesetzte Anwendungen" Template="Installiere [1]{[2] vollständig}" DescriptionLocId="ActionText.Description.AI_InstallPrerequisite" TemplateLocId="ActionText.Template.AI_InstallPrerequisite"/>
-    <ROW Action="AI_InstallPrerequisite" Description="Installiere vorausgesetzte Anwendungen" Template="Installiere [1]{[2] vollständig}" DescriptionLocId="ActionText.Description.AI_InstallPrerequisite" TemplateLocId="ActionText.Template.AI_InstallPrerequisite"/>
-    <ROW Action="AI_VerifyPrereq" Description="Überprüfe Voraussetzungen" Template="[1] wurde nicht korrekt installiert." DescriptionLocId="ActionText.Description.AI_VerifyPrereq" TemplateLocId="ActionText.Template.AI_VerifyPrereq"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiAppSearchComponent">
     <ROW Property="AI_SETUPEXEPATH" Signature_="AI_EXE_PATH_CU" Builds="DefaultBuild"/>
@@ -809,9 +796,6 @@
     <ROW Dialog_="VerifyReadyDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_PATCH" Ordering="199"/>
     <ROW Dialog_="VerifyReadyDlg" Control_="Back" Event="NewDialog" Argument="PatchWelcomeDlg" Condition="AI_PATCH" Ordering="203"/>
     <ROW Dialog_="ResumeDlg" Control_="Install" Event="EndDialog" Argument="Return" Condition="AI_RESUME" Ordering="299"/>
-    <ROW Dialog_="ExitDialog" Control_="Finish" Event="DoAction" Argument="AI_CleanPrereq" Condition="1" Ordering="301"/>
-    <ROW Dialog_="FatalError" Control_="Finish" Event="DoAction" Argument="AI_CleanPrereq" Condition="1" Ordering="102"/>
-    <ROW Dialog_="UserExit" Control_="Finish" Event="DoAction" Argument="AI_CleanPrereq" Condition="1" Ordering="101"/>
     <ROW Dialog_="LicenseAgreementDlg" Control_="Next" Event="NewDialog" Argument="ConfigureDlg" Condition="AI_INSTALL" Ordering="1"/>
     <ROW Dialog_="LicenseAgreementDlg" Control_="Back" Event="NewDialog" Argument="WelcomeDlg" Condition="AI_INSTALL" Ordering="1"/>
   </COMPONENT>
@@ -873,7 +857,6 @@
     <ROW Action="AI_AiRemoveFilesRollback" Type="11521" Source="ResourceCleaner.dll" Target="OnAiUndoRemoveFiles"/>
     <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
-    <ROW Action="AI_CleanPrereq" Type="65" Source="Prereq.dll" Target="CleanPrereq" WithoutSeq="true"/>
     <ROW Action="AI_DATA_SETTER" Type="51" Source="AI_ExtractFiles" Target="[AI_SETUPEXEPATH]"/>
     <ROW Action="AI_DATA_SETTER_1" Type="51" Source="AI_DEL_EMPTY_SHORTCUTDIR" Target="[SHORTCUTDIR]"/>
     <ROW Action="AI_DELETE_SHORTCUTS" Type="1" Source="aicustact.dll" Target="DeleteShortcuts"/>
@@ -884,17 +867,13 @@
     <ROW Action="AI_DeleteRCadLzma" Type="51" Source="AI_DeleteRLzma" Target="[AI_SETUPEXEPATH]"/>
     <ROW Action="AI_DeleteRLzma" Type="1281" Source="lzmaextractor.dll" Target="DeleteLZMAFiles"/>
     <ROW Action="AI_DoRemoveExternalUIStub" Type="3585" Source="ExternalUICleaner.dll" Target="DoRemoveExternalUIStub" WithoutSeq="true"/>
-    <ROW Action="AI_DownloadPrereq" Type="1" Source="Prereq.dll" Target="DownloadPrereq"/>
     <ROW Action="AI_EstimateExtractFiles" Type="1" Source="Prereq.dll" Target="EstimateExtractFiles"/>
     <ROW Action="AI_ExtractCadLzma" Type="51" Source="AI_ExtractLzma" Target="[AI_SETUPEXEPATH]"/>
     <ROW Action="AI_ExtractFiles" Type="1025" Source="Prereq.dll" Target="ExtractSourceFiles" AdditionalSeq="AI_DATA_SETTER"/>
     <ROW Action="AI_ExtractLzma" Type="1025" Source="lzmaextractor.dll" Target="ExtractLZMAFiles"/>
-    <ROW Action="AI_ExtractPrereq" Type="65" Source="Prereq.dll" Target="ExtractPrereq"/>
     <ROW Action="AI_FindExeLzma" Type="1" Source="lzmaextractor.dll" Target="FindEXE"/>
     <ROW Action="AI_GetArpIconPath" Type="1" Source="aicustact.dll" Target="GetArpIconPath"/>
     <ROW Action="AI_InstallModeCheck" Type="1" Source="aicustact.dll" Target="UpdateInstallMode" WithoutSeq="true"/>
-    <ROW Action="AI_InstallPostPrerequisite" Type="1" Source="Prereq.dll" Target="InstallPostPrereq"/>
-    <ROW Action="AI_InstallPrerequisite" Type="65" Source="Prereq.dll" Target="InstallPrereq"/>
     <ROW Action="AI_LaunchApp" Type="1" Source="aicustact.dll" Target="[#Vocaluxe.exe]"/>
     <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
     <ROW Action="AI_PromptUserBasicUI" Type="1" Source="ResourceCleaner.dll" Target="OnPromptUserBasicUI"/>
@@ -911,7 +890,6 @@
     <ROW Action="AI_SETPROGRAMFILES64" Type="51" Source="AI_ProgramFiles" Target="[ProgramFiles64Folder]"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
-    <ROW Action="AI_VerifyPrereq" Type="1" Source="Prereq.dll" Target="VerifyPrereq"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[AI_ProgramFiles]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
@@ -946,7 +924,6 @@
     <ROW Action="AI_REDIRECT_32BIT_FOLDER_1" Condition="NOT VersionNT64 AND NOT AI_Disable32BitRedirection" Sequence="702"/>
     <ROW Action="AI_REDIRECT_32BIT_SH_FOLDER_1" Condition="NOT VersionNT64 AND NOT AI_Disable32BitRedirection" Sequence="701"/>
     <ROW Action="AI_AppSearchEx" Sequence="101"/>
-    <ROW Action="AI_VerifyPrereq" Sequence="1101"/>
     <ROW Action="AI_GetArpIconPath" Sequence="51"/>
     <ROW Action="AI_DELETE_SHORTCUTS" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="1401"/>
     <ROW Action="AI_DEL_EMPTY_SHORTCUTDIR" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6402"/>
@@ -966,10 +943,6 @@
     <ROW Action="AI_SETPROGRAMFILES64" Condition="VersionNT64" Sequence="748"/>
     <ROW Action="AI_SETPROGRAMFILES" Condition="NOT VersionNT64" Sequence="749"/>
     <ROW Action="AI_AppSearchEx" Sequence="101"/>
-    <ROW Action="AI_DownloadPrereq" Sequence="1295"/>
-    <ROW Action="AI_ExtractPrereq" Sequence="1296"/>
-    <ROW Action="AI_InstallPrerequisite" Sequence="1297"/>
-    <ROW Action="AI_InstallPostPrerequisite" Sequence="1299"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiLaunchConditionsComponent">
     <ROW Condition="VersionNT" Description="[ProductName] cannot be installed on [WindowsType9XDisplay]" DescriptionLocId="AI.LaunchCondition.No9X" IsPredefined="true" Builds="DefaultBuild"/>
@@ -1030,17 +1003,13 @@
     <ROW Signature_="AI_ShRegOptionUser" Root="1" Key="Software\Caphyon\Advanced Installer\Installs\[ProductCode]" Name="AIShRegAnswer" Type="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegsComponent">
-    <ROW Registry="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" Root="-1" Key="Software\Caphyon\Advanced Installer\Prereqs\[ProductCode]\[ProductVersion]" Name="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" Value="1" Component_="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C"/>
     <ROW Registry="AIShRegAnswer" Root="-1" Key="Software\Caphyon\Advanced Installer\Installs\[ProductCode]" Name="AIShRegAnswer" Value="[AI_SHORTCUTSREG]" Component_="AIShRegAnswer"/>
     <ROW Registry="AI_ExePath" Root="-1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Value="[AI_SETUPEXEPATH]" Component_="AI_ExePath"/>
-    <ROW Registry="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" Root="-1" Key="Software\Caphyon\Advanced Installer\Prereqs\[ProductCode]\[ProductVersion]" Name="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" Value="1" Component_="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4"/>
-    <ROW Registry="C67108D39D05435F9BE6B977F2CCED25" Root="-1" Key="Software\Caphyon\Advanced Installer\Prereqs\[ProductCode]\[ProductVersion]" Name="C67108D39D05435F9BE6B977F2CCED25" Value="1" Component_="C67108D39D05435F9BE6B977F2CCED25"/>
     <ROW Registry="Comments" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="Comments" Value="[ARPCOMMENTS]" Component_="AI_CustomARPName"/>
     <ROW Registry="Contact" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="Contact" Value="[ARPCONTACT]" Component_="AI_CustomARPName"/>
     <ROW Registry="DisplayIcon" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="DisplayIcon" Value="[ARP_ICON_PATH]" Component_="AI_CustomARPName"/>
     <ROW Registry="DisplayName" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="DisplayName" Value="[AI_PRODUCTNAME_ARP]" Component_="AI_CustomARPName"/>
     <ROW Registry="DisplayVersion" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="DisplayVersion" Value="[ProductVersion]" Component_="AI_CustomARPName"/>
-    <ROW Registry="EF36CDD6CE40CFA978040EA5CBA799" Root="-1" Key="Software\Caphyon\Advanced Installer\Prereqs\[ProductCode]\[ProductVersion]" Name="EF36CDD6CE40CFA978040EA5CBA799" Value="1" Component_="EF36CDD6CE40CFA978040EA5CBA799"/>
     <ROW Registry="HelpLink" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="HelpLink" Value="[ARPHELPLINK]" Component_="AI_CustomARPName"/>
     <ROW Registry="HelpTelephone" Root="-1" Key="Software\Microsoft\Windows\CurrentVersion\Uninstall\[ProductName] [ProductVersion]" Name="HelpTelephone" Value="[ARPHELPTELEPHONE]" Component_="AI_CustomARPName"/>
     <ROW Registry="InstallLanguage" Root="-1" Key="Software\Caphyon\Advanced Installer\[ProductCode]" Name="InstallLanguage" Value="[ProductLanguage]" Component_="InstallLanguage"/>
@@ -1081,10 +1050,10 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqComponent">
     <ROW PrereqKey="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF" DisplayName=".NET Framework 4.0 Client Profile" VersionMin="4.0" SetupFileUrl="Prerequisites\.NET Framework 4.0 Client Profile\dotNetFx40_Client_x86_x64.exe" Location="0" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT 4.0, Windows NT 4.0 Service Pack 1, Windows NT 4.0 Service Pack 2, Windows NT 4.0 Service Pack 3, Windows NT 4.0 Service Pack 4, Windows NT 4.0 Service Pack 5, Windows NT 4.0 Service Pack 6, Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows XP x86 Service Pack 2" Operator="1" ComLine="/quiet" TargetName="dotNetFx40_Client_x86_x64.exe"/>
-    <ROW PrereqKey="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" DisplayName="Visual C++ 2008 SP1 Redistributable" SetupFileUrl="Prerequisites\Visual C++ 2008 SP1 Redistributable\vcredist_x86.exe" Location="0" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT 4.0, Windows NT 4.0 Service Pack 1, Windows NT 4.0 Service Pack 2, Windows NT 4.0 Service Pack 3, Windows NT 4.0 Service Pack 4, Windows NT 4.0 Service Pack 5, Windows NT 4.0 Service Pack 6, Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3" Operator="1" ComLine="/quiet" TargetName="vcredist_x86.exe" Type="1" Feature="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C"/>
-    <ROW PrereqKey="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" DisplayName="DirectX 9" VersionMin="9.0" SetupFileUrl="Prerequisites\DirectX 9\dxwebsetup.exe" Location="0" ExactSize="0" Operator="1" ComLine="/quiet" TargetName="dxwebsetup.exe" Type="1" Feature="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4"/>
-    <ROW PrereqKey="C67108D39D05435F9BE6B977F2CCED25" DisplayName="Visual C++ Redistributable for Visual Studio 2012 x86" SetupFileUrl="Prerequisites\Visual C++ Redistributable for Visual Studio 2012 x86\vcredist_x86.exe" Location="0" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT 4.0, Windows NT 4.0 Service Pack 1, Windows NT 4.0 Service Pack 2, Windows NT 4.0 Service Pack 3, Windows NT 4.0 Service Pack 4, Windows NT 4.0 Service Pack 5, Windows NT 4.0 Service Pack 6, Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows XP x86 Service Pack 2, Windows XP x86 Service Pack 3, Windows Server 2003 x86, Windows Server 2003 x86 Service Pack 1, Windows Server 2003 x86 Service Pack 2, Windows Vista x86, Windows Vista x86 Service Pack 1, Windows 7 x86" WinNT64Versions="Windows XP/Vista/Windows 7/Windows 8 x64" Operator="1" ComLine="/quiet" TargetName="vcredist_x86.exe" Type="1" Feature="C67108D39D05435F9BE6B977F2CCED25"/>
-    <ROW PrereqKey="EF36CDD6CE40CFA978040EA5CBA799" DisplayName="Visual C++ Redistributable for Visual Studio 2012 x64" SetupFileUrl="Prerequisites\Visual C++ Redistributable for Visual Studio 2012 x64\vcredist_x64.exe" Location="0" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT/2000/XP/Vista/Windows 7/Windows 8 x86" WinNT64Versions="Windows XP x64, Windows XP x64 Service Pack 1, Windows XP x64 Service Pack 2, Windows Server 2003 x64, Windows Server 2003 x64 Service Pack 1, Windows Server 2003 x64 Service Pack 2, Windows Vista x64, Windows Vista x64 Service Pack 1, Windows 7 x64" Operator="1" ComLine="/quiet" Options="x" TargetName="vcredist_x64.exe" Type="1" Feature="EF36CDD6CE40CFA978040EA5CBA799"/>
+    <ROW PrereqKey="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" DisplayName="Visual C++ 2008 SP1 Redistributable" SetupFileUrl="Prerequisites\Visual C++ 2008 SP1 Redistributable\vcredist_x86.exe" Location="0" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT 4.0, Windows NT 4.0 Service Pack 1, Windows NT 4.0 Service Pack 2, Windows NT 4.0 Service Pack 3, Windows NT 4.0 Service Pack 4, Windows NT 4.0 Service Pack 5, Windows NT 4.0 Service Pack 6, Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3" Operator="1" ComLine="/quiet" TargetName="vcredist_x86.exe"/>
+    <ROW PrereqKey="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" DisplayName="DirectX 9" VersionMin="9.0" SetupFileUrl="Prerequisites\DirectX 9\dxwebsetup.exe" Location="0" ExactSize="0" Operator="1" ComLine="/quiet" TargetName="dxwebsetup.exe"/>
+    <ROW PrereqKey="C67108D39D05435F9BE6B977F2CCED25" DisplayName="Visual C++ Redistributable for Visual Studio 2012 x86" SetupFileUrl="Prerequisites\Visual C++ Redistributable for Visual Studio 2012 x86\vcredist_x86.exe" Location="0" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT 4.0, Windows NT 4.0 Service Pack 1, Windows NT 4.0 Service Pack 2, Windows NT 4.0 Service Pack 3, Windows NT 4.0 Service Pack 4, Windows NT 4.0 Service Pack 5, Windows NT 4.0 Service Pack 6, Windows 2000, Windows 2000 Service Pack 1, Windows 2000 Service Pack 2, Windows 2000 Service Pack 3, Windows 2000 Service Pack 4, Windows XP x86, Windows XP x86 Service Pack 1, Windows XP x86 Service Pack 2, Windows XP x86 Service Pack 3, Windows Server 2003 x86, Windows Server 2003 x86 Service Pack 1, Windows Server 2003 x86 Service Pack 2, Windows Vista x86, Windows Vista x86 Service Pack 1, Windows 7 x86" WinNT64Versions="Windows XP/Vista/Windows 7/Windows 8 x64" Operator="1" ComLine="/quiet" TargetName="vcredist_x86.exe"/>
+    <ROW PrereqKey="EF36CDD6CE40CFA978040EA5CBA799" DisplayName="Visual C++ Redistributable for Visual Studio 2012 x64" SetupFileUrl="Prerequisites\Visual C++ Redistributable for Visual Studio 2012 x64\vcredist_x64.exe" Location="0" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT/2000/XP/Vista/Windows 7/Windows 8 x86" WinNT64Versions="Windows XP x64, Windows XP x64 Service Pack 1, Windows XP x64 Service Pack 2, Windows Server 2003 x64, Windows Server 2003 x64 Service Pack 1, Windows Server 2003 x64 Service Pack 2, Windows Vista x64, Windows Vista x64 Service Pack 1, Windows 7 x64" Operator="1" ComLine="/quiet" Options="x" TargetName="vcredist_x64.exe"/>
     <ROW PrereqKey="GStreamer1.0" DisplayName="GStreamer 1.0 x64" VersionMin="1.4.1" SetupFileUrl="Prerequisites\GStreamer x64\gstreamer-1.0-x86_64-1.4.1.msi" Location="0" ExactSize="0" Win9xVersions="Windows 9x/ME" WinNTVersions="Windows NT/2000/XP/Vista/Windows 7/Windows 8 x86" Operator="1" TargetName="gstreamer-1.0-x86_64-1.4.1.msi"/>
     <ROW PrereqKey="GStreamer1.0_1" DisplayName="GStreamer 1.0 x86" VersionMin="1.4.1" SetupFileUrl="Prerequisites\GStreamer x86\gstreamer-1.0-x86-1.4.1.msi" Location="0" ExactSize="0" Win9xVersions="Windows 9x/ME" Operator="1" ComLine="/quiet" TargetName="gstreamer-1.0-x86-1.4.1.msi"/>
     <ATTRIBUTE name="PrereqsOrder" value="AAFDE9CF_9E01_43FE_869C_F81D4708C0CF GStreamer1.0 GStreamer1.0_1 BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4 ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C EF36CDD6CE40CFA978040EA5CBA799 C67108D39D05435F9BE6B977F2CCED25"/>
@@ -1096,7 +1065,7 @@
     <ROW SearchKey="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C_VC_2008_SP1_SEARCH" Prereq="ADCDB4C_AFEB_4F3D_A1D0_2B0D48C0458C" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\DevDiv\VC\Servicing\9.0\RED\1033\SP" RefContent="M1" Order="1" Property="AI_VC_2008_SP1_PREREQSEARCH_PROP"/>
     <ROW SearchKey="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4_DIRECTX_9_SEARCH" Prereq="BAEAC99E_37AC_4DB1_8AA2_D0B4B5C09ED4" SearchType="2" SearchString="HKLM\Software\Microsoft\DirectX\Version" VerMin="4.09" Order="1" Property="AI_DIRECTX_9_PREREQSEARCH_PROP"/>
     <ROW SearchKey="C67108D39D05435F9BE6B977F2CCED25_VC_2012_SEARCH" Prereq="C67108D39D05435F9BE6B977F2CCED25" SearchType="2" SearchString="HKLM\Software\Microsoft\DevDiv\vc\Servicing\11.0\RuntimeMinimum\Version" VerMin="11.0" Order="1" Property="AI_VC_2012_PREREQSEARCH_X64_PROP"/>
-    <ROW SearchKey="EF36CDD6CE40CFA978040EA5CBA799_VC_2012_SEARCH" Prereq="EF36CDD6CE40CFA978040EA5CBA799" SearchType="2" SearchString="HKLM\Software\Microsoft\DevDiv\vc\Servicing\11.0\RuntimeMinimum\Version" VerMin="11.0" Order="1" Property="AI_VC_2012_PREREQSEARCH_PROP" Platform="1"/>
+    <ROW SearchKey="EF36CDD6CE40CFA978040EA5CBA799_VC_2012_SEARCH" Prereq="EF36CDD6CE40CFA978040EA5CBA799" SearchType="2" SearchString="HKLM\Software\Microsoft\DevDiv\vc\Servicing\11.0\RuntimeMinimum\Version" VerMin="11.0" Order="1" Property="AI_VC_2012_PREREQSEARCH_PROP"/>
     <ROW SearchKey="UpgradeCode" Prereq="GStreamer1.0" SearchType="4" SearchString="{C20A66DC-B249-4E6D-A68A-D0F836B2B3CF}" VerMin="1.4.1" Order="1" Property="PREREQSEARCH"/>
     <ROW SearchKey="UpgradeCode_1" Prereq="GStreamer1.0_1" SearchType="4" SearchString="{EBE0C791-D84E-4F7E-A4EB-18012A0E319D}" VerMin="1.4.1" Order="1" Property="PREREQSEARCH_1"/>
   </COMPONENT>
