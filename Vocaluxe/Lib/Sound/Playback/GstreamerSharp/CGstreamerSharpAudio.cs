@@ -27,10 +27,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             if (_Initialized)
                 return false;
 #if ARCH_X86
-            var gstreamerEnvVar = Environment.GetEnvironmentVariable("GSTREAMER_1_0_ROOT_X86");
+            var gstreamerEnvVar = Environment.GetEnvironmentVariable("GSTREAMER_1_0_ROOT_X86", EnvironmentVariableTarget.User);
 #endif
 #if ARCH_X64
-            var gstreamerEnvVar = Environment.GetEnvironmentVariable("GSTREAMER_1_0_ROOT_X86_64");
+            var gstreamerEnvVar = Environment.GetEnvironmentVariable("GSTREAMER_1_0_ROOT_X86_64", EnvironmentVariableTarget.User);
 #endif
             var dllDirectory = gstreamerEnvVar + "bin\\";
             COSFunctions.AddEnvironmentPath(dllDirectory);
