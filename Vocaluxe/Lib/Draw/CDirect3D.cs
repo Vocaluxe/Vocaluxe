@@ -210,7 +210,7 @@ namespace Vocaluxe.Lib.Draw
             _PresentParameters.BackBufferHeight = _Form.ClientSize.Height;
             if (_Run)
             {
-                ClearScreen();
+                _ClearScreen();
                 //To set new PresentParameters the device has to be resetted
                 _Reset();
                 //All configurations got flushed due to Reset(), so apply them again
@@ -469,7 +469,7 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Removes all textures from the screen
         /// </summary>
-        public override void ClearScreen()
+        protected override void _ClearScreen()
         {
             if (_Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0).IsFailure)
                 CLog.LogError("Failed to clear the backbuffer");

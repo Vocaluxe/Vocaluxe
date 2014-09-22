@@ -105,7 +105,7 @@ namespace Vocaluxe.Lib.Draw
 
         private void _OnLoad(object sender, EventArgs e)
         {
-            ClearScreen();
+            _ClearScreen();
         }
 
         protected virtual void _OnResize(object sender, EventArgs e)

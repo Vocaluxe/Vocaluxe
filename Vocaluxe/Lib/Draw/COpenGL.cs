@@ -254,7 +254,7 @@ namespace Vocaluxe.Lib.Draw
             return _Control.Height;
         }
 
-        public override void ClearScreen()
+        protected override void _ClearScreen()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
         }

@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
 
@@ -143,7 +144,39 @@ namespace VocaluxeLib
 
         public static Rectangle GetRect(this Bitmap bmp)
         {
-            return new Rectangle(0, 0, bmp.Width, bmp.Height);
+            return Rectangle.Round(new Rectangle(0, 0, bmp.Width, bmp.Height));
+        }
+
+        /// <summary>
+        ///     Resizes the bitmap to the given size creating a copy of it
+        /// </summary>
+        /// <param name="bmp"></param>
+        /// <param name="newSize"></param>
+        /// <returns>Resized bitmap or null on error</returns>
+        public static Bitmap Resize(this Bitmap bmp, Size newSize)
+        {
+            Bitmap result = null;
+            try
+            {
+                //Create a new Bitmap with the new sizes
+                result = new Bitmap(newSize.Width, newSize.Height);
+                //Scale the texture
+                using (Graphics g = Graphics.FromImage(result))
+                {
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
+                    g.DrawImage(bmp, result.GetRect());
+                }
+            }
+            catch (Exception)
+            {
+                if (result != null)
+                {
+                    result.Dispose();
+                    result = null;
+                }
+            }
+            return result;
         }
     }
 }

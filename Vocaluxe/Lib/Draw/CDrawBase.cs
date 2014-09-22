@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -88,7 +87,7 @@ namespace Vocaluxe.Lib.Draw
         protected int _BorderBottom;
         protected EGeneralAlignment _CurrentAlignment = EGeneralAlignment.Middle;
 
-        public abstract void ClearScreen();
+        protected abstract void _ClearScreen();
         protected abstract void _AdjustNewBorders();
         protected abstract void _LeaveFullScreen();
 
@@ -174,6 +173,63 @@ namespace Vocaluxe.Lib.Draw
         #region Textures
 
         #region private/protected
+        /// <summary>
+        ///     Returns the maximum area allowed for a texture based on the current quality
+        /// </summary>
+        /// <returns></returns>
+        private static int _GetMaxTextureArea()
+        {
+            switch (CConfig.TextureQuality)
+            {
+                case ETextureQuality.TR_CONFIG_TEXTURE_LOWEST:
+                    return 128 * 128;
+                case ETextureQuality.TR_CONFIG_TEXTURE_LOW:
+                    return 256 * 128;
+                case ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM:
+                    return 512 * 256;
+                case ETextureQuality.TR_CONFIG_TEXTURE_HIGH:
+                    return 1024 * 512;
+                case ETextureQuality.TR_CONFIG_TEXTURE_HIGHEST:
+                    return CSettings.RenderW * CSettings.RenderH;
+                default:
+                    throw new ArgumentException();
+            }
+        }
+
+        /// <summary>
+        ///     Calculates the size for a new texture using the quality and smart values for rescaling
+        /// </summary>
+        /// <returns>New size for the texture</returns>
+        private Size _GetNewTextureSize(Size size)
+        {
+            Debug.Assert(size.Width > 0 && size.Height > 0);
+            int maxArea = _GetMaxTextureArea();
+            int curArea = size.Width * size.Height;
+            if (curArea <= maxArea)
+                return size;
+            double factor = Math.Sqrt((double)maxArea / curArea);
+            Size newSize = new Size((int)(size.Width * factor), (int)(size.Height * factor));
+            if (!_NonPowerOf2TextureSupported)
+            {
+                if (size.Width < size.Height)
+                {
+                    newSize.Width = _CheckForNextPowerOf2(newSize.Width);
+                    newSize.Height = _CheckForNextPowerOf2(maxArea / newSize.Width);
+                    if (newSize.Width * newSize.Height > maxArea)
+                        newSize.Height /= 2;
+                }
+                else
+                {
+                    newSize.Height = _CheckForNextPowerOf2(newSize.Height);
+                    newSize.Width = _CheckForNextPowerOf2(maxArea / newSize.Height);
+                    if (newSize.Width * newSize.Height > maxArea)
+                        newSize.Width /= 2;
+                }
+            }
+            Debug.Assert(newSize.Width * newSize.Height <= maxArea);
+            return newSize;
+        }
+
         protected abstract void _WriteDataToTexture(TTextureType texture, byte[] data);
 
         protected virtual void _WriteDataToTexture(TTextureType texture, IntPtr data)
@@ -211,56 +267,18 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="bmp"></param>
         private void _WriteBitmapToTexture(ref TTextureType texture, Bitmap bmp)
         {
-            int maxSize;
-            //Apply the right max size
-            switch (CConfig.TextureQuality)
-            {
-                case ETextureQuality.TR_CONFIG_TEXTURE_LOWEST:
-                    maxSize = 128;
-                    break;
-                case ETextureQuality.TR_CONFIG_TEXTURE_LOW:
-                    maxSize = 256;
-                    break;
-                case ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM:
-                    maxSize = 512;
-                    break;
-                case ETextureQuality.TR_CONFIG_TEXTURE_HIGH:
-                    maxSize = 1024;
-                    break;
-                case ETextureQuality.TR_CONFIG_TEXTURE_HIGHEST:
-                    maxSize = 2048;
-                    break;
-                default:
-                    maxSize = 512;
-                    break;
-            }
-
-            // Make sure maxSize is a power of 2 if required
-            maxSize = _CheckForNextPowerOf2(maxSize);
-
             Bitmap bmp2 = null;
             try
             {
-                // Do not stretch the texture, only make it smaller
-                int w = Math.Min(bmp.Width, maxSize);
-                int h = Math.Min(bmp.Height, maxSize);
-                if (bmp.Width != w || bmp.Height != h)
+                Size size = _GetNewTextureSize(bmp.GetSize());
+                if (!size.Equals(bmp.GetSize()))
                 {
-                    //Create a new Bitmap with the new sizes
-                    bmp2 = new Bitmap(w, h);
-                    //Scale the texture
-                    using (Graphics g = Graphics.FromImage(bmp2))
-                    {
-                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                        g.SmoothingMode = SmoothingMode.HighQuality;
-                        g.DrawImage(bmp, new Rectangle(0, 0, bmp2.Width, bmp2.Height));
-                    }
+                    bmp2 = bmp.Resize(size);
                     bmp = bmp2;
                 }
 
                 //Fill the new Bitmap with the texture data
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, w, h), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                Size size = new Size(w, h);
+                BitmapData bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
                 if (texture == null)
                     texture = _CreateTexture(size);
                 else
@@ -624,7 +642,7 @@ namespace Vocaluxe.Lib.Draw
                 _OnBeforeDraw();
 
                 //Clear the previous Frame
-                ClearScreen();
+                _ClearScreen();
                 if (!CGraphics.Draw())
                     _Run = false;
                 _OnAfterDraw();
