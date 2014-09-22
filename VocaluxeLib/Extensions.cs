@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 
@@ -133,6 +134,16 @@ namespace VocaluxeLib
                 rect.W + 2 * rect.W * (scale - 1f),
                 rect.H + 2 * rect.H * (scale - 1f),
                 rect.Z);
+        }
+
+        public static Size GetSize(this Bitmap bmp)
+        {
+            return new Size(bmp.Width, bmp.Height);
+        }
+
+        public static Rectangle GetRect(this Bitmap bmp)
+        {
+            return new Rectangle(0, 0, bmp.Width, bmp.Height);
         }
     }
 }

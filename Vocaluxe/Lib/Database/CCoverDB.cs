@@ -22,6 +22,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
+using VocaluxeLib;
 using VocaluxeLib.Draw;
 #if WIN
 using System.Data.SQLite;
@@ -142,7 +143,7 @@ namespace Vocaluxe.Lib.Database
                                     g.DrawImage(origin, new Rectangle(0, 0, w, h));
 
                                 data = new byte[w * h * 4];
-                                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                                BitmapData bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
                                 Marshal.Copy(bmpData.Scan0, data, 0, w * h * 4);
                                 bmp.UnlockBits(bmpData);
                             }

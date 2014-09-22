@@ -44,7 +44,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 TextureRef = new WeakReference(textureRef);
                 Action = action;
-                DataSize = new Size(bmp.Width, bmp.Height);
+                DataSize = bmp.GetSize();
                 Data = null;
                 DataBmp = bmp;
             }
@@ -473,7 +473,7 @@ namespace Vocaluxe.Lib.Draw
             if (bmp.Height == 0 || bmp.Width == 0)
                 return null;
 
-            Size origSize = new Size(bmp.Width, bmp.Height);
+            Size origSize = bmp.GetSize();
 
             TTextureType texture = null;
             _WriteBitmapToTexture(ref texture, bmp);
@@ -502,7 +502,7 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_Textures)
             {
-                CTextureRef textureRef = _GetTextureReference(bmp.Width, bmp.Height, null);
+                CTextureRef textureRef = _GetTextureReference(bmp.GetSize(), null);
                 _TexturesToLoad.Enqueue(new STextureQueue(textureRef, EQueueAction.Add, bmp));
                 return textureRef;
             }

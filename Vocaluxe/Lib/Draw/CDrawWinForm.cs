@@ -232,6 +232,7 @@ namespace Vocaluxe.Lib.Draw
 
                 if (_Run)
                 {
+                    ClearScreen();
                     _Run = _Run && CGraphics.Draw();
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     _FlipBuffer();
@@ -281,7 +282,7 @@ namespace Vocaluxe.Lib.Draw
         {
             var bmp = new Bitmap(_Backbuffer);
             _Bitmaps.Add(bmp);
-            CTextureRef texture = _GetNewTexture(bmp.Width, bmp.Height);
+            CTextureRef texture = _GetNewTexture(bmp.GetSize());
 
             // Add to Texture List
             _Textures[texture.ID] = texture;
@@ -320,7 +321,7 @@ namespace Vocaluxe.Lib.Draw
         {
             var bmp2 = new Bitmap(bmp);
             _Bitmaps.Add(bmp2);
-            CTextureRef texture = _GetNewTexture(bmp.Width, bmp.Height);
+            CTextureRef texture = _GetNewTexture(bmp.GetSize());
 
             // Add to Texture List
             _Textures[texture.ID] = texture;
@@ -328,9 +329,9 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        private CTextureRef _GetNewTexture(int w, int h)
+        private CTextureRef _GetNewTexture(Size size)
         {
-            return new CTextureRef(_Bitmaps.Count - 1, new Size(w, h));
+            return new CTextureRef(_Bitmaps.Count - 1, size);
         }
 
         public CTextureRef AddTexture(string texturePath)
@@ -393,7 +394,7 @@ namespace Vocaluxe.Lib.Draw
         {
             using (var bmp = new Bitmap(w, h))
             {
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                BitmapData bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
                 bmp.UnlockBits(bmpData);
                 return AddTexture(bmp);
