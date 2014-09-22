@@ -466,11 +466,10 @@ namespace Vocaluxe.Screens
                     background = _Background;
                 if (background != null)
                 {
-                    var bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
-                    RectangleF rect;
+                    var bounds = new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, 0);
+                    SRectF rect;
                     CHelper.SetRect(bounds, out rect, background.OrigAspect, aspect);
-                    CDraw.DrawTexture(background, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
-                                      background.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
+                    CDraw.DrawTexture(background, rect, background.Color);
                 }
                 else if (_SlideShow != null)
                     _SlideShow.Draw();

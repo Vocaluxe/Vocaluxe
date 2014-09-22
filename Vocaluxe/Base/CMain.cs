@@ -423,9 +423,9 @@ namespace Vocaluxe.Base
             CDraw.DrawTexture(texture, rect, color, bounds, mirrored);
         }
 
-        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight)
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, float reflectionSpace, float reflectionHeight)
         {
-            CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight);
+            CDraw.DrawTextureReflection(texture, rect, color, reflectionSpace, reflectionHeight);
         }
 
         public CTextureRef AddTexture(string fileName)

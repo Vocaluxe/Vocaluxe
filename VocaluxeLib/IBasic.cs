@@ -143,7 +143,7 @@ namespace VocaluxeLib
         void DrawTexture(CTextureRef texture, SRectF rect);
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color);
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
-        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight);
+        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, float reflectionSpace, float reflectionHeight);
 
         CTextureRef AddTexture(string fileName);
         void RemoveTexture(ref CTextureRef texture);

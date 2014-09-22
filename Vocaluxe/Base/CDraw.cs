@@ -403,12 +403,11 @@ namespace Vocaluxe.Base
         /// <param name="textureRef"></param>
         /// <param name="rect">(Original) rectangle to draw the reflection for</param>
         /// <param name="color"></param>
-        /// <param name="bounds"></param>
         /// <param name="space">Spacing between the rect and the reflection</param>
         /// <param name="height">Height of the reflection</param>
-        public static void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        public static void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, float space, float height)
         {
-            _Draw.DrawTextureReflection(textureRef, rect, color, bounds, space, height);
+            _Draw.DrawTextureReflection(textureRef, rect, color, space, height);
         }
     }
 }
