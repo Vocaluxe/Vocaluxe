@@ -120,20 +120,20 @@ namespace VocaluxeLib
             return result;
         }
 
-        public static void SetRect(SRectF bounds, out SRectF rect, float rectAspect, EAspect aspect)
+        public static void SetRect(SRectF bounds, out SRectF rect, float aspectRatio, EAspect aspect)
         {
             var bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
             RectangleF rect2;
-            SetRect(bounds2, out rect2, rectAspect, aspect);
+            SetRect(bounds2, out rect2, aspectRatio, aspect);
 
             rect = new SRectF(rect2.X, rect2.Y, rect2.Width, rect2.Height, bounds.Z);
         }
 
-        public static void SetRect(RectangleF bounds, out RectangleF rect, float rectAspect, EAspect aspect)
+        public static void SetRect(RectangleF bounds, out RectangleF rect, float aspectRatio, EAspect aspect)
         {
             float boundsW = bounds.Width;
             float boundsH = bounds.Height;
-            float boundsAspect = boundsW / boundsH;
+            float boundsAspectRatio = boundsW / boundsH;
 
             float scaledWidth;
             float scaledHeight;
@@ -141,27 +141,27 @@ namespace VocaluxeLib
             switch (aspect)
             {
                 case EAspect.Crop:
-                    if (boundsAspect >= rectAspect)
+                    if (boundsAspectRatio >= aspectRatio)
                     {
                         scaledWidth = boundsW;
-                        scaledHeight = boundsW / rectAspect;
+                        scaledHeight = boundsW / aspectRatio;
                     }
                     else
                     {
                         scaledHeight = boundsH;
-                        scaledWidth = boundsH * rectAspect;
+                        scaledWidth = boundsH * aspectRatio;
                     }
                     break;
                 case EAspect.LetterBox:
-                    if (boundsAspect <= rectAspect)
+                    if (boundsAspectRatio <= aspectRatio)
                     {
                         scaledWidth = boundsW;
-                        scaledHeight = boundsW / rectAspect;
+                        scaledHeight = boundsW / aspectRatio;
                     }
                     else
                     {
                         scaledHeight = boundsH;
-                        scaledWidth = boundsH * rectAspect;
+                        scaledWidth = boundsH * aspectRatio;
                     }
                     break;
                 default:
@@ -179,7 +179,7 @@ namespace VocaluxeLib
         /// <summary>
         ///     Returns a list with all files in the given path that match a given pattern
         /// </summary>
-        /// <param name="path">Path to search for</param>
+        /// <param name="path">Path to search</param>
         /// <param name="searchPattern">Pattern to match (e.g. "*.jpg")</param>
         /// <param name="recursive">Search directories recursively</param>
         /// <param name="fullpath">False for just file names, True for full path</param>

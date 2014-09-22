@@ -32,7 +32,6 @@ namespace Vocaluxe.Lib.Draw
 
         int GetTextureCount();
 
-        void ClearScreen();
         CTextureRef CopyScreen();
         void CopyScreen(ref CTextureRef texture);
         void MakeScreenShot();
@@ -41,16 +40,18 @@ namespace Vocaluxe.Lib.Draw
         CTextureRef AddTexture(Bitmap bitmap);
         CTextureRef AddTexture(int w, int h, byte[] data);
         CTextureRef EnqueueTexture(int w, int h, byte[] data);
+        CTextureRef EnqueueTexture(Bitmap bmp);
+        void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp);
         void UpdateTexture(CTextureRef texture, int w, int h, byte[] data);
+        void UpdateTexture(CTextureRef texture, Bitmap bmp);
+        CTextureRef CopyTexture(CTextureRef textureRef);
         void RemoveTexture(ref CTextureRef texture);
 
         // Basic Draw Methods
-        void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2);
-        void DrawColor(SColorF color, SRectF rect);
-        void DrawColorReflection(SColorF color, SRectF rect, float space, float height);
+        void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2);
+        void DrawRect(SColorF color, SRectF rect);
+        void DrawRectReflection(SColorF color, SRectF rect, float space, float height);
 
-        void DrawTexture(CTextureRef texture);
-        void DrawTexture(CTextureRef texture, SRectF rect);
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false);
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end);

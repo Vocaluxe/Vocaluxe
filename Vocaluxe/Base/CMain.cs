@@ -440,12 +440,12 @@ namespace Vocaluxe.Base
 
         public void DrawColor(SColorF color, SRectF rect)
         {
-            CDraw.DrawColor(color, rect);
+            CDraw.DrawRect(color, rect);
         }
 
         public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
         {
-            CDraw.DrawColorReflection(color, rect, space, height);
+            CDraw.DrawRectReflection(color, rect, space, height);
         }
     }
 

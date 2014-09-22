@@ -307,14 +307,14 @@ namespace Vocaluxe.Lib.Draw
             _Backbuffer.Save(file, ImageFormat.Png);
         }
 
-        public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
+        public void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2)
         {
-            _G.DrawLine(new Pen(Color.FromArgb(a, r, g, b), w), new Point(x1, y1), new Point(x2, y2));
+            _G.DrawLine(new Pen(color.AsColor(), w), new Point(x1, y1), new Point(x2, y2));
         }
 
-        public void DrawColor(SColorF color, SRectF rect) {}
+        public void DrawRect(SColorF color, SRectF rect) {}
 
-        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height) {}
+        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height) {}
 
         public CTextureRef AddTexture(Bitmap bmp)
         {
@@ -356,12 +356,20 @@ namespace Vocaluxe.Lib.Draw
             return texture != null && _Textures.ContainsKey(texture.ID);
         }
 
+        public CTextureRef CopyTexture(CTextureRef textureRef)
+        {
+            if (_TextureExists(textureRef))
+                return AddTexture(_Bitmaps[textureRef.ID]);
+            return null;
+        }
+
         public void RemoveTexture(ref CTextureRef texture)
         {
             if (_TextureExists(texture))
             {
                 _Bitmaps[texture.ID].Dispose();
                 _Textures.Remove(texture.ID);
+                texture.SetRemoved();
             }
             texture = null;
         }
@@ -369,6 +377,16 @@ namespace Vocaluxe.Lib.Draw
         public CTextureRef EnqueueTexture(int w, int h, byte[] data)
         {
             return AddTexture(w, h, data);
+        }
+
+        public CTextureRef EnqueueTexture(Bitmap bmp)
+        {
+            return AddTexture(bmp);
+        }
+
+        public void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp)
+        {
+            UpdateTexture(textureRef, bmp);
         }
 
         public CTextureRef AddTexture(int w, int h, byte[] data)
@@ -393,16 +411,10 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public void DrawTexture(CTextureRef texture)
+        public void UpdateTexture(CTextureRef textureRef, Bitmap bmp)
         {
-            if (texture != null)
-                DrawTexture(texture, texture.Rect, texture.Color);
-        }
-
-        public void DrawTexture(CTextureRef texture, SRectF rect)
-        {
-            if (texture != null)
-                DrawTexture(texture, rect, texture.Color);
+            if (_TextureExists(textureRef))
+                _Bitmaps[textureRef.ID] = bmp;
         }
 
         public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false)

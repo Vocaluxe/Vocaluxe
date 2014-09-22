@@ -253,9 +253,7 @@ namespace Vocaluxe.Lib.Draw
         {
             return _Control.Height;
         }
-        #endregion main stuff
 
-        #region Basic Draw Methods
         public override void ClearScreen()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -268,6 +266,27 @@ namespace Vocaluxe.Lib.Draw
             GL.Ortho(-CConfig.BorderLeft, CConfig.BorderRight + CSettings.RenderW, CConfig.BorderBottom + CSettings.RenderH, -CConfig.BorderTop, CSettings.ZNear, CSettings.ZFar);
         }
 
+        public void MakeScreenShot()
+        {
+            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.bmp");
+
+            int width = GetScreenWidth();
+            int height = GetScreenHeight();
+
+            using (var screen = new Bitmap(width, height))
+            {
+                BitmapData bmpData = screen.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+
+                GL.ReadPixels(0, 0, width, height, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
+                screen.UnlockBits(bmpData);
+
+                screen.RotateFlip(RotateFlipType.RotateNoneFlipY);
+                screen.Save(file, ImageFormat.Bmp);
+            }
+        }
+        #endregion main stuff
+
+        #region Basic Draw Methods
         public CTextureRef CopyScreen()
         {
             //TODO: Check if _W,_H needs to be used or not
@@ -298,30 +317,11 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public void MakeScreenShot()
-        {
-            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.bmp");
-
-            int width = GetScreenWidth();
-            int height = GetScreenHeight();
-
-            using (var screen = new Bitmap(width, height))
-            {
-                BitmapData bmpData = screen.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-
-                GL.ReadPixels(0, 0, width, height, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
-                screen.UnlockBits(bmpData);
-
-                screen.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                screen.Save(file, ImageFormat.Bmp);
-            }
-        }
-
-        public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
+        public void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2)
         {
             GL.Enable(EnableCap.Blend);
-            GL.Color4(r, g, b, a * CGraphics.GlobalAlpha);
-
+            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            GL.LineWidth(w);
             GL.Begin(BeginMode.Lines);
             GL.Vertex3(x1, y1, CGraphics.ZOffset);
             GL.Vertex3(x2, y2, CGraphics.ZOffset);
@@ -330,22 +330,30 @@ namespace Vocaluxe.Lib.Draw
             GL.Disable(EnableCap.Blend);
         }
 
-        public void DrawColor(SColorF color, SRectF rect)
+        public void DrawRect(SColorF color, SRectF rect)
         {
             GL.Enable(EnableCap.Blend);
             GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
 
             GL.Begin(BeginMode.Quads);
+            GL.MatrixMode(MatrixMode.Texture);
+            GL.PushMatrix();
+            if (Math.Abs(rect.Rotation) > 0.001)
+            {
+                GL.Translate(0.5f, 0.5f, 0);
+                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                GL.Translate(-0.5f, -0.5f, 0);
+            }
             GL.Vertex3(rect.X, rect.Y, rect.Z + CGraphics.ZOffset);
             GL.Vertex3(rect.X, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
             GL.Vertex3(rect.X + rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
             GL.Vertex3(rect.X + rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
             GL.End();
-
+            GL.PopMatrix();
             GL.Disable(EnableCap.Blend);
         }
 
-        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height)
         {
             if (rect.H < height)
                 height = rect.H;
@@ -369,7 +377,8 @@ namespace Vocaluxe.Lib.Draw
 
 
             GL.Enable(EnableCap.Blend);
-
+            GL.MatrixMode(MatrixMode.Texture);
+            GL.PushMatrix();
             if (Math.Abs(rect.Rotation) > 0.001)
             {
                 GL.Translate(0.5f, 0.5f, 0);
@@ -392,7 +401,7 @@ namespace Vocaluxe.Lib.Draw
             GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
 
             GL.End();
-
+            GL.PopMatrix();
             GL.Disable(EnableCap.Blend);
         }
         #endregion Basic Draw Methods
@@ -435,7 +444,7 @@ namespace Vocaluxe.Lib.Draw
         }
 
         #region drawing
-        public override void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
         {
             COGLTexture texture;
             if (!_GetTexture(textureRef, out texture))
@@ -446,9 +455,9 @@ namespace Vocaluxe.Lib.Draw
 
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
-            float x1 = 0;
+            const float x1 = 0;
             float x2 = texture.WidthRatio;
-            float y1 = 0;
+            const float y1 = 0;
             float y2 = texture.HeightRatio;
 
             float rx1 = rect.X;

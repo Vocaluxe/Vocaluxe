@@ -360,7 +360,7 @@ namespace Vocaluxe.Screens
             base.Draw();
 
             //Draw background
-            CDraw.DrawColor(new SColorF(0, 0.18f, 0.474f, 1), new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, 0));
+            CDraw.DrawRect(new SColorF(0, 0.18f, 0.474f, 1), new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, 0));
 
             //Draw stars
             _StarsBlue.Draw();

@@ -660,7 +660,7 @@ namespace Vocaluxe.Base
             foreach (string txt in debugOutput)
             {
                 RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), y, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CDraw.DrawRect(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
                 y += rect.Height;
             }

@@ -530,23 +530,21 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Draws a line
         /// </summary>
-        /// <param name="a">The alpha value from 0-255</param>
-        /// <param name="r">The red value from 0-255</param>
-        /// <param name="g">The red value from 0-255</param>
-        /// <param name="b">The red value from 0-255</param>
+        /// <param name="color"></param>
         /// <param name="w">The width of the line</param>
         /// <param name="x1">The start x-value</param>
         /// <param name="y1">The start y-value</param>
         /// <param name="x2">The end x-value</param>
         /// <param name="y2">The end y-value</param>
-        public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
+        public void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2)
         {
             var lineVector = new Vector2[] {new Vector2(x1, y1), new Vector2(x2, y2)};
             using (var line = new Line(_Device))
             {
                 line.Antialias = true;
+                line.Width = w;
                 line.Begin();
-                line.Draw(lineVector, new Color4((float)a / 255, (float)r / 255, (float)g / 255, (float)b / 255));
+                line.Draw(lineVector, new Color4(color.AsColor()));
                 line.End();
             }
         }
@@ -556,7 +554,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         /// <param name="color">The color in which the rectangle will be drawn in</param>
         /// <param name="rect">The coordinates in a SRectF struct</param>
-        public void DrawColor(SColorF color, SRectF rect)
+        public void DrawRect(SColorF color, SRectF rect)
         {
             DrawTexture(_BlankTexture, rect, color);
         }
@@ -568,7 +566,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="rect">The coordinates in a SRectF struct</param>
         /// <param name="space">The space between the texture and the reflection</param>
         /// <param name="height">The height of the reflection</param>
-        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height)
         {
             DrawTextureReflection(_BlankTexture, rect, color, rect, space, height);
         }
@@ -609,7 +607,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="rect">A SRectF struct containing the destination coordinates</param>
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="mirrored">True if the texture should be mirrored</param>
-        public override void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
         {
             if (rect.W < 1 || rect.H < 1)
                 return;
@@ -619,9 +617,9 @@ namespace Vocaluxe.Lib.Draw
                 return;
 
             //Calculate the position
-            float x1 = 0;
+            const float x1 = 0;
             float x2 = texture.WidthRatio;
-            float y1 = 0;
+            const float y1 = 0;
             float y2 = texture.HeightRatio;
 
             //Calculate the size
@@ -636,7 +634,7 @@ namespace Vocaluxe.Lib.Draw
 
             if (mirrored)
             {
-                y1 = -y1;
+                //y1 = -y1;
                 y2 = -y2;
             }
             var vert = new STexturedColoredVertex[4];

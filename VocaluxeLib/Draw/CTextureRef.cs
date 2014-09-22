@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Drawing;
 
 namespace VocaluxeLib.Draw
@@ -22,10 +23,9 @@ namespace VocaluxeLib.Draw
     /// <summary>
     ///     Reference to a texture in the drawing driver
     /// </summary>
-    public class CTextureRef
+    public class CTextureRef : IDisposable
     {
-        public int ID;
-
+        public int ID { get; private set; }
         /// <summary>
         ///     Size of original image (e.g. of bmp)
         /// </summary>
@@ -56,22 +56,32 @@ namespace VocaluxeLib.Draw
             Rect = new SRectF(0f, 0f, origSize.Width, origSize.Height, 0f);
         }
 
-        public void CopyFieldsFrom(CTextureRef other)
+        ~CTextureRef()
         {
-            ID = other.ID;
-            OrigSize = other.OrigSize;
-            Rect = other.Rect;
-            Color = other.Color;
+            Dispose();
         }
 
-        ~CTextureRef()
+        public void Dispose()
         {
             if (ID >= 0)
             {
-                //Free textures that are no longer reference
+                //Free textures that are no longer referenced
                 CTextureRef tmp = this;
                 CBase.Drawing.RemoveTexture(ref tmp);
             }
+            SetRemoved();
+        }
+
+        /// <summary>
+        ///     Call this from the graphics driver to denote that this reference is remove and no longer valid <br />
+        ///     This avoids the finalizer
+        /// </summary>
+        public void SetRemoved()
+        {
+            if (ID < 0)
+                throw new ObjectDisposedException(GetType().Name);
+            ID = -1;
+            GC.SuppressFinalize(this);
         }
     }
 }
