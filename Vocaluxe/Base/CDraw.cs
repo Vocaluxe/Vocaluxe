@@ -196,11 +196,22 @@ namespace Vocaluxe.Base
         ///     Requests adding a texture from a bitmap <br />
         ///     Use this if you add textures from another thread or don't need it immediatelly
         /// </summary>
-        /// <param name="bmp"></param>
+        /// <param name="bmp">Bitmap to add, gets disposed after adding!</param>
         /// <returns>Reference to texture</returns>
         public static CTextureRef EnqueueTexture(Bitmap bmp)
         {
             return _Draw.EnqueueTexture(bmp);
+        }
+
+        /// <summary>
+        ///     Requests adding a texture from a file <br />
+        ///     Use this if you add textures from another thread or don't need it immediatelly
+        /// </summary>
+        /// <param name="texturePath">Full path to the image file</param>
+        /// <returns>Reference to texture</returns>
+                public static CTextureRef EnqueueTexture(String texturePath)
+        {
+            return _Draw.EnqueueTexture(texturePath);
         }
 
         /// <summary>

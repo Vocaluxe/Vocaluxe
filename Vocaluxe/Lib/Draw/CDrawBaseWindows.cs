@@ -171,8 +171,10 @@ namespace Vocaluxe.Lib.Draw
 
         #endregion
 
-        public virtual bool Init()
+        public override bool Init()
         {
+            if (!base.Init())
+                return false;
             _Form.Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
             _Form.Text = CSettings.GetFullVersionText();
             ((IFormHook)_Form).OnMessage = _OnMessageAvoidScreenOff;

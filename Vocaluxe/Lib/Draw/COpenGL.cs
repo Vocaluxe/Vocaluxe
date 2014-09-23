@@ -56,25 +56,38 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class COGLTexture : CTextureBase, IDisposable
+    class COGLTexture : CTextureBase
     {
         //The texture "name" according to the specs
         public readonly int Name;
 
-        private bool _IsDisposed;
-
         public COGLTexture(int name, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, texWidth, texHeight)
         {
             Name = name;
+            if (name == 0)
+                return;
+            GL.BindTexture(TextureTarget.Texture2D, Name);
+
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, W2, H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public void Dispose()
+        public override bool IsLoaded
         {
-            if (_IsDisposed)
-                throw new ObjectDisposedException(GetType().Name);
-            _IsDisposed = true;
-            GL.DeleteTexture(Name);
-            RefCount = 0;
+            get { return Name != 0; }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            if (Name != 0)
+                GL.DeleteTexture(Name);
         }
     }
 
@@ -409,17 +422,10 @@ namespace Vocaluxe.Lib.Draw
         #region Textures
         protected override COGLTexture _CreateTexture(Size dataSize)
         {
+            if (dataSize.Width < 0)
+                return new COGLTexture(0, dataSize);
             COGLTexture texture = new COGLTexture(GL.GenTexture(), dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
-            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texture.W2, texture.H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
-
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
-
-            GL.BindTexture(TextureTarget.Texture2D, 0);
             return texture;
         }
 

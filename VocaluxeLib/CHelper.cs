@@ -21,7 +21,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Text;
 
 namespace VocaluxeLib
 {
@@ -302,40 +301,30 @@ namespace VocaluxeLib
                 filename = Path.Combine(path, filename);
             return filename + ext;
         }
-    }
 
-    static class CEncoding
-    {
-        public static Encoding GetEncoding(this string encodingName)
+        /// <summary>
+        ///     Loads a bitmap from a file logging errors
+        /// </summary>
+        /// <param name="filePath">Full path to image file</param>
+        /// <returns>Bitmap or null on error</returns>
+        public static Bitmap LoadBitmap(string filePath)
         {
-            switch (encodingName)
+            if (!File.Exists(filePath))
             {
-                case "AUTO":
-                    return Encoding.Default;
-                case "CP1250":
-                    return Encoding.GetEncoding(1250);
-                case "CP1252":
-                    return Encoding.GetEncoding(1252);
-                case "LOCALE":
-                    return Encoding.Default;
-                case "UTF8":
-                    return Encoding.UTF8;
-                default:
-                    return Encoding.Default;
+                CBase.Log.LogError("Can't find File: " + filePath);
+                return null;
             }
-        }
-
-        public static string GetEncodingName(this Encoding enc)
-        {
-            string result = "UTF8";
-
-            if (enc.CodePage == 1250)
-                result = "CP1250";
-
-            if (enc.CodePage == 1252)
-                result = "CP1252";
-
-            return result;
+            Bitmap bmp;
+            try
+            {
+                bmp = new Bitmap(filePath);
+            }
+            catch (Exception)
+            {
+                CBase.Log.LogError("Error loading bitmap: " + filePath);
+                return null;
+            }
+            return bmp;
         }
     }
 }

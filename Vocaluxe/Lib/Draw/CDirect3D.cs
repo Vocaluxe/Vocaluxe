@@ -42,21 +42,27 @@ namespace Vocaluxe.Lib.Draw
         }
     }
 
-    class CD3DTexture : CTextureBase, IDisposable
+    class CD3DTexture : CTextureBase
     {
         public readonly Texture D3DTexture;
 
         public CD3DTexture(Device device, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, texWidth, texHeight)
         {
-            D3DTexture = new Texture(device, W2, H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+            //Create a new texture in the managed pool, which does not need to be recreated on a lost device
+            //because a copy of the texture is hold in the Ram
+            D3DTexture = device == null ? null : new Texture(device, W2, H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
         }
 
-        public void Dispose()
+        public override bool IsLoaded
         {
-            if (D3DTexture.Disposed)
-                throw new ObjectDisposedException(GetType().Name);
-            D3DTexture.Dispose();
-            RefCount = 0;
+            get { return D3DTexture != null; }
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            if (D3DTexture != null)
+                D3DTexture.Dispose();
         }
     }
 
@@ -575,8 +581,8 @@ namespace Vocaluxe.Lib.Draw
         #region Textures
         protected override CD3DTexture _CreateTexture(Size dataSize)
         {
-            //Create a new texture in the managed pool, which does not need to be recreated on a lost device
-            //because a copy of the texture is hold in the Ram
+            if (dataSize.Width < 0)
+                return new CD3DTexture(null, dataSize);
             return new CD3DTexture(_Device, dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
         }
 

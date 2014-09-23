@@ -380,6 +380,11 @@ namespace Vocaluxe.Lib.Draw
             return AddTexture(w, h, data);
         }
 
+        public CTextureRef EnqueueTexture(string texturePath)
+        {
+            return AddTexture(texturePath);
+        }
+
         public CTextureRef EnqueueTexture(Bitmap bmp)
         {
             return AddTexture(bmp);
