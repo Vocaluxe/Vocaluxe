@@ -31,7 +31,7 @@ namespace Vocaluxe.Lib.Draw
 
         private struct STextureQueue
         {
-            public readonly WeakReference TextureRef;
+            public readonly object TextureOrRef;
             /// <summary>
             ///     Only valid if Data is byte[]
             /// </summary>
@@ -42,12 +42,12 @@ namespace Vocaluxe.Lib.Draw
             /// <summary>
             ///     Creates a new Queue entry
             /// </summary>
-            /// <param name="textureRef"></param>
+            /// <param name="textureOrRef">TTextureType or CTextureRef</param>
             /// <param name="action"></param>
             /// <param name="data">Texture data as a bitmap</param>
-            public STextureQueue(CTextureRef textureRef, EQueueAction action, Bitmap data)
+            public STextureQueue(object textureOrRef, EQueueAction action, Bitmap data)
             {
-                TextureRef = new WeakReference(textureRef);
+                TextureOrRef = textureOrRef;
                 Action = action;
                 Data = data;
                 DataSize = new Size();
@@ -56,13 +56,13 @@ namespace Vocaluxe.Lib.Draw
             /// <summary>
             ///     Creates a new Queue entry
             /// </summary>
-            /// <param name="textureRef"></param>
+            /// <param name="textureOrRef">TTextureType or CTextureRef</param>
             /// <param name="action"></param>
             /// <param name="dataSize">Size of data</param>
             /// <param name="data">Texture data</param>
-            public STextureQueue(CTextureRef textureRef, EQueueAction action, Size dataSize, byte[] data)
+            public STextureQueue(object textureOrRef, EQueueAction action, Size dataSize, byte[] data)
             {
-                TextureRef = new WeakReference(textureRef);
+                TextureOrRef = textureOrRef;
                 Action = action;
                 DataSize = dataSize;
                 Data = data;
@@ -499,12 +499,14 @@ namespace Vocaluxe.Lib.Draw
                 while (_TextureQueue.Count > 0)
                 {
                     STextureQueue q = _TextureQueue.Dequeue();
-                    CTextureRef textureRef = q.TextureRef.Target as CTextureRef;
-                    if (!q.TextureRef.IsAlive || textureRef == null || !_Textures.ContainsKey(textureRef.ID))
-                        continue;
 
                     if (q.Action == EQueueAction.Add)
                     {
+                        TTextureType oldTexture = q.TextureOrRef as TTextureType;
+                        Debug.Assert(oldTexture != null, "Queued type is wrong");
+                        Debug.Assert(!oldTexture.IsLoaded);
+                        if (oldTexture.RefCount <= 0)
+                            continue;
                         TTextureType texture = null;
                         // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
                         if (q.Data is Bitmap)
@@ -514,22 +516,28 @@ namespace Vocaluxe.Lib.Draw
                         else
                             throw new ArgumentException("q.Data is of invalid type");
                         // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
-                        TTextureType oldTexture = _Textures[textureRef.ID];
                         _MergeTextures(oldTexture, texture);
                     }
-                    else if (q.Action == EQueueAction.Update)
+                    else
                     {
-                        // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
-                        if (q.Data is Bitmap)
-                            UpdateTexture(textureRef, (Bitmap)q.Data);
-                        else if (q.Data is byte[])
-                            UpdateTexture(textureRef, q.DataSize.Width, q.DataSize.Height, (byte[])q.Data);
-                        else
-                            throw new ArgumentException("q.Data is of invalid type");
-                        // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
+                        CTextureRef textureRef = q.TextureOrRef as CTextureRef;
+                        Debug.Assert(textureRef != null, "Queued type is wrong");
+                        if (!_Textures.ContainsKey(textureRef.ID))
+                            continue;
+                        if (q.Action == EQueueAction.Update)
+                        {
+                            // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
+                            if (q.Data is Bitmap)
+                                UpdateTexture(textureRef, (Bitmap)q.Data);
+                            else if (q.Data is byte[])
+                                UpdateTexture(textureRef, q.DataSize.Width, q.DataSize.Height, (byte[])q.Data);
+                            else
+                                throw new ArgumentException("q.Data is of invalid type");
+                            // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
+                        }
+                        else if (q.Action == EQueueAction.Delete)
+                            RemoveTexture(ref textureRef);
                     }
-                    else if (q.Action == EQueueAction.Delete)
-                        RemoveTexture(ref textureRef);
                 }
             }
         }
@@ -660,7 +668,8 @@ namespace Vocaluxe.Lib.Draw
 
         public CTextureRef EnqueueTexture(Bitmap bmp)
         {
-            CTextureRef textureRef = _GetTextureReference(bmp.GetSize(), _CreateTexture(new Size(-1, -1)));
+            TTextureType texture = _CreateTexture(new Size(-1, -1));
+            CTextureRef textureRef = _GetTextureReference(bmp.GetSize(), texture);
             if (_RequiresResize(bmp.GetSize()))
             {
                 Task.Factory.StartNew(() =>
@@ -669,7 +678,7 @@ namespace Vocaluxe.Lib.Draw
                         bmp.Dispose();
                         lock (_TextureQueue)
                         {
-                            _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Add, bmp2));
+                            _TextureQueue.Enqueue(new STextureQueue(texture, EQueueAction.Add, bmp2));
                         }
                     });
             }
@@ -677,7 +686,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 lock (_TextureQueue)
                 {
-                    _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Add, bmp));
+                    _TextureQueue.Enqueue(new STextureQueue(texture, EQueueAction.Add, bmp));
                 }
             }
 
@@ -709,7 +718,7 @@ namespace Vocaluxe.Lib.Draw
                     textureRef = _GetTextureReference(invalidSize, texture);
                     // Add the loader to the dictionary in the same lock as the add cache call
                     // Avoids that we get a cache entry in AddTexture but no Task
-                    loader = new Task<Size>(() => _LoadAndEnqueueBitmap(filePath, textureRef));
+                    loader = new Task<Size>(() => _LoadAndEnqueueBitmap(filePath, textureRef, texture));
                     lock (_BitmapsLoading)
                     {
                         _BitmapsLoading.Add(filePath, loader);
@@ -737,8 +746,9 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         /// <param name="filePath"></param>
         /// <param name="textureRef"></param>
+        /// <param name="texture"></param>
         /// <returns></returns>
-        private Size _LoadAndEnqueueBitmap(string filePath, CTextureRef textureRef)
+        private Size _LoadAndEnqueueBitmap(string filePath, CTextureRef textureRef, TTextureType texture)
         {
             Bitmap bmp = CHelper.LoadBitmap(filePath);
             if (bmp == null)
@@ -779,7 +789,7 @@ namespace Vocaluxe.Lib.Draw
             }
             lock (_TextureQueue)
             {
-                _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Add, bmp));
+                _TextureQueue.Enqueue(new STextureQueue(texture, EQueueAction.Add, bmp));
             }
             return origSize;
         }
