@@ -81,7 +81,7 @@ namespace Vocaluxe
             {
                 // Init Log
                 CLog.Init();
-
+                CLog.StartBenchmark("Init Program");
                 if (!CProgrammHelper.CheckRequirements())
                     return;
                 CProgrammHelper.Init();
@@ -235,6 +235,7 @@ namespace Vocaluxe
                 //Only reasonable point to call GC.Collect() because initialization may cause lots of garbage
                 //Rely on GC doing its job afterwards and call Dispose methods where appropriate
                 GC.Collect();
+                CLog.StopBenchmark("Init Program");
             }
             catch (Exception e)
             {
@@ -250,7 +251,6 @@ namespace Vocaluxe
             // Start Main Loop
             if (_SplashScreen != null)
                 _SplashScreen.Close();
-            CVocaluxeServer.Start();
 
             CDraw.MainLoop();
         }

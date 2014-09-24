@@ -373,9 +373,9 @@ namespace Vocaluxe.Base
 
             if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
-                CLog.StartBenchmark("Load Covers/Notes");
+                CLog.StartBenchmark("Load Covers");
                 _LoadCover();
-                CLog.StopBenchmark("Load Covers/Notes");
+                CLog.StopBenchmark("Load Covers");
             }
             CLog.StopBenchmark("Load Songs ");
         }
