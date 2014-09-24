@@ -346,7 +346,9 @@ namespace Vocaluxe.Lib.Draw
         }
 
         /// <summary>
-        ///     Adds the texture to the cache
+        ///     Adds the texture to the cache<br />
+        ///     Asserts that the cache entry does not exist yet. So make Get/Add cache atomic through use of _TextureCache lock!<br />
+        ///     Thread safe
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="origSize"></param>
@@ -367,25 +369,37 @@ namespace Vocaluxe.Lib.Draw
 
         /// <summary>
         ///     Gets a new texture reference from the cache <br />
-        ///     Thread safe but you should hold the _TextureCache lock if you need the loader task
+        ///     Thread safe
         /// </summary>
         /// <param name="texturePath"></param>
+        /// <param name="loader">Task that loads the texture or null if not loading</param>
         /// <returns></returns>
-        private CTextureRef _GetFromCache(string texturePath)
+        private CTextureRef _GetFromCache(string texturePath, out Task<Size> loader)
         {
+            loader = null;
             if (String.IsNullOrEmpty(texturePath))
                 return null;
-            lock (_Textures)
-            {
-                STextureCacheEntry cacheEntry;
-                if (_TextureCache.TryGetValue(texturePath, out cacheEntry))
+            lock (_TextureCache)
+                lock (_Textures)
                 {
-                    if (cacheEntry.Texture.RefCount <= 0)
-                        _TextureCache.Remove(texturePath);
-                    else
-                        return _GetTextureReference(cacheEntry.OrigSize, cacheEntry.Texture);
+                    STextureCacheEntry cacheEntry;
+                    if (_TextureCache.TryGetValue(texturePath, out cacheEntry))
+                    {
+                        if (cacheEntry.Texture.RefCount <= 0)
+                            _TextureCache.Remove(texturePath);
+                        else
+                        {
+                            if (cacheEntry.OrigSize.Width < 0)
+                            {
+                                lock (_BitmapsLoading)
+                                {
+                                    loader = _BitmapsLoading[texturePath];
+                                }
+                            }
+                            return _GetTextureReference(cacheEntry.OrigSize, cacheEntry.Texture);
+                        }
+                    }
                 }
-            }
             return null;
         }
 
@@ -522,47 +536,31 @@ namespace Vocaluxe.Lib.Draw
 
         /// <summary>
         ///     Replaces one oldTexture by newTexture summing the refCounts. Also disposes oldTexture
-        ///     IMPORTANT: Caller MUST hold the _Textures lock!
         /// </summary>
         /// <param name="oldTexture"></param>
         /// <param name="newTexture"></param>
         private void _MergeTextures(TTextureType oldTexture, TTextureType newTexture)
         {
+            _EnsureMainThread();
             Debug.Assert(oldTexture.RefCount > 0);
-            newTexture.RefCount += oldTexture.RefCount;
-            // ReSharper disable AccessToDisposedClosure
-            IEnumerable<int> oldKeys = _Textures.Where(pair => pair.Value == oldTexture).Select(pair => pair.Key).ToArray();
-            // ReSharper restore AccessToDisposedClosure
-            foreach (int key in oldKeys)
-                _Textures[key] = newTexture;
-            oldTexture.Dispose();
-        }
-
-        /// <summary>
-        ///     Checks if a texture is currently beeing loaded and waits for completion if it is <br />
-        ///     Required for cached entries, but should not be called from inside any locks unless async is true
-        /// </summary>
-        /// <param name="textureRef"></param>
-        /// <param name="filePath"></param>
-        /// <param name="async">If true, do not block</param>
-        private void _WaitForTextureLoaded(CTextureRef textureRef, string filePath, bool async)
-        {
-            // Check if texture is already loaded
-            if (textureRef.OrigSize.Width > 0)
-                return;
-            Task<Size> loader;
-            lock (_BitmapsLoading)
+            lock (_Textures)
             {
-                if (!_BitmapsLoading.TryGetValue(filePath, out loader))
-                    Debug.Assert(false, "Corruption: Texture not loaded but no loader found");
+                newTexture.RefCount += oldTexture.RefCount;
+                IEnumerable<int> oldKeys = _Textures.Where(pair => pair.Value == oldTexture).Select(pair => pair.Key).ToArray();
+                foreach (int key in oldKeys)
+                    _Textures[key] = newTexture;
+                if (!String.IsNullOrEmpty(oldTexture.TexturePath))
+                {
+                    newTexture.TexturePath = oldTexture.TexturePath;
+                    STextureCacheEntry cacheEntry;
+                    if (_TextureCache.TryGetValue(newTexture.TexturePath, out cacheEntry))
+                    {
+                        cacheEntry.Texture = newTexture;
+                        _TextureCache[newTexture.TexturePath] = cacheEntry;
+                    }
+                }
+                oldTexture.Dispose();
             }
-            // We found the texture in the cache, but its bitmap is not yet loaded
-            // So wait for completion and update the origSize once it is available
-            // Note: loader.Result blocks till completion of the task
-            if (async)
-                Task.Factory.StartNew(() => textureRef.OrigSize = loader.Result);
-            else
-                textureRef.OrigSize = loader.Result;
         }
         #endregion private/protected
 
@@ -575,13 +573,15 @@ namespace Vocaluxe.Lib.Draw
         {
             _EnsureMainThread();
             CTextureRef textureRef;
+            Task<Size> loader;
             lock (_TextureCache)
             {
-                textureRef = _GetFromCache(texturePath);
+                textureRef = _GetFromCache(texturePath, out loader);
             }
             if (textureRef != null)
             {
-                _WaitForTextureLoaded(textureRef, texturePath, false);
+                if (loader != null)
+                    textureRef.OrigSize = loader.Result;
                 Debug.Assert(textureRef.OrigSize.Width > 0);
                 return textureRef;
             }
@@ -621,10 +621,11 @@ namespace Vocaluxe.Lib.Draw
             CTextureRef textureRef;
             Size origSize = bmp.GetSize();
             TTextureType texture = null;
+            Task<Size> loader;
             // Make the Get/Add Cache methods atomic
             lock (_TextureCache)
             {
-                textureRef = _GetFromCache(texturePath);
+                textureRef = _GetFromCache(texturePath, out loader);
                 if (textureRef == null)
                 {
                     _WriteBitmapToTexture(ref texture, bmp);
@@ -634,8 +635,8 @@ namespace Vocaluxe.Lib.Draw
             }
             if (textureRef == null)
                 textureRef = _GetTextureReference(origSize, texture);
-            else
-                _WaitForTextureLoaded(textureRef, texturePath, false);
+            else if (loader != null)
+                textureRef.OrigSize = loader.Result;
             Debug.Assert(textureRef.OrigSize.Width > 0);
             return textureRef;
         }
@@ -693,13 +694,14 @@ namespace Vocaluxe.Lib.Draw
 
             CTextureRef textureRef;
             TTextureType texture = null;
-            Task<Size> loader = null;
+            Task<Size> loader;
             // Make Get/Add cache atomic
             lock (_TextureCache)
             {
-                textureRef = _GetFromCache(filePath);
+                textureRef = _GetFromCache(filePath, out loader);
                 if (textureRef == null)
                 {
+                    Debug.Assert(loader == null);
                     Size invalidSize = new Size(-1, -1);
                     texture = _CreateTexture(invalidSize);
                     // This cache entry has to be updated once the real origSize is available
@@ -718,7 +720,9 @@ namespace Vocaluxe.Lib.Draw
             if (texture == null)
             {
                 // Found in cache
-                _WaitForTextureLoaded(textureRef, filePath, true);
+                CTextureRef tmp = textureRef; // Workaround for implicitly captured closure warning (false positive)
+                if (loader != null)
+                    Task.Factory.StartNew(() => tmp.OrigSize = loader.Result);
                 return textureRef;
             }
 
@@ -736,42 +740,46 @@ namespace Vocaluxe.Lib.Draw
         /// <returns></returns>
         private Size _LoadAndEnqueueBitmap(string filePath, CTextureRef textureRef)
         {
-            Size origSize;
             Bitmap bmp = CHelper.LoadBitmap(filePath);
             if (bmp == null)
             {
                 RemoveTexture(ref textureRef); // Done asynchonously in the function
-                origSize = new Size(-1, -1);
-            }
-            else
-            {
-                origSize = bmp.GetSize();
-                textureRef.OrigSize = origSize;
-                // Update cache, use the same lock as in add/get cache methods
                 lock (_Textures)
                 {
-                    STextureCacheEntry cacheEntry;
-                    if (_TextureCache.TryGetValue(filePath, out cacheEntry))
+                    _TextureCache.Remove(filePath);
+                    lock (_BitmapsLoading)
                     {
-                        cacheEntry.OrigSize = origSize;
-                        _TextureCache[filePath] = cacheEntry;
+                        _BitmapsLoading.Remove(filePath);
                     }
                 }
-                Size size = _GetNewTextureSize(bmp.GetSize());
-                if (!size.Equals(bmp.GetSize()))
+                return new Size(-1, -1);
+            }
+            Size origSize = bmp.GetSize();
+            textureRef.OrigSize = origSize;
+            // Update cache, use the same lock as in add/get cache methods
+            lock (_Textures)
+            {
+                STextureCacheEntry cacheEntry;
+                if (_TextureCache.TryGetValue(filePath, out cacheEntry))
                 {
-                    Bitmap bmp2 = bmp.Resize(size);
-                    bmp.Dispose();
-                    bmp = bmp2;
+                    cacheEntry.OrigSize = origSize;
+                    _TextureCache[filePath] = cacheEntry;
                 }
-                lock (_TextureQueue)
+                lock (_BitmapsLoading)
                 {
-                    _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Add, bmp));
+                    _BitmapsLoading.Remove(filePath);
                 }
             }
-            lock (_BitmapsLoading)
+            Size size = _GetNewTextureSize(origSize);
+            if (!size.Equals(origSize))
             {
-                _BitmapsLoading.Remove(filePath);
+                Bitmap bmp2 = bmp.Resize(size);
+                bmp.Dispose();
+                bmp = bmp2;
+            }
+            lock (_TextureQueue)
+            {
+                _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Add, bmp));
             }
             return origSize;
         }
@@ -840,7 +848,16 @@ namespace Vocaluxe.Lib.Draw
                 return null;
             // If bitmap is not yet loaded, wait for it
             if (!String.IsNullOrEmpty(texture.TexturePath))
-                _WaitForTextureLoaded(textureRef, texture.TexturePath, false);
+            {
+                Task<Size> loader;
+                lock (_BitmapsLoading)
+                {
+                    _BitmapsLoading.TryGetValue(texture.TexturePath, out loader);
+                }
+                if (loader != null)
+                    textureRef.OrigSize = loader.Result;
+            }
+            Debug.Assert(textureRef.OrigSize.Width > 0);
             return _GetTextureReference(textureRef.OrigSize, texture);
         }
 
