@@ -17,7 +17,7 @@ namespace Vocaluxe.Lib.Draw
     ///     Base class for graphic drivers
     ///     A few notes:
     ///     Writes to textures (TTextureType) should only be done in the main thread
-    ///     Writes to the RefCount should only be done in the main thread and guarded by _Textures lock
+    ///     Writes to the RefCount of existing textures should only be done in the main thread and guarded by _Textures lock
     /// </summary>
     /// <typeparam name="TTextureType"></typeparam>
     abstract class CDrawBase<TTextureType> where TTextureType : CTextureBase, IDisposable
@@ -156,6 +156,7 @@ namespace Vocaluxe.Lib.Draw
         {
             if (_W / (float)_H > CSettings.GetRenderAspect())
             {
+                _Y = 0;
                 //The windows width is too big
                 int old = _W;
                 _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
@@ -175,6 +176,7 @@ namespace Vocaluxe.Lib.Draw
             }
             else
             {
+                _X = 0;
                 //The windows height is too big
                 int old = _H;
                 _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
