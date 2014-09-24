@@ -49,7 +49,6 @@ namespace Vocaluxe.Lib.Draw
         void RemoveTexture(ref CTextureRef texture);
 
         // Basic Draw Methods
-        void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2);
         void DrawRect(SColorF color, SRectF rect);
         void DrawRectReflection(SColorF color, SRectF rect, float space, float height);
 

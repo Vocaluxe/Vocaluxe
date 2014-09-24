@@ -152,7 +152,6 @@ namespace VocaluxeLib
 
         void DrawRect(SColorF color, SRectF rect);
         void DrawRectReflection(SColorF color, SRectF rect, float space, float height);
-        void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2);
     }
 
     public interface IGraphics

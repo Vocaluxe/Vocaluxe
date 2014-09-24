@@ -448,11 +448,6 @@ namespace Vocaluxe.Base
             CDraw.RemoveTexture(ref texture);
         }
 
-        public void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2)
-        {
-            CDraw.DrawLine(color, w, x1, y1, x2, y2);
-        }
-
         public void DrawRect(SColorF color, SRectF rect)
         {
             CDraw.DrawRect(color, rect);

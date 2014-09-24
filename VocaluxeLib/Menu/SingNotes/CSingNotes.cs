@@ -539,14 +539,13 @@ namespace VocaluxeLib.Menu.SingNotes
             CBase.Drawing.DrawTexture(noteBackgroundEnd, new SRectF(r.X + r.W - dx, r.Y, dx, r.H, r.Z), col);
         }
 
-        protected void _DrawNoteLines(SRectF rect, SColorF color)
+        private static void _DrawNoteLines(SRectF rect, SColorF color)
         {
-            int x1 = (int)rect.X;
-            int x2 = (int)(rect.X + rect.W);
-            for (int i = 0; i < CBase.Settings.GetNumNoteLines() - 1; i++)
+            SRectF lineRect = new SRectF(rect) {H = 1.5f};
+            for (int i = 0; i < CBase.Settings.GetNumNoteLines(); i++)
             {
-                int y = (int)(rect.Y + rect.H / CBase.Settings.GetNumNoteLines() * (i + 1));
-                CBase.Drawing.DrawLine(color, 1, x1, y, x2, y);
+                lineRect.Y = rect.Y + rect.H / CBase.Settings.GetNumNoteLines() * (i + 1);
+                CBase.Drawing.DrawRect(color, lineRect);
             }
         }
 

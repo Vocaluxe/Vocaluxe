@@ -330,26 +330,13 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2)
-        {
-            GL.Enable(EnableCap.Blend);
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-            GL.LineWidth(w);
-            GL.Begin(BeginMode.Lines);
-            GL.Vertex3(x1, y1, CGraphics.ZOffset);
-            GL.Vertex3(x2, y2, CGraphics.ZOffset);
-            GL.End();
-
-            GL.Disable(EnableCap.Blend);
-        }
-
         public void DrawRect(SColorF color, SRectF rect)
         {
             GL.Enable(EnableCap.Blend);
             GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
 
             GL.Begin(BeginMode.Quads);
-            GL.MatrixMode(MatrixMode.Texture);
+            GL.MatrixMode(MatrixMode.Color);
             GL.PushMatrix();
             if (Math.Abs(rect.Rotation) > 0.001)
             {

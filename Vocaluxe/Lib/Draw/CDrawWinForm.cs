@@ -308,11 +308,6 @@ namespace Vocaluxe.Lib.Draw
             _Backbuffer.Save(file, ImageFormat.Png);
         }
 
-        public void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2)
-        {
-            _G.DrawLine(new Pen(color.AsColor(), w), new Point(x1, y1), new Point(x2, y2));
-        }
-
         public void DrawRect(SColorF color, SRectF rect) {}
 
         public void DrawRectReflection(SColorF color, SRectF rect, float space, float height) {}

@@ -280,40 +280,6 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        ///     Draws a simple line
-        /// </summary>
-        /// <param name="color"></param>
-        /// <param name="w">Width of the line</param>
-        /// <param name="x1"></param>
-        /// <param name="y1"></param>
-        /// <param name="x2"></param>
-        /// <param name="y2"></param>
-        public static void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2)
-        {
-            _Draw.DrawLine(color, w, x1, y1, x2, y2);
-        }
-
-        /// <summary>
-        ///     Draws the outline of a rectangle
-        /// </summary>
-        /// <param name="color"></param>
-        /// <param name="rect"></param>
-        /// <param name="thickness">Width of the lines</param>
-        public static void DrawRectOutline(SColorF color, SRectF rect, float thickness)
-        {
-            if (thickness <= 0f)
-                return;
-            int x1 = (int)rect.X;
-            int x2 = (int)(rect.X + rect.W);
-            int y1 = (int)rect.Y;
-            int y2 = (int)(rect.Y + rect.H);
-            _Draw.DrawLine(color, thickness, x1, y1, x2, y1);
-            _Draw.DrawLine(color, thickness, x2, y1, x2, y2);
-            _Draw.DrawLine(color, thickness, x2, y2, x1, y2);
-            _Draw.DrawLine(color, thickness, x1, y2, x1, y1);
-        }
-
-        /// <summary>
         ///     Draws a simple (filled) rectangle with the given color
         /// </summary>
         /// <param name="color"></param>

@@ -534,28 +534,6 @@ namespace Vocaluxe.Lib.Draw
         }
 
         /// <summary>
-        ///     Draws a line
-        /// </summary>
-        /// <param name="color"></param>
-        /// <param name="w">The width of the line</param>
-        /// <param name="x1">The start x-value</param>
-        /// <param name="y1">The start y-value</param>
-        /// <param name="x2">The end x-value</param>
-        /// <param name="y2">The end y-value</param>
-        public void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2)
-        {
-            var lineVector = new Vector2[] {new Vector2(x1, y1), new Vector2(x2, y2)};
-            using (var line = new Line(_Device))
-            {
-                line.Antialias = true;
-                line.Width = w;
-                line.Begin();
-                line.Draw(lineVector, new Color4(color.AsColor()));
-                line.End();
-            }
-        }
-
-        /// <summary>
         ///     Draws a colored rectangle
         /// </summary>
         /// <param name="color">The color in which the rectangle will be drawn in</param>
