@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
@@ -64,46 +63,6 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        ///     Makes sure val is between min and max
-        ///     Asserts that min&lt;=max
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="val"></param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <returns>Clamped value</returns>
-        public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>
-        {
-            Debug.Assert(min.CompareTo(max) <= 0);
-            if (val.CompareTo(min) < 0)
-                return min;
-            if (val.CompareTo(max) > 0)
-                return max;
-            return val;
-        }
-
-        /// <summary>
-        ///     Makes sure val is between min and max but also handles the case where min&gt;max
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="val"></param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <param name="preferMin"></param>
-        /// <returns>Clamped value</returns>
-        public static T Clamp<T>(this T val, T min, T max, bool preferMin) where T : IComparable<T>
-        {
-            if (min.CompareTo(max) > 0)
-            {
-                if (preferMin)
-                    max = min;
-                else
-                    min = max;
-            }
-            return Clamp(val, min, max);
-        }
-
-        /// <summary>
         ///     Concat strings into one string with ", " as separator.
         /// </summary>
         public static string ListStrings(string[] str)
@@ -121,17 +80,8 @@ namespace VocaluxeLib
 
         public static void SetRect(SRectF bounds, out SRectF rect, float aspectRatio, EAspect aspect)
         {
-            var bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
-            RectangleF rect2;
-            SetRect(bounds2, out rect2, aspectRatio, aspect);
-
-            rect = new SRectF(rect2.X, rect2.Y, rect2.Width, rect2.Height, bounds.Z);
-        }
-
-        public static void SetRect(RectangleF bounds, out RectangleF rect, float aspectRatio, EAspect aspect)
-        {
-            float boundsW = bounds.Width;
-            float boundsH = bounds.Height;
+            float boundsW = bounds.W;
+            float boundsH = bounds.H;
             float boundsAspectRatio = boundsW / boundsH;
 
             float scaledWidth;
@@ -169,10 +119,10 @@ namespace VocaluxeLib
                     break;
             }
 
-            float left = (boundsW - scaledWidth) / 2 + bounds.Left;
-            float upper = (boundsH - scaledHeight) / 2 + bounds.Top;
+            float left = (boundsW - scaledWidth) / 2 + bounds.X;
+            float upper = (boundsH - scaledHeight) / 2 + bounds.Y;
 
-            rect = new RectangleF(left, upper, scaledWidth, scaledHeight);
+            rect = new SRectF(left, upper, scaledWidth, scaledHeight, bounds.Z);
         }
 
         /// <summary>
@@ -276,7 +226,7 @@ namespace VocaluxeLib
 
         public static bool IsInBounds(SRectF bounds, int x, int y)
         {
-            return (bounds.X <= x) && (bounds.X + bounds.W >= x) && (bounds.Y <= y) && (bounds.Y + bounds.H >= y);
+            return ((float)x).IsInRange(bounds.X, bounds.X + bounds.W) && ((float)y).IsInRange(bounds.Y, bounds.Y + bounds.H);
         }
 
         /// <summary>

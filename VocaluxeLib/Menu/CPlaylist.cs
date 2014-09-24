@@ -440,7 +440,7 @@ namespace VocaluxeLib.Menu
 
         public bool IsMouseOver(SMouseEvent mouseEvent)
         {
-            return CHelper.IsInBounds(CompleteRect, mouseEvent.X, mouseEvent.Y) || _Interactions.IsMouseOver(mouseEvent);
+            return CHelper.IsInBounds(CompleteRect, mouseEvent) || _Interactions.IsMouseOver(mouseEvent);
         }
 
         public void UnloadTextures()

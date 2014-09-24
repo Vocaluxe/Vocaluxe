@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
@@ -26,6 +27,59 @@ namespace VocaluxeLib
 {
     public static class CExtensions
     {
+        /// <summary>
+        ///     Makes sure val is between min and max
+        ///     Asserts that min&lt;=max
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns>Clamped value</returns>
+        public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>
+        {
+            Debug.Assert(min.CompareTo(max) <= 0);
+            if (val.CompareTo(min) < 0)
+                return min;
+            if (val.CompareTo(max) > 0)
+                return max;
+            return val;
+        }
+
+        /// <summary>
+        ///     Makes sure val is between min and max but also handles the case where min&gt;max
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <param name="preferMin"></param>
+        /// <returns>Clamped value</returns>
+        public static T Clamp<T>(this T val, T min, T max, bool preferMin) where T : IComparable<T>
+        {
+            if (min.CompareTo(max) > 0)
+            {
+                if (preferMin)
+                    max = min;
+                else
+                    min = max;
+            }
+            return Clamp(val, min, max);
+        }
+
+        /// <summary>
+        ///     Checks if the value is in the specified range
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="val"></param>
+        /// <param name="min"></param>
+        /// <param name="max"></param>
+        /// <returns></returns>
+        public static bool IsInRange<T>(this T val, T min, T max) where T : IComparable<T>
+        {
+            return min.CompareTo(val) <= 0 && max.CompareTo(val) >= 0;
+        }
+
         /// <summary>
         ///     Resizes the given list to the given size. Removes elements or adds default values
         /// </summary>
