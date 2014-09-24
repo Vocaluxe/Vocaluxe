@@ -143,13 +143,16 @@ namespace VocaluxeLib
         void DrawTexture(CTextureRef texture, SRectF rect);
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color);
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
+        void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect);
+        void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect, SColorF color);
         void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, float reflectionSpace, float reflectionHeight);
 
         CTextureRef AddTexture(string fileName);
         void RemoveTexture(ref CTextureRef texture);
 
-        void DrawColor(SColorF color, SRectF rect);
-        void DrawColorReflection(SColorF color, SRectF rect, float space, float height);
+        void DrawRect(SColorF color, SRectF rect);
+        void DrawRectReflection(SColorF color, SRectF rect, float space, float height);
+        void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2);
     }
 
     public interface IGraphics

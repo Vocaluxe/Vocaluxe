@@ -209,7 +209,7 @@ namespace Vocaluxe.Base
         /// </summary>
         /// <param name="texturePath">Full path to the image file</param>
         /// <returns>Reference to texture</returns>
-                public static CTextureRef EnqueueTexture(String texturePath)
+        public static CTextureRef EnqueueTexture(String texturePath)
         {
             return _Draw.EnqueueTexture(texturePath);
         }
@@ -400,12 +400,24 @@ namespace Vocaluxe.Base
         /// <param name="aspect">How to fit a texture in the bounds if the size differs</param>
         public static void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect)
         {
+            DrawTexture(textureRef, bounds, aspect, textureRef.Color);
+        }
+
+        /// <summary>
+        ///     Draws a texture fitting it within the given color and bounds with the method specified by aspect
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="bounds">Where to draw the texture</param>
+        /// <param name="aspect">How to fit a texture in the bounds if the size differs</param>
+        /// <param name="color">Color to use</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect, SColorF color)
+        {
             if (textureRef == null)
                 return;
 
             SRectF rect;
             CHelper.SetRect(bounds, out rect, textureRef.OrigAspect, aspect);
-            DrawTexture(textureRef, rect);
+            DrawTexture(textureRef, rect, color);
         }
 
         /// <summary>

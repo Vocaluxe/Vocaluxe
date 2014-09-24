@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.Xml;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -172,36 +171,31 @@ namespace VocaluxeLib.Menu
                 CBase.Theme.SkinVideoPause(_Theme.VideoName, _PartyModeID);
         }
 
-        public bool Draw()
+        public void Draw()
         {
             bool ok = false;
-            if (_Theme.Type == EBackgroundTypes.Video && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON &&
-                CBase.Config.GetVideosToBackground() == EOffOn.TR_CONFIG_ON && CBase.BackgroundMusic.IsPlaying() && CBase.BackgroundMusic.SongHasVideo() &&
-                CBase.BackgroundMusic.VideoEnabled() && !CBase.BackgroundMusic.IsDisabled())
+            if (_Theme.Type == EBackgroundTypes.Video && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON)
             {
-                Pause();
-                ok = _DrawBackgroundMusicVideo();
+                if (CBase.Config.GetVideosToBackground() == EOffOn.TR_CONFIG_ON && CBase.BackgroundMusic.IsPlaying() && CBase.BackgroundMusic.SongHasVideo() &&
+                    CBase.BackgroundMusic.VideoEnabled())
+                {
+                    Pause();
+                    ok = _DrawBackgroundMusicVideo();
+                }
+                else
+                {
+                    Resume();
+                    ok = _DrawVideo();
+                }
             }
-            else if (_Theme.Type == EBackgroundTypes.Video && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON)
-            {
-                Resume();
-                ok = _DrawVideo();
-            }
-
-
-            if (_Theme.Type == EBackgroundTypes.SlideShow && _Theme.SlideShowTextures.Count > 0)
+            else if (_Theme.Type == EBackgroundTypes.SlideShow && _Theme.SlideShowTextures.Count > 0)
                 ok = _DrawSlideShow();
 
-            if (!String.IsNullOrEmpty(_Theme.TextureName) &&
-                (_Theme.Type == EBackgroundTypes.Texture ||
-                 (_Theme.Type == EBackgroundTypes.Video && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF)))
+            if (!String.IsNullOrEmpty(_Theme.TextureName) && (_Theme.Type == EBackgroundTypes.Texture || !ok))
                 ok = _DrawTexture();
 
-            if (_Theme.Type == EBackgroundTypes.Color || _Theme.Type == EBackgroundTypes.Texture && !ok ||
-                (_Theme.Type == EBackgroundTypes.Video && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_OFF && !ok))
+            if (_Theme.Type == EBackgroundTypes.Color || !ok)
                 _DrawColor();
-
-            return true;
         }
 
         public void UnloadTextures()
@@ -247,11 +241,14 @@ namespace VocaluxeLib.Menu
         #endregion public
 
         #region internal
+        private static SRectF _GetDrawRect()
+        {
+            return new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), CBase.Settings.GetZFar() / 4);
+        }
+
         private void _DrawColor()
         {
-            var bounds = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), CBase.Settings.GetZFar() / 4);
-
-            CBase.Drawing.DrawColor(Color, bounds);
+            CBase.Drawing.DrawRect(Color, _GetDrawRect());
         }
 
         private bool _DrawTexture()
@@ -259,11 +256,7 @@ namespace VocaluxeLib.Menu
             CTextureRef texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             if (texture != null)
             {
-                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
-                RectangleF rect;
-                CHelper.SetRect(bounds, out rect, texture.OrigAspect, EAspect.Crop);
-
-                CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
+                CBase.Drawing.DrawTexture(texture, _GetDrawRect(), EAspect.Crop);
                 return true;
             }
             return false;
@@ -284,7 +277,7 @@ namespace VocaluxeLib.Menu
                     _SlideShowTimer.Restart();
                     if (_SlideShowCurrent + 1 < _SlideShowTextures.Count)
                         _SlideShowCurrent++;
-                    else if (_SlideShowCurrent != 0)
+                    else
                         _SlideShowCurrent = 0;
                 }
 
@@ -293,11 +286,7 @@ namespace VocaluxeLib.Menu
                 if (texture == null)
                     return false;
 
-                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
-                RectangleF rect;
-                CHelper.SetRect(bounds, out rect, texture.OrigAspect, EAspect.Crop);
-
-                CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
+                CBase.Drawing.DrawTexture(texture, _GetDrawRect(), EAspect.Crop);
 
                 if (_SlideShowTimer.ElapsedMilliseconds >= CBase.Settings.GetSlideShowImageTime())
                 {
@@ -310,9 +299,9 @@ namespace VocaluxeLib.Menu
 
                     if (texture != null)
                     {
-                        float alpha = (_SlideShowTimer.ElapsedMilliseconds - CBase.Settings.GetSlideShowImageTime()) / CBase.Settings.GetSlideShowFadeTime();
-                        CHelper.SetRect(bounds, out rect, texture.OrigAspect, EAspect.Crop);
-                        CBase.Drawing.DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, (CBase.Settings.GetZFar() / 4) - 1), new SColorF(1, 1, 1, alpha));
+                        SColorF color = texture.Color;
+                        color.A = (_SlideShowTimer.ElapsedMilliseconds - CBase.Settings.GetSlideShowImageTime()) / CBase.Settings.GetSlideShowFadeTime();
+                        CBase.Drawing.DrawTexture(texture, _GetDrawRect(), EAspect.Crop, color);
                     }
                 }
 
@@ -326,11 +315,7 @@ namespace VocaluxeLib.Menu
             CTextureRef videoTexture = CBase.Theme.GetSkinVideoTexture(_Theme.VideoName, _PartyModeID);
             if (videoTexture != null)
             {
-                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
-                RectangleF rect;
-                CHelper.SetRect(bounds, out rect, videoTexture.OrigAspect, EAspect.Crop);
-
-                CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
+                CBase.Drawing.DrawTexture(videoTexture, _GetDrawRect(), EAspect.Crop);
                 return true;
             }
             return false;
@@ -341,11 +326,7 @@ namespace VocaluxeLib.Menu
             CTextureRef videoTexture = CBase.BackgroundMusic.GetVideoTexture();
             if (videoTexture != null)
             {
-                var bounds = new RectangleF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH());
-                RectangleF rect;
-                CHelper.SetRect(bounds, out rect, videoTexture.OrigAspect, EAspect.Crop);
-
-                CBase.Drawing.DrawTexture(videoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CBase.Settings.GetZFar() / 4));
+                CBase.Drawing.DrawTexture(videoTexture, _GetDrawRect(), EAspect.Crop);
                 return true;
             }
             return false;

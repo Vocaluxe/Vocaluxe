@@ -275,10 +275,10 @@ namespace VocaluxeLib.Menu
                 if (i == _MaxBar)
                     color = MaxColor;
 
-                CBase.Drawing.DrawColor(color, bar);
+                CBase.Drawing.DrawRect(color, bar);
 
                 if (Reflection)
-                    CBase.Drawing.DrawColorReflection(color, bar, ReflectionSpace, ReflectionHeight);
+                    CBase.Drawing.DrawRectReflection(color, bar, ReflectionSpace, ReflectionHeight);
             }
         }
 

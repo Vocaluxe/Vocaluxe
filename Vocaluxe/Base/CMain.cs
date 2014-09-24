@@ -423,6 +423,16 @@ namespace Vocaluxe.Base
             CDraw.DrawTexture(texture, rect, color, bounds, mirrored);
         }
 
+        public void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect)
+        {
+            CDraw.DrawTexture(textureRef, bounds, aspect);
+        }
+
+        public void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect, SColorF color)
+        {
+            CDraw.DrawTexture(textureRef, bounds, aspect, color);
+        }
+
         public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, float reflectionSpace, float reflectionHeight)
         {
             CDraw.DrawTextureReflection(texture, rect, color, reflectionSpace, reflectionHeight);
@@ -438,12 +448,17 @@ namespace Vocaluxe.Base
             CDraw.RemoveTexture(ref texture);
         }
 
-        public void DrawColor(SColorF color, SRectF rect)
+        public void DrawLine(SColorF color, float w, int x1, int y1, int x2, int y2)
+        {
+            CDraw.DrawLine(color, w, x1, y1, x2, y2);
+        }
+
+        public void DrawRect(SColorF color, SRectF rect)
         {
             CDraw.DrawRect(color, rect);
         }
 
-        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height)
         {
             CDraw.DrawRectReflection(color, rect, space, height);
         }

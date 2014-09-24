@@ -660,8 +660,9 @@ namespace Vocaluxe.Lib.Draw
         {
             lock (_TextureQueue)
             {
-                CTextureRef textureRef = _GetTextureReference(w, h, _CreateTexture(new Size(-1, -1)));
-                _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Add, new Size(w, h), data));
+                TTextureType texture = _CreateTexture(new Size(-1, -1));
+                CTextureRef textureRef = _GetTextureReference(w, h, texture);
+                _TextureQueue.Enqueue(new STextureQueue(texture, EQueueAction.Add, new Size(w, h), data));
                 return textureRef;
             }
         }

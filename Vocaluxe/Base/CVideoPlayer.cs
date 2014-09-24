@@ -62,11 +62,8 @@ namespace Vocaluxe.Base
             }
             if (_VideoTexture == null)
                 return;
-            var bounds = new RectangleF(0f, 0f, CSettings.RenderW, CSettings.RenderH);
-            RectangleF rect;
-            CHelper.SetRect(bounds, out rect, _VideoTexture.OrigAspect, EAspect.Crop);
 
-            CDraw.DrawTexture(_VideoTexture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, CSettings.ZFar / 4));
+            CDraw.DrawTexture(_VideoTexture, new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, CSettings.ZFar / 4), EAspect.Crop);
         }
 
         public void PreLoad()

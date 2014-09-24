@@ -208,11 +208,11 @@ namespace VocaluxeLib.Menu
                         CBase.Drawing.DrawTextureReflection(texture, rect, color, ReflectionSpace, ReflectionHeight);
                 }
                 else
-                    CBase.Drawing.DrawColor(color, rect);
+                    CBase.Drawing.DrawRect(color, rect);
             }
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
-                CBase.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
+                CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), rect);
         }
 
         public void UnloadTextures() {}
