@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using VocaluxeLib.Songs;
@@ -34,6 +35,8 @@ namespace VocaluxeLib
 
         public SColorF(float r, float g, float b, float a)
         {
+            Debug.Assert(r.IsInRange(0, 1) && g.IsInRange(0, 1) && b.IsInRange(0, 1));
+            Debug.Assert(a.IsInRange(0, 1));
             R = r;
             G = g;
             B = b;

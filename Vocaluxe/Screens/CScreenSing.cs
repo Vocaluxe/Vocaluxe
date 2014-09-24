@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
@@ -1200,8 +1199,8 @@ namespace Vocaluxe.Screens
                     }
                     else
                     {
-                        _Statics[_StaticSongText].Color.A = 10f - t / 3f;
-                        _Texts[_TextSongName].Color.A = 10f - t / 3f;
+                        _Statics[_StaticSongText].Color.A = (10f - t) / 3f;
+                        _Texts[_TextSongName].Color.A = (10f - t) / 3f;
                     }
                 }
                 else

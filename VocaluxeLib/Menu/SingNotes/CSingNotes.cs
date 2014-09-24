@@ -332,7 +332,7 @@ namespace VocaluxeLib.Menu.SingNotes
                         );
 
                     _DrawNoteBG(rect, color, 1f, _PlayerNotes[n].Timer);
-                    _DrawNote(rect, new SColorF(5f, 5f, 5f, 0.7f * _PlayerNotes[n].Alpha), 0.7f);
+                    _DrawNote(rect, new SColorF(1f, 1f, 1f, 0.7f * _PlayerNotes[n].Alpha), 0.7f);
 
                     if (note.Type == ENoteType.Golden)
                     {
@@ -541,10 +541,12 @@ namespace VocaluxeLib.Menu.SingNotes
 
         protected void _DrawNoteLines(SRectF rect, SColorF color)
         {
+            int x1 = (int)rect.X;
+            int x2 = (int)(rect.X + rect.W);
             for (int i = 0; i < CBase.Settings.GetNumNoteLines() - 1; i++)
             {
-                float y = rect.Y + rect.H / CBase.Settings.GetNumNoteLines() * (i + 1);
-                CBase.Drawing.DrawColor(color, new SRectF(rect.X, y, rect.W, 1, -1.0f));
+                int y = (int)(rect.Y + rect.H / CBase.Settings.GetNumNoteLines() * (i + 1));
+                CBase.Drawing.DrawLine(color, 1, x1, y, x2, y);
             }
         }
 
