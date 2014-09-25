@@ -508,11 +508,20 @@ namespace Vocaluxe.Lib.Draw
                         Debug.Assert(oldTexture != null, "Queued type is wrong");
                         Debug.Assert(!oldTexture.IsLoaded);
                         if (oldTexture.RefCount <= 0)
+                        {
+                            Bitmap bmp = q.Data as Bitmap;
+                            if (bmp != null)
+                                bmp.Dispose();
                             continue;
+                        }
                         TTextureType texture = null;
                         // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
                         if (q.Data is Bitmap)
-                            _WriteBitmapToTexture(ref texture, (Bitmap)q.Data);
+                        {
+                            Bitmap bmp = (Bitmap)q.Data;
+                            _WriteBitmapToTexture(ref texture, bmp);
+                            bmp.Dispose();
+                        }
                         else if (q.Data is byte[])
                             texture = _CreateAndFillTexture(q.DataSize, (byte[])q.Data);
                         else
@@ -525,12 +534,21 @@ namespace Vocaluxe.Lib.Draw
                         CTextureRef textureRef = q.TextureOrRef as CTextureRef;
                         Debug.Assert(textureRef != null, "Queued type is wrong");
                         if (!_Textures.ContainsKey(textureRef.ID))
+                        {
+                            Bitmap bmp = q.Data as Bitmap;
+                            if (bmp != null)
+                                bmp.Dispose();
                             continue;
+                        }
                         if (q.Action == EQueueAction.Update)
                         {
                             // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
                             if (q.Data is Bitmap)
-                                UpdateTexture(textureRef, (Bitmap)q.Data);
+                            {
+                                Bitmap bmp = (Bitmap)q.Data;
+                                UpdateTexture(textureRef, bmp);
+                                bmp.Dispose();
+                            }
                             else if (q.Data is byte[])
                                 UpdateTexture(textureRef, q.DataSize.Width, q.DataSize.Height, (byte[])q.Data);
                             else
