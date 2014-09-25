@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
+using System.Xml.Serialization;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Screens;
 using VocaluxeLib;
@@ -160,11 +162,18 @@ namespace Vocaluxe.Base
         public static void SaveTheme()
         {
             CTheme.SaveTheme();
-            foreach (IMenu screen in _Screens)
+            foreach (CMenu screen in _Screens)
+            {
+                if (screen.ThemePath == null || screen.ThemeName == "ScreenTest")
+                    continue;
+
                 screen.SaveTheme();
+            }
 
             foreach (IMenu popup in _PopupScreens)
                 popup.SaveTheme();
+
+            CParty.SaveThemes();
         }
 
         public static void InitFirstScreen()

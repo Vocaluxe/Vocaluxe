@@ -111,6 +111,30 @@ namespace VocaluxeLib
                         scaledWidth = bounds.H * aspectRatio;
                     }
                     break;
+                case EAspect.Zoom1:
+                    if (boundsAspectRatio >= aspectRatio)
+                    {
+                        scaledWidth = bounds.W * 1.33f;
+                        scaledHeight = bounds.W * 1.33f / aspectRatio;
+                    }
+                    else
+                    {
+                        scaledHeight = bounds.H / 1.33f;
+                        scaledWidth = bounds.H / 1.33f * aspectRatio;
+                    }
+                    break;
+                case EAspect.Zoom2:
+                    if (boundsAspectRatio >= aspectRatio)
+                    {
+                        scaledWidth = bounds.W * 1.17f;
+                        scaledHeight = bounds.W * 1.17f / aspectRatio;
+                    }
+                    else
+                    {
+                        scaledHeight = bounds.H / 1.17f;
+                        scaledWidth = bounds.H / 1.17f * aspectRatio;
+                    }
+                    break;
                 case EAspect.LetterBox:
                     if (boundsAspectRatio <= aspectRatio)
                     {
@@ -257,6 +281,11 @@ namespace VocaluxeLib
             if (withPath)
                 filename = Path.Combine(path, filename);
             return filename + ext;
+        }
+
+        public static int Sum(int n)
+        {
+            return (n * n + n) / 2;
         }
 
         /// <summary>

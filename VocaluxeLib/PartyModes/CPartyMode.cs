@@ -46,6 +46,12 @@ namespace VocaluxeLib.PartyModes
             _Screens.Add(screenName, screen);
         }
 
+        public void SaveScreens()
+        {
+            foreach (KeyValuePair<string, CMenuParty> entry in _Screens)
+                entry.Value.SaveTheme();
+        }
+
         public virtual void DataFromScreen(string screenName, Object data) {}
 
         public virtual void UpdateGame() {}

@@ -60,44 +60,6 @@ namespace Vocaluxe
             Environment.SetEnvironmentVariable("PATH", newPath);
         }
 
-        public static void AddLibrarySearchpath(string path)
-        {
-#if WIN
-            if (!_DefaultDllDirSet)
-            {
-                try
-                {
-                    // SetDefaultDllDirectories may cause a bug: http://stackoverflow.com/questions/25818073/using-setdefaultdlldirectories-breaks-font-handling
-#pragma warning disable 168
-                    Font dummyForWorkaround = SystemFonts.DefaultFont;
-#pragma warning restore 168
-                    CWindowsFunctions.SetDefaultDllDirectories(CWindowsFunctions.LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
-                }
-                catch (Exception)
-                {
-                    _UsePath = true;
-                    _UseSetDllDir = true;
-                }
-                _DefaultDllDirSet = true;
-            }
-            if (_UsePath)
-                AddEnvironmentPath(path);
-            if (!_UseSetDllDir)
-            {
-                try
-                {
-                    CWindowsFunctions.AddDllDirectory(path);
-                }
-                catch (Exception)
-                {
-                    _UseSetDllDir = true;
-                }
-            }
-            if (_UseSetDllDir)
-                CWindowsFunctions.SetDllDirectory(path);
-#endif
-        }
-
         public static void SetForegroundWindow(IntPtr hWnd)
         {
 #if WIN

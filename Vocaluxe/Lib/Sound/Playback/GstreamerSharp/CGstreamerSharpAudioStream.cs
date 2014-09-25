@@ -253,7 +253,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                     _UpdateDuration();
                     break;
             }
-            msg.Unref();
+            msg.Dispose();
         }
 
         public override void Update()

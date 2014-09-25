@@ -30,7 +30,13 @@ namespace VocaluxeLib.Menu.SongMenu
         public CSongMenu(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _CreateSongMenu();
+            _CreateSongMenu(new SThemeSongMenu());
+        }
+
+        public CSongMenu(SThemeSongMenu theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _CreateSongMenu(theme);
         }
 
         #region ISongMenu
@@ -61,6 +67,11 @@ namespace VocaluxeLib.Menu.SongMenu
         public SRectF Rect
         {
             get { return _SongMenu.Rect; }
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _SongMenu.ThemeLoaded; }
         }
 
         public void Update(SScreenSongOptions songOptions)
@@ -150,11 +161,6 @@ namespace VocaluxeLib.Menu.SongMenu
             return _SongMenu.LoadTheme(xmlPath, elementName, xmlReader, skinIndex);
         }
 
-        public bool SaveTheme(XmlWriter writer)
-        {
-            return _SongMenu.SaveTheme(writer);
-        }
-
         public void UnloadTextures()
         {
             _SongMenu.UnloadTextures();
@@ -179,9 +185,14 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             _SongMenu.ResizeElement(stepW, stepH);
         }
+
+        public SThemeSongMenu GetTheme()
+        {
+            return _SongMenu.GetTheme();
+        }
         #endregion IMenuElement
 
-        private void _CreateSongMenu()
+        private void _CreateSongMenu(SThemeSongMenu theme)
         {
             if (_SongMenu != null)
                 _SongMenu.OnHide();
@@ -197,7 +208,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     //    _SongMenu = new CSongMenuDreidel();
                     //    break;
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
-                    _SongMenu = new CSongMenuTileBoard(_PartyModeID);
+                    _SongMenu = new CSongMenuTileBoard(theme, _PartyModeID);
                     break;
 
                     //case ESongMenu.TR_CONFIG_BOOK:

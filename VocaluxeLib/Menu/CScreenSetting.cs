@@ -17,11 +17,12 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
-    enum ESettingType
+    public enum ESettingType
     {
         Int,
         String,
@@ -29,10 +30,14 @@ namespace VocaluxeLib.Menu
         Texture
     }
 
-    struct SScreenSetting
+    [XmlType("ScreenSetting")]
+    public struct SScreenSetting
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
+        [XmlElement("Value")]
         public string Value;
+        [XmlElement("Type")]
         public ESettingType Type;
     }
 
@@ -51,11 +56,22 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
+        }
+
         public CScreenSetting(int partyModeID)
         {
             _PartyModeID = partyModeID;
             _Theme = new SScreenSetting();
             _ThemeLoaded = false;
+        }
+
+        public CScreenSetting(SScreenSetting theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = theme;
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
@@ -69,22 +85,6 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
                 _Theme.Name = elementName;
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Type>: Type of theme-setting-value: " + CHelper.ListStrings(Enum.GetNames(typeof(ESettingType))));
-                writer.WriteElementString("Type", Enum.GetName(typeof(ESettingType), _Theme.Type));
-                writer.WriteComment("<Value>: Value of theme-setting");
-                writer.WriteElementString("Value", _Theme.Value);
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
         }
 
         public object GetValue()
@@ -112,6 +112,11 @@ namespace VocaluxeLib.Menu
         public void LoadTextures() {}
 
         public void ReloadTextures() {}
+
+        public SScreenSetting GetTheme()
+        {
+            return _Theme;
+        }
 
         #region Private
         private int _GetIntValue(string value)

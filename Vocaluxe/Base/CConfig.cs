@@ -93,6 +93,7 @@ namespace Vocaluxe.Base
         public static EFadePlayerInfo FadePlayerInfo = EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF;
         public static ECoverLoading CoverLoading = ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC;
         public static ELyricStyle LyricStyle = ELyricStyle.Slide;
+        public static bool LoadOldThemeFiles = false;
 
         // Sound
         public static EPlaybackLib PlayBackLib = EPlaybackLib.GstreamerSharp;
@@ -836,6 +837,11 @@ namespace Vocaluxe.Base
                     case "profilefolder":
                         ProfileFolders.Clear();
                         ProfileFolders.Add(value);
+                        break;
+
+                    case "oldtheme":
+                        if(value == "yes")
+                            LoadOldThemeFiles = true;
                         break;
                 }
             }

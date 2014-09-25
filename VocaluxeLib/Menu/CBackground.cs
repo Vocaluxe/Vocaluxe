@@ -17,6 +17,7 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
 using VocaluxeLib.Draw;
@@ -32,18 +33,20 @@ namespace VocaluxeLib.Menu
         Video
     }
 
-    struct SThemeBackground
+    [XmlType("Background")]
+    public struct SThemeBackground
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
-
+        [XmlElement("Type")]
         public EBackgroundTypes Type;
-
+        [XmlArray]
         public List<string> SlideShowTextures;
-
+        [XmlElement("Video")]
         public string VideoName;
+        [XmlElement("Skin")]
         public string TextureName;
-
-        public string ColorName;
+        public SThemeColor Color;
     }
 
     public class CBackground : IMenuElement
@@ -57,6 +60,10 @@ namespace VocaluxeLib.Menu
         private readonly List<CTextureRef> _SlideShowTextures = new List<CTextureRef>();
 
         public SColorF Color;
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
+        }
 
         public string GetThemeName()
         {
@@ -72,6 +79,14 @@ namespace VocaluxeLib.Menu
 
             Color = new SColorF(0f, 0f, 0f, 1f);
         }
+
+        public CBackground(SThemeBackground theme, int partyModeID)
+        {
+            _Theme = theme;
+            _PartyModeID = partyModeID;
+
+            LoadTextures();
+        }
         #endregion Constructors
 
         #region public
@@ -86,8 +101,8 @@ namespace VocaluxeLib.Menu
             bool tex = xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
             _ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
             else
             {
                 bool success = true;
@@ -99,6 +114,8 @@ namespace VocaluxeLib.Menu
                 if (_Theme.Type != EBackgroundTypes.None)
                     _ThemeLoaded &= success;
             }
+
+            _Theme.Color.Color = new SColorF(Color);
 
             int i = 1;
 
@@ -117,46 +134,6 @@ namespace VocaluxeLib.Menu
                 LoadTextures();
             }
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Type>: Background type: " + CHelper.ListStrings(Enum.GetNames(typeof(EBackgroundTypes))));
-                writer.WriteElementString("Type", Enum.GetName(typeof(EBackgroundTypes), _Theme.Type));
-
-                writer.WriteComment("<Video>: Background video name");
-                writer.WriteElementString("Video", _Theme.VideoName);
-
-                writer.WriteComment("<Skin>: Background Texture name");
-                writer.WriteElementString("Skin", _Theme.TextureName);
-
-                writer.WriteComment("<SlideShow%>: Texture name for slide-show");
-                for (int i = 0; i < _Theme.SlideShowTextures.Count; i++)
-                    writer.WriteElementString("SlideShow" + (i + 1), _Theme.SlideShowTextures[i]);
-
-                writer.WriteComment("<Color>: Background color for type \"Color\" from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
-                else
-                {
-                    if (_Theme.Type != EBackgroundTypes.None)
-                    {
-                        writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                        writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                        writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                        writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                    }
-                }
-
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
         }
 
         public void Resume()
@@ -205,8 +182,8 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
 
             foreach (string s in _Theme.SlideShowTextures)
                 _SlideShowTextures.Add(CBase.Theme.GetSkinTexture(s, _PartyModeID));
@@ -237,6 +214,11 @@ namespace VocaluxeLib.Menu
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        public SThemeBackground GetTheme()
+        {
+            return _Theme;
         }
         #endregion public
 

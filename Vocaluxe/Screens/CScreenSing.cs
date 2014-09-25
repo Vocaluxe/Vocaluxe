@@ -30,7 +30,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenSing : CMenu
+    public class CScreenSing : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -269,6 +269,19 @@ namespace Vocaluxe.Screens
                             CConfig.GameMusicVolume -= 5;
                             CSound.SetGlobalVolume(CConfig.GameMusicVolume);
                         }
+                        break;
+
+                    case Keys.V:
+                        if (_VideoAspect == EAspect.Zoom2)
+                            _VideoAspect = EAspect.Crop;
+                        else
+                            _VideoAspect++;
+
+                        CSong song = CGame.GetSong();
+                        song.VideoAspect = _VideoAspect;
+
+                        if (CConfig.SaveModifiedSongs == EOffOn.TR_CONFIG_ON)
+                            song.Save();
                         break;
                 }
             }

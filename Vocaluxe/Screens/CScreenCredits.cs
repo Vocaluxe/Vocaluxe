@@ -106,7 +106,7 @@ namespace Vocaluxe.Screens
         }
     }
 
-    class CScreenCredits : CMenu
+    public class CScreenCredits : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion

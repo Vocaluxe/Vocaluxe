@@ -24,7 +24,6 @@ namespace VocaluxeLib.Menu
         string GetThemeName();
 
         bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex);
-        bool SaveTheme(XmlWriter writer);
 
         void UnloadTextures();
         void LoadTextures();

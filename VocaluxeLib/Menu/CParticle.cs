@@ -19,15 +19,29 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeParticleEffect
+    [XmlType("ParticleEffect")]
+    public struct SThemeParticleEffect
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
+
+        [XmlElement("Skin")]
         public string TextureName;
-        public string ColorName;
+        [XmlElement("Rect")]
+        public SRectF Rect;
+        [XmlElement("Color")]
+        public SThemeColor Color;
+        [XmlElement("Type")]
+        public EParticleType Type;
+        [XmlElement("Size")]
+        public float Size;
+        [XmlElement("MaxNumber")]
+        public int MaxNumber;
     }
 
     public enum EParticleType
@@ -145,6 +159,8 @@ namespace VocaluxeLib.Menu
             _MaxAge = maxage;
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
+
+
         #endregion Constructors
 
         public void Update()
@@ -308,9 +324,6 @@ namespace VocaluxeLib.Menu
         public bool Visible;
 
         private readonly List<CParticle> _Stars;
-        private int _MaxNumber;
-        private float _Size;
-        private EParticleType _Type;
         private readonly Stopwatch _SpawnTimer;
         private float _NextSpawnTime;
 
@@ -319,6 +332,11 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         public bool IsAlive
@@ -344,9 +362,9 @@ namespace VocaluxeLib.Menu
             Rect = rect;
             Color = color;
             _Theme.TextureName = textureName;
-            _MaxNumber = maxNumber;
-            _Size = size;
-            _Type = type;
+            _Theme.MaxNumber = maxNumber;
+            _Theme.Size = size;
+            _Theme.Type = type;
             _SpawnTimer = new Stopwatch();
             _NextSpawnTime = 0f;
             Visible = true;
@@ -361,12 +379,24 @@ namespace VocaluxeLib.Menu
             Color = color;
             _Theme.TextureName = String.Empty;
             Texture = texture;
-            _MaxNumber = maxNumber;
-            _Size = size;
-            _Type = type;
+            _Theme.MaxNumber = maxNumber;
+            _Theme.Size = size;
+            _Theme.Type = type;
             _SpawnTimer = new Stopwatch();
             _NextSpawnTime = 0f;
             Visible = true;
+        }
+
+        public CParticleEffect(SThemeParticleEffect theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = theme;
+            _Stars = new List<CParticle>();
+            _SpawnTimer = new Stopwatch();
+            _NextSpawnTime = 0f;
+            Visible = true;
+
+            LoadTextures();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
@@ -382,8 +412,8 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -392,57 +422,18 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Type);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Size", ref _Size);
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/MaxNumber", ref _MaxNumber);
+            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Size", ref _Theme.Size);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/MaxNumber", ref _Theme.MaxNumber);
 
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
+                _Theme.Rect = new SRectF(Rect);
+                _Theme.Color.Color = new SColorF(Color);
                 LoadTextures();
             }
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Skin>: Texture name");
-                writer.WriteElementString("Skin", _Theme.TextureName);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: ParticleEffect position, width and height");
-                writer.WriteElementString("X", Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", Rect.W.ToString("#0"));
-                writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-                writer.WriteComment("<Color>: ParticleEffect color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
-                else
-                {
-                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<Type>: Type of ParticleEffect: " + CHelper.ListStrings(Enum.GetNames(typeof(EParticleType))));
-                writer.WriteElementString("Type", Enum.GetName(typeof(EParticleType), _Type));
-                writer.WriteComment("<Size>: Size of particle");
-                writer.WriteElementString("Size", _Size.ToString("#0.00"));
-                writer.WriteComment("<MaxNumber>: Max number of drawn particles");
-                writer.WriteElementString("MaxNumber", _MaxNumber.ToString("#0"));
-
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
         }
 
         public void Update()
@@ -462,9 +453,9 @@ namespace VocaluxeLib.Menu
                 _SpawnTimer.Start();
             }
 
-            while (_Stars.Count < _MaxNumber && doSpawn)
+            while (_Stars.Count < _Theme.MaxNumber && doSpawn)
             {
-                float size = CBase.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                float size = CBase.Game.GetRandom((int)_Theme.Size / 2) + _Theme.Size / 2;
                 float lifetime = 0f;
                 float vx = 0f;
                 float vy = 0f;
@@ -472,10 +463,10 @@ namespace VocaluxeLib.Menu
                 float vsize = 0f;
                 _NextSpawnTime = 0f;
 
-                switch (_Type)
+                switch (_Theme.Type)
                 {
                     case EParticleType.Twinkle:
-                        size = CBase.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        size = CBase.Game.GetRandom((int)_Theme.Size / 2) + _Theme.Size / 2;
                         lifetime = CBase.Game.GetRandom(500) / 1000f + 0.5f;
                         vx = -CBase.Game.GetRandom(10000) / 50f + 100f;
                         vy = -CBase.Game.GetRandom(10000) / 50f + 100f;
@@ -484,7 +475,7 @@ namespace VocaluxeLib.Menu
                         break;
 
                     case EParticleType.Star:
-                        size = CBase.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        size = CBase.Game.GetRandom((int)_Theme.Size / 2) + _Theme.Size / 2;
                         lifetime = CBase.Game.GetRandom(1000) / 500f + 0.2f;
                         vx = -CBase.Game.GetRandom(1000) / 50f + 10f;
                         vy = -CBase.Game.GetRandom(1000) / 50f + 10f;
@@ -493,19 +484,19 @@ namespace VocaluxeLib.Menu
                         break;
 
                     case EParticleType.Snow:
-                        size = CBase.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        size = CBase.Game.GetRandom((int)_Theme.Size / 2) + _Theme.Size / 2;
                         lifetime = CBase.Game.GetRandom(5000) / 50f + 10f;
                         vx = -CBase.Game.GetRandom(1000) / 50f + 10f;
                         vy = CBase.Game.GetRandom(1000) / 50f + Math.Abs(vx) + 10f;
                         vr = -CBase.Game.GetRandom(200) / 50f + 2f;
                         vsize = lifetime * 2f;
 
-                        _NextSpawnTime = lifetime / _MaxNumber;
+                        _NextSpawnTime = lifetime / _Theme.MaxNumber;
                         doSpawn = false;
                         break;
 
                     case EParticleType.Flare:
-                        size = CBase.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        size = CBase.Game.GetRandom((int)_Theme.Size / 2) + _Theme.Size / 2;
                         lifetime = CBase.Game.GetRandom(500) / 1000f + 0.1f;
                         vx = -CBase.Game.GetRandom(2000) / 50f;
                         vy = -CBase.Game.GetRandom(2000) / 50f + 20f;
@@ -514,7 +505,7 @@ namespace VocaluxeLib.Menu
                         break;
 
                     case EParticleType.PerfNoteStar:
-                        size = CBase.Game.GetRandom((int)_Size / 2) + _Size / 2;
+                        size = CBase.Game.GetRandom((int)_Theme.Size / 2) + _Theme.Size / 2;
                         lifetime = CBase.Game.GetRandom(1000) / 500f + 1.2f;
                         vx = 0f;
                         vy = 0f;
@@ -538,20 +529,20 @@ namespace VocaluxeLib.Menu
                     star = new CParticle(_PartyModeID, _Theme.TextureName, Color,
                                          CBase.Game.GetRandom(w) + Rect.X - size / 4f,
                                          CBase.Game.GetRandom(h) + Rect.Y - size / 4f,
-                                         size, lifetime, Rect.Z, vx, vy, vr, vsize, _Type);
+                                         size, lifetime, Rect.Z, vx, vy, vr, vsize, _Theme.Type);
                 }
                 else
                 {
                     star = new CParticle(_PartyModeID, Texture, Color,
                                          CBase.Game.GetRandom(w) + Rect.X - size / 4f,
                                          CBase.Game.GetRandom(h) + Rect.Y - size / 4f,
-                                         size, lifetime, Rect.Z, vx, vy, vr, vsize, _Type);
+                                         size, lifetime, Rect.Z, vx, vy, vr, vsize, _Theme.Type);
                 }
 
                 _Stars.Add(star);
             }
 
-            if (_Type == EParticleType.Flare || _Type == EParticleType.PerfNoteStar || _Type == EParticleType.Twinkle)
+            if (_Theme.Type == EParticleType.Flare || _Theme.Type == EParticleType.PerfNoteStar || _Theme.Type == EParticleType.Twinkle)
                 _NextSpawnTime = -1f;
 
             int i = 0;
@@ -594,10 +585,15 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                Color = _Theme.Color.Color;
+
             if (!String.IsNullOrEmpty(_Theme.TextureName))
                 Texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+
+            Rect = _Theme.Rect;
         }
 
         public void ReloadTextures()
@@ -606,11 +602,19 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
+        public SThemeParticleEffect GetTheme()
+        {
+            return _Theme;
+        }
+
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
             Rect.X += stepX;
             Rect.Y += stepY;
+
+            _Theme.Rect.X += stepX;
+            _Theme.Rect.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -622,6 +626,9 @@ namespace VocaluxeLib.Menu
             Rect.H += stepH;
             if (Rect.H <= 0)
                 Rect.H = 1;
+
+            _Theme.Rect.W = Rect.W;
+            _Theme.Rect.H = Rect.H;
         }
         #endregion ThemeEdit
     }
