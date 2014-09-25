@@ -297,7 +297,7 @@ namespace VocaluxeLib.Menu.SongMenu
         
         public virtual void OnHide()
         {
-            if(CBase.Graphics.GetNextScreen() != EScreens.ScreenNames)
+            if(CBase.Graphics.GetNextScreen() != EScreens.ScreenNames || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 _ResetPreview();
         }
 
