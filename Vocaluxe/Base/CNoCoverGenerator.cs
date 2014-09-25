@@ -107,8 +107,6 @@ namespace Vocaluxe.Base
                 _Image = Path.Combine(basePath, _Image);
                 // ReSharper restore AssignNullToNotNullAttribute
                 _Valid = File.Exists(_Image);
-                GetCover("Astrid Lindgren (Madicken)", null);
-                GetCover("David Guetta ft. Flo Rida & Nicki Minaj", null);
             }
         }
 
@@ -151,7 +149,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public CTexture GetCover(string text, string firstCoverPath)
+        public CTextureRef GetCover(string text, string firstCoverPath)
         {
             if (!_Valid)
                 return null;
