@@ -35,28 +35,29 @@ namespace Vocaluxe.Lib.Database
 {
     public class CCoverDB : CDatabaseBase
     {
-        //You have to lock all actions using cover connection or transaction, otherwhise order is not guaranted
-        private readonly object _CoverMutex = new object();
         private SQLiteTransaction _TransactionCover;
 
         public CCoverDB(string filePath) : base(filePath) {}
 
         public override bool Init()
         {
-            if (!base.Init())
-                return false;
+            lock (_Mutex)
+            {
+                if (!base.Init())
+                    return false;
 
-            if (_Version < 0)
-                return _CreateCoverDB();
-            if (_Version < CSettings.DatabaseCoverVersion)
-                throw new NotImplementedException("Upgrading of cover DB not implemented");
+                if (_Version < 0)
+                    return _CreateCoverDB();
+                if (_Version < CSettings.DatabaseCoverVersion)
+                    throw new NotImplementedException("Upgrading of cover DB not implemented");
+            }
             return true;
         }
 
         public override void Close()
         {
             //Do commit and close atomicly otherwhise we may loose changes
-            lock (_CoverMutex)
+            lock (_Mutex)
             {
                 _CommitCovers();
 
@@ -74,7 +75,7 @@ namespace Vocaluxe.Lib.Database
                 return false;
             }
 
-            lock (_CoverMutex)
+            lock (_Mutex)
             {
                 //Double check here because we may have just closed our connection
                 if (_Connection == null)
@@ -147,7 +148,7 @@ namespace Vocaluxe.Lib.Database
 
             tex = CDraw.EnqueueTexture(size.Width, size.Height, data);
 
-            lock (_CoverMutex)
+            lock (_Mutex)
             {
                 //Double check here because we may have just closed our connection
                 if (_Connection == null)
@@ -184,7 +185,7 @@ namespace Vocaluxe.Lib.Database
 
         public void CommitCovers()
         {
-            lock (_CoverMutex)
+            lock (_Mutex)
             {
                 _CommitCovers();
             }
