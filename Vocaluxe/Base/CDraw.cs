@@ -216,7 +216,8 @@ namespace Vocaluxe.Base
 
         /// <summary>
         ///     Requests updating a texture from a bitmap<br />
-        ///     Use this if you add textures from another thread or don't need it immediatelly
+        ///     Use this if you add textures from another thread or don't need it immediatelly <br />
+        ///     Bitmap is freed after use
         /// </summary>
         /// <param name="textureRef">Reference to the texture to update</param>
         /// <param name="bmp"></param>
