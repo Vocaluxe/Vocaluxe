@@ -82,7 +82,7 @@ namespace Vocaluxe.Lib.Database
                 using (var command = new SQLiteCommand(_Connection))
                 {
                     command.CommandText = "SELECT id, width, height FROM Cover WHERE [Path] = @path";
-                    command.Parameters.Add("@path", DbType.String, 0).Value = coverPath;
+                    command.Parameters.Add("@path", DbType.String).Value = coverPath;
 
                     SQLiteDataReader reader = command.ExecuteReader();
 
@@ -101,81 +101,81 @@ namespace Vocaluxe.Lib.Database
                         if (reader.HasRows)
                         {
                             reader.Read();
-                            byte[] data = _GetBytes(reader);
+                            byte[] data2 = _GetBytes(reader);
                             reader.Dispose();
-                            tex = CDraw.EnqueueTexture(w, h, data);
+                            tex = CDraw.EnqueueTexture(w, h, data2);
                             return true;
                         }
-                    }
-                    else
-                    {
-                        if (reader != null)
-                            reader.Close();
-
-                        if (_TransactionCover == null)
-                            _TransactionCover = _Connection.BeginTransaction();
-
-                        Bitmap origin;
-                        try
-                        {
-                            origin = new Bitmap(coverPath);
-                        }
-                        catch (Exception)
-                        {
-                            CLog.LogError("Error loading Texture: " + coverPath);
-                            return false;
-                        }
-
-                        int w = maxSize;
-                        int h = maxSize;
-                        byte[] data;
-
-                        try
-                        {
-                            if (origin.Width >= origin.Height && origin.Width > w)
-                                h = (int)Math.Round((float)w / origin.Width * origin.Height);
-                            else if (origin.Height > origin.Width && origin.Height > h)
-                                w = (int)Math.Round((float)h / origin.Height * origin.Width);
-
-                            using (var bmp = new Bitmap(w, h))
-                            {
-                                using (Graphics g = Graphics.FromImage(bmp))
-                                    g.DrawImage(origin, new Rectangle(0, 0, w, h));
-
-                                data = new byte[w * h * 4];
-                                BitmapData bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                                Marshal.Copy(bmpData.Scan0, data, 0, w * h * 4);
-                                bmp.UnlockBits(bmpData);
-                            }
-                        }
-                        finally
-                        {
-                            origin.Dispose();
-                        }
-
-                        tex = CDraw.EnqueueTexture(w, h, data);
-
-                        command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
-                        command.Parameters.Add("@w", DbType.Int32).Value = w;
-                        command.Parameters.Add("@h", DbType.Int32).Value = h;
-                        command.Parameters.Add("@path", DbType.String, 0).Value = coverPath;
+                        command.CommandText = "DELETE FROM Cover WHERE id = @id";
+                        command.Parameters.Add("@id", DbType.Int32).Value = id;
                         command.ExecuteNonQuery();
+                    }
+                    if (reader != null)
+                        reader.Close();
+                }
+            }
 
-                        command.CommandText = "SELECT id FROM Cover WHERE [Path] = @path";
-                        command.Parameters.Add("@path", DbType.String, 0).Value = coverPath;
-                        reader = command.ExecuteReader();
+            // At this point we do not have a mathing entry in the CoverDB (either no Data found and deleted or nothing at all)
+            // We break out of the lock to do the bitmap loading and resizing here to allow multithreaded loading
 
-                        if (reader != null)
-                        {
-                            reader.Read();
-                            int id = reader.GetInt32(0);
-                            reader.Dispose();
-                            command.CommandText = "INSERT INTO CoverData (CoverID, Data) VALUES (@id, @data)";
-                            command.Parameters.Add("@id", DbType.Int32).Value = id;
-                            command.Parameters.Add("@data", DbType.Binary, 20).Value = data;
-                            command.ExecuteReader();
-                            return true;
-                        }
+            Bitmap origin = CHelper.LoadBitmap(coverPath);
+            if (origin == null)
+                return false;
+
+            Size size = origin.GetSize();
+            if (size.Width > maxSize || size.Height > maxSize)
+            {
+                size = CHelper.FitInBounds(new SRectF(0, 0, maxSize, maxSize, 0), (float)size.Width / size.Height, EAspect.LetterBox).SizeI;
+                Bitmap tmp = origin.Resize(size);
+                origin.Dispose();
+                origin = tmp;
+            }
+
+            byte[] data;
+
+            try
+            {
+                data = new byte[size.Width * size.Height * 4];
+                BitmapData bmpData = origin.LockBits(origin.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                Marshal.Copy(bmpData.Scan0, data, 0, data.Length);
+                origin.UnlockBits(bmpData);
+            }
+            finally
+            {
+                origin.Dispose();
+            }
+
+            tex = CDraw.EnqueueTexture(size.Width, size.Height, data);
+
+            lock (_CoverMutex)
+            {
+                //Double check here because we may have just closed our connection
+                if (_Connection == null)
+                    return false;
+                if (_TransactionCover == null)
+                    _TransactionCover = _Connection.BeginTransaction();
+                using (var command = new SQLiteCommand(_Connection))
+                {
+                    command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
+                    command.Parameters.Add("@w", DbType.Int32).Value = size.Width;
+                    command.Parameters.Add("@h", DbType.Int32).Value = size.Height;
+                    command.Parameters.Add("@path", DbType.String).Value = coverPath;
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "SELECT id FROM Cover WHERE [Path] = @path";
+                    command.Parameters.Add("@path", DbType.String).Value = coverPath;
+                    SQLiteDataReader reader = command.ExecuteReader();
+
+                    if (reader != null)
+                    {
+                        reader.Read();
+                        int id = reader.GetInt32(0);
+                        reader.Dispose();
+                        command.CommandText = "INSERT INTO CoverData (CoverID, Data) VALUES (@id, @data)";
+                        command.Parameters.Add("@id", DbType.Int32).Value = id;
+                        command.Parameters.Add("@data", DbType.Binary).Value = data;
+                        command.ExecuteNonQuery();
+                        return true;
                     }
                 }
             }

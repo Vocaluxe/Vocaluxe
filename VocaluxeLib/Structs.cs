@@ -66,6 +66,23 @@ namespace VocaluxeLib
         public float Z;
         public float Rotation; //0..360°
 
+        public float Right
+        {
+            get { return X + W; }
+        }
+        public float Bottom
+        {
+            get { return Y + H; }
+        }
+        public Size SizeI
+        {
+            get { return new Size((int)W, (int)H); }
+        }
+        public SizeF Size
+        {
+            get { return new SizeF(W, H); }
+        }
+
         public SRectF(float x, float y, float w, float h, float z)
         {
             X = x;
@@ -84,6 +101,16 @@ namespace VocaluxeLib
             H = rect.H;
             Z = rect.Z;
             Rotation = 0f;
+        }
+
+        public SRectF(Rectangle rect)
+        {
+            X = rect.X;
+            Y = rect.Y;
+            W = rect.Width;
+            H = rect.Height;
+            Z = 0;
+            Rotation = 0;
         }
     }
 
