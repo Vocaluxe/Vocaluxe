@@ -669,29 +669,55 @@ namespace Vocaluxe.Lib.Draw
             }
         }
 
-        public CTextureRef EnqueueTexture(Bitmap bmp)
+        /// <summary>
+        ///     Enqueues a bitmap to add or update the texture
+        /// </summary>
+        /// <param name="texture">TTextureType (Add) or CTextureRef(Update)</param>
+        /// <param name="bmp"></param>
+        /// <param name="action"></param>
+        /// <param name="asyncResize">True if resizing should be done in an extra thread</param>
+        private void _EnqueueTextureAddOrUpdate(Object texture, Bitmap bmp, EQueueAction action, bool asyncResize)
         {
-            TTextureType texture = _CreateTexture(new Size(-1, -1));
-            CTextureRef textureRef = _GetTextureReference(bmp.GetSize(), texture);
+            Debug.Assert(action == EQueueAction.Add || action == EQueueAction.Update);
+            Debug.Assert(action != EQueueAction.Add || texture is TTextureType);
+            Debug.Assert(action != EQueueAction.Update || texture is CTextureRef);
             if (_RequiresResize(bmp.GetSize()))
             {
-                Task.Factory.StartNew(() =>
-                    {
-                        Bitmap bmp2 = bmp.Resize(_GetNewTextureSize(bmp.Size));
-                        bmp.Dispose();
-                        lock (_TextureQueue)
-                        {
-                            _TextureQueue.Enqueue(new STextureQueue(texture, EQueueAction.Add, bmp2));
-                        }
-                    });
+                if (asyncResize)
+                    Task.Factory.StartNew(() => _ResizeTextureAndEnqueue(texture, bmp, action));
+                else
+                    _ResizeTextureAndEnqueue(texture, bmp, action);
             }
             else
             {
                 lock (_TextureQueue)
                 {
-                    _TextureQueue.Enqueue(new STextureQueue(texture, EQueueAction.Add, bmp));
+                    _TextureQueue.Enqueue(new STextureQueue(texture, action, bmp));
                 }
             }
+        }
+
+        /// <summary>
+        ///     Helper function to resize a bitmap and enqueue it
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="bmp"></param>
+        /// <param name="action"></param>
+        private void _ResizeTextureAndEnqueue(object texture, Bitmap bmp, EQueueAction action)
+        {
+            Bitmap bmp2 = bmp.Resize(_GetNewTextureSize(bmp.Size));
+            bmp.Dispose();
+            lock (_TextureQueue)
+            {
+                _TextureQueue.Enqueue(new STextureQueue(texture, action, bmp2));
+            }
+        }
+
+        public CTextureRef EnqueueTexture(Bitmap bmp)
+        {
+            TTextureType texture = _CreateTexture(new Size(-1, -1));
+            CTextureRef textureRef = _GetTextureReference(bmp.GetSize(), texture);
+            _EnqueueTextureAddOrUpdate(texture, bmp, EQueueAction.Add, true);
 
             return textureRef;
         }
@@ -783,26 +809,13 @@ namespace Vocaluxe.Lib.Draw
                     _BitmapsLoading.Remove(filePath);
                 }
             }
-            Size size = _GetNewTextureSize(origSize);
-            if (!size.Equals(origSize))
-            {
-                Bitmap bmp2 = bmp.Resize(size);
-                bmp.Dispose();
-                bmp = bmp2;
-            }
-            lock (_TextureQueue)
-            {
-                _TextureQueue.Enqueue(new STextureQueue(texture, EQueueAction.Add, bmp));
-            }
+            _EnqueueTextureAddOrUpdate(texture, bmp, EQueueAction.Add, false);
             return origSize;
         }
 
         public void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp)
         {
-            lock (_TextureQueue)
-            {
-                _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Update, bmp));
-            }
+            _EnqueueTextureAddOrUpdate(textureRef, bmp, EQueueAction.Update, true);
         }
 
         /// <summary>
