@@ -196,7 +196,7 @@ namespace VocaluxeLib.Menu
             SRectF rect = Rect.Scale(scale);
             rect.Z += zModify;
             if (texture != null)
-                CHelper.SetRect(rect, out rect, texture.OrigAspect, aspect);
+                rect = CHelper.FitInBounds(rect, texture.OrigAspect, aspect);
 
             var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
             if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))

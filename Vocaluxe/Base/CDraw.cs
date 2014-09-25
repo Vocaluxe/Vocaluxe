@@ -381,8 +381,7 @@ namespace Vocaluxe.Base
             if (textureRef == null)
                 return;
 
-            SRectF rect;
-            CHelper.SetRect(bounds, out rect, textureRef.OrigAspect, aspect);
+            SRectF rect = CHelper.FitInBounds(bounds, textureRef.OrigAspect, aspect);
             DrawTexture(textureRef, rect, color);
         }
 

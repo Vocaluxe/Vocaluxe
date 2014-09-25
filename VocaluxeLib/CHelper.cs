@@ -78,51 +78,58 @@ namespace VocaluxeLib
             return result;
         }
 
-        public static void SetRect(SRectF bounds, out SRectF rect, float aspectRatio, EAspect aspect)
+        /// <summary>
+        ///     Places a rect within the bounds maintaining the aspectRatio and using the given aspect
+        /// </summary>
+        /// <param name="bounds">Bounds to fit the rect in</param>
+        /// <param name="aspectRatio">The original aspectRatio of the rect/image/...</param>
+        /// <param name="aspect">
+        ///     Crop: Fit fully in bounds cutting off overhanging parts (same on both sides)<br />
+        ///     LetterBox: Fit the long side possibly leaving some space on the other (rect will be centered)<br />
+        ///     StretcH: Just fit the rect in the bounds (rect=bounds)
+        /// </param>
+        public static SRectF FitInBounds(SRectF bounds, float aspectRatio, EAspect aspect)
         {
-            float boundsW = bounds.W;
-            float boundsH = bounds.H;
-            float boundsAspectRatio = boundsW / boundsH;
+            if (aspect == EAspect.Stretch)
+                return bounds;
 
-            float scaledWidth;
-            float scaledHeight;
+            float boundsAspectRatio = bounds.W / bounds.H;
+
+            float scaledWidth, scaledHeight;
 
             switch (aspect)
             {
                 case EAspect.Crop:
                     if (boundsAspectRatio >= aspectRatio)
                     {
-                        scaledWidth = boundsW;
-                        scaledHeight = boundsW / aspectRatio;
+                        scaledWidth = bounds.W;
+                        scaledHeight = bounds.W / aspectRatio;
                     }
                     else
                     {
-                        scaledHeight = boundsH;
-                        scaledWidth = boundsH * aspectRatio;
+                        scaledHeight = bounds.H;
+                        scaledWidth = bounds.H * aspectRatio;
                     }
                     break;
                 case EAspect.LetterBox:
                     if (boundsAspectRatio <= aspectRatio)
                     {
-                        scaledWidth = boundsW;
-                        scaledHeight = boundsW / aspectRatio;
+                        scaledWidth = bounds.W;
+                        scaledHeight = bounds.W / aspectRatio;
                     }
                     else
                     {
-                        scaledHeight = boundsH;
-                        scaledWidth = boundsH * aspectRatio;
+                        scaledHeight = bounds.H;
+                        scaledWidth = bounds.H * aspectRatio;
                     }
                     break;
                 default:
-                    scaledWidth = boundsW;
-                    scaledHeight = boundsH;
-                    break;
+                    return bounds;
             }
+            float left = (bounds.W - scaledWidth) / 2 + bounds.X;
+            float top = (bounds.H - scaledHeight) / 2 + bounds.Y;
 
-            float left = (boundsW - scaledWidth) / 2 + bounds.X;
-            float upper = (boundsH - scaledHeight) / 2 + bounds.Y;
-
-            rect = new SRectF(left, upper, scaledWidth, scaledHeight, bounds.Z);
+            return new SRectF(left, top, scaledWidth, scaledHeight, bounds.Z);
         }
 
         /// <summary>

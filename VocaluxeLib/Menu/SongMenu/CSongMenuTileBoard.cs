@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.Draw;
@@ -473,8 +472,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (vidtex.Color.A < 1)
                     _CoverBig.Draw(EAspect.Crop);
-                SRectF rect;
-                CHelper.SetRect(_CoverBig.Rect, out rect, vidtex.OrigAspect, EAspect.Crop);
+                SRectF rect = CHelper.FitInBounds(_CoverBig.Rect, vidtex.OrigAspect, EAspect.Crop);
 
                 CBase.Drawing.DrawTexture(vidtex, rect);
                 CBase.Drawing.DrawTextureReflection(vidtex, rect, vidtex.Color, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
