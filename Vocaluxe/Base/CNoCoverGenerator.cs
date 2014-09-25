@@ -25,7 +25,6 @@ using System.Drawing.Text;
 using System.IO;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
-using VocaluxeLib.Draw;
 using System.Linq;
 
 namespace Vocaluxe.Base
@@ -149,95 +148,115 @@ namespace Vocaluxe.Base
             }
         }
 
-        public CTextureRef GetCover(string text, string firstCoverPath)
+        private void _DrawBackground(Graphics g, Bitmap bmpBackground, String firstCoverPath)
+        {
+            g.Clear(_BGColor.AsColor());
+
+            ImageAttributes ia = null;
+            if (_ShowFirstCover && !String.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
+            {
+                using (Bitmap bmp2 = new Bitmap(firstCoverPath))
+                    g.DrawImage(bmp2, bmpBackground.GetRect(), 0, 0, bmp2.Width, bmp2.Height, GraphicsUnit.Pixel);
+                ColorMatrix cm = new ColorMatrix {Matrix33 = _ImageAlpha};
+                ia = new ImageAttributes();
+                ia.SetColorMatrix(cm);
+            }
+            g.DrawImage(bmpBackground, bmpBackground.GetRect(), 0, 0, bmpBackground.Width, bmpBackground.Height, GraphicsUnit.Pixel, ia);
+        }
+
+        private void _DrawText(Graphics g, Size bmpSize, CFont font, List<CTextElement> elements)
+        {
+            Font fo = CFonts.GetSystemFont(font);
+
+            float maxHeight = elements.Select(el => el.Height).Max();
+            int lineCount = elements.Last().Line + 1;
+
+            //Have to use size in em not pixels!
+            float emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
+            float outlineSize = CFonts.GetOutlineSize(font) * font.Height;
+            SColorF outlineColorF = CFonts.GetOutlineColor(font);
+            outlineColorF.A = outlineColorF.A * _TextColor.A;
+
+            using (var path = new GraphicsPath())
+            using (var pen = new Pen(outlineColorF.AsColor(), outlineSize / 2))
+            {
+                pen.LineJoin = LineJoin.Round;
+                pen.Alignment = PenAlignment.Outset;
+                float top = (bmpSize.Height - _TextMarginBottom - _TextMarginTop - maxHeight * lineCount) / 2 + _TextMarginTop;
+                int nextLineEl = 0;
+                for (int i = 0; i < lineCount; i++)
+                {
+                    int firstEl = nextLineEl;
+                    for (; nextLineEl < elements.Count; nextLineEl++)
+                    {
+                        if (elements[nextLineEl].Line > i)
+                            break;
+                    }
+
+                    string line = elements.GetRange(firstEl, nextLineEl - firstEl).Aggregate("", (current, element) => current + element.Text);
+                    float left;
+                    if (lineCount == 1 || (i == 1 && lineCount == 3))
+                    {
+                        //Center Text if this is the only line or the middle line
+                        float width = _GetWidth(elements, firstEl, nextLineEl - 1);
+                        left = (bmpSize.Width - _TextMarginLeft - _TextMarginRight - width) / 2 + _TextMarginLeft;
+                    }
+                    else if (i == lineCount - 1)
+                    {
+                        //Place last line at right
+                        float width = _GetWidth(elements, firstEl, nextLineEl - 1);
+                        left = bmpSize.Width - width - _TextMarginRight;
+                    }
+                    else
+                        left = _TextMarginLeft;
+                    //g.DrawString(line, fo, new SolidBrush(_TextColor.AsColor()), left, top, StringFormat.GenericTypographic);
+                    path.AddString(line, fo.FontFamily, (int)fo.Style, emSize, new PointF(left, top), StringFormat.GenericTypographic);
+                    top += maxHeight + _LineSpace;
+                }
+                g.DrawPath(pen, path);
+                g.FillPath(new SolidBrush(_TextColor.AsColor()), path);
+            }
+        }
+
+        public Bitmap GetCover(string text, string firstCoverPath)
         {
             if (!_Valid)
                 return null;
             text = CLanguage.Translate(_Text.Replace("%TEXT%", text));
             using (Bitmap bmpImage = new Bitmap(_Image))
-            using (Bitmap bmp = new Bitmap(bmpImage.Width, bmpImage.Height, PixelFormat.Format32bppArgb))
-            using (Graphics g = Graphics.FromImage(bmp))
             {
-                g.SmoothingMode = SmoothingMode.AntiAlias;
-                g.InterpolationMode = InterpolationMode.HighQualityBicubic;
-                g.TextRenderingHint = TextRenderingHint.AntiAlias;
-
-                g.Clear(_BGColor.AsColor());
-
-                ImageAttributes ia = null;
-                if (_ShowFirstCover && !String.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
+                Bitmap bmp = new Bitmap(bmpImage.Width, bmpImage.Height, PixelFormat.Format32bppArgb);
+                try
                 {
-                    using (Bitmap bmp2 = new Bitmap(firstCoverPath))
-                        g.DrawImage(bmp2, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp2.Width, bmp2.Height, GraphicsUnit.Pixel);
-                    ColorMatrix cm = new ColorMatrix {Matrix33 = _ImageAlpha};
-                    ia = new ImageAttributes();
-                    ia.SetColorMatrix(cm);
-                }
-                g.DrawImage(bmpImage, new Rectangle(0, 0, bmp.Width, bmp.Height), 0, 0, bmp.Width, bmp.Height, GraphicsUnit.Pixel, ia);
-
-                if (text != "")
-                {
-                    IEnumerable<string> textParts = _SplitText(text);
-                    CFont font = new CFont(_Font, _Style, bmp.Height - _TextMarginTop - _TextMarginBottom);
-                    Font fo = CFonts.GetSystemFont(font);
-                    List<CTextElement> elements = textParts.Select(line => new CTextElement(line, g, fo)).ToList();
-                    float factor = _DistributeText(elements, bmp.Width, bmp.Height);
-                    foreach (CTextElement element in elements)
-                        element.AdjustSize(factor);
-                    font.Height *= factor / (1f + CFonts.GetOutlineSize(font)); //Adjust for outline size
-                    fo = CFonts.GetSystemFont(font);
-
-                    float maxHeight = elements.Select(el => el.Height).Max();
-                    int lineCount = elements.Last().Line + 1;
-
-                    //Have to use size in em not pixels!
-                    float emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
-                    float outlineSize = CFonts.GetOutlineSize(font) * font.Height;
-                    SColorF outlineColorF = CFonts.GetOutlineColor(font);
-                    outlineColorF.A = outlineColorF.A * _TextColor.A;
-
-                    using (var path = new GraphicsPath())
-                    using (var pen = new Pen(outlineColorF.AsColor(), outlineSize / 2))
+                    using (Graphics g = Graphics.FromImage(bmp))
                     {
-                        pen.LineJoin = LineJoin.Round;
-                        pen.Alignment = PenAlignment.Outset;
-                        float top = (bmp.Height - _TextMarginBottom - _TextMarginTop - maxHeight * lineCount) / 2 + _TextMarginTop;
-                        int nextLineEl = 0;
-                        for (int i = 0; i < lineCount; i++)
-                        {
-                            int firstEl = nextLineEl;
-                            for (; nextLineEl < elements.Count; nextLineEl++)
-                            {
-                                if (elements[nextLineEl].Line > i)
-                                    break;
-                            }
+                        g.SmoothingMode = SmoothingMode.AntiAlias;
+                        g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                        g.TextRenderingHint = TextRenderingHint.AntiAlias;
 
-                            string line = elements.GetRange(firstEl, nextLineEl - firstEl).Aggregate("", (current, element) => current + element.Text);
-                            float left;
-                            if (lineCount == 1 || (i == 1 && lineCount == 3))
-                            {
-                                //Center Text if this is the only line or the middle line
-                                float width = _GetWidth(elements, firstEl, nextLineEl - 1);
-                                left = (bmp.Width - _TextMarginLeft - _TextMarginRight - width) / 2 + _TextMarginLeft;
-                            }
-                            else if (i == lineCount - 1)
-                            {
-                                //Place last line at right
-                                float width = _GetWidth(elements, firstEl, nextLineEl - 1);
-                                left = bmp.Width - width - _TextMarginRight;
-                            }
-                            else
-                                left = _TextMarginLeft;
-                            //g.DrawString(line, fo, new SolidBrush(_TextColor.AsColor()), left, top, StringFormat.GenericTypographic);
-                            path.AddString(line, fo.FontFamily, (int)fo.Style, emSize, new PointF(left, top), StringFormat.GenericTypographic);
-                            top += maxHeight + _LineSpace;
+                        _DrawBackground(g, bmpImage, firstCoverPath);
+
+                        if (text != "")
+                        {
+                            CFont font = new CFont(_Font, _Style, bmp.Height - _TextMarginTop - _TextMarginBottom);
+                            Font fo = CFonts.GetSystemFont(font);
+                            IEnumerable<string> textParts = _SplitText(text);
+                            List<CTextElement> elements = textParts.Select(line => new CTextElement(line, g, fo)).ToList();
+                            float factor = _DistributeText(elements, bmp.Width, bmp.Height);
+                            foreach (CTextElement element in elements)
+                                element.AdjustSize(factor);
+                            font.Height *= factor / (1f + CFonts.GetOutlineSize(font)); //Adjust for outline size
+                            _DrawText(g, bmp.GetSize(), font, elements);
                         }
-                        g.DrawPath(pen, path);
-                        g.FillPath(new SolidBrush(_TextColor.AsColor()), path);
                     }
+                    return bmp;
                 }
-                return CDraw.AddTexture(bmp);
+                catch (Exception)
+                {
+                    bmp.Dispose();
+                }
             }
+            return null;
         }
 
         /// <summary>

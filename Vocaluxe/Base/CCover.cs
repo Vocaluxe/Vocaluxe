@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -100,19 +101,17 @@ namespace Vocaluxe.Base
         public static CTextureRef GenerateCover(string text, ESongSorting sorting, CCategory category)
         {
             CSong firstSong = category.GetSong(0);
-            CTextureRef cover = _NoCoverThemes[_SongSortingToType(sorting)].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
-            if (cover == null)
-                cover = _NoCoverThemes[_DefaultTypeName].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
-            if (cover == null)
-                cover = NoCover;
-            else
+            Bitmap coverBmp = _NoCoverThemes[_SongSortingToType(sorting)].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+            if (coverBmp == null)
+                coverBmp = _NoCoverThemes[_DefaultTypeName].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+            if (coverBmp == null)
+                return NoCover;
+            CTextureRef texture = CDraw.AddTexture(coverBmp);
+            lock (_Covers)
             {
-                lock (_Covers)
-                {
-                    _Covers.Add(text, cover);
-                }
+                _Covers.Add(text, texture);
             }
-            return cover;
+            return texture;
         }
 
         /// <summary>
