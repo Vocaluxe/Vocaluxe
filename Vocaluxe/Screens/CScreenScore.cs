@@ -28,7 +28,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenScore : CMenu
+    public class CScreenScore : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion

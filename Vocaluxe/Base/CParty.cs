@@ -93,6 +93,13 @@ namespace Vocaluxe.Base
             get { return _PartyModes.Count; }
         }
 
+        public static void SaveThemes()
+        {
+            foreach (KeyValuePair<int, SPartyMode> pair in _PartyModes)
+                pair.Value.PartyMode.SaveScreens();
+        }
+
+
         public static List<SPartyModeInfos> GetPartyModeInfos()
         {
             var infos = new List<SPartyModeInfos>();

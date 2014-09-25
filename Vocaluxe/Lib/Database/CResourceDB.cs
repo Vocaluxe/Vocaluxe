@@ -66,7 +66,7 @@ namespace Vocaluxe.Lib.Database
             return true;
         }
 
-        public bool GetCreditsRessource(string fileName, ref CTexture tex)
+        public bool GetCreditsRessource(string fileName, ref CTextureRef tex)
         {
             if (_Connection == null)
                 return false;

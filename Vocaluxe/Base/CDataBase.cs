@@ -93,7 +93,7 @@ namespace Vocaluxe.Base
             _HighscoreDB.IncreaseSongCounter(dataBaseSongID);
         }
 
-        public static bool GetCover(string fileName, ref CTexture tex, int maxSize)
+        public static bool GetCover(string fileName, ref CTextureRef tex, int maxSize)
         {
             return _CoverDB.GetCover(fileName, ref tex, maxSize);
         }
@@ -103,7 +103,7 @@ namespace Vocaluxe.Base
             _CoverDB.CommitCovers();
         }
 
-        public static bool GetCreditsRessource(string fileName, ref CTexture tex)
+        public static bool GetCreditsRessource(string fileName, ref CTextureRef tex)
         {
             return _ResourceDB.GetCreditsRessource(fileName, ref tex);
         }

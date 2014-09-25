@@ -195,7 +195,7 @@ namespace Vocaluxe.Screens
                 return false;
             _Statics[_StaticCover].Texture = CBackgroundMusic.Cover;
             if (CBackgroundMusic.VideoEnabled && _VideoPreview && CBackgroundMusic.SongHasVideo)
-                CDraw.DrawTexture(_Statics[_StaticCover], CBackgroundMusic.GetVideoTexture(), EAspect.Crop);
+                CDraw.DrawTexture(CBackgroundMusic.GetVideoTexture(), _Statics[_StaticCover].Rect, EAspect.Crop);
             _Buttons[_ButtonPause].Visible = CBackgroundMusic.IsPlaying;
             _Buttons[_ButtonPlay].Visible = !CBackgroundMusic.IsPlaying;
             _Texts[_TextCurrentSong].Text = CBackgroundMusic.ArtistAndTitle;

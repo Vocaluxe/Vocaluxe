@@ -19,23 +19,59 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeNameSelection
+    [XmlType("NameSelection")]
+    public struct SThemeNameSelection
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
+        [XmlElement("Rect")]
+        public SRectF Rect;
+        [XmlElement("SkinEmptyTile")]
         public string TextureEmptyTileName;
-        public string ColorEmptyTileName;
+        [XmlElement("ColorEmptyTile")]
+        public SThemeColor ColorEmptyTile;
+        [XmlElement("SkinTileSelected")]
         public string TextureTileSelectedName;
-        public float NameSpace;
-        public float NameHeight;
-        public string NameFont;
-        public EStyle NameStyle;
-        public SColorF NameColor;
-        public string NameColorName;
+        [XmlElement("Tiles")]
+        public SThemeNameSelectionTiles Tiles;
+    }
+
+    public struct SThemeNameSelectionTiles
+    {
+        [XmlElement("W")]
+        public int W;
+        [XmlElement("H")]
+        public int H;
+        [XmlElement("NumW")]
+        public int NumW;
+        [XmlElement("NumH")]
+        public int NumH;
+        [XmlElement("SpaceW")]
+        public float SpaceW;
+        [XmlElement("SpaceH")]
+        public float SpaceH;
+        [XmlElement("Name")]
+        public SThemeNameSelectionName Name;
+    }
+
+    public struct SThemeNameSelectionName
+    {
+        [XmlElement("Space")]
+        public float Space;
+        [XmlElement("H")]
+        public float Height;
+        [XmlElement("Font")]
+        public string Font;
+        [XmlElement("Style")]
+        public EStyle Style;
+        [XmlElement("Color")]
+        public SThemeColor Color;
     }
 
     public class CNameSelection : IMenuElement
@@ -63,29 +99,26 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
+        }
+
         public bool Selected;
         public bool Visible = true;
 
         public SRectF Rect;
         private readonly List<CTile> _Tiles;
 
-        private CTexture _TextureEmptyTile;
-        private CTexture _TextureTileSelected;
-        public CTexture TextureEmptyTile
+        private CTextureRef _TextureEmptyTile;
+        private CTextureRef _TextureTileSelected;
+        public CTextureRef TextureEmptyTile
         {
             get { return _TextureEmptyTile; }
         }
 
         public SColorF ColorEmptyTile;
 
-        private int _NumW;
-        private int _NumH;
-
-        private float _SpaceW;
-        private float _SpaceH;
-
-        private int _TileW;
-        private int _TileH;
 
         public int Offset;
         private int _ActualSelection = -1;
@@ -102,10 +135,24 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeNameSelection();
+            _Theme.Tiles = new SThemeNameSelectionTiles();
+            _Theme.Tiles.Name = new SThemeNameSelectionName();
 
             _Tiles = new List<CTile>();
             _VisibleProfiles = new List<int>();
             _UsedProfiles = new List<int>();
+        }
+
+        public CNameSelection(SThemeNameSelection theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = theme;
+
+            _Tiles = new List<CTile>();
+            _VisibleProfiles = new List<int>();
+            _UsedProfiles = new List<int>();
+
+            LoadTextures();
         }
 
         public void Init()
@@ -115,7 +162,7 @@ namespace VocaluxeLib.Menu
             _PlayerSelector = new CStatic(_PartyModeID)
                 {
                     Texture = _TextureTileSelected,
-                    Rect = new SRectF(0, 0, _TileW + 6, _TileH + 6, Rect.Z - 0.5f),
+                    Rect = new SRectF(0, 0, _Theme.Tiles.W + 6, _Theme.Tiles.H + 6, Rect.Z - 0.5f),
                     Visible = false
                 };
 
@@ -137,8 +184,8 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", out _Theme.TextureEmptyTileName, String.Empty);
 
-            if (xmlReader.GetValue(item + "/ColorEmptyTile", out _Theme.ColorEmptyTileName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorEmptyTileName, skinIndex, out ColorEmptyTile);
+            if (xmlReader.GetValue(item + "/ColorEmptyTile", out _Theme.ColorEmptyTile.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorEmptyTile.Name, skinIndex, out ColorEmptyTile);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref ColorEmptyTile.R);
@@ -149,25 +196,25 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", out _Theme.TextureTileSelectedName, String.Empty);
 
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _TileW);
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _TileH);
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumW", ref _NumW);
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumH", ref _NumH);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceW", ref _SpaceW);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceH", ref _SpaceH);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/Space", ref _Theme.NameSpace);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/H", ref _Theme.NameHeight);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", out _Theme.NameFont, "Normal");
-            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Tiles/Name/Style", ref _Theme.NameStyle);
-            if (xmlReader.GetValue(item + "/Tiles/Name/Color", out _Theme.NameColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.NameColorName, skinIndex, out _Theme.NameColor);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _Theme.Tiles.W);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _Theme.Tiles.H);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumW", ref _Theme.Tiles.NumW);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumH", ref _Theme.Tiles.NumH);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceW", ref _Theme.Tiles.SpaceW);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceH", ref _Theme.Tiles.SpaceH);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/Space", ref _Theme.Tiles.Name.Space);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/H", ref _Theme.Tiles.Name.Height);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", out _Theme.Tiles.Name.Font, "Normal");
+            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Tiles/Name/Style", ref _Theme.Tiles.Name.Style);
+            if (xmlReader.GetValue(item + "/Tiles/Name/Color", out _Theme.Tiles.Name.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Tiles.Name.Color.Name, skinIndex, out _Theme.Tiles.Name.Color.Color);
             else
             {
-                if (xmlReader.TryGetFloatValue(item + "/Tiles/Name/R", ref _Theme.NameColor.R))
+                if (xmlReader.TryGetFloatValue(item + "/Tiles/Name/R", ref _Theme.Tiles.Name.Color.Color.R))
                 {
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/G", ref _Theme.NameColor.G);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/B", ref _Theme.NameColor.B);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/A", ref _Theme.NameColor.A);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/G", ref _Theme.Tiles.Name.Color.Color.G);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/B", ref _Theme.Tiles.Name.Color.Color.B);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/A", ref _Theme.Tiles.Name.Color.Color.A);
                 }
             }
 
@@ -175,80 +222,13 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
+
+                _Theme.Rect = new SRectF(Rect);
+                _Theme.ColorEmptyTile.Color = new SColorF(ColorEmptyTile);
+
                 LoadTextures();
             }
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: NameSelection position, width and height");
-                writer.WriteElementString("X", Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", Rect.W.ToString("#0"));
-                writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-                writer.WriteComment("<SkinEmptyTile>: Texture name");
-                writer.WriteElementString("SkinEmptyTile", _Theme.TextureEmptyTileName);
-
-                writer.WriteComment("<ColorEmptyTile>: Static color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorEmptyTileName))
-                    writer.WriteElementString("ColorEmptyTile", _Theme.ColorEmptyTileName);
-                else
-                {
-                    writer.WriteElementString("R", ColorEmptyTile.R.ToString("#0.00"));
-                    writer.WriteElementString("G", ColorEmptyTile.G.ToString("#0.00"));
-                    writer.WriteElementString("B", ColorEmptyTile.B.ToString("#0.00"));
-                    writer.WriteElementString("A", ColorEmptyTile.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<SkinTileSelected>: Texture name");
-                writer.WriteElementString("SkinTileSelected", _Theme.TextureTileSelectedName);
-
-                writer.WriteComment("<Tiles>: Options for tiles");
-                writer.WriteStartElement("Tiles");
-                writer.WriteComment("<W>, <H>: Width and height of tile");
-                writer.WriteElementString("W", _TileW.ToString());
-                writer.WriteElementString("H", _TileH.ToString());
-                writer.WriteComment("<NumW>, <NumH>: Number of tiles");
-                writer.WriteElementString("NumW", _NumW.ToString());
-                writer.WriteElementString("NumH", _NumH.ToString());
-                writer.WriteComment("<SpaceW>, <SpaceH>: Space between tiles");
-                writer.WriteElementString("SpaceW", _SpaceW.ToString("#0.00"));
-                writer.WriteElementString("SpaceH", _SpaceH.ToString("#0.00"));
-                writer.WriteComment("<Name>: Options for player-name");
-                writer.WriteStartElement("Name");
-                writer.WriteComment("<Space>: Space between name and tile");
-                writer.WriteElementString("Space", _Theme.NameSpace.ToString("#0.0"));
-                writer.WriteComment("<Font>: Text font name");
-                writer.WriteElementString("Font", _Theme.NameFont);
-                writer.WriteComment("<Color>: Text color from ColorScheme (high priority)");
-                if (!String.IsNullOrEmpty(_Theme.NameColorName))
-                    writer.WriteElementString("Color", _Theme.NameColorName);
-                else
-                {
-                    writer.WriteElementString("R", _Theme.NameColor.R.ToString("#0.00"));
-                    writer.WriteElementString("G", _Theme.NameColor.G.ToString("#0.00"));
-                    writer.WriteElementString("B", _Theme.NameColor.B.ToString("#0.00"));
-                    writer.WriteElementString("A", _Theme.NameColor.A.ToString("#0.00"));
-                }
-                writer.WriteComment("<Style>: Text style: " + CHelper.ListStrings(Enum.GetNames(typeof(EStyle))));
-                writer.WriteElementString("Style", _Theme.NameStyle.ToString());
-                writer.WriteComment("<H>: Text height");
-                writer.WriteElementString("H", _Theme.NameHeight.ToString("#0"));
-                writer.WriteEndElement();
-                writer.WriteEndElement();
-
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
         }
 
         public void Draw()
@@ -308,20 +288,20 @@ namespace VocaluxeLib.Menu
                     break;
 
                 case Keys.Up:
-                    if (_ActualSelection - _NumW > -1)
-                        _ActualSelection -= _NumW;
+                    if (_ActualSelection - _Theme.Tiles.NumW > -1)
+                        _ActualSelection -= _Theme.Tiles.NumW;
                     else if (Offset > 0)
                     {
                         UpdateList(Offset - 1);
-                        _ActualSelection += _Tiles.Count - _NumW;
+                        _ActualSelection += _Tiles.Count - _Theme.Tiles.NumW;
                     }
                     break;
 
                 case Keys.Down:
-                    if (_ActualSelection + _NumW < _Tiles.Count)
+                    if (_ActualSelection + _Theme.Tiles.NumW < _Tiles.Count)
                     {
-                        if (_Tiles[_ActualSelection + _NumW].ProfileID != -1)
-                            _ActualSelection += _NumW;
+                        if (_Tiles[_ActualSelection + _Theme.Tiles.NumW].ProfileID != -1)
+                            _ActualSelection += _Theme.Tiles.NumW;
                     }
                     else
                     {
@@ -329,7 +309,7 @@ namespace VocaluxeLib.Menu
                         UpdateList(Offset + 1);
                         if (offset != Offset)
                         {
-                            _ActualSelection = _ActualSelection - _Tiles.Count + _NumW;
+                            _ActualSelection = _ActualSelection - _Tiles.Count + _Theme.Tiles.NumW;
                             if (_Tiles[_ActualSelection].ProfileID == -1)
                             {
                                 for (int i = _Tiles.Count - 1; i >= 0; i--)
@@ -469,11 +449,15 @@ namespace VocaluxeLib.Menu
             _TextureEmptyTile = CBase.Theme.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
             _TextureTileSelected = CBase.Theme.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
 
-            if (!String.IsNullOrEmpty(_Theme.ColorEmptyTileName))
-                ColorEmptyTile = CBase.Theme.GetColor(_Theme.ColorEmptyTileName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.ColorEmptyTile.Name))
+                ColorEmptyTile = CBase.Theme.GetColor(_Theme.ColorEmptyTile.Name, _PartyModeID);
+            else
+                ColorEmptyTile = _Theme.ColorEmptyTile.Color;
 
-            if (!String.IsNullOrEmpty(_Theme.NameColorName))
-                _Theme.NameColor = CBase.Theme.GetColor(_Theme.NameColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Tiles.Name.Color.Name))
+                _Theme.Tiles.Name.Color.Color = CBase.Theme.GetColor(_Theme.Tiles.Name.Color.Name, _PartyModeID);
+
+            Rect = _Theme.Rect;
         }
 
         public void ReloadTextures()
@@ -529,14 +513,14 @@ namespace VocaluxeLib.Menu
         private void _PrepareTiles()
         {
             _Tiles.Clear();
-            for (int i = 0; i < _NumH; i++)
+            for (int i = 0; i < _Theme.Tiles.NumH; i++)
             {
-                for (int j = 0; j < _NumW; j++)
+                for (int j = 0; j < _Theme.Tiles.NumW; j++)
                 {
-                    var rect = new SRectF(Rect.X + j * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
+                    var rect = new SRectF(Rect.X + j * (_Theme.Tiles.W + _Theme.Tiles.SpaceW), Rect.Y + i * (_Theme.Tiles.H + _Theme.Tiles.SpaceH), _Theme.Tiles.W, _Theme.Tiles.H, Rect.Z);
                     var tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect) {Aspect = EAspect.Crop};
-                    var tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.NameSpace, rect.Z, _Theme.NameHeight, rect.W, EAlignment.Center, _Theme.NameStyle,
-                                             _Theme.NameFont, _Theme.NameColor, "");
+                    var tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.Tiles.Name.Space, rect.Z, _Theme.Tiles.Name.Height, rect.W, EAlignment.Center, _Theme.Tiles.Name.Style,
+                                             _Theme.Tiles.Name.Font, _Theme.Tiles.Name.Color.Color, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
                 }
             }
@@ -560,11 +544,19 @@ namespace VocaluxeLib.Menu
             }
         }
 
+        public SThemeNameSelection GetTheme()
+        {
+            return _Theme;
+        }
+
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
             Rect.X += stepX;
             Rect.Y += stepY;
+
+            _Theme.Rect.X += stepX;
+            _Theme.Rect.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -576,6 +568,9 @@ namespace VocaluxeLib.Menu
             Rect.H += stepH;
             if (Rect.H <= 0)
                 Rect.H = 1;
+
+            _Theme.Rect.W = Rect.W;
+            _Theme.Rect.H = Rect.H;
         }
         #endregion ThemeEdit
     }

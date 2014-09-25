@@ -17,9 +17,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using VocaluxeLib.Songs;
 
 namespace VocaluxeLib
@@ -28,13 +30,15 @@ namespace VocaluxeLib
     #region Drawing
     public struct SColorF
     {
-        public float R;
-        public float G;
-        public float B;
-        public float A;
+        [XmlElement("R")] public float R;
+        [XmlElement("G")] public float G;
+        [XmlElement("B")] public float B;
+        [XmlElement("A")] public float A;
 
         public SColorF(float r, float g, float b, float a)
         {
+            Debug.Assert(r.IsInRange(0, 1) && g.IsInRange(0, 1) && b.IsInRange(0, 1));
+            Debug.Assert(a.IsInRange(0, 1));
             R = r;
             G = g;
             B = b;
@@ -56,6 +60,30 @@ namespace VocaluxeLib
         }
     }
 
+    //Use for holding theme-colors
+    [XmlRoot("Color")]
+    public struct SThemeColor
+    {
+        public SColorF Color;
+        public string Name;
+
+        //Needed for serialization
+        public bool ColorSpecified
+        {
+            get { return String.IsNullOrEmpty(Name); }
+        }
+        public bool NameSpecified
+        {
+            get { return !String.IsNullOrEmpty(Name); }
+        }
+
+        public SThemeColor(SThemeColor theme)
+        {
+            Color = new SColorF(theme.Color);
+            Name = theme.Name;
+        }
+    }
+
     public struct SRectF
     {
         public float X;
@@ -63,7 +91,24 @@ namespace VocaluxeLib
         public float W;
         public float H;
         public float Z;
-        public float Rotation; //0..360°
+        [XmlIgnore] public float Rotation; //0..360°
+
+        public float Right
+        {
+            get { return X + W; }
+        }
+        public float Bottom
+        {
+            get { return Y + H; }
+        }
+        public Size SizeI
+        {
+            get { return new Size((int)W, (int)H); }
+        }
+        public SizeF Size
+        {
+            get { return new SizeF(W, H); }
+        }
 
         public SRectF(float x, float y, float w, float h, float z)
         {
@@ -83,6 +128,48 @@ namespace VocaluxeLib
             H = rect.H;
             Z = rect.Z;
             Rotation = 0f;
+        }
+
+        public SRectF(Rectangle rect)
+        {
+            X = rect.X;
+            Y = rect.Y;
+            W = rect.Width;
+            H = rect.Height;
+            Z = 0;
+            Rotation = 0;
+        }
+    }
+
+    [XmlRoot("Reflection")]
+    public struct SReflection
+    {
+        [XmlAttribute(AttributeName = "Enabled")] public bool Enabled;
+        public float Height;
+        public float Space;
+
+        //Needed for serialization
+        public bool HeightSpecified
+        {
+            get { return Enabled; }
+        }
+        public bool SpaceSpecified
+        {
+            get { return Enabled; }
+        }
+
+        public SReflection(bool enabled, float height, float space)
+        {
+            Enabled = enabled;
+            Height = height;
+            Space = space;
+        }
+
+        public SReflection(SReflection refl)
+        {
+            Enabled = refl.Enabled;
+            Height = refl.Height;
+            Space = refl.Space;
         }
     }
 

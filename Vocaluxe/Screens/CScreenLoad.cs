@@ -23,7 +23,7 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenLoad : CMenu
+    public class CScreenLoad : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion

@@ -18,7 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Songs;
 
@@ -40,21 +40,31 @@ namespace VocaluxeLib.Menu.SingNotes
         public List<CParticleEffect> PerfectLineTwinkle;
     }
 
-    struct SThemeSingBar
+    [XmlType("Position")]
+    public struct SBarPosition
     {
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
+        public SRectF Rect;
+    }
 
-        public string SkinLeftName;
-        public string SkinMiddleName;
-        public string SkinRightName;
+    [XmlType("SingBar")]
+    public struct SThemeSingBar
+    {
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        public string SkinBackgroundLeftName;
-        public string SkinBackgroundMiddleName;
-        public string SkinBackgroundRightName;
+        [XmlElement("SkinLeft")] public string SkinLeftName;
+        [XmlElement("SkinMiddle")] public string SkinMiddleName;
+        [XmlElement("SkinRight")] public string SkinRightName;
 
-        public string SkinGoldenStarName;
-        public string SkinToneHelperName;
-        public string SkinPerfectNoteStarName;
+        [XmlElement("SkinBackgroundLeft")] public string SkinBackgroundLeftName;
+        [XmlElement("SkinBackgroundMiddle")] public string SkinBackgroundMiddleName;
+        [XmlElement("SkinBackgroundRight")] public string SkinBackgroundRightName;
+
+        [XmlElement("SkinGoldenStar")] public string SkinGoldenStarName;
+        [XmlElement("SkinToneHelper")] public string SkinToneHelperName;
+        [XmlElement("SkinPerfectNoteStart")] public string SkinPerfectNoteStarName;
+
+        [XmlArray("BarPositions")] public SBarPosition[] BarPos;
     }
 
     public abstract class CSingNotes : IMenuElement
@@ -78,15 +88,34 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeSingBar();
+            _Theme.BarPos = new SBarPosition[CHelper.Sum(CBase.Settings.GetMaxNumPlayer())];
             _ThemeLoaded = false;
 
             _PlayerNotes = new List<SPlayerNotes>();
             _ActID = 0;
         }
 
+        protected CSingNotes(SThemeSingBar theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = theme;
+
+            _PlayerNotes = new List<SPlayerNotes>();
+            _ActID = 0;
+
+            BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
+
+            LoadTextures();
+        }
+
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
@@ -106,21 +135,22 @@ namespace VocaluxeLib.Menu.SingNotes
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinToneHelper", out _Theme.SkinToneHelperName, String.Empty);
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinPerfectNoteStar", out _Theme.SkinPerfectNoteStarName, String.Empty);
 
+            int i = 0;
             BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
             for (int numplayer = 0; numplayer < CBase.Settings.GetMaxNumPlayer(); numplayer++)
             {
-                for (int player = 0; player < CBase.Settings.GetMaxNumPlayer(); player++)
+                for (int player = 0; player <= numplayer; player++)
                 {
-                    if (player <= numplayer)
-                    {
-                        BarPos[player, numplayer] = new SRectF();
-                        string target = "/BarPositions/P" + (player + 1) + "N" + (numplayer + 1);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "X", ref BarPos[player, numplayer].X);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Y", ref BarPos[player, numplayer].Y);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref BarPos[player, numplayer].Z);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref BarPos[player, numplayer].W);
-                        _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref BarPos[player, numplayer].H);
-                    }
+                    BarPos[player, numplayer] = new SRectF();
+                    string target = "/BarPositions/P" + (player + 1) + "N" + (numplayer + 1);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "X", ref BarPos[player, numplayer].X);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Y", ref BarPos[player, numplayer].Y);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref BarPos[player, numplayer].Z);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref BarPos[player, numplayer].W);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref BarPos[player, numplayer].H);
+                    _Theme.BarPos[i].Name = "P" + (player + 1) + "N" + (numplayer + 1);
+                    _Theme.BarPos[i].Rect = new SRectF(BarPos[player, numplayer]);
+                    i++;
                 }
             }
 
@@ -131,68 +161,6 @@ namespace VocaluxeLib.Menu.SingNotes
             }
 
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<SkinLeft>: Texture name of note begin");
-                writer.WriteElementString("SkinLeft", _Theme.SkinLeftName);
-
-                writer.WriteComment("<SkinMiddle>: Texture name of note middle");
-                writer.WriteElementString("SkinMiddle", _Theme.SkinMiddleName);
-
-                writer.WriteComment("<SkinRight>: Texture name of note end");
-                writer.WriteElementString("SkinRight", _Theme.SkinRightName);
-
-                writer.WriteComment("<SkinBackgroundLeft>: Texture name of note background begin");
-                writer.WriteElementString("SkinBackgroundLeft", _Theme.SkinBackgroundLeftName);
-
-                writer.WriteComment("<SkinBackgroundMiddle>: Texture name of note background middle");
-                writer.WriteElementString("SkinBackgroundMiddle", _Theme.SkinBackgroundMiddleName);
-
-                writer.WriteComment("<SkinBackgroundRight>: Texture name of note background right");
-                writer.WriteElementString("SkinBackgroundRight", _Theme.SkinBackgroundRightName);
-
-                writer.WriteComment("<SkinGoldenStar>: Texture name of golden star");
-                writer.WriteElementString("SkinGoldenStar", _Theme.SkinGoldenStarName);
-
-                writer.WriteComment("<SkinToneHelper>: Texture name of tone helper");
-                writer.WriteElementString("SkinToneHelper", _Theme.SkinToneHelperName);
-
-                writer.WriteComment("<SkinPerfectNoteStar>: Texture name of perfect star");
-                writer.WriteElementString("SkinPerfectNoteStar", _Theme.SkinPerfectNoteStarName);
-
-                writer.WriteComment("<BarPositions>");
-                writer.WriteComment("  <P$N$X>, <P$N$Y>, <P$N$Z>, <P$N$W>, <P$N$H>");
-                writer.WriteComment("  position, width and height of note bars: first index = player number; second index = num players seen on screen");
-                writer.WriteStartElement("BarPositions");
-                for (int numplayer = 0; numplayer < CBase.Settings.GetMaxNumPlayer(); numplayer++)
-                {
-                    for (int player = 0; player < CBase.Settings.GetMaxNumPlayer(); player++)
-                    {
-                        if (player > numplayer)
-                            continue;
-                        string target = "P" + (player + 1) + "N" + (numplayer + 1);
-
-                        writer.WriteElementString(target + "X", BarPos[player, numplayer].X.ToString("#0"));
-                        writer.WriteElementString(target + "Y", BarPos[player, numplayer].Y.ToString("#0"));
-                        writer.WriteElementString(target + "Z", BarPos[player, numplayer].Z.ToString("#0.00"));
-                        writer.WriteElementString(target + "W", BarPos[player, numplayer].W.ToString("#0"));
-                        writer.WriteElementString(target + "H", BarPos[player, numplayer].H.ToString("#0"));
-                    }
-                }
-                writer.WriteEndElement(); //BarPositions
-
-                writer.WriteEndElement();
-
-                return true;
-            }
-
-            return false;
         }
 
         public void Reset()
@@ -332,7 +300,7 @@ namespace VocaluxeLib.Menu.SingNotes
                         );
 
                     _DrawNoteBG(rect, color, 1f, _PlayerNotes[n].Timer);
-                    _DrawNote(rect, new SColorF(5f, 5f, 5f, 0.7f * _PlayerNotes[n].Alpha), 0.7f);
+                    _DrawNote(rect, new SColorF(1f, 1f, 1f, 0.7f * _PlayerNotes[n].Alpha), 0.7f);
 
                     if (note.Type == ENoteType.Golden)
                     {
@@ -443,12 +411,26 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public void UnloadTextures() {}
 
-        public void LoadTextures() {}
+        public void LoadTextures()
+        {
+            foreach (SBarPosition bp in _Theme.BarPos)
+            {
+                int n = Int32.Parse(bp.Name.Substring(3, 1)) - 1;
+                int p = Int32.Parse(bp.Name.Substring(1, 1)) - 1;
+
+                BarPos[p, n] = bp.Rect;
+            }
+        }
 
         public void ReloadTextures()
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        public SThemeSingBar GetTheme()
+        {
+            return _Theme;
         }
 
         private int _FindPlayerNotes(int id)
@@ -472,9 +454,9 @@ namespace VocaluxeLib.Menu.SingNotes
 
             var noteRect = new SRectF(rect.X + dw, rect.Y + dh, rect.W - 2 * dw, rect.H - 2 * dh, rect.Z);
 
-            CTexture noteBegin = CBase.Theme.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
-            CTexture noteMiddle = CBase.Theme.GetSkinTexture(_Theme.SkinMiddleName, _PartyModeID);
-            CTexture noteEnd = CBase.Theme.GetSkinTexture(_Theme.SkinRightName, _PartyModeID);
+            CTextureRef noteBegin = CBase.Theme.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
+            CTextureRef noteMiddle = CBase.Theme.GetSkinTexture(_Theme.SkinMiddleName, _PartyModeID);
+            CTextureRef noteEnd = CBase.Theme.GetSkinTexture(_Theme.SkinRightName, _PartyModeID);
 
             //Width of each of the ends (round parts)
             //Need 2 of them so use minimum
@@ -519,9 +501,9 @@ namespace VocaluxeLib.Menu.SingNotes
                 rect.Z
                 );
 
-            CTexture noteBackgroundBegin = CBase.Theme.GetSkinTexture(_Theme.SkinBackgroundLeftName, _PartyModeID);
-            CTexture noteBackgroundMiddle = CBase.Theme.GetSkinTexture(_Theme.SkinBackgroundMiddleName, _PartyModeID);
-            CTexture noteBackgroundEnd = CBase.Theme.GetSkinTexture(_Theme.SkinBackgroundRightName, _PartyModeID);
+            CTextureRef noteBackgroundBegin = CBase.Theme.GetSkinTexture(_Theme.SkinBackgroundLeftName, _PartyModeID);
+            CTextureRef noteBackgroundMiddle = CBase.Theme.GetSkinTexture(_Theme.SkinBackgroundMiddleName, _PartyModeID);
+            CTextureRef noteBackgroundEnd = CBase.Theme.GetSkinTexture(_Theme.SkinBackgroundRightName, _PartyModeID);
 
             float dx = r.H * noteBackgroundBegin.OrigAspect;
             if (2 * dx > r.W)
@@ -539,12 +521,13 @@ namespace VocaluxeLib.Menu.SingNotes
             CBase.Drawing.DrawTexture(noteBackgroundEnd, new SRectF(r.X + r.W - dx, r.Y, dx, r.H, r.Z), col);
         }
 
-        protected void _DrawNoteLines(SRectF rect, SColorF color)
+        private static void _DrawNoteLines(SRectF rect, SColorF color)
         {
-            for (int i = 0; i < CBase.Settings.GetNumNoteLines() - 1; i++)
+            SRectF lineRect = new SRectF(rect) {H = 1.5f};
+            for (int i = 0; i < CBase.Settings.GetNumNoteLines(); i++)
             {
-                float y = rect.Y + rect.H / CBase.Settings.GetNumNoteLines() * (i + 1);
-                CBase.Drawing.DrawColor(color, new SRectF(rect.X, y, rect.W, 1, -1.0f));
+                lineRect.Y = rect.Y + rect.H / CBase.Settings.GetNumNoteLines() * (i + 1);
+                CBase.Drawing.DrawRect(color, lineRect);
             }
         }
 
@@ -614,7 +597,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 rect.Z
                 );
 
-            CTexture noteBegin = CBase.Theme.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
+            CTextureRef noteBegin = CBase.Theme.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
             float dx = r.H * noteBegin.OrigAspect;
             if (2 * dx > r.W)
                 dx = r.W / 2;
@@ -671,7 +654,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 _PlayerNotes[n].Color.B,
                 _PlayerNotes[n].Color.A * _PlayerNotes[n].Alpha);
 
-            CTexture toneHelper = CBase.Theme.GetSkinTexture(_Theme.SkinToneHelperName, _PartyModeID);
+            CTextureRef toneHelper = CBase.Theme.GetSkinTexture(_Theme.SkinToneHelperName, _PartyModeID);
             CBase.Drawing.DrawTexture(toneHelper, drawRect, color);
 
 

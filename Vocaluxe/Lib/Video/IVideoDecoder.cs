@@ -73,7 +73,7 @@ namespace Vocaluxe.Lib.Video
         /// </param>
         /// <param name="videoTime">The actual position in s of the returned frame. Should be ~ time+VideoGap</param>
         /// <returns>True if frame is valid, false: frame and videoTime might be unchanged or invalid</returns>
-        bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime);
+        bool GetFrame(int streamID, ref CTextureRef frame, float time, out float videoTime);
 
         /// <summary>
         ///     Seeks to given position

@@ -155,6 +155,11 @@ namespace Vocaluxe.Base
         {
             return CConfig.XMLSettings;
         }
+
+        public bool GetLoadOldThemeFiles()
+        {
+            return CConfig.LoadOldThemeFiles;
+        }
     }
 
     class CBsettings : ISettings
@@ -267,12 +272,12 @@ namespace Vocaluxe.Base
             return CTheme.GetSkinIndex(partyModeID);
         }
 
-        public CTexture GetSkinTexture(string textureName, int partyModeID)
+        public CTextureRef GetSkinTexture(string textureName, int partyModeID)
         {
             return CTheme.GetSkinTexture(textureName, partyModeID);
         }
 
-        public CTexture GetSkinVideoTexture(string videoName, int partyModeID)
+        public CTextureRef GetSkinVideoTexture(string videoName, int partyModeID)
         {
             return CTheme.GetSkinVideoTexture(videoName, partyModeID);
         }
@@ -400,7 +405,7 @@ namespace Vocaluxe.Base
             CBackgroundMusic.StopPreview();
         }
 
-        public CTexture GetVideoTexture()
+        public CTextureRef GetVideoTexture()
         {
             return CBackgroundMusic.GetVideoTexture();
         }
@@ -408,44 +413,54 @@ namespace Vocaluxe.Base
 
     class CBdraw : IDrawing
     {
-        public void DrawTexture(CTexture texture, SRectF rect)
+        public void DrawTexture(CTextureRef texture, SRectF rect)
         {
             CDraw.DrawTexture(texture, rect);
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color)
         {
             CDraw.DrawTexture(texture, rect, color);
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             CDraw.DrawTexture(texture, rect, color, bounds, mirrored);
         }
 
-        public void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight)
+        public void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect)
         {
-            CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight);
+            CDraw.DrawTexture(textureRef, bounds, aspect);
         }
 
-        public CTexture AddTexture(string fileName)
+        public void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect, SColorF color)
+        {
+            CDraw.DrawTexture(textureRef, bounds, aspect, color);
+        }
+
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, float reflectionSpace, float reflectionHeight)
+        {
+            CDraw.DrawTextureReflection(texture, rect, color, reflectionSpace, reflectionHeight);
+        }
+
+        public CTextureRef AddTexture(string fileName)
         {
             return CDraw.AddTexture(fileName);
         }
 
-        public void RemoveTexture(ref CTexture texture)
+        public void RemoveTexture(ref CTextureRef texture)
         {
             CDraw.RemoveTexture(ref texture);
         }
 
-        public void DrawColor(SColorF color, SRectF rect)
+        public void DrawRect(SColorF color, SRectF rect)
         {
-            CDraw.DrawColor(color, rect);
+            CDraw.DrawRect(color, rect);
         }
 
-        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height)
         {
-            CDraw.DrawColorReflection(color, rect, space, height);
+            CDraw.DrawRectReflection(color, rect, space, height);
         }
     }
 
@@ -636,7 +651,7 @@ namespace Vocaluxe.Base
             return CProfiles.GetPlayerName(profileID, playerNum);
         }
 
-        public CTexture GetAvatar(int profileID)
+        public CTextureRef GetAvatar(int profileID)
         {
             return CProfiles.GetAvatarTextureFromProfile(profileID);
         }
@@ -795,7 +810,7 @@ namespace Vocaluxe.Base
             return CVideo.Skip(videoStream, startPosition, videoGap);
         }
 
-        public bool GetFrame(int videoStream, ref CTexture videoTexture, float time, out float videoTime)
+        public bool GetFrame(int videoStream, ref CTextureRef videoTexture, float time, out float videoTime)
         {
             return CVideo.GetFrame(videoStream, ref videoTexture, time, out videoTime);
         }
@@ -876,7 +891,7 @@ namespace Vocaluxe.Base
 
     class CBcover : ICover
     {
-        public CTexture GetNoCover()
+        public CTextureRef GetNoCover()
         {
             return CCover.NoCover;
         }
@@ -884,7 +899,7 @@ namespace Vocaluxe.Base
 
     class CBdataBase : IDataBase
     {
-        public bool GetCover(string fileName, ref CTexture texture, int coverSize)
+        public bool GetCover(string fileName, ref CTextureRef texture, int coverSize)
         {
             return CDataBase.GetCover(fileName, ref texture, coverSize);
         }

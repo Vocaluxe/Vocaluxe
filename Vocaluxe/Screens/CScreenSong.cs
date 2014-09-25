@@ -29,7 +29,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenSong : CMenu
+    public class CScreenSong : CMenu
     {
         private enum ESongOptionsView
         {
@@ -413,7 +413,7 @@ namespace Vocaluxe.Screens
                 _SongMenu.Active = !_PlaylistActive;
                 _ToggleSongOptions(ESongOptionsView.None);
             }
-            else if (CHelper.IsInBounds(_SongMenu.Rect, mouseEvent.X, mouseEvent.Y))
+            else if (CHelper.IsInBounds(_SongMenu.Rect, mouseEvent))
             {
                 _PlaylistActive = false;
                 _Playlist.Selected = _PlaylistActive;

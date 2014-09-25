@@ -297,7 +297,7 @@ namespace Vocaluxe.Base
         public static CProfile[] GetProfiles()
         {
             if (_Profiles.Count == 0)
-                return null;
+                return new CProfile[0];
 
             var list = new List<CProfile>(_Profiles.Values);
             list.Sort(_CompareByPlayerName);
@@ -504,7 +504,7 @@ namespace Vocaluxe.Base
         #endregion profile properties
 
         #region avatar texture
-        public static CTexture GetAvatarTexture(int avatarID)
+        public static CTextureRef GetAvatarTexture(int avatarID)
         {
             if (!IsAvatarIDValid(avatarID))
                 return null;
@@ -512,7 +512,7 @@ namespace Vocaluxe.Base
             return _Avatars[avatarID].Texture;
         }
 
-        public static CTexture GetAvatarTextureFromProfile(int profileID)
+        public static CTextureRef GetAvatarTextureFromProfile(int profileID)
         {
             if (!IsProfileIDValid(profileID) || _Profiles[profileID].Avatar == null)
                 return null;

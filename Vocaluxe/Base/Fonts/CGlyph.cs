@@ -31,7 +31,7 @@ namespace Vocaluxe.Base.Fonts
 {
     class CGlyph
     {
-        private CTexture _Texture;
+        private CTextureRef _Texture;
         private readonly SizeF _BoundingBox;
         private readonly RectangleF _DrawBounding;
         public readonly float MaxHeight;
@@ -143,7 +143,7 @@ namespace Vocaluxe.Base.Fonts
             return _BoundingBox.Height * _GetFactor(fontHeight);
         }
 
-        public void GetTextureAndRect(float fontHeight, float x, float y, float z, out CTexture texture, out SRectF rect)
+        public void GetTextureAndRect(float fontHeight, float x, float y, float z, out CTextureRef texture, out SRectF rect)
         {
             texture = _Texture;
             float factor = _GetFactor(fontHeight);
@@ -157,7 +157,7 @@ namespace Vocaluxe.Base.Fonts
         private static Rectangle _GetRealBounds(Bitmap bmp)
         {
             int minX = 0, maxX = bmp.Width - 1, minY = 0;
-            BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            BitmapData bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             int values = bmpData.Width * bmp.Height;
             var rgbValues = new Int32[values];
             Marshal.Copy(bmpData.Scan0, rgbValues, 0, values);

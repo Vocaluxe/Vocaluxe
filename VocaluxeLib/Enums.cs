@@ -43,7 +43,16 @@ namespace VocaluxeLib
     {
         Crop,
         LetterBox,
-        Stretch
+        Stretch,
+        Zoom1,
+        Zoom2
+    }
+
+    public enum EGeneralAlignment
+    {
+        Middle,
+        Start,
+        End
     }
 
     public enum EAlignment

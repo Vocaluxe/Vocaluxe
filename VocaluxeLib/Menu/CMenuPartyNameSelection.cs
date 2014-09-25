@@ -683,7 +683,7 @@ namespace VocaluxeLib.Menu
             for (int i = 0; i < _TeamList[_CurrentTeam].Count; i++)
             {
                 string name = CBase.Profiles.GetPlayerName(_TeamList[_CurrentTeam][i]);
-                CTexture avatar = CBase.Profiles.GetAvatar(_TeamList[_CurrentTeam][i]);
+                CTextureRef avatar = CBase.Profiles.GetAvatar(_TeamList[_CurrentTeam][i]);
                 _SelectSlides[_SelectSlidePlayer].AddValue(name, avatar);
             }
             for (int i = _TeamList[_CurrentTeam].Count; i < _NumPlayerTeams[_CurrentTeam]; i++)

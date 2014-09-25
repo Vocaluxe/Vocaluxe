@@ -31,7 +31,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenSing : CMenu
+    public class CScreenSing : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -99,9 +99,9 @@ namespace Vocaluxe.Screens
         private const float _Volume = 100f;
         private int _CurrentVideo = -1;
         private EAspect _VideoAspect = EAspect.Crop;
-        private CTexture _CurrentVideoTexture;
-        private CTexture _CurrentWebcamFrameTexture;
-        private CTexture _Background;
+        private CTextureRef _CurrentVideoTexture;
+        private CTextureRef _CurrentWebcamFrameTexture;
+        private CTextureRef _Background;
 
         private float _CurrentTime;
         private float _FinishTime;
@@ -270,6 +270,19 @@ namespace Vocaluxe.Screens
                             CConfig.GameMusicVolume -= 5;
                             CSound.SetGlobalVolume(CConfig.GameMusicVolume);
                         }
+                        break;
+
+                    case Keys.V:
+                        if (_VideoAspect == EAspect.Zoom2)
+                            _VideoAspect = EAspect.Crop;
+                        else
+                            _VideoAspect++;
+
+                        CSong song = CGame.GetSong();
+                        song.VideoAspect = _VideoAspect;
+
+                        if (CConfig.SaveModifiedSongs == EOffOn.TR_CONFIG_ON)
+                            song.Save();
                         break;
                 }
             }
@@ -450,7 +463,7 @@ namespace Vocaluxe.Screens
         {
             if (_Active)
             {
-                CTexture background;
+                CTextureRef background;
                 var aspect = EAspect.Crop;
                 if (_CurrentVideo != -1 && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
                 {
@@ -466,11 +479,8 @@ namespace Vocaluxe.Screens
                     background = _Background;
                 if (background != null)
                 {
-                    var bounds = new RectangleF(0, 0, CSettings.RenderW, CSettings.RenderH);
-                    RectangleF rect;
-                    CHelper.SetRect(bounds, out rect, background.OrigAspect, aspect);
-                    CDraw.DrawTexture(background, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, 0f),
-                                      background.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
+                    var bounds = new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, 0);
+                    CDraw.DrawTexture(background, bounds, aspect, background.Color);
                 }
                 else if (_SlideShow != null)
                     _SlideShow.Draw();
@@ -1203,8 +1213,8 @@ namespace Vocaluxe.Screens
                     }
                     else
                     {
-                        _Statics[_StaticSongText].Color.A = 10f - t / 3f;
-                        _Texts[_TextSongName].Color.A = 10f - t / 3f;
+                        _Statics[_StaticSongText].Color.A = (10f - t) / 3f;
+                        _Texts[_TextSongName].Color.A = (10f - t) / 3f;
                     }
                 }
                 else

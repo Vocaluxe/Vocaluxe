@@ -97,7 +97,7 @@ namespace VocaluxeLib
         public bool TryGetNormalizedFloatValue(string xPath, ref float value)
         {
             string val;
-            return GetValue(xPath, out val, value.ToString()) && CHelper.TryParse(val, out value) && value.InRange(0f, 1f);
+            return GetValue(xPath, out val, value.ToString()) && CHelper.TryParse(val, out value) && value.IsInRange(0f, 1f);
         }
 
         public bool TryGetColorFromRGBA(string xPath, ref SColorF value)

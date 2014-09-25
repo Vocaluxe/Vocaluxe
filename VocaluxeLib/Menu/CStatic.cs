@@ -17,15 +17,21 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeStatic
+    [XmlType("Static")]
+    public struct SThemeStatic
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
+        [XmlElement("Skin")]
         public string TextureName;
-        public string ColorName;
+        public SThemeColor Color;
+        public SRectF Rect;
+        public SReflection Reflection;
     }
 
     public class CStatic : IMenuElement
@@ -40,8 +46,13 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
-        private CTexture _Texture;
-        public CTexture Texture
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
+        }
+
+        private CTextureRef _Texture;
+        public CTextureRef Texture
         {
             get { return _Texture ?? CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
 
@@ -61,6 +72,11 @@ namespace VocaluxeLib.Menu
         public float Alpha = 1;
 
         public EAspect Aspect = EAspect.Stretch;
+
+        public CStatic()
+        {
+
+        }
 
         public CStatic(int partyModeID)
         {
@@ -83,7 +99,7 @@ namespace VocaluxeLib.Menu
             Visible = s.Visible;
         }
 
-        public CStatic(int partyModeID, CTexture texture, SColorF color, SRectF rect)
+        public CStatic(int partyModeID, CTextureRef texture, SColorF color, SRectF rect)
         {
             _PartyModeID = partyModeID;
 
@@ -100,6 +116,14 @@ namespace VocaluxeLib.Menu
             Rect = rect;
         }
 
+        public CStatic(SThemeStatic theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = theme;
+
+            LoadTextures();
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             string item = xmlPath + "/" + elementName;
@@ -113,8 +137,10 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
+            _Theme.Rect = new SRectF(Rect);
+
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -123,14 +149,20 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
+            _Theme.Color.Color = new SColorF(Color);
+
             if (xmlReader.ItemExists(item + "/Reflection"))
             {
                 Reflection = true;
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
+                _Theme.Reflection = new SReflection(true, ReflectionHeight, ReflectionSpace);
             }
             else
+            {
                 Reflection = false;
+                _Theme.Reflection = new SReflection(false, 0f, 0f);
+            }
 
             if (_ThemeLoaded)
             {
@@ -140,51 +172,6 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Skin>: Texture name");
-                writer.WriteElementString("Skin", _Theme.TextureName);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: Static position, width and height");
-                writer.WriteElementString("X", Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", Rect.W.ToString("#0"));
-                writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-                writer.WriteComment("<Color>: Static color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
-                else
-                {
-                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<Reflection> If exists:");
-                writer.WriteComment("   <Space>: Reflection Space");
-                writer.WriteComment("   <Height>: Reflection Height");
-                if (Reflection)
-                {
-                    writer.WriteStartElement("Reflection");
-                    writer.WriteElementString("Space", ReflectionSpace.ToString("#0"));
-                    writer.WriteElementString("Height", ReflectionHeight.ToString("#0"));
-                    writer.WriteEndElement();
-                }
-
-                writer.WriteEndElement();
-                return true;
-            }
-            return false;
-        }
-
         public void Draw(bool forceDraw = false)
         {
             Draw(Aspect, 1f, 0f, forceDraw);
@@ -192,40 +179,56 @@ namespace VocaluxeLib.Menu
 
         public void Draw(EAspect aspect, float scale = 1f, float zModify = 0f, bool forceDraw = false)
         {
-            CTexture texture = Texture ?? new CTexture((int)Rect.W, (int)Rect.H);
-
-            SRectF bounds = Rect.Scale(scale);
-            SRectF rect;
-            if (aspect != EAspect.Stretch)
-                CHelper.SetRect(bounds, out rect, texture.OrigAspect, aspect);
-            else
-                rect = bounds;
-            rect.Z = Rect.Z + zModify;
+            CTextureRef texture = Texture;
+            SRectF rect = Rect.Scale(scale);
+            rect.Z += zModify;
+            if (texture != null)
+                rect = CHelper.FitInBounds(rect, texture.OrigAspect, aspect);
 
             var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
             if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
             {
-                CBase.Drawing.DrawTexture(texture, rect, color, bounds);
-                if (Reflection)
-                    CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
+                if (texture != null)
+                {
+                    CBase.Drawing.DrawTexture(texture, rect, color);
+                    if (Reflection)
+                        CBase.Drawing.DrawTextureReflection(texture, rect, color, ReflectionSpace, ReflectionHeight);
+                }
+                else
+                    CBase.Drawing.DrawRect(color, rect);
             }
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
-                CBase.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
+                CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), rect);
         }
 
         public void UnloadTextures() {}
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                Color = _Theme.Color.Color;
+
+            Rect = new SRectF(_Theme.Rect);
+            Reflection = _Theme.Reflection.Enabled;
+            if (Reflection)
+            {
+                ReflectionSpace = _Theme.Reflection.Space;
+                ReflectionHeight = _Theme.Reflection.Height;
+            }
         }
 
         public void ReloadTextures()
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        public SThemeStatic GetTheme()
+        {
+            return _Theme;
         }
 
         #region ThemeEdit

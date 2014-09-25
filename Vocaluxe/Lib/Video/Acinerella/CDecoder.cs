@@ -102,7 +102,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             Finished = true;
         }
 
-        public bool GetFrame(ref CTexture frame, float time, out float videoTime)
+        public bool GetFrame(ref CTextureRef frame, float time, out float videoTime)
         {
             if (Finished)
             {

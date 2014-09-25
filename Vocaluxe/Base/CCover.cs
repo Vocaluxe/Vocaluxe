@@ -36,11 +36,11 @@ namespace Vocaluxe.Base
         private const string _NoCoverName = "No Cover";
         private const string _NoCoverNameAlt = "NoCover";
         private const string _DefaultTypeName = "Default";
-        private static readonly Dictionary<string, CTexture> _Covers = new Dictionary<string, CTexture>();
+        private static readonly Dictionary<string, CTextureRef> _Covers = new Dictionary<string, CTextureRef>();
         private static readonly Dictionary<string, CNoCoverGenerator> _NoCoverThemes = new Dictionary<string, CNoCoverGenerator>();
         private static readonly List<SCoverTheme> _CoverThemes = new List<SCoverTheme>();
 
-        public static CTexture NoCover { get; private set; }
+        public static CTextureRef NoCover { get; private set; }
 
         public static void Init()
         {
@@ -86,7 +86,7 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Returns a STexture for a given cover name. Returns "NoCover" if the cover does not exist.
         /// </summary>
-        public static CTexture Cover(string name)
+        public static CTextureRef Cover(string name)
         {
             lock (_Covers)
             {
@@ -97,10 +97,10 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static CTexture GenerateCover(string text, ESongSorting sorting, CCategory category)
+        public static CTextureRef GenerateCover(string text, ESongSorting sorting, CCategory category)
         {
             CSong firstSong = category.GetSong(0);
-            CTexture cover = _NoCoverThemes[_SongSortingToType(sorting)].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+            CTextureRef cover = _NoCoverThemes[_SongSortingToType(sorting)].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
             if (cover == null)
                 cover = _NoCoverThemes[_DefaultTypeName].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
             if (cover == null)
@@ -139,7 +139,7 @@ namespace Vocaluxe.Base
             {
                 foreach (string key in _Covers.Keys)
                 {
-                    CTexture texture = _Covers[key];
+                    CTextureRef texture = _Covers[key];
                     CDraw.RemoveTexture(ref texture);
                 }
                 _Covers.Clear();

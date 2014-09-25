@@ -25,10 +25,10 @@ namespace VocaluxeLib.Profile
     {
         public int ID;
         private readonly string _FileName = "";
-        private CTexture _Texture;
+        private CTextureRef _Texture;
         private const int _MaxNameLen = 12;
 
-        public CTexture Texture
+        public CTextureRef Texture
         {
             get { return _Texture; }
         }
@@ -39,11 +39,11 @@ namespace VocaluxeLib.Profile
 
         public static CAvatar GetAvatar(string fileName)
         {
-            CTexture texture = CBase.Drawing.AddTexture(fileName);
+            CTextureRef texture = CBase.Drawing.AddTexture(fileName);
             return texture == null ? null : new CAvatar(texture, fileName);
         }
 
-        private CAvatar(CTexture texture, string fileName, int id = -1)
+        private CAvatar(CTextureRef texture, string fileName, int id = -1)
         {
             _Texture = texture;
             _FileName = fileName;
