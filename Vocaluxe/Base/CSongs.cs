@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.IO;
+using System.Threading.Tasks;
 using VocaluxeLib;
 using VocaluxeLib.Songs;
 
@@ -134,22 +135,12 @@ namespace Vocaluxe.Base
                 Category--;
         }
 
-        public static int GetNextSongWithoutCover(ref CSong song)
+        private static int _NumSongsWithCoverLoaded;
+        public static int NumSongsWithCoverLoaded
         {
-            if (!SongsLoaded)
-                return -1;
-
-            if (NumSongsWithCoverLoaded < _Songs.Count)
-            {
-                song = _Songs[NumSongsWithCoverLoaded];
-                NumSongsWithCoverLoaded++;
-                return NumSongsWithCoverLoaded;
-            }
-
-            return -2;
+            get { return _NumSongsWithCoverLoaded; }
+            private set { _NumSongsWithCoverLoaded = value; }
         }
-
-        public static int NumSongsWithCoverLoaded { get; private set; }
 
         public static string GetCurrentCategoryName()
         {
@@ -371,59 +362,50 @@ namespace Vocaluxe.Base
             Category = -1;
             SongsLoaded = true;
 
-            if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
+            switch (CConfig.CoverLoading)
             {
-                CLog.StartBenchmark("Load Covers");
-                _LoadCover();
-                CLog.StopBenchmark("Load Covers");
+                case ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART:
+                    _LoadCovers();
+                    break;
+                case ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC:
+                    _LoadCoversAsync();
+                    break;
             }
-            CLog.StopBenchmark("Load Songs ");
+            CLog.StopBenchmark("Load Songs");
         }
 
-        public static void LoadCover()
+        private static void _LoadCoversAsync()
         {
-            if (CConfig.Renderer == ERenderer.TR_CONFIG_SOFTWARE)
-                return; //should be removed as soon as the other renderer are ready for queue
-
             if (!SongsLoaded || CoverLoaded)
                 return;
 
             if (_CoverLoaderThread != null)
                 return;
-            _CoverLoaderThread = new Thread(_LoadCover) {Name = "CoverLoader", Priority = ThreadPriority.BelowNormal, IsBackground = true};
+            _CoverLoaderThread = new Thread(_LoadCovers) {Name = "CoverLoader", Priority = ThreadPriority.BelowNormal, IsBackground = true};
             _CoverLoaderThread.Start();
-
-            /*
-            if (_CoverLoadTimer.ElapsedMilliseconds >= WaitTime)
-            {
-                for (int i = 0; i < NumLoads; i++)
-                {
-                    CSong song = null;
-                    int n = GetNextSongWithoutCover(ref song);
-
-                    if (n < 0)
-                        return;
-
-                    song.LoadSmallCover();
-
-                    if (n == NumAllSongs)
-                        CDataBase.CommitCovers();
-                }
-                _CoverLoadTimer.Reset();
-                _CoverLoadTimer.Start();
-            }
-             * */
         }
 
-        private static void _LoadCover()
+        private static void _LoadCovers()
         {
+            CLog.StartBenchmark("Load Covers");
+            int songCount = _Songs.Count;
+            AutoResetEvent ev = new AutoResetEvent(songCount == 0);
+
+            NumSongsWithCoverLoaded = 0;
             foreach (CSong song in _Songs)
             {
-                song.LoadSmallCover();
-                NumSongsWithCoverLoaded++;
+                CSong tmp = song;
+                Task.Factory.StartNew(() =>
+                    {
+                        tmp.LoadSmallCover();
+                        if (Interlocked.Increment(ref _NumSongsWithCoverLoaded) >= songCount)
+                            ev.Set();
+                    });
             }
+            ev.WaitOne();
             _CoverLoaded = true;
             CDataBase.CommitCovers();
+            CLog.StopBenchmark("Load Covers");
         }
     }
 }

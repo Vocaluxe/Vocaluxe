@@ -187,9 +187,6 @@ namespace Vocaluxe.Base
             CController.Update();
             CProfiles.Update();
 
-            if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
-                CSongs.LoadCover();
-
             if (CSettings.ProgramState != EProgramState.EditTheme)
             {
                 run &= _HandleInputs(keys, mouse);
