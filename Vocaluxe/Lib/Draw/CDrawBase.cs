@@ -882,24 +882,27 @@ namespace Vocaluxe.Lib.Draw
         {
             if (textureRef == null)
                 return;
-            if (_MainThreadID != Thread.CurrentThread.ManagedThreadId)
+            if (textureRef.ID > 0)
             {
-                lock (_TextureQueue)
+                if (_MainThreadID != Thread.CurrentThread.ManagedThreadId)
                 {
-                    _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Delete, null));
+                    lock (_TextureQueue)
+                    {
+                        _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Delete, null));
+                    }
+                    textureRef = null;
+                    return;
                 }
-                textureRef = null;
-                return;
-            }
-            lock (_Textures)
-            {
-                TTextureType t;
-                if (_Textures.TryGetValue(textureRef.ID, out t))
+                lock (_Textures)
                 {
-                    _DisposeTexture(t);
-                    _Textures.Remove(textureRef.ID);
+                    TTextureType t;
+                    if (_Textures.TryGetValue(textureRef.ID, out t))
+                    {
+                        _DisposeTexture(t);
+                        _Textures.Remove(textureRef.ID);
+                    }
+                    textureRef.SetRemoved();
                 }
-                textureRef.SetRemoved();
             }
             textureRef = null;
         }
