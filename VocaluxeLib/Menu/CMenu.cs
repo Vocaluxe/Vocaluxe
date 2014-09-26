@@ -33,37 +33,24 @@ namespace VocaluxeLib.Menu
         public string ScreenName;
         public int ScreenVersion;
     }
+
     [XmlType("Screen")]
     public struct STheme
     {
-        [XmlElement("Informations")]
-        public SScreenInformation ScreenInformation;
-        [XmlArray("Backgrounds")]
-        public List<SThemeBackground> Backgrounds;
-        [XmlArray("Statics")]
-        public List<SThemeStatic> Statics;
-        [XmlArray("Texts")]
-        public List<SThemeText> Texts;
-        [XmlArray("Buttons")]
-        public List<SThemeButton> Buttons;
-        [XmlArray("SongMenus")]
-        public List<SThemeSongMenu> SongMenus;
-        [XmlArray("Lyrics")]
-        public List<SThemeLyrics> Lyrics;
-        [XmlArray("SelectSlides")]
-        public List<SThemeSelectSlide> SelectSlides;
-        [XmlArray("SingNotes")]
-        public List<SThemeSingBar> SingNotes;
-        [XmlArray("NameSelections")]
-        public List<SThemeNameSelection> NameSelections;
-        [XmlArray("Equalizers")]
-        public List<SThemeEqualizer> Equalizers;
-        [XmlArray("Playlists")]
-        public List<SThemePlaylist> Playlists;
-        [XmlArray("ParticleEffects")]
-        public List<SThemeParticleEffect> ParticleEffects;
-        [XmlArray("ScreenSettings")]
-        public List<SScreenSetting> ScreenSettings;
+        [XmlElement("Informations")] public SScreenInformation ScreenInformation;
+        [XmlArray("Backgrounds")] public List<SThemeBackground> Backgrounds;
+        [XmlArray("Statics")] public List<SThemeStatic> Statics;
+        [XmlArray("Texts")] public List<SThemeText> Texts;
+        [XmlArray("Buttons")] public List<SThemeButton> Buttons;
+        [XmlArray("SongMenus")] public List<SThemeSongMenu> SongMenus;
+        [XmlArray("Lyrics")] public List<SThemeLyrics> Lyrics;
+        [XmlArray("SelectSlides")] public List<SThemeSelectSlide> SelectSlides;
+        [XmlArray("SingNotes")] public List<SThemeSingBar> SingNotes;
+        [XmlArray("NameSelections")] public List<SThemeNameSelection> NameSelections;
+        [XmlArray("Equalizers")] public List<SThemeEqualizer> Equalizers;
+        [XmlArray("Playlists")] public List<SThemePlaylist> Playlists;
+        [XmlArray("ParticleEffects")] public List<SThemeParticleEffect> ParticleEffects;
+        [XmlArray("ScreenSettings")] public List<SScreenSetting> ScreenSettings;
     }
 
     struct SZSort
@@ -157,7 +144,7 @@ namespace VocaluxeLib.Menu
             _MouseDY = 0;
 
             _Active = false;
-            _ScreenArea = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), 0f);
+            _ScreenArea = CBase.Settings.GetRenderRect();
 
             _ThemeBackgrounds = null;
             _ThemeStatics = null;
@@ -249,7 +236,7 @@ namespace VocaluxeLib.Menu
                 foreach (SThemeParticleEffect pe in Theme.ParticleEffects)
                     _AddParticleEffect(new CParticleEffect(pe, _PartyModeID), pe.Name);
 
-                foreach(SThemePlaylist pl in Theme.Playlists)
+                foreach (SThemePlaylist pl in Theme.Playlists)
                     _AddPlaylist(new CPlaylist(pl, _PartyModeID), pl.Name);
 
                 foreach (SScreenSetting ss in Theme.ScreenSettings)
@@ -268,7 +255,7 @@ namespace VocaluxeLib.Menu
                     _AddStatic(new CStatic(st, _PartyModeID), st.Name);
 
                 foreach (SThemeText te in Theme.Texts)
-                    _AddText(new CText(te, _PartyModeID), te.Name);  
+                    _AddText(new CText(te, _PartyModeID), te.Name);
             }
             catch (InvalidOperationException e)
             {

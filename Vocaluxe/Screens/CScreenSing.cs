@@ -478,8 +478,9 @@ namespace Vocaluxe.Screens
                     background = _Background;
                 if (background != null)
                 {
-                    var bounds = new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, 0);
-                    CDraw.DrawTexture(background, bounds, aspect, background.Color);
+                    SRectF bounds = CSettings.RenderRect;
+                    SRectF rect = CHelper.FitInBounds(bounds, background.OrigAspect, aspect);
+                    CDraw.DrawTexture(background, rect, background.Color, bounds);
                 }
                 else if (_SlideShow != null)
                     _SlideShow.Draw();

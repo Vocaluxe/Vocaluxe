@@ -142,6 +142,8 @@ namespace Vocaluxe.Screens
         private CTextureRef _TexNamePantero;
         private CTextureRef _TexNamePinky007;
 
+        private static SColorF _BGColor = new SColorF(0, 0.18f, 0.474f, 1);
+
         public override void Init()
         {
             base.Init();
@@ -360,7 +362,7 @@ namespace Vocaluxe.Screens
             base.Draw();
 
             //Draw background
-            CDraw.DrawRect(new SColorF(0, 0.18f, 0.474f, 1), new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, 0));
+            CDraw.DrawRect(_BGColor, CSettings.RenderRect);
 
             //Draw stars
             _StarsBlue.Draw();

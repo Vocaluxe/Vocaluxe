@@ -1,5 +1,4 @@
 ﻿using System.Diagnostics;
-using System.Drawing;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -63,7 +62,7 @@ namespace Vocaluxe.Base
             if (_VideoTexture == null)
                 return;
 
-            CDraw.DrawTexture(_VideoTexture, new SRectF(0, 0, CSettings.RenderW, CSettings.RenderH, CSettings.ZFar / 4), EAspect.Crop);
+            CDraw.DrawTexture(_VideoTexture, CSettings.RenderRect, EAspect.Crop);
         }
 
         public void PreLoad()

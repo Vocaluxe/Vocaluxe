@@ -84,7 +84,7 @@ namespace VocaluxeLib
         /// <param name="bounds">Bounds to fit the rect in</param>
         /// <param name="aspectRatio">The original aspectRatio of the rect/image/...</param>
         /// <param name="aspect">
-        ///     Crop: Fit fully in bounds cutting off overhanging parts (same on both sides)<br />
+        ///     Crop: No empty space in bounds but has overhanging parts (same on both sides)<br />
         ///     LetterBox: Fit the long side possibly leaving some space on the other (rect will be centered)<br />
         ///     StretcH: Just fit the rect in the bounds (rect=bounds)
         /// </param>
