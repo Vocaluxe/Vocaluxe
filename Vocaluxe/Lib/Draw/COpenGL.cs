@@ -627,30 +627,61 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, float space, float height)
+        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
             COGLTexture texture;
             if (!_GetTexture(textureRef, out texture))
                 return;
 
-            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(color.A) < float.Epsilon || height <= float.Epsilon)
+            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon ||
+                Math.Abs(color.A) < float.Epsilon || height <= float.Epsilon)
                 return;
 
-            if (height > rect.H)
-                height = rect.H;
+            if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
+                return;
+
+            if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
+                return;
+
+            if (height > bounds.H)
+                height = bounds.H;
 
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
-            const float x1 = 0;
-            float x2 = texture.WidthRatio;
-            float y1 = (rect.H - height) / rect.H * texture.HeightRatio;
-            float y2 = texture.HeightRatio;
+            float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
+            float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
+            float y1 = (bounds.Y - rect.Y + rect.H - height) / rect.H * texture.HeightRatio;
+            float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * texture.HeightRatio;
+
+            if (x1 < 0)
+                x1 = 0f;
+
+            if (x2 > texture.WidthRatio)
+                x2 = texture.WidthRatio;
+
+            if (y1 < 0)
+                y1 = 0f;
+
+            if (y2 > texture.HeightRatio)
+                y2 = texture.HeightRatio;
 
 
             float rx1 = rect.X;
             float rx2 = rect.X + rect.W;
             float ry1 = rect.Y + rect.H + space;
             float ry2 = rect.Y + rect.H + space + height;
+
+            if (rx1 < bounds.X)
+                rx1 = bounds.X;
+
+            if (rx2 > bounds.X + bounds.W)
+                rx2 = bounds.X + bounds.W;
+
+            if (ry1 < bounds.Y + space)
+                ry1 = bounds.Y + space;
+
+            if (ry2 > bounds.Y + bounds.H + space + height)
+                ry2 = bounds.Y + bounds.H + space + height;
 
             GL.Enable(EnableCap.Blend);
 
@@ -663,6 +694,7 @@ namespace Vocaluxe.Lib.Draw
                 GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
                 GL.Translate(-0.5f, -0.5f, 0);
             }
+
 
             GL.Begin(BeginMode.Quads);
 
@@ -683,6 +715,7 @@ namespace Vocaluxe.Lib.Draw
             GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
 
             GL.End();
+
 
             GL.PopMatrix();
 
