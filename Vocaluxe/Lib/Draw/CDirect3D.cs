@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Diagnostics;
 using SlimDX;
 using SlimDX.Direct3D9;
 using System;
@@ -428,7 +427,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="dc">Coordinates to draw on</param>
         /// <param name="color">Color to use</param>
         /// <param name="isReflection">If true, then color is faded out in y direction</param>
-        private void _DrawTexture(CD3DTexture texture, SDrawCoords dc, SColorF color, bool isReflection = false)
+        protected override void _DrawTexture(CD3DTexture texture, SDrawCoords dc, SColorF color, bool isReflection = false)
         {
             //Align the pixels because Direct3D expects the pixels to be the left top corner
             dc.Wx1 -= 0.5f;
@@ -617,106 +616,6 @@ namespace Vocaluxe.Lib.Draw
             }
             texture.D3DTexture.UnlockRectangle(0);
         }
-
-        #region drawing
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
-        /// <param name="textureRef">The texture to be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
-        {
-            if (Math.Abs(color.A) < 0.01)
-                return;
-            SDrawCoords dc;
-            CD3DTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-            if (!_CalcDrawCoords(texture, rect, out dc, mirrored))
-                return;
-
-            _DrawTexture(texture, dc, color);
-        }
-
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
-        /// <param name="textureRef">The texture to be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
-        /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
-        {
-            if (Math.Abs(color.A) < 0.01)
-                return;
-            SDrawCoords dc;
-            CD3DTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-            if (!_CalcDrawCoords(texture, rect, bounds, out dc))
-                return;
-
-            _DrawTexture(texture, dc, color);
-        }
-
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
-        /// <param name="textureRef">The texture to be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="begin">A Value ranging from 0 to 1 containing the beginning of the texture</param>
-        /// <param name="end">A Value ranging from 0 to 1 containing the ending of the texture</param>
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
-        {
-            if (Math.Abs(color.A) < 0.01)
-                return;
-            SDrawCoords dc;
-            CD3DTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-            if (!_CalcDrawCoords(texture, rect, out dc, false, begin, end))
-                return;
-
-            _DrawTexture(texture, dc, color);
-        }
-
-        /// <summary>
-        ///     Draws a reflection of a texture
-        /// </summary>
-        /// <param name="textureRef">The texture of which a reflection should be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
-        /// <param name="space">The space between the texture and the reflection</param>
-        /// <param name="height">The height of the reflection</param>
-        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
-        {
-            Debug.Assert(height >= 0);
-
-            if (Math.Abs(color.A) < 0.01 || height < 1)
-                return;
-            SDrawCoords dc;
-            CD3DTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-            if (!_CalcDrawCoords(texture, rect, bounds, out dc, true))
-                return;
-
-            if (height > rect.H)
-                height = rect.H;
-
-            dc.Wy1 += rect.H + space; // Move from start of rect to end of rect with spacing
-            dc.Wy2 += space + height; // Move from end of rect
-            dc.Ty2 += (rect.H - height) / rect.H; // Adjust so not all of the start of the texture is drawn (mirrored--> Ty1>Ty2)
-            if (dc.Ty2 < dc.Ty1) // Make sure we actually draw something
-                _DrawTexture(texture, dc, color, true);
-        }
-        #endregion drawing
-
         #endregion Textures
 
         private static Matrix _CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
