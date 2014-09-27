@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using OpenTK;
 using OpenTK.Graphics;
@@ -437,290 +438,137 @@ namespace Vocaluxe.Lib.Draw
         }
 
         #region drawing
+        private static void _DrawTexture(COGLTexture texture, SDrawCoords dc, SColorF color, bool isReflection = false)
+        {
+            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
+
+            GL.Enable(EnableCap.Blend);
+
+            GL.MatrixMode(MatrixMode.Texture);
+            GL.PushMatrix();
+
+            if (Math.Abs(dc.Rotation) > float.Epsilon)
+            {
+                GL.Translate(0.5f, 0.5f, 0);
+                GL.Rotate(-dc.Rotation, 0f, 0f, 1f);
+                GL.Translate(-0.5f, -0.5f, 0);
+            }
+
+            GL.Begin(BeginMode.Quads);
+
+            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            GL.TexCoord2(dc.Tx1, dc.Ty1);
+            GL.Vertex3(dc.Wx1, dc.Wy1, dc.Wz);
+
+            if (isReflection)
+                GL.Color4(color.R, color.G, color.B, 0);
+            GL.TexCoord2(dc.Tx1, dc.Ty2);
+            GL.Vertex3(dc.Wx1, dc.Wy2, dc.Wz);
+
+            GL.TexCoord2(dc.Tx2, dc.Ty2);
+            GL.Vertex3(dc.Wx2, dc.Wy2, dc.Wz);
+
+            if (isReflection)
+                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            GL.TexCoord2(dc.Tx2, dc.Ty1);
+            GL.Vertex3(dc.Wx2, dc.Wy1, dc.Wz);
+
+            GL.End();
+
+            GL.PopMatrix();
+
+            GL.Disable(EnableCap.Blend);
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+        }
+
         public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
         {
+            if (Math.Abs(color.A) < 0.01)
+                return;
+            SDrawCoords dc;
             COGLTexture texture;
             if (!_GetTexture(textureRef, out texture))
                 return;
-
-            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(color.A) < 0.01)
+            if (!_CalcDrawCoords(texture, rect, out dc, mirrored))
                 return;
 
-            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-            const float x1 = 0;
-            float x2 = texture.WidthRatio;
-            float y1 = 0;
-            float y2 = texture.HeightRatio;
-
-            float rx1 = rect.X;
-            float rx2 = rect.X + rect.W;
-            float ry1 = rect.Y;
-            float ry2 = rect.Y + rect.H;
-
-            GL.Enable(EnableCap.Blend);
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-
-            GL.MatrixMode(MatrixMode.Texture);
-            GL.PushMatrix();
-
-            if (Math.Abs(rect.Rotation) > float.Epsilon)
-            {
-                GL.Translate(0.5f, 0.5f, 0);
-                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                GL.Translate(-0.5f, -0.5f, 0);
-            }
-
-            if (mirrored)
-            {
-                float tmp = y2;
-                y2 = y1;
-                y1 = tmp;
-            }
-
-            GL.Begin(BeginMode.Quads);
-
-            GL.TexCoord2(x1, y1);
-            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(x1, y2);
-            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(x2, y2);
-            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(x2, y1);
-            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.End();
-
-            GL.PopMatrix();
-
-            GL.Disable(EnableCap.Blend);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            _DrawTexture(texture, dc, color);
         }
 
+        /// <summary>
+        ///     Draws a texture
+        /// </summary>
+        /// <param name="textureRef">The texture to be drawn</param>
+        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
+        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
+        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
+        /// <param name="mirrored">True if the texture should be mirrored</param>
         public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
+            if (Math.Abs(color.A) < 0.01)
+                return;
+            SDrawCoords dc;
             COGLTexture texture;
             if (!_GetTexture(textureRef, out texture))
                 return;
-
-            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1 ||
-                Math.Abs(color.A) < 0.01)
+            if (!_CalcDrawCoords(texture, rect, bounds, out dc))
                 return;
 
-            if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
-                return;
-
-            if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
-                return;
-
-            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-            float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
-            float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
-            float y1 = (bounds.Y - rect.Y) / rect.H * texture.HeightRatio;
-            float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * texture.HeightRatio;
-
-            if (x1 < 0)
-                x1 = 0f;
-
-            if (x2 > texture.WidthRatio)
-                x2 = texture.WidthRatio;
-
-            if (y1 < 0)
-                y1 = 0f;
-
-            if (y2 > texture.HeightRatio)
-                y2 = texture.HeightRatio;
-
-
-            float rx1 = rect.X;
-            float rx2 = rect.X + rect.W;
-            float ry1 = rect.Y;
-            float ry2 = rect.Y + rect.H;
-
-            if (rx1 < bounds.X)
-                rx1 = bounds.X;
-
-            if (rx2 > bounds.X + bounds.W)
-                rx2 = bounds.X + bounds.W;
-
-            if (ry1 < bounds.Y)
-                ry1 = bounds.Y;
-
-            if (ry2 > bounds.Y + bounds.H)
-                ry2 = bounds.Y + bounds.H;
-
-            GL.Enable(EnableCap.Blend);
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-
-            GL.MatrixMode(MatrixMode.Texture);
-            GL.PushMatrix();
-
-            if (Math.Abs(rect.Rotation) > float.Epsilon)
-            {
-                GL.Translate(0.5f, 0.5f, 0);
-                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                GL.Translate(-0.5f, -0.5f, 0);
-            }
-
-            if (mirrored)
-            {
-                float tmp = y2;
-                y2 = y1;
-                y1 = tmp;
-            }
-
-            GL.Begin(BeginMode.Quads);
-
-            GL.TexCoord2(x1, y1);
-            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(x1, y2);
-            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(x2, y2);
-            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(x2, y1);
-            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.End();
-
-            GL.PopMatrix();
-
-            GL.Disable(EnableCap.Blend);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            _DrawTexture(texture, dc, color);
         }
 
+        /// <summary>
+        ///     Draws a texture
+        /// </summary>
+        /// <param name="textureRef">The texture to be drawn</param>
+        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
+        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
+        /// <param name="begin">A Value ranging from 0 to 1 containing the beginning of the texture</param>
+        /// <param name="end">A Value ranging from 0 to 1 containing the ending of the texture</param>
         public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
         {
+            if (Math.Abs(color.A) < 0.01)
+                return;
+            SDrawCoords dc;
             COGLTexture texture;
             if (!_GetTexture(textureRef, out texture))
                 return;
+            if (!_CalcDrawCoords(texture, rect, out dc, false, begin, end))
+                return;
 
-            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-            GL.Enable(EnableCap.Blend);
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-
-
-            GL.Begin(BeginMode.Quads);
-
-            GL.TexCoord2(0f + begin * texture.WidthRatio, 0f);
-            GL.Vertex3(rect.X + begin * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(0f + begin * texture.WidthRatio, texture.HeightRatio);
-            GL.Vertex3(rect.X + begin * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(texture.WidthRatio * end, texture.HeightRatio);
-            GL.Vertex3(rect.X + end * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(texture.WidthRatio * end, 0f);
-            GL.Vertex3(rect.X + end * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
-
-            GL.End();
-
-            GL.Disable(EnableCap.Blend);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            _DrawTexture(texture, dc, color);
         }
 
+        /// <summary>
+        ///     Draws a reflection of a texture
+        /// </summary>
+        /// <param name="textureRef">The texture of which a reflection should be drawn</param>
+        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
+        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
+        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
+        /// <param name="space">The space between the texture and the reflection</param>
+        /// <param name="height">The height of the reflection</param>
         public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
         {
+            Debug.Assert(height >= 0);
+
+            if (Math.Abs(color.A) < 0.01 || height < 1)
+                return;
+            SDrawCoords dc;
             COGLTexture texture;
             if (!_GetTexture(textureRef, out texture))
                 return;
-
-            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(bounds.H) < float.Epsilon || Math.Abs(bounds.W) < float.Epsilon ||
-                Math.Abs(color.A) < float.Epsilon || height <= float.Epsilon)
+            if (!_CalcDrawCoords(texture, rect, bounds, out dc, true))
                 return;
 
-            if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
-                return;
+            if (height > rect.H)
+                height = rect.H;
 
-            if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
-                return;
-
-            if (height > bounds.H)
-                height = bounds.H;
-
-            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-            float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
-            float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
-            float y1 = (bounds.Y - rect.Y + rect.H - height) / rect.H * texture.HeightRatio;
-            float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * texture.HeightRatio;
-
-            if (x1 < 0)
-                x1 = 0f;
-
-            if (x2 > texture.WidthRatio)
-                x2 = texture.WidthRatio;
-
-            if (y1 < 0)
-                y1 = 0f;
-
-            if (y2 > texture.HeightRatio)
-                y2 = texture.HeightRatio;
-
-
-            float rx1 = rect.X;
-            float rx2 = rect.X + rect.W;
-            float ry1 = rect.Y + rect.H + space;
-            float ry2 = rect.Y + rect.H + space + height;
-
-            if (rx1 < bounds.X)
-                rx1 = bounds.X;
-
-            if (rx2 > bounds.X + bounds.W)
-                rx2 = bounds.X + bounds.W;
-
-            if (ry1 < bounds.Y + space)
-                ry1 = bounds.Y + space;
-
-            if (ry2 > bounds.Y + bounds.H + space + height)
-                ry2 = bounds.Y + bounds.H + space + height;
-
-            GL.Enable(EnableCap.Blend);
-
-            GL.MatrixMode(MatrixMode.Texture);
-            GL.PushMatrix();
-
-            if (Math.Abs(rect.Rotation) > float.Epsilon)
-            {
-                GL.Translate(0.5f, 0.5f, 0);
-                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                GL.Translate(-0.5f, -0.5f, 0);
-            }
-
-
-            GL.Begin(BeginMode.Quads);
-
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-            GL.TexCoord2(x2, y2);
-            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.Color4(color.R, color.G, color.B, 0f);
-            GL.TexCoord2(x2, y1);
-            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.Color4(color.R, color.G, color.B, 0f);
-            GL.TexCoord2(x1, y1);
-            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-            GL.TexCoord2(x1, y2);
-            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.End();
-
-
-            GL.PopMatrix();
-
-            GL.Disable(EnableCap.Blend);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
+            dc.Wy1 += rect.H + space; // Move from start of rect to end of rect with spacing
+            dc.Wy2 += space + height; // Move from end of rect
+            dc.Ty2 += (rect.H - height) / rect.H; // Adjust so not all of the start of the texture is drawn (mirrored--> Ty1>Ty2)
+            if (dc.Ty2 < dc.Ty1) // Make sure we actually draw something
+                _DrawTexture(texture, dc, color, true);
         }
         #endregion drawing
 

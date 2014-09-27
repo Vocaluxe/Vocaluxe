@@ -214,6 +214,116 @@ namespace Vocaluxe.Lib.Draw
 
         #region private/protected
         /// <summary>
+        ///     Struct that contains texture and world coordinates for drawing
+        /// </summary>
+        protected struct SDrawCoords
+        {
+            /// <summary>
+            ///     Texture coordinates
+            /// </summary>
+            public float Tx1, Tx2, Ty1, Ty2;
+            /// <summary>
+            ///     World coordinates
+            /// </summary>
+            public float Wx1, Wx2, Wy1, Wy2, Wz;
+            public float Rotation;
+        }
+
+        /// <summary>
+        ///     Calculates the texture and world coordinates for drawing the texture in the rect cropping at the the bounds
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="rect">Rect to draw the texture (might stretch the texture)</param>
+        /// <param name="bounds">Rect to stay in (might crop the texture)</param>
+        /// <param name="drawCoords">Struct for the coordinates</param>
+        /// <param name="mirrored">Mirror on y-axis</param>
+        /// <returns>True if anything will be dawn</returns>
+        protected bool _CalcDrawCoords(TTextureType texture, SRectF rect, SRectF bounds, out SDrawCoords drawCoords, bool mirrored = false)
+        {
+            drawCoords = new SDrawCoords();
+            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1)
+                return false;
+
+            if (bounds.X >= rect.Right || bounds.Right <= rect.X)
+                return false;
+
+            if (bounds.Y >= rect.Bottom || bounds.Bottom <= rect.Y)
+                return false;
+
+            drawCoords.Tx1 = Math.Max(0, (bounds.X - rect.X) / rect.W * texture.WidthRatio);
+            drawCoords.Wx1 = Math.Max(rect.X, bounds.X);
+            drawCoords.Tx2 = Math.Min(1, (bounds.Right - rect.X) / rect.W) * texture.WidthRatio;
+            drawCoords.Wx2 = Math.Min(rect.Right, bounds.Right);
+
+            drawCoords.Ty1 = Math.Max(0, (bounds.Y - rect.Y) / rect.H * texture.HeightRatio);
+            drawCoords.Wy1 = Math.Max(rect.Y, bounds.Y);
+            drawCoords.Ty2 = Math.Min(1, (bounds.Bottom - rect.Y) / rect.H) * texture.HeightRatio;
+            drawCoords.Wy2 = Math.Min(rect.Bottom, bounds.Bottom);
+
+            //TODO: Check this:
+            /*//Align the pixels because Direct3D expects the pixels to be the left top corner
+            rx1 -= 0.5f;
+            ry1 -= 0.5f;
+            rx2 -= 0.5f;
+            ry2 -= 0.5f;*/
+
+            if (mirrored)
+            {
+                float tmp = drawCoords.Ty1;
+                drawCoords.Ty1 = drawCoords.Ty2;
+                drawCoords.Ty2 = tmp;
+            }
+
+            drawCoords.Wz = rect.Z + CGraphics.ZOffset;
+            drawCoords.Rotation = rect.Rotation;
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Calculates the texture and world coordinates for drawing (a part of) the texture in the rect
+        /// </summary>
+        /// <param name="texture">Texture to draw</param>
+        /// <param name="rect">Rect to draw in (might stretch the texture)</param>
+        /// <param name="drawCoords">Struct for the coordinates</param>
+        /// <param name="mirrored">Mirror on y axis</param>
+        /// <param name="begin">Position of the texture to begin drawing (0 &lt;=x&lt;=1)</param>
+        /// <param name="end">Position of the texture to end drawing (0 &lt;=x&lt;=1)</param>
+        /// <returns>True if anything will be dawn</returns>
+        protected bool _CalcDrawCoords(TTextureType texture, SRectF rect, out SDrawCoords drawCoords, bool mirrored = false, float begin = 0, float end = 1)
+        {
+            drawCoords = new SDrawCoords();
+            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1)
+                return false;
+            if (begin >= 1 || begin >= end)
+                return false;
+
+            Debug.Assert(begin.IsInRange(0, 1) && end.IsInRange(0, 1));
+
+            drawCoords.Tx1 = begin * texture.WidthRatio;
+            drawCoords.Wx1 = rect.X + begin * rect.W;
+            drawCoords.Tx2 = end * texture.WidthRatio;
+            drawCoords.Wx2 = rect.X + end * rect.W;
+
+            drawCoords.Ty1 = 0;
+            drawCoords.Wy1 = rect.Y;
+            drawCoords.Ty2 = texture.HeightRatio;
+            drawCoords.Wy2 = rect.Bottom;
+
+            if (mirrored)
+            {
+                float tmp = drawCoords.Ty1;
+                drawCoords.Ty1 = drawCoords.Ty2;
+                drawCoords.Ty2 = tmp;
+            }
+
+            drawCoords.Wz = rect.Z + CGraphics.ZOffset;
+            drawCoords.Rotation = rect.Rotation;
+
+            return true;
+        }
+
+        /// <summary>
         ///     Returns the maximum area allowed for a texture based on the current quality
         /// </summary>
         /// <returns></returns>
