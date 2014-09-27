@@ -85,6 +85,7 @@ namespace VocaluxeLib.PartyModes
         bool Init();
         void Initialize();
         void AddScreen(CMenuParty screen, string screenName);
+        void SaveScreens();
         void DataFromScreen(string screenName, Object data);
 
         void UpdateGame();

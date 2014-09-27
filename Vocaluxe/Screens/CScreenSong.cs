@@ -29,7 +29,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenSong : CMenu
+    public class CScreenSong : CMenu
     {
         private enum ESongOptionsView
         {
@@ -714,7 +714,7 @@ namespace Vocaluxe.Screens
 
             _SongMenu.OnHide();
 
-            if (CGraphics.NextScreen != EScreens.ScreenNames)
+            if (CGraphics.NextScreen != EScreens.ScreenNames || CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
             {
                 CBackgroundMusic.Disabled = false;
                 CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);

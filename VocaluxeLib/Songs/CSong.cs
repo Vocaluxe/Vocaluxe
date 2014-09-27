@@ -287,6 +287,11 @@ namespace VocaluxeLib.Songs
             return loader.ReadNotes();
         }
 
+        public bool Save()
+        {
+            return Save(Path.Combine(Folder, FileName));
+        }
+
         public bool Save(string filePath)
         {
             var writer = new CSongWriter(this);

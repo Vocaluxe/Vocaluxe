@@ -40,7 +40,7 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             _LoadCoverThemes();
-            _LoadCover(CConfig.CoverTheme);
+            _LoadCovers(CConfig.CoverTheme);
         }
 
         public static void Close()
@@ -107,7 +107,7 @@ namespace Vocaluxe.Base
         public static void ReloadCovers()
         {
             _UnloadCovers();
-            _LoadCover(CConfig.CoverTheme);
+            _LoadCovers(CConfig.CoverTheme);
         }
 
         private static void _UnloadCovers()
@@ -170,69 +170,36 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Loads all cover which are defined in the cover config file.
         /// </summary>
-        private static void _LoadCover(string coverThemeName)
+        private static void _LoadCovers(string coverThemeName)
         {
             SCoverTheme coverTheme = _CoverTheme(coverThemeName);
 
             if (String.IsNullOrEmpty(coverTheme.Name))
                 return;
 
-            var ignoreList = new List<string>();
-
             string coverPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder);
             List<string> files = CHelper.ListImageFiles(coverPath, true, true);
 
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.File));
             lock (_Covers)
             {
-                if (xmlReader != null)
-                {
-                    _Covers.Clear();
-                    List<string> cover = xmlReader.GetNames("//root/Cover/*");
-                    foreach (string coverName in cover)
-                    {
-                        string name;
-                        string filePath;
-                        xmlReader.GetValue("//root/Cover/" + coverName + "/Name", out name, String.Empty);
-                        xmlReader.GetValue("//root/Cover/" + coverName + "/Path", out filePath, String.Empty);
-                        string coverFilePath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder, filePath);
-                        if (!File.Exists(coverFilePath))
-                            continue;
-
-                        _AddCover(name, coverFilePath);
-                        ignoreList.Add(Path.GetFileName(coverFilePath));
-
-                        if (name == "NoCover")
-                            NoCover = _Covers[name];
-                    }
-                }
-
-
                 foreach (string file in files)
-                {
-                    if (!ignoreList.Contains(Path.GetFileName(file)))
-                        _AddCover(Path.GetFileNameWithoutExtension(file), file);
-                }
+                    _AddCover(Path.GetFileNameWithoutExtension(file), file);
+                if (_CoverExists("No Cover"))
+                    NoCover = _Covers["No Cover"];
             }
         }
 
         /// <summary>
         ///     Ads a cover with the given name if it does not exist yet
-        ///     MUST HOLD _Covers lock at this point
         /// </summary>
         /// <param name="name">Name of the cover</param>
         /// <param name="file">Filename of image file</param>
         private static void _AddCover(string name, string file)
         {
-            CTexture texture = CDraw.AddTexture(file);
-
-            if (!_CoverExists(name))
-                _Covers.Add(name, texture);
-            else
+            lock (_Covers)
             {
-                CTexture tex = _Covers[name];
-                CDraw.RemoveTexture(ref tex);
-                _Covers[name] = texture;
+                if (!_CoverExists(name))
+                    _Covers.Add(name, CDraw.AddTexture(file));
             }
         }
     }

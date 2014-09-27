@@ -76,6 +76,7 @@
   <string name="TR_CONFIG_OWN_MUSIC">Egen Musik och Bakgrundsmusik</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Ingen egen Musik</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Endast egen Musik</string>
+  <string name="TR_CONFIG_ONLY_SONG">Endast vald låt</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Alla</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Endast namn och avatarer</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Ingenting</string>

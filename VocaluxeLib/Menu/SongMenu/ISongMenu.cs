@@ -50,5 +50,8 @@ namespace VocaluxeLib.Menu.SongMenu
         bool Selected { get; set; }
         bool Visible { get; set; }
         bool SmallView { get; set; }
+
+        bool ThemeLoaded { get; }
+        SThemeSongMenu GetTheme();
     }
 }

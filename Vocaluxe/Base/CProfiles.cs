@@ -297,7 +297,7 @@ namespace Vocaluxe.Base
         public static CProfile[] GetProfiles()
         {
             if (_Profiles.Count == 0)
-                return null;
+                return new CProfile[0];
 
             var list = new List<CProfile>(_Profiles.Values);
             list.Sort(_CompareByPlayerName);

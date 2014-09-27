@@ -22,7 +22,7 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenOptionsSound : CMenu
+    public class CScreenOptionsSound : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -160,7 +160,7 @@ namespace Vocaluxe.Screens
             if (CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                 CBackgroundMusic.Play();
             else
-                CBackgroundMusic.Pause();
+                CBackgroundMusic.Stop();
         }
     }
 }

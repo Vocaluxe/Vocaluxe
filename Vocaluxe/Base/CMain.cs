@@ -155,6 +155,11 @@ namespace Vocaluxe.Base
         {
             return CConfig.XMLSettings;
         }
+
+        public bool GetLoadOldThemeFiles()
+        {
+            return CConfig.LoadOldThemeFiles;
+        }
     }
 
     class CBsettings : ISettings
@@ -479,9 +484,9 @@ namespace Vocaluxe.Base
 
     class CBlog : ILog
     {
-        public void LogError(string errorText)
+        public void LogError(string errorText, bool showMsg = false, bool exit = false)
         {
-            CLog.LogError(errorText);
+            CLog.LogError(errorText, showMsg, exit);
         }
 
         public void LogDebug(string text)

@@ -17,16 +17,24 @@
 
 using System;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeLyrics
+    [XmlType("Lyric")]
+    public struct SThemeLyrics
     {
+        [XmlAttributeAttribute(AttributeName = "Name")]
         public string Name;
 
-        public string ColorName;
-        public string SelColorName;
+        [XmlElement("Rect")]
+        public SRectF Rect;
+
+        [XmlElement("Color")]
+        public SThemeColor Color;
+        [XmlElement("SColor")]
+        public SThemeColor SColor;
     }
 
     public class CLyric : IMenuElement
@@ -54,6 +62,11 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        public bool ThemeLoaded
+        {
+            get { return _ThemeLoaded; }
         }
 
         public SRectF Rect
@@ -107,6 +120,20 @@ namespace VocaluxeLib.Menu
             LyricStyle = ELyricStyle.Fill;
         }
 
+        public CLyric(SThemeLyrics theme, int partyModeID)
+        {
+            _PartyModeID = partyModeID;
+            _Theme = theme;
+
+            _Line = new CSongLine();
+            _Text = new CText(_PartyModeID);
+            _Width = 1f;
+
+            LyricStyle = ELyricStyle.Fill;
+
+            LoadTextures();
+        }
+
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
         {
             string item = xmlPath + "/" + elementName;
@@ -118,8 +145,8 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _MaxW);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _H);
 
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out _Color);
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out _Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _Color.R);
@@ -128,8 +155,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, skinIndex, out _ColorProcessed);
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.SColor.Name, String.Empty))
+                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColor.Name, skinIndex, out _ColorProcessed);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref _ColorProcessed.R);
@@ -141,54 +168,14 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
+                _Theme.Color.Color = new SColorF(_Color);
+                _Theme.SColor.Color = new SColorF(_ColorProcessed);
+                _Theme.Rect = new SRectF(Rect);
+
                 LoadTextures();
                 _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
             }
             return _ThemeLoaded;
-        }
-
-        public bool SaveTheme(XmlWriter writer)
-        {
-            if (_ThemeLoaded)
-            {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: Lyric position, width and height");
-                writer.WriteElementString("X", _X.ToString("#0"));
-                writer.WriteElementString("Y", _Y.ToString("#0"));
-                writer.WriteElementString("Z", _Z.ToString("#0.00"));
-                writer.WriteElementString("W", _MaxW.ToString("#0"));
-                writer.WriteElementString("H", _H.ToString("#0"));
-
-                writer.WriteComment("<Color>: Lyric text color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
-                else
-                {
-                    writer.WriteElementString("R", _Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", _Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", _Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", _Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<SColor>: Highlighted lyric color from ColorScheme (high priority)");
-                writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.SelColorName))
-                    writer.WriteElementString("SColor", _Theme.SelColorName);
-                else
-                {
-                    writer.WriteElementString("SR", _ColorProcessed.R.ToString("#0.00"));
-                    writer.WriteElementString("SG", _ColorProcessed.G.ToString("#0.00"));
-                    writer.WriteElementString("SB", _ColorProcessed.B.ToString("#0.00"));
-                    writer.WriteElementString("SA", _ColorProcessed.A.ToString("#0.00"));
-                }
-
-                writer.WriteEndElement();
-
-                return true;
-            }
-            return false;
         }
 
         public void SetLine(CSongLine line)
@@ -467,17 +454,29 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                _Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Color.Name))
+                _Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
+            else
+                _Color = _Theme.Color.Color;
 
-            if (!String.IsNullOrEmpty(_Theme.SelColorName))
-                _ColorProcessed = CBase.Theme.GetColor(_Theme.SelColorName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.SColor.Name))
+                _ColorProcessed = CBase.Theme.GetColor(_Theme.SColor.Name, _PartyModeID);
+            else
+                _ColorProcessed = _Theme.SColor.Color;
+
+            Rect = _Theme.Rect;
+            _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
         }
 
         public void ReloadTextures()
         {
             UnloadTextures();
             LoadTextures();
+        }
+
+        public SThemeLyrics GetTheme()
+        {
+            return _Theme;
         }
 
         #region ThemeEdit
@@ -487,6 +486,7 @@ namespace VocaluxeLib.Menu
             rect.X += stepX;
             rect.Y += stepY;
             Rect = rect;
+            _Theme.Rect = rect;
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -501,6 +501,7 @@ namespace VocaluxeLib.Menu
                 rect.H = 1;
 
             Rect = rect;
+            _Theme.Rect = rect;
         }
         #endregion ThemeEdit
     }
