@@ -260,13 +260,6 @@ namespace Vocaluxe.Lib.Draw
             drawCoords.Ty2 = Math.Min(1, (bounds.Bottom - rect.Y) / rect.H) * texture.HeightRatio;
             drawCoords.Wy2 = Math.Min(rect.Bottom, bounds.Bottom);
 
-            //TODO: Check this:
-            /*//Align the pixels because Direct3D expects the pixels to be the left top corner
-            rx1 -= 0.5f;
-            ry1 -= 0.5f;
-            rx2 -= 0.5f;
-            ry2 -= 0.5f;*/
-
             if (mirrored)
             {
                 float tmp = drawCoords.Ty1;

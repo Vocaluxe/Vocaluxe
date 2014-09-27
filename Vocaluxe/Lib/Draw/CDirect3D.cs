@@ -430,6 +430,12 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="isReflection">If true, then color is faded out in y direction</param>
         private void _DrawTexture(CD3DTexture texture, SDrawCoords dc, SColorF color, bool isReflection = false)
         {
+            //Align the pixels because Direct3D expects the pixels to be the left top corner
+            dc.Wx1 -= 0.5f;
+            dc.Wy1 -= 0.5f;
+            dc.Wx2 -= 0.5f;
+            dc.Wy2 -= 0.5f;
+
             color.A *= CGraphics.GlobalAlpha;
             int c = color.AsColor().ToArgb();
             int c2;
@@ -446,7 +452,7 @@ namespace Vocaluxe.Lib.Draw
             vert[1] = new STexturedColoredVertex(new Vector3(dc.Wx1, -dc.Wy2, dc.Wz), new Vector2(dc.Tx1, dc.Ty2), c2);
             vert[2] = new STexturedColoredVertex(new Vector3(dc.Wx2, -dc.Wy2, dc.Wz), new Vector2(dc.Tx2, dc.Ty2), c2);
             vert[3] = new STexturedColoredVertex(new Vector3(dc.Wx2, -dc.Wy1, dc.Wz), new Vector2(dc.Tx2, dc.Ty1), c);
-            _DrawTexture(vert, texture.D3DTexture, _CalculateRotationMatrix(dc.Rotation, dc.Wx1, dc.Wx2, dc.Wy1, dc.Wy2));
+            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(dc.Rotation, dc.Wx1, dc.Wx2, dc.Wy1, dc.Wy2));
         }
 
         /// <summary>
@@ -455,7 +461,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="vertices">A TexturedColoredVertex array containg 4 vertices</param>
         /// <param name="tex">The texture the vertex should be textured with</param>
         /// <param name="rotation">The vertices' rotation</param>
-        private void _DrawTexture(STexturedColoredVertex[] vertices, Texture tex, Matrix rotation)
+        private void _AddToVertexBuffer(STexturedColoredVertex[] vertices, Texture tex, Matrix rotation)
         {
             //The vertexbuffer is full, so we need to flush it before we can continue
             if (_Vertices.Count >= CSettings.VertexBufferElements)

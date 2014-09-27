@@ -440,6 +440,12 @@ namespace Vocaluxe.Lib.Draw
         #region drawing
         private static void _DrawTexture(COGLTexture texture, SDrawCoords dc, SColorF color, bool isReflection = false)
         {
+            // Align textures to full pixels to reduce artefacts
+            dc.Wx1 = (float)Math.Round(dc.Wx1);
+            dc.Wy1 = (float)Math.Round(dc.Wy1);
+            dc.Wx2 = (float)Math.Round(dc.Wx2);
+            dc.Wy2 = (float)Math.Round(dc.Wy2);
+
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.Enable(EnableCap.Blend);
