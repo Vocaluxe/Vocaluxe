@@ -28,6 +28,7 @@ using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Profile;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
@@ -840,7 +841,7 @@ namespace Vocaluxe.Base
                         break;
 
                     case "oldtheme":
-                        if(value == "yes")
+                        if (value == "yes")
                             LoadOldThemeFiles = true;
                         break;
                 }

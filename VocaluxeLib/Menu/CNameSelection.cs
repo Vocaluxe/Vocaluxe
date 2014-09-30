@@ -22,56 +22,39 @@ using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("NameSelection")]
     public struct SThemeNameSelection
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
-        [XmlElement("Rect")]
-        public SRectF Rect;
-        [XmlElement("SkinEmptyTile")]
-        public string TextureEmptyTileName;
-        [XmlElement("ColorEmptyTile")]
-        public SThemeColor ColorEmptyTile;
-        [XmlElement("SkinTileSelected")]
-        public string TextureTileSelectedName;
-        [XmlElement("Tiles")]
-        public SThemeNameSelectionTiles Tiles;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlElement("Rect")] public SRectF Rect;
+        [XmlElement("SkinEmptyTile")] public string TextureEmptyTileName;
+        [XmlElement("ColorEmptyTile")] public SThemeColor ColorEmptyTile;
+        [XmlElement("SkinTileSelected")] public string TextureTileSelectedName;
+        [XmlElement("Tiles")] public SThemeNameSelectionTiles Tiles;
     }
 
     public struct SThemeNameSelectionTiles
     {
-        [XmlElement("W")]
-        public int W;
-        [XmlElement("H")]
-        public int H;
-        [XmlElement("NumW")]
-        public int NumW;
-        [XmlElement("NumH")]
-        public int NumH;
-        [XmlElement("SpaceW")]
-        public float SpaceW;
-        [XmlElement("SpaceH")]
-        public float SpaceH;
-        [XmlElement("Name")]
-        public SThemeNameSelectionName Name;
+        [XmlElement("W")] public int W;
+        [XmlElement("H")] public int H;
+        [XmlElement("NumW")] public int NumW;
+        [XmlElement("NumH")] public int NumH;
+        [XmlElement("SpaceW")] public float SpaceW;
+        [XmlElement("SpaceH")] public float SpaceH;
+        [XmlElement("Name")] public SThemeNameSelectionName Name;
     }
 
     public struct SThemeNameSelectionName
     {
-        [XmlElement("Space")]
-        public float Space;
-        [XmlElement("H")]
-        public float Height;
-        [XmlElement("Font")]
-        public string Font;
-        [XmlElement("Style")]
-        public EStyle Style;
-        [XmlElement("Color")]
-        public SThemeColor Color;
+        [XmlElement("Space")] public float Space;
+        [XmlElement("H")] public float Height;
+        [XmlElement("Font")] public string Font;
+        [XmlElement("Style")] public EStyle Style;
+        [XmlElement("Color")] public SThemeColor Color;
     }
 
     public class CNameSelection : IMenuElement
@@ -118,7 +101,6 @@ namespace VocaluxeLib.Menu
         }
 
         public SColorF ColorEmptyTile;
-
 
         public int Offset;
         private int _ActualSelection = -1;
@@ -517,9 +499,11 @@ namespace VocaluxeLib.Menu
             {
                 for (int j = 0; j < _Theme.Tiles.NumW; j++)
                 {
-                    var rect = new SRectF(Rect.X + j * (_Theme.Tiles.W + _Theme.Tiles.SpaceW), Rect.Y + i * (_Theme.Tiles.H + _Theme.Tiles.SpaceH), _Theme.Tiles.W, _Theme.Tiles.H, Rect.Z);
+                    var rect = new SRectF(Rect.X + j * (_Theme.Tiles.W + _Theme.Tiles.SpaceW), Rect.Y + i * (_Theme.Tiles.H + _Theme.Tiles.SpaceH), _Theme.Tiles.W, _Theme.Tiles.H,
+                                          Rect.Z);
                     var tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, ColorEmptyTile, rect) {Aspect = EAspect.Crop};
-                    var tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.Tiles.Name.Space, rect.Z, _Theme.Tiles.Name.Height, rect.W, EAlignment.Center, _Theme.Tiles.Name.Style,
+                    var tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.Tiles.Name.Space, rect.Z, _Theme.Tiles.Name.Height, rect.W, EAlignment.Center,
+                                             _Theme.Tiles.Name.Style,
                                              _Theme.Tiles.Name.Font, _Theme.Tiles.Name.Color.Color, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
                 }

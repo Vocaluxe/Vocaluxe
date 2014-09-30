@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu.SingNotes
 {

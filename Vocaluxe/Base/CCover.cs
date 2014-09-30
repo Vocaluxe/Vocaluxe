@@ -23,24 +23,23 @@ using System.Threading.Tasks;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
-    struct SCoverTheme
+    struct SThemeCover
     {
-        public string Name;
-        public string Folder;
-        public string File;
+        public string Name, Folder;
+        public string FilePath;
     }
 
     static class CCover
     {
         private const string _NoCoverName = "No Cover";
         private const string _NoCoverNameAlt = "NoCover";
-        private const string _DefaultTypeName = "Default";
         private static readonly Dictionary<string, CTextureRef> _Covers = new Dictionary<string, CTextureRef>();
-        private static readonly Dictionary<string, CNoCoverGenerator> _NoCoverThemes = new Dictionary<string, CNoCoverGenerator>();
-        private static readonly List<SCoverTheme> _CoverThemes = new List<SCoverTheme>();
+        private static readonly Dictionary<ECoverGeneratorType, CNoCoverGenerator> _NoCoverGenerators = new Dictionary<ECoverGeneratorType, CNoCoverGenerator>();
+        private static readonly List<SThemeCover> _CoverThemes = new List<SThemeCover>();
 
         public static CTextureRef NoCover { get; private set; }
 
@@ -105,9 +104,10 @@ namespace Vocaluxe.Base
             CTextureRef texture = CDraw.CopyTexture(NoCover);
             Task.Factory.StartNew(() =>
                 {
-                    Bitmap coverBmp = _NoCoverThemes[_SongSortingToType(sorting)].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
-                    if (coverBmp == null)
-                        coverBmp = _NoCoverThemes[_DefaultTypeName].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+                    ECoverGeneratorType type = _SongSortingToType(sorting);
+                    Bitmap coverBmp = !_NoCoverGenerators.ContainsKey(type)?null:_NoCoverGenerators[type].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+                    if (coverBmp == null && _NoCoverGenerators.ContainsKey(ECoverGeneratorType.Default))
+                        coverBmp = _NoCoverGenerators[ECoverGeneratorType.Default].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
                     if (coverBmp != null)
                         CDraw.EnqueueTextureUpdate(texture, coverBmp);
                 });
@@ -147,23 +147,23 @@ namespace Vocaluxe.Base
                 }
                 _Covers.Clear();
             }
-            lock (_NoCoverThemes)
+            lock (_NoCoverGenerators)
             {
-                _NoCoverThemes.Clear();
+                _NoCoverGenerators.Clear();
             }
         }
 
         /// <summary>
         ///     Returns a SCoverTheme by cover-theme-name
         /// </summary>
-        private static SCoverTheme _CoverTheme(string coverThemeName)
+        private static SThemeCover _CoverTheme(string coverThemeName)
         {
             for (int i = 0; i < _CoverThemes.Count; i++)
             {
                 if (_CoverThemes[i].Name == coverThemeName)
                     return _CoverThemes[i];
             }
-            return new SCoverTheme();
+            return new SThemeCover();
         }
 
         /// <summary>
@@ -182,14 +182,14 @@ namespace Vocaluxe.Base
 
                 if (xmlReader != null)
                 {
-                    var coverTheme = new SCoverTheme();
+                    var coverTheme = new SThemeCover();
 
                     xmlReader.GetValue("//root/Info/Name", out coverTheme.Name, String.Empty);
                     xmlReader.GetValue("//root/Info/Folder", out coverTheme.Folder, String.Empty);
 
                     if (coverTheme.Folder != "" && coverTheme.Name != "")
                     {
-                        coverTheme.File = file;
+                        coverTheme.FilePath = xmlReader.FilePath;
 
                         _CoverThemes.Add(coverTheme);
                     }
@@ -202,7 +202,7 @@ namespace Vocaluxe.Base
         /// </summary>
         private static void _LoadCovers(string coverThemeName)
         {
-            SCoverTheme coverTheme = _CoverTheme(coverThemeName);
+            SThemeCover coverTheme = _CoverTheme(coverThemeName);
 
             if (String.IsNullOrEmpty(coverTheme.Name))
                 return;
@@ -224,51 +224,53 @@ namespace Vocaluxe.Base
             _LoadNoCoverThemes(coverTheme);
         }
 
-        private static string _SongSortingToType(ESongSorting sorting)
+        private static ECoverGeneratorType _SongSortingToType(ESongSorting sorting)
         {
             switch (sorting)
             {
                 case ESongSorting.TR_CONFIG_NONE:
-                    return _DefaultTypeName;
+                    return ECoverGeneratorType.Default;
                 case ESongSorting.TR_CONFIG_FOLDER:
-                    return "Folder";
+                    return ECoverGeneratorType.Folder;
                 case ESongSorting.TR_CONFIG_ARTIST:
-                    return "Artist";
+                    return ECoverGeneratorType.Artist;
                 case ESongSorting.TR_CONFIG_ARTIST_LETTER:
                 case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                    return "Letter";
+                    return ECoverGeneratorType.Letter;
                 case ESongSorting.TR_CONFIG_EDITION:
-                    return "Edition";
+                    return ECoverGeneratorType.Edition;
                 case ESongSorting.TR_CONFIG_GENRE:
-                    return "Genre";
+                    return ECoverGeneratorType.Genre;
                 case ESongSorting.TR_CONFIG_LANGUAGE:
-                    return "Language";
+                    return ECoverGeneratorType.Language;
                 case ESongSorting.TR_CONFIG_YEAR:
-                    return "Year";
+                    return ECoverGeneratorType.Year;
                 case ESongSorting.TR_CONFIG_DECADE:
-                    return "Decade";
+                    return ECoverGeneratorType.Decade;
                 case ESongSorting.TR_CONFIG_DATEADDED:
-                    return "Date";
+                    return ECoverGeneratorType.Date;
                 default:
                     throw new ArgumentOutOfRangeException("sorting");
             }
         }
 
-        private static void _LoadNoCoverThemes(SCoverTheme coverTheme)
+        private static void _LoadNoCoverThemes(SThemeCover coverTheme)
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.File));
-            List<String> types = new List<string>();
-            foreach (ESongSorting sorting in Enum.GetValues(typeof(ESongSorting)))
-                types.Add(_SongSortingToType(sorting));
+            CXMLReader xmlReader = CXMLReader.OpenFile(coverTheme.FilePath);
             string coverPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder);
-            lock (_NoCoverThemes)
+            lock (_NoCoverGenerators)
             {
-                foreach (string type in types)
-                {
-                    if (_NoCoverThemes.ContainsKey(type))
-                        continue;
-                    CNoCoverGenerator el = new CNoCoverGenerator(xmlReader, "//root/MissingCover/" + type, coverPath);
-                    _NoCoverThemes.Add(type, el);
+                int i = 1;
+                while(xmlReader.ItemExists("//root/CoverGenerator"+i)){
+                    SThemeCoverGenerator theme;
+                    if (xmlReader.Read("//root/CoverGenerator" + i, out theme))
+                    {
+                        if (_NoCoverGenerators.ContainsKey(theme.Type))
+                            continue;
+                        CNoCoverGenerator el = new CNoCoverGenerator(theme, coverPath);
+                        _NoCoverGenerators.Add(theme.Type, el);
+                    }
+                    i++;
                 }
             }
         }

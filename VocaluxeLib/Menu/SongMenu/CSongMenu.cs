@@ -17,6 +17,7 @@
 
 using System.Xml;
 using VocaluxeLib.PartyModes;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu.SongMenu
 {

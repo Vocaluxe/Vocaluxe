@@ -36,20 +36,10 @@ namespace Vocaluxe.Base
     class CNoCoverGenerator
     {
         private readonly bool _Valid;
-        private readonly string _Text;
-        private readonly SColorF _BGColor;
-        private readonly SColorF _TextColor;
-        private readonly int _TextMarginLeft;
-        private readonly int _TextMarginRight;
-        private readonly int _TextMarginTop;
-        private readonly int _TextMarginBottom;
-        private readonly int _TextIndent;
-        private readonly int _TextSize;
-        private readonly string _Font;
-        private readonly EStyle _Style;
+        private readonly SThemeCoverGenerator _Theme;
         private readonly string _Image;
-        private readonly bool _ShowFirstCover;
-        private readonly float _ImageAlpha;
+        private readonly SColorF _TextColor;
+        private readonly SColorF _BGColor;
         private const int _LineSpace = 5;
 
         /// <summary>
@@ -59,52 +49,15 @@ namespace Vocaluxe.Base
         private static readonly char[] _SplitCharAfter = {':', '/', '-', ' ', ')', '.', '*', ','};
         private static readonly char[] _SplitCharBefore = {'('};
 
-        public CNoCoverGenerator(CXMLReader xmlReader, string xPath, string basePath)
+        public CNoCoverGenerator(SThemeCoverGenerator theme, string basePath)
         {
-            _Valid = xmlReader.ItemExists(xPath);
-            if (!_Valid)
-                return;
-            _Valid &= xmlReader.GetValue(xPath + "/Text/Text", out _Text);
-            _Valid &= xmlReader.GetValue(xPath + "/Text/Font", out _Font);
-            _Valid &= xmlReader.TryGetEnumValue(xPath + "/Text/Style", ref _Style);
-            _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/Size", ref _TextSize);
-            string colorName;
-            if (xmlReader.GetValue(xPath + "/Text/Color", out colorName))
-                _Valid &= CBase.Theme.GetColor(colorName, CBase.Theme.GetSkinIndex(-1), out _TextColor);
-            else
-                _Valid &= xmlReader.TryGetColorFromRGBA(xPath + "/Text", ref _TextColor);
-            int tmpMargin = 0;
-            bool marginSet = xmlReader.TryGetIntValue(xPath + "/Text/Margin", ref tmpMargin);
-            if (marginSet)
-            {
-                _TextMarginLeft = tmpMargin;
-                _TextMarginRight = tmpMargin;
-                _TextMarginTop = tmpMargin;
-                _TextMarginBottom = tmpMargin;
-            }
-            _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/MarginLeft", ref _TextMarginLeft) || marginSet;
-            _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/MarginRight", ref _TextMarginRight) || marginSet;
-            _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/MarginTop", ref _TextMarginTop) || marginSet;
-            _Valid &= xmlReader.TryGetIntValue(xPath + "/Text/MarginBottom", ref _TextMarginBottom) || marginSet;
-            if (!xmlReader.TryGetIntValue(xPath + "/Text/Indent", ref _TextIndent))
-                _TextIndent = 6 * (_TextMarginLeft + _TextMarginRight) / 2;
-
-            if (xmlReader.GetValue(xPath + "/Background/Color", out colorName))
-                _Valid &= CBase.Theme.GetColor(colorName, CBase.Theme.GetSkinIndex(-1), out _BGColor);
-            else
-                _Valid &= xmlReader.TryGetColorFromRGBA(xPath + "/Background", ref _BGColor);
-            _Valid &= xmlReader.GetValue(xPath + "/Image", out _Image);
-            string tmp;
-            if (xmlReader.GetValue(xPath + "/ShowFirstCover", out tmp))
-                Boolean.TryParse(tmp, out _ShowFirstCover);
-            else
-                _ShowFirstCover = false;
-            _ImageAlpha = !xmlReader.TryGetFloatValue(xPath + "/ImageAlpha", ref _ImageAlpha) ? 0.5f : _ImageAlpha.Clamp(0f, 1f);
+            _Theme = theme;
+            _Valid = true;
+            _Valid &= _Theme.Text.Color.Get(-1, out _TextColor);
+            _Valid &= _Theme.BackgroundColor.Get(-1, out _BGColor);
             if (_Valid)
             {
-                // ReSharper disable AssignNullToNotNullAttribute
-                _Image = Path.Combine(basePath, _Image);
-                // ReSharper restore AssignNullToNotNullAttribute
+                _Image = Path.Combine(basePath, _Theme.Image);
                 _Valid = File.Exists(_Image);
             }
         }
@@ -153,11 +106,11 @@ namespace Vocaluxe.Base
             g.Clear(_BGColor.AsColor());
 
             ImageAttributes ia = null;
-            if (_ShowFirstCover && !String.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
+            if (_Theme.ShowFirstCover && !String.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
             {
                 using (Bitmap bmp2 = new Bitmap(firstCoverPath))
                     g.DrawImage(bmp2, bmpBackground.GetRect(), 0, 0, bmp2.Width, bmp2.Height, GraphicsUnit.Pixel);
-                ColorMatrix cm = new ColorMatrix {Matrix33 = _ImageAlpha};
+                ColorMatrix cm = new ColorMatrix {Matrix33 = _Theme.ImageAlpha};
                 ia = new ImageAttributes();
                 ia.SetColorMatrix(cm);
             }
@@ -182,7 +135,7 @@ namespace Vocaluxe.Base
             {
                 pen.LineJoin = LineJoin.Round;
                 pen.Alignment = PenAlignment.Outset;
-                float top = (bmpSize.Height - _TextMarginBottom - _TextMarginTop - maxHeight * lineCount) / 2 + _TextMarginTop;
+                float top = (bmpSize.Height - _Theme.Text.Margin.Bottom - _Theme.Text.Margin.Top - maxHeight * lineCount) / 2 + _Theme.Text.Margin.Top;
                 int nextLineEl = 0;
                 for (int i = 0; i < lineCount; i++)
                 {
@@ -199,16 +152,16 @@ namespace Vocaluxe.Base
                     {
                         //Center Text if this is the only line or the middle line
                         float width = _GetWidth(elements, firstEl, nextLineEl - 1);
-                        left = (bmpSize.Width - _TextMarginLeft - _TextMarginRight - width) / 2 + _TextMarginLeft;
+                        left = (bmpSize.Width - _Theme.Text.Margin.Left - _Theme.Text.Margin.Right - width) / 2 + _Theme.Text.Margin.Left;
                     }
                     else if (i == lineCount - 1)
                     {
                         //Place last line at right
                         float width = _GetWidth(elements, firstEl, nextLineEl - 1);
-                        left = bmpSize.Width - width - _TextMarginRight;
+                        left = bmpSize.Width - width - _Theme.Text.Margin.Right;
                     }
                     else
-                        left = _TextMarginLeft;
+                        left = _Theme.Text.Margin.Left;
                     //g.DrawString(line, fo, new SolidBrush(_TextColor.AsColor()), left, top, StringFormat.GenericTypographic);
                     path.AddString(line, fo.FontFamily, (int)fo.Style, emSize, new PointF(left, top), StringFormat.GenericTypographic);
                     top += maxHeight + _LineSpace;
@@ -222,7 +175,7 @@ namespace Vocaluxe.Base
         {
             if (!_Valid)
                 return null;
-            text = CLanguage.Translate(_Text.Replace("%TEXT%", text));
+            text = CLanguage.Translate(_Theme.Text.Text.Replace("%TEXT%", text));
             using (Bitmap bmpImage = new Bitmap(_Image))
             {
                 Bitmap bmp = new Bitmap(bmpImage.Width, bmpImage.Height, PixelFormat.Format32bppArgb);
@@ -238,7 +191,7 @@ namespace Vocaluxe.Base
 
                         if (text != "")
                         {
-                            CFont font = new CFont(_Font, _Style, bmp.Height - _TextMarginTop - _TextMarginBottom);
+                            CFont font = new CFont(_Theme.Text.Font);
                             Font fo = CFonts.GetSystemFont(font);
                             IEnumerable<string> textParts = _SplitText(text);
                             List<CTextElement> elements = textParts.Select(line => new CTextElement(line, g, fo)).ToList();
@@ -269,14 +222,14 @@ namespace Vocaluxe.Base
         /// <returns>Factor for resizing the text (Maximizing this factor means maximizing the height)</returns>
         private float _DistributeText(List<CTextElement> elements, int width, int height)
         {
-            int availableWidth = width - _TextMarginLeft - _TextMarginRight;
-            int availableHeight = height - _TextMarginTop - _TextMarginBottom;
+            int availableWidth = width - _Theme.Text.Margin.Left - _Theme.Text.Margin.Right;
+            int availableHeight = height - _Theme.Text.Margin.Top - _Theme.Text.Margin.Bottom;
 
             float textHeight = elements.Select(el => el.Height).Max();
 
             //Try 1 line:
             float textWidth = _GetWidth(elements, 0);
-            int maxHeight = Math.Min(availableHeight, _TextSize);
+            int maxHeight = Math.Min(availableHeight, (int)_Theme.Text.Font.Size);
             float factorH = maxHeight / textHeight;
             float factorW = availableWidth / textWidth;
             if (factorH <= factorW)
@@ -289,8 +242,8 @@ namespace Vocaluxe.Base
                 //Only 1 element -> 1 line
                 return factor1;
             }
-            availableWidth -= _TextIndent;
-            maxHeight = Math.Min(availableHeight / 2 - _LineSpace, _TextSize);
+            availableWidth -= _Theme.Text.Indent;
+            maxHeight = Math.Min(availableHeight / 2 - _LineSpace, (int)_Theme.Text.Font.Size);
             factorH = maxHeight / textHeight;
             if (factorH <= factor1)
                 return factor1; //Cannot get any bigger with more lines
@@ -311,7 +264,7 @@ namespace Vocaluxe.Base
             float factor2 = factorW;
 
             //Try 3 lines
-            maxHeight = Math.Min(availableHeight / 3 - 2 * _LineSpace, _TextSize);
+            maxHeight = Math.Min(availableHeight / 3 - 2 * _LineSpace, (int)_Theme.Text.Font.Size);
             factorH = maxHeight / textHeight;
             if (elements.Count == 2 || factorH <= Math.Max(factor1, factor2))
             {

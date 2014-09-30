@@ -23,6 +23,7 @@ using System.Reflection;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
@@ -98,7 +99,6 @@ namespace Vocaluxe.Base
             foreach (KeyValuePair<int, SPartyMode> pair in _PartyModes)
                 pair.Value.PartyMode.SaveScreens();
         }
-
 
         public static List<SPartyModeInfos> GetPartyModeInfos()
         {

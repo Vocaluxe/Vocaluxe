@@ -19,33 +19,25 @@ using System;
 using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("Button")]
     public struct SThemeButton
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Skin")]
-        public string TextureName;
-        [XmlElement("SkinSelected")]
-        public string SelTextureName;
+        [XmlElement("Skin")] public string TextureName;
+        [XmlElement("SkinSelected")] public string SelTextureName;
         public SRectF Rect;
-        [XmlElement("Color")]
-        public SThemeColor Color;
-        [XmlElement("SelColor")]
-        public SThemeColor SelColor;
-        [XmlElement("Text")]
-        public SThemeText Text;
-        [XmlElement("SText")]
-        public SThemeText SText;
+        [XmlElement("Color")] public SThemeColor Color;
+        [XmlElement("SelColor")] public SThemeColor SelColor;
+        [XmlElement("Text")] public SThemeText Text;
+        [XmlElement("SText")] public SThemeText SText;
         public bool STextSpecified;
-        [XmlElement("Reflection")]
-        public SReflection Reflection;
-        [XmlElement("SelReflection")]
-        public SReflection SelReflection;
+        [XmlElement("Reflection")] public SReflection Reflection;
+        [XmlElement("SelReflection")] public SReflection SelReflection;
     }
 
     public class CButton : IMenuElement
@@ -257,7 +249,6 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-       
         public void Draw(bool forceDraw = false)
         {
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme && !forceDraw)

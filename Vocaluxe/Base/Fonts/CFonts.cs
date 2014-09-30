@@ -24,6 +24,7 @@ using System.Linq;
 using System.Xml;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.Fonts
 {

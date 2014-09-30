@@ -1,11 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace VocaluxeLib
 {
     public interface IFontObserver
     {
         void FontChanged();
+    }
+
+    public struct SThemeFont
+    {
+        public string Name;
+        public EStyle Style;
+        public float Size;
     }
 
     public class CFont
@@ -59,11 +67,11 @@ namespace VocaluxeLib
             _Height = 25f;
         }
 
-        public CFont(CFont font)
+        public CFont(SThemeFont font)
         {
             _Name = font.Name;
             _Style = font.Style;
-            _Height = font.Height;
+            _Height = font.Size;
         }
 
         public CFont(string fontFamily, EStyle style, float h)

@@ -23,6 +23,7 @@ using System.Xml;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {

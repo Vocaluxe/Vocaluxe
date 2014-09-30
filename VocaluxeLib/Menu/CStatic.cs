@@ -19,16 +19,15 @@ using System;
 using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("Static")]
     public struct SThemeStatic
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
-        [XmlElement("Skin")]
-        public string TextureName;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlElement("Skin")] public string TextureName;
         public SThemeColor Color;
         public SRectF Rect;
         public SReflection Reflection;
@@ -73,10 +72,7 @@ namespace VocaluxeLib.Menu
 
         public EAspect Aspect = EAspect.Stretch;
 
-        public CStatic()
-        {
-
-        }
+        public CStatic() {}
 
         public CStatic(int partyModeID)
         {

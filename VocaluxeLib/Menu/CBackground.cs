@@ -21,6 +21,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -36,16 +37,11 @@ namespace VocaluxeLib.Menu
     [XmlType("Background")]
     public struct SThemeBackground
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
-        [XmlElement("Type")]
-        public EBackgroundTypes Type;
-        [XmlArray]
-        public List<string> SlideShowTextures;
-        [XmlElement("Video")]
-        public string VideoName;
-        [XmlElement("Skin")]
-        public string TextureName;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlElement("Type")] public EBackgroundTypes Type;
+        [XmlArray] public List<string> SlideShowTextures;
+        [XmlElement("Video")] public string VideoName;
+        [XmlElement("Skin")] public string TextureName;
         public SThemeColor Color;
     }
 

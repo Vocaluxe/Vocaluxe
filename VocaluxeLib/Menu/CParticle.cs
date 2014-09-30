@@ -21,27 +21,21 @@ using System.Diagnostics;
 using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("ParticleEffect")]
     public struct SThemeParticleEffect
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Skin")]
-        public string TextureName;
-        [XmlElement("Rect")]
-        public SRectF Rect;
-        [XmlElement("Color")]
-        public SThemeColor Color;
-        [XmlElement("Type")]
-        public EParticleType Type;
-        [XmlElement("Size")]
-        public float Size;
-        [XmlElement("MaxNumber")]
-        public int MaxNumber;
+        [XmlElement("Skin")] public string TextureName;
+        [XmlElement("Rect")] public SRectF Rect;
+        [XmlElement("Color")] public SThemeColor Color;
+        [XmlElement("Type")] public EParticleType Type;
+        [XmlElement("Size")] public float Size;
+        [XmlElement("MaxNumber")] public int MaxNumber;
     }
 
     public enum EParticleType
@@ -159,8 +153,6 @@ namespace VocaluxeLib.Menu
             _MaxAge = maxage;
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
-
-
         #endregion Constructors
 
         public void Update()

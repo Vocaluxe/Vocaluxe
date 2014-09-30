@@ -19,22 +19,19 @@ using System;
 using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("Lyric")]
     public struct SThemeLyrics
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Rect")]
-        public SRectF Rect;
+        [XmlElement("Rect")] public SRectF Rect;
 
-        [XmlElement("Color")]
-        public SThemeColor Color;
-        [XmlElement("SColor")]
-        public SThemeColor SColor;
+        [XmlElement("Color")] public SThemeColor Color;
+        [XmlElement("SColor")] public SThemeColor SColor;
     }
 
     public class CLyric : IMenuElement
@@ -192,7 +189,7 @@ namespace VocaluxeLib.Menu
         private void _SetText(CSongNote note)
         {
             _Text.Text = note.Text;
-            _Text.Font.Style = (note.Type == ENoteType.Freestyle)? EStyle.BoldItalic:EStyle.Bold;
+            _Text.Font.Style = (note.Type == ENoteType.Freestyle) ? EStyle.BoldItalic : EStyle.Bold;
         }
 
         public void Clear()
@@ -338,7 +335,7 @@ namespace VocaluxeLib.Menu
                 float tz = _Text.Z;
 
                 SRectF normalRect = _Text.Rect;
-                _Text.Font.Height *= 1f+ p * 0.4f;
+                _Text.Font.Height *= 1f + p * 0.4f;
                 _Text.X -= (_Text.Rect.W - normalRect.W) / 2f;
                 _Text.Y -= (_Text.Rect.H - normalRect.H) / 2f;
                 _Text.Z -= 0.1f;
