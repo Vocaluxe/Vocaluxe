@@ -120,7 +120,7 @@ namespace Vocaluxe.Base.Fonts
             CTextureRef texture;
             SRectF rect;
             GetOrAddGlyph(chr, fontHeight).GetTextureAndRect(fontHeight, x, y, z, out texture, out rect);
-            CDraw.DrawTextureReflection(texture, rect, color, rspace, rheight);
+            CDraw.DrawTextureReflection(texture, rect, color, rect, rspace, rheight);
         }
 
         public float GetWidth(char chr, float height)

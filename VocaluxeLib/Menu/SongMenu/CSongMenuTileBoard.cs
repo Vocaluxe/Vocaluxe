@@ -200,7 +200,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     _Tiles.Add(tile);
                 }
             }
-            _ScrollRect = new SRectF(0, 0, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), Rect.Z);
+            _ScrollRect = CBase.Settings.GetRenderRect();
         }
 
         public override void Update(SScreenSongOptions songOptions)
@@ -501,9 +501,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (vidtex.Color.A < 1)
                     _CoverBig.Draw(EAspect.Crop);
                 SRectF rect = CHelper.FitInBounds(_CoverBig.Rect, vidtex.OrigAspect, EAspect.Crop);
-
-                CBase.Drawing.DrawTexture(vidtex, rect);
-                CBase.Drawing.DrawTextureReflection(vidtex, rect, vidtex.Color, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
+                CBase.Drawing.DrawTexture(vidtex, rect, vidtex.Color, _CoverBig.Rect);
+                CBase.Drawing.DrawTextureReflection(vidtex, rect, vidtex.Color, _CoverBig.Rect, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
             else
                 _CoverBig.Draw(EAspect.Crop);

@@ -69,7 +69,7 @@ namespace VocaluxeLib.Menu
             _MouseDY = 0;
 
             Active = false;
-            _ScreenArea = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), 0f);
+            _ScreenArea = CBase.Settings.GetRenderRect();
         }
 
         public void Clear()

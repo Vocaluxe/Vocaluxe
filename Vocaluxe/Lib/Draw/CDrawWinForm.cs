@@ -435,7 +435,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end) {}
 
-        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, float space, float height) {}
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) {}
 
         public int GetTextureCount()
         {

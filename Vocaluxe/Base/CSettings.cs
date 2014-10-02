@@ -65,6 +65,7 @@ namespace Vocaluxe.Base
 
         public const int RenderW = 1280;
         public const int RenderH = 720;
+        public static readonly SRectF RenderRect = new SRectF(0, 0, RenderW, RenderH, 0);
 
         public const int ZNear = -100;
         public const int ZFar = 100;

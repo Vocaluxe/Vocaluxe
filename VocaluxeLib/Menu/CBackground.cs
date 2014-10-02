@@ -221,7 +221,9 @@ namespace VocaluxeLib.Menu
         #region internal
         private static SRectF _GetDrawRect()
         {
-            return new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), CBase.Settings.GetZFar() / 4);
+            SRectF rect = CBase.Settings.GetRenderRect();
+            rect.Z = CBase.Settings.GetZFar() / 4;
+            return rect;
         }
 
         private void _DrawColor()

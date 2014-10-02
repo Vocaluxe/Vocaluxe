@@ -176,19 +176,17 @@ namespace VocaluxeLib.Menu
         public void Draw(EAspect aspect, float scale = 1f, float zModify = 0f, bool forceDraw = false)
         {
             CTextureRef texture = Texture;
-            SRectF rect = Rect.Scale(scale);
-            rect.Z += zModify;
-            if (texture != null)
-                rect = CHelper.FitInBounds(rect, texture.OrigAspect, aspect);
-
+            SRectF bounds = Rect.Scale(scale);
+            bounds.Z += zModify;
+            SRectF rect = texture == null ? bounds : CHelper.FitInBounds(bounds, texture.OrigAspect, aspect);
             var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
             if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
             {
                 if (texture != null)
                 {
-                    CBase.Drawing.DrawTexture(texture, rect, color);
+                    CBase.Drawing.DrawTexture(texture, rect, color, bounds);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(texture, rect, color, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
                 }
                 else
                     CBase.Drawing.DrawRect(color, rect);

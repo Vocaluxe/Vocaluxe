@@ -436,61 +436,46 @@ namespace Vocaluxe.Lib.Draw
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
 
-        #region drawing
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
+        protected override void _DrawTexture(COGLTexture texture, SDrawCoords dc, SColorF color, bool isReflection = false)
         {
-            COGLTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-
-            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(color.A) < 0.01)
-                return;
+            // Align textures to full pixels to reduce artefacts
+            dc.Wx1 = (float)Math.Round(dc.Wx1);
+            dc.Wy1 = (float)Math.Round(dc.Wy1);
+            dc.Wx2 = (float)Math.Round(dc.Wx2);
+            dc.Wy2 = (float)Math.Round(dc.Wy2);
 
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
-            const float x1 = 0;
-            float x2 = texture.WidthRatio;
-            float y1 = 0;
-            float y2 = texture.HeightRatio;
-
-            float rx1 = rect.X;
-            float rx2 = rect.X + rect.W;
-            float ry1 = rect.Y;
-            float ry2 = rect.Y + rect.H;
-
             GL.Enable(EnableCap.Blend);
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
 
             GL.MatrixMode(MatrixMode.Texture);
             GL.PushMatrix();
 
-            if (Math.Abs(rect.Rotation) > float.Epsilon)
+            if (Math.Abs(dc.Rotation) > float.Epsilon)
             {
                 GL.Translate(0.5f, 0.5f, 0);
-                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
+                GL.Rotate(-dc.Rotation, 0f, 0f, 1f);
                 GL.Translate(-0.5f, -0.5f, 0);
-            }
-
-            if (mirrored)
-            {
-                float tmp = y2;
-                y2 = y1;
-                y1 = tmp;
             }
 
             GL.Begin(BeginMode.Quads);
 
-            GL.TexCoord2(x1, y1);
-            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
+            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            GL.TexCoord2(dc.Tx1, dc.Ty1);
+            GL.Vertex3(dc.Wx1, dc.Wy1, dc.Wz);
 
-            GL.TexCoord2(x1, y2);
-            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
+            if (isReflection)
+                GL.Color4(color.R, color.G, color.B, 0);
+            GL.TexCoord2(dc.Tx1, dc.Ty2);
+            GL.Vertex3(dc.Wx1, dc.Wy2, dc.Wz);
 
-            GL.TexCoord2(x2, y2);
-            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
+            GL.TexCoord2(dc.Tx2, dc.Ty2);
+            GL.Vertex3(dc.Wx2, dc.Wy2, dc.Wz);
 
-            GL.TexCoord2(x2, y1);
-            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
+            if (isReflection)
+                GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
+            GL.TexCoord2(dc.Tx2, dc.Ty1);
+            GL.Vertex3(dc.Wx2, dc.Wy1, dc.Wz);
 
             GL.End();
 
@@ -499,198 +484,6 @@ namespace Vocaluxe.Lib.Draw
             GL.Disable(EnableCap.Blend);
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
-
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
-        {
-            COGLTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-
-            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1 ||
-                Math.Abs(color.A) < 0.01)
-                return;
-
-            if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
-                return;
-
-            if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
-                return;
-
-            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-            float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
-            float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
-            float y1 = (bounds.Y - rect.Y) / rect.H * texture.HeightRatio;
-            float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * texture.HeightRatio;
-
-            if (x1 < 0)
-                x1 = 0f;
-
-            if (x2 > texture.WidthRatio)
-                x2 = texture.WidthRatio;
-
-            if (y1 < 0)
-                y1 = 0f;
-
-            if (y2 > texture.HeightRatio)
-                y2 = texture.HeightRatio;
-
-
-            float rx1 = rect.X;
-            float rx2 = rect.X + rect.W;
-            float ry1 = rect.Y;
-            float ry2 = rect.Y + rect.H;
-
-            if (rx1 < bounds.X)
-                rx1 = bounds.X;
-
-            if (rx2 > bounds.X + bounds.W)
-                rx2 = bounds.X + bounds.W;
-
-            if (ry1 < bounds.Y)
-                ry1 = bounds.Y;
-
-            if (ry2 > bounds.Y + bounds.H)
-                ry2 = bounds.Y + bounds.H;
-
-            GL.Enable(EnableCap.Blend);
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-
-            GL.MatrixMode(MatrixMode.Texture);
-            GL.PushMatrix();
-
-            if (Math.Abs(rect.Rotation) > float.Epsilon)
-            {
-                GL.Translate(0.5f, 0.5f, 0);
-                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                GL.Translate(-0.5f, -0.5f, 0);
-            }
-
-            if (mirrored)
-            {
-                float tmp = y2;
-                y2 = y1;
-                y1 = tmp;
-            }
-
-            GL.Begin(BeginMode.Quads);
-
-            GL.TexCoord2(x1, y1);
-            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(x1, y2);
-            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(x2, y2);
-            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(x2, y1);
-            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.End();
-
-            GL.PopMatrix();
-
-            GL.Disable(EnableCap.Blend);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-        }
-
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
-        {
-            COGLTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-
-            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-            GL.Enable(EnableCap.Blend);
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-
-
-            GL.Begin(BeginMode.Quads);
-
-            GL.TexCoord2(0f + begin * texture.WidthRatio, 0f);
-            GL.Vertex3(rect.X + begin * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(0f + begin * texture.WidthRatio, texture.HeightRatio);
-            GL.Vertex3(rect.X + begin * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(texture.WidthRatio * end, texture.HeightRatio);
-            GL.Vertex3(rect.X + end * rect.W, rect.Y + rect.H, rect.Z + CGraphics.ZOffset);
-
-            GL.TexCoord2(texture.WidthRatio * end, 0f);
-            GL.Vertex3(rect.X + end * rect.W, rect.Y, rect.Z + CGraphics.ZOffset);
-
-            GL.End();
-
-            GL.Disable(EnableCap.Blend);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-        }
-
-        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, float space, float height)
-        {
-            COGLTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-
-            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(color.A) < float.Epsilon || height <= float.Epsilon)
-                return;
-
-            if (height > rect.H)
-                height = rect.H;
-
-            GL.BindTexture(TextureTarget.Texture2D, texture.Name);
-
-            const float x1 = 0;
-            float x2 = texture.WidthRatio;
-            float y1 = (rect.H - height) / rect.H * texture.HeightRatio;
-            float y2 = texture.HeightRatio;
-
-
-            float rx1 = rect.X;
-            float rx2 = rect.X + rect.W;
-            float ry1 = rect.Y + rect.H + space;
-            float ry2 = rect.Y + rect.H + space + height;
-
-            GL.Enable(EnableCap.Blend);
-
-            GL.MatrixMode(MatrixMode.Texture);
-            GL.PushMatrix();
-
-            if (Math.Abs(rect.Rotation) > float.Epsilon)
-            {
-                GL.Translate(0.5f, 0.5f, 0);
-                GL.Rotate(-rect.Rotation, 0f, 0f, 1f);
-                GL.Translate(-0.5f, -0.5f, 0);
-            }
-
-            GL.Begin(BeginMode.Quads);
-
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-            GL.TexCoord2(x2, y2);
-            GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.Color4(color.R, color.G, color.B, 0f);
-            GL.TexCoord2(x2, y1);
-            GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.Color4(color.R, color.G, color.B, 0f);
-            GL.TexCoord2(x1, y1);
-            GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
-            GL.TexCoord2(x1, y2);
-            GL.Vertex3(rx1, ry1, rect.Z + CGraphics.ZOffset);
-
-            GL.End();
-
-            GL.PopMatrix();
-
-            GL.Disable(EnableCap.Blend);
-            GL.BindTexture(TextureTarget.Texture2D, 0);
-        }
-        #endregion drawing
-
         #endregion Textures
 
         #endregion implementation

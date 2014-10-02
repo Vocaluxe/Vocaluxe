@@ -62,11 +62,11 @@ namespace Vocaluxe.Lib.Draw
 
         private void _CalcRatios()
         {
-            // OpenGL has a problem with partial (NPOT) textures, so we remove 1 pixel
             if (_DataSize.Width == W2)
                 WidthRatio = 1f;
             else
             {
+                // OpenGL has a problem with partial (NPOT) textures, so we remove 1 pixel
                 int mod = 0;
                 if (_DataSize.Width > 1)
                     mod = -1;

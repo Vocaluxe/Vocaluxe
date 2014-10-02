@@ -56,6 +56,6 @@ namespace Vocaluxe.Lib.Draw
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end);
 
-        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, float space, float height);
+        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height);
     }
 }

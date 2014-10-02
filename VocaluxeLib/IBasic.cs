@@ -70,6 +70,7 @@ namespace VocaluxeLib
     {
         int GetRenderW();
         int GetRenderH();
+        SRectF GetRenderRect();
         bool IsTabNavigation();
 
         float GetZFar();
@@ -147,7 +148,7 @@ namespace VocaluxeLib
         void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
         void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect);
         void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect, SColorF color);
-        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, float reflectionSpace, float reflectionHeight);
+        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight);
 
         CTextureRef AddTexture(string fileName);
         void RemoveTexture(ref CTextureRef texture);

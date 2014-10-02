@@ -421,6 +421,40 @@ namespace Vocaluxe.Lib.Draw
         }
 
         /// <summary>
+        ///     Adds a texture to the vertext buffer
+        /// </summary>
+        /// <param name="texture">Texture to draw</param>
+        /// <param name="dc">Coordinates to draw on</param>
+        /// <param name="color">Color to use</param>
+        /// <param name="isReflection">If true, then color is faded out in y direction</param>
+        protected override void _DrawTexture(CD3DTexture texture, SDrawCoords dc, SColorF color, bool isReflection = false)
+        {
+            //Align the pixels because Direct3D expects the pixels to be the left top corner
+            dc.Wx1 -= 0.5f;
+            dc.Wy1 -= 0.5f;
+            dc.Wx2 -= 0.5f;
+            dc.Wy2 -= 0.5f;
+
+            color.A *= CGraphics.GlobalAlpha;
+            int c = color.AsColor().ToArgb();
+            int c2;
+            if (isReflection)
+            {
+                color.A = 0;
+                c2 = color.AsColor().ToArgb();
+            }
+            else
+                c2 = c;
+
+            var vert = new STexturedColoredVertex[4];
+            vert[0] = new STexturedColoredVertex(new Vector3(dc.Wx1, -dc.Wy1, dc.Wz), new Vector2(dc.Tx1, dc.Ty1), c);
+            vert[1] = new STexturedColoredVertex(new Vector3(dc.Wx1, -dc.Wy2, dc.Wz), new Vector2(dc.Tx1, dc.Ty2), c2);
+            vert[2] = new STexturedColoredVertex(new Vector3(dc.Wx2, -dc.Wy2, dc.Wz), new Vector2(dc.Tx2, dc.Ty2), c2);
+            vert[3] = new STexturedColoredVertex(new Vector3(dc.Wx2, -dc.Wy1, dc.Wz), new Vector2(dc.Tx2, dc.Ty1), c);
+            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(dc.Rotation, dc.Wx1, dc.Wx2, dc.Wy1, dc.Wy2));
+        }
+
+        /// <summary>
         ///     Adds a quad a list which will be added and rendered to the vertexbuffer when calling RenderToVertexBuffer to reduce vertexbuffer calls each frame to a minimum
         /// </summary>
         /// <param name="vertices">A TexturedColoredVertex array containg 4 vertices</param>
@@ -552,7 +586,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="height">The height of the reflection</param>
         public void DrawRectReflection(SColorF color, SRectF rect, float space, float height)
         {
-            DrawTextureReflection(_BlankTexture, rect, color, space, height);
+            DrawTextureReflection(_BlankTexture, rect, color, rect, space, height);
         }
         #endregion Basic Draw Methods
 
@@ -582,223 +616,6 @@ namespace Vocaluxe.Lib.Draw
             }
             texture.D3DTexture.UnlockRectangle(0);
         }
-
-        #region drawing
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
-        /// <param name="textureRef">The texture to be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
-        {
-            if (rect.W < 1 || rect.H < 1)
-                return;
-
-            CD3DTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-
-            //Calculate the position
-            const float x1 = 0;
-            float x2 = texture.WidthRatio;
-            float y1 = 0;
-            float y2 = texture.HeightRatio;
-
-            //Calculate the size
-            float rx1 = rect.X;
-            float rx2 = rect.X + rect.W;
-            float ry1 = rect.Y;
-            float ry2 = rect.Y + rect.H;
-
-            color.A *= CGraphics.GlobalAlpha;
-
-            Color c = color.AsColor();
-
-            if (mirrored)
-            {
-                float tmp = y2;
-                y2 = y1;
-                y1 = tmp;
-            }
-            var vert = new STexturedColoredVertex[4];
-            vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
-            vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
-            vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
-            vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
-            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
-        }
-
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
-        /// <param name="textureRef">The texture to be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
-        /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
-        {
-            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1 ||
-                Math.Abs(color.A) < 0.01)
-                return;
-
-            if (bounds.X > rect.X + rect.W || bounds.X + bounds.W < rect.X)
-                return;
-
-            if (bounds.Y > rect.Y + rect.H || bounds.Y + bounds.H < rect.Y)
-                return;
-
-            CD3DTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-
-            //Calculate the position
-            float x1 = (bounds.X - rect.X) / rect.W * texture.WidthRatio;
-            float x2 = (bounds.X + bounds.W - rect.X) / rect.W * texture.WidthRatio;
-            float y1 = (bounds.Y - rect.Y) / rect.H * texture.HeightRatio;
-            float y2 = (bounds.Y + bounds.H - rect.Y) / rect.H * texture.HeightRatio;
-
-            if (x1 < 0)
-                x1 = 0f;
-
-            if (x2 > texture.WidthRatio)
-                x2 = texture.WidthRatio;
-
-            if (y1 < 0)
-                y1 = 0f;
-
-            if (y2 > texture.HeightRatio)
-                y2 = texture.HeightRatio;
-
-            //Calculate the size
-            float rx1 = rect.X;
-            float rx2 = rect.X + rect.W;
-            float ry1 = rect.Y;
-            float ry2 = rect.Y + rect.H;
-
-            if (rx1 < bounds.X)
-                rx1 = bounds.X;
-
-            if (rx2 > bounds.X + bounds.W)
-                rx2 = bounds.X + bounds.W;
-
-            if (ry1 < bounds.Y)
-                ry1 = bounds.Y;
-
-            if (ry2 > bounds.Y + bounds.H)
-                ry2 = bounds.Y + bounds.H;
-
-            color.A *= CGraphics.GlobalAlpha;
-
-            Color c = color.AsColor();
-
-            if (mirrored)
-            {
-                y1 = -y1;
-                y2 = -y2;
-            }
-            var vert = new STexturedColoredVertex[4];
-            vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
-            vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
-            vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
-            vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
-            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
-        }
-
-        /// <summary>
-        ///     Draws a texture
-        /// </summary>
-        /// <param name="textureRef">The texture to be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="begin">A Value ranging from 0 to 1 containing the beginning of the texture</param>
-        /// <param name="end">A Value ranging from 0 to 1 containing the ending of the texture</param>
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
-        {
-            CD3DTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-
-            float x1 = 0f + begin * texture.WidthRatio;
-            float x2 = texture.WidthRatio * end;
-            const float y1 = 0f;
-            float y2 = texture.HeightRatio;
-
-            float rx1 = rect.X + begin * rect.W;
-            float rx2 = rect.X + end * rect.W;
-            float ry1 = rect.Y;
-            float ry2 = rect.Y + rect.H;
-
-            //Align the pixels because Direct3D expects the pixels to be the left top corner
-            rx1 -= 0.5f;
-            ry1 -= 0.5f;
-            rx2 -= 0.5f;
-            ry2 -= 0.5f;
-
-            color.A *= CGraphics.GlobalAlpha;
-
-            Color c = color.AsColor();
-
-            var vert = new STexturedColoredVertex[4];
-            vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), c.ToArgb());
-            vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
-            vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
-            vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), c.ToArgb());
-            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
-        }
-
-        /// <summary>
-        ///     Draws a reflection of a texture
-        /// </summary>
-        /// <param name="textureRef">The texture of which a reflection should be drawn</param>
-        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
-        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
-        /// <param name="space">The space between the texture and the reflection</param>
-        /// <param name="height">The height of the reflection</param>
-        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, float space, float height)
-        {
-            CD3DTexture texture;
-            if (!_GetTexture(textureRef, out texture))
-                return;
-
-            if (Math.Abs(rect.W) < float.Epsilon || Math.Abs(rect.H) < float.Epsilon || Math.Abs(color.A) < float.Epsilon || height <= 0f)
-                return;
-
-            if (height > rect.H)
-                height = rect.H;
-
-            const float x1 = 0;
-            float x2 = texture.WidthRatio;
-            float y1 = (rect.H - height) / rect.H * texture.HeightRatio;
-            float y2 = texture.HeightRatio;
-
-            float rx1 = rect.X;
-            float rx2 = rect.X + rect.W;
-            float ry1 = rect.Y + rect.H + space;
-            float ry2 = rect.Y + rect.H + space + height;
-
-            //Align the pixels because Direct3D expects the pixels to be the left top corner
-            rx1 -= 0.5f;
-            ry1 -= 0.5f;
-            rx2 -= 0.5f;
-            ry2 -= 0.5f;
-
-            color.A *= CGraphics.GlobalAlpha;
-            Color c = color.AsColor();
-            color.A = 0;
-            Color transparent = color.AsColor();
-
-            var vert = new STexturedColoredVertex[4];
-            vert[0] = new STexturedColoredVertex(new Vector3(rx1, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x1, y2), c.ToArgb());
-            vert[1] = new STexturedColoredVertex(new Vector3(rx1, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x1, y1), transparent.ToArgb());
-            vert[2] = new STexturedColoredVertex(new Vector3(rx2, -ry2, rect.Z + CGraphics.ZOffset), new Vector2(x2, y1), transparent.ToArgb());
-            vert[3] = new STexturedColoredVertex(new Vector3(rx2, -ry1, rect.Z + CGraphics.ZOffset), new Vector2(x2, y2), c.ToArgb());
-            _AddToVertexBuffer(vert, texture.D3DTexture, _CalculateRotationMatrix(rect.Rotation, rx1, rx2, ry1, ry2));
-        }
-        #endregion drawing
-
         #endregion Textures
 
         private static Matrix _CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)

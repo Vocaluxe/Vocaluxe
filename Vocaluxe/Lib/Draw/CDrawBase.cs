@@ -212,6 +212,210 @@ namespace Vocaluxe.Lib.Draw
 
         #region Textures
 
+        #region drawing
+        /// <summary>
+        ///     Struct that contains texture and world coordinates for drawing
+        /// </summary>
+        protected struct SDrawCoords
+        {
+            /// <summary>
+            ///     Texture coordinates
+            /// </summary>
+            public float Tx1, Tx2, Ty1, Ty2;
+            /// <summary>
+            ///     World coordinates
+            /// </summary>
+            public float Wx1, Wx2, Wy1, Wy2, Wz;
+            public float Rotation;
+        }
+
+        /// <summary>
+        ///     Adds a texture to the vertext buffer
+        /// </summary>
+        /// <param name="texture">Texture to draw</param>
+        /// <param name="dc">Coordinates to draw on</param>
+        /// <param name="color">Color to use</param>
+        /// <param name="isReflection">If true, then color is faded out in y direction</param>
+        protected abstract void _DrawTexture(TTextureType texture, SDrawCoords dc, SColorF color, bool isReflection = false);
+
+        /// <summary>
+        ///     Calculates the texture and world coordinates for drawing the texture in the rect cropping at the the bounds
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="rect">Rect to draw the texture (might stretch the texture)</param>
+        /// <param name="bounds">Rect to stay in (might crop the texture)</param>
+        /// <param name="drawCoords">Struct for the coordinates</param>
+        /// <param name="mirrored">Mirror on y-axis</param>
+        /// <returns>True if anything will be dawn</returns>
+        protected bool _CalcDrawCoords(TTextureType texture, SRectF rect, SRectF bounds, out SDrawCoords drawCoords, bool mirrored = false)
+        {
+            drawCoords = new SDrawCoords();
+            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1)
+                return false;
+
+            if (bounds.X >= rect.Right || bounds.Right <= rect.X)
+                return false;
+
+            if (bounds.Y >= rect.Bottom || bounds.Bottom <= rect.Y)
+                return false;
+
+            drawCoords.Tx1 = Math.Max(0, (bounds.X - rect.X) / rect.W * texture.WidthRatio);
+            drawCoords.Wx1 = Math.Max(rect.X, bounds.X);
+            drawCoords.Tx2 = Math.Min(1, (bounds.Right - rect.X) / rect.W) * texture.WidthRatio;
+            drawCoords.Wx2 = Math.Min(rect.Right, bounds.Right);
+
+            drawCoords.Ty1 = Math.Max(0, (bounds.Y - rect.Y) / rect.H * texture.HeightRatio);
+            drawCoords.Wy1 = Math.Max(rect.Y, bounds.Y);
+            drawCoords.Ty2 = Math.Min(1, (bounds.Bottom - rect.Y) / rect.H) * texture.HeightRatio;
+            drawCoords.Wy2 = Math.Min(rect.Bottom, bounds.Bottom);
+
+            if (mirrored)
+            {
+                float tmp = drawCoords.Ty1;
+                drawCoords.Ty1 = drawCoords.Ty2;
+                drawCoords.Ty2 = tmp;
+            }
+
+            drawCoords.Wz = rect.Z + CGraphics.ZOffset;
+            drawCoords.Rotation = rect.Rotation;
+
+            return true;
+        }
+
+        /// <summary>
+        ///     Calculates the texture and world coordinates for drawing (a part of) the texture in the rect
+        /// </summary>
+        /// <param name="texture">Texture to draw</param>
+        /// <param name="rect">Rect to draw in (might stretch the texture)</param>
+        /// <param name="drawCoords">Struct for the coordinates</param>
+        /// <param name="mirrored">Mirror on y axis</param>
+        /// <param name="begin">Position of the texture to begin drawing (0 &lt;=x&lt;=1)</param>
+        /// <param name="end">Position of the texture to end drawing (0 &lt;=x&lt;=1)</param>
+        /// <returns>True if anything will be dawn</returns>
+        protected bool _CalcDrawCoords(TTextureType texture, SRectF rect, out SDrawCoords drawCoords, bool mirrored = false, float begin = 0, float end = 1)
+        {
+            drawCoords = new SDrawCoords();
+            if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1)
+                return false;
+            if (begin >= 1 || begin >= end)
+                return false;
+
+            Debug.Assert(begin.IsInRange(0, 1) && end.IsInRange(0, 1));
+
+            drawCoords.Tx1 = begin * texture.WidthRatio;
+            drawCoords.Wx1 = rect.X + begin * rect.W;
+            drawCoords.Tx2 = end * texture.WidthRatio;
+            drawCoords.Wx2 = rect.X + end * rect.W;
+
+            drawCoords.Ty1 = 0;
+            drawCoords.Wy1 = rect.Y;
+            drawCoords.Ty2 = texture.HeightRatio;
+            drawCoords.Wy2 = rect.Bottom;
+
+            if (mirrored)
+            {
+                float tmp = drawCoords.Ty1;
+                drawCoords.Ty1 = drawCoords.Ty2;
+                drawCoords.Ty2 = tmp;
+            }
+
+            drawCoords.Wz = rect.Z + CGraphics.ZOffset;
+            drawCoords.Rotation = rect.Rotation;
+
+            return true;
+        }
+
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
+        {
+            if (Math.Abs(color.A) < 0.01)
+                return;
+            SDrawCoords dc;
+            TTextureType texture;
+            if (!_GetTexture(textureRef, out texture))
+                return;
+            if (!_CalcDrawCoords(texture, rect, out dc, mirrored))
+                return;
+
+            _DrawTexture(texture, dc, color);
+        }
+
+        /// <summary>
+        ///     Draws a texture
+        /// </summary>
+        /// <param name="textureRef">The texture to be drawn</param>
+        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
+        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
+        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
+        /// <param name="mirrored">True if the texture should be mirrored</param>
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        {
+            if (Math.Abs(color.A) < 0.01)
+                return;
+            SDrawCoords dc;
+            TTextureType texture;
+            if (!_GetTexture(textureRef, out texture))
+                return;
+            if (!_CalcDrawCoords(texture, rect, bounds, out dc))
+                return;
+
+            _DrawTexture(texture, dc, color);
+        }
+
+        /// <summary>
+        ///     Draws a texture
+        /// </summary>
+        /// <param name="textureRef">The texture to be drawn</param>
+        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
+        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
+        /// <param name="begin">A Value ranging from 0 to 1 containing the beginning of the texture</param>
+        /// <param name="end">A Value ranging from 0 to 1 containing the ending of the texture</param>
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
+        {
+            if (Math.Abs(color.A) < 0.01)
+                return;
+            SDrawCoords dc;
+            TTextureType texture;
+            if (!_GetTexture(textureRef, out texture))
+                return;
+            if (!_CalcDrawCoords(texture, rect, out dc, false, begin, end))
+                return;
+
+            _DrawTexture(texture, dc, color);
+        }
+
+        /// <summary>
+        ///     Draws a reflection of a texture
+        /// </summary>
+        /// <param name="textureRef">The texture of which a reflection should be drawn</param>
+        /// <param name="rect">A SRectF struct containing the destination coordinates</param>
+        /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
+        /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
+        /// <param name="space">The space between the texture and the reflection</param>
+        /// <param name="height">The height of the reflection</param>
+        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        {
+            Debug.Assert(height >= 0);
+
+            if (Math.Abs(color.A) < 0.01 || height < 1)
+                return;
+            SDrawCoords dc;
+            TTextureType texture;
+            if (!_GetTexture(textureRef, out texture))
+                return;
+            if (!_CalcDrawCoords(texture, rect, bounds, out dc, true))
+                return;
+
+            if (height > rect.H)
+                height = rect.H;
+
+            dc.Wy1 += rect.H + space; // Move from start of rect to end of rect with spacing
+            dc.Wy2 += space + height; // Move from end of rect
+            dc.Ty2 += (rect.H - height) / rect.H; // Adjust so not all of the start of the texture is drawn (mirrored--> Ty1>Ty2)
+            if (dc.Ty2 < dc.Ty1) // Make sure we actually draw something
+                _DrawTexture(texture, dc, color, true);
+        }
+        #endregion drawing
+
         #region private/protected
         /// <summary>
         ///     Returns the maximum area allowed for a texture based on the current quality
@@ -508,11 +712,20 @@ namespace Vocaluxe.Lib.Draw
                         Debug.Assert(oldTexture != null, "Queued type is wrong");
                         Debug.Assert(!oldTexture.IsLoaded);
                         if (oldTexture.RefCount <= 0)
+                        {
+                            Bitmap bmp = q.Data as Bitmap;
+                            if (bmp != null)
+                                bmp.Dispose();
                             continue;
+                        }
                         TTextureType texture = null;
                         // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
                         if (q.Data is Bitmap)
-                            _WriteBitmapToTexture(ref texture, (Bitmap)q.Data);
+                        {
+                            Bitmap bmp = (Bitmap)q.Data;
+                            _WriteBitmapToTexture(ref texture, bmp);
+                            bmp.Dispose();
+                        }
                         else if (q.Data is byte[])
                             texture = _CreateAndFillTexture(q.DataSize, (byte[])q.Data);
                         else
@@ -525,12 +738,21 @@ namespace Vocaluxe.Lib.Draw
                         CTextureRef textureRef = q.TextureOrRef as CTextureRef;
                         Debug.Assert(textureRef != null, "Queued type is wrong");
                         if (!_Textures.ContainsKey(textureRef.ID))
+                        {
+                            Bitmap bmp = q.Data as Bitmap;
+                            if (bmp != null)
+                                bmp.Dispose();
                             continue;
+                        }
                         if (q.Action == EQueueAction.Update)
                         {
                             // ReSharper disable CanBeReplacedWithTryCastAndCheckForNull
                             if (q.Data is Bitmap)
-                                UpdateTexture(textureRef, (Bitmap)q.Data);
+                            {
+                                Bitmap bmp = (Bitmap)q.Data;
+                                UpdateTexture(textureRef, bmp);
+                                bmp.Dispose();
+                            }
                             else if (q.Data is byte[])
                                 UpdateTexture(textureRef, q.DataSize.Width, q.DataSize.Height, (byte[])q.Data);
                             else

@@ -174,6 +174,11 @@ namespace Vocaluxe.Base
             return CSettings.RenderH;
         }
 
+        public SRectF GetRenderRect()
+        {
+            return CSettings.RenderRect;
+        }
+
         public bool IsTabNavigation()
         {
             return CSettings.TabNavigation;
@@ -438,9 +443,9 @@ namespace Vocaluxe.Base
             CDraw.DrawTexture(textureRef, bounds, aspect, color);
         }
 
-        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, float reflectionSpace, float reflectionHeight)
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight)
         {
-            CDraw.DrawTextureReflection(texture, rect, color, reflectionSpace, reflectionHeight);
+            CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight);
         }
 
         public CTextureRef AddTexture(string fileName)
