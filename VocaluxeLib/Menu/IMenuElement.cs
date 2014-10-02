@@ -16,6 +16,7 @@
 #endregion
 
 using System.Xml;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {

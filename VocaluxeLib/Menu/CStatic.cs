@@ -19,16 +19,15 @@ using System;
 using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("Static")]
     public struct SThemeStatic
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
-        [XmlElement("Skin")]
-        public string TextureName;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlElement("Skin")] public string TextureName;
         public SThemeColor Color;
         public SRectF Rect;
         public SReflection Reflection;
@@ -51,8 +50,8 @@ namespace VocaluxeLib.Menu
             get { return _ThemeLoaded; }
         }
 
-        private CTexture _Texture;
-        public CTexture Texture
+        private CTextureRef _Texture;
+        public CTextureRef Texture
         {
             get { return _Texture ?? CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
 
@@ -73,10 +72,7 @@ namespace VocaluxeLib.Menu
 
         public EAspect Aspect = EAspect.Stretch;
 
-        public CStatic()
-        {
-
-        }
+        public CStatic() {}
 
         public CStatic(int partyModeID)
         {
@@ -99,7 +95,7 @@ namespace VocaluxeLib.Menu
             Visible = s.Visible;
         }
 
-        public CStatic(int partyModeID, CTexture texture, SColorF color, SRectF rect)
+        public CStatic(int partyModeID, CTextureRef texture, SColorF color, SRectF rect)
         {
             _PartyModeID = partyModeID;
 
@@ -179,26 +175,27 @@ namespace VocaluxeLib.Menu
 
         public void Draw(EAspect aspect, float scale = 1f, float zModify = 0f, bool forceDraw = false)
         {
-            CTexture texture = Texture ?? new CTexture((int)Rect.W, (int)Rect.H);
-
-            SRectF bounds = Rect.Scale(scale);
-            SRectF rect;
-            if (aspect != EAspect.Stretch)
-                CHelper.SetRect(bounds, out rect, texture.OrigAspect, aspect);
-            else
-                rect = bounds;
-            rect.Z = Rect.Z + zModify;
+            CTextureRef texture = Texture;
+            SRectF rect = Rect.Scale(scale);
+            rect.Z += zModify;
+            if (texture != null)
+                rect = CHelper.FitInBounds(rect, texture.OrigAspect, aspect);
 
             var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
             if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
             {
-                CBase.Drawing.DrawTexture(texture, rect, color, bounds);
-                if (Reflection)
-                    CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
+                if (texture != null)
+                {
+                    CBase.Drawing.DrawTexture(texture, rect, color);
+                    if (Reflection)
+                        CBase.Drawing.DrawTextureReflection(texture, rect, color, ReflectionSpace, ReflectionHeight);
+                }
+                else
+                    CBase.Drawing.DrawRect(color, rect);
             }
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
-                CBase.Drawing.DrawColor(new SColorF(1f, 1f, 1f, 0.5f), rect);
+                CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), rect);
         }
 
         public void UnloadTextures() {}

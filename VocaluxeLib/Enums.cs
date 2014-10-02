@@ -48,6 +48,13 @@ namespace VocaluxeLib
         Zoom2
     }
 
+    public enum EGeneralAlignment
+    {
+        Middle,
+        Start,
+        End
+    }
+
     public enum EAlignment
     {
         Left,

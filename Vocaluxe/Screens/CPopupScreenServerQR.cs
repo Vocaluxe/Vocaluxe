@@ -33,11 +33,11 @@ namespace Vocaluxe.Screens
             get { return 1; }
         }
 
-        private CTexture _QRServerAddress;
-        private CTexture _QRAndroidLink;
-        private CTexture _QRSymbianLink;
-        private CTexture _QRWebOSLink;
-        private CTexture _QRWindowsPhoneLink;
+        private CTextureRef _QRServerAddress;
+        private CTextureRef _QRAndroidLink;
+        private CTextureRef _QRSymbianLink;
+        private CTextureRef _QRWebOSLink;
+        private CTextureRef _QRWindowsPhoneLink;
 
         private const string _StaticQRServer = "StaticQRServer";
         private const string _StaticQRAndroid = "StaticQRAndroid";

@@ -81,7 +81,7 @@ namespace Vocaluxe
             {
                 // Init Log
                 CLog.Init();
-
+                CLog.StartBenchmark("Init Program");
                 if (!CProgrammHelper.CheckRequirements())
                     return;
                 CProgrammHelper.Init();
@@ -173,17 +173,11 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
-                // Init Font
-                CLog.StartBenchmark("Init Font");
-                CFonts.Init();
-                CLog.StopBenchmark("Init Font");
-
-                Application.DoEvents();
-
-                // Load Cover
-                CLog.StartBenchmark("Init Cover");
-                CCover.Init();
-                CLog.StopBenchmark("Init Cover");
+                // Init Fonts
+                CLog.StartBenchmark("Init Fonts");
+                if (!CFonts.Init())
+                    throw new CLoadingException("fonts");
+                CLog.StopBenchmark("Init Fonts");
 
                 Application.DoEvents();
 
@@ -192,6 +186,13 @@ namespace Vocaluxe
                 if (!CTheme.Init())
                     throw new CLoadingException("theme");
                 CLog.StopBenchmark("Init Theme");
+
+                Application.DoEvents();
+
+                // Load Cover
+                CLog.StartBenchmark("Init Cover");
+                CCover.Init();
+                CLog.StopBenchmark("Init Cover");
 
                 Application.DoEvents();
 
@@ -235,6 +236,7 @@ namespace Vocaluxe
                 //Only reasonable point to call GC.Collect() because initialization may cause lots of garbage
                 //Rely on GC doing its job afterwards and call Dispose methods where appropriate
                 GC.Collect();
+                CLog.StopBenchmark("Init Program");
             }
             catch (Exception e)
             {
@@ -250,7 +252,6 @@ namespace Vocaluxe
             // Start Main Loop
             if (_SplashScreen != null)
                 _SplashScreen.Close();
-            CVocaluxeServer.Start();
 
             CDraw.MainLoop();
         }
@@ -264,6 +265,7 @@ namespace Vocaluxe
                 CVocaluxeServer.Close();
                 CGraphics.Close();
                 CCover.Close();
+                CFonts.Close();
                 CBackgroundMusic.Close();
                 CWebcam.Close();
                 CDataBase.Close();

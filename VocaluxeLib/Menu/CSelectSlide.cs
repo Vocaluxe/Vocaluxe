@@ -18,75 +18,50 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("SelectSlide")]
     public struct SThemeSelectSlide
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Skin")]
-        public string TextureName;
-        [XmlElement("SkinArrowLeft")]
-        public string TextureArrowLeftName;
-        [XmlElement("SkinArrowRight")]
-        public string TextureArrowRightName;
+        [XmlElement("Skin")] public string TextureName;
+        [XmlElement("SkinArrowLeft")] public string TextureArrowLeftName;
+        [XmlElement("SkinArrowRight")] public string TextureArrowRightName;
 
-        [XmlElement("SkinSelected")]
-        public string SelTextureName;
-        [XmlElement("SkinArrowLeftSelected")]
-        public string SelTextureArrowLeftName;
-        [XmlElement("SkinArrowRightSelected")]
-        public string SelTextureArrowRightName;
+        [XmlElement("SkinSelected")] public string SelTextureName;
+        [XmlElement("SkinArrowLeftSelected")] public string SelTextureArrowLeftName;
+        [XmlElement("SkinArrowRightSelected")] public string SelTextureArrowRightName;
 
-        [XmlElement("SkinHighlighted")]
-        public string HighlightTextureName;
+        [XmlElement("SkinHighlighted")] public string HighlightTextureName;
 
-        [XmlElement("Rect")]
-        public SRectF Rect;
-        [XmlElement("RectArrowLeft")]
-        public SRectF RectArrowLeft;
-        [XmlElement("RectArrowRight")]
-        public SRectF RectArrowRight;
+        [XmlElement("Rect")] public SRectF Rect;
+        [XmlElement("RectArrowLeft")] public SRectF RectArrowLeft;
+        [XmlElement("RectArrowRight")] public SRectF RectArrowRight;
 
-        [XmlElement("Color")]
-        public SThemeColor Color;
-        [XmlElement("SColor")]
-        public SThemeColor SColor;
-        [XmlElement("HColor")]
-        public SThemeColor HColor;
+        [XmlElement("Color")] public SThemeColor Color;
+        [XmlElement("SColor")] public SThemeColor SColor;
+        [XmlElement("HColor")] public SThemeColor HColor;
 
-        [XmlElement("ArrowColor")]
-        public SThemeColor ArrowColor;
-        [XmlElement("ArrowSColor")]
-        public SThemeColor ArrowSColor;
+        [XmlElement("ArrowColor")] public SThemeColor ArrowColor;
+        [XmlElement("ArrowSColor")] public SThemeColor ArrowSColor;
 
-        [XmlElement("TextColor")]
-        public SThemeColor TextColor;
-        [XmlElement("TextSColor")]
-        public SThemeColor TextSColor;
+        [XmlElement("TextColor")] public SThemeColor TextColor;
+        [XmlElement("TextSColor")] public SThemeColor TextSColor;
 
-        [XmlElement("TextH")]
-        public float TextH;
-        [XmlElement("TextRelativeX")]
-        public float TextRelativeX;
-        [XmlElement("TextRelativeY")]
-        public float TextRelativeY;
-        [XmlElement("TextMaxW")]
-        public float TextMaxW;
+        [XmlElement("TextH")] public float TextH;
+        [XmlElement("TextRelativeX")] public float TextRelativeX;
+        [XmlElement("TextRelativeY")] public float TextRelativeY;
+        [XmlElement("TextMaxW")] public float TextMaxW;
 
-        [XmlElement("TextFont")]
-        public string TextFont;
-        [XmlElement("TextStyle")]
-        public EStyle TextStyle;
+        [XmlElement("TextFont")] public string TextFont;
+        [XmlElement("TextStyle")] public EStyle TextStyle;
 
-        [XmlElement("NumVisible")]
-        public int NumVisible;
+        [XmlElement("NumVisible")] public int NumVisible;
     }
 
     public class CSelectSlide : IMenuElement, ICloneable
@@ -154,7 +129,7 @@ namespace VocaluxeLib.Menu
 
         private readonly List<string> _ValueNames;
         private readonly List<int> _ValuePartyModeIDs;
-        private readonly List<CTexture> _Textures;
+        private readonly List<CTextureRef> _Textures;
         private readonly List<int> _ValueIndexes;
 
         private readonly List<SRectF> _ValueBounds = new List<SRectF>();
@@ -222,7 +197,7 @@ namespace VocaluxeLib.Menu
             MaxW = 0f;
 
             _Selected = false;
-            _Textures = new List<CTexture>();
+            _Textures = new List<CTextureRef>();
             _ValueIndexes = new List<int>();
             _ValueNames = new List<string>();
             _ValuePartyModeIDs = new List<int>();
@@ -270,7 +245,7 @@ namespace VocaluxeLib.Menu
             MaxW = slide.MaxW;
 
             _Selected = slide._Selected;
-            _Textures = new List<CTexture>(slide._Textures);
+            _Textures = new List<CTextureRef>(slide._Textures);
             _ValueIndexes = new List<int>(slide._ValueIndexes);
             _ValueNames = new List<string>(slide._ValueNames);
             _ValueBounds = new List<SRectF>(slide._ValueBounds);
@@ -288,7 +263,7 @@ namespace VocaluxeLib.Menu
             _Theme = theme;
 
             _Selected = false;
-            _Textures = new List<CTexture>();
+            _Textures = new List<CTextureRef>();
             _ValueIndexes = new List<int>();
             _ValueNames = new List<string>();
             _ValuePartyModeIDs = new List<int>();
@@ -444,17 +419,17 @@ namespace VocaluxeLib.Menu
             AddValue(value, null, _ValueIndexes.Count, partyModeID);
         }
 
-        public void AddValue(string value, CTexture texture)
+        public void AddValue(string value, CTextureRef texture)
         {
             AddValue(value, texture, _ValueIndexes.Count, _PartyModeID);
         }
 
-        private void _AddValue(string value, CTexture texture, int valueIndex)
+        private void _AddValue(string value, CTextureRef texture, int valueIndex)
         {
             AddValue(value, texture, valueIndex, _PartyModeID);
         }
 
-        public void AddValue(string value, CTexture texture, int valueIndex, int partyModeID)
+        public void AddValue(string value, CTextureRef texture, int valueIndex, int partyModeID)
         {
             _ValueNames.Add(value);
             _Textures.Add(texture);
@@ -475,7 +450,7 @@ namespace VocaluxeLib.Menu
             _ValueBounds.Clear();
         }
 
-        public void AddValues(string[] values, CTexture[] textures)
+        public void AddValues(string[] values, CTextureRef[] textures)
         {
             if (values.Length != textures.Length)
                 return;
@@ -499,7 +474,7 @@ namespace VocaluxeLib.Menu
             RenameValue(Selection, newName);
         }
 
-        public void RenameValue(int selection, string newName, CTexture newTexture = null)
+        public void RenameValue(int selection, string newName, CTextureRef newTexture = null)
         {
             if (selection < 0 && selection >= _ValueNames.Count)
                 return;
@@ -623,15 +598,15 @@ namespace VocaluxeLib.Menu
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
                 return;
 
-            CTexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
-            CTexture textureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
-            CTexture textureArrowRight = CBase.Theme.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
+            CTextureRef texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            CTextureRef textureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
+            CTextureRef textureArrowRight = CBase.Theme.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
 
-            CTexture selTexture = CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
-            CTexture selTextureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowLeftName, _PartyModeID);
-            CTexture selTextureArrowRight = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
+            CTextureRef selTexture = CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
+            CTextureRef selTextureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowLeftName, _PartyModeID);
+            CTextureRef selTextureArrowRight = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
 
-            CTexture highlightTexture = CBase.Theme.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
+            CTextureRef highlightTexture = CBase.Theme.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
 
             if (Selected)
             {
@@ -773,7 +748,6 @@ namespace VocaluxeLib.Menu
             TextRelativeX = _Theme.TextRelativeX;
             TextRelativeY = _Theme.TextRelativeY;
             MaxW = _Theme.TextMaxW;
-
         }
 
         public void ReloadTextures()

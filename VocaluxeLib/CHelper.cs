@@ -17,11 +17,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
-using System.Text;
 
 namespace VocaluxeLib
 {
@@ -65,46 +63,6 @@ namespace VocaluxeLib
         }
 
         /// <summary>
-        ///     Makes sure val is between min and max
-        ///     Asserts that min&lt;=max
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="val"></param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <returns>Clamped value</returns>
-        public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>
-        {
-            Debug.Assert(min.CompareTo(max) <= 0);
-            if (val.CompareTo(min) < 0)
-                return min;
-            if (val.CompareTo(max) > 0)
-                return max;
-            return val;
-        }
-
-        /// <summary>
-        ///     Makes sure val is between min and max but also handles the case where min&gt;max
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="val"></param>
-        /// <param name="min"></param>
-        /// <param name="max"></param>
-        /// <param name="preferMin"></param>
-        /// <returns>Clamped value</returns>
-        public static T Clamp<T>(this T val, T min, T max, bool preferMin) where T : IComparable<T>
-        {
-            if (min.CompareTo(max) > 0)
-            {
-                if (preferMin)
-                    max = min;
-                else
-                    min = max;
-            }
-            return Clamp(val, min, max);
-        }
-
-        /// <summary>
         ///     Concat strings into one string with ", " as separator.
         /// </summary>
         public static string ListStrings(string[] str)
@@ -120,90 +78,88 @@ namespace VocaluxeLib
             return result;
         }
 
-        public static void SetRect(SRectF bounds, out SRectF rect, float rectAspect, EAspect aspect)
+        /// <summary>
+        ///     Places a rect within the bounds maintaining the aspectRatio and using the given aspect
+        /// </summary>
+        /// <param name="bounds">Bounds to fit the rect in</param>
+        /// <param name="aspectRatio">The original aspectRatio of the rect/image/...</param>
+        /// <param name="aspect">
+        ///     Crop: Fit fully in bounds cutting off overhanging parts (same on both sides)<br />
+        ///     LetterBox: Fit the long side possibly leaving some space on the other (rect will be centered)<br />
+        ///     StretcH: Just fit the rect in the bounds (rect=bounds)
+        /// </param>
+        public static SRectF FitInBounds(SRectF bounds, float aspectRatio, EAspect aspect)
         {
-            var bounds2 = new RectangleF(bounds.X, bounds.Y, bounds.W, bounds.H);
-            RectangleF rect2;
-            SetRect(bounds2, out rect2, rectAspect, aspect);
+            if (aspect == EAspect.Stretch)
+                return bounds;
 
-            rect = new SRectF(rect2.X, rect2.Y, rect2.Width, rect2.Height, bounds.Z);
-        }
+            float boundsAspectRatio = bounds.W / bounds.H;
 
-        public static void SetRect(RectangleF bounds, out RectangleF rect, float rectAspect, EAspect aspect)
-        {
-            float boundsW = bounds.Width;
-            float boundsH = bounds.Height;
-            float boundsAspect = boundsW / boundsH;
-
-            float scaledWidth;
-            float scaledHeight;
+            float scaledWidth, scaledHeight;
 
             switch (aspect)
             {
                 case EAspect.Crop:
-                    if (boundsAspect >= rectAspect)
+                    if (boundsAspectRatio >= aspectRatio)
                     {
-                        scaledWidth = boundsW;
-                        scaledHeight = boundsW / rectAspect;
+                        scaledWidth = bounds.W;
+                        scaledHeight = bounds.W / aspectRatio;
                     }
                     else
                     {
-                        scaledHeight = boundsH;
-                        scaledWidth = boundsH * rectAspect;
+                        scaledHeight = bounds.H;
+                        scaledWidth = bounds.H * aspectRatio;
                     }
                     break;
                 case EAspect.Zoom1:
-                    if (boundsAspect >= rectAspect)
+                    if (boundsAspectRatio >= aspectRatio)
                     {
-                        scaledWidth = boundsW * 1.33f;
-                        scaledHeight = boundsW * 1.33f / rectAspect;
+                        scaledWidth = bounds.W * 1.33f;
+                        scaledHeight = bounds.W * 1.33f / aspectRatio;
                     }
                     else
                     {
-                        scaledHeight = boundsH / 1.33f;
-                        scaledWidth = boundsH / 1.33f * rectAspect;
+                        scaledHeight = bounds.H / 1.33f;
+                        scaledWidth = bounds.H / 1.33f * aspectRatio;
                     }
                     break;
                 case EAspect.Zoom2:
-                    if (boundsAspect >= rectAspect)
+                    if (boundsAspectRatio >= aspectRatio)
                     {
-                        scaledWidth = boundsW * 1.17f;
-                        scaledHeight = boundsW * 1.17f / rectAspect;
+                        scaledWidth = bounds.W * 1.17f;
+                        scaledHeight = bounds.W * 1.17f / aspectRatio;
                     }
                     else
                     {
-                        scaledHeight = boundsH / 1.17f;
-                        scaledWidth = boundsH / 1.17f * rectAspect;
+                        scaledHeight = bounds.H / 1.17f;
+                        scaledWidth = bounds.H / 1.17f * aspectRatio;
                     }
                     break;
                 case EAspect.LetterBox:
-                    if (boundsAspect <= rectAspect)
+                    if (boundsAspectRatio <= aspectRatio)
                     {
-                        scaledWidth = boundsW;
-                        scaledHeight = boundsW / rectAspect;
+                        scaledWidth = bounds.W;
+                        scaledHeight = bounds.W / aspectRatio;
                     }
                     else
                     {
-                        scaledHeight = boundsH;
-                        scaledWidth = boundsH * rectAspect;
+                        scaledHeight = bounds.H;
+                        scaledWidth = bounds.H * aspectRatio;
                     }
                     break;
                 default:
-                    scaledWidth = boundsW;
-                    scaledHeight = boundsH;
-                    break;
+                    return bounds;
             }
+            float left = (bounds.W - scaledWidth) / 2 + bounds.X;
+            float top = (bounds.H - scaledHeight) / 2 + bounds.Y;
 
-            float left = (boundsW - scaledWidth) / 2 + bounds.Left;
-            float upper = (boundsH - scaledHeight) / 2 + bounds.Top;
-
-            rect = new RectangleF(left, upper, scaledWidth, scaledHeight);
+            return new SRectF(left, top, scaledWidth, scaledHeight, bounds.Z);
         }
 
         /// <summary>
         ///     Returns a list with all files in the given path that match a given pattern
         /// </summary>
-        /// <param name="path">Path to search for</param>
+        /// <param name="path">Path to search</param>
         /// <param name="searchPattern">Pattern to match (e.g. "*.jpg")</param>
         /// <param name="recursive">Search directories recursively</param>
         /// <param name="fullpath">False for just file names, True for full path</param>
@@ -301,7 +257,7 @@ namespace VocaluxeLib
 
         public static bool IsInBounds(SRectF bounds, int x, int y)
         {
-            return (bounds.X <= x) && (bounds.X + bounds.W >= x) && (bounds.Y <= y) && (bounds.Y + bounds.H >= y);
+            return ((float)x).IsInRange(bounds.X, bounds.X + bounds.W) && ((float)y).IsInRange(bounds.Y, bounds.Y + bounds.H);
         }
 
         /// <summary>
@@ -331,40 +287,30 @@ namespace VocaluxeLib
         {
             return (n * n + n) / 2;
         }
-    }
 
-    static class CEncoding
-    {
-        public static Encoding GetEncoding(this string encodingName)
+        /// <summary>
+        ///     Loads a bitmap from a file logging errors
+        /// </summary>
+        /// <param name="filePath">Full path to image file</param>
+        /// <returns>Bitmap or null on error</returns>
+        public static Bitmap LoadBitmap(string filePath)
         {
-            switch (encodingName)
+            if (!File.Exists(filePath))
             {
-                case "AUTO":
-                    return Encoding.Default;
-                case "CP1250":
-                    return Encoding.GetEncoding(1250);
-                case "CP1252":
-                    return Encoding.GetEncoding(1252);
-                case "LOCALE":
-                    return Encoding.Default;
-                case "UTF8":
-                    return Encoding.UTF8;
-                default:
-                    return Encoding.Default;
+                CBase.Log.LogError("Can't find File: " + filePath);
+                return null;
             }
-        }
-
-        public static string GetEncodingName(this Encoding enc)
-        {
-            string result = "UTF8";
-
-            if (enc.CodePage == 1250)
-                result = "CP1250";
-
-            if (enc.CodePage == 1252)
-                result = "CP1252";
-
-            return result;
+            Bitmap bmp;
+            try
+            {
+                bmp = new Bitmap(filePath);
+            }
+            catch (Exception)
+            {
+                CBase.Log.LogError("Error loading bitmap: " + filePath);
+                return null;
+            }
+            return bmp;
         }
     }
 }

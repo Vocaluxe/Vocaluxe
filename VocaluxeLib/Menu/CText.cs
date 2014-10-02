@@ -17,43 +17,32 @@
 
 using System;
 using System.Drawing;
-using System.Xml;
 using System.Xml.Serialization;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("Text")]
     public struct SThemeText
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("X")]
-        public float X;
-        [XmlElement("Y")]
-        public float Y;
-        [XmlElement("Z")]
-        public float Z;
-        [XmlElement("H")]
-        public float Height;
-        [XmlElement("MaxW")]
-        public float MaxWidth;
+        [XmlElement("X")] public float X;
+        [XmlElement("Y")] public float Y;
+        [XmlElement("Z")] public float Z;
+        [XmlElement("H")] public float FontHeight;
+        [XmlElement("MaxW")] public float MaxWidth;
         public SThemeColor Color;
         public SThemeColor SColor; //for Buttons
-        [XmlElement("Align")]
-        public EAlignment Align;
-        [XmlElement("ResizeAlign")]
-        public EHAlignment ResizeAlign;
-        [XmlElement("Style")]
-        public EStyle Style;
-        [XmlElement("Font")]
-        public string Font;
-        [XmlElement("Text")]
-        public string Text;
+        [XmlElement("Align")] public EAlignment Align;
+        [XmlElement("ResizeAlign")] public EHAlignment ResizeAlign;
+        [XmlElement("Style")] public EStyle FontStyle;
+        [XmlElement("Font")] public string FontFamily;
+        [XmlElement("Text")] public string Text;
         public SReflection Reflection;
     }
 
-    public class CText : IMenuElement
+    public class CText : IMenuElement, IFontObserver
     {
         private SThemeText _Theme;
         private bool _ThemeLoaded;
@@ -110,20 +99,6 @@ namespace VocaluxeLib.Menu
             set { _Z = value; }
         }
 
-        private float _Height;
-        public float Height
-        {
-            get { return _Height; }
-            set
-            {
-                if (Math.Abs(_Height - value) > 0.01)
-                {
-                    _Height = value;
-                    _PositionNeedsUpdate = true;
-                }
-            }
-        }
-
         private float _MaxWidth;
         public float MaxWidth
         {
@@ -166,29 +141,17 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private EStyle _Style = EStyle.Normal;
-        public EStyle Style
-        {
-            get { return _Style; }
-            set
-            {
-                if (_Style != value)
-                {
-                    _Style = value;
-                    _PositionNeedsUpdate = true;
-                }
-            }
-        }
-
-        private string _Font = String.Empty;
-        public string Font
+        private CFont _Font = new CFont();
+        public CFont Font
         {
             get { return _Font; }
             set
             {
-                if (_Font != value)
+                if (!_Font.Equals(value))
                 {
+                    _Font.RemoveObserver(this);
                     _Font = value;
+                    _Font.AddObserver(this);
                     _PositionNeedsUpdate = true;
                 }
             }
@@ -227,9 +190,15 @@ namespace VocaluxeLib.Menu
                     _Text = translation;
                     if (_EditMode)
                         _Text += "|";
+                    //Reset height, it might have been reduced in _UpdatePosition
+                    Font.Height = _Theme.FontHeight;
                     _PositionNeedsUpdate = true;
                 }
             }
+        }
+        public string TranslatedText
+        {
+            get { return _Text; }
         }
 
         public int PartyModeID
@@ -274,7 +243,7 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _TranslationID = _PartyModeID;
-            _Font = "Normal";
+            _Font.AddObserver(this);
         }
 
         public CText(CText text)
@@ -285,12 +254,10 @@ namespace VocaluxeLib.Menu
             _X = text._X;
             _Y = text._Y;
             _Z = text._Z;
-            _Height = text._Height;
             _MaxWidth = text._MaxWidth;
             _Align = text._Align;
             _ResizeAlign = text._ResizeAlign;
-            _Style = text._Style;
-            _Font = text._Font;
+            Font = text.Font; //Use setter to set observer
 
             Color = new SColorF(text.Color);
             SelColor = new SColorF(text.SelColor);
@@ -305,24 +272,23 @@ namespace VocaluxeLib.Menu
             _EditMode = text._EditMode;
         }
 
-        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string font, SColorF col, string text, int partyModeID = -1, float rheight = 0,
-                     float rspace = 0)
+        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string fontFamily, SColorF col, string text, int partyModeID = -1,
+                     float rheight = 0,
+                     float rspace = 0) : this(partyModeID)
         {
-            _Theme = new SThemeText();
+            _Theme = new SThemeText {FontFamily = fontFamily, FontStyle = style, FontHeight = h, Text = text};
             _ThemeLoaded = false;
             _ButtonText = false;
-            _PartyModeID = partyModeID;
-            _TranslationID = _PartyModeID;
 
             X = x;
             Y = y;
             Z = z;
-            Height = h;
             MaxWidth = mw;
             Align = align;
             ResizeAlign = EHAlignment.Center;
-            Style = style;
-            Font = font;
+            _Font.Name = fontFamily;
+            _Font.Style = style;
+            _Font.Height = h;
 
             Color = col;
             SelColor = new SColorF(col);
@@ -362,7 +328,6 @@ namespace VocaluxeLib.Menu
             if (!buttonText)
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Z);
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Height);
             xmlReader.TryGetFloatValue(item + "/MaxW", ref _MaxWidth);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
@@ -389,8 +354,9 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Align", ref _Align);
             xmlReader.TryGetEnumValue(item + "/ResizeAlign", ref _ResizeAlign);
-            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Style", ref _Style);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Font", out _Font, "Normal");
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.FontHeight);
+            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Style", ref _Theme.FontStyle);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Font", out _Theme.FontFamily);
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Text", out _Theme.Text, String.Empty);
 
@@ -407,15 +373,12 @@ namespace VocaluxeLib.Menu
             _Theme.Name = elementName;
             _Theme.Align = _Align;
             _Theme.Color.Color = Color;
-            _Theme.Font = _Font;
             _Theme.ResizeAlign = _ResizeAlign;
             _Theme.SColor.Color = SelColor;
-            _Theme.Style = _Style;
             _Theme.MaxWidth = _MaxWidth;
             _Theme.X = _X;
             _Theme.Y = _Y;
             _Theme.Z = _Z;
-            _Theme.Height = _Height;
 
             _ButtonText = buttonText;
             _PositionNeedsUpdate = true;
@@ -425,7 +388,6 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-
         public void Draw(bool forceDraw = false)
         {
             if (!forceDraw && !Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
@@ -434,30 +396,24 @@ namespace VocaluxeLib.Menu
             // Update Text
             Text = Text;
 
-            CBase.Fonts.SetFont(Font);
-            CBase.Fonts.SetStyle(Style);
-
             SColorF currentColor = (Selected) ? SelColor : Color;
             var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(_Text, Rect.H, Rect.X, Rect.Y, Z, color);
+            CBase.Fonts.DrawText(_Text, Font, Rect.X, Rect.Y, Z, color);
 
             if (ReflectionHeight > 0)
-                CBase.Fonts.DrawTextReflection(_Text, Rect.H, Rect.X, Rect.Y, Z, color, ReflectionSpace, ReflectionHeight);
+                CBase.Fonts.DrawTextReflection(_Text, Font, Rect.X, Rect.Y, Z, color, ReflectionSpace, ReflectionHeight);
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
-                CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(Rect.X, Rect.Y, Rect.W, Rect.H, Z));
+                CBase.Drawing.DrawRect(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(Rect.X, Rect.Y, Rect.W, Rect.H, Z));
         }
 
         public void Draw(float begin, float end)
         {
-            CBase.Fonts.SetFont(Font);
-            CBase.Fonts.SetStyle(Style);
-
             SColorF currentColor = (Selected) ? SelColor : Color;
             var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(Text, Rect.H, Rect.X, Rect.Y, Z, color, begin, end);
+            CBase.Fonts.DrawText(Text, Font, Rect.X, Rect.Y, Z, color, begin, end);
 
             if (ReflectionHeight > 0)
             {
@@ -465,7 +421,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
-                CBase.Drawing.DrawColor(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(X, Y, Rect.W, Rect.H, Z));
+                CBase.Drawing.DrawRect(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(X, Y, Rect.W, Rect.H, Z));
         }
 
         public void DrawRelative(float rx, float ry, float reflectionHeight = 0f, float reflectionSpace = 0f, float rectHeight = 0f)
@@ -505,12 +461,10 @@ namespace VocaluxeLib.Menu
             _X = _Theme.X;
             _Y = _Theme.Y;
             _Z = _Theme.Z;
-            _Height = _Theme.Height;
             _MaxWidth = _Theme.MaxWidth;
             _Align = _Theme.Align;
             _ResizeAlign = _Theme.ResizeAlign;
-            _Style = _Theme.Style;
-            _Font = _Theme.Font;
+            Font = new CFont(_Theme.FontFamily, _Theme.FontStyle, _Theme.FontHeight);
 
             if (_Theme.Reflection.Enabled)
             {
@@ -541,17 +495,16 @@ namespace VocaluxeLib.Menu
             X += stepX;
             Y += stepY;
 
-            _Theme.X += stepX;
-            _Theme.Y += stepY;
+            _Theme.X = X;
+            _Theme.Y = Y;
         }
 
         public void ResizeElement(int stepW, int stepH)
         {
-            Height += stepH;
-            if (Height <= 0)
-                Height = 1;
-
-            _Theme.Height = _Height;
+            _Theme.FontHeight += stepH;
+            if (_Theme.FontHeight <= 0)
+                _Theme.FontHeight = 1;
+            _Font.Height = _Theme.FontHeight;
         }
         #endregion ThemeEdit
 
@@ -560,10 +513,7 @@ namespace VocaluxeLib.Menu
             if (_Text == "")
                 return;
 
-            CBase.Fonts.SetFont(Font);
-            CBase.Fonts.SetStyle(Style);
-
-            float h = Height;
+            float h = Font.Height;
             float y = Y;
             RectangleF bounds = CBase.Fonts.GetTextBounds(this);
 
@@ -584,8 +534,8 @@ namespace VocaluxeLib.Menu
                         y += step * 0.75f;
                         break;
                 }
-
-                bounds = CBase.Fonts.GetTextBounds(this, h);
+                Font.Height = h;
+                bounds = CBase.Fonts.GetTextBounds(this);
             }
 
             float x = X;
@@ -605,6 +555,11 @@ namespace VocaluxeLib.Menu
             _Rect.H = bounds.Height;
 
             _PositionNeedsUpdate = false;
+        }
+
+        public void FontChanged()
+        {
+            _PositionNeedsUpdate = true;
         }
     }
 }

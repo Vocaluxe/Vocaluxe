@@ -24,6 +24,7 @@ using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Lib.Playlist
 {

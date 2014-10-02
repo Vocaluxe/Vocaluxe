@@ -17,13 +17,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
@@ -38,8 +38,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private CStatic _MedleyCalcIcon;
         private CStatic _MedleyTagIcon;
 
-        private CTexture _CoverBigBGTexture;
-        private CTexture _CoverBGTexture;
+        private CTextureRef _CoverBigBGTexture;
+        private CTextureRef _CoverBGTexture;
 
         private CText _Artist;
         private CText _Title;
@@ -494,20 +494,16 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _TextBG.Draw();
 
-            CTexture vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
+            CTextureRef vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
 
             if (vidtex != null)
             {
                 if (vidtex.Color.A < 1)
                     _CoverBig.Draw(EAspect.Crop);
-                var bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
-                RectangleF rect;
-                CHelper.SetRect(bounds, out rect, vidtex.OrigAspect, EAspect.Crop);
-                var vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
-                var vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
+                SRectF rect = CHelper.FitInBounds(_CoverBig.Rect, vidtex.OrigAspect, EAspect.Crop);
 
-                CBase.Drawing.DrawTexture(vidtex, vidRect, vidtex.Color, vidRectBounds);
-                CBase.Drawing.DrawTextureReflection(vidtex, vidRect, vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
+                CBase.Drawing.DrawTexture(vidtex, rect);
+                CBase.Drawing.DrawTextureReflection(vidtex, rect, vidtex.Color, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
             else
                 _CoverBig.Draw(EAspect.Crop);

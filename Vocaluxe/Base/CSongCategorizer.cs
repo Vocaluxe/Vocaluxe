@@ -178,7 +178,11 @@ namespace Vocaluxe.Base
             }
 
             foreach (CCategory cat in _Categories)
+            {
                 cat.CoverTextureSmall = CCover.Cover(cat.Name);
+                if (cat.CoverTextureSmall == CCover.NoCover)
+                    cat.CoverTextureSmall = CCover.GenerateCover(cat.Name, CSongs.Sorter.SongSorting, cat);
+            }
             _Changed = false;
         }
     }

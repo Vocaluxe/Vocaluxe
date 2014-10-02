@@ -19,9 +19,9 @@ using System;
 using System.Collections.Generic;
 using System.Xml.XPath;
 
-namespace VocaluxeLib
+namespace VocaluxeLib.Xml
 {
-    public class CXMLReader
+    public class CXMLReader : CXmlDeserializer
     {
         private readonly XPathNavigator _Navigator;
         private readonly String _FilePath;
@@ -57,55 +57,17 @@ namespace VocaluxeLib
             }
         }
 
-        public bool TryGetEnumValue<T>(string xPath, ref T value)
-            where T : struct
-        {
-            string val;
-            if (GetValue(xPath, out val, Enum.GetName(typeof(T), value)))
-                return CHelper.TryParse(val, out value, true);
-            return false;
-        }
-
-        public bool TryGetIntValue(string xPath, ref int value)
-        {
-            string val;
-            if (GetValue(xPath, out val, value.ToString()))
-                return int.TryParse(val, out value);
-            return false;
-        }
-
-        public bool TryGetIntValueRange(string xPath, ref int value, int min = 0, int max = 100)
-        {
-            bool result = TryGetIntValue(xPath, ref value);
-            if (result)
-                value = value.Clamp(min, max);
-            return result;
-        }
-
-        public bool TryGetFloatValue(string xPath, ref float value)
-        {
-            string val;
-            return GetValue(xPath, out val, value.ToString()) && CHelper.TryParse(val, out value);
-        }
-
         public bool TryGetColorFromRGBA(string xPath, ref SColorF value)
         {
             bool result = true;
-            result &= TryGetFloatValue(xPath + "/R", ref value.R);
-            result &= TryGetFloatValue(xPath + "/G", ref value.G);
-            result &= TryGetFloatValue(xPath + "/B", ref value.B);
-            result &= TryGetFloatValue(xPath + "/A", ref value.A);
-            if (result)
-            {
-                value.R = value.R.Clamp(0f, 1f);
-                value.G = value.G.Clamp(0f, 1f);
-                value.B = value.B.Clamp(0f, 1f);
-                value.A = value.A.Clamp(0f, 1f);
-            }
+            result &= TryGetNormalizedFloatValue(xPath + "/R", ref value.R);
+            result &= TryGetNormalizedFloatValue(xPath + "/G", ref value.G);
+            result &= TryGetNormalizedFloatValue(xPath + "/B", ref value.B);
+            result &= TryGetNormalizedFloatValue(xPath + "/A", ref value.A);
             return result;
         }
 
-        public bool GetValue(string xPath, out string value, string defaultValue = "")
+        public override bool GetValue(string xPath, out string value, string defaultValue = "")
         {
             int resultCt = 0;
             string val = string.Empty;
@@ -126,6 +88,19 @@ namespace VocaluxeLib
             }
             value = val;
             return true;
+        }
+
+        public override bool GetAttribute(string xPath, string attribute, out string value)
+        {
+            _Navigator.MoveToRoot();
+            XPathNodeIterator iterator = _Navigator.Select(xPath);
+            if (iterator.MoveNext())
+            {
+                value = iterator.Current.GetAttribute(attribute, "");
+                return true;
+            }
+            value = "";
+            return false;
         }
 
         public List<string> GetNames(string xPath)

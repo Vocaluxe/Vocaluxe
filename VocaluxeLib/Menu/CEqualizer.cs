@@ -18,6 +18,7 @@
 using System;
 using System.Xml;
 using System.Xml.Serialization;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -29,30 +30,20 @@ namespace VocaluxeLib.Menu
     [XmlType("Equalizer")]
     public struct SThemeEqualizer
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Skin")]
-        public string TextureName;
+        [XmlElement("Skin")] public string TextureName;
 
-        [XmlElement("Rect")]
-        public SRectF Rect;
+        [XmlElement("Rect")] public SRectF Rect;
 
-        [XmlElement("NumBars")]
-        public int NumBars;
-        [XmlElement("Space")]
-        public float Space;
-        [XmlElement("Style")]
-        public EEqualizerStyle Style;
-        [XmlElement("DrawNegative")]
-        public EOffOn DrawNegative;
+        [XmlElement("NumBars")] public int NumBars;
+        [XmlElement("Space")] public float Space;
+        [XmlElement("Style")] public EEqualizerStyle Style;
+        [XmlElement("DrawNegative")] public EOffOn DrawNegative;
 
-        [XmlElement("Color")]
-        public SThemeColor Color;
-        [XmlElement("MaxColor")]
-        public SThemeColor MaxColor;
-        [XmlElement("Reflection")]
-        public SReflection Reflection;
+        [XmlElement("Color")] public SThemeColor Color;
+        [XmlElement("MaxColor")] public SThemeColor MaxColor;
+        [XmlElement("Reflection")] public SReflection Reflection;
     }
 
     public class CEqualizer : IMenuElement
@@ -249,10 +240,10 @@ namespace VocaluxeLib.Menu
                 if (i == _MaxBar)
                     color = MaxColor;
 
-                CBase.Drawing.DrawColor(color, bar);
+                CBase.Drawing.DrawRect(color, bar);
 
                 if (Reflection)
-                    CBase.Drawing.DrawColorReflection(color, bar, ReflectionSpace, ReflectionHeight);
+                    CBase.Drawing.DrawRectReflection(color, bar, ReflectionSpace, ReflectionHeight);
             }
         }
 
@@ -273,7 +264,7 @@ namespace VocaluxeLib.Menu
             Rect = _Theme.Rect;
             Space = _Theme.Space;
             Reflection = _Theme.Reflection.Enabled;
-            if(Reflection)
+            if (Reflection)
             {
                 ReflectionHeight = _Theme.Reflection.Height;
                 ReflectionSpace = _Theme.Reflection.Space;

@@ -23,6 +23,7 @@ using System.Xml;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
@@ -44,7 +45,7 @@ namespace Vocaluxe.Base
     class CSkinElement
     {
         public string Value;
-        public CTexture Texture;
+        public CTextureRef Texture;
     }
 
     class CVideoSkinElement : CSkinElement
@@ -266,7 +267,7 @@ namespace Vocaluxe.Base
             {
                 CFonts.LoadThemeFonts(
                     _Themes[themeIndex].Name,
-                    Path.Combine(Path.Combine(_Themes[themeIndex].Path, _Themes[themeIndex].SkinFolder), CSettings.FolderNameThemeFonts),
+                    Path.Combine(_Themes[themeIndex].Path, _Themes[themeIndex].SkinFolder, CSettings.FolderNameThemeFonts),
                     xmlReader);
             }
             else
@@ -554,7 +555,7 @@ namespace Vocaluxe.Base
             return path;
         }
 
-        public static CTexture GetSkinTexture(string textureName, int partyModeID)
+        public static CTextureRef GetSkinTexture(string textureName, int partyModeID)
         {
             int skinIndex = GetSkinIndex(partyModeID);
             CSkinElement sk;
@@ -597,7 +598,7 @@ namespace Vocaluxe.Base
             return null;
         }
 
-        public static CTexture GetSkinVideoTexture(string videoName, int partyModeID)
+        public static CTextureRef GetSkinVideoTexture(string videoName, int partyModeID)
         {
             CVideoSkinElement sk = GetSkinVideo(videoName, partyModeID);
             if (sk == null)

@@ -52,25 +52,26 @@ namespace Vocaluxe.Base
         public static bool VideoEnabled
         {
             get { return _PlaysPreview ? _PreviewPlayer.VideoEnabled : _SongPlayer.VideoEnabled; }
-            set { 
-                if(_PlaysPreview)
+            set
+            {
+                if (_PlaysPreview)
                     _PreviewPlayer.VideoEnabled = value;
-                else 
+                else
                     _SongPlayer.VideoEnabled = value;
             }
         }
 
-        public static bool CanSing 
-        { 
-            get 
+        public static bool CanSing
+        {
+            get
             {
                 if (_PlaysPreview)
                     return false;
+                else if (_BGMusicFiles.Contains(_CurrentPlaylistElement))
+                    return false;
                 else
-                    if (_BGMusicFiles.Contains(_CurrentPlaylistElement))
-                        return false;
-                    else return true;
-            } 
+                    return true;
+            }
         }
 
         public static bool Disabled
@@ -85,7 +86,8 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static bool RepeatSong {
+        public static bool RepeatSong
+        {
             get { return _SongPlayer.RepeatSong; }
             set { _SongPlayer.RepeatSong = value; }
         }
@@ -100,13 +102,20 @@ namespace Vocaluxe.Base
             get { return _SongPlayer.SongHasVideo; }
         }
 
-        public static bool IsPlaying { get { return _PlaysPreview ? _PreviewPlayer.IsPlaying : _SongPlayer.IsPlaying; } }
+        public static bool IsPlaying
+        {
+            get { return _PlaysPreview ? _PreviewPlayer.IsPlaying : _SongPlayer.IsPlaying; }
+        }
 
-        public static bool IsPlayingPreview { get { return _PlaysPreview; } }
+        public static bool IsPlayingPreview
+        {
+            get { return _PlaysPreview; }
+        }
 
         public static string ArtistAndTitle
         {
-            get {
+            get
+            {
                 if (_PlaysPreview)
                     return _PreviewPlayer.ArtistAndTitle;
                 else
@@ -119,7 +128,7 @@ namespace Vocaluxe.Base
             get { return _PlaysPreview ? _PreviewPlayer.Length : _SongPlayer.Length; }
         }
 
-        public static CTexture Cover
+        public static CTextureRef Cover
         {
             get { return _PlaysPreview ? _PreviewPlayer.Cover : _SongPlayer.Cover; }
         }
@@ -185,11 +194,13 @@ namespace Vocaluxe.Base
             if (_PlaysPreview)
                 _PreviewPlayer.Play();
             else if(CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
+            {
                 if (_SongPlayer.SongLoaded)
                     //Resume
                     _SongPlayer.TogglePause();
                 else
                     Next();
+            }
         }
 
         public static void Stop()
@@ -278,7 +289,7 @@ namespace Vocaluxe.Base
 
         public static void Update()
         {
-            if (!IsPlaying && (!_SongPlayer.SongLoaded || !_PreviewPlayer.SongLoaded) )
+            if (!IsPlaying && (!_SongPlayer.SongLoaded || !_PreviewPlayer.SongLoaded))
                 return;
 
             if (_PlaysPreview)
@@ -291,7 +302,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static CTexture GetVideoTexture()
+        public static CTextureRef GetVideoTexture()
         {
             return _PlaysPreview ? _PreviewPlayer.GetVideoTexture() : _SongPlayer.GetVideoTexture();
         }
@@ -439,6 +450,5 @@ namespace Vocaluxe.Base
         {
             return _BGMusicFiles.Contains(element);
         }
-
     }
 }

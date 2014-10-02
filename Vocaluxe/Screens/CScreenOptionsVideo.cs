@@ -49,7 +49,7 @@ namespace Vocaluxe.Screens
         private const string _TextWebcamResolution = "TextWebcamResolution";
 
         private SWebcamConfig _Config;
-        private CTexture _WebcamTexture;
+        private CTextureRef _WebcamTexture;
         private int _DeviceNr;
         private int _CapabilityNr;
 

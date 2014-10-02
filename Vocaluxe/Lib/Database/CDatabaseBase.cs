@@ -17,7 +17,6 @@
 
 using System;
 using System.IO;
-using Vocaluxe.Base;
 #if WIN
 using System.Data.SQLite;
 
@@ -27,61 +26,72 @@ using Mono.Data.Sqlite;
 
 namespace Vocaluxe.Lib.Database
 {
-    public class CDatabaseBase
+    public abstract class CDatabaseBase
     {
         protected readonly string _FilePath;
         protected SQLiteConnection _Connection;
 
+        //You have to lock all actions using connection or transaction, otherwhise order is not guaranted
+        protected readonly object _Mutex = new object();
+
         protected int _Version; //Version of the database (value of row "Value" in table "Version") or -1 if none
 
-        public CDatabaseBase(string filePath)
+        protected CDatabaseBase(string filePath)
         {
             _FilePath = filePath;
         }
 
         public virtual bool Init()
         {
-            _Connection = new SQLiteConnection("Data Source=" + _FilePath);
-            try
+            lock (_Mutex)
             {
-                _Connection.Open();
-            }
-            catch (Exception)
-            {
-                _Connection.Dispose();
-                _Connection = null;
-                return false;
-            }
-
-            using (var command = new SQLiteCommand(_Connection))
-            {
-                command.CommandText = "SELECT Value FROM Version";
-
-                SQLiteDataReader reader = null;
-
+                if (_Connection != null)
+                    return false;
+                _Connection = new SQLiteConnection("Data Source=" + _FilePath);
                 try
                 {
-                    reader = command.ExecuteReader();
+                    _Connection.Open();
                 }
-                catch (Exception) {}
+                catch (Exception)
+                {
+                    _Connection.Dispose();
+                    _Connection = null;
+                    return false;
+                }
 
-                if (reader == null || !reader.Read() || reader.FieldCount == 0)
-                    _Version = -1;
-                else
-                    _Version = reader.GetInt32(0);
+                using (var command = new SQLiteCommand(_Connection))
+                {
+                    command.CommandText = "SELECT Value FROM Version";
 
-                if (reader != null)
-                    reader.Dispose();
+                    SQLiteDataReader reader = null;
+
+                    try
+                    {
+                        reader = command.ExecuteReader();
+                    }
+                    catch (Exception) {}
+
+                    if (reader == null || !reader.Read() || reader.FieldCount == 0)
+                        _Version = -1;
+                    else
+                        _Version = reader.GetInt32(0);
+
+                    if (reader != null)
+                        reader.Dispose();
+                }
             }
             return true;
         }
 
         public virtual void Close()
         {
-            if (_Connection != null)
+            lock (_Mutex)
             {
-                _Connection.Dispose();
-                _Connection = null;
+                if (_Connection != null)
+                {
+                    _Connection.Dispose();
+                    _Connection = null;
+                }
             }
         }
 
@@ -92,6 +102,13 @@ namespace Vocaluxe.Lib.Database
             return t70.Ticks;
         }
 
+        /// <summary>
+        ///     Reads the contents of a field as a byte array <br />
+        ///     Assumes you did the locking!
+        /// </summary>
+        /// <param name="reader"></param>
+        /// <param name="field">Field number to read from (default=first)</param>
+        /// <returns></returns>
         protected static byte[] _GetBytes(SQLiteDataReader reader, int field = 0)
         {
             const int chunkSize = 2 * 1024;

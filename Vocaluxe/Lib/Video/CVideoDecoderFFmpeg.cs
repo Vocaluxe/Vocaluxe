@@ -69,7 +69,7 @@ namespace Vocaluxe.Lib.Video
             return _Decoder.Count;
         }
 
-        public bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
+        public bool GetFrame(int streamID, ref CTextureRef frame, float time, out float videoTime)
         {
             CDecoder decoder;
             if (_Decoder.TryGetValue(streamID, out decoder))

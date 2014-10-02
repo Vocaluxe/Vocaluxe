@@ -27,7 +27,7 @@ namespace Vocaluxe.Base
     {
         private int _MouseMoveDiffMin = CSettings.MouseMoveDiffMinActive;
         private CFading _Fading;
-        private CTexture _Cursor;
+        private CTextureRef _Cursor;
         private Point _LastDiffPos;
 
         private readonly Stopwatch _Movetimer = new Stopwatch();

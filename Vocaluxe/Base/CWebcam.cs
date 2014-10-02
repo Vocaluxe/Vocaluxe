@@ -57,7 +57,7 @@ namespace Vocaluxe.Base
             _Webcam = null;
         }
 
-        public static bool GetFrame(ref CTexture tex)
+        public static bool GetFrame(ref CTextureRef tex)
         {
             return _Webcam != null && _Webcam.GetFrame(ref tex);
         }

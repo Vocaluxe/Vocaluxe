@@ -196,9 +196,6 @@ namespace Vocaluxe.Base
             CController.Update();
             CProfiles.Update();
 
-            if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
-                CSongs.LoadCover();
-
             if (CSettings.ProgramState != EProgramState.EditTheme)
             {
                 run &= _HandleInputs(keys, mouse);
@@ -362,32 +359,55 @@ namespace Vocaluxe.Base
                 if (!eventsAvailable)
                     keyEvent = inputKeyEvent;
 
-                if (keyEvent.IsArrowKey() || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0)
+                if (keyEvent.IsArrowKey() || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0 || keyEvent.Key == Keys.Add)
                 {
                     _Cursor.Deactivate();
 
-                    if (keyEvent.ModAlt && keyEvent.ModCtrl && keyEvent.ModShift)
+                    if (keyEvent.ModAlt && keyEvent.ModCtrl)
                     {
                         switch (keyEvent.Key)
                         {
-                            case Keys.Left:
-                                CConfig.BorderLeft -= 1;
-                                CConfig.BorderRight -= 1;
-                                CConfig.BorderTop -= 1;
-                                CConfig.BorderBottom -= 1;
-                                break;
                             case Keys.Right:
-                                CConfig.BorderLeft += 1;
-                                CConfig.BorderRight += 1;
-                                CConfig.BorderTop += 1;
-                                CConfig.BorderBottom += 1;
+                                if (keyEvent.ModShift)
+                                    CConfig.BorderLeft++;
+                                else
+                                    CConfig.BorderRight--;
+                                break;
+                            case Keys.Left:
+                                if (keyEvent.ModShift)
+                                    CConfig.BorderLeft--;
+                                else
+                                    CConfig.BorderRight++;
+                                break;
+                            case Keys.Down:
+                                if (keyEvent.ModShift)
+                                    CConfig.BorderTop++;
+                                else
+                                    CConfig.BorderBottom--;
+                                break;
+                            case Keys.Up:
+                                if (keyEvent.ModShift)
+                                    CConfig.BorderTop--;
+                                else
+                                    CConfig.BorderBottom++;
                                 break;
                             case Keys.D0:
                             case Keys.NumPad0:
-                                CConfig.BorderLeft = 0;
-                                CConfig.BorderRight = 0;
-                                CConfig.BorderTop = 0;
-                                CConfig.BorderBottom = 0;
+                                CConfig.BorderLeft = CConfig.BorderRight = CConfig.BorderTop = CConfig.BorderBottom = 0;
+                                break;
+                            case Keys.Add:
+                                switch (CConfig.ScreenAlignment)
+                                {
+                                    case EGeneralAlignment.Middle:
+                                        CConfig.ScreenAlignment = EGeneralAlignment.End;
+                                        break;
+                                    case EGeneralAlignment.End:
+                                        CConfig.ScreenAlignment = EGeneralAlignment.Start;
+                                        break;
+                                    default:
+                                        CConfig.ScreenAlignment = EGeneralAlignment.Middle;
+                                        break;
+                                }
                                 break;
                         }
                         CConfig.SaveConfig();
@@ -638,16 +658,15 @@ namespace Vocaluxe.Base
                     }
                 }
             }
-            CFonts.Style = EStyle.Normal;
-            CFonts.SetFont("Normal");
-            CFonts.Height = 25;
+            CFont font=new CFont("Normal",EStyle.Normal, 25);
             SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
             float y = 0;
             foreach (string txt in debugOutput)
             {
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), y, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
+                float textWidth = CFonts.GetTextWidth(txt, font);
+                RectangleF rect = new RectangleF(CSettings.RenderW - textWidth, y, textWidth, CFonts.GetTextHeight(txt,font));
+                CDraw.DrawRect(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, font, rect.X, rect.Y, CSettings.ZNear);
                 y += rect.Height;
             }
         }

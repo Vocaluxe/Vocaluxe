@@ -78,8 +78,8 @@ namespace VocaluxeLib.Songs
 
     public partial class CSong
     {
-        private CTexture _CoverTextureSmall;
-        private CTexture _CoverTextureBig;
+        private CTextureRef _CoverTextureSmall;
+        private CTextureRef _CoverTextureBig;
 
         public SMedley Medley;
 
@@ -104,7 +104,7 @@ namespace VocaluxeLib.Songs
 
         public bool NotesLoaded { get; private set; }
 
-        public CTexture CoverTextureSmall
+        public CTextureRef CoverTextureSmall
         {
             get
             {
@@ -116,7 +116,7 @@ namespace VocaluxeLib.Songs
             set { _CoverTextureSmall = value; }
         }
 
-        public CTexture CoverTextureBig
+        public CTextureRef CoverTextureBig
         {
             get { return _CoverTextureBig ?? _CoverTextureSmall; }
             set { _CoverTextureBig = value; }

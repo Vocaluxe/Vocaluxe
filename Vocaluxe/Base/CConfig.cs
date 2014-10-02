@@ -28,6 +28,7 @@ using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Profile;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
@@ -71,6 +72,8 @@ namespace Vocaluxe.Base
         public static int BorderRight;
         public static int BorderTop;
         public static int BorderBottom;
+
+        public static EGeneralAlignment ScreenAlignment = EGeneralAlignment.Middle;
 
         public static EAntiAliasingModes AAMode = EAntiAliasingModes.X0;
 
@@ -225,6 +228,8 @@ namespace Vocaluxe.Base
 
             xmlReader.TryGetIntValue("//root/Graphics/ScreenW", ref ScreenW);
             xmlReader.TryGetIntValue("//root/Graphics/ScreenH", ref ScreenH);
+
+            xmlReader.TryGetEnumValue("//root/Graphics/ScreenAlignment", ref ScreenAlignment);
 
             xmlReader.TryGetIntValue("//root/Graphics/BorderLeft", ref BorderLeft);
             xmlReader.TryGetIntValue("//root/Graphics/BorderRight", ref BorderRight);
@@ -403,6 +408,8 @@ namespace Vocaluxe.Base
                 writer.WriteComment("Screen width and height (pixels)");
                 writer.WriteElementString("ScreenW", ScreenW.ToString());
                 writer.WriteElementString("ScreenH", ScreenH.ToString());
+
+                writer.WriteElementString("ScreenAlignment", Enum.GetName(typeof(EGeneralAlignment), ScreenAlignment));
 
                 writer.WriteComment("Screen borders (pixels)");
                 writer.WriteElementString("BorderLeft", BorderLeft.ToString());
@@ -834,7 +841,7 @@ namespace Vocaluxe.Base
                         break;
 
                     case "oldtheme":
-                        if(value == "yes")
+                        if (value == "yes")
                             LoadOldThemeFiles = true;
                         break;
                 }
