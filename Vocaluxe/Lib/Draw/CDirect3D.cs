@@ -46,11 +46,11 @@ namespace Vocaluxe.Lib.Draw
     {
         public readonly Texture D3DTexture;
 
-        public CD3DTexture(Device device, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, texWidth, texHeight)
+        public CD3DTexture(Device device, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, new Size(texWidth, texHeight))
         {
             //Create a new texture in the managed pool, which does not need to be recreated on a lost device
             //because a copy of the texture is hold in the Ram
-            D3DTexture = device == null ? null : new Texture(device, W2, H2, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
+            D3DTexture = device == null ? null : new Texture(device, texWidth, texHeight, 0, Usage.AutoGenerateMipMap, Format.A8R8G8B8, Pool.Managed);
         }
 
         public override bool IsLoaded

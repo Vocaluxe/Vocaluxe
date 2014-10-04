@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Diagnostics;
 using System.Drawing.Imaging;
 using OpenTK;
 using OpenTK.Graphics;
@@ -61,14 +62,14 @@ namespace Vocaluxe.Lib.Draw
         //The texture "name" according to the specs
         public readonly int Name;
 
-        public COGLTexture(int name, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, texWidth, texHeight)
+        public COGLTexture(int name, Size dataSize, int texWidth = 0, int texHeight = 0) : base(dataSize, new Size(texWidth, texHeight))
         {
             Name = name;
             if (name == 0)
                 return;
             GL.BindTexture(TextureTarget.Texture2D, Name);
 
-            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, W2, H2, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texWidth, texHeight, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
@@ -94,6 +95,7 @@ namespace Vocaluxe.Lib.Draw
     class COpenGL : CDrawBaseWindows<COGLTexture>, IDraw
     {
         private readonly GLControl _Control;
+        private int _FBO;
 
         public COpenGL()
         {
@@ -233,7 +235,15 @@ namespace Vocaluxe.Lib.Draw
             GL.Enable(EnableCap.DepthTest);
             GL.ClearColor(Color.Black);
 
+            GL.GenFramebuffers(1, out _FBO);
+
             return true;
+        }
+
+        public override void Unload()
+        {
+            base.Unload();
+            GL.DeleteFramebuffers(1, ref _FBO);
         }
 
         protected override void _OnBeforeDraw()
@@ -400,8 +410,23 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
+        private void _ClearTexture(COGLTexture texture)
+        {
+            if (texture.DataSize.Equals(texture.Size))
+                return;
+            GL.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.Framebuffer, _FBO);
+            GL.FramebufferTexture2D(OpenTK.Graphics.OpenGL.FramebufferTarget.Framebuffer, OpenTK.Graphics.OpenGL.FramebufferAttachment.ColorAttachment0, TextureTarget.Texture2D,
+                                    texture.Name, 0);
+            GL.ClearColor(Color.FromArgb(0));
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.ClearColor(Color.Black);
+            GL.BindFramebuffer(OpenTK.Graphics.OpenGL.FramebufferTarget.Framebuffer, 0);
+        }
+
         protected override void _WriteDataToTexture(COGLTexture texture, byte[] data)
         {
+            Debug.Assert(texture.Name > 0);
+            _ClearTexture(texture);
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.DataSize.Width, texture.DataSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
@@ -412,6 +437,8 @@ namespace Vocaluxe.Lib.Draw
 
         protected override void _WriteDataToTexture(COGLTexture texture, IntPtr data)
         {
+            Debug.Assert(texture.Name > 0);
+            _ClearTexture(texture);
             GL.BindTexture(TextureTarget.Texture2D, texture.Name);
 
             GL.TexSubImage2D(TextureTarget.Texture2D, 0, 0, 0, texture.DataSize.Width, texture.DataSize.Height, PixelFormat.Bgra, PixelType.UnsignedByte, data);

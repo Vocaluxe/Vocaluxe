@@ -388,15 +388,15 @@ namespace Vocaluxe.Lib.Draw
             return _GetTextureReference(new Size(origWidth, origHeight), texture);
         }
 
-        private static bool _IsTextureUsable(TTextureType texture, int dataWidth, int dataHeight)
+        private static bool _IsTextureUsable(TTextureType texture, Size dataSize)
         {
             if (texture == null)
                 return false;
-            if (texture.DataSize.Width != dataWidth || texture.DataSize.Height != dataHeight)
+            if (!texture.DataSize.Equals(dataSize))
             {
-                if (texture.W2 > dataWidth || texture.H2 > dataHeight)
+                if (texture.Size.Width < dataSize.Width || texture.Size.Height < dataSize.Height)
                     return false; // Texture memory to small
-                if (texture.W2 * 0.9 < dataWidth || texture.H2 * 0.9 < dataHeight)
+                if (texture.Size.Width * 0.9 > dataSize.Width || texture.Size.Height * 0.9 > dataSize.Height)
                     return false; // Texture memory to big
             }
             return true;
@@ -491,7 +491,7 @@ namespace Vocaluxe.Lib.Draw
                                 bmp.Dispose();
                             }
                             else if (q.Data is byte[])
-                                UpdateTexture(textureRef, q.DataSize.Width, q.DataSize.Height, (byte[])q.Data);
+                                UpdateTexture(textureRef, q.DataSize, (byte[])q.Data);
                             else
                                 throw new ArgumentException("q.Data is of invalid type");
                             // ReSharper restore CanBeReplacedWithTryCastAndCheckForNull
@@ -776,30 +776,34 @@ namespace Vocaluxe.Lib.Draw
             _EnqueueTextureAddOrUpdate(textureRef, bmp, EQueueAction.Update, true);
         }
 
+        public void UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
+        {
+            UpdateTexture(textureRef, new Size(w, h), data);
+        }
+
         /// <summary>
         ///     Updates the data of a texture
         /// </summary>
         /// <param name="textureRef">The texture to update</param>
-        /// <param name="w"></param>
-        /// <param name="h"></param>
+        /// <param name="dataSize"></param>
         /// <param name="data">A byte array containing the new texture's data</param>
         /// <returns>True if succeeded</returns>
-        public void UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
+        public void UpdateTexture(CTextureRef textureRef, Size dataSize, byte[] data)
         {
             _EnsureMainThread();
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture, false))
                 return;
-            bool reuseTexture = _IsTextureUsable(texture, w, h);
+            bool reuseTexture = _IsTextureUsable(texture, dataSize);
             if (reuseTexture && texture.RefCount == 1)
             {
-                texture.DataSize = new Size(w, h);
+                texture.DataSize = dataSize;
                 _WriteDataToTexture(texture, data);
             }
             else
             {
                 _DisposeTexture(texture);
-                texture = _CreateAndFillTexture(new Size(w, h), data);
+                texture = _CreateAndFillTexture(dataSize, data);
                 texture.RefCount = 1;
                 _Textures[textureRef.ID] = texture;
             }
@@ -811,7 +815,7 @@ namespace Vocaluxe.Lib.Draw
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture, false))
                 return;
-            bool reuseTexture = _IsTextureUsable(texture, bmp.Width, bmp.Height);
+            bool reuseTexture = _IsTextureUsable(texture, bmp.Size);
             if (reuseTexture && texture.RefCount == 1)
                 _WriteBitmapToTexture(ref texture, bmp);
             else
