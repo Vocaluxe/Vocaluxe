@@ -453,6 +453,11 @@ namespace Vocaluxe.Base
             return CDraw.AddTexture(fileName);
         }
 
+        public CTextureRef EnqueueTexture(string fileName)
+        {
+            return CDraw.EnqueueTexture(fileName);
+        }
+
         public void RemoveTexture(ref CTextureRef texture)
         {
             CDraw.RemoveTexture(ref texture);

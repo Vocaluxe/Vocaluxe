@@ -189,7 +189,7 @@ namespace VocaluxeLib.Menu
             _Theme.Type = EBackgroundTypes.SlideShow;
             if (!String.IsNullOrEmpty(image))
             {
-                CTextureRef texture = CBase.Drawing.AddTexture(image);
+                CTextureRef texture = _SlideShowTextures.Count == 0 ? CBase.Drawing.AddTexture(image) : CBase.Drawing.EnqueueTexture(image);
                 if (texture != null)
                     _SlideShowTextures.Add(texture);
             }
