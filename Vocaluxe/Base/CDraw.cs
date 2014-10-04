@@ -91,11 +91,11 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Unloads the current driver, e.g. to switch to another one
         /// </summary>
-        public static void Unload()
+        public static void Close()
         {
             if (_Draw != null)
             {
-                _Draw.Unload();
+                _Draw.Close();
                 _Draw = null;
             }
         }

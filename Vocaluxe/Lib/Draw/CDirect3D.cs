@@ -390,9 +390,9 @@ namespace Vocaluxe.Lib.Draw
         ///     Unloads all Textures and other objects used by Direct3D for rendering
         /// </summary>
         /// <returns></returns>
-        public override void Unload()
+        public override void Close()
         {
-            base.Unload();
+            base.Close();
             STexturedColoredVertex.DisposeDeclaration();
             _VertexBuffer.Dispose();
             _IndexBuffer.Dispose();

@@ -270,7 +270,7 @@ namespace Vocaluxe
                 CVideo.Close();
                 CRecord.Close();
                 CSound.Close();
-                CDraw.Unload();
+                CDraw.Close();
                 GC.Collect(); // Do a GC run here before we close logs to have finalizers run
                 CLog.CloseAll(); // Do this last, so we get all log entries!
             }

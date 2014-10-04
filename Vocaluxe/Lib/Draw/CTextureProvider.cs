@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -116,7 +117,7 @@ namespace Vocaluxe.Lib.Draw
             return true;
         }
 
-        public virtual void Unload()
+        public virtual void Close()
         {
             _EnsureMainThread();
             lock (_Textures)
@@ -731,6 +732,8 @@ namespace Vocaluxe.Lib.Draw
             // 3) a) AddTexture(fileA) || b) EnqueueTexture(fileA) with a)getFromCache + b)getFromCache + a)addToCache + b)addToCache --> Only keep one copy
             // All solved with atomic get/add cache and _WaitForTextureLoaded
 
+            if (!File.Exists(filePath))
+                return null;
             CTextureRef textureRef;
             TTextureType texture = null;
             Task<Size> loader;

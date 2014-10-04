@@ -25,7 +25,7 @@ namespace Vocaluxe.Lib.Draw
     {
         bool Init();
         void MainLoop();
-        void Unload();
+        void Close();
 
         int GetScreenWidth();
         int GetScreenHeight();

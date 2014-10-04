@@ -240,9 +240,9 @@ namespace Vocaluxe.Lib.Draw
             return true;
         }
 
-        public override void Unload()
+        public override void Close()
         {
-            base.Unload();
+            base.Close();
             GL.DeleteFramebuffers(1, ref _FBO);
         }
 

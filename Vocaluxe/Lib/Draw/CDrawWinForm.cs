@@ -253,11 +253,11 @@ namespace Vocaluxe.Lib.Draw
             Close();
         }
 
-        public void Unload()
+        public new void Close()
         {
             try
             {
-                Close();
+                base.Close();
             }
             catch {}
             Dispose();

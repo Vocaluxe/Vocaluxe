@@ -28,9 +28,9 @@ namespace Vocaluxe.Lib.Draw
         private SClientRect _Restore;
         protected Size _SizeBeforeMinimize;
 
-        public override void Unload()
+        public override void Close()
         {
-            base.Unload();
+            base.Close();
             try
             {
                 _Form.Close();
