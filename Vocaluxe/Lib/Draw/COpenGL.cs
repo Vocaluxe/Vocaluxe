@@ -99,7 +99,8 @@ namespace Vocaluxe.Lib.Draw
 
         public COpenGL()
         {
-            _Form = new CFormHook();
+            _Form = new CFormHook {ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH)};
+            //OpenGL needs that here but D3D needs it in the constructor, so do NOT unify!
 
             //Check AA Mode
             CConfig.AAMode = (EAntiAliasingModes)_CheckAntiAliasingMode((int)CConfig.AAMode);
@@ -124,6 +125,7 @@ namespace Vocaluxe.Lib.Draw
             _Control.VSync = CConfig.VSync == EOffOn.TR_CONFIG_ON;
 
             _Form.Controls.Add(_Control);
+            _Control.ClientSize = _Form.ClientSize;
 
             _Control.KeyDown += _OnKeyDown;
             _Control.PreviewKeyDown += _OnPreviewKeyDown;
@@ -228,9 +230,6 @@ namespace Vocaluxe.Lib.Draw
         {
             if (!base.Init())
                 return false;
-
-            //OpenGL needs that here but D3D needs it in the constructor, so do NOT unify!
-            _Form.ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH);
 
             // Init Texturing
             GL.Enable(EnableCap.Texture2D);
