@@ -68,7 +68,6 @@ namespace Vocaluxe.Lib.Draw
 
     class CDirect3D : CDrawBaseWindows<CD3DTexture>, IDraw
     {
-        #region private vars
         private readonly Direct3D _D3D;
         private readonly Device _Device;
         private readonly PresentParameters _PresentParameters;
@@ -81,7 +80,6 @@ namespace Vocaluxe.Lib.Draw
         private readonly Queue<STexturedColoredVertex> _Vertices = new Queue<STexturedColoredVertex>();
         private readonly Queue<Texture> _VerticesTextures = new Queue<Texture>();
         private readonly Queue<Matrix> _VerticesRotationMatrices = new Queue<Matrix>();
-        #endregion private vars
 
         /// <summary>
         ///     Creates a new Instance of the CDirect3D Class
@@ -505,7 +503,6 @@ namespace Vocaluxe.Lib.Draw
         }
         #endregion main stuff
 
-        #region Basic Draw Methods
         /// <summary>
         ///     Removes all textures from the screen
         /// </summary>
@@ -588,9 +585,7 @@ namespace Vocaluxe.Lib.Draw
         {
             DrawTextureReflection(_BlankTexture, rect, color, rect, space, height);
         }
-        #endregion Basic Draw Methods
 
-        #region Textures
         protected override CD3DTexture _CreateTexture(Size dataSize)
         {
             if (dataSize.Width < 0)
@@ -616,7 +611,6 @@ namespace Vocaluxe.Lib.Draw
             }
             texture.D3DTexture.UnlockRectangle(0);
         }
-        #endregion Textures
 
         private static Matrix _CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
         {

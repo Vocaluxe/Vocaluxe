@@ -93,9 +93,7 @@ namespace Vocaluxe.Lib.Draw
 
     class COpenGL : CDrawBaseWindows<COGLTexture>, IDraw
     {
-        #region private vars
         private readonly GLControl _Control;
-        #endregion private vars
 
         public COpenGL()
         {
@@ -142,7 +140,6 @@ namespace Vocaluxe.Lib.Draw
             _NonPowerOf2TextureSupported = false;
         }
 
-        #region Helpers
         private static int _CheckAntiAliasingMode(int setValue)
         {
             int samples = 0;
@@ -202,15 +199,12 @@ namespace Vocaluxe.Lib.Draw
             return result - 8;
         }
 */
-        #endregion Helpers
 
-        #region form events
         protected override void _OnResize(object sender, EventArgs e)
         {
             _Control.ClientSize = _Form.ClientSize;
             base._OnResize(sender, e);
         }
-        #endregion form events
 
         protected override void _DoResize()
         {
@@ -223,9 +217,6 @@ namespace Vocaluxe.Lib.Draw
             GL.Viewport(_X, _Y, _W, _H);
         }
 
-        #region implementation
-
-        #region main stuff
         public override bool Init()
         {
             if (!base.Init())
@@ -296,9 +287,7 @@ namespace Vocaluxe.Lib.Draw
                 screen.Save(file, ImageFormat.Bmp);
             }
         }
-        #endregion main stuff
 
-        #region Basic Draw Methods
         public CTextureRef CopyScreen()
         {
             //TODO: Check if _W,_H needs to be used or not
@@ -376,7 +365,7 @@ namespace Vocaluxe.Lib.Draw
 
 
             GL.Enable(EnableCap.Blend);
-            GL.MatrixMode(MatrixMode.Texture);
+            GL.MatrixMode(MatrixMode.Color);
             GL.PushMatrix();
             if (Math.Abs(rect.Rotation) > 0.001)
             {
@@ -392,8 +381,6 @@ namespace Vocaluxe.Lib.Draw
 
             GL.Color4(color.R, color.G, color.B, 0f);
             GL.Vertex3(rx2, ry2, rect.Z + CGraphics.ZOffset);
-
-            GL.Color4(color.R, color.G, color.B, 0f);
             GL.Vertex3(rx1, ry2, rect.Z + CGraphics.ZOffset);
 
             GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
@@ -403,9 +390,7 @@ namespace Vocaluxe.Lib.Draw
             GL.PopMatrix();
             GL.Disable(EnableCap.Blend);
         }
-        #endregion Basic Draw Methods
 
-        #region Textures
         protected override COGLTexture _CreateTexture(Size dataSize)
         {
             if (dataSize.Width < 0)
@@ -483,8 +468,5 @@ namespace Vocaluxe.Lib.Draw
             GL.Disable(EnableCap.Blend);
             GL.BindTexture(TextureTarget.Texture2D, 0);
         }
-        #endregion Textures
-
-        #endregion implementation
     }
 }
