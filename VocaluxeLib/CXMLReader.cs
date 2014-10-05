@@ -88,8 +88,9 @@ namespace VocaluxeLib
             return GetValue(xPath, out val, value.ToString()) && CHelper.TryParse(val, out value);
         }
 
-        public bool TryGetColorFromRGBA(string xPath, ref SColorF value)
+        public bool TryGetColorFromRGBA(string xPath, out SColorF value)
         {
+            value = new SColorF();
             bool result = true;
             result &= TryGetFloatValue(xPath + "/R", ref value.R);
             result &= TryGetFloatValue(xPath + "/G", ref value.G);

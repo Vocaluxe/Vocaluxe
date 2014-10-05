@@ -25,31 +25,20 @@ namespace VocaluxeLib.Menu
     [XmlType("Text")]
     public struct SThemeText
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("X")]
-        public float X;
-        [XmlElement("Y")]
-        public float Y;
-        [XmlElement("Z")]
-        public float Z;
-        [XmlElement("H")]
-        public float Height;
-        [XmlElement("MaxW")]
-        public float MaxWidth;
+        [XmlElement("X")] public float X;
+        [XmlElement("Y")] public float Y;
+        [XmlElement("Z")] public float Z;
+        [XmlElement("H")] public float Height;
+        [XmlElement("MaxW")] public float MaxWidth;
         public SThemeColor Color;
         public SThemeColor SColor; //for Buttons
-        [XmlElement("Align")]
-        public EAlignment Align;
-        [XmlElement("ResizeAlign")]
-        public EHAlignment ResizeAlign;
-        [XmlElement("Style")]
-        public EStyle Style;
-        [XmlElement("Font")]
-        public string Font;
-        [XmlElement("Text")]
-        public string Text;
+        [XmlElement("Align")] public EAlignment Align;
+        [XmlElement("ResizeAlign")] public EHAlignment ResizeAlign;
+        [XmlElement("Style")] public EStyle Style;
+        [XmlElement("Font")] public string Font;
+        [XmlElement("Text")] public string Text;
         public SReflection Reflection;
     }
 
@@ -366,7 +355,7 @@ namespace VocaluxeLib.Menu
             xmlReader.TryGetFloatValue(item + "/MaxW", ref _MaxWidth);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
+                _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -376,7 +365,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/SColor", out _Theme.SColor.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColor.Name, skinIndex, out SelColor);
+                _ThemeLoaded &= _Theme.SColor.Get(_PartyModeID, out SelColor);
             else
             {
                 if (xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R))
@@ -424,7 +413,6 @@ namespace VocaluxeLib.Menu
                 LoadTextures();
             return _ThemeLoaded;
         }
-
 
         public void Draw(bool forceDraw = false)
         {
@@ -492,15 +480,8 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
-            else
-                Color = new SColorF(_Theme.Color.Color);
-
-            if (!String.IsNullOrEmpty(_Theme.SColor.Name))
-                SelColor = CBase.Theme.GetColor(_Theme.SColor.Name, _PartyModeID);
-            else
-                SelColor = new SColorF(_Theme.SColor.Color);
+            _Theme.Color.Get(_PartyModeID, out Color);
+            _Theme.SColor.Get(_PartyModeID, out SelColor);
 
             _X = _Theme.X;
             _Y = _Theme.Y;

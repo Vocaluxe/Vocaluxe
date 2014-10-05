@@ -86,10 +86,9 @@ namespace Vocaluxe.Base
 
         public void LoadTextures()
         {
-            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(CTheme.Cursor.SkinName, -1));
+            _Cursor = CDraw.CopyTexture(CTheme.GetSkinTexture(CTheme.Cursor.SkinName, -1));
 
-            _Cursor.Color = !String.IsNullOrEmpty(CTheme.Cursor.Color)
-                                ? CTheme.GetColor(CTheme.Cursor.Color, -1) : new SColorF(CTheme.Cursor.R, CTheme.Cursor.G, CTheme.Cursor.B, CTheme.Cursor.A);
+            CTheme.Cursor.Color.Get(-1, out _Cursor.Color);
             _Cursor.Rect.W = CTheme.Cursor.W;
             _Cursor.Rect.H = CTheme.Cursor.H;
             _Cursor.Rect.Z = CSettings.ZNear;

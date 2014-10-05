@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
 
@@ -25,16 +24,12 @@ namespace VocaluxeLib.Menu
     [XmlType("Lyric")]
     public struct SThemeLyrics
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Rect")]
-        public SRectF Rect;
+        [XmlElement("Rect")] public SRectF Rect;
 
-        [XmlElement("Color")]
-        public SThemeColor Color;
-        [XmlElement("SColor")]
-        public SThemeColor SColor;
+        [XmlElement("Color")] public SThemeColor Color;
+        [XmlElement("SColor")] public SThemeColor SColor;
     }
 
     public class CLyric : IMenuElement
@@ -146,7 +141,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _H);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out _Color);
+                _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out _Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _Color.R);
@@ -156,7 +151,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/SColor", out _Theme.SColor.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColor.Name, skinIndex, out _ColorProcessed);
+                _ThemeLoaded &= _Theme.SColor.Get(_PartyModeID, out _ColorProcessed);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref _ColorProcessed.R);
@@ -454,15 +449,8 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                _Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
-            else
-                _Color = _Theme.Color.Color;
-
-            if (!String.IsNullOrEmpty(_Theme.SColor.Name))
-                _ColorProcessed = CBase.Theme.GetColor(_Theme.SColor.Name, _PartyModeID);
-            else
-                _ColorProcessed = _Theme.SColor.Color;
+            _Theme.Color.Get(_PartyModeID, out _Color);
+            _Theme.SColor.Get(_PartyModeID, out _ColorProcessed);
 
             Rect = _Theme.Rect;
             _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);

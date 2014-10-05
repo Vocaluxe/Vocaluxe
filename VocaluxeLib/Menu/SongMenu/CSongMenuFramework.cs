@@ -29,29 +29,20 @@ namespace VocaluxeLib.Menu.SongMenu
     [XmlType("SongMenu")]
     public struct SThemeSongMenu
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("CoverBackground")]
-        public string CoverBackgroundName;
-        [XmlElement("CoverBigBackground")]
-        public string CoverBigBackgroundName;
-        [XmlElement("DuetIcon")]
-        public string DuetIconName;
-        [XmlElement("VideoIcon")]
-        public string VideoIconName;
-        [XmlElement("MedleyCalcIcon")]
-        public string MedleyCalcIcon;
-        [XmlElement("MedleyTagIcon")]
-        public string MedleyTagIcon;
-        [XmlElement("Color")]
-        public SThemeColor Color;
+        [XmlElement("CoverBackground")] public string CoverBackgroundName;
+        [XmlElement("CoverBigBackground")] public string CoverBigBackgroundName;
+        [XmlElement("DuetIcon")] public string DuetIconName;
+        [XmlElement("VideoIcon")] public string VideoIconName;
+        [XmlElement("MedleyCalcIcon")] public string MedleyCalcIcon;
+        [XmlElement("MedleyTagIcon")] public string MedleyTagIcon;
+        [XmlElement("Color")] public SThemeColor Color;
 
         //public SThemeSongMenuBook songMenuBook;
         //public SThemeSongMenuDreidel songMenuDreidel;
         //public SThemeSongMenuList songMenuList;
-        [XmlElement("SongMenuTileBoard")]
-        public SThemeSongMenuTileBoard SongMenuTileBoard;
+        [XmlElement("SongMenuTileBoard")] public SThemeSongMenuTileBoard SongMenuTileBoard;
 
         public SThemeSongMenu(SThemeSongMenu theme)
         {
@@ -69,66 +60,49 @@ namespace VocaluxeLib.Menu.SongMenu
 
     public struct SThemeSongMenuTileBoard
     {
-        [XmlElement("NumW")]
-        /// <summary>
+        [XmlElement("NumW")] /// <summary>
         ///     Number of tiles horizontal
         /// </summary>
         public int NumW;
 
-        [XmlElement("NumH")]
-        /// <summary>
+        [XmlElement("NumH")] /// <summary>
         ///     Number of tiles vertical
         /// </summary>
         public int NumH;
 
-        [XmlElement("NumWsmall")]
-        /// <summary>
+        [XmlElement("NumWsmall")] /// <summary>
         ///     Number of tiles horizontal in small-modus
         /// </summary>
         public int NumWsmall;
-        
-        [XmlElement("NumHsmall")]
-        /// <summary>
+
+        [XmlElement("NumHsmall")] /// <summary>
         ///     Number of tiles vertical in small-modus
         /// </summary>
         public int NumHsmall;
 
-        [XmlElement("SpaceW")]
-        /// <summary>
+        [XmlElement("SpaceW")] /// <summary>
         ///     Space between tiles horizontal
         /// </summary>
         public float SpaceW;
 
-        [XmlElement("SpaceH")]
-        /// <summary>
+        [XmlElement("SpaceH")] /// <summary>
         ///     Space between tiles vertical
         /// </summary>
         public float SpaceH;
 
-        [XmlElement("TileRect")]
-        public SRectF TileRect;
-        [XmlElement("TileRectSmall")]
-        public SRectF TileRectSmall;
+        [XmlElement("TileRect")] public SRectF TileRect;
+        [XmlElement("TileRectSmall")] public SRectF TileRectSmall;
 
-        [XmlElement("TextArtist")]
-        public SThemeText TextArtist;
-        [XmlElement("TextTitle")]
-        public SThemeText TextTitle;
-        [XmlElement("TextSongLength")]
-        public SThemeText TextSongLength;
+        [XmlElement("TextArtist")] public SThemeText TextArtist;
+        [XmlElement("TextTitle")] public SThemeText TextTitle;
+        [XmlElement("TextSongLength")] public SThemeText TextSongLength;
 
-        [XmlElement("StaticCoverBig")]
-        public SThemeStatic StaticCoverBig;
-        [XmlElement("StaticTextBG")]
-        public SThemeStatic StaticTextBG;
-        [XmlElement("StaticDuetIcon")]
-        public SThemeStatic StaticDuetIcon;
-        [XmlElement("StaticVideoIcon")]
-        public SThemeStatic StaticVideoIcon;
-        [XmlElement("StaticMedleyCalcIcon")]
-        public SThemeStatic StaticMedleyCalcIcon;
-        [XmlElement("StaticMedleyTagIcon")]
-        public SThemeStatic StaticMedleyTagIcon;
+        [XmlElement("StaticCoverBig")] public SThemeStatic StaticCoverBig;
+        [XmlElement("StaticTextBG")] public SThemeStatic StaticTextBG;
+        [XmlElement("StaticDuetIcon")] public SThemeStatic StaticDuetIcon;
+        [XmlElement("StaticVideoIcon")] public SThemeStatic StaticVideoIcon;
+        [XmlElement("StaticMedleyCalcIcon")] public SThemeStatic StaticMedleyCalcIcon;
+        [XmlElement("StaticMedleyTagIcon")] public SThemeStatic StaticMedleyTagIcon;
     }
 
     abstract class CSongMenuFramework : ISongMenu
@@ -236,7 +210,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyTagIcon", out _Theme.MedleyTagIcon, String.Empty);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out _ColorInternal);
+                _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out _ColorInternal);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _ColorInternal.R);
@@ -278,7 +252,6 @@ namespace VocaluxeLib.Menu.SongMenu
 
             return _ThemeLoaded;
         }
-
         #endregion Theme
 
         public virtual void Init()
@@ -294,10 +267,10 @@ namespace VocaluxeLib.Menu.SongMenu
         }
 
         public virtual void OnShow() {}
-        
+
         public virtual void OnHide()
         {
-            if(CBase.Graphics.GetNextScreen() != EScreens.ScreenNames)
+            if (CBase.Graphics.GetNextScreen() != EScreens.ScreenNames)
                 _ResetPreview();
         }
 
@@ -369,11 +342,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             Init();
 
-            if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                _ColorInternal = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
-            else
-                _ColorInternal = _Theme.Color.Color;
-
+            _Theme.Color.Get(_PartyModeID, out _ColorInternal);
         }
 
         public void ReloadTextures()

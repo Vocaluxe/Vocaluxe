@@ -24,7 +24,7 @@ namespace Vocaluxe.Base
 
         public void Load(string videoName)
         {
-            _VideoStream = CVideo.Load(CTheme.GetVideoFilePath(videoName, -1));
+            _VideoStream = CTheme.GetSkinVideo(videoName, -1, false);
             _Loaded = true;
             CVideo.Pause(_VideoStream);
         }

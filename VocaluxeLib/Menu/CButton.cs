@@ -25,27 +25,18 @@ namespace VocaluxeLib.Menu
     [XmlType("Button")]
     public struct SThemeButton
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Skin")]
-        public string TextureName;
-        [XmlElement("SkinSelected")]
-        public string SelTextureName;
+        [XmlElement("Skin")] public string TextureName;
+        [XmlElement("SkinSelected")] public string SelTextureName;
         public SRectF Rect;
-        [XmlElement("Color")]
-        public SThemeColor Color;
-        [XmlElement("SelColor")]
-        public SThemeColor SelColor;
-        [XmlElement("Text")]
-        public SThemeText Text;
-        [XmlElement("SText")]
-        public SThemeText SText;
+        [XmlElement("Color")] public SThemeColor Color;
+        [XmlElement("SelColor")] public SThemeColor SelColor;
+        [XmlElement("Text")] public SThemeText Text;
+        [XmlElement("SText")] public SThemeText SText;
         public bool STextSpecified;
-        [XmlElement("Reflection")]
-        public SReflection Reflection;
-        [XmlElement("SelReflection")]
-        public SReflection SelReflection;
+        [XmlElement("Reflection")] public SReflection Reflection;
+        [XmlElement("SelReflection")] public SReflection SelReflection;
     }
 
     public class CButton : IMenuElement
@@ -185,7 +176,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
+                _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -195,7 +186,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColor.Name, skinIndex, out SelColor);
+                _ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out SelColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R);
@@ -257,7 +248,6 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-       
         public void Draw(bool forceDraw = false)
         {
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme && !forceDraw)
@@ -330,15 +320,8 @@ namespace VocaluxeLib.Menu
                 _SelText.LoadTextures();
             }
 
-            if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
-            else
-                Color = _Theme.Color.Color;
-
-            if (!String.IsNullOrEmpty(_Theme.SelColor.Name))
-                SelColor = CBase.Theme.GetColor(_Theme.SelColor.Name, _PartyModeID);
-            else
-                SelColor = _Theme.SelColor.Color;
+            _Theme.Color.Get(_PartyModeID, out Color);
+            _Theme.SelColor.Get(_PartyModeID, out SelColor);
 
             Rect = _Theme.Rect;
 

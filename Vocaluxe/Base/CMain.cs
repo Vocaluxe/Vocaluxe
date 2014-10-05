@@ -282,29 +282,14 @@ namespace Vocaluxe.Base
             return CTheme.GetSkinTexture(textureName, partyModeID);
         }
 
-        public CTextureRef GetSkinVideoTexture(string videoName, int partyModeID)
+        public int GetSkinVideo(string videoName, int partyModeID, bool loop)
         {
-            return CTheme.GetSkinVideoTexture(videoName, partyModeID);
+            return CTheme.GetSkinVideo(videoName, partyModeID, loop);
         }
 
-        public void SkinVideoResume(string videoName, int partyModeID)
+        public bool GetColor(string colorName, int partyModeID, out SColorF color)
         {
-            CTheme.SkinVideoResume(videoName, partyModeID);
-        }
-
-        public void SkinVideoPause(string videoName, int partyModeID)
-        {
-            CTheme.SkinVideoPause(videoName, partyModeID);
-        }
-
-        public SColorF GetColor(string colorName, int partyModeID)
-        {
-            return CTheme.GetColor(colorName, partyModeID);
-        }
-
-        public bool GetColor(string colorName, int skinIndex, out SColorF color)
-        {
-            return CTheme.GetColor(colorName, skinIndex, out color);
+            return CTheme.GetColor(colorName, partyModeID, out color);
         }
 
         public SColorF GetPlayerColor(int playerNr)

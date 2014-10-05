@@ -33,12 +33,9 @@ namespace VocaluxeLib.Menu
     [XmlType("ScreenSetting")]
     public struct SScreenSetting
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
-        [XmlElement("Value")]
-        public string Value;
-        [XmlElement("Type")]
-        public ESettingType Type;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlElement("Value")] public string Value;
+        [XmlElement("Type")] public ESettingType Type;
     }
 
     // ReSharper disable ClassNeverInstantiated.Global
@@ -138,7 +135,9 @@ namespace VocaluxeLib.Menu
 
         private SColorF _GetColorValue(string value)
         {
-            return CBase.Theme.GetColor(value, _PartyModeID);
+            SColorF color;
+            CBase.Theme.GetColor(value, _PartyModeID, out color);
+            return color;
         }
         #endregion Private
 

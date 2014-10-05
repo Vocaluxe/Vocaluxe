@@ -25,10 +25,8 @@ namespace VocaluxeLib.Menu
     [XmlType("Static")]
     public struct SThemeStatic
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
-        [XmlElement("Skin")]
-        public string TextureName;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlElement("Skin")] public string TextureName;
         public SThemeColor Color;
         public SRectF Rect;
         public SReflection Reflection;
@@ -73,10 +71,7 @@ namespace VocaluxeLib.Menu
 
         public EAspect Aspect = EAspect.Stretch;
 
-        public CStatic()
-        {
-
-        }
+        public CStatic() {}
 
         public CStatic(int partyModeID)
         {
@@ -140,7 +135,7 @@ namespace VocaluxeLib.Menu
             _Theme.Rect = new SRectF(Rect);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
+                _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -204,10 +199,7 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
-            else
-                Color = _Theme.Color.Color;
+            _Theme.Color.Get(_PartyModeID, out Color);
 
             Rect = new SRectF(_Theme.Rect);
             Reflection = _Theme.Reflection.Enabled;

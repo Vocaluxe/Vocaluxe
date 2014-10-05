@@ -103,13 +103,9 @@ namespace VocaluxeLib
         string GetThemeScreensPath(int partyModeID);
         int GetSkinIndex(int partyModeID);
         CTextureRef GetSkinTexture(string textureName, int partyModeID);
-        CTextureRef GetSkinVideoTexture(string videoName, int partyModeID);
+        int GetSkinVideo(string videoName, int partyModeID, bool loop);
 
-        void SkinVideoResume(string videoName, int partyModeID);
-        void SkinVideoPause(string videoName, int partyModeID);
-
-        SColorF GetColor(string colorName, int partyModeID);
-        bool GetColor(string colorName, int skinIndex, out SColorF color);
+        bool GetColor(string colorName, int partyModeID, out SColorF color);
         SColorF GetPlayerColor(int playerNr);
 
         void UnloadSkins();

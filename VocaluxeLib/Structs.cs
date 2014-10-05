@@ -82,6 +82,16 @@ namespace VocaluxeLib
             Color = new SColorF(theme.Color);
             Name = theme.Name;
         }
+
+        public bool Get(int partyModeId, out SColorF color)
+        {
+            if (String.IsNullOrEmpty(Name))
+            {
+                color = Color;
+                return true;
+            }
+            return CBase.Theme.GetColor(Name, partyModeId, out color);
+        }
     }
 
     public struct SRectF

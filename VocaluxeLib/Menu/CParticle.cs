@@ -27,21 +27,14 @@ namespace VocaluxeLib.Menu
     [XmlType("ParticleEffect")]
     public struct SThemeParticleEffect
     {
-        [XmlAttributeAttribute(AttributeName = "Name")]
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Skin")]
-        public string TextureName;
-        [XmlElement("Rect")]
-        public SRectF Rect;
-        [XmlElement("Color")]
-        public SThemeColor Color;
-        [XmlElement("Type")]
-        public EParticleType Type;
-        [XmlElement("Size")]
-        public float Size;
-        [XmlElement("MaxNumber")]
-        public int MaxNumber;
+        [XmlElement("Skin")] public string TextureName;
+        [XmlElement("Rect")] public SRectF Rect;
+        [XmlElement("Color")] public SThemeColor Color;
+        [XmlElement("Type")] public EParticleType Type;
+        [XmlElement("Size")] public float Size;
+        [XmlElement("MaxNumber")] public int MaxNumber;
     }
 
     public enum EParticleType
@@ -159,8 +152,6 @@ namespace VocaluxeLib.Menu
             _MaxAge = maxage;
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
-
-
         #endregion Constructors
 
         public void Update()
@@ -413,7 +404,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
+                _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -585,10 +576,7 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
-            else
-                Color = _Theme.Color.Color;
+            _Theme.Color.Get(_PartyModeID, out Color);
 
             if (!String.IsNullOrEmpty(_Theme.TextureName))
                 Texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);

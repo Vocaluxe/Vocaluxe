@@ -46,8 +46,6 @@ namespace Vocaluxe.Screens
         private int _OldTheme;
         private int _OldSkin;
 
-        private int _TempSkin;
-
         public override void Init()
         {
             base.Init();
@@ -145,7 +143,6 @@ namespace Vocaluxe.Screens
             _OldCoverTheme = CCover.GetCoverThemeIndex();
             _OldTheme = CTheme.GetThemeIndex(-1);
             _OldSkin = CTheme.GetSkinIndex(-1);
-            _TempSkin = _OldSkin;
         }
 
         public override bool UpdateGame()
@@ -191,7 +188,6 @@ namespace Vocaluxe.Screens
                 CTheme.ListSkins();
                 CConfig.Skin = CTheme.SkinNames[0];
                 _OldSkin = 0;
-                _TempSkin = _OldSkin;
 
                 CConfig.SaveConfig();
 
@@ -213,7 +209,6 @@ namespace Vocaluxe.Screens
                 CTheme.ListSkins();
                 CConfig.Skin = CTheme.SkinNames[0];
                 _OldSkin = 0;
-                _TempSkin = _OldSkin;
 
                 CConfig.SaveConfig();
 
@@ -226,12 +221,12 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            if (_TempSkin != _SelectSlides[_SelectSlideSkin].Selection)
+            if (_OldSkin != _SelectSlides[_SelectSlideSkin].Selection)
             {
-                _TempSkin = _SelectSlides[_SelectSlideSkin].Selection;
+                _OldSkin = _SelectSlides[_SelectSlideSkin].Selection;
 
                 _PauseBG();
-                CConfig.Skin = CTheme.SkinNames[_TempSkin];
+                CConfig.Skin = CTheme.SkinNames[_OldSkin];
                 CGraphics.ReloadSkin();
                 _ResumeBG();
             }

@@ -292,7 +292,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.Color.Name, skinIndex, out Color);
+                _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
@@ -302,7 +302,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/SColor", out _Theme.SColor.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SColor.Name, skinIndex, out SelColor);
+                _ThemeLoaded &= _Theme.SColor.Get(_PartyModeID, out SelColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R);
@@ -312,7 +312,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/HColor", out _Theme.HColor.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.HColor.Name, skinIndex, out HighlightColor);
+                _ThemeLoaded &= _Theme.HColor.Get(_PartyModeID, out HighlightColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HR", ref HighlightColor.R);
@@ -334,7 +334,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
 
             if (xmlReader.GetValue(item + "/ArrowColor", out _Theme.ArrowColor.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ArrowColor.Name, skinIndex, out ColorArrow);
+                _ThemeLoaded &= _Theme.ArrowColor.Get(_PartyModeID, out ColorArrow);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowR", ref ColorArrow.R);
@@ -344,7 +344,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/ArrowSColor", out _Theme.ArrowSColor.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ArrowSColor.Name, skinIndex, out SelColorArrow);
+                _ThemeLoaded &= _Theme.ArrowSColor.Get(_PartyModeID, out SelColorArrow);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSR", ref SelColorArrow.R);
@@ -354,7 +354,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/TextColor", out _Theme.TextColor.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.TextColor.Name, skinIndex, out TextColor);
+                _ThemeLoaded &= _Theme.TextColor.Get(_PartyModeID, out TextColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextR", ref TextColor.R);
@@ -364,7 +364,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (xmlReader.GetValue(item + "/TextSColor", out _Theme.TextSColor.Name, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.TextSColor.Name, skinIndex, out SelTextColor);
+                _ThemeLoaded &= _Theme.TextSColor.Get(_PartyModeID, out SelTextColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSR", ref SelTextColor.R);
@@ -702,40 +702,13 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            if (!String.IsNullOrEmpty(_Theme.Color.Name))
-                Color = CBase.Theme.GetColor(_Theme.Color.Name, _PartyModeID);
-            else
-                Color = _Theme.Color.Color;
-
-            if (!String.IsNullOrEmpty(_Theme.SColor.Name))
-                SelColor = CBase.Theme.GetColor(_Theme.SColor.Name, _PartyModeID);
-            else
-                SelColor = _Theme.SColor.Color;
-
-            if (!String.IsNullOrEmpty(_Theme.HColor.Name))
-                HighlightColor = CBase.Theme.GetColor(_Theme.HColor.Name, _PartyModeID);
-            else
-                HighlightColor = _Theme.HColor.Color;
-
-            if (!String.IsNullOrEmpty(_Theme.ArrowColor.Name))
-                ColorArrow = CBase.Theme.GetColor(_Theme.ArrowColor.Name, _PartyModeID);
-            else
-                ColorArrow = _Theme.ArrowColor.Color;
-
-            if (!String.IsNullOrEmpty(_Theme.ArrowSColor.Name))
-                SelColorArrow = CBase.Theme.GetColor(_Theme.ArrowSColor.Name, _PartyModeID);
-            else
-                SelColorArrow = _Theme.ArrowSColor.Color;
-
-            if (!String.IsNullOrEmpty(_Theme.TextColor.Name))
-                TextColor = CBase.Theme.GetColor(_Theme.TextColor.Name, _PartyModeID);
-            else
-                TextColor = _Theme.TextColor.Color;
-
-            if (!String.IsNullOrEmpty(_Theme.TextSColor.Name))
-                SelTextColor = CBase.Theme.GetColor(_Theme.TextSColor.Name, _PartyModeID);
-            else
-                SelTextColor = _Theme.TextSColor.Color;
+            _Theme.Color.Get(_PartyModeID, out Color);
+            _Theme.SColor.Get(_PartyModeID, out SelColor);
+            _Theme.HColor.Get(_PartyModeID, out HighlightColor);
+            _Theme.ArrowColor.Get(_PartyModeID, out ColorArrow);
+            _Theme.ArrowSColor.Get(_PartyModeID, out SelColorArrow);
+            _Theme.TextColor.Get(_PartyModeID, out TextColor);
+            _Theme.TextSColor.Get(_PartyModeID, out SelTextColor);
 
             Rect = _Theme.Rect;
             RectArrowLeft = _Theme.RectArrowLeft;
