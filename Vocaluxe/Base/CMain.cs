@@ -34,7 +34,7 @@ namespace Vocaluxe.Base
     {
         private static readonly IConfig _Config = new CBconfig();
         private static readonly ISettings _Settings = new CBsettings();
-        private static readonly ITheme _Theme = new CBtheme();
+        private static readonly IThemes _Themes = new CBtheme();
         private static readonly IBackgroundMusic _BackgroundMusic = new CBbackgroundMusic();
         private static readonly IDrawing _Draw = new CBdraw();
         private static readonly IGraphics _Graphics = new CBGraphics();
@@ -54,7 +54,7 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            CBase.Assign(_Config, _Settings, _Theme, _Log, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
+            CBase.Assign(_Config, _Settings, _Themes, _Log, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
                          _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist);
         }
     }
@@ -265,56 +265,56 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBtheme : ITheme
+    class CBtheme : IThemes
     {
         public string GetThemeScreensPath(int partyModeID)
         {
-            return CTheme.GetThemeScreensPath(partyModeID);
+            return CThemes.GetThemeScreensPath(partyModeID);
         }
 
         public int GetSkinIndex(int partyModeID)
         {
-            return CTheme.GetSkinIndex(partyModeID);
+            return CThemes.GetSkinIndex(partyModeID);
         }
 
         public CTextureRef GetSkinTexture(string textureName, int partyModeID)
         {
-            return CTheme.GetSkinTexture(textureName, partyModeID);
+            return CThemes.GetSkinTexture(textureName, partyModeID);
         }
 
         public CVideoStream GetSkinVideo(string videoName, int partyModeID, bool loop)
         {
-            return CTheme.GetSkinVideo(videoName, partyModeID, loop);
+            return CThemes.GetSkinVideo(videoName, partyModeID, loop);
         }
 
         public bool GetColor(string colorName, int partyModeID, out SColorF color)
         {
-            return CTheme.GetColor(colorName, partyModeID, out color);
+            return CThemes.GetColor(colorName, partyModeID, out color);
         }
 
         public SColorF GetPlayerColor(int playerNr)
         {
-            return CTheme.GetPlayerColor(playerNr);
+            return CThemes.GetPlayerColor(playerNr);
         }
 
         public void UnloadSkins()
         {
-            CTheme.UnloadSkins();
+            CThemes.UnloadSkins();
         }
 
         public void ListSkins()
         {
-            CTheme.ListSkins();
+            CThemes.ListSkins();
         }
 
         public void LoadSkins()
         {
-            CTheme.LoadSkins();
+            CThemes.LoadSkins();
         }
 
         public void LoadTheme()
         {
-            CTheme.LoadTheme();
+            CThemes.LoadTheme();
         }
     }
 

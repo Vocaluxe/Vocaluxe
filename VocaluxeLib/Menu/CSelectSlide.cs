@@ -598,15 +598,15 @@ namespace VocaluxeLib.Menu
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
                 return;
 
-            CTextureRef texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
-            CTextureRef textureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
-            CTextureRef textureArrowRight = CBase.Theme.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
+            CTextureRef texture = CBase.Themes.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            CTextureRef textureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
+            CTextureRef textureArrowRight = CBase.Themes.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
 
-            CTextureRef selTexture = CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
-            CTextureRef selTextureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowLeftName, _PartyModeID);
-            CTextureRef selTextureArrowRight = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
+            CTextureRef selTexture = CBase.Themes.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
+            CTextureRef selTextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SelTextureArrowLeftName, _PartyModeID);
+            CTextureRef selTextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
 
-            CTextureRef highlightTexture = CBase.Theme.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
+            CTextureRef highlightTexture = CBase.Themes.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
 
             if (Selected)
             {

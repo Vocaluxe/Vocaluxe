@@ -371,12 +371,12 @@ namespace VocaluxeLib.Menu
             {
                 if (i == CurrentPlaylistElement && _Selected)
                 {
-                    _PlaylistElements[i].Background.Texture = CBase.Theme.GetSkinTexture(_Theme.SelTextureBackgroundName, _PartyModeID);
+                    _PlaylistElements[i].Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SelTextureBackgroundName, _PartyModeID);
                     _PlaylistElements[i].Background.Color = BackgroundSelColor;
                 }
                 else
                 {
-                    _PlaylistElements[i].Background.Texture = CBase.Theme.GetSkinTexture(_Theme.TextureBackgroundName, _PartyModeID);
+                    _PlaylistElements[i].Background.Texture = CBase.Themes.GetSkinTexture(_Theme.TextureBackgroundName, _PartyModeID);
                     _PlaylistElements[i].Background.Color = BackgroundColor;
                 }
             }
@@ -909,7 +909,7 @@ namespace VocaluxeLib.Menu
                             _ChangeOrderElement.SelectSlide.RectArrowRight.Z = CBase.Settings.GetZNear();
                             _ChangeOrderElement.Text1.Z = CBase.Settings.GetZNear();
 
-                            _ChangeOrderElement.Background.Texture = CBase.Theme.GetSkinTexture(_Theme.TextureBackgroundName, _PartyModeID);
+                            _ChangeOrderElement.Background.Texture = CBase.Themes.GetSkinTexture(_Theme.TextureBackgroundName, _PartyModeID);
                             _ChangeOrderElement.Background.Color = BackgroundColor;
 
                             _OldMousePosX = mouseEvent.X;

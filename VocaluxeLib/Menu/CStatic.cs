@@ -53,7 +53,7 @@ namespace VocaluxeLib.Menu
         private CTextureRef _Texture;
         public CTextureRef Texture
         {
-            get { return _Texture ?? CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
+            get { return _Texture ?? CBase.Themes.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
 
             set { _Texture = value; }
         }

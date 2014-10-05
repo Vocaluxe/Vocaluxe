@@ -68,11 +68,11 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(xmlPath);
 
-            _SelectSlides[_SelectSlideTheme].AddValues(CTheme.ThemeNames);
-            _SelectSlides[_SelectSlideTheme].Selection = CTheme.GetThemeIndex(-1);
+            _SelectSlides[_SelectSlideTheme].AddValues(CThemes.ThemeNames);
+            _SelectSlides[_SelectSlideTheme].Selection = CThemes.GetThemeIndex(-1);
 
-            _SelectSlides[_SelectSlideSkin].AddValues(CTheme.SkinNames);
-            _SelectSlides[_SelectSlideSkin].Selection = CTheme.GetSkinIndex(-1);
+            _SelectSlides[_SelectSlideSkin].AddValues(CThemes.SkinNames);
+            _SelectSlides[_SelectSlideSkin].Selection = CThemes.GetSkinIndex(-1);
 
             _SelectSlides[_SelectSlideCover].AddValues(CCover.CoverThemes);
             _SelectSlides[_SelectSlideCover].Selection = CCover.GetCoverThemeIndex();
@@ -141,8 +141,8 @@ namespace Vocaluxe.Screens
             base.OnShow();
 
             _OldCoverTheme = CCover.GetCoverThemeIndex();
-            _OldTheme = CTheme.GetThemeIndex(-1);
-            _OldSkin = CTheme.GetSkinIndex(-1);
+            _OldTheme = CThemes.GetThemeIndex(-1);
+            _OldSkin = CThemes.GetSkinIndex(-1);
         }
 
         public override bool UpdateGame()
@@ -164,8 +164,8 @@ namespace Vocaluxe.Screens
 
         private void _SaveConfig()
         {
-            CConfig.Theme = CTheme.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
-            CConfig.Skin = CTheme.SkinNames[_SelectSlides[_SelectSlideSkin].Selection];
+            CConfig.Theme = CThemes.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
+            CConfig.Skin = CThemes.SkinNames[_SelectSlides[_SelectSlideSkin].Selection];
             CConfig.CoverTheme = CCover.CoverThemes[_SelectSlides[_SelectSlideCover].Selection];
             CConfig.DrawNoteLines = (EOffOn)_SelectSlides[_SelectSlideNoteLines].Selection;
             CConfig.DrawToneHelper = (EOffOn)_SelectSlides[_SelectSlideToneHelper].Selection;
@@ -180,19 +180,19 @@ namespace Vocaluxe.Screens
 
             if (_OldTheme != _SelectSlides[_SelectSlideTheme].Selection)
             {
-                CConfig.Theme = CTheme.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
+                CConfig.Theme = CThemes.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
                 _OldTheme = _SelectSlides[_SelectSlideTheme].Selection;
 
-                CTheme.UnloadSkins();
+                CThemes.UnloadSkins();
                 CFonts.UnloadThemeFonts(CConfig.Theme);
-                CTheme.ListSkins();
-                CConfig.Skin = CTheme.SkinNames[0];
+                CThemes.ListSkins();
+                CConfig.Skin = CThemes.SkinNames[0];
                 _OldSkin = 0;
 
                 CConfig.SaveConfig();
 
-                CTheme.LoadSkins();
-                CTheme.LoadTheme();
+                CThemes.LoadSkins();
+                CThemes.LoadTheme();
                 CGraphics.ReloadTheme();
             }
         }
@@ -201,19 +201,19 @@ namespace Vocaluxe.Screens
         {
             if (_OldTheme != _SelectSlides[_SelectSlideTheme].Selection)
             {
-                CConfig.Theme = CTheme.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
+                CConfig.Theme = CThemes.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
                 _OldTheme = _SelectSlides[_SelectSlideTheme].Selection;
 
-                CTheme.UnloadSkins();
+                CThemes.UnloadSkins();
                 CFonts.UnloadThemeFonts(CConfig.Theme);
-                CTheme.ListSkins();
-                CConfig.Skin = CTheme.SkinNames[0];
+                CThemes.ListSkins();
+                CConfig.Skin = CThemes.SkinNames[0];
                 _OldSkin = 0;
 
                 CConfig.SaveConfig();
 
-                CTheme.LoadSkins();
-                CTheme.LoadTheme();
+                CThemes.LoadSkins();
+                CThemes.LoadTheme();
                 CGraphics.ReloadTheme();
 
                 OnShow();
@@ -226,7 +226,7 @@ namespace Vocaluxe.Screens
                 _OldSkin = _SelectSlides[_SelectSlideSkin].Selection;
 
                 _PauseBG();
-                CConfig.Skin = CTheme.SkinNames[_OldSkin];
+                CConfig.Skin = CThemes.SkinNames[_OldSkin];
                 CGraphics.ReloadSkin();
                 _ResumeBG();
             }

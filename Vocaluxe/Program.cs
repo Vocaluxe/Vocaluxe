@@ -183,7 +183,7 @@ namespace Vocaluxe
 
                 // Theme System
                 CLog.StartBenchmark("Init Theme");
-                if (!CTheme.Init())
+                if (!CThemes.Init())
                     throw new CLoadingException("theme");
                 CLog.StopBenchmark("Init Theme");
 
@@ -264,7 +264,7 @@ namespace Vocaluxe
                 CController.Close();
                 CVocaluxeServer.Close();
                 CGraphics.Close();
-                CTheme.Close();
+                CThemes.Close();
                 CCover.Close();
                 CFonts.Close();
                 CBackgroundMusic.Close();

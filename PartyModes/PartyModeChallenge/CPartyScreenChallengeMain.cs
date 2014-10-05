@@ -382,7 +382,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     int id = _GameState.ProfileIDs[_GameState.Combs[_GameState.CurrentRoundNr - 1].Player[i]];
                     _NextPlayerStatics[i].Texture = CBase.Profiles.GetAvatar(id);
                     _NextPlayerTexts[i].Text = CBase.Profiles.GetPlayerName(id);
-                    _NextPlayerTexts[i].Color = CBase.Theme.GetPlayerColor(i + 1);
+                    _NextPlayerTexts[i].Color = CBase.Themes.GetPlayerColor(i + 1);
                 }
             }
             else

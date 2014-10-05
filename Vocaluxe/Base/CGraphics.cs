@@ -128,14 +128,14 @@ namespace Vocaluxe.Base
             {
                 CLog.StartBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
                 _Screens[i].Init();
-                _Screens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
+                _Screens[i].LoadTheme(CThemes.GetThemeScreensPath(-1));
                 CLog.StopBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
             foreach (IMenu popup in _PopupScreens)
             {
                 popup.Init();
-                popup.LoadTheme(CTheme.GetThemeScreensPath(-1));
+                popup.LoadTheme(CThemes.GetThemeScreensPath(-1));
             }
         }
 
@@ -143,10 +143,10 @@ namespace Vocaluxe.Base
         {
             _Cursor.ReloadTextures();
             foreach (IMenu screen in _Screens)
-                screen.ReloadTheme(CTheme.GetThemeScreensPath(-1));
+                screen.ReloadTheme(CThemes.GetThemeScreensPath(-1));
 
             foreach (IMenu popup in _PopupScreens)
-                popup.ReloadTheme(CTheme.GetThemeScreensPath(-1));
+                popup.ReloadTheme(CThemes.GetThemeScreensPath(-1));
         }
 
         public static void ReloadSkin()
@@ -161,7 +161,7 @@ namespace Vocaluxe.Base
 
         public static void SaveTheme()
         {
-            CTheme.SaveTheme();
+            CThemes.SaveTheme();
             foreach (CMenu screen in _Screens)
             {
                 if (screen.ThemePath == null || screen.ThemeName == "ScreenTest")

@@ -183,10 +183,10 @@ namespace VocaluxeLib.Menu
             _Theme.Color.Get(_PartyModeID, out Color);
 
             foreach (string s in _Theme.SlideShowTextures)
-                _SlideShowTextures.Add(CBase.Theme.GetSkinTexture(s, _PartyModeID));
+                _SlideShowTextures.Add(CBase.Themes.GetSkinTexture(s, _PartyModeID));
 
             if (_Theme.Type == EBackgroundTypes.Video)
-                _VideoStream = CBase.Theme.GetSkinVideo(_Theme.VideoName, _PartyModeID, true);
+                _VideoStream = CBase.Themes.GetSkinVideo(_Theme.VideoName, _PartyModeID, true);
         }
 
         public void AddSlideShowTexture(string image)
@@ -237,7 +237,7 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawTexture()
         {
-            CTextureRef texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            CTextureRef texture = CBase.Themes.GetSkinTexture(_Theme.TextureName, _PartyModeID);
             if (texture != null)
             {
                 CBase.Drawing.DrawTexture(texture, _GetDrawRect(), EAspect.Crop);

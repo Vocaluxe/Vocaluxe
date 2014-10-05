@@ -668,7 +668,7 @@ namespace Vocaluxe.Screens
 
             for (int p = 0; p < CGame.NumPlayer; p++)
             {
-                _NoteLines[p] = _SingNotes[_SingBars].AddPlayer(_SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1], CTheme.GetPlayerColor(p + 1), p);
+                _NoteLines[p] = _SingNotes[_SingBars].AddPlayer(_SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1], CThemes.GetPlayerColor(p + 1), p);
                 if (_SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1].Y + _SingNotes[_SingBars].BarPos[p, CGame.NumPlayer - 1].H >= CSettings.RenderH / 2)
                     _DynamicLyricsBottom = true;
                 else

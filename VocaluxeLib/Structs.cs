@@ -128,7 +128,7 @@ namespace VocaluxeLib
                 color = Color;
                 return true;
             }
-            return CBase.Theme.GetColor(Name, partyModeId, out color);
+            return CBase.Themes.GetColor(Name, partyModeId, out color);
         }
     }
 

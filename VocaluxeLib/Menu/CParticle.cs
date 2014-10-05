@@ -296,7 +296,7 @@ namespace VocaluxeLib.Menu
             // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (!String.IsNullOrEmpty(_TextureName))
                 // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                CBase.Drawing.DrawTexture(CBase.Theme.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
+                CBase.Drawing.DrawTexture(CBase.Themes.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
             else
                 CBase.Drawing.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
         }
@@ -580,7 +580,7 @@ namespace VocaluxeLib.Menu
             _Theme.Color.Get(_PartyModeID, out Color);
 
             if (!String.IsNullOrEmpty(_Theme.TextureName))
-                Texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+                Texture = CBase.Themes.GetSkinTexture(_Theme.TextureName, _PartyModeID);
 
             Rect = _Theme.Rect;
         }

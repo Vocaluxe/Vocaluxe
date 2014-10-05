@@ -187,8 +187,8 @@ namespace VocaluxeLib.Menu.SongMenu
             _TileW = (int)((Rect.W - _Theme.SongMenuTileBoard.SpaceW * (_NumW - 1)) / _NumW);
             _TileH = (int)((Rect.H - _Theme.SongMenuTileBoard.SpaceH * (_NumH - 1)) / _NumH);
 
-            _CoverBGTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
-            _CoverBigBGTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
+            _CoverBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
+            _CoverBigBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
 
             _Tiles = new List<CStatic>();
             for (int i = 0; i < _NumH; i++)

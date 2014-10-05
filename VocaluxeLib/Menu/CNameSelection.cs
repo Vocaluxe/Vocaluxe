@@ -337,7 +337,7 @@ namespace VocaluxeLib.Menu
             if (active && Selection != -1)
             {
                 _Player = player;
-                _PlayerSelector.Color = CBase.Theme.GetPlayerColor(player);
+                _PlayerSelector.Color = CBase.Themes.GetPlayerColor(player);
             }
                 //Normal activation
             else if (active)
@@ -345,7 +345,7 @@ namespace VocaluxeLib.Menu
                 Selection = 0;
                 _ActualSelection = 0;
                 _Player = player;
-                _PlayerSelector.Color = CBase.Theme.GetPlayerColor(player);
+                _PlayerSelector.Color = CBase.Themes.GetPlayerColor(player);
                 _PlayerSelector.Visible = true;
             }
                 //Deactivate
@@ -429,8 +429,8 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            _TextureEmptyTile = CBase.Theme.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
-            _TextureTileSelected = CBase.Theme.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
+            _TextureEmptyTile = CBase.Themes.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
+            _TextureTileSelected = CBase.Themes.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
 
             _Theme.ColorEmptyTile.Get(_PartyModeID, out _ColorEmptyTile);
             _Theme.Tiles.Name.Color.Get(_PartyModeID, out _ColorNameTile);

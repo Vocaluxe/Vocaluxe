@@ -196,7 +196,7 @@ namespace VocaluxeLib.Menu
             ThemePath = xmlPath;
 
             string file = Path.Combine(xmlPath, ThemeName + ".xml");
-            int skinIndex = CBase.Theme.GetSkinIndex(_PartyModeID);
+            int skinIndex = CBase.Themes.GetSkinIndex(_PartyModeID);
 
             Theme.ScreenInformation = new SScreenInformation();
             Theme.Backgrounds = new List<SThemeBackground>();
@@ -278,7 +278,7 @@ namespace VocaluxeLib.Menu
 
             bool versionCheck = _CheckVersion(_ScreenVersion, xmlReader);
 
-            int skinIndex = CBase.Theme.GetSkinIndex(_PartyModeID);
+            int skinIndex = CBase.Themes.GetSkinIndex(_PartyModeID);
 
             if (versionCheck && skinIndex != -1)
             {
@@ -1946,10 +1946,10 @@ namespace VocaluxeLib.Menu
 
         private void _ReloadThemeEditMode()
         {
-            CBase.Theme.UnloadSkins();
-            CBase.Theme.ListSkins();
-            CBase.Theme.LoadSkins();
-            CBase.Theme.LoadTheme();
+            CBase.Themes.UnloadSkins();
+            CBase.Themes.ListSkins();
+            CBase.Themes.LoadSkins();
+            CBase.Themes.LoadTheme();
             CBase.Graphics.ReloadTheme();
 
             OnShow();

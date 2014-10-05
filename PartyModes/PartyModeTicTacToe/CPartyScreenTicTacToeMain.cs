@@ -349,7 +349,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _Texts[_TextTeamChoosing].Visible = false;
                 if (winner > 0)
                 {
-                    _Texts[_TextFinishMessage].Color = CBase.Theme.GetPlayerColor(winner);
+                    _Texts[_TextFinishMessage].Color = CBase.Themes.GetPlayerColor(winner);
                     _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", _PartyModeID) + " " + CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " +
                                                       winner;
                 }
@@ -448,8 +448,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 {
                     _Fields[i].Button.Enabled = false;
                     _Fields[i].Button.Texture = CBase.Songs.GetSongByID(_Fields[i].Content.SongID).CoverTextureBig;
-                    _Fields[i].Button.Color = CBase.Theme.GetPlayerColor(_Fields[i].Content.Winner);
-                    _Fields[i].Button.SelColor = CBase.Theme.GetPlayerColor(_Fields[i].Content.Winner);
+                    _Fields[i].Button.Color = CBase.Themes.GetPlayerColor(_Fields[i].Content.Winner);
+                    _Fields[i].Button.SelColor = CBase.Themes.GetPlayerColor(_Fields[i].Content.Winner);
                 }
                 if (_Status == EStatus.FieldSelected && _SelectedField == i)
                 {
@@ -460,7 +460,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
                 if (_Status == EStatus.JokerRetry && _Fields[i].Content.Finished)
                 {
-                    _Fields[i].Button.SelColor = CBase.Theme.GetPlayerColor(_GameData.Team + 1);
+                    _Fields[i].Button.SelColor = CBase.Themes.GetPlayerColor(_GameData.Team + 1);
                     _Fields[i].Button.Enabled = true;
                 }
                 if (_Status == EStatus.JokerRetry && !_Fields[i].Content.Finished)
@@ -600,7 +600,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _UpdateTeamChoosingMessage()
         {
-            _Texts[_TextTeamChoosing].Color = CBase.Theme.GetPlayerColor(_GameData.Team + 1);
+            _Texts[_TextTeamChoosing].Color = CBase.Themes.GetPlayerColor(_GameData.Team + 1);
             _Texts[_TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " + (_GameData.Team + 1) + "! " +
                                              CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
             if (_Status == EStatus.JokerRetry || _Status == EStatus.FieldChoosing)

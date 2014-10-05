@@ -98,7 +98,7 @@ namespace VocaluxeLib
         float GetSoundPlayerFadeTime();
     }
 
-    public interface ITheme
+    public interface IThemes
     {
         string GetThemeScreensPath(int partyModeID);
         int GetSkinIndex(int partyModeID);

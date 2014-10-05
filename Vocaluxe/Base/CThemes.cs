@@ -21,7 +21,6 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using Vocaluxe.Base.Fonts;
-using Vocaluxe.Lib.Video;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Xml;
@@ -54,7 +53,7 @@ namespace Vocaluxe.Base
     }
     #endregion Structs
 
-    static class CTheme
+    static class CThemes
     {
         // Version number for main theme and skin files. Increment it, if you've changed something on the theme files!
         private const int _ThemeSystemVersion = 5;

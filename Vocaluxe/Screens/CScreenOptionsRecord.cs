@@ -397,8 +397,8 @@ namespace Vocaluxe.Screens
 
         private void _SetPlayerColors()
         {
-            _Texts[_TextChannel1].Color = CTheme.GetPlayerColor(_SelectSlides[_SelectSlideRecordChannel1].Selection);
-            _Texts[_TextChannel2].Color = CTheme.GetPlayerColor(_SelectSlides[_SelectSlideRecordChannel2].Selection);
+            _Texts[_TextChannel1].Color = CThemes.GetPlayerColor(_SelectSlides[_SelectSlideRecordChannel1].Selection);
+            _Texts[_TextChannel2].Color = CThemes.GetPlayerColor(_SelectSlides[_SelectSlideRecordChannel2].Selection);
         }
 
         private void _SetMicConfig()

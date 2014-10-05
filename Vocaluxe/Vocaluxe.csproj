@@ -263,7 +263,7 @@
     <Compile Include="Base\CUtility.cs" />
     <Compile Include="Base\CSettings.cs" />
     <Compile Include="Base\CSongs.cs" />
-    <Compile Include="Base\CTheme.cs" />
+    <Compile Include="Base\CThemes.cs" />
     <Compile Include="Base\CVideo.cs" />
     <Compile Include="Base\CWebcam.cs" />
     <Compile Include="Base\Fonts\CFonts.cs" />

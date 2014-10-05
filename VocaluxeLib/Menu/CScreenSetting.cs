@@ -131,13 +131,13 @@ namespace VocaluxeLib.Menu
 
         private CTextureRef _GetTextureValue(string value)
         {
-            return CBase.Theme.GetSkinTexture(value, _PartyModeID);
+            return CBase.Themes.GetSkinTexture(value, _PartyModeID);
         }
 
         private SColorF _GetColorValue(string value)
         {
             SColorF color;
-            CBase.Theme.GetColor(value, _PartyModeID, out color);
+            CBase.Themes.GetColor(value, _PartyModeID, out color);
             return color;
         }
         #endregion Private
