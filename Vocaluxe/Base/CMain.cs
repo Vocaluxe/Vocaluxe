@@ -282,7 +282,7 @@ namespace Vocaluxe.Base
             return CTheme.GetSkinTexture(textureName, partyModeID);
         }
 
-        public int GetSkinVideo(string videoName, int partyModeID, bool loop)
+        public CVideoStream GetSkinVideo(string videoName, int partyModeID, bool loop)
         {
             return CTheme.GetSkinVideo(videoName, partyModeID, loop);
         }
@@ -810,44 +810,44 @@ namespace Vocaluxe.Base
 
     class CBvideo : IVideo
     {
-        public int Load(string videoFileName)
+        public CVideoStream Load(string videoFileName)
         {
             return CVideo.Load(videoFileName);
         }
 
-        public bool Skip(int videoStream, float startPosition, float videoGap)
+        public bool Skip(CVideoStream stream, float startPosition, float videoGap)
         {
-            return CVideo.Skip(videoStream, startPosition, videoGap);
+            return CVideo.Skip(stream, startPosition, videoGap);
         }
 
-        public bool GetFrame(int videoStream, ref CTextureRef videoTexture, float time, out float videoTime)
+        public bool GetFrame(CVideoStream stream, float time)
         {
-            return CVideo.GetFrame(videoStream, ref videoTexture, time, out videoTime);
+            return CVideo.GetFrame(stream, time);
         }
 
-        public bool IsFinished(int videoStream)
+        public bool IsFinished(CVideoStream stream)
         {
-            return CVideo.Finished(videoStream);
+            return CVideo.Finished(stream);
         }
 
-        public bool Close(int videoStream)
+        public void Close(ref CVideoStream stream)
         {
-            return CVideo.Close(videoStream);
+            CVideo.Close(ref stream);
         }
 
-        public void SetLoop(int streamID, bool loop = true)
+        public void SetLoop(CVideoStream stream, bool loop = true)
         {
-            CVideo.SetLoop(streamID, loop);
+            CVideo.SetLoop(stream, loop);
         }
 
-        public void Pause(int streamID)
+        public void Pause(CVideoStream stream)
         {
-            CVideo.Pause(streamID);
+            CVideo.Pause(stream);
         }
 
-        public void Resume(int streamID)
+        public void Resume(CVideoStream stream)
         {
-            CVideo.Resume(streamID);
+            CVideo.Resume(stream);
         }
     }
 

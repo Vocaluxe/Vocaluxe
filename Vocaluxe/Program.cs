@@ -263,6 +263,7 @@ namespace Vocaluxe
                 CController.Close();
                 CVocaluxeServer.Close();
                 CGraphics.Close();
+                CTheme.Close();
                 CCover.Close();
                 CBackgroundMusic.Close();
                 CWebcam.Close();

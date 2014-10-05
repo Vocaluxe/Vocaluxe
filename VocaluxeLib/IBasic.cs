@@ -103,7 +103,7 @@ namespace VocaluxeLib
         string GetThemeScreensPath(int partyModeID);
         int GetSkinIndex(int partyModeID);
         CTextureRef GetSkinTexture(string textureName, int partyModeID);
-        int GetSkinVideo(string videoName, int partyModeID, bool loop);
+        CVideoStream GetSkinVideo(string videoName, int partyModeID, bool loop);
 
         bool GetColor(string colorName, int partyModeID, out SColorF color);
         SColorF GetPlayerColor(int playerNr);
@@ -264,14 +264,14 @@ namespace VocaluxeLib
 
     public interface IVideo
     {
-        int Load(string videoFileName);
-        bool Skip(int streamID, float startPosition, float videoGap);
-        bool GetFrame(int streamID, ref CTextureRef videoTexture, float time, out float videoTime);
-        bool IsFinished(int streamID);
-        bool Close(int streamID);
-        void SetLoop(int streamID, bool loop = true);
-        void Resume(int streamID);
-        void Pause(int streamID);
+        CVideoStream Load(string videoFileName);
+        bool Skip(CVideoStream stream, float startPosition, float videoGap);
+        bool GetFrame(CVideoStream stream, float time);
+        bool IsFinished(CVideoStream stream);
+        void Close(ref CVideoStream stream);
+        void SetLoop(CVideoStream stream, bool loop = true);
+        void Resume(CVideoStream stream);
+        void Pause(CVideoStream stream);
     }
 
     public interface ISound

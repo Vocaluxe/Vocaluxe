@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Xml;
+using Vocaluxe.Lib.Video;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -14,9 +15,10 @@ namespace Vocaluxe.Base
         public CTextureRef Texture;
     }
 
-    class CVideoSkinElement : CSkinElement
+    class CVideoSkinElement
     {
-        public int VideoStream = -1;
+        public string Value;
+        public CVideoStream VideoStream;
     }
 
     class CSkin
@@ -123,8 +125,7 @@ namespace Vocaluxe.Base
 
             foreach (CVideoSkinElement vsk in VideoList.Values)
             {
-                CVideo.Close(vsk.VideoStream);
-                CDraw.RemoveTexture(ref vsk.Texture);
+                CVideo.Close(ref vsk.VideoStream);
             }
             SkinList.Clear();
             VideoList.Clear();
@@ -272,19 +273,19 @@ namespace Vocaluxe.Base
             return false;
         }
 
-        public int GetVideo(string videoName, bool loop = true)
+        public CVideoStream GetVideo(string videoName, bool loop = true)
         {
             CVideoSkinElement sk;
             if (VideoList.TryGetValue(videoName, out sk))
             {
-                if (sk.VideoStream == -1)
+                if (sk.VideoStream == null || sk.VideoStream.IsClosed())
                 {
                     sk.VideoStream = CVideo.Load(Path.Combine(_Folder, sk.Value));
                     CVideo.SetLoop(sk.VideoStream, loop);
                 }
                 return sk.VideoStream;
             }
-            return -1;
+            return null;
         }
     }
 }

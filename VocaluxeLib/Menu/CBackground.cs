@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Xml;
 using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
@@ -54,8 +53,7 @@ namespace VocaluxeLib.Menu
         private readonly Stopwatch _SlideShowTimer = new Stopwatch();
         private readonly List<CTextureRef> _SlideShowTextures = new List<CTextureRef>();
 
-        private int _VideoStream = -1;
-        private CTextureRef _VidTex;
+        private CVideoStream _VideoStream;
 
         public SColorF Color;
         public bool ThemeLoaded
@@ -136,13 +134,13 @@ namespace VocaluxeLib.Menu
 
         public void Resume()
         {
-            if (_VideoStream != -1)
+            if (_VideoStream != null)
                 CBase.Video.Resume(_VideoStream);
         }
 
         public void Pause()
         {
-            if (_VideoStream != -1)
+            if (_VideoStream != null)
                 CBase.Video.Pause(_VideoStream);
         }
 
@@ -176,9 +174,7 @@ namespace VocaluxeLib.Menu
         public void UnloadTextures()
         {
             _SlideShowTextures.Clear();
-            CBase.Video.Close(_VideoStream);
-            _VideoStream = -1;
-            CBase.Drawing.RemoveTexture(ref _VidTex);
+            CBase.Video.Close(ref _VideoStream);
         }
 
         public void LoadTextures()
@@ -299,11 +295,10 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawVideo()
         {
-            float time;
-            CBase.Video.GetFrame(_VideoStream, ref _VidTex, 0, out time);
-            if (_VidTex != null)
+            CBase.Video.GetFrame(_VideoStream, _VideoStream.VideoTime);
+            if (_VideoStream.Texture != null)
             {
-                CBase.Drawing.DrawTexture(_VidTex, _GetDrawRect(), EAspect.Crop);
+                CBase.Drawing.DrawTexture(_VideoStream.Texture, _GetDrawRect(), EAspect.Crop);
                 return true;
             }
             return false;

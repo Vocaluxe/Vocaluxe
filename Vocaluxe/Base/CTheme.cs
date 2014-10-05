@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Xml;
 using Vocaluxe.Base.Fonts;
+using Vocaluxe.Lib.Video;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -80,6 +81,11 @@ namespace Vocaluxe.Base
             ListSkins();
 
             return LoadSkins() && LoadTheme();
+        }
+
+        public static void Close()
+        {
+            UnloadSkins();
         }
 
         public static bool LoadSkins()
@@ -380,10 +386,10 @@ namespace Vocaluxe.Base
             return null;
         }
 
-        public static int GetSkinVideo(string videoName, int partyModeID, bool loop = true)
+        public static CVideoStream GetSkinVideo(string videoName, int partyModeID, bool loop = true)
         {
             CSkin skin = _GetSkin(partyModeID);
-            return skin == null ? -1 : skin.GetVideo(videoName, loop);
+            return skin == null ? null : skin.GetVideo(videoName, loop);
         }
         #endregion Theme and Skin index handling
 

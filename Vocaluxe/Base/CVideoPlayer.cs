@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using Vocaluxe.Lib.Video;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -6,8 +7,7 @@ namespace Vocaluxe.Base
 {
     class CVideoPlayer
     {
-        private CTextureRef _VideoTexture;
-        private int _VideoStream;
+        private CVideoStream _VideoStream;
         private readonly Stopwatch _VideoTimer = new Stopwatch();
         private bool _Finished;
         private bool _Loaded;
@@ -57,12 +57,12 @@ namespace Vocaluxe.Base
                 float videoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
                 _Finished = CVideo.Finished(_VideoStream);
 
-                CVideo.GetFrame(_VideoStream, ref _VideoTexture, videoTime, out videoTime);
+                CVideo.GetFrame(_VideoStream, videoTime);
             }
-            if (_VideoTexture == null)
+            if (_VideoStream.Texture == null)
                 return;
 
-            CDraw.DrawTexture(_VideoTexture, CSettings.RenderRect, EAspect.Crop);
+            CDraw.DrawTexture(_VideoStream.Texture, CSettings.RenderRect, EAspect.Crop);
         }
 
         public void PreLoad()
@@ -71,10 +71,9 @@ namespace Vocaluxe.Base
             if (paused)
                 CVideo.Resume(_VideoStream);
             float videoTime = 0f;
-            while (_VideoTexture == null && videoTime < 1f)
+            while (_VideoStream.Texture == null && videoTime < 1f)
             {
-                float dummy;
-                CVideo.GetFrame(_VideoStream, ref _VideoTexture, 0, out dummy);
+                CVideo.GetFrame(_VideoStream, 0);
                 videoTime += 0.05f;
             }
             if (paused)
@@ -83,8 +82,7 @@ namespace Vocaluxe.Base
 
         public void Close()
         {
-            CVideo.Close(_VideoStream);
-            CDraw.RemoveTexture(ref _VideoTexture);
+            CVideo.Close(ref _VideoStream);
             _Loaded = false;
             _Finished = false;
             _VideoTimer.Reset();

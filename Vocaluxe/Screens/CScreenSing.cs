@@ -23,6 +23,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
+using Vocaluxe.Lib.Video;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
@@ -96,9 +97,8 @@ namespace Vocaluxe.Screens
         private float _Length = -1f;
         //private int _NextStream = -1;
         private const float _Volume = 100f;
-        private int _CurrentVideo = -1;
+        private CVideoStream _CurrentVideo;
         private EAspect _VideoAspect = EAspect.Crop;
-        private CTextureRef _CurrentVideoTexture;
         private CTextureRef _CurrentWebcamFrameTexture;
         private CTextureRef _Background;
 
@@ -400,10 +400,9 @@ namespace Vocaluxe.Screens
                 _Texts[_TextScores[p, CGame.NumPlayer - 1]].Text = CGame.Players[p].Points.ToString(fmtString);
             }
 
-            if (_CurrentVideo != -1 && !_FadeOut && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON)
+            if (_CurrentVideo != null && !_FadeOut && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON)
             {
-                float vtime;
-                CVideo.GetFrame(_CurrentVideo, ref _CurrentVideoTexture, _CurrentTime, out vtime);
+                CVideo.GetFrame(_CurrentVideo, _CurrentTime);
             }
 
             if (_Webcam)
@@ -418,8 +417,7 @@ namespace Vocaluxe.Screens
 
             _FadeOut = false;
 
-            _CurrentVideo = -1;
-            _CurrentVideoTexture = null;
+            _CurrentVideo = null;
             _CurrentWebcamFrameTexture = null;
             _CurrentBeat = -100;
             _CurrentTime = 0f;
@@ -464,9 +462,9 @@ namespace Vocaluxe.Screens
             {
                 CTextureRef background;
                 var aspect = EAspect.Crop;
-                if (_CurrentVideo != -1 && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
+                if (_CurrentVideo != null && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
                 {
-                    background = _CurrentVideoTexture;
+                    background = _CurrentVideo.Texture;
                     aspect = _VideoAspect;
                 }
                 else if (_Webcam)
@@ -557,11 +555,9 @@ namespace Vocaluxe.Screens
                 _CurrentStream = -1;
             }
             CRecord.Stop();
-            if (_CurrentVideo != -1)
+            if (_CurrentVideo != null)
             {
-                CVideo.Close(_CurrentVideo);
-                _CurrentVideo = -1;
-                CDraw.RemoveTexture(ref _CurrentVideoTexture);
+                CVideo.Close(ref _CurrentVideo);
             }
             CDraw.RemoveTexture(ref _Background);
 
@@ -623,8 +619,6 @@ namespace Vocaluxe.Screens
                     voiceAssignments[i] = CGame.Players[i].VoiceNr;
             }
             CGame.ResetPlayer();
-
-            CDraw.RemoveTexture(ref _CurrentVideoTexture);
 
             if (!String.IsNullOrEmpty(song.VideoFileName))
             {
