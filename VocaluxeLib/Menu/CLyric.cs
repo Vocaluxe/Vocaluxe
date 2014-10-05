@@ -18,6 +18,7 @@
 using System;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -187,10 +188,7 @@ namespace VocaluxeLib.Menu
         private void _SetText(CSongNote note)
         {
             _Text.Text = note.Text;
-            _Text.Style = EStyle.Bold;
-
-            if (note.Type == ENoteType.Freestyle)
-                _Text.Style = EStyle.BoldItalic;
+            _Text.Font.Style = (note.Type == ENoteType.Freestyle) ? EStyle.BoldItalic : EStyle.Bold;
         }
 
         public void Clear()
@@ -332,11 +330,11 @@ namespace VocaluxeLib.Menu
                 p = 1f - p;
 
                 float ty = _Text.Y;
-                float th = _Text.Height;
+                float th = _Text.Font.Height;
                 float tz = _Text.Z;
 
                 SRectF normalRect = _Text.Rect;
-                _Text.Height += _Text.Height * p * 0.4f;
+                _Text.Font.Height *= 1f + p * 0.4f;
                 _Text.X -= (_Text.Rect.W - normalRect.W) / 2f;
                 _Text.Y -= (_Text.Rect.H - normalRect.H) / 2f;
                 _Text.Z -= 0.1f;
@@ -346,7 +344,7 @@ namespace VocaluxeLib.Menu
                 _Text.Draw();
 
                 _Text.Y = ty;
-                _Text.Height = th;
+                _Text.Font.Height = th;
                 _Text.Z = tz;
             }
         }
@@ -438,7 +436,7 @@ namespace VocaluxeLib.Menu
             else
             {
                 float y = _Text.Y;
-                _Text.Y -= _Text.Height * 0.1f * p;
+                _Text.Y -= _Text.Font.Height * 0.1f * p;
                 _Text.Draw();
                 _Text.Y = y;
             }

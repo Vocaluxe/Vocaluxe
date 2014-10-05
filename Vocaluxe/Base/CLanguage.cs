@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VocaluxeLib;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {

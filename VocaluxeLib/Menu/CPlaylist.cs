@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {

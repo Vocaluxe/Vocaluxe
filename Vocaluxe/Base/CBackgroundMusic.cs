@@ -193,7 +193,7 @@ namespace Vocaluxe.Base
 
             if (_PlaysPreview)
                 _PreviewPlayer.Play();
-            else if (CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            else if(CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
             {
                 if (_SongPlayer.SongLoaded)
                     //Resume

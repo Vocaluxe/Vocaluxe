@@ -22,6 +22,7 @@ using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {

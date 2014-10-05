@@ -658,16 +658,15 @@ namespace Vocaluxe.Base
                     }
                 }
             }
-            CFonts.Style = EStyle.Normal;
-            CFonts.SetFont("Normal");
-            CFonts.Height = 25;
+            CFont font=new CFont("Normal",EStyle.Normal, 25);
             SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
             float y = 0;
             foreach (string txt in debugOutput)
             {
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), y, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
+                float textWidth = CFonts.GetTextWidth(txt, font);
+                RectangleF rect = new RectangleF(CSettings.RenderW - textWidth, y, textWidth, CFonts.GetTextHeight(txt,font));
                 CDraw.DrawRect(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
+                CFonts.DrawText(txt, font, rect.X, rect.Y, CSettings.ZNear);
                 y += rect.Height;
             }
         }

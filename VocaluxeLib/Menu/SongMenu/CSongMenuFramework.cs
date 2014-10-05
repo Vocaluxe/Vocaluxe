@@ -23,6 +23,7 @@ using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
@@ -60,35 +61,35 @@ namespace VocaluxeLib.Menu.SongMenu
 
     public struct SThemeSongMenuTileBoard
     {
-        [XmlElement("NumW")] /// <summary>
+        /// <summary>
         ///     Number of tiles horizontal
         /// </summary>
-        public int NumW;
+        [XmlElement("NumW")] public int NumW;
 
-        [XmlElement("NumH")] /// <summary>
+        /// <summary>
         ///     Number of tiles vertical
         /// </summary>
-        public int NumH;
+        [XmlElement("NumH")] public int NumH;
 
-        [XmlElement("NumWsmall")] /// <summary>
+        /// <summary>
         ///     Number of tiles horizontal in small-modus
         /// </summary>
-        public int NumWsmall;
+        [XmlElement("NumWsmall")] public int NumWsmall;
 
-        [XmlElement("NumHsmall")] /// <summary>
+        /// <summary>
         ///     Number of tiles vertical in small-modus
         /// </summary>
-        public int NumHsmall;
+        [XmlElement("NumHsmall")] public int NumHsmall;
 
-        [XmlElement("SpaceW")] /// <summary>
+        /// <summary>
         ///     Space between tiles horizontal
         /// </summary>
-        public float SpaceW;
+        [XmlElement("SpaceW")] public float SpaceW;
 
-        [XmlElement("SpaceH")] /// <summary>
+        /// <summary>
         ///     Space between tiles vertical
         /// </summary>
-        public float SpaceH;
+        [XmlElement("SpaceH")] public float SpaceH;
 
         [XmlElement("TileRect")] public SRectF TileRect;
         [XmlElement("TileRectSmall")] public SRectF TileRectSmall;
@@ -270,7 +271,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void OnHide()
         {
-            if (CBase.Graphics.GetNextScreen() != EScreens.ScreenNames)
+            if(CBase.Graphics.GetNextScreen() != EScreens.ScreenNames || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 _ResetPreview();
         }
 

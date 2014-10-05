@@ -20,6 +20,7 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {

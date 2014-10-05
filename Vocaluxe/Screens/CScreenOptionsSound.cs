@@ -160,7 +160,7 @@ namespace Vocaluxe.Screens
             if (CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                 CBackgroundMusic.Play();
             else
-                CBackgroundMusic.Pause();
+                CBackgroundMusic.Stop();
         }
     }
 }

@@ -216,6 +216,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
+    <Compile Include="Base\CNoCoverGenerator.cs" />
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
     <Compile Include="Base\CVideoPlayer.cs" />
@@ -246,7 +247,7 @@
     <Compile Include="Base\CDraw.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPt1.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CSyncTimer.cs" />
-    <Compile Include="Base\Fonts\CFont.cs" />
+    <Compile Include="Base\Fonts\CFontStyle.cs" />
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CController.cs" />
     <Compile Include="Base\CLanguage.cs" />

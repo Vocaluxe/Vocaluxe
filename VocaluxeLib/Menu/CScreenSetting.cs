@@ -19,6 +19,7 @@ using System;
 using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {

@@ -26,6 +26,44 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib
 {
+    public enum ECoverGeneratorType
+    {
+        Default,
+        Folder,
+        Artist,
+        Letter,
+        Edition,
+        Genre,
+        Language,
+        Year,
+        Decade,
+        Date
+    }
+
+    public struct SMargin
+    {
+        public int Default;
+        public int Left, Right, Top, Bottom;
+    }
+
+    public struct SThemeCoverGeneratorText
+    {
+        public string Text;
+        public SThemeFont Font;
+        public SThemeColor Color;
+        public SMargin Margin;
+        public int Indent;
+    }
+
+    public struct SThemeCoverGenerator
+    {
+        public ECoverGeneratorType Type;
+        public SThemeCoverGeneratorText Text;
+        public SThemeColor BackgroundColor;
+        public string Image;
+        public float ImageAlpha;
+        public bool ShowFirstCover;
+    }
 
     #region Drawing
     public struct SColorF

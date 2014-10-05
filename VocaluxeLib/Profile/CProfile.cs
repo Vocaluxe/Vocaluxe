@@ -18,6 +18,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Profile
 {

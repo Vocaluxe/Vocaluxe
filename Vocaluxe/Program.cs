@@ -173,17 +173,11 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
-                // Init Font
-                CLog.StartBenchmark("Init Font");
-                CFonts.Init();
-                CLog.StopBenchmark("Init Font");
-
-                Application.DoEvents();
-
-                // Load Cover
-                CLog.StartBenchmark("Init Cover");
-                CCover.Init();
-                CLog.StopBenchmark("Init Cover");
+                // Init Fonts
+                CLog.StartBenchmark("Init Fonts");
+                if (!CFonts.Init())
+                    throw new CLoadingException("fonts");
+                CLog.StopBenchmark("Init Fonts");
 
                 Application.DoEvents();
 
@@ -192,6 +186,13 @@ namespace Vocaluxe
                 if (!CTheme.Init())
                     throw new CLoadingException("theme");
                 CLog.StopBenchmark("Init Theme");
+
+                Application.DoEvents();
+
+                // Load Cover
+                CLog.StartBenchmark("Init Cover");
+                CCover.Init();
+                CLog.StopBenchmark("Init Cover");
 
                 Application.DoEvents();
 
@@ -265,6 +266,7 @@ namespace Vocaluxe
                 CGraphics.Close();
                 CTheme.Close();
                 CCover.Close();
+                CFonts.Close();
                 CBackgroundMusic.Close();
                 CWebcam.Close();
                 CDataBase.Close();

@@ -24,6 +24,7 @@ using Vocaluxe.Base.Fonts;
 using Vocaluxe.Lib.Video;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {

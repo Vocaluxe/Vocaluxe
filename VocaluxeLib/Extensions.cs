@@ -22,6 +22,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Globalization;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace VocaluxeLib
 {
@@ -77,6 +78,7 @@ namespace VocaluxeLib
         /// <returns></returns>
         public static bool IsInRange<T>(this T val, T min, T max) where T : IComparable<T>
         {
+            Debug.Assert(min.CompareTo(max) <= 0);
             return min.CompareTo(val) <= 0 && max.CompareTo(val) >= 0;
         }
 
@@ -147,28 +149,13 @@ namespace VocaluxeLib
             return value.IndexOf(other, StringComparison.CurrentCultureIgnoreCase) >= 0;
         }
 
+        private static Regex _MultipleWhiteSpaceRegEx = new Regex(@" {2,}");
+
         public static string TrimMultipleWs(this string value)
         {
             if (string.IsNullOrEmpty(value))
                 return "";
-            int start = 0;
-            int len = value.Length;
-            while (value[start] == ' ')
-            {
-                start++;
-                if (start >= len)
-                    return "";
-            }
-            if (start > 0)
-                start--;
-            int end = --len;
-            while (value[end] == ' ')
-                end--;
-            if (end < len)
-                end++;
-            if (end - start < len)
-                value = value.Substring(start, end - start + 1);
-            return value;
+            return _MultipleWhiteSpaceRegEx.Replace(value, " ");
         }
 
         /// <summary>
