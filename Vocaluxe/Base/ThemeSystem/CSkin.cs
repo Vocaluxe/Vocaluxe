@@ -108,7 +108,7 @@ namespace Vocaluxe.Base.ThemeSystem
             }
 
             // load colors
-            if (_LoadColors(xmlReader))
+            if (!_LoadColors(xmlReader))
                 return false;
 
             _IsLoaded = true;

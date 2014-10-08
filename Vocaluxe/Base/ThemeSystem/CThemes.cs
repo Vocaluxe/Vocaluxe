@@ -118,8 +118,6 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static bool ReadThemesFromFolder(string path, int partyModeID)
         {
-            Debug.Assert(_Themes.Count == 0);
-
             List<string> files = CHelper.ListFiles(path, "*.xml", false, true);
 
             List<CTheme> newThemes = new List<CTheme>();
@@ -175,7 +173,8 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static CTextureRef GetSkinTexture(string textureName, int partyModeID)
         {
-            Debug.Assert(!String.IsNullOrEmpty(textureName));
+            if (String.IsNullOrEmpty(textureName))
+                return null;
             CTheme theme = _GetTheme(partyModeID);
             CTextureRef texture = theme.CurrentSkin.GetTexture(textureName);
             if (texture == null && partyModeID >= 0)
