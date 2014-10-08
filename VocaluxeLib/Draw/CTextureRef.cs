@@ -68,8 +68,8 @@ namespace VocaluxeLib.Draw
                 //Free textures that are no longer referenced
                 CTextureRef tmp = this;
                 CBase.Drawing.RemoveTexture(ref tmp);
+                _SetRemoved();
             }
-            SetRemoved();
         }
 
         /// <summary>
@@ -80,6 +80,11 @@ namespace VocaluxeLib.Draw
         {
             if (ID < 0)
                 throw new ObjectDisposedException(GetType().Name);
+            _SetRemoved();
+        }
+
+        private void _SetRemoved()
+        {
             ID = -1;
             GC.SuppressFinalize(this);
         }
