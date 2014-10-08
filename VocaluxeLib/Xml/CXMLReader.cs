@@ -26,7 +26,7 @@ namespace VocaluxeLib.Xml
         private readonly XPathNavigator _Navigator;
         private readonly String _FilePath;
 
-        public string FilePath
+        public override string FilePath
         {
             get { return _FilePath; }
         }

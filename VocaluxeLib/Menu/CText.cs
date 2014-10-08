@@ -312,12 +312,12 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
         {
-            return LoadTheme(xmlPath, elementName, xmlReader, skinIndex, false);
+            return LoadTheme(xmlPath, elementName, xmlReader, false);
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex, bool buttonText)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, bool buttonText)
         {
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
@@ -553,6 +553,6 @@ namespace VocaluxeLib.Menu
         public void FontChanged()
         {
             _PositionNeedsUpdate = true;
-    }
+        }
     }
 }

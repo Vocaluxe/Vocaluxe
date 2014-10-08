@@ -121,24 +121,24 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        public override bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
+        public override bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
 
             bool themeLoaded = true;
-            themeLoaded &= base.LoadTheme(xmlPath, elementName, xmlReader, skinIndex);
+            themeLoaded &= base.LoadTheme(xmlPath, elementName, xmlReader);
 
 
-            themeLoaded &= _Artist.LoadTheme(item + "/SongMenuTileBoard", "TextArtist", xmlReader, skinIndex);
-            themeLoaded &= _Title.LoadTheme(item + "/SongMenuTileBoard", "TextTitle", xmlReader, skinIndex);
-            themeLoaded &= _SongLength.LoadTheme(item + "/SongMenuTileBoard", "TextSongLength", xmlReader, skinIndex);
+            themeLoaded &= _Artist.LoadTheme(item + "/SongMenuTileBoard", "TextArtist", xmlReader);
+            themeLoaded &= _Title.LoadTheme(item + "/SongMenuTileBoard", "TextTitle", xmlReader);
+            themeLoaded &= _SongLength.LoadTheme(item + "/SongMenuTileBoard", "TextSongLength", xmlReader);
 
-            themeLoaded &= _CoverBig.LoadTheme(item + "/SongMenuTileBoard", "StaticCoverBig", xmlReader, skinIndex);
-            themeLoaded &= _TextBG.LoadTheme(item + "/SongMenuTileBoard", "StaticTextBG", xmlReader, skinIndex);
-            themeLoaded &= _DuetIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticDuetIcon", xmlReader, skinIndex);
-            themeLoaded &= _VideoIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticVideoIcon", xmlReader, skinIndex);
-            themeLoaded &= _MedleyCalcIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyCalcIcon", xmlReader, skinIndex);
-            themeLoaded &= _MedleyTagIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyTagIcon", xmlReader, skinIndex);
+            themeLoaded &= _CoverBig.LoadTheme(item + "/SongMenuTileBoard", "StaticCoverBig", xmlReader);
+            themeLoaded &= _TextBG.LoadTheme(item + "/SongMenuTileBoard", "StaticTextBG", xmlReader);
+            themeLoaded &= _DuetIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticDuetIcon", xmlReader);
+            themeLoaded &= _VideoIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticVideoIcon", xmlReader);
+            themeLoaded &= _MedleyCalcIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyCalcIcon", xmlReader);
+            themeLoaded &= _MedleyTagIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyTagIcon", xmlReader);
 
             if (themeLoaded)
             {

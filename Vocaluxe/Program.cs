@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Server;
+using Vocaluxe.Base.ThemeSystem;
 
 namespace Vocaluxe
 {
@@ -186,6 +187,10 @@ namespace Vocaluxe
                 if (!CThemes.Init())
                     throw new CLoadingException("theme");
                 CLog.StopBenchmark("Init Theme");
+
+                CLog.StartBenchmark("Load Theme");
+                CThemes.Load();
+                CLog.StopBenchmark("Load Theme");
 
                 Application.DoEvents();
 

@@ -1,0 +1,2791 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>PartyScreenChallengeMedleyMain</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
+      <Type>Video</Type>
+      <SlideShowTextures />
+      <Video>BG_Video</Video>
+      <Skin>BG_Default</Skin>
+      <Color>
+        <Name>BackgroundColor</Name>
+      </Color>
+    </Background>
+  </Backgrounds>
+  <Statics>
+    <Static Name="Static1">
+      <Skin>Menu</Skin>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <Rect>
+        <X>40</X>
+        <Y>40</Y>
+        <W>1200</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static Name="StaticPopupBG">
+      <Skin>PopupBG</Skin>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>1280</W>
+        <H>720</H>
+        <Z>-1</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static Name="StaticNextPlayer">
+      <Skin>Invisible</Skin>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>100</W>
+        <H>100</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+    <Static>
+      <Color />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>0</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+      <Reflection Enabled="false" />
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="Text1">
+      <X>640</X>
+      <Y>48</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_TITLE</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextPosition">
+      <X>40</X>
+      <Y>102</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_TABLE_POS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextPlayerName">
+      <X>50</X>
+      <Y>102</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>130</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextNumPlayed">
+      <X>260</X>
+      <Y>102</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextWon">
+      <X>340</X>
+      <Y>102</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextSingPoints">
+      <X>490</X>
+      <Y>102</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextGamePoints">
+      <X>590</X>
+      <Y>102</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextNextPlayer">
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>100</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextPopupReallyExit">
+      <X>640</X>
+      <Y>265</Y>
+      <Z>-1.01</Z>
+      <H>27</H>
+      <MaxW>380</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_POPUP_REALLYEXIT</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextRoundNumber">
+      <X>660</X>
+      <Y>102</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextRoundPlayer">
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextRoundScore">
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextFinishMessage">
+      <X>640</X>
+      <Y>520</Y>
+      <Z>0</Z>
+      <H>44</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_FINISH</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextFinishPlayerWin">
+      <X>640</X>
+      <Y>575</Y>
+      <Z>0</Z>
+      <H>31</H>
+      <MaxW>770</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text Name="TextNextPlayerMessage">
+      <X>640</X>
+      <Y>515</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <Name>StaticColor</Name>
+      </Color>
+      <SColor>
+        <Name>TextSColor</Name>
+      </SColor>
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_NEXT_PLAYER</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>1.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>2.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>3.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>4.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>5.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>6.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>7.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>8.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>9.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>10.</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_WON</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+    <Text>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>0</H>
+      <MaxW>0</MaxW>
+      <Color />
+      <SColor />
+      <Align>Left</Align>
+      <ResizeAlign>Top</ResizeAlign>
+      <Style>Normal</Style>
+      <Text />
+      <Reflection Enabled="false" />
+    </Text>
+  </Texts>
+  <Buttons>
+    <Button Name="ButtonNextRound">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>1030</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color>
+        <Name>ButtonColor</Name>
+      </Color>
+      <SelColor>
+        <Name>ButtonSColor</Name>
+      </SelColor>
+      <Text Name="Text">
+        <X>75</X>
+        <Y>10</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color>
+          <Name>ButtonTextColor</Name>
+        </Color>
+        <SColor>
+          <Name>ButtonTextSColor</Name>
+        </SColor>
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_BUTTON_NEXT_ROUND</Text>
+        <Reflection Enabled="false" />
+      </Text>
+      <STextSpecified>false</STextSpecified>
+      <Reflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonBack">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>100</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color>
+        <Name>ButtonColor</Name>
+      </Color>
+      <SelColor>
+        <Name>ButtonSColor</Name>
+      </SelColor>
+      <Text Name="Text">
+        <X>75</X>
+        <Y>10</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color>
+          <Name>ButtonTextColor</Name>
+        </Color>
+        <SColor>
+          <Name>ButtonTextSColor</Name>
+        </SColor>
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_BUTTON_BACK</Text>
+        <Reflection Enabled="false" />
+      </Text>
+      <STextSpecified>false</STextSpecified>
+      <Reflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonExit">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>100</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color>
+        <Name>ButtonColor</Name>
+      </Color>
+      <SelColor>
+        <Name>ButtonSColor</Name>
+      </SelColor>
+      <Text Name="Text">
+        <X>75</X>
+        <Y>10</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color>
+          <Name>ButtonTextColor</Name>
+        </Color>
+        <SColor>
+          <Name>ButtonTextSColor</Name>
+        </SColor>
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_BUTTON_EXIT</Text>
+        <Reflection Enabled="false" />
+      </Text>
+      <STextSpecified>false</STextSpecified>
+      <Reflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonPopupYes">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>665</X>
+        <Y>360</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>-1.01</Z>
+      </Rect>
+      <Color>
+        <Name>ButtonColor</Name>
+      </Color>
+      <SelColor>
+        <Name>ButtonSColor</Name>
+      </SelColor>
+      <Text Name="Text">
+        <X>75</X>
+        <Y>10</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color>
+          <Name>ButtonTextColor</Name>
+        </Color>
+        <SColor>
+          <Name>ButtonTextSColor</Name>
+        </SColor>
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_BUTTON_YES</Text>
+        <Reflection Enabled="false" />
+      </Text>
+      <STextSpecified>false</STextSpecified>
+      <Reflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonPopupNo">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>465</X>
+        <Y>360</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>-1.01</Z>
+      </Rect>
+      <Color>
+        <Name>ButtonColor</Name>
+      </Color>
+      <SelColor>
+        <Name>ButtonSColor</Name>
+      </SelColor>
+      <Text Name="Text">
+        <X>75</X>
+        <Y>10</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color>
+          <Name>ButtonTextColor</Name>
+        </Color>
+        <SColor>
+          <Name>ButtonTextSColor</Name>
+        </SColor>
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_BUTTON_NO</Text>
+        <Reflection Enabled="false" />
+      </Text>
+      <STextSpecified>false</STextSpecified>
+      <Reflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection Enabled="true">
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonPlayerScrollDown">
+      <Skin>ScrollDown</Skin>
+      <SkinSelected>ScrollDown</SkinSelected>
+      <Rect>
+        <X>281</X>
+        <Y>515</Y>
+        <W>28</W>
+        <H>15</H>
+        <Z>-0.01</Z>
+      </Rect>
+      <Color>
+        <Name>ButtonColor</Name>
+      </Color>
+      <SelColor>
+        <Name>ButtonSColor</Name>
+      </SelColor>
+      <Text Name="Text">
+        <X>75</X>
+        <Y>10</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color>
+          <Name>ButtonTextColor</Name>
+        </Color>
+        <SColor>
+          <Name>ButtonTextSColor</Name>
+        </SColor>
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text />
+        <Reflection Enabled="false" />
+      </Text>
+      <STextSpecified>false</STextSpecified>
+      <Reflection Enabled="false" />
+      <SelReflection Enabled="false" />
+    </Button>
+    <Button Name="ButtonPlayerScrollUp">
+      <Skin>ScrollUp</Skin>
+      <SkinSelected>ScrollUp</SkinSelected>
+      <Rect>
+        <X>281</X>
+        <Y>94</Y>
+        <W>28</W>
+        <H>15</H>
+        <Z>-0.01</Z>
+      </Rect>
+      <Color>
+        <Name>ButtonColor</Name>
+      </Color>
+      <SelColor>
+        <Name>ButtonSColor</Name>
+      </SelColor>
+      <Text Name="Text">
+        <X>75</X>
+        <Y>10</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color>
+          <Name>ButtonTextColor</Name>
+        </Color>
+        <SColor>
+          <Name>ButtonTextSColor</Name>
+        </SColor>
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text />
+        <Reflection Enabled="false" />
+      </Text>
+      <STextSpecified>false</STextSpecified>
+      <Reflection Enabled="false" />
+      <SelReflection Enabled="false" />
+    </Button>
+    <Button Name="ButtonRoundsScrollDown">
+      <Skin>ScrollDown</Skin>
+      <SkinSelected>ScrollDown</SkinSelected>
+      <Rect>
+        <X>954</X>
+        <Y>515</Y>
+        <W>28</W>
+        <H>15</H>
+        <Z>-0.01</Z>
+      </Rect>
+      <Color>
+        <Name>ButtonColor</Name>
+      </Color>
+      <SelColor>
+        <Name>ButtonSColor</Name>
+      </SelColor>
+      <Text Name="Text">
+        <X>75</X>
+        <Y>10</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color>
+          <Name>ButtonTextColor</Name>
+        </Color>
+        <SColor>
+          <Name>ButtonTextSColor</Name>
+        </SColor>
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text />
+        <Reflection Enabled="false" />
+      </Text>
+      <STextSpecified>false</STextSpecified>
+      <Reflection Enabled="false" />
+      <SelReflection Enabled="false" />
+    </Button>
+    <Button Name="ButtonRoundsScrollUp">
+      <Skin>ScrollUp</Skin>
+      <SkinSelected>ScrollUp</SkinSelected>
+      <Rect>
+        <X>954</X>
+        <Y>94</Y>
+        <W>28</W>
+        <H>15</H>
+        <Z>-0.01</Z>
+      </Rect>
+      <Color>
+        <Name>ButtonColor</Name>
+      </Color>
+      <SelColor>
+        <Name>ButtonSColor</Name>
+      </SelColor>
+      <Text Name="Text">
+        <X>75</X>
+        <Y>10</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color>
+          <Name>ButtonTextColor</Name>
+        </Color>
+        <SColor>
+          <Name>ButtonTextSColor</Name>
+        </SColor>
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text />
+        <Reflection Enabled="false" />
+      </Text>
+      <STextSpecified>false</STextSpecified>
+      <Reflection Enabled="false" />
+      <SelReflection Enabled="false" />
+    </Button>
+  </Buttons>
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides />
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>

@@ -23,6 +23,7 @@ using System.Windows.Forms;
 using System.IO;
 using System.Xml.Serialization;
 using Vocaluxe.Base.Fonts;
+using Vocaluxe.Base.ThemeSystem;
 using Vocaluxe.Screens;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -128,14 +129,14 @@ namespace Vocaluxe.Base
             {
                 CLog.StartBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
                 _Screens[i].Init();
-                _Screens[i].LoadTheme(CThemes.GetThemeScreensPath(-1));
+                _Screens[i].LoadTheme(CThemes.GetThemeScreensPath(_Screens[i].PartyModeID));
                 CLog.StopBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
             foreach (IMenu popup in _PopupScreens)
             {
                 popup.Init();
-                popup.LoadTheme(CThemes.GetThemeScreensPath(-1));
+                popup.LoadTheme(CThemes.GetThemeScreensPath(popup.PartyModeID));
             }
         }
 
@@ -143,10 +144,10 @@ namespace Vocaluxe.Base
         {
             _Cursor.ReloadTextures();
             foreach (IMenu screen in _Screens)
-                screen.ReloadTheme(CThemes.GetThemeScreensPath(-1));
+                screen.ReloadTheme(CThemes.GetThemeScreensPath(screen.PartyModeID));
 
             foreach (IMenu popup in _PopupScreens)
-                popup.ReloadTheme(CThemes.GetThemeScreensPath(-1));
+                popup.ReloadTheme(CThemes.GetThemeScreensPath(popup.PartyModeID));
         }
 
         public static void ReloadSkin()
@@ -161,7 +162,6 @@ namespace Vocaluxe.Base
 
         public static void SaveTheme()
         {
-            CThemes.SaveTheme();
             foreach (CMenu screen in _Screens)
             {
                 if (screen.ThemePath == null || screen.ThemeName == "ScreenTest")
@@ -658,13 +658,13 @@ namespace Vocaluxe.Base
                     }
                 }
             }
-            CFont font=new CFont("Normal",EStyle.Normal, 25);
+            CFont font = new CFont("Normal", EStyle.Normal, 25);
             SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
             float y = 0;
             foreach (string txt in debugOutput)
             {
                 float textWidth = CFonts.GetTextWidth(txt, font);
-                RectangleF rect = new RectangleF(CSettings.RenderW - textWidth, y, textWidth, CFonts.GetTextHeight(txt,font));
+                RectangleF rect = new RectangleF(CSettings.RenderW - textWidth, y, textWidth, CFonts.GetTextHeight(txt, font));
                 CDraw.DrawRect(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
                 CFonts.DrawText(txt, font, rect.X, rect.Y, CSettings.ZNear);
                 y += rect.Height;

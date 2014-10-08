@@ -119,7 +119,7 @@ namespace VocaluxeLib.Menu.SingNotes
             get { return _ThemeLoaded; }
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;

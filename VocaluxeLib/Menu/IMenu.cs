@@ -19,6 +19,8 @@ namespace VocaluxeLib.Menu
 {
     public interface IMenu
     {
+        int PartyModeID { get; }
+
         void Init();
 
         void LoadTheme(string xmlPath);

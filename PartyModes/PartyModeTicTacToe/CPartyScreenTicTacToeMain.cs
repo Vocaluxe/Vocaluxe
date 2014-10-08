@@ -350,13 +350,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 if (winner > 0)
                 {
                     _Texts[_TextFinishMessage].Color = CBase.Themes.GetPlayerColor(winner);
-                    _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", _PartyModeID) + " " + CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " +
+                    _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_WINNER", PartyModeID) + " " + CBase.Language.Translate("TR_TEAM", PartyModeID) + " " +
                                                       winner;
                 }
                 else
                 {
                     _Texts[_TextFinishMessage].Color = new SColorF(1, 1, 1, 1);
-                    _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_NOWINNER", _PartyModeID);
+                    _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_NOWINNER", PartyModeID);
                 }
                 _SetInteractionToButton(_Buttons[_ButtonExit]);
             }
@@ -601,8 +601,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _UpdateTeamChoosingMessage()
         {
             _Texts[_TextTeamChoosing].Color = CBase.Themes.GetPlayerColor(_GameData.Team + 1);
-            _Texts[_TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", _PartyModeID) + " " + (_GameData.Team + 1) + "! " +
-                                             CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", _PartyModeID);
+            _Texts[_TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", PartyModeID) + " " + (_GameData.Team + 1) + "! " +
+                                             CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", PartyModeID);
             if (_Status == EStatus.JokerRetry || _Status == EStatus.FieldChoosing)
                 _Texts[_TextTeamChoosing].Visible = true;
             else

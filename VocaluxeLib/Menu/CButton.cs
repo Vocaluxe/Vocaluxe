@@ -162,7 +162,7 @@ namespace VocaluxeLib.Menu
             _SelReflectionSpace = button._SelReflectionSpace;
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
@@ -196,12 +196,12 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SelColor.A);
             }
 
-            _ThemeLoaded &= Text.LoadTheme(item, "Text", xmlReader, skinIndex, true);
+            _ThemeLoaded &= Text.LoadTheme(item, "Text", xmlReader, true);
             Text.Z = Rect.Z;
             if (xmlReader.ItemExists(item + "/SText"))
             {
                 _Theme.STextSpecified = true;
-                _ThemeLoaded &= _SelText.LoadTheme(item, "SText", xmlReader, skinIndex, true);
+                _ThemeLoaded &= _SelText.LoadTheme(item, "SText", xmlReader, true);
                 _SelText.Z = Rect.Z;
             }
 

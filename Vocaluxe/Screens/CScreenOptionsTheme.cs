@@ -15,9 +15,10 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Fonts;
+using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 
@@ -42,9 +43,7 @@ namespace Vocaluxe.Screens
 
         private const string _ButtonExit = "ButtonExit";
 
-        private int _OldCoverTheme;
-        private int _OldTheme;
-        private int _OldSkin;
+        private string _OldCoverTheme;
 
         public override void Init()
         {
@@ -67,12 +66,6 @@ namespace Vocaluxe.Screens
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
-
-            _SelectSlides[_SelectSlideTheme].AddValues(CThemes.ThemeNames);
-            _SelectSlides[_SelectSlideTheme].Selection = CThemes.GetThemeIndex(-1);
-
-            _SelectSlides[_SelectSlideSkin].AddValues(CThemes.SkinNames);
-            _SelectSlides[_SelectSlideSkin].Selection = CThemes.GetSkinIndex(-1);
 
             _SelectSlides[_SelectSlideCover].AddValues(CCover.CoverThemes);
             _SelectSlides[_SelectSlideCover].Selection = CCover.GetCoverThemeIndex();
@@ -140,19 +133,24 @@ namespace Vocaluxe.Screens
         {
             base.OnShow();
 
-            _OldCoverTheme = CCover.GetCoverThemeIndex();
-            _OldTheme = CThemes.GetThemeIndex(-1);
-            _OldSkin = CThemes.GetSkinIndex(-1);
+            _ResetSlides();
+
+            _OldCoverTheme = CConfig.CoverTheme;
+        }
+
+        private void _ResetSlides()
+        {
+            _SelectSlides[_SelectSlideTheme].Clear();
+            _SelectSlides[_SelectSlideTheme].AddValues(CThemes.ThemeNames);
+            _SelectSlides[_SelectSlideTheme].Selection = Array.IndexOf(CThemes.ThemeNames, CConfig.Theme);
+
+            _SelectSlides[_SelectSlideSkin].Clear();
+            _SelectSlides[_SelectSlideSkin].AddValues(CThemes.SkinNames);
+            _SelectSlides[_SelectSlideSkin].Selection = Array.IndexOf(CThemes.SkinNames, CConfig.Skin);
         }
 
         public override bool UpdateGame()
         {
-            return true;
-        }
-
-        public override bool Draw()
-        {
-            base.Draw();
             return true;
         }
 
@@ -164,8 +162,6 @@ namespace Vocaluxe.Screens
 
         private void _SaveConfig()
         {
-            CConfig.Theme = CThemes.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
-            CConfig.Skin = CThemes.SkinNames[_SelectSlides[_SelectSlideSkin].Selection];
             CConfig.CoverTheme = CCover.CoverThemes[_SelectSlides[_SelectSlideCover].Selection];
             CConfig.DrawNoteLines = (EOffOn)_SelectSlides[_SelectSlideNoteLines].Selection;
             CConfig.DrawToneHelper = (EOffOn)_SelectSlides[_SelectSlideToneHelper].Selection;
@@ -175,59 +171,30 @@ namespace Vocaluxe.Screens
 
             CConfig.SaveConfig();
 
-            if (_OldCoverTheme != _SelectSlides[_SelectSlideCover].Selection)
+            if (_OldCoverTheme != _SelectSlides[_SelectSlideCover].Value)
                 CCover.ReloadCovers();
-
-            if (_OldTheme != _SelectSlides[_SelectSlideTheme].Selection)
-            {
-                CConfig.Theme = CThemes.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
-                _OldTheme = _SelectSlides[_SelectSlideTheme].Selection;
-
-                CThemes.UnloadSkins();
-                CFonts.UnloadThemeFonts(CConfig.Theme);
-                CThemes.ListSkins();
-                CConfig.Skin = CThemes.SkinNames[0];
-                _OldSkin = 0;
-
-                CConfig.SaveConfig();
-
-                CThemes.LoadSkins();
-                CThemes.LoadTheme();
-                CGraphics.ReloadTheme();
-            }
         }
 
         private void _OnChange()
         {
-            if (_OldTheme != _SelectSlides[_SelectSlideTheme].Selection)
+            if (CConfig.Theme != _SelectSlides[_SelectSlideTheme].Value)
             {
-                CConfig.Theme = CThemes.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
-                _OldTheme = _SelectSlides[_SelectSlideTheme].Selection;
+                CConfig.Theme = _SelectSlides[_SelectSlideTheme].Value;
 
-                CThemes.UnloadSkins();
-                CFonts.UnloadThemeFonts(CConfig.Theme);
-                CThemes.ListSkins();
-                CConfig.Skin = CThemes.SkinNames[0];
-                _OldSkin = 0;
-
-                CConfig.SaveConfig();
-
-                CThemes.LoadSkins();
-                CThemes.LoadTheme();
+                CThemes.Reload();
                 CGraphics.ReloadTheme();
-
-                OnShow();
-                OnShowFinish();
+                _ResetSlides();
+                _ResumeBG();
                 return;
             }
 
-            if (_OldSkin != _SelectSlides[_SelectSlideSkin].Selection)
+            if (CConfig.Skin != _SelectSlides[_SelectSlideSkin].Value)
             {
-                _OldSkin = _SelectSlides[_SelectSlideSkin].Selection;
+                CConfig.Skin = _SelectSlides[_SelectSlideSkin].Value;
 
-                _PauseBG();
-                CConfig.Skin = CThemes.SkinNames[_OldSkin];
+                CThemes.ReloadSkin();
                 CGraphics.ReloadSkin();
+                _ResetSlides();
                 _ResumeBG();
             }
         }

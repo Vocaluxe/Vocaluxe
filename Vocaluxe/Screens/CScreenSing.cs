@@ -24,6 +24,7 @@ using System.Linq;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
+using Vocaluxe.Base.ThemeSystem;
 using Vocaluxe.Lib.Video;
 using VocaluxeLib;
 using VocaluxeLib.Draw;

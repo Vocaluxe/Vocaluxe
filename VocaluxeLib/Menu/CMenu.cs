@@ -65,7 +65,6 @@ namespace VocaluxeLib.Menu
         private List<CInteraction> _Interactions;
         private int _Selection;
         public string ThemePath { get; private set; }
-        protected int _PartyModeID = -1;
 
         private int _PrevMouseX;
         private int _PrevMouseY;
@@ -76,6 +75,7 @@ namespace VocaluxeLib.Menu
         protected bool _Active;
 
         protected abstract int _ScreenVersion { get; }
+        public int PartyModeID { get; protected set; }
         public string ThemeName { get; set; }
         public STheme Theme;
 
@@ -121,6 +121,7 @@ namespace VocaluxeLib.Menu
             if (ThemeName[0] == 'C' && Char.IsUpper(ThemeName[1]))
                 ThemeName = ThemeName.Remove(0, 1);
 
+            PartyModeID = -1;
             _Interactions = new List<CInteraction>();
             _Selection = 0;
 
@@ -170,14 +171,14 @@ namespace VocaluxeLib.Menu
         #region ThemeHandler
         private delegate void AddElementHandler<in T>(T element, String key);
 
-        private void _LoadThemeElement<T>(IEnumerable<string> elements, AddElementHandler<T> addElementHandler, CXMLReader xmlReader, int skinIndex) where T : IMenuElement
+        private void _LoadThemeElement<T>(IEnumerable<string> elements, AddElementHandler<T> addElementHandler, CXMLReader xmlReader) where T : IMenuElement
         {
             if (elements != null)
             {
                 foreach (string elName in elements)
                 {
-                    var element = (T)Activator.CreateInstance(typeof(T), _PartyModeID);
-                    if (element.LoadTheme("//root/" + ThemeName, elName, xmlReader, skinIndex))
+                    var element = (T)Activator.CreateInstance(typeof(T), PartyModeID);
+                    if (element.LoadTheme("//root/" + ThemeName, elName, xmlReader))
                         addElementHandler(element, elName);
                     else
                         CBase.Log.LogError("Can't load " + typeof(T).Name.Substring(1) + " \"" + elName + "\" in screen " + ThemeName);
@@ -196,7 +197,6 @@ namespace VocaluxeLib.Menu
             ThemePath = xmlPath;
 
             string file = Path.Combine(xmlPath, ThemeName + ".xml");
-            int skinIndex = CBase.Themes.GetSkinIndex(_PartyModeID);
 
             Theme.ScreenInformation = new SScreenInformation();
             Theme.Backgrounds = new List<SThemeBackground>();
@@ -220,43 +220,43 @@ namespace VocaluxeLib.Menu
                 Theme = (STheme)deserializer.Deserialize(textReader);
 
                 foreach (SThemeBackground bg in Theme.Backgrounds)
-                    _AddBackground(new CBackground(bg, _PartyModeID), bg.Name);
+                    _AddBackground(new CBackground(bg, PartyModeID), bg.Name);
 
                 foreach (SThemeButton bt in Theme.Buttons)
-                    _AddButton(new CButton(bt, _PartyModeID), bt.Name);
+                    _AddButton(new CButton(bt, PartyModeID), bt.Name);
 
                 foreach (SThemeEqualizer eq in Theme.Equalizers)
-                    _AddEqualizer(new CEqualizer(eq, _PartyModeID), eq.Name);
+                    _AddEqualizer(new CEqualizer(eq, PartyModeID), eq.Name);
 
                 foreach (SThemeLyrics ly in Theme.Lyrics)
-                    _AddLyric(new CLyric(ly, _PartyModeID), ly.Name);
+                    _AddLyric(new CLyric(ly, PartyModeID), ly.Name);
 
                 foreach (SThemeNameSelection ns in Theme.NameSelections)
-                    _AddNameSelection(new CNameSelection(ns, _PartyModeID), ns.Name);
+                    _AddNameSelection(new CNameSelection(ns, PartyModeID), ns.Name);
 
                 foreach (SThemeParticleEffect pe in Theme.ParticleEffects)
-                    _AddParticleEffect(new CParticleEffect(pe, _PartyModeID), pe.Name);
+                    _AddParticleEffect(new CParticleEffect(pe, PartyModeID), pe.Name);
 
                 foreach (SThemePlaylist pl in Theme.Playlists)
-                    _AddPlaylist(new CPlaylist(pl, _PartyModeID), pl.Name);
+                    _AddPlaylist(new CPlaylist(pl, PartyModeID), pl.Name);
 
                 foreach (SScreenSetting ss in Theme.ScreenSettings)
-                    _AddScreenSetting(new CScreenSetting(ss, _PartyModeID), ss.Name);
+                    _AddScreenSetting(new CScreenSetting(ss, PartyModeID), ss.Name);
 
                 foreach (SThemeSelectSlide sl in Theme.SelectSlides)
-                    _AddSelectSlide(new CSelectSlide(sl, _PartyModeID), sl.Name);
+                    _AddSelectSlide(new CSelectSlide(sl, PartyModeID), sl.Name);
 
                 foreach (SThemeSingBar sb in Theme.SingNotes)
-                    _AddSingNote(new CSingNotesClassic(sb, _PartyModeID), sb.Name);
+                    _AddSingNote(new CSingNotesClassic(sb, PartyModeID), sb.Name);
 
                 foreach (SThemeSongMenu sm in Theme.SongMenus)
-                    _AddSongMenu(new CSongMenu(sm, _PartyModeID), sm.Name);
+                    _AddSongMenu(new CSongMenu(sm, PartyModeID), sm.Name);
 
                 foreach (SThemeStatic st in Theme.Statics)
-                    _AddStatic(new CStatic(st, _PartyModeID), st.Name);
+                    _AddStatic(new CStatic(st, PartyModeID), st.Name);
 
                 foreach (SThemeText te in Theme.Texts)
-                    _AddText(new CText(te, _PartyModeID), te.Name);
+                    _AddText(new CText(te, PartyModeID), te.Name);
             }
             catch (InvalidOperationException e)
             {
@@ -278,26 +278,24 @@ namespace VocaluxeLib.Menu
 
             bool versionCheck = _CheckVersion(_ScreenVersion, xmlReader);
 
-            int skinIndex = CBase.Themes.GetSkinIndex(_PartyModeID);
-
-            if (versionCheck && skinIndex != -1)
+            if (versionCheck)
             {
                 ThemePath = xmlPath;
-                _LoadThemeBasics(xmlReader, skinIndex);
+                _LoadThemeBasics(xmlReader);
 
-                _LoadThemeElement<CBackground>(_ThemeBackgrounds, _AddBackground, xmlReader, skinIndex);
-                _LoadThemeElement<CStatic>(_ThemeStatics, _AddStatic, xmlReader, skinIndex);
-                _LoadThemeElement<CText>(_ThemeTexts, _AddText, xmlReader, skinIndex);
-                _LoadThemeElement<CButton>(_ThemeButtons, _AddButton, xmlReader, skinIndex);
-                _LoadThemeElement<CSelectSlide>(_ThemeSelectSlides, _AddSelectSlide, xmlReader, skinIndex);
-                _LoadThemeElement<CSongMenu>(_ThemeSongMenus, _AddSongMenu, xmlReader, skinIndex);
-                _LoadThemeElement<CLyric>(_ThemeLyrics, _AddLyric, xmlReader, skinIndex);
-                _LoadThemeElement<CSingNotesClassic>(_ThemeSingNotes, _AddSingNote, xmlReader, skinIndex);
-                _LoadThemeElement<CNameSelection>(_ThemeNameSelections, _AddNameSelection, xmlReader, skinIndex);
-                _LoadThemeElement<CEqualizer>(_ThemeEqualizers, _AddEqualizer, xmlReader, skinIndex);
-                _LoadThemeElement<CPlaylist>(_ThemePlaylists, _AddPlaylist, xmlReader, skinIndex);
-                _LoadThemeElement<CParticleEffect>(_ThemeParticleEffects, _AddParticleEffect, xmlReader, skinIndex);
-                _LoadThemeElement<CScreenSetting>(_ThemeScreenSettings, _AddScreenSetting, xmlReader, skinIndex);
+                _LoadThemeElement<CBackground>(_ThemeBackgrounds, _AddBackground, xmlReader);
+                _LoadThemeElement<CStatic>(_ThemeStatics, _AddStatic, xmlReader);
+                _LoadThemeElement<CText>(_ThemeTexts, _AddText, xmlReader);
+                _LoadThemeElement<CButton>(_ThemeButtons, _AddButton, xmlReader);
+                _LoadThemeElement<CSelectSlide>(_ThemeSelectSlides, _AddSelectSlide, xmlReader);
+                _LoadThemeElement<CSongMenu>(_ThemeSongMenus, _AddSongMenu, xmlReader);
+                _LoadThemeElement<CLyric>(_ThemeLyrics, _AddLyric, xmlReader);
+                _LoadThemeElement<CSingNotesClassic>(_ThemeSingNotes, _AddSingNote, xmlReader);
+                _LoadThemeElement<CNameSelection>(_ThemeNameSelections, _AddNameSelection, xmlReader);
+                _LoadThemeElement<CEqualizer>(_ThemeEqualizers, _AddEqualizer, xmlReader);
+                _LoadThemeElement<CPlaylist>(_ThemePlaylists, _AddPlaylist, xmlReader);
+                _LoadThemeElement<CParticleEffect>(_ThemeParticleEffects, _AddParticleEffect, xmlReader);
+                _LoadThemeElement<CScreenSetting>(_ThemeScreenSettings, _AddScreenSetting, xmlReader);
             }
 
             Theme.ScreenInformation.ScreenName = ThemeName;
@@ -537,7 +535,7 @@ namespace VocaluxeLib.Menu
         // ReSharper disable MemberCanBeProtected.Global
         public CButton GetNewButton()
         {
-            return new CButton(_PartyModeID);
+            return new CButton(PartyModeID);
         }
 
         public static CButton GetNewButton(CButton button)
@@ -547,7 +545,7 @@ namespace VocaluxeLib.Menu
 
         public CText GetNewText()
         {
-            return new CText(_PartyModeID);
+            return new CText(PartyModeID);
         }
 
         public static CText GetNewText(CText text)
@@ -562,12 +560,12 @@ namespace VocaluxeLib.Menu
 
         public CBackground GetNewBackground()
         {
-            return new CBackground(_PartyModeID);
+            return new CBackground(PartyModeID);
         }
 
         public CStatic GetNewStatic()
         {
-            return new CStatic(_PartyModeID);
+            return new CStatic(PartyModeID);
         }
 
         public static CStatic GetNewStatic(CStatic oldStatic)
@@ -577,12 +575,12 @@ namespace VocaluxeLib.Menu
 
         public CStatic GetNewStatic(CTextureRef texture, SColorF color, SRectF rect)
         {
-            return new CStatic(_PartyModeID, texture, color, rect);
+            return new CStatic(PartyModeID, texture, color, rect);
         }
 
         public CSelectSlide GetNewSelectSlide()
         {
-            return new CSelectSlide(_PartyModeID);
+            return new CSelectSlide(PartyModeID);
         }
 
         public static CSelectSlide GetNewSelectSlide(CSelectSlide slide)
@@ -592,37 +590,37 @@ namespace VocaluxeLib.Menu
 
         public CSongMenu GetNewSongMenu()
         {
-            return new CSongMenu(_PartyModeID);
+            return new CSongMenu(PartyModeID);
         }
 
         public CLyric GetNewLyric()
         {
-            return new CLyric(_PartyModeID);
+            return new CLyric(PartyModeID);
         }
 
         public CSingNotes GetNewSingNotes()
         {
-            return new CSingNotesClassic(_PartyModeID);
+            return new CSingNotesClassic(PartyModeID);
         }
 
         public CNameSelection GetNewNameSelection()
         {
-            return new CNameSelection(_PartyModeID);
+            return new CNameSelection(PartyModeID);
         }
 
         public CEqualizer GetNewEqualizer()
         {
-            return new CEqualizer(_PartyModeID);
+            return new CEqualizer(PartyModeID);
         }
 
         public CPlaylist GetNewPlaylist()
         {
-            return new CPlaylist(_PartyModeID);
+            return new CPlaylist(PartyModeID);
         }
 
         public CParticleEffect GetNewParticleEffect(int maxNumber, SColorF color, SRectF area, CTextureRef texture, float size, EParticleType type)
         {
-            return new CParticleEffect(_PartyModeID, maxNumber, color, area, texture, size, type);
+            return new CParticleEffect(PartyModeID, maxNumber, color, area, texture, size, type);
         }
 
         // ReSharper restore MemberCanBeProtected.Global
@@ -1901,55 +1899,52 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        private void _LoadThemeBasics(CXMLReader xmlReader, int skinIndex)
+        private void _LoadThemeBasics(CXMLReader xmlReader)
         {
             // Backgrounds
-            var background = new CBackground(_PartyModeID);
+            var background = new CBackground(PartyModeID);
             int i = 1;
-            while (background.LoadTheme("//root/" + ThemeName, "Background" + i, xmlReader, skinIndex))
+            while (background.LoadTheme("//root/" + ThemeName, "Background" + i, xmlReader))
             {
                 _AddBackground(background);
-                background = new CBackground(_PartyModeID);
+                background = new CBackground(PartyModeID);
                 i++;
             }
 
             // Statics
-            var stat = new CStatic(_PartyModeID);
+            var stat = new CStatic(PartyModeID);
             i = 1;
-            while (stat.LoadTheme("//root/" + ThemeName, "Static" + i, xmlReader, skinIndex))
+            while (stat.LoadTheme("//root/" + ThemeName, "Static" + i, xmlReader))
             {
                 _AddStatic(stat);
-                stat = new CStatic(_PartyModeID);
+                stat = new CStatic(PartyModeID);
                 i++;
             }
 
             // Texts
-            var text = new CText(_PartyModeID);
+            var text = new CText(PartyModeID);
             i = 1;
-            while (text.LoadTheme("//root/" + ThemeName, "Text" + i, xmlReader, skinIndex))
+            while (text.LoadTheme("//root/" + ThemeName, "Text" + i, xmlReader))
             {
                 _AddText(text);
-                text = new CText(_PartyModeID);
+                text = new CText(PartyModeID);
                 i++;
             }
 
             // ParticleEffects
-            var partef = new CParticleEffect(_PartyModeID);
+            var partef = new CParticleEffect(PartyModeID);
             i = 1;
-            while (partef.LoadTheme("//root/" + ThemeName, "ParticleEffect" + i, xmlReader, skinIndex))
+            while (partef.LoadTheme("//root/" + ThemeName, "ParticleEffect" + i, xmlReader))
             {
                 _AddParticleEffect(partef);
-                partef = new CParticleEffect(_PartyModeID);
+                partef = new CParticleEffect(PartyModeID);
                 i++;
             }
         }
 
         private void _ReloadThemeEditMode()
         {
-            CBase.Themes.UnloadSkins();
-            CBase.Themes.ListSkins();
-            CBase.Themes.LoadSkins();
-            CBase.Themes.LoadTheme();
+            CBase.Themes.Reload();
             CBase.Graphics.ReloadTheme();
 
             OnShow();

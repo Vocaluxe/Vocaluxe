@@ -20,6 +20,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
@@ -311,22 +312,15 @@ namespace Vocaluxe.Base
             pm.PartyMode.Initialize();
             pm.PartyMode.SetFolder(pathToPm);
 
-            if (!CThemes.AddTheme(Path.Combine(pathToPm, "Theme.xml"), pm.PartyModeID))
+            if (!CThemes.ReadThemesFromFolder(Path.Combine(pathToPm, CSettings.FolderNameThemes), pm.PartyModeID))
                 return pm;
 
-            int themeIndex = CThemes.GetThemeIndex(pm.PartyModeID);
-            CThemes.ListSkins(themeIndex);
-            int skinIndex = CThemes.GetSkinIndex(pm.PartyModeID);
-
-            if (!CThemes.LoadSkin(skinIndex))
-                return pm;
-
-            if (!CThemes.LoadTheme(themeIndex))
+            if (!CThemes.LoadPartymodeTheme(pm.PartyModeID))
                 return pm;
 
             foreach (string screenfile in pm.ScreenFiles)
             {
-                string xmlPath = Path.Combine(pathToPm, CSettings.FolderNamePartyModeScreens);
+                string xmlPath = CThemes.GetThemeScreensPath(pm.PartyModeID);
                 CMenuParty screen = _GetPartyScreenInstance(output, screenfile, pm.Folder);
 
                 if (screen != null)

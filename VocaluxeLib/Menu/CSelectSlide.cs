@@ -140,11 +140,12 @@ namespace VocaluxeLib.Menu
         public int Selection
         {
             get { return _Selection; }
-            set
-            {
-                if (value >= 0 && value < _ValueNames.Count)
-                    _Selection = value;
-            }
+            set { _Selection = value.Clamp(0, _ValueNames.Count - 1, false); }
+        }
+
+        public string Value
+        {
+            get { return (_Selection >= 0 && _Selection < _ValueNames.Count) ? _ValueNames[_Selection] : null; }
         }
 
         public int ValueIndex
@@ -271,7 +272,7 @@ namespace VocaluxeLib.Menu
             LoadTextures();
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;

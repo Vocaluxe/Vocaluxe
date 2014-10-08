@@ -4,6 +4,8 @@ namespace VocaluxeLib.Xml
 {
     public abstract class CXmlDeserializer : CXmlReaderBase
     {
+        public abstract string FilePath { get; }
+        
         public bool Read(string xPath, out SThemeFont el)
         {
             el = new SThemeFont();
@@ -63,6 +65,33 @@ namespace VocaluxeLib.Xml
             TryGetNormalizedFloatValue(xPath + "/ImageAlpha", ref el.ImageAlpha, 0.5f);
             TryGetBoolValue(xPath + "/ShowFirstCover", out el.ShowFirstCover);
             return ok;
+        }
+
+        public bool Read(string xPath, out SInfo el)
+        {
+            el=new SInfo();
+            bool ok = GetValue(xPath+"/Name", out el.Name);
+            ok &= GetValue(xPath + "/Author", out el.Author);
+            ok &= TryGetIntValue(xPath + "/VersionMajor", ref el.VersionMajor);
+            ok &= TryGetIntValue(xPath + "/VersionMinor", ref el.VersionMinor);
+            return ok;
+        }
+
+        public bool CheckVersion(string xPath, int reqVersion)
+        {
+            int version=0;
+            string errorMsg;
+            if (!TryGetIntValue(xPath, ref version))
+                errorMsg = "Version missing";
+            else if (version != reqVersion)
+            {
+                errorMsg = version < reqVersion ? "the file ist outdated!" : "the file is for newer program versions!";
+                errorMsg += " Current Version is " + reqVersion;
+            }
+            else
+                return true;
+            CBase.Log.LogError("Cannot load "+FilePath+": "+errorMsg);
+            return false;
         }
     }
 }

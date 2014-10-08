@@ -101,17 +101,12 @@ namespace VocaluxeLib
     public interface IThemes
     {
         string GetThemeScreensPath(int partyModeID);
-        int GetSkinIndex(int partyModeID);
         CTextureRef GetSkinTexture(string textureName, int partyModeID);
         CVideoStream GetSkinVideo(string videoName, int partyModeID, bool loop);
 
         bool GetColor(string colorName, int partyModeID, out SColorF color);
         SColorF GetPlayerColor(int playerNr);
-
-        void UnloadSkins();
-        void ListSkins();
-        void LoadSkins();
-        void LoadTheme();
+        void Reload();
     }
 
     public interface IBackgroundMusic

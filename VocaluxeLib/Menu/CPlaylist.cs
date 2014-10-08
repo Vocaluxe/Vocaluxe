@@ -292,7 +292,7 @@ namespace VocaluxeLib.Menu
             _Interactions.AddButton(ButtonPlaylistSing);
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
+        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
@@ -324,19 +324,19 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundA", ref BackgroundSelColor.A);
             }
 
-            _ThemeLoaded &= Text1.LoadTheme(item, "TextPart1", xmlReader, skinIndex);
+            _ThemeLoaded &= Text1.LoadTheme(item, "TextPart1", xmlReader);
 
-            _ThemeLoaded &= StaticCover.LoadTheme(item, "StaticCover", xmlReader, skinIndex);
-            _ThemeLoaded &= StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", xmlReader, skinIndex);
-            _ThemeLoaded &= StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", xmlReader, skinIndex);
+            _ThemeLoaded &= StaticCover.LoadTheme(item, "StaticCover", xmlReader);
+            _ThemeLoaded &= StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", xmlReader);
+            _ThemeLoaded &= StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", xmlReader);
 
-            _ThemeLoaded &= ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", xmlReader, skinIndex);
-            _ThemeLoaded &= ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", xmlReader, skinIndex);
-            _ThemeLoaded &= ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", xmlReader, skinIndex);
-            _ThemeLoaded &= ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", xmlReader, skinIndex);
-            _ThemeLoaded &= ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", xmlReader, skinIndex);
+            _ThemeLoaded &= ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", xmlReader);
+            _ThemeLoaded &= ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", xmlReader);
+            _ThemeLoaded &= ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", xmlReader);
+            _ThemeLoaded &= ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", xmlReader);
+            _ThemeLoaded &= ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", xmlReader);
 
-            _ThemeLoaded &= SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", xmlReader, skinIndex);
+            _ThemeLoaded &= SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", xmlReader);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/EntryHeight", ref _Theme.EntryHeight);
             if (_ThemeLoaded)

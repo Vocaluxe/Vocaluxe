@@ -18,6 +18,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -86,11 +87,12 @@ namespace Vocaluxe.Base
 
         public void LoadTextures()
         {
-            _Cursor = CDraw.CopyTexture(CThemes.GetSkinTexture(CThemes.Cursor.SkinName, -1));
+            SThemeCursor theme = CThemes.GetCursorTheme();
+            _Cursor = CDraw.CopyTexture(CThemes.GetSkinTexture(theme.SkinName, -1));
 
-            CThemes.Cursor.Color.Get(-1, out _Cursor.Color);
-            _Cursor.Rect.W = CThemes.Cursor.W;
-            _Cursor.Rect.H = CThemes.Cursor.H;
+            theme.Color.Get(-1, out _Cursor.Color);
+            _Cursor.Rect.W = theme.W;
+            _Cursor.Rect.H = theme.H;
             _Cursor.Rect.Z = CSettings.ZNear;
         }
 

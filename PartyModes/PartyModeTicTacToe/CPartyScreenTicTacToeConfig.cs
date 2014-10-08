@@ -184,7 +184,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectSlides[_SelectSlidePlaylist].Clear();
             for (int i = 0; i < playlists.Count; i++)
             {
-                string value = playlists[i] + " (" + CBase.Playlist.GetSongCount(i) + " " + CBase.Language.Translate("TR_SONGS", _PartyModeID) + ")";
+                string value = playlists[i] + " (" + CBase.Playlist.GetSongCount(i) + " " + CBase.Language.Translate("TR_SONGS", PartyModeID) + ")";
                 _SelectSlides[_SelectSlidePlaylist].AddValue(value);
             }
             _SelectSlides[_SelectSlidePlaylist].Selection = _Data.ScreenConfig.PlaylistID;
@@ -196,7 +196,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectSlides[_SelectSlideCategory].Clear();
             for (int i = 0; i < categories.Length; i++)
             {
-                string value = categories[i] + " (" + CBase.Songs.GetNumSongsNotSungInCategory(i) + " " + CBase.Language.Translate("TR_SONGS", _PartyModeID) + ")";
+                string value = categories[i] + " (" + CBase.Songs.GetNumSongsNotSungInCategory(i) + " " + CBase.Language.Translate("TR_SONGS", PartyModeID) + ")";
                 _SelectSlides[_SelectSlideCategory].AddValue(value);
             }
             _SelectSlides[_SelectSlideCategory].Selection = _Data.ScreenConfig.CategoryID;

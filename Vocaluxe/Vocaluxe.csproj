@@ -219,8 +219,9 @@
     <Compile Include="Base\CNoCoverGenerator.cs" />
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
+    <Compile Include="Base\ThemeSystem\CTheme.cs" />
     <Compile Include="Base\CVideoPlayer.cs" />
-    <Compile Include="Base\CSkin.cs" />
+    <Compile Include="Base\ThemeSystem\CSkin.cs" />
     <Compile Include="COSFunctions.cs" />
     <Compile Include="Lib\Database\CCoverDB.cs" />
     <Compile Include="Lib\Database\CDatabaseBase.cs" />
@@ -263,7 +264,7 @@
     <Compile Include="Base\CUtility.cs" />
     <Compile Include="Base\CSettings.cs" />
     <Compile Include="Base\CSongs.cs" />
-    <Compile Include="Base\CThemes.cs" />
+    <Compile Include="Base\ThemeSystem\CThemes.cs" />
     <Compile Include="Base\CVideo.cs" />
     <Compile Include="Base\CWebcam.cs" />
     <Compile Include="Base\Fonts\CFonts.cs" />

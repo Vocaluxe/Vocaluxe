@@ -198,7 +198,7 @@ namespace VocaluxeLib.Menu.SongMenu
             return new SThemeSongMenu(_Theme);
         }
 
-        public virtual bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
+        public virtual bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;

@@ -21,6 +21,7 @@ using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Xml;
 using Vocaluxe.Base.Fonts;
+using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Draw;
@@ -272,11 +273,6 @@ namespace Vocaluxe.Base
             return CThemes.GetThemeScreensPath(partyModeID);
         }
 
-        public int GetSkinIndex(int partyModeID)
-        {
-            return CThemes.GetSkinIndex(partyModeID);
-        }
-
         public CTextureRef GetSkinTexture(string textureName, int partyModeID)
         {
             return CThemes.GetSkinTexture(textureName, partyModeID);
@@ -297,24 +293,9 @@ namespace Vocaluxe.Base
             return CThemes.GetPlayerColor(playerNr);
         }
 
-        public void UnloadSkins()
+        public void Reload()
         {
-            CThemes.UnloadSkins();
-        }
-
-        public void ListSkins()
-        {
-            CThemes.ListSkins();
-        }
-
-        public void LoadSkins()
-        {
-            CThemes.LoadSkins();
-        }
-
-        public void LoadTheme()
-        {
-            CThemes.LoadTheme();
+            CThemes.Reload();
         }
     }
 

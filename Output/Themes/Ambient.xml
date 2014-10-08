@@ -4,9 +4,8 @@
   <Info>
     <Name>Ambient</Name>
     <Author>bohning</Author>
-    <SkinFolder>Ambient</SkinFolder>
-    <ThemeVersionMajor>0</ThemeVersionMajor>
-    <ThemeVersionMinor>2</ThemeVersionMinor>
+    <VersionMajor>0</VersionMajor>
+    <VersionMinor>2</VersionMinor>
   </Info>
   <Cursor>
     <Skin>Cursor</Skin>

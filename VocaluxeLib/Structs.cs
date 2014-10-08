@@ -65,6 +65,14 @@ namespace VocaluxeLib
         public bool ShowFirstCover;
     }
 
+    public struct SInfo
+    {
+        public string Name;
+        public string Author;
+        public int VersionMajor;
+        public int VersionMinor;
+    }
+
     #region Drawing
     public struct SColorF
     {

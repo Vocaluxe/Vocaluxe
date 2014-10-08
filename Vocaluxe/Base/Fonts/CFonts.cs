@@ -418,6 +418,22 @@ namespace Vocaluxe.Base.Fonts
             }
         }
 
+        public static void UnloadPartyModeFonts(int partyModeID)
+        {
+            Debug.Assert(partyModeID >= 0);
+            int index = 0;
+            while (index < _FontFamilies.Count)
+            {
+                if (_FontFamilies[index].PartyModeID == partyModeID)
+                {
+                    _FontFamilies[index].Dispose();
+                    _FontFamilies.RemoveAt(index);
+                }
+                else
+                    index++;
+            }
+        }
+
         private static void _BuildGlyphs()
         {
             const string text = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
