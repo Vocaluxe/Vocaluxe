@@ -140,7 +140,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 {
                     SColorF color;
-                    if (!xmlReader.TryGetColorFromRGBA("//root/Colors/Player" + (i + 1), out color))
+                    if (!xmlReader.Read("//root/Colors/Player" + (i + 1), out color))
                         return false;
                     _PlayerColors[i] = color;
                 }
@@ -150,7 +150,7 @@ namespace Vocaluxe.Base.ThemeSystem
             foreach (string str in names)
             {
                 SColorF color;
-                if (!xmlReader.TryGetColorFromRGBA("//root/ColorSchemes/" + str, out color))
+                if (!xmlReader.Read("//root/ColorSchemes/" + str, out color))
                     return false;
                 _ColorSchemes.Add(str, color);
             }

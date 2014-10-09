@@ -57,17 +57,6 @@ namespace VocaluxeLib.Xml
             }
         }
 
-        public bool TryGetColorFromRGBA(string xPath, out SColorF value)
-        {
-            value = new SColorF();
-            bool result = true;
-            result &= TryGetNormalizedFloatValue(xPath + "/R", ref value.R);
-            result &= TryGetNormalizedFloatValue(xPath + "/G", ref value.G);
-            result &= TryGetNormalizedFloatValue(xPath + "/B", ref value.B);
-            result &= TryGetNormalizedFloatValue(xPath + "/A", ref value.A);
-            return result;
-        }
-
         public override bool GetValue(string xPath, out string value, string defaultValue = "")
         {
             int resultCt = 0;

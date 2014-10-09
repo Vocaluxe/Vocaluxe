@@ -338,7 +338,7 @@ namespace Vocaluxe.Base.Fonts
                 ok &= xmlReader.GetValue("//root/Fonts/Font" + i + "/FileBold", out sf.FileBold);
                 ok &= xmlReader.GetValue("//root/Fonts/Font" + i + "/FileBoldItalic", out sf.FileBoldItalic);
                 ok &= xmlReader.TryGetNormalizedFloatValue("//root/Fonts/Font" + i + "/Outline", ref sf.Outline);
-                ok &= xmlReader.TryGetColorFromRGBA("//root/Fonts/Font" + i + "/OutlineColor", out sf.OutlineColor);
+                ok &= xmlReader.Read("//root/Fonts/Font" + i + "/OutlineColor", out sf.OutlineColor);
 
                 if (ok)
                 {
