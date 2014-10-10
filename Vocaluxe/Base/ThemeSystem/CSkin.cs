@@ -17,10 +17,13 @@ namespace Vocaluxe.Base.ThemeSystem
     class CSkin
     {
         private const int _SkinSystemVersion = 3;
+        private static readonly List<string> _RequiredTextures = new List<string>();
+        private static readonly List<string> _RequiredVideos = new List<string>();
+        private static readonly List<string> _RequiredColors = new List<string>();
 
         private readonly string _Folder;
         private readonly string _FileName;
-        public readonly int PartyModeID;
+        private readonly CTheme _Parent;
 
         private SInfo _Info;
         public String Name
@@ -28,7 +31,7 @@ namespace Vocaluxe.Base.ThemeSystem
             get { return _Info.Name; }
         }
 
-        public readonly Dictionary<string, CTextureRef> Textures = new Dictionary<string, CTextureRef>();
+        private readonly Dictionary<string, CTextureRef> _Textures = new Dictionary<string, CTextureRef>();
         private readonly Dictionary<string, CVideoSkinElement> _Videos = new Dictionary<string, CVideoSkinElement>();
 
         private readonly Dictionary<string, SColorF> _ColorSchemes = new Dictionary<string, SColorF>();
@@ -36,16 +39,35 @@ namespace Vocaluxe.Base.ThemeSystem
 
         private bool _IsLoaded;
 
-        public CSkin(string folder, string file, int partyModeId)
+        public static bool InitRequiredElements()
+        {
+            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FileNameRequiredSkinElements);
+            CXMLReader xmlReader = CXMLReader.OpenFile(path);
+            if (xmlReader == null)
+                return false;
+            bool ok = xmlReader.Read("//root/Textures", _RequiredTextures);
+            ok &= xmlReader.Read("//root/Videos", _RequiredVideos);
+            ok &= xmlReader.Read("//root/Colors", _RequiredColors);
+            return ok;
+        }
+
+        public static void Close()
+        {
+            _RequiredTextures.Clear();
+            _RequiredVideos.Clear();
+            _RequiredColors.Clear();
+        }
+
+        public CSkin(string folder, string file, CTheme parent)
         {
             _Folder = folder;
             _FileName = file;
-            PartyModeID = partyModeId;
+            _Parent = parent;
         }
 
         public override string ToString()
         {
-            return Name;
+            return _Parent.Name + ":" + Name;
         }
 
         #region Load
@@ -62,7 +84,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
             if (!ok)
             {
-                CLog.LogError("Can't load skin \"" + _FileName + "\". Invalid file!");
+                CLog.LogError("Can't load skin file \"" + _FileName + "\". Invalid file!");
                 return false;
             }
 
@@ -73,7 +95,7 @@ namespace Vocaluxe.Base.ThemeSystem
         {
             if (_IsLoaded)
                 return true;
-            Debug.Assert(Textures.Count == 0 && _Videos.Count == 0);
+            Debug.Assert(_Textures.Count == 0 && _Videos.Count == 0);
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Folder, _FileName));
             if (xmlReader == null)
                 return false;
@@ -90,7 +112,7 @@ namespace Vocaluxe.Base.ThemeSystem
                     CLog.LogError("Error on loading texture \"" + name + "\": " + fileName, true);
                     return false;
                 }
-                Textures.Add(name, texture);
+                _Textures.Add(name, texture);
             }
 
             // load videos
@@ -111,19 +133,43 @@ namespace Vocaluxe.Base.ThemeSystem
             if (!_LoadColors(xmlReader))
                 return false;
 
+            if (!_CheckRequiredElements())
+                return false;
+
             _IsLoaded = true;
             return true;
         }
 
+        private bool _CheckRequiredElements()
+        {
+            if (_Parent.PartyModeID >= 0)
+                return true;
+            List<string> missingTextures = _RequiredTextures.FindAll(name => !_Textures.ContainsKey(name));
+            List<string> missingVideos = _RequiredVideos.FindAll(name => !_Videos.ContainsKey(name));
+            SColorF dummyColor;
+            List<string> missingColors = _RequiredColors.FindAll(name => !GetColor(name, out dummyColor));
+            if (missingTextures.Count + missingVideos.Count + missingColors.Count == 0)
+                return true;
+            string msg = "The skin \"" + this + "\" is missing the following elements: ";
+            if (missingTextures.Count > 0)
+                msg += Environment.NewLine + "Textures: " + string.Join(", ", missingTextures);
+            if (missingVideos.Count > 0)
+                msg += Environment.NewLine + "Videos: " + string.Join(", ", missingVideos);
+            if (missingColors.Count > 0)
+                msg += Environment.NewLine + "Colors: " + string.Join(", ", missingColors);
+            CLog.LogError(msg);
+            return false;
+        }
+
         public void Unload()
         {
-            foreach (CTextureRef tex in Textures.Values)
+            foreach (CTextureRef tex in _Textures.Values)
                 tex.Dispose();
 
             foreach (CVideoSkinElement vsk in _Videos.Values)
                 CVideo.Close(ref vsk.VideoStream);
 
-            Textures.Clear();
+            _Textures.Clear();
             _Videos.Clear();
             _PlayerColors = null;
             _ColorSchemes.Clear();
@@ -133,7 +179,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         private bool _LoadColors(CXMLReader xmlReader)
         {
-            if (PartyModeID == -1)
+            if (_Parent.PartyModeID == -1)
             {
                 _PlayerColors = new SColorF[CSettings.MaxNumPlayer];
 
@@ -160,6 +206,8 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public bool GetColor(string colorName, out SColorF color)
         {
+            if (_Parent.Name == "Default" && !_RequiredColors.Contains(colorName))
+                CLog.LogDebug("Non-Default color: " + colorName);
             return _ColorSchemes.TryGetValue(colorName, out color) || _GetPlayerColor(colorName, out color);
         }
 
@@ -191,6 +239,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public CVideoStream GetVideo(string videoName, bool loop = true)
         {
+            Debug.Assert(_Parent.Name != "Default" || _RequiredVideos.Contains(videoName));
             CVideoSkinElement sk;
             if (_Videos.TryGetValue(videoName, out sk))
             {
@@ -206,8 +255,9 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public CTextureRef GetTexture(string name)
         {
+            Debug.Assert(_Parent.Name != "Default" || _RequiredTextures.Contains(name));
             CTextureRef texture;
-            Textures.TryGetValue(name, out texture);
+            _Textures.TryGetValue(name, out texture);
             return texture;
         }
     }

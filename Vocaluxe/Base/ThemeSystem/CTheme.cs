@@ -83,7 +83,7 @@ namespace Vocaluxe.Base.ThemeSystem
             ok = false;
             foreach (string file in files)
             {
-                CSkin skin = new CSkin(path, file, PartyModeID);
+                CSkin skin = new CSkin(path, file, this);
                 if (skin.Init())
                 {
                     _Skins.Add(skin.Name, skin);
@@ -133,7 +133,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 if (skin.Load())
                     break;
                 skin.Unload();
-                CLog.LogError("Failed to load skin " + Name + ":" + skin + "! Removing...", true);
+                CLog.LogError("Failed to load skin " + skin + "! Removing...", true);
                 _Skins.Remove(skin.Name);
                 skin = (PartyModeID == -1 || Name == CSettings.DefaultName) ? _Skins.Values.FirstOrDefault() : null;
             }

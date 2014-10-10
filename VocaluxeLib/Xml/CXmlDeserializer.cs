@@ -1,4 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 
 namespace VocaluxeLib.Xml
 {
@@ -86,6 +89,17 @@ namespace VocaluxeLib.Xml
             result &= TryGetNormalizedFloatValue(xPath + "/B", ref value.B);
             result &= TryGetNormalizedFloatValue(xPath + "/A", ref value.A);
             return result;
+        }
+
+        public bool Read(string xPath, List<string> value)
+        {
+            Debug.Assert(value != null);
+            string val;
+            if (!GetValue(xPath, out val))
+                return false;
+            string[] entries = val.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+            value.AddRange(entries.Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)));
+            return true;
         }
 
         public bool CheckVersion(string xPath, int reqVersion)

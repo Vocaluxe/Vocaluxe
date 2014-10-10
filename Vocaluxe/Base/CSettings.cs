@@ -94,6 +94,8 @@ namespace Vocaluxe.Base
         public const string FileNameDebugLog = "Debug.log";
         public const string FileNameSongInfoLog = "SongInformation.log";
 
+        public const string FileNameRequiredSkinElements = "RequiredSkinElements.xml";
+
         public const string FileNameSoundT440 = "440Hz.mp3";
 
         public const string FolderNameSongs = "Songs";

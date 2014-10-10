@@ -40,13 +40,14 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static bool Init()
         {
-            return ReadThemesFromFolder(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameThemes), -1);
+            return CSkin.InitRequiredElements() && ReadThemesFromFolder(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameThemes), -1);
         }
 
         public static void Close()
         {
             Unload();
             _Themes.Clear();
+            CSkin.Close();
         }
 
         public static void Unload()
