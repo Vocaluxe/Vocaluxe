@@ -379,7 +379,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
+      <Text>1)</Text>
       <Reflection Enabled="false" />
     </Text>
     <Text Name="TextRoundPlayer">
