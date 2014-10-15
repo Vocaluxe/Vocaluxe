@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu.SingNotes;
@@ -62,7 +61,7 @@ namespace VocaluxeLib.Menu
 
     public abstract class CMenu : IMenu
     {
-        private List<CInteraction> _Interactions;
+        private readonly List<CInteraction> _Interactions;
         private int _Selection;
         public string ThemePath { get; private set; }
 
@@ -94,19 +93,19 @@ namespace VocaluxeLib.Menu
         protected string[] _ThemeParticleEffects;
         protected string[] _ThemeScreenSettings;
 
-        protected COrderedDictionaryLite<CButton> _Buttons { get; private set; }
-        protected COrderedDictionaryLite<CText> _Texts { get; private set; }
-        protected COrderedDictionaryLite<CBackground> _Backgrounds { get; private set; }
-        protected COrderedDictionaryLite<CStatic> _Statics { get; private set; }
-        protected COrderedDictionaryLite<CSelectSlide> _SelectSlides { get; private set; }
-        protected COrderedDictionaryLite<CSongMenu> _SongMenus { get; private set; }
-        protected COrderedDictionaryLite<CLyric> _Lyrics { get; private set; }
-        protected COrderedDictionaryLite<CSingNotes> _SingNotes { get; private set; }
-        protected COrderedDictionaryLite<CNameSelection> _NameSelections { get; private set; }
-        protected COrderedDictionaryLite<CEqualizer> _Equalizers { get; private set; }
-        protected COrderedDictionaryLite<CPlaylist> _Playlists { get; private set; }
-        protected COrderedDictionaryLite<CParticleEffect> _ParticleEffects { get; private set; }
-        protected COrderedDictionaryLite<CScreenSetting> _ScreenSettings { get; private set; }
+        protected readonly COrderedDictionaryLite<CButton> _Buttons;
+        protected readonly COrderedDictionaryLite<CText> _Texts;
+        protected readonly COrderedDictionaryLite<CBackground> _Backgrounds;
+        protected readonly COrderedDictionaryLite<CStatic> _Statics;
+        protected readonly COrderedDictionaryLite<CSelectSlide> _SelectSlides;
+        protected readonly COrderedDictionaryLite<CSongMenu> _SongMenus;
+        protected readonly COrderedDictionaryLite<CLyric> _Lyrics;
+        protected readonly COrderedDictionaryLite<CSingNotes> _SingNotes;
+        protected readonly COrderedDictionaryLite<CNameSelection> _NameSelections;
+        protected readonly COrderedDictionaryLite<CEqualizer> _Equalizers;
+        protected readonly COrderedDictionaryLite<CPlaylist> _Playlists;
+        protected readonly COrderedDictionaryLite<CParticleEffect> _ParticleEffects;
+        protected readonly COrderedDictionaryLite<CScreenSetting> _ScreenSettings;
         // ReSharper restore MemberCanBePrivate.Global
 
         protected SRectF _ScreenArea;
@@ -115,16 +114,11 @@ namespace VocaluxeLib.Menu
             get { return _ScreenArea; }
         }
 
-        public virtual void Init()
+        protected CMenu()
         {
-            ThemeName = GetType().Name;
-            if (ThemeName[0] == 'C' && Char.IsUpper(ThemeName[1]))
-                ThemeName = ThemeName.Remove(0, 1);
-
             PartyModeID = -1;
-            _Interactions = new List<CInteraction>();
-            _Selection = 0;
 
+            _Interactions = new List<CInteraction>();
             _Backgrounds = new COrderedDictionaryLite<CBackground>(this);
             _Buttons = new COrderedDictionaryLite<CButton>(this);
             _Texts = new COrderedDictionaryLite<CText>(this);
@@ -138,6 +132,15 @@ namespace VocaluxeLib.Menu
             _Playlists = new COrderedDictionaryLite<CPlaylist>(this);
             _ParticleEffects = new COrderedDictionaryLite<CParticleEffect>(this);
             _ScreenSettings = new COrderedDictionaryLite<CScreenSetting>(this);
+        }
+
+        public virtual void Init()
+        {
+            ThemeName = GetType().Name;
+            if (ThemeName[0] == 'C' && Char.IsUpper(ThemeName[1]))
+                ThemeName = ThemeName.Remove(0, 1);
+
+            _Selection = 0;
 
             _PrevMouseX = 0;
             _PrevMouseY = 0;
@@ -161,6 +164,24 @@ namespace VocaluxeLib.Menu
             _ThemePlaylists = null;
             _ThemeParticleEffects = null;
             _ThemeScreenSettings = null;
+        }
+
+        private void _ClearElements()
+        {
+            _Interactions.Clear();
+            _Backgrounds.Clear();
+            _Buttons.Clear();
+            _Texts.Clear();
+            _Statics.Clear();
+            _SelectSlides.Clear();
+            _SongMenus.Clear();
+            _Lyrics.Clear();
+            _SingNotes.Clear();
+            _NameSelections.Clear();
+            _Equalizers.Clear();
+            _Playlists.Clear();
+            _ParticleEffects.Clear();
+            _ScreenSettings.Clear();
         }
 
         protected static void _FadeTo(EScreens nextScreen)
@@ -258,7 +279,7 @@ namespace VocaluxeLib.Menu
                 foreach (SThemeText te in Theme.Texts)
                     _AddText(new CText(te, PartyModeID), te.Name);
             }
-            catch (InvalidOperationException e)
+            catch (InvalidOperationException)
             {
                 CBase.Log.LogError("Error while reading " + ThemeName + ".xml", true, true);
             }
@@ -348,7 +369,7 @@ namespace VocaluxeLib.Menu
                     Theme.SingNotes.Add(el.GetTheme());
             }
 
-            if (ThemePath == "" || ThemePath == null)
+            if (string.IsNullOrEmpty(ThemePath))
                 return;
 
             try
@@ -456,7 +477,7 @@ namespace VocaluxeLib.Menu
                 return;
 
             UnloadTextures();
-            Init();
+            _ClearElements();
             LoadTheme(xmlPath);
         }
         #endregion ThemeHandler

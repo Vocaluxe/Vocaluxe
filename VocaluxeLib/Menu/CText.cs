@@ -190,8 +190,6 @@ namespace VocaluxeLib.Menu
                     _Text = translation;
                     if (_EditMode)
                         _Text += "|";
-                    //Reset height, it might have been reduced in _UpdatePosition
-                    Font.Height = _Theme.FontHeight;
                     _PositionNeedsUpdate = true;
                 }
             }
@@ -238,6 +236,17 @@ namespace VocaluxeLib.Menu
         }
 
         public float Alpha = 1f;
+        private CFont _CalculatedFont;
+
+        public CFont CalculatedFont
+        {
+            get
+            {
+                if (_PositionNeedsUpdate)
+                    _UpdateTextPosition();
+                return _CalculatedFont;
+            }
+        }
 
         public CText(int partyModeID)
         {
@@ -257,7 +266,7 @@ namespace VocaluxeLib.Menu
             _MaxWidth = text._MaxWidth;
             _Align = text._Align;
             _ResizeAlign = text._ResizeAlign;
-            Font = text.Font; //Use setter to set observer
+            Font = new CFont(text.Font); //Use setter to set observer
 
             Color = new SColorF(text.Color);
             SelColor = new SColorF(text.SelColor);
@@ -399,10 +408,10 @@ namespace VocaluxeLib.Menu
             SColorF currentColor = (Selected) ? SelColor : Color;
             var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(_Text, Font, Rect.X, Rect.Y, Z, color);
+            CBase.Fonts.DrawText(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color);
 
             if (ReflectionHeight > 0)
-                CBase.Fonts.DrawTextReflection(_Text, Font, Rect.X, Rect.Y, Z, color, ReflectionSpace, ReflectionHeight);
+                CBase.Fonts.DrawTextReflection(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color, ReflectionSpace, ReflectionHeight);
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
                 CBase.Drawing.DrawRect(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(Rect.X, Rect.Y, Rect.W, Rect.H, Z));
@@ -413,7 +422,7 @@ namespace VocaluxeLib.Menu
             SColorF currentColor = (Selected) ? SelColor : Color;
             var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(Text, Font, Rect.X, Rect.Y, Z, color, begin, end);
+            CBase.Fonts.DrawText(Text, CalculatedFont, Rect.X, Rect.Y, Z, color, begin, end);
 
             if (ReflectionHeight > 0)
             {
@@ -503,10 +512,13 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateTextPosition()
         {
+            _CalculatedFont = new CFont(Font);
+            _PositionNeedsUpdate = false;
+
             if (_Text == "")
                 return;
 
-            float h = Font.Height;
+            float h = _CalculatedFont.Height;
             float y = Y;
             RectangleF bounds = CBase.Fonts.GetTextBounds(this);
 
@@ -527,7 +539,7 @@ namespace VocaluxeLib.Menu
                         y += step * 0.75f;
                         break;
                 }
-                Font.Height = h;
+                _CalculatedFont.Height = h;
                 bounds = CBase.Fonts.GetTextBounds(this);
             }
 
@@ -546,8 +558,6 @@ namespace VocaluxeLib.Menu
             _Rect.Y = y;
             _Rect.W = bounds.Width;
             _Rect.H = bounds.Height;
-
-            _PositionNeedsUpdate = false;
         }
 
         public void FontChanged()

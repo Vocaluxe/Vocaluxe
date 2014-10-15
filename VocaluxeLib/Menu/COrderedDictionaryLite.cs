@@ -83,5 +83,11 @@ namespace VocaluxeLib.Menu
         {
             return GetEnumerator();
         }
+
+        public void Clear()
+        {
+            _HtIndex.Clear();
+            _Items.Clear();
+        }
     }
 }

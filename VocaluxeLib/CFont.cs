@@ -74,6 +74,13 @@ namespace VocaluxeLib
             _Height = font.Size;
         }
 
+        public CFont(CFont font)
+        {
+            _Name = font._Name;
+            _Style = font._Style;
+            _Height = font._Height;
+        }
+
         public CFont(string fontFamily, EStyle style, float h)
         {
             _Name = fontFamily;

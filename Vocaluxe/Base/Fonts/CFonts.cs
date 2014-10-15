@@ -182,7 +182,7 @@ namespace Vocaluxe.Base.Fonts
         /// <returns>RectangleF object containing the bounds</returns>
         public static RectangleF GetTextBounds(CText text)
         {
-            return new RectangleF(text.X, text.Y, GetTextWidth(text.TranslatedText, text.Font), GetTextHeight(text.TranslatedText, text.Font));
+            return new RectangleF(text.X, text.Y, GetTextWidth(text.TranslatedText, text.CalculatedFont), GetTextHeight(text.TranslatedText, text.CalculatedFont));
         }
 
         public static Font GetSystemFont(CFont font)

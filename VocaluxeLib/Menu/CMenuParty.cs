@@ -24,14 +24,10 @@ namespace VocaluxeLib.Menu
     {
         protected IPartyMode _PartyMode;
 
-        public void SetPartyModeID(int partyModeID)
-        {
-            PartyModeID = partyModeID;
-        }
-
         public void AssignPartyMode(IPartyMode partyMode)
         {
             _PartyMode = partyMode;
+            PartyModeID = partyMode.ID;
         }
 
         public virtual void DataToScreen(Object data) {}

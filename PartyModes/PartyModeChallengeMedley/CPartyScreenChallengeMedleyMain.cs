@@ -431,6 +431,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private void _BuildRoundsTable()
         {
+            if (_RoundsTable.Count == 0)
+                return;
             _RoundsTableScrollArea = new SRectF();
 
             const int numPlayerInOneRow = 3;
@@ -439,14 +441,14 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             if (_NumRoundsVisible > _GameState.Combs.Count)
                 _NumRoundsVisible = _GameState.Combs.Count;
 
-            float numberX = _Texts[_TextRoundNumber].X;
-            float numberY = _Texts[_TextRoundNumber].Y;
+            float numberX = _RoundsTable[0].Number.X;
+            float numberY = _RoundsTable[0].Number.Y;
 
             _RoundsTableScrollArea.X = numberX;
             _RoundsTableScrollArea.Y = numberY;
-            _RoundsTableScrollArea.W = CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20;
+            _RoundsTableScrollArea.W = CBase.Settings.GetRenderW() - _RoundsTable[0].Number.X - 20;
 
-            float delta = _Texts[_TextRoundNumber].Rect.H;
+            float delta = _RoundsTable[0].Number.Rect.H;
 
             //Update statics and texts for rounds
             foreach (CRoundsTableRow roundRow in _RoundsTable)

@@ -82,7 +82,13 @@ namespace VocaluxeLib.PartyModes
 
     public interface IPartyMode
     {
+        int ID { get; }
         bool Init();
+
+        void LoadTheme(); 
+        void ReloadTextures();
+        void ReloadTheme();
+
         void AddScreen(CMenuParty screen, string screenName);
         void SaveScreens();
         void DataFromScreen(string screenName, Object data);

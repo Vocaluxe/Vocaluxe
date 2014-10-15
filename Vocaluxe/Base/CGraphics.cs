@@ -20,8 +20,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
-using System.IO;
-using System.Xml.Serialization;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.ThemeSystem;
 using Vocaluxe.Screens;
@@ -148,6 +146,8 @@ namespace Vocaluxe.Base
 
             foreach (IMenu popup in _PopupScreens)
                 popup.ReloadTheme(CThemes.GetThemeScreensPath(popup.PartyModeID));
+
+            CParty.ReloadTheme();
         }
 
         public static void ReloadSkin()
@@ -158,6 +158,8 @@ namespace Vocaluxe.Base
 
             foreach (IMenu menu in _PopupScreens)
                 menu.ReloadTextures();
+
+            CParty.ReloadTextures();
         }
 
         public static void SaveTheme()

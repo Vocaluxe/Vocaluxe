@@ -24,20 +24,48 @@ namespace VocaluxeLib.PartyModes
     public abstract class CPartyMode : IPartyMode
     {
         private readonly string _Folder;
-        protected SScreenSongOptions _ScreenSongOptions;
-        protected readonly Dictionary<string, CMenuParty> _Screens;
+        public int ID { get; private set; }
+        protected SScreenSongOptions _ScreenSongOptions = new SScreenSongOptions { Selection = new SSelectionOptions(), Sorting = new SSortingOptions() };
+        protected readonly Dictionary<string, CMenuParty> _Screens = new Dictionary<string, CMenuParty>();
 
-        protected CPartyMode(string folder)
+        protected CPartyMode(int id,string folder)
         {
-            _Screens = new Dictionary<string, CMenuParty>();
-            _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};
+            ID = id;
             _Folder = folder;
         }
 
         #region Implementation
+
         public virtual bool Init()
         {
             return false;
+        }
+
+        public void LoadTheme()
+        {
+            string xmlPath = CBase.Themes.GetThemeScreensPath(ID);
+            foreach (CMenuParty menu in _Screens.Values)
+            {
+                menu.Init();
+                menu.LoadTheme(xmlPath);
+            }
+        }
+
+        public void ReloadTextures()
+        {
+            foreach (CMenuParty menu in _Screens.Values)
+            {
+                menu.ReloadTextures();
+            }
+        }
+
+        public void ReloadTheme()
+        {
+            string xmlPath = CBase.Themes.GetThemeScreensPath(ID);
+            foreach (CMenuParty menu in _Screens.Values)
+            {
+                menu.ReloadTheme(xmlPath);
+            }
         }
 
         public void AddScreen(CMenuParty screen, string screenName)

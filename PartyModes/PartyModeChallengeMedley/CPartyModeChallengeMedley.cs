@@ -163,8 +163,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         private SData _GameData;
         private EStage _Stage;
 
-        public CPartyModeChallengeMedley(string folder)
-            : base(folder)
+        public CPartyModeChallengeMedley(int id, string folder)
+            : base(id, folder)
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = true;

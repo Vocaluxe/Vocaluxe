@@ -32,7 +32,6 @@ namespace Vocaluxe.Base
     #region Structs
     struct SPartyMode
     {
-        public int PartyModeID;
         public int PartyModeSystemVersion;
         public string Name;
         public string Description;
@@ -64,9 +63,9 @@ namespace Vocaluxe.Base
             _NextID = 0;
 
             //add dummy normal game mode and set it as default
-            var pm = new SPartyMode {PartyMode = new CPartyModeNone(null), ScreenFiles = new List<string>(), PartyModeID = _NextID++};
-            _NormalGameModeID = pm.PartyModeID;
-            _PartyModes.Add(pm.PartyModeID, pm);
+            var pm = new SPartyMode {ScreenFiles = new List<string>(), PartyMode = new CPartyModeNone(_NextID++, null)};
+            _NormalGameModeID = pm.PartyMode.ID;
+            _PartyModes.Add(pm.PartyMode.ID, pm);
             _CurrentPartyMode = pm;
 
             //load other party modes
@@ -77,8 +76,8 @@ namespace Vocaluxe.Base
         {
             get
             {
-                if (_CurrentPartyMode.PartyModeID != _NormalGameModeID)
-                    return _CurrentPartyMode.PartyModeID;
+                if (_CurrentPartyMode.PartyMode.ID != _NormalGameModeID)
+                    return _CurrentPartyMode.PartyMode.ID;
 
                 return -1;
             }
@@ -89,45 +88,50 @@ namespace Vocaluxe.Base
             get { return _PartyModes.Count; }
         }
 
+        public static void ReloadTheme()
+        {
+            foreach (SPartyMode pm in _PartyModes.Values)
+                pm.PartyMode.ReloadTheme();
+        }
+
+        public static void ReloadTextures()
+        {
+            foreach (SPartyMode pm in _PartyModes.Values)
+                pm.PartyMode.ReloadTextures();
+        }
+
         public static void SaveThemes()
         {
-            foreach (KeyValuePair<int, SPartyMode> pair in _PartyModes)
-                pair.Value.PartyMode.SaveScreens();
+            foreach (SPartyMode pm in _PartyModes.Values)
+                pm.PartyMode.SaveScreens();
         }
 
         public static List<SPartyModeInfos> GetPartyModeInfos()
         {
             var infos = new List<SPartyModeInfos>();
 
-            var pmIDs = new int[_PartyModes.Count];
-            _PartyModes.Keys.CopyTo(pmIDs, 0);
-
-            foreach (int pmID in pmIDs)
+            foreach (KeyValuePair<int, SPartyMode> kvp in _PartyModes)
             {
-                if (pmID != _NormalGameModeID)
+                if (kvp.Key != _NormalGameModeID)
                 {
-                    SPartyMode mode;
-                    _PartyModes.TryGetValue(pmID, out mode);
+                    SPartyMode mode = kvp.Value;
 
-                    if (mode.PartyMode != null)
-                    {
-                        var info = new SPartyModeInfos
-                            {
-                                Author = mode.Author,
-                                Description = mode.Description,
-                                Name = mode.Name,
-                                PartyModeID = mode.PartyModeID,
-                                VersionMajor = mode.PartyModeVersionMajor,
-                                VersionMinor = mode.PartyModeVersionMinor,
-                                TargetAudience = mode.TargetAudience,
-                                MaxPlayers = mode.PartyMode.GetMaxPlayer(),
-                                MinPlayers = mode.PartyMode.GetMinPlayer(),
-                                MaxTeams = mode.PartyMode.GetMaxTeams(),
-                                MinTeams = mode.PartyMode.GetMinTeams()
-                            };
+                    var info = new SPartyModeInfos
+                        {
+                            Author = mode.Author,
+                            Description = mode.Description,
+                            Name = mode.Name,
+                            PartyModeID = mode.PartyMode.ID,
+                            VersionMajor = mode.PartyModeVersionMajor,
+                            VersionMinor = mode.PartyModeVersionMinor,
+                            TargetAudience = mode.TargetAudience,
+                            MaxPlayers = mode.PartyMode.GetMaxPlayer(),
+                            MinPlayers = mode.PartyMode.GetMinPlayer(),
+                            MaxTeams = mode.PartyMode.GetMaxTeams(),
+                            MinTeams = mode.PartyMode.GetMinTeams()
+                        };
 
-                        infos.Add(info);
-                    }
+                    infos.Add(info);
                 }
             }
             return infos;
@@ -225,13 +229,13 @@ namespace Vocaluxe.Base
             {
                 SPartyMode pm;
                 if (_LoadPartyMode(file, out pm))
-                    _PartyModes.Add(pm.PartyModeID, pm);
+                    _PartyModes.Add(pm.PartyMode.ID, pm);
             }
         }
 
         private static bool _LoadPartyMode(string file, out SPartyMode pm)
         {
-            pm = new SPartyMode {PartyModeID = _NextID++, ScreenFiles = new List<string>()};
+            pm = new SPartyMode {ScreenFiles = new List<string>()};
 
             CXMLReader xmlReader = CXMLReader.OpenFile(file);
 
@@ -280,14 +284,8 @@ namespace Vocaluxe.Base
             if (output == null)
                 return false;
 
-            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyModeID, Path.Combine(pathToPm, CSettings.FolderNamePartyModeLanguages)))
-            {
-                CLog.LogError("Error loading language files for PartyMode: " + file);
-                return false;
-            }
-
             object instance = output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Folder + "." + pm.PartyModeFile, false,
-                BindingFlags.Public | BindingFlags.Instance,null, new object[]{pathToPm}, null, null);
+                                                    BindingFlags.Public | BindingFlags.Instance, null, new object[] {_NextID++, pathToPm}, null, null);
             if (instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyMode file: " + file);
@@ -304,28 +302,31 @@ namespace Vocaluxe.Base
                 return false;
             }
 
-            if (!CThemes.ReadThemesFromFolder(Path.Combine(pathToPm, CSettings.FolderNameThemes), pm.PartyModeID))
+            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyMode.ID, Path.Combine(pathToPm, CSettings.FolderNamePartyModeLanguages)))
+            {
+                CLog.LogError("Error loading language files for PartyMode: " + file);
+                return false;
+            }
+
+            if (!CThemes.ReadThemesFromFolder(Path.Combine(pathToPm, CSettings.FolderNameThemes), pm.PartyMode.ID))
                 return false;
 
-            if (!CThemes.LoadPartymodeTheme(pm.PartyModeID))
+            if (!CThemes.LoadPartymodeTheme(pm.PartyMode.ID))
                 return false;
 
             foreach (string screenfile in pm.ScreenFiles)
             {
-                string xmlPath = CThemes.GetThemeScreensPath(pm.PartyModeID);
                 CMenuParty screen = _GetPartyScreenInstance(output, screenfile, pm.Folder);
 
                 if (screen != null)
                 {
-                    screen.Init();
                     screen.AssignPartyMode(pm.PartyMode);
-                    screen.SetPartyModeID(pm.PartyModeID);
-                    screen.LoadTheme(xmlPath);
                     pm.PartyMode.AddScreen(screen, screenfile);
                 }
                 else
                     return false;
             }
+            pm.PartyMode.LoadTheme();
 
             return true;
         }
