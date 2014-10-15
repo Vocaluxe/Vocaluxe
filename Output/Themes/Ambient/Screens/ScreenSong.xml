@@ -835,7 +835,7 @@
       <SelReflection Enabled="false" />
     </Button>
     <Button Name="ButtonOpenOptions">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinSelected>Invisible</SkinSelected>
       <Rect>
         <X>40</X>
@@ -1496,7 +1496,7 @@
         <Reflection Enabled="false" />
       </StaticPlaylistFooter>
       <ButtonPlaylistName Name="ButtonPlaylistName">
-        <Skin>Invisible</Skin>
+        <Skin/>
         <SkinSelected>Invisible</SkinSelected>
         <Rect>
           <X>975</X>

@@ -47,7 +47,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideVolume">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>Minus</SkinArrowLeft>
       <SkinArrowRight>Plus</SkinArrowRight>
       <SkinSelected>Invisible</SkinSelected>

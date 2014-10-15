@@ -45,9 +45,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticNextPlayer">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>0</X>

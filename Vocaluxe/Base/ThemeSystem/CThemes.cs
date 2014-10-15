@@ -169,7 +169,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         private static void _LogMissingElement(CTheme theme, string elType, string elName)
         {
-            CLog.LogError("Skin " + theme + ":" + theme.CurrentSkin + " is missing the " + elType + " \"" + elName + "\"! Expect visual problems!");
+            CLog.LogError("Skin " + theme.CurrentSkin + " is missing the " + elType + " \"" + elName + "\"! Expect visual problems!");
         }
 
         public static CTextureRef GetSkinTexture(string textureName, int partyModeID)

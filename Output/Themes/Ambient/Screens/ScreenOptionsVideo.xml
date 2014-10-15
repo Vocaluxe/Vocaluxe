@@ -19,7 +19,7 @@
     <Static Name="Static1">
       <Skin>Menu</Skin>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>40</X>
@@ -31,9 +31,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -45,9 +45,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -59,9 +59,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -73,7 +73,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticWebcamOutput">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>Visible</Name>
       </Color>
@@ -318,7 +318,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideVideoBackgrounds">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -376,7 +376,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideVideoPreview">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -434,7 +434,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideVideosInSongs">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -492,7 +492,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideVideosToBackground">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -550,7 +550,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideWebcamDevices">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -608,7 +608,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideWebcamCapabilities">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>

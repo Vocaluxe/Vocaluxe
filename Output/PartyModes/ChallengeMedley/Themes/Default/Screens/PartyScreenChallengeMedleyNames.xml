@@ -349,7 +349,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideTeams">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -407,7 +407,7 @@
       <NumVisible>2</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlidePlayer">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlidePlayer</SkinSelected>

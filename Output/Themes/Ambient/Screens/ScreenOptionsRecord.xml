@@ -19,7 +19,7 @@
     <Static Name="Static1">
       <Skin>Menu</Skin>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>40</X>
@@ -31,9 +31,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -45,9 +45,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -59,9 +59,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -73,9 +73,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -87,9 +87,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -101,7 +101,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticWarning">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticWarningColor</Name>
       </Color>
@@ -393,7 +393,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideRecordDevices">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -451,7 +451,7 @@
       <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideRecordChannel1">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -509,7 +509,7 @@
       <NumVisible>7</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideRecordChannel2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -567,7 +567,7 @@
       <NumVisible>7</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDelay">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -629,7 +629,7 @@
   <NameSelections />
   <Equalizers>
     <Equalizer Name="EqualizerChannel1">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Rect>
         <X>50</X>
         <Y>400</Y>
@@ -653,7 +653,7 @@
       </Reflection>
     </Equalizer>
     <Equalizer Name="EqualizerChannel2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Rect>
         <X>400</X>
         <Y>400</Y>

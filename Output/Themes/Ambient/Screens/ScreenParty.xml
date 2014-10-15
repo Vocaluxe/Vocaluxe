@@ -414,7 +414,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideModes">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>

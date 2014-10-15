@@ -198,7 +198,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideBackgroundMusic">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -256,7 +256,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideBackgroundMusicVolume">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -314,7 +314,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideBackgroundMusicSource">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -372,7 +372,7 @@
       <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlidePreviewMusicVolume">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -430,7 +430,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideGameMusicVolume">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>

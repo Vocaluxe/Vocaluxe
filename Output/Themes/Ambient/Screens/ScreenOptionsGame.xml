@@ -19,7 +19,7 @@
     <Static Name="Static1">
       <Skin>Menu</Skin>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>40</X>
@@ -31,9 +31,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -45,9 +45,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -59,9 +59,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -73,9 +73,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -87,9 +87,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -101,9 +101,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static7">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -346,7 +346,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideLanguage">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -404,7 +404,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDebugLevel">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -462,7 +462,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideSongMenu">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -520,7 +520,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideSongSorting">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -578,7 +578,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideTabs">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -636,7 +636,7 @@
       <NumVisible>2</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideTimerMode">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>

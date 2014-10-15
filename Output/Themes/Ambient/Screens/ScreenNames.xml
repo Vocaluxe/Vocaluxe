@@ -31,7 +31,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar1">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>Visible</Name>
       </Color>
@@ -45,7 +45,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>Visible</Name>
       </Color>
@@ -59,7 +59,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>Visible</Name>
       </Color>
@@ -73,7 +73,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>Visible</Name>
       </Color>
@@ -87,7 +87,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>Visible</Name>
       </Color>
@@ -101,7 +101,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>Visible</Name>
       </Color>
@@ -199,7 +199,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticWarningMics">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticWarningColor</Name>
       </Color>
@@ -213,7 +213,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticWarningProfiles">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticWarningColor</Name>
       </Color>
@@ -496,7 +496,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlidePlayerNumber">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlidePlayer</SkinSelected>
@@ -554,7 +554,7 @@
       <NumVisible>6</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDuetPlayer1">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>Button</SkinSelected>
@@ -612,7 +612,7 @@
       <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDuetPlayer2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>Button</SkinSelected>
@@ -670,7 +670,7 @@
       <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDuetPlayer3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>Button</SkinSelected>
@@ -728,7 +728,7 @@
       <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDuetPlayer4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>Button</SkinSelected>
@@ -786,7 +786,7 @@
       <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDuetPlayer5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>Button</SkinSelected>
@@ -844,7 +844,7 @@
       <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDuetPlayer6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>Button</SkinSelected>
@@ -943,7 +943,7 @@
   </NameSelections>
   <Equalizers>
     <Equalizer Name="EqualizerPlayer1">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Rect>
         <X>21</X>
         <Y>152</Y>
@@ -964,7 +964,7 @@
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Rect>
         <X>21</X>
         <Y>307</Y>
@@ -985,7 +985,7 @@
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Rect>
         <X>21</X>
         <Y>467</Y>
@@ -1006,7 +1006,7 @@
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Rect>
         <X>1153</X>
         <Y>152</Y>
@@ -1027,7 +1027,7 @@
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Rect>
         <X>1153</X>
         <Y>307</Y>
@@ -1048,7 +1048,7 @@
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Rect>
         <X>1153</X>
         <Y>467</Y>

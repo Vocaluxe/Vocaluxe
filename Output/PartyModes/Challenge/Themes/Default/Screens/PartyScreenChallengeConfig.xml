@@ -205,7 +205,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideNumPlayers">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -263,7 +263,7 @@
       <NumVisible>9</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideNumMics">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -321,7 +321,7 @@
       <NumVisible>2</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideNumRounds">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>

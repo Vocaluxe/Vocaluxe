@@ -209,7 +209,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N1">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -223,7 +223,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N1">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -242,7 +242,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -256,7 +256,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -275,7 +275,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -289,7 +289,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -308,7 +308,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -322,7 +322,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -341,7 +341,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -355,7 +355,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -374,7 +374,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP3N3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -388,7 +388,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP3N3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -407,7 +407,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -421,7 +421,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -440,7 +440,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -454,7 +454,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -473,7 +473,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP3N4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -487,7 +487,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP3N4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -506,7 +506,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP4N4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -520,7 +520,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP4N4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -539,7 +539,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -553,7 +553,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -572,7 +572,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -586,7 +586,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -605,7 +605,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP3N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -619,7 +619,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP3N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -638,7 +638,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP4N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -652,7 +652,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP4N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -671,7 +671,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP5N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -685,7 +685,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP5N5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -704,7 +704,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -718,7 +718,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -737,7 +737,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -751,7 +751,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -770,7 +770,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP3N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -784,7 +784,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP3N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -803,7 +803,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP4N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -817,7 +817,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP4N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -836,7 +836,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP5N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -850,7 +850,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP5N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>
@@ -869,7 +869,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP6N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Name>StaticColor</Name>
       </Color>
@@ -883,7 +883,7 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP6N6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
         <Color>
           <R>1</R>

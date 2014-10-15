@@ -141,7 +141,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideLyricStyle">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -199,7 +199,7 @@
       <NumVisible>4</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideLyricsPosition">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>

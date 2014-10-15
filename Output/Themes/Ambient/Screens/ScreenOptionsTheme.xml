@@ -31,9 +31,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -45,9 +45,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -59,9 +59,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -73,9 +73,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -87,9 +87,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -101,9 +101,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static7">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -115,9 +115,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static8">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -129,9 +129,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static9">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -367,7 +367,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideTheme">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -425,7 +425,7 @@
       <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideSkin">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -483,7 +483,7 @@
       <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideCover">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -541,7 +541,7 @@
       <NumVisible>2</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideNoteLines">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -599,7 +599,7 @@
       <NumVisible>2</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideToneHelper">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -657,7 +657,7 @@
       <NumVisible>2</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideTimerLook">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -715,7 +715,7 @@
       <NumVisible>2</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideFadeInfo">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -773,7 +773,7 @@
       <NumVisible>2</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideCoverLoading">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>

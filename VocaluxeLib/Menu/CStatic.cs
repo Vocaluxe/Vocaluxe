@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Xml;
@@ -71,8 +70,6 @@ namespace VocaluxeLib.Menu
         public float Alpha = 1;
 
         public EAspect Aspect = EAspect.Stretch;
-
-        public CStatic() {}
 
         public CStatic(int partyModeID)
         {

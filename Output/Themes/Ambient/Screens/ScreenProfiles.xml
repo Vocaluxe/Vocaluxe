@@ -19,7 +19,7 @@
     <Static Name="Static1">
       <Skin>Menu</Skin>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>40</X>
@@ -31,9 +31,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static2">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -45,9 +45,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static3">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -59,9 +59,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static4">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -73,9 +73,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static5">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -87,9 +87,9 @@
       <Reflection Enabled="false" />
     </Static>
     <Static Name="Static6">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <Color>
-        <Name>StaticColor</Name>
+        <Name>Invisible</Name>
       </Color>
       <Rect>
         <X>50</X>
@@ -233,7 +233,7 @@
   </Texts>
   <Buttons>
     <Button Name="ButtonPlayerName">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinSelected>SelectSlide</SkinSelected>
       <Rect>
         <X>500</X>
@@ -624,7 +624,7 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideProfiles">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -682,7 +682,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDifficulty">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -740,7 +740,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideAvatars">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -798,7 +798,7 @@
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideUserRole">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
@@ -856,7 +856,7 @@
       <NumVisible>2</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideActive">
-      <Skin>Invisible</Skin>
+      <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
