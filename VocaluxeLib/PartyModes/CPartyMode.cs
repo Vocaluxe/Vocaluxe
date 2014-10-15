@@ -23,14 +23,15 @@ namespace VocaluxeLib.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {
-        private string _Folder;
+        private readonly string _Folder;
         protected SScreenSongOptions _ScreenSongOptions;
         protected readonly Dictionary<string, CMenuParty> _Screens;
 
-        protected CPartyMode()
+        protected CPartyMode(string folder)
         {
             _Screens = new Dictionary<string, CMenuParty>();
             _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};
+            _Folder = folder;
         }
 
         #region Implementation
@@ -38,8 +39,6 @@ namespace VocaluxeLib.PartyModes
         {
             return false;
         }
-
-        public void Initialize() {}
 
         public void AddScreen(CMenuParty screen, string screenName)
         {
@@ -119,11 +118,6 @@ namespace VocaluxeLib.PartyModes
         public string GetFolder()
         {
             return _Folder;
-        }
-
-        public void SetFolder(string folder)
-        {
-            _Folder = folder;
         }
 
         public virtual void SetSearchString(string searchString, bool visible) {}

@@ -180,7 +180,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private SData _GameData;
         private EStage _Stage;
 
-        public CPartyModeTicTacToe()
+        public CPartyModeTicTacToe(string folder)
+            : base(folder)
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = true;

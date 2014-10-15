@@ -64,9 +64,7 @@ namespace Vocaluxe.Base
             _NextID = 0;
 
             //add dummy normal game mode and set it as default
-            var pm = new SPartyMode {PartyMode = new CPartyModeNone(), ScreenFiles = new List<string>()};
-            pm.PartyMode.Initialize();
-            pm.PartyModeID = _NextID++;
+            var pm = new SPartyMode {PartyMode = new CPartyModeNone(null), ScreenFiles = new List<string>(), PartyModeID = _NextID++};
             _NormalGameModeID = pm.PartyModeID;
             _PartyModes.Add(pm.PartyModeID, pm);
             _CurrentPartyMode = pm;
@@ -288,7 +286,8 @@ namespace Vocaluxe.Base
                 return false;
             }
 
-            object instance = output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Folder + "." + pm.PartyModeFile);
+            object instance = output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Folder + "." + pm.PartyModeFile, false,
+                BindingFlags.Public | BindingFlags.Instance,null, new object[]{pathToPm}, null, null);
             if (instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyMode file: " + file);
@@ -304,8 +303,6 @@ namespace Vocaluxe.Base
                 CLog.LogError("Error casting PartyMode file: " + file + "; " + e.Message);
                 return false;
             }
-            pm.PartyMode.Initialize();
-            pm.PartyMode.SetFolder(pathToPm);
 
             if (!CThemes.ReadThemesFromFolder(Path.Combine(pathToPm, CSettings.FolderNameThemes), pm.PartyModeID))
                 return false;
