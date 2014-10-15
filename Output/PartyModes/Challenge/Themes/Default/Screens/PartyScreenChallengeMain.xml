@@ -47,7 +47,7 @@
     <Static Name="StaticNextPlayer">
       <Skin/>
       <Color>
-        <Name>Invisible</Name>
+        <Name>Visible</Name>
       </Color>
       <Rect>
         <X>0</X>

@@ -134,6 +134,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 _NextPlayerStatics.Add(GetNewStatic(_Statics[_StaticNextPlayer]));
                 _AddStatic(_NextPlayerStatics[_NextPlayerStatics.Count - 1]);
             }
+            _Statics[_StaticNextPlayer].Visible = false;
         }
 
         public override void DataToScreen(object receivedData)
@@ -474,12 +475,11 @@ namespace VocaluxeLib.PartyModes.Challenge
                         roundRow.TextPlayer[column].Y = numberY;
                         roundRow.TextPlayer[column].MaxWidth = maxw;
                         //Score
-                        roundRow.TextScores[column] = roundRow.TextScores[column];
                         roundRow.TextScores[column].X = x;
                         roundRow.TextScores[column].Y = numberY + delta;
                         roundRow.TextScores[column].MaxWidth = maxw;
                     }
-                    numberY = numberY + 2*delta;
+                    numberY = numberY + 2 * delta;
                 }
                 numberY = numberY + delta / 2;
             }
