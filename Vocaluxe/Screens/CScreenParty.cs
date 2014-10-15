@@ -173,13 +173,7 @@ namespace Vocaluxe.Screens
             _Texts[_TextVersion].Text = _PartyModeInfos[index].VersionMajor + "." + _PartyModeInfos[index].VersionMinor;
             _Texts[_TextVersion].TranslationID = _PartyModeInfos[index].PartyModeID;
 
-            if (!_PartyModeInfos[index].Playable)
-            {
-                _Buttons[_ButtonStart].Visible = false;
-                _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR";
-                _Texts[_TextError].Visible = true;
-            }
-            else if (CConfig.GetMaxNumMics() == 0)
+            if (CConfig.GetMaxNumMics() == 0)
             {
                 _Buttons[_ButtonStart].Visible = false;
                 _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR_MICS";

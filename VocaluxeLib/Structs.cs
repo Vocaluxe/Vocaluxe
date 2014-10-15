@@ -371,7 +371,6 @@ namespace VocaluxeLib
         public int MinTeams;
 
         public string Author;
-        public bool Playable;
         public int VersionMajor;
         public int VersionMinor;
     }
