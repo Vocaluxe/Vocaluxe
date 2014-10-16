@@ -164,9 +164,9 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                _Theme.Color.Color = new SColorF(_Color);
-                _Theme.SColor.Color = new SColorF(_ColorProcessed);
-                _Theme.Rect = new SRectF(Rect);
+                _Theme.Color.Color = _Color;
+                _Theme.SColor.Color = _ColorProcessed;
+                _Theme.Rect = Rect;
 
                 LoadTextures();
                 _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);

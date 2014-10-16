@@ -150,7 +150,7 @@ namespace VocaluxeLib.Menu.SingNotes
                     _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref BarPos[player, numplayer].W);
                     _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref BarPos[player, numplayer].H);
                     _Theme.BarPos[i].Name = "P" + (player + 1) + "N" + (numplayer + 1);
-                    _Theme.BarPos[i].Rect = new SRectF(BarPos[player, numplayer]);
+                    _Theme.BarPos[i].Rect = BarPos[player, numplayer];
                     i++;
                 }
             }
@@ -357,7 +357,8 @@ namespace VocaluxeLib.Menu.SingNotes
 
                 if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.HitNote.Type == ENoteType.Golden)
                 {
-                    var re = new SRectF(rect) {W = (CBase.Game.GetMidRecordedBeat() - note.StartBeat) / beats * w};
+                    SRectF re = rect;
+                    re.W = (CBase.Game.GetMidRecordedBeat() - note.StartBeat) / beats * w;
                     _AddFlare(re, n);
                 }
 
@@ -524,7 +525,8 @@ namespace VocaluxeLib.Menu.SingNotes
 
         private static void _DrawNoteLines(SRectF rect, SColorF color)
         {
-            SRectF lineRect = new SRectF(rect) {H = 1.5f};
+            SRectF lineRect = rect;
+            lineRect.H = 1.5f;
             for (int i = 0; i < CBase.Settings.GetNumNoteLines(); i++)
             {
                 lineRect.Y = rect.Y + rect.H / CBase.Settings.GetNumNoteLines() * (i + 1);

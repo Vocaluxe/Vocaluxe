@@ -228,18 +228,18 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded = false;
 
-            Rect = new SRectF(slide.Rect);
-            RectArrowLeft = new SRectF(slide.RectArrowLeft);
-            RectArrowRight = new SRectF(slide.RectArrowRight);
+            Rect = slide.Rect;
+            RectArrowLeft = slide.RectArrowLeft;
+            RectArrowRight = slide.RectArrowRight;
 
-            Color = new SColorF(slide.Color);
-            SelColor = new SColorF(slide.SelColor);
+            Color = slide.Color;
+            SelColor = slide.SelColor;
 
-            ColorArrow = new SColorF(slide.ColorArrow);
-            SelColorArrow = new SColorF(slide.SelColorArrow);
+            ColorArrow = slide.ColorArrow;
+            SelColorArrow = slide.SelColorArrow;
 
-            TextColor = new SColorF(slide.TextColor);
-            SelTextColor = new SColorF(slide.SelTextColor);
+            TextColor = slide.TextColor;
+            SelTextColor = slide.SelTextColor;
             TextH = slide.TextH;
             TextRelativeX = slide.TextRelativeX;
             TextRelativeY = slide.TextRelativeY;
@@ -389,21 +389,21 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                _Theme.ArrowColor.Color = new SColorF(ColorArrow);
-                _Theme.ArrowSColor.Color = new SColorF(SelColorArrow);
-                _Theme.Color.Color = new SColorF(Color);
-                _Theme.HColor.Color = new SColorF(HighlightColor);
+                _Theme.ArrowColor.Color = ColorArrow;
+                _Theme.ArrowSColor.Color = SelColorArrow;
+                _Theme.Color.Color = Color;
+                _Theme.HColor.Color = HighlightColor;
                 _Theme.NumVisible = _NumVisible;
-                _Theme.Rect = new SRectF(Rect);
-                _Theme.RectArrowLeft = new SRectF(RectArrowLeft);
-                _Theme.RectArrowRight = new SRectF(RectArrowRight);
-                _Theme.SColor.Color = new SColorF(SelColor);
-                _Theme.TextColor.Color = new SColorF(TextColor);
+                _Theme.Rect = Rect;
+                _Theme.RectArrowLeft = RectArrowLeft;
+                _Theme.RectArrowRight = RectArrowRight;
+                _Theme.SColor.Color = SelColor;
+                _Theme.TextColor.Color = TextColor;
                 _Theme.TextH = TextH;
                 _Theme.TextMaxW = MaxW;
                 _Theme.TextRelativeX = TextRelativeX;
                 _Theme.TextRelativeY = TextRelativeY;
-                _Theme.TextSColor.Color = new SColorF(SelTextColor);
+                _Theme.TextSColor.Color = SelTextColor;
 
                 LoadTextures();
             }

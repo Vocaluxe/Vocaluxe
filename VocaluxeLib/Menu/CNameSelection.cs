@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
@@ -206,8 +205,8 @@ namespace VocaluxeLib.Menu
             {
                 _Theme.Name = elementName;
 
-                _Theme.Rect = new SRectF(Rect);
-                _Theme.ColorEmptyTile.Color = new SColorF(_ColorEmptyTile);
+                _Theme.Rect = Rect;
+                _Theme.ColorEmptyTile.Color = _ColorEmptyTile;
 
                 LoadTextures();
             }

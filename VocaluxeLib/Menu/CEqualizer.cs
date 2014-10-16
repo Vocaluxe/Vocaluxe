@@ -169,8 +169,8 @@ namespace VocaluxeLib.Menu
             {
                 _Theme.Name = elementName;
                 _Theme.Space = Space;
-                _Theme.Color.Color = new SColorF(Color);
-                _Theme.MaxColor.Color = new SColorF(MaxColor);
+                _Theme.Color.Color = Color;
+                _Theme.MaxColor.Color = MaxColor;
                 _Theme.Rect = Rect;
 
                 LoadTextures();

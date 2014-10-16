@@ -91,14 +91,6 @@ namespace VocaluxeLib
             A = a;
         }
 
-        public SColorF(SColorF color)
-        {
-            R = color.R;
-            G = color.G;
-            B = color.B;
-            A = color.A;
-        }
-
         [Pure]
         public Color AsColor()
         {
@@ -121,12 +113,6 @@ namespace VocaluxeLib
         public bool NameSpecified
         {
             get { return !String.IsNullOrEmpty(Name); }
-        }
-
-        public SThemeColor(SThemeColor theme)
-        {
-            Color = new SColorF(theme.Color);
-            Name = theme.Name;
         }
 
         public bool Get(int partyModeId, out SColorF color)
@@ -176,16 +162,6 @@ namespace VocaluxeLib
             Rotation = 0f;
         }
 
-        public SRectF(SRectF rect)
-        {
-            X = rect.X;
-            Y = rect.Y;
-            W = rect.W;
-            H = rect.H;
-            Z = rect.Z;
-            Rotation = 0f;
-        }
-
         public SRectF(Rectangle rect)
         {
             X = rect.X;
@@ -219,13 +195,6 @@ namespace VocaluxeLib
             Enabled = enabled;
             Height = height;
             Space = space;
-        }
-
-        public SReflection(SReflection refl)
-        {
-            Enabled = refl.Enabled;
-            Height = refl.Height;
-            Space = refl.Space;
         }
     }
 

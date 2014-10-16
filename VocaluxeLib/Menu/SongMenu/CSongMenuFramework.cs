@@ -41,19 +41,6 @@ namespace VocaluxeLib.Menu.SongMenu
         //public SThemeSongMenuDreidel songMenuDreidel;
         //public SThemeSongMenuList songMenuList;
         public SThemeSongMenuTileBoard SongMenuTileBoard;
-
-        public SThemeSongMenu(SThemeSongMenu theme)
-        {
-            Name = theme.Name;
-            CoverBackground = theme.CoverBackground;
-            CoverBigBackground = theme.CoverBigBackground;
-            DuetIcon = theme.DuetIcon;
-            VideoIcon = theme.VideoIcon;
-            MedleyCalcIcon = theme.MedleyCalcIcon;
-            MedleyTagIcon = theme.MedleyTagIcon;
-            Color = new SThemeColor(theme.Color);
-            SongMenuTileBoard = theme.SongMenuTileBoard;
-        }
     }
 
     public struct SThemeSongMenuTileBoard
@@ -179,7 +166,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             Visible = true;
             _PartyModeID = partyModeID;
-            _Theme = new SThemeSongMenu(theme);
+            _Theme = theme;
 
             LoadTextures();
         }
@@ -192,7 +179,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public SThemeSongMenu GetTheme()
         {
-            return new SThemeSongMenu(_Theme);
+            return _Theme;
         }
 
         public virtual bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
@@ -216,7 +203,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref _ColorInternal.B);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _ColorInternal.A);
             }
-            _Theme.Color.Color = new SColorF(_ColorInternal);
+            _Theme.Color.Color = _ColorInternal;
 
             #region SongMenuTileBoard
             _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuTileBoard/NumW", ref _Theme.SongMenuTileBoard.NumW);

@@ -141,9 +141,9 @@ namespace VocaluxeLib.Menu
                     SkinSelected = button._Theme.SkinSelected
                 };
 
-            Rect = new SRectF(button.Rect);
-            Color = new SColorF(button.Color);
-            SelColor = new SColorF(button.Color);
+            Rect = button.Rect;
+            Color = button.Color;
+            SelColor = button.Color;
             Texture = button.Texture;
             SelTexture = button.SelTexture;
 
@@ -238,9 +238,9 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                _Theme.Rect = new SRectF(Rect);
-                _Theme.Color.Color = new SColorF(Color);
-                _Theme.SelColor.Color = new SColorF(SelColor);
+                _Theme.Rect = Rect;
+                _Theme.Color.Color = Color;
+                _Theme.SelColor.Color = SelColor;
                 _Theme.Text = Text.GetTheme();
                 _Theme.SText = _SelText.GetTheme();
 

@@ -268,8 +268,8 @@ namespace VocaluxeLib.Menu
             _ResizeAlign = text._ResizeAlign;
             Font = new CFont(text.Font); //Use setter to set observer
 
-            Color = new SColorF(text.Color);
-            SelColor = new SColorF(text.SelColor);
+            Color = text.Color;
+            SelColor = text.SelColor;
             ReflectionSpace = text.ReflectionSpace;
             ReflectionHeight = text.ReflectionHeight;
 
@@ -300,7 +300,7 @@ namespace VocaluxeLib.Menu
             _Font.Height = h;
 
             Color = col;
-            SelColor = new SColorF(col);
+            SelColor = col;
 
             Text = text;
 

@@ -420,8 +420,8 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                _Theme.Rect = new SRectF(Rect);
-                _Theme.Color.Color = new SColorF(Color);
+                _Theme.Rect = Rect;
+                _Theme.Color.Color = Color;
                 LoadTextures();
             }
             return _ThemeLoaded;

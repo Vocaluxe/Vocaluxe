@@ -81,8 +81,8 @@ namespace VocaluxeLib.Menu
             _PartyModeID = s._PartyModeID;
 
             _Texture = s.Texture;
-            Color = new SColorF(s.Color);
-            Rect = new SRectF(s.Rect);
+            Color = s.Color;
+            Rect = s.Rect;
             Reflection = s.Reflection;
             ReflectionSpace = s.ReflectionHeight;
             ReflectionHeight = s.ReflectionSpace;
@@ -130,7 +130,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            _Theme.Rect = new SRectF(Rect);
+            _Theme.Rect = Rect;
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
                 _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
@@ -142,7 +142,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            _Theme.Color.Color = new SColorF(Color);
+            _Theme.Color.Color = Color;
 
             if (xmlReader.ItemExists(item + "/Reflection"))
             {
@@ -199,7 +199,7 @@ namespace VocaluxeLib.Menu
         {
             _Theme.Color.Get(_PartyModeID, out Color);
 
-            Rect = new SRectF(_Theme.Rect);
+            Rect = _Theme.Rect;
             Reflection = _Theme.Reflection.Enabled;
             if (Reflection)
             {

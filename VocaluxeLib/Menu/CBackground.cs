@@ -112,7 +112,7 @@ namespace VocaluxeLib.Menu
                     _ThemeLoaded &= success;
             }
 
-            _Theme.Color.Color = new SColorF(Color);
+            _Theme.Color.Color = Color;
 
             int i = 1;
 
