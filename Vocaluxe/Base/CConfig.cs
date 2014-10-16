@@ -126,7 +126,7 @@ namespace Vocaluxe.Base
 
         // Game
         //public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
-        public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_LIST__AND_COVER;
+        public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
         public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_ARTIST;
         public static EOffOn IgnoreArticles = EOffOn.TR_CONFIG_ON;
         public static float ScoreAnimationTime = 10;
