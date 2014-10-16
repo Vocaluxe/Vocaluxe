@@ -49,6 +49,7 @@
   <string name="TR_CONFIG_LIST">Liste</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
   <string name="TR_CONFIG_TILE_BOARD">TileBoard</string>
+  <string name="TR_CONFIG_LIST__AND_COVER">Songliste</string>
   <string name="TR_CONFIG_BOOK">Book</string>
   <string name="TR_CONFIG_COVERLOADING_ONDEMAND">Bei Bedarf</string>
   <string name="TR_CONFIG_COVERLOADING_ATSTART">Bei Programmstart</string>

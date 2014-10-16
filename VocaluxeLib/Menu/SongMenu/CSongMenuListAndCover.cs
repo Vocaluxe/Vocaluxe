@@ -45,8 +45,6 @@ namespace VocaluxeLib.Menu.SongMenu
         private CText _Title;
         private CText _SongLength;
 
-        //private int _NumW;
-        //private int _NumH;
 
         private float _SpaceW;
         private float _SpaceH;
