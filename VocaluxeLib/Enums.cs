@@ -172,6 +172,7 @@ namespace VocaluxeLib
         //TR_CONFIG_LIST,		    //a simple list
         //TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
         TR_CONFIG_TILE_BOARD, //chessboard like
+        TR_CONFIG_LIST__AND_COVER // list of covers and artist - title
         //TR_CONFIG_BOOK          //for playlists
         // ReSharper restore InconsistentNaming
     }
