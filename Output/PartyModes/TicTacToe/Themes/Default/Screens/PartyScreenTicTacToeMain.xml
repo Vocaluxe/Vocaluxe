@@ -412,7 +412,7 @@
         <H>100</H>
         <Z>0</Z>
       </Rect>
-      <Color Name="Player1Dim" />
+      <Color Name="Player1" ><A>0.5</A></Color>
       <SelColor Name="Player1" />
       <Text Name="Text">
         <X>50</X>
@@ -443,7 +443,7 @@
         <H>100</H>
         <Z>0</Z>
       </Rect>
-      <Color Name="Player2Dim" />
+      <Color Name="Player2" ><A>0.5</A></Color>
       <SelColor Name="Player2" />
       <Text Name="Text">
         <X>50</X>
@@ -474,7 +474,7 @@
         <H>100</H>
         <Z>0</Z>
       </Rect>
-      <Color Name="Player1Dim" />
+      <Color Name="Player1" ><A>0.5</A></Color>
       <SelColor Name="Player1" />
       <Text Name="Text">
         <X>48</X>
@@ -505,7 +505,7 @@
         <H>100</H>
         <Z>0</Z>
       </Rect>
-      <Color Name="Player2Dim" />
+      <Color Name="Player2" ><A>0.5</A></Color>
       <SelColor Name="Player2" />
       <Text Name="Text">
         <X>48</X>

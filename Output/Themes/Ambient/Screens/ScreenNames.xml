@@ -769,8 +769,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player1Dim2" />
-      <MaxColor Name="Player1Dim2" />
+      <Color Name="Player1"><A>0.4</A></Color>
+      <MaxColor Name="Player1"><A>0.4</A></MaxColor>
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer2">
@@ -786,8 +786,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player2Dim2" />
-      <MaxColor Name="Player2Dim2" />
+      <Color Name="Player2"><A>0.4</A></Color>
+      <MaxColor Name="Player2"><A>0.4</A></MaxColor>
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer3">
@@ -803,8 +803,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player3Dim2" />
-      <MaxColor Name="Player3Dim2" />
+      <Color Name="Player3"><A>0.4</A></Color>
+      <MaxColor Name="Player3"><A>0.4</A></MaxColor>
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer4">
@@ -820,8 +820,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player4Dim2" />
-      <MaxColor Name="Player4Dim2" />
+      <Color Name="Player4"><A>0.4</A></Color>
+      <MaxColor Name="Player4"><A>0.4</A></MaxColor>
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer5">
@@ -837,8 +837,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player5Dim2" />
-      <MaxColor Name="Player5Dim2" />
+      <Color Name="Player5"><A>0.4</A></Color>
+      <MaxColor Name="Player5"><A>0.4</A></MaxColor>
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer6">
@@ -854,8 +854,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player6Dim2" />
-      <MaxColor Name="Player6Dim2" />
+      <Color Name="Player6"><A>0.4</A></Color>
+      <MaxColor Name="Player6"><A>0.4</A></MaxColor>
       <Reflection Enabled="false" />
     </Equalizer>
   </Equalizers>

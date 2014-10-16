@@ -887,7 +887,7 @@
       <Z>-1</Z>
       <H>198</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1Dim2" />
+      <Color Name="Player1"><A>0.4</A></Color>
       <SColor Name="TextSColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -922,7 +922,7 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1Dim2" />
+      <Color Name="Player1"><A>0.4</A></Color>
       <SColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -957,7 +957,7 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2Dim2" />
+      <Color Name="Player2"><A>0.4</A></Color>
       <SColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -992,7 +992,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1Dim2" />
+      <Color Name="Player1"><A>0.4</A></Color>
       <SColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1027,7 +1027,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2Dim2" />
+      <Color Name="Player2"><A>0.4</A></Color>
       <SColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1062,7 +1062,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player3Dim2" />
+      <Color Name="Player3"><A>0.4</A></Color>
       <SColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1097,7 +1097,7 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1Dim2" />
+      <Color Name="Player1"><A>0.4</A></Color>
       <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1132,7 +1132,7 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2Dim2" />
+      <Color Name="Player2"><A>0.4</A></Color>
       <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1167,7 +1167,7 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color Name="Player3Dim2" />
+      <Color Name="Player3"><A>0.4</A></Color>
       <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1202,7 +1202,7 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color Name="Player4Dim2" />
+      <Color Name="Player4"><A>0.4</A></Color>
       <SColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1237,7 +1237,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1Dim2" />
+      <Color Name="Player1"><A>0.4</A></Color>
       <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1272,7 +1272,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2Dim2" />
+      <Color Name="Player2"><A>0.4</A></Color>
       <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1307,7 +1307,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player3Dim2" />
+      <Color Name="Player3"><A>0.4</A></Color>
       <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1342,7 +1342,7 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color Name="Player4Dim2" />
+      <Color Name="Player4"><A>0.4</A></Color>
       <SColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1377,7 +1377,7 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color Name="Player5Dim2" />
+      <Color Name="Player5"><A>0.4</A></Color>
       <SColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1412,7 +1412,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1Dim2" />
+      <Color Name="Player1"><A>0.4</A></Color>
       <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1447,7 +1447,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2Dim2" />
+      <Color Name="Player2"><A>0.4</A></Color>
       <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1482,7 +1482,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player3Dim2" />
+      <Color Name="Player3"><A>0.4</A></Color>
       <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1517,7 +1517,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player4Dim2" />
+      <Color Name="Player4"><A>0.4</A></Color>
       <SColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1552,7 +1552,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player5Dim2" />
+      <Color Name="Player5"><A>0.4</A></Color>
       <SColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1587,7 +1587,7 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color Name="Player6Dim2" />
+      <Color Name="Player6"><A>0.4</A></Color>
       <SColor Name="Player6" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>

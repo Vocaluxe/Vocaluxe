@@ -241,7 +241,7 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player1Dim" />
+      <Color Name="Player1" ><A>0.5</A></Color>
       <SelColor Name="Player1" />
       <Text Name="Text">
         <X>40</X>
@@ -272,7 +272,7 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player2Dim" />
+      <Color Name="Player2" ><A>0.5</A></Color>
       <SelColor Name="Player2" />
       <Text Name="Text">
         <X>40</X>
@@ -303,7 +303,7 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player3Dim" />
+      <Color Name="Player3" ><A>0.5</A></Color>
       <SelColor Name="Player3" />
       <Text Name="Text">
         <X>40</X>
@@ -334,7 +334,7 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player4Dim" />
+      <Color Name="Player4" ><A>0.5</A></Color>
       <SelColor Name="Player4" />
       <Text Name="Text">
         <X>40</X>
@@ -365,7 +365,7 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player5Dim" />
+      <Color Name="Player5" ><A>0.5</A></Color>
       <SelColor Name="Player5" />
       <Text Name="Text">
         <X>40</X>
@@ -396,7 +396,7 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player6Dim" />
+      <Color Name="Player6" ><A>0.5</A></Color>
       <SelColor Name="Player6" />
       <Text Name="Text">
         <X>40</X>
