@@ -287,6 +287,17 @@ namespace VocaluxeLib.Menu
             {
                 CBase.Log.LogError(e.Message + e.StackTrace, true, true);
             }
+            if (_ScreenVersion != Theme.Informations.ScreenVersion)
+            {
+                string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
+                if (Theme.Informations.ScreenVersion < _ScreenVersion)
+                    msg += "the file ist outdated! ";
+                else
+                    msg += "the file is for newer program versions! ";
+
+                msg += "Current screen version is " + _ScreenVersion;
+                CBase.Log.LogError(msg);
+            }
         }
 
         public virtual void LoadThemeOld(string xmlPath)
