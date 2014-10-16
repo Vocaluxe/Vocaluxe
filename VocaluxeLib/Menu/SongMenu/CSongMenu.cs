@@ -199,7 +199,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
                     _SongMenu = new CSongMenuTileBoard(_PartyModeID);
                     break;
-                case ESongMenu.TR_CONFIG_LIST__AND_COVER:
+                case ESongMenu.TR_CONFIG_LIST:
                     _SongMenu = new CSongMenuListAndCover(_PartyModeID);
                     break;
                     //case ESongMenu.TR_CONFIG_BOOK:
