@@ -279,8 +279,15 @@ namespace Vocaluxe
                 CRecord.Close();
                 CSound.Close();
                 CDraw.Close();
-                GC.Collect(); // Do a GC run here before we close logs to have finalizers run
-                CLog.CloseAll(); // Do this last, so we get all log entries!
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown!", false, false, e);
+            }
+            GC.Collect(); // Do a GC run here before we close logs to have finalizers run
+            try
+            {
+                CLog.Close(); // Do this last, so we get all log entries!
             }
             catch (Exception) {}
             Environment.Exit(Environment.ExitCode);

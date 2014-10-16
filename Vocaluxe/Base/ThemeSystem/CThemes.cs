@@ -57,7 +57,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static void Unload()
         {
-            foreach (CBaseTheme theme in _Themes)
+            foreach (CTheme theme in _Themes)
                 theme.Unload();
             CurrentThemes.Clear();
         }

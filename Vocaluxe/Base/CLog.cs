@@ -130,7 +130,7 @@ namespace Vocaluxe.Base
             _Initialized = true;
         }
 
-        public static void CloseAll()
+        public static void Close()
         {
             if (_Initialized)
             {
