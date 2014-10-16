@@ -154,7 +154,7 @@ namespace VocaluxeLib
                 ok = CBase.Themes.GetColor(Name, partyModeId, out color);
             else
             {
-                Debug.Assert(R.HasValue && G.HasValue && B.HasValue && A.HasValue);
+                Debug.Assert(R.HasValue || G.HasValue || B.HasValue);
                 ok = true;
                 color = new SColorF(1, 1, 1, 1);
             }
