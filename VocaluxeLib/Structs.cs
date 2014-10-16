@@ -76,10 +76,10 @@ namespace VocaluxeLib
     #region Drawing
     public struct SColorF
     {
-        [XmlElement("R")] public float R;
-        [XmlElement("G")] public float G;
-        [XmlElement("B")] public float B;
-        [XmlElement("A")] public float A;
+        public float R;
+        public float G;
+        public float B;
+        public float A;
 
         public SColorF(float r, float g, float b, float a)
         {

@@ -37,7 +37,7 @@ namespace VocaluxeLib.Menu
     [XmlType("Screen")]
     public struct STheme
     {
-        [XmlElement("Informations")] public SScreenInformation ScreenInformation;
+        public SScreenInformation Informations;
         [XmlArray("Backgrounds")] public List<SThemeBackground> Backgrounds;
         [XmlArray("Statics")] public List<SThemeStatic> Statics;
         [XmlArray("Texts")] public List<SThemeText> Texts;
@@ -219,7 +219,7 @@ namespace VocaluxeLib.Menu
 
             string file = Path.Combine(xmlPath, ThemeName + ".xml");
 
-            Theme.ScreenInformation = new SScreenInformation();
+            Theme.Informations = new SScreenInformation();
             Theme.Backgrounds = new List<SThemeBackground>();
             Theme.Statics = new List<SThemeStatic>();
             Theme.Texts = new List<SThemeText>();
@@ -319,8 +319,8 @@ namespace VocaluxeLib.Menu
                 _LoadThemeElement<CScreenSetting>(_ThemeScreenSettings, _AddScreenSetting, xmlReader);
             }
 
-            Theme.ScreenInformation.ScreenName = ThemeName;
-            Theme.ScreenInformation.ScreenVersion = _ScreenVersion;
+            Theme.Informations.ScreenName = ThemeName;
+            Theme.Informations.ScreenVersion = _ScreenVersion;
             Theme.Backgrounds = new List<SThemeBackground>();
             Theme.Statics = new List<SThemeStatic>();
             Theme.Texts = new List<SThemeText>();

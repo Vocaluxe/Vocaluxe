@@ -59,29 +59,29 @@ namespace VocaluxeLib.Menu
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Rect")] public SRectF Rect;
+        public SRectF Rect;
 
-        [XmlElement("EntryHeight")] public float EntryHeight;
+        public float EntryHeight;
 
-        [XmlElement("SkinBackground")] public string TextureBackgroundName;
-        [XmlElement("SkinBackgroundSelected")] public string SelTextureBackgroundName;
+        public string SkinBackground;
+        public string SkinBackgroundSelected;
 
-        [XmlElement("ColorBackground")] public SThemeColor ColorBackground;
+        public SThemeColor ColorBackground;
         [XmlElement("SColorBackground")] public SThemeColor SelColorBackground;
 
-        [XmlElement("Text1")] public SThemeText SText1;
+        public SThemeText Text1;
 
-        [XmlElement("StaticCover")] public SThemeStatic SStaticCover;
-        [XmlElement("StaticPlaylistHeader")] public SThemeStatic SStaticPlaylistHeader;
-        [XmlElement("StaticPlaylistFooter")] public SThemeStatic SStaticPlaylistFooter;
+        public SThemeStatic StaticCover;
+        public SThemeStatic StaticPlaylistHeader;
+        public SThemeStatic StaticPlaylistFooter;
 
-        [XmlElement("ButtonPlaylistName")] public SThemeButton SButtonPlaylistName;
-        [XmlElement("ButtonPlaylistClose")] public SThemeButton SButtonPlaylistClose;
-        [XmlElement("ButtonPlaylistSave")] public SThemeButton SButtonPlaylistSave;
-        [XmlElement("ButtonPlaylistDelete")] public SThemeButton SButtonPlaylistDelete;
-        [XmlElement("ButtonPlaylistSing")] public SThemeButton SButtonPlaylistSing;
+        public SThemeButton ButtonPlaylistName;
+        public SThemeButton ButtonPlaylistClose;
+        public SThemeButton ButtonPlaylistSave;
+        public SThemeButton ButtonPlaylistDelete;
+        public SThemeButton ButtonPlaylistSing;
 
-        [XmlElement("SelectSlideGameMode")] public SThemeSelectSlide SSelectSlideGameMode;
+        public SThemeSelectSlide SelectSlideGameMode;
     }
 
     public class CPlaylist : IMenuElement
@@ -260,16 +260,16 @@ namespace VocaluxeLib.Menu
             _Interactions = new CObjectInteractions();
             _ChangeOrderElement = new CPlaylistElement();
 
-            Text1 = new CText(_Theme.SText1, _PartyModeID);
-            StaticCover = new CStatic(_Theme.SStaticCover, _PartyModeID);
-            StaticPlaylistFooter = new CStatic(_Theme.SStaticPlaylistFooter, _PartyModeID);
-            StaticPlaylistHeader = new CStatic(_Theme.SStaticPlaylistHeader, _PartyModeID);
-            ButtonPlaylistName = new CButton(_Theme.SButtonPlaylistName, _PartyModeID);
-            ButtonPlaylistClose = new CButton(_Theme.SButtonPlaylistClose, _PartyModeID);
-            ButtonPlaylistDelete = new CButton(_Theme.SButtonPlaylistDelete, _PartyModeID);
-            ButtonPlaylistSave = new CButton(_Theme.SButtonPlaylistSave, _PartyModeID);
-            ButtonPlaylistSing = new CButton(_Theme.SButtonPlaylistSing, _PartyModeID);
-            SelectSlideGameMode = new CSelectSlide(_Theme.SSelectSlideGameMode, _PartyModeID);
+            Text1 = new CText(_Theme.Text1, _PartyModeID);
+            StaticCover = new CStatic(_Theme.StaticCover, _PartyModeID);
+            StaticPlaylistFooter = new CStatic(_Theme.StaticPlaylistFooter, _PartyModeID);
+            StaticPlaylistHeader = new CStatic(_Theme.StaticPlaylistHeader, _PartyModeID);
+            ButtonPlaylistName = new CButton(_Theme.ButtonPlaylistName, _PartyModeID);
+            ButtonPlaylistClose = new CButton(_Theme.ButtonPlaylistClose, _PartyModeID);
+            ButtonPlaylistDelete = new CButton(_Theme.ButtonPlaylistDelete, _PartyModeID);
+            ButtonPlaylistSave = new CButton(_Theme.ButtonPlaylistSave, _PartyModeID);
+            ButtonPlaylistSing = new CButton(_Theme.ButtonPlaylistSing, _PartyModeID);
+            SelectSlideGameMode = new CSelectSlide(_Theme.SelectSlideGameMode, _PartyModeID);
 
 
             Visible = false;
@@ -297,8 +297,8 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", out _Theme.TextureBackgroundName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", out _Theme.SelTextureBackgroundName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", out _Theme.SkinBackground, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", out _Theme.SkinBackgroundSelected, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
@@ -345,15 +345,15 @@ namespace VocaluxeLib.Menu
                 _Theme.Rect = Rect;
                 _Theme.ColorBackground.Color = BackgroundColor;
                 _Theme.SelColorBackground.Color = BackgroundSelColor;
-                _Theme.SText1 = Text1.GetTheme();
-                _Theme.SStaticCover = StaticCover.GetTheme();
-                _Theme.SStaticPlaylistFooter = StaticPlaylistFooter.GetTheme();
-                _Theme.SStaticPlaylistHeader = StaticPlaylistHeader.GetTheme();
-                _Theme.SButtonPlaylistName = ButtonPlaylistName.GetTheme();
-                _Theme.SButtonPlaylistSing = ButtonPlaylistSing.GetTheme();
-                _Theme.SButtonPlaylistClose = ButtonPlaylistClose.GetTheme();
-                _Theme.SButtonPlaylistSave = ButtonPlaylistSave.GetTheme();
-                _Theme.SButtonPlaylistDelete = ButtonPlaylistDelete.GetTheme();
+                _Theme.Text1 = Text1.GetTheme();
+                _Theme.StaticCover = StaticCover.GetTheme();
+                _Theme.StaticPlaylistFooter = StaticPlaylistFooter.GetTheme();
+                _Theme.StaticPlaylistHeader = StaticPlaylistHeader.GetTheme();
+                _Theme.ButtonPlaylistName = ButtonPlaylistName.GetTheme();
+                _Theme.ButtonPlaylistSing = ButtonPlaylistSing.GetTheme();
+                _Theme.ButtonPlaylistClose = ButtonPlaylistClose.GetTheme();
+                _Theme.ButtonPlaylistSave = ButtonPlaylistSave.GetTheme();
+                _Theme.ButtonPlaylistDelete = ButtonPlaylistDelete.GetTheme();
 
                 LoadTextures();
             }
@@ -371,12 +371,12 @@ namespace VocaluxeLib.Menu
             {
                 if (i == CurrentPlaylistElement && _Selected)
                 {
-                    _PlaylistElements[i].Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SelTextureBackgroundName, _PartyModeID);
+                    _PlaylistElements[i].Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundSelected, _PartyModeID);
                     _PlaylistElements[i].Background.Color = BackgroundSelColor;
                 }
                 else
                 {
-                    _PlaylistElements[i].Background.Texture = CBase.Themes.GetSkinTexture(_Theme.TextureBackgroundName, _PartyModeID);
+                    _PlaylistElements[i].Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SkinBackground, _PartyModeID);
                     _PlaylistElements[i].Background.Color = BackgroundColor;
                 }
             }
@@ -909,7 +909,7 @@ namespace VocaluxeLib.Menu
                             _ChangeOrderElement.SelectSlide.RectArrowRight.Z = CBase.Settings.GetZNear();
                             _ChangeOrderElement.Text1.Z = CBase.Settings.GetZNear();
 
-                            _ChangeOrderElement.Background.Texture = CBase.Themes.GetSkinTexture(_Theme.TextureBackgroundName, _PartyModeID);
+                            _ChangeOrderElement.Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SkinBackground, _PartyModeID);
                             _ChangeOrderElement.Background.Color = BackgroundColor;
 
                             _OldMousePosX = mouseEvent.X;
@@ -1051,7 +1051,7 @@ namespace VocaluxeLib.Menu
             {
                 var en = new CPlaylistElement
                     {
-                        Background = new CStatic(_PartyModeID, _Theme.TextureBackgroundName, BackgroundColor,
+                        Background = new CStatic(_PartyModeID, _Theme.SkinBackground, BackgroundColor,
                                                  new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z)),
                         Cover = new CStatic(StaticCover)
                     };

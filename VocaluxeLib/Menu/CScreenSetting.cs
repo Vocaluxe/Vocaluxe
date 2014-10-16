@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Xml;
@@ -35,8 +34,8 @@ namespace VocaluxeLib.Menu
     public struct SScreenSetting
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
-        [XmlElement("Value")] public string Value;
-        [XmlElement("Type")] public ESettingType Type;
+        public string Value;
+        public ESettingType Type;
     }
 
     // ReSharper disable ClassNeverInstantiated.Global

@@ -27,10 +27,10 @@ namespace VocaluxeLib.Menu
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Rect")] public SRectF Rect;
+        public SRectF Rect;
 
-        [XmlElement("Color")] public SThemeColor Color;
-        [XmlElement("SColor")] public SThemeColor SColor;
+        public SThemeColor Color;
+        public SThemeColor SColor;
     }
 
     public class CLyric : IMenuElement

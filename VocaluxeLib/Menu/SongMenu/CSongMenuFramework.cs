@@ -17,10 +17,7 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
-using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Xml;
@@ -32,26 +29,26 @@ namespace VocaluxeLib.Menu.SongMenu
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("CoverBackground")] public string CoverBackgroundName;
-        [XmlElement("CoverBigBackground")] public string CoverBigBackgroundName;
-        [XmlElement("DuetIcon")] public string DuetIconName;
-        [XmlElement("VideoIcon")] public string VideoIconName;
-        [XmlElement("MedleyCalcIcon")] public string MedleyCalcIcon;
-        [XmlElement("MedleyTagIcon")] public string MedleyTagIcon;
-        [XmlElement("Color")] public SThemeColor Color;
+        public string CoverBackground;
+        public string CoverBigBackground;
+        public string DuetIcon;
+        public string VideoIcon;
+        public string MedleyCalcIcon;
+        public string MedleyTagIcon;
+        public SThemeColor Color;
 
         //public SThemeSongMenuBook songMenuBook;
         //public SThemeSongMenuDreidel songMenuDreidel;
         //public SThemeSongMenuList songMenuList;
-        [XmlElement("SongMenuTileBoard")] public SThemeSongMenuTileBoard SongMenuTileBoard;
+        public SThemeSongMenuTileBoard SongMenuTileBoard;
 
         public SThemeSongMenu(SThemeSongMenu theme)
         {
             Name = theme.Name;
-            CoverBackgroundName = theme.CoverBackgroundName;
-            CoverBigBackgroundName = theme.CoverBigBackgroundName;
-            DuetIconName = theme.DuetIconName;
-            VideoIconName = theme.VideoIconName;
+            CoverBackground = theme.CoverBackground;
+            CoverBigBackground = theme.CoverBigBackground;
+            DuetIcon = theme.DuetIcon;
+            VideoIcon = theme.VideoIcon;
             MedleyCalcIcon = theme.MedleyCalcIcon;
             MedleyTagIcon = theme.MedleyTagIcon;
             Color = new SThemeColor(theme.Color);
@@ -64,46 +61,46 @@ namespace VocaluxeLib.Menu.SongMenu
         /// <summary>
         ///     Number of tiles horizontal
         /// </summary>
-        [XmlElement("NumW")] public int NumW;
+        public int NumW;
 
         /// <summary>
         ///     Number of tiles vertical
         /// </summary>
-        [XmlElement("NumH")] public int NumH;
+        public int NumH;
 
         /// <summary>
         ///     Number of tiles horizontal in small-modus
         /// </summary>
-        [XmlElement("NumWsmall")] public int NumWsmall;
+        public int NumWsmall;
 
         /// <summary>
         ///     Number of tiles vertical in small-modus
         /// </summary>
-        [XmlElement("NumHsmall")] public int NumHsmall;
+        public int NumHsmall;
 
         /// <summary>
         ///     Space between tiles horizontal
         /// </summary>
-        [XmlElement("SpaceW")] public float SpaceW;
+        public float SpaceW;
 
         /// <summary>
         ///     Space between tiles vertical
         /// </summary>
-        [XmlElement("SpaceH")] public float SpaceH;
+        public float SpaceH;
 
-        [XmlElement("TileRect")] public SRectF TileRect;
-        [XmlElement("TileRectSmall")] public SRectF TileRectSmall;
+        public SRectF TileRect;
+        public SRectF TileRectSmall;
 
-        [XmlElement("TextArtist")] public SThemeText TextArtist;
-        [XmlElement("TextTitle")] public SThemeText TextTitle;
-        [XmlElement("TextSongLength")] public SThemeText TextSongLength;
+        public SThemeText TextArtist;
+        public SThemeText TextTitle;
+        public SThemeText TextSongLength;
 
-        [XmlElement("StaticCoverBig")] public SThemeStatic StaticCoverBig;
-        [XmlElement("StaticTextBG")] public SThemeStatic StaticTextBG;
-        [XmlElement("StaticDuetIcon")] public SThemeStatic StaticDuetIcon;
-        [XmlElement("StaticVideoIcon")] public SThemeStatic StaticVideoIcon;
-        [XmlElement("StaticMedleyCalcIcon")] public SThemeStatic StaticMedleyCalcIcon;
-        [XmlElement("StaticMedleyTagIcon")] public SThemeStatic StaticMedleyTagIcon;
+        public SThemeStatic StaticCoverBig;
+        public SThemeStatic StaticTextBG;
+        public SThemeStatic StaticDuetIcon;
+        public SThemeStatic StaticVideoIcon;
+        public SThemeStatic StaticMedleyCalcIcon;
+        public SThemeStatic StaticMedleyTagIcon;
     }
 
     abstract class CSongMenuFramework : ISongMenu
@@ -203,10 +200,10 @@ namespace VocaluxeLib.Menu.SongMenu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBackground", out _Theme.CoverBackgroundName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBigBackground", out _Theme.CoverBigBackgroundName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/DuetIcon", out _Theme.DuetIconName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/VideoIcon", out _Theme.VideoIconName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBackground", out _Theme.CoverBackground, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/CoverBigBackground", out _Theme.CoverBigBackground, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/DuetIcon", out _Theme.DuetIcon, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/VideoIcon", out _Theme.VideoIcon, String.Empty);
             _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyCalcIcon", out _Theme.MedleyCalcIcon, String.Empty);
             _ThemeLoaded &= xmlReader.GetValue(item + "/MedleyTagIcon", out _Theme.MedleyTagIcon, String.Empty);
 
@@ -271,7 +268,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void OnHide()
         {
-            if(CBase.Graphics.GetNextScreen() != EScreens.ScreenNames || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            if (CBase.Graphics.GetNextScreen() != EScreens.ScreenNames || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 _ResetPreview();
         }
 

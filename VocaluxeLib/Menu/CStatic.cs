@@ -26,7 +26,7 @@ namespace VocaluxeLib.Menu
     public struct SThemeStatic
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
-        [XmlElement("Skin")] public string TextureName;
+        public string Skin;
         public SThemeColor Color;
         public SRectF Rect;
         public SReflection Reflection;
@@ -52,7 +52,7 @@ namespace VocaluxeLib.Menu
         private CTextureRef _Texture;
         public CTextureRef Texture
         {
-            get { return _Texture ?? CBase.Themes.GetSkinTexture(_Theme.TextureName, _PartyModeID); }
+            get { return _Texture ?? CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID); }
 
             set { _Texture = value; }
         }
@@ -104,7 +104,7 @@ namespace VocaluxeLib.Menu
         public CStatic(int partyModeID, string textureSkinName, SColorF color, SRectF rect)
         {
             _PartyModeID = partyModeID;
-            _Theme.TextureName = textureSkinName;
+            _Theme.Skin = textureSkinName;
             Color = color;
             Rect = rect;
         }
@@ -122,7 +122,7 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);

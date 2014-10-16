@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Xml;
@@ -30,12 +29,12 @@ namespace VocaluxeLib.Menu
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Skin")] public string TextureName;
-        [XmlElement("Rect")] public SRectF Rect;
-        [XmlElement("Color")] public SThemeColor Color;
-        [XmlElement("Type")] public EParticleType Type;
-        [XmlElement("Size")] public float Size;
-        [XmlElement("MaxNumber")] public int MaxNumber;
+        public string Skin;
+        public SRectF Rect;
+        public SThemeColor Color;
+        public EParticleType Type;
+        public float Size;
+        public int MaxNumber;
     }
 
     public enum EParticleType
@@ -346,14 +345,14 @@ namespace VocaluxeLib.Menu
             Visible = true;
         }
 
-        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, string textureName, float size, EParticleType type)
+        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, string skin, float size, EParticleType type)
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
             Rect = rect;
             Color = color;
-            _Theme.TextureName = textureName;
+            _Theme.Skin = skin;
             _Theme.MaxNumber = maxNumber;
             _Theme.Size = size;
             _Theme.Type = type;
@@ -369,7 +368,7 @@ namespace VocaluxeLib.Menu
             _Stars = new List<CParticle>();
             Rect = rect;
             Color = color;
-            _Theme.TextureName = String.Empty;
+            _Theme.Skin = String.Empty;
             Texture = texture;
             _Theme.MaxNumber = maxNumber;
             _Theme.Size = size;
@@ -396,7 +395,7 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
@@ -516,9 +515,9 @@ namespace VocaluxeLib.Menu
                     h = 0;
 
                 CParticle star;
-                if (!String.IsNullOrEmpty(_Theme.TextureName))
+                if (!String.IsNullOrEmpty(_Theme.Skin))
                 {
-                    star = new CParticle(_PartyModeID, _Theme.TextureName, Color,
+                    star = new CParticle(_PartyModeID, _Theme.Skin, Color,
                                          CBase.Game.GetRandom(w) + Rect.X - size / 4f,
                                          CBase.Game.GetRandom(h) + Rect.Y - size / 4f,
                                          size, lifetime, Rect.Z, vx, vy, vr, vsize, _Theme.Type);
@@ -579,8 +578,8 @@ namespace VocaluxeLib.Menu
         {
             _Theme.Color.Get(_PartyModeID, out Color);
 
-            if (!String.IsNullOrEmpty(_Theme.TextureName))
-                Texture = CBase.Themes.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            if (!String.IsNullOrEmpty(_Theme.Skin))
+                Texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
 
             Rect = _Theme.Rect;
         }

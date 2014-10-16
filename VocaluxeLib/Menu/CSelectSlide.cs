@@ -29,39 +29,39 @@ namespace VocaluxeLib.Menu
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Skin")] public string TextureName;
-        [XmlElement("SkinArrowLeft")] public string TextureArrowLeftName;
-        [XmlElement("SkinArrowRight")] public string TextureArrowRightName;
+        public string Skin;
+        public string SkinArrowLeft;
+        public string SkinArrowRight;
 
-        [XmlElement("SkinSelected")] public string SelTextureName;
-        [XmlElement("SkinArrowLeftSelected")] public string SelTextureArrowLeftName;
-        [XmlElement("SkinArrowRightSelected")] public string SelTextureArrowRightName;
+        public string SkinSelected;
+        public string SkinArrowLeftSelected;
+        public string SkinArrowRightSelected;
 
-        [XmlElement("SkinHighlighted")] public string HighlightTextureName;
+        public string SkinHighlighted;
 
-        [XmlElement("Rect")] public SRectF Rect;
-        [XmlElement("RectArrowLeft")] public SRectF RectArrowLeft;
-        [XmlElement("RectArrowRight")] public SRectF RectArrowRight;
+        public SRectF Rect;
+        public SRectF RectArrowLeft;
+        public SRectF RectArrowRight;
 
-        [XmlElement("Color")] public SThemeColor Color;
-        [XmlElement("SColor")] public SThemeColor SColor;
-        [XmlElement("HColor")] public SThemeColor HColor;
+        public SThemeColor Color;
+        public SThemeColor SColor;
+        public SThemeColor HColor;
 
-        [XmlElement("ArrowColor")] public SThemeColor ArrowColor;
-        [XmlElement("ArrowSColor")] public SThemeColor ArrowSColor;
+        public SThemeColor ArrowColor;
+        public SThemeColor ArrowSColor;
 
-        [XmlElement("TextColor")] public SThemeColor TextColor;
-        [XmlElement("TextSColor")] public SThemeColor TextSColor;
+        public SThemeColor TextColor;
+        public SThemeColor TextSColor;
 
-        [XmlElement("TextH")] public float TextH;
-        [XmlElement("TextRelativeX")] public float TextRelativeX;
-        [XmlElement("TextRelativeY")] public float TextRelativeY;
-        [XmlElement("TextMaxW")] public float TextMaxW;
+        public float TextH;
+        public float TextRelativeX;
+        public float TextRelativeY;
+        public float TextMaxW;
 
-        [XmlElement("TextFont")] public string TextFont;
-        [XmlElement("TextStyle")] public EStyle TextStyle;
+        public string TextFont;
+        public EStyle TextStyle;
 
-        [XmlElement("NumVisible")] public int NumVisible;
+        public int NumVisible;
     }
 
     public class CSelectSlide : IMenuElement, ICloneable
@@ -209,8 +209,8 @@ namespace VocaluxeLib.Menu
             _PartyModeID = slide._PartyModeID;
             _Theme = new SThemeSelectSlide
                 {
-                    TextureArrowLeftName = slide._Theme.TextureArrowLeftName,
-                    TextureArrowRightName = slide._Theme.TextureArrowRightName,
+                    SkinArrowLeft = slide._Theme.SkinArrowLeft,
+                    SkinArrowRight = slide._Theme.SkinArrowRight,
                     Color = slide._Theme.Color,
                     SColor = slide._Theme.SColor,
                     HColor = slide._Theme.HColor,
@@ -218,10 +218,10 @@ namespace VocaluxeLib.Menu
                     ArrowSColor = slide._Theme.ArrowSColor,
                     TextColor = slide._Theme.TextColor,
                     TextSColor = slide._Theme.TextSColor,
-                    SelTextureName = slide._Theme.SelTextureName,
-                    SelTextureArrowLeftName = slide._Theme.SelTextureArrowLeftName,
-                    SelTextureArrowRightName = slide._Theme.SelTextureArrowRightName,
-                    HighlightTextureName = slide._Theme.HighlightTextureName,
+                    SkinSelected = slide._Theme.SkinSelected,
+                    SkinArrowLeftSelected = slide._Theme.SkinArrowLeftSelected,
+                    SkinArrowRightSelected = slide._Theme.SkinArrowRightSelected,
+                    SkinHighlighted = slide._Theme.SkinHighlighted,
                     TextFont = slide._Theme.TextFont,
                     TextStyle = slide._Theme.TextStyle
                 };
@@ -277,15 +277,15 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeft", out _Theme.TextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRight", out _Theme.TextureArrowRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeft", out _Theme.SkinArrowLeft, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRight", out _Theme.SkinArrowRight, String.Empty);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", out _Theme.SelTextureName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeftSelected", out _Theme.SelTextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRightSelected", out _Theme.SelTextureArrowRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", out _Theme.SkinSelected, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeftSelected", out _Theme.SkinArrowLeftSelected, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRightSelected", out _Theme.SkinArrowRightSelected, String.Empty);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinHighlighted", out _Theme.HighlightTextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinHighlighted", out _Theme.SkinHighlighted, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
@@ -599,15 +599,15 @@ namespace VocaluxeLib.Menu
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
                 return;
 
-            CTextureRef texture = CBase.Themes.GetSkinTexture(_Theme.TextureName, _PartyModeID);
-            CTextureRef textureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
-            CTextureRef textureArrowRight = CBase.Themes.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
+            CTextureRef texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
+            CTextureRef textureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SkinArrowLeft, _PartyModeID);
+            CTextureRef textureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SkinArrowRight, _PartyModeID);
 
-            CTextureRef selTexture = CBase.Themes.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
-            CTextureRef selTextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SelTextureArrowLeftName, _PartyModeID);
-            CTextureRef selTextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
+            CTextureRef selTexture = CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
+            CTextureRef selTextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SkinArrowLeftSelected, _PartyModeID);
+            CTextureRef selTextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SkinArrowRightSelected, _PartyModeID);
 
-            CTextureRef highlightTexture = CBase.Themes.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
+            CTextureRef highlightTexture = CBase.Themes.GetSkinTexture(_Theme.SkinHighlighted, _PartyModeID);
 
             if (Selected)
             {

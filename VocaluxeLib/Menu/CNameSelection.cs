@@ -30,31 +30,31 @@ namespace VocaluxeLib.Menu
     public struct SThemeNameSelection
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
-        [XmlElement("Rect")] public SRectF Rect;
-        [XmlElement("SkinEmptyTile")] public string TextureEmptyTileName;
-        [XmlElement("ColorEmptyTile")] public SThemeColor ColorEmptyTile;
-        [XmlElement("SkinTileSelected")] public string TextureTileSelectedName;
-        [XmlElement("Tiles")] public SThemeNameSelectionTiles Tiles;
+        public SRectF Rect;
+        public string SkinEmptyTile;
+        public SThemeColor ColorEmptyTile;
+        public string SkinTileSelected;
+        public SThemeNameSelectionTiles Tiles;
     }
 
     public struct SThemeNameSelectionTiles
     {
-        [XmlElement("W")] public int W;
-        [XmlElement("H")] public int H;
-        [XmlElement("NumW")] public int NumW;
-        [XmlElement("NumH")] public int NumH;
-        [XmlElement("SpaceW")] public float SpaceW;
-        [XmlElement("SpaceH")] public float SpaceH;
-        [XmlElement("Name")] public SThemeNameSelectionName Name;
+        public int W;
+        public int H;
+        public int NumW;
+        public int NumH;
+        public float SpaceW;
+        public float SpaceH;
+        public SThemeNameSelectionName Name;
     }
 
     public struct SThemeNameSelectionName
     {
-        [XmlElement("Space")] public float Space;
+        public float Space;
         [XmlElement("H")] public float Height;
-        [XmlElement("Font")] public string Font;
-        [XmlElement("Style")] public EStyle Style;
-        [XmlElement("Color")] public SThemeColor Color;
+        public string Font;
+        public EStyle Style;
+        public SThemeColor Color;
     }
 
     public class CNameSelection : IMenuElement
@@ -165,7 +165,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", out _Theme.TextureEmptyTileName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", out _Theme.SkinEmptyTile, String.Empty);
 
             if (xmlReader.GetValue(item + "/ColorEmptyTile", out _Theme.ColorEmptyTile.Name, String.Empty))
                 _ThemeLoaded &= _Theme.ColorEmptyTile.Get(_PartyModeID, out _ColorEmptyTile);
@@ -177,7 +177,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _ColorEmptyTile.A);
             }
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", out _Theme.TextureTileSelectedName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", out _Theme.SkinTileSelected, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _Theme.Tiles.W);
             _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _Theme.Tiles.H);
@@ -429,8 +429,8 @@ namespace VocaluxeLib.Menu
 
         public void LoadTextures()
         {
-            _TextureEmptyTile = CBase.Themes.GetSkinTexture(_Theme.TextureEmptyTileName, _PartyModeID);
-            _TextureTileSelected = CBase.Themes.GetSkinTexture(_Theme.TextureTileSelectedName, _PartyModeID);
+            _TextureEmptyTile = CBase.Themes.GetSkinTexture(_Theme.SkinEmptyTile, _PartyModeID);
+            _TextureTileSelected = CBase.Themes.GetSkinTexture(_Theme.SkinTileSelected, _PartyModeID);
 
             _Theme.ColorEmptyTile.Get(_PartyModeID, out _ColorEmptyTile);
             _Theme.Tiles.Name.Color.Get(_PartyModeID, out _ColorNameTile);

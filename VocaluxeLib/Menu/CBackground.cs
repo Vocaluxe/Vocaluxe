@@ -37,10 +37,10 @@ namespace VocaluxeLib.Menu
     public struct SThemeBackground
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
-        [XmlElement("Type")] public EBackgroundTypes Type;
+        public EBackgroundTypes Type;
         [XmlArray] public List<string> SlideShowTextures;
         [XmlElement("Video")] public string VideoName;
-        [XmlElement("Skin")] public string TextureName;
+        public string Skin;
         public SThemeColor Color;
     }
 
@@ -95,7 +95,7 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
 
             bool vid = xmlReader.GetValue(item + "/Video", out _Theme.VideoName, String.Empty);
-            bool tex = xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
+            bool tex = xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
             _ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
@@ -165,7 +165,7 @@ namespace VocaluxeLib.Menu
             else if (_Theme.Type == EBackgroundTypes.SlideShow && _Theme.SlideShowTextures.Count > 0)
                 ok = _DrawSlideShow();
 
-            if (!String.IsNullOrEmpty(_Theme.TextureName) && (_Theme.Type == EBackgroundTypes.Texture || !ok))
+            if (!String.IsNullOrEmpty(_Theme.Skin) && (_Theme.Type == EBackgroundTypes.Texture || !ok))
                 ok = _DrawTexture();
 
             if (_Theme.Type == EBackgroundTypes.Color || !ok)
@@ -237,7 +237,7 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawTexture()
         {
-            CTextureRef texture = CBase.Themes.GetSkinTexture(_Theme.TextureName, _PartyModeID);
+            CTextureRef texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
             if (texture != null)
             {
                 CBase.Drawing.DrawTexture(texture, _GetDrawRect(), EAspect.Crop);

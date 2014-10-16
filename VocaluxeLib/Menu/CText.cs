@@ -27,18 +27,18 @@ namespace VocaluxeLib.Menu
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("X")] public float X;
-        [XmlElement("Y")] public float Y;
-        [XmlElement("Z")] public float Z;
+        public float X;
+        public float Y;
+        public float Z;
         [XmlElement("H")] public float FontHeight;
         [XmlElement("MaxW")] public float MaxWidth;
         public SThemeColor Color;
         public SThemeColor SColor; //for Buttons
-        [XmlElement("Align")] public EAlignment Align;
-        [XmlElement("ResizeAlign")] public EHAlignment ResizeAlign;
+        public EAlignment Align;
+        public EHAlignment ResizeAlign;
         [XmlElement("Style")] public EStyle FontStyle;
         [XmlElement("Font")] public string FontFamily;
-        [XmlElement("Text")] public string Text;
+        public string Text;
         public SReflection Reflection;
     }
 

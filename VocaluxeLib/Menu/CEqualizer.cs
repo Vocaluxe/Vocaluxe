@@ -32,18 +32,18 @@ namespace VocaluxeLib.Menu
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("Skin")] public string TextureName;
+        public string Skin;
 
-        [XmlElement("Rect")] public SRectF Rect;
+        public SRectF Rect;
 
-        [XmlElement("NumBars")] public int NumBars;
-        [XmlElement("Space")] public float Space;
-        [XmlElement("Style")] public EEqualizerStyle Style;
-        [XmlElement("DrawNegative")] public EOffOn DrawNegative;
+        public int NumBars;
+        public float Space;
+        public EEqualizerStyle Style;
+        public EOffOn DrawNegative;
 
-        [XmlElement("Color")] public SThemeColor Color;
-        [XmlElement("MaxColor")] public SThemeColor MaxColor;
-        [XmlElement("Reflection")] public SReflection Reflection;
+        public SThemeColor Color;
+        public SThemeColor MaxColor;
+        public SReflection Reflection;
     }
 
     public class CEqualizer : IMenuElement
@@ -114,7 +114,7 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
 
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
             _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);

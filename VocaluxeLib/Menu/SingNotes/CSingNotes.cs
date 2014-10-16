@@ -53,17 +53,17 @@ namespace VocaluxeLib.Menu.SingNotes
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        [XmlElement("SkinLeft")] public string SkinLeftName;
-        [XmlElement("SkinMiddle")] public string SkinMiddleName;
-        [XmlElement("SkinRight")] public string SkinRightName;
+        public string SkinLeft;
+        public string SkinMiddle;
+        public string SkinRight;
 
-        [XmlElement("SkinBackgroundLeft")] public string SkinBackgroundLeftName;
-        [XmlElement("SkinBackgroundMiddle")] public string SkinBackgroundMiddleName;
-        [XmlElement("SkinBackgroundRight")] public string SkinBackgroundRightName;
+        public string SkinBackgroundLeft;
+        public string SkinBackgroundMiddle;
+        public string SkinBackgroundRight;
 
-        [XmlElement("SkinGoldenStar")] public string SkinGoldenStarName;
-        [XmlElement("SkinToneHelper")] public string SkinToneHelperName;
-        [XmlElement("SkinPerfectNoteStart")] public string SkinPerfectNoteStarName;
+        public string SkinGoldenStar;
+        public string SkinToneHelper;
+        public string SkinPerfectNoteStart;
 
         [XmlArray("BarPositions")] public SBarPosition[] BarPos;
     }
@@ -124,17 +124,17 @@ namespace VocaluxeLib.Menu.SingNotes
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinLeft", out _Theme.SkinLeftName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinMiddle", out _Theme.SkinMiddleName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinRight", out _Theme.SkinRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinLeft", out _Theme.SkinLeft, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinMiddle", out _Theme.SkinMiddle, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinRight", out _Theme.SkinRight, String.Empty);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundLeft", out _Theme.SkinBackgroundLeftName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundMiddle", out _Theme.SkinBackgroundMiddleName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundRight", out _Theme.SkinBackgroundRightName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundLeft", out _Theme.SkinBackgroundLeft, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundMiddle", out _Theme.SkinBackgroundMiddle, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundRight", out _Theme.SkinBackgroundRight, String.Empty);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinGoldenStar", out _Theme.SkinGoldenStarName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinToneHelper", out _Theme.SkinToneHelperName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinPerfectNoteStar", out _Theme.SkinPerfectNoteStarName, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinGoldenStar", out _Theme.SkinGoldenStar, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinToneHelper", out _Theme.SkinToneHelper, String.Empty);
+            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinPerfectNoteStar", out _Theme.SkinPerfectNoteStart, String.Empty);
 
             int i = 0;
             BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
@@ -455,9 +455,9 @@ namespace VocaluxeLib.Menu.SingNotes
 
             var noteRect = new SRectF(rect.X + dw, rect.Y + dh, rect.W - 2 * dw, rect.H - 2 * dh, rect.Z);
 
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
-            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinMiddleName, _PartyModeID);
-            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinRightName, _PartyModeID);
+            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinLeft, _PartyModeID);
+            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinMiddle, _PartyModeID);
+            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinRight, _PartyModeID);
 
             //Width of each of the ends (round parts)
             //Need 2 of them so use minimum
@@ -502,9 +502,9 @@ namespace VocaluxeLib.Menu.SingNotes
                 rect.Z
                 );
 
-            CTextureRef noteBackgroundBegin = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundLeftName, _PartyModeID);
-            CTextureRef noteBackgroundMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundMiddleName, _PartyModeID);
-            CTextureRef noteBackgroundEnd = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundRightName, _PartyModeID);
+            CTextureRef noteBackgroundBegin = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundLeft, _PartyModeID);
+            CTextureRef noteBackgroundMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundMiddle, _PartyModeID);
+            CTextureRef noteBackgroundEnd = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundRight, _PartyModeID);
 
             float dx = r.H * noteBackgroundBegin.OrigAspect;
             if (2 * dx > r.W)
@@ -553,7 +553,7 @@ namespace VocaluxeLib.Menu.SingNotes
                     );
 
                 var numstars = (int)(r.W * 0.25f);
-                var stars = new CParticleEffect(_PartyModeID, numstars, new SColorF(1f, 1f, 0f, 1f), r, _Theme.SkinGoldenStarName, 20, EParticleType.Star);
+                var stars = new CParticleEffect(_PartyModeID, numstars, new SColorF(1f, 1f, 0f, 1f), r, _Theme.SkinGoldenStar, 20, EParticleType.Star);
                 _PlayerNotes[n].GoldenStars.Add(stars);
             }
         }
@@ -576,7 +576,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 rect.Z
                 );
 
-            var flares = new CParticleEffect(_PartyModeID, 15, new SColorF(1f, 1f, 1f, 1f), r, _Theme.SkinGoldenStarName, 20, EParticleType.Flare);
+            var flares = new CParticleEffect(_PartyModeID, 15, new SColorF(1f, 1f, 1f, 1f), r, _Theme.SkinGoldenStar, 20, EParticleType.Flare);
             _PlayerNotes[n].Flares.Add(flares);
         }
 
@@ -598,7 +598,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 rect.Z
                 );
 
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinLeftName, _PartyModeID);
+            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinLeft, _PartyModeID);
             float dx = r.H * noteBegin.OrigAspect;
             if (2 * dx > r.W)
                 dx = r.W / 2;
@@ -611,14 +611,14 @@ namespace VocaluxeLib.Menu.SingNotes
                 rect.Z
                 );
 
-            var stars = new CParticleEffect(_PartyModeID, CBase.Game.GetRandom(2) + 1, new SColorF(1f, 1f, 1f, 1f), r, _Theme.SkinPerfectNoteStarName, 35,
+            var stars = new CParticleEffect(_PartyModeID, CBase.Game.GetRandom(2) + 1, new SColorF(1f, 1f, 1f, 1f), r, _Theme.SkinPerfectNoteStart, 35,
                                             EParticleType.PerfNoteStar);
             _PlayerNotes[n].PerfectNoteEffect.Add(stars);
         }
 
         private void _AddPerfectLine(int n)
         {
-            var twinkle = new CParticleEffect(_PartyModeID, 200, _PlayerNotes[n].Color, _PlayerNotes[n].Rect, _Theme.SkinGoldenStarName, 25, EParticleType.Twinkle);
+            var twinkle = new CParticleEffect(_PartyModeID, 200, _PlayerNotes[n].Color, _PlayerNotes[n].Rect, _Theme.SkinGoldenStar, 25, EParticleType.Twinkle);
             _PlayerNotes[n].PerfectLineTwinkle.Add(twinkle);
         }
 
@@ -655,7 +655,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 _PlayerNotes[n].Color.B,
                 _PlayerNotes[n].Color.A * _PlayerNotes[n].Alpha);
 
-            CTextureRef toneHelper = CBase.Themes.GetSkinTexture(_Theme.SkinToneHelperName, _PartyModeID);
+            CTextureRef toneHelper = CBase.Themes.GetSkinTexture(_Theme.SkinToneHelper, _PartyModeID);
             CBase.Drawing.DrawTexture(toneHelper, drawRect, color);
 
 
