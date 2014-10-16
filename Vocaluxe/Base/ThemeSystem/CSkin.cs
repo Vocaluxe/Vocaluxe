@@ -174,7 +174,6 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public virtual CVideoStream GetVideo(string videoName, bool loop)
         {
-            Debug.Assert(_Parent.Name != "Default" || _RequiredVideos.Contains(videoName));
             CVideoSkinElement sk;
             if (_Videos.TryGetValue(videoName, out sk))
             {
@@ -190,7 +189,6 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public virtual CTextureRef GetTexture(string name)
         {
-            Debug.Assert(_Parent.Name != "Default" || _RequiredTextures.Contains(name));
             CTextureRef texture;
             _Textures.TryGetValue(name, out texture);
             return texture;

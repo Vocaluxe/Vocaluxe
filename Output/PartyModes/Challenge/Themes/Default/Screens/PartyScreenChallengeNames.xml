@@ -385,10 +385,10 @@
       </Rect>
       <SkinEmptyTile>CoverTile</SkinEmptyTile>
       <ColorEmptyTile>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.2</A>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.2</A>
       </ColorEmptyTile>
       <SkinTileSelected>PlayerSelector</SkinTileSelected>
       <Tiles>

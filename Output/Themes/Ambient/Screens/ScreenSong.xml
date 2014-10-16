@@ -46,7 +46,7 @@
     </Static>
     <Static Name="StaticOptionsBG">
       <Skin>SongMenuBG</Skin>
-      <Color Name="White">
+      <Color Name="White"/>
       <Rect>
         <X>40</X>
         <Y>40</Y>
@@ -1354,40 +1354,47 @@
         <SelReflection Enabled="false" />
       </ButtonPlaylistSing>
       <SelectSlideGameMode>
+        <Skin>Button</Skin>
+        <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+        <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+        <SkinSelected />
+        <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+        <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+        <SkinHighlighted />
         <Rect>
           <X>0</X>
-          <Y>0</Y>
-          <W>0</W>
-          <H>0</H>
-          <Z>0</Z>
+          <Y>28</Y>
+          <W>293</W>
+          <H>24</H>
+          <Z>-1.01</Z>
         </Rect>
         <RectArrowLeft>
-          <X>0</X>
-          <Y>0</Y>
-          <W>0</W>
-          <H>0</H>
-          <Z>0</Z>
+          <X>54</X>
+          <Y>30</Y>
+          <W>20</W>
+          <H>20</H>
+          <Z>-1.02</Z>
         </RectArrowLeft>
         <RectArrowRight>
-          <X>0</X>
-          <Y>0</Y>
-          <W>0</W>
-          <H>0</H>
-          <Z>0</Z>
+          <X>271</X>
+          <Y>30</Y>
+          <W>20</W>
+          <H>20</H>
+          <Z>-1.02</Z>
         </RectArrowRight>
-        <Color />
-        <SColor />
-        <HColor />
-        <ArrowColor />
-        <ArrowSColor />
-        <TextColor />
-        <TextSColor />
-        <TextH>0</TextH>
-        <TextRelativeX>0</TextRelativeX>
-        <TextRelativeY>0</TextRelativeY>
-        <TextMaxW>0</TextMaxW>
-        <TextStyle>Normal</TextStyle>
-        <NumVisible>0</NumVisible>
+        <Color Name="ButtonColor" />
+        <SColor Name="ButtonSColor" />
+        <HColor Name="SelectSlideHColor" />
+        <ArrowColor Name="ArrowColor" />
+        <ArrowSColor Name="ArrowSColor" />
+        <TextColor Name="TextColor" />
+        <TextSColor Name="TextSColor" />
+        <TextH>22.00</TextH>
+        <TextRelativeX>25.00</TextRelativeX>
+        <TextMaxW>230.00</TextMaxW>
+        <TextFont>Outline</TextFont>
+        <TextStyle>Bold</TextStyle>
+        <NumVisible>1</NumVisible>
       </SelectSlideGameMode>
     </Playlist>
   </Playlists>

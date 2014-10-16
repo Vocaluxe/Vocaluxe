@@ -385,7 +385,7 @@ namespace VocaluxeLib.Menu
 
             try
             {
-                TextWriter textWriter = new StreamWriter(@Path.Combine(ThemePath, ThemeName + ".xml"));
+                TextWriter textWriter = new StreamWriter(Path.Combine(ThemePath, ThemeName + ".xml"));
 
                 XmlSerializer serializer = new XmlSerializer(typeof(STheme));
                 serializer.Serialize(textWriter, Theme);

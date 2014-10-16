@@ -102,27 +102,71 @@ namespace VocaluxeLib
     [XmlRoot("Color")]
     public struct SThemeColor
     {
-        public SColorF Color;
-        public string Name;
+        [XmlAttribute] public string Name;
+        public float? R;
+        public float? G;
+        public float? B;
+        public float? A;
 
         //Needed for serialization
-        public bool ColorSpecified
-        {
-            get { return String.IsNullOrEmpty(Name); }
-        }
         public bool NameSpecified
         {
             get { return !String.IsNullOrEmpty(Name); }
         }
+        public bool RSpecified
+        {
+            get { return R.HasValue; }
+        }
+        public bool GSpecified
+        {
+            get { return G.HasValue; }
+        }
+        public bool BSpecified
+        {
+            get { return B.HasValue; }
+        }
+        public bool ASpecified
+        {
+            get { return A.HasValue; }
+        }
+
+        /// <summary>
+        ///     Use only for old code! Remove when removing old LoadTheme()
+        /// </summary>
+        [XmlIgnore]
+        public SColorF Color
+        {
+            set
+            {
+                if (NameSpecified)
+                    return;
+                R = value.R;
+                G = value.G;
+                B = value.B;
+                A = value.A;
+            }
+        }
 
         public bool Get(int partyModeId, out SColorF color)
         {
-            if (String.IsNullOrEmpty(Name))
+            bool ok;
+            if (!String.IsNullOrEmpty(Name))
+                ok = CBase.Themes.GetColor(Name, partyModeId, out color);
+            else
             {
-                color = Color;
-                return true;
+                Debug.Assert(R.HasValue && G.HasValue && B.HasValue && A.HasValue);
+                ok = true;
+                color = new SColorF(1, 1, 1, 1);
             }
-            return CBase.Themes.GetColor(Name, partyModeId, out color);
+            if (R.HasValue)
+                color.R = R.Value;
+            if (G.HasValue)
+                color.G = G.Value;
+            if (B.HasValue)
+                color.B = B.Value;
+            if (A.HasValue)
+                color.A = A.Value;
+            return ok;
         }
     }
 

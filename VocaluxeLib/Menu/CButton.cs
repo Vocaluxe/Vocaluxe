@@ -70,7 +70,8 @@ namespace VocaluxeLib.Menu
             set
             {
                 Text.EditMode = value;
-                _SelText.EditMode = value;
+                if (_SelText != null)
+                    _SelText.EditMode = value;
             }
         }
 
@@ -123,7 +124,7 @@ namespace VocaluxeLib.Menu
             _Theme = theme;
 
             Text = new CText(_Theme.Text, _PartyModeID, buttonText);
-            _SelText = new CText(_Theme.SText, _PartyModeID, buttonText);
+            _SelText = _Theme.STextSpecified ? new CText(_Theme.SText, _PartyModeID, buttonText) : null;
 
             Selected = false;
             EditMode = false;
@@ -147,7 +148,7 @@ namespace VocaluxeLib.Menu
             SelTexture = button.SelTexture;
 
             Text = new CText(button.Text);
-            _SelText = new CText(button._SelText);
+            _SelText = _SelText == null ? null : new CText(button._SelText);
             Selected = false;
             EditMode = false;
             _Enabled = button._Enabled;
@@ -282,7 +283,7 @@ namespace VocaluxeLib.Menu
                 else
                     Text.DrawRelative(Rect.X, Rect.Y);
             }
-            else if (_Theme.STextSpecified)
+            else
             {
                 texture = SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
 
