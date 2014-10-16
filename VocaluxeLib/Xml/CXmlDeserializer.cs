@@ -47,14 +47,25 @@ namespace VocaluxeLib.Xml
         public bool Read(string xPath, out SThemeColor el)
         {
             el = new SThemeColor();
-            bool ok = true;
-            ok &= TryGetNormalizedFloatValue(xPath + "/R", ref el.Color.R);
-            ok &= TryGetNormalizedFloatValue(xPath + "/G", ref el.Color.G);
-            ok &= TryGetNormalizedFloatValue(xPath + "/B", ref el.Color.B);
-            ok &= TryGetNormalizedFloatValue(xPath + "/A", ref el.Color.A);
-            if (!ok)
-                ok = GetValue(xPath, out el.Name) && !el.Name.Contains('<');
-            return ok;
+            float val = 0;
+            if (TryGetNormalizedFloatValue(xPath + "/R", ref val))
+                el.R = val;
+            else
+                el.R = null;
+            if (TryGetNormalizedFloatValue(xPath + "/G", ref val))
+                el.G = val;
+            else
+                el.G = null;
+            if (TryGetNormalizedFloatValue(xPath + "/B", ref val))
+                el.B = val;
+            else
+                el.B = null;
+            if (TryGetNormalizedFloatValue(xPath + "/A", ref val))
+                el.A = val;
+            else
+                el.A = null;
+            GetAttribute(xPath, "Name", out el.Name);
+            return true;
         }
 
         public bool Read(string xPath, out SThemeCoverGenerator el)

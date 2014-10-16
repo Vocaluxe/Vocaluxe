@@ -10,17 +10,13 @@
       <SlideShowTextures />
       <Video>BG_Video</Video>
       <Skin>BG_Options</Skin>
-      <Color>
-        <Name>BackgroundColor</Name>
-      </Color>
+      <Color Name="BackgroundColor" />
     </Background>
   </Backgrounds>
   <Statics>
     <Static Name="Static1">
       <Skin>Menu</Skin>
-      <Color>
-        <Name>Invisible</Name>
-      </Color>
+      <Color Name="Invisible" />
       <Rect>
         <X>40</X>
         <Y>40</Y>
@@ -32,9 +28,7 @@
     </Static>
     <Static Name="Static2">
       <Skin/>
-      <Color>
-        <Name>Invisible</Name>
-      </Color>
+      <Color Name="Invisible" />
       <Rect>
         <X>50</X>
         <Y>100</Y>
@@ -46,9 +40,7 @@
     </Static>
     <Static Name="Static3">
       <Skin/>
-      <Color>
-        <Name>Invisible</Name>
-      </Color>
+      <Color Name="Invisible" />
       <Rect>
         <X>50</X>
         <Y>160</Y>
@@ -60,9 +52,7 @@
     </Static>
     <Static Name="Static4">
       <Skin/>
-      <Color>
-        <Name>Invisible</Name>
-      </Color>
+      <Color Name="Invisible" />
       <Rect>
         <X>50</X>
         <Y>220</Y>
@@ -74,9 +64,7 @@
     </Static>
     <Static Name="StaticWebcamOutput">
       <Skin/>
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>550</X>
         <Y>460</Y>
@@ -94,12 +82,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -113,12 +97,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -132,12 +112,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -151,12 +127,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -170,12 +142,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -189,12 +157,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -208,12 +172,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -233,24 +193,16 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -278,24 +230,16 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -346,27 +290,13 @@
         <H>40</H>
         <Z>0</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -404,27 +334,13 @@
         <H>40</H>
         <Z>0</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -462,27 +378,13 @@
         <H>40</H>
         <Z>0</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -520,27 +422,13 @@
         <H>40</H>
         <Z>0</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -578,27 +466,13 @@
         <H>40</H>
         <Z>0</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -636,27 +510,13 @@
         <H>40</H>
         <Z>0</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>

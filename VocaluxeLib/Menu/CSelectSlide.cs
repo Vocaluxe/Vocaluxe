@@ -287,11 +287,11 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinHighlighted", out _Theme.SkinHighlighted, String.Empty);
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
                 _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
@@ -323,18 +323,10 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HA", ref HighlightColor.A);
             }
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftX", ref RectArrowLeft.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftY", ref RectArrowLeft.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftZ", ref RectArrowLeft.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftW", ref RectArrowLeft.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftH", ref RectArrowLeft.H);
-
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightX", ref RectArrowRight.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightY", ref RectArrowRight.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightZ", ref RectArrowRight.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightW", ref RectArrowRight.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
-
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextH", ref _Theme.TextH);
+            xmlReader.TryGetFloatValue(item + "/TextRelativeX", ref _Theme.TextRelativeX);
+            xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref _Theme.TextRelativeY);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextMaxW", ref _Theme.TextMaxW);
             if (xmlReader.GetValue(item + "/ArrowColor", out _Theme.ArrowColor.Name, String.Empty))
                 _ThemeLoaded &= _Theme.ArrowColor.Get(_PartyModeID, out ColorArrow);
             else
@@ -374,17 +366,10 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSB", ref SelTextColor.B);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSA", ref SelTextColor.A);
             }
-
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextH", ref TextH);
-            if (xmlReader.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX))
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX);
-            if (xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY))
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextMaxW", ref MaxW);
             _ThemeLoaded &= xmlReader.GetValue(item + "/TextFont", out _Theme.TextFont, "Normal");
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/TextStyle", ref _Theme.TextStyle);
 
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/NumVisible", ref _NumVisible);
+            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/NumVisible", ref _Theme.NumVisible);
 
             if (_ThemeLoaded)
             {
@@ -393,18 +378,9 @@ namespace VocaluxeLib.Menu
                 _Theme.ArrowSColor.Color = SelColorArrow;
                 _Theme.Color.Color = Color;
                 _Theme.HColor.Color = HighlightColor;
-                _Theme.NumVisible = _NumVisible;
-                _Theme.Rect = Rect;
-                _Theme.RectArrowLeft = RectArrowLeft;
-                _Theme.RectArrowRight = RectArrowRight;
                 _Theme.SColor.Color = SelColor;
                 _Theme.TextColor.Color = TextColor;
-                _Theme.TextH = TextH;
-                _Theme.TextMaxW = MaxW;
-                _Theme.TextRelativeX = TextRelativeX;
-                _Theme.TextRelativeY = TextRelativeY;
                 _Theme.TextSColor.Color = SelTextColor;
-
                 LoadTextures();
             }
             return _ThemeLoaded;

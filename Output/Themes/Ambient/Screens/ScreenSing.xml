@@ -11,21 +11,17 @@
       <Video />
       <Skin />
       <Color>
-        <Color>
-          <R>0</R>
-          <G>0</G>
-          <B>0</B>
-          <A>1</A>
-        </Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>1</A>
       </Color>
     </Background>
   </Backgrounds>
   <Statics>
     <Static Name="StaticSongText">
       <Skin>Score</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>190</X>
         <Y>10</Y>
@@ -37,9 +33,7 @@
     </Static>
     <Static Name="StaticLyrics">
       <Skin>Lyrics</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>40</X>
         <Y>600</Y>
@@ -51,9 +45,7 @@
     </Static>
     <Static Name="StaticLyricsDuet">
       <Skin>Lyrics</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>40</X>
         <Y>7</Y>
@@ -65,9 +57,7 @@
     </Static>
     <Static Name="StaticLyricsTop">
       <Skin>Lyrics</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>40</X>
         <Y>7</Y>
@@ -79,9 +69,7 @@
     </Static>
     <Static Name="StaticTimeBar">
       <Skin>TimeBar</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>40</X>
         <Y>696</Y>
@@ -93,9 +81,7 @@
     </Static>
     <Static Name="StaticTimeLine">
       <Skin>TimeLine</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>44</X>
         <Y>702</Y>
@@ -107,9 +93,7 @@
     </Static>
     <Static Name="StaticTimeLineExpandedNormal">
       <Skin>TimeLine</Skin>
-      <Color>
-        <Name>TimeBar</Name>
-      </Color>
+      <Color Name="TimeBar" />
       <Rect>
         <X>44</X>
         <Y>696</Y>
@@ -121,9 +105,7 @@
     </Static>
     <Static Name="StaticTimeLineExpandedHighlighted">
       <Skin>TimeLine</Skin>
-      <Color>
-        <Name>TimeBarSentence</Name>
-      </Color>
+      <Color Name="TimeBarSentence" />
       <Rect>
         <X>44</X>
         <Y>696</Y>
@@ -136,12 +118,10 @@
     <Static Name="StaticTimePointer">
       <Skin>Pointer</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>0</G>
-          <B>0</B>
-          <A>1</A>
-        </Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>1</A>
       </Color>
       <Rect>
         <X>44</X>
@@ -154,9 +134,7 @@
     </Static>
     <Static Name="StaticLyricHelper">
       <Skin>LyricHelper</Skin>
-      <Color>
-        <Name>LyricHelper</Name>
-      </Color>
+      <Color Name="LyricHelper" />
       <Rect>
         <X>40</X>
         <Y>600</Y>
@@ -168,9 +146,7 @@
     </Static>
     <Static Name="StaticLyricHelperDuet">
       <Skin>LyricHelper</Skin>
-      <Color>
-        <Name>LyricHelper</Name>
-      </Color>
+      <Color Name="LyricHelper" />
       <Rect>
         <X>40</X>
         <Y>12</Y>
@@ -182,9 +158,7 @@
     </Static>
     <Static Name="StaticLyricHelperTop">
       <Skin>LyricHelper</Skin>
-      <Color>
-        <Name>LyricHelper</Name>
-      </Color>
+      <Color Name="LyricHelper" />
       <Rect>
         <X>40</X>
         <Y>12</Y>
@@ -196,9 +170,7 @@
     </Static>
     <Static Name="StaticPauseBG">
       <Skin>PauseBG</Skin>
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>0</X>
         <Y>0</Y>
@@ -210,9 +182,7 @@
     </Static>
     <Static Name="StaticScoreP1N1">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>350</Y>
@@ -225,12 +195,10 @@
     <Static Name="StaticAvatarP1N1">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -243,9 +211,7 @@
     </Static>
     <Static Name="StaticScoreP1N2">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>150</Y>
@@ -258,12 +224,10 @@
     <Static Name="StaticAvatarP1N2">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -276,9 +240,7 @@
     </Static>
     <Static Name="StaticScoreP2N2">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>350</Y>
@@ -291,12 +253,10 @@
     <Static Name="StaticAvatarP2N2">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -309,9 +269,7 @@
     </Static>
     <Static Name="StaticScoreP1N3">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>10</Y>
@@ -324,12 +282,10 @@
     <Static Name="StaticAvatarP1N3">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -342,9 +298,7 @@
     </Static>
     <Static Name="StaticScoreP2N3">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>210</Y>
@@ -357,12 +311,10 @@
     <Static Name="StaticAvatarP2N3">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -375,9 +327,7 @@
     </Static>
     <Static Name="StaticScoreP3N3">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>410</Y>
@@ -390,12 +340,10 @@
     <Static Name="StaticAvatarP3N3">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -408,9 +356,7 @@
     </Static>
     <Static Name="StaticScoreP1N4">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>528</X>
         <Y>150</Y>
@@ -423,12 +369,10 @@
     <Static Name="StaticAvatarP1N4">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -441,9 +385,7 @@
     </Static>
     <Static Name="StaticScoreP2N4">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>528</X>
         <Y>350</Y>
@@ -456,12 +398,10 @@
     <Static Name="StaticAvatarP2N4">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -474,9 +414,7 @@
     </Static>
     <Static Name="StaticScoreP3N4">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>150</Y>
@@ -489,12 +427,10 @@
     <Static Name="StaticAvatarP3N4">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>1103</X>
@@ -507,9 +443,7 @@
     </Static>
     <Static Name="StaticScoreP4N4">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>350</Y>
@@ -522,12 +456,10 @@
     <Static Name="StaticAvatarP4N4">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>1103</X>
@@ -540,9 +472,7 @@
     </Static>
     <Static Name="StaticScoreP1N5">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>528</X>
         <Y>10</Y>
@@ -555,12 +485,10 @@
     <Static Name="StaticAvatarP1N5">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -573,9 +501,7 @@
     </Static>
     <Static Name="StaticScoreP2N5">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>528</X>
         <Y>210</Y>
@@ -588,12 +514,10 @@
     <Static Name="StaticAvatarP2N5">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -606,9 +530,7 @@
     </Static>
     <Static Name="StaticScoreP3N5">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>528</X>
         <Y>410</Y>
@@ -621,12 +543,10 @@
     <Static Name="StaticAvatarP3N5">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -639,9 +559,7 @@
     </Static>
     <Static Name="StaticScoreP4N5">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>150</Y>
@@ -654,12 +572,10 @@
     <Static Name="StaticAvatarP4N5">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>1103</X>
@@ -672,9 +588,7 @@
     </Static>
     <Static Name="StaticScoreP5N5">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>350</Y>
@@ -687,12 +601,10 @@
     <Static Name="StaticAvatarP5N5">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>1103</X>
@@ -705,9 +617,7 @@
     </Static>
     <Static Name="StaticScoreP1N6">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>528</X>
         <Y>10</Y>
@@ -720,12 +630,10 @@
     <Static Name="StaticAvatarP1N6">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -738,9 +646,7 @@
     </Static>
     <Static Name="StaticScoreP2N6">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>528</X>
         <Y>210</Y>
@@ -753,12 +659,10 @@
     <Static Name="StaticAvatarP2N6">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -771,9 +675,7 @@
     </Static>
     <Static Name="StaticScoreP3N6">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>528</X>
         <Y>410</Y>
@@ -786,12 +688,10 @@
     <Static Name="StaticAvatarP3N6">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>40</X>
@@ -804,9 +704,7 @@
     </Static>
     <Static Name="StaticScoreP4N6">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>10</Y>
@@ -819,12 +717,10 @@
     <Static Name="StaticAvatarP4N6">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>1103</X>
@@ -837,9 +733,7 @@
     </Static>
     <Static Name="StaticScoreP5N6">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>210</Y>
@@ -852,12 +746,10 @@
     <Static Name="StaticAvatarP5N6">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>1103</X>
@@ -870,9 +762,7 @@
     </Static>
     <Static Name="StaticScoreP6N6">
       <Skin/>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1150</X>
         <Y>410</Y>
@@ -885,12 +775,10 @@
     <Static Name="StaticAvatarP6N6">
       <Skin/>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
       <Rect>
         <X>1103</X>
@@ -909,12 +797,8 @@
       <Z>-1</Z>
       <H>27</H>
       <MaxW>880</MaxW>
-      <Color>
-        <Name>Black</Name>
-      </Color>
-      <SColor>
-        <Name>Black</Name>
-      </SColor>
+      <Color Name="Black" />
+      <SColor Name="Black" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -928,12 +812,8 @@
       <Z>-1</Z>
       <H>20</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>White</Name>
-      </Color>
-      <SColor>
-        <Name>White</Name>
-      </SColor>
+      <Color Name="White" />
+      <SColor Name="White" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -947,12 +827,8 @@
       <Z>-2.11</Z>
       <H>90</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -966,12 +842,8 @@
       <Z>-1</Z>
       <H>30</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>TextSColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="TextSColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -985,12 +857,8 @@
       <Z>-1</Z>
       <H>30</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>TextSColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="TextSColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1004,12 +872,8 @@
       <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>TextColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="TextColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1023,12 +887,8 @@
       <Z>-1</Z>
       <H>198</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player1Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="Player1Dim2" />
+      <SColor Name="TextSColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1043,16 +903,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1066,12 +922,8 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player1Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <Color Name="Player1Dim2" />
+      <SColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1086,16 +938,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1109,12 +957,8 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player2Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <Color Name="Player2Dim2" />
+      <SColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1129,16 +973,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1152,12 +992,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player1Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <Color Name="Player1Dim2" />
+      <SColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1172,16 +1008,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1195,12 +1027,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player2Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <Color Name="Player2Dim2" />
+      <SColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1215,16 +1043,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1238,12 +1062,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player3Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player3</Name>
-      </SColor>
+      <Color Name="Player3Dim2" />
+      <SColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1258,16 +1078,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player3</Name>
-      </SColor>
+      <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1281,12 +1097,8 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player1Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <Color Name="Player1Dim2" />
+      <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1301,16 +1113,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1324,12 +1132,8 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player2Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <Color Name="Player2Dim2" />
+      <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1344,16 +1148,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1367,12 +1167,8 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player3Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player3</Name>
-      </SColor>
+      <Color Name="Player3Dim2" />
+      <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1387,16 +1183,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player3</Name>
-      </SColor>
+      <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1410,12 +1202,8 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player4Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player4</Name>
-      </SColor>
+      <Color Name="Player4Dim2" />
+      <SColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1430,16 +1218,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player4</Name>
-      </SColor>
+      <SColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1453,12 +1237,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player1Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <Color Name="Player1Dim2" />
+      <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1473,16 +1253,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1496,12 +1272,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player2Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <Color Name="Player2Dim2" />
+      <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1516,16 +1288,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1539,12 +1307,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player3Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player3</Name>
-      </SColor>
+      <Color Name="Player3Dim2" />
+      <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1559,16 +1323,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player3</Name>
-      </SColor>
+      <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1582,12 +1342,8 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player4Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player4</Name>
-      </SColor>
+      <Color Name="Player4Dim2" />
+      <SColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1602,16 +1358,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player4</Name>
-      </SColor>
+      <SColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1625,12 +1377,8 @@
       <Z>-1</Z>
       <H>173</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player5Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player5</Name>
-      </SColor>
+      <Color Name="Player5Dim2" />
+      <SColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1645,16 +1393,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player5</Name>
-      </SColor>
+      <SColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1668,12 +1412,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player1Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <Color Name="Player1Dim2" />
+      <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1688,16 +1428,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player1</Name>
-      </SColor>
+      <SColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1711,12 +1447,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player2Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <Color Name="Player2Dim2" />
+      <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1731,16 +1463,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player2</Name>
-      </SColor>
+      <SColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1754,12 +1482,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player3Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player3</Name>
-      </SColor>
+      <Color Name="Player3Dim2" />
+      <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1774,16 +1498,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player3</Name>
-      </SColor>
+      <SColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1797,12 +1517,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player4Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player4</Name>
-      </SColor>
+      <Color Name="Player4Dim2" />
+      <SColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1817,16 +1533,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player4</Name>
-      </SColor>
+      <SColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1840,12 +1552,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player5Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player5</Name>
-      </SColor>
+      <Color Name="Player5Dim2" />
+      <SColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1860,16 +1568,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player5</Name>
-      </SColor>
+      <SColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1883,12 +1587,8 @@
       <Z>-1</Z>
       <H>148</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player6Dim2</Name>
-      </Color>
-      <SColor>
-        <Name>Player6</Name>
-      </SColor>
+      <Color Name="Player6Dim2" />
+      <SColor Name="Player6" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1903,16 +1603,12 @@
       <H>28</H>
       <MaxW>0</MaxW>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.4</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
       </Color>
-      <SColor>
-        <Name>Player6</Name>
-      </SColor>
+      <SColor Name="Player6" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1932,24 +1628,16 @@
         <H>50</H>
         <Z>-2.11</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -1977,24 +1665,16 @@
         <H>50</H>
         <Z>-2.11</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -2022,24 +1702,16 @@
         <H>50</H>
         <Z>-2.11</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -2068,12 +1740,8 @@
         <H>42</H>
         <Z>-1</Z>
       </Rect>
-      <Color>
-        <Name>LyricMainColor</Name>
-      </Color>
-      <SColor>
-        <Name>LyricHighlight</Name>
-      </SColor>
+      <Color Name="LyricMainColor" />
+      <SColor Name="LyricHighlight" />
     </Lyric>
     <Lyric Name="LyricSub">
       <Rect>
@@ -2083,12 +1751,8 @@
         <H>38</H>
         <Z>-1</Z>
       </Rect>
-      <Color>
-        <Name>LyricSubColor</Name>
-      </Color>
-      <SColor>
-        <Name>LyricHighlight</Name>
-      </SColor>
+      <Color Name="LyricSubColor" />
+      <SColor Name="LyricHighlight" />
     </Lyric>
     <Lyric Name="LyricMainDuet">
       <Rect>
@@ -2098,12 +1762,8 @@
         <H>42</H>
         <Z>-1</Z>
       </Rect>
-      <Color>
-        <Name>LyricMainColor</Name>
-      </Color>
-      <SColor>
-        <Name>LyricHighlight</Name>
-      </SColor>
+      <Color Name="LyricMainColor" />
+      <SColor Name="LyricHighlight" />
     </Lyric>
     <Lyric Name="LyricSubDuet">
       <Rect>
@@ -2113,12 +1773,8 @@
         <H>38</H>
         <Z>-1</Z>
       </Rect>
-      <Color>
-        <Name>LyricSubColor</Name>
-      </Color>
-      <SColor>
-        <Name>LyricHighlight</Name>
-      </SColor>
+      <Color Name="LyricSubColor" />
+      <SColor Name="LyricHighlight" />
     </Lyric>
     <Lyric Name="LyricMainTop">
       <Rect>
@@ -2128,12 +1784,8 @@
         <H>42</H>
         <Z>-1</Z>
       </Rect>
-      <Color>
-        <Name>LyricMainColor</Name>
-      </Color>
-      <SColor>
-        <Name>LyricHighlight</Name>
-      </SColor>
+      <Color Name="LyricMainColor" />
+      <SColor Name="LyricHighlight" />
     </Lyric>
     <Lyric Name="LyricSubTop">
       <Rect>
@@ -2143,12 +1795,8 @@
         <H>38</H>
         <Z>-1</Z>
       </Rect>
-      <Color>
-        <Name>LyricSubColor</Name>
-      </Color>
-      <SColor>
-        <Name>LyricHighlight</Name>
-      </SColor>
+      <Color Name="LyricSubColor" />
+      <SColor Name="LyricHighlight" />
     </Lyric>
   </Lyrics>
   <SelectSlides />

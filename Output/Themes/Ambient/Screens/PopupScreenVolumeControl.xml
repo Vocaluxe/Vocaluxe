@@ -8,9 +8,7 @@
   <Statics>
     <Static Name="StaticBG">
       <Skin>Menu</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>1065</X>
         <Y>672</Y>
@@ -28,12 +26,8 @@
       <Z>-2</Z>
       <H>27</H>
       <MaxW>80</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -75,27 +69,13 @@
         <H>30</H>
         <Z>-2</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>-15</TextRelativeX>
       <TextRelativeY>-8</TextRelativeY>

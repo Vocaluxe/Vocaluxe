@@ -10,17 +10,13 @@
       <SlideShowTextures />
       <Video>BG_Video</Video>
       <Skin>BG_Options</Skin>
-      <Color>
-        <Name>BackgroundColor</Name>
-      </Color>
+      <Color Name="BackgroundColor" />
     </Background>
   </Backgrounds>
   <Statics>
     <Static Name="Static1">
       <Skin>Menu</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>40</X>
         <Y>40</Y>
@@ -32,9 +28,7 @@
     </Static>
     <Static Name="StaticPlayerAvatar1">
       <Skin/>
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>20</X>
         <Y>105</Y>
@@ -46,9 +40,7 @@
     </Static>
     <Static Name="StaticPlayerAvatar2">
       <Skin/>
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>20</X>
         <Y>260</Y>
@@ -60,9 +52,7 @@
     </Static>
     <Static Name="StaticPlayerAvatar3">
       <Skin/>
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>20</X>
         <Y>415</Y>
@@ -74,9 +64,7 @@
     </Static>
     <Static Name="StaticPlayerAvatar4">
       <Skin/>
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>1152</X>
         <Y>105</Y>
@@ -88,9 +76,7 @@
     </Static>
     <Static Name="StaticPlayerAvatar5">
       <Skin/>
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>1152</X>
         <Y>260</Y>
@@ -102,9 +88,7 @@
     </Static>
     <Static Name="StaticPlayerAvatar6">
       <Skin/>
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>1152</X>
         <Y>415</Y>
@@ -116,9 +100,7 @@
     </Static>
     <Static Name="StaticPlayer1">
       <Skin>PlayerSelector</Skin>
-      <Color>
-        <Name>Player1</Name>
-      </Color>
+      <Color Name="Player1" />
       <Rect>
         <X>15</X>
         <Y>100</Y>
@@ -130,9 +112,7 @@
     </Static>
     <Static Name="StaticPlayer2">
       <Skin>PlayerSelector</Skin>
-      <Color>
-        <Name>Player2</Name>
-      </Color>
+      <Color Name="Player2" />
       <Rect>
         <X>15</X>
         <Y>255</Y>
@@ -144,9 +124,7 @@
     </Static>
     <Static Name="StaticPlayer3">
       <Skin>PlayerSelector</Skin>
-      <Color>
-        <Name>Player3</Name>
-      </Color>
+      <Color Name="Player3" />
       <Rect>
         <X>15</X>
         <Y>410</Y>
@@ -158,9 +136,7 @@
     </Static>
     <Static Name="StaticPlayer4">
       <Skin>PlayerSelector</Skin>
-      <Color>
-        <Name>Player4</Name>
-      </Color>
+      <Color Name="Player4" />
       <Rect>
         <X>1147</X>
         <Y>100</Y>
@@ -172,9 +148,7 @@
     </Static>
     <Static Name="StaticPlayer5">
       <Skin>PlayerSelector</Skin>
-      <Color>
-        <Name>Player5</Name>
-      </Color>
+      <Color Name="Player5" />
       <Rect>
         <X>1147</X>
         <Y>255</Y>
@@ -186,9 +160,7 @@
     </Static>
     <Static Name="StaticPlayer6">
       <Skin>PlayerSelector</Skin>
-      <Color>
-        <Name>Player6</Name>
-      </Color>
+      <Color Name="Player6" />
       <Rect>
         <X>1147</X>
         <Y>410</Y>
@@ -200,9 +172,7 @@
     </Static>
     <Static Name="StaticWarningMics">
       <Skin/>
-      <Color>
-        <Name>StaticWarningColor</Name>
-      </Color>
+      <Color Name="StaticWarningColor" />
       <Rect>
         <X>145</X>
         <Y>663</Y>
@@ -214,9 +184,7 @@
     </Static>
     <Static Name="StaticWarningProfiles">
       <Skin/>
-      <Color>
-        <Name>StaticWarningColor</Name>
-      </Color>
+      <Color Name="StaticWarningColor" />
       <Rect>
         <X>145</X>
         <Y>715</Y>
@@ -234,12 +202,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -253,12 +217,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>970</MaxW>
-      <Color>
-        <Name>TextWarningColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextWarningColor</Name>
-      </SColor>
+      <Color Name="TextWarningColor" />
+      <SColor Name="TextWarningColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -272,12 +232,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>970</MaxW>
-      <Color>
-        <Name>TextWarningColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextWarningColor</Name>
-      </SColor>
+      <Color Name="TextWarningColor" />
+      <SColor Name="TextWarningColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -291,12 +247,8 @@
       <Z>0</Z>
       <H>20</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player1</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="Player1" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -310,12 +262,8 @@
       <Z>0</Z>
       <H>20</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player2</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="Player2" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -329,12 +277,8 @@
       <Z>0</Z>
       <H>20</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player3</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="Player3" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -348,12 +292,8 @@
       <Z>0</Z>
       <H>20</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player4</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="Player4" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -367,12 +307,8 @@
       <Z>0</Z>
       <H>20</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player5</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="Player5" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -386,12 +322,8 @@
       <Z>0</Z>
       <H>20</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>Player6</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="Player6" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -411,24 +343,16 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextSColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextSColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -456,24 +380,16 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextSColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextSColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -524,27 +440,13 @@
         <H>40</H>
         <Z>0</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -582,27 +484,13 @@
         <H>20</H>
         <Z>-4.01</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>20</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -640,27 +528,13 @@
         <H>20</H>
         <Z>-4.01</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>20</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -698,27 +572,13 @@
         <H>20</H>
         <Z>-4.01</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>20</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -756,27 +616,13 @@
         <H>20</H>
         <Z>-4.01</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>20</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -814,27 +660,13 @@
         <H>20</H>
         <Z>-4.01</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>20</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -872,27 +704,13 @@
         <H>20</H>
         <Z>-4.01</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>20</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -914,12 +732,10 @@
       </Rect>
       <SkinEmptyTile>CoverTile</SkinEmptyTile>
       <ColorEmptyTile>
-        <Color>
-          <R>1</R>
-          <G>1</G>
-          <B>1</B>
-          <A>0.2</A>
-        </Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.2</A>
       </ColorEmptyTile>
       <SkinTileSelected>PlayerSelector</SkinTileSelected>
       <Tiles>
@@ -934,9 +750,7 @@
           <H>17</H>
           <Font>Outline</Font>
           <Style>Bold</Style>
-          <Color>
-            <Name>TextColor</Name>
-          </Color>
+          <Color Name="TextColor" />
         </Name>
       </Tiles>
     </NameSelection>
@@ -955,12 +769,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color>
-        <Name>Player1Dim2</Name>
-      </Color>
-      <MaxColor>
-        <Name>Player1Dim2</Name>
-      </MaxColor>
+      <Color Name="Player1Dim2" />
+      <MaxColor Name="Player1Dim2" />
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer2">
@@ -976,12 +786,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color>
-        <Name>Player2Dim2</Name>
-      </Color>
-      <MaxColor>
-        <Name>Player2Dim2</Name>
-      </MaxColor>
+      <Color Name="Player2Dim2" />
+      <MaxColor Name="Player2Dim2" />
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer3">
@@ -997,12 +803,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color>
-        <Name>Player3Dim2</Name>
-      </Color>
-      <MaxColor>
-        <Name>Player3Dim2</Name>
-      </MaxColor>
+      <Color Name="Player3Dim2" />
+      <MaxColor Name="Player3Dim2" />
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer4">
@@ -1018,12 +820,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color>
-        <Name>Player4Dim2</Name>
-      </Color>
-      <MaxColor>
-        <Name>Player4Dim2</Name>
-      </MaxColor>
+      <Color Name="Player4Dim2" />
+      <MaxColor Name="Player4Dim2" />
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer5">
@@ -1039,12 +837,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color>
-        <Name>Player5Dim2</Name>
-      </Color>
-      <MaxColor>
-        <Name>Player5Dim2</Name>
-      </MaxColor>
+      <Color Name="Player5Dim2" />
+      <MaxColor Name="Player5Dim2" />
       <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer6">
@@ -1060,12 +854,8 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color>
-        <Name>Player6Dim2</Name>
-      </Color>
-      <MaxColor>
-        <Name>Player6Dim2</Name>
-      </MaxColor>
+      <Color Name="Player6Dim2" />
+      <MaxColor Name="Player6Dim2" />
       <Reflection Enabled="false" />
     </Equalizer>
   </Equalizers>

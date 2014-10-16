@@ -10,17 +10,13 @@
       <SlideShowTextures />
       <Video>BG_Video</Video>
       <Skin>BG_Default</Skin>
-      <Color>
-        <Name>BackgroundColor</Name>
-      </Color>
+      <Color Name="BackgroundColor" />
     </Background>
   </Backgrounds>
   <Statics>
     <Static Name="Static1">
       <Skin>Menu</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>40</X>
         <Y>40</Y>
@@ -33,12 +29,10 @@
     <Static Name="Static2">
       <Skin>TextBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>0</G>
-          <B>0</B>
-          <A>0</A>
-        </Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0</A>
       </Color>
       <Rect>
         <X>50</X>
@@ -52,12 +46,10 @@
     <Static Name="StaticPointsBarBGP1N1">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>0</G>
-          <B>1</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>560</X>
@@ -70,9 +62,7 @@
     </Static>
     <Static Name="StaticPointsBarP1N1">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player1</Name>
-      </Color>
+      <Color Name="Player1" />
       <Rect>
         <X>560</X>
         <Y>180</Y>
@@ -84,9 +74,7 @@
     </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>560</X>
         <Y>410</Y>
@@ -102,12 +90,10 @@
     <Static Name="StaticPointsBarBGP1N2">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>0</G>
-          <B>1</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>352</X>
@@ -120,9 +106,7 @@
     </Static>
     <Static Name="StaticPointsBarP1N2">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player1</Name>
-      </Color>
+      <Color Name="Player1" />
       <Rect>
         <X>352</X>
         <Y>180</Y>
@@ -134,9 +118,7 @@
     </Static>
     <Static Name="StaticAvatarP1N2">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>352</X>
         <Y>410</Y>
@@ -152,12 +134,10 @@
     <Static Name="StaticPointsBarBGP2N2">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>0</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>768</X>
@@ -170,9 +150,7 @@
     </Static>
     <Static Name="StaticPointsBarP2N2">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player2</Name>
-      </Color>
+      <Color Name="Player2" />
       <Rect>
         <X>768</X>
         <Y>180</Y>
@@ -184,9 +162,7 @@
     </Static>
     <Static Name="StaticAvatarP2N2">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>768</X>
         <Y>410</Y>
@@ -202,12 +178,10 @@
     <Static Name="StaticPointsBarBGP1N3">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>0</G>
-          <B>1</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>238</X>
@@ -220,9 +194,7 @@
     </Static>
     <Static Name="StaticPointsBarP1N3">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player1</Name>
-      </Color>
+      <Color Name="Player1" />
       <Rect>
         <X>238</X>
         <Y>180</Y>
@@ -234,9 +206,7 @@
     </Static>
     <Static Name="StaticAvatarP1N3">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>238</X>
         <Y>410</Y>
@@ -252,12 +222,10 @@
     <Static Name="StaticPointsBarBGP2N3">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>0</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>560</X>
@@ -270,9 +238,7 @@
     </Static>
     <Static Name="StaticPointsBarP2N3">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player2</Name>
-      </Color>
+      <Color Name="Player2" />
       <Rect>
         <X>560</X>
         <Y>180</Y>
@@ -284,9 +250,7 @@
     </Static>
     <Static Name="StaticAvatarP2N3">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>560</X>
         <Y>410</Y>
@@ -302,12 +266,10 @@
     <Static Name="StaticPointsBarBGP3N3">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>1</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>1</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>882</X>
@@ -320,9 +282,7 @@
     </Static>
     <Static Name="StaticPointsBarP3N3">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player3</Name>
-      </Color>
+      <Color Name="Player3" />
       <Rect>
         <X>882</X>
         <Y>180</Y>
@@ -334,9 +294,7 @@
     </Static>
     <Static Name="StaticAvatarP3N3">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>882</X>
         <Y>410</Y>
@@ -352,12 +310,10 @@
     <Static Name="StaticPointsBarBGP1N4">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>0</G>
-          <B>1</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>190</X>
@@ -370,9 +326,7 @@
     </Static>
     <Static Name="StaticPointsBarP1N4">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player1</Name>
-      </Color>
+      <Color Name="Player1" />
       <Rect>
         <X>190</X>
         <Y>180</Y>
@@ -384,9 +338,7 @@
     </Static>
     <Static Name="StaticAvatarP1N4">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>190</X>
         <Y>410</Y>
@@ -402,12 +354,10 @@
     <Static Name="StaticPointsBarBGP2N4">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>0</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>422</X>
@@ -420,9 +370,7 @@
     </Static>
     <Static Name="StaticPointsBarP2N4">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player2</Name>
-      </Color>
+      <Color Name="Player2" />
       <Rect>
         <X>422</X>
         <Y>180</Y>
@@ -434,9 +382,7 @@
     </Static>
     <Static Name="StaticAvatarP2N4">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>422</X>
         <Y>410</Y>
@@ -452,12 +398,10 @@
     <Static Name="StaticPointsBarBGP3N4">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>1</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>1</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>654</X>
@@ -470,9 +414,7 @@
     </Static>
     <Static Name="StaticPointsBarP3N4">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player3</Name>
-      </Color>
+      <Color Name="Player3" />
       <Rect>
         <X>654</X>
         <Y>180</Y>
@@ -484,9 +426,7 @@
     </Static>
     <Static Name="StaticAvatarP3N4">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>654</X>
         <Y>410</Y>
@@ -502,12 +442,10 @@
     <Static Name="StaticPointsBarBGP4N4">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0.5</R>
-          <G>0</G>
-          <B>1</B>
-          <A>0.75</A>
-        </Color>
+        <R>0.5</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>886</X>
@@ -520,9 +458,7 @@
     </Static>
     <Static Name="StaticPointsBarP4N4">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player4</Name>
-      </Color>
+      <Color Name="Player4" />
       <Rect>
         <X>886</X>
         <Y>180</Y>
@@ -534,9 +470,7 @@
     </Static>
     <Static Name="StaticAvatarP4N4">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>886</X>
         <Y>410</Y>
@@ -552,12 +486,10 @@
     <Static Name="StaticPointsBarBGP1N5">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>0</G>
-          <B>1</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>144</X>
@@ -570,9 +502,7 @@
     </Static>
     <Static Name="StaticPointsBarP1N5">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player1</Name>
-      </Color>
+      <Color Name="Player1" />
       <Rect>
         <X>144</X>
         <Y>180</Y>
@@ -584,9 +514,7 @@
     </Static>
     <Static Name="StaticAvatarP1N5">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>144</X>
         <Y>410</Y>
@@ -602,12 +530,10 @@
     <Static Name="StaticPointsBarBGP2N5">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>0</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>352</X>
@@ -620,9 +546,7 @@
     </Static>
     <Static Name="StaticPointsBarP2N5">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player2</Name>
-      </Color>
+      <Color Name="Player2" />
       <Rect>
         <X>352</X>
         <Y>180</Y>
@@ -634,9 +558,7 @@
     </Static>
     <Static Name="StaticAvatarP2N5">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>352</X>
         <Y>410</Y>
@@ -652,12 +574,10 @@
     <Static Name="StaticPointsBarBGP3N5">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>1</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>1</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>560</X>
@@ -670,9 +590,7 @@
     </Static>
     <Static Name="StaticPointsBarP3N5">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player3</Name>
-      </Color>
+      <Color Name="Player3" />
       <Rect>
         <X>560</X>
         <Y>180</Y>
@@ -684,9 +602,7 @@
     </Static>
     <Static Name="StaticAvatarP3N5">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>560</X>
         <Y>410</Y>
@@ -702,12 +618,10 @@
     <Static Name="StaticPointsBarBGP4N5">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0.5</R>
-          <G>0</G>
-          <B>1</B>
-          <A>0.75</A>
-        </Color>
+        <R>0.5</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>768</X>
@@ -720,9 +634,7 @@
     </Static>
     <Static Name="StaticPointsBarP4N5">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player4</Name>
-      </Color>
+      <Color Name="Player4" />
       <Rect>
         <X>768</X>
         <Y>180</Y>
@@ -734,9 +646,7 @@
     </Static>
     <Static Name="StaticAvatarP4N5">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>768</X>
         <Y>410</Y>
@@ -752,12 +662,10 @@
     <Static Name="StaticPointsBarBGP5N5">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>0.8</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>1</R>
+        <G>0.8</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>976</X>
@@ -770,9 +678,7 @@
     </Static>
     <Static Name="StaticPointsBarP5N5">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player5</Name>
-      </Color>
+      <Color Name="Player5" />
       <Rect>
         <X>976</X>
         <Y>180</Y>
@@ -784,9 +690,7 @@
     </Static>
     <Static Name="StaticAvatarP5N5">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>976</X>
         <Y>410</Y>
@@ -802,12 +706,10 @@
     <Static Name="StaticPointsBarBGP1N6">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>0</G>
-          <B>1</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>45</X>
@@ -820,9 +722,7 @@
     </Static>
     <Static Name="StaticPointsBarP1N6">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player1</Name>
-      </Color>
+      <Color Name="Player1" />
       <Rect>
         <X>45</X>
         <Y>180</Y>
@@ -834,9 +734,7 @@
     </Static>
     <Static Name="StaticAvatarP1N6">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>45</X>
         <Y>410</Y>
@@ -852,12 +750,10 @@
     <Static Name="StaticPointsBarBGP2N6">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>0</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>253</X>
@@ -870,9 +766,7 @@
     </Static>
     <Static Name="StaticPointsBarP2N6">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player2</Name>
-      </Color>
+      <Color Name="Player2" />
       <Rect>
         <X>253</X>
         <Y>180</Y>
@@ -884,9 +778,7 @@
     </Static>
     <Static Name="StaticAvatarP2N6">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>253</X>
         <Y>410</Y>
@@ -902,12 +794,10 @@
     <Static Name="StaticPointsBarBGP3N6">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0</R>
-          <G>1</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>0</R>
+        <G>1</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>461</X>
@@ -920,9 +810,7 @@
     </Static>
     <Static Name="StaticPointsBarP3N6">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player3</Name>
-      </Color>
+      <Color Name="Player3" />
       <Rect>
         <X>461</X>
         <Y>180</Y>
@@ -934,9 +822,7 @@
     </Static>
     <Static Name="StaticAvatarP3N6">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>461</X>
         <Y>410</Y>
@@ -952,12 +838,10 @@
     <Static Name="StaticPointsBarBGP4N6">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>0.5</R>
-          <G>0</G>
-          <B>1</B>
-          <A>0.75</A>
-        </Color>
+        <R>0.5</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>669</X>
@@ -970,9 +854,7 @@
     </Static>
     <Static Name="StaticPointsBarP4N6">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player4</Name>
-      </Color>
+      <Color Name="Player4" />
       <Rect>
         <X>669</X>
         <Y>180</Y>
@@ -984,9 +866,7 @@
     </Static>
     <Static Name="StaticAvatarP4N6">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>669</X>
         <Y>410</Y>
@@ -1002,12 +882,10 @@
     <Static Name="StaticPointsBarBGP5N6">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>0.8</G>
-          <B>0</B>
-          <A>0.75</A>
-        </Color>
+        <R>1</R>
+        <G>0.8</G>
+        <B>0</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>877</X>
@@ -1020,9 +898,7 @@
     </Static>
     <Static Name="StaticPointsBarP5N6">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player5</Name>
-      </Color>
+      <Color Name="Player5" />
       <Rect>
         <X>877</X>
         <Y>180</Y>
@@ -1034,9 +910,7 @@
     </Static>
     <Static Name="StaticAvatarP5N6">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>877</X>
         <Y>410</Y>
@@ -1052,12 +926,10 @@
     <Static Name="StaticPointsBarBGP6N6">
       <Skin>PointsBarBG</Skin>
       <Color>
-        <Color>
-          <R>1</R>
-          <G>0</G>
-          <B>0.5</B>
-          <A>0.75</A>
-        </Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0.5</B>
+        <A>0.75</A>
       </Color>
       <Rect>
         <X>1085</X>
@@ -1070,9 +942,7 @@
     </Static>
     <Static Name="StaticPointsBarP6N6">
       <Skin>PointsBar</Skin>
-      <Color>
-        <Name>Player6</Name>
-      </Color>
+      <Color Name="Player6" />
       <Rect>
         <X>1085</X>
         <Y>180</Y>
@@ -1084,9 +954,7 @@
     </Static>
     <Static Name="StaticAvatarP6N6">
       <Skin />
-      <Color>
-        <Name>Visible</Name>
-      </Color>
+      <Color Name="Visible" />
       <Rect>
         <X>1085</X>
         <Y>410</Y>
@@ -1107,12 +975,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1126,12 +990,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1145,12 +1005,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1164,12 +1020,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1183,12 +1035,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1202,12 +1050,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1221,12 +1065,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1240,12 +1080,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1259,12 +1095,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1278,12 +1110,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1297,12 +1125,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1316,12 +1140,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1335,12 +1155,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1354,12 +1170,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1373,12 +1185,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1392,12 +1200,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1411,12 +1215,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1430,12 +1230,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1449,12 +1245,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1468,12 +1260,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1487,12 +1275,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1506,12 +1290,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1525,12 +1305,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1544,12 +1320,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1563,12 +1335,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1582,12 +1350,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1601,12 +1365,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1620,12 +1380,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1639,12 +1395,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1658,12 +1410,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1677,12 +1425,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1696,12 +1440,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1715,12 +1455,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1734,12 +1470,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1753,12 +1485,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1772,12 +1500,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1791,12 +1515,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1810,12 +1530,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1829,12 +1545,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1848,12 +1560,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1867,12 +1575,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1886,12 +1590,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1905,12 +1605,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1924,12 +1620,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1943,12 +1635,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1962,12 +1650,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1981,12 +1665,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2000,12 +1680,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2019,12 +1695,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2038,12 +1710,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2057,12 +1725,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2076,12 +1740,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2095,12 +1755,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2114,12 +1770,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2133,12 +1785,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2152,12 +1800,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2171,12 +1815,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2190,12 +1830,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2209,12 +1845,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2228,12 +1860,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2247,12 +1875,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2266,12 +1890,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2285,12 +1905,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2304,12 +1920,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2323,12 +1935,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2342,12 +1950,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2361,12 +1965,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2380,12 +1980,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2399,12 +1995,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2418,12 +2010,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2437,12 +2025,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2456,12 +2040,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2475,12 +2055,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2494,12 +2070,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2513,12 +2085,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2532,12 +2100,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2551,12 +2115,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2570,12 +2130,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2589,12 +2145,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2608,12 +2160,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2627,12 +2175,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2646,12 +2190,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2665,12 +2205,8 @@
       <Z>0</Z>
       <H>44</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2684,12 +2220,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2703,12 +2235,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -2722,12 +2250,8 @@
       <Z>0</Z>
       <H>28</H>
       <MaxW>160</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>

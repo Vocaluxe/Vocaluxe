@@ -10,17 +10,13 @@
       <SlideShowTextures />
       <Video>BG_Video</Video>
       <Skin>BG_Default</Skin>
-      <Color>
-        <Name>BackgroundColor</Name>
-      </Color>
+      <Color Name="BackgroundColor" />
     </Background>
   </Backgrounds>
   <Statics>
     <Static Name="Static1">
       <Skin>Menu</Skin>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>40</X>
         <Y>40</Y>
@@ -38,12 +34,8 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color>
-        <Name>StaticColor</Name>
-      </Color>
-      <SColor>
-        <Name>TextSColor</Name>
-      </SColor>
+      <Color Name="StaticColor" />
+      <SColor Name="TextSColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -63,24 +55,16 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>10</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -108,24 +92,16 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>10</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -153,24 +129,16 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>10</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -198,24 +166,16 @@
         <H>40</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>10</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -237,24 +197,16 @@
         <H>40</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>10</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -276,24 +228,16 @@
         <H>40</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>10</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -315,24 +259,16 @@
         <H>40</H>
         <Z>0</Z>
       </Rect>
-      <Color>
-        <Name>ButtonColor</Name>
-      </Color>
-      <SelColor>
-        <Name>ButtonSColor</Name>
-      </SelColor>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>10</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
-        <Color>
-          <Name>ButtonTextColor</Name>
-        </Color>
-        <SColor>
-          <Name>ButtonTextSColor</Name>
-        </SColor>
+        <Color Name="ButtonTextColor" />
+        <SColor Name="ButtonTextSColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -377,27 +313,13 @@
         <H>40</H>
         <Z>0</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -435,27 +357,13 @@
         <H>40</H>
         <Z>0</Z>
       </RectArrowRight>
-      <Color>
-        <Name>SelectSlideColor</Name>
-      </Color>
-      <SColor>
-        <Name>SelectSlideSColor</Name>
-      </SColor>
-      <HColor>
-        <Name>SelectSlideHColor</Name>
-      </HColor>
-      <ArrowColor>
-        <Name>ArrowColor</Name>
-      </ArrowColor>
-      <ArrowSColor>
-        <Name>ArrowSColor</Name>
-      </ArrowSColor>
-      <TextColor>
-        <Name>TextColor</Name>
-      </TextColor>
-      <TextSColor>
-        <Name>TextSColor</Name>
-      </TextSColor>
+      <Color Name="SelectSlideColor" />
+      <SColor Name="SelectSlideSColor" />
+      <HColor Name="SelectSlideHColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSColor Name="ArrowSColor" />
+      <TextColor Name="TextColor" />
+      <TextSColor Name="TextSColor" />
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>-5</TextRelativeY>
@@ -477,12 +385,10 @@
       </Rect>
       <SkinEmptyTile>CoverTile</SkinEmptyTile>
       <ColorEmptyTile>
-        <Color>
           <R>1</R>
           <G>1</G>
           <B>1</B>
           <A>0.2</A>
-        </Color>
       </ColorEmptyTile>
       <SkinTileSelected>PlayerSelector</SkinTileSelected>
       <Tiles>
@@ -497,9 +403,7 @@
           <H>17</H>
           <Font>Outline</Font>
           <Style>Bold</Style>
-          <Color>
-            <Name>TextColor</Name>
-          </Color>
+          <Color Name="TextColor" />
         </Name>
       </Tiles>
     </NameSelection>

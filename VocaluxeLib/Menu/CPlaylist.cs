@@ -300,11 +300,11 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", out _Theme.SkinBackground, String.Empty);
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", out _Theme.SkinBackgroundSelected, String.Empty);
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
             if (xmlReader.GetValue(item + "/ColorBackground", out _Theme.ColorBackground.Name, String.Empty))
                 _ThemeLoaded &= _Theme.ColorBackground.Get(_PartyModeID, out BackgroundColor);
             else
@@ -342,7 +342,6 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                _Theme.Rect = Rect;
                 _Theme.ColorBackground.Color = BackgroundColor;
                 _Theme.SelColorBackground.Color = BackgroundSelColor;
                 _Theme.Text1 = Text1.GetTheme();

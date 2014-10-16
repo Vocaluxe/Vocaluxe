@@ -158,11 +158,11 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", out _Theme.SkinEmptyTile, String.Empty);
 
@@ -192,11 +192,11 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= _Theme.Tiles.Name.Color.Get(_PartyModeID, out _ColorNameTile);
             else
             {
-                if (xmlReader.TryGetFloatValue(item + "/Tiles/Name/R", ref _Theme.Tiles.Name.Color.Color.R))
+                if (xmlReader.TryGetFloatValue(item + "/Tiles/Name/R", ref _ColorNameTile.R))
                 {
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/G", ref _Theme.Tiles.Name.Color.Color.G);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/B", ref _Theme.Tiles.Name.Color.Color.B);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/A", ref _Theme.Tiles.Name.Color.Color.A);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/G", ref _ColorNameTile.G);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/B", ref _ColorNameTile.B);
+                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/A", ref _ColorNameTile.A);
                 }
             }
 
@@ -204,10 +204,8 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-
-                _Theme.Rect = Rect;
+                _Theme.Tiles.Name.Color.Color = _ColorNameTile;
                 _Theme.ColorEmptyTile.Color = _ColorEmptyTile;
-
                 LoadTextures();
             }
             return _ThemeLoaded;
@@ -499,7 +497,7 @@ namespace VocaluxeLib.Menu
                     var tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, _ColorEmptyTile, rect) {Aspect = EAspect.Crop};
                     var tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.Tiles.Name.Space, rect.Z, _Theme.Tiles.Name.Height, rect.W, EAlignment.Center,
                                              _Theme.Tiles.Name.Style,
-                                             _Theme.Tiles.Name.Font, _Theme.Tiles.Name.Color.Color, "");
+                                             _Theme.Tiles.Name.Font, _ColorNameTile, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
                 }
             }

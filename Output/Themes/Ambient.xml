@@ -11,6 +11,6 @@
     <Skin>Cursor</Skin>
     <W>40,000</W>
     <H>40,000</H>
-    <Color><Name>StaticColor</Name></Color>
+    <Color Name="StaticColor" />
   </Cursor>
 </root>

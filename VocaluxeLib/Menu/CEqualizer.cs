@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Xml;
 
@@ -116,15 +115,15 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
 
             _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/NumBars", ref _Theme.NumBars);
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Space", ref Space);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Space", ref _Theme.Space);
 
             _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Style", ref _Theme.Style);
 
@@ -168,11 +167,8 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                _Theme.Space = Space;
                 _Theme.Color.Color = Color;
                 _Theme.MaxColor.Color = MaxColor;
-                _Theme.Rect = Rect;
-
                 LoadTextures();
             }
             return _ThemeLoaded;

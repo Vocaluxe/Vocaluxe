@@ -34,9 +34,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
             ok &= xmlReader.TryGetFloatValue("//root/Cursor/W", ref CursorTheme.W);
             ok &= xmlReader.TryGetFloatValue("//root/Cursor/H", ref CursorTheme.H);
-
-            if (!xmlReader.GetValue("//root/Cursor/Color/Name", out CursorTheme.Color.Name))
-                ok &= xmlReader.Read("//root/Cursor/Color/Color", out CursorTheme.Color.Color);
+            ok &= xmlReader.Read("//root/Cursor/Color", out CursorTheme.Color);
 
             return ok;
         }

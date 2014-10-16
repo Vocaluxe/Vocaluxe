@@ -89,7 +89,7 @@ namespace VocaluxeLib.Xml
                 value = iterator.Current.GetAttribute(attribute, "");
                 return true;
             }
-            value = "";
+            value = null;
             return false;
         }
 

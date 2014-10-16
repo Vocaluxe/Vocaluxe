@@ -397,11 +397,11 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
                 _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
@@ -420,7 +420,6 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                _Theme.Rect = Rect;
                 _Theme.Color.Color = Color;
                 LoadTextures();
             }

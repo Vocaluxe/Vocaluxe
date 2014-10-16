@@ -135,11 +135,11 @@ namespace VocaluxeLib.Menu
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _MaxW);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _H);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
+            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
                 _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out _Color);
@@ -166,8 +166,6 @@ namespace VocaluxeLib.Menu
                 _Theme.Name = elementName;
                 _Theme.Color.Color = _Color;
                 _Theme.SColor.Color = _ColorProcessed;
-                _Theme.Rect = Rect;
-
                 LoadTextures();
                 _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
             }
