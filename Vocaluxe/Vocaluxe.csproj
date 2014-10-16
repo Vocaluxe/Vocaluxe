@@ -219,6 +219,10 @@
     <Compile Include="Base\CNoCoverGenerator.cs" />
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
+    <Compile Include="Base\ThemeSystem\CBaseTheme.cs" />
+    <Compile Include="Base\ThemeSystem\CPartySkin.cs" />
+    <Compile Include="Base\ThemeSystem\CBaseSkin.cs" />
+    <Compile Include="Base\ThemeSystem\CPartyTheme.cs" />
     <Compile Include="Base\ThemeSystem\CTheme.cs" />
     <Compile Include="Base\CVideoPlayer.cs" />
     <Compile Include="Base\ThemeSystem\CSkin.cs" />

@@ -14,16 +14,16 @@ namespace Vocaluxe.Base.ThemeSystem
         public CVideoStream VideoStream;
     }
 
-    class CSkin
+    abstract class CSkin
     {
-        private const int _SkinSystemVersion = 3;
-        private static readonly List<string> _RequiredTextures = new List<string>();
-        private static readonly List<string> _RequiredVideos = new List<string>();
-        private static readonly List<string> _RequiredColors = new List<string>();
+        private const int _SkinSystemVersion = 4;
+        protected static readonly List<string> _RequiredTextures = new List<string>();
+        protected static readonly List<string> _RequiredVideos = new List<string>();
+        protected static readonly List<string> _RequiredColors = new List<string>();
 
         private readonly string _Folder;
         private readonly string _FileName;
-        private readonly CTheme _Parent;
+        protected readonly CTheme _Parent;
 
         private SInfo _Info;
         public String Name
@@ -31,13 +31,11 @@ namespace Vocaluxe.Base.ThemeSystem
             get { return _Info.Name; }
         }
 
-        private readonly Dictionary<string, CTextureRef> _Textures = new Dictionary<string, CTextureRef>();
-        private readonly Dictionary<string, CVideoSkinElement> _Videos = new Dictionary<string, CVideoSkinElement>();
+        protected readonly Dictionary<string, CTextureRef> _Textures = new Dictionary<string, CTextureRef>();
+        protected readonly Dictionary<string, CVideoSkinElement> _Videos = new Dictionary<string, CVideoSkinElement>();
+        protected readonly Dictionary<string, SColorF> _Colors = new Dictionary<string, SColorF>();
 
-        private readonly Dictionary<string, SColorF> _ColorSchemes = new Dictionary<string, SColorF>();
-        private SColorF[] _PlayerColors;
-
-        private bool _IsLoaded;
+        protected bool _IsLoaded;
 
         public static bool InitRequiredElements()
         {
@@ -48,6 +46,12 @@ namespace Vocaluxe.Base.ThemeSystem
             bool ok = xmlReader.Read("//root/Textures", _RequiredTextures);
             ok &= xmlReader.Read("//root/Videos", _RequiredVideos);
             ok &= xmlReader.Read("//root/Colors", _RequiredColors);
+            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+            {
+                string name = "Player" + i;
+                if (!_RequiredColors.Contains(name))
+                    _RequiredColors.Add(name);
+            }
             return ok;
         }
 
@@ -58,7 +62,7 @@ namespace Vocaluxe.Base.ThemeSystem
             _RequiredColors.Clear();
         }
 
-        public CSkin(string folder, string file, CTheme parent)
+        protected CSkin(string folder, string file, CTheme parent)
         {
             _Folder = folder;
             _FileName = file;
@@ -70,7 +74,6 @@ namespace Vocaluxe.Base.ThemeSystem
             return _Parent.Name + ":" + Name;
         }
 
-        #region Load
         public bool Init()
         {
             CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Folder, _FileName));
@@ -91,7 +94,7 @@ namespace Vocaluxe.Base.ThemeSystem
             return true;
         }
 
-        public bool Load()
+        public virtual bool Load()
         {
             if (_IsLoaded)
                 return true;
@@ -129,36 +132,11 @@ namespace Vocaluxe.Base.ThemeSystem
                 _Videos.Add(name, sk);
             }
 
-            // load colors
             if (!_LoadColors(xmlReader))
-                return false;
-
-            if (!_CheckRequiredElements())
                 return false;
 
             _IsLoaded = true;
             return true;
-        }
-
-        private bool _CheckRequiredElements()
-        {
-            if (_Parent.PartyModeID >= 0)
-                return true;
-            List<string> missingTextures = _RequiredTextures.FindAll(name => !_Textures.ContainsKey(name));
-            List<string> missingVideos = _RequiredVideos.FindAll(name => !_Videos.ContainsKey(name));
-            SColorF dummyColor;
-            List<string> missingColors = _RequiredColors.FindAll(name => !GetColor(name, out dummyColor));
-            if (missingTextures.Count + missingVideos.Count + missingColors.Count == 0)
-                return true;
-            string msg = "The skin \"" + this + "\" is missing the following elements: ";
-            if (missingTextures.Count > 0)
-                msg += Environment.NewLine + "Textures: " + string.Join(", ", missingTextures);
-            if (missingVideos.Count > 0)
-                msg += Environment.NewLine + "Videos: " + string.Join(", ", missingVideos);
-            if (missingColors.Count > 0)
-                msg += Environment.NewLine + "Colors: " + string.Join(", ", missingColors);
-            CLog.LogError(msg);
-            return false;
         }
 
         public void Unload()
@@ -171,73 +149,30 @@ namespace Vocaluxe.Base.ThemeSystem
 
             _Textures.Clear();
             _Videos.Clear();
-            _PlayerColors = null;
-            _ColorSchemes.Clear();
+            _Colors.Clear();
 
             _IsLoaded = false;
         }
 
         private bool _LoadColors(CXMLReader xmlReader)
         {
-            if (_Parent.PartyModeID == -1)
-            {
-                _PlayerColors = new SColorF[CSettings.MaxNumPlayer];
-
-                for (int i = 0; i < CSettings.MaxNumPlayer; i++)
-                {
-                    SColorF color;
-                    if (!xmlReader.Read("//root/Colors/Player" + (i + 1), out color))
-                        return false;
-                    _PlayerColors[i] = color;
-                }
-            }
-
-            List<string> names = xmlReader.GetNames("//root/ColorSchemes/*");
+            List<string> names = xmlReader.GetNames("//root/Colors/*");
             foreach (string str in names)
             {
                 SColorF color;
-                if (!xmlReader.Read("//root/ColorSchemes/" + str, out color))
+                if (!xmlReader.Read("//root/Colors/" + str, out color))
                     return false;
-                _ColorSchemes.Add(str, color);
+                _Colors.Add(str, color);
             }
             return true;
         }
-        #endregion Load
 
-        public bool GetColor(string colorName, out SColorF color)
+        public virtual bool GetColor(string colorName, out SColorF color)
         {
-            if (_Parent.Name == "Default" && !_RequiredColors.Contains(colorName))
-                CLog.LogDebug("Non-Default color: " + colorName);
-            return _ColorSchemes.TryGetValue(colorName, out color) || _GetPlayerColor(colorName, out color);
+            return _Colors.TryGetValue(colorName, out color);
         }
 
-        private bool _GetPlayerColor(string playerNrString, out SColorF color)
-        {
-            color = new SColorF();
-            if (playerNrString == null)
-                return false;
-            if (playerNrString.StartsWith("Player"))
-                playerNrString = playerNrString.Substring(6);
-            int playerNr;
-            if (!int.TryParse(playerNrString, out playerNr))
-                return false;
-
-            return GetPlayerColor(playerNr, out color);
-        }
-
-        public bool GetPlayerColor(int playerNr, out SColorF color)
-        {
-            if (_PlayerColors != null && playerNr >= 1 && playerNr <= _PlayerColors.Length)
-            {
-                color = _PlayerColors[playerNr - 1];
-                return true;
-            }
-
-            color = new SColorF();
-            return false;
-        }
-
-        public CVideoStream GetVideo(string videoName, bool loop = true)
+        public virtual CVideoStream GetVideo(string videoName, bool loop)
         {
             Debug.Assert(_Parent.Name != "Default" || _RequiredVideos.Contains(videoName));
             CVideoSkinElement sk;
@@ -253,7 +188,7 @@ namespace Vocaluxe.Base.ThemeSystem
             return null;
         }
 
-        public CTextureRef GetTexture(string name)
+        public virtual CTextureRef GetTexture(string name)
         {
             Debug.Assert(_Parent.Name != "Default" || _RequiredTextures.Contains(name));
             CTextureRef texture;

@@ -53,10 +53,10 @@
       <H>15</H>
       <MaxW>0</MaxW>
       <Color>
-        <Name>TextWhite</Name>
+        <Name>White</Name>
       </Color>
       <SColor>
-        <Name>TextWhite</Name>
+        <Name>White</Name>
       </SColor>
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>

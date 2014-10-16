@@ -910,10 +910,10 @@
       <H>27</H>
       <MaxW>880</MaxW>
       <Color>
-        <Name>TextBlack</Name>
+        <Name>Black</Name>
       </Color>
       <SColor>
-        <Name>TextBlack</Name>
+        <Name>Black</Name>
       </SColor>
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -929,10 +929,10 @@
       <H>20</H>
       <MaxW>0</MaxW>
       <Color>
-        <Name>TextWhite</Name>
+        <Name>White</Name>
       </Color>
       <SColor>
-        <Name>TextWhite</Name>
+        <Name>White</Name>
       </SColor>
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>

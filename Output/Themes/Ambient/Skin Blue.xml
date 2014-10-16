@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <SkinSystemVersion>3</SkinSystemVersion>
+  <SkinSystemVersion>4</SkinSystemVersion>
   <Info>
     <Name>Blue</Name>
     <Author>bohning</Author>
@@ -44,8 +44,6 @@
       <B>0,500</B>
       <A>1,000</A>
     </Player6>
-  </Colors>
-  <ColorSchemes>
     <Player1Dim>
       <R>0,000</R>
       <G>0,000</G>
@@ -220,18 +218,18 @@
       <B>0,000</B>
       <A>1,000</A>
     </TextWarningColor>
-    <TextBlack>
+    <Black>
       <R>0,000</R>
       <G>0,000</G>
       <B>0,000</B>
       <A>1,000</A>
-    </TextBlack>
-    <TextWhite>
+    </Black>
+    <White>
       <R>1,000</R>
       <G>1,000</G>
       <B>1,000</B>
       <A>1,000</A>
-    </TextWhite>
+    </White>
     <Visible>
       <R>1,000</R>
       <G>1,000</G>
@@ -280,7 +278,7 @@
       <B>1,000</B>
       <A>0,850</A>
     </TimeBarSentence>
-  </ColorSchemes>
+  </Colors>
   <Skins>
     <BG_Default>[Blue]BG_Default.png</BG_Default>
     <BG_Options>[Blue]BG_Options.png</BG_Options>
