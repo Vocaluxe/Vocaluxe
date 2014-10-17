@@ -140,6 +140,8 @@ namespace VocaluxeLib.Songs
                             continue;
                         }
                         string value = line.Substring(pos + 1).Trim();
+                        byte[] bytes = Encoding.Default.GetBytes(value);
+                        value = Encoding.UTF8.GetString(bytes);
 
                         if (value == "")
                         {
