@@ -35,39 +35,45 @@ namespace VocaluxeLib.Menu
 
     class CInteraction
     {
-        private readonly int _Num;
-        private readonly EType _Type;
-
-        public int Num
-        {
-            get { return _Num; }
-        }
-
-        public EType Type
-        {
-            get { return _Type; }
-        }
+        public readonly int Num;
+        public readonly EType Type;
 
         public bool ThemeEditorOnly
         {
             get
             {
-                return _Type == EType.Background ||
-                       _Type == EType.NameSelection ||
-                       _Type == EType.Text ||
-                       _Type == EType.Static ||
-                       _Type == EType.SongMenu ||
-                       _Type == EType.Lyric ||
-                       _Type == EType.SingNote ||
-                       _Type == EType.Equalizer ||
-                       _Type == EType.Playlist;
+                return Type == EType.Background ||
+                       Type == EType.NameSelection ||
+                       Type == EType.Text ||
+                       Type == EType.Static ||
+                       Type == EType.SongMenu ||
+                       Type == EType.Lyric ||
+                       Type == EType.SingNote ||
+                       Type == EType.Equalizer ||
+                       Type == EType.Playlist;
+            }
+        }
+
+        public bool DrawAsForeground
+        {
+            get
+            {
+                return Type == EType.Button ||
+                       Type == EType.SelectSlide ||
+                       Type == EType.Static ||
+                       Type == EType.NameSelection ||
+                       Type == EType.Text ||
+                       Type == EType.SongMenu ||
+                       Type == EType.Equalizer ||
+                       Type == EType.Playlist ||
+                       Type == EType.ParticleEffect;
             }
         }
 
         public CInteraction(int num, EType type)
         {
-            _Num = num;
-            _Type = type;
+            Num = num;
+            Type = type;
         }
     }
 }

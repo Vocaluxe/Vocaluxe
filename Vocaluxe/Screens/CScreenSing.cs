@@ -302,7 +302,7 @@ namespace Vocaluxe.Screens
                     _SetInteractionToButton(_Buttons[_ButtonContinue]);
             }
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent) && _Pause)
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent) && _Pause)
             {
                 if (_Buttons[_ButtonContinue].Selected && _Pause)
                     _TogglePause();

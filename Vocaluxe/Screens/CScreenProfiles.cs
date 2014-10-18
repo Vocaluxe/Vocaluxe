@@ -196,7 +196,7 @@ namespace Vocaluxe.Screens
             if (_EditMode == EEditMode.None)
                 base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonExit].Selected)
                     CGraphics.FadeTo(EScreens.ScreenMain);

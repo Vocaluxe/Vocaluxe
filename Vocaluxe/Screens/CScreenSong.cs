@@ -476,7 +476,7 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.LB)
             {
-                if (_IsMouseOver(mouseEvent))
+                if (_IsMouseOverCurSelection(mouseEvent))
                 {
                     if (_Buttons[_ButtonOpenOptions].Selected)
                     {

@@ -79,21 +79,18 @@ namespace Vocaluxe.Screens
             }
         }
 
+        public override SRectF ScreenArea
+        {
+            get { return _Statics[_StaticBG].Rect; }
+        }
+
         public override void Init()
         {
             base.Init();
 
             _ThemeStatics = new string[] {_StaticBG, _StaticCover};
             _ThemeTexts = new string[] {_TextCurrentSong};
-
             _ThemeButtons = new string[] {_ButtonPlay, _ButtonPause, _ButtonPrevious, _ButtonNext, _ButtonRepeat, _ButtonShowVideo, _ButtonSing, _ButtonToBackgroundVideo};
-        }
-
-        public override void LoadTheme(string xmlPath)
-        {
-            base.LoadTheme(xmlPath);
-
-            _ScreenArea = _Statics[_StaticBG].Rect;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -136,7 +133,7 @@ namespace Vocaluxe.Screens
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             base.HandleMouse(mouseEvent);
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonNext].Selected)
                     CBackgroundMusic.Next();

@@ -141,7 +141,7 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreens.ScreenOptions);
             }
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_SelectSlides[_SelectSlideWebcamDevices].Selected)
                     _OnDeviceEvent();

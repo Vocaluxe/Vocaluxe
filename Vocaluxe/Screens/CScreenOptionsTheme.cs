@@ -119,7 +119,7 @@ namespace Vocaluxe.Screens
             if (mouseEvent.RB)
                 _Close();
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonExit].Selected)
                     _Close();

@@ -81,7 +81,7 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
             }
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)

@@ -71,7 +71,7 @@ namespace VocaluxeLib.PartyModes
         {
             base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent)) {}
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent)) {}
 
             if (mouseEvent.RB)
                 _FadeTo(EScreens.ScreenParty);

@@ -130,7 +130,7 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent)) {}
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent)) {}
 
             if (mouseEvent.LB)
                 _LeaveScreen();

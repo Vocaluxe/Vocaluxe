@@ -115,7 +115,7 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 CGraphics.FadeTo(EScreens.ScreenOptions);
             }
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
