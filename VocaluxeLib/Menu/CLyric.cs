@@ -127,7 +127,7 @@ namespace VocaluxeLib.Menu
 
             LyricStyle = ELyricStyle.Fill;
 
-            LoadTextures();
+            LoadSkin();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
@@ -166,7 +166,7 @@ namespace VocaluxeLib.Menu
                 _Theme.Name = elementName;
                 _Theme.Color.Color = _Color;
                 _Theme.SColor.Color = _ColorProcessed;
-                LoadTextures();
+                LoadSkin();
                 _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
             }
             return _ThemeLoaded;
@@ -441,9 +441,9 @@ namespace VocaluxeLib.Menu
         }
         #endregion draw
 
-        public void UnloadTextures() {}
+        public void UnloadSkin() {}
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             _Theme.Color.Get(_PartyModeID, out _Color);
             _Theme.SColor.Get(_PartyModeID, out _ColorProcessed);
@@ -452,10 +452,10 @@ namespace VocaluxeLib.Menu
             _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
         }
 
         public SThemeLyrics GetTheme()

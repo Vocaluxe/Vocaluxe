@@ -25,8 +25,8 @@ namespace VocaluxeLib.Menu
 
         void LoadTheme(string xmlPath);
         void SaveTheme();
-        void ReloadTextures();
-        void UnloadTextures();
+        void ReloadSkin();
+        void UnloadSkin();
         void ReloadTheme(string xmlPath);
 
         bool HandleInput(SKeyEvent keyEvent);

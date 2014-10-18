@@ -161,19 +161,19 @@ namespace VocaluxeLib.Menu.SongMenu
             return _SongMenu.LoadTheme(xmlPath, elementName, xmlReader);
         }
 
-        public void UnloadTextures()
+        public void UnloadSkin()
         {
-            _SongMenu.UnloadTextures();
+            _SongMenu.UnloadSkin();
         }
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
-            _SongMenu.LoadTextures();
+            _SongMenu.LoadSkin();
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            _SongMenu.ReloadTextures();
+            _SongMenu.ReloadSkin();
         }
 
         public void MoveElement(int stepX, int stepY)

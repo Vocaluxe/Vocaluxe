@@ -246,9 +246,9 @@ namespace Vocaluxe.Screens
 
         public override void SaveTheme() {}
 
-        public override void UnloadTextures() {}
+        public override void UnloadSkin() {}
 
-        public override void ReloadTextures() {}
+        public override void ReloadSkin() {}
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {

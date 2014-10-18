@@ -129,7 +129,7 @@ namespace VocaluxeLib.Menu
             Selected = false;
             EditMode = false;
 
-            LoadTextures();
+            LoadSkin();
         }
 
         public CButton(CButton button)
@@ -243,7 +243,7 @@ namespace VocaluxeLib.Menu
                 _Theme.Text = Text.GetTheme();
                 _Theme.SText = _SelText.GetTheme();
 
-                LoadTextures();
+                LoadSkin();
             }
             return _ThemeLoaded;
         }
@@ -304,20 +304,20 @@ namespace VocaluxeLib.Menu
             Selected = CHelper.IsInBounds(Rect, x, y);
         }
 
-        public void UnloadTextures()
+        public void UnloadSkin()
         {
-            Text.UnloadTextures();
+            Text.UnloadSkin();
         }
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             Text = new CText(_Theme.Text, _PartyModeID);
-            Text.LoadTextures();
+            Text.LoadSkin();
 
             if (_Theme.STextSpecified)
             {
                 _SelText = new CText(_Theme.SText, _PartyModeID);
-                _SelText.LoadTextures();
+                _SelText.LoadSkin();
             }
 
             _Theme.Color.Get(_PartyModeID, out Color);
@@ -343,10 +343,10 @@ namespace VocaluxeLib.Menu
                 Text.Z = _Theme.Rect.Z;
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
         }
 
         public SThemeButton GetTheme()

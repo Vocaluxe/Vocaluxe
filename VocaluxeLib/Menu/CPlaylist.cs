@@ -275,7 +275,7 @@ namespace VocaluxeLib.Menu
             Visible = false;
             Selected = false;
 
-            LoadTextures();
+            LoadSkin();
         }
 
         public void Init()
@@ -354,7 +354,7 @@ namespace VocaluxeLib.Menu
                 _Theme.ButtonPlaylistSave = ButtonPlaylistSave.GetTheme();
                 _Theme.ButtonPlaylistDelete = ButtonPlaylistDelete.GetTheme();
 
-                LoadTextures();
+                LoadSkin();
             }
             return _ThemeLoaded;
         }
@@ -390,51 +390,51 @@ namespace VocaluxeLib.Menu
             return CHelper.IsInBounds(CompleteRect, mouseEvent) || _Interactions.IsMouseOver(mouseEvent);
         }
 
-        public void UnloadTextures()
+        public void UnloadSkin()
         {
-            Text1.UnloadTextures();
-            ButtonPlaylistClose.UnloadTextures();
-            ButtonPlaylistDelete.UnloadTextures();
-            ButtonPlaylistName.UnloadTextures();
-            ButtonPlaylistSave.UnloadTextures();
-            ButtonPlaylistSing.UnloadTextures();
+            Text1.UnloadSkin();
+            ButtonPlaylistClose.UnloadSkin();
+            ButtonPlaylistDelete.UnloadSkin();
+            ButtonPlaylistName.UnloadSkin();
+            ButtonPlaylistSave.UnloadSkin();
+            ButtonPlaylistSing.UnloadSkin();
 
-            StaticCover.UnloadTextures();
-            StaticPlaylistFooter.UnloadTextures();
-            StaticPlaylistHeader.UnloadTextures();
+            StaticCover.UnloadSkin();
+            StaticPlaylistFooter.UnloadSkin();
+            StaticPlaylistHeader.UnloadSkin();
 
-            SelectSlideGameMode.UnloadTextures();
+            SelectSlideGameMode.UnloadSkin();
         }
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             _Theme.ColorBackground.Get(_PartyModeID, out BackgroundColor);
             _Theme.SelColorBackground.Get(_PartyModeID, out BackgroundSelColor);
 
             Rect = _Theme.Rect;
 
-            Text1.LoadTextures();
-            ButtonPlaylistClose.LoadTextures();
-            ButtonPlaylistDelete.LoadTextures();
-            ButtonPlaylistName.LoadTextures();
-            ButtonPlaylistSave.LoadTextures();
-            ButtonPlaylistSing.LoadTextures();
+            Text1.LoadSkin();
+            ButtonPlaylistClose.LoadSkin();
+            ButtonPlaylistDelete.LoadSkin();
+            ButtonPlaylistName.LoadSkin();
+            ButtonPlaylistSave.LoadSkin();
+            ButtonPlaylistSing.LoadSkin();
 
-            StaticCover.LoadTextures();
-            StaticPlaylistFooter.LoadTextures();
-            StaticPlaylistHeader.LoadTextures();
+            StaticCover.LoadSkin();
+            StaticPlaylistFooter.LoadSkin();
+            StaticPlaylistHeader.LoadSkin();
 
-            SelectSlideGameMode.LoadTextures();
+            SelectSlideGameMode.LoadSkin();
 
             _UpdateRect();
 
             Init();
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
         }
 
         public bool HandleInput(SKeyEvent keyEvent)

@@ -85,7 +85,7 @@ namespace Vocaluxe.Base
             _Cursor.Rect.Y = y;
         }
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             SThemeCursor theme = CThemes.GetCursorTheme();
             _Cursor = CDraw.CopyTexture(CThemes.GetSkinTexture(theme.SkinName, -1));
@@ -96,17 +96,17 @@ namespace Vocaluxe.Base
             _Cursor.Rect.Z = CSettings.ZNear;
         }
 
-        public void UnloadTextures()
+        public void UnloadSkin()
         {
             CDraw.RemoveTexture(ref _Cursor);
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
             int x = X;
             int y = Y;
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
             UpdatePosition(x, y);
         }
 

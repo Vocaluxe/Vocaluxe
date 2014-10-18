@@ -94,10 +94,10 @@ namespace Vocaluxe.Base
                 pm.PartyMode.ReloadTheme();
         }
 
-        public static void ReloadTextures()
+        public static void ReloadSkin()
         {
             foreach (SPartyMode pm in _PartyModes.Values)
-                pm.PartyMode.ReloadTextures();
+                pm.PartyMode.ReloadSkin();
         }
 
         public static void SaveThemes()

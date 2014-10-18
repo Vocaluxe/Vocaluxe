@@ -104,11 +104,11 @@ namespace VocaluxeLib.Menu
             return null;
         }
 
-        public void UnloadTextures() {}
+        public void UnloadSkin() {}
 
-        public void LoadTextures() {}
+        public void LoadSkin() {}
 
-        public void ReloadTextures() {}
+        public void ReloadSkin() {}
 
         public SScreenSetting GetTheme()
         {

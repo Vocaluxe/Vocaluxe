@@ -153,7 +153,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _Theme.SongMenuTileBoard.StaticTextBG = _TextBG.GetTheme();
                 _Theme.SongMenuTileBoard.StaticVideoIcon = _VideoIcon.GetTheme();
 
-                LoadTextures();
+                LoadSkin();
                 Init();
             }
 
@@ -610,9 +610,9 @@ namespace VocaluxeLib.Menu.SongMenu
             _Offset = offset;
         }
 
-        public override void LoadTextures()
+        public override void LoadSkin()
         {
-            base.LoadTextures();
+            base.LoadSkin();
 
             _Artist = new CText(_Theme.SongMenuTileBoard.TextArtist, _PartyModeID);
             _Title = new CText(_Theme.SongMenuTileBoard.TextTitle, _PartyModeID);

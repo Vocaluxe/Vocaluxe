@@ -134,7 +134,7 @@ namespace VocaluxeLib.Menu
             _VisibleProfiles = new List<int>();
             _UsedProfiles = new List<int>();
 
-            LoadTextures();
+            LoadSkin();
         }
 
         public void Init()
@@ -206,7 +206,7 @@ namespace VocaluxeLib.Menu
                 _Theme.Name = elementName;
                 _Theme.Tiles.Name.Color.Color = _ColorNameTile;
                 _Theme.ColorEmptyTile.Color = _ColorEmptyTile;
-                LoadTextures();
+                LoadSkin();
             }
             return _ThemeLoaded;
         }
@@ -422,9 +422,9 @@ namespace VocaluxeLib.Menu
             return new CStatic(_PartyModeID);
         }
 
-        public void UnloadTextures() {}
+        public void UnloadSkin() {}
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             _TextureEmptyTile = CBase.Themes.GetSkinTexture(_Theme.SkinEmptyTile, _PartyModeID);
             _TextureTileSelected = CBase.Themes.GetSkinTexture(_Theme.SkinTileSelected, _PartyModeID);
@@ -435,10 +435,10 @@ namespace VocaluxeLib.Menu
             Rect = _Theme.Rect;
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
 
             _PrepareTiles();
         }

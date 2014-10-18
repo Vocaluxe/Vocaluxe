@@ -82,7 +82,7 @@ namespace VocaluxeLib.Menu
             _Theme = theme;
             _PartyModeID = partyModeID;
 
-            LoadTextures();
+            LoadSkin();
         }
         #endregion Constructors
 
@@ -128,7 +128,7 @@ namespace VocaluxeLib.Menu
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                LoadTextures();
+                LoadSkin();
             }
             return _ThemeLoaded;
         }
@@ -172,13 +172,13 @@ namespace VocaluxeLib.Menu
                 _DrawColor();
         }
 
-        public void UnloadTextures()
+        public void UnloadSkin()
         {
             _SlideShowTextures.Clear();
             CBase.Video.Close(ref _VideoStream);
         }
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             _Theme.Color.Get(_PartyModeID, out Color);
 
@@ -210,10 +210,10 @@ namespace VocaluxeLib.Menu
             _SlideShowTextures.Clear();
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
         }
 
         public SThemeBackground GetTheme()

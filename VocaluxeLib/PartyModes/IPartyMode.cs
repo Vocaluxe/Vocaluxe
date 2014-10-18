@@ -85,8 +85,8 @@ namespace VocaluxeLib.PartyModes
         int ID { get; }
         bool Init();
 
-        void LoadTheme(); 
-        void ReloadTextures();
+        void LoadTheme();
+        void ReloadSkin();
         void ReloadTheme();
 
         void AddScreen(CMenuParty screen, string screenName);

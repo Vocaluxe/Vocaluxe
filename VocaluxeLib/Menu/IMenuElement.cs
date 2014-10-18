@@ -25,9 +25,9 @@ namespace VocaluxeLib.Menu
 
         bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader);
 
-        void UnloadTextures();
-        void LoadTextures();
-        void ReloadTextures();
+        void UnloadSkin();
+        void LoadSkin();
+        void ReloadSkin();
 
         void MoveElement(int stepX, int stepY);
         void ResizeElement(int stepW, int stepH);

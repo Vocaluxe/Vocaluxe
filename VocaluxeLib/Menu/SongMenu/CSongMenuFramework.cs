@@ -168,7 +168,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _PartyModeID = partyModeID;
             _Theme = theme;
 
-            LoadTextures();
+            LoadSkin();
         }
 
         #region Theme
@@ -231,7 +231,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 _Theme.Name = elementName;
 
-                LoadTextures();
+                LoadSkin();
                 Init();
             }
 
@@ -321,19 +321,19 @@ namespace VocaluxeLib.Menu.SongMenu
             _PreviewNr = _SelectionNr;
         }
 
-        public virtual void UnloadTextures() {}
+        public virtual void UnloadSkin() {}
 
-        public virtual void LoadTextures()
+        public virtual void LoadSkin()
         {
             Init();
 
             _Theme.Color.Get(_PartyModeID, out _ColorInternal);
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
         }
 
         public bool EnterSelectedCategory()

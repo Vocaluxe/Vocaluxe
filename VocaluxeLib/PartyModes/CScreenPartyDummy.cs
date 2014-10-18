@@ -43,11 +43,11 @@ namespace VocaluxeLib.PartyModes
 
         public override void ReloadTheme(string xmlPath) {}
 
-        public override void ReloadTextures() {}
+        public override void ReloadSkin() {}
 
         public override void SaveTheme() {}
 
-        public override void UnloadTextures() {}
+        public override void UnloadSkin() {}
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {

@@ -387,7 +387,7 @@ namespace VocaluxeLib.Menu
             _NextSpawnTime = 0f;
             Visible = true;
 
-            LoadTextures();
+            LoadSkin();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
@@ -421,7 +421,7 @@ namespace VocaluxeLib.Menu
             {
                 _Theme.Name = elementName;
                 _Theme.Color.Color = Color;
-                LoadTextures();
+                LoadSkin();
             }
             return _ThemeLoaded;
         }
@@ -568,12 +568,12 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public void UnloadTextures()
+        public void UnloadSkin()
         {
             Texture = null;
         }
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             _Theme.Color.Get(_PartyModeID, out Color);
 
@@ -583,10 +583,10 @@ namespace VocaluxeLib.Menu
             Rect = _Theme.Rect;
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
         }
 
         public SThemeParticleEffect GetTheme()

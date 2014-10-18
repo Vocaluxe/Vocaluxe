@@ -121,7 +121,7 @@ namespace Vocaluxe.Base
 
         public static void LoadTheme()
         {
-            _Cursor.LoadTextures();
+            _Cursor.LoadSkin();
 
             for (int i = 0; i < _Screens.Count; i++)
             {
@@ -140,7 +140,7 @@ namespace Vocaluxe.Base
 
         public static void ReloadTheme()
         {
-            _Cursor.ReloadTextures();
+            _Cursor.ReloadSkin();
             foreach (IMenu screen in _Screens)
                 screen.ReloadTheme(CThemes.GetThemeScreensPath(screen.PartyModeID));
 
@@ -152,14 +152,14 @@ namespace Vocaluxe.Base
 
         public static void ReloadSkin()
         {
-            _Cursor.ReloadTextures();
+            _Cursor.ReloadSkin();
             foreach (IMenu menu in _Screens)
-                menu.ReloadTextures();
+                menu.ReloadSkin();
 
             foreach (IMenu menu in _PopupScreens)
-                menu.ReloadTextures();
+                menu.ReloadSkin();
 
-            CParty.ReloadTextures();
+            CParty.ReloadSkin();
         }
 
         public static void SaveTheme()

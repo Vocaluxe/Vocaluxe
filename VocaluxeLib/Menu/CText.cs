@@ -318,7 +318,7 @@ namespace VocaluxeLib.Menu
 
             _ButtonText = buttonText;
 
-            LoadTextures();
+            LoadSkin();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
@@ -393,7 +393,7 @@ namespace VocaluxeLib.Menu
             _PositionNeedsUpdate = true;
 
             if (_ThemeLoaded)
-                LoadTextures();
+                LoadSkin();
             return _ThemeLoaded;
         }
 
@@ -453,9 +453,9 @@ namespace VocaluxeLib.Menu
             Y -= ry;
         }
 
-        public void UnloadTextures() {}
+        public void UnloadSkin() {}
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             _Theme.Color.Get(_PartyModeID, out Color);
             _Theme.SColor.Get(_PartyModeID, out SelColor);
@@ -480,10 +480,10 @@ namespace VocaluxeLib.Menu
             _ThemeLoaded = true;
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
         }
 
         public SThemeText GetTheme()

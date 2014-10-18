@@ -398,88 +398,88 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public virtual void ReloadTextures()
+        public virtual void ReloadSkin()
         {
             foreach (CBackground background in _Backgrounds)
-                background.ReloadTextures();
+                background.ReloadSkin();
 
             foreach (CButton button in _Buttons)
-                button.ReloadTextures();
+                button.ReloadSkin();
 
             foreach (CText text in _Texts)
-                text.ReloadTextures();
+                text.ReloadSkin();
 
             foreach (CStatic stat in _Statics)
-                stat.ReloadTextures();
+                stat.ReloadSkin();
 
             foreach (CSelectSlide slide in _SelectSlides)
-                slide.ReloadTextures();
+                slide.ReloadSkin();
 
             foreach (CSongMenu sm in _SongMenus)
-                sm.ReloadTextures();
+                sm.ReloadSkin();
 
             foreach (CLyric lyric in _Lyrics)
-                lyric.ReloadTextures();
+                lyric.ReloadSkin();
 
             foreach (CSingNotes sn in _SingNotes)
-                sn.ReloadTextures();
+                sn.ReloadSkin();
 
             foreach (CNameSelection ns in _NameSelections)
-                ns.ReloadTextures();
+                ns.ReloadSkin();
 
             foreach (CEqualizer eq in _Equalizers)
-                eq.ReloadTextures();
+                eq.ReloadSkin();
 
             foreach (CPlaylist pls in _Playlists)
-                pls.ReloadTextures();
+                pls.ReloadSkin();
 
             foreach (CParticleEffect pe in _ParticleEffects)
-                pe.ReloadTextures();
+                pe.ReloadSkin();
 
             foreach (CScreenSetting se in _ScreenSettings)
-                se.ReloadTextures();
+                se.ReloadSkin();
         }
 
-        public virtual void UnloadTextures()
+        public virtual void UnloadSkin()
         {
             foreach (CBackground background in _Backgrounds)
-                background.UnloadTextures();
+                background.UnloadSkin();
 
             foreach (CButton button in _Buttons)
-                button.UnloadTextures();
+                button.UnloadSkin();
 
             foreach (CText text in _Texts)
-                text.UnloadTextures();
+                text.UnloadSkin();
 
             foreach (CStatic stat in _Statics)
-                stat.UnloadTextures();
+                stat.UnloadSkin();
 
             foreach (CSelectSlide slide in _SelectSlides)
-                slide.UnloadTextures();
+                slide.UnloadSkin();
 
             foreach (CSongMenu sm in _SongMenus)
-                sm.UnloadTextures();
+                sm.UnloadSkin();
 
             foreach (CLyric lyric in _Lyrics)
-                lyric.UnloadTextures();
+                lyric.UnloadSkin();
 
             foreach (CSingNotes sn in _SingNotes)
-                sn.UnloadTextures();
+                sn.UnloadSkin();
 
             foreach (CNameSelection ns in _NameSelections)
-                ns.UnloadTextures();
+                ns.UnloadSkin();
 
             foreach (CPlaylist pls in _Playlists)
-                pls.UnloadTextures();
+                pls.UnloadSkin();
 
             foreach (CEqualizer eq in _Equalizers)
-                eq.UnloadTextures();
+                eq.UnloadSkin();
 
             foreach (CParticleEffect pe in _ParticleEffects)
-                pe.UnloadTextures();
+                pe.UnloadSkin();
 
             foreach (CScreenSetting se in _ScreenSettings)
-                se.UnloadTextures();
+                se.UnloadSkin();
         }
 
         public virtual void ReloadTheme(string xmlPath)
@@ -487,7 +487,7 @@ namespace VocaluxeLib.Menu
             if (ThemePath == "")
                 return;
 
-            UnloadTextures();
+            UnloadSkin();
             _ClearElements();
             LoadTheme(xmlPath);
         }

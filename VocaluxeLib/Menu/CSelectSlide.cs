@@ -269,7 +269,7 @@ namespace VocaluxeLib.Menu
             _ValueNames = new List<string>();
             _ValuePartyModeIDs = new List<int>();
 
-            LoadTextures();
+            LoadSkin();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
@@ -396,7 +396,7 @@ namespace VocaluxeLib.Menu
                 _Theme.SColor.Color = SelColor;
                 _Theme.TextColor.Color = TextColor;
                 _Theme.TextSColor.Color = SelTextColor;
-                LoadTextures();
+                LoadSkin();
             }
             return _ThemeLoaded;
         }
@@ -691,9 +691,9 @@ namespace VocaluxeLib.Menu
             return _Theme;
         }
 
-        public void UnloadTextures() {}
+        public void UnloadSkin() {}
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             _Theme.Color.Get(_PartyModeID, out Color);
             _Theme.SColor.Get(_PartyModeID, out SelColor);
@@ -715,10 +715,10 @@ namespace VocaluxeLib.Menu
             MaxW = _Theme.TextMaxW;
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
         }
 
         public object Clone()

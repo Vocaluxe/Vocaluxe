@@ -106,7 +106,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
 
-            LoadTextures();
+            LoadSkin();
         }
 
         public string GetThemeName()
@@ -158,7 +158,7 @@ namespace VocaluxeLib.Menu.SingNotes
             if (_ThemeLoaded)
             {
                 _Theme.Name = elementName;
-                LoadTextures();
+                LoadSkin();
             }
 
             return _ThemeLoaded;
@@ -411,9 +411,9 @@ namespace VocaluxeLib.Menu.SingNotes
                 perfnote.Draw();
         }
 
-        public void UnloadTextures() {}
+        public void UnloadSkin() {}
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
             foreach (SBarPosition bp in _Theme.BarPos)
             {
@@ -424,10 +424,10 @@ namespace VocaluxeLib.Menu.SingNotes
             }
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
         }
 
         public SThemeSingBar GetTheme()
