@@ -44,10 +44,10 @@
       <Skin/>
       <SkinArrowLeft>Minus</SkinArrowLeft>
       <SkinArrowRight>Plus</SkinArrowRight>
-      <SkinSelected>Invisible</SkinSelected>
+      <SkinSelected />
       <SkinArrowLeftSelected>Minus</SkinArrowLeftSelected>
       <SkinArrowRightSelected>Plus</SkinArrowRightSelected>
-      <SkinHighlighted>Invisible</SkinHighlighted>
+      <SkinHighlighted />
       <Rect>
         <X>1090</X>
         <Y>680</Y>

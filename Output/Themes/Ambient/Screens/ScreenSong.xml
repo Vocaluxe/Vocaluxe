@@ -667,7 +667,7 @@
     </Button>
     <Button Name="ButtonOpenOptions">
       <Skin/>
-      <SkinSelected>Invisible</SkinSelected>
+      <SkinSelected />
       <Rect>
         <X>40</X>
         <Y>40</Y>
@@ -1166,8 +1166,8 @@
         <Skin />
         <Color Name="Visible" />
         <Rect>
-          <X>4</X>
-          <Y>2</Y>
+          <X>0</X>
+          <Y>0</Y>
           <W>46</W>
           <H>46</H>
           <Z>-1</Z>
@@ -1200,7 +1200,7 @@
       </StaticPlaylistFooter>
       <ButtonPlaylistName Name="ButtonPlaylistName">
         <Skin/>
-        <SkinSelected>Invisible</SkinSelected>
+        <SkinSelected />
         <Rect>
           <X>975</X>
           <Y>45</Y>
