@@ -107,9 +107,6 @@ namespace Vocaluxe.Screens
                 _Statics[_StaticEnergyChannel[i]].Visible = false;
                 _ChannelEnergy[i] = 0f;
             }
-
-            _Equalizers[_EqualizerChannel1].ScreenHandles = true;
-            _Equalizers[_EqualizerChannel2].ScreenHandles = true;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -329,9 +326,6 @@ namespace Vocaluxe.Screens
                                       new SColorF(1f, 1f, 1f, 1f), rect);
                 }
             }
-
-            _Equalizers[_EqualizerChannel1].Draw();
-            _Equalizers[_EqualizerChannel2].Draw();
 
             _DrawFG();
 

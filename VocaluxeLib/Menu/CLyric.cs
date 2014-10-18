@@ -55,6 +55,8 @@ namespace VocaluxeLib.Menu
 
         private float _Alpha = 1f;
 
+        private float _CurrentBeat = -1;
+
         public string GetThemeName()
         {
             return _Theme.Name;
@@ -199,33 +201,38 @@ namespace VocaluxeLib.Menu
             return _X - _Width / 2;
         }
 
+        public void Update(float currentBeat)
+        {
+            _CurrentBeat = currentBeat;
+        }
+
         #region draw
-        public void Draw(float actualBeat)
+        public void Draw()
         {
             if (Visible || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 switch (LyricStyle)
                 {
                     case ELyricStyle.Fill:
-                        _DrawFill(actualBeat);
+                        _DrawFill();
                         break;
                     case ELyricStyle.Jump:
-                        _DrawJump(actualBeat);
+                        _DrawJump();
                         break;
                     case ELyricStyle.Slide:
-                        _DrawSlide(actualBeat);
+                        _DrawSlide();
                         break;
                     case ELyricStyle.Zoom:
-                        _DrawZoom(actualBeat);
+                        _DrawZoom();
                         break;
                     default:
-                        _DrawSlide(actualBeat);
+                        _DrawSlide();
                         break;
                 }
             }
         }
 
-        private void _DrawSlide(float currentBeat)
+        private void _DrawSlide()
         {
             float x = _X - _Width / 2;
 
@@ -234,9 +241,9 @@ namespace VocaluxeLib.Menu
                 _Text.X = x;
                 _SetText(note);
 
-                if (currentBeat >= note.StartBeat)
+                if (_CurrentBeat >= note.StartBeat)
                 {
-                    if (currentBeat <= note.EndBeat)
+                    if (_CurrentBeat <= note.EndBeat)
                     {
                         _Text.Color = _ColorProcessed;
 
@@ -245,9 +252,9 @@ namespace VocaluxeLib.Menu
                             _Text.Draw(0f, 1f);
                         else
                         {
-                            _Text.Draw(0f, (currentBeat - note.StartBeat) / diff);
+                            _Text.Draw(0f, (_CurrentBeat - note.StartBeat) / diff);
                             _Text.Color = _Color;
-                            _Text.Draw((currentBeat - note.StartBeat) / diff, 1f);
+                            _Text.Draw((_CurrentBeat - note.StartBeat) / diff, 1f);
                         }
                     }
                     else
@@ -266,12 +273,12 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private void _DrawZoom(float currentBeat)
+        private void _DrawZoom()
         {
             float x = _X - _Width / 2; // most left position
 
             //find last active note
-            int lastNote = _Line.FindPreviousNote((int)currentBeat);
+            int lastNote = _Line.FindPreviousNote((int)_CurrentBeat);
 
             int zoomNote = -1;
             int endBeat = -1;
@@ -282,13 +289,13 @@ namespace VocaluxeLib.Menu
                 _Text.X = x;
                 _SetText(_Line.Notes[note]);
 
-                if (currentBeat >= _Line.Notes[note].StartBeat)
+                if (_CurrentBeat >= _Line.Notes[note].StartBeat)
                 {
                     int curEndBeat = _Line.Notes[note].EndBeat;
                     if (note < _Line.Notes.Length - 1)
                         curEndBeat = _Line.Notes[note + 1].StartBeat - 1;
 
-                    if (currentBeat <= curEndBeat)
+                    if (_CurrentBeat <= curEndBeat)
                     {
                         zoomNote = note;
                         endBeat = curEndBeat;
@@ -321,7 +328,7 @@ namespace VocaluxeLib.Menu
                 if (diff <= 0f)
                     diff = 1f;
 
-                float p = (currentBeat - _Line.Notes[zoomNote].StartBeat) / diff;
+                float p = (_CurrentBeat - _Line.Notes[zoomNote].StartBeat) / diff;
                 if (p > 1f)
                     p = 1f;
 
@@ -347,7 +354,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private void _DrawFill(float currentBeat)
+        private void _DrawFill()
         {
             float x = _X - _Width / 2; // most left position
 
@@ -356,7 +363,7 @@ namespace VocaluxeLib.Menu
                 _Text.X = x;
                 _SetText(note);
 
-                if (currentBeat >= note.StartBeat)
+                if (_CurrentBeat >= note.StartBeat)
                 {
                     _Text.Color = _ColorProcessed;
                     _Text.Draw();
@@ -372,12 +379,12 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private void _DrawJump(float currentBeat)
+        private void _DrawJump()
         {
             float x = _X - _Width / 2; // most left position
 
             //find last active note
-            int lastNote = _Line.FindPreviousNote((int)currentBeat);
+            int lastNote = _Line.FindPreviousNote((int)_CurrentBeat);
 
             int jumpNote = -1;
             float jumpx = 0f;
@@ -387,13 +394,13 @@ namespace VocaluxeLib.Menu
                 _Text.X = x;
                 _SetText(_Line.Notes[note]);
 
-                if (currentBeat >= _Line.Notes[note].StartBeat)
+                if (_CurrentBeat >= _Line.Notes[note].StartBeat)
                 {
                     int curEndBeat = _Line.Notes[note].EndBeat;
                     if (note < _Line.Notes.Length - 1)
                         curEndBeat = _Line.Notes[note + 1].StartBeat - 1;
 
-                    if (currentBeat <= curEndBeat)
+                    if (_CurrentBeat <= curEndBeat)
                     {
                         jumpNote = note;
                         jumpx = _Text.X;
@@ -427,7 +434,7 @@ namespace VocaluxeLib.Menu
             if (diff <= 0)
                 diff = 1;
 
-            float p = 1f - (currentBeat - _Line.Notes[jumpNote].StartBeat) / diff;
+            float p = 1f - (_CurrentBeat - _Line.Notes[jumpNote].StartBeat) / diff;
 
             if (Math.Abs(p) < float.Epsilon)
                 _Text.Draw();

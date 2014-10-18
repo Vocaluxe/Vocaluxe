@@ -1160,12 +1160,7 @@ namespace VocaluxeLib.Menu
                     break;
 
                 case EType.Equalizer:
-                    if (!_Equalizers[_Interactions[interaction].Num].ScreenHandles)
-                    {
-                        //TODO:
-                        //Call Update-Method of Equalizer and give infos about bg-sound.
-                        //_Equalizers[_Interactions[interaction].Num].Draw();
-                    }
+                    _Equalizers[_Interactions[interaction].Num].Draw();
                     break;
 
                 case EType.Playlist:
@@ -1176,10 +1171,9 @@ namespace VocaluxeLib.Menu
                     _ParticleEffects[_Interactions[interaction].Num].Draw();
                     break;
 
-                    //TODO:
-                    //case EType.TLyric:
-                    //    _Lyrics[_Interactions[interaction].Num].Draw(0);
-                    //    break;
+                case EType.Lyric:
+                    _Lyrics[_Interactions[interaction].Num].Draw();
+                    break;
             }
         }
         #endregion InteractionHandling

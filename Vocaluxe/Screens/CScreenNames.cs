@@ -117,9 +117,6 @@ namespace Vocaluxe.Screens
                 _OriginalPlayerAvatarTextures[i] = _Statics[_StaticPlayerAvatar[i]].Texture;
                 _Statics[_StaticPlayerAvatar[i]].Aspect = EAspect.Crop;
             }
-
-            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
-                _Equalizers["EqualizerPlayer" + i].ScreenHandles = true;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -574,8 +571,6 @@ namespace Vocaluxe.Screens
 
             if (_ChooseAvatarStatic.Visible)
                 _ChooseAvatarStatic.Draw();
-            for (int i = 1; i <= CGame.NumPlayer; i++)
-                _Equalizers["EqualizerPlayer" + i].Draw();
             return true;
         }
         #endregion public methods

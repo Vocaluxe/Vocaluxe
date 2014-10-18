@@ -62,7 +62,6 @@ namespace VocaluxeLib.Menu
 
         public bool Selected;
         public bool Visible;
-        public bool ScreenHandles;
 
         public string GetThemeName()
         {
@@ -90,7 +89,6 @@ namespace VocaluxeLib.Menu
 
             Selected = false;
             Visible = true;
-            ScreenHandles = false;
 
             Reflection = false;
             ReflectionSpace = 0f;
@@ -103,7 +101,6 @@ namespace VocaluxeLib.Menu
             _Theme = theme;
 
             Visible = true;
-            ScreenHandles = false;
 
             LoadSkin();
         }

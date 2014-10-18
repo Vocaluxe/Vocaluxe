@@ -56,18 +56,7 @@ namespace VocaluxeLib.Menu
 
         public bool DrawAsForeground
         {
-            get
-            {
-                return Type == EType.Button ||
-                       Type == EType.SelectSlide ||
-                       Type == EType.Static ||
-                       Type == EType.NameSelection ||
-                       Type == EType.Text ||
-                       Type == EType.SongMenu ||
-                       Type == EType.Equalizer ||
-                       Type == EType.Playlist ||
-                       Type == EType.ParticleEffect;
-            }
+            get { return Type != EType.Background && Type != EType.SingNote; }
         }
 
         public CInteraction(int num, EType type)

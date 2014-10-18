@@ -180,18 +180,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP1N1">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>350</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin/>
       <Color>
@@ -205,18 +193,6 @@
         <Y>360</Y>
         <W>190</W>
         <H>190</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP1N2">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>150</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />
@@ -238,18 +214,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP2N2">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>350</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP2N2">
       <Skin/>
       <Color>
@@ -263,18 +227,6 @@
         <Y>360</Y>
         <W>165</W>
         <H>165</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP1N3">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>10</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />
@@ -296,18 +248,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP2N3">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>210</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP2N3">
       <Skin/>
       <Color>
@@ -321,18 +261,6 @@
         <Y>274</Y>
         <W>140</W>
         <H>140</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP3N3">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>410</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />
@@ -354,18 +282,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP1N4">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>528</X>
-        <Y>150</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP1N4">
       <Skin/>
       <Color>
@@ -379,18 +295,6 @@
         <Y>160</Y>
         <W>165</W>
         <H>165</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP2N4">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>528</X>
-        <Y>350</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />
@@ -412,18 +316,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP3N4">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>150</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP3N4">
       <Skin/>
       <Color>
@@ -437,18 +329,6 @@
         <Y>160</Y>
         <W>165</W>
         <H>165</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP4N4">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>350</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />
@@ -470,18 +350,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP1N5">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>528</X>
-        <Y>10</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP1N5">
       <Skin/>
       <Color>
@@ -495,18 +363,6 @@
         <Y>111</Y>
         <W>140</W>
         <H>140</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP2N5">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>528</X>
-        <Y>210</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />
@@ -528,18 +384,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP3N5">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>528</X>
-        <Y>410</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP3N5">
       <Skin/>
       <Color>
@@ -553,18 +397,6 @@
         <Y>442</Y>
         <W>140</W>
         <H>140</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP4N5">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>150</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />
@@ -586,18 +418,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP5N5">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>350</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP5N5">
       <Skin/>
       <Color>
@@ -611,18 +431,6 @@
         <Y>360</Y>
         <W>165</W>
         <H>165</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP1N6">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>528</X>
-        <Y>10</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />
@@ -644,18 +452,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP2N6">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>528</X>
-        <Y>210</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP2N6">
       <Skin/>
       <Color>
@@ -669,18 +465,6 @@
         <Y>274</Y>
         <W>140</W>
         <H>140</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP3N6">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>528</X>
-        <Y>410</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />
@@ -702,18 +486,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP4N6">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>10</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP4N6">
       <Skin/>
       <Color>
@@ -731,18 +503,6 @@
       </Rect>
       <Reflection Enabled="false" />
     </Static>
-    <Static Name="StaticScoreP5N6">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>210</Y>
-        <W>100</W>
-        <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
     <Static Name="StaticAvatarP5N6">
       <Skin/>
       <Color>
@@ -756,18 +516,6 @@
         <Y>274</Y>
         <W>140</W>
         <H>140</H>
-        <Z>-0.75</Z>
-      </Rect>
-      <Reflection Enabled="false" />
-    </Static>
-    <Static Name="StaticScoreP6N6">
-      <Skin/>
-      <Color Name="StaticColor" />
-      <Rect>
-        <X>1150</X>
-        <Y>410</Y>
-        <W>100</W>
-        <H>50</H>
         <Z>-0.75</Z>
       </Rect>
       <Reflection Enabled="false" />

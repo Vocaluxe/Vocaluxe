@@ -70,7 +70,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
     public abstract class CSingNotes : IMenuElement
     {
-        protected readonly int _PartyModeID;
+        private readonly int _PartyModeID;
         private SThemeSingBar _Theme;
         private bool _ThemeLoaded;
 
@@ -88,8 +88,7 @@ namespace VocaluxeLib.Menu.SingNotes
         protected CSingNotes(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeSingBar();
-            _Theme.BarPos = new SBarPosition[CHelper.Sum(CBase.Settings.GetMaxNumPlayer())];
+            _Theme = new SThemeSingBar {BarPos = new SBarPosition[CHelper.Sum(CBase.Settings.GetMaxNumPlayer())]};
             _ThemeLoaded = false;
 
             _PlayerNotes = new List<SPlayerNotes>();
@@ -238,11 +237,6 @@ namespace VocaluxeLib.Menu.SingNotes
                 return 0f;
 
             return _PlayerNotes[n].Alpha;
-        }
-
-        public void Draw(int id, int player)
-        {
-            Draw(id, null, player);
         }
 
         public void Draw(int id, List<CSungLine> sungLines, int player)
