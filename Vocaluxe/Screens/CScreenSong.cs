@@ -85,7 +85,6 @@ namespace Vocaluxe.Screens
         private SScreenSongOptions _Sso;
 
         private CStatic _DragAndDropCover;
-        private bool _DragAndDropActive;
         private int _OldMousePosX;
         private int _OldMousePosY;
 
@@ -139,6 +138,8 @@ namespace Vocaluxe.Screens
             _ThemeSelectSlides = new string[] {_SelectSlideOptionsMode, _SelectSlideOptionsPlaylistAdd, _SelectSlideOptionsPlaylistOpen, _SelectSlideOptionsNumMedleySongs};
             _ThemeSongMenus = new string[] {_SongMenuName};
             _ThemePlaylists = new string[] {_PlaylistName};
+
+            _DragAndDropCover = GetNewStatic();
         }
 
         public override void LoadTheme(string xmlPath)
@@ -147,12 +148,12 @@ namespace Vocaluxe.Screens
             _SongMenu = _SongMenus[_SongMenuName];
             _Playlist = _Playlists[_PlaylistName];
             _ToggleSongOptions(ESongOptionsView.None);
-            _DragAndDropCover = GetNewStatic();
 
             _Playlist.Init();
             _Playlist.Visible = false;
 
             _AvailableGameModes.Clear();
+            _AddStatic(_DragAndDropCover);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -398,7 +399,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(mouseEvent);
 
-            if (_DragAndDropActive)
+            if (_DragAndDropCover.Visible)
             {
                 _DragAndDropCover.X += mouseEvent.X - _OldMousePosX;
                 _DragAndDropCover.Y += mouseEvent.Y - _OldMousePosY;
@@ -585,20 +586,24 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.LBH)
             {
-                if (!_DragAndDropActive && _Playlist.Visible && CSongs.NumSongsVisible > 0 && _SongMenu.GetSelectedSongNr() != -1)
+                if (!_DragAndDropCover.Visible && _Playlist.Visible && CSongs.NumSongsVisible > 0 && _SongMenu.GetSelectedSongNr() != -1)
                 {
-                    _DragAndDropCover = _SongMenu.GetSelectedSongCover();
+                    CStatic cover = _SongMenu.GetSelectedSongCover();
+                    _DragAndDropCover.Texture = cover.Texture;
+                    _DragAndDropCover.Aspect = cover.Aspect;
+                    _DragAndDropCover.MaxRect = cover.Rect;
+                    _DragAndDropCover.Color = cover.Color;
                     _DragAndDropCover.Z = CSettings.ZNear;
                     _Playlist.DragAndDropSongID = CSongs.VisibleSongs[_SongMenu.GetSelectedSongNr()].ID;
-                    _DragAndDropActive = true;
+                    _DragAndDropCover.Visible = true;
                     return true;
                 }
             }
 
 
-            if (!mouseEvent.LBH && _DragAndDropActive)
+            if (!mouseEvent.LBH && _DragAndDropCover.Visible)
             {
-                _DragAndDropActive = false;
+                _DragAndDropCover.Visible = false;
                 _Playlist.DragAndDropSongID = -1;
                 return true;
             }
@@ -647,7 +652,7 @@ namespace Vocaluxe.Screens
             if (_Playlist.ActivePlaylistID != -1)
                 _Playlist.LoadPlaylist(_Playlist.ActivePlaylistID);
 
-            _DragAndDropActive = false;
+            _DragAndDropCover.Visible = false;
             _Playlist.DragAndDropSongID = -1;
 
             UpdateGame();
@@ -696,14 +701,6 @@ namespace Vocaluxe.Screens
             _UpdatePartyModeOptions();
 
             return true;
-        }
-
-        public override void Draw()
-        {
-            base.Draw();
-
-            if (_DragAndDropActive)
-                _DragAndDropCover.Draw();
         }
 
         public override void OnClose()

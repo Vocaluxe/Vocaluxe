@@ -104,7 +104,6 @@ namespace Vocaluxe.Screens
             _ChooseAvatarStatic = GetNewStatic();
             _ChooseAvatarStatic.Visible = false;
             _ChooseAvatarStatic.Aspect = EAspect.Crop;
-            _AddStatic(_ChooseAvatarStatic);
 
             CProfiles.AddProfileChangedCallback(_OnProfileChanged);
         }
@@ -118,6 +117,7 @@ namespace Vocaluxe.Screens
                 _OriginalPlayerAvatarTextures[i] = _Statics[_StaticPlayerAvatar[i]].Texture;
                 _Statics[_StaticPlayerAvatar[i]].Aspect = EAspect.Crop;
             }
+            _AddStatic(_ChooseAvatarStatic);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)

@@ -75,7 +75,6 @@ namespace VocaluxeLib.Menu
             _ChooseAvatarStatic = GetNewStatic();
             _ChooseAvatarStatic.Visible = false;
             _ChooseAvatarStatic.Aspect = EAspect.Crop;
-            _AddStatic(_ChooseAvatarStatic);
 
             CBase.Profiles.AddProfileChangedCallback(_OnProfileChanged);
         }
@@ -535,6 +534,7 @@ namespace VocaluxeLib.Menu
             base.LoadTheme(xmlPath);
             _SelectSlides[_SelectSlidePlayer].WithTextures = true;
             _SelectSlides[_SelectSlidePlayer].SelectionByHover = true;
+            _AddStatic(_ChooseAvatarStatic);
         }
 
         public override bool UpdateGame()
