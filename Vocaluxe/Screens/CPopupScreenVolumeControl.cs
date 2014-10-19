@@ -100,12 +100,6 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override void Draw()
-        {
-            if (_Active)
-                base.Draw();
-        }
-
         private void _SaveConfig()
         {
             int volume = _SelectSlides[_SelectSlideVolume].Selection * 5;

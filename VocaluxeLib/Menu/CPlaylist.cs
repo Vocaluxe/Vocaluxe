@@ -331,14 +331,10 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public override void Draw()
+        public void UpdateGame()
         {
             if (_PlaylistElements.Count <= 0)
                 LoadPlaylist(0);
-            if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
-                return;
-
-            base.Draw();
             for (int i = 0; i < _PlaylistElements.Count; i++)
             {
                 if (i == _CurrentPlaylistElement && _Selected)
@@ -352,6 +348,11 @@ namespace VocaluxeLib.Menu
                     _PlaylistElements[i].Background.Color = _BackgroundColor;
                 }
             }
+        }
+
+        public override void Draw()
+        {
+            base.Draw();
 
             if (_ChangeOrderElement != null)
                 _ChangeOrderElement.Draw();

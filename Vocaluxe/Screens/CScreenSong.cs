@@ -666,7 +666,12 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             if (_PlaylistActive)
-                _CheckPlaylist();
+            {
+                if (_Playlist.ActivePlaylistID == -1)
+                    _ClosePlaylist();
+                else
+                    _Playlist.UpdateGame();
+            }
 
             _Texts[_TextCategory].Text = CSongs.GetCurrentCategoryName();
 
@@ -1255,12 +1260,6 @@ namespace Vocaluxe.Screens
         }
 
         #region Playlist Actions
-        private void _CheckPlaylist()
-        {
-            if (_Playlist.ActivePlaylistID == -1 && _PlaylistActive)
-                _ClosePlaylist();
-        }
-
         private void _OpenPlaylist(int playlistID)
         {
             if (_Playlist.LoadPlaylist(playlistID))

@@ -178,25 +178,19 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            if (CBackgroundMusic.VideoEnabled && _VideoPreview && CBackgroundMusic.SongHasVideo)
+                _Statics[_StaticCover].Texture = CBackgroundMusic.GetVideoTexture();
+            else
+                _Statics[_StaticCover].Texture = CBackgroundMusic.Cover;
             _Statics[_StaticCover].Visible = !_VideoPreviewInt || !CBackgroundMusic.SongHasVideo;
             _Buttons[_ButtonToBackgroundVideo].Pressed = _VideoBackground;
             _Buttons[_ButtonShowVideo].Pressed = _VideoPreviewInt;
             _Buttons[_ButtonRepeat].Pressed = CBackgroundMusic.RepeatSong;
             _Buttons[_ButtonSing].Visible = CBackgroundMusic.CanSing && CParty.CurrentPartyModeID == -1;
-            return true;
-        }
-
-        public override void Draw()
-        {
-            if (!_Active)
-                return;
-            base.Draw();
-            _Statics[_StaticCover].Texture = CBackgroundMusic.Cover;
-            if (CBackgroundMusic.VideoEnabled && _VideoPreview && CBackgroundMusic.SongHasVideo)
-                CDraw.DrawTexture(CBackgroundMusic.GetVideoTexture(), _Statics[_StaticCover].Rect, EAspect.Crop);
             _Buttons[_ButtonPause].Visible = CBackgroundMusic.IsPlaying;
             _Buttons[_ButtonPlay].Visible = !CBackgroundMusic.IsPlaying;
             _Texts[_TextCurrentSong].Text = CBackgroundMusic.ArtistAndTitle;
+            return true;
         }
 
         private void _StartSong(int songNr)

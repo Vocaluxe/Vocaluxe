@@ -1,8 +1,6 @@
 ﻿using System.Diagnostics;
 using Vocaluxe.Base.ThemeSystem;
-using Vocaluxe.Lib.Video;
 using VocaluxeLib;
-using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
 {

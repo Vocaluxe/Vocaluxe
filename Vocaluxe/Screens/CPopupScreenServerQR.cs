@@ -101,12 +101,6 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override void Draw()
-        {
-            if (_Active)
-                base.Draw();
-        }
-
         private void _GenerateQRs()
         {
             QRCodeGenerator qr = new QRCodeGenerator();

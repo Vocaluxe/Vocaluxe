@@ -306,17 +306,19 @@ namespace VocaluxeLib.Menu
         #region Drawing
         public virtual void Draw()
         {
+            if (!_Active)
+                return;
             _DrawBG();
             _DrawFG();
         }
 
-        protected void _DrawBG()
+        private void _DrawBG()
         {
             foreach (CBackground bg in _Backgrounds)
                 bg.Draw();
         }
 
-        protected void _DrawFG()
+        private void _DrawFG()
         {
             if (_Interactions.Count <= 0)
                 return;
