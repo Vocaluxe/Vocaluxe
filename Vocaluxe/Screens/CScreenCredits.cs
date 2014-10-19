@@ -43,7 +43,6 @@ namespace Vocaluxe.Screens
         private readonly int _ParticleOffsetY;
         public EDirection Direction;
         public float StartTimeUp;
-        public bool Active;
 
         public CCreditName(CStatic image, CStatic imgDot, CParticleEffect particle, int particleOffsetX, int particleOffsetY)
         {
@@ -52,7 +51,7 @@ namespace Vocaluxe.Screens
             _Particle = particle;
             _ParticleOffsetX = (int)Math.Round(particleOffsetX * image.Rect.W / image.Texture.OrigSize.Width - particle.Rect.W / 2);
             _ParticleOffsetY = (int)Math.Round(particleOffsetY * image.Rect.H / image.Texture.OrigSize.Height - particle.Rect.H / 2);
-            Active = true;
+            Visible = true;
         }
 
         public float X
@@ -80,6 +79,7 @@ namespace Vocaluxe.Screens
         {
             get { return _Image.Rect.W; }
         }
+
         public float H
         {
             get { return _Image.Rect.H; }
@@ -95,14 +95,15 @@ namespace Vocaluxe.Screens
             }
         }
 
-        public void Draw()
+        public bool Visible
         {
-            if (Active)
+            set
             {
-                _Image.Draw();
-                _ImgDot.Draw();
-                _Particle.Draw();
+                _Image.Visible = value;
+                _ImgDot.Visible = value;
+                _Particle.Visible = value;
             }
+            get { return _Image.Visible; }
         }
     }
 
@@ -142,7 +143,7 @@ namespace Vocaluxe.Screens
         private CTextureRef _TexNamePantero;
         private CTextureRef _TexNamePinky007;
 
-        private static readonly SColorF _BGColor = new SColorF(0, 0.18f, 0.474f, 1);
+        private SThemeBackground _BGTheme;
 
         public override void Init()
         {
@@ -181,6 +182,9 @@ namespace Vocaluxe.Screens
                         "of your abilities!";
             words = paragraph.Split(new char[] {' '});
             _Paragraphs.Add(words);
+
+            _BGTheme.Type = EBackgroundTypes.Color;
+            _BGTheme.Color = new SThemeColor {Name = null, R = 0, G = 0.18f, B = 0.474f, A = 1};
         }
 
         public override void LoadTheme(string xmlPath)
@@ -240,6 +244,35 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
+
+            CBackground bg = new CBackground(_BGTheme, -1);
+            _AddBackground(bg);
+
+            //Vocaluxe-Logo
+            _Logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1),
+                                 new SRectF((float)(CSettings.RenderW - _TexLogo.OrigSize.Width) / 2, -270, _TexLogo.OrigSize.Width, _TexLogo.OrigSize.Height, -2));
+            _AddStatic(_Logo);
+
+            //Little stars for logo
+            var numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
+            var partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
+            _StarsRed = _GetStarParticles(numstars, true, partRect, true);
+            _StarsBlue = _GetStarParticles(numstars, false, partRect, true);
+            _AddParticleEffect(_StarsRed);
+            _AddParticleEffect(_StarsBlue);
+
+            //Credit names
+            _CreditNames = new List<CCreditName>();
+
+            _AddNewCreditName(_TexNameBrunzel, 502, 29, true);
+            _AddNewCreditName(_TexNameDarkice, 360, 55, true);
+            _AddNewCreditName(_TexNameFlokuep, 214, 14, true);
+            _AddNewCreditName(_TexNameFlamefire, 496, 46, true);
+            _AddNewCreditName(_TexNameBohning, 383, 54, false);
+            _AddNewCreditName(_TexNameMesand, 525, 13, false);
+            _AddNewCreditName(_TexNameBabene03, 33, 26, false);
+            _AddNewCreditName(_TexNamePantero, 311, 45, false);
+            _AddNewCreditName(_TexNamePinky007, 113, 50, false);
         }
 
         public override void ReloadTheme(string xmlPath) {}
@@ -290,10 +323,10 @@ namespace Vocaluxe.Screens
 
         private void _AddNewCreditName(CTextureRef texture, int particleOffsetX, int particleOffsetY, bool bigParticles)
         {
-            bool isRight = _CreditNames.Count % 2 == 0;
+            bool isRed = _CreditNames.Count % 2 == 0;
             int partRectSize = bigParticles ? 25 : 20;
             int partCount = bigParticles ? 8 : 6;
-            CTextureRef texDot = isRight ? _TexRedDot : _TexBlueDot;
+            CTextureRef texDot = isRed ? _TexRedDot : _TexBlueDot;
 
             CStatic image = GetNewStatic(texture, new SColorF(1, 1, 1, 1), new SRectF(-1, -1, 400, 120, -4));
 
@@ -301,50 +334,35 @@ namespace Vocaluxe.Screens
             SRectF imgDotRect = particleRect;
             imgDotRect.Z = -5;
             CStatic imgDot = GetNewStatic(texDot, new SColorF(1, 1, 1, 1), imgDotRect);
-            CParticleEffect particle = _GetStarParticles(partCount, isRight, particleRect, bigParticles);
+            CParticleEffect particle = _GetStarParticles(partCount, isRed, particleRect, bigParticles);
 
             var credit = new CCreditName(image, imgDot, particle, particleOffsetX, particleOffsetY);
 
-            if (isRight)
-            {
-                credit.X = CSettings.RenderW;
-                credit.Direction = EDirection.Right;
-            }
-            else
-            {
-                credit.X = -450;
-                credit.Direction = EDirection.Left;
-            }
-            credit.Y = 580;
             _CreditNames.Add(credit);
+            _AddStatic(image);
+            _AddStatic(imgDot);
+            _AddParticleEffect(particle);
         }
 
         public override void OnShow()
         {
             base.OnShow();
 
-            //Vocaluxe-Logo
-            _Logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1),
-                                 new SRectF((float)(CSettings.RenderW - _TexLogo.OrigSize.Width) / 2, -270, _TexLogo.OrigSize.Width, _TexLogo.OrigSize.Height, -2));
-
-            //Little stars for logo
-            var numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
-            var partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
-            _StarsRed = _GetStarParticles(numstars, true, partRect, true);
-            _StarsBlue = _GetStarParticles(numstars, false, partRect, true);
-
-            //Credit names
-            _CreditNames = new List<CCreditName>();
-
-            _AddNewCreditName(_TexNameBrunzel, 502, 29, true);
-            _AddNewCreditName(_TexNameDarkice, 360, 55, true);
-            _AddNewCreditName(_TexNameFlokuep, 214, 14, true);
-            _AddNewCreditName(_TexNameFlamefire, 496, 46, true);
-            _AddNewCreditName(_TexNameBohning, 383, 54, false);
-            _AddNewCreditName(_TexNameMesand, 525, 13, false);
-            _AddNewCreditName(_TexNameBabene03, 33, 26, false);
-            _AddNewCreditName(_TexNamePantero, 311, 45, false);
-            _AddNewCreditName(_TexNamePinky007, 113, 50, false);
+            foreach (CText text in _ParagraphTexts)
+                text.Visible = false;
+            bool isRight = true;
+            foreach (CCreditName name in _CreditNames)
+            {
+                name.Visible = true;
+                name.Direction = isRight ? EDirection.Right : EDirection.Left;
+                name.X = -name.W;
+                name.Y = 580;
+                name.Alpha = 1;
+                isRight = !isRight;
+            }
+            _Logo.Y = -270;
+            _StarsRed.Y = _Logo.Y;
+            _StarsBlue.Y = _Logo.Y;
 
             _TextTimer.Reset();
             _LogoTimer.Reset();
@@ -356,31 +374,6 @@ namespace Vocaluxe.Screens
             base.OnShowFinish();
 
             _LogoTimer.Start();
-        }
-
-        public override void Draw()
-        {
-            base.Draw();
-
-            //Draw background
-            CDraw.DrawRect(_BGColor, CSettings.RenderRect);
-
-            //Draw stars
-            _StarsBlue.Draw();
-            _StarsRed.Draw();
-
-            _Logo.Draw();
-
-            //Draw credit-entries
-            foreach (CCreditName cn in _CreditNames)
-                cn.Draw();
-
-            //Draw Text
-            if (_TextTimer.IsRunning)
-            {
-                foreach (CText text in _ParagraphTexts)
-                    text.Draw();
-            }
         }
 
         private bool _Animation()
@@ -396,10 +389,7 @@ namespace Vocaluxe.Screens
                 if (_LogoTimer.ElapsedMilliseconds >= 2000 && !_CreditsTimer.IsRunning)
                     _CreditsTimer.Start();
                 if (_LogoTimer.ElapsedMilliseconds >= 3000)
-                {
                     _LogoTimer.Stop();
-                    _LogoTimer.Reset();
-                }
             }
 
             if (_CreditsTimer.IsRunning)
@@ -408,71 +398,63 @@ namespace Vocaluxe.Screens
 
                 for (int i = 0; i < _CreditNames.Count; i++)
                 {
-                    if (_CreditNames[i].Active)
+                    if (!_CreditNames[i].Visible)
+                        continue;
+                    switch (_CreditNames[i].Direction)
                     {
-                        switch (_CreditNames[i].Direction)
-                        {
-                            case EDirection.Right:
-                                if (i * 4000f <= _CreditsTimer.ElapsedMilliseconds)
+                        case EDirection.Right:
+                            if (i * 4000f <= _CreditsTimer.ElapsedMilliseconds)
+                            {
+                                _CreditNames[i].X = -450 + (((CSettings.RenderW - _CreditNames[i].W) / 2) / 3000f) * (_CreditsTimer.ElapsedMilliseconds - (i * 4000f));
+
+                                //Check if name is in middle of screen and should go up
+                                if (_CreditNames[i].X >= (CSettings.RenderW - _CreditNames[i].W) / 2)
                                 {
-                                    _CreditNames[i].X = -450 + (((CSettings.RenderW - _CreditNames[i].W) / 2) / 3000f) * (_CreditsTimer.ElapsedMilliseconds - (i * 4000f));
-
-                                    //Check if name is in middle of screen and should go up
-                                    if (_CreditNames[i].X >= (CSettings.RenderW - _CreditNames[i].W) / 2)
-                                    {
-                                        _CreditNames[i].Direction = EDirection.Up;
-                                        _CreditNames[i].StartTimeUp = _CreditsTimer.ElapsedMilliseconds;
-                                    }
+                                    _CreditNames[i].Direction = EDirection.Up;
+                                    _CreditNames[i].StartTimeUp = _CreditsTimer.ElapsedMilliseconds;
                                 }
-                                break;
+                            }
+                            break;
 
-                            case EDirection.Left:
-                                if (i * 4000f <= _CreditsTimer.ElapsedMilliseconds)
+                        case EDirection.Left:
+                            if (i * 4000f <= _CreditsTimer.ElapsedMilliseconds)
+                            {
+                                _CreditNames[i].X = CSettings.RenderW -
+                                                    (((CSettings.RenderW - _CreditNames[i].W) / 2) / 3000f) * (_CreditsTimer.ElapsedMilliseconds - (i * 4000f));
+
+                                //Check if name is in middle of screen and should go up
+                                if (_CreditNames[i].X <= (CSettings.RenderW - _CreditNames[i].W) / 2)
                                 {
-                                    _CreditNames[i].X = CSettings.RenderW -
-                                                        (((CSettings.RenderW - _CreditNames[i].W) / 2) / 3000f) * (_CreditsTimer.ElapsedMilliseconds - (i * 4000f));
-
-                                    //Check if name is in middle of screen and should go up
-                                    if (_CreditNames[i].X <= (CSettings.RenderW - _CreditNames[i].W) / 2)
-                                    {
-                                        _CreditNames[i].Direction = EDirection.Up;
-                                        _CreditNames[i].StartTimeUp = _CreditsTimer.ElapsedMilliseconds;
-                                    }
+                                    _CreditNames[i].Direction = EDirection.Up;
+                                    _CreditNames[i].StartTimeUp = _CreditsTimer.ElapsedMilliseconds;
                                 }
-                                break;
+                            }
+                            break;
 
-                            case EDirection.Up:
-                                _CreditNames[i].Y = 580 - (430f / 3000f) * (_CreditsTimer.ElapsedMilliseconds - _CreditNames[i].StartTimeUp);
+                        case EDirection.Up:
+                            _CreditNames[i].Y = 580 - (430f / 3000f) * (_CreditsTimer.ElapsedMilliseconds - _CreditNames[i].StartTimeUp);
 
-                                //Set name inactive
-                                if (_CreditNames[i].Y <= 160f)
+                            //Set name inactive
+                            if (_CreditNames[i].Y <= 160f)
+                            {
+                                _CreditNames[i].Visible = false;
+                                //Check, if last name is shown
+                                if (i == _CreditNames.Count - 1)
                                 {
-                                    _CreditNames[i].Active = false;
-                                    //Check, if last name is set to false
-                                    if (i == _CreditNames.Count - 1)
-                                    {
-                                        //Stop and reset timer for next time
-                                        _CreditsTimer.Stop();
-                                        _CreditsTimer.Reset();
-
-                                        //Start Text-Timer
-                                        _TextTimer.Start();
-                                    }
+                                    _CreditsTimer.Stop();
+                                    _TextTimer.Start();
+                                    foreach (CText text in _ParagraphTexts)
+                                        text.Visible = true;
                                 }
-                                else if (_CreditNames[i].Y <= 360f)
-                                {
-                                    //Fade names out
-                                    float alpha = (360 - _CreditNames[i].Y) / 200;
-                                    //Catch some bad alpha-values
-                                    if (alpha > 1)
-                                        alpha = 1;
-                                    else if (alpha < 0)
-                                        alpha = 0;
-                                    _CreditNames[i].Alpha = 1 - alpha;
-                                }
+                            }
+                            else if (_CreditNames[i].Y <= 360f)
+                            {
+                                //Fade names out
+                                float alpha = ((360 - _CreditNames[i].Y) / 200).Clamp(0, 1);
+                                _CreditNames[i].Alpha = 1 - alpha;
+                            }
 
-                                break;
-                        }
+                            break;
                     }
                 }
             }

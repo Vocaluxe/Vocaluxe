@@ -187,8 +187,11 @@ namespace VocaluxeLib.Menu
         {
             _Theme.Color.Get(_PartyModeID, out Color);
 
-            foreach (string s in _Theme.SlideShowTextures)
-                _SlideShowTextures.Add(CBase.Themes.GetSkinTexture(s, _PartyModeID));
+            if (_Theme.Type == EBackgroundTypes.SlideShow)
+            {
+                foreach (string s in _Theme.SlideShowTextures)
+                    _SlideShowTextures.Add(CBase.Themes.GetSkinTexture(s, _PartyModeID));
+            }
 
             if (_Theme.Type == EBackgroundTypes.Video)
                 _VideoStream = CBase.Themes.GetSkinVideo(_Theme.VideoName, _PartyModeID, true);
