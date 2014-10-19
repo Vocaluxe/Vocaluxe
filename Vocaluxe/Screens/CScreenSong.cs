@@ -465,8 +465,11 @@ namespace Vocaluxe.Screens
                 }
             }
 
-            if (_SongMenu.HandleMouse(ref mouseEvent, _Sso))
-                mouseEvent.Handled = true;
+            if (_CurSongOptionsView == ESongOptionsView.None)
+            {
+                if (_SongMenu.HandleMouse(ref mouseEvent, _Sso))
+                    mouseEvent.Handled = true;
+            }
 
             if (mouseEvent.Handled)
             {
