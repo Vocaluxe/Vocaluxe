@@ -174,9 +174,12 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             // Passing CLOCK_TIME_NONE here causes the pipeline to block for a long time so with
             // prescan enabled the pipeline will wait 500ms for stream to initialize and then continue
             // if it takes more than 500ms, duration queries will be performed asynchronously
-            Message msg = _Element.Bus.TimedPopFiltered(prescan ? ulong.MaxValue : 0L, MessageType.AsyncDone);
-            if (msg.Handle != IntPtr.Zero)
-                _UpdateDuration();
+            Message msg = _Element.Bus.TimedPopFiltered(prescan ? ulong.MaxValue : 0L, MessageType.AsyncDone | MessageType.Error);
+            if (!_OnMessage(msg))
+            {
+                _Dispose(true);
+                return false;
+            }
             _FileOpened = true;
             return true;
         }
@@ -231,10 +234,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 _Element["volume"] = Volume * VolumeMax;
         }
 
-        private void _OnMessage(Message msg)
+        private bool _OnMessage(Message msg)
         {
             if (msg.Handle == IntPtr.Zero)
-                return;
+                return true;
             switch (msg.Type)
             {
                 case MessageType.Eos:
@@ -248,12 +251,13 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                     string debug;
                     msg.ParseError(out error, out debug);
                     CLog.LogError("Gstreamer error: message" + error.Message + ", code" + error.Code + " ,debug information" + debug);
-                    break;
+                    return false;
                 case MessageType.DurationChanged:
                     _UpdateDuration();
                     break;
             }
             msg.Dispose();
+            return true;
         }
 
         public override void Update()
