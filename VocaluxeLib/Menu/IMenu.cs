@@ -35,12 +35,12 @@ namespace VocaluxeLib.Menu
         bool HandleMouseThemeEditor(SMouseEvent mouseEvent);
 
         bool UpdateGame();
+        void Draw();
         void ApplyVolume();
         void OnShow();
         void OnShowFinish();
         void OnClose();
 
-        bool Draw();
         SRectF ScreenArea { get; }
 
         void NextInteraction();

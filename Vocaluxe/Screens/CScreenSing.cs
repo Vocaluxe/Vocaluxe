@@ -456,7 +456,7 @@ namespace Vocaluxe.Screens
             _LoadNextSong();
         }
 
-        public override bool Draw()
+        public override void Draw()
         {
             if (_Active)
             {
@@ -501,8 +501,6 @@ namespace Vocaluxe.Screens
                 _SingNotes[_SingBars].Draw(_NoteLines[i], CGame.Players[i].SungLines, i);
 
             _DrawLyricHelper();
-
-            return true;
         }
 
         public override void OnClose()
@@ -1314,7 +1312,7 @@ namespace Vocaluxe.Screens
                             _TimeRects[i].Rect.Color = _Statics[_StaticTimeLineExpandedNormal].Color;
                         }
                     }
-                    _Statics[_StaticTimePointer].Rect.X = stat.Rect.X + stat.Rect.W * (currentTime / totalTime);
+                    _Statics[_StaticTimePointer].X = stat.X + stat.W * (currentTime / totalTime);
                     break;
             }
         }
@@ -1325,7 +1323,7 @@ namespace Vocaluxe.Screens
             switch (CConfig.TimerLook)
             {
                 case ETimerLook.TR_CONFIG_TIMERLOOK_NORMAL:
-                    _TimeLineRect = new SRectF(stat.Rect.X, stat.Rect.Y, 0f, stat.Rect.H, stat.Rect.Z);
+                    _TimeLineRect = stat.Rect;
                     _Statics[_StaticTimePointer].Visible = false;
                     break;
 

@@ -90,7 +90,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeStatic StaticMedleyTagIcon;
     }
 
-    abstract class CSongMenuFramework : ISongMenu
+    public abstract class CSongMenuFramework : CMenuElementBase, ISongMenu
     {
         protected readonly int _PartyModeID;
         protected SThemeSongMenu _Theme;
@@ -99,6 +99,11 @@ namespace VocaluxeLib.Menu.SongMenu
         public bool ThemeLoaded
         {
             get { return _ThemeLoaded; }
+        }
+
+        public bool Selectable
+        {
+            get { return Visible; }
         }
 
         protected bool _Initialized;
@@ -138,19 +143,6 @@ namespace VocaluxeLib.Menu.SongMenu
             return _PreviewNr;
         }
 
-        public SRectF Rect { get; protected set; }
-        public bool Active { get; set; }
-        private bool _Selected;
-        public bool Selected
-        {
-            get { return _Selected; }
-            set
-            {
-                _Selected = value;
-                Active = value;
-            }
-        }
-        public bool Visible { get; set; }
         public virtual bool SmallView { get; set; }
         public abstract float SelectedTileZoomFactor { get; }
         // This is the nr of the current selection (song or category)
@@ -245,13 +237,9 @@ namespace VocaluxeLib.Menu.SongMenu
             _Initialized = true;
         }
 
-        public virtual void Update(SScreenSongOptions songOptions)
-        {
-            if (!_Initialized)
-                return;
-        }
+        public abstract void Update(SScreenSongOptions songOptions);
 
-        public virtual void OnShow() {}
+        public abstract void OnShow();
 
         public virtual void OnHide()
         {
@@ -398,33 +386,24 @@ namespace VocaluxeLib.Menu.SongMenu
         }
 
         #region ThemeEdit
-        private void _UpdateRect(SRectF rect)
-        {
-            Rect = rect;
-            Init();
-        }
-
         public void MoveElement(int stepX, int stepY)
         {
-            SRectF rect = Rect;
-            rect.X += stepX;
-            rect.Y += stepY;
-            _UpdateRect(rect);
+            X += stepX;
+            Y += stepY;
+            Init();
         }
 
         public void ResizeElement(int stepW, int stepH)
         {
-            SRectF rect = Rect;
+            W += stepW;
+            if (W < 100)
+                W = 100;
 
-            rect.W += stepW;
-            if (rect.W < 100)
-                rect.W = 100;
+            H += stepH;
+            if (H < 100)
+                H = 100;
 
-            rect.H += stepH;
-            if (rect.H < 100)
-                rect.H = 100;
-
-            _UpdateRect(rect);
+            Init();
         }
         #endregion ThemeEdit
     }

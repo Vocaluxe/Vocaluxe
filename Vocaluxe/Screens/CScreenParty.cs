@@ -127,13 +127,6 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
-        {
-            base.Draw();
-
-            return true;
-        }
-
         private void _UpdateSelection()
         {
             if (_PartyModeInfos.Count == 0)

@@ -144,12 +144,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             return true;
         }
 
-        public override bool Draw()
-        {
-            base.Draw();
-            return true;
-        }
-
         private void _RebuildSlides()
         {
             // build num player slide (min player ... max player);

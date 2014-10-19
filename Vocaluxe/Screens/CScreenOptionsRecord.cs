@@ -253,6 +253,10 @@ namespace Vocaluxe.Screens
                 _Equalizers[_EqualizerChannel2].Reset();
             }
 
+            bool showWarning = !_CheckMicConfig();
+            _Statics[_StaticWarning].Visible = showWarning;
+            _Texts[_TextWarning].Visible = showWarning;
+
             return true;
         }
 
@@ -297,20 +301,9 @@ namespace Vocaluxe.Screens
             CBackgroundMusic.Disabled = true;
         }
 
-        public override bool Draw()
+        public override void Draw()
         {
-            _DrawBG();
-
-            if (!_CheckMicConfig())
-            {
-                _Statics[_StaticWarning].Visible = true;
-                _Texts[_TextWarning].Visible = true;
-            }
-            else
-            {
-                _Statics[_StaticWarning].Visible = false;
-                _Texts[_TextWarning].Visible = false;
-            }
+            base.Draw();
 
             for (int i = 0; i < _StaticEnergyChannel.Length; i++)
             {
@@ -326,10 +319,6 @@ namespace Vocaluxe.Screens
                                       new SColorF(1f, 1f, 1f, 1f), rect);
                 }
             }
-
-            _DrawFG();
-
-            return true;
         }
 
         public override void OnClose()

@@ -64,7 +64,7 @@ namespace VocaluxeLib.Menu
         public int NumVisible;
     }
 
-    public class CSelectSlide : IMenuElement, ICloneable
+    public sealed class CSelectSlide : CMenuElementBase, IMenuElement, ICloneable, IThemeable
     {
         private readonly int _PartyModeID;
         private SThemeSelectSlide _Theme;
@@ -80,7 +80,6 @@ namespace VocaluxeLib.Menu
             get { return _ThemeLoaded; }
         }
 
-        public SRectF Rect;
         public SRectF RectArrowLeft;
         public SRectF RectArrowRight;
 
@@ -99,13 +98,46 @@ namespace VocaluxeLib.Menu
         public float TextH;
         public float MaxW;
 
-        private bool _Selected;
-        public bool Selected
+        public bool Selectable
         {
-            get { return _Selected; }
+            get { return Visible; }
+        }
+        public override float X
+        {
             set
             {
-                _Selected = value;
+                float delta = value - X;
+                RectArrowLeft.X += delta;
+                RectArrowRight.X += delta;
+                base.X = value;
+            }
+        }
+        public override float Y
+        {
+            set
+            {
+                float delta = value - Y;
+                RectArrowLeft.Y += delta;
+                RectArrowRight.Y += delta;
+                base.Y = value;
+            }
+        }
+        public override float Z
+        {
+            set
+            {
+                float delta = value - Z;
+                RectArrowLeft.Z += delta;
+                RectArrowRight.Z += delta;
+                base.Z = value;
+            }
+        }
+
+        public override bool Selected
+        {
+            set
+            {
+                base.Selected = value;
 
                 if (!value)
                 {
@@ -116,11 +148,8 @@ namespace VocaluxeLib.Menu
         }
         public bool ValueSelected
         {
-            get { return _Selected && !_ArrowLeftSelected && !_ArrowRightSelected; }
+            get { return Selected && !_ArrowLeftSelected && !_ArrowRightSelected; }
         }
-
-        public bool Visible = true;
-        public bool Highlighted;
 
         public bool SelectionByHover;
 
@@ -179,25 +208,10 @@ namespace VocaluxeLib.Menu
         public CSelectSlide(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeSelectSlide();
             _ThemeLoaded = false;
-
-            Rect = new SRectF();
-            RectArrowLeft = new SRectF();
-            RectArrowRight = new SRectF();
-
-            Color = new SColorF();
-            SelColor = new SColorF();
-
-            ColorArrow = new SColorF();
-            SelColorArrow = new SColorF();
-
-            TextColor = new SColorF();
-            SelTextColor = new SColorF();
             TextH = 1f;
             MaxW = 0f;
 
-            _Selected = false;
             _Textures = new List<CTextureRef>();
             _ValueIndexes = new List<int>();
             _ValueNames = new List<string>();
@@ -228,7 +242,7 @@ namespace VocaluxeLib.Menu
 
             _ThemeLoaded = false;
 
-            Rect = slide.Rect;
+            MaxRect = slide.MaxRect;
             RectArrowLeft = slide.RectArrowLeft;
             RectArrowRight = slide.RectArrowRight;
 
@@ -245,7 +259,6 @@ namespace VocaluxeLib.Menu
             TextRelativeY = slide.TextRelativeY;
             MaxW = slide.MaxW;
 
-            _Selected = slide._Selected;
             _Textures = new List<CTextureRef>(slide._Textures);
             _ValueIndexes = new List<int>(slide._ValueIndexes);
             _ValueNames = new List<string>(slide._ValueNames);
@@ -263,7 +276,6 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
             _Theme = theme;
 
-            _Selected = false;
             _Textures = new List<CTextureRef>();
             _ValueIndexes = new List<int>();
             _ValueNames = new List<string>();
@@ -703,7 +715,7 @@ namespace VocaluxeLib.Menu
             _Theme.TextColor.Get(_PartyModeID, out TextColor);
             _Theme.TextSColor.Get(_PartyModeID, out SelTextColor);
 
-            Rect = _Theme.Rect;
+            MaxRect = _Theme.Rect;
             RectArrowLeft = _Theme.RectArrowLeft;
             RectArrowRight = _Theme.RectArrowRight;
 
@@ -729,15 +741,6 @@ namespace VocaluxeLib.Menu
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
-            if (!_ArrowLeftSelected && !_ArrowRightSelected)
-            {
-                Rect.X += stepX;
-                Rect.Y += stepY;
-
-                _Theme.Rect.X += stepX;
-                _Theme.Rect.Y += stepY;
-            }
-
             if (_ArrowLeftSelected)
             {
                 RectArrowLeft.X += stepX;
@@ -746,12 +749,23 @@ namespace VocaluxeLib.Menu
                 _Theme.RectArrowLeft.X += stepX;
                 _Theme.RectArrowLeft.Y += stepY;
             }
-
-            if (_ArrowRightSelected)
+            else if (_ArrowRightSelected)
             {
                 RectArrowRight.X += stepX;
                 RectArrowRight.Y += stepY;
 
+                _Theme.RectArrowRight.X += stepX;
+                _Theme.RectArrowRight.Y += stepY;
+            }
+            else
+            {
+                X += stepX;
+                Y += stepY;
+
+                _Theme.Rect.X += stepX;
+                _Theme.Rect.Y += stepY;
+                _Theme.RectArrowLeft.X += stepX;
+                _Theme.RectArrowLeft.Y += stepY;
                 _Theme.RectArrowRight.X += stepX;
                 _Theme.RectArrowRight.Y += stepY;
             }
@@ -761,13 +775,13 @@ namespace VocaluxeLib.Menu
         {
             if (!_ArrowLeftSelected && !_ArrowRightSelected)
             {
-                Rect.W += stepW;
-                if (Rect.W <= 0)
-                    Rect.W = 1;
+                W += stepW;
+                if (W <= 0)
+                    W = 1;
 
-                Rect.H += stepH;
-                if (Rect.H <= 0)
-                    Rect.H = 1;
+                H += stepH;
+                if (H <= 0)
+                    H = 1;
 
                 _Theme.Rect.W = Rect.W;
                 _Theme.Rect.H = Rect.H;

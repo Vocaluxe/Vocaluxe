@@ -174,13 +174,13 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 _NumH = _Theme.SongMenuTileBoard.NumHsmall;
                 _NumW = _Theme.SongMenuTileBoard.NumWsmall;
-                Rect = _Theme.SongMenuTileBoard.TileRectSmall;
+                MaxRect = _Theme.SongMenuTileBoard.TileRectSmall;
             }
             else
             {
                 _NumH = _Theme.SongMenuTileBoard.NumH;
                 _NumW = _Theme.SongMenuTileBoard.NumW;
-                Rect = _Theme.SongMenuTileBoard.TileRect;
+                MaxRect = _Theme.SongMenuTileBoard.TileRect;
             }
 
             _TileW = (int)((Rect.W - _Theme.SongMenuTileBoard.SpaceW * (_NumW - 1)) / _NumW);
@@ -204,8 +204,6 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public override void Update(SScreenSongOptions songOptions)
         {
-            base.Update(songOptions);
-
             if (songOptions.Selection.RandomOnly)
                 _PreviewNr = _SelectionNr;
 
@@ -482,7 +480,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             foreach (CStatic tile in _Tiles)
             {
-                if (tile.Selected && Active)
+                if (tile.Selected && Selected)
                     tile.Draw(EAspect.Crop, SelectedTileZoomFactor, -0.1f);
                 else
                 {

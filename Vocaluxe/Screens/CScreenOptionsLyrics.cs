@@ -113,12 +113,6 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
-        {
-            base.Draw();
-            return true;
-        }
-
         private void _SaveConfig()
         {
             CConfig.LyricsPosition = (ELyricsPosition)_SelectSlides[_SelectSlideLyricsPosition].Selection;

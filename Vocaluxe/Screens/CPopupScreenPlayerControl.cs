@@ -186,18 +186,17 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
+        public override void Draw()
         {
             if (!_Active)
-                return false;
+                return;
+            base.Draw();
             _Statics[_StaticCover].Texture = CBackgroundMusic.Cover;
             if (CBackgroundMusic.VideoEnabled && _VideoPreview && CBackgroundMusic.SongHasVideo)
                 CDraw.DrawTexture(CBackgroundMusic.GetVideoTexture(), _Statics[_StaticCover].Rect, EAspect.Crop);
             _Buttons[_ButtonPause].Visible = CBackgroundMusic.IsPlaying;
             _Buttons[_ButtonPlay].Visible = !CBackgroundMusic.IsPlaying;
             _Texts[_TextCurrentSong].Text = CBackgroundMusic.ArtistAndTitle;
-
-            return base.Draw();
         }
 
         private void _StartSong(int songNr)

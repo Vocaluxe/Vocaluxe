@@ -81,6 +81,7 @@ namespace VocaluxeLib.Menu
         protected string[] _ThemePlaylists;
         protected string[] _ThemeParticleEffects;
         protected string[] _ThemeScreenSettings;
+        protected readonly Dictionary<string, CScreenSetting> _ScreenSettings = new Dictionary<string, CScreenSetting>();
 
         // ReSharper restore MemberCanBePrivate.Global
 
@@ -117,9 +118,15 @@ namespace VocaluxeLib.Menu
         }
 
         #region ThemeHandler
+        protected override void _ClearElements()
+        {
+            base._ClearElements();
+            _ScreenSettings.Clear();
+        }
+
         private delegate void AddElementHandler<in T>(T element, String key);
 
-        private void _LoadThemeElement<T>(IEnumerable<string> elements, AddElementHandler<T> addElementHandler, CXMLReader xmlReader) where T : IMenuElement
+        private void _LoadThemeElement<T>(IEnumerable<string> elements, AddElementHandler<T> addElementHandler, CXMLReader xmlReader) where T : IThemeable
         {
             if (elements != null)
             {
@@ -198,7 +205,7 @@ namespace VocaluxeLib.Menu
                     _AddSingNote(new CSingNotesClassic(sb, PartyModeID), sb.Name);
 
                 foreach (SThemeSongMenu sm in Theme.SongMenus)
-                    _AddSongMenu(new CSongMenu(sm, PartyModeID), sm.Name);
+                    _AddSongMenu(CSongMenuFactory.GetSongMenu(sm, PartyModeID), sm.Name);
 
                 foreach (SThemeStatic st in Theme.Statics)
                     _AddStatic(new CStatic(st, PartyModeID), st.Name);
@@ -227,6 +234,11 @@ namespace VocaluxeLib.Menu
             }
         }
 
+        private void _AddScreenSetting(CScreenSetting screenSetting, string name)
+        {
+            _ScreenSettings.Add(name, screenSetting);
+        }
+
         public virtual void LoadThemeOld(string xmlPath)
         {
             string file = Path.Combine(xmlPath, ThemeName + ".xml");
@@ -247,7 +259,15 @@ namespace VocaluxeLib.Menu
                 _LoadThemeElement<CText>(_ThemeTexts, _AddText, xmlReader);
                 _LoadThemeElement<CButton>(_ThemeButtons, _AddButton, xmlReader);
                 _LoadThemeElement<CSelectSlide>(_ThemeSelectSlides, _AddSelectSlide, xmlReader);
-                _LoadThemeElement<CSongMenu>(_ThemeSongMenus, _AddSongMenu, xmlReader);
+                foreach (string elName in _ThemeSongMenus)
+                {
+                    ISongMenu element = CSongMenuFactory.GetSongMenu(PartyModeID);
+                    if (element.LoadTheme("//root/" + ThemeName, elName, xmlReader))
+                        _AddSongMenu(element, elName);
+                    else
+                        CBase.Log.LogError("Can't load songmenu \"" + elName + "\" in screen " + ThemeName);
+                }
+                _LoadThemeElement<CSongMenuFramework>(_ThemeSongMenus, _AddSongMenu, xmlReader);
                 _LoadThemeElement<CLyric>(_ThemeLyrics, _AddLyric, xmlReader);
                 _LoadThemeElement<CSingNotesClassic>(_ThemeSingNotes, _AddSingNote, xmlReader);
                 _LoadThemeElement<CNameSelection>(_ThemeNameSelections, _AddNameSelection, xmlReader);
@@ -293,7 +313,7 @@ namespace VocaluxeLib.Menu
                     Theme.ParticleEffects.Add(el.GetTheme());
                 foreach (CPlaylist el in _Playlists)
                     Theme.Playlists.Add(el.GetTheme());
-                foreach (CScreenSetting el in _ScreenSettings)
+                foreach (CScreenSetting el in _ScreenSettings.Values)
                     Theme.ScreenSettings.Add(el.GetTheme());
                 foreach (CSelectSlide el in _SelectSlides)
                     Theme.SelectSlides.Add(el.GetTheme());
@@ -301,7 +321,7 @@ namespace VocaluxeLib.Menu
                     Theme.Statics.Add(el.GetTheme());
                 foreach (CText el in _Texts)
                     Theme.Texts.Add(el.GetTheme());
-                foreach (CSongMenu el in _SongMenus)
+                foreach (CSongMenuFramework el in _SongMenus)
                     Theme.SongMenus.Add(el.GetTheme());
                 foreach (CSingNotes el in _SingNotes)
                     Theme.SingNotes.Add(el.GetTheme());
@@ -342,7 +362,7 @@ namespace VocaluxeLib.Menu
             foreach (CSelectSlide slide in _SelectSlides)
                 slide.ReloadSkin();
 
-            foreach (CSongMenu sm in _SongMenus)
+            foreach (CSongMenuFramework sm in _SongMenus)
                 sm.ReloadSkin();
 
             foreach (CLyric lyric in _Lyrics)
@@ -362,9 +382,6 @@ namespace VocaluxeLib.Menu
 
             foreach (CParticleEffect pe in _ParticleEffects)
                 pe.ReloadSkin();
-
-            foreach (CScreenSetting se in _ScreenSettings)
-                se.ReloadSkin();
         }
 
         public virtual void UnloadSkin()
@@ -384,7 +401,7 @@ namespace VocaluxeLib.Menu
             foreach (CSelectSlide slide in _SelectSlides)
                 slide.UnloadSkin();
 
-            foreach (CSongMenu sm in _SongMenus)
+            foreach (CSongMenuFramework sm in _SongMenus)
                 sm.UnloadSkin();
 
             foreach (CLyric lyric in _Lyrics)
@@ -404,9 +421,6 @@ namespace VocaluxeLib.Menu
 
             foreach (CParticleEffect pe in _ParticleEffects)
                 pe.UnloadSkin();
-
-            foreach (CScreenSetting se in _ScreenSettings)
-                se.UnloadSkin();
         }
 
         public virtual void ReloadTheme(string xmlPath)
@@ -476,11 +490,6 @@ namespace VocaluxeLib.Menu
         public static CSelectSlide GetNewSelectSlide(CSelectSlide slide)
         {
             return new CSelectSlide(slide);
-        }
-
-        public CSongMenu GetNewSongMenu()
-        {
-            return new CSongMenu(PartyModeID);
         }
 
         public CLyric GetNewLyric()

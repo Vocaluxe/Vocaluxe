@@ -33,7 +33,7 @@ namespace VocaluxeLib.Menu
         public SThemeColor SColor;
     }
 
-    public class CLyric : IMenuElement
+    public class CLyric : CMenuElementBase, IMenuElement, IThemeable
     {
         private readonly int _PartyModeID;
         private SThemeLyrics _Theme;
@@ -45,17 +45,16 @@ namespace VocaluxeLib.Menu
         private CSongLine _Line;
         private CText _Text;
 
-        private float _X;
-        private float _Y;
-        private float _MaxW;
-        private float _Z;
-        private float _H;
-
         private float _Width;
 
         private float _Alpha = 1f;
 
         private float _CurrentBeat = -1;
+
+        public bool Selectable
+        {
+            get { return false; }
+        }
 
         public string GetThemeName()
         {
@@ -67,24 +66,8 @@ namespace VocaluxeLib.Menu
             get { return _ThemeLoaded; }
         }
 
-        public SRectF Rect
-        {
-            get { return new SRectF(_X, _Y, _MaxW, _H, _Z); }
-            private set
-            {
-                _X = value.X;
-                _Y = value.Y;
-                _MaxW = value.W;
-                _H = value.H;
-                _Z = value.Z;
-            }
-        }
-
         private SColorF _Color;
         private SColorF _ColorProcessed;
-
-        public bool Selected;
-        public bool Visible = true;
 
         public float Alpha
         {
@@ -106,12 +89,6 @@ namespace VocaluxeLib.Menu
             _Color = new SColorF();
             _ColorProcessed = new SColorF();
 
-            _X = 0f;
-            _Y = 0f;
-            _Z = 0f;
-            _MaxW = 1f;
-            _H = 1f;
-            _Width = 1f;
             _Line = new CSongLine();
             _Text = new CText(_PartyModeID);
 
@@ -169,7 +146,6 @@ namespace VocaluxeLib.Menu
                 _Theme.Color.Color = _Color;
                 _Theme.SColor.Color = _ColorProcessed;
                 LoadSkin();
-                _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
             }
             return _ThemeLoaded;
         }
@@ -198,7 +174,7 @@ namespace VocaluxeLib.Menu
 
         public float GetCurrentLyricPosX()
         {
-            return _X - _Width / 2;
+            return X - _Width / 2;
         }
 
         public void Update(float currentBeat)
@@ -234,7 +210,7 @@ namespace VocaluxeLib.Menu
 
         private void _DrawSlide()
         {
-            float x = _X - _Width / 2;
+            float x = X - _Width / 2;
 
             foreach (CSongNote note in _Line.Notes)
             {
@@ -275,7 +251,7 @@ namespace VocaluxeLib.Menu
 
         private void _DrawZoom()
         {
-            float x = _X - _Width / 2; // most left position
+            float x = X - _Width / 2; // most left position
 
             //find last active note
             int lastNote = _Line.FindPreviousNote((int)_CurrentBeat);
@@ -356,7 +332,7 @@ namespace VocaluxeLib.Menu
 
         private void _DrawFill()
         {
-            float x = _X - _Width / 2; // most left position
+            float x = X - _Width / 2; // most left position
 
             foreach (CSongNote note in _Line.Notes)
             {
@@ -381,7 +357,7 @@ namespace VocaluxeLib.Menu
 
         private void _DrawJump()
         {
-            float x = _X - _Width / 2; // most left position
+            float x = X - _Width / 2; // most left position
 
             //find last active note
             int lastNote = _Line.FindPreviousNote((int)_CurrentBeat);
@@ -455,8 +431,8 @@ namespace VocaluxeLib.Menu
             _Theme.Color.Get(_PartyModeID, out _Color);
             _Theme.SColor.Get(_PartyModeID, out _ColorProcessed);
 
-            Rect = _Theme.Rect;
-            _Text = new CText(_X, _Y, _Z, _H, _MaxW, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
+            MaxRect = _Theme.Rect;
+            _Text = new CText(X, Y, Z, H, W, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
         }
 
         public void ReloadSkin()
@@ -473,26 +449,24 @@ namespace VocaluxeLib.Menu
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
-            SRectF rect = Rect;
-            rect.X += stepX;
-            rect.Y += stepY;
-            Rect = rect;
-            _Theme.Rect = rect;
+            X += stepX;
+            Y += stepY;
+            _Theme.Rect.X += stepX;
+            _Theme.Rect.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
         {
-            SRectF rect = Rect;
-            rect.W += stepW;
-            if (rect.W <= 0)
-                rect.W = 1;
+            W += stepW;
+            if (W <= 0)
+                W = 1;
 
-            rect.H += stepH;
-            if (rect.H <= 0)
-                rect.H = 1;
+            H += stepH;
+            if (H <= 0)
+                H = 1;
 
-            Rect = rect;
-            _Theme.Rect = rect;
+            _Theme.Rect.W = Rect.W;
+            _Theme.Rect.H = Rect.H;
         }
         #endregion ThemeEdit
     }

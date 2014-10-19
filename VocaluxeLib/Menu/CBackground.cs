@@ -44,7 +44,7 @@ namespace VocaluxeLib.Menu
         public SThemeColor Color;
     }
 
-    public class CBackground : IMenuElement
+    public class CBackground : CMenuElementBase, IMenuElement, IThemeable
     {
         private readonly int _PartyModeID;
         private SThemeBackground _Theme;
@@ -55,6 +55,11 @@ namespace VocaluxeLib.Menu
         private readonly List<CTextureRef> _SlideShowTextures = new List<CTextureRef>();
 
         private CVideoStream _VideoStream;
+
+        public bool Selectable
+        {
+            get { return false; }
+        }
 
         public SColorF Color;
         public bool ThemeLoaded

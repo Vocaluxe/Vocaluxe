@@ -32,9 +32,6 @@ namespace VocaluxeLib.Menu
         private int _PrevMouseX;
         private int _PrevMouseY;
 
-        protected int _MouseDX;
-        protected int _MouseDY;
-
         protected bool _Active;
 
         protected readonly COrderedDictionaryLite<CButton> _Buttons;
@@ -42,30 +39,28 @@ namespace VocaluxeLib.Menu
         protected readonly COrderedDictionaryLite<CBackground> _Backgrounds;
         protected readonly COrderedDictionaryLite<CStatic> _Statics;
         protected readonly COrderedDictionaryLite<CSelectSlide> _SelectSlides;
-        protected readonly COrderedDictionaryLite<CSongMenu> _SongMenus;
+        protected readonly COrderedDictionaryLite<ISongMenu> _SongMenus;
         protected readonly COrderedDictionaryLite<CLyric> _Lyrics;
         protected readonly COrderedDictionaryLite<CSingNotes> _SingNotes;
         protected readonly COrderedDictionaryLite<CNameSelection> _NameSelections;
         protected readonly COrderedDictionaryLite<CEqualizer> _Equalizers;
         protected readonly COrderedDictionaryLite<CPlaylist> _Playlists;
         protected readonly COrderedDictionaryLite<CParticleEffect> _ParticleEffects;
-        protected readonly COrderedDictionaryLite<CScreenSetting> _ScreenSettings;
 
-        public CObjectInteractions()
+        protected CObjectInteractions()
         {
             _Backgrounds = new COrderedDictionaryLite<CBackground>(this);
             _Buttons = new COrderedDictionaryLite<CButton>(this);
             _Texts = new COrderedDictionaryLite<CText>(this);
             _Statics = new COrderedDictionaryLite<CStatic>(this);
             _SelectSlides = new COrderedDictionaryLite<CSelectSlide>(this);
-            _SongMenus = new COrderedDictionaryLite<CSongMenu>(this);
+            _SongMenus = new COrderedDictionaryLite<ISongMenu>(this);
             _Lyrics = new COrderedDictionaryLite<CLyric>(this);
             _SingNotes = new COrderedDictionaryLite<CSingNotes>(this);
             _NameSelections = new COrderedDictionaryLite<CNameSelection>(this);
             _Equalizers = new COrderedDictionaryLite<CEqualizer>(this);
             _Playlists = new COrderedDictionaryLite<CPlaylist>(this);
             _ParticleEffects = new COrderedDictionaryLite<CParticleEffect>(this);
-            _ScreenSettings = new COrderedDictionaryLite<CScreenSetting>(this);
         }
 
         public virtual void Init()
@@ -75,13 +70,11 @@ namespace VocaluxeLib.Menu
             _PrevMouseX = 0;
             _PrevMouseY = 0;
 
-            _MouseDX = 0;
-            _MouseDY = 0;
 
             _Active = false;
         }
 
-        protected void _ClearElements()
+        protected virtual void _ClearElements()
         {
             _Interactions.Clear();
             _Backgrounds.Clear();
@@ -96,7 +89,6 @@ namespace VocaluxeLib.Menu
             _Equalizers.Clear();
             _Playlists.Clear();
             _ParticleEffects.Clear();
-            _ScreenSettings.Clear();
         }
 
         #region MenuHandler
@@ -149,8 +141,8 @@ namespace VocaluxeLib.Menu
             ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
             if (selection != _Selection)
             {
-                _UnsetHighlighted(selection);
-                _SetHighlighted(_Selection);
+                _GetElement(selection).Highlighted = false;
+                _GetElement(_Selection).Highlighted = true;
             }
 
             if (mouseEvent.LB)
@@ -164,7 +156,7 @@ namespace VocaluxeLib.Menu
 
         public virtual bool HandleInputThemeEditor(SKeyEvent keyEvent)
         {
-            _UnsetHighlighted(_Selection);
+            _GetElement(_Selection).Highlighted = false;
             if (!keyEvent.KeyPressed)
             {
                 switch (keyEvent.Key)
@@ -213,9 +205,9 @@ namespace VocaluxeLib.Menu
 
         public virtual bool HandleMouseThemeEditor(SMouseEvent mouseEvent)
         {
-            _UnsetHighlighted(_Selection);
-            _MouseDX = mouseEvent.X - _PrevMouseX;
-            _MouseDY = mouseEvent.Y - _PrevMouseY;
+            _GetElement(_Selection).Highlighted = false;
+            int mouseDX = mouseEvent.X - _PrevMouseX;
+            int mouseDY = mouseEvent.Y - _PrevMouseY;
 
             int stepX = 0;
             int stepY = 0;
@@ -235,7 +227,7 @@ namespace VocaluxeLib.Menu
                     if (mouseEvent.X - _PrevMouseX <= -5)
                         stepX -= 5;
 
-                    _PrevMouseX = mouseEvent.X - (_MouseDX - stepX);
+                    _PrevMouseX = mouseEvent.X - (mouseDX - stepX);
                 }
 
                 while (Math.Abs(mouseEvent.Y - _PrevMouseY) >= 5)
@@ -246,7 +238,7 @@ namespace VocaluxeLib.Menu
                     if (mouseEvent.Y - _PrevMouseY <= -5)
                         stepY -= 5;
 
-                    _PrevMouseY = mouseEvent.Y - (_MouseDY - stepY);
+                    _PrevMouseY = mouseEvent.Y - (mouseDY - stepY);
                 }
             }
 
@@ -258,13 +250,13 @@ namespace VocaluxeLib.Menu
                     _MoveElement(stepX, stepY);
 
                 if (mouseEvent.Mod == EModifier.Ctrl)
-                    _MoveElement(_MouseDX, _MouseDY);
+                    _MoveElement(mouseDX, mouseDY);
 
                 if (mouseEvent.Mod == EModifier.Shift)
                     _ResizeElement(stepX, stepY);
 
                 if (mouseEvent.Mod == (EModifier.Shift | EModifier.Ctrl))
-                    _ResizeElement(_MouseDX, _MouseDY);
+                    _ResizeElement(mouseDX, mouseDY);
                 //}
             }
             else
@@ -274,12 +266,48 @@ namespace VocaluxeLib.Menu
         }
         #endregion MenuHandler
 
+        private IMenuElement _GetElement(CInteraction interaction)
+        {
+            switch (interaction.Type)
+            {
+                case EType.Background:
+                    return _Backgrounds[interaction.Num];
+                case EType.Button:
+                    return _Buttons[interaction.Num];
+                case EType.SelectSlide:
+                    return _SelectSlides[interaction.Num];
+                case EType.Text:
+                    return _Texts[interaction.Num];
+                case EType.Static:
+                    return _Statics[interaction.Num];
+                case EType.SongMenu:
+                    return _SongMenus[interaction.Num];
+                case EType.Lyric:
+                    return _Lyrics[interaction.Num];
+                case EType.SingNote:
+                    return _SingNotes[interaction.Num];
+                case EType.NameSelection:
+                    return _NameSelections[interaction.Num];
+                case EType.Equalizer:
+                    return _Equalizers[interaction.Num];
+                case EType.Playlist:
+                    return _Playlists[interaction.Num];
+                case EType.ParticleEffect:
+                    return _ParticleEffects[interaction.Num];
+            }
+            throw new ArgumentException("Invalid interaction type: " + interaction.Type);
+        }
+
+        private IMenuElement _GetElement(int interaction)
+        {
+            return (interaction >= 0 && interaction < _Interactions.Count) ? _GetElement(_Interactions[interaction]) : null;
+        }
+
         #region Drawing
-        public virtual bool Draw()
+        public virtual void Draw()
         {
             _DrawBG();
             _DrawFG();
-            return true;
         }
 
         protected void _DrawBG()
@@ -341,7 +369,7 @@ namespace VocaluxeLib.Menu
             _AddInteraction(_Texts.Add(text, key), EType.Text);
         }
 
-        protected void _AddSongMenu(CSongMenu songmenu, String key = null)
+        protected void _AddSongMenu(ISongMenu songmenu, String key = null)
         {
             _AddInteraction(_SongMenus.Add(songmenu, key), EType.SongMenu);
         }
@@ -374,11 +402,6 @@ namespace VocaluxeLib.Menu
         protected void _AddParticleEffect(CParticleEffect pe, String key = null)
         {
             _AddInteraction(_ParticleEffects.Add(pe, key), EType.ParticleEffect);
-        }
-
-        protected void _AddScreenSetting(CScreenSetting se, String key = null)
-        {
-            _ScreenSettings.Add(se, key);
         }
         #endregion Element-Adding
 
@@ -429,10 +452,10 @@ namespace VocaluxeLib.Menu
                     continue;
                 if (_Buttons[_Interactions[i].Num] == button)
                 {
-                    _UnsetSelected();
-                    _UnsetHighlighted(_Selection);
+                    _GetElement(_Selection).Selected = false;
+                    _GetElement(_Selection).Highlighted = false;
                     _Selection = i;
-                    _SetSelected();
+                    _GetElement(_Selection).Selected = true;
                     return;
                 }
             }
@@ -448,10 +471,10 @@ namespace VocaluxeLib.Menu
                     continue;
                 if (_SelectSlides[_Interactions[i].Num] == slide)
                 {
-                    _UnsetSelected();
-                    _UnsetHighlighted(_Selection);
+                    _GetElement(_Selection).Selected = false;
+                    _GetElement(_Selection).Highlighted = false;
                     _Selection = i;
-                    _SetSelected();
+                    _GetElement(_Selection).Selected = true;
                     return;
                 }
             }
@@ -488,16 +511,17 @@ namespace VocaluxeLib.Menu
             float z = CBase.Settings.GetZFar();
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if ((CBase.Settings.GetProgramState() != EProgramState.EditTheme) && (_Interactions[i].ThemeEditorOnly || !_IsVisible(i) || !_IsEnabled(i)))
+                if ((CBase.Settings.GetProgramState() != EProgramState.EditTheme) && (_Interactions[i].ThemeEditorOnly || !_IsVisible(i) || !_IsSelectable(i)))
                     continue;
                 if (!_IsMouseOverElement(x, y, _Interactions[i]))
                     continue;
                 if (_GetZValue(_Interactions[i]) > z)
                     continue;
                 z = _GetZValue(_Interactions[i]);
-                _UnsetSelected();
+                _GetElement(_Selection).Selected = false;
                 _Selection = i;
-                _SetSelected();
+                _GetElement(_Selection).Selected = true;
+                _Selection = i;
             }
         }
 
@@ -529,30 +553,8 @@ namespace VocaluxeLib.Menu
 
         private float _GetZValue(CInteraction interact)
         {
-            switch (interact.Type)
-            {
-                case EType.Button:
-                    return _Buttons[interact.Num].Rect.Z;
-                case EType.SelectSlide:
-                    return _SelectSlides[interact.Num].Rect.Z;
-                case EType.Static:
-                    return _Statics[interact.Num].Rect.Z;
-                case EType.SongMenu:
-                    return _SongMenus[interact.Num].Rect.Z;
-                case EType.Text:
-                    return _Texts[interact.Num].Z;
-                case EType.Lyric:
-                    return _Lyrics[interact.Num].Rect.Z;
-                case EType.NameSelection:
-                    return _NameSelections[interact.Num].Rect.Z;
-                case EType.Equalizer:
-                    return _Equalizers[interact.Num].Rect.Z;
-                case EType.Playlist:
-                    return _Playlists[interact.Num].Rect.Z;
-                case EType.ParticleEffect:
-                    return _ParticleEffects[interact.Num].Rect.Z;
-            }
-            return CBase.Settings.GetZFar();
+            IMenuElement el = _GetElement(interact);
+            return el != null ? el.Rect.Z : CBase.Settings.GetZFar();
         }
 
         private float _GetZValue(int interaction)
@@ -562,7 +564,7 @@ namespace VocaluxeLib.Menu
 
         private void _NextInteraction()
         {
-            _UnsetSelected();
+            _GetElement(_Selection).Selected = false;
             if (CBase.Settings.GetProgramState() != EProgramState.EditTheme)
             {
                 bool found = false;
@@ -573,7 +575,7 @@ namespace VocaluxeLib.Menu
                     if (start > _Interactions.Count - 1)
                         start = 0;
 
-                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsEnabled(start)))
+                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsSelectable(start)))
                         found = true;
                 } while (!found);
                 _Selection = start;
@@ -584,12 +586,12 @@ namespace VocaluxeLib.Menu
                 if (_Selection > _Interactions.Count - 1)
                     _Selection = 0;
             }
-            _SetSelected();
+            _GetElement(_Selection).Selected = true;
         }
 
         private void _PrevInteraction()
         {
-            _UnsetSelected();
+            _GetElement(_Selection).Selected = false;
             if (CBase.Settings.GetProgramState() != EProgramState.EditTheme)
             {
                 bool found = false;
@@ -600,7 +602,7 @@ namespace VocaluxeLib.Menu
                     if (start < 0)
                         start = _Interactions.Count - 1;
 
-                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsEnabled(start)))
+                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsSelectable(start)))
                         found = true;
                 } while (!found);
                 _Selection = start;
@@ -611,7 +613,7 @@ namespace VocaluxeLib.Menu
                 if (_Selection < 0)
                     _Selection = _Interactions.Count - 1;
             }
-            _SetSelected();
+            _GetElement(_Selection).Selected = true;
         }
 
         /// <summary>
@@ -673,12 +675,11 @@ namespace VocaluxeLib.Menu
                 // select the new element
                 if (directions[direction].Key == key.Key)
                 {
-                    _UnsetHighlighted(_Selection);
-                    _UnsetSelected();
-
+                    _GetElement(_Selection).Selected = false;
+                    _GetElement(_Selection).Highlighted = false;
                     _Selection = element;
-                    _SetSelected();
-                    _SetHighlighted(_Selection);
+                    _GetElement(_Selection).Selected = true;
+                    _GetElement(_Selection).Highlighted = true;
 
                     return true;
                 }
@@ -695,7 +696,7 @@ namespace VocaluxeLib.Menu
 
             for (int i = 0; i < _Interactions.Count; i++)
             {
-                if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
+                if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsSelectable(i))
                 {
                     SRectF targetRect = _GetRect(i);
                     float dist = _GetDistanceDirect(key, actualRect, targetRect);
@@ -712,7 +713,7 @@ namespace VocaluxeLib.Menu
             {
                 for (int i = 0; i < _Interactions.Count; i++)
                 {
-                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
+                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsSelectable(i))
                     {
                         SRectF targetRect = _GetRect(i);
                         float dist = _GetDistance180(key, actualRect, targetRect);
@@ -746,7 +747,7 @@ namespace VocaluxeLib.Menu
 
                 for (int i = 0; i < _Interactions.Count; i++)
                 {
-                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
+                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsSelectable(i))
                     {
                         SRectF targetRect = _GetRect(i);
                         float dist = _GetDistance180(key, actualRect, targetRect);
@@ -762,7 +763,7 @@ namespace VocaluxeLib.Menu
             return min;
         }
 
-        private float _GetDistanceDirect(SKeyEvent key, SRectF actualRect, SRectF targetRect)
+        private static float _GetDistanceDirect(SKeyEvent key, SRectF actualRect, SRectF targetRect)
         {
             var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
             var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
@@ -795,7 +796,7 @@ namespace VocaluxeLib.Menu
             return !inDirection ? float.MaxValue : distance;
         }
 
-        private float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
+        private static float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
         {
             var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
             var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
@@ -854,267 +855,22 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        private void _SetSelected()
-        {
-            switch (_Interactions[_Selection].Type)
-            {
-                case EType.Button:
-                    _Buttons[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.Static:
-                    _Statics[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.Text:
-                    _Texts[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.SongMenu:
-                    _SongMenus[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.Lyric:
-                    _Lyrics[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.NameSelection:
-                    _NameSelections[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.Equalizer:
-                    _Equalizers[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.Playlist:
-                    _Playlists[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.ParticleEffect:
-                    _ParticleEffects[_Interactions[_Selection].Num].Selected = true;
-                    break;
-            }
-        }
-
-        private void _UnsetSelected()
-        {
-            switch (_Interactions[_Selection].Type)
-            {
-                case EType.Button:
-                    _Buttons[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.Static:
-                    _Statics[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.Text:
-                    _Texts[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.SongMenu:
-                    _SongMenus[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.Lyric:
-                    _Lyrics[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.NameSelection:
-                    _NameSelections[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.Equalizer:
-                    _Equalizers[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.Playlist:
-                    _Playlists[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.ParticleEffect:
-                    _ParticleEffects[_Interactions[_Selection].Num].Selected = false;
-                    break;
-            }
-        }
-
-        private void _SetHighlighted(int selection)
-        {
-            if (selection >= _Interactions.Count || selection < 0)
-                return;
-
-            switch (_Interactions[selection].Type)
-            {
-                case EType.Button:
-                    //_Buttons[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[selection].Num].Highlighted = true;
-                    break;
-                case EType.Static:
-                    //_Statics[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.Text:
-                    //_Texts[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.SongMenu:
-                    //_SongMenus[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.Lyric:
-                    //_Lyrics[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.NameSelection:
-                    //_NameSelections[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.Playlist:
-                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
-                    break;
-            }
-        }
-
-        private void _UnsetHighlighted(int selection)
-        {
-            if (selection >= _Interactions.Count || selection < 0)
-                return;
-
-            switch (_Interactions[selection].Type)
-            {
-                case EType.Button:
-                    //_Buttons[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[selection].Num].Highlighted = false;
-                    break;
-                case EType.Static:
-                    //_Statics[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.Text:
-                    //_Texts[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.SongMenu:
-                    //_SongMenus[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.Lyric:
-                    //_Lyrics[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.NameSelection:
-                    //_NameSelections[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.Playlist:
-                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
-                    break;
-            }
-        }
-
         private bool _IsVisible(int interaction)
         {
-            if (_Selection >= _Interactions.Count || _Selection < 0)
-                return false;
-
-            switch (_Interactions[interaction].Type)
-            {
-                case EType.Button:
-                    return _Buttons[_Interactions[interaction].Num].Visible;
-
-                case EType.SelectSlide:
-                    return _SelectSlides[_Interactions[interaction].Num].Visible;
-
-                case EType.Static:
-                    return _Statics[_Interactions[interaction].Num].Visible;
-
-                case EType.Text:
-                    return _Texts[_Interactions[interaction].Num].Visible;
-
-                case EType.SongMenu:
-                    return _SongMenus[_Interactions[interaction].Num].Visible;
-
-                case EType.Lyric:
-                    return _Lyrics[_Interactions[interaction].Num].Visible;
-
-                case EType.NameSelection:
-                    return _NameSelections[_Interactions[interaction].Num].Visible;
-
-                case EType.Equalizer:
-                    return _Equalizers[_Interactions[interaction].Num].Visible;
-
-                case EType.Playlist:
-                    return _Playlists[_Interactions[interaction].Num].Visible;
-
-                case EType.ParticleEffect:
-                    return _ParticleEffects[_Interactions[interaction].Num].Visible;
-            }
-
-            return false;
+            IMenuElement el = _GetElement(interaction);
+            return el != null && el.Visible;
         }
 
-        private bool _IsEnabled(int interaction)
+        private bool _IsSelectable(int interaction)
         {
-            if (_Selection >= _Interactions.Count || _Selection < 0)
-                return false;
-
-            switch (_Interactions[interaction].Type)
-            {
-                case EType.Button:
-                    return _Buttons[_Interactions[interaction].Num].Enabled;
-
-                case EType.SelectSlide:
-                    return _SelectSlides[_Interactions[interaction].Num].Visible;
-
-                case EType.Static:
-                    return false; //_Statics[_Interactions[interaction].Num].Visible;
-
-                case EType.Text:
-                    return false; //_Texts[_Interactions[interaction].Num].Visible;
-
-                case EType.SongMenu:
-                    return _SongMenus[_Interactions[interaction].Num].Visible;
-
-                case EType.Lyric:
-                    return false; //_Lyrics[_Interactions[interaction].Num].Visible;
-
-                case EType.NameSelection:
-                    return _NameSelections[_Interactions[interaction].Num].Visible;
-
-                case EType.Equalizer:
-                    return false; //_Equalizers[_Interactions[interaction].Num].Visible;
-
-                case EType.Playlist:
-                    return _Playlists[_Interactions[interaction].Num].Visible;
-
-                case EType.ParticleEffect:
-                    return false; //_ParticleEffects[_Interactions[interaction].Num].Visible;
-            }
-
-            return false;
+            IMenuElement el = _GetElement(interaction);
+            return el != null && el.Selectable;
         }
 
         private SRectF _GetRect(CInteraction interaction)
         {
-            var result = new SRectF();
-            switch (interaction.Type)
-            {
-                case EType.Button:
-                    return _Buttons[interaction.Num].Rect;
-
-                case EType.SelectSlide:
-                    return _SelectSlides[interaction.Num].Rect;
-
-                case EType.Static:
-                    return _Statics[interaction.Num].Rect;
-
-                case EType.Text:
-                    return _Texts[interaction.Num].Rect;
-
-                case EType.SongMenu:
-                    return _SongMenus[interaction.Num].Rect;
-
-                case EType.Lyric:
-                    return _Lyrics[interaction.Num].Rect;
-
-                case EType.NameSelection:
-                    return _NameSelections[interaction.Num].Rect;
-
-                case EType.Equalizer:
-                    return _Equalizers[interaction.Num].Rect;
-
-                case EType.Playlist:
-                    return _Playlists[interaction.Num].Rect;
-
-                case EType.ParticleEffect:
-                    return _ParticleEffects[interaction.Num].Rect;
-            }
-
-            return result;
+            IMenuElement el = _GetElement(interaction);
+            return el.Rect;
         }
 
         private SRectF _GetRect(int interaction)
@@ -1126,153 +882,31 @@ namespace VocaluxeLib.Menu
         {
             _Interactions.Add(new CInteraction(num, type));
             if (!_Interactions[_Selection].ThemeEditorOnly)
-                _SetSelected();
+                _GetElement(_Selection).Selected = true;
             else
                 _NextInteraction();
         }
 
         private void _DrawInteraction(int interaction)
         {
-            switch (_Interactions[interaction].Type)
-            {
-                case EType.Button:
-                    _Buttons[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.Static:
-                    _Statics[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.Text:
-                    _Texts[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.SongMenu:
-                    _SongMenus[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.NameSelection:
-                    _NameSelections[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.Equalizer:
-                    _Equalizers[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.Playlist:
-                    _Playlists[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.ParticleEffect:
-                    _ParticleEffects[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.Lyric:
-                    _Lyrics[_Interactions[interaction].Num].Draw();
-                    break;
-            }
+            IMenuElement el = _GetElement(interaction);
+            el.Draw();
         }
         #endregion InteractionHandling
 
         #region Theme Handling
         private void _MoveElement(int stepX, int stepY)
         {
-            if (_Interactions.Count <= 0)
-                return;
-            switch (_Interactions[_Selection].Type)
-            {
-                case EType.Button:
-                    _Buttons[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-
-                case EType.Static:
-                    _Statics[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-
-                case EType.Text:
-                    _Texts[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-
-                case EType.SongMenu:
-                    _SongMenus[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-
-                case EType.Lyric:
-                    _Lyrics[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-
-                case EType.NameSelection:
-                    _NameSelections[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-
-                case EType.Equalizer:
-                    _Equalizers[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-
-                case EType.Playlist:
-                    _Playlists[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-
-                case EType.ParticleEffect:
-                    _ParticleEffects[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                    break;
-            }
+            IMenuElement el = _GetElement(_Selection);
+            if (el != null)
+                el.MoveElement(stepX, stepY);
         }
 
         private void _ResizeElement(int stepW, int stepH)
         {
-            if (_Interactions.Count <= 0)
-                return;
-            switch (_Interactions[_Selection].Type)
-            {
-                case EType.Button:
-                    _Buttons[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-
-                case EType.Static:
-                    _Statics[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-
-                case EType.Text:
-                    _Texts[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-
-                case EType.SongMenu:
-                    _SongMenus[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-
-                case EType.Lyric:
-                    _Lyrics[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-
-                case EType.NameSelection:
-                    _NameSelections[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-
-                case EType.Equalizer:
-                    _Equalizers[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-
-                case EType.Playlist:
-                    _Playlists[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-
-                case EType.ParticleEffect:
-                    _ParticleEffects[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                    break;
-            }
+            IMenuElement el = _GetElement(_Selection);
+            if (el != null)
+                el.ResizeElement(stepW, stepH);
         }
         #endregion Theme Handling
     }

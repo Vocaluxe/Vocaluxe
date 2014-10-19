@@ -369,12 +369,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return true;
         }
 
-        public override bool Draw()
-        {
-            base.Draw();
-            return true;
-        }
-
         public override void OnClose()
         {
             base.OnClose();
@@ -410,12 +404,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 if (i < _GameData.NumFields)
                 {
-                    _Fields[i].Button.Rect.W = _FieldSize;
-                    _Fields[i].Button.Rect.H = _FieldSize;
-                    _Fields[i].Button.Rect.X = x;
-                    _Fields[i].Button.Rect.Y = y;
+                    _Fields[i].Button.W = _FieldSize;
+                    _Fields[i].Button.H = _FieldSize;
+                    _Fields[i].Button.X = x;
+                    _Fields[i].Button.Y = y;
                     _Fields[i].Button.Visible = true;
-                    _Fields[i].Button.Enabled = true;
+                    _Fields[i].Button.Selectable = true;
                     column++;
                     if ((i + 1) >= numOneRow * (row + 1))
                     {
@@ -430,7 +424,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 else
                 {
                     _Fields[i].Button.Visible = false;
-                    _Fields[i].Button.Enabled = false;
+                    _Fields[i].Button.Selectable = false;
                 }
             }
         }
@@ -439,14 +433,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             for (int i = 0; i < _GameData.Rounds.Count; i++)
             {
-                _Fields[i].Button.Enabled = true;
+                _Fields[i].Button.Selectable = true;
                 _Fields[i].Button.Texture = _Buttons[_ButtonField].Texture;
                 _Fields[i].Button.Color = _Buttons[_ButtonField].Color;
                 _Fields[i].Button.SelColor = _Buttons[_ButtonField].SelColor;
                 _Fields[i].Content = _GameData.Rounds[i];
                 if (_Fields[i].Content.Finished)
                 {
-                    _Fields[i].Button.Enabled = false;
+                    _Fields[i].Button.Selectable = false;
                     _Fields[i].Button.Texture = CBase.Songs.GetSongByID(_Fields[i].Content.SongID).CoverTextureBig;
                     _Fields[i].Button.Color = CBase.Themes.GetPlayerColor(_Fields[i].Content.Winner);
                     _Fields[i].Button.SelColor = CBase.Themes.GetPlayerColor(_Fields[i].Content.Winner);
@@ -456,17 +450,17 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Fields[i].Button.Texture = CBase.Songs.GetSongByID(_Fields[i].Content.SongID).CoverTextureBig;
                     _Fields[i].Button.Color = new SColorF(1, 1, 1, 1);
                     _Fields[i].Button.SelColor = new SColorF(1, 1, 1, 1);
-                    _Fields[i].Button.Enabled = false;
+                    _Fields[i].Button.Selectable = false;
                 }
                 if (_Status == EStatus.JokerRetry && _Fields[i].Content.Finished)
                 {
                     _Fields[i].Button.SelColor = CBase.Themes.GetPlayerColor(_GameData.Team + 1);
-                    _Fields[i].Button.Enabled = true;
+                    _Fields[i].Button.Selectable = true;
                 }
                 if (_Status == EStatus.JokerRetry && !_Fields[i].Content.Finished)
-                    _Fields[i].Button.Enabled = false;
+                    _Fields[i].Button.Selectable = false;
                 if (_Status == EStatus.FieldSelected)
-                    _Fields[i].Button.Enabled = false;
+                    _Fields[i].Button.Selectable = false;
             }
         }
 
@@ -615,14 +609,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Buttons[_ButtonJokerRandomT2].Visible = true;
             _Buttons[_ButtonJokerRandomT1].Text.Text = _GameData.NumJokerRandom[0].ToString();
             _Buttons[_ButtonJokerRandomT2].Text.Text = _GameData.NumJokerRandom[1].ToString();
-            _Buttons[_ButtonJokerRandomT1].Enabled = _GameData.NumJokerRandom[0] > 0;
-            _Buttons[_ButtonJokerRandomT2].Enabled = _GameData.NumJokerRandom[1] > 0;
+            _Buttons[_ButtonJokerRandomT1].Selectable = _GameData.NumJokerRandom[0] > 0;
+            _Buttons[_ButtonJokerRandomT2].Selectable = _GameData.NumJokerRandom[1] > 0;
             _Buttons[_ButtonJokerRetryT1].Visible = true;
             _Buttons[_ButtonJokerRetryT2].Visible = true;
             _Buttons[_ButtonJokerRetryT1].Text.Text = _GameData.NumJokerRetry[0].ToString();
             _Buttons[_ButtonJokerRetryT2].Text.Text = _GameData.NumJokerRetry[1].ToString();
-            _Buttons[_ButtonJokerRetryT1].Enabled = _GameData.NumJokerRetry[0] > 0;
-            _Buttons[_ButtonJokerRetryT2].Enabled = _GameData.NumJokerRetry[1] > 0;
+            _Buttons[_ButtonJokerRetryT1].Selectable = _GameData.NumJokerRetry[0] > 0;
+            _Buttons[_ButtonJokerRetryT2].Selectable = _GameData.NumJokerRetry[1] > 0;
         }
 
         private void _NextRound()
@@ -666,7 +660,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _PartyMode.DataFromScreen(ThemeName, _Data);
         }
 
-        private int _BuildWinnerPossibilities()
+        private void _BuildWinnerPossibilities()
         {
             var numOneRow = (int)Math.Sqrt(_GameData.NumFields);
             _Possibilities = new int[(numOneRow * 2) + 2,numOneRow];
@@ -693,7 +687,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         _Possibilities[i, c] = (numOneRow - 1) * c + (numOneRow - 1);
                 }
             }
-            return 0;
         }
 
         private int _GetWinner()

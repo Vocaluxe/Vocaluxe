@@ -104,6 +104,7 @@ namespace Vocaluxe.Screens
             _ChooseAvatarStatic = GetNewStatic();
             _ChooseAvatarStatic.Visible = false;
             _ChooseAvatarStatic.Aspect = EAspect.Crop;
+            _AddStatic(_ChooseAvatarStatic);
 
             CProfiles.AddProfileChangedCallback(_OnProfileChanged);
         }
@@ -358,8 +359,8 @@ namespace Vocaluxe.Screens
                         //Update of Drag/Drop-Texture
                         CStatic selectedPlayer = _NameSelections[_NameSelection].TilePlayerAvatar(mouseEvent);
                         _ChooseAvatarStatic.Visible = true;
-                        _ChooseAvatarStatic.Rect = selectedPlayer.Rect;
-                        _ChooseAvatarStatic.Rect.Z = CSettings.ZNear;
+                        _ChooseAvatarStatic.MaxRect = selectedPlayer.Rect;
+                        _ChooseAvatarStatic.Z = CSettings.ZNear;
                         _ChooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
                         _ChooseAvatarStatic.Texture = selectedPlayer.Texture;
                     }
@@ -375,8 +376,8 @@ namespace Vocaluxe.Screens
                             //Update of Drag/Drop-Texture
                             CStatic selectedPlayer = _Statics[_StaticPlayerAvatar[i]];
                             _ChooseAvatarStatic.Visible = true;
-                            _ChooseAvatarStatic.Rect = selectedPlayer.Rect;
-                            _ChooseAvatarStatic.Rect.Z = CSettings.ZNear;
+                            _ChooseAvatarStatic.MaxRect = selectedPlayer.Rect;
+                            _ChooseAvatarStatic.Z = CSettings.ZNear;
                             _ChooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
                             _ChooseAvatarStatic.Texture = selectedPlayer.Texture;
                             break;
@@ -389,8 +390,8 @@ namespace Vocaluxe.Screens
             if (mouseEvent.LBH && _SelectedProfileID >= 0 && !_SelectingFast)
             {
                 //Update coords for Drag/Drop-Texture
-                _ChooseAvatarStatic.Rect.X += mouseEvent.X - _OldMouseX;
-                _ChooseAvatarStatic.Rect.Y += mouseEvent.Y - _OldMouseY;
+                _ChooseAvatarStatic.X += mouseEvent.X - _OldMouseX;
+                _ChooseAvatarStatic.Y += mouseEvent.Y - _OldMouseY;
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
             }
@@ -563,15 +564,6 @@ namespace Vocaluxe.Screens
         {
             base.OnClose();
             CRecord.Stop();
-        }
-
-        public override bool Draw()
-        {
-            base.Draw();
-
-            if (_ChooseAvatarStatic.Visible)
-                _ChooseAvatarStatic.Draw();
-            return true;
         }
         #endregion public methods
 

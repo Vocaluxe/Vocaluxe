@@ -40,7 +40,7 @@ namespace VocaluxeLib.Menu
 
     // ReSharper disable ClassNeverInstantiated.Global
     //Instantiated by reflection
-    public class CScreenSetting : IMenuElement
+    public class CScreenSetting : IThemeable
         // ReSharper restore ClassNeverInstantiated.Global
     {
         private readonly int _PartyModeID;
@@ -89,38 +89,31 @@ namespace VocaluxeLib.Menu
             switch (_Theme.Type)
             {
                 case ESettingType.Int:
-                    return _GetIntValue(_Theme.Value);
+                    return _GetIntValue();
 
                 case ESettingType.String:
                     return _Theme.Value;
 
                 case ESettingType.Color:
-                    return _GetColorValue(_Theme.Value);
+                    return _GetColorValue();
 
                 case ESettingType.Texture:
-                    return _GetTextureValue(_Theme.Value);
+                    return _GetTextureValue();
             }
 
             return null;
         }
-
-        public void UnloadSkin() {}
-
-        public void LoadSkin() {}
-
-        public void ReloadSkin() {}
 
         public SScreenSetting GetTheme()
         {
             return _Theme;
         }
 
-        #region Private
-        private int _GetIntValue(string value)
+        private int _GetIntValue()
         {
             try
             {
-                return Convert.ToInt32(value);
+                return Convert.ToInt32(_Theme.Value);
             }
             catch (Exception)
             {
@@ -128,23 +121,24 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private CTextureRef _GetTextureValue(string value)
+        private CTextureRef _GetTextureValue()
         {
-            return CBase.Themes.GetSkinTexture(value, _PartyModeID);
+            return CBase.Themes.GetSkinTexture(_Theme.Value, _PartyModeID);
         }
 
-        private SColorF _GetColorValue(string value)
+        private SColorF _GetColorValue()
         {
             SColorF color;
-            CBase.Themes.GetColor(value, _PartyModeID, out color);
+            CBase.Themes.GetColor(_Theme.Value, _PartyModeID, out color);
             return color;
         }
-        #endregion Private
 
-        #region ThemeEdit
-        public void MoveElement(int stepX, int stepY) {}
+        #region Dummy methods for interface
+        public void UnloadSkin() {}
 
-        public void ResizeElement(int stepW, int stepH) {}
-        #endregion ThemeEdit
+        public void LoadSkin() {}
+
+        public void ReloadSkin() {}
+        #endregion
     }
 }

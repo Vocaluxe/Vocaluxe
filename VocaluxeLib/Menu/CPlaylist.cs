@@ -79,7 +79,7 @@ namespace VocaluxeLib.Menu
     }
 
     //TODO: Refactor this class, it is almost unreadable and may not work in some occasions
-    public class CPlaylist : CObjectInteractions, IMenuElement
+    public class CPlaylist : CObjectInteractions, IMenuElement, IThemeable
     {
         private class CPlaylistElementContent
         {
@@ -120,20 +120,14 @@ namespace VocaluxeLib.Menu
                 int diffX = posX - oldPosX;
                 int diffY = posY - oldPosY;
 
-                Cover.Rect.X += diffX;
-                Cover.Rect.Y += diffY;
+                Cover.X += diffX;
+                Cover.Y += diffY;
 
-                Background.Rect.X += diffX;
-                Background.Rect.Y += diffY;
+                Background.X += diffX;
+                Background.Y += diffY;
 
-                SelectSlide.Rect.X += diffX;
-                SelectSlide.Rect.Y += diffY;
-
-                SelectSlide.RectArrowLeft.X += diffX;
-                SelectSlide.RectArrowLeft.Y += diffY;
-
-                SelectSlide.RectArrowRight.X += diffX;
-                SelectSlide.RectArrowRight.Y += diffY;
+                SelectSlide.X += diffX;
+                SelectSlide.Y += diffY;
 
                 Text1.X += diffX;
                 Text1.Y += diffY;
@@ -158,7 +152,6 @@ namespace VocaluxeLib.Menu
         private readonly List<CPlaylistElementContent> _PlaylistElementContents = new List<CPlaylistElementContent>();
 
         private SRectF _CompleteRect;
-        public SRectF Rect;
         private SColorF _BackgroundColor;
         private SColorF _BackgroundSelColor;
 
@@ -172,9 +165,18 @@ namespace VocaluxeLib.Menu
         private readonly CStatic _StaticPlaylistHeader;
         private readonly CStatic _StaticPlaylistFooter;
 
-        public bool Visible;
-
         private bool _Selected;
+        public SRectF Rect
+        {
+            get { return MaxRect; }
+        }
+        public SRectF MaxRect { get; set; }
+        public bool Selectable
+        {
+            get { return Visible; }
+        }
+        public bool Visible { get; set; }
+        public bool Highlighted { get; set; }
         public bool Selected
         {
             get { return _Selected; }
@@ -329,13 +331,14 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public override bool Draw()
+        public override void Draw()
         {
             if (_PlaylistElements.Count <= 0)
                 LoadPlaylist(0);
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
-                return true;
+                return;
 
+            base.Draw();
             for (int i = 0; i < _PlaylistElements.Count; i++)
             {
                 if (i == _CurrentPlaylistElement && _Selected)
@@ -352,7 +355,6 @@ namespace VocaluxeLib.Menu
 
             if (_ChangeOrderElement != null)
                 _ChangeOrderElement.Draw();
-            return base.Draw();
         }
 
         public bool IsMouseOver(SMouseEvent mouseEvent)
@@ -381,7 +383,7 @@ namespace VocaluxeLib.Menu
             _Theme.ColorBackground.Get(_PartyModeID, out _BackgroundColor);
             _Theme.SelColorBackground.Get(_PartyModeID, out _BackgroundSelColor);
 
-            Rect = _Theme.Rect;
+            MaxRect = _Theme.Rect;
 
             _Text1.LoadSkin();
             _ButtonPlaylistClose.LoadSkin();
@@ -871,11 +873,9 @@ namespace VocaluxeLib.Menu
                                 return true;
 
                             _ChangeOrderElement = new CPlaylistElement(_PlaylistElements[_CurrentPlaylistElement]);
-                            _ChangeOrderElement.Background.Rect.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.Cover.Rect.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.SelectSlide.Rect.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.SelectSlide.RectArrowLeft.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.SelectSlide.RectArrowRight.Z = CBase.Settings.GetZNear();
+                            _ChangeOrderElement.Background.Z = CBase.Settings.GetZNear();
+                            _ChangeOrderElement.Cover.Z = CBase.Settings.GetZNear();
+                            _ChangeOrderElement.SelectSlide.Z = CBase.Settings.GetZNear();
                             _ChangeOrderElement.Text1.Z = CBase.Settings.GetZNear();
 
                             _ChangeOrderElement.Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SkinBackground, _PartyModeID);
@@ -1026,20 +1026,16 @@ namespace VocaluxeLib.Menu
                         Cover = new CStatic(_Theme.StaticCover, _PartyModeID)
                     };
 
-                en.Cover.Rect.Y += Rect.Y + (i * _Theme.EntryHeight);
-                en.Cover.Rect.X += Rect.X;
+                en.Cover.Y += Rect.Y + (i * _Theme.EntryHeight);
+                en.Cover.X += Rect.X;
 
                 en.Text1 = new CText(_Text1);
                 en.Text1.X += Rect.X;
                 en.Text1.Y += Rect.Y + (i * _Theme.EntryHeight);
 
                 en.SelectSlide = new CSelectSlide(_SelectSlideGameMode);
-                en.SelectSlide.Rect.X += Rect.X;
-                en.SelectSlide.Rect.Y += Rect.Y + (i * _Theme.EntryHeight);
-                en.SelectSlide.RectArrowLeft.X += Rect.X;
-                en.SelectSlide.RectArrowLeft.Y += Rect.Y + (i * _Theme.EntryHeight);
-                en.SelectSlide.RectArrowRight.X += Rect.X;
-                en.SelectSlide.RectArrowRight.Y += Rect.Y + (i * _Theme.EntryHeight);
+                en.SelectSlide.X += Rect.X;
+                en.SelectSlide.Y += Rect.Y + (i * _Theme.EntryHeight);
 
                 en.Content = -1;
 
@@ -1215,19 +1211,29 @@ namespace VocaluxeLib.Menu
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
-            Rect.X += stepX;
-            Rect.Y += stepY;
+            SRectF rect = MaxRect;
+            rect.X += stepX;
+            rect.Y += stepY;
+            MaxRect = rect;
+
+            _Theme.Rect.X += stepX;
+            _Theme.Rect.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
         {
-            Rect.W += stepW;
-            if (Rect.W <= 0)
-                Rect.W = 1;
+            SRectF rect = MaxRect;
+            rect.W += stepW;
+            if (rect.W <= 0)
+                rect.W = 1;
 
-            Rect.H += stepH;
-            if (Rect.H <= 0)
-                Rect.H = 1;
+            rect.H += stepH;
+            if (rect.H <= 0)
+                rect.H = 1;
+            MaxRect = rect;
+
+            _Theme.Rect.W = Rect.W;
+            _Theme.Rect.H = Rect.H;
         }
         #endregion ThemeEdit
     }

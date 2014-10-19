@@ -140,50 +140,14 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        // ReSharper disable RedundantOverridenMember
-        public override void OnShow()
-        {
-            base.OnShow();
-
-            //if (Snowflakes != null)
-            //    Snowflakes.Resume();
-        }
-
-        // ReSharper restore RedundantOverridenMember
-
         public override bool UpdateGame()
         {
             bool profileOK = CProfiles.NumProfiles > 0;
             _Statics[_StaticWarningProfiles].Visible = !profileOK;
             _Texts[_TextWarningProfiles].Visible = !profileOK;
-            _Buttons[_ButtonSing].Enabled = profileOK;
-            _Buttons[_ButtonParty].Enabled = profileOK;
+            _Buttons[_ButtonSing].Selectable = profileOK;
+            _Buttons[_ButtonParty].Selectable = profileOK;
             return true;
         }
-
-        public override bool Draw()
-        {
-            _DrawBG();
-
-            //if (Snowflakes == null)
-            //    Snowflakes = new CParticleEffect(300, new SColorF(1, 1, 1, 1), new SRectF(0, 0, CSettings.iRenderW, 0, 0.5f), "Snowflake", 25, EParticeType.Snow);
-
-            //Snowflakes.Update();
-            //Snowflakes.Draw();
-            _DrawFG();
-
-            return true;
-        }
-
-        // ReSharper disable RedundantOverridenMember
-        public override void OnClose()
-        {
-            base.OnClose();
-
-            //if (Snowflakes != null)
-            //    Snowflakes.Pause();
-        }
-
-        // ReSharper restore RedundantOverridenMember
     }
 }

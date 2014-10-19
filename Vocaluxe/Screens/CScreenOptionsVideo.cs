@@ -164,13 +164,6 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
-        {
-            base.Draw();
-
-            return true;
-        }
-
         public override void OnClose()
         {
             base.OnClose();

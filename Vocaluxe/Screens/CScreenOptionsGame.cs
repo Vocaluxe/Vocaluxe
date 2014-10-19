@@ -131,12 +131,6 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
-        {
-            base.Draw();
-            return true;
-        }
-
         private void _SaveConfig()
         {
             CLanguage.LanguageId = _SelectSlides[_SelectSlideLanguage].Selection;

@@ -15,21 +15,25 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using VocaluxeLib.Xml;
-
 namespace VocaluxeLib.Menu
 {
-    interface IMenuElement
+    public interface IMenuElement
     {
-        string GetThemeName();
-
-        bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader);
-
-        void UnloadSkin();
-        void LoadSkin();
-        void ReloadSkin();
-
+        /// <summary>
+        ///     Current extend of the element. Smaller or equal then MaxRect
+        /// </summary>
+        SRectF Rect { get; }
+        /// <summary>
+        ///     Maximum extend of the element. Equal to Rect in most cases
+        /// </summary>
+        SRectF MaxRect { get; set; }
+        bool Selectable { get; }
+        bool Visible { get; set; }
+        bool Highlighted { get; set; }
+        bool Selected { get; set; }
         void MoveElement(int stepX, int stepY);
         void ResizeElement(int stepW, int stepH);
+
+        void Draw();
     }
 }

@@ -161,15 +161,12 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
+        public override void Draw()
         {
-            _DrawBG();
-
             if (_CurrentIntroVideo >= 0 && _CurrentIntroVideo < _Intros.Length)
                 _Intros[_CurrentIntroVideo].Draw();
 
-            _DrawFG();
-            return true;
+            base.Draw();
         }
 
         public override void OnClose()

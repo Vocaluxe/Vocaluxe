@@ -68,7 +68,7 @@ namespace VocaluxeLib.Menu.SingNotes
         [XmlArray("BarPositions")] public SBarPosition[] BarPos;
     }
 
-    public abstract class CSingNotes : IMenuElement
+    public abstract class CSingNotes : CMenuElementBase, IMenuElement,IThemeable
     {
         private readonly int _PartyModeID;
         private SThemeSingBar _Theme;
@@ -76,6 +76,11 @@ namespace VocaluxeLib.Menu.SingNotes
 
         private readonly List<SPlayerNotes> _PlayerNotes;
         private int _ActID;
+
+        public bool Selectable
+        {
+            get { return false; }
+        }
 
         /// <summary>
         ///     Player bar positions
@@ -237,6 +242,11 @@ namespace VocaluxeLib.Menu.SingNotes
                 return 0f;
 
             return _PlayerNotes[n].Alpha;
+        }
+
+        public void Draw()
+        {
+            throw new NotImplementedException();
         }
 
         public void Draw(int id, List<CSungLine> sungLines, int player)

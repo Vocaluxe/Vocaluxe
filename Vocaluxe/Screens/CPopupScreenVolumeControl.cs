@@ -100,12 +100,10 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
+        public override void Draw()
         {
-            if (!_Active)
-                return false;
-
-            return base.Draw();
+            if (_Active)
+                base.Draw();
         }
 
         private void _SaveConfig()

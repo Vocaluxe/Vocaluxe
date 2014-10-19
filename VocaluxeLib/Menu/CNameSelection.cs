@@ -56,7 +56,7 @@ namespace VocaluxeLib.Menu
         public SThemeColor Color;
     }
 
-    public class CNameSelection : IMenuElement
+    public class CNameSelection : CMenuElementBase, IMenuElement, IThemeable
     {
         private class CTile
         {
@@ -86,10 +86,6 @@ namespace VocaluxeLib.Menu
             get { return _ThemeLoaded; }
         }
 
-        public bool Selected;
-        public bool Visible = true;
-
-        public SRectF Rect;
         private readonly List<CTile> _Tiles;
 
         private CTextureRef _TextureEmptyTile;
@@ -113,12 +109,15 @@ namespace VocaluxeLib.Menu
 
         private CStatic _PlayerSelector;
 
+        public bool Selectable
+        {
+            get { return Visible; }
+        }
+
         public CNameSelection(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeNameSelection();
-            _Theme.Tiles = new SThemeNameSelectionTiles();
-            _Theme.Tiles.Name = new SThemeNameSelectionName();
+            _Theme = new SThemeNameSelection {Tiles = new SThemeNameSelectionTiles {Name = new SThemeNameSelectionName()}};
 
             _Tiles = new List<CTile>();
             _VisibleProfiles = new List<int>();
@@ -141,12 +140,8 @@ namespace VocaluxeLib.Menu
         {
             _PrepareTiles();
 
-            _PlayerSelector = new CStatic(_PartyModeID)
-                {
-                    Texture = _TextureTileSelected,
-                    Rect = new SRectF(0, 0, _Theme.Tiles.W + 6, _Theme.Tiles.H + 6, Rect.Z - 0.5f),
-                    Visible = false
-                };
+            _PlayerSelector = new CStatic(_PartyModeID, _TextureTileSelected, new SColorF(), new SRectF(0, 0, _Theme.Tiles.W + 6, _Theme.Tiles.H + 6, Rect.Z - 0.5f));
+            _PlayerSelector.Visible = false;
 
             _UpdateVisibleProfiles();
 
@@ -224,8 +219,8 @@ namespace VocaluxeLib.Menu
                     //Update PlayerSelector-Coords
                     if (_Player > -1 && _ActualSelection == i)
                     {
-                        _PlayerSelector.Rect.X = tile.Avatar.Rect.X - 3;
-                        _PlayerSelector.Rect.Y = tile.Avatar.Rect.Y - 3;
+                        _PlayerSelector.X = tile.Avatar.Rect.X - 3;
+                        _PlayerSelector.Y = tile.Avatar.Rect.Y - 3;
                     }
                 }
 
@@ -432,7 +427,7 @@ namespace VocaluxeLib.Menu
             _Theme.ColorEmptyTile.Get(_PartyModeID, out _ColorEmptyTile);
             _Theme.Tiles.Name.Color.Get(_PartyModeID, out _ColorNameTile);
 
-            Rect = _Theme.Rect;
+            MaxRect = _Theme.Rect;
         }
 
         public void ReloadSkin()
@@ -529,8 +524,8 @@ namespace VocaluxeLib.Menu
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
-            Rect.X += stepX;
-            Rect.Y += stepY;
+            X += stepX;
+            Y += stepY;
 
             _Theme.Rect.X += stepX;
             _Theme.Rect.Y += stepY;
@@ -538,16 +533,16 @@ namespace VocaluxeLib.Menu
 
         public void ResizeElement(int stepW, int stepH)
         {
-            Rect.W += stepW;
-            if (Rect.W <= 0)
-                Rect.W = 1;
+            W += stepW;
+            if (W <= 0)
+                W = 1;
 
-            Rect.H += stepH;
-            if (Rect.H <= 0)
-                Rect.H = 1;
+            H += stepH;
+            if (H <= 0)
+                H = 1;
 
-            _Theme.Rect.W = Rect.W;
-            _Theme.Rect.H = Rect.H;
+            _Theme.Rect.W = W;
+            _Theme.Rect.H = H;
         }
         #endregion ThemeEdit
     }

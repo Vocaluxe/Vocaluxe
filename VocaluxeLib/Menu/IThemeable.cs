@@ -15,30 +15,18 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using VocaluxeLib.PartyModes;
+using VocaluxeLib.Xml;
 
-namespace VocaluxeLib.Menu.SongMenu
+namespace VocaluxeLib.Menu
 {
-    class CSongMenuList : CSongMenuFramework
+    public interface IThemeable
     {
-        public CSongMenuList(int partyModeID)
-            : base(partyModeID) {}
+        string GetThemeName();
 
-        public override float SelectedTileZoomFactor
-        {
-            get { return 1.2f; }
-        }
+        bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader);
 
-        public override bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options)
-        {
-            return false;
-        }
-
-        public override bool HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions) { return false; }
-
-        public override CStatic GetSelectedSongCover()
-        {
-            return null;
-        }
+        void UnloadSkin();
+        void LoadSkin();
+        void ReloadSkin();
     }
 }

@@ -158,12 +158,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return true;
         }
 
-        public override bool Draw()
-        {
-            base.Draw();
-            return true;
-        }
-
         private void _FillSlides()
         {
             _SelectSlides[_SelectSlideNumFields].Clear();

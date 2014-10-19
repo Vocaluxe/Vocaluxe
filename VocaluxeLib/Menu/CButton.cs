@@ -39,7 +39,7 @@ namespace VocaluxeLib.Menu
         public SReflection SelReflection;
     }
 
-    public class CButton : IMenuElement
+    public sealed class CButton : CMenuElementBase, IMenuElement, IThemeable
     {
         private SThemeButton _Theme;
         private bool _ThemeLoaded;
@@ -47,7 +47,6 @@ namespace VocaluxeLib.Menu
 
         public CTextureRef Texture;
         public CTextureRef SelTexture;
-        public SRectF Rect;
         public SColorF Color;
         public SColorF SelColor;
 
@@ -75,27 +74,24 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private bool _Selected;
-        public bool Selected
+        public override bool Selected
         {
-            get { return _Selected; }
             set
             {
-                _Selected = value;
+                base.Selected = value;
                 Text.Selected = value;
             }
         }
-        public bool Visible = true;
-        private bool _Enabled = true;
+        private bool _Selectable = true;
 
-        public bool Enabled
+        public bool Selectable
         {
-            get { return _Enabled; }
+            get { return _Selectable; }
             set
             {
-                _Enabled = value;
-                if (!_Enabled)
-                    _Selected = false;
+                _Selectable = value;
+                if (!_Selectable)
+                    Selected = false;
             }
         }
 
@@ -141,7 +137,7 @@ namespace VocaluxeLib.Menu
                     SkinSelected = button._Theme.SkinSelected
                 };
 
-            Rect = button.Rect;
+            MaxRect = button.MaxRect;
             Color = button.Color;
             SelColor = button.Color;
             Texture = button.Texture;
@@ -151,7 +147,7 @@ namespace VocaluxeLib.Menu
             _SelText = _SelText == null ? null : new CText(button._SelText);
             Selected = false;
             EditMode = false;
-            _Enabled = button._Enabled;
+            _Selectable = button._Selectable;
 
             _Reflection = button._Reflection;
             _ReflectionHeight = button._ReflectionHeight;
@@ -248,14 +244,14 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public void Draw(bool forceDraw = false)
+        public void Draw()
         {
-            if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme && !forceDraw)
+            if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
                 return;
 
             CTextureRef texture;
 
-            if (!Selected && !Pressed || !_Enabled)
+            if (!Selected && !Pressed || !_Selectable)
             {
                 texture = Texture ?? CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
 
@@ -323,7 +319,7 @@ namespace VocaluxeLib.Menu
             _Theme.Color.Get(_PartyModeID, out Color);
             _Theme.SelColor.Get(_PartyModeID, out SelColor);
 
-            Rect = _Theme.Rect;
+            MaxRect = _Theme.Rect;
 
             _Reflection = _Theme.Reflection.Enabled;
             if (_Reflection)
@@ -357,8 +353,8 @@ namespace VocaluxeLib.Menu
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
-            Rect.X += stepX;
-            Rect.Y += stepY;
+            X += stepX;
+            Y += stepY;
 
             _Theme.Rect.X += stepX;
             _Theme.Rect.Y += stepY;
@@ -366,13 +362,13 @@ namespace VocaluxeLib.Menu
 
         public void ResizeElement(int stepW, int stepH)
         {
-            Rect.W += stepW;
-            if (Rect.W <= 0)
-                Rect.W = 1;
+            W += stepW;
+            if (W <= 0)
+                W = 1;
 
-            Rect.H += stepH;
-            if (Rect.H <= 0)
-                Rect.H = 1;
+            H += stepH;
+            if (H <= 0)
+                H = 1;
 
             _Theme.Rect.W = Rect.W;
             _Theme.Rect.H = Rect.H;

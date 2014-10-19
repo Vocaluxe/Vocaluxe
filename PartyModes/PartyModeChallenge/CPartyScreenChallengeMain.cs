@@ -310,12 +310,6 @@ namespace VocaluxeLib.PartyModes.Challenge
             return true;
         }
 
-        public override bool Draw()
-        {
-            base.Draw();
-            return true;
-        }
-
         private void _NextRound()
         {
             _Data.ScreenMain.FadeToNameSelection = false;
@@ -356,8 +350,8 @@ namespace VocaluxeLib.PartyModes.Challenge
             for (int i = 0; i < _GameState.NumPlayerAtOnce; i++)
             {
                 //static
-                _NextPlayerStatics[i].Rect.X = x;
-                _NextPlayerStatics[i].Rect.Y = staticY;
+                _NextPlayerStatics[i].X = x;
+                _NextPlayerStatics[i].Y = staticY;
                 _NextPlayerStatics[i].Visible = true;
                 //text
                 _NextPlayerTexts[i].X = x + _Statics[_StaticNextPlayer].Rect.W / 2;
@@ -473,11 +467,11 @@ namespace VocaluxeLib.PartyModes.Challenge
                         float maxw = ((CBase.Settings.GetRenderW() - _Texts[_TextRoundNumber].X - 20) / numPlayerInThisRow) / 2 - 5;
                         roundRow.TextPlayer[column].X = x;
                         roundRow.TextPlayer[column].Y = numberY;
-                        roundRow.TextPlayer[column].MaxWidth = maxw;
+                        roundRow.TextPlayer[column].W = maxw;
                         //Score
                         roundRow.TextScores[column].X = x;
                         roundRow.TextScores[column].Y = numberY + delta;
-                        roundRow.TextScores[column].MaxWidth = maxw;
+                        roundRow.TextScores[column].W = maxw;
                     }
                     numberY = numberY + 2 * delta;
                 }

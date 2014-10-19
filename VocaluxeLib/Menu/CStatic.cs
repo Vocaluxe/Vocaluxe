@@ -32,7 +32,7 @@ namespace VocaluxeLib.Menu
         public SReflection Reflection;
     }
 
-    public class CStatic : IMenuElement
+    public sealed class CStatic : CMenuElementBase, IMenuElement, IThemeable
     {
         private readonly int _PartyModeID;
 
@@ -49,6 +49,11 @@ namespace VocaluxeLib.Menu
             get { return _ThemeLoaded; }
         }
 
+        public bool Selectable
+        {
+            get { return false; }
+        }
+
         private CTextureRef _Texture;
         public CTextureRef Texture
         {
@@ -58,14 +63,10 @@ namespace VocaluxeLib.Menu
         }
 
         public SColorF Color;
-        public SRectF Rect;
 
         public bool Reflection;
         public float ReflectionSpace;
         public float ReflectionHeight;
-
-        public bool Selected;
-        public bool Visible = true;
 
         public float Alpha = 1;
 
@@ -82,12 +83,11 @@ namespace VocaluxeLib.Menu
 
             _Texture = s.Texture;
             Color = s.Color;
-            Rect = s.Rect;
+            MaxRect = s.MaxRect;
             Reflection = s.Reflection;
             ReflectionSpace = s.ReflectionHeight;
             ReflectionHeight = s.ReflectionSpace;
 
-            Selected = s.Selected;
             Alpha = s.Alpha;
             Visible = s.Visible;
         }
@@ -98,7 +98,7 @@ namespace VocaluxeLib.Menu
 
             _Texture = texture;
             Color = color;
-            Rect = rect;
+            MaxRect = rect;
         }
 
         public CStatic(int partyModeID, string textureSkinName, SColorF color, SRectF rect)
@@ -106,7 +106,7 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
             _Theme.Skin = textureSkinName;
             Color = color;
-            Rect = rect;
+            MaxRect = rect;
         }
 
         public CStatic(SThemeStatic theme, int partyModeID)
@@ -163,9 +163,9 @@ namespace VocaluxeLib.Menu
             return _ThemeLoaded;
         }
 
-        public void Draw(bool forceDraw = false)
+        public void Draw()
         {
-            Draw(Aspect, 1f, 0f, forceDraw);
+            Draw(Aspect);
         }
 
         public void Draw(EAspect aspect, float scale = 1f, float zModify = 0f, bool forceDraw = false)
@@ -197,7 +197,7 @@ namespace VocaluxeLib.Menu
         {
             _Theme.Color.Get(_PartyModeID, out Color);
 
-            Rect = _Theme.Rect;
+            MaxRect = _Theme.Rect;
             Reflection = _Theme.Reflection.Enabled;
             if (Reflection)
             {
@@ -220,19 +220,25 @@ namespace VocaluxeLib.Menu
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
-            Rect.X += stepX;
-            Rect.Y += stepY;
+            X += stepX;
+            Y += stepY;
+
+            _Theme.Rect.X += stepX;
+            _Theme.Rect.Y += stepY;
         }
 
         public void ResizeElement(int stepW, int stepH)
         {
-            Rect.W += stepW;
-            if (Rect.W <= 0)
-                Rect.W = 1;
+            W += stepW;
+            if (W <= 0)
+                W = 1;
 
-            Rect.H += stepH;
-            if (Rect.H <= 0)
-                Rect.H = 1;
+            H += stepH;
+            if (H <= 0)
+                H = 1;
+
+            _Theme.Rect.W = Rect.W;
+            _Theme.Rect.H = Rect.H;
         }
         #endregion ThemeEdit
     }

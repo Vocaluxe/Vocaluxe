@@ -57,12 +57,12 @@ namespace Vocaluxe.Screens
 
         public float X
         {
-            get { return _Image.Rect.X; }
+            get { return _Image.X; }
             set
             {
-                _Image.Rect.X = value;
-                _ImgDot.Rect.X = value + _ParticleOffsetX;
-                _Particle.Rect.X = value + _ParticleOffsetX;
+                _Image.X = value;
+                _ImgDot.X = value + _ParticleOffsetX;
+                _Particle.X = value + _ParticleOffsetX;
             }
         }
         public float Y
@@ -70,9 +70,9 @@ namespace Vocaluxe.Screens
             get { return _Image.Rect.Y; }
             set
             {
-                _Image.Rect.Y = value;
-                _ImgDot.Rect.Y = value + _ParticleOffsetY;
-                _Particle.Rect.Y = value + _ParticleOffsetY;
+                _Image.Y = value;
+                _ImgDot.Y = value + _ParticleOffsetY;
+                _Particle.Y = value + _ParticleOffsetY;
             }
         }
 
@@ -142,7 +142,7 @@ namespace Vocaluxe.Screens
         private CTextureRef _TexNamePantero;
         private CTextureRef _TexNamePinky007;
 
-        private static SColorF _BGColor = new SColorF(0, 0.18f, 0.474f, 1);
+        private static readonly SColorF _BGColor = new SColorF(0, 0.18f, 0.474f, 1);
 
         public override void Init()
         {
@@ -358,7 +358,7 @@ namespace Vocaluxe.Screens
             _LogoTimer.Start();
         }
 
-        public override bool Draw()
+        public override void Draw()
         {
             base.Draw();
 
@@ -381,7 +381,6 @@ namespace Vocaluxe.Screens
                 foreach (CText text in _ParagraphTexts)
                     text.Draw();
             }
-            return true;
         }
 
         private bool _Animation()
@@ -391,9 +390,9 @@ namespace Vocaluxe.Screens
             {
                 active = true;
 
-                _Logo.Rect.Y = -270 + (270f / 3000f) * _LogoTimer.ElapsedMilliseconds;
-                _StarsRed.Rect.Y = _Logo.Rect.Y;
-                _StarsBlue.Rect.Y = _Logo.Rect.Y;
+                _Logo.Y = -270 + (270f / 3000f) * _LogoTimer.ElapsedMilliseconds;
+                _StarsRed.Y = _Logo.Y;
+                _StarsBlue.Y = _Logo.Y;
                 if (_LogoTimer.ElapsedMilliseconds >= 2000 && !_CreditsTimer.IsRunning)
                     _CreditsTimer.Start();
                 if (_LogoTimer.ElapsedMilliseconds >= 3000)

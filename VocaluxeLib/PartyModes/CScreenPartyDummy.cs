@@ -83,11 +83,5 @@ namespace VocaluxeLib.PartyModes
         {
             return true;
         }
-
-        public override bool Draw()
-        {
-            base.Draw();
-            return true;
-        }
     }
 }

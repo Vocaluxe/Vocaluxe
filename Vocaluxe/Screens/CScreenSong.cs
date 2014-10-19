@@ -92,7 +92,7 @@ namespace Vocaluxe.Screens
         private int _SelectedSongID;
         private int _SelectedCategoryIndex;
 
-        private CSongMenu _SongMenu;
+        private ISongMenu _SongMenu;
         private CPlaylist _Playlist;
 
         public CScreenSong()
@@ -229,7 +229,7 @@ namespace Vocaluxe.Screens
                             {
                                 _PlaylistActive = !_PlaylistActive;
                                 _Playlist.Selected = _PlaylistActive;
-                                _SongMenu.Active = !_PlaylistActive;
+                                _SongMenu.Selected = !_PlaylistActive;
                             }
                             break;
 
@@ -400,8 +400,8 @@ namespace Vocaluxe.Screens
 
             if (_DragAndDropActive)
             {
-                _DragAndDropCover.Rect.X += mouseEvent.X - _OldMousePosX;
-                _DragAndDropCover.Rect.Y += mouseEvent.Y - _OldMousePosY;
+                _DragAndDropCover.X += mouseEvent.X - _OldMousePosX;
+                _DragAndDropCover.Y += mouseEvent.Y - _OldMousePosY;
             }
             _OldMousePosX = mouseEvent.X;
             _OldMousePosY = mouseEvent.Y;
@@ -410,14 +410,14 @@ namespace Vocaluxe.Screens
             {
                 _PlaylistActive = true;
                 _Playlist.Selected = _PlaylistActive;
-                _SongMenu.Active = !_PlaylistActive;
+                _SongMenu.Selected = !_PlaylistActive;
                 _ToggleSongOptions(ESongOptionsView.None);
             }
             else if (CHelper.IsInBounds(_SongMenu.Rect, mouseEvent))
             {
                 _PlaylistActive = false;
                 _Playlist.Selected = _PlaylistActive;
-                _SongMenu.Active = !_PlaylistActive;
+                _SongMenu.Selected = !_PlaylistActive;
             }
 
 
@@ -588,7 +588,7 @@ namespace Vocaluxe.Screens
                 if (!_DragAndDropActive && _Playlist.Visible && CSongs.NumSongsVisible > 0 && _SongMenu.GetSelectedSongNr() != -1)
                 {
                     _DragAndDropCover = _SongMenu.GetSelectedSongCover();
-                    _DragAndDropCover.Rect.Z = CSettings.ZNear;
+                    _DragAndDropCover.Z = CSettings.ZNear;
                     _Playlist.DragAndDropSongID = CSongs.VisibleSongs[_SongMenu.GetSelectedSongNr()].ID;
                     _DragAndDropActive = true;
                     return true;
@@ -641,7 +641,7 @@ namespace Vocaluxe.Screens
             if (_Sso.Selection.PartyMode)
                 _ToggleSongOptions(ESongOptionsView.None);
 
-            _SongMenu.Active = !_PlaylistActive;
+            _SongMenu.Selected = !_PlaylistActive;
             _SongMenu.SmallView = _Playlist.Visible;
 
             if (_Playlist.ActivePlaylistID != -1)
@@ -698,14 +698,12 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
+        public override void Draw()
         {
             base.Draw();
 
             if (_DragAndDropActive)
                 _DragAndDropCover.Draw();
-
-            return true;
         }
 
         public override void OnClose()
@@ -1279,7 +1277,7 @@ namespace Vocaluxe.Screens
                 _SongMenu.SmallView = false;
                 _PlaylistActive = false;
                 _Playlist.Selected = _PlaylistActive;
-                _SongMenu.Active = !_PlaylistActive;
+                _SongMenu.Selected = !_PlaylistActive;
                 _Playlist.ClosePlaylist();
             }
         }

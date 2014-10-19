@@ -45,13 +45,12 @@ namespace VocaluxeLib.Menu
         public SReflection Reflection;
     }
 
-    public class CEqualizer : IMenuElement
+    public class CEqualizer : CMenuElementBase, IMenuElement, IThemeable
     {
         private readonly int _PartyModeID;
         private SThemeEqualizer _Theme;
         private bool _ThemeLoaded;
 
-        public SRectF Rect;
         public SColorF Color;
         public SColorF MaxColor;
         public float Space;
@@ -59,9 +58,6 @@ namespace VocaluxeLib.Menu
         public bool Reflection;
         public float ReflectionSpace;
         public float ReflectionHeight;
-
-        public bool Selected;
-        public bool Visible;
 
         public string GetThemeName()
         {
@@ -77,18 +73,19 @@ namespace VocaluxeLib.Menu
         private int _MaxBar;
         private float _MaxVolume;
 
+        public bool Selectable
+        {
+            get { return false; }
+        }
+
         public CEqualizer(int partyModeID)
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeEqualizer();
             _ThemeLoaded = false;
 
-            Rect = new SRectF();
             Color = new SColorF();
             MaxColor = new SColorF();
-
-            Selected = false;
-            Visible = true;
 
             Reflection = false;
             ReflectionSpace = 0f;
@@ -99,8 +96,6 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _Theme = theme;
-
-            Visible = true;
 
             LoadSkin();
         }
@@ -247,7 +242,7 @@ namespace VocaluxeLib.Menu
             _Theme.Color.Get(_PartyModeID, out Color);
             _Theme.MaxColor.Get(_PartyModeID, out MaxColor);
 
-            Rect = _Theme.Rect;
+            MaxRect = _Theme.Rect;
             Space = _Theme.Space;
             Reflection = _Theme.Reflection.Enabled;
             if (Reflection)
@@ -275,8 +270,8 @@ namespace VocaluxeLib.Menu
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
-            Rect.X += stepX;
-            Rect.Y += stepY;
+            X += stepX;
+            Y += stepY;
 
             _Theme.Rect.X += stepX;
             _Theme.Rect.Y += stepY;
@@ -284,15 +279,15 @@ namespace VocaluxeLib.Menu
 
         public void ResizeElement(int stepW, int stepH)
         {
-            Rect.W += stepW;
-            if (Rect.W <= 0)
-                Rect.W = 1;
+            W += stepW;
+            if (W <= 0)
+                W = 1;
 
             _Theme.Rect.W = Rect.W;
 
-            Rect.H += stepH;
-            if (Rect.H <= 0)
-                Rect.H = 1;
+            H += stepH;
+            if (H <= 0)
+                H = 1;
 
             _Theme.Rect.H = Rect.H;
         }
