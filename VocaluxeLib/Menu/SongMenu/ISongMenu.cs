@@ -19,7 +19,7 @@ using VocaluxeLib.PartyModes;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
-    public interface ISongMenu : IMenuElement,IThemeable
+    public interface ISongMenu : IMenuElement, IThemeable
     {
         void Update(SScreenSongOptions songOptions);
         void OnShow();

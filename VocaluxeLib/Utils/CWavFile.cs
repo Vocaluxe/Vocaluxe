@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
@@ -121,7 +138,7 @@ namespace VocaluxeLib.Utils
         }
 
         /// <summary>
-        /// Gets an array of numSamples samples per channel for the selected channel(s)
+        ///     Gets an array of numSamples samples per channel for the selected channel(s)
         /// </summary>
         /// <param name="numSamples">Samples per channel</param>
         /// <param name="channel">Channel for which to get the samples (0=all)</param>
@@ -151,7 +168,7 @@ namespace VocaluxeLib.Utils
         }
 
         /// <summary>
-        /// Gets an array of numSamples samples per channel for the selected channel(s)
+        ///     Gets an array of numSamples samples per channel for the selected channel(s)
         /// </summary>
         /// <param name="numSamples">Samples per channel</param>
         /// <param name="channel">Channel for which to get the samples (0=all)</param>

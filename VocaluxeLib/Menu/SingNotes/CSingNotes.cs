@@ -68,7 +68,7 @@ namespace VocaluxeLib.Menu.SingNotes
         [XmlArray("BarPositions")] public SBarPosition[] BarPos;
     }
 
-    public abstract class CSingNotes : CMenuElementBase, IMenuElement,IThemeable
+    public abstract class CSingNotes : CMenuElementBase, IMenuElement, IThemeable
     {
         private readonly int _PartyModeID;
         private SThemeSingBar _Theme;
