@@ -30,7 +30,7 @@ namespace Vocaluxe.Base
     static class CGame
     {
         private static ISongQueue _SongQueue;
-        private static int _NumPlayer = CConfig.NumPlayer;
+        private static int _NumPlayers = CConfig.NumPlayers;
 
         /// <summary>
         ///     Last beat that has been evaluated
@@ -177,13 +177,13 @@ namespace Vocaluxe.Base
             get { return _SongQueue.GetNumSongs(); }
         }
 
-        public static int NumPlayer
+        public static int NumPlayers
         {
-            get { return _NumPlayer; }
+            get { return _NumPlayers; }
             set
             {
                 if (value > 0 && value <= CSettings.MaxNumPlayer)
-                    _NumPlayer = value;
+                    _NumPlayers = value;
             }
         }
 
@@ -224,13 +224,13 @@ namespace Vocaluxe.Base
 
             MidRecordedBeat = -0.5f + GetBeatFromTime(time, song.BPM, song.Gap + CConfig.MicDelay / 1000f);
 
-            for (int p = 0; p < _NumPlayer; p++)
+            for (int p = 0; p < _NumPlayers; p++)
                 CRecord.AnalyzeBuffer(p);
 
             if (_LastEvalBeat >= RecordedBeat)
                 return;
 
-            for (int p = 0; p < _NumPlayer; p++)
+            for (int p = 0; p < _NumPlayers; p++)
             {
                 for (int beat = _LastEvalBeat + 1; beat <= RecordedBeat; beat++)
                 {
@@ -377,7 +377,7 @@ namespace Vocaluxe.Base
 
             CurrentBeatF = GetBeatFromTime(time, GetSong().BPM, GetSong().Gap);
 
-            for (int p = 0; p < _NumPlayer; p++)
+            for (int p = 0; p < _NumPlayers; p++)
             {
                 Players[p].Points = 0;
                 Players[p].PointsGoldenNotes = 0;

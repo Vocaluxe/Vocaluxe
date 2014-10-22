@@ -66,7 +66,7 @@ namespace VocaluxeLib.Menu
 
         public virtual void Init()
         {
-            _Selection = 0;
+            _Selection = -1;
             _PrevMouse = new Point(0, 0);
             _Active = false;
         }
@@ -294,7 +294,7 @@ namespace VocaluxeLib.Menu
 
             for (int i = 0; i < _Elements.Count; i++)
             {
-                if (_IsVisible(i) && _Elements[i].Type != EType.SingNote)
+                if (_IsVisible(i))
                 {
                     var zs = new SZSort {ID = i, Z = _GetZValue(i)};
                     items.Add(zs);

@@ -208,7 +208,7 @@ namespace VocaluxeLib
 
     public interface IRecording
     {
-        int GetToneAbs(int playerNr);
+        int GetToneAbs(int player);
     }
 
     public interface IProfiles

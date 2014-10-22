@@ -531,12 +531,12 @@ namespace Vocaluxe.Base
     {
         public int GetNumPlayer()
         {
-            return CGame.NumPlayer;
+            return CGame.NumPlayers;
         }
 
         public void SetNumPlayer(int numPlayer)
         {
-            CGame.NumPlayer = numPlayer;
+            CGame.NumPlayers = numPlayer;
         }
 
         public SPlayer[] GetPlayers()
@@ -655,9 +655,9 @@ namespace Vocaluxe.Base
 
     class CBrecord : IRecording
     {
-        public int GetToneAbs(int playerNr)
+        public int GetToneAbs(int player)
         {
-            return CRecord.GetToneAbs(playerNr);
+            return CRecord.GetToneAbs(player);
         }
     }
 

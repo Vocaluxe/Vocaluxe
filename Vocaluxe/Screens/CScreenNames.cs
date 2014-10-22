@@ -125,9 +125,9 @@ namespace Vocaluxe.Screens
             switch (keyEvent.Key)
             {
                 case Keys.Add:
-                    if (CConfig.NumPlayer + 1 <= CSettings.MaxNumPlayer)
+                    if (CConfig.NumPlayers + 1 <= CSettings.MaxNumPlayer)
                     {
-                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayer;
+                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayers;
                         _UpdatePlayerNumber();
                         //Update Tiles-List
                         _NameSelections[_NameSelection].UpdateList();
@@ -135,9 +135,9 @@ namespace Vocaluxe.Screens
                     break;
 
                 case Keys.Subtract:
-                    if (CConfig.NumPlayer - 1 > 0)
+                    if (CConfig.NumPlayers - 1 > 0)
                     {
-                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayer - 2;
+                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayers - 2;
                         _UpdatePlayerNumber();
                         //Update Tiles-List
                         _NameSelections[_NameSelection].UpdateList();
@@ -153,7 +153,7 @@ namespace Vocaluxe.Screens
                     }
                     else
                     {
-                        if (_SelectingFastPlayerNr + 1 <= CGame.NumPlayer)
+                        if (_SelectingFastPlayerNr + 1 <= CGame.NumPlayers)
                             _SelectingFastPlayerNr++;
                         else
                             _SelectingFastPlayerNr = 1;
@@ -186,7 +186,7 @@ namespace Vocaluxe.Screens
                         //Started selecting with 'P'
                         if (_SelectingFast)
                         {
-                            if (_SelectingFastPlayerNr == CGame.NumPlayer)
+                            if (_SelectingFastPlayerNr == CGame.NumPlayers)
                                 resetSelection = true;
                             else
                             {
@@ -261,7 +261,7 @@ namespace Vocaluxe.Screens
                         _SelectingKeyboardActive = false;
                         _NameSelections[_NameSelection].FastSelection(false, -1);
                     }
-                    else if (numberPressed <= CConfig.NumPlayer)
+                    else if (numberPressed <= CConfig.NumPlayers)
                     {
                         _SelectingFastPlayerNr = numberPressed;
                         _NameSelections[_NameSelection].FastSelection(true, numberPressed);
@@ -324,7 +324,7 @@ namespace Vocaluxe.Screens
                 }
 
 
-                if (_SelectingFastPlayerNr > 0 && _SelectingFastPlayerNr <= CConfig.NumPlayer)
+                if (_SelectingFastPlayerNr > 0 && _SelectingFastPlayerNr <= CConfig.NumPlayers)
                 {
                     _SelectingKeyboardActive = true;
                     _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
@@ -367,7 +367,7 @@ namespace Vocaluxe.Screens
                 }
                 else
                 {
-                    for (int i = 0; i < CGame.NumPlayer; i++)
+                    for (int i = 0; i < CGame.NumPlayers; i++)
                     {
                         if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
                         {
@@ -442,7 +442,7 @@ namespace Vocaluxe.Screens
                         _UpdateSelectedProfile(_SelectingFastPlayerNr - 1, _SelectedProfileID);
 
                         _SelectingFastPlayerNr++;
-                        if (_SelectingFastPlayerNr <= CGame.NumPlayer)
+                        if (_SelectingFastPlayerNr <= CGame.NumPlayers)
                             _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
                         else
                             stopSelectingFast = true;
@@ -468,7 +468,7 @@ namespace Vocaluxe.Screens
                 _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
                 if (_SelectedProfileID > -1)
                 {
-                    for (int i = 0; i < CGame.NumPlayer; i++)
+                    for (int i = 0; i < CGame.NumPlayers; i++)
                     {
                         if (CGame.Players[i].ProfileID == -1)
                         {
@@ -488,7 +488,7 @@ namespace Vocaluxe.Screens
             {
                 bool exit = true;
                 //Remove profile-selection
-                for (int i = 0; i < CConfig.NumPlayer; i++)
+                for (int i = 0; i < CConfig.NumPlayers; i++)
                 {
                     if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
                     {
@@ -503,7 +503,7 @@ namespace Vocaluxe.Screens
             if (mouseEvent.MB && _SelectingFast)
             {
                 _SelectingFastPlayerNr++;
-                if (_SelectingFastPlayerNr <= CGame.NumPlayer)
+                if (_SelectingFastPlayerNr <= CGame.NumPlayers)
                     _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
                 else
                     stopSelectingFast = true;
@@ -542,7 +542,7 @@ namespace Vocaluxe.Screens
             if (_ProfilesChanged || _AvatarsChanged)
                 _LoadProfiles();
 
-            for (int i = 1; i <= CGame.NumPlayer; i++)
+            for (int i = 1; i <= CGame.NumPlayers; i++)
             {
                 CRecord.AnalyzeBuffer(i - 1);
                 _Equalizers["EqualizerPlayer" + i].Update(CRecord.ToneWeigth(i - 1), CRecord.GetMaxVolume(i - 1));
@@ -598,7 +598,7 @@ namespace Vocaluxe.Screens
                 if (CGame.GetNumSongs() == 1 && firstSong.IsDuet)
                 {
                     _SelectSlides[_SelectSlideDuetPlayer[i]].Clear();
-                    _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayer;
+                    _SelectSlides[_SelectSlideDuetPlayer[i]].Visible = i + 1 <= CGame.NumPlayers;
 
                     for (int j = 0; j < firstSong.Notes.VoiceCount; j++)
                         _SelectSlides[_SelectSlideDuetPlayer[i]].AddValue(firstSong.Notes.VoiceNames[j]);
@@ -616,7 +616,7 @@ namespace Vocaluxe.Screens
         {
             if (CGame.GetNumSongs() == 1 && CGame.GetSong(0).IsDuet)
             {
-                for (int i = 0; i < CGame.NumPlayer; i++)
+                for (int i = 0; i < CGame.NumPlayers; i++)
                     CGame.Players[i].VoiceNr = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
             }
             CGraphics.FadeTo(EScreens.ScreenSing);
@@ -627,16 +627,16 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlidePlayerNumber].Clear();
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
                 _SelectSlides[_SelectSlidePlayerNumber].AddValue(CLanguage.Translate("TR_SCREENNAMES_" + i + "PLAYER"));
-            _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayer - 1;
+            _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayers - 1;
         }
 
         private void _UpdatePlayerNumber()
         {
-            CConfig.NumPlayer = _SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
-            CGame.NumPlayer = _SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
+            CConfig.NumPlayers = _SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
+            CGame.NumPlayers = _SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
             {
-                if (i <= CGame.NumPlayer)
+                if (i <= CGame.NumPlayers)
                 {
                     _Statics["StaticPlayer" + i].Visible = true;
                     _Statics["StaticPlayerAvatar" + i].Visible = true;
@@ -681,7 +681,7 @@ namespace Vocaluxe.Screens
 
         private void _ResetPlayerSelections()
         {
-            for (int i = 0; i < CGame.NumPlayer; i++)
+            for (int i = 0; i < CGame.NumPlayers; i++)
             {
                 _NameSelections[_NameSelection].RemoveUsedProfile(CGame.Players[i].ProfileID);
                 CGame.Players[i].ProfileID = -1;
@@ -714,7 +714,7 @@ namespace Vocaluxe.Screens
         private void _CheckMics()
         {
             var playerWithoutMicro = new List<int>();
-            for (int player = 0; player < CConfig.NumPlayer; player++)
+            for (int player = 0; player < CConfig.NumPlayers; player++)
             {
                 if (!CConfig.IsMicConfig(player + 1))
                     playerWithoutMicro.Add(player + 1);
@@ -752,7 +752,7 @@ namespace Vocaluxe.Screens
         private void _CheckPlayers()
         {
             var playerWithoutProfile = new List<int>();
-            for (int player = 0; player < CConfig.NumPlayer; player++)
+            for (int player = 0; player < CConfig.NumPlayers; player++)
             {
                 if (CGame.Players[player].ProfileID < 0)
                     playerWithoutProfile.Add(player + 1);

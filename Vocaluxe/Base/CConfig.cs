@@ -134,7 +134,7 @@ namespace Vocaluxe.Base
         public static EOffOn IgnoreArticles = EOffOn.TR_CONFIG_ON;
         public static float ScoreAnimationTime = 10;
         public static ETimerMode TimerMode = ETimerMode.TR_CONFIG_TIMERMODE_REMAINING;
-        public static int NumPlayer = 2;
+        public static int NumPlayers = 2;
         public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
         public static string Language = CSettings.FallbackLanguage;
         public static ELyricsPosition LyricsPosition = ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM;
@@ -289,7 +289,7 @@ namespace Vocaluxe.Base
             xmlReader.TryGetEnumValue("//root/Game/IgnoreArticles", ref IgnoreArticles);
             xmlReader.TryGetFloatValue("//root/Game/ScoreAnimationTime", ref ScoreAnimationTime);
             xmlReader.TryGetEnumValue("//root/Game/TimerMode", ref TimerMode);
-            xmlReader.TryGetIntValue("//root/Game/NumPlayer", ref NumPlayer);
+            xmlReader.TryGetIntValue("//root/Game/NumPlayer", ref NumPlayers);
             xmlReader.TryGetEnumValue("//root/Game/Tabs", ref Tabs);
             xmlReader.GetValue("//root/Game/Language", out Language, Language);
             xmlReader.TryGetEnumValue("//root/Game/LyricsPosition", ref LyricsPosition);
@@ -301,8 +301,8 @@ namespace Vocaluxe.Base
             if (MinLineBreakTime < 0)
                 MinLineBreakTime = 0.1f;
 
-            if (NumPlayer < 1 || NumPlayer > CSettings.MaxNumPlayer)
-                NumPlayer = 2;
+            if (NumPlayers < 1 || NumPlayers > CSettings.MaxNumPlayer)
+                NumPlayers = 2;
 
             bool langExists = CLanguage.SetLanguage(Language);
 
@@ -534,7 +534,7 @@ namespace Vocaluxe.Base
                 writer.WriteElementString("TimerMode", Enum.GetName(typeof(ETimerMode), TimerMode));
 
                 writer.WriteComment("NumPlayer: 1.." + CSettings.MaxNumPlayer);
-                writer.WriteElementString("NumPlayer", NumPlayer.ToString());
+                writer.WriteElementString("NumPlayer", NumPlayers.ToString());
 
                 writer.WriteComment("Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
                 writer.WriteElementString("Tabs", Enum.GetName(typeof(EOffOn), Tabs));

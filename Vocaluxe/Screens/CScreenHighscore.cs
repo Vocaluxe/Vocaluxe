@@ -215,7 +215,7 @@ namespace Vocaluxe.Screens
 
             for (int round = 0; round < points.NumRounds; round++)
             {
-                SPlayer[] players = points.GetPlayer(round, CGame.NumPlayer);
+                SPlayer[] players = points.GetPlayer(round, CGame.NumPlayers);
 
                 for (int p = 0; p < players.Length; p++)
                 {

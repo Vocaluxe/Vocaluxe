@@ -202,7 +202,7 @@ namespace VocaluxeLib.Menu
                     _AddSelectSlide(new CSelectSlide(sl, PartyModeID), sl.Name);
 
                 foreach (SThemeSingBar sb in Theme.SingNotes)
-                    _AddSingNote(new CSingNotesClassic(sb, PartyModeID), sb.Name);
+                    _AddSingNote(new CSingNotes(sb, PartyModeID), sb.Name);
 
                 foreach (SThemeSongMenu sm in Theme.SongMenus)
                     _AddSongMenu(CSongMenuFactory.GetSongMenu(sm, PartyModeID), sm.Name);
@@ -269,7 +269,7 @@ namespace VocaluxeLib.Menu
                 }
                 _LoadThemeElement<CSongMenuFramework>(_ThemeSongMenus, _AddSongMenu, xmlReader);
                 _LoadThemeElement<CLyric>(_ThemeLyrics, _AddLyric, xmlReader);
-                _LoadThemeElement<CSingNotesClassic>(_ThemeSingNotes, _AddSingNote, xmlReader);
+                _LoadThemeElement<CSingNotes>(_ThemeSingNotes, _AddSingNote, xmlReader);
                 _LoadThemeElement<CNameSelection>(_ThemeNameSelections, _AddNameSelection, xmlReader);
                 _LoadThemeElement<CEqualizer>(_ThemeEqualizers, _AddEqualizer, xmlReader);
                 _LoadThemeElement<CPlaylist>(_ThemePlaylists, _AddPlaylist, xmlReader);
@@ -499,7 +499,7 @@ namespace VocaluxeLib.Menu
 
         public CSingNotes GetNewSingNotes()
         {
-            return new CSingNotesClassic(PartyModeID);
+            return new CSingNotes(PartyModeID);
         }
 
         public CNameSelection GetNewNameSelection()

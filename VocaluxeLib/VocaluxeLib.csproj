@@ -107,6 +107,7 @@
     <Compile Include="Menu\CText.cs" />
     <Compile Include="Draw\CTextureRef.cs" />
     <Compile Include="Menu\IThemeable.cs" />
+    <Compile Include="Menu\SingNotes\CNoteBars.cs" />
     <Compile Include="Xml\CXmlDeserializer.cs" />
     <Compile Include="Xml\CXMLReader.cs" />
     <Compile Include="Enums.cs" />
@@ -120,7 +121,6 @@
     <Compile Include="Songs\CSongNote.cs" />
     <Compile Include="Songs\CNotes.cs" />
     <Compile Include="Menu\SingNotes\CSingNotes.cs" />
-    <Compile Include="Menu\SingNotes\CSingNotesClassic.cs" />
     <Compile Include="Songs\CCategory.cs" />
     <Compile Include="Songs\CSong.cs" />
     <Compile Include="Menu\SongMenu\CSongMenuFactory.cs" />
