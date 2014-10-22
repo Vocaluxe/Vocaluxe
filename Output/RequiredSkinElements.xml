@@ -31,15 +31,15 @@
 		StaticColor
 		StaticWarningColor
 		ButtonColor
-		ButtonSColor
+		ButtonSelColor
 		ButtonTextColor
-		ButtonTextSColor
+		ButtonTextSelColor
 		SelectSlideColor
-		SelectSlideSColor
+		SelectSlideSelColor
 		ArrowColor
-		ArrowSColor
+		ArrowSelColor
 		TextColor
-		TextSColor
+		TextSelColor
 		TextWarningColor
 		Visible
 		Invisible

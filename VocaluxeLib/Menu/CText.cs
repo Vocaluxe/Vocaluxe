@@ -33,7 +33,7 @@ namespace VocaluxeLib.Menu
         [XmlElement("H")] public float FontHeight;
         [XmlElement("MaxW")] public float MaxWidth;
         public SThemeColor Color;
-        public SThemeColor SColor; //for Buttons
+        public SThemeColor SelColor; //for Buttons
         public EAlignment Align;
         public EHAlignment ResizeAlign;
         [XmlElement("Style")] public EStyle FontStyle;
@@ -163,8 +163,8 @@ namespace VocaluxeLib.Menu
         public SColorF Color; //normal Color
         public SColorF SelColor; //selected Color for Buttons
 
-        public float ReflectionSpace;
-        public float ReflectionHeight;
+        private float _ReflectionSpace;
+        private float _ReflectionHeight;
 
         private string _Text = String.Empty;
         public string Text
@@ -251,8 +251,8 @@ namespace VocaluxeLib.Menu
 
             Color = text.Color;
             SelColor = text.SelColor;
-            ReflectionSpace = text.ReflectionSpace;
-            ReflectionHeight = text.ReflectionHeight;
+            _ReflectionSpace = text._ReflectionSpace;
+            _ReflectionHeight = text._ReflectionHeight;
 
             Text = text.Text;
             Visible = text.Visible;
@@ -283,8 +283,8 @@ namespace VocaluxeLib.Menu
 
             Selected = false;
 
-            ReflectionSpace = rspace;
-            ReflectionHeight = rheight;
+            _ReflectionSpace = rspace;
+            _ReflectionHeight = rheight;
         }
 
         public CText(SThemeText theme, int partyModeID, bool buttonText = false)
@@ -326,8 +326,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SColor.Name, String.Empty))
-                _ThemeLoaded &= _Theme.SColor.Get(_PartyModeID, out SelColor);
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
+                _ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out SelColor);
             else
             {
                 if (xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R))
@@ -348,9 +348,9 @@ namespace VocaluxeLib.Menu
 
             if (xmlReader.ItemExists(item + "/Reflection") && !buttonText)
             {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
-                _Theme.Reflection = new SReflection(true, ReflectionHeight, ReflectionSpace);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref _ReflectionSpace);
+                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref _ReflectionHeight);
+                _Theme.Reflection = new SReflection(true, _ReflectionHeight, _ReflectionSpace);
             }
             else
                 _Theme.Reflection = new SReflection(false, 0f, 0f);
@@ -361,7 +361,7 @@ namespace VocaluxeLib.Menu
             _Theme.Align = _Align;
             _Theme.Color.Color = Color;
             _Theme.ResizeAlign = _ResizeAlign;
-            _Theme.SColor.Color = SelColor;
+            _Theme.SelColor.Color = SelColor;
 
             _ButtonText = buttonText;
             _PositionNeedsUpdate = true;
@@ -389,8 +389,8 @@ namespace VocaluxeLib.Menu
 
             CBase.Fonts.DrawText(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color);
 
-            if (ReflectionHeight > 0)
-                CBase.Fonts.DrawTextReflection(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color, ReflectionSpace, ReflectionHeight);
+            if (_ReflectionHeight > 0)
+                CBase.Fonts.DrawTextReflection(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color, _ReflectionSpace, _ReflectionHeight);
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
                 CBase.Drawing.DrawRect(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(Rect.X, Rect.Y, Rect.W, Rect.H, Z));
@@ -403,7 +403,7 @@ namespace VocaluxeLib.Menu
 
             CBase.Fonts.DrawText(Text, CalculatedFont, Rect.X, Rect.Y, Z, color, begin, end);
 
-            if (ReflectionHeight > 0)
+            if (_ReflectionHeight > 0)
             {
                 // TODO
             }
@@ -414,20 +414,20 @@ namespace VocaluxeLib.Menu
 
         public void DrawRelative(float rx, float ry, float reflectionHeight = 0f, float reflectionSpace = 0f, float rectHeight = 0f)
         {
-            float oldReflectionSpace = ReflectionSpace;
-            float oldReflectionHeight = ReflectionHeight;
+            float oldReflectionSpace = _ReflectionSpace;
+            float oldReflectionHeight = _ReflectionHeight;
             if (reflectionHeight > 0)
             {
-                ReflectionSpace = (rectHeight - Rect.Y - Rect.H) * 2 + reflectionSpace;
-                ReflectionHeight = reflectionHeight - (rectHeight - Rect.Y) + Rect.H;
+                _ReflectionSpace = (rectHeight - Rect.Y - Rect.H) * 2 + reflectionSpace;
+                _ReflectionHeight = reflectionHeight - (rectHeight - Rect.Y) + Rect.H;
             }
             else
-                ReflectionHeight = 0;
+                _ReflectionHeight = 0;
             X += rx;
             Y += ry;
             _Draw(true);
-            ReflectionSpace = oldReflectionSpace;
-            ReflectionHeight = oldReflectionHeight;
+            _ReflectionSpace = oldReflectionSpace;
+            _ReflectionHeight = oldReflectionHeight;
             X -= rx;
             Y -= ry;
         }
@@ -437,7 +437,7 @@ namespace VocaluxeLib.Menu
         public void LoadSkin()
         {
             _Theme.Color.Get(_PartyModeID, out Color);
-            _Theme.SColor.Get(_PartyModeID, out SelColor);
+            _Theme.SelColor.Get(_PartyModeID, out SelColor);
 
             X = _Theme.X;
             Y = _Theme.Y;
@@ -451,8 +451,8 @@ namespace VocaluxeLib.Menu
 
             if (_Theme.Reflection.Enabled)
             {
-                ReflectionSpace = _Theme.Reflection.Space;
-                ReflectionHeight = _Theme.Reflection.Height;
+                _ReflectionSpace = _Theme.Reflection.Space;
+                _ReflectionHeight = _Theme.Reflection.Height;
             }
 
             Text = _Theme.Text;

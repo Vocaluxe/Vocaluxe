@@ -798,7 +798,7 @@
       <H>27</H>
       <MaxW>880</MaxW>
       <Color Name="Black" />
-      <SColor Name="Black" />
+      <SelColor Name="Black" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -813,7 +813,7 @@
       <H>20</H>
       <MaxW>0</MaxW>
       <Color Name="White" />
-      <SColor Name="White" />
+      <SelColor Name="White" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -828,7 +828,7 @@
       <H>90</H>
       <MaxW>0</MaxW>
       <Color Name="StaticColor" />
-      <SColor Name="TextSColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -842,8 +842,8 @@
       <Z>-1</Z>
       <H>30</H>
       <MaxW>0</MaxW>
-      <Color Name="TextSColor" />
-      <SColor Name="TextSColor" />
+      <Color Name="TextSelColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -857,8 +857,8 @@
       <Z>-1</Z>
       <H>30</H>
       <MaxW>0</MaxW>
-      <Color Name="TextSColor" />
-      <SColor Name="TextSColor" />
+      <Color Name="TextSelColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -873,7 +873,7 @@
       <H>27</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
-      <SColor Name="TextSColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -888,7 +888,7 @@
       <H>198</H>
       <MaxW>0</MaxW>
       <Color Name="Player1"><A>0.4</A></Color>
-      <SColor Name="TextSColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -908,7 +908,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="TextSColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -923,7 +923,7 @@
       <H>173</H>
       <MaxW>0</MaxW>
       <Color Name="Player1"><A>0.4</A></Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -943,7 +943,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -958,7 +958,7 @@
       <H>173</H>
       <MaxW>0</MaxW>
       <Color Name="Player2"><A>0.4</A></Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -978,7 +978,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -993,7 +993,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player1"><A>0.4</A></Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1013,7 +1013,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1028,7 +1028,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player2"><A>0.4</A></Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1048,7 +1048,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1063,7 +1063,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player3"><A>0.4</A></Color>
-      <SColor Name="Player3" />
+      <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1083,7 +1083,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player3" />
+      <SelColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1098,7 +1098,7 @@
       <H>173</H>
       <MaxW>0</MaxW>
       <Color Name="Player1"><A>0.4</A></Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1118,7 +1118,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1133,7 +1133,7 @@
       <H>173</H>
       <MaxW>0</MaxW>
       <Color Name="Player2"><A>0.4</A></Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1153,7 +1153,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1168,7 +1168,7 @@
       <H>173</H>
       <MaxW>0</MaxW>
       <Color Name="Player3"><A>0.4</A></Color>
-      <SColor Name="Player3" />
+      <SelColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1188,7 +1188,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player3" />
+      <SelColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1203,7 +1203,7 @@
       <H>173</H>
       <MaxW>0</MaxW>
       <Color Name="Player4"><A>0.4</A></Color>
-      <SColor Name="Player4" />
+      <SelColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1223,7 +1223,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player4" />
+      <SelColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1238,7 +1238,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player1"><A>0.4</A></Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1258,7 +1258,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1273,7 +1273,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player2"><A>0.4</A></Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1293,7 +1293,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1308,7 +1308,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player3"><A>0.4</A></Color>
-      <SColor Name="Player3" />
+      <SelColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1328,7 +1328,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player3" />
+      <SelColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1343,7 +1343,7 @@
       <H>173</H>
       <MaxW>0</MaxW>
       <Color Name="Player4"><A>0.4</A></Color>
-      <SColor Name="Player4" />
+      <SelColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1363,7 +1363,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player4" />
+      <SelColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1378,7 +1378,7 @@
       <H>173</H>
       <MaxW>0</MaxW>
       <Color Name="Player5"><A>0.4</A></Color>
-      <SColor Name="Player5" />
+      <SelColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1398,7 +1398,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player5" />
+      <SelColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1413,7 +1413,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player1"><A>0.4</A></Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1433,7 +1433,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player1" />
+      <SelColor Name="Player1" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1448,7 +1448,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player2"><A>0.4</A></Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1468,7 +1468,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player2" />
+      <SelColor Name="Player2" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1483,7 +1483,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player3"><A>0.4</A></Color>
-      <SColor Name="Player3" />
+      <SelColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1503,7 +1503,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player3" />
+      <SelColor Name="Player3" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1518,7 +1518,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player4"><A>0.4</A></Color>
-      <SColor Name="Player4" />
+      <SelColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1538,7 +1538,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player4" />
+      <SelColor Name="Player4" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1553,7 +1553,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player5"><A>0.4</A></Color>
-      <SColor Name="Player5" />
+      <SelColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1573,7 +1573,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player5" />
+      <SelColor Name="Player5" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1588,7 +1588,7 @@
       <H>148</H>
       <MaxW>0</MaxW>
       <Color Name="Player6"><A>0.4</A></Color>
-      <SColor Name="Player6" />
+      <SelColor Name="Player6" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1608,7 +1608,7 @@
         <B>1</B>
         <A>0.4</A>
       </Color>
-      <SColor Name="Player6" />
+      <SelColor Name="Player6" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -1629,7 +1629,7 @@
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSColor" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
@@ -1637,7 +1637,7 @@
         <H>27</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
-        <SColor Name="ButtonTextSColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -1665,7 +1665,7 @@
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSColor" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
@@ -1673,7 +1673,7 @@
         <H>27</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
-        <SColor Name="ButtonTextSColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -1701,7 +1701,7 @@
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSColor" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
@@ -1709,7 +1709,7 @@
         <H>27</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
-        <SColor Name="ButtonTextSColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -1738,7 +1738,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
-      <SColor Name="LyricSelColor" />
+      <SelColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricSub">
       <Rect>
@@ -1749,7 +1749,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricSubColor" />
-      <SColor Name="LyricSelColor" />
+      <SelColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricMainDuet">
       <Rect>
@@ -1760,7 +1760,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
-      <SColor Name="LyricSelColor" />
+      <SelColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricSubDuet">
       <Rect>
@@ -1771,7 +1771,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricSubColor" />
-      <SColor Name="LyricSelColor" />
+      <SelColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricMainTop">
       <Rect>
@@ -1782,7 +1782,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
-      <SColor Name="LyricSelColor" />
+      <SelColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricSubTop">
       <Rect>
@@ -1793,7 +1793,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricSubColor" />
-      <SColor Name="LyricSelColor" />
+      <SelColor Name="LyricSelColor" />
     </Lyric>
   </Lyrics>
   <SelectSlides />

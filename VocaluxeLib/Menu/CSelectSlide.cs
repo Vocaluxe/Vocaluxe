@@ -42,13 +42,13 @@ namespace VocaluxeLib.Menu
         public SRectF RectArrowRight;
 
         public SThemeColor Color;
-        public SThemeColor SColor;
+        public SThemeColor SelColor;
 
         public SThemeColor ArrowColor;
-        public SThemeColor ArrowSColor;
+        public SThemeColor ArrowSelColor;
 
         public SThemeColor TextColor;
-        public SThemeColor TextSColor;
+        public SThemeColor TextSelColor;
 
         public float TextH;
         public float TextRelativeX;
@@ -299,8 +299,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SColor.Name, String.Empty))
-                _ThemeLoaded &= _Theme.SColor.Get(_PartyModeID, out _SelColor);
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
+                _ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out _SelColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref _SelColor.R);
@@ -331,8 +331,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowA", ref _ColorArrow.A);
             }
 
-            if (xmlReader.GetValue(item + "/ArrowSColor", out _Theme.ArrowSColor.Name, String.Empty))
-                _ThemeLoaded &= _Theme.ArrowSColor.Get(_PartyModeID, out _SelColorArrow);
+            if (xmlReader.GetValue(item + "/ArrowSColor", out _Theme.ArrowSelColor.Name, String.Empty))
+                _ThemeLoaded &= _Theme.ArrowSelColor.Get(_PartyModeID, out _SelColorArrow);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSR", ref _SelColorArrow.R);
@@ -351,8 +351,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextA", ref _TextColor.A);
             }
 
-            if (xmlReader.GetValue(item + "/TextSColor", out _Theme.TextSColor.Name, String.Empty))
-                _ThemeLoaded &= _Theme.TextSColor.Get(_PartyModeID, out _SelTextColor);
+            if (xmlReader.GetValue(item + "/TextSColor", out _Theme.TextSelColor.Name, String.Empty))
+                _ThemeLoaded &= _Theme.TextSelColor.Get(_PartyModeID, out _SelTextColor);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSR", ref _SelTextColor.R);
@@ -374,13 +374,13 @@ namespace VocaluxeLib.Menu
             {
                 _Theme.Name = elementName;
                 _Theme.ArrowColor.Color = _ColorArrow;
-                _Theme.ArrowSColor.Color = _SelColorArrow;
+                _Theme.ArrowSelColor.Color = _SelColorArrow;
                 _Theme.Color.Color = _Color;
                 _Theme.RectArrowLeft = RectArrowLeft;
                 _Theme.RectArrowRight = RectArrowRight;
-                _Theme.SColor.Color = _SelColor;
+                _Theme.SelColor.Color = _SelColor;
                 _Theme.TextColor.Color = _TextColor;
-                _Theme.TextSColor.Color = _SelTextColor;
+                _Theme.TextSelColor.Color = _SelTextColor;
                 LoadSkin();
             }
             return _ThemeLoaded;
@@ -666,11 +666,11 @@ namespace VocaluxeLib.Menu
         public void LoadSkin()
         {
             _Theme.Color.Get(_PartyModeID, out _Color);
-            _Theme.SColor.Get(_PartyModeID, out _SelColor);
+            _Theme.SelColor.Get(_PartyModeID, out _SelColor);
             _Theme.ArrowColor.Get(_PartyModeID, out _ColorArrow);
-            _Theme.ArrowSColor.Get(_PartyModeID, out _SelColorArrow);
+            _Theme.ArrowSelColor.Get(_PartyModeID, out _SelColorArrow);
             _Theme.TextColor.Get(_PartyModeID, out _TextColor);
-            _Theme.TextSColor.Get(_PartyModeID, out _SelTextColor);
+            _Theme.TextSelColor.Get(_PartyModeID, out _SelTextColor);
 
             MaxRect = _Theme.Rect;
             RectArrowLeft = _Theme.RectArrowLeft;

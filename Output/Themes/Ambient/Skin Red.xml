@@ -74,60 +74,60 @@
       <B>0,674</B>
       <A>0,300</A>
     </ButtonColor>
-    <ButtonSColor>
+    <ButtonSelColor>
       <R>0,968</R>
       <G>0,674</G>
       <B>0,674</B>
       <A>1,000</A>
-    </ButtonSColor>
+    </ButtonSelColor>
     <ButtonTextColor>
       <R>0,968</R>
       <G>0,674</G>
       <B>0,674</B>
       <A>0,500</A>
     </ButtonTextColor>
-    <ButtonTextSColor>
+    <ButtonTextSelColor>
       <R>0,968</R>
       <G>0,674</G>
       <B>0,674</B>
       <A>1,000</A>
-    </ButtonTextSColor>
+    </ButtonTextSelColor>
     <SelectSlideColor>
       <R>0,968</R>
       <G>0,674</G>
       <B>0,674</B>
       <A>1,000</A>
     </SelectSlideColor>
-    <SelectSlideSColor>
+    <SelectSlideSelColor>
       <R>0,968</R>
       <G>0,674</G>
       <B>0,674</B>
       <A>0,500</A>
-    </SelectSlideSColor>
+    </SelectSlideSelColor>
     <ArrowColor>
       <R>0,968</R>
       <G>0,674</G>
       <B>0,674</B>
       <A>0,300</A>
     </ArrowColor>
-    <ArrowSColor>
+    <ArrowSelColor>
       <R>0,968</R>
       <G>0,674</G>
       <B>0,674</B>
       <A>1,000</A>
-    </ArrowSColor>
+    </ArrowSelColor>
     <TextColor>
       <R>0,968</R>
       <G>0,674</G>
       <B>0,674</B>
       <A>0,500</A>
     </TextColor>
-    <TextSColor>
+    <TextSelColor>
       <R>0,968</R>
       <G>0,674</G>
       <B>0,674</B>
       <A>1,000</A>
-    </TextSColor>
+    </TextSelColor>
     <TextWarningColor>
       <R>1,000</R>
       <G>0,000</G>

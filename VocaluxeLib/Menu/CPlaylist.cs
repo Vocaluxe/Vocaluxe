@@ -61,7 +61,7 @@ namespace VocaluxeLib.Menu
         public string SkinBackgroundSelected;
 
         public SThemeColor ColorBackground;
-        [XmlElement("SColorBackground")] public SThemeColor SelColorBackground;
+        public SThemeColor SelColorBackground;
 
         public SThemeText Text1;
 

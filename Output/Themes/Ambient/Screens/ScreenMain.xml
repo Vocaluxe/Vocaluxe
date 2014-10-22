@@ -47,7 +47,7 @@
       <H>15</H>
       <MaxW>0</MaxW>
       <Color Name="White" />
-      <SColor Name="White" />
+      <SelColor Name="White" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Normal</Style>
@@ -62,7 +62,7 @@
       <H>27</H>
       <MaxW>355</MaxW>
       <Color Name="TextWarningColor" />
-      <SColor Name="TextWarningColor" />
+      <SelColor Name="TextWarningColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -83,7 +83,7 @@
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSColor" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
@@ -91,7 +91,7 @@
         <H>27</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
-        <SColor Name="ButtonTextSColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -119,7 +119,7 @@
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSColor" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
@@ -127,7 +127,7 @@
         <H>27</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
-        <SColor Name="ButtonTextSColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -155,7 +155,7 @@
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSColor" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
@@ -163,7 +163,7 @@
         <H>27</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
-        <SColor Name="ButtonTextSColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -191,7 +191,7 @@
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSColor" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
@@ -199,7 +199,7 @@
         <H>27</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
-        <SColor Name="ButtonTextSColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
@@ -227,7 +227,7 @@
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSColor" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
@@ -235,7 +235,7 @@
         <H>27</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
-        <SColor Name="ButtonTextSColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
