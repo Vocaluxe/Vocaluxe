@@ -34,7 +34,7 @@ namespace VocaluxeLib.Menu
         public SThemeColor SelColor;
         public SThemeText Text;
         public SThemeText SText;
-        public bool STextSpecified;
+        [XmlIgnore] public bool STextSpecified;
         public SReflection Reflection;
         public SReflection SelReflection;
     }
@@ -267,7 +267,7 @@ namespace VocaluxeLib.Menu
             }
             else if (!_Theme.STextSpecified)
             {
-                texture = Texture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
+                texture = SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
 
                 CBase.Drawing.DrawTexture(texture, Rect, SelColor);
 

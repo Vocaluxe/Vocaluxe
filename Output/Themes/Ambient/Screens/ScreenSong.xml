@@ -258,7 +258,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -289,7 +288,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -320,7 +318,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -351,7 +348,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -382,7 +378,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -413,7 +408,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -444,7 +438,6 @@
         <Text>TR_SCREENSONG_BUTTON_CANCEL</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -475,7 +468,6 @@
         <Text>TR_SCREENSONG_BUTTON_PLAYLIST</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -506,7 +498,6 @@
         <Text>TR_SCREENSONG_BUTTON_SING</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -537,7 +528,6 @@
         <Text>TR_SCREENSONG_BUTTON_RANDOM</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -568,7 +558,6 @@
         <Text>TR_SCREENSONG_BUTTON_RANDOMCAT</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -599,7 +588,6 @@
         <Text>TR_SCREENSONG_BUTTON_SINGALL</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -630,7 +618,6 @@
         <Text>TR_SCREENSONG_BUTTON_SINGALLVISIBLE</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -661,7 +648,6 @@
         <Text>TR_SCREENSONG_BUTTON_OPEN_SELECTED_ITEM</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -692,7 +678,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -723,7 +708,6 @@
         <Text>TR_BUTTON_START</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -760,7 +744,6 @@
         <Text>TR_SCREENSONG_BUTTON_RANDOMMEDLEY</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -791,7 +774,6 @@
         <Text>TR_SCREENSONG_BUTTON_STARTMEDLEY</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -1217,8 +1199,7 @@
           <Text />
           <Reflection Enabled="false" />
         </Text>
-        <STextSpecified>false</STextSpecified>
-        <Reflection Enabled="false" />
+          <Reflection Enabled="false" />
         <SelReflection Enabled="false" />
       </ButtonPlaylistName>
       <ButtonPlaylistClose Name="ButtonPlaylistClose">
@@ -1248,8 +1229,7 @@
           <Text />
           <Reflection Enabled="false" />
         </Text>
-        <STextSpecified>false</STextSpecified>
-        <Reflection Enabled="false" />
+          <Reflection Enabled="false" />
         <SelReflection Enabled="false" />
       </ButtonPlaylistClose>
       <ButtonPlaylistSave Name="ButtonPlaylistSave">
@@ -1279,8 +1259,7 @@
           <Text />
           <Reflection Enabled="false" />
         </Text>
-        <STextSpecified>false</STextSpecified>
-        <Reflection Enabled="false" />
+          <Reflection Enabled="false" />
         <SelReflection Enabled="false" />
       </ButtonPlaylistSave>
       <ButtonPlaylistDelete Name="ButtonPlaylistDelete">
@@ -1310,8 +1289,7 @@
           <Text />
           <Reflection Enabled="false" />
         </Text>
-        <STextSpecified>false</STextSpecified>
-        <Reflection Enabled="false" />
+          <Reflection Enabled="false" />
         <SelReflection Enabled="false" />
       </ButtonPlaylistDelete>
       <ButtonPlaylistSing Name="ButtonPlaylistSing">
@@ -1341,8 +1319,7 @@
           <Text />
           <Reflection Enabled="false" />
         </Text>
-        <STextSpecified>false</STextSpecified>
-        <Reflection Enabled="false" />
+          <Reflection Enabled="false" />
         <SelReflection Enabled="false" />
       </ButtonPlaylistSing>
       <SelectSlideGameMode>

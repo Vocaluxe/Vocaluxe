@@ -76,7 +76,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -107,7 +106,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -138,7 +136,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -169,7 +166,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -200,7 +196,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -231,7 +226,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -262,7 +256,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>
@@ -293,7 +286,6 @@
         <Text />
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="false" />
       <SelReflection Enabled="false" />
     </Button>

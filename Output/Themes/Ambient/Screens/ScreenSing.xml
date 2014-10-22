@@ -1645,7 +1645,6 @@
         <Text>TR_SCREENSING_BUTTON_CANCEL</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -1682,7 +1681,6 @@
         <Text>TR_SCREENSING_BUTTON_CONTINUE</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -1719,7 +1717,6 @@
         <Text>TR_SCREENSING_BUTTON_SKIP</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>

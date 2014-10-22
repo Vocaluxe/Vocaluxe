@@ -288,7 +288,6 @@
         <Text>TR_BUTTON_BACK</Text>
         <Reflection Enabled="false" />
       </Text>
-      <STextSpecified>false</STextSpecified>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
