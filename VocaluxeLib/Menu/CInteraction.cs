@@ -38,27 +38,6 @@ namespace VocaluxeLib.Menu
         public readonly int Num;
         public readonly EType Type;
 
-        public bool ThemeEditorOnly
-        {
-            get
-            {
-                return Type == EType.Background ||
-                       Type == EType.NameSelection ||
-                       Type == EType.Text ||
-                       Type == EType.Static ||
-                       Type == EType.SongMenu ||
-                       Type == EType.Lyric ||
-                       Type == EType.SingNote ||
-                       Type == EType.Equalizer ||
-                       Type == EType.Playlist;
-            }
-        }
-
-        public bool DrawAsForeground
-        {
-            get { return Type != EType.Background && Type != EType.SingNote; }
-        }
-
         public CInteraction(int num, EType type)
         {
             Num = num;

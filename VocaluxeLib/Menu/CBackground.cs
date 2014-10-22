@@ -231,16 +231,30 @@ namespace VocaluxeLib.Menu
         #endregion public
 
         #region internal
-        private static SRectF _GetDrawRect()
+        public override float X
         {
-            SRectF rect = CBase.Settings.GetRenderRect();
-            rect.Z = CBase.Settings.GetZFar() / 4;
-            return rect;
+            get { return 0; }
+        }
+        public override float Y
+        {
+            get { return 0; }
+        }
+        public override float Z
+        {
+            get { return CBase.Settings.GetZFar() / 4; }
+        }
+        public override float W
+        {
+            get { return CBase.Settings.GetRenderW(); }
+        }
+        public override float H
+        {
+            get { return CBase.Settings.GetRenderH(); }
         }
 
         private void _DrawColor()
         {
-            CBase.Drawing.DrawRect(Color, _GetDrawRect());
+            CBase.Drawing.DrawRect(Color, Rect);
         }
 
         private bool _DrawTexture()
@@ -248,7 +262,7 @@ namespace VocaluxeLib.Menu
             CTextureRef texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
             if (texture != null)
             {
-                CBase.Drawing.DrawTexture(texture, _GetDrawRect(), EAspect.Crop);
+                CBase.Drawing.DrawTexture(texture, Rect, EAspect.Crop);
                 return true;
             }
             return false;
@@ -278,7 +292,7 @@ namespace VocaluxeLib.Menu
                 if (texture == null)
                     return false;
 
-                CBase.Drawing.DrawTexture(texture, _GetDrawRect(), EAspect.Crop);
+                CBase.Drawing.DrawTexture(texture, Rect, EAspect.Crop);
 
                 if (_SlideShowTimer.ElapsedMilliseconds >= CBase.Settings.GetSlideShowImageTime())
                 {
@@ -293,7 +307,7 @@ namespace VocaluxeLib.Menu
                     {
                         SColorF color = texture.Color;
                         color.A = (_SlideShowTimer.ElapsedMilliseconds - CBase.Settings.GetSlideShowImageTime()) / CBase.Settings.GetSlideShowFadeTime();
-                        CBase.Drawing.DrawTexture(texture, _GetDrawRect(), EAspect.Crop, color);
+                        CBase.Drawing.DrawTexture(texture, Rect, EAspect.Crop, color);
                     }
                 }
 
@@ -307,7 +321,7 @@ namespace VocaluxeLib.Menu
             CBase.Video.GetFrame(_VideoStream, _VideoStream.VideoTime);
             if (_VideoStream.Texture != null)
             {
-                CBase.Drawing.DrawTexture(_VideoStream.Texture, _GetDrawRect(), EAspect.Crop);
+                CBase.Drawing.DrawTexture(_VideoStream.Texture, Rect, EAspect.Crop);
                 return true;
             }
             return false;
@@ -318,7 +332,7 @@ namespace VocaluxeLib.Menu
             CTextureRef videoTexture = CBase.BackgroundMusic.GetVideoTexture();
             if (videoTexture != null)
             {
-                CBase.Drawing.DrawTexture(videoTexture, _GetDrawRect(), EAspect.Crop);
+                CBase.Drawing.DrawTexture(videoTexture, Rect, EAspect.Crop);
                 return true;
             }
             return false;

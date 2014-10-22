@@ -33,7 +33,7 @@ namespace VocaluxeLib.Menu
         public virtual float Y { get; set; }
         public virtual float Z { get; set; }
         public virtual float W { get; set; }
-        public float H { get; set; }
+        public virtual float H { get; set; }
 
         public virtual SRectF MaxRect
         {

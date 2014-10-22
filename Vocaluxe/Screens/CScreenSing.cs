@@ -149,9 +149,7 @@ namespace Vocaluxe.Screens
             _BuildStaticStrings(ref statics);
             _ThemeStatics = statics.ToArray();
 
-            var buttons = new List<string> {_ButtonCancel, _ButtonContinue, _ButtonSkip};
-            _ThemeButtons = buttons.ToArray();
-
+            _ThemeButtons = new string[] {_ButtonCancel, _ButtonContinue, _ButtonSkip};
             _ThemeLyrics = new string[] {_LyricMain, _LyricSub, _LyricMainDuet, _LyricSubDuet, _LyricMainTop, _LyricSubTop};
             _ThemeSingNotes = new string[] {_SingBars};
 
@@ -159,23 +157,6 @@ namespace Vocaluxe.Screens
             _TimerSongText = new Stopwatch();
             _TimerDuetText1 = new Stopwatch();
             _TimerDuetText2 = new Stopwatch();
-        }
-
-        public override void LoadTheme(string xmlPath)
-        {
-            base.LoadTheme(xmlPath);
-
-            _Statics[_StaticTimeLine].Visible = false;
-            _Statics[_StaticTimeLineExpandedNormal].Visible = false;
-            _Statics[_StaticTimeLineExpandedHighlighted].Visible = false;
-            _Statics[_StaticPauseBG].Visible = false;
-            _Texts[_TextPause].Visible = false;
-
-            _Statics[_StaticPauseBG].Visible = false;
-            _Texts[_TextPause].Visible = false;
-
-            _Buttons[_ButtonCancel].Visible = false;
-            _Buttons[_ButtonContinue].Visible = false;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -189,13 +170,13 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                         _TogglePause();
                         if (_Pause)
-                            _SetInteractionToButton(_Buttons[_ButtonCancel]);
+                            _SelectElement(_Buttons[_ButtonCancel]);
                         break;
 
                     case Keys.P:
                         _TogglePause();
                         if (_Pause)
-                            _SetInteractionToButton(_Buttons[_ButtonContinue]);
+                            _SelectElement(_Buttons[_ButtonContinue]);
                         break;
 
                     case Keys.T:
@@ -297,7 +278,7 @@ namespace Vocaluxe.Screens
             {
                 _TogglePause();
                 if (_Pause)
-                    _SetInteractionToButton(_Buttons[_ButtonContinue]);
+                    _SelectElement(_Buttons[_ButtonContinue]);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent) && _Pause)
