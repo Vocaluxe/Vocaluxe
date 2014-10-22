@@ -30,7 +30,7 @@ namespace VocaluxeLib.Menu
         public SRectF Rect;
 
         public SThemeColor Color;
-        public SThemeColor SelColor;
+        public SThemeColor ProcessedColor;
     }
 
     public class CLyric : CMenuElementBase, IMenuElement, IThemeable
@@ -130,8 +130,8 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _Color.A);
             }
 
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
-                _ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out _ColorProcessed);
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.ProcessedColor.Name, String.Empty))
+                _ThemeLoaded &= _Theme.ProcessedColor.Get(_PartyModeID, out _ColorProcessed);
             else
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref _ColorProcessed.R);
@@ -144,7 +144,7 @@ namespace VocaluxeLib.Menu
             {
                 _Theme.Name = elementName;
                 _Theme.Color.Color = _Color;
-                _Theme.SelColor.Color = _ColorProcessed;
+                _Theme.ProcessedColor.Color = _ColorProcessed;
                 LoadSkin();
             }
             return _ThemeLoaded;
@@ -429,7 +429,7 @@ namespace VocaluxeLib.Menu
         public void LoadSkin()
         {
             _Theme.Color.Get(_PartyModeID, out _Color);
-            _Theme.SelColor.Get(_PartyModeID, out _ColorProcessed);
+            _Theme.ProcessedColor.Get(_PartyModeID, out _ColorProcessed);
 
             MaxRect = _Theme.Rect;
             _Text = new CText(X, Y, Z, H, W, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
