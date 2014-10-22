@@ -46,6 +46,7 @@ namespace VocaluxeLib.Menu
         protected readonly COrderedDictionaryLite<CEqualizer> _Equalizers;
         protected readonly COrderedDictionaryLite<CPlaylist> _Playlists;
         protected readonly COrderedDictionaryLite<CParticleEffect> _ParticleEffects;
+        private readonly SColorF _HighlightColor = new SColorF(1, 0, 0, 0);
 
         protected CObjectInteractions()
         {
@@ -307,7 +308,12 @@ namespace VocaluxeLib.Menu
             items.Sort((s1, s2) => s2.Z.CompareTo(s1.Z));
 
             for (int i = 0; i < items.Count; i++)
-                _GetElement(items[i].ID).Draw();
+            {
+                IMenuElement el = _GetElement(items[i].ID);
+                if (el.Highlighted)
+                    CBase.Drawing.DrawRect(_HighlightColor, el.MaxRect);
+                el.Draw();
+            }
         }
         #endregion Drawing
 
