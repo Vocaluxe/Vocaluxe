@@ -43,11 +43,11 @@ namespace VocaluxeLib.Menu
 
         SRectF ScreenArea { get; }
 
-        void NextInteraction();
-        void PrevInteraction();
+        void NextElement();
+        void PrevElement();
 
-        bool NextElement();
-        bool PrevElement();
+        bool NextValue();
+        bool PrevValue();
 
         void ProcessMouseClick(int x, int y);
         void ProcessMouseMove(int x, int y);

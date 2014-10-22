@@ -585,7 +585,7 @@ namespace Vocaluxe.Base
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
                 {
                     CSettings.ProgramState = EProgramState.Normal;
-                    _Screens[(int)_CurrentScreen].NextInteraction();
+                    _Screens[(int)_CurrentScreen].NextElement();
                 }
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
                     CConfig.FullScreen = (CConfig.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;

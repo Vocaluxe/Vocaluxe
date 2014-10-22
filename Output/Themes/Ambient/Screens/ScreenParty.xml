@@ -340,7 +340,6 @@
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <SkinHighlighted>SelectSlide</SkinHighlighted>
       <Rect>
         <X>500</X>
         <Y>100</Y>
@@ -364,7 +363,6 @@
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
       <SColor Name="SelectSlideSColor" />
-      <HColor Name="SelectSlideHColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSColor Name="ArrowSColor" />
       <TextColor Name="TextColor" />

@@ -1209,7 +1209,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = true;
             _Buttons[_ButtonOptionsSing].Visible = true;
             _Buttons[_ButtonOptionsPlaylist].Visible = true;
-            _SetInteractionToButton(_Buttons[_ButtonOptionsSing]);
+            _SelectElement(_Buttons[_ButtonOptionsSing]);
             _SetSelectSlidePlaylistToCurrentPlaylist();
         }
 
@@ -1232,9 +1232,9 @@ namespace Vocaluxe.Screens
             // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (_Buttons[_ButtonOptionsRandom].Visible)
                 // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                _SetInteractionToButton(_Buttons[_ButtonOptionsRandom]);
+                _SelectElement(_Buttons[_ButtonOptionsRandom]);
             else
-                _SetInteractionToButton(_Buttons[_ButtonOptionsRandomCategory]);
+                _SelectElement(_Buttons[_ButtonOptionsRandomCategory]);
         }
 
         private void _ShowSongOptionsMedley()
@@ -1256,7 +1256,7 @@ namespace Vocaluxe.Screens
                 _SelectSlides[_SelectSlideOptionsNumMedleySongs].SetSelectionByValueIndex(4);
             else
                 _SelectSlides[_SelectSlideOptionsNumMedleySongs].SetSelectionByValueIndex(_SelectSlides[_SelectSlideOptionsNumMedleySongs].NumValues - 1);
-            _SetInteractionToButton(_Buttons[_ButtonOptionsStartMedley]);
+            _SelectElement(_Buttons[_ButtonOptionsStartMedley]);
         }
 
         #region Playlist Actions

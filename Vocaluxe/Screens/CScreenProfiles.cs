@@ -386,7 +386,7 @@ namespace Vocaluxe.Screens
             CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                 _SelectSlides[_SelectSlideAvatars].ValueIndex);
 
-            _SetInteractionToButton(_Buttons[_ButtonPlayerName]);
+            _SelectElement(_Buttons[_ButtonPlayerName]);
             _EditMode = EEditMode.PlayerName;
         }
 

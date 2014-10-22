@@ -175,7 +175,11 @@ namespace VocaluxeLib.Menu
         {
             get { return Visible; }
         }
-        public bool Visible { get; set; }
+        public bool Visible
+        {
+            get { return _Active; }
+            set { _Active = value; }
+        }
         public bool Highlighted { get; set; }
         public bool Selected
         {
@@ -183,7 +187,6 @@ namespace VocaluxeLib.Menu
             set
             {
                 _Selected = value;
-                _Active = value;
                 _CurrentPlaylistElement = _GetSelectedElementNr();
 
                 if (!value)
@@ -462,7 +465,7 @@ namespace VocaluxeLib.Menu
                     case Keys.Up:
                         if (keyEvent.ModShift)
                         {
-                            _SetInteractionToSelectSlide(_PlaylistElements[0].SelectSlide);
+                            _SelectElement(_PlaylistElements[0].SelectSlide);
                             base.HandleInput(keyEvent);
                             _CurrentPlaylistElement = _GetSelectedElementNr();
                         }
@@ -493,7 +496,7 @@ namespace VocaluxeLib.Menu
                             {
                                 if (_PlaylistElements[i].SelectSlide.Visible)
                                 {
-                                    _SetInteractionToSelectSlide(_PlaylistElements[0].SelectSlide);
+                                    _SelectElement(_PlaylistElements[0].SelectSlide);
                                     base.HandleInput(keyEvent);
                                     _CurrentPlaylistElement = _GetSelectedElementNr();
                                 }
@@ -532,7 +535,7 @@ namespace VocaluxeLib.Menu
                             _CurrentPlaylistElement = _PlaylistElementContents.Count - 1;
 
                         if (_CurrentPlaylistElement != -1)
-                            _SetInteractionToSelectSlide(_PlaylistElements[_CurrentPlaylistElement].SelectSlide);
+                            _SelectElement(_PlaylistElements[_CurrentPlaylistElement].SelectSlide);
                         break;
 
                     case Keys.Back:
@@ -802,7 +805,7 @@ namespace VocaluxeLib.Menu
                     {
                         hoverSet = true;
                         _CurrentPlaylistElement = i;
-                        _SetInteractionToSelectSlide(_PlaylistElements[_CurrentPlaylistElement].SelectSlide);
+                        _SelectElement(_PlaylistElements[_CurrentPlaylistElement].SelectSlide);
                         ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
                     }
 
@@ -941,7 +944,7 @@ namespace VocaluxeLib.Menu
                         break;
 
                     case EEditMode.PlaylistName:
-                        _SetInteractionToButton(_ButtonPlaylistName);
+                        _SelectElement(_ButtonPlaylistName);
                         _CurrentPlaylistElement = -1;
                         if (mouseEvent.LB)
                         {

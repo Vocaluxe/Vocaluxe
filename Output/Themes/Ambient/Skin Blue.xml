@@ -104,12 +104,6 @@
       <B>0,969</B>
       <A>0,500</A>
     </SelectSlideColorAlpha>
-    <SelectSlideHColor>
-      <R>0,675</R>
-      <G>0,890</G>
-      <B>0,969</B>
-      <A>1,000</A>
-    </SelectSlideHColor>
     <SelectSlideSColor>
       <R>0,675</R>
       <G>0,890</G>
@@ -170,12 +164,12 @@
       <B>1,000</B>
       <A>0,000</A>
     </Invisible>
-    <LyricHighlight>
+    <LyricSelColor>
       <R>0,000</R>
       <G>0,000</G>
       <B>1,000</B>
       <A>1,000</A>
-    </LyricHighlight>
+    </LyricSelColor>
     <LyricMainColor>
       <R>0,000</R>
       <G>0,000</G>

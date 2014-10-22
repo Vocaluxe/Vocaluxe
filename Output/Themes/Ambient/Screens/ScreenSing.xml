@@ -1741,7 +1741,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
-      <SColor Name="LyricHighlight" />
+      <SColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricSub">
       <Rect>
@@ -1752,7 +1752,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricSubColor" />
-      <SColor Name="LyricHighlight" />
+      <SColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricMainDuet">
       <Rect>
@@ -1763,7 +1763,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
-      <SColor Name="LyricHighlight" />
+      <SColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricSubDuet">
       <Rect>
@@ -1774,7 +1774,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricSubColor" />
-      <SColor Name="LyricHighlight" />
+      <SColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricMainTop">
       <Rect>
@@ -1785,7 +1785,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
-      <SColor Name="LyricHighlight" />
+      <SColor Name="LyricSelColor" />
     </Lyric>
     <Lyric Name="LyricSubTop">
       <Rect>
@@ -1796,7 +1796,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricSubColor" />
-      <SColor Name="LyricHighlight" />
+      <SColor Name="LyricSelColor" />
     </Lyric>
   </Lyrics>
   <SelectSlides />

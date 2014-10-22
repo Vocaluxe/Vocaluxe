@@ -47,7 +47,6 @@
       <SkinSelected />
       <SkinArrowLeftSelected>Minus</SkinArrowLeftSelected>
       <SkinArrowRightSelected>Plus</SkinArrowRightSelected>
-      <SkinHighlighted />
       <Rect>
         <X>1090</X>
         <Y>680</Y>
@@ -71,7 +70,6 @@
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
       <SColor Name="SelectSlideSColor" />
-      <HColor Name="SelectSlideHColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSColor Name="ArrowSColor" />
       <TextColor Name="TextColor" />

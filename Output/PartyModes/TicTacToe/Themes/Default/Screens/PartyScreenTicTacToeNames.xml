@@ -291,7 +291,6 @@
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <SkinHighlighted>SelectSlide</SkinHighlighted>
       <Rect>
         <X>40</X>
         <Y>100</Y>
@@ -315,7 +314,6 @@
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
       <SColor Name="SelectSlideSColor" />
-      <HColor Name="SelectSlideHColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSColor Name="ArrowSColor" />
       <TextColor Name="TextColor" />
@@ -335,7 +333,6 @@
       <SkinSelected>SelectSlidePlayer</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <SkinHighlighted>SelectSlidePlayer</SkinHighlighted>
       <Rect>
         <X>40</X>
         <Y>160</Y>
@@ -359,7 +356,6 @@
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
       <SColor Name="SelectSlideSColor" />
-      <HColor Name="SelectSlideHColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSColor Name="ArrowSColor" />
       <TextColor Name="TextColor" />

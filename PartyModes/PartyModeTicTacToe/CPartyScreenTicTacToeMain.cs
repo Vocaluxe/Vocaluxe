@@ -310,13 +310,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _SelectedField = -1;
                 _Buttons[_ButtonBack].Visible = true;
                 _Buttons[_ButtonExit].Visible = false;
-                _SetInteractionToButton(_Buttons[_ButtonBack]);
+                _SelectElement(_Buttons[_ButtonBack]);
             }
             else
             {
                 _Buttons[_ButtonBack].Visible = false;
                 _Buttons[_ButtonExit].Visible = true;
-                _SetInteractionToButton(_Buttons[_ButtonExit]);
+                _SelectElement(_Buttons[_ButtonExit]);
             }
 
             _Status = EStatus.FieldChoosing;
@@ -358,7 +358,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Texts[_TextFinishMessage].Color = new SColorF(1, 1, 1, 1);
                     _Texts[_TextFinishMessage].Text = CBase.Language.Translate("TR_SCREENMAIN_NOWINNER", PartyModeID);
                 }
-                _SetInteractionToButton(_Buttons[_ButtonExit]);
+                _SelectElement(_Buttons[_ButtonExit]);
             }
 
             _ShowPopup(false);
@@ -512,7 +512,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Buttons[_ButtonExit].Visible = true;
             _Buttons[_ButtonBack].Visible = false;
 
-            _SetInteractionToButton(_Buttons[_ButtonNextRound]);
+            _SelectElement(_Buttons[_ButtonNextRound]);
         }
 
         private void _FieldSelectedAgain()
@@ -541,7 +541,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Buttons[_ButtonExit].Visible = true;
             _Buttons[_ButtonBack].Visible = false;
 
-            _SetInteractionToButton(_Buttons[_ButtonNextRound]);
+            _SelectElement(_Buttons[_ButtonNextRound]);
         }
 
         private void _UpdatePlayerInformation()
@@ -648,7 +648,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Buttons[_ButtonPopupNo].Visible = _ExitPopupVisible;
 
             if (_ExitPopupVisible)
-                _SetInteractionToButton(_Buttons[_ButtonPopupNo]);
+                _SelectElement(_Buttons[_ButtonPopupNo]);
         }
 
         private void _Back()

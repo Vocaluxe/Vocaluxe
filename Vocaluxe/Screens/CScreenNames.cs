@@ -181,7 +181,7 @@ namespace Vocaluxe.Screens
 
                             _UpdateSelectedProfile(_SelectingFastPlayerNr - 1, _SelectedProfileID);
 
-                            _SetInteractionToButton(_Buttons[_ButtonStart]);
+                            _SelectElement(_Buttons[_ButtonStart]);
                         }
                         //Started selecting with 'P'
                         if (_SelectingFast)
@@ -248,7 +248,7 @@ namespace Vocaluxe.Screens
                             _SelectingKeyboardActive = false;
                             _SelectingFast = false;
                             _NameSelections[_NameSelection].FastSelection(false, -1);
-                            _SetInteractionToButton(_Buttons[_ButtonStart]);
+                            _SelectElement(_Buttons[_ButtonStart]);
                         }
                         break;
                 }
@@ -557,7 +557,7 @@ namespace Vocaluxe.Screens
 
             _NameSelections[_NameSelection].Init();
             _LoadProfiles();
-            _SetInteractionToButton(_Buttons[_ButtonStart]);
+            _SelectElement(_Buttons[_ButtonStart]);
         }
 
         public override void OnClose()

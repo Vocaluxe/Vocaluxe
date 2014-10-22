@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using VocaluxeLib.Menu.SingNotes;
@@ -26,11 +27,10 @@ namespace VocaluxeLib.Menu
 {
     public abstract class CObjectInteractions
     {
-        private readonly List<CInteraction> _Interactions = new List<CInteraction>();
+        private readonly List<CInteraction> _Elements = new List<CInteraction>();
         private int _Selection;
 
-        private int _PrevMouseX;
-        private int _PrevMouseY;
+        private Point _PrevMouse;
 
         protected bool _Active;
 
@@ -66,17 +66,13 @@ namespace VocaluxeLib.Menu
         public virtual void Init()
         {
             _Selection = 0;
-
-            _PrevMouseX = 0;
-            _PrevMouseY = 0;
-
-
+            _PrevMouse = new Point(0, 0);
             _Active = false;
         }
 
         protected virtual void _ClearElements()
         {
-            _Interactions.Clear();
+            _Elements.Clear();
             _Backgrounds.Clear();
             _Buttons.Clear();
             _Texts.Clear();
@@ -91,6 +87,17 @@ namespace VocaluxeLib.Menu
             _ParticleEffects.Clear();
         }
 
+        private void _SetSelected(int newSelection)
+        {
+            IMenuElement el = _GetElement(_Selection);
+            if (el != null)
+                el.Selected = false;
+            _Selection = newSelection;
+            el = _GetElement(_Selection);
+            if (el != null)
+                el.Selected = true;
+        }
+
         #region MenuHandler
         public virtual bool HandleInput(SKeyEvent keyEvent)
         {
@@ -98,38 +105,38 @@ namespace VocaluxeLib.Menu
             {
                 if (keyEvent.Key == Keys.Left)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
-                        keyEvent.Handled = _PrevElement();
+                    if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
+                        keyEvent.Handled = PrevValue();
                     else
-                        keyEvent.Handled = _NextInteraction(keyEvent);
+                        keyEvent.Handled = _NextElement(keyEvent);
                 }
 
                 if (keyEvent.Key == Keys.Right)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
-                        keyEvent.Handled = _NextElement();
+                    if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
+                        keyEvent.Handled = NextValue();
                     else
-                        keyEvent.Handled = _NextInteraction(keyEvent);
+                        keyEvent.Handled = _NextElement(keyEvent);
                 }
 
                 if (keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down)
-                    keyEvent.Handled = _NextInteraction(keyEvent);
+                    keyEvent.Handled = _NextElement(keyEvent);
             }
             else
             {
                 if (keyEvent.Key == Keys.Tab)
                 {
                     if (keyEvent.Mod == EModifier.Shift)
-                        PrevInteraction();
+                        PrevElement();
                     else
-                        NextInteraction();
+                        NextElement();
                 }
 
                 if (keyEvent.Key == Keys.Left)
-                    _PrevElement();
+                    PrevValue();
 
                 if (keyEvent.Key == Keys.Right)
-                    _NextElement();
+                    NextValue();
             }
 
             return true;
@@ -137,127 +144,93 @@ namespace VocaluxeLib.Menu
 
         public virtual bool HandleMouse(SMouseEvent mouseEvent)
         {
-            int selection = _Selection;
             ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
-            if (selection != _Selection)
-            {
-                _GetElement(selection).Highlighted = false;
-                _GetElement(_Selection).Highlighted = true;
-            }
 
             if (mouseEvent.LB)
                 ProcessMouseClick(mouseEvent.X, mouseEvent.Y);
 
-            _PrevMouseX = mouseEvent.X;
-            _PrevMouseY = mouseEvent.Y;
+            _PrevMouse.X = mouseEvent.X;
+            _PrevMouse.Y = mouseEvent.Y;
 
             return true;
         }
 
         public virtual bool HandleInputThemeEditor(SKeyEvent keyEvent)
         {
-            _GetElement(_Selection).Highlighted = false;
+            int dx = 0;
+            int dy = 0;
             if (!keyEvent.KeyPressed)
             {
                 switch (keyEvent.Key)
                 {
                     case Keys.Up:
-                        if (keyEvent.Mod == EModifier.Ctrl)
-                            _MoveElement(0, -1);
-
-                        if (keyEvent.Mod == EModifier.Shift)
-                            _ResizeElement(0, 1);
-
+                        dy = -1;
                         break;
                     case Keys.Down:
-                        if (keyEvent.Mod == EModifier.Ctrl)
-                            _MoveElement(0, 1);
-
-                        if (keyEvent.Mod == EModifier.Shift)
-                            _ResizeElement(0, -1);
-
+                        dy = 1;
                         break;
-
                     case Keys.Right:
-                        if (keyEvent.Mod == EModifier.Ctrl)
-                            _MoveElement(1, 0);
-
-                        if (keyEvent.Mod == EModifier.Shift)
-                            _ResizeElement(1, 0);
-
-                        if (keyEvent.Mod == EModifier.None)
-                            NextInteraction();
+                        dx = 1;
                         break;
                     case Keys.Left:
-                        if (keyEvent.Mod == EModifier.Ctrl)
-                            _MoveElement(-1, 0);
-
-                        if (keyEvent.Mod == EModifier.Shift)
-                            _ResizeElement(-1, 0);
-
-                        if (keyEvent.Mod == EModifier.None)
-                            PrevInteraction();
+                        dx = -1;
                         break;
+                    case Keys.Tab:
+                        _NextElement(keyEvent);
+                        return true;
+                    default:
+                        return false;
                 }
             }
+            else
+                return false;
+
+            if ((keyEvent.Mod & EModifier.Ctrl) != EModifier.Ctrl)
+            {
+                dx *= 5;
+                dy *= 5;
+            }
+
+            if ((keyEvent.Mod & EModifier.Alt) == EModifier.Alt)
+                _MoveElement(dx, dy);
+            else if ((keyEvent.Mod & EModifier.Shift) == EModifier.Shift)
+                _ResizeElement(dx, dy);
+            else
+            {
+                if (_IsSelectionValid())
+                    _GetElement(_Selection).Highlighted = false;
+                if (_NextElement(keyEvent))
+                    _GetElement(_Selection).Highlighted = true;
+            }
+
             return true;
         }
 
         public virtual bool HandleMouseThemeEditor(SMouseEvent mouseEvent)
         {
-            _GetElement(_Selection).Highlighted = false;
-            int mouseDX = mouseEvent.X - _PrevMouseX;
-            int mouseDY = mouseEvent.Y - _PrevMouseY;
+            if (_IsSelectionValid())
+                _GetElement(_Selection).Highlighted = false;
 
-            int stepX = 0;
-            int stepY = 0;
-
-            if ((mouseEvent.Mod & EModifier.Ctrl) == EModifier.Ctrl)
+            Point mouse = new Point(mouseEvent.X, mouseEvent.Y);
+            if ((mouseEvent.Mod & EModifier.Ctrl) != EModifier.Ctrl)
             {
-                _PrevMouseX = mouseEvent.X;
-                _PrevMouseY = mouseEvent.Y;
+                // Clip to raster
+                mouse.X = (int)(Math.Round((double)mouse.X / 5) * 5);
+                mouse.Y = (int)(Math.Round((double)mouse.Y / 5) * 5);
             }
-            else
-            {
-                while (Math.Abs(mouseEvent.X - _PrevMouseX) >= 5)
-                {
-                    if (mouseEvent.X - _PrevMouseX >= 5)
-                        stepX += 5;
 
-                    if (mouseEvent.X - _PrevMouseX <= -5)
-                        stepX -= 5;
+            int mouseDX = mouse.X - _PrevMouse.X;
+            int mouseDY = mouse.Y - _PrevMouse.Y;
 
-                    _PrevMouseX = mouseEvent.X - (mouseDX - stepX);
-                }
-
-                while (Math.Abs(mouseEvent.Y - _PrevMouseY) >= 5)
-                {
-                    if (mouseEvent.Y - _PrevMouseY >= 5)
-                        stepY += 5;
-
-                    if (mouseEvent.Y - _PrevMouseY <= -5)
-                        stepY -= 5;
-
-                    _PrevMouseY = mouseEvent.Y - (mouseDY - stepY);
-                }
-            }
+            _PrevMouse.X = mouseEvent.X;
+            _PrevMouse.Y = mouseEvent.Y;
 
             if (mouseEvent.LBH)
             {
-                //if (IsMouseOver(MouseEvent.X, _PrevMouseY))
-                //{
-                if (mouseEvent.Mod == EModifier.None)
-                    _MoveElement(stepX, stepY);
-
-                if (mouseEvent.Mod == EModifier.Ctrl)
-                    _MoveElement(mouseDX, mouseDY);
-
                 if (mouseEvent.Mod == EModifier.Shift)
-                    _ResizeElement(stepX, stepY);
-
-                if (mouseEvent.Mod == (EModifier.Shift | EModifier.Ctrl))
-                    _ResizeElement(mouseDX, mouseDY);
-                //}
+                    _ResizeElement(mouseDX, mouseDX);
+                else
+                    _MoveElement(mouseDX, mouseDY);
             }
             else
                 ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
@@ -266,41 +239,46 @@ namespace VocaluxeLib.Menu
         }
         #endregion MenuHandler
 
-        private IMenuElement _GetElement(CInteraction interaction)
+        private bool _IsSelectionValid()
         {
-            switch (interaction.Type)
-            {
-                case EType.Background:
-                    return _Backgrounds[interaction.Num];
-                case EType.Button:
-                    return _Buttons[interaction.Num];
-                case EType.SelectSlide:
-                    return _SelectSlides[interaction.Num];
-                case EType.Text:
-                    return _Texts[interaction.Num];
-                case EType.Static:
-                    return _Statics[interaction.Num];
-                case EType.SongMenu:
-                    return _SongMenus[interaction.Num];
-                case EType.Lyric:
-                    return _Lyrics[interaction.Num];
-                case EType.SingNote:
-                    return _SingNotes[interaction.Num];
-                case EType.NameSelection:
-                    return _NameSelections[interaction.Num];
-                case EType.Equalizer:
-                    return _Equalizers[interaction.Num];
-                case EType.Playlist:
-                    return _Playlists[interaction.Num];
-                case EType.ParticleEffect:
-                    return _ParticleEffects[interaction.Num];
-            }
-            throw new ArgumentException("Invalid interaction type: " + interaction.Type);
+            return _Selection >= 0 && _Selection < _Elements.Count;
         }
 
-        private IMenuElement _GetElement(int interaction)
+        private IMenuElement _GetElement(CInteraction element)
         {
-            return (interaction >= 0 && interaction < _Interactions.Count) ? _GetElement(_Interactions[interaction]) : null;
+            switch (element.Type)
+            {
+                case EType.Background:
+                    return _Backgrounds[element.Num];
+                case EType.Button:
+                    return _Buttons[element.Num];
+                case EType.SelectSlide:
+                    return _SelectSlides[element.Num];
+                case EType.Text:
+                    return _Texts[element.Num];
+                case EType.Static:
+                    return _Statics[element.Num];
+                case EType.SongMenu:
+                    return _SongMenus[element.Num];
+                case EType.Lyric:
+                    return _Lyrics[element.Num];
+                case EType.SingNote:
+                    return _SingNotes[element.Num];
+                case EType.NameSelection:
+                    return _NameSelections[element.Num];
+                case EType.Equalizer:
+                    return _Equalizers[element.Num];
+                case EType.Playlist:
+                    return _Playlists[element.Num];
+                case EType.ParticleEffect:
+                    return _ParticleEffects[element.Num];
+            }
+            throw new ArgumentException("Invalid element type: " + element.Type);
+        }
+
+        private IMenuElement _GetElement(int element)
+        {
+            return (element >= 0 && element < _Elements.Count) ? _GetElement(_Elements[element]) : null;
         }
 
         #region Drawing
@@ -308,26 +286,14 @@ namespace VocaluxeLib.Menu
         {
             if (!_Active)
                 return;
-            _DrawBG();
-            _DrawFG();
-        }
-
-        private void _DrawBG()
-        {
-            foreach (CBackground bg in _Backgrounds)
-                bg.Draw();
-        }
-
-        private void _DrawFG()
-        {
-            if (_Interactions.Count <= 0)
+            if (_Elements.Count <= 0)
                 return;
 
             var items = new List<SZSort>();
 
-            for (int i = 0; i < _Interactions.Count; i++)
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                if (_IsVisible(i) && _Interactions[i].DrawAsForeground)
+                if (_IsVisible(i) && _Elements[i].Type != EType.SingNote)
                 {
                     var zs = new SZSort {ID = i, Z = _GetZValue(i)};
                     items.Add(zs);
@@ -341,142 +307,82 @@ namespace VocaluxeLib.Menu
             items.Sort((s1, s2) => s2.Z.CompareTo(s1.Z));
 
             for (int i = 0; i < items.Count; i++)
-                _DrawInteraction(items[i].ID);
+                _GetElement(items[i].ID).Draw();
         }
         #endregion Drawing
 
         #region Element-Adding
         protected void _AddBackground(CBackground bg, String key = null)
         {
-            _AddInteraction(_Backgrounds.Add(bg, key), EType.Background);
+            _AddElement(_Backgrounds.Add(bg, key), EType.Background);
         }
 
         protected void _AddButton(CButton button, String key = null)
         {
-            _AddInteraction(_Buttons.Add(button, key), EType.Button);
+            _AddElement(_Buttons.Add(button, key), EType.Button);
         }
 
         protected void _AddSelectSlide(CSelectSlide slide, String key = null)
         {
-            _AddInteraction(_SelectSlides.Add(slide, key), EType.SelectSlide);
+            _AddElement(_SelectSlides.Add(slide, key), EType.SelectSlide);
         }
 
         protected void _AddStatic(CStatic stat, String key = null)
         {
-            _AddInteraction(_Statics.Add(stat, key), EType.Static);
+            _AddElement(_Statics.Add(stat, key), EType.Static);
         }
 
         protected void _AddText(CText text, String key = null)
         {
-            _AddInteraction(_Texts.Add(text, key), EType.Text);
+            _AddElement(_Texts.Add(text, key), EType.Text);
         }
 
         protected void _AddSongMenu(ISongMenu songmenu, String key = null)
         {
-            _AddInteraction(_SongMenus.Add(songmenu, key), EType.SongMenu);
+            _AddElement(_SongMenus.Add(songmenu, key), EType.SongMenu);
         }
 
         protected void _AddLyric(CLyric lyric, String key = null)
         {
-            _AddInteraction(_Lyrics.Add(lyric, key), EType.Lyric);
+            _AddElement(_Lyrics.Add(lyric, key), EType.Lyric);
         }
 
         protected void _AddSingNote(CSingNotes sn, String key = null)
         {
-            _AddInteraction(_SingNotes.Add(sn, key), EType.SingNote);
+            _AddElement(_SingNotes.Add(sn, key), EType.SingNote);
         }
 
         protected void _AddNameSelection(CNameSelection ns, String key = null)
         {
-            _AddInteraction(_NameSelections.Add(ns, key), EType.NameSelection);
+            _AddElement(_NameSelections.Add(ns, key), EType.NameSelection);
         }
 
         protected void _AddEqualizer(CEqualizer eq, String key = null)
         {
-            _AddInteraction(_Equalizers.Add(eq, key), EType.Equalizer);
+            _AddElement(_Equalizers.Add(eq, key), EType.Equalizer);
         }
 
         protected void _AddPlaylist(CPlaylist pls, String key = null)
         {
-            _AddInteraction(_Playlists.Add(pls, key), EType.Playlist);
+            _AddElement(_Playlists.Add(pls, key), EType.Playlist);
         }
 
         protected void _AddParticleEffect(CParticleEffect pe, String key = null)
         {
-            _AddInteraction(_ParticleEffects.Add(pe, key), EType.ParticleEffect);
+            _AddElement(_ParticleEffects.Add(pe, key), EType.ParticleEffect);
         }
         #endregion Element-Adding
 
         #region InteractionHandling
-        public void NextInteraction()
+        protected void _SelectElement(IMenuElement element)
         {
-            if (_Interactions.Count > 0)
-                _NextInteraction();
-        }
-
-        public void PrevInteraction()
-        {
-            if (_Interactions.Count > 0)
-                _PrevInteraction();
-        }
-
-        /// <summary>
-        ///     Selects the next element in a menu Interaction.
-        /// </summary>
-        /// <returns>True if the next element is selected. False if either there is no next element or the Interaction does not provide such a method.</returns>
-        public bool NextElement()
-        {
-            if (_Interactions.Count > 0)
-                return _NextElement();
-
-            return false;
-        }
-
-        /// <summary>
-        ///     Selects the previous element in a menu Interaction.
-        /// </summary>
-        /// <returns>True if the previous element is selected. False if either there is no next element or the Interaction does not provide such a method.</returns>
-        public bool PrevElement()
-        {
-            if (_Interactions.Count > 0)
-                return _PrevElement();
-
-            return false;
-        }
-
-        protected void _SetInteractionToButton(CButton button)
-        {
-            if (!button.Visible)
+            if (!element.Visible)
                 return;
-            for (int i = 0; i < _Interactions.Count; i++)
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                if (_Interactions[i].Type != EType.Button)
-                    continue;
-                if (_Buttons[_Interactions[i].Num] == button)
+                if (_GetElement(i) == element)
                 {
-                    _GetElement(_Selection).Selected = false;
-                    _GetElement(_Selection).Highlighted = false;
-                    _Selection = i;
-                    _GetElement(_Selection).Selected = true;
-                    return;
-                }
-            }
-        }
-
-        protected void _SetInteractionToSelectSlide(CSelectSlide slide)
-        {
-            if (!slide.Visible)
-                return;
-            for (int i = 0; i < _Interactions.Count; i++)
-            {
-                if (_Interactions[i].Type != EType.SelectSlide)
-                    continue;
-                if (_SelectSlides[_Interactions[i].Num] == slide)
-                {
-                    _GetElement(_Selection).Selected = false;
-                    _GetElement(_Selection).Highlighted = false;
-                    _Selection = i;
-                    _GetElement(_Selection).Selected = true;
+                    _SetSelected(i);
                     return;
                 }
             }
@@ -484,13 +390,13 @@ namespace VocaluxeLib.Menu
 
         public void ProcessMouseClick(int x, int y)
         {
-            if (_Selection >= _Interactions.Count || _Selection < 0)
+            if (!_IsSelectionValid())
                 return;
 
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
+            if (_Elements[_Selection].Type == EType.SelectSlide)
             {
-                if (_SelectSlides[_Interactions[_Selection].Num].Visible)
-                    _SelectSlides[_Interactions[_Selection].Num].ProcessMouseLBClick(x, y);
+                if (_SelectSlides[_Elements[_Selection].Num].Visible)
+                    _SelectSlides[_Elements[_Selection].Num].ProcessMouseLBClick(x, y);
             }
         }
 
@@ -498,46 +404,40 @@ namespace VocaluxeLib.Menu
         {
             _SelectByMouse(x, y);
 
-            if (_Selection >= _Interactions.Count || _Selection < 0)
+            if (!_IsSelectionValid())
                 return;
 
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
+            if (_Elements[_Selection].Type == EType.SelectSlide)
             {
-                if (_SelectSlides[_Interactions[_Selection].Num].Visible)
-                    _SelectSlides[_Interactions[_Selection].Num].ProcessMouseMove(x, y);
+                if (_SelectSlides[_Elements[_Selection].Num].Visible)
+                    _SelectSlides[_Elements[_Selection].Num].ProcessMouseMove(x, y);
             }
         }
 
         private void _SelectByMouse(int x, int y)
         {
             float z = CBase.Settings.GetZFar();
-            for (int i = 0; i < _Interactions.Count; i++)
+            int element = -1;
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                if ((CBase.Settings.GetProgramState() != EProgramState.EditTheme) && (_Interactions[i].ThemeEditorOnly || !_IsVisible(i) || !_IsSelectable(i)))
+                if (!_IsSelectable(i))
                     continue;
-                if (!_IsMouseOverElement(x, y, _Interactions[i]))
+                if (!_IsMouseOverElement(x, y, _Elements[i]))
                     continue;
-                if (_GetZValue(_Interactions[i]) > z)
+                if (_GetZValue(i) > z)
                     continue;
-                z = _GetZValue(_Interactions[i]);
-                _GetElement(_Selection).Selected = false;
-                _Selection = i;
-                _GetElement(_Selection).Selected = true;
-                _Selection = i;
+                z = _GetZValue(i);
+                element = i;
             }
+            _SetSelected(element);
         }
 
         protected bool _IsMouseOverCurSelection(SMouseEvent mouseEvent)
         {
-            return _IsMouseOverCurSelection(mouseEvent.X, mouseEvent.Y);
-        }
-
-        private bool _IsMouseOverCurSelection(int x, int y)
-        {
-            if (_Selection >= _Interactions.Count || _Selection < 0)
+            if (!_IsSelectionValid())
                 return false;
 
-            return _Interactions.Count > 0 && _IsMouseOverElement(x, y, _Interactions[_Selection]);
+            return _IsMouseOverElement(mouseEvent.X, mouseEvent.Y, _Elements[_Selection]);
         }
 
         private bool _IsMouseOverElement(int x, int y, CInteraction interact)
@@ -553,348 +453,256 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        private float _GetZValue(CInteraction interact)
+        public void NextElement()
         {
-            IMenuElement el = _GetElement(interact);
-            return el != null ? el.Rect.Z : CBase.Settings.GetZFar();
+            int element = _Selection;
+            for (int i = 0; i < _Elements.Count; i++)
+            {
+                element++;
+                if (element >= _Elements.Count)
+                    element = 0;
+                if (_IsSelectable(element))
+                    break;
+            }
+            _SetSelected(element);
         }
 
-        private float _GetZValue(int interaction)
+        public void PrevElement()
         {
-            return _GetZValue(_Interactions[interaction]);
-        }
-
-        private void _NextInteraction()
-        {
-            _GetElement(_Selection).Selected = false;
-            if (CBase.Settings.GetProgramState() != EProgramState.EditTheme)
+            Debug.Assert(_Selection == 0 || _Selection < _Elements.Count);
+            int element = _Selection;
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                bool found = false;
-                int start = _Selection;
-                do
-                {
-                    start++;
-                    if (start > _Interactions.Count - 1)
-                        start = 0;
-
-                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsSelectable(start)))
-                        found = true;
-                } while (!found);
-                _Selection = start;
+                element--;
+                if (element < 0)
+                    element = _Elements.Count - 1;
+                if (_IsSelectable(element))
+                    break;
             }
-            else
-            {
-                _Selection++;
-                if (_Selection > _Interactions.Count - 1)
-                    _Selection = 0;
-            }
-            _GetElement(_Selection).Selected = true;
-        }
-
-        private void _PrevInteraction()
-        {
-            _GetElement(_Selection).Selected = false;
-            if (CBase.Settings.GetProgramState() != EProgramState.EditTheme)
-            {
-                bool found = false;
-                int start = _Selection;
-                do
-                {
-                    start--;
-                    if (start < 0)
-                        start = _Interactions.Count - 1;
-
-                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsSelectable(start)))
-                        found = true;
-                } while (!found);
-                _Selection = start;
-            }
-            else
-            {
-                _Selection--;
-                if (_Selection < 0)
-                    _Selection = _Interactions.Count - 1;
-            }
-            _GetElement(_Selection).Selected = true;
+            _SetSelected(element);
         }
 
         /// <summary>
-        ///     Selects the next best interaction in a menu.
+        ///     Selects the next best element in a menu.
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        private bool _NextInteraction(SKeyEvent key)
+        private bool _NextElement(SKeyEvent key)
         {
-            var directions = new SKeyEvent[4];
-            var distances = new float[4];
-            var stages = new int[4];
-            var elements = new int[4];
-
-            for (int i = 0; i < 4; i++)
-                directions[i] = new SKeyEvent();
-
-            directions[0].Key = Keys.Up;
-            directions[1].Key = Keys.Right;
-            directions[2].Key = Keys.Down;
-            directions[3].Key = Keys.Left;
-
-            for (int i = 0; i < 4; i++)
-                elements[i] = _GetNextElement(directions[i], out distances[i], out stages[i]);
-
-            int element = _Selection;
-            int stage = int.MaxValue;
-            int direction = -1;
-
-            int mute = -1;
+            int element;
             switch (key.Key)
             {
                 case Keys.Up:
-                    mute = 2;
+                    element = _GetNextElement(EDirection.Up);
                     break;
                 case Keys.Right:
-                    mute = 3;
+                    element = _GetNextElement(EDirection.Right);
                     break;
                 case Keys.Down:
-                    mute = 0;
+                    element = _GetNextElement(EDirection.Down);
                     break;
                 case Keys.Left:
-                    mute = 1;
+                    element = _GetNextElement(EDirection.Left);
                     break;
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (i != mute && elements[i] != _Selection && (stages[i] <= stage && directions[i].Key == key.Key))
-                {
-                    stage = stages[i];
-                    element = elements[i];
-                    direction = i;
-                }
-            }
-
-            if (direction != -1)
-            {
-                // select the new element
-                if (directions[direction].Key == key.Key)
-                {
-                    _GetElement(_Selection).Selected = false;
-                    _GetElement(_Selection).Highlighted = false;
-                    _Selection = element;
-                    _GetElement(_Selection).Selected = true;
-                    _GetElement(_Selection).Highlighted = true;
-
+                case Keys.Tab:
+                    if (key.Mod == EModifier.Shift)
+                        PrevElement();
+                    else
+                        NextElement();
                     return true;
-                }
+                default:
+                    return false;
             }
-            return false;
+            if (element < 0)
+                return false;
+
+            // select the new element
+            _SetSelected(element);
+            return true;
         }
 
-        private int _GetNextElement(SKeyEvent key, out float distance, out int stage)
+        private int _GetNextElement(EDirection direction)
         {
-            distance = float.MaxValue;
-            int min = _Selection;
-            SRectF actualRect = _GetRect(_Selection);
-            stage = int.MaxValue;
+            float distance = float.MaxValue;
+            int min = -1;
+            SRectF currentRect = _IsSelectionValid() ? _GetRect(_Selection) : new SRectF(_PrevMouse.X, _PrevMouse.Y, 1, 1, 1);
 
-            for (int i = 0; i < _Interactions.Count; i++)
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsSelectable(i))
+                if (i != _Selection && _IsSelectable(i))
                 {
-                    SRectF targetRect = _GetRect(i);
-                    float dist = _GetDistanceDirect(key, actualRect, targetRect);
+                    float dist = _GetDistanceDirect(direction, currentRect, _GetRect(i));
                     if (dist >= 0f && dist < distance)
                     {
                         distance = dist;
                         min = i;
-                        stage = 10;
                     }
                 }
             }
+            if (min >= 0)
+                return min;
 
-            if (min == _Selection)
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                for (int i = 0; i < _Interactions.Count; i++)
+                if (i != _Selection && _IsSelectable(i))
                 {
-                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsSelectable(i))
+                    float dist = _GetDistance180(direction, currentRect, _GetRect(i));
+                    if (dist >= 0f && dist < distance)
                     {
-                        SRectF targetRect = _GetRect(i);
-                        float dist = _GetDistance180(key, actualRect, targetRect);
-                        if (dist >= 0f && dist < distance)
-                        {
-                            distance = dist;
-                            min = i;
-                            stage = 20;
-                        }
+                        distance = dist;
+                        min = i;
                     }
                 }
             }
+            if (min >= 0)
+                return min;
 
-            if (min == _Selection)
+            switch (direction)
             {
-                switch (key.Key)
-                {
-                    case Keys.Up:
-                        actualRect = new SRectF(actualRect.X, CBase.Settings.GetRenderH(), 1, 1, actualRect.Z);
-                        break;
-                    case Keys.Down:
-                        actualRect = new SRectF(actualRect.X, 0, 1, 1, actualRect.Z);
-                        break;
-                    case Keys.Left:
-                        actualRect = new SRectF(CBase.Settings.GetRenderW(), actualRect.Y, 1, 1, actualRect.Z);
-                        break;
-                    case Keys.Right:
-                        actualRect = new SRectF(0, actualRect.Y, 1, 1, actualRect.Z);
-                        break;
-                }
+                case EDirection.Up:
+                    currentRect = new SRectF(currentRect.X, CBase.Settings.GetRenderH(), 1, 1, currentRect.Z);
+                    break;
+                case EDirection.Down:
+                    currentRect = new SRectF(currentRect.X, 0, 1, 1, currentRect.Z);
+                    break;
+                case EDirection.Left:
+                    currentRect = new SRectF(CBase.Settings.GetRenderW(), currentRect.Y, 1, 1, currentRect.Z);
+                    break;
+                case EDirection.Right:
+                    currentRect = new SRectF(0, currentRect.Y, 1, 1, currentRect.Z);
+                    break;
+            }
 
-                for (int i = 0; i < _Interactions.Count; i++)
+            for (int i = 0; i < _Elements.Count; i++)
+            {
+                if (i != _Selection && _IsSelectable(i))
                 {
-                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsSelectable(i))
+                    float dist = _GetDistance180(direction, currentRect, _GetRect(i));
+                    if (dist >= 0f && dist < distance)
                     {
-                        SRectF targetRect = _GetRect(i);
-                        float dist = _GetDistance180(key, actualRect, targetRect);
-                        if (dist >= 0f && dist < distance)
-                        {
-                            distance = dist;
-                            min = i;
-                            stage = 30;
-                        }
+                        distance = dist;
+                        min = i;
                     }
                 }
             }
             return min;
         }
 
-        private static float _GetDistanceDirect(SKeyEvent key, SRectF actualRect, SRectF targetRect)
+        private static float _GetDistanceDirect(EDirection direction, SRectF current, SRectF other)
         {
-            var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
-            var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
-
-            var vector = new PointF(dest.X - source.X, dest.Y - source.Y);
-            var distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-            bool inDirection = false;
-            switch (key.Key)
+            switch (direction)
             {
-                case Keys.Up:
-                    if (vector.Y < 0f && (targetRect.X + targetRect.W > actualRect.X && actualRect.X + actualRect.W > targetRect.X))
-                        inDirection = true;
+                case EDirection.Up:
+                case EDirection.Down:
+                    if (!other.X.IsInRange(current.X, current.Right) && !other.Right.IsInRange(current.X, current.Right))
+                        return float.MaxValue;
                     break;
 
-                case Keys.Down:
-                    if (vector.Y > 0f && (targetRect.X + targetRect.W > actualRect.X && actualRect.X + actualRect.W > targetRect.X))
-                        inDirection = true;
-                    break;
-
-                case Keys.Left:
-                    if (vector.X < 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
-                        inDirection = true;
-                    break;
-
-                case Keys.Right:
-                    if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
-                        inDirection = true;
+                case EDirection.Left:
+                case EDirection.Right:
+                    if (!other.Y.IsInRange(current.Y, current.Bottom) && !other.Bottom.IsInRange(current.Y, current.Bottom))
+                        return float.MaxValue;
                     break;
             }
-            return !inDirection ? float.MaxValue : distance;
+            return _GetDistance180(direction, current, other);
         }
 
-        private static float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
+        private static float _GetDistance180(EDirection direction, SRectF current, SRectF other)
         {
-            var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
-            var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
+            var source = new PointF(current.X + current.W / 2f, current.Y + current.H / 2f);
+            var dest = new PointF(other.X + other.W / 2f, other.Y + other.H / 2f);
 
             var vector = new PointF(dest.X - source.X, dest.Y - source.Y);
             var distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-            bool inDirection = false;
-            switch (key.Key)
+            switch (direction)
             {
-                case Keys.Up:
+                case EDirection.Up:
                     if (vector.Y < 0f)
-                        inDirection = true;
+                        return distance;
                     break;
 
-                case Keys.Down:
+                case EDirection.Down:
                     if (vector.Y > 0f)
-                        inDirection = true;
+                        return distance;
                     break;
 
-                case Keys.Left:
+                case EDirection.Left:
                     if (vector.X < 0f)
-                        inDirection = true;
+                        return distance;
                     break;
 
-                case Keys.Right:
+                case EDirection.Right:
                     if (vector.X > 0f)
-                        inDirection = true;
+                        return distance;
                     break;
             }
-            return !inDirection ? float.MaxValue : distance;
+            return float.MaxValue;
         }
 
         /// <summary>
-        ///     Selects the next element in a menu interaction.
+        ///     Selects the next value in a menu element.
         /// </summary>
-        /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
-        private bool _NextElement()
+        /// <returns>True if the next value is selected. False if either there is no next value or the element does not provide such a method.</returns>
+        public bool NextValue()
         {
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
-                return _SelectSlides[_Interactions[_Selection].Num].NextValue();
+            if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide)
+                return _SelectSlides[_Elements[_Selection].Num].SelectNextValue();
 
             return false;
         }
 
         /// <summary>
-        ///     Selects the previous element in a menu interaction.
+        ///     Selects the previous value in a menu element.
         /// </summary>
         /// <returns>
-        ///     True if the previous element is selected. False if either there is no previous element or the interaction does not provide such a method.
+        ///     True if the previous value is selected. False if either there is no previous value or the element does not provide such a method.
         /// </returns>
-        private bool _PrevElement()
+        public bool PrevValue()
         {
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
-                return _SelectSlides[_Interactions[_Selection].Num].PrevValue();
+            if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide)
+                return _SelectSlides[_Elements[_Selection].Num].SelectPrevValue();
 
             return false;
         }
 
-        private bool _IsVisible(int interaction)
+        private void _AddElement(int num, EType type)
         {
-            IMenuElement el = _GetElement(interaction);
+            _Elements.Add(new CInteraction(num, type));
+            if (_IsSelectable(_Selection))
+                _SetSelected(_Selection);
+            else
+                NextElement();
+        }
+        #endregion InteractionHandling
+
+        #region Element-property getters
+        private bool _IsVisible(int element)
+        {
+            IMenuElement el = _GetElement(element);
             return el != null && el.Visible;
         }
 
-        private bool _IsSelectable(int interaction)
+        private bool _IsSelectable(int element)
         {
-            IMenuElement el = _GetElement(interaction);
-            return el != null && el.Selectable;
+            IMenuElement el = _GetElement(element);
+            return el != null && (el.Selectable || CBase.Settings.GetProgramState() == EProgramState.EditTheme);
         }
 
-        private SRectF _GetRect(CInteraction interaction)
+        private SRectF _GetRect(CInteraction element)
         {
-            IMenuElement el = _GetElement(interaction);
-            return el.Rect;
+            return _GetElement(element).Rect;
         }
 
-        private SRectF _GetRect(int interaction)
+        private SRectF _GetRect(int element)
         {
-            return _GetRect(_Interactions[interaction]);
+            return _GetRect(_Elements[element]);
         }
 
-        private void _AddInteraction(int num, EType type)
+        private float _GetZValue(int element)
         {
-            _Interactions.Add(new CInteraction(num, type));
-            if (!_Interactions[_Selection].ThemeEditorOnly)
-                _GetElement(_Selection).Selected = true;
-            else
-                _NextInteraction();
+            return _GetElement(_Elements[element]).Rect.Z;
         }
-
-        private void _DrawInteraction(int interaction)
-        {
-            IMenuElement el = _GetElement(interaction);
-            el.Draw();
-        }
-        #endregion InteractionHandling
+        #endregion
 
         #region Theme Handling
         private void _MoveElement(int stepX, int stepY)

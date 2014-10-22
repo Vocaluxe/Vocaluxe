@@ -291,7 +291,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 _Buttons[_ButtonNextRound].Visible = true;
                 _Texts[_TextFinishMessage].Visible = false;
                 _Texts[_TextFinishPlayerWin].Visible = false;
-                _SetInteractionToButton(_Buttons[_ButtonNextRound]);
+                _SelectElement(_Buttons[_ButtonNextRound]);
             }
             else
             {
@@ -299,7 +299,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 _Texts[_TextFinishMessage].Visible = true;
                 _Texts[_TextFinishPlayerWin].Visible = true;
                 _Texts[_TextFinishPlayerWin].Text = _GetPlayerWinString();
-                _SetInteractionToButton(_Buttons[_ButtonExit]);
+                _SelectElement(_Buttons[_ButtonExit]);
             }
 
             _ShowPopup(false);
@@ -332,7 +332,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             _Buttons[_ButtonPopupNo].Visible = _ExitPopupVisible;
 
             if (_ExitPopupVisible)
-                _SetInteractionToButton(_Buttons[_ButtonPopupNo]);
+                _SelectElement(_Buttons[_ButtonPopupNo]);
         }
 
         private void _Back()

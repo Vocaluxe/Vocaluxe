@@ -550,12 +550,12 @@ namespace VocaluxeLib.Menu
         public virtual void OnShow()
         {
             _ResumeBG();
+            _Active = true;
         }
 
         public virtual void OnShowFinish()
         {
             _ResumeBG();
-            _Active = true;
         }
 
         public virtual void OnClose()
