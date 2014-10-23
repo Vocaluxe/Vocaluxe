@@ -6,9 +6,8 @@
 		<Author>flokuep</Author>
 	</Info>
 	<!--Cover definitions when a category is missing a cover-->
-	<CoverGenerator1>
-		<!--Possible types are: Default, Song, Artist, Letter, Edition, Genre, Language, Year, Decade, Date -->
-		<Type>Default</Type>
+	<!--Possible types are: Default, Song, Artist, Letter, Edition, Genre, Language, Year, Decade, Date -->
+	<CoverGenerator1 Type="Default">
 		<Text>
 			<!--<Text>: Text to be shown, %TEXT% will be replaced by the category or song name-->
 			<Text>%TEXT%</Text>
@@ -25,8 +24,7 @@
 				<R>1</R><G>1</G><B>1</B><A>0.8</A>
 			</Color>
 			<!--<Margin>: Spacing of the text from the borders of the image in px-->
-			<Margin>
-				<Default>24</Default>
+			<Margin Default="24">
 				<Left>24</Left>
 			</Margin>
 			<!--<Indent>: Indentation of the text for multiple lines-->

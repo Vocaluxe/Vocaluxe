@@ -40,7 +40,8 @@ namespace VocaluxeLib.Xml
         {
             el = new SMargin();
             bool ok = true;
-            bool defOk = TryGetIntValue(xPath + "/Default", ref el.Default);
+            string val;
+            bool defOk = GetAttribute(xPath, "Default", out val) && int.TryParse(val, out el.Default);
             ok &= TryGetIntValue(xPath + "/Left", ref el.Left, el.Default);
             ok &= TryGetIntValue(xPath + "/Right", ref el.Right, el.Default);
             ok &= TryGetIntValue(xPath + "/Top", ref el.Top, el.Default);
@@ -89,7 +90,8 @@ namespace VocaluxeLib.Xml
         {
             el = new SThemeCoverGenerator();
             bool ok = true;
-            ok &= TryGetEnumValue(xPath + "/Type", ref el.Type);
+            string val;
+            ok &= GetAttribute(xPath, "Type", out val) && Enum.TryParse(val, out el.Type);
             ok &= Read(xPath + "/Text", out el.Text);
             ok &= Read(xPath + "/BackgroundColor", out el.BackgroundColor);
             ok &= GetValue(xPath + "/Image", out el.Image);
