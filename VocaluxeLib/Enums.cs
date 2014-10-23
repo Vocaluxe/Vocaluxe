@@ -19,6 +19,21 @@ using System;
 
 namespace VocaluxeLib
 {
+    public enum ECoverGeneratorType
+    {
+        Default,
+        Song,
+        Folder,
+        Artist,
+        Letter,
+        Edition,
+        Genre,
+        Language,
+        Year,
+        Decade,
+        Date
+    }
+
     public enum EDirection
     {
         Up = 0,

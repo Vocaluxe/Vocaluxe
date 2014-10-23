@@ -26,21 +26,6 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib
 {
-    public enum ECoverGeneratorType
-    {
-        Default,
-        Song,
-        Folder,
-        Artist,
-        Letter,
-        Edition,
-        Genre,
-        Language,
-        Year,
-        Decade,
-        Date
-    }
-
     public struct SMargin
     {
         public int Default;
