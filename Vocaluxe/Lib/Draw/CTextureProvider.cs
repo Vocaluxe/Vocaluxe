@@ -833,23 +833,26 @@ namespace Vocaluxe.Lib.Draw
 
         public CTextureRef CopyTexture(CTextureRef textureRef)
         {
-            _EnsureMainThread();
-            TTextureType texture;
-            if (!_GetTexture(textureRef, out texture, false))
-                return null;
-            // If bitmap is not yet loaded, wait for it
-            if (!String.IsNullOrEmpty(texture.TexturePath))
+            // Lock to make sure the texture is not disposed while we are in this method
+            lock (_Textures)
             {
-                Task<Size> loader;
-                lock (_BitmapsLoading)
+                TTextureType texture;
+                if (!_GetTexture(textureRef, out texture, false))
+                    return null;
+                // If bitmap is not yet loaded, wait for it
+                if (!String.IsNullOrEmpty(texture.TexturePath))
                 {
-                    _BitmapsLoading.TryGetValue(texture.TexturePath, out loader);
+                    Task<Size> loader;
+                    lock (_BitmapsLoading)
+                    {
+                        _BitmapsLoading.TryGetValue(texture.TexturePath, out loader);
+                    }
+                    if (loader != null)
+                        textureRef.OrigSize = loader.Result;
                 }
-                if (loader != null)
-                    textureRef.OrigSize = loader.Result;
+                Debug.Assert(textureRef.OrigSize.Width > 0);
+                return _GetTextureReference(textureRef.OrigSize, texture);
             }
-            Debug.Assert(textureRef.OrigSize.Width > 0);
-            return _GetTextureReference(textureRef.OrigSize, texture);
         }
 
         /// <summary>

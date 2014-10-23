@@ -7,7 +7,7 @@
 	</Info>
 	<!--Cover definitions when a category is missing a cover-->
 	<CoverGenerator1>
-		<!--Possible types are: Default, Artist, Letter, Edition, Genre, Language, Year, Decade, Date -->
+		<!--Possible types are: Default, Song, Artist, Letter, Edition, Genre, Language, Year, Decade, Date -->
 		<Type>Default</Type>
 		<Text>
 			<!--<Text>: Text to be shown, %TEXT% will be replace by the category name-->

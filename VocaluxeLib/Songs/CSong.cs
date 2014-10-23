@@ -314,11 +314,10 @@ namespace VocaluxeLib.Songs
                 return;
             if (CoverFileName != "")
             {
-                if (!CBase.DataBase.GetCover(Path.Combine(Folder, CoverFileName), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
-                    _CoverTextureSmall = CBase.Cover.GetNoCover();
+                if (CBase.DataBase.GetCover(Path.Combine(Folder, CoverFileName), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
+                    return;
             }
-            else
-                _CoverTextureSmall = CBase.Cover.GetNoCover();
+            _CoverTextureSmall = CBase.Cover.GenerateCover(Title, ECoverGeneratorType.Song, null);
         }
 
         private void _CheckFiles()

@@ -871,6 +871,11 @@ namespace Vocaluxe.Base
         {
             return CCover.NoCover;
         }
+
+        public CTextureRef GenerateCover(string text, ECoverGeneratorType type, CSong firstSong)
+        {
+            return CCover.GenerateCover(text, type, firstSong);
+        }
     }
 
     class CBdataBase : IDataBase

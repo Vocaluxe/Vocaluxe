@@ -29,6 +29,7 @@ namespace VocaluxeLib
     public enum ECoverGeneratorType
     {
         Default,
+        Song,
         Folder,
         Artist,
         Letter,

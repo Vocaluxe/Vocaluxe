@@ -283,6 +283,7 @@ namespace VocaluxeLib
     public interface ICover
     {
         CTextureRef GetNoCover();
+        CTextureRef GenerateCover(string text, ECoverGeneratorType type, CSong firstSong);
     }
 
     public interface IDataBase
