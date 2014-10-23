@@ -33,7 +33,7 @@ namespace Vocaluxe.Base
     ///     Class that generates Covers if the right Cover is missing
     ///     Themeable via the xml of the Cover theme
     /// </summary>
-    class CNoCoverGenerator
+    class CCoverGenerator
     {
         private readonly bool _Valid;
         private readonly SThemeCoverGenerator _Theme;
@@ -49,7 +49,7 @@ namespace Vocaluxe.Base
         private static readonly char[] _SplitCharAfter = {':', '/', '-', ' ', ')', '.', '*', ','};
         private static readonly char[] _SplitCharBefore = {'('};
 
-        public CNoCoverGenerator(SThemeCoverGenerator theme, string basePath)
+        public CCoverGenerator(SThemeCoverGenerator theme, string basePath)
         {
             _Theme = theme;
             _Valid = true;

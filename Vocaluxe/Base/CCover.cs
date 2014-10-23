@@ -39,7 +39,7 @@ namespace Vocaluxe.Base
         private const string _NoCoverName = "No Cover";
         private const string _NoCoverNameAlt = "NoCover";
         private static readonly Dictionary<string, CTextureRef> _Covers = new Dictionary<string, CTextureRef>();
-        private static readonly Dictionary<ECoverGeneratorType, CNoCoverGenerator> _NoCoverGenerators = new Dictionary<ECoverGeneratorType, CNoCoverGenerator>();
+        private static readonly Dictionary<ECoverGeneratorType, CCoverGenerator> _CoverGenerators = new Dictionary<ECoverGeneratorType, CCoverGenerator>();
         private static readonly List<SThemeCover> _CoverThemes = new List<SThemeCover>();
         private static readonly CancellationTokenSource _CancelToken = new CancellationTokenSource();
 
@@ -88,7 +88,7 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        ///     Returns a STexture for a given cover name. Returns "NoCover" if the cover does not exist.
+        ///     Returns a Texture reference for a given cover name. Returns "NoCover" if the cover does not exist.
         /// </summary>
         public static CTextureRef Cover(string name)
         {
@@ -101,19 +101,17 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static CTextureRef GenerateCover(string text, ESongSorting sorting, CCategory category)
+        public static CTextureRef GenerateCover(string text, ECoverGeneratorType type, CSong firstSong)
         {
-            CSong firstSong = category.GetSong(0);
             CTextureRef texture = CDraw.CopyTexture(NoCover);
             Task.Factory.StartNew(() =>
                 {
                     _CancelToken.Token.ThrowIfCancellationRequested();
-                    ECoverGeneratorType type = _SongSortingToType(sorting);
-                    Bitmap coverBmp = !_NoCoverGenerators.ContainsKey(type)
-                                          ? null : _NoCoverGenerators[type].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+                    Bitmap coverBmp = !_CoverGenerators.ContainsKey(type)
+                                          ? null : _CoverGenerators[type].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
                     _CancelToken.Token.ThrowIfCancellationRequested();
-                    if (coverBmp == null && _NoCoverGenerators.ContainsKey(ECoverGeneratorType.Default))
-                        coverBmp = _NoCoverGenerators[ECoverGeneratorType.Default].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+                    if (coverBmp == null && _CoverGenerators.ContainsKey(ECoverGeneratorType.Default))
+                        coverBmp = _CoverGenerators[ECoverGeneratorType.Default].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
                     _CancelToken.Token.ThrowIfCancellationRequested();
                     if (coverBmp != null)
                         CDraw.EnqueueTextureUpdate(texture, coverBmp);
@@ -155,9 +153,9 @@ namespace Vocaluxe.Base
                 }
                 _Covers.Clear();
             }
-            lock (_NoCoverGenerators)
+            lock (_CoverGenerators)
             {
-                _NoCoverGenerators.Clear();
+                _CoverGenerators.Clear();
             }
         }
 
@@ -229,10 +227,10 @@ namespace Vocaluxe.Base
                 else
                     CBase.Log.LogError("Covertheme \"" + coverThemeName + "\" does not include a cover file named \"" + _NoCoverName + "\" and cannot be used!", true, true);
             }
-            _LoadNoCoverThemes(coverTheme);
+            _LoadCoverGenerators(coverTheme);
         }
 
-        private static ECoverGeneratorType _SongSortingToType(ESongSorting sorting)
+        public static ECoverGeneratorType _SongSortingToType(ESongSorting sorting)
         {
             switch (sorting)
             {
@@ -262,11 +260,11 @@ namespace Vocaluxe.Base
             }
         }
 
-        private static void _LoadNoCoverThemes(SThemeCover coverTheme)
+        private static void _LoadCoverGenerators(SThemeCover coverTheme)
         {
             CXMLReader xmlReader = CXMLReader.OpenFile(coverTheme.FilePath);
             string coverPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder);
-            lock (_NoCoverGenerators)
+            lock (_CoverGenerators)
             {
                 int i = 1;
                 while (xmlReader.ItemExists("//root/CoverGenerator" + i))
@@ -274,10 +272,10 @@ namespace Vocaluxe.Base
                     SThemeCoverGenerator theme;
                     if (xmlReader.Read("//root/CoverGenerator" + i, out theme))
                     {
-                        if (_NoCoverGenerators.ContainsKey(theme.Type))
+                        if (_CoverGenerators.ContainsKey(theme.Type))
                             continue;
-                        CNoCoverGenerator el = new CNoCoverGenerator(theme, coverPath);
-                        _NoCoverGenerators.Add(theme.Type, el);
+                        CCoverGenerator el = new CCoverGenerator(theme, coverPath);
+                        _CoverGenerators.Add(theme.Type, el);
                     }
                     i++;
                 }
