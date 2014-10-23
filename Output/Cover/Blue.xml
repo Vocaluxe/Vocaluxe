@@ -10,7 +10,7 @@
 		<!--Possible types are: Default, Song, Artist, Letter, Edition, Genre, Language, Year, Decade, Date -->
 		<Type>Default</Type>
 		<Text>
-			<!--<Text>: Text to be shown, %TEXT% will be replace by the category name-->
+			<!--<Text>: Text to be shown, %TEXT% will be replaced by the category or song name-->
 			<Text>%TEXT%</Text>
 			<Font>
 				<Name>Normal</Name>
