@@ -24,7 +24,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPopupBG">
       <Skin>PopupBG</Skin>
@@ -36,7 +35,6 @@
         <H>720</H>
         <Z>-2</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarT1">
       <Skin>PopupBG</Skin>
@@ -48,7 +46,6 @@
         <H>100</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarT2">
       <Skin>PopupBG</Skin>
@@ -60,7 +57,6 @@
         <H>100</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -77,7 +73,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_TITLE</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPopupReallyExit">
       <X>640</X>
@@ -92,7 +87,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_POPUP_REALLYEXIT</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextTeamChoosing">
       <X>640</X>
@@ -107,7 +101,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextFinishMessage">
       <X>640</X>
@@ -122,7 +115,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNextPlayerT1">
       <X>160</X>
@@ -137,7 +129,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_NEXT_PLAYER</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNextPlayerT2">
       <X>1120</X>
@@ -152,7 +143,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_NEXT_PLAYER</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNextPlayerNameT1">
       <X>120</X>
@@ -167,7 +157,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNextPlayerNameT2">
       <X>1160</X>
@@ -182,7 +171,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -211,8 +199,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NEXT_ROUND</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -247,8 +234,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -283,8 +269,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_EXIT</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -319,8 +304,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_YES</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -355,8 +339,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NO</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -391,10 +374,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonJokerRandomT1">
       <Skin>Random</Skin>
@@ -421,10 +401,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonJokerRandomT2">
       <Skin>Random</Skin>
@@ -451,10 +428,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonJokerRetryT1">
       <Skin>RepeatIcon</Skin>
@@ -481,10 +455,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonJokerRetryT2">
       <Skin>RepeatIcon</Skin>
@@ -511,10 +482,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
   </Buttons>
   <SongMenus />

@@ -24,7 +24,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="Static2">
       <Skin/>
@@ -36,7 +35,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="Static3">
       <Skin/>
@@ -48,7 +46,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="Static4">
       <Skin/>
@@ -60,7 +57,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="Static5">
       <Skin/>
@@ -72,7 +68,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="Static6">
       <Skin/>
@@ -84,7 +79,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticWarning">
       <Skin/>
@@ -96,7 +90,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticEnergyChannel1">
       <Skin>EnergyBeam</Skin>
@@ -108,7 +101,6 @@
         <H>16</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticEnergyChannel2">
       <Skin>EnergyBeam</Skin>
@@ -120,7 +112,6 @@
         <H>16</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -137,7 +128,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_OPTIONS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text2">
       <X>75</X>
@@ -152,7 +142,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_DEVICE</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text3">
       <X>75</X>
@@ -167,7 +156,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_MIC_DELAY</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextWarning">
       <X>640</X>
@@ -182,7 +170,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_MIC_WARNING</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextChannel1">
       <X>75</X>
@@ -197,7 +184,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_CHANNEL_1</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextChannel2">
       <X>75</X>
@@ -212,7 +198,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_CHANNEL_2</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextDelayChannel1">
       <X>330</X>
@@ -227,7 +212,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextDelayChannel2">
       <X>330</X>
@@ -242,7 +226,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -271,8 +254,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -307,8 +289,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENORECORD_BUTTON_DELAYTEST</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>

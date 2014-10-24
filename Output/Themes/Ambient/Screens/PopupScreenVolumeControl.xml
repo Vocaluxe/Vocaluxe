@@ -16,7 +16,6 @@
         <H>48</H>
         <Z>-2</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -33,7 +32,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPVOLUMECONTROL_VOLUME</Text>
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons />

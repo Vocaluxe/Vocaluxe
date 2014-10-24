@@ -24,7 +24,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -41,7 +40,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENNAMES_TITLE</Text>
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -70,8 +68,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -106,8 +103,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NEXT</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -142,8 +138,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENNAMES_BUTTON_RANDOM</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -178,10 +173,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonDecreaseTeams">
       <Skin>Minus</Skin>
@@ -208,10 +200,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonIncreasePlayer">
       <Skin>Plus</Skin>
@@ -238,10 +227,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonDecreasePlayer">
       <Skin>Minus</Skin>
@@ -268,10 +254,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
   </Buttons>
   <SongMenus />

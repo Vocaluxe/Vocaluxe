@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.Xml;
 
@@ -42,7 +43,7 @@ namespace VocaluxeLib.Menu
 
         public SThemeColor Color;
         public SThemeColor MaxColor;
-        public SReflection Reflection;
+        public SReflection? Reflection;
     }
 
     public class CEqualizer : CMenuElementBase, IMenuElement, IThemeable
@@ -148,12 +149,12 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
 
-                _Theme.Reflection = new SReflection(true, ReflectionHeight, ReflectionSpace);
+                _Theme.Reflection = new SReflection( ReflectionHeight, ReflectionSpace);
             }
             else
             {
                 Reflection = false;
-                _Theme.Reflection = new SReflection(false, 0f, 0f);
+                _Theme.Reflection = null;
             }
 
             if (_ThemeLoaded)
@@ -244,11 +245,12 @@ namespace VocaluxeLib.Menu
 
             MaxRect = _Theme.Rect;
             Space = _Theme.Space;
-            Reflection = _Theme.Reflection.Enabled;
+            Reflection = _Theme.Reflection.HasValue;
             if (Reflection)
             {
-                ReflectionHeight = _Theme.Reflection.Height;
-                ReflectionSpace = _Theme.Reflection.Space;
+                Debug.Assert(_Theme.Reflection != null);
+                ReflectionHeight = _Theme.Reflection.Value.Height;
+                ReflectionSpace = _Theme.Reflection.Value.Space;
             }
 
             _Bars = new float[_Theme.NumBars];

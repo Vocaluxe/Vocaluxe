@@ -54,7 +54,6 @@
         <H>360</H>
         <Z>-2.1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -71,7 +70,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer2">
       <X>1070</X>
@@ -86,7 +84,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer3">
       <X>1070</X>
@@ -101,7 +98,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer4">
       <X>1070</X>
@@ -116,7 +112,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer5">
       <X>1070</X>
@@ -131,7 +126,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer6">
       <X>1070</X>
@@ -146,7 +140,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextCategory">
       <X>220</X>
@@ -197,7 +190,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENSONG_SEARCH</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextSearchBar">
       <X>410</X>
@@ -212,7 +204,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextOptionsTitle">
       <X>220</X>
@@ -227,7 +218,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENSONG_SONGOPTIONS</Text>
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -256,10 +246,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonJoker2">
       <Skin>Random</Skin>
@@ -286,10 +273,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonJoker3">
       <Skin>Random</Skin>
@@ -316,10 +300,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonJoker4">
       <Skin>Random</Skin>
@@ -346,10 +327,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonJoker5">
       <Skin>Random</Skin>
@@ -376,10 +354,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonJoker6">
       <Skin>Random</Skin>
@@ -406,10 +381,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOptionsClose">
       <Skin>Button</Skin>
@@ -436,10 +408,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_CANCEL</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOptionsPlaylist">
       <Skin>Button</Skin>
@@ -466,10 +435,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_PLAYLIST</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOptionsSing">
       <Skin>Button</Skin>
@@ -496,10 +462,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_SING</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOptionsRandom">
       <Skin>Button</Skin>
@@ -526,10 +489,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_RANDOM</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOptionsRandomCategory">
       <Skin>Button</Skin>
@@ -556,10 +516,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_RANDOMCAT</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOptionsSingAll">
       <Skin>Button</Skin>
@@ -586,10 +543,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_SINGALL</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOptionsSingAllVisible">
       <Skin>Button</Skin>
@@ -616,10 +570,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_SINGALLVISIBLE</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOptionsOpenSelectedItem">
       <Skin>Button</Skin>
@@ -646,10 +597,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_OPEN_SELECTED_ITEM</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOpenOptions">
       <Skin/>
@@ -676,10 +624,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonStart">
       <Skin>Button</Skin>
@@ -706,8 +651,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_START</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -742,10 +686,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_RANDOMMEDLEY</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonOptionsStartMedley">
       <Skin>Button</Skin>
@@ -772,10 +713,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_STARTMEDLEY</Text>
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
   </Buttons>
   <SongMenus>
@@ -826,8 +764,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          <Reflection Enabled="false" />
-        </TextArtist>
+            </TextArtist>
         <TextTitle Name="TextTitle">
           <X>222</X>
           <Y>456</Y>
@@ -841,8 +778,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          <Reflection Enabled="false" />
-        </TextTitle>
+            </TextTitle>
         <TextSongLength Name="TextSongLength">
           <X>222</X>
           <Y>490</Y>
@@ -856,8 +792,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          <Reflection Enabled="false" />
-        </TextSongLength>
+            </TextSongLength>
         <StaticCoverBig Name="StaticCoverBig">
           <Skin>CoverBackground</Skin>
           <Color Name="Visible" />
@@ -868,8 +803,7 @@
             <H>360</H>
             <Z>-1</Z>
           </Rect>
-          <Reflection Enabled="false" />
-        </StaticCoverBig>
+            </StaticCoverBig>
         <StaticTextBG Name="StaticTextBG">
           <Skin>CoverBackground</Skin>
           <Color Name="StaticColor" />
@@ -880,8 +814,7 @@
             <H>550</H>
             <Z>-1</Z>
           </Rect>
-          <Reflection Enabled="false" />
-        </StaticTextBG>
+            </StaticTextBG>
         <StaticDuetIcon Name="StaticDuetIcon">
           <Skin>DuetIcon</Skin>
           <Color Name="StaticColor" />
@@ -892,8 +825,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-          <Reflection Enabled="false" />
-        </StaticDuetIcon>
+            </StaticDuetIcon>
         <StaticVideoIcon Name="StaticVideoIcon">
           <Skin>VideoIcon</Skin>
           <Color Name="StaticColor" />
@@ -904,8 +836,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-          <Reflection Enabled="false" />
-        </StaticVideoIcon>
+            </StaticVideoIcon>
         <StaticMedleyCalcIcon Name="StaticMedleyCalcIcon">
           <Skin>MedleyCalcIcon</Skin>
           <Color Name="StaticColor" />
@@ -916,8 +847,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-          <Reflection Enabled="false" />
-        </StaticMedleyCalcIcon>
+            </StaticMedleyCalcIcon>
         <StaticMedleyTagIcon Name="StaticMedleyTagIcon">
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
@@ -928,8 +858,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-          <Reflection Enabled="false" />
-        </StaticMedleyTagIcon>
+            </StaticMedleyTagIcon>
       </SongMenuTileBoard>
     </SongMenu>
   </SongMenus>
@@ -1134,8 +1063,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_ARTIST_TITLE</Text>
-        <Reflection Enabled="false" />
-      </Text1>
+        </Text1>
       <StaticCover Name="StaticCover">
         <Skin />
         <Color Name="Visible" />
@@ -1146,8 +1074,7 @@
           <H>46</H>
           <Z>-1</Z>
         </Rect>
-        <Reflection Enabled="false" />
-      </StaticCover>
+        </StaticCover>
       <StaticPlaylistHeader Name="StaticPlaylistHeader">
         <Skin>Menu</Skin>
         <Color Name="StaticColor" />
@@ -1158,8 +1085,7 @@
           <H>40</H>
           <Z>-1</Z>
         </Rect>
-        <Reflection Enabled="false" />
-      </StaticPlaylistHeader>
+        </StaticPlaylistHeader>
       <StaticPlaylistFooter Name="StaticPlaylistFooter">
         <Skin>Menu</Skin>
         <Color Name="StaticColor" />
@@ -1170,8 +1096,7 @@
           <H>40</H>
           <Z>-1</Z>
         </Rect>
-        <Reflection Enabled="false" />
-      </StaticPlaylistFooter>
+        </StaticPlaylistFooter>
       <ButtonPlaylistName Name="ButtonPlaylistName">
         <Skin/>
         <SkinSelected />
@@ -1197,11 +1122,8 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          <Reflection Enabled="false" />
-        </Text>
-          <Reflection Enabled="false" />
-        <SelReflection Enabled="false" />
-      </ButtonPlaylistName>
+            </Text>
+            </ButtonPlaylistName>
       <ButtonPlaylistClose Name="ButtonPlaylistClose">
         <Skin>CloseIcon</Skin>
         <SkinSelected>CloseIcon</SkinSelected>
@@ -1227,11 +1149,8 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          <Reflection Enabled="false" />
-        </Text>
-          <Reflection Enabled="false" />
-        <SelReflection Enabled="false" />
-      </ButtonPlaylistClose>
+            </Text>
+            </ButtonPlaylistClose>
       <ButtonPlaylistSave Name="ButtonPlaylistSave">
         <Skin>SaveIcon</Skin>
         <SkinSelected>SaveIcon</SkinSelected>
@@ -1257,11 +1176,8 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          <Reflection Enabled="false" />
-        </Text>
-          <Reflection Enabled="false" />
-        <SelReflection Enabled="false" />
-      </ButtonPlaylistSave>
+            </Text>
+            </ButtonPlaylistSave>
       <ButtonPlaylistDelete Name="ButtonPlaylistDelete">
         <Skin>DeleteIcon</Skin>
         <SkinSelected>DeleteIcon</SkinSelected>
@@ -1287,11 +1203,8 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          <Reflection Enabled="false" />
-        </Text>
-          <Reflection Enabled="false" />
-        <SelReflection Enabled="false" />
-      </ButtonPlaylistDelete>
+            </Text>
+            </ButtonPlaylistDelete>
       <ButtonPlaylistSing Name="ButtonPlaylistSing">
         <Skin>SingIcon</Skin>
         <SkinSelected>SingIcon</SkinSelected>
@@ -1317,11 +1230,8 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          <Reflection Enabled="false" />
-        </Text>
-          <Reflection Enabled="false" />
-        <SelReflection Enabled="false" />
-      </ButtonPlaylistSing>
+            </Text>
+            </ButtonPlaylistSing>
       <SelectSlideGameMode>
         <Skin>Button</Skin>
         <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>

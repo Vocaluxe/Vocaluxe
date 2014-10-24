@@ -24,7 +24,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -41,7 +40,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOLYRICS_OPTIONS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text2">
       <X>75</X>
@@ -56,7 +54,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOLYRICS_STYLE</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text3">
       <X>75</X>
@@ -71,7 +68,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOLYRICS_POSITION</Text>
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -100,8 +96,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>

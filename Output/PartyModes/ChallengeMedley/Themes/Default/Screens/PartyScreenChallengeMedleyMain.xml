@@ -24,7 +24,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPopupBG">
       <Skin>PopupBG</Skin>
@@ -36,7 +35,6 @@
         <H>720</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticNextPlayer">
       <Skin/>
@@ -48,7 +46,6 @@
         <H>100</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -65,7 +62,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_TITLE</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPosition">
       <X>40</X>
@@ -80,7 +76,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_TABLE_POS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayerName">
       <X>50</X>
@@ -95,7 +90,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNumPlayed">
       <X>260</X>
@@ -110,7 +104,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextWon">
       <X>340</X>
@@ -125,7 +118,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_TABLE_WON</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextSingPoints">
       <X>490</X>
@@ -140,7 +132,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextGamePoints">
       <X>590</X>
@@ -155,7 +146,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_TABLE_GAMEPOINTS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNextPlayer">
       <X>0</X>
@@ -170,7 +160,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPopupReallyExit">
       <X>640</X>
@@ -185,7 +174,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_POPUP_REALLYEXIT</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextRoundNumber">
       <X>660</X>
@@ -200,7 +188,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>1)</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextRoundPlayer">
       <X>0</X>
@@ -215,7 +202,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextRoundScore">
       <X>0</X>
@@ -230,7 +216,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextFinishMessage">
       <X>640</X>
@@ -245,7 +230,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_FINISH</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextFinishPlayerWin">
       <X>640</X>
@@ -260,7 +244,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNextPlayerMessage">
       <X>640</X>
@@ -275,7 +258,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_NEXT_PLAYER</Text>
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -304,8 +286,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NEXT_ROUND</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -340,8 +321,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -376,8 +356,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_EXIT</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -412,8 +391,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_YES</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -448,8 +426,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NO</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -484,10 +461,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonPlayerScrollUp">
       <Skin>ScrollUp</Skin>
@@ -514,10 +488,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonRoundsScrollDown">
       <Skin>ScrollDown</Skin>
@@ -544,10 +515,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonRoundsScrollUp">
       <Skin>ScrollUp</Skin>
@@ -574,10 +542,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
   </Buttons>
   <SongMenus />

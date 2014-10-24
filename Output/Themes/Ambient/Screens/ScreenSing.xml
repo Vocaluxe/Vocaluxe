@@ -29,7 +29,6 @@
         <H>50</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticLyrics">
       <Skin>Lyrics</Skin>
@@ -41,7 +40,6 @@
         <H>90</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticLyricsDuet">
       <Skin>Lyrics</Skin>
@@ -53,7 +51,6 @@
         <H>93</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticLyricsTop">
       <Skin>Lyrics</Skin>
@@ -65,7 +62,6 @@
         <H>93</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticTimeBar">
       <Skin>TimeBar</Skin>
@@ -77,7 +73,6 @@
         <H>21</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticTimeLine">
       <Skin>TimeLine</Skin>
@@ -89,7 +84,6 @@
         <H>10</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticTimeLineExpandedNormal">
       <Skin>TimeLine</Skin>
@@ -101,7 +95,6 @@
         <H>9</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticTimeLineExpandedHighlighted">
       <Skin>TimeLine</Skin>
@@ -113,7 +106,6 @@
         <H>9</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticTimePointer">
       <Skin>Pointer</Skin>
@@ -130,7 +122,6 @@
         <H>10</H>
         <Z>-1.25</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticLyricHelper">
       <Skin>LyricHelper</Skin>
@@ -142,7 +133,6 @@
         <H>45</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticLyricHelperDuet">
       <Skin>LyricHelper</Skin>
@@ -154,7 +144,6 @@
         <H>45</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticLyricHelperTop">
       <Skin>LyricHelper</Skin>
@@ -166,7 +155,6 @@
         <H>45</H>
         <Z>-1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPauseBG">
       <Skin>PauseBG</Skin>
@@ -178,7 +166,6 @@
         <H>720</H>
         <Z>-2.1</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N1">
       <Skin/>
@@ -190,7 +177,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin/>
@@ -207,7 +193,6 @@
         <H>190</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N2">
       <Skin/>
@@ -219,7 +204,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N2">
       <Skin/>
@@ -236,7 +220,6 @@
         <H>165</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N2">
       <Skin/>
@@ -248,7 +231,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N2">
       <Skin/>
@@ -265,7 +247,6 @@
         <H>165</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N3">
       <Skin/>
@@ -277,7 +258,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N3">
       <Skin/>
@@ -294,7 +274,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N3">
       <Skin/>
@@ -306,7 +285,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N3">
       <Skin/>
@@ -323,7 +301,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP3N3">
       <Skin/>
@@ -335,7 +312,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP3N3">
       <Skin/>
@@ -352,7 +328,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N4">
       <Skin/>
@@ -364,7 +339,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N4">
       <Skin/>
@@ -381,7 +355,6 @@
         <H>165</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N4">
       <Skin/>
@@ -393,7 +366,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N4">
       <Skin/>
@@ -410,7 +382,6 @@
         <H>165</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP3N4">
       <Skin/>
@@ -422,7 +393,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP3N4">
       <Skin/>
@@ -439,7 +409,6 @@
         <H>165</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP4N4">
       <Skin/>
@@ -451,7 +420,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP4N4">
       <Skin/>
@@ -468,7 +436,6 @@
         <H>165</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N5">
       <Skin/>
@@ -480,7 +447,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N5">
       <Skin/>
@@ -497,7 +463,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N5">
       <Skin/>
@@ -509,7 +474,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N5">
       <Skin/>
@@ -526,7 +490,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP3N5">
       <Skin/>
@@ -538,7 +501,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP3N5">
       <Skin/>
@@ -555,7 +517,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP4N5">
       <Skin/>
@@ -567,7 +528,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP4N5">
       <Skin/>
@@ -584,7 +544,6 @@
         <H>165</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP5N5">
       <Skin/>
@@ -596,7 +555,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP5N5">
       <Skin/>
@@ -613,7 +571,6 @@
         <H>165</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP1N6">
       <Skin/>
@@ -625,7 +582,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP1N6">
       <Skin/>
@@ -642,7 +598,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP2N6">
       <Skin/>
@@ -654,7 +609,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP2N6">
       <Skin/>
@@ -671,7 +625,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP3N6">
       <Skin/>
@@ -683,7 +636,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP3N6">
       <Skin/>
@@ -700,7 +652,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP4N6">
       <Skin/>
@@ -712,7 +663,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP4N6">
       <Skin/>
@@ -729,7 +679,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP5N6">
       <Skin/>
@@ -741,7 +690,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP5N6">
       <Skin/>
@@ -758,7 +706,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticScoreP6N6">
       <Skin/>
@@ -770,7 +717,6 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticAvatarP6N6">
       <Skin/>
@@ -787,7 +733,6 @@
         <H>140</H>
         <Z>-0.75</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -804,7 +749,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextTime">
       <X>1214</X>
@@ -819,7 +763,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPause">
       <X>640</X>
@@ -834,7 +777,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text>TR_SCREENSING_PAUSE</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextDuetName1">
       <X>40</X>
@@ -849,7 +791,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextDuetName2">
       <X>40</X>
@@ -864,7 +805,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextMedleyCountdown">
       <X>640</X>
@@ -879,7 +819,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP1N1">
       <X>1240</X>
@@ -894,7 +833,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP1N1">
       <X>110</X>
@@ -914,7 +852,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP1N2">
       <X>1240</X>
@@ -929,7 +866,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP1N2">
       <X>110</X>
@@ -949,7 +885,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP2N2">
       <X>1240</X>
@@ -964,7 +899,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP2N2">
       <X>110</X>
@@ -984,7 +918,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP1N3">
       <X>1240</X>
@@ -999,7 +932,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP1N3">
       <X>110</X>
@@ -1019,7 +951,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP2N3">
       <X>1240</X>
@@ -1034,7 +965,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP2N3">
       <X>110</X>
@@ -1054,7 +984,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP3N3">
       <X>1240</X>
@@ -1069,7 +998,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP3N3">
       <X>110</X>
@@ -1089,7 +1017,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP1N4">
       <X>324</X>
@@ -1104,7 +1031,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP1N4">
       <X>110</X>
@@ -1124,7 +1050,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP2N4">
       <X>324</X>
@@ -1139,7 +1064,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP2N4">
       <X>110</X>
@@ -1159,7 +1083,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP3N4">
       <X>967</X>
@@ -1174,7 +1097,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP3N4">
       <X>1173</X>
@@ -1194,7 +1116,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP4N4">
       <X>967</X>
@@ -1209,7 +1130,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP4N4">
       <X>1173</X>
@@ -1229,7 +1149,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP1N5">
       <X>324</X>
@@ -1244,7 +1163,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP1N5">
       <X>110</X>
@@ -1264,7 +1182,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP2N5">
       <X>324</X>
@@ -1279,7 +1196,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP2N5">
       <X>110</X>
@@ -1299,7 +1215,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP3N5">
       <X>324</X>
@@ -1314,7 +1229,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP3N5">
       <X>110</X>
@@ -1334,7 +1248,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP4N5">
       <X>967</X>
@@ -1349,7 +1262,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP4N5">
       <X>1173</X>
@@ -1369,7 +1281,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP5N5">
       <X>967</X>
@@ -1384,7 +1295,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP5N5">
       <X>1173</X>
@@ -1404,7 +1314,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP1N6">
       <X>324</X>
@@ -1419,7 +1328,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP1N6">
       <X>110</X>
@@ -1439,7 +1347,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP2N6">
       <X>324</X>
@@ -1454,7 +1361,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP2N6">
       <X>110</X>
@@ -1474,7 +1380,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP3N6">
       <X>324</X>
@@ -1489,7 +1394,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP3N6">
       <X>110</X>
@@ -1509,7 +1413,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP4N6">
       <X>967</X>
@@ -1524,7 +1427,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP4N6">
       <X>1173</X>
@@ -1544,7 +1446,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP5N6">
       <X>967</X>
@@ -1559,7 +1460,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP5N6">
       <X>1173</X>
@@ -1579,7 +1479,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextScoreP6N6">
       <X>967</X>
@@ -1594,7 +1493,6 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNameP6N6">
       <X>1173</X>
@@ -1614,7 +1512,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -1643,8 +1540,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSING_BUTTON_CANCEL</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -1679,8 +1575,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSING_BUTTON_CONTINUE</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -1715,8 +1610,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSING_BUTTON_SKIP</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>

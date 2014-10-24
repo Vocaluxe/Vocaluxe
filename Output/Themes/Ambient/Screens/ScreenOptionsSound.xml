@@ -24,7 +24,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -41,7 +40,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOSOUND_OPTIONS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text2">
       <X>75</X>
@@ -56,7 +54,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOSOUND_BACKGROUNDMUSIC</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text3">
       <X>75</X>
@@ -71,7 +68,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOSOUND_BACKGROUNDMUSICVOLUME</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text4">
       <X>75</X>
@@ -86,7 +82,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text5">
       <X>75</X>
@@ -101,7 +96,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOSOUND_PREVIEWMUSICVOLUME</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text6">
       <X>75</X>
@@ -116,7 +110,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOSOUND_GAMEMUSICVOLUME</Text>
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -145,8 +138,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>

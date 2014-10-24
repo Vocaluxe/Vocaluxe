@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Xml;
@@ -35,8 +36,8 @@ namespace VocaluxeLib.Menu
         public SThemeText Text;
         public SThemeText SelText;
         [XmlIgnore] public bool SelTextSpecified;
-        public SReflection Reflection;
-        public SReflection SelReflection;
+        public SReflection? Reflection;
+        public SReflection? SelReflection;
     }
 
     public sealed class CButton : CMenuElementBase, IMenuElement, IThemeable
@@ -209,12 +210,12 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref _ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref _ReflectionHeight);
 
-                _Theme.Reflection = new SReflection(true, _ReflectionHeight, _ReflectionSpace);
+                _Theme.Reflection = new SReflection(_ReflectionHeight, _ReflectionSpace);
             }
             else
             {
                 _Reflection = false;
-                _Theme.Reflection = new SReflection(false, 0f, 0f);
+                _Theme.Reflection = null;
             }
 
             if (xmlReader.ItemExists(item + "/SReflection"))
@@ -223,12 +224,12 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Space", ref _SelReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Height", ref _SelReflectionHeight);
 
-                _Theme.SelReflection = new SReflection(true, _SelReflectionHeight, _SelReflectionSpace);
+                _Theme.SelReflection = new SReflection(_SelReflectionHeight, _SelReflectionSpace);
             }
             else
             {
                 _SelReflection = false;
-                _Theme.SelReflection = new SReflection(false, 0f, 0f);
+                _Theme.SelReflection = null;
             }
 
             if (_ThemeLoaded)
@@ -321,18 +322,20 @@ namespace VocaluxeLib.Menu
 
             MaxRect = _Theme.Rect;
 
-            _Reflection = _Theme.Reflection.Enabled;
+            _Reflection = _Theme.Reflection.HasValue;
             if (_Reflection)
             {
-                _ReflectionHeight = _Theme.Reflection.Height;
-                _ReflectionSpace = _Theme.Reflection.Space;
+                Debug.Assert(_Theme.Reflection != null);
+                _ReflectionHeight = _Theme.Reflection.Value.Height;
+                _ReflectionSpace = _Theme.Reflection.Value.Space;
             }
 
-            _SelReflection = _Theme.Reflection.Enabled;
+            _SelReflection = _Theme.Reflection.HasValue;
             if (_SelReflection)
             {
-                _SelReflectionHeight = _Theme.SelReflection.Height;
-                _SelReflectionSpace = _Theme.SelReflection.Space;
+                Debug.Assert(_Theme.SelReflection != null);
+                _SelReflectionHeight = _Theme.SelReflection.Value.Height;
+                _SelReflectionSpace = _Theme.SelReflection.Value.Space;
             }
 
             if (_Theme.Rect.Z < Text.Z)

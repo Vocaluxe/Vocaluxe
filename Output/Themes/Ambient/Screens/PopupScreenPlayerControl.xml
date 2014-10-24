@@ -16,7 +16,6 @@
         <H>42</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticCover">
       <Skin>CoverBackground</Skin>
@@ -28,7 +27,6 @@
         <H>38</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -45,7 +43,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -74,10 +71,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonPause">
       <Skin>PauseIcon</Skin>
@@ -104,10 +98,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonPrevious">
       <Skin>PreviousIcon</Skin>
@@ -134,10 +125,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonNext">
       <Skin>NextIcon</Skin>
@@ -164,10 +152,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonRepeat">
       <Skin>RepeatIcon</Skin>
@@ -194,10 +179,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonShowVideo">
       <Skin>VideoIconCO</Skin>
@@ -224,10 +206,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonSing">
       <Skin>DuetIcon</Skin>
@@ -254,10 +233,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
     <Button Name="ButtonToBackgroundVideo">
       <Skin>VideoIconBG</Skin>
@@ -284,10 +260,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        <Reflection Enabled="false" />
-      </Text>
-      <Reflection Enabled="false" />
-      <SelReflection Enabled="false" />
+        </Text>
     </Button>
   </Buttons>
   <SongMenus />

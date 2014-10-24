@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Xml;
@@ -29,7 +30,7 @@ namespace VocaluxeLib.Menu
         public string Skin;
         public SThemeColor Color;
         public SRectF Rect;
-        public SReflection Reflection;
+        public SReflection? Reflection;
     }
 
     public sealed class CStatic : CMenuElementBase, IMenuElement, IThemeable
@@ -147,12 +148,12 @@ namespace VocaluxeLib.Menu
                 Reflection = true;
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
-                _Theme.Reflection = new SReflection(true, ReflectionHeight, ReflectionSpace);
+                _Theme.Reflection = new SReflection(ReflectionHeight, ReflectionSpace);
             }
             else
             {
                 Reflection = false;
-                _Theme.Reflection = new SReflection(false, 0f, 0f);
+                _Theme.Reflection = null;
             }
 
             if (_ThemeLoaded)
@@ -198,11 +199,12 @@ namespace VocaluxeLib.Menu
             _Theme.Color.Get(_PartyModeID, out Color);
 
             MaxRect = _Theme.Rect;
-            Reflection = _Theme.Reflection.Enabled;
+            Reflection = _Theme.Reflection.HasValue;
             if (Reflection)
             {
-                ReflectionSpace = _Theme.Reflection.Space;
-                ReflectionHeight = _Theme.Reflection.Height;
+                Debug.Assert(_Theme.Reflection != null);
+                ReflectionSpace = _Theme.Reflection.Value.Space;
+                ReflectionHeight = _Theme.Reflection.Value.Height;
             }
         }
 

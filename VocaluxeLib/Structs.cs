@@ -237,23 +237,11 @@ namespace VocaluxeLib
     [XmlRoot("Reflection")]
     public struct SReflection
     {
-        [XmlAttribute] public bool Enabled;
         public float Height;
         public float Space;
 
-        //Needed for serialization
-        public bool HeightSpecified
+        public SReflection(float height, float space)
         {
-            get { return Enabled; }
-        }
-        public bool SpaceSpecified
-        {
-            get { return Enabled; }
-        }
-
-        public SReflection(bool enabled, float height, float space)
-        {
-            Enabled = enabled;
             Height = height;
             Space = space;
         }

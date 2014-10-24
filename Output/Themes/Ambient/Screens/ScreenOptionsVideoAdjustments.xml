@@ -33,7 +33,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text2">
       <X>1280</X>
@@ -48,7 +47,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text3">
       <X>0</X>
@@ -63,7 +61,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text4">
       <X>1280</X>
@@ -78,7 +75,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text5">
       <X>640</X>
@@ -93,7 +89,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_NOTES</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text6">
       <X>640</X>
@@ -108,7 +103,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET</Text>
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -137,8 +131,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>

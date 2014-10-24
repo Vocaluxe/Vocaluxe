@@ -24,7 +24,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar1">
       <Skin/>
@@ -36,7 +35,6 @@
         <H>108</H>
         <Z>-3</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar2">
       <Skin/>
@@ -48,7 +46,6 @@
         <H>108</H>
         <Z>-3</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar3">
       <Skin/>
@@ -60,7 +57,6 @@
         <H>108</H>
         <Z>-3</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar4">
       <Skin/>
@@ -72,7 +68,6 @@
         <H>108</H>
         <Z>-3</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar5">
       <Skin/>
@@ -84,7 +79,6 @@
         <H>108</H>
         <Z>-3</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayerAvatar6">
       <Skin/>
@@ -96,7 +90,6 @@
         <H>108</H>
         <Z>-3</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayer1">
       <Skin>PlayerSelector</Skin>
@@ -108,7 +101,6 @@
         <H>118</H>
         <Z>-2</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayer2">
       <Skin>PlayerSelector</Skin>
@@ -120,7 +112,6 @@
         <H>118</H>
         <Z>-2</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayer3">
       <Skin>PlayerSelector</Skin>
@@ -132,7 +123,6 @@
         <H>118</H>
         <Z>-2</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayer4">
       <Skin>PlayerSelector</Skin>
@@ -144,7 +134,6 @@
         <H>118</H>
         <Z>-2</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayer5">
       <Skin>PlayerSelector</Skin>
@@ -156,7 +145,6 @@
         <H>118</H>
         <Z>-2</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticPlayer6">
       <Skin>PlayerSelector</Skin>
@@ -168,7 +156,6 @@
         <H>118</H>
         <Z>-2</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticWarningMics">
       <Skin/>
@@ -180,7 +167,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticWarningProfiles">
       <Skin/>
@@ -192,7 +178,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -209,7 +194,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENNAMES_MENU</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextWarningMics">
       <X>640</X>
@@ -224,7 +208,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextWarningProfiles">
       <X>640</X>
@@ -239,7 +222,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer1">
       <X>74</X>
@@ -254,7 +236,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer2">
       <X>74</X>
@@ -269,7 +250,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer3">
       <X>74</X>
@@ -284,7 +264,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer4">
       <X>1206</X>
@@ -299,7 +278,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer5">
       <X>1206</X>
@@ -314,7 +292,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextPlayer6">
       <X>1206</X>
@@ -329,7 +306,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -358,8 +334,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -394,8 +369,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_START</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -755,7 +729,6 @@
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player1"><A>0.4</A></Color>
       <MaxColor Name="Player1"><A>0.4</A></MaxColor>
-      <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer2">
       <Skin/>
@@ -772,7 +745,6 @@
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player2"><A>0.4</A></Color>
       <MaxColor Name="Player2"><A>0.4</A></MaxColor>
-      <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer3">
       <Skin/>
@@ -789,7 +761,6 @@
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player3"><A>0.4</A></Color>
       <MaxColor Name="Player3"><A>0.4</A></MaxColor>
-      <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer4">
       <Skin/>
@@ -806,7 +777,6 @@
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player4"><A>0.4</A></Color>
       <MaxColor Name="Player4"><A>0.4</A></MaxColor>
-      <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer5">
       <Skin/>
@@ -823,7 +793,6 @@
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player5"><A>0.4</A></Color>
       <MaxColor Name="Player5"><A>0.4</A></MaxColor>
-      <Reflection Enabled="false" />
     </Equalizer>
     <Equalizer Name="EqualizerPlayer6">
       <Skin/>
@@ -840,7 +809,6 @@
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player6"><A>0.4</A></Color>
       <MaxColor Name="Player6"><A>0.4</A></MaxColor>
-      <Reflection Enabled="false" />
     </Equalizer>
   </Equalizers>
   <Playlists />

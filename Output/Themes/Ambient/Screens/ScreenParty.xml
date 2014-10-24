@@ -24,7 +24,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -41,7 +40,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_TITLE</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text2">
       <X>75</X>
@@ -56,7 +54,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_MODES</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text3">
       <X>75</X>
@@ -71,7 +68,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_DESCRIPTION</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text4">
       <X>75</X>
@@ -86,7 +82,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_TARGETAUDIENCE</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text5">
       <X>75</X>
@@ -101,7 +96,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_NUMTEAMS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text6">
       <X>75</X>
@@ -116,7 +110,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_NUMPLAYERS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text7">
       <X>75</X>
@@ -131,7 +124,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_AUTHOR</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text8">
       <X>75</X>
@@ -146,7 +138,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_VERSION</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextDescription">
       <X>850</X>
@@ -161,7 +152,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextTargetAudience">
       <X>850</X>
@@ -176,7 +166,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNumTeams">
       <X>850</X>
@@ -191,7 +180,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextNumPlayers">
       <X>850</X>
@@ -206,7 +194,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextAuthor">
       <X>850</X>
@@ -221,7 +208,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextVersion">
       <X>850</X>
@@ -236,7 +222,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextError">
       <X>850</X>
@@ -251,7 +236,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_ERROR</Text>
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -280,8 +264,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_START</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -316,8 +299,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>

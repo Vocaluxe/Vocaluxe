@@ -39,7 +39,7 @@ namespace VocaluxeLib.Menu
         [XmlElement("Style")] public EStyle FontStyle;
         [XmlElement("Font")] public string FontFamily;
         public string Text;
-        public SReflection Reflection;
+        public SReflection? Reflection;
     }
 
     public sealed class CText : CMenuElementBase, IMenuElement, IThemeable, IFontObserver
@@ -350,10 +350,10 @@ namespace VocaluxeLib.Menu
             {
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref _ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref _ReflectionHeight);
-                _Theme.Reflection = new SReflection(true, _ReflectionHeight, _ReflectionSpace);
+                _Theme.Reflection = new SReflection(_ReflectionHeight, _ReflectionSpace);
             }
             else
-                _Theme.Reflection = new SReflection(false, 0f, 0f);
+                _Theme.Reflection = null;
 
 
             // Set values
@@ -449,10 +449,10 @@ namespace VocaluxeLib.Menu
             _ResizeAlign = _Theme.ResizeAlign;
             Font = new CFont(_Theme.FontFamily, _Theme.FontStyle, _Theme.FontHeight);
 
-            if (_Theme.Reflection.Enabled)
+            if (_Theme.Reflection.HasValue)
             {
-                _ReflectionSpace = _Theme.Reflection.Space;
-                _ReflectionHeight = _Theme.Reflection.Height;
+                _ReflectionSpace = _Theme.Reflection.Value.Space;
+                _ReflectionHeight = _Theme.Reflection.Value.Height;
             }
 
             Text = _Theme.Text;

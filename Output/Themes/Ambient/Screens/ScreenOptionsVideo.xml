@@ -24,7 +24,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="Static2">
       <Skin/>
@@ -36,7 +35,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="Static3">
       <Skin/>
@@ -48,7 +46,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="Static4">
       <Skin/>
@@ -60,7 +57,6 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
     <Static Name="StaticWebcamOutput">
       <Skin/>
@@ -72,7 +68,6 @@
         <H>240</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="false" />
     </Static>
   </Statics>
   <Texts>
@@ -89,7 +84,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_OPTIONS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text2">
       <X>75</X>
@@ -104,7 +98,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_VIDEOBACKGROUNDS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text3">
       <X>75</X>
@@ -119,7 +112,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_VIDEOPREVIEW</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text4">
       <X>75</X>
@@ -134,7 +126,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_VIDEOINSONGS</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="Text5">
       <X>75</X>
@@ -149,7 +140,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_VIDEOSTOBACKGROUND</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextWebcams">
       <X>75</X>
@@ -164,7 +154,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_WEBCAMDEVICES</Text>
-      <Reflection Enabled="false" />
     </Text>
     <Text Name="TextWebcamResolution">
       <X>75</X>
@@ -179,7 +168,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_WEBCAMRESOLUTION</Text>
-      <Reflection Enabled="false" />
     </Text>
   </Texts>
   <Buttons>
@@ -208,8 +196,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
@@ -244,8 +231,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS</Text>
-        <Reflection Enabled="false" />
-      </Text>
+        </Text>
       <Reflection Enabled="true">
         <Height>26</Height>
         <Space>10</Space>
