@@ -34,8 +34,7 @@ namespace VocaluxeLib.Menu
         public SThemeColor Color;
         public SThemeColor SelColor;
         public SThemeText Text;
-        public SThemeText SelText;
-        [XmlIgnore] public bool SelTextSpecified;
+        public SThemeText? SelText;
         public SReflection? Reflection;
         public SReflection? SelReflection;
     }
@@ -121,7 +120,7 @@ namespace VocaluxeLib.Menu
             _Theme = theme;
 
             Text = new CText(_Theme.Text, _PartyModeID, buttonText);
-            _SelText = _Theme.SelTextSpecified ? new CText(_Theme.SelText, _PartyModeID, buttonText) : null;
+            _SelText = _Theme.SelText.HasValue ? new CText(_Theme.SelText.Value, _PartyModeID, buttonText) : null;
 
             Selected = false;
             EditMode = false;
@@ -197,10 +196,11 @@ namespace VocaluxeLib.Menu
             Text.Z = Rect.Z;
             if (xmlReader.ItemExists(item + "/SText"))
             {
-                _Theme.SelTextSpecified = true;
                 _ThemeLoaded &= _SelText.LoadTheme(item, "SText", xmlReader, true);
                 _SelText.Z = Rect.Z;
             }
+            else
+                _SelText = null;
 
 
             //Reflections
@@ -238,7 +238,10 @@ namespace VocaluxeLib.Menu
                 _Theme.Color.Color = Color;
                 _Theme.SelColor.Color = SelColor;
                 _Theme.Text = Text.GetTheme();
-                _Theme.SelText = _SelText.GetTheme();
+                if (_SelText == null)
+                    _Theme.SelText = null;
+                else
+                    _Theme.SelText = _SelText.GetTheme();
 
                 LoadSkin();
             }
@@ -266,7 +269,7 @@ namespace VocaluxeLib.Menu
                 else
                     Text.DrawRelative(Rect.X, Rect.Y);
             }
-            else if (!_Theme.SelTextSpecified)
+            else if (_SelText == null)
             {
                 texture = SelTexture ?? CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
 
@@ -311,9 +314,9 @@ namespace VocaluxeLib.Menu
             Text = new CText(_Theme.Text, _PartyModeID);
             Text.LoadSkin();
 
-            if (_Theme.SelTextSpecified)
+            if (_Theme.SelText.HasValue)
             {
-                _SelText = new CText(_Theme.SelText, _PartyModeID);
+                _SelText = new CText(_Theme.SelText.Value, _PartyModeID);
                 _SelText.LoadSkin();
             }
 

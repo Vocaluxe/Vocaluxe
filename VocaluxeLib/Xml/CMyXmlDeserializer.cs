@@ -18,6 +18,7 @@ namespace VocaluxeLib.Xml
         {
             public string Name;
             public FieldInfo Info;
+            public FieldInfo SpecifiedField;
             public bool IsList; //List with child elements (<List><El/><El/></List>)
             public bool IsEmbeddedList; //List w/o child elements(<List/><List/>)
             public bool IsNullable;
