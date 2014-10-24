@@ -25,6 +25,8 @@ namespace VocaluxeLib.Xml
         {
             public string Name;
             public FieldInfo Info;
+            public object DefaultValue;
+            public bool HasDefaultValue;
             public bool IsList; //List with child elements (<List><El/><El/></List>)
             public bool IsEmbeddedList; //List w/o child elements(<List/><List/>)
             public bool IsNullable;
@@ -79,67 +81,119 @@ namespace VocaluxeLib.Xml
         }
         #endregion Debug Helpers
 
-        private static bool _HasAttribute(this FieldInfo field, Type attributeType)
+        private static bool _HasAttribute<T>(this FieldInfo field)
         {
-            return field.GetCustomAttributes(attributeType, false).Length > 0;
+            return field.GetCustomAttributes(typeof(T), false).Length > 0;
         }
+
+        private static T _GetAttribute<T>(this ICustomAttributeProvider field) where T : class
+        {
+            object[] attributes = field.GetCustomAttributes(typeof(T), false);
+            return attributes.Length == 0 ? null : (T)attributes[0];
+        }
+
+        private static bool _IsList(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
+        }
+
+        private static bool _IsList(this FieldInfo field)
+        {
+            return field.FieldType._IsList();
+        }
+
+        private static readonly Dictionary<Type, List<SFieldInfo>> _CacheFieldAttributes = new Dictionary<Type, List<SFieldInfo>>();
+        private static readonly Dictionary<Type, List<SFieldInfo>> _CacheFieldFields = new Dictionary<Type, List<SFieldInfo>>();
+        private static readonly Dictionary<Type, String> _CacheTypeName = new Dictionary<Type, string>();
 
         private static List<SFieldInfo> _GetFields(Type type, bool attributes)
         {
-            List<SFieldInfo> result = new List<SFieldInfo>();
+            List<SFieldInfo> result;
+            if (attributes && _CacheFieldAttributes.TryGetValue(type, out result) ||
+                !attributes && _CacheFieldFields.TryGetValue(type, out result))
+                return result;
+            result = new List<SFieldInfo>();
             FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
             foreach (FieldInfo field in fields)
             {
-                if (field._HasAttribute(typeof(XmlIgnoreAttribute)))
+                if (field._HasAttribute<XmlIgnoreAttribute>())
                     continue;
-                object[] attElement = field.GetCustomAttributes(typeof(XmlAttributeAttribute), false);
-                if (attElement.Length > 0 != attributes)
+                XmlAttributeAttribute attribute = field._GetAttribute<XmlAttributeAttribute>();
+                if (attribute != null != attributes)
                     continue;
                 SFieldInfo info = new SFieldInfo {Info = field};
-                if (attElement.Length > 0)
-                    info.Name = ((XmlAttributeAttribute)attElement[0]).AttributeName;
+                if (attribute != null)
+                    info.Name = attribute.AttributeName;
                 else
                 {
-                    attElement = field.GetCustomAttributes(typeof(XmlElementAttribute), false);
-                    if (attElement.Length > 0)
-                        info.Name = ((XmlElementAttribute)attElement[0]).ElementName;
+                    XmlElementAttribute element = field._GetAttribute<XmlElementAttribute>();
+                    if (element != null)
+                        info.Name = element.ElementName;
+                    else
+                    {
+                        XmlArrayAttribute array = field._GetAttribute<XmlArrayAttribute>();
+                        if (array != null)
+                        {
+                            Debug.Assert(field._IsList());
+                            info.Name = array.ElementName;
+                            info.IsList = true;
+                        }
+                    }
                 }
                 if (string.IsNullOrEmpty(info.Name))
                     info.Name = field.Name;
+
                 if (field.FieldType.IsGenericType)
                 {
-                    if (field.FieldType.GetGenericTypeDefinition() == typeof(List<>))
+                    if (field._IsList())
                     {
-                        attElement = field.GetCustomAttributes(typeof(XmlArrayAttribute), false);
-                        if (attElement.Length > 0)
-                            info.IsList = true;
-                        else
+                        if (!info.IsList)
+                        {
+                            Debug.Assert(!field._HasAttribute<XmlArrayAttribute>(), "A field cannot have an XmlElement- and XmlArray-Attribute");
                             info.IsEmbeddedList = true;
+                        }
                     }
                     else if (field.FieldType.GetGenericTypeDefinition() == typeof(Nullable<>))
                         info.IsNullable = true;
                     info.SubType = field.FieldType.GetGenericArguments()[0];
                 }
-                if (field._HasAttribute(typeof(XmlNormalizedAttribute)))
+                if (field._HasAttribute<XmlNormalizedAttribute>())
                 {
                     Debug.Assert(field.FieldType == typeof(float) || (info.IsNullable && info.SubType == typeof(float)), "Only floats can be normalized");
                     info.IsNormalized = true;
                 }
+                DefaultValueAttribute defAttr = field._GetAttribute<DefaultValueAttribute>();
+                if (defAttr != null)
+                {
+                    Debug.Assert(!field._IsList(), "Lists cannot have a default value");
+                    info.HasDefaultValue = true;
+                    info.DefaultValue = defAttr.Value;
+                }
                 result.Add(info);
             }
+            if (attributes)
+                _CacheFieldAttributes.Add(type, result);
+            else
+                _CacheFieldFields.Add(type, result);
             return result;
         }
 
         private static string _GetTypeName(Type type)
         {
-            object[] att = type.GetCustomAttributes(typeof(XmlTypeAttribute), false);
-            if (att.Length > 0)
+            string name;
+            if (_CacheTypeName.TryGetValue(type, out name))
+                return name;
+            XmlTypeAttribute att = type._GetAttribute<XmlTypeAttribute>();
+            if (att != null)
             {
-                string name = ((XmlTypeAttribute)att[0]).TypeName;
-                if (!string.IsNullOrEmpty(name))
-                    return name;
+                name = att.TypeName;
+                if (string.IsNullOrEmpty(name))
+                    name = type.Name;
             }
-            return type.Name;
+            else
+                name = type.Name;
+            _CacheTypeName.Add(type, name);
+            return name;
         }
 
         private static object _GetValue(XmlNode node, Type type)
@@ -160,7 +214,7 @@ namespace VocaluxeLib.Xml
                 return node.InnerText;
             if (type.IsPrimitive)
                 return _GetPrimitiveValue(node, type);
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+            if (type._IsList())
             {
                 Type subType = type.GetGenericArguments()[0];
                 String subName = _GetTypeName(subType);
@@ -214,10 +268,9 @@ namespace VocaluxeLib.Xml
                 _AddList(result, field, new List<object>());
                 return true;
             }
-            object[] defAtt = field.Info.GetCustomAttributes(typeof(DefaultValueAttribute), false);
-            if (defAtt.Length == 0)
+            if (!field.HasDefaultValue)
                 return field.IsNullable;
-            field.Info.SetValue(result, ((DefaultValueAttribute)defAtt[0]).Value);
+            field.Info.SetValue(result, field.DefaultValue);
             return true;
         }
 
