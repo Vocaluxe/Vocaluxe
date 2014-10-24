@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Drawing;
@@ -28,8 +29,12 @@ namespace VocaluxeLib
 {
     public struct SMargin
     {
-        public int Default;
-        public int Left, Right, Top, Bottom;
+        [XmlAttribute] public int Default;
+        public int? Left, Right, Top, Bottom;
+        [XmlIgnore] public bool LeftSpecified;
+        [XmlIgnore] public bool RightSpecified;
+        [XmlIgnore] public bool TopSpecified;
+        [XmlIgnore] public bool BottomSpecified;
     }
 
     public struct SThemeCoverGeneratorText
@@ -43,12 +48,27 @@ namespace VocaluxeLib
 
     public struct SThemeCoverGenerator
     {
-        public ECoverGeneratorType Type;
+        [XmlAttribute] public ECoverGeneratorType Type;
         public SThemeCoverGeneratorText Text;
         public SThemeColor BackgroundColor;
-        public string Image;
-        public float ImageAlpha;
-        public bool ShowFirstCover;
+        [XmlElement(IsNullable = true)] public string Image;
+        [DefaultValue(0.5f)] public float ImageAlpha;
+        [DefaultValue(false)] public bool ShowFirstCover;
+    }
+
+    public struct SThemeCoverInfo
+    {
+        public string Name;
+        public string Folder;
+        [XmlElement(IsNullable = true)] public string Author;
+    }
+
+    [XmlRoot("root")]
+    public struct SThemeCover
+    {
+        [XmlIgnore] public string Name, Folder, FilePath;
+        public SThemeCoverInfo Info;
+        [XmlElement("CoverGenerator", IsNullable = false)] public List<SThemeCoverGenerator> CoverGenerators;
     }
 
     public struct SInfo
@@ -99,7 +119,7 @@ namespace VocaluxeLib
     [XmlRoot("Color")]
     public struct SThemeColor
     {
-        [XmlAttribute] public string Name;
+        [DefaultValue(null), XmlAttribute]  public string Name;
         public float? R;
         public float? G;
         public float? B;

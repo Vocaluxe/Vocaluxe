@@ -42,10 +42,10 @@ namespace VocaluxeLib.Xml
             bool ok = true;
             string val;
             bool defOk = GetAttribute(xPath, "Default", out val) && int.TryParse(val, out el.Default);
-            ok &= TryGetIntValue(xPath + "/Left", ref el.Left, el.Default);
+            /*ok &= TryGetIntValue(xPath + "/Left", ref el.Left, el.Default);
             ok &= TryGetIntValue(xPath + "/Right", ref el.Right, el.Default);
             ok &= TryGetIntValue(xPath + "/Top", ref el.Top, el.Default);
-            ok &= TryGetIntValue(xPath + "/Bottom", ref el.Bottom, el.Default);
+            ok &= TryGetIntValue(xPath + "/Bottom", ref el.Bottom, el.Default);*/
             return ok || defOk;
         }
 

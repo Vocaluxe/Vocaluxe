@@ -7,7 +7,7 @@
 	</Info>
 	<!--Cover definitions when a category is missing a cover-->
 	<!--Possible types are: Default, Song, Artist, Letter, Edition, Genre, Language, Year, Decade, Date -->
-	<CoverGenerator1 Type="Default">
+	<CoverGenerator Type="Default">
 		<Text>
 			<!--<Text>: Text to be shown, %TEXT% will be replaced by the category or song name-->
 			<Text>%TEXT%</Text>
@@ -39,5 +39,5 @@
 		<ShowFirstCover>true</ShowFirstCover>
 		<!--<ImageAlpha>Alpha value of the image in case the first cover is shown(optional)-->
 		<ImageAlpha>0.75</ImageAlpha>
-	</CoverGenerator1>
+	</CoverGenerator>
 </root>

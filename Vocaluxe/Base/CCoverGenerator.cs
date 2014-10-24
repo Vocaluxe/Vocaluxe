@@ -41,6 +41,10 @@ namespace Vocaluxe.Base
         private readonly SColorF _TextColor;
         private readonly SColorF _BGColor;
         private const int _LineSpace = 5;
+        private readonly int _MarginLeft;
+        private readonly int _MarginRight;
+        private readonly int _MarginTop;
+        private readonly int _MarginBottom;
 
         /// <summary>
         ///     Split lines after special chars, descending priority
@@ -60,6 +64,10 @@ namespace Vocaluxe.Base
                 _Image = Path.Combine(basePath, _Theme.Image);
                 _Valid = File.Exists(_Image);
             }
+            _MarginLeft = theme.Text.Margin.Left.HasValue ? theme.Text.Margin.Left.Value : theme.Text.Margin.Default;
+            _MarginRight = theme.Text.Margin.Right.HasValue ? theme.Text.Margin.Right.Value : theme.Text.Margin.Default;
+            _MarginTop = theme.Text.Margin.Top.HasValue ? theme.Text.Margin.Top.Value : theme.Text.Margin.Default;
+            _MarginBottom = theme.Text.Margin.Bottom.HasValue ? theme.Text.Margin.Bottom.Value : theme.Text.Margin.Default;
         }
 
         private class CTextElement
@@ -135,7 +143,7 @@ namespace Vocaluxe.Base
             {
                 pen.LineJoin = LineJoin.Round;
                 pen.Alignment = PenAlignment.Outset;
-                float top = (bmpSize.Height - _Theme.Text.Margin.Bottom - _Theme.Text.Margin.Top - maxHeight * lineCount) / 2 + _Theme.Text.Margin.Top;
+                float top = (bmpSize.Height - _MarginBottom - _MarginTop - maxHeight * lineCount) / 2 + _MarginTop;
                 int nextLineEl = 0;
                 for (int i = 0; i < lineCount; i++)
                 {
@@ -152,16 +160,16 @@ namespace Vocaluxe.Base
                     {
                         //Center Text if this is the only line or the middle line
                         float width = _GetWidth(elements, firstEl, nextLineEl - 1);
-                        left = (bmpSize.Width - _Theme.Text.Margin.Left - _Theme.Text.Margin.Right - width) / 2 + _Theme.Text.Margin.Left;
+                        left = (bmpSize.Width - _MarginLeft - _MarginRight - width) / 2 + _MarginLeft;
                     }
                     else if (i == lineCount - 1)
                     {
                         //Place last line at right
                         float width = _GetWidth(elements, firstEl, nextLineEl - 1);
-                        left = bmpSize.Width - width - _Theme.Text.Margin.Right;
+                        left = bmpSize.Width - width - _MarginRight;
                     }
                     else
-                        left = _Theme.Text.Margin.Left;
+                        left = _MarginLeft;
                     //g.DrawString(line, fo, new SolidBrush(_TextColor.AsColor()), left, top, StringFormat.GenericTypographic);
                     path.AddString(line, fo.FontFamily, (int)fo.Style, emSize, new PointF(left, top), StringFormat.GenericTypographic);
                     top += maxHeight + _LineSpace;
@@ -222,8 +230,8 @@ namespace Vocaluxe.Base
         /// <returns>Factor for resizing the text (Maximizing this factor means maximizing the height)</returns>
         private float _DistributeText(List<CTextElement> elements, int width, int height)
         {
-            int availableWidth = width - _Theme.Text.Margin.Left - _Theme.Text.Margin.Right;
-            int availableHeight = height - _Theme.Text.Margin.Top - _Theme.Text.Margin.Bottom;
+            int availableWidth = width - _MarginLeft - _MarginRight;
+            int availableHeight = height - _MarginTop - _MarginBottom;
 
             float textHeight = elements.Select(el => el.Height).Max();
 

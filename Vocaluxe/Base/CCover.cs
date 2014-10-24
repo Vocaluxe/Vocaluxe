@@ -28,12 +28,6 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
-    struct SThemeCover
-    {
-        public string Name, Folder;
-        public string FilePath;
-    }
-
     static class CCover
     {
         private const string _NoCoverName = "No Cover";
@@ -262,6 +256,10 @@ namespace Vocaluxe.Base
 
         private static void _LoadCoverGenerators(SThemeCover coverTheme)
         {
+            //SThemeCover theme;
+            //using (var stream = new FileStream(coverTheme.FilePath, FileMode.Open))
+            //    theme = CMyXmlDeserializer.Deserialize<SThemeCover>(stream);
+            //string cover = theme.Info.Author;
             CXMLReader xmlReader = CXMLReader.OpenFile(coverTheme.FilePath);
             string coverPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder);
             lock (_CoverGenerators)
