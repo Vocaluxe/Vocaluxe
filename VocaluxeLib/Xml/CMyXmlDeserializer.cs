@@ -18,7 +18,8 @@ namespace VocaluxeLib.Xml
         {
             public string Name;
             public FieldInfo Info;
-            public bool IsList;
+            public bool IsList; //List with child elements (<List><El/><El/></List>)
+            public bool IsEmbeddedList; //List w/o child elements(<List/><List/>)
             public bool IsNullable;
             public Type SubType;
         }
@@ -95,7 +96,13 @@ namespace VocaluxeLib.Xml
                 if (field.FieldType.IsGenericType)
                 {
                     if (field.FieldType.GetGenericTypeDefinition() == typeof(List<>))
-                        info.IsList = true;
+                    {
+                        attElement = field.GetCustomAttributes(typeof(XmlArrayAttribute), false);
+                        if (attElement.Length > 0)
+                            info.IsList = true;
+                        else
+                            info.IsEmbeddedList = true;
+                    }
                     else if (field.FieldType.GetGenericTypeDefinition() == typeof(Nullable<>))
                         info.IsNullable = true;
                     info.SubType = field.FieldType.GetGenericArguments()[0];
@@ -103,6 +110,18 @@ namespace VocaluxeLib.Xml
                 result.Add(info);
             }
             return result;
+        }
+
+        private static string _GetTypeName(Type type)
+        {
+            object[] att = type.GetCustomAttributes(typeof(XmlTypeAttribute), false);
+            if (att.Length > 0)
+            {
+                string name = ((XmlTypeAttribute)att[0]).TypeName;
+                if (!string.IsNullOrEmpty(name))
+                    return name;
+            }
+            return type.Name;
         }
 
         public static T Deserialize<T>(Stream stream) where T : new()
@@ -117,60 +136,61 @@ namespace VocaluxeLib.Xml
 
         private static object _GetValue(XmlNode node, Type type)
         {
-            object value;
             if (type.IsEnum)
             {
                 string stringValue = node.InnerText;
                 try
                 {
-                    value = Enum.Parse(type, stringValue);
+                    return Enum.Parse(type, stringValue);
                 }
                 catch (Exception)
                 {
                     throw new XmlException("Invalid value in " + _FindXPath(node));
                 }
             }
-            else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
+            if (type == typeof(string))
+                return node.InnerText;
+            if (type.IsPrimitive)
+                return _GetPrimitiveValue(node, type);
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>))
             {
                 Type subType = type.GetGenericArguments()[0];
-                value = Activator.CreateInstance(type);
-                MethodInfo addMethod = value.GetType().GetMethod("Add");
-                List<object> subValues = new List<object>(node.ChildNodes.Count);
+                String subName = _GetTypeName(subType);
+                List<object> subValues = new List<object>();
                 foreach (XmlNode subNode in node.ChildNodes)
                 {
                     if (subNode is XmlComment)
                         continue;
+                    if (subName != subNode.Name)
+                        throw new XmlException("Invalid list entry '" + subNode.Name + "' in " + _FindXPath(node) + "; Expected: " + subName);
                     object subValue = _GetValue(subNode, subType);
                     _ProcessChildNodes(subNode, ref subValue, true);
                     subValues.Add(subValue);
                 }
-                addMethod.Invoke(value, subValues.ToArray());
+                return _CreateList(type, subValues);
             }
-            else if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 Type subType = type.GetGenericArguments()[0];
-                string stringValue = node.InnerText;
-                value = Convert.ChangeType(stringValue, subType);
+                return _GetPrimitiveValue(node, subType);
             }
-            else if (type == typeof(string))
-                value = node.InnerText;
-            else if (!type.IsPrimitive)
+
+            object value = Activator.CreateInstance(type);
+            _ProcessChildNodes(node, ref value, true);
+            _ProcessChildNodes(node, ref value, false);
+            return value;
+        }
+
+        private static object _GetPrimitiveValue(XmlNode node, Type type)
+        {
+            object value;
+            try
             {
-                value = Activator.CreateInstance(type);
-                _ProcessChildNodes(node, ref value, true);
-                _ProcessChildNodes(node, ref value, false);
+                value = Convert.ChangeType(node.InnerText, type, CultureInfo.InvariantCulture);
             }
-            else
+            catch (FormatException)
             {
-                string stringValue = node.InnerText;
-                try
-                {
-                    value = Convert.ChangeType(stringValue, type, CultureInfo.InvariantCulture);
-                }
-                catch (FormatException)
-                {
-                    throw new XmlException("Invalid format in " + _FindXPath(node));
-                }
+                throw new XmlException("Invalid format in " + _FindXPath(node) + ": '" + node.InnerText + "'");
             }
             return value;
         }
@@ -182,6 +202,23 @@ namespace VocaluxeLib.Xml
                 return field.IsNullable;
             field.Info.SetValue(result, ((DefaultValueAttribute)defAtt[0]).Value);
             return true;
+        }
+
+        private static object _CreateList(Type type, List<object> values)
+        {
+            object list = Activator.CreateInstance(type, new object[] {values.Count});
+            if (values.Count > 0)
+            {
+                MethodInfo addMethod = type.GetMethod("Add");
+                foreach (object value in values)
+                    addMethod.Invoke(list, new object[] {value});
+            }
+            return list;
+        }
+
+        private static void _AddList(object result, SFieldInfo listField, List<object> list)
+        {
+            listField.Info.SetValue(result, _CreateList(listField.Info.FieldType, list));
         }
 
         private static void _ProcessChildNodes(XmlNode parent, ref object result, bool attributes)
@@ -210,56 +247,50 @@ namespace VocaluxeLib.Xml
                         if (node.Name != curListName)
                         {
                             // End an embedded List
-                            object list = Activator.CreateInstance(curListField.Info.FieldType);
-                            MethodInfo addMethod = curListField.Info.FieldType.GetMethod("Add");
-                            addMethod.Invoke(list, subValues.ToArray());
-                            curListField.Info.SetValue(result, list);
+                            _AddList(result, curListField, subValues);
                             curField++;
                             curListName = null;
                         }
+                        else
+                        {
+                            // Continue an embedded List
+                            object subValue = _GetValue(node, curListField.SubType);
+                            subValues.Add(subValue);
+                            continue;
+                        }
                     }
                     SFieldInfo field = new SFieldInfo();
-                    if (curListName == null)
+                    for (; curField < fields.Count; curField++)
                     {
-                        for (; curField < fields.Count; curField++)
-                        {
-                            field = fields[curField];
-                            if (field.Name == node.Name)
-                                break;
-                            if (!_CheckAndSetDefaultValue(ref result, field))
-                                throw new XmlException("Unexpected element: " + _FindXPath(node) + "; Expected: " + field.Name);
-                        }
-                        if (curField >= fields.Count)
-                            throw new XmlException("Unexpected element: " + _FindXPath(node));
-
-                        if (field.IsList)
-                        {
-                            // Start an embedded List
-                            curListField = field;
-                            curListName = field.Name;
-                            subValues.Clear();
-                        }
+                        field = fields[curField];
+                        if (field.Name == node.Name)
+                            break;
+                        if (!_CheckAndSetDefaultValue(ref result, field))
+                            throw new XmlException("Unexpected element: " + _FindXPath(node) + "; Expected: " + field.Name);
                     }
-                    if (curListName == null)
+                    if (curField >= fields.Count)
+                        throw new XmlException("Unexpected element: " + _FindXPath(node));
+
+                    if (field.IsEmbeddedList)
+                    {
+                        // Start an embedded List
+                        curListField = field;
+                        curListName = field.Name;
+                        subValues.Clear();
+                        object subValue = _GetValue(node, curListField.SubType);
+                        subValues.Add(subValue);
+                    }
+                    else
                     {
                         object value = _GetValue(node, field.Info.FieldType);
                         field.Info.SetValue(result, value);
                         curField++;
                     }
-                    else
-                    {
-                        // Continue an embedded List
-                        object value = _GetValue(node, field.SubType);
-                        subValues.Add(value);
-                    }
                 }
                 if (curListName != null)
                 {
                     // End an embedded List
-                    object list = Activator.CreateInstance(curListField.Info.FieldType);
-                    MethodInfo addMethod = curListField.Info.FieldType.GetMethod("Add");
-                    addMethod.Invoke(list, subValues.ToArray());
-                    curListField.Info.SetValue(result, list);
+                    _AddList(result, curListField, subValues);
                     curField++;
                 }
             }

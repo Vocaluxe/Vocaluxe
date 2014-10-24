@@ -23,6 +23,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Xml;
 
@@ -168,10 +169,14 @@ namespace Vocaluxe.Base
 
         private static void _TestNewLoad(string path)
         {
-            SThemeCover theme;
+            /*SThemeCover theme;
             using (var stream = new FileStream(path, FileMode.Open))
                 theme = CMyXmlDeserializer.Deserialize<SThemeCover>(stream);
-            string cover = theme.Info.Author;
+            string cover = theme.Info.Author;*/
+            STheme themescreen;
+            using (var stream = new FileStream(@"C:\Users\Alex\Documents\Vocaluxe\Output\Themes\Ambient\Screens\ScreenMain.xml", FileMode.Open))
+                themescreen = CMyXmlDeserializer.Deserialize<STheme>(stream);
+            string foo = themescreen.Informations.ScreenName;
         }
 
         /// <summary>

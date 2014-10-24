@@ -119,7 +119,7 @@ namespace VocaluxeLib
     [XmlRoot("Color")]
     public struct SThemeColor
     {
-        [DefaultValue(null), XmlAttribute]  public string Name;
+        [DefaultValue(null), XmlAttribute] public string Name;
         public float? R;
         public float? G;
         public float? B;
@@ -237,7 +237,7 @@ namespace VocaluxeLib
     [XmlRoot("Reflection")]
     public struct SReflection
     {
-        [XmlAttribute(AttributeName = "Enabled")] public bool Enabled;
+        [XmlAttribute] public bool Enabled;
         public float Height;
         public float Space;
 
