@@ -173,7 +173,7 @@ namespace VocaluxeLib.Xml
             if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
             {
                 Type subType = type.GetGenericArguments()[0];
-                return _GetPrimitiveValue(node, subType);
+                return _GetValue(node, subType);
             }
 
             object value = Activator.CreateInstance(type);
@@ -189,9 +189,13 @@ namespace VocaluxeLib.Xml
             {
                 value = Convert.ChangeType(node.InnerText, type, CultureInfo.InvariantCulture);
             }
-            catch (FormatException)
+            catch (FormatException e)
             {
-                throw new XmlException("Invalid format in " + _FindXPath(node) + ": '" + node.InnerText + "'");
+                throw new XmlException("Invalid format in " + _FindXPath(node) + ": '" + node.InnerText + "' (" + e.Message + ")");
+            }
+            catch (InvalidCastException e)
+            {
+                throw new XmlException(e.Message + " in " + _FindXPath(node) + ": '" + node.InnerText + "'");
             }
             return value;
         }
