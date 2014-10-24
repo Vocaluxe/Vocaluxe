@@ -114,9 +114,10 @@ namespace Vocaluxe.Base
 
         public static void Close()
         {
-            if (_CurrentPopupScreen != EPopupScreens.NoPopup)
+            if (_CurrentPopupScreen != EPopupScreens.NoPopup && _PopupScreens.Count > 0)
                 _PopupScreens[(int)_CurrentPopupScreen].OnClose();
-            _Screens[(int)_CurrentScreen].OnClose();
+            if (_Screens.Count > 0)
+                _Screens[(int)_CurrentScreen].OnClose();
         }
 
         public static void LoadTheme()
