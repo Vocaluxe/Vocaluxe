@@ -132,11 +132,11 @@
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
         </Text>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>10</Space>
       </Reflection>
-      <SelReflection Enabled="true">
+      <SelReflection>
         <Height>26</Height>
         <Space>10</Space>
       </SelReflection>

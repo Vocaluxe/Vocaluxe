@@ -78,7 +78,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -120,7 +120,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -162,7 +162,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -204,7 +204,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -246,7 +246,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -288,7 +288,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -330,7 +330,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -372,7 +372,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -414,7 +414,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -456,7 +456,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -498,7 +498,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -540,7 +540,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -582,7 +582,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -624,7 +624,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -666,7 +666,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -708,7 +708,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -750,7 +750,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -792,7 +792,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -834,7 +834,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -876,7 +876,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>
@@ -918,7 +918,7 @@
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>40</Height>
         <Space>15</Space>
       </Reflection>

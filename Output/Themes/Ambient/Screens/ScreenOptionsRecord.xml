@@ -255,11 +255,11 @@
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
         </Text>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>10</Space>
       </Reflection>
-      <SelReflection Enabled="true">
+      <SelReflection>
         <Height>26</Height>
         <Space>10</Space>
       </SelReflection>
@@ -290,11 +290,11 @@
         <Font>Outline</Font>
         <Text>TR_SCREENORECORD_BUTTON_DELAYTEST</Text>
         </Text>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>10</Space>
       </Reflection>
-      <SelReflection Enabled="true">
+      <SelReflection>
         <Height>26</Height>
         <Space>10</Space>
       </SelReflection>
@@ -490,7 +490,7 @@
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="ButtonColor" />
       <MaxColor Name="ButtonTextColor" />
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>10</Space>
       </Reflection>
@@ -510,7 +510,7 @@
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="ButtonColor" />
       <MaxColor Name="ButtonTextColor" />
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>10</Space>
       </Reflection>

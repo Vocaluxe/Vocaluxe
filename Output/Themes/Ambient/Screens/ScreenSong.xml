@@ -24,7 +24,7 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>10</Space>
       </Reflection>
@@ -39,7 +39,7 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>10</Space>
       </Reflection>
@@ -154,7 +154,7 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>24</Space>
       </Reflection>
@@ -172,7 +172,7 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>24</Space>
       </Reflection>
@@ -652,11 +652,11 @@
         <Font>Outline</Font>
         <Text>TR_BUTTON_START</Text>
         </Text>
-      <Reflection Enabled="true">
+      <Reflection>
         <Height>26</Height>
         <Space>10</Space>
       </Reflection>
-      <SelReflection Enabled="true">
+      <SelReflection>
         <Height>26</Height>
         <Space>10</Space>
       </SelReflection>
