@@ -17,10 +17,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -175,17 +177,34 @@ namespace Vocaluxe.Base
 
         private static void _TestNewLoad(string path)
         {
-            SThemeCover theme;
+            SThemeCover themeCover;
             using (var stream = new FileStream(path, FileMode.Open))
-                theme = CMyXmlDeserializer.Deserialize<SThemeCover>(stream);
-            string cover = theme.Info.Author;
-            STheme themescreen;
-            using (var stream = new StreamReader(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml")))
-                themescreen = CMyXmlDeserializer.Deserialize<STheme>(stream);
-            TextReader textReader = new StreamReader(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml"));
-            XmlSerializer deserializer = new XmlSerializer(typeof(STheme));
-            STheme theme2 = (STheme)deserializer.Deserialize(textReader);
-            Foo(theme2, themescreen);
+                themeCover = CMyXmlDeserializer.Deserialize<SThemeCover>(stream);
+            string cover = themeCover.Info.Author;
+            STheme theme = new STheme();
+            STheme theme2 = new STheme();
+            Stopwatch watch = new Stopwatch();
+            watch.Start();
+            for (int i = 0; i < 10000; i++)
+            {
+                using (var stream = new StreamReader(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml")))
+                    theme = CMyXmlDeserializer.Deserialize<STheme>(stream);
+            }
+            watch.Stop();
+            Stopwatch watch2 = new Stopwatch();
+            watch2.Start();
+            for (int i = 0; i < 100; i++)
+            {
+                using (TextReader textReader = new StreamReader(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml")))
+                {
+                    XmlSerializer deserializer = new XmlSerializer(typeof(STheme));
+
+                    theme2 = (STheme)deserializer.Deserialize(textReader);
+                }
+            }
+            watch2.Stop();
+            Foo(theme, theme2);
+            MessageBox.Show(watch.ElapsedMilliseconds + "ms/5000=" + watch.ElapsedMilliseconds / 1000 + "ms vs " + watch2.ElapsedMilliseconds / 100);
         }
 
         /// <summary>
