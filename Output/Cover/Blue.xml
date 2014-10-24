@@ -35,9 +35,9 @@
 		</BackgroundColor>
 		<!--<Image>: Background image for the cover-->
 		<Image>EmptyCover.png</Image>
-		<!--<ShowFirstCover>Whether the first cover of a category should be shown(optional)-->
-		<ShowFirstCover>true</ShowFirstCover>
 		<!--<ImageAlpha>Alpha value of the image in case the first cover is shown(optional)-->
 		<ImageAlpha>0.75</ImageAlpha>
+		<!--<ShowFirstCover>Whether the first cover of a category should be shown(optional)-->
+		<ShowFirstCover>true</ShowFirstCover>
 	</CoverGenerator>
 </root>
