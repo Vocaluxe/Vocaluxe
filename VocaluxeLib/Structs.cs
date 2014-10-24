@@ -24,6 +24,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib
 {
@@ -120,10 +121,10 @@ namespace VocaluxeLib
     public struct SThemeColor
     {
         [DefaultValue(null), XmlAttribute] public string Name;
-        public float? R;
-        public float? G;
-        public float? B;
-        public float? A;
+        [XmlNormalized] public float? R;
+        [XmlNormalized] public float? G;
+        [XmlNormalized] public float? B;
+        [XmlNormalized] public float? A;
 
         //Needed for serialization
         public bool NameSpecified

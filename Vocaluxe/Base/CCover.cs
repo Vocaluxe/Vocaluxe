@@ -21,6 +21,7 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
@@ -167,16 +168,24 @@ namespace Vocaluxe.Base
             return new SThemeCover();
         }
 
+        private static void Foo(STheme a, STheme b)
+        {
+            a = b;
+        }
+
         private static void _TestNewLoad(string path)
         {
-            /*SThemeCover theme;
+            SThemeCover theme;
             using (var stream = new FileStream(path, FileMode.Open))
                 theme = CMyXmlDeserializer.Deserialize<SThemeCover>(stream);
-            string cover = theme.Info.Author;*/
+            string cover = theme.Info.Author;
             STheme themescreen;
-            using (var stream = new FileStream(@"C:\Users\Alex\Documents\Vocaluxe\Output\Themes\Ambient\Screens\ScreenMain.xml", FileMode.Open))
+            using (var stream = new StreamReader(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml")))
                 themescreen = CMyXmlDeserializer.Deserialize<STheme>(stream);
-            string foo = themescreen.Informations.ScreenName;
+            TextReader textReader = new StreamReader(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml"));
+            XmlSerializer deserializer = new XmlSerializer(typeof(STheme));
+            STheme theme2 = (STheme)deserializer.Deserialize(textReader);
+            Foo(theme2, themescreen);
         }
 
         /// <summary>

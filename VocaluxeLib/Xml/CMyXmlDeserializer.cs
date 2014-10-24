@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -12,16 +13,22 @@ using System.Xml.Serialization;
 
 namespace VocaluxeLib.Xml
 {
+    // ReSharper disable InconsistentNaming
+    [AttributeUsage(AttributeTargets.Field)]
+    public class XmlNormalizedAttribute : Attribute {}
+
+    // ReSharper restore InconsistentNaming
+
     public static class CMyXmlDeserializer
     {
         private struct SFieldInfo
         {
             public string Name;
             public FieldInfo Info;
-            public FieldInfo SpecifiedField;
             public bool IsList; //List with child elements (<List><El/><El/></List>)
             public bool IsEmbeddedList; //List w/o child elements(<List/><List/>)
             public bool IsNullable;
+            public bool IsNormalized;
             public Type SubType;
         }
 
@@ -72,13 +79,18 @@ namespace VocaluxeLib.Xml
         }
         #endregion Debug Helpers
 
+        private static bool _HasAttribute(this FieldInfo field, Type attributeType)
+        {
+            return field.GetCustomAttributes(attributeType, false).Length > 0;
+        }
+
         private static List<SFieldInfo> _GetFields(Type type, bool attributes)
         {
             List<SFieldInfo> result = new List<SFieldInfo>();
             FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
             foreach (FieldInfo field in fields)
             {
-                if (field.GetCustomAttributes(typeof(XmlIgnoreAttribute), false).Length > 0)
+                if (field._HasAttribute(typeof(XmlIgnoreAttribute)))
                     continue;
                 object[] attElement = field.GetCustomAttributes(typeof(XmlAttributeAttribute), false);
                 if (attElement.Length > 0 != attributes)
@@ -108,6 +120,11 @@ namespace VocaluxeLib.Xml
                         info.IsNullable = true;
                     info.SubType = field.FieldType.GetGenericArguments()[0];
                 }
+                if (field._HasAttribute(typeof(XmlNormalizedAttribute)))
+                {
+                    Debug.Assert(field.FieldType == typeof(float) || (info.IsNullable && info.SubType == typeof(float)), "Only floats can be normalized");
+                    info.IsNormalized = true;
+                }
                 result.Add(info);
             }
             return result;
@@ -123,16 +140,6 @@ namespace VocaluxeLib.Xml
                     return name;
             }
             return type.Name;
-        }
-
-        public static T Deserialize<T>(Stream stream) where T : new()
-        {
-            return Deserialize<T>(new XmlTextReader(stream)
-                {
-                    WhitespaceHandling = WhitespaceHandling.Significant,
-                    Normalization = true,
-                    XmlResolver = null
-                });
         }
 
         private static object _GetValue(XmlNode node, Type type)
@@ -202,6 +209,11 @@ namespace VocaluxeLib.Xml
 
         private static bool _CheckAndSetDefaultValue(ref object result, SFieldInfo field)
         {
+            if (field.IsEmbeddedList)
+            {
+                _AddList(result, field, new List<object>());
+                return true;
+            }
             object[] defAtt = field.Info.GetCustomAttributes(typeof(DefaultValueAttribute), false);
             if (defAtt.Length == 0)
                 return field.IsNullable;
@@ -237,11 +249,11 @@ namespace VocaluxeLib.Xml
             List<SFieldInfo> fields = _GetFields(result.GetType(), attributes);
             int curField = 0;
 
-            List<object> subValues = new List<object>();
-            SFieldInfo curListField = new SFieldInfo();
-            string curListName = null;
             if (nodes != null)
             {
+                List<object> subValues = new List<object>();
+                SFieldInfo curListField = new SFieldInfo();
+                string curListName = null;
                 foreach (XmlNode node in nodes)
                 {
                     if (node is XmlComment)
@@ -288,6 +300,12 @@ namespace VocaluxeLib.Xml
                     else
                     {
                         object value = _GetValue(node, field.Info.FieldType);
+                        if (field.IsNormalized)
+                        {
+                            if (field.IsNullable && !((float?)value).Value.IsInRange(0, 1) ||
+                                !field.IsNullable && !((float)value).IsInRange(0, 1))
+                                throw new XmlException("Value in " + _FindXPath(node) + " is not normalized. (Value=" + value + ")");
+                        }
                         field.Info.SetValue(result, value);
                         curField++;
                     }
@@ -319,6 +337,26 @@ namespace VocaluxeLib.Xml
                 throw new XmlException("No root element found!");
             _ProcessChildNodes(xDoc.DocumentElement, ref result, false);
             return (T)result;
+        }
+
+        public static T Deserialize<T>(Stream stream) where T : new()
+        {
+            return Deserialize<T>(new XmlTextReader(stream)
+                {
+                    WhitespaceHandling = WhitespaceHandling.Significant,
+                    Normalization = true,
+                    XmlResolver = null
+                });
+        }
+
+        public static T Deserialize<T>(TextReader textReader) where T : new()
+        {
+            return Deserialize<T>(new XmlTextReader(textReader)
+                {
+                    WhitespaceHandling = WhitespaceHandling.Significant,
+                    Normalization = true,
+                    XmlResolver = null
+                });
         }
     }
 }
