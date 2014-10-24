@@ -166,6 +166,14 @@ namespace Vocaluxe.Base
             return new SThemeCover();
         }
 
+        private static void _TestNewLoad(string path)
+        {
+            SThemeCover theme;
+            using (var stream = new FileStream(path, FileMode.Open))
+                theme = CMyXmlDeserializer.Deserialize<SThemeCover>(stream);
+            string cover = theme.Info.Author;
+        }
+
         /// <summary>
         ///     Loads all cover-themes to list.
         /// </summary>
@@ -178,6 +186,7 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
+                _TestNewLoad(Path.Combine(path, file));
                 CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(path, file));
 
                 if (xmlReader != null)
@@ -256,10 +265,6 @@ namespace Vocaluxe.Base
 
         private static void _LoadCoverGenerators(SThemeCover coverTheme)
         {
-            //SThemeCover theme;
-            //using (var stream = new FileStream(coverTheme.FilePath, FileMode.Open))
-            //    theme = CMyXmlDeserializer.Deserialize<SThemeCover>(stream);
-            //string cover = theme.Info.Author;
             CXMLReader xmlReader = CXMLReader.OpenFile(coverTheme.FilePath);
             string coverPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder);
             lock (_CoverGenerators)
