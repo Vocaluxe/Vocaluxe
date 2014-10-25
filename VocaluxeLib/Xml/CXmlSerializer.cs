@@ -19,7 +19,7 @@ namespace VocaluxeLib.Xml
 
     // ReSharper restore InconsistentNaming
 
-    public static class CMyXmlDeserializer
+    public static class CXmlSerializer
     {
         private struct SFieldInfo
         {
