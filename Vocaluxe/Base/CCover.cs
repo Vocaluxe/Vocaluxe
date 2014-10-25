@@ -180,17 +180,20 @@ namespace Vocaluxe.Base
             SThemeCover themeCover;
             using (var stream = new FileStream(path, FileMode.Open))
                 themeCover = CXmlSerializer.Deserialize<SThemeCover>(stream);
+            CXmlSerializer.Serialize(path + "2", themeCover);
             string cover = themeCover.Info.Author;
             STheme theme = new STheme();
             STheme theme2 = new STheme();
             Stopwatch watch = new Stopwatch();
             watch.Start();
-            for (int i = 0; i < 10000; i++)
+            for (int i = 0; i < 1; i++)
             {
                 using (var stream = new StreamReader(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml")))
                     theme = CXmlSerializer.Deserialize<STheme>(stream);
             }
             watch.Stop();
+            CXmlSerializer.Serialize(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain2.xml"),theme);
+            return;
             Stopwatch watch2 = new Stopwatch();
             watch2.Start();
             for (int i = 0; i < 100; i++)

@@ -21,12 +21,23 @@ namespace VocaluxeLib.Xml
 
     public static class CXmlSerializer
     {
+        /// <summary>
+        ///     Uniform settings for writing XML files. ALWAYS use this!
+        /// </summary>
+        private static readonly XmlWriterSettings _XMLSettings = new XmlWriterSettings
+            {
+                Indent = true,
+                Encoding = Encoding.UTF8,
+                ConformanceLevel = ConformanceLevel.Document
+            };
+
         private struct SFieldInfo
         {
             public string Name;
             public FieldInfo Info;
             public object DefaultValue;
             public bool HasDefaultValue;
+            public bool IsAttribute;
             public bool IsList; //List with child elements (<List><El/><El/></List>)
             public bool IsEmbeddedList; //List w/o child elements(<List/><List/>)
             public bool IsNullable;
@@ -97,20 +108,23 @@ namespace VocaluxeLib.Xml
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
         }
 
+        private static bool _IsNullable(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
+        }
+
         private static bool _IsList(this FieldInfo field)
         {
             return field.FieldType._IsList();
         }
 
-        private static readonly Dictionary<Type, List<SFieldInfo>> _CacheFieldAttributes = new Dictionary<Type, List<SFieldInfo>>();
-        private static readonly Dictionary<Type, List<SFieldInfo>> _CacheFieldFields = new Dictionary<Type, List<SFieldInfo>>();
+        private static readonly Dictionary<Type, List<SFieldInfo>> _CacheFields = new Dictionary<Type, List<SFieldInfo>>();
         private static readonly Dictionary<Type, String> _CacheTypeName = new Dictionary<Type, string>();
 
-        private static List<SFieldInfo> _GetFields(Type type, bool attributes)
+        private static List<SFieldInfo> _GetFieldInfos(Type type)
         {
             List<SFieldInfo> result;
-            if (attributes && _CacheFieldAttributes.TryGetValue(type, out result) ||
-                !attributes && _CacheFieldFields.TryGetValue(type, out result))
+            if (_CacheFields.TryGetValue(type, out result))
                 return result;
             result = new List<SFieldInfo>();
             FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
@@ -119,11 +133,12 @@ namespace VocaluxeLib.Xml
                 if (field._HasAttribute<XmlIgnoreAttribute>())
                     continue;
                 XmlAttributeAttribute attribute = field._GetAttribute<XmlAttributeAttribute>();
-                if (attribute != null != attributes)
-                    continue;
                 SFieldInfo info = new SFieldInfo {Info = field};
                 if (attribute != null)
+                {
+                    info.IsAttribute = true;
                     info.Name = attribute.AttributeName;
+                }
                 else
                 {
                     XmlElementAttribute element = field._GetAttribute<XmlElementAttribute>();
@@ -134,7 +149,8 @@ namespace VocaluxeLib.Xml
                         XmlArrayAttribute array = field._GetAttribute<XmlArrayAttribute>();
                         if (array != null)
                         {
-                            Debug.Assert(field._IsList());
+                            Debug.Assert(field._IsList(), "Only lists can have the array attribute");
+                            Debug.Assert(!info.IsAttribute, "Lists cannot be attributes");
                             info.Name = array.ElementName;
                             info.IsList = true;
                         }
@@ -153,7 +169,7 @@ namespace VocaluxeLib.Xml
                             info.IsEmbeddedList = true;
                         }
                     }
-                    else if (field.FieldType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                    else if (field.FieldType._IsNullable())
                         info.IsNullable = true;
                     info.SubType = field.FieldType.GetGenericArguments()[0];
                 }
@@ -169,13 +185,20 @@ namespace VocaluxeLib.Xml
                     info.HasDefaultValue = true;
                     info.DefaultValue = defAttr.Value;
                 }
+                else if (info.IsNullable)
+                {
+                    info.HasDefaultValue = true;
+                    info.DefaultValue = null;
+                }
                 result.Add(info);
             }
-            if (attributes)
-                _CacheFieldAttributes.Add(type, result);
-            else
-                _CacheFieldFields.Add(type, result);
+            _CacheFields.Add(type, result);
             return result;
+        }
+
+        private static List<SFieldInfo> _GetFields(Type type, bool attributes)
+        {
+            return _GetFieldInfos(type).Where(f => f.IsAttribute == attributes).ToList();
         }
 
         private static string _GetTypeName(Type type)
@@ -196,6 +219,7 @@ namespace VocaluxeLib.Xml
             return name;
         }
 
+        #region Deserialization
         private static object _GetValue(XmlNode node, Type type)
         {
             if (type.IsEnum)
@@ -226,20 +250,20 @@ namespace VocaluxeLib.Xml
                     if (subName != subNode.Name)
                         throw new XmlException("Invalid list entry '" + subNode.Name + "' in " + _FindXPath(node) + "; Expected: " + subName);
                     object subValue = _GetValue(subNode, subType);
-                    _ProcessChildNodes(subNode, ref subValue, true);
+                    _ReadChildNodes(subNode, ref subValue, true);
                     subValues.Add(subValue);
                 }
                 return _CreateList(type, subValues);
             }
-            if (type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>))
+            if (type._IsNullable())
             {
                 Type subType = type.GetGenericArguments()[0];
                 return _GetValue(node, subType);
             }
 
             object value = Activator.CreateInstance(type);
-            _ProcessChildNodes(node, ref value, true);
-            _ProcessChildNodes(node, ref value, false);
+            _ReadChildNodes(node, ref value, true);
+            _ReadChildNodes(node, ref value, false);
             return value;
         }
 
@@ -261,7 +285,7 @@ namespace VocaluxeLib.Xml
             return value;
         }
 
-        private static bool _CheckAndSetDefaultValue(ref object result, SFieldInfo field)
+        private static bool _CheckAndSetDefaultValue(object result, SFieldInfo field)
         {
             if (field.IsEmbeddedList)
             {
@@ -269,12 +293,12 @@ namespace VocaluxeLib.Xml
                 return true;
             }
             if (!field.HasDefaultValue)
-                return field.IsNullable;
+                return false;
             field.Info.SetValue(result, field.DefaultValue);
             return true;
         }
 
-        private static object _CreateList(Type type, List<object> values)
+        private static object _CreateList(Type type, ICollection values)
         {
             object list = Activator.CreateInstance(type, new object[] {values.Count});
             if (values.Count > 0)
@@ -286,12 +310,12 @@ namespace VocaluxeLib.Xml
             return list;
         }
 
-        private static void _AddList(object result, SFieldInfo listField, List<object> list)
+        private static void _AddList(object result, SFieldInfo listField, ICollection list)
         {
             listField.Info.SetValue(result, _CreateList(listField.Info.FieldType, list));
         }
 
-        private static void _ProcessChildNodes(XmlNode parent, ref object result, bool attributes)
+        private static void _ReadChildNodes(XmlNode parent, ref object result, bool attributes)
         {
             IEnumerable nodes;
             if (attributes)
@@ -335,7 +359,7 @@ namespace VocaluxeLib.Xml
                         field = fields[curField];
                         if (field.Name == node.Name)
                             break;
-                        if (!_CheckAndSetDefaultValue(ref result, field))
+                        if (!_CheckAndSetDefaultValue(result, field))
                             throw new XmlException("Unexpected element: " + _FindXPath(node) + "; Expected: " + field.Name);
                     }
                     if (curField >= fields.Count)
@@ -373,10 +397,66 @@ namespace VocaluxeLib.Xml
             for (; curField < fields.Count; curField++)
             {
                 SFieldInfo field = fields[curField];
-                if (!_CheckAndSetDefaultValue(ref result, field))
+                if (!_CheckAndSetDefaultValue(result, field))
                     throw new XmlException("element: " + field.Name + " is missing in " + _FindXPath(parent));
             }
         }
+        #endregion Deserialization
+
+        #region Serialization
+        private static void _WriteNode(XmlWriter writer, string name, object value, bool isAttribute)
+        {
+            Type type = value.GetType();
+            if (type.IsEnum || type == typeof(string) || type.IsPrimitive || type._IsNullable())
+            {
+                string strVal = (string)Convert.ChangeType(value, typeof(string), CultureInfo.InvariantCulture);
+                if (isAttribute)
+                    writer.WriteAttributeString(name, strVal);
+                else
+                    writer.WriteElementString(name, strVal);
+            }
+            else if (type._IsList())
+            {
+                Debug.Assert(!isAttribute, "Lists cannot be attributes");
+                writer.WriteStartElement(name);
+                String subName = _GetTypeName(type.GetGenericArguments()[0]);
+                IEnumerable list = (IEnumerable)value;
+                foreach (object subValue in list)
+                {
+                    writer.WriteStartElement(subName);
+                    _WriteChildNodes(writer, subValue);
+                    writer.WriteEndElement();
+                }
+                writer.WriteEndElement();
+            }
+            else
+            {
+                Debug.Assert(!isAttribute, "Complex types cannot be attributes");
+                writer.WriteStartElement(name);
+                _WriteChildNodes(writer, value);
+                writer.WriteEndElement();
+            }
+        }
+
+        private static void _WriteChildNodes(XmlWriter writer, object o)
+        {
+            List<SFieldInfo> fields = _GetFieldInfos(o.GetType());
+            foreach (SFieldInfo field in fields)
+            {
+                object value = field.Info.GetValue(o);
+                if (field.HasDefaultValue && Equals(value, field.DefaultValue))
+                    continue;
+                if (field.IsEmbeddedList)
+                {
+                    IEnumerable values = (IEnumerable)value;
+                    foreach (object subValue in values)
+                        _WriteNode(writer, field.Name, subValue, field.IsAttribute);
+                }
+                else
+                    _WriteNode(writer, field.Name, value, field.IsAttribute);
+            }
+        }
+        #endregion
 
         public static T Deserialize<T>(XmlReader reader) where T : new()
         {
@@ -388,7 +468,7 @@ namespace VocaluxeLib.Xml
             xDoc.Load(reader);
             if (xDoc.DocumentElement == null)
                 throw new XmlException("No root element found!");
-            _ProcessChildNodes(xDoc.DocumentElement, ref result, false);
+            _ReadChildNodes(xDoc.DocumentElement, ref result, false);
             return (T)result;
         }
 
@@ -410,6 +490,31 @@ namespace VocaluxeLib.Xml
                     Normalization = true,
                     XmlResolver = null
                 });
+        }
+
+        public static void Serialize(string filePath, object o)
+        {
+            XmlRootAttribute root = o.GetType()._GetAttribute<XmlRootAttribute>();
+            string name;
+            if (root != null && !string.IsNullOrEmpty(root.ElementName))
+                name = root.ElementName;
+            else
+            {
+                XmlTypeAttribute typeAtt = o.GetType()._GetAttribute<XmlTypeAttribute>();
+                if (typeAtt != null && !string.IsNullOrEmpty(typeAtt.TypeName))
+                    name = typeAtt.TypeName;
+                else
+                    name = "root";
+            }
+            using (XmlWriter writer = XmlWriter.Create(filePath, _XMLSettings))
+            {
+                writer.WriteStartDocument();
+                writer.WriteStartElement(name);
+                _WriteChildNodes(writer, o);
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
+                writer.Flush();
+            }
         }
     }
 }
