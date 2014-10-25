@@ -246,7 +246,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonJoker2">
       <Skin>Random</Skin>
@@ -273,7 +273,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonJoker3">
       <Skin>Random</Skin>
@@ -300,7 +300,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonJoker4">
       <Skin>Random</Skin>
@@ -327,7 +327,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonJoker5">
       <Skin>Random</Skin>
@@ -354,7 +354,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonJoker6">
       <Skin>Random</Skin>
@@ -381,7 +381,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOptionsClose">
       <Skin>Button</Skin>
@@ -408,7 +408,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_CANCEL</Text>
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOptionsPlaylist">
       <Skin>Button</Skin>
@@ -435,7 +435,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_PLAYLIST</Text>
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOptionsSing">
       <Skin>Button</Skin>
@@ -462,7 +462,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_SING</Text>
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOptionsRandom">
       <Skin>Button</Skin>
@@ -489,7 +489,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_RANDOM</Text>
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOptionsRandomCategory">
       <Skin>Button</Skin>
@@ -516,7 +516,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_RANDOMCAT</Text>
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOptionsSingAll">
       <Skin>Button</Skin>
@@ -543,7 +543,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_SINGALL</Text>
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOptionsSingAllVisible">
       <Skin>Button</Skin>
@@ -570,7 +570,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_SINGALLVISIBLE</Text>
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOptionsOpenSelectedItem">
       <Skin>Button</Skin>
@@ -597,7 +597,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_OPEN_SELECTED_ITEM</Text>
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOpenOptions">
       <Skin/>
@@ -624,7 +624,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonStart">
       <Skin>Button</Skin>
@@ -651,7 +651,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_START</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -686,7 +686,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_RANDOMMEDLEY</Text>
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonOptionsStartMedley">
       <Skin>Button</Skin>
@@ -713,7 +713,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_STARTMEDLEY</Text>
-        </Text>
+      </Text>
     </Button>
   </Buttons>
   <SongMenus>
@@ -1122,7 +1122,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-            </Text>
+          </Text>
             </ButtonPlaylistName>
       <ButtonPlaylistClose Name="ButtonPlaylistClose">
         <Skin>CloseIcon</Skin>
@@ -1149,7 +1149,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-            </Text>
+          </Text>
             </ButtonPlaylistClose>
       <ButtonPlaylistSave Name="ButtonPlaylistSave">
         <Skin>SaveIcon</Skin>
@@ -1176,7 +1176,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-            </Text>
+          </Text>
             </ButtonPlaylistSave>
       <ButtonPlaylistDelete Name="ButtonPlaylistDelete">
         <Skin>DeleteIcon</Skin>
@@ -1203,7 +1203,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-            </Text>
+          </Text>
             </ButtonPlaylistDelete>
       <ButtonPlaylistSing Name="ButtonPlaylistSing">
         <Skin>SingIcon</Skin>
@@ -1230,7 +1230,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-            </Text>
+          </Text>
             </ButtonPlaylistSing>
       <SelectSlideGameMode>
         <Skin>Button</Skin>

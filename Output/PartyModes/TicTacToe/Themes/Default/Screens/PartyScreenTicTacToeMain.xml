@@ -199,7 +199,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NEXT_ROUND</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -234,7 +234,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -269,7 +269,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_EXIT</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -304,7 +304,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_YES</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -339,7 +339,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NO</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -374,7 +374,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonJokerRandomT1">
       <Skin>Random</Skin>
@@ -401,7 +401,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonJokerRandomT2">
       <Skin>Random</Skin>
@@ -428,7 +428,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonJokerRetryT1">
       <Skin>RepeatIcon</Skin>
@@ -455,7 +455,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonJokerRetryT2">
       <Skin>RepeatIcon</Skin>
@@ -482,7 +482,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
   </Buttons>
   <SongMenus />

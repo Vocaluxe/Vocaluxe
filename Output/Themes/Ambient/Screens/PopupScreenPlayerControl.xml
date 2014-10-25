@@ -71,7 +71,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonPause">
       <Skin>PauseIcon</Skin>
@@ -98,7 +98,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonPrevious">
       <Skin>PreviousIcon</Skin>
@@ -125,7 +125,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonNext">
       <Skin>NextIcon</Skin>
@@ -152,7 +152,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonRepeat">
       <Skin>RepeatIcon</Skin>
@@ -179,7 +179,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonShowVideo">
       <Skin>VideoIconCO</Skin>
@@ -206,7 +206,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonSing">
       <Skin>DuetIcon</Skin>
@@ -233,7 +233,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonToBackgroundVideo">
       <Skin>VideoIconBG</Skin>
@@ -260,7 +260,7 @@
         <Style>Bold</Style>
         <Font>Normal</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
   </Buttons>
   <SongMenus />

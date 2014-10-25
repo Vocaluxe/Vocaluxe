@@ -286,7 +286,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NEXT_ROUND</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -321,7 +321,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -356,7 +356,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_EXIT</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -391,7 +391,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_YES</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -426,7 +426,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NO</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -461,7 +461,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonPlayerScrollUp">
       <Skin>ScrollUp</Skin>
@@ -488,7 +488,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonRoundsScrollDown">
       <Skin>ScrollDown</Skin>
@@ -515,7 +515,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonRoundsScrollUp">
       <Skin>ScrollUp</Skin>
@@ -542,7 +542,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
   </Buttons>
   <SongMenus />

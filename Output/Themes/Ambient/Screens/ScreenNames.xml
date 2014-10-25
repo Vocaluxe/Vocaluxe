@@ -334,7 +334,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -369,7 +369,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_START</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>

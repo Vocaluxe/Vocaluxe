@@ -68,7 +68,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -103,7 +103,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_BUTTON_NEXT</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -138,7 +138,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENNAMES_BUTTON_RANDOM</Text>
-        </Text>
+      </Text>
       <Reflection>
         <Height>26</Height>
         <Space>10</Space>
@@ -173,7 +173,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonDecreaseTeams">
       <Skin>Minus</Skin>
@@ -200,7 +200,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonIncreasePlayer">
       <Skin>Plus</Skin>
@@ -227,7 +227,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
     <Button Name="ButtonDecreasePlayer">
       <Skin>Minus</Skin>
@@ -254,7 +254,7 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text />
-        </Text>
+      </Text>
     </Button>
   </Buttons>
   <SongMenus />
