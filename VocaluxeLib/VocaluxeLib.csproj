@@ -108,9 +108,11 @@
     <Compile Include="Draw\CTextureRef.cs" />
     <Compile Include="Menu\IThemeable.cs" />
     <Compile Include="Menu\SingNotes\CNoteBars.cs" />
-    <Compile Include="Xml\CXmlSerializer.cs" />
+    <Compile Include="Xml\CTypeExtensions.cs" />
     <Compile Include="Xml\CXmlDeserializer.cs" />
     <Compile Include="Xml\CXMLReader.cs" />
+    <Compile Include="Xml\CXmlReaderBase.cs" />
+    <Compile Include="Xml\CXmlSerializer.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Menu\IMenu.cs" />
     <Compile Include="Menu\IMenuElement.cs" />
@@ -142,7 +144,6 @@
     <Compile Include="Utils\CWavFile.cs" />
     <Compile Include="Utils\Player\CSongPlayer.cs" />
     <Compile Include="Utils\Player\CSoundPlayer.cs" />
-    <Compile Include="Xml\CXmlReaderBase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
