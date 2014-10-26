@@ -321,7 +321,7 @@ namespace Vocaluxe.Lib.Draw
             _Run = true;
 
             _Fullscreen = false;
-            if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
+            if (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON)
                 _EnterFullScreen();
             else
                 _DoResize(); //Resize window if aspect ratio is incorrect
@@ -343,24 +343,25 @@ namespace Vocaluxe.Lib.Draw
                     _Run = false;
 
                 //Apply fullscreen mode
-                if ((CConfig.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
+                if ((CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
                     _ToggleFullScreen();
 
                 //Apply border changes
-                if (_BorderLeft != CConfig.BorderLeft || _BorderRight != CConfig.BorderRight || _BorderTop != CConfig.BorderTop || _BorderBottom != CConfig.BorderBottom)
+                if (_BorderLeft != CConfig.Config.Graphics.BorderLeft || _BorderRight != CConfig.Config.Graphics.BorderRight || _BorderTop != CConfig.Config.Graphics.BorderTop ||
+                    _BorderBottom != CConfig.Config.Graphics.BorderBottom)
                 {
-                    _BorderLeft = CConfig.BorderLeft;
-                    _BorderRight = CConfig.BorderRight;
-                    _BorderTop = CConfig.BorderTop;
-                    _BorderBottom = CConfig.BorderBottom;
+                    _BorderLeft = CConfig.Config.Graphics.BorderLeft;
+                    _BorderRight = CConfig.Config.Graphics.BorderRight;
+                    _BorderTop = CConfig.Config.Graphics.BorderTop;
+                    _BorderBottom = CConfig.Config.Graphics.BorderBottom;
 
                     _AdjustNewBorders();
                 }
 
-                if (_CurrentAlignment != CConfig.ScreenAlignment)
+                if (_CurrentAlignment != CConfig.Config.Graphics.ScreenAlignment)
                     _DoResize();
 
-                if (CConfig.VSync == EOffOn.TR_CONFIG_OFF)
+                if (CConfig.Config.Graphics.VSync == EOffOn.TR_CONFIG_OFF)
                 {
                     if (CTime.IsRunning())
                     {

@@ -99,16 +99,16 @@ namespace Vocaluxe.Lib.Draw
 
         public COpenGL()
         {
-            _Form = new CFormHook {ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH)};
+            _Form = new CFormHook {ClientSize = new Size(CConfig.Config.Graphics.ScreenW, CConfig.Config.Graphics.ScreenH)};
             //OpenGL needs that here but D3D needs it in the constructor, so do NOT unify!
 
             //Check AA Mode
-            CConfig.AAMode = (EAntiAliasingModes)_CheckAntiAliasingMode((int)CConfig.AAMode);
+            CConfig.Config.Graphics.AAMode = (EAntiAliasingModes)_CheckAntiAliasingMode((int)CConfig.Config.Graphics.AAMode);
 
             bool ok = false;
             try
             {
-                var gm = new GraphicsMode(32, 24, 0, (int)CConfig.AAMode);
+                var gm = new GraphicsMode(32, 24, 0, (int)CConfig.Config.Graphics.AAMode);
                 _Control = new GLControl(gm, 2, 1, GraphicsContextFlags.Default);
                 if (_Control.GraphicsMode != null)
                     ok = true;
@@ -122,7 +122,7 @@ namespace Vocaluxe.Lib.Draw
                 _Control = new GLControl();
 
             _Control.MakeCurrent();
-            _Control.VSync = CConfig.VSync == EOffOn.TR_CONFIG_ON;
+            _Control.VSync = CConfig.Config.Graphics.VSync == EOffOn.TR_CONFIG_ON;
 
             _Form.Controls.Add(_Control);
             _Control.ClientSize = _Form.ClientSize;
@@ -212,7 +212,7 @@ namespace Vocaluxe.Lib.Draw
         {
             _H = _Control.Height;
             _W = _Control.Width;
-            _CurrentAlignment = CConfig.ScreenAlignment;
+            _CurrentAlignment = CConfig.Config.Graphics.ScreenAlignment;
 
             _AdjustAspect(true);
             _AdjustNewBorders();
@@ -276,7 +276,8 @@ namespace Vocaluxe.Lib.Draw
         {
             GL.MatrixMode(MatrixMode.Projection);
             GL.LoadIdentity();
-            GL.Ortho(-CConfig.BorderLeft, CConfig.BorderRight + CSettings.RenderW, CConfig.BorderBottom + CSettings.RenderH, -CConfig.BorderTop, CSettings.ZNear, CSettings.ZFar);
+            GL.Ortho(-CConfig.Config.Graphics.BorderLeft, CConfig.Config.Graphics.BorderRight + CSettings.RenderW, CConfig.Config.Graphics.BorderBottom + CSettings.RenderH,
+                     -CConfig.Config.Graphics.BorderTop, CSettings.ZNear, CSettings.ZFar);
         }
 
         public void MakeScreenShot()

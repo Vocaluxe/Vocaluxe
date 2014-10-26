@@ -218,7 +218,7 @@ namespace Vocaluxe.Base
         {
             if (_NextScreen != EScreens.ScreenNull && _Fading == null)
             {
-                _Fading = new CFading(0f, 1f, CConfig.FadeTime);
+                _Fading = new CFading(0f, 1f, CConfig.Config.Graphics.FadeTime);
 
                 if (_NextScreen == EScreens.ScreenPartyDummy)
                 {
@@ -343,13 +343,13 @@ namespace Vocaluxe.Base
 
             bool popupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
                                              (_CurrentScreen != EScreens.ScreenSong ||
-                                              (_CurrentScreen == EScreens.ScreenSong && !CSongs.IsInCategory && CConfig.Tabs == EOffOn.TR_CONFIG_ON))
+                                              (_CurrentScreen == EScreens.ScreenSong && !CSongs.IsInCategory && CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_ON))
                                              && _CurrentScreen != EScreens.ScreenCredits && !CBackgroundMusic.Disabled;
 
             bool popupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
             //Hide volume control for bg-music if bg-music is disabled
             if (popupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || CSongs.Category == -1)
-                && _CurrentScreen != EScreens.ScreenSing && CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+                && _CurrentScreen != EScreens.ScreenSing && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 popupVolumeControlAllowed = false;
 
 
@@ -372,43 +372,44 @@ namespace Vocaluxe.Base
                         {
                             case Keys.Right:
                                 if (keyEvent.ModShift)
-                                    CConfig.BorderLeft++;
+                                    CConfig.Config.Graphics.BorderLeft++;
                                 else
-                                    CConfig.BorderRight--;
+                                    CConfig.Config.Graphics.BorderRight--;
                                 break;
                             case Keys.Left:
                                 if (keyEvent.ModShift)
-                                    CConfig.BorderLeft--;
+                                    CConfig.Config.Graphics.BorderLeft--;
                                 else
-                                    CConfig.BorderRight++;
+                                    CConfig.Config.Graphics.BorderRight++;
                                 break;
                             case Keys.Down:
                                 if (keyEvent.ModShift)
-                                    CConfig.BorderTop++;
+                                    CConfig.Config.Graphics.BorderTop++;
                                 else
-                                    CConfig.BorderBottom--;
+                                    CConfig.Config.Graphics.BorderBottom--;
                                 break;
                             case Keys.Up:
                                 if (keyEvent.ModShift)
-                                    CConfig.BorderTop--;
+                                    CConfig.Config.Graphics.BorderTop--;
                                 else
-                                    CConfig.BorderBottom++;
+                                    CConfig.Config.Graphics.BorderBottom++;
                                 break;
                             case Keys.D0:
                             case Keys.NumPad0:
-                                CConfig.BorderLeft = CConfig.BorderRight = CConfig.BorderTop = CConfig.BorderBottom = 0;
+                                CConfig.Config.Graphics.BorderLeft =
+                                    CConfig.Config.Graphics.BorderRight = CConfig.Config.Graphics.BorderTop = CConfig.Config.Graphics.BorderBottom = 0;
                                 break;
                             case Keys.Add:
-                                switch (CConfig.ScreenAlignment)
+                                switch (CConfig.Config.Graphics.ScreenAlignment)
                                 {
                                     case EGeneralAlignment.Middle:
-                                        CConfig.ScreenAlignment = EGeneralAlignment.End;
+                                        CConfig.Config.Graphics.ScreenAlignment = EGeneralAlignment.End;
                                         break;
                                     case EGeneralAlignment.End:
-                                        CConfig.ScreenAlignment = EGeneralAlignment.Start;
+                                        CConfig.Config.Graphics.ScreenAlignment = EGeneralAlignment.Start;
                                         break;
                                     default:
-                                        CConfig.ScreenAlignment = EGeneralAlignment.Middle;
+                                        CConfig.Config.Graphics.ScreenAlignment = EGeneralAlignment.Middle;
                                         break;
                                 }
                                 break;
@@ -428,13 +429,13 @@ namespace Vocaluxe.Base
 
                 if (popupPlayerControlAllowed && keyEvent.Key == Keys.Tab)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                     else
                         HidePopup(EPopupScreens.PopupPlayerControl);
                 }
 
-                if (popupPlayerControlAllowed && CConfig.BackgroundMusic != EBackgroundMusicOffOn.TR_CONFIG_OFF)
+                if (popupPlayerControlAllowed && CConfig.Config.Sound.BackgroundMusic != EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 {
                     if (keyEvent.Key == Keys.MediaNextTrack)
                         CBackgroundMusic.Next();
@@ -499,7 +500,7 @@ namespace Vocaluxe.Base
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
                     CSettings.ProgramState = EProgramState.EditTheme;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
-                    CConfig.FullScreen = (CConfig.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
+                    CConfig.Config.Graphics.FullScreen = (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else
@@ -534,7 +535,7 @@ namespace Vocaluxe.Base
                 bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, mouseEvent);
                 if (popupPlayerControlAllowed && isOverPopupPlayerControl)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                 }
 
@@ -589,7 +590,7 @@ namespace Vocaluxe.Base
                     _Screens[(int)_CurrentScreen].NextElement();
                 }
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
-                    CConfig.FullScreen = (CConfig.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
+                    CConfig.Config.Graphics.FullScreen = (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else
@@ -632,12 +633,12 @@ namespace Vocaluxe.Base
 
         private static void _DrawDebugInfos()
         {
-            if (CConfig.DebugLevel == EDebugLevel.TR_CONFIG_OFF)
+            if (CConfig.Config.Debug.DebugLevel == EDebugLevel.TR_CONFIG_OFF)
                 return;
 
             List<String> debugOutput = new List<string> {CTime.GetFPS().ToString("FPS: 000")};
 
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
+            if (CConfig.Config.Debug.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
             {
                 debugOutput.Add(CSound.GetStreamCount().ToString(CLanguage.Translate("TR_DEBUG_AUDIO_STREAMS") + ": 00"));
                 debugOutput.Add(CVideo.GetNumStreams().ToString(CLanguage.Translate("TR_DEBUG_VIDEO_STREAMS") + ": 00"));
@@ -645,18 +646,18 @@ namespace Vocaluxe.Base
                 long memory = GC.GetTotalMemory(false);
                 debugOutput.Add((memory / 1000000L).ToString(CLanguage.Translate("TR_DEBUG_MEMORY") + ": 00000 MB"));
 
-                if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
+                if (CConfig.Config.Debug.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
                 {
                     debugOutput.Add(CRecord.GetToneAbs(0).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P1: 00"));
                     debugOutput.Add(CRecord.GetMaxVolume(0).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P1: 0.000"));
                     debugOutput.Add(CRecord.GetToneAbs(1).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P2: 00"));
                     debugOutput.Add(CRecord.GetMaxVolume(1).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P2: 0.000"));
 
-                    if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL3)
+                    if (CConfig.Config.Debug.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL3)
                     {
                         debugOutput.Add(CSongs.NumSongsWithCoverLoaded.ToString(CLanguage.Translate("TR_DEBUG_SONGS") + ": 00000"));
 
-                        if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
+                        if (CConfig.Config.Debug.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
                             debugOutput.Add(_Cursor.X.ToString(CLanguage.Translate("TR_DEBUG_MOUSE") + " : (0000/") + _Cursor.Y.ToString("0000)"));
                     }
                 }

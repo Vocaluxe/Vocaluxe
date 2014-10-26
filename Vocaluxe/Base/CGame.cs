@@ -30,7 +30,7 @@ namespace Vocaluxe.Base
     static class CGame
     {
         private static ISongQueue _SongQueue;
-        private static int _NumPlayers = CConfig.NumPlayers;
+        private static int _NumPlayers = CConfig.Config.Game.NumPlayers;
 
         /// <summary>
         ///     Last beat that has been evaluated
@@ -222,7 +222,7 @@ namespace Vocaluxe.Base
 
             CurrentBeatF = b;
 
-            MidRecordedBeat = -0.5f + GetBeatFromTime(time, song.BPM, song.Gap + CConfig.MicDelay / 1000f);
+            MidRecordedBeat = -0.5f + GetBeatFromTime(time, song.BPM, song.Gap + CConfig.Config.Record.MicDelay / 1000f);
 
             for (int p = 0; p < _NumPlayers; p++)
                 CRecord.AnalyzeBuffer(p);

@@ -46,8 +46,8 @@ namespace Vocaluxe.Screens
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
-            _SelectSlides[_SelectSlideLyricStyle].SetValues<ELyricStyle>((int)CConfig.LyricStyle);
-            _SelectSlides[_SelectSlideLyricsPosition].SetValues<ELyricsPosition>((int)CConfig.LyricsPosition);
+            _SelectSlides[_SelectSlideLyricStyle].SetValues<ELyricStyle>((int)CConfig.Config.Theme.LyricStyle);
+            _SelectSlides[_SelectSlideLyricsPosition].SetValues<ELyricsPosition>((int)CConfig.Config.Game.LyricsPosition);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -115,8 +115,8 @@ namespace Vocaluxe.Screens
 
         private void _SaveConfig()
         {
-            CConfig.LyricsPosition = (ELyricsPosition)_SelectSlides[_SelectSlideLyricsPosition].Selection;
-            CConfig.LyricStyle = (ELyricStyle)_SelectSlides[_SelectSlideLyricStyle].Selection;
+            CConfig.Config.Game.LyricsPosition = (ELyricsPosition)_SelectSlides[_SelectSlideLyricsPosition].Selection;
+            CConfig.Config.Theme.LyricStyle = (ELyricStyle)_SelectSlides[_SelectSlideLyricStyle].Selection;
             CConfig.SaveConfig();
         }
     }

@@ -27,8 +27,8 @@ namespace Vocaluxe.Base
     class CSongSorter : CObservable
     {
         private CSongPointer[] _SortedSongs = new CSongPointer[0];
-        private EOffOn _IgnoreArticles = CConfig.IgnoreArticles;
-        private ESongSorting _SongSorting = CConfig.SongSorting;
+        private EOffOn _IgnoreArticles = CConfig.Config.Game.IgnoreArticles;
+        private ESongSorting _SongSorting = CConfig.Config.Game.SongSorting;
 
         public CSongSorter()
         {

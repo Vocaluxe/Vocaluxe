@@ -69,7 +69,7 @@ namespace Vocaluxe.Base.ThemeSystem
         /// </summary>
         public static void Load()
         {
-            CTheme theme = _Themes.FirstOrDefault(th => th is CBaseTheme && th.Name == CConfig.Theme) ?? _Themes.FirstOrDefault(th => th is CBaseTheme);
+            CTheme theme = _Themes.FirstOrDefault(th => th is CBaseTheme && th.Name == CConfig.Config.Theme.Theme) ?? _Themes.FirstOrDefault(th => th is CBaseTheme);
             while (theme != null)
             {
                 if (theme.Load())
@@ -84,8 +84,8 @@ namespace Vocaluxe.Base.ThemeSystem
                 CLog.LogError("No themes found! Cannot continue!", true, true);
             else
             {
-                CConfig.Theme = theme.Name;
-                CConfig.Skin = theme.CurrentSkin.Name;
+                CConfig.Config.Theme.Theme = theme.Name;
+                CConfig.Config.Theme.Skin = theme.CurrentSkin.Name;
                 int[] ids = _Themes.Select(th => th.PartyModeID).Distinct().ToArray();
                 foreach (int id in ids.Where(id => id >= 0))
                     LoadPartymodeTheme(id);
@@ -95,7 +95,7 @@ namespace Vocaluxe.Base.ThemeSystem
         public static bool LoadPartymodeTheme(int partyModeID)
         {
             Debug.Assert(partyModeID >= 0);
-            CTheme theme = _Themes.FirstOrDefault(th => th.PartyModeID == partyModeID && th.Name == CConfig.Theme);
+            CTheme theme = _Themes.FirstOrDefault(th => th.PartyModeID == partyModeID && th.Name == CConfig.Config.Theme.Theme);
             if (theme != null)
             {
                 if (theme.Load())

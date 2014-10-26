@@ -236,7 +236,7 @@ namespace Vocaluxe.Base.Fonts
             {
                 int index = _GetPartyFontIndex(fontName, PartyModeID);
                 if (index < 0)
-                    index = _GetThemeFontIndex(fontName, CConfig.Theme);
+                    index = _GetThemeFontIndex(fontName, CConfig.Config.Theme.Theme);
                 if (index >= 0)
                     return index;
                 for (int i = 0; i < _FontFamilies.Count; i++)

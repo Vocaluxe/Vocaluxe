@@ -58,21 +58,21 @@ namespace Vocaluxe.Screens
 
         private bool _VideoBackground
         {
-            get { return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON; }
+            get { return CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON; }
             set
             {
                 if (!value)
                 {
-                    if (CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
+                    if (CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON)
                     {
-                        CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
+                        CConfig.Config.Video.VideosToBackground = EOffOn.TR_CONFIG_OFF;
                         if (!_VideoPreviewInt)
                             CBackgroundMusic.VideoEnabled = false;
                     }
                 }
                 else
                 {
-                    CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
+                    CConfig.Config.Video.VideosToBackground = EOffOn.TR_CONFIG_ON;
                     CBackgroundMusic.VideoEnabled = true;
                 }
                 CConfig.SaveConfig();

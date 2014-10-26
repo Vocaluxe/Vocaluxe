@@ -42,7 +42,7 @@ namespace Vocaluxe.Base.Fonts
             Outline = outline;
             OutlineColor = outlineColor;
 
-            switch (CConfig.TextureQuality)
+            switch (CConfig.Config.Graphics.TextureQuality)
             {
                 case ETextureQuality.TR_CONFIG_TEXTURE_LOWEST:
                     _MaxGlyphHeight = 20f;

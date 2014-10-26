@@ -35,7 +35,7 @@ namespace Vocaluxe.Base
         {
             if (_Draw != null)
                 return false;
-            switch (CConfig.Renderer)
+            switch (CConfig.Config.Graphics.Renderer)
             {
                 case ERenderer.TR_CONFIG_SOFTWARE:
                     _Draw = new CDrawWinForm();

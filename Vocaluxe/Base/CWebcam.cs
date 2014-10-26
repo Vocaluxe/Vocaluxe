@@ -30,7 +30,7 @@ namespace Vocaluxe.Base
         {
             if (_Webcam != null)
                 return false;
-            switch (CConfig.WebcamLib)
+            switch (CConfig.Config.Video.WebcamLib)
             {
                 case EWebcamLib.AForgeNet:
                     _Webcam = new CAForgeNet();
@@ -42,9 +42,9 @@ namespace Vocaluxe.Base
             }
             if (!_Webcam.Init())
                 return false;
-            _Webcam.Select(CConfig.WebcamConfig);
+            _Webcam.Select(CConfig.Config.Video.WebcamConfig.HasValue ? CConfig.Config.Video.WebcamConfig.Value : new SWebcamConfig());
 
-            CConfig.WebcamConfig = _Webcam.GetConfig();
+            CConfig.Config.Video.WebcamConfig = _Webcam.GetConfig();
             CConfig.SaveConfig();
             return true;
         }

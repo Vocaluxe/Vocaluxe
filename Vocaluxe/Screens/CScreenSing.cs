@@ -178,22 +178,22 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.T:
-                        var mode = (int)CConfig.TimerMode;
+                        var mode = (int)CConfig.Config.Game.TimerMode;
 
                         mode++;
                         if (mode > Enum.GetNames(typeof(ETimerMode)).Length - 1)
                             mode = 0;
-                        CConfig.TimerMode = (ETimerMode)mode;
+                        CConfig.Config.Game.TimerMode = (ETimerMode)mode;
                         CConfig.SaveConfig();
                         break;
 
                     case Keys.I:
-                        mode = (int)CConfig.PlayerInfo;
+                        mode = (int)CConfig.Config.Theme.PlayerInfo;
 
                         mode++;
                         if (mode > Enum.GetNames(typeof(EPlayerInfo)).Length - 1)
                             mode = 0;
-                        CConfig.PlayerInfo = (EPlayerInfo)mode;
+                        CConfig.Config.Theme.PlayerInfo = (EPlayerInfo)mode;
                         CConfig.SaveConfig();
                         _SetVisibility();
                         if (CGame.GetSong() != null)
@@ -259,7 +259,7 @@ namespace Vocaluxe.Screens
                         CSong song = CGame.GetSong();
                         song.VideoAspect = _VideoAspect;
 
-                        if (CConfig.SaveModifiedSongs == EOffOn.TR_CONFIG_ON)
+                        if (CConfig.Config.Debug.SaveModifiedSongs == EOffOn.TR_CONFIG_ON)
                             song.Save();
                         break;
                 }
@@ -344,12 +344,13 @@ namespace Vocaluxe.Screens
                 for (int p = 0; p < CGame.NumPlayers; p++)
                 {
                     _SingNotes[_SingBars].PlayerNotes[p].Alpha = alpha[CGame.Players[p].VoiceNr * 2];
-                    if (CConfig.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_INFO || CConfig.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_ALL)
+                    if (CConfig.Config.Theme.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_INFO ||
+                        CConfig.Config.Theme.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_ALL)
                     {
                         _Statics[_StaticAvatars[p, CGame.NumPlayers - 1]].Alpha = alpha[CGame.Players[p].VoiceNr * 2];
                         _Texts[_TextNames[p, CGame.NumPlayers - 1]].Alpha = alpha[CGame.Players[p].VoiceNr * 2];
                     }
-                    if (CConfig.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_ALL)
+                    if (CConfig.Config.Theme.FadePlayerInfo == EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_ALL)
                     {
                         _Statics[_StaticScores[p, CGame.NumPlayers - 1]].Alpha = alpha[CGame.Players[p].VoiceNr * 2];
                         _Statics[_StaticAvatars[p, CGame.NumPlayers - 1]].Alpha = alpha[CGame.Players[p].VoiceNr * 2];
@@ -381,7 +382,7 @@ namespace Vocaluxe.Screens
                 _Texts[_TextScores[p, CGame.NumPlayers - 1]].Text = CGame.Players[p].Points.ToString(fmtString);
             }
 
-            if (_CurrentVideo != null && !_FadeOut && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON)
+            if (_CurrentVideo != null && !_FadeOut && CConfig.Config.Video.VideosInSongs == EOffOn.TR_CONFIG_ON)
                 CVideo.GetFrame(_CurrentVideo, _CurrentTime);
 
             if (_Webcam)
@@ -411,7 +412,7 @@ namespace Vocaluxe.Screens
             _SingNotes[_SingBars].Init(0);
 
             foreach (CLyric lyric in _Lyrics)
-                lyric.LyricStyle = CConfig.LyricStyle;
+                lyric.LyricStyle = CConfig.Config.Theme.LyricStyle;
 
             for (int p = 0; p < CGame.NumPlayers; p++)
                 _Statics[_StaticAvatars[p, CGame.NumPlayers - 1]].Aspect = EAspect.Crop;
@@ -439,7 +440,7 @@ namespace Vocaluxe.Screens
             {
                 CTextureRef background;
                 var aspect = EAspect.Crop;
-                if (_CurrentVideo != null && CConfig.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
+                if (_CurrentVideo != null && CConfig.Config.Video.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
                 {
                     background = _CurrentVideo.Texture;
                     aspect = _VideoAspect;
@@ -463,7 +464,7 @@ namespace Vocaluxe.Screens
 
             base.Draw();
 
-            switch (CConfig.TimerLook)
+            switch (CConfig.Config.Theme.TimerLook)
             {
                 case ETimerLook.TR_CONFIG_TIMERLOOK_NORMAL:
                     CDraw.DrawTexture(_Statics[_StaticTimeLine].Texture, _Statics[_StaticTimeLine].Rect, new SColorF(1, 1, 1, 1), _TimeLineRect);
@@ -636,9 +637,9 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                bool lyricsOnTop = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP
-                                   || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
-                                   || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsTop);
+                bool lyricsOnTop = CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP
+                                   || CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
+                                   || (CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsTop);
                 _Lyrics[_LyricMainTop].Visible = lyricsOnTop;
                 _Lyrics[_LyricSubTop].Visible = lyricsOnTop;
                 _Statics[_StaticLyricsTop].Visible = lyricsOnTop;
@@ -647,9 +648,9 @@ namespace Vocaluxe.Screens
 
         private void _SetNormalLyricsVisibility()
         {
-            bool visible = CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM
-                           || CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
-                           || (CConfig.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsBottom);
+            bool visible = CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM
+                           || CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
+                           || (CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsBottom);
             _Lyrics[_LyricMain].Visible = visible;
             _Lyrics[_LyricSub].Visible = visible;
             _Statics[_StaticLyrics].Visible = visible;
@@ -694,11 +695,11 @@ namespace Vocaluxe.Screens
                 if (firstNoteTime <= currentTime + 10f)
                 {
                     //First line has no predecessor or line has to be shown
-                    if (j == 0 || firstNoteTime - CConfig.MinLineBreakTime <= currentTime)
+                    if (j == 0 || firstNoteTime - CConfig.Config.Game.MinLineBreakTime <= currentTime)
                         return j;
                     float lastNoteTime = CGame.GetTimeFromBeats(lines[j - 1].LastNoteBeat, song.BPM);
                     //No line break if last line is not fully evaluated (with 50% tolerance -> tested so notes are drawn)
-                    if (lastNoteTime + CConfig.MicDelay / 1000f * 1.5f >= currentTime)
+                    if (lastNoteTime + CConfig.Config.Record.MicDelay / 1000f * 1.5f >= currentTime)
                         return j - 1;
                     return j;
                 }
@@ -880,12 +881,12 @@ namespace Vocaluxe.Screens
                     bool isIvisible = numplayer + 1 == CGame.NumPlayers && player <= CGame.NumPlayers;
                     _Texts[_TextScores[player, numplayer]].Visible = isIvisible;
                     _Texts[_TextNames[player, numplayer]].Visible = isIvisible &&
-                                                                    (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
-                                                                     CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME);
+                                                                    (CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
+                                                                     CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME);
                     _Statics[_StaticScores[player, numplayer]].Visible = isIvisible;
                     _Statics[_StaticAvatars[player, numplayer]].Visible = isIvisible &&
-                                                                          (CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
-                                                                           CConfig.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR);
+                                                                          (CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
+                                                                           CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR);
                 }
             }
 
@@ -1233,7 +1234,7 @@ namespace Vocaluxe.Screens
             if (totalTime <= 0f)
                 return;
 
-            switch (CConfig.TimerMode)
+            switch (CConfig.Config.Game.TimerMode)
             {
                 case ETimerMode.TR_CONFIG_TIMERMODE_CURRENT:
                     var min = (int)Math.Floor(currentTime / 60f);
@@ -1255,7 +1256,7 @@ namespace Vocaluxe.Screens
             }
 
 
-            switch (CConfig.TimerLook)
+            switch (CConfig.Config.Theme.TimerLook)
             {
                 case ETimerLook.TR_CONFIG_TIMERLOOK_NORMAL:
                     _TimeLineRect.W = _Statics[_StaticTimeLine].Rect.W * (currentTime / totalTime);
@@ -1285,7 +1286,7 @@ namespace Vocaluxe.Screens
         private void _PrepareTimeLine()
         {
             CStatic stat = _Statics[_StaticTimeLine];
-            switch (CConfig.TimerLook)
+            switch (CConfig.Config.Theme.TimerLook)
             {
                 case ETimerLook.TR_CONFIG_TIMERLOOK_NORMAL:
                     _TimeLineRect = stat.Rect;

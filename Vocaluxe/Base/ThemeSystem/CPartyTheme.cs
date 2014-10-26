@@ -49,7 +49,7 @@ namespace Vocaluxe.Base.ThemeSystem
             switch (fallbackNum)
             {
                 case 0:
-                    _Skins.TryGetValue(CConfig.Skin, out skin);
+                    _Skins.TryGetValue(CConfig.Config.Theme.Skin, out skin);
                     break;
                 case 1:
                     _Skins.TryGetValue(CSettings.DefaultName, out skin);

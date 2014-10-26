@@ -86,7 +86,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CDirect3D()
         {
-            _Form = new CRenderFormHook {ClientSize = new Size(CConfig.ScreenW, CConfig.ScreenH)};
+            _Form = new CRenderFormHook {ClientSize = new Size(CConfig.Config.Graphics.ScreenW, CConfig.Config.Graphics.ScreenH)};
 
             try
             {
@@ -113,8 +113,8 @@ namespace Vocaluxe.Lib.Draw
                 {
                     Windowed = true,
                     SwapEffect = SwapEffect.Discard,
-                    BackBufferHeight = CConfig.ScreenH,
-                    BackBufferWidth = CConfig.ScreenW,
+                    BackBufferHeight = CConfig.Config.Graphics.ScreenH,
+                    BackBufferWidth = CConfig.Config.Graphics.ScreenW,
                     BackBufferFormat = _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format,
                     Multisample = MultisampleType.None,
                     MultisampleQuality = 0
@@ -125,7 +125,7 @@ namespace Vocaluxe.Lib.Draw
             #region Antialiasing
             int quality;
             MultisampleType msType;
-            switch (CConfig.AAMode)
+            switch (CConfig.Config.Graphics.AAMode)
             {
                 case EAntiAliasingModes.X2:
                     msType = MultisampleType.TwoSamples;
@@ -159,7 +159,7 @@ namespace Vocaluxe.Lib.Draw
             #endregion Antialiasing
 
             //Apply the VSync configuration
-            _PresentParameters.PresentationInterval = CConfig.VSync == EOffOn.TR_CONFIG_ON ? PresentInterval.Default : PresentInterval.Immediate;
+            _PresentParameters.PresentationInterval = CConfig.Config.Graphics.VSync == EOffOn.TR_CONFIG_ON ? PresentInterval.Default : PresentInterval.Immediate;
 
             //GMA 950 graphics devices can only process vertices in software mode
             Capabilities caps = _D3D.GetDeviceCaps(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware);
@@ -200,10 +200,10 @@ namespace Vocaluxe.Lib.Draw
             if (_Form.ClientSize.Width == 0 || _Form.ClientSize.Height == 0)
                 _Form.ClientSize = _SizeBeforeMinimize;
 
-            if (_H == _Form.ClientSize.Height && _W == _Form.ClientSize.Width && CConfig.ScreenAlignment == _CurrentAlignment)
+            if (_H == _Form.ClientSize.Height && _W == _Form.ClientSize.Width && CConfig.Config.Graphics.ScreenAlignment == _CurrentAlignment)
                 return;
 
-            _CurrentAlignment = CConfig.ScreenAlignment;
+            _CurrentAlignment = CConfig.Config.Graphics.ScreenAlignment;
             _H = _Form.ClientSize.Height;
             _W = _Form.ClientSize.Width;
 

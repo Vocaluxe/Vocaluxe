@@ -40,7 +40,7 @@ namespace Vocaluxe.Base
         {
             if (_Playback != null)
                 return false;
-            switch (CConfig.PlayBackLib)
+            switch (CConfig.Config.Sound.PlayBackLib)
             {
                 case EPlaybackLib.PortAudio:
                     _Playback = new CPortAudioPlay();

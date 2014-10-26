@@ -31,7 +31,7 @@ namespace Vocaluxe.Base
         {
             if (_Record != null)
                 return false;
-            switch (CConfig.RecordLib)
+            switch (CConfig.Config.Sound.RecordLib)
             {
 #if WIN
                 case ERecordLib.DirectSound:
@@ -135,12 +135,12 @@ namespace Vocaluxe.Base
 
         private static int _GetPlayerFromMicConfig(string device, string devicedriver, int channel)
         {
-            for (int p = 0; p < CSettings.MaxNumPlayer; p++)
+            for (int p = 0; p < CConfig.Config.Record.MicConfig.Length; p++)
             {
-                if (CConfig.MicConfig[p].Channel != 0 &&
-                    CConfig.MicConfig[p].DeviceName == device &&
-                    CConfig.MicConfig[p].DeviceDriver == devicedriver &&
-                    CConfig.MicConfig[p].Channel == channel)
+                if (CConfig.Config.Record.MicConfig[p].Channel != 0 &&
+                    CConfig.Config.Record.MicConfig[p].DeviceName == device &&
+                    CConfig.Config.Record.MicConfig[p].DeviceDriver == devicedriver &&
+                    CConfig.Config.Record.MicConfig[p].Channel == channel)
                     return p + 1;
             }
             return 0;

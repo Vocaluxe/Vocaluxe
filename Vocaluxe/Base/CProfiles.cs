@@ -614,11 +614,11 @@ namespace Vocaluxe.Base
             try
             {
                 //Check if profile saved in config
-                for (int i = 0; i < CConfig.Players.Length; i++)
+                for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 {
-                    if (CConfig.Players[i] == _Profiles[profileID].FileName)
+                    if (CConfig.Config.Game.Players[i] == _Profiles[profileID].FileName)
                     {
-                        CConfig.Players[i] = string.Empty;
+                        CConfig.Config.Game.Players[i] = string.Empty;
                         CConfig.SaveConfig();
                     }
                 }

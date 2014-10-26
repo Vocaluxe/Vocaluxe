@@ -59,7 +59,7 @@ namespace Vocaluxe.Base.ThemeSystem
         protected override bool _LoadSkin()
         {
             CSkin skin;
-            if (!_Skins.TryGetValue(CConfig.Skin, out skin))
+            if (!_Skins.TryGetValue(CConfig.Config.Theme.Skin, out skin))
                 skin = _Skins.Values.FirstOrDefault();
             while (skin != null)
             {

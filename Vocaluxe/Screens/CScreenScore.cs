@@ -157,9 +157,9 @@ namespace Vocaluxe.Screens
             {
                 if (_StaticPointsBarDrawnPoints[p] < players[p].Points)
                 {
-                    if (CConfig.ScoreAnimationTime >= 1)
+                    if (CConfig.Config.Game.ScoreAnimationTime >= 1)
                     {
-                        _StaticPointsBarDrawnPoints[p] = (_Timer.ElapsedMilliseconds / 1000f) / CConfig.ScoreAnimationTime * 10000;
+                        _StaticPointsBarDrawnPoints[p] = (_Timer.ElapsedMilliseconds / 1000f) / CConfig.Config.Game.ScoreAnimationTime * 10000;
 
 
                         if (_StaticPointsBarDrawnPoints[p] > players[p].Points)
@@ -339,7 +339,7 @@ namespace Vocaluxe.Screens
                     _Statics[_StaticAvatar[p, CGame.NumPlayers - 1]].Texture = CProfiles.GetAvatarTextureFromProfile(players[p].ProfileID);
             }
 
-            if (CConfig.ScoreAnimationTime < 1)
+            if (CConfig.Config.Game.ScoreAnimationTime < 1)
             {
                 for (int p = 0; p < CGame.NumPlayers; p++)
                 {

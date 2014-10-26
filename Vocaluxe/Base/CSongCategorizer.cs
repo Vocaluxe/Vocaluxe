@@ -26,7 +26,7 @@ namespace Vocaluxe.Base
     class CSongCategorizer : CObservable
     {
         private readonly List<CCategory> _Categories = new List<CCategory>();
-        private EOffOn _Tabs = CConfig.Tabs;
+        private EOffOn _Tabs = CConfig.Config.Game.Tabs;
 
         public CSongCategorizer()
         {

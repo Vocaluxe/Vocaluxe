@@ -64,7 +64,7 @@ namespace Vocaluxe.Base
     {
         public EOffOn GetSaveModifiedSongs()
         {
-            return CConfig.SaveModifiedSongs;
+            return CConfig.Config.Debug.SaveModifiedSongs;
         }
 
         public void SetBackgroundMusicVolume(int newVolume)
@@ -79,7 +79,7 @@ namespace Vocaluxe.Base
 
         public EBackgroundMusicOffOn GetBackgroundMusicStatus()
         {
-            return CConfig.BackgroundMusic;
+            return CConfig.Config.Sound.BackgroundMusic;
         }
 
         public int GetPreviewMusicVolume()
@@ -89,37 +89,37 @@ namespace Vocaluxe.Base
 
         public ESongMenu GetSongMenuType()
         {
-            return CConfig.SongMenu;
+            return CConfig.Config.Game.SongMenu;
         }
 
         public EOffOn GetVideosToBackground()
         {
-            return CConfig.VideosToBackground;
+            return CConfig.Config.Video.VideosToBackground;
         }
 
         public EOffOn GetVideoBackgrounds()
         {
-            return CConfig.VideoBackgrounds;
+            return CConfig.Config.Video.VideoBackgrounds;
         }
 
         public EOffOn GetVideoPreview()
         {
-            return CConfig.VideoPreview;
+            return CConfig.Config.Video.VideoPreview;
         }
 
         public EOffOn GetDrawNoteLines()
         {
-            return CConfig.DrawNoteLines;
+            return CConfig.Config.Theme.DrawNoteLines;
         }
 
         public EOffOn GetDrawToneHelper()
         {
-            return CConfig.DrawToneHelper;
+            return CConfig.Config.Theme.DrawToneHelper;
         }
 
         public int GetCoverSize()
         {
-            return CConfig.CoverSize;
+            return CConfig.Config.Graphics.CoverSize;
         }
 
         public IEnumerable<string> GetSongFolders()
@@ -129,17 +129,17 @@ namespace Vocaluxe.Base
 
         public ESongSorting GetSongSorting()
         {
-            return CConfig.SongSorting;
+            return CConfig.Config.Game.SongSorting;
         }
 
         public EOffOn GetTabs()
         {
-            return CConfig.Tabs;
+            return CConfig.Config.Game.Tabs;
         }
 
         public EOffOn GetIgnoreArticles()
         {
-            return CConfig.IgnoreArticles;
+            return CConfig.Config.Game.IgnoreArticles;
         }
 
         public bool IsMicConfigured(int playerNr)

@@ -61,7 +61,7 @@ namespace Vocaluxe.Base.Server
 
         public static void Init()
         {
-            _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
+            _Server = new CServer(CConfig.Config.Server.ServerPort, CConfig.Config.Server.ServerEncryption == EOffOn.TR_CONFIG_ON);
 
             CServer.SendKeyEvent = _SendKeyEvent;
             CServer.GetProfileData = _GetProfileData;
@@ -92,7 +92,7 @@ namespace Vocaluxe.Base.Server
 
         public static void Start()
         {
-            if (CConfig.ServerActive == EOffOn.TR_CONFIG_ON)
+            if (CConfig.Config.Server.ServerActive == EOffOn.TR_CONFIG_ON)
             {
                 _Server.Start();
                 //_Discover.StartBroadcasting();

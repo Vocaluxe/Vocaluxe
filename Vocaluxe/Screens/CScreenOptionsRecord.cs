@@ -292,7 +292,7 @@ namespace Vocaluxe.Screens
 
             _DelayTest.Reset();
 
-            _SelectSlides[_SelectSlideDelay].Selection = CConfig.MicDelay / 20;
+            _SelectSlides[_SelectSlideDelay].Selection = CConfig.Config.Record.MicDelay / 20;
         }
 
         public override void OnShowFinish()
@@ -341,7 +341,7 @@ namespace Vocaluxe.Screens
 
         private void _SaveDelayConfig()
         {
-            CConfig.MicDelay = _SelectSlides[_SelectSlideDelay].Selection * 20;
+            CConfig.Config.Record.MicDelay = _SelectSlides[_SelectSlideDelay].Selection * 20;
             CConfig.SaveConfig();
         }
 
@@ -356,22 +356,22 @@ namespace Vocaluxe.Screens
             if (_CheckMicConfig())
             {
                 for (int p = 0; p < CSettings.MaxNumPlayer; p++)
-                    CConfig.MicConfig[p].Channel = 0;
+                    CConfig.Config.Record.MicConfig[p].Channel = 0;
 
                 foreach (CRecordDevice device in _Devices)
                 {
                     if (device.PlayerChannel1 > 0)
                     {
-                        CConfig.MicConfig[device.PlayerChannel1 - 1].Channel = 1;
-                        CConfig.MicConfig[device.PlayerChannel1 - 1].DeviceName = device.Name;
-                        CConfig.MicConfig[device.PlayerChannel1 - 1].DeviceDriver = device.Driver;
+                        CConfig.Config.Record.MicConfig[device.PlayerChannel1 - 1].Channel = 1;
+                        CConfig.Config.Record.MicConfig[device.PlayerChannel1 - 1].DeviceName = device.Name;
+                        CConfig.Config.Record.MicConfig[device.PlayerChannel1 - 1].DeviceDriver = device.Driver;
                     }
 
                     if (device.PlayerChannel2 > 0)
                     {
-                        CConfig.MicConfig[device.PlayerChannel2 - 1].Channel = 2;
-                        CConfig.MicConfig[device.PlayerChannel2 - 1].DeviceName = device.Name;
-                        CConfig.MicConfig[device.PlayerChannel2 - 1].DeviceDriver = device.Driver;
+                        CConfig.Config.Record.MicConfig[device.PlayerChannel2 - 1].Channel = 2;
+                        CConfig.Config.Record.MicConfig[device.PlayerChannel2 - 1].DeviceName = device.Name;
+                        CConfig.Config.Record.MicConfig[device.PlayerChannel2 - 1].DeviceDriver = device.Driver;
                     }
                 }
                 CConfig.SaveConfig();
@@ -448,15 +448,15 @@ namespace Vocaluxe.Screens
             if (_Devices == null)
                 return;
 
-            if (CConfig.MicConfig == null)
+            if (CConfig.Config.Record.MicConfig == null)
                 return;
 
-            if (CConfig.MicConfig[0].Channel <= 0)
+            if (CConfig.Config.Record.MicConfig[0].Channel <= 0)
                 return;
 
             for (int i = 0; i < _Devices.Count; i++)
             {
-                if (_Devices[i].Name == CConfig.MicConfig[0].DeviceName && _Devices[i].Driver == CConfig.MicConfig[0].DeviceDriver)
+                if (_Devices[i].Name == CConfig.Config.Record.MicConfig[0].DeviceName && _Devices[i].Driver == CConfig.Config.Record.MicConfig[0].DeviceDriver)
                 {
                     device = i;
                     return;

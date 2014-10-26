@@ -125,9 +125,9 @@ namespace Vocaluxe.Screens
             switch (keyEvent.Key)
             {
                 case Keys.Add:
-                    if (CConfig.NumPlayers + 1 <= CSettings.MaxNumPlayer)
+                    if (CConfig.Config.Game.NumPlayers + 1 <= CSettings.MaxNumPlayer)
                     {
-                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayers;
+                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.Config.Game.NumPlayers;
                         _UpdatePlayerNumber();
                         //Update Tiles-List
                         _NameSelections[_NameSelection].UpdateList();
@@ -135,9 +135,9 @@ namespace Vocaluxe.Screens
                     break;
 
                 case Keys.Subtract:
-                    if (CConfig.NumPlayers - 1 > 0)
+                    if (CConfig.Config.Game.NumPlayers - 1 > 0)
                     {
-                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayers - 2;
+                        _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.Config.Game.NumPlayers - 2;
                         _UpdatePlayerNumber();
                         //Update Tiles-List
                         _NameSelections[_NameSelection].UpdateList();
@@ -261,7 +261,7 @@ namespace Vocaluxe.Screens
                         _SelectingKeyboardActive = false;
                         _NameSelections[_NameSelection].FastSelection(false, -1);
                     }
-                    else if (numberPressed <= CConfig.NumPlayers)
+                    else if (numberPressed <= CConfig.Config.Game.NumPlayers)
                     {
                         _SelectingFastPlayerNr = numberPressed;
                         _NameSelections[_NameSelection].FastSelection(true, numberPressed);
@@ -324,7 +324,7 @@ namespace Vocaluxe.Screens
                 }
 
 
-                if (_SelectingFastPlayerNr > 0 && _SelectingFastPlayerNr <= CConfig.NumPlayers)
+                if (_SelectingFastPlayerNr > 0 && _SelectingFastPlayerNr <= CConfig.Config.Game.NumPlayers)
                 {
                     _SelectingKeyboardActive = true;
                     _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
@@ -488,7 +488,7 @@ namespace Vocaluxe.Screens
             {
                 bool exit = true;
                 //Remove profile-selection
-                for (int i = 0; i < CConfig.NumPlayers; i++)
+                for (int i = 0; i < CConfig.Config.Game.NumPlayers; i++)
                 {
                     if (CHelper.IsInBounds(_Statics[_StaticPlayer[i]].Rect, mouseEvent))
                     {
@@ -627,12 +627,12 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlidePlayerNumber].Clear();
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
                 _SelectSlides[_SelectSlidePlayerNumber].AddValue(CLanguage.Translate("TR_SCREENNAMES_" + i + "PLAYER"));
-            _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.NumPlayers - 1;
+            _SelectSlides[_SelectSlidePlayerNumber].Selection = CConfig.Config.Game.NumPlayers - 1;
         }
 
         private void _UpdatePlayerNumber()
         {
-            CConfig.NumPlayers = _SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
+            CConfig.Config.Game.NumPlayers = _SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
             CGame.NumPlayers = _SelectSlides[_SelectSlidePlayerNumber].Selection + 1;
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
             {
@@ -668,7 +668,7 @@ namespace Vocaluxe.Screens
             //Update Game-infos with new player
             CGame.Players[playerNum].ProfileID = profileId;
             //Update config for default players.
-            CConfig.Players[playerNum] = CProfiles.GetProfileFileName(profileId);
+            CConfig.Config.Game.Players[playerNum] = CProfiles.GetProfileFileName(profileId);
             CConfig.SaveConfig();
             //Update texture and name
             _Statics[_StaticPlayerAvatar[playerNum]].Texture = CProfiles.GetAvatarTextureFromProfile(profileId);
@@ -686,7 +686,7 @@ namespace Vocaluxe.Screens
                 _NameSelections[_NameSelection].RemoveUsedProfile(CGame.Players[i].ProfileID);
                 CGame.Players[i].ProfileID = -1;
                 //Update config for default players.
-                CConfig.Players[i] = String.Empty;
+                CConfig.Config.Game.Players[i] = String.Empty;
                 //Update texture and name
                 _Statics[_StaticPlayerAvatar[i]].Texture = _OriginalPlayerAvatarTextures[i];
                 _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(-1, i + 1);
@@ -700,7 +700,7 @@ namespace Vocaluxe.Screens
             _NameSelections[_NameSelection].RemoveUsedProfile(CGame.Players[playerNum].ProfileID);
             CGame.Players[playerNum].ProfileID = -1;
             //Update config for default players.
-            CConfig.Players[playerNum] = String.Empty;
+            CConfig.Config.Game.Players[playerNum] = String.Empty;
             CConfig.SaveConfig();
             //Update texture and name
             _Statics[_StaticPlayerAvatar[playerNum]].Texture = _OriginalPlayerAvatarTextures[playerNum];
@@ -714,7 +714,7 @@ namespace Vocaluxe.Screens
         private void _CheckMics()
         {
             var playerWithoutMicro = new List<int>();
-            for (int player = 0; player < CConfig.NumPlayers; player++)
+            for (int player = 0; player < CConfig.Config.Game.NumPlayers; player++)
             {
                 if (!CConfig.IsMicConfig(player + 1))
                     playerWithoutMicro.Add(player + 1);
@@ -752,7 +752,7 @@ namespace Vocaluxe.Screens
         private void _CheckPlayers()
         {
             var playerWithoutProfile = new List<int>();
-            for (int player = 0; player < CConfig.NumPlayers; player++)
+            for (int player = 0; player < CConfig.Config.Game.NumPlayers; player++)
             {
                 if (CGame.Players[player].ProfileID < 0)
                     playerWithoutProfile.Add(player + 1);

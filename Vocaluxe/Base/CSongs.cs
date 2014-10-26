@@ -354,15 +354,15 @@ namespace Vocaluxe.Base
             CLog.StopBenchmark("Read TXTs");
 
             CLog.StartBenchmark("Sort Songs");
-            Sorter.SongSorting = CConfig.SongSorting;
-            Sorter.IgnoreArticles = CConfig.IgnoreArticles;
-            Categorizer.Tabs = CConfig.Tabs;
+            Sorter.SongSorting = CConfig.Config.Game.SongSorting;
+            Sorter.IgnoreArticles = CConfig.Config.Game.IgnoreArticles;
+            Categorizer.Tabs = CConfig.Config.Game.Tabs;
             Categorizer.ObjectChanged += _HandleCategoriesChanged;
             CLog.StopBenchmark("Sort Songs");
             Category = -1;
             SongsLoaded = true;
 
-            switch (CConfig.CoverLoading)
+            switch (CConfig.Config.Theme.CoverLoading)
             {
                 case ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART:
                     _LoadCovers();

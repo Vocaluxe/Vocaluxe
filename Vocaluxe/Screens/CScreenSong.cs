@@ -717,7 +717,7 @@ namespace Vocaluxe.Screens
 
             _SongMenu.OnHide();
 
-            if (CGraphics.NextScreen != EScreens.ScreenNames || CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            if (CGraphics.NextScreen != EScreens.ScreenNames || CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
             {
                 CBackgroundMusic.Disabled = false;
                 CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
@@ -1017,12 +1017,12 @@ namespace Vocaluxe.Screens
         {
             int start = 0;
             int curSelected = CSongs.IsInCategory ? _SongMenu.GetSelectedSongNr() : _SongMenu.GetSelectedCategory();
-            bool firstLevel = CConfig.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
-            bool secondSort = CConfig.Tabs == EOffOn.TR_CONFIG_ON &&
-                              (CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
-                               CConfig.SongSorting == ESongSorting.TR_CONFIG_ARTIST_LETTER ||
-                               CConfig.SongSorting == ESongSorting.TR_CONFIG_FOLDER ||
-                               CConfig.SongSorting == ESongSorting.TR_CONFIG_TITLE_LETTER);
+            bool firstLevel = CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
+            bool secondSort = CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_ON &&
+                              (CConfig.Config.Game.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
+                               CConfig.Config.Game.SongSorting == ESongSorting.TR_CONFIG_ARTIST_LETTER ||
+                               CConfig.Config.Game.SongSorting == ESongSorting.TR_CONFIG_FOLDER ||
+                               CConfig.Config.Game.SongSorting == ESongSorting.TR_CONFIG_TITLE_LETTER);
             if (firstLevel && !secondSort)
             {
                 //TODO: What's to do with multiple tags?
@@ -1030,7 +1030,7 @@ namespace Vocaluxe.Screens
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
                 int ct = songs.Count;
                 int visibleID = -1;
-                switch (CConfig.SongSorting)
+                switch (CConfig.Config.Game.SongSorting)
                 {
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
@@ -1066,7 +1066,7 @@ namespace Vocaluxe.Screens
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
                 int ct = songs.Count;
                 int visibleID = -1;
-                switch (CConfig.SongSorting)
+                switch (CConfig.Config.Game.SongSorting)
                 {
                     case ESongSorting.TR_CONFIG_FOLDER:
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:

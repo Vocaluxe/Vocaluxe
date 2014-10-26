@@ -46,7 +46,7 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             _LoadCoverThemes();
-            _LoadCovers(CConfig.CoverTheme);
+            _LoadCovers(CConfig.Config.Theme.CoverTheme);
         }
 
         public static void Close()
@@ -79,7 +79,7 @@ namespace Vocaluxe.Base
         {
             for (int i = 0; i < _CoverThemes.Count; i++)
             {
-                if (_CoverThemes[i].Name == CConfig.CoverTheme)
+                if (_CoverThemes[i].Name == CConfig.Config.Theme.CoverTheme)
                     return i;
             }
             return -1;
@@ -137,7 +137,7 @@ namespace Vocaluxe.Base
         public static void ReloadCovers()
         {
             _UnloadCovers();
-            _LoadCovers(CConfig.CoverTheme);
+            _LoadCovers(CConfig.Config.Theme.CoverTheme);
         }
 
         private static void _UnloadCovers()
@@ -178,21 +178,18 @@ namespace Vocaluxe.Base
         private static void _TestNewLoad(string path)
         {
             SThemeCover themeCover;
-            using (var stream = new FileStream(path, FileMode.Open))
-                themeCover = CXmlSerializer.Deserialize<SThemeCover>(stream);
-            CXmlSerializer.Serialize(path + "2", themeCover);
+            var xml = new CXmlSerializer();
+            themeCover = xml.Deserialize<SThemeCover>(path);
+            xml.Serialize(path + "2", themeCover);
             string cover = themeCover.Info.Author;
             STheme theme = new STheme();
             STheme theme2 = new STheme();
             Stopwatch watch = new Stopwatch();
             watch.Start();
             for (int i = 0; i < 1; i++)
-            {
-                using (var stream = new StreamReader(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml")))
-                    theme = CXmlSerializer.Deserialize<STheme>(stream);
-            }
+                theme = xml.Deserialize<STheme>(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml"));
             watch.Stop();
-            CXmlSerializer.Serialize(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain2.xml"),theme);
+            xml.Serialize(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain2.xml"), theme);
             return;
             Stopwatch watch2 = new Stopwatch();
             watch2.Start();

@@ -161,7 +161,7 @@ namespace Vocaluxe.Lib.Draw
         /// <returns></returns>
         private static int _GetMaxTextureArea()
         {
-            switch (CConfig.TextureQuality)
+            switch (CConfig.Config.Graphics.TextureQuality)
             {
                 case ETextureQuality.TR_CONFIG_TEXTURE_LOWEST:
                     return 128 * 128;

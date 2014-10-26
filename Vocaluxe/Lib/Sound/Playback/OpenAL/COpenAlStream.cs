@@ -208,7 +208,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             _Timer.Reset();
             _Data = new CRingBuffer(_Bufsize);
             _NoMoreData = false;
-            _SampleBuf = new byte[(int)CConfig.AudioBufferSize];
+            _SampleBuf = new byte[(int)CConfig.Config.Sound.AudioBufferSize];
             //From now on closing the driver and the decoder is handled by the thread ONLY!
 
             _DecoderThread = new Thread(_Execute) {Priority = ThreadPriority.Normal, Name = Path.GetFileName(_Medium)};
@@ -384,7 +384,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
                 }
             }
 
-            float latency = CConfig.AudioLatency / 1000f + queuedCount * _SampleBuf.Length / _BytesPerSecond + 0.1f;
+            float latency = CConfig.Config.Sound.AudioLatency / 1000f + queuedCount * _SampleBuf.Length / _BytesPerSecond + 0.1f;
             _CurrentTime = _TimeCode - _Data.BytesNotRead / _BytesPerSecond - latency;
             _Timer.Restart();
         }
