@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -102,6 +103,8 @@ namespace VocaluxeLib.Xml
                 return _GetPrimitiveValue(node, type);
             if (type.IsNullable())
             {
+                if (!node.HasChildNodes)
+                    return null;
                 Type subType = type.GetGenericArguments()[0];
                 return _GetValue(node, subType);
             }
@@ -372,7 +375,8 @@ namespace VocaluxeLib.Xml
             {
                 Debug.Assert(!isAttribute, "Complex types cannot be attributes");
                 writer.WriteStartElement(name);
-                _WriteChildNodes(writer, value);
+                if (value != null)
+                    _WriteChildNodes(writer, value);
                 writer.WriteEndElement();
             }
         }
@@ -411,6 +415,24 @@ namespace VocaluxeLib.Xml
             return (T)result;
         }
 
+        public T DeserializeString<T>(string xml) where T : new()
+        {
+            var reader = new XmlTextReader(new StringReader(xml))
+                {
+                    WhitespaceHandling = WhitespaceHandling.Significant,
+                    Normalization = true,
+                    XmlResolver = null
+                };
+            try
+            {
+                return _Deserialize<T>(reader);
+            }
+            finally
+            {
+                reader.Close();
+            }
+        }
+
         public T Deserialize<T>(string filePath) where T : new()
         {
             var reader = new XmlTextReader(filePath)
@@ -429,7 +451,7 @@ namespace VocaluxeLib.Xml
             }
         }
 
-        public void Serialize(string filePath, object o)
+        private void _Serialize(object o, XmlWriter writer)
         {
             XmlRootAttribute root = o.GetType().GetAttribute<XmlRootAttribute>();
             string name;
@@ -443,15 +465,27 @@ namespace VocaluxeLib.Xml
                 else
                     name = "root";
             }
+            writer.WriteStartDocument();
+            writer.WriteStartElement(name);
+            _WriteChildNodes(writer, o);
+            writer.WriteEndElement();
+            writer.WriteEndDocument();
+            writer.Flush();
+        }
+
+        public void Serialize(string filePath, object o)
+        {
             using (XmlWriter writer = XmlWriter.Create(filePath, _XMLSettings))
-            {
-                writer.WriteStartDocument();
-                writer.WriteStartElement(name);
-                _WriteChildNodes(writer, o);
-                writer.WriteEndElement();
-                writer.WriteEndDocument();
-                writer.Flush();
-            }
+                _Serialize(o, writer);
+        }
+
+        public string Serialize(object o)
+        {
+            MemoryStream result = new MemoryStream();
+            using (XmlWriter writer = XmlWriter.Create(result, _XMLSettings))
+                _Serialize(o, writer);
+            result.Position = 0;
+            return new StreamReader(result).ReadToEnd();
         }
     }
 }

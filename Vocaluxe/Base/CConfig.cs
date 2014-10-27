@@ -196,7 +196,8 @@ namespace Vocaluxe.Base
                 Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 
 #if INSTALLER
-            ,Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs);           
+                ,
+                Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)           
 #endif
             };
         /// <summary>
