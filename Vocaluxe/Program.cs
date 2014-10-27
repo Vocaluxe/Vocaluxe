@@ -20,6 +20,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Windows.Forms;
@@ -27,6 +28,8 @@ using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Server;
 using Vocaluxe.Base.ThemeSystem;
+
+[assembly: InternalsVisibleTo("VocaluxeTests")]
 
 namespace Vocaluxe
 {

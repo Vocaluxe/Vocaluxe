@@ -55,3 +55,5 @@ Thumbs.db
 /Installer/Prerequisites/GStreamer x86/gstreamer-1.0-x86-1.4.1.msi
 /WebserverInitalConfig/bin
 /PhoneGap/
+/TestResults
+/VocaluxeTests/bin
