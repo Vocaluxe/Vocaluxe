@@ -42,15 +42,14 @@ namespace Vocaluxe.Base.ThemeSystem
         private readonly string _FileName;
         protected readonly CTheme _Parent;
 
-        private SInfo _Info;
+        protected SSkin _Data;
         public String Name
         {
-            get { return _Info.Name; }
+            get { return _Data.Info.Name; }
         }
 
         protected readonly Dictionary<string, CTextureRef> _Textures = new Dictionary<string, CTextureRef>();
         protected readonly Dictionary<string, CVideoSkinElement> _Videos = new Dictionary<string, CVideoSkinElement>();
-        protected readonly Dictionary<string, SColorF> _Colors = new Dictionary<string, SColorF>();
 
         protected bool _IsLoaded;
 
@@ -93,18 +92,20 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public bool Init()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Folder, _FileName));
-            if (xmlReader == null)
-                return false;
-
-            if (!xmlReader.CheckVersion("//root/SkinSystemVersion", _SkinSystemVersion))
-                return false;
-
-            bool ok = xmlReader.Read("//root/Info", out _Info);
-
-            if (!ok)
+            try
             {
-                CLog.LogError("Can't load skin file \"" + _FileName + "\". Invalid file!");
+                var xml = new CXmlSerializer();
+                _Data = xml.Deserialize<SSkin>(Path.Combine(_Folder, _FileName));
+                if (_Data.SkinSystemVersion != _SkinSystemVersion)
+                {
+                    string errorMsg = _Data.SkinSystemVersion < _SkinSystemVersion ? "the file ist outdated!" : "the file is for newer program versions!";
+                    errorMsg += " Current Version is " + _SkinSystemVersion;
+                    throw new Exception(errorMsg);
+                }
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Can't load skin file \"" + _FileName + "\". Invalid file!", false, false, e);
                 return false;
             }
 
@@ -116,41 +117,30 @@ namespace Vocaluxe.Base.ThemeSystem
             if (_IsLoaded)
                 return true;
             Debug.Assert(_Textures.Count == 0 && _Videos.Count == 0);
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Folder, _FileName));
-            if (xmlReader == null)
-                return false;
 
             // load skins/textures
-            List<string> names = xmlReader.GetNames("//root/Skins/*");
-            foreach (string name in names)
+            foreach (KeyValuePair<string, string> kvp in _Data.Skins)
             {
-                string fileName;
-                xmlReader.GetValue("//root/Skins/" + name, out fileName);
-                CTextureRef texture = CDraw.AddTexture(Path.Combine(_Folder, fileName));
+                CTextureRef texture = CDraw.AddTexture(Path.Combine(_Folder, kvp.Value));
                 if (texture == null)
                 {
-                    CLog.LogError("Error on loading texture \"" + name + "\": " + fileName, true);
+                    CLog.LogError("Error on loading texture \"" + kvp.Key + "\": " + kvp.Value, true);
                     return false;
                 }
-                _Textures.Add(name, texture);
+                _Textures.Add(kvp.Key, texture);
             }
 
             // load videos
-            names = xmlReader.GetNames("//root/Videos/*");
-            foreach (string name in names)
+            foreach (KeyValuePair<string, string> kvp in _Data.Videos)
             {
-                CVideoSkinElement sk = new CVideoSkinElement();
-                xmlReader.GetValue("//root/Videos/" + name, out sk.FileName);
+                CVideoSkinElement sk = new CVideoSkinElement {FileName = kvp.Value};
                 if (!File.Exists(Path.Combine(_Folder, sk.FileName)))
                 {
-                    CLog.LogError("Video \"" + name + "\": (" + sk.FileName + ") not found!", true);
+                    CLog.LogError("Video \"" + kvp.Key + "\": (" + sk.FileName + ") not found!", true);
                     return false;
                 }
-                _Videos.Add(name, sk);
+                _Videos.Add(kvp.Key, sk);
             }
-
-            if (!_LoadColors(xmlReader))
-                return false;
 
             _IsLoaded = true;
             return true;
@@ -166,27 +156,13 @@ namespace Vocaluxe.Base.ThemeSystem
 
             _Textures.Clear();
             _Videos.Clear();
-            _Colors.Clear();
 
             _IsLoaded = false;
         }
 
-        private bool _LoadColors(CXMLReader xmlReader)
-        {
-            List<string> names = xmlReader.GetNames("//root/Colors/*");
-            foreach (string str in names)
-            {
-                SColorF color;
-                if (!xmlReader.Read("//root/Colors/" + str, out color))
-                    return false;
-                _Colors.Add(str, color);
-            }
-            return true;
-        }
-
         public virtual bool GetColor(string colorName, out SColorF color)
         {
-            return _Colors.TryGetValue(colorName, out color);
+            return _Data.Colors.TryGetValue(colorName, out color);
         }
 
         public virtual CVideoStream GetVideo(string videoName, bool loop)

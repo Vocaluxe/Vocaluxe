@@ -72,21 +72,10 @@ namespace VocaluxeLib
         [XmlElement("CoverGenerator", IsNullable = false)] public List<SThemeCoverGenerator> CoverGenerators;
     }
 
-    public struct SInfo
-    {
-        public string Name;
-        public string Author;
-        public int VersionMajor;
-        public int VersionMinor;
-    }
-
     #region Drawing
     public struct SColorF
     {
-        public float R;
-        public float G;
-        public float B;
-        public float A;
+        [XmlNormalized] public float R, G, B, A;
 
         public SColorF(float r, float g, float b, float a)
         {

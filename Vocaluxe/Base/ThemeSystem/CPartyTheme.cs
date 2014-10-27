@@ -19,7 +19,6 @@ using System;
 using System.IO;
 using System.Linq;
 using Vocaluxe.Base.Fonts;
-using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
@@ -38,9 +37,9 @@ namespace Vocaluxe.Base.ThemeSystem
             return new CPartySkin(path, file, this);
         }
 
-        protected override bool _Load(CXMLReader xmlReader)
+        protected override bool _Load()
         {
-            return CFonts.LoadPartyModeFonts(PartyModeID, Path.Combine(_Folder, "..", CSettings.FolderNamePartyModeFonts), xmlReader);
+            return CFonts.LoadThemeFonts(_Data.Fonts, Path.Combine(_Folder, "..", CSettings.FolderNamePartyModeFonts), Name, PartyModeID);
         }
 
         private CSkin _GetSkinToLoad(int fallbackNum)

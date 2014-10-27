@@ -100,16 +100,6 @@ namespace VocaluxeLib.Xml
             return ok;
         }
 
-        public bool Read(string xPath, out SInfo el)
-        {
-            el = new SInfo();
-            bool ok = GetValue(xPath + "/Name", out el.Name);
-            ok &= GetValue(xPath + "/Author", out el.Author);
-            ok &= TryGetIntValue(xPath + "/VersionMajor", ref el.VersionMajor);
-            ok &= TryGetIntValue(xPath + "/VersionMinor", ref el.VersionMinor);
-            return ok;
-        }
-
         public bool Read(string xPath, out SColorF value)
         {
             value = new SColorF();

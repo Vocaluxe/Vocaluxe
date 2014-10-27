@@ -170,7 +170,7 @@ namespace Vocaluxe.Base
             return new SThemeCover();
         }
 
-        private static void Foo(STheme a, STheme b)
+        private static void Foo(SThemeScreen a, SThemeScreen b)
         {
             a = b;
         }
@@ -180,14 +180,13 @@ namespace Vocaluxe.Base
             SThemeCover themeCover;
             var xml = new CXmlSerializer();
             themeCover = xml.Deserialize<SThemeCover>(path);
-            xml.Serialize(path + "2", themeCover);
             string cover = themeCover.Info.Author;
-            STheme theme = new STheme();
-            STheme theme2 = new STheme();
+            SThemeScreen theme = new SThemeScreen();
+            SThemeScreen theme2 = new SThemeScreen();
             Stopwatch watch = new Stopwatch();
             watch.Start();
             for (int i = 0; i < 1; i++)
-                theme = xml.Deserialize<STheme>(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml"));
+                theme = xml.Deserialize<SThemeScreen>(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml"));
             watch.Stop();
             xml.Serialize(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain2.xml"), theme);
             return;
@@ -199,7 +198,7 @@ namespace Vocaluxe.Base
                 {
                     XmlSerializer deserializer = new XmlSerializer(typeof(STheme));
 
-                    theme2 = (STheme)deserializer.Deserialize(textReader);
+                    theme2 = (SThemeScreen)deserializer.Deserialize(textReader);
                 }
             }
             watch2.Stop();

@@ -33,7 +33,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 return false;
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
             {
-                if (!_Colors.ContainsKey("Player" + i))
+                if (!_Data.Colors.ContainsKey("Player" + i))
                     continue;
                 CLog.LogDebug("Party themes cannot contain player colors. They will be ignored!");
                 break;

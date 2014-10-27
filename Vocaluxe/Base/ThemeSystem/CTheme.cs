@@ -25,25 +25,15 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
-    struct SThemeCursor
-    {
-        public string SkinName;
-
-        public float W;
-        public float H;
-
-        public SThemeColor Color;
-    }
-
     abstract class CTheme
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         private const int _ThemeSystemVersion = 5;
 
-        private SInfo _Info;
+        protected STheme _Data;
         public String Name
         {
-            get { return _Info.Name; }
+            get { return _Data.Info.Name; }
         }
 
         public string[] SkinNames
@@ -77,18 +67,20 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public bool Init()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Folder, _FileName));
-            if (xmlReader == null)
-                return false;
-
-            if (!xmlReader.CheckVersion("//root/ThemeSystemVersion", _ThemeSystemVersion))
-                return false;
-
-            bool ok = xmlReader.Read("//root/Info", out _Info);
-
-            if (!ok)
+            try
             {
-                CLog.LogError("Can't load theme \"" + _FileName + "\". Invalid file!");
+                var xml = new CXmlSerializer();
+                _Data = xml.Deserialize<STheme>(Path.Combine(_Folder, _FileName));
+                if (_Data.ThemeSystemVersion != _ThemeSystemVersion)
+                {
+                    string errorMsg = _Data.ThemeSystemVersion < _ThemeSystemVersion ? "the file ist outdated!" : "the file is for newer program versions!";
+                    errorMsg += " Current Version is " + _ThemeSystemVersion;
+                    throw new Exception(errorMsg);
+                }
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Can't load theme \"" + _FileName + "\". Invalid file!", false, false, e);
                 return false;
             }
 
@@ -96,7 +88,7 @@ namespace Vocaluxe.Base.ThemeSystem
             List<string> files = CHelper.ListFiles(path, "*.xml");
 
             // Load skins, succeed if at least 1 skin was loaded
-            ok = false;
+            bool ok = false;
             foreach (string file in files)
             {
                 CSkin skin = _GetNewSkin(path, file);
@@ -110,20 +102,17 @@ namespace Vocaluxe.Base.ThemeSystem
         }
 
         protected abstract CSkin _GetNewSkin(string path, string file);
-        protected abstract bool _Load(CXMLReader xmlReader);
+        protected abstract bool _Load();
         protected abstract bool _LoadSkin();
 
         public bool Load()
         {
             if (_IsLoaded)
                 return true;
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(_Folder, _FileName));
-            if (xmlReader == null)
-                return false;
 
             if (!_LoadSkin())
                 return false;
-            bool ok = _Load(xmlReader);
+            bool ok = _Load();
 
             _IsLoaded = ok;
             return ok;

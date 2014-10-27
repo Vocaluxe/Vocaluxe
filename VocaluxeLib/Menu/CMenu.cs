@@ -34,7 +34,7 @@ namespace VocaluxeLib.Menu
     }
 
     [XmlType("Screen")]
-    public struct STheme
+    public struct SThemeScreen
     {
         public SScreenInformation Informations;
         [XmlArray("Backgrounds")] public List<SThemeBackground> Backgrounds;
@@ -65,7 +65,7 @@ namespace VocaluxeLib.Menu
         protected abstract int _ScreenVersion { get; }
         public int PartyModeID { get; protected set; }
         public string ThemeName { get; set; }
-        public STheme Theme;
+        public SThemeScreen Theme;
 
         // ReSharper disable MemberCanBePrivate.Global
         protected string[] _ThemeBackgrounds;
@@ -171,8 +171,8 @@ namespace VocaluxeLib.Menu
             try
             {
                 TextReader textReader = new StreamReader(file);
-                XmlSerializer deserializer = new XmlSerializer(typeof(STheme));
-                Theme = (STheme)deserializer.Deserialize(textReader);
+                XmlSerializer deserializer = new XmlSerializer(typeof(SThemeScreen));
+                Theme = (SThemeScreen)deserializer.Deserialize(textReader);
 
                 foreach (SThemeBackground bg in Theme.Backgrounds)
                     _AddBackground(new CBackground(bg, PartyModeID), bg.Name);
@@ -334,7 +334,7 @@ namespace VocaluxeLib.Menu
             {
                 TextWriter textWriter = new StreamWriter(Path.Combine(ThemePath, ThemeName + ".xml"));
 
-                XmlSerializer serializer = new XmlSerializer(typeof(STheme));
+                XmlSerializer serializer = new XmlSerializer(typeof(SThemeScreen));
                 serializer.Serialize(textWriter, Theme);
 
                 textWriter.Close();

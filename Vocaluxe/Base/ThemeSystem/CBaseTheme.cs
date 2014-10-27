@@ -15,16 +15,23 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Vocaluxe.Base.Fonts;
-using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
     class CBaseTheme : CTheme
     {
-        public SThemeCursor CursorTheme;
+        public SThemeCursor CursorTheme
+        {
+            get
+            {
+                Debug.Assert(_Data.Cursor != null, "Check in _Load!");
+                return _Data.Cursor.Value;
+            }
+        }
 
         public CBaseTheme(string filePath) : base(filePath, -1) {}
 
@@ -39,21 +46,12 @@ namespace Vocaluxe.Base.ThemeSystem
             CFonts.UnloadThemeFonts(Name);
         }
 
-        protected override bool _Load(CXMLReader xmlReader)
+        protected override bool _Load()
         {
-            return _LoadCursor(xmlReader) &&
-                   CFonts.LoadThemeFonts(Name, Path.Combine(_Folder, Name, CSettings.FolderNameThemeFonts), xmlReader);
-        }
+            if (!_Data.Cursor.HasValue)
+                return false;
 
-        private bool _LoadCursor(CXMLReader xmlReader)
-        {
-            bool ok = xmlReader.GetValue("//root/Cursor/Skin", out CursorTheme.SkinName);
-
-            ok &= xmlReader.TryGetFloatValue("//root/Cursor/W", ref CursorTheme.W);
-            ok &= xmlReader.TryGetFloatValue("//root/Cursor/H", ref CursorTheme.H);
-            ok &= xmlReader.Read("//root/Cursor/Color", out CursorTheme.Color);
-
-            return ok;
+            return CFonts.LoadThemeFonts(_Data.Fonts, Path.Combine(_Folder, Name, CSettings.FolderNameThemeFonts), Name, -1);
         }
 
         protected override bool _LoadSkin()

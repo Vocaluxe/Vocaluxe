@@ -226,6 +226,7 @@
     <Compile Include="Base\ThemeSystem\CTheme.cs" />
     <Compile Include="Base\CVideoPlayer.cs" />
     <Compile Include="Base\ThemeSystem\CSkin.cs" />
+    <Compile Include="Base\XmlStructs.cs" />
     <Compile Include="COSFunctions.cs" />
     <Compile Include="Lib\Database\CCoverDB.cs" />
     <Compile Include="Lib\Database\CDatabaseBase.cs" />

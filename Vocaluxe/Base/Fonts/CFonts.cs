@@ -21,46 +21,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Xml;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.Fonts
 {
-    /// <summary>
-    ///     Struct used for describing a font family (a type of text with 4 different styles)
-    /// </summary>
-    struct SFontFamily
-    {
-        public string Name;
-
-        public int PartyModeID;
-        public string ThemeName;
-        public string Folder;
-
-        public string FileNormal;
-        public string FileItalic;
-        public string FileBold;
-        public string FileBoldItalic;
-
-        public float Outline; //0..1, 0=not outline 1=100% outline
-        public SColorF OutlineColor;
-
-        public CFontStyle Normal;
-        public CFontStyle Italic;
-        public CFontStyle Bold;
-        public CFontStyle BoldItalic;
-
-        public void Dispose()
-        {
-            Normal.Dispose();
-            Italic.Dispose();
-            Bold.Dispose();
-            BoldItalic.Dispose();
-        }
-    }
-
     static class CFonts
     {
         private static bool _IsInitialized;
@@ -291,116 +257,53 @@ namespace Vocaluxe.Base.Fonts
         /// <returns></returns>
         private static bool _LoadDefaultFonts()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameFonts, CSettings.FileNameFonts));
-            if (xmlReader == null)
-                return false;
-
-            return _LoadFontFile(xmlReader, Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameFonts));
-        }
-
-        /// <summary>
-        ///     Loads theme fonts from skin file
-        /// </summary>
-        public static bool LoadThemeFonts(string themeName, string fontFolder, CXMLReader xmlReader)
-        {
-            bool ok = _LoadFontFile(xmlReader, fontFolder, themeName);
-            CLog.StartBenchmark("BuildGlyphs");
-            _BuildGlyphs();
-            CLog.StopBenchmark("BuildGlyphs");
-            return ok;
-        }
-
-        /// <summary>
-        ///     Loads party mode fonts from skin file
-        /// </summary>
-        public static bool LoadPartyModeFonts(int partyModeID, string fontFolder, CXMLReader xmlReader)
-        {
-            bool ok = _LoadFontFile(xmlReader, fontFolder, "", partyModeID);
-            CLog.StartBenchmark("BuildGlyphs");
-            _BuildGlyphs();
-            CLog.StopBenchmark("BuildGlyphs");
-            return ok;
-        }
-
-        private static bool _LoadFontFile(CXMLReader xmlReader, string fontFolder, string themeName = "", int partyModeId = -1)
-        {
-            string value;
-            int i = 1;
-            while (xmlReader.GetValue("//root/Fonts/Font" + i + "/Folder", out value))
+            SDefaultFonts defaultFonts;
+            try
             {
-                var sf = new SFontFamily {Folder = value, ThemeName = themeName, PartyModeID = partyModeId};
+                var xml = new CXmlSerializer();
+                defaultFonts = xml.Deserialize<SDefaultFonts>(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameFonts, CSettings.FileNameFonts));
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error loading default Fonts", false, false, e);
+                return false;
+            }
 
-                bool ok = true;
+            return LoadThemeFonts(defaultFonts.Fonts, Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameFonts), "", -1);
+        }
 
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i + "/Name", out sf.Name);
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i + "/FileNormal", out sf.FileNormal);
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i + "/FileItalic", out sf.FileItalic);
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i + "/FileBold", out sf.FileBold);
-                ok &= xmlReader.GetValue("//root/Fonts/Font" + i + "/FileBoldItalic", out sf.FileBoldItalic);
-                ok &= xmlReader.TryGetNormalizedFloatValue("//root/Fonts/Font" + i + "/Outline", ref sf.Outline);
-                ok &= xmlReader.Read("//root/Fonts/Font" + i + "/OutlineColor", out sf.OutlineColor);
-
-                if (ok)
+        /// <summary>
+        ///     Loads theme fonts
+        /// </summary>
+        public static bool LoadThemeFonts(IEnumerable<SFontFamily> fontFamilies, string fontFolder, string themeName, int partyModeId)
+        {
+            if (fontFamilies == null)
+                return true;
+            foreach (SFontFamily fontFamily in fontFamilies)
+            {
+                if (!_LoadFont(fontFamily, fontFolder, themeName, partyModeId))
                 {
-                    sf.Normal = new CFontStyle(Path.Combine(fontFolder, sf.Folder, sf.FileNormal), EStyle.Normal, sf.Outline, sf.OutlineColor);
-                    sf.Italic = new CFontStyle(Path.Combine(fontFolder, sf.Folder, sf.FileItalic), EStyle.Italic, sf.Outline, sf.OutlineColor);
-                    sf.Bold = new CFontStyle(Path.Combine(fontFolder, sf.Folder, sf.FileBold), EStyle.Bold, sf.Outline, sf.OutlineColor);
-                    sf.BoldItalic = new CFontStyle(Path.Combine(fontFolder, sf.Folder, sf.FileBoldItalic), EStyle.BoldItalic, sf.Outline, sf.OutlineColor);
-                    _FontFamilies.Add(sf);
-                }
-                else
-                {
-                    string fontTypes;
-                    if (partyModeId >= 0)
-                        fontTypes = "theme fonts for party mode";
-                    else if (themeName != "")
-                        fontTypes = "theme fonts for theme \"" + themeName + "\"";
-                    else
-                        fontTypes = "basic fonts";
-                    CLog.LogError("Error loading " + fontTypes + ": Error in Font" + i);
+                    CLog.LogError("Error loading fonts for Theme " + themeName + "(" + partyModeId + ")");
                     return false;
                 }
-                i++;
             }
+            CLog.StartBenchmark("BuildGlyphs");
+            _BuildGlyphs();
+            CLog.StopBenchmark("BuildGlyphs");
             return true;
         }
 
-        public static void SaveThemeFonts(string themeName, XmlWriter writer)
+        private static bool _LoadFont(SFontFamily fontFamily, string fontFolder, string themeName, int partyModeId)
         {
-            if (_FontFamilies.Count == 0)
-                return;
-
-            writer.WriteStartElement("Fonts");
-            int fontNr = 1;
-            foreach (SFontFamily font in _FontFamilies)
-            {
-                if (font.ThemeName == themeName)
-                {
-                    writer.WriteStartElement("Font" + fontNr);
-
-                    writer.WriteElementString("Name", font.Name);
-                    writer.WriteElementString("Folder", font.Folder);
-
-                    writer.WriteElementString("Outline", font.Outline.ToString("#0.00"));
-                    writer.WriteStartElement("OutlineColor");
-                    writer.WriteElementString("R", font.OutlineColor.R.ToString("#0.00"));
-                    writer.WriteElementString("G", font.OutlineColor.G.ToString("#0.00"));
-                    writer.WriteElementString("B", font.OutlineColor.B.ToString("#0.00"));
-                    writer.WriteElementString("A", font.OutlineColor.A.ToString("#0.00"));
-                    writer.WriteEndElement();
-
-                    writer.WriteElementString("FileNormal", font.FileNormal);
-                    writer.WriteElementString("FileBold", font.FileBold);
-                    writer.WriteElementString("FileItalic", font.FileItalic);
-                    writer.WriteElementString("FileBoldItalic", font.FileBoldItalic);
-
-                    writer.WriteEndElement();
-
-                    fontNr++;
-                }
-            }
-
-            writer.WriteEndElement();
+            fontFamily.ThemeName = themeName;
+            fontFamily.PartyModeID = partyModeId;
+            fontFamily.Normal = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileNormal), EStyle.Normal, fontFamily.Outline, fontFamily.OutlineColor);
+            fontFamily.Italic = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileItalic), EStyle.Italic, fontFamily.Outline, fontFamily.OutlineColor);
+            fontFamily.Bold = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileBold), EStyle.Bold, fontFamily.Outline, fontFamily.OutlineColor);
+            fontFamily.BoldItalic = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileBoldItalic), EStyle.BoldItalic, fontFamily.Outline,
+                                                   fontFamily.OutlineColor);
+            _FontFamilies.Add(fontFamily);
+            return true;
         }
 
         public static void UnloadThemeFonts(string themeName)
