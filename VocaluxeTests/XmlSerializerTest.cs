@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
@@ -15,9 +14,11 @@ namespace VocaluxeTests
     [TestClass]
     public class CXmlSerializerTest
     {
-        private const string sHead = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n";
-        private const string sEmpty = sHead + @"<root />";
+        private const string _Head = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n";
+        private const string _Empty = _Head + @"<root />";
 
+#pragma warning disable 649
+#pragma warning disable 169
         private struct SBasic
         {
             public int I;
@@ -25,6 +26,38 @@ namespace VocaluxeTests
             public float F;
             public double D;
         }
+
+        [XmlType("Entry")]
+        private struct SEntry
+        {
+            public int I;
+        }
+
+        private struct SList
+        {
+            [XmlArray] public List<SEntry> Ints;
+        }
+
+        private struct SArray
+        {
+            [XmlArray] public SEntry[] Ints;
+        }
+
+        private struct SListEmb
+        {
+            public int I;
+            [XmlElement("Entry")] public List<SEntry> Ints;
+            public int J;
+        }
+
+        private struct SArrayEmb
+        {
+            public int I;
+            [XmlElement("Entry")] public SEntry[] Ints;
+            public int J;
+        }
+#pragma warning restore 169
+#pragma warning restore 649
 
         [TestMethod]
         public void TestBasic()
@@ -113,7 +146,7 @@ namespace VocaluxeTests
         [TestMethod]
         public void TestBasicSerialization()
         {
-            const string s = sHead + @"<root>
+            const string s = _Head + @"<root>
   <I>1</I>
   <S>2</S>
   <F>3</F>
@@ -127,7 +160,7 @@ namespace VocaluxeTests
 
         private readonly string[] _XMLList = new string[]
             {
-                sHead + @"<root>
+                _Head + @"<root>
   <Ints>
     <Entry>
       <I>1</I>
@@ -137,25 +170,14 @@ namespace VocaluxeTests
     </Entry>
   </Ints>
 </root>",
-                sHead + @"<root>
+                _Head + @"<root>
   <Ints>
   </Ints>
 </root>",
-                sHead + @"<root>
+                _Head + @"<root>
   <Ints />
 </root>"
             };
-
-        [XmlType("Entry")]
-        private struct SEntry
-        {
-            public int I;
-        }
-
-        private struct SList
-        {
-            [XmlArray] public List<SEntry> Ints;
-        }
 
         [TestMethod]
         public void TestList()
@@ -175,12 +197,7 @@ namespace VocaluxeTests
             Assert.AreEqual(foo.Ints.Count, 0, "Deserialization2 failed");
             res = xml.Serialize(foo);
             Assert.AreEqual(_XMLList[2], res, "Serialization2 failed");
-            _AssertFail<XmlException>(() => xml.DeserializeString<SList>(sEmpty));
-        }
-
-        private struct SArray
-        {
-            [XmlArray] public SEntry[] Ints;
+            _AssertFail<XmlException>(() => xml.DeserializeString<SList>(_Empty));
         }
 
         [TestMethod]
@@ -201,17 +218,17 @@ namespace VocaluxeTests
             Assert.AreEqual(foo.Ints.Length, 0, "Deserialization2 failed");
             res = xml.Serialize(foo);
             Assert.AreEqual(_XMLList[2], res, "Serialization2 failed");
-            _AssertFail<XmlException>(() => xml.DeserializeString<SArray>(sEmpty));
+            _AssertFail<XmlException>(() => xml.DeserializeString<SArray>(_Empty));
         }
 
-        private const string _XMLListEmb = sHead + @"<root>
+        private const string _XMLListEmb = _Head + @"<root>
   <I>2</I>
   <Entry>
     <I>1</I>
   </Entry>
   <J>3</J>
 </root>";
-        private const string _XMLListEmb2 = sHead + @"<root>
+        private const string _XMLListEmb2 = _Head + @"<root>
   <I>2</I>
   <Entry>
     <I>1</I>
@@ -221,17 +238,10 @@ namespace VocaluxeTests
   </Entry>
   <J>3</J>
 </root>";
-        private const string _XMLListEmb3 = sHead + @"<root>
+        private const string _XMLListEmb3 = _Head + @"<root>
   <I>2</I>
   <J>3</J>
 </root>";
-
-        private struct SListEmb
-        {
-            public int I;
-            [XmlElement("Entry")] public List<SEntry> Ints;
-            public int J;
-        }
 
         [TestMethod]
         public void TestListEmbedded()
@@ -251,14 +261,7 @@ namespace VocaluxeTests
             Assert.AreEqual(foo.Ints.Count, 0, "Deserialization failed");
             res = xml.Serialize(foo);
             Assert.AreEqual(_XMLListEmb3, res, "Serialization failed");
-            _AssertFail<XmlException>(() => xml.DeserializeString<SListEmb>(sEmpty));
-        }
-
-        private struct SArrayEmb
-        {
-            public int I;
-            [XmlElement("Entry")] public SEntry[] Ints;
-            public int J;
+            _AssertFail<XmlException>(() => xml.DeserializeString<SListEmb>(_Empty));
         }
 
         [TestMethod]
@@ -279,7 +282,7 @@ namespace VocaluxeTests
             Assert.AreEqual(foo.Ints.Length, 0, "Deserialization failed");
             res = xml.Serialize(foo);
             Assert.AreEqual(_XMLListEmb3, res, "Serialization failed");
-            _AssertFail<XmlException>(() => xml.DeserializeString<SArrayEmb>(sEmpty));
+            _AssertFail<XmlException>(() => xml.DeserializeString<SArrayEmb>(_Empty));
         }
 
         [TestMethod]
