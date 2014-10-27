@@ -18,6 +18,7 @@
 using System;
 using System.IO;
 using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Profile
@@ -34,11 +35,10 @@ namespace VocaluxeLib.Profile
 
     public class CProfile
     {
-        public int ID;
+        [XmlIgnore] public int ID;
 
         public string PlayerName;
         public string FilePath;
-        public string FileName;
         public byte[] PasswordHash;
         public byte[] PasswordSalt;
 
@@ -55,28 +55,18 @@ namespace VocaluxeLib.Profile
             Difficulty = EGameDifficulty.TR_CONFIG_EASY;
             UserRole = EUserRole.TR_USERROLE_NORMAL;
             Active = EOffOn.TR_CONFIG_ON;
-
-            FileName = String.Empty;
         }
 
-        public bool LoadProfile(string pathName, string fileName)
+        public bool LoadProfile(string filePath)
         {
-            FilePath = pathName;
-            FileName = fileName;
-            return LoadProfile();
-        }
-
-        public bool LoadProfile(string file)
-        {
-            FileName = Path.GetFileName(file);
-            FilePath = Path.GetDirectoryName(file);
+            FilePath = filePath;
 
             return LoadProfile();
         }
 
         public bool LoadProfile()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(FilePath, FileName));
+            CXMLReader xmlReader = CXMLReader.OpenFile(FilePath);
             if (xmlReader == null)
                 return false;
 
@@ -98,19 +88,17 @@ namespace VocaluxeLib.Profile
                 xmlReader.GetValue("//root/Info/PasswordSalt", out passwordSalt);
                 PasswordSalt = !string.IsNullOrEmpty(passwordSalt) ? Convert.FromBase64String(passwordSalt) : null;
                 if (!ok)
-                    CBase.Log.LogError("Error loading profile file: " + FileName);
+                    CBase.Log.LogError("Error loading profile file: " + FilePath);
                 return ok;
             }
 
-            CBase.Log.LogError("Can't find PlayerName in Profile File: " + FileName);
+            CBase.Log.LogError("Can't find PlayerName in Profile File: " + FilePath);
             return false;
         }
 
         public void SaveProfile()
         {
             if (String.IsNullOrEmpty(FilePath))
-                FilePath = Path.Combine(CBase.Settings.GetDataPath(), CBase.Settings.GetFolderProfiles());
-            if (FileName == String.Empty)
             {
                 string filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery
@@ -124,17 +112,17 @@ namespace VocaluxeLib.Profile
                 if (filename == "")
                     filename = "1";
 
-                FileName = CHelper.GetUniqueFileName(FilePath, filename + ".xml", false);
+                FilePath = Path.Combine(CBase.Settings.GetDataPath(), CBase.Settings.GetFolderProfiles(), CHelper.GetUniqueFileName(FilePath, filename + ".xml", false));
             }
 
             XmlWriter writer;
             try
             {
-                writer = XmlWriter.Create(Path.Combine(FilePath, FileName), CBase.Config.GetXMLSettings());
+                writer = XmlWriter.Create(FilePath, CBase.Config.GetXMLSettings());
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error creating/opening Profile File " + FileName + ": " + e.Message);
+                CBase.Log.LogError("Error creating/opening Profile File " + FilePath + ": " + e.Message);
                 return;
             }
             try

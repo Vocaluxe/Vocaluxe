@@ -693,7 +693,7 @@ namespace Vocaluxe.Base
 
                 foreach (CProfile profile in profiles)
                 {
-                    if (Path.GetFileName(profile.FileName) == Config.Game.Players[j] && profile.Active == EOffOn.TR_CONFIG_ON)
+                    if (Path.GetFileName(profile.FilePath) == Config.Game.Players[j] && profile.Active == EOffOn.TR_CONFIG_ON)
                     {
                         //Update Game-infos with player
                         CGame.Players[j].ProfileID = profile.ID;

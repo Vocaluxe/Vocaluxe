@@ -401,9 +401,8 @@ namespace VocaluxeLib.Xml
         }
         #endregion
 
-        private T _Deserialize<T>(XmlReader reader) where T : new()
+        private T _Deserialize<T>(XmlReader reader, object result) where T : new()
         {
-            object result = new T();
             if (reader.IsEmptyElement)
                 return (T)result;
 
@@ -425,7 +424,7 @@ namespace VocaluxeLib.Xml
                 };
             try
             {
-                return _Deserialize<T>(reader);
+                return _Deserialize<T>(reader, new T());
             }
             finally
             {
@@ -433,8 +432,11 @@ namespace VocaluxeLib.Xml
             }
         }
 
-        public T Deserialize<T>(string filePath) where T : new()
+        public T Deserialize<T>(string filePath, object o = null) where T : new()
         {
+            Debug.Assert(o == null || o.GetType() is T);
+            if (o == null)
+                o = new T();
             var reader = new XmlTextReader(filePath)
                 {
                     WhitespaceHandling = WhitespaceHandling.Significant,
@@ -443,7 +445,7 @@ namespace VocaluxeLib.Xml
                 };
             try
             {
-                return _Deserialize<T>(reader);
+                return _Deserialize<T>(reader, o);
             }
             finally
             {
