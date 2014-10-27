@@ -48,6 +48,7 @@ namespace VocaluxeLib.Xml
         public bool IsAttribute;
         public bool IsList; //List with child elements (<List><El/><El/></List>)
         public bool IsEmbeddedList; //List w/o child elements(<List/><List/>)
+        public bool IsDictionary; //List where the element names are the keys
         public bool IsNullable;
         public bool IsNormalized;
         public XmlRangedAttribute Ranged;
@@ -88,7 +89,7 @@ namespace VocaluxeLib.Xml
                         XmlArrayAttribute array = field.GetAttribute<XmlArrayAttribute>();
                         if (array != null)
                         {
-                            Debug.Assert(field.IsList() || field.FieldType.IsArray, "Only lists and arrays can have the array attribute");
+                            Debug.Assert(field.FieldType.IsList() || field.FieldType.IsArray, "Only lists and arrays can have the array attribute");
                             Debug.Assert(!info.IsAttribute, "Lists cannot be attributes");
                             info.Name = array.ElementName;
                             info.IsList = true;
@@ -102,10 +103,10 @@ namespace VocaluxeLib.Xml
                     info.AltName = altName.AltName;
 
                 if (field.FieldType.IsGenericType)
-                    info.SubType = field.FieldType.GetGenericArguments()[0];
+                    info.SubType = field.FieldType.GetGenericArguments().Last();
                 if (field.FieldType.IsArray)
                     info.SubType = field.FieldType.GetElementType();
-                if (field.IsList() || field.FieldType.IsArray)
+                if (field.FieldType.IsList() || field.FieldType.IsArray)
                 {
                     if (!info.IsList)
                     {
@@ -121,6 +122,11 @@ namespace VocaluxeLib.Xml
                 }
                 else if (field.FieldType.IsNullable())
                     info.IsNullable = true;
+                else if (field.FieldType.IsDictionary())
+                {
+                    Debug.Assert(field.FieldType.GetGenericArguments()[0] == typeof(string), "Keys of dictionaries must be strings");
+                    info.IsDictionary = true;
+                }
 
                 if (field.HasAttribute<XmlNormalizedAttribute>())
                 {
@@ -128,12 +134,13 @@ namespace VocaluxeLib.Xml
                     info.IsNormalized = true;
                 }
                 info.Ranged = field.GetAttribute<XmlRangedAttribute>();
-                Debug.Assert(info.Ranged == null || field.FieldType == typeof(int), "Only ints can be ranged");
+                Debug.Assert(info.Ranged == null || field.FieldType == typeof(int) || field.FieldType == typeof(float) || field.FieldType == typeof(double),
+                             "Only ints,floats and double can be ranged");
 
                 DefaultValueAttribute defAttr = field.GetAttribute<DefaultValueAttribute>();
                 if (defAttr != null)
                 {
-                    Debug.Assert(!field.IsList(), "Lists cannot have a default value");
+                    Debug.Assert(!field.FieldType.IsList(), "Lists cannot have a default value");
                     info.HasDefaultValue = true;
                     info.DefaultValue = defAttr.Value;
                 }
@@ -187,14 +194,14 @@ namespace VocaluxeLib.Xml
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Nullable<>);
         }
 
+        public static bool IsDictionary(this Type type)
+        {
+            return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(Dictionary<,>);
+        }
+
         public static bool IsList(this Type type)
         {
             return type.IsGenericType && type.GetGenericTypeDefinition() == typeof(List<>);
-        }
-
-        public static bool IsList(this FieldInfo field)
-        {
-            return field.FieldType.IsList();
         }
     }
 }

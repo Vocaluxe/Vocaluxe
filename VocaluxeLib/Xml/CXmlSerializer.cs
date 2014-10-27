@@ -117,10 +117,23 @@ namespace VocaluxeLib.Xml
                     if (subName != subNode.Name && !subNode.Name.StartsWith(subName))
                         throw new XmlException("Invalid list entry '" + subNode.Name + "' in " + _GetXPath(node) + "; Expected: " + subName);
                     object subValue = _GetValue(subNode, subType);
-                    _ReadChildNodes(subNode, ref subValue, true);
                     subValues.Add(subValue);
                 }
                 return _CreateList(type, subValues);
+            }
+            if (type.IsDictionary())
+            {
+                Type subType = type.GetGenericArguments()[1];
+                object dict = Activator.CreateInstance(type);
+                MethodInfo add = type.GetMethod("Add");
+                foreach (XmlNode subNode in node.ChildNodes)
+                {
+                    if (subNode is XmlComment)
+                        continue;
+                    object subValue = _GetValue(subNode, subType);
+                    add.Invoke(dict, new object[] {subNode.Name, subValue});
+                }
+                return dict;
             }
 
             object value;
@@ -270,10 +283,18 @@ namespace VocaluxeLib.Xml
                                 !field.IsNullable && !((float)value).IsInRange(0, 1))
                                 throw new XmlException("Value in " + _GetXPath(node) + " is not normalized. (Value=" + value + ")");
                         }
-                        if (field.Ranged != null)
+                        if (field.Ranged != null && value != null)
                         {
-                            if (field.IsNullable && !((int?)value).Value.IsInRange(field.Ranged.Min, field.Ranged.Max) ||
-                                !field.IsNullable && !((int)value).IsInRange(field.Ranged.Min, field.Ranged.Max))
+                            bool ok = false;
+                            if (field.Info.FieldType == typeof(int))
+                                ok = ((int)value).IsInRange(field.Ranged.Min, field.Ranged.Max);
+                            else if (field.Info.FieldType == typeof(float))
+                                ok = ((float)value).IsInRange(field.Ranged.Min, field.Ranged.Max);
+                            else if (field.Info.FieldType == typeof(double))
+                                ok = ((double)value).IsInRange(field.Ranged.Min, field.Ranged.Max);
+                            else
+                                Debug.Assert(false, "Ranged attribute has invalid type");
+                            if (!ok)
                             {
                                 throw new XmlException("Value in " + _GetXPath(node) + " is not in the range " + field.Ranged.Min + "-" + field.Ranged.Max + ". (Value=" + value +
                                                        ")");
@@ -324,6 +345,8 @@ namespace VocaluxeLib.Xml
                 else
                     writer.WriteElementString(name, strVal);
             }
+            else if (type.IsNullable())
+                _WriteNode(writer, name, type.GetGenericArguments()[0], value, isAttribute, arrayItemName);
             else if (type.IsList() || type.IsArray)
             {
                 Debug.Assert(!isAttribute, "Lists cannot be attributes");
@@ -335,8 +358,16 @@ namespace VocaluxeLib.Xml
                     _WriteNode(writer, subName, subType, subValue, false);
                 writer.WriteEndElement();
             }
-            else if (type.IsNullable())
-                _WriteNode(writer, name, type.GetGenericArguments()[0], value, isAttribute, arrayItemName);
+            else if (type.IsDictionary())
+            {
+                Debug.Assert(!isAttribute, "Dictionaries cannot be attributes");
+                writer.WriteStartElement(name);
+                Type subType = type.GetGenericArguments()[1];
+                IDictionary dict = (IDictionary)value;
+                foreach (DictionaryEntry entry in dict)
+                    _WriteNode(writer, (string)entry.Key, subType, entry.Value, false);
+                writer.WriteEndElement();
+            }
             else
             {
                 Debug.Assert(!isAttribute, "Complex types cannot be attributes");
