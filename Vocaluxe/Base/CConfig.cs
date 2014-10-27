@@ -97,7 +97,7 @@ namespace Vocaluxe.Base
             [DefaultValue(60f)] public float MaxFPS;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VSync;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn FullScreen;
-            [DefaultValue(0.4f)] public float FadeTime;
+            [DefaultValue(0.4f), XmlRanged(0, 3)] public float FadeTime;
         }
 
         public struct SConfigTheme
