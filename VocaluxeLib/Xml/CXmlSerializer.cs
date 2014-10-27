@@ -189,7 +189,7 @@ namespace VocaluxeLib.Xml
             }
             if (!field.HasDefaultValue)
                 return false;
-            field.Info.SetValue(result, field.DefaultValue);
+            field.SetValue(result, field.DefaultValue);
             return true;
         }
 
@@ -215,7 +215,7 @@ namespace VocaluxeLib.Xml
 
         private static void _AddList(object result, SFieldInfo listField, ICollection list)
         {
-            listField.Info.SetValue(result, _CreateList(listField.Info.FieldType, list));
+            listField.SetValue(result, _CreateList(listField.Type, list));
         }
 
         private void _ReadChildNodes(XmlNode parent, ref object result, bool attributes)
@@ -279,7 +279,7 @@ namespace VocaluxeLib.Xml
                     }
                     else
                     {
-                        object value = _GetValue(node, field.Info.FieldType, field.ArrayItemName);
+                        object value = _GetValue(node, field.Type, field.ArrayItemName);
                         if (field.IsNormalized)
                         {
                             if (field.IsNullable && !((float?)value).Value.IsInRange(0, 1) ||
@@ -289,11 +289,11 @@ namespace VocaluxeLib.Xml
                         if (field.Ranged != null && value != null)
                         {
                             bool ok = false;
-                            if (field.Info.FieldType == typeof(int))
+                            if (field.Type == typeof(int))
                                 ok = ((int)value).IsInRange(field.Ranged.Min, field.Ranged.Max);
-                            else if (field.Info.FieldType == typeof(float))
+                            else if (field.Type == typeof(float))
                                 ok = ((float)value).IsInRange(field.Ranged.Min, field.Ranged.Max);
-                            else if (field.Info.FieldType == typeof(double))
+                            else if (field.Type == typeof(double))
                                 ok = ((double)value).IsInRange(field.Ranged.Min, field.Ranged.Max);
                             else
                                 Debug.Assert(false, "Ranged attribute has invalid type");
@@ -303,7 +303,7 @@ namespace VocaluxeLib.Xml
                                                        ")");
                             }
                         }
-                        field.Info.SetValue(result, value);
+                        field.SetValue(result, value);
                         curField++;
                     }
                 }
@@ -386,7 +386,7 @@ namespace VocaluxeLib.Xml
             IEnumerable<SFieldInfo> fields = o.GetType().GetFieldInfos();
             foreach (SFieldInfo field in fields)
             {
-                object value = field.Info.GetValue(o);
+                object value = field.GetValue(o);
                 if (!_WriteDefaults && field.HasDefaultValue && Equals(value, field.DefaultValue))
                     continue;
                 if (field.IsEmbeddedList)
@@ -396,7 +396,7 @@ namespace VocaluxeLib.Xml
                         _WriteNode(writer, field.Name, field.SubType, subValue, field.IsAttribute);
                 }
                 else
-                    _WriteNode(writer, field.Name, field.Info.FieldType, value, field.IsAttribute, field.ArrayItemName);
+                    _WriteNode(writer, field.Name, field.Type, value, field.IsAttribute, field.ArrayItemName);
             }
         }
         #endregion

@@ -56,6 +56,21 @@ namespace VocaluxeTests
             [XmlElement("Entry")] public SEntry[] Ints;
             public int J;
         }
+
+        private struct SProperty
+        {
+            [XmlIgnore] public int Private;
+            // ReSharper disable UnusedMember.Local
+            public int Public
+            {
+                get { return Private - 1; }
+                set { Private = value + 1; }
+            }
+            // ReSharper restore UnusedMember.Local
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            public int Auto { get; set; }
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
+        }
 #pragma warning restore 169
 #pragma warning restore 649
 
@@ -283,6 +298,22 @@ namespace VocaluxeTests
             res = xml.Serialize(foo);
             Assert.AreEqual(_XMLListEmb3, res, "Serialization failed");
             _AssertFail<XmlException>(() => xml.DeserializeString<SArrayEmb>(_Empty));
+        }
+
+        private const string _XmlProperty = _Head + @"<root>
+  <Public>2</Public>
+  <Auto>3</Auto>
+</root>";
+
+        [TestMethod]
+        public void TestProperty()
+        {
+            var xml = new CXmlSerializer();
+            SProperty foo = xml.DeserializeString<SProperty>(_XmlProperty);
+            Assert.AreEqual(3, foo.Private);
+            Assert.AreEqual(3, foo.Auto);
+            string newXml = xml.Serialize(foo);
+            Assert.AreEqual(_XmlProperty, newXml);
         }
 
         [TestMethod]
