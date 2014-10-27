@@ -128,9 +128,9 @@ namespace ServerLib
     #endregion
 
     #region playlists
-    public delegate SPlaylistInfo[] GetPlaylistsDelegate();
+    public delegate SPlaylistData[] GetPlaylistsDelegate();
 
-    public delegate SPlaylistInfo GetPlaylistDelegate(int playlistId);
+    public delegate SPlaylistData GetPlaylistDelegate(int playlistId);
 
     public delegate void AddSongToPlaylistDelegate(int songId, int playlistId, bool allowDuplicates);
 
@@ -156,7 +156,7 @@ namespace ServerLib
     }
 
     [DataContract]
-    public struct SPlaylistInfo
+    public struct SPlaylistData
     {
         [DataMember] public int PlaylistId;
         [DataMember] public string PlaylistName;

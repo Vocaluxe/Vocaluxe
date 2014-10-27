@@ -97,4 +97,15 @@ namespace Vocaluxe.Base
         public Dictionary<string, string> Skins;
         public Dictionary<string, string> Videos;
     }
+
+    struct SPlaylistInfo
+    {
+        [XmlElement("PlaylistName")] public string Name;
+    }
+
+    struct SPlaylist
+    {
+        public SPlaylistInfo Info;
+        [XmlArray] public SPlaylistSong[] Songs;
+    }
 }

@@ -453,13 +453,13 @@ namespace Vocaluxe.Base.Server
         #endregion
 
         #region playlist
-        private static SPlaylistInfo[] _GetPlaylists()
+        private static SPlaylistData[] _GetPlaylists()
         {
             return (from p in CPlaylists.Playlists
                     select _GetPlaylistInfo(p)).ToArray();
         }
 
-        private static SPlaylistInfo _GetPlaylist(int playlistId)
+        private static SPlaylistData _GetPlaylist(int playlistId)
         {
             if (CPlaylists.Get(playlistId) == null)
                 throw new ArgumentException("invalid playlistId");
@@ -548,9 +548,9 @@ namespace Vocaluxe.Base.Server
             return result;
         }
 
-        private static SPlaylistInfo _GetPlaylistInfo(CPlaylistFile playlist)
+        private static SPlaylistData _GetPlaylistInfo(CPlaylistFile playlist)
         {
-            return new SPlaylistInfo
+            return new SPlaylistData
                 {
                     PlaylistId = playlist.Id,
                     PlaylistName = playlist.Name,

@@ -46,6 +46,14 @@ namespace VocaluxeLib.Menu
         {
             GameMode = EGameMode.TR_GAMEMODE_NORMAL;
         }
+
+        public SPlaylistSong ToStruct()
+        {
+            CSong song = CBase.Songs.GetSongByID(SongID);
+            if (song == null)
+                throw new Exception("Can't find Song. This should never happen!");
+            return new SPlaylistSong{Artist = song.Artist, Title = song.Title, GameMode = GameMode};
+        }
     }
 
     [XmlType("Playlist")]

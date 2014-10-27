@@ -108,6 +108,7 @@
     <Compile Include="Draw\CTextureRef.cs" />
     <Compile Include="Menu\IThemeable.cs" />
     <Compile Include="Menu\SingNotes\CNoteBars.cs" />
+    <Compile Include="XmlStructs.cs" />
     <Compile Include="Xml\CTypeExtensions.cs" />
     <Compile Include="Xml\CXmlDeserializer.cs" />
     <Compile Include="Xml\CXMLReader.cs" />
