@@ -9,8 +9,8 @@
   </Info>
   <Cursor>
     <Skin>Cursor</Skin>
-    <W>40,000</W>
-    <H>40,000</H>
+    <W>40</W>
+    <H>40</H>
     <Color Name="StaticColor" />
   </Cursor>
 </root>
