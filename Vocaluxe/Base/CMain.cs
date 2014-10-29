@@ -152,11 +152,6 @@ namespace Vocaluxe.Base
             return CConfig.GetMaxNumMics();
         }
 
-        public XmlWriterSettings GetXMLSettings()
-        {
-            return CConfig.XMLSettings;
-        }
-
         public bool GetLoadOldThemeFiles()
         {
             return CConfig.LoadOldThemeFiles;

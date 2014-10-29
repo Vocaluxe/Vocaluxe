@@ -58,11 +58,6 @@ namespace VocaluxeLib
         bool IsMicConfigured(int playerNr);
         int GetMaxNumMics();
 
-        /// <summary>
-        ///     Get the uniform settings for writing XML files. ALWAYS use this!
-        /// </summary>
-        XmlWriterSettings GetXMLSettings();
-
         bool GetLoadOldThemeFiles();
     }
 

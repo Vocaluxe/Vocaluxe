@@ -21,10 +21,8 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml;
 using System.Xml.Serialization;
 using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Webcam;
@@ -36,16 +34,6 @@ namespace Vocaluxe.Base
 {
     static class CConfig
     {
-        /// <summary>
-        ///     Uniform settings for writing XML files. ALWAYS use this!
-        /// </summary>
-        public static readonly XmlWriterSettings XMLSettings = new XmlWriterSettings
-            {
-                Indent = true,
-                Encoding = Encoding.UTF8,
-                ConformanceLevel = ConformanceLevel.Document
-            };
-
         private static bool _Initialized;
 
         // Base file and folder names (formerly from CSettings but they can be changed)
