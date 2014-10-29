@@ -227,55 +227,47 @@ namespace VocaluxeLib.Xml
                 nodes = parent.ChildNodes;
 
             List<SFieldInfo> fields = result.GetType().GetFields(attributes);
-            int curField = 0;
 
             if (nodes != null)
             {
-                List<object> subValues = new List<object>();
-                SFieldInfo curListField = new SFieldInfo();
-                string curListName = null;
+                //Dictionary of all embedded lists to allow interleaved/mixed elements
+                Dictionary<string, Tuple<SFieldInfo, List<object>>> embLists = new Dictionary<string, Tuple<SFieldInfo, List<object>>>();
                 foreach (XmlNode node in nodes)
                 {
                     if (node is XmlComment)
                         continue;
 
-                    if (curListName != null)
-                    {
-                        if (node.Name != curListName && !node.Name.StartsWith(curListField.Name))
-                        {
-                            // End an embedded List
-                            _AddList(result, curListField, subValues);
-                            curField++;
-                            curListName = null;
-                        }
-                        else
-                        {
-                            // Continue an embedded List
-                            object subValue = _GetValue(node, curListField.SubType);
-                            subValues.Add(subValue);
-                            continue;
-                        }
-                    }
                     SFieldInfo field = new SFieldInfo();
-                    for (; curField < fields.Count; curField++)
+                    int curField;
+                    for (curField = 0; curField < fields.Count; curField++)
                     {
                         field = fields[curField];
                         if (field.Name == node.Name || field.AltName == node.Name || (field.IsEmbeddedList && node.Name.StartsWith(field.Name)))
                             break;
-                        if (!_CheckAndSetDefaultValue(result, field))
-                            throw new XmlException("Unexpected element: " + _GetXPath(node) + "; Expected: " + field.Name);
                     }
                     if (curField >= fields.Count)
-                        throw new XmlException("Unexpected element: " + _GetXPath(node));
-
-                    if (field.IsEmbeddedList)
                     {
-                        // Start an embedded List
-                        curListField = field;
-                        curListName = field.Name;
-                        subValues.Clear();
-                        object subValue = _GetValue(node, curListField.SubType);
-                        subValues.Add(subValue);
+                        string msg = "Unexpected element: " + _GetXPath(node);
+                        if (fields.Count > 0)
+                            msg += " Expected: " + string.Join(", ", fields.Select(f => f.Name));
+                        throw new XmlException(msg);
+                    }
+
+                    if (field.IsByteArray)
+                    {
+                        field.SetValue(result, Convert.FromBase64String(node.InnerText));
+                        fields.RemoveAt(curField);
+                    }
+                    else if (field.IsEmbeddedList)
+                    {
+                        Tuple<SFieldInfo, List<object>> entry;
+                        if (!embLists.TryGetValue(field.Name, out entry))
+                        {
+                            entry = new Tuple<SFieldInfo, List<object>>(field, new List<object>());
+                            embLists.Add(field.Name, entry);
+                        }
+                        object subValue = _GetValue(node, field.SubType);
+                        entry.Item2.Add(subValue);
                     }
                     else
                     {
@@ -304,19 +296,18 @@ namespace VocaluxeLib.Xml
                             }
                         }
                         field.SetValue(result, value);
-                        curField++;
+                        fields.RemoveAt(curField);
                     }
                 }
-                if (curListName != null)
+                //Add embedded lists
+                foreach (Tuple<SFieldInfo, List<object>> entry in embLists.Values)
                 {
-                    // End an embedded List
-                    _AddList(result, curListField, subValues);
-                    curField++;
+                    _AddList(result, entry.Item1, entry.Item2);
+                    fields.Remove(entry.Item1);
                 }
             }
-            for (; curField < fields.Count; curField++)
+            foreach (SFieldInfo field in fields)
             {
-                SFieldInfo field = fields[curField];
                 if (!_CheckAndSetDefaultValue(result, field))
                     throw new XmlException("element: " + field.Name + " is missing in " + _GetXPath(parent));
             }
@@ -395,6 +386,8 @@ namespace VocaluxeLib.Xml
                     foreach (object subValue in values)
                         _WriteNode(writer, field.Name, field.SubType, subValue, field.IsAttribute);
                 }
+                else if (field.IsByteArray)
+                    writer.WriteElementString(field.Name, Convert.ToBase64String((byte[])value));
                 else
                     _WriteNode(writer, field.Name, field.Type, value, field.IsAttribute, field.ArrayItemName);
             }
@@ -410,11 +403,23 @@ namespace VocaluxeLib.Xml
             xDoc.Load(reader);
             if (xDoc.DocumentElement == null)
                 throw new XmlException("No root element found!");
-            _ReadChildNodes(xDoc.DocumentElement, ref result, false);
+            try
+            {
+                _ReadChildNodes(xDoc.DocumentElement, ref result, false);
+            }
+            catch (TargetInvocationException e)
+            {
+                throw e.InnerException ?? e;
+            }
             return (T)result;
         }
 
         public T DeserializeString<T>(string xml) where T : new()
+        {
+            return DeserializeString(xml, new T());
+        }
+
+        public T DeserializeString<T>(string xml, T o) where T : new()
         {
             var reader = new XmlTextReader(new StringReader(xml))
                 {
@@ -424,7 +429,7 @@ namespace VocaluxeLib.Xml
                 };
             try
             {
-                return _Deserialize<T>(reader, new T());
+                return _Deserialize<T>(reader, o);
             }
             finally
             {
@@ -432,11 +437,15 @@ namespace VocaluxeLib.Xml
             }
         }
 
-        public T Deserialize<T>(string filePath, object o = null) where T : new()
+        public T Deserialize<T>(string filePath) where T : new()
         {
-            Debug.Assert(o == null || o.GetType() is T);
-            if (o == null)
-                o = new T();
+            return Deserialize(filePath, new T());
+        }
+
+        public T Deserialize<T>(string filePath, T o) where T : new()
+        {
+            if (!File.Exists(filePath))
+                throw new FileNotFoundException(filePath);
             var reader = new XmlTextReader(filePath)
                 {
                     WhitespaceHandling = WhitespaceHandling.Significant,

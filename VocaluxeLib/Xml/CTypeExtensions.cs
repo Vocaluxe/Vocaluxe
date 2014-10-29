@@ -55,6 +55,7 @@ namespace VocaluxeLib.Xml
         public bool IsList; //List with child elements (<List><El/><El/></List>)
         public bool IsEmbeddedList; //List w/o child elements(<List/><List/>)
         public bool IsDictionary; //List where the element names are the keys
+        public bool IsByteArray; // Byte arrays w/o XmlArrayAttribute are serialized as Base64-Encoded strings
         public bool IsNullable;
         public bool IsNormalized;
         public XmlRangedAttribute Ranged;
@@ -83,7 +84,7 @@ namespace VocaluxeLib.Xml
 
         public object GetValue(object o)
         {
-            return (_Field != null) ?_Field.GetValue(o) :_Property.GetValue(o, new object[] {});
+            return (_Field != null) ? _Field.GetValue(o) : _Property.GetValue(o, new object[] {});
         }
     }
 
@@ -132,7 +133,10 @@ namespace VocaluxeLib.Xml
                 if (!info.IsList)
                 {
                     Debug.Assert(!field.HasAttribute<XmlArrayAttribute>(), "A field cannot have an XmlElement- and XmlArray-Attribute");
-                    info.IsEmbeddedList = true;
+                    if (info.Type.IsArray && info.SubType == typeof(byte))
+                        info.IsByteArray = true;
+                    else
+                        info.IsEmbeddedList = true;
                 }
                 else
                 {
@@ -181,7 +185,7 @@ namespace VocaluxeLib.Xml
             FieldInfo[] fields = type.GetFields(BindingFlags.Public | BindingFlags.Instance);
             foreach (FieldInfo field in fields)
             {
-                if (field.HasAttribute<XmlIgnoreAttribute>())
+                if (field.HasAttribute<XmlIgnoreAttribute>() || field.Name.EndsWith("Specified"))
                     continue;
                 SFieldInfo info = new SFieldInfo(field);
                 _FillInfo(ref info, field);
@@ -190,7 +194,7 @@ namespace VocaluxeLib.Xml
             PropertyInfo[] properties = type.GetProperties(BindingFlags.Public | BindingFlags.Instance);
             foreach (PropertyInfo property in properties)
             {
-                if (property.HasAttribute<XmlIgnoreAttribute>())
+                if (property.HasAttribute<XmlIgnoreAttribute>() || property.Name.EndsWith("Specified") || !property.CanRead || !property.CanWrite)
                     continue;
                 SFieldInfo info = new SFieldInfo(property);
                 _FillInfo(ref info, property);
