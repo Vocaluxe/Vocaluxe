@@ -21,12 +21,12 @@ using System.Xml.XPath;
 
 namespace VocaluxeLib.Xml
 {
-    public class CXMLReader : CXmlDeserializer
+    public class CXMLReader : CXmlReaderBase
     {
         private readonly XPathNavigator _Navigator;
         private readonly String _FilePath;
 
-        public override string FilePath
+        public string FilePath
         {
             get { return _FilePath; }
         }
