@@ -78,8 +78,8 @@ namespace Vocaluxe.Base
             foreach (string file in files)
             {
                 CPlaylistFile playlist = new CPlaylistFile();
-                if(playlist._Load(file))
-                _Playlists.Add(playlist);
+                if (playlist._Load(file))
+                    _Playlists.Add(playlist);
             }
         }
 

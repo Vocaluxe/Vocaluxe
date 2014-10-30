@@ -145,6 +145,7 @@
     <Compile Include="Utils\CWavFile.cs" />
     <Compile Include="Utils\Player\CSongPlayer.cs" />
     <Compile Include="Utils\Player\CSoundPlayer.cs" />
+    <Compile Include="Xml\SFieldInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

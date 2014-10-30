@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -9,6 +26,9 @@ using System.Xml.Serialization;
 namespace VocaluxeLib.Xml
 {
     // ReSharper disable InconsistentNaming
+    /// <summary>
+    ///     Attribute containing an alternative name in the xml files during deserialization
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public class XmlAltNameAttribute : Attribute
     {
@@ -20,9 +40,15 @@ namespace VocaluxeLib.Xml
         }
     }
 
+    /// <summary>
+    ///     Attribute for float fields to enforce normalized (0&lt;=x&lt;=1) values
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public class XmlNormalizedAttribute : Attribute {}
 
+    /// <summary>
+    ///     Attribute for int fields to enforce values in the given range
+    /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
     public class XmlRangedAttribute : Attribute
     {
@@ -38,58 +64,9 @@ namespace VocaluxeLib.Xml
 
     // ReSharper restore InconsistentNaming
 
-    public struct SFieldInfo
-    {
-        private readonly FieldInfo _Field;
-        private readonly PropertyInfo _Property;
-
-        public Type Type
-        {
-            get { return _Field != null ? _Field.FieldType : _Property.PropertyType; }
-        }
-        public string Name;
-        public string AltName;
-        public object DefaultValue;
-        public bool HasDefaultValue;
-        public bool IsAttribute;
-        public bool IsList; //List with child elements (<List><El/><El/></List>)
-        public bool IsEmbeddedList; //List w/o child elements(<List/><List/>)
-        public bool IsDictionary; //List where the element names are the keys
-        public bool IsByteArray; // Byte arrays w/o XmlArrayAttribute are serialized as Base64-Encoded strings
-        public bool IsNullable;
-        public bool IsNormalized;
-        public XmlRangedAttribute Ranged;
-        public Type SubType;
-        public string ArrayItemName;
-
-        public SFieldInfo(FieldInfo field)
-            : this()
-        {
-            _Field = field;
-        }
-
-        public SFieldInfo(PropertyInfo property)
-            : this()
-        {
-            _Property = property;
-        }
-
-        public void SetValue(object o, object value)
-        {
-            if (_Field != null)
-                _Field.SetValue(o, value);
-            else
-                _Property.SetValue(o, value, new object[] {});
-        }
-
-        public object GetValue(object o)
-        {
-            return (_Field != null) ? _Field.GetValue(o) : _Property.GetValue(o, new object[] {});
-        }
-    }
-
     public static class CTypeExtensions
     {
+        // Cache for fields to speed up access to common types
         private static readonly Dictionary<Type, List<SFieldInfo>> _CacheFields = new Dictionary<Type, List<SFieldInfo>>();
         private static readonly Dictionary<Type, String> _CacheTypeName = new Dictionary<Type, string>();
 
@@ -110,6 +87,11 @@ namespace VocaluxeLib.Xml
             return subType.GetTypeName();
         }
 
+        /// <summary>
+        ///     Fills the struct with information about the field
+        /// </summary>
+        /// <param name="info">Struct to fill</param>
+        /// <param name="field">Field descrived by the struct</param>
         private static void _FillInfo(ref SFieldInfo info, MemberInfo field)
         {
             XmlAttributeAttribute attribute = field.GetAttribute<XmlAttributeAttribute>();
@@ -193,6 +175,11 @@ namespace VocaluxeLib.Xml
             }
         }
 
+        /// <summary>
+        ///     Returns a collection with infos about all fields and properties of the type that can be (xml-)serialized
+        /// </summary>
+        /// <param name="type">Type to get information about</param>
+        /// <returns></returns>
         public static IEnumerable<SFieldInfo> GetFieldInfos(this Type type)
         {
             List<SFieldInfo> result;
@@ -221,11 +208,22 @@ namespace VocaluxeLib.Xml
             return result;
         }
 
+        /// <summary>
+        ///     Returns a collection with infos about all fields and properties of the type that can be (xml-)serialized but limits it to those which are (xml)-nodes or attributes
+        /// </summary>
+        /// <param name="type">Type to get information about</param>
+        /// <param name="attributes">True to return infos about attributes, false for nodes</param>
+        /// <returns></returns>
         public static List<SFieldInfo> GetFields(this Type type, bool attributes)
         {
             return GetFieldInfos(type).Where(f => f.IsAttribute == attributes).ToList();
         }
 
+        /// <summary>
+        ///     Gets the (xml)-type name for the type (influenced by XmlTypeAttributes)
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static string GetTypeName(this Type type)
         {
             string name;
@@ -244,11 +242,23 @@ namespace VocaluxeLib.Xml
             return name;
         }
 
+        /// <summary>
+        ///     Returns true if the field has the attribute
+        /// </summary>
+        /// <typeparam name="T">Attribute type</typeparam>
+        /// <param name="field"></param>
+        /// <returns></returns>
         public static bool HasAttribute<T>(this ICustomAttributeProvider field)
         {
             return field.GetCustomAttributes(typeof(T), false).Length > 0;
         }
 
+        /// <summary>
+        ///     Gets the first attribute with the given type or null if none found
+        /// </summary>
+        /// <typeparam name="T">Attribute type</typeparam>
+        /// <param name="field"></param>
+        /// <returns></returns>
         public static T GetAttribute<T>(this ICustomAttributeProvider field) where T : class
         {
             object[] attributes = field.GetCustomAttributes(typeof(T), false);

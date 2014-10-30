@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -14,6 +31,11 @@ namespace VocaluxeLib.Xml
     public class CXmlDeserializer
     {
         #region Debug Helpers
+        /// <summary>
+        ///     Returns the xPath from root to the node
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
         private string _GetXPath(XmlNode node)
         {
             StringBuilder builder = new StringBuilder();
@@ -39,6 +61,11 @@ namespace VocaluxeLib.Xml
             throw new ArgumentException("Node was not in a document");
         }
 
+        /// <summary>
+        ///     Returns an index as a string or empty string if the node name is sufficient to identify the node
+        /// </summary>
+        /// <param name="element"></param>
+        /// <returns></returns>
         private string _FindElementIndex(XmlNode element)
         {
             XmlNode parentNode = element.ParentNode;
@@ -60,7 +87,15 @@ namespace VocaluxeLib.Xml
         }
         #endregion Debug Helpers
 
-        private object _GetValue(XmlNode node, Type type, string arrayItemName = null, object result = null)
+        /// <summary>
+        ///     Returns the value if the given node
+        /// </summary>
+        /// <param name="node">Node to process</param>
+        /// <param name="type">Type of the object at that node</param>
+        /// <param name="subName">Name of the sub nodes for array types(Array,List,Dictionary), can be set by XmlArrayItemAttribute and defaults to the type name</param>
+        /// <param name="value">If given, no new class is created and value is used instead</param>
+        /// <returns></returns>
+        private object _GetValue(XmlNode node, Type type, string subName = null, object value = null)
         {
             if (type.IsEnum)
             {
@@ -83,12 +118,13 @@ namespace VocaluxeLib.Xml
                 if (!node.HasChildNodes)
                     return null;
                 Type subType = type.GetGenericArguments()[0];
-                return _GetValue(node, subType, arrayItemName, result);
+                return _GetValue(node, subType, subName, value);
             }
             if (type.IsList() || type.IsArray)
             {
                 Type subType = type.IsArray ? type.GetElementType() : type.GetGenericArguments()[0];
-                String subName = arrayItemName ?? subType.GetTypeName();
+                if (subName == null)
+                    subName = subType.GetTypeName();
                 subName = subName.ToLowerInvariant();
                 List<object> subValues = new List<object>();
                 foreach (XmlNode subNode in node.ChildNodes)
@@ -100,56 +136,64 @@ namespace VocaluxeLib.Xml
                     object subValue = _GetValue(subNode, subType);
                     subValues.Add(subValue);
                 }
-                if (result == null)
+                if (value == null)
                     return _CreateList(type, subValues);
-                _FillList(result, type, subValues);
-                return result;
+                _FillList(value, type, subValues);
+                return value;
             }
             if (type.IsDictionary())
             {
                 Type subType = type.GetGenericArguments()[1];
-                object dict = result ?? Activator.CreateInstance(type);
+                object dict = value ?? Activator.CreateInstance(type);
                 MethodInfo add = type.GetMethod("Add");
-                if (arrayItemName != null)
-                    arrayItemName = arrayItemName.ToLowerInvariant();
+                if (subName != null)
+                    subName = subName.ToLowerInvariant();
                 foreach (XmlNode subNode in node.ChildNodes)
                 {
                     if (subNode is XmlComment)
                         continue;
                     object subValue = _GetValue(subNode, subType);
-                    string subName;
-                    if (arrayItemName != null)
+                    string key;
+                    if (subName != null)
                     {
-                        if (arrayItemName != subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(arrayItemName))
-                            throw new XmlException("Invalid dictionary entry '" + subNode.Name + "' in " + _GetXPath(node) + "; Expected: " + arrayItemName);
+                        if (subName != subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
+                            throw new XmlException("Invalid dictionary entry '" + subNode.Name + "' in " + _GetXPath(node) + "; Expected: " + subName);
                         if (subNode.Attributes == null)
                             throw new XmlException("'name' attribute is missing in " + _GetXPath(subNode));
                         XmlNode nameAtt = subNode.Attributes.GetNamedItem("name");
                         if (nameAtt == null)
                             throw new XmlException("'name' attribute is missing in " + _GetXPath(subNode));
-                        subName = nameAtt.Value;
+                        key = nameAtt.Value;
                     }
                     else
-                        subName = subNode.Name;
-                    add.Invoke(dict, new object[] { subName, subValue });
+                        key = subNode.Name;
+                    add.Invoke(dict, new object[] {key, subValue});
                 }
                 return dict;
             }
 
-            object value;
-            try
+            if (value == null)
             {
-                value = result ?? Activator.CreateInstance(type);
+                try
+                {
+                    value = Activator.CreateInstance(type);
+                }
+                catch (Exception)
+                {
+                    throw new XmlException("Could not create instance of " + _GetXPath(node) + "(Type=" + type.Name + ")");
+                }
             }
-            catch (Exception)
-            {
-                throw new XmlException("Could not create instance of " + _GetXPath(node) + "(Type=" + type.Name + ")");
-            }
-            _ReadChildNodes(node, ref value, true);
-            _ReadChildNodes(node, ref value, false);
+            _ReadChildNodes(node, value, true);
+            _ReadChildNodes(node, value, false);
             return value;
         }
 
+        /// <summary>
+        ///     Gets the node's value assuming it is a primitive (int,float,...)
+        /// </summary>
+        /// <param name="node"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
         private object _GetPrimitiveValue(XmlNode node, Type type)
         {
             object value;
@@ -177,6 +221,12 @@ namespace VocaluxeLib.Xml
             return value;
         }
 
+        /// <summary>
+        ///     Sets the field to its default value if it has one (specified as DefaultValueAttribute or an empty collection if it is an embedded one)
+        /// </summary>
+        /// <param name="result"></param>
+        /// <param name="field"></param>
+        /// <returns>True if default value was set</returns>
         private static bool _CheckAndSetDefaultValue(object result, SFieldInfo field)
         {
             if (field.IsEmbeddedList)
@@ -190,6 +240,12 @@ namespace VocaluxeLib.Xml
             return true;
         }
 
+        /// <summary>
+        ///     Fills the specified collection (array or list) with the values
+        /// </summary>
+        /// <param name="list">List to fill</param>
+        /// <param name="type">Type of the list</param>
+        /// <param name="values">Collection of values</param>
         private static void _FillList(object list, Type type, ICollection values)
         {
             if (values.Count <= 0)
@@ -205,23 +261,41 @@ namespace VocaluxeLib.Xml
             {
                 MethodInfo addMethod = type.GetMethod("Add");
                 foreach (object value in values)
-                    addMethod.Invoke(list, new object[] { value });
+                    addMethod.Invoke(list, new object[] {value});
             }
         }
 
+        /// <summary>
+        ///     Creates a collection (array or list) and fills it with the values
+        /// </summary>
+        /// <param name="type">Type of the collection to be created</param>
+        /// <param name="values">Collection of values</param>
+        /// <returns>Newly created collection</returns>
         private static object _CreateList(Type type, ICollection values)
         {
-            object list = type.IsArray ? Array.CreateInstance(type.GetElementType(), values.Count) : Activator.CreateInstance(type, new object[] { values.Count });
+            object list = type.IsArray ? Array.CreateInstance(type.GetElementType(), values.Count) : Activator.CreateInstance(type, new object[] {values.Count});
             _FillList(list, type, values);
             return list;
         }
 
-        private static void _AddList(object result, SFieldInfo listField, ICollection list)
+        /// <summary>
+        ///     Creates a collection (array or list) and puts it into the specified field
+        /// </summary>
+        /// <param name="o">Object which listField belongs to</param>
+        /// <param name="listField">Field that will contain the list</param>
+        /// <param name="values">Collection of values that are used to fill the list</param>
+        private static void _AddList(object o, SFieldInfo listField, ICollection values)
         {
-            listField.SetValue(result, _CreateList(listField.Type, list));
+            listField.SetValue(o, _CreateList(listField.Type, values));
         }
 
-        private void _ReadChildNodes(XmlNode parent, ref object result, bool attributes)
+        /// <summary>
+        ///     Reads childnodes of the given node (either nodes or attributes)
+        /// </summary>
+        /// <param name="parent">Node to process</param>
+        /// <param name="o">Object to put the values in</param>
+        /// <param name="attributes">True for processing attributes, false for nodes</param>
+        private void _ReadChildNodes(XmlNode parent, object o, bool attributes)
         {
             IEnumerable nodes;
             if (attributes)
@@ -229,7 +303,7 @@ namespace VocaluxeLib.Xml
             else
                 nodes = parent.ChildNodes;
 
-            List<SFieldInfo> fields = result.GetType().GetFields(attributes);
+            List<SFieldInfo> fields = o.GetType().GetFields(attributes);
 
             if (nodes != null)
             {
@@ -258,7 +332,7 @@ namespace VocaluxeLib.Xml
 
                     if (field.IsByteArray)
                     {
-                        field.SetValue(result, Convert.FromBase64String(node.InnerText));
+                        field.SetValue(o, Convert.FromBase64String(node.InnerText));
                         fields.RemoveAt(curField);
                     }
                     else if (field.IsEmbeddedList)
@@ -298,29 +372,35 @@ namespace VocaluxeLib.Xml
                                                        ")");
                             }
                         }
-                        field.SetValue(result, value);
+                        field.SetValue(o, value);
                         fields.RemoveAt(curField);
                     }
                 }
                 //Add embedded lists
                 foreach (Tuple<SFieldInfo, List<object>> entry in embLists.Values)
                 {
-                    _AddList(result, entry.Item1, entry.Item2);
+                    _AddList(o, entry.Item1, entry.Item2);
                     fields.Remove(entry.Item1);
                 }
             }
             foreach (SFieldInfo field in fields)
             {
-                if (!_CheckAndSetDefaultValue(result, field))
+                if (!_CheckAndSetDefaultValue(o, field))
                     throw new XmlException("element: " + field.Name + " is missing in " + _GetXPath(parent));
             }
         }
 
-
-        private T _Deserialize<T>(XmlReader reader, object result) where T : new()
+        /// <summary>
+        ///     Deserializes the content of read into the given object
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="reader"></param>
+        /// <param name="o"></param>
+        /// <returns>Deserialized object</returns>
+        private T _Deserialize<T>(XmlReader reader, object o) where T : new()
         {
             if (reader.IsEmptyElement)
-                return (T)result;
+                return (T)o;
 
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(reader);
@@ -328,28 +408,42 @@ namespace VocaluxeLib.Xml
                 throw new XmlException("No root element found!");
             try
             {
-                result = _GetValue(xDoc.DocumentElement, typeof(T), typeof(T).GetSubTypeName(), result);
+                o = _GetValue(xDoc.DocumentElement, o.GetType(), o.GetType().GetSubTypeName(), o);
             }
             catch (TargetInvocationException e)
             {
                 throw e.InnerException ?? e;
             }
-            return (T)result;
+            return (T)o;
         }
 
+        /// <summary>
+        ///     Deserializes the given xml string and returns the resulting object
+        /// </summary>
+        /// <typeparam name="T">Type of the object contained in the xml</typeparam>
+        /// <param name="xml">xml string</param>
+        /// <returns>New object of type T</returns>
         public T DeserializeString<T>(string xml) where T : new()
         {
             return DeserializeString(xml, new T());
         }
 
+        /// <summary>
+        ///     Deserializes the given xml string and returns the resulting object<br />
+        ///     Does not create a new object but reuses the given one overwriting its values
+        /// </summary>
+        /// <typeparam name="T">Type of the object contained in the xml</typeparam>
+        /// <param name="xml">xml string</param>
+        /// <param name="o">Existing object</param>
+        /// <returns>New object of type T</returns>
         public T DeserializeString<T>(string xml, T o) where T : new()
         {
             var reader = new XmlTextReader(new StringReader(xml))
-            {
-                WhitespaceHandling = WhitespaceHandling.Significant,
-                Normalization = true,
-                XmlResolver = null
-            };
+                {
+                    WhitespaceHandling = WhitespaceHandling.Significant,
+                    Normalization = true,
+                    XmlResolver = null
+                };
             try
             {
                 return _Deserialize<T>(reader, o);
@@ -360,21 +454,35 @@ namespace VocaluxeLib.Xml
             }
         }
 
+        /// <summary>
+        ///     Deserializes the given file and returns the resulting object
+        /// </summary>
+        /// <typeparam name="T">Type of the object contained in the xml</typeparam>
+        /// <param name="filePath">Full path to the file</param>
+        /// <returns>New object of type T</returns>
         public T Deserialize<T>(string filePath) where T : new()
         {
             return Deserialize(filePath, new T());
         }
 
+        /// <summary>
+        ///     Deserializes the given file and returns the resulting object<br />
+        ///     Does not create a new object but reuses the given one overwriting its values
+        /// </summary>
+        /// <typeparam name="T">Type of the object contained in the xml</typeparam>
+        /// <param name="filePath">Full path to the file</param>
+        /// <param name="o">Existing object</param>
+        /// <returns>New object of type T</returns>
         public T Deserialize<T>(string filePath, T o) where T : new()
         {
             if (!File.Exists(filePath))
                 throw new FileNotFoundException(filePath);
             var reader = new XmlTextReader(filePath)
-            {
-                WhitespaceHandling = WhitespaceHandling.Significant,
-                Normalization = true,
-                XmlResolver = null
-            };
+                {
+                    WhitespaceHandling = WhitespaceHandling.Significant,
+                    Normalization = true,
+                    XmlResolver = null
+                };
             try
             {
                 return _Deserialize<T>(reader, o);
@@ -384,6 +492,5 @@ namespace VocaluxeLib.Xml
                 reader.Close();
             }
         }
-
     }
 }

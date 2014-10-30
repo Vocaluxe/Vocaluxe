@@ -52,7 +52,7 @@ namespace VocaluxeLib.Menu
             CSong song = CBase.Songs.GetSongByID(SongID);
             if (song == null)
                 throw new Exception("Can't find Song. This should never happen!");
-            return new SPlaylistSong{Artist = song.Artist, Title = song.Title, GameMode = GameMode};
+            return new SPlaylistSong {Artist = song.Artist, Title = song.Title, GameMode = GameMode};
         }
     }
 

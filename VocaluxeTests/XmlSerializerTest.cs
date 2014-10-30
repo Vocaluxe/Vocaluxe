@@ -420,7 +420,8 @@ namespace VocaluxeTests
         [TestMethod]
         public void TestRealFiles()
         {
-            Type[] types = new Type[] {typeof(SThemeCover), typeof(CConfig.SConfig), typeof(SThemeScreen), typeof(SDefaultFonts), typeof(SSkin), typeof(STheme)};
+            Type[] types = new Type[]
+                {typeof(SThemeCover), typeof(CConfig.SConfig), typeof(SThemeScreen), typeof(SDefaultFonts), typeof(SSkin), typeof(STheme), typeof(Dictionary<string, string>)};
             string filePath = Path.Combine(new string[] {AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "TestXmlFiles"});
             foreach (Type type in types)
             {
@@ -437,7 +438,9 @@ namespace VocaluxeTests
                 }
                 Assert.IsInstanceOfType(foo, type, "Wrong type with " + type.Name);
                 var ser = new CXmlSerializer(type == typeof(CConfig.SConfig));
-                string newXml = ser.Serialize(foo);
+                string newXml = ser.Serialize(type == typeof(Dictionary<string, string>) ? "resources" : foo);
+                // Typename will be uppercase but input is lowercase
+                newXml = newXml.Replace("<String", "<string").Replace("</String", "</string");
                 string oldXml = File.ReadAllText(xmlPath);
                 Assert.AreEqual(oldXml, newXml, "Error with " + type.Name);
             }

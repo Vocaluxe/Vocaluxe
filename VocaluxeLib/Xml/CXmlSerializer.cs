@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -17,6 +34,11 @@ namespace VocaluxeLib.Xml
         private readonly GetCommentDelegate _GetCommentCallback;
         private readonly bool _WriteDefaults;
 
+        /// <summary>
+        ///     Creates a new serializer
+        /// </summary>
+        /// <param name="writeDefaults">When true, also nodes with default values will be written</param>
+        /// <param name="getCommentCallback">Callback that is called for each node and should return a string that will be used as a comment</param>
         public CXmlSerializer(bool writeDefaults = false, GetCommentDelegate getCommentCallback = null)
         {
             _WriteDefaults = writeDefaults;
@@ -33,7 +55,17 @@ namespace VocaluxeLib.Xml
                 ConformanceLevel = ConformanceLevel.Document
             };
 
-        private void _WriteNode(XmlWriter writer, string name, Type type, object value, bool isAttribute, string arrayItemName = null, string nameAttribute = null)
+        /// <summary>
+        ///     Writes a value as a node or attribute
+        /// </summary>
+        /// <param name="writer">XmlWriter to use</param>
+        /// <param name="name">Name of the node/attribute</param>
+        /// <param name="type">Type of the value</param>
+        /// <param name="value">Object to write</param>
+        /// <param name="isAttribute">When true, value will be written as an attribute to the currently open node, otherwhise it will create a new node</param>
+        /// <param name="arrayItemName">>Name of the sub nodes for array types(Array,List,Dictionary), can be set by XmlArrayItemAttribute and defaults to the type name</param>
+        /// <param name="nameAttribute">If set, an attribute 'name' with this value will be written</param>
+        private void _WriteValue(XmlWriter writer, string name, Type type, object value, bool isAttribute, string arrayItemName = null, string nameAttribute = null)
         {
             if (!isAttribute && _GetCommentCallback != null)
             {
@@ -65,7 +97,7 @@ namespace VocaluxeLib.Xml
                 }
             }
             else if (type.IsNullable())
-                _WriteNode(writer, name, type.GetGenericArguments()[0], value, isAttribute, arrayItemName, nameAttribute);
+                _WriteValue(writer, name, type.GetGenericArguments()[0], value, isAttribute, arrayItemName, nameAttribute);
             else if (type.IsList() || type.IsArray)
             {
                 Debug.Assert(!isAttribute, "Lists cannot be attributes");
@@ -76,7 +108,7 @@ namespace VocaluxeLib.Xml
                 String subName = arrayItemName ?? subType.GetTypeName();
                 IEnumerable list = (IEnumerable)value;
                 foreach (object subValue in list)
-                    _WriteNode(writer, subName, subType, subValue, false);
+                    _WriteValue(writer, subName, subType, subValue, false);
                 writer.WriteEndElement();
             }
             else if (type.IsDictionary())
@@ -101,7 +133,7 @@ namespace VocaluxeLib.Xml
                         subName = arrayItemName;
                         subNameAttribute = (string)entry.Key;
                     }
-                    _WriteNode(writer, subName, subType, entry.Value, false, null, subNameAttribute);
+                    _WriteValue(writer, subName, subType, entry.Value, false, null, subNameAttribute);
                 }
                 writer.WriteEndElement();
             }
@@ -112,12 +144,17 @@ namespace VocaluxeLib.Xml
                 if (nameAttribute != null)
                     writer.WriteAttributeString("name", nameAttribute);
                 if (value != null)
-                    _WriteChildNodes(writer, value);
+                    _WriteFields(writer, value);
                 writer.WriteEndElement();
             }
         }
 
-        private void _WriteChildNodes(XmlWriter writer, object o)
+        /// <summary>
+        ///     Writes the fields of the given object, does not write the node tags itself
+        /// </summary>
+        /// <param name="writer">XmlWriter to use</param>
+        /// <param name="o">Object to process</param>
+        private void _WriteFields(XmlWriter writer, object o)
         {
             IEnumerable<SFieldInfo> fields = o.GetType().GetFieldInfos();
             foreach (SFieldInfo field in fields)
@@ -129,33 +166,41 @@ namespace VocaluxeLib.Xml
                 {
                     IEnumerable values = (IEnumerable)value;
                     foreach (object subValue in values)
-                        _WriteNode(writer, field.Name, field.SubType, subValue, field.IsAttribute);
+                        _WriteValue(writer, field.Name, field.SubType, subValue, field.IsAttribute);
                 }
                 else if (field.IsByteArray)
                     writer.WriteElementString(field.Name, Convert.ToBase64String((byte[])value));
                 else
-                    _WriteNode(writer, field.Name, field.Type, value, field.IsAttribute, field.ArrayItemName);
+                    _WriteValue(writer, field.Name, field.Type, value, field.IsAttribute, field.ArrayItemName);
             }
         }
 
-        private void _Serialize(object o, XmlWriter writer)
+        /// <summary>
+        ///     Serializes the given object using the writer
+        /// </summary>
+        /// <param name="writer">XmlWriter to use</param>
+        /// <param name="o">Object to serialize</param>
+        /// <param name="rootNodeName">(optional) Name of the root node (overwrites default value specified by XmlRoot/XmlTypeAttributes which defaults to "root")</param>
+        private void _Serialize(XmlWriter writer, object o, string rootNodeName)
         {
-            XmlRootAttribute root = o.GetType().GetAttribute<XmlRootAttribute>();
-            string name;
-            if (root != null && !string.IsNullOrEmpty(root.ElementName))
-                name = root.ElementName;
-            else
+            if (string.IsNullOrEmpty(rootNodeName))
             {
-                XmlTypeAttribute typeAtt = o.GetType().GetAttribute<XmlTypeAttribute>();
-                if (typeAtt != null && !string.IsNullOrEmpty(typeAtt.TypeName))
-                    name = typeAtt.TypeName;
+                XmlRootAttribute root = o.GetType().GetAttribute<XmlRootAttribute>();
+                if (root != null && !string.IsNullOrEmpty(root.ElementName))
+                    rootNodeName = root.ElementName;
                 else
-                    name = "root";
+                {
+                    XmlTypeAttribute typeAtt = o.GetType().GetAttribute<XmlTypeAttribute>();
+                    if (typeAtt != null && !string.IsNullOrEmpty(typeAtt.TypeName))
+                        rootNodeName = typeAtt.TypeName;
+                    else
+                        rootNodeName = "root";
+                }
             }
             try
             {
                 writer.WriteStartDocument();
-                _WriteNode(writer, name, o.GetType(), o, false, o.GetType().GetSubTypeName());
+                _WriteValue(writer, rootNodeName, o.GetType(), o, false, o.GetType().GetSubTypeName());
                 writer.WriteEndDocument();
             }
             finally
@@ -164,17 +209,29 @@ namespace VocaluxeLib.Xml
             }
         }
 
-        public void Serialize(string filePath, object o)
+        /// <summary>
+        ///     Serializes the given object to the file
+        /// </summary>
+        /// <param name="filePath">Full path to file</param>
+        /// <param name="o">Object to serialize</param>
+        /// <param name="rootNodeName">Name of the root node (overwrites default value specified by XmlRoot/XmlTypeAttributes which defaults to "root")</param>
+        public void Serialize(string filePath, object o, string rootNodeName = null)
         {
             using (XmlWriter writer = XmlWriter.Create(filePath, _XMLSettings))
-                _Serialize(o, writer);
+                _Serialize(writer, o, rootNodeName);
         }
 
-        public string Serialize(object o)
+        /// <summary>
+        ///     Serializes the given object and returns the resulting xml as a string
+        /// </summary>
+        /// <param name="o">Object to serialize</param>
+        /// <param name="rootNodeName">Name of the root node (overwrites default value specified by XmlRoot/XmlTypeAttributes which defaults to "root")</param>
+        /// <returns>Serialized object</returns>
+        public string Serialize(object o, string rootNodeName = null)
         {
             MemoryStream result = new MemoryStream();
             using (XmlWriter writer = XmlWriter.Create(result, _XMLSettings))
-                _Serialize(o, writer);
+                _Serialize(writer, o, rootNodeName);
             result.Position = 0;
             return new StreamReader(result).ReadToEnd();
         }

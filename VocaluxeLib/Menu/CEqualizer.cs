@@ -149,7 +149,7 @@ namespace VocaluxeLib.Menu
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref ReflectionSpace);
                 _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref ReflectionHeight);
 
-                _Theme.Reflection = new SReflection( ReflectionHeight, ReflectionSpace);
+                _Theme.Reflection = new SReflection(ReflectionHeight, ReflectionSpace);
             }
             else
             {
