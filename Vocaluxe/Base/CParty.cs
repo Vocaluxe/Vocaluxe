@@ -28,24 +28,6 @@ using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
-
-    #region Structs
-    struct SPartyMode
-    {
-        public int PartyModeSystemVersion;
-        public string Name;
-        public string Description;
-        public string Author;
-        public string Folder;
-        public string PartyModeFile;
-        public List<string> ScreenFiles;
-        public int PartyModeVersionMajor;
-        public int PartyModeVersionMinor;
-        public string TargetAudience;
-        public IPartyMode PartyMode;
-    }
-    #endregion Structs
-
     static class CParty
     {
         private const int _PartyModeSystemVersion = 1;
@@ -113,26 +95,7 @@ namespace Vocaluxe.Base
             foreach (KeyValuePair<int, SPartyMode> kvp in _PartyModes)
             {
                 if (kvp.Key != _NormalGameModeID)
-                {
-                    SPartyMode mode = kvp.Value;
-
-                    var info = new SPartyModeInfos
-                        {
-                            Author = mode.Author,
-                            Description = mode.Description,
-                            Name = mode.Name,
-                            PartyModeID = mode.PartyMode.ID,
-                            VersionMajor = mode.PartyModeVersionMajor,
-                            VersionMinor = mode.PartyModeVersionMinor,
-                            TargetAudience = mode.TargetAudience,
-                            MaxPlayers = mode.PartyMode.GetMaxPlayer(),
-                            MinPlayers = mode.PartyMode.GetMinPlayer(),
-                            MaxTeams = mode.PartyMode.GetMaxTeams(),
-                            MinTeams = mode.PartyMode.GetMinTeams()
-                        };
-
-                    infos.Add(info);
-                }
+                    infos.Add(kvp.Value.Info);
             }
             return infos;
         }
@@ -233,48 +196,26 @@ namespace Vocaluxe.Base
             }
         }
 
-        private static bool _LoadPartyMode(string file, out SPartyMode pm)
+        private static bool _LoadPartyMode(string filePath, out SPartyMode pm)
         {
-            pm = new SPartyMode {ScreenFiles = new List<string>()};
-
-            CXMLReader xmlReader = CXMLReader.OpenFile(file);
-
-            //Error...
-            if (xmlReader == null)
-                return false;
-
-            bool loaded = true;
-
-            loaded &= xmlReader.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);
-            loaded &= xmlReader.GetValue("//root/Info/Name", out pm.Name);
-            loaded &= xmlReader.GetValue("//root/Info/Description", out pm.Description);
-            loaded &= xmlReader.GetValue("//root/Info/Author", out pm.Author);
-            loaded &= xmlReader.GetValue("//root/Info/Folder", out pm.Folder);
-            loaded &= xmlReader.GetValue("//root/Info/PartyModeFile", out pm.PartyModeFile);
-            loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMajor", ref pm.PartyModeVersionMajor);
-            loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMinor", ref pm.PartyModeVersionMinor);
-            loaded &= xmlReader.GetValue("//root/Info/TargetAudience", out pm.TargetAudience);
-            loaded &= xmlReader.GetValues("//root/PartyScreens/*", ref pm.ScreenFiles);
-
-            if (!loaded)
+            CXmlDeserializer deser = new CXmlDeserializer();
+            try
             {
-                CLog.LogError("Error loading PartyMode file: " + file);
+                pm = deser.Deserialize<SPartyMode>(filePath);
+                if (pm.PartyModeSystemVersion != _PartyModeSystemVersion)
+                    throw new Exception("Wrong PartyModeSystemVersion " + pm.PartyModeSystemVersion + " expected: " + _PartyModeSystemVersion);
+
+                if (pm.ScreenFiles.Count == 0)
+                    throw new Exception("No ScreenFiles found");
+            }
+            catch (Exception e)
+            {
+                pm = new SPartyMode();
+                CLog.LogError("Error loading PartyMode file " + filePath + ": " + e.Message);
                 return false;
             }
 
-            if (pm.PartyModeSystemVersion != _PartyModeSystemVersion)
-            {
-                CLog.LogError("Error loading PartyMode file (wrong PartyModeSystemVersion): " + file);
-                return false;
-            }
-
-            if (pm.ScreenFiles.Count == 0)
-            {
-                CLog.LogError("Error loading PartyMode file (no ScreenFiles found): " + file);
-                return false;
-            }
-
-            string pathToPm = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNamePartyModes, pm.Folder);
+            string pathToPm = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNamePartyModes, pm.Info.Folder);
             string pathToCode = Path.Combine(pathToPm, CSettings.FolderNamePartyModeCode);
 
             var filesToCompile = new List<string>();
@@ -284,11 +225,11 @@ namespace Vocaluxe.Base
             if (output == null)
                 return false;
 
-            object instance = output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Folder + "." + pm.PartyModeFile, false,
+            object instance = output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Info.Folder + "." + pm.Info.PartyModeFile, false,
                                                     BindingFlags.Public | BindingFlags.Instance, null, new object[] {_NextID++, pathToPm}, null, null);
             if (instance == null)
             {
-                CLog.LogError("Error creating Instance of PartyMode file: " + file);
+                CLog.LogError("Error creating Instance of PartyMode file: " + filePath);
                 return false;
             }
 
@@ -298,13 +239,13 @@ namespace Vocaluxe.Base
             }
             catch (Exception e)
             {
-                CLog.LogError("Error casting PartyMode file: " + file + "; " + e.Message);
+                CLog.LogError("Error casting PartyMode file: " + filePath + "; " + e.Message);
                 return false;
             }
 
             if (!CLanguage.LoadPartyLanguageFiles(pm.PartyMode.ID, Path.Combine(pathToPm, CSettings.FolderNamePartyModeLanguages)))
             {
-                CLog.LogError("Error loading language files for PartyMode: " + file);
+                CLog.LogError("Error loading language files for PartyMode: " + filePath);
                 return false;
             }
 
@@ -316,7 +257,7 @@ namespace Vocaluxe.Base
 
             foreach (string screenfile in pm.ScreenFiles)
             {
-                CMenuParty screen = _GetPartyScreenInstance(output, screenfile, pm.Folder);
+                CMenuParty screen = _GetPartyScreenInstance(output, screenfile, pm.Info.Folder);
 
                 if (screen != null)
                 {
@@ -327,7 +268,7 @@ namespace Vocaluxe.Base
                     return false;
             }
             pm.PartyMode.LoadTheme();
-
+            pm.Info.LoadData(pm.PartyMode);
             return true;
         }
 

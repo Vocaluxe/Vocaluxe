@@ -17,16 +17,14 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Xml.Serialization;
+using System.Xml;
+using System.Linq;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Xml;
 
@@ -61,14 +59,7 @@ namespace Vocaluxe.Base
         /// </summary>
         public static string[] CoverThemes
         {
-            get
-            {
-                var coverThemes = new List<string>();
-                for (int i = 0; i < _CoverThemes.Count; i++)
-                    coverThemes.Add(_CoverThemes[i].Name);
-
-                return coverThemes.ToArray();
-            }
+            get { return _CoverThemes.Select(th => th.Info.Name).ToArray(); }
         }
 
         /// <summary>
@@ -79,7 +70,7 @@ namespace Vocaluxe.Base
         {
             for (int i = 0; i < _CoverThemes.Count; i++)
             {
-                if (_CoverThemes[i].Name == CConfig.Config.Theme.CoverTheme)
+                if (_CoverThemes[i].Info.Name == CConfig.Config.Theme.CoverTheme)
                     return i;
             }
             return -1;
@@ -164,46 +155,10 @@ namespace Vocaluxe.Base
         {
             for (int i = 0; i < _CoverThemes.Count; i++)
             {
-                if (_CoverThemes[i].Name == coverThemeName)
+                if (_CoverThemes[i].Info.Name == coverThemeName)
                     return _CoverThemes[i];
             }
             return new SThemeCover();
-        }
-
-        private static void Foo(SThemeScreen a, SThemeScreen b)
-        {
-            a = b;
-        }
-
-        private static void _TestNewLoad(string path)
-        {
-            SThemeCover themeCover;
-            var xml = new CXmlSerializer();
-            themeCover = xml.Deserialize<SThemeCover>(path);
-            string cover = themeCover.Info.Author;
-            SThemeScreen theme = new SThemeScreen();
-            SThemeScreen theme2 = new SThemeScreen();
-            Stopwatch watch = new Stopwatch();
-            watch.Start();
-            for (int i = 0; i < 1; i++)
-                theme = xml.Deserialize<SThemeScreen>(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml"));
-            watch.Stop();
-            xml.Serialize(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain2.xml"), theme);
-            return;
-            Stopwatch watch2 = new Stopwatch();
-            watch2.Start();
-            for (int i = 0; i < 100; i++)
-            {
-                using (TextReader textReader = new StreamReader(Path.Combine(CBase.Themes.GetThemeScreensPath(-1), "ScreenMain.xml")))
-                {
-                    XmlSerializer deserializer = new XmlSerializer(typeof(STheme));
-
-                    theme2 = (SThemeScreen)deserializer.Deserialize(textReader);
-                }
-            }
-            watch2.Stop();
-            Foo(theme, theme2);
-            MessageBox.Show(watch.ElapsedMilliseconds + "ms/5000=" + watch.ElapsedMilliseconds / 1000 + "ms vs " + watch2.ElapsedMilliseconds / 100);
         }
 
         /// <summary>
@@ -213,27 +168,27 @@ namespace Vocaluxe.Base
         {
             _CoverThemes.Clear();
 
-            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover);
-            List<string> files = CHelper.ListFiles(path, "*.xml");
+            string folderPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover);
+            List<string> files = CHelper.ListFiles(folderPath, "*.xml");
 
+            var xml = new CXmlDeserializer();
             foreach (string file in files)
             {
-                _TestNewLoad(Path.Combine(path, file));
-                CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(path, file));
-
-                if (xmlReader != null)
+                SThemeCover theme;
+                try
                 {
-                    var coverTheme = new SThemeCover();
+                    theme = xml.Deserialize<SThemeCover>(Path.Combine(folderPath, file));
+                }
+                catch (XmlException e)
+                {
+                    CLog.LogError("Error loading cover theme " + file + ": " + e.Message);
+                    continue;
+                }
 
-                    xmlReader.GetValue("//root/Info/Name", out coverTheme.Name, String.Empty);
-                    xmlReader.GetValue("//root/Info/Folder", out coverTheme.Folder, String.Empty);
-
-                    if (coverTheme.Folder != "" && coverTheme.Name != "")
-                    {
-                        coverTheme.FilePath = xmlReader.FilePath;
-
-                        _CoverThemes.Add(coverTheme);
-                    }
+                if (theme.Info.Folder != "" && theme.Info.Name != "")
+                {
+                    theme.FolderPath = Path.Combine(folderPath, theme.Info.Folder);
+                    _CoverThemes.Add(theme);
                 }
             }
         }
@@ -245,11 +200,10 @@ namespace Vocaluxe.Base
         {
             SThemeCover coverTheme = _CoverTheme(coverThemeName);
 
-            if (String.IsNullOrEmpty(coverTheme.Name))
+            if (String.IsNullOrEmpty(coverTheme.Info.Name))
                 return;
 
-            string coverPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder);
-            List<string> files = CHelper.ListImageFiles(coverPath, true, true);
+            List<string> files = CHelper.ListImageFiles(coverTheme.FolderPath, true, true);
 
             lock (_Covers)
             {
@@ -297,22 +251,14 @@ namespace Vocaluxe.Base
 
         private static void _LoadCoverGenerators(SThemeCover coverTheme)
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(coverTheme.FilePath);
-            string coverPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover, coverTheme.Folder);
             lock (_CoverGenerators)
             {
-                int i = 1;
-                while (xmlReader.ItemExists("//root/CoverGenerator" + i))
+                foreach (SThemeCoverGenerator theme in coverTheme.CoverGenerators)
                 {
-                    SThemeCoverGenerator theme;
-                    if (xmlReader.Read("//root/CoverGenerator" + i, out theme))
-                    {
-                        if (_CoverGenerators.ContainsKey(theme.Type))
-                            continue;
-                        CCoverGenerator el = new CCoverGenerator(theme, coverPath);
-                        _CoverGenerators.Add(theme.Type, el);
-                    }
-                    i++;
+                    if (_CoverGenerators.ContainsKey(theme.Type))
+                        continue;
+                    CCoverGenerator el = new CCoverGenerator(theme, coverTheme.FolderPath);
+                    _CoverGenerators.Add(theme.Type, el);
                 }
             }
         }

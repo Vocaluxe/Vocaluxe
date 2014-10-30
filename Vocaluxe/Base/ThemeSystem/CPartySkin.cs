@@ -43,21 +43,21 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public override bool GetColor(string name, out SColorF color)
         {
-            if (_Parent.Name == "Default" && !_RequiredColors.Contains(name))
+            if (_Parent.Name == "Default" && !_Required.Colors.Contains(name))
                 CLog.LogDebug("Non-Default color: " + name);
             return base.GetColor(name, out color) || _BaseSkin.GetColor(name, out color);
         }
 
         public override CVideoStream GetVideo(string name, bool loop)
         {
-            if (_Parent.Name == "Default" && !_RequiredVideos.Contains(name))
+            if (_Parent.Name == "Default" && !_Required.Videos.Contains(name))
                 CLog.LogDebug("Non-Default color: " + name);
             return base.GetVideo(name, loop) ?? _BaseSkin.GetVideo(name, loop);
         }
 
         public override CTextureRef GetTexture(string name)
         {
-            if (_Parent.Name == "Default" && !_RequiredTextures.Contains(name))
+            if (_Parent.Name == "Default" && !_Required.Textures.Contains(name))
                 CLog.LogDebug("Non-Default color: " + name);
             return base.GetTexture(name) ?? _BaseSkin.GetTexture(name);
         }

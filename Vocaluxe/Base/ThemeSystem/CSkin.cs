@@ -19,9 +19,12 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Xml;
+using System.Linq;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
@@ -34,9 +37,43 @@ namespace Vocaluxe.Base.ThemeSystem
     abstract class CSkin
     {
         private const int _SkinSystemVersion = 4;
-        protected static readonly List<string> _RequiredTextures = new List<string>();
-        protected static readonly List<string> _RequiredVideos = new List<string>();
-        protected static readonly List<string> _RequiredColors = new List<string>();
+
+        protected struct SRequiredElements
+        {
+            [XmlIgnore] public List<string> Textures, Videos, Colors;
+            [XmlElement("Textures")]
+            public string TexturesStr
+            {
+                get { return string.Join("\r\n", Textures); }
+                set
+                {
+                    string[] entries = value.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    Textures = entries.Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToList();
+                }
+            }
+            [XmlElement("Videos")]
+            public string VideosStr
+            {
+                get { return string.Join("\r\n", Videos); }
+                set
+                {
+                    string[] entries = value.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    Videos = entries.Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToList();
+                }
+            }
+            [XmlElement("Colors")]
+            public string ColorsStr
+            {
+                get { return string.Join("\r\n", Colors); }
+                set
+                {
+                    string[] entries = value.Split(new string[] {"\r\n", "\n"}, StringSplitOptions.RemoveEmptyEntries);
+                    Colors = entries.Select(s => s.Trim()).Where(s => !string.IsNullOrEmpty(s)).ToList();
+                }
+            }
+        }
+
+        protected static SRequiredElements _Required;
 
         private readonly string _Folder;
         private readonly string _FileName;
@@ -56,26 +93,32 @@ namespace Vocaluxe.Base.ThemeSystem
         public static bool InitRequiredElements()
         {
             string path = Path.Combine(CSettings.ProgramFolder, CSettings.FileNameRequiredSkinElements);
-            CXMLReader xmlReader = CXMLReader.OpenFile(path);
-            if (xmlReader == null)
+            var xml = new CXmlDeserializer();
+            try
+            {
+                _Required = xml.Deserialize<SRequiredElements>(path);
+            }
+            catch (XmlException e)
+            {
+                CLog.LogError("Error reading required elements: " + e.Message);
                 return false;
-            bool ok = xmlReader.Read("//root/Textures", _RequiredTextures);
-            ok &= xmlReader.Read("//root/Videos", _RequiredVideos);
-            ok &= xmlReader.Read("//root/Colors", _RequiredColors);
+            }
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
             {
                 string name = "Player" + i;
-                if (!_RequiredColors.Contains(name))
-                    _RequiredColors.Add(name);
+                if (!_Required.Colors.Contains(name))
+                    _Required.Colors.Add(name);
             }
-            return ok;
+            return true;
         }
 
         public static void Close()
         {
-            _RequiredTextures.Clear();
-            _RequiredVideos.Clear();
-            _RequiredColors.Clear();
+            if (_Required.Textures == null)
+                return;
+            _Required.Textures.Clear();
+            _Required.Videos.Clear();
+            _Required.Colors.Clear();
         }
 
         protected CSkin(string folder, string file, CTheme parent)
@@ -94,7 +137,7 @@ namespace Vocaluxe.Base.ThemeSystem
         {
             try
             {
-                var xml = new CXmlSerializer();
+                var xml = new CXmlDeserializer();
                 _Data = xml.Deserialize<SSkin>(Path.Combine(_Folder, _FileName));
                 if (_Data.SkinSystemVersion != _SkinSystemVersion)
                 {

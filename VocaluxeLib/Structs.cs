@@ -67,7 +67,7 @@ namespace VocaluxeLib
     [XmlRoot("root")]
     public struct SThemeCover
     {
-        [XmlIgnore] public string Name, Folder, FilePath;
+        [XmlIgnore] public string FolderPath;
         public SThemeCoverInfo Info;
         [XmlElement("CoverGenerator", IsNullable = false)] public List<SThemeCoverGenerator> CoverGenerators;
     }
@@ -365,22 +365,6 @@ namespace VocaluxeLib
         public EGameDifficulty Difficulty;
         public int VoiceNr;
         public int ID;
-    }
-
-    public struct SPartyModeInfos
-    {
-        public int PartyModeID;
-        public string Name;
-        public string Description;
-        public string TargetAudience;
-        public int MaxPlayers;
-        public int MinPlayers;
-        public int MaxTeams;
-        public int MinTeams;
-
-        public string Author;
-        public int VersionMajor;
-        public int VersionMinor;
     }
     #endregion Game
 }

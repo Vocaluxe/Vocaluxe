@@ -40,9 +40,9 @@ namespace Vocaluxe.Base.ThemeSystem
 
         private bool _CheckRequiredElements()
         {
-            List<string> missingTextures = _RequiredTextures.FindAll(name => !_Textures.ContainsKey(name));
-            List<string> missingVideos = _RequiredVideos.FindAll(name => !_Videos.ContainsKey(name));
-            List<string> missingColors = _RequiredColors.FindAll(name => !_Data.Colors.ContainsKey(name));
+            List<string> missingTextures = _Required.Textures.FindAll(name => !_Textures.ContainsKey(name));
+            List<string> missingVideos = _Required.Videos.FindAll(name => !_Videos.ContainsKey(name));
+            List<string> missingColors = _Required.Colors.FindAll(name => !_Data.Colors.ContainsKey(name));
             if (missingTextures.Count + missingVideos.Count + missingColors.Count == 0)
                 return true;
             string msg = "The skin \"" + this + "\" is missing the following elements: ";
