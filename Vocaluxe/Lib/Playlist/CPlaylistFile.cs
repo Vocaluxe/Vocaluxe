@@ -60,10 +60,10 @@ namespace Vocaluxe.Lib.Playlist
                 File = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CConfig.FolderPlaylists), filename + ".xml");
             }
 
-            SPlaylist data=new SPlaylist {Info = {Name = Name}, Songs = Songs.Select(plSong => plSong.ToStruct()).ToArray()};
+            SPlaylist data = new SPlaylist {Info = {Name = Name}, Songs = Songs.Select(plSong => plSong.ToStruct()).ToArray()};
 
             var xml = new CXmlSerializer();
-            xml.Serialize(File,data);
+            xml.Serialize(File, data);
         }
 
         public bool _Load(string file)
@@ -72,17 +72,17 @@ namespace Vocaluxe.Lib.Playlist
             SPlaylist data;
             try
             {
-                var xml = new CXmlSerializer();
+                var xml = new CXmlDeserializer();
                 data = xml.Deserialize<SPlaylist>(File);
             }
             catch (Exception e)
             {
-                CLog.LogError("Cannot load playlist from "+file+": "+e.Message);
+                CLog.LogError("Cannot load playlist from " + file + ": " + e.Message);
                 return false;
             }
             Name = data.Info.Name;
             Songs = new List<CPlaylistSong>();
-            foreach (var songEntry in data.Songs)
+            foreach (SPlaylistSong songEntry in data.Songs)
             {
                 CSong plSong = CSongs.AllSongs.FirstOrDefault(song => song.Artist == songEntry.Artist && song.Title == songEntry.Title);
                 if (plSong == null)

@@ -69,7 +69,7 @@ namespace Vocaluxe.Base.ThemeSystem
         {
             try
             {
-                var xml = new CXmlSerializer();
+                var xml = new CXmlDeserializer();
                 _Data = xml.Deserialize<STheme>(Path.Combine(_Folder, _FileName));
                 if (_Data.ThemeSystemVersion != _ThemeSystemVersion)
                 {

@@ -250,7 +250,7 @@ namespace Vocaluxe.Base
 
         private static void _LoadConfig()
         {
-            var xml = new CXmlSerializer();
+            var xml = new CXmlDeserializer();
             Config = xml.Deserialize<SConfig>(_FileConfig);
 
             if (Config.Game.SongFolder.Length > 0)

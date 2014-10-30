@@ -260,7 +260,7 @@ namespace Vocaluxe.Base.Fonts
             SDefaultFonts defaultFonts;
             try
             {
-                var xml = new CXmlSerializer();
+                var xml = new CXmlDeserializer();
                 defaultFonts = xml.Deserialize<SDefaultFonts>(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameFonts, CSettings.FileNameFonts));
             }
             catch (Exception e)

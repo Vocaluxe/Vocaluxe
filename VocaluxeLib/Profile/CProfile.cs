@@ -89,7 +89,7 @@ namespace VocaluxeLib.Profile
 
         public bool LoadProfile()
         {
-            var xml = new CXmlSerializer();
+            var xml = new CXmlDeserializer();
             try
             {
                 xml.Deserialize(FilePath, this);
@@ -106,11 +106,12 @@ namespace VocaluxeLib.Profile
 
         private bool _ConvertProfile(ref Exception e)
         {
-            var xml = new CXmlSerializer();
+            var xml = new CXmlDeserializer();
+            var ser = new CXmlSerializer();
             try
             {
                 var old = xml.Deserialize<SOldXmlProfile>(FilePath);
-                string newXml = xml.Serialize(old.Info);
+                string newXml = ser.Serialize(old.Info);
                 xml.DeserializeString(newXml, this);
             }
             catch (Exception e2)
