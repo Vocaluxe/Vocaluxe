@@ -394,6 +394,26 @@ namespace VocaluxeTests
         }
 
         [TestMethod]
+        public void TestOnlyList()
+        {
+            const string s = _Head + @"<root>
+  <String>2</String>
+  <String>3</String>
+</root>";
+            _AssertSerDeserMatch<List<string>>(s);
+        }
+
+        [TestMethod]
+        public void TestOnlyDict()
+        {
+            const string s = _Head + @"<root>
+  <String name=""val1"">2</String>
+  <String name=""val2"">3</String>
+</root>";
+            _AssertSerDeserMatch<Dictionary<string, string>>(s);
+        }
+
+        [TestMethod]
         public void TestRealFiles()
         {
             Type[] types = new Type[] {typeof(SThemeCover), typeof(CConfig.SConfig), typeof(SThemeScreen), typeof(SDefaultFonts), typeof(SSkin), typeof(STheme)};
@@ -402,11 +422,19 @@ namespace VocaluxeTests
             {
                 string xmlPath = Path.Combine(filePath, type.Name + ".xml");
                 var xml = new CXmlSerializer(type == typeof(CConfig.SConfig));
-                object foo = xml.Deserialize(xmlPath, Activator.CreateInstance(type));
-                Assert.IsInstanceOfType(foo, type);
+                object foo = null;
+                try
+                {
+                    foo = xml.Deserialize(xmlPath, Activator.CreateInstance(type));
+                }
+                catch (Exception e)
+                {
+                    Assert.Fail("Exception with " + type.Name + ": {0}", new object[] {e.Message});
+                }
+                Assert.IsInstanceOfType(foo, type, "Wrong type with " + type.Name);
                 string newXml = xml.Serialize(foo);
                 string oldXml = File.ReadAllText(xmlPath);
-                Assert.AreEqual(oldXml, newXml, "Error in " + type.Name);
+                Assert.AreEqual(oldXml, newXml, "Error with " + type.Name);
             }
         }
     }

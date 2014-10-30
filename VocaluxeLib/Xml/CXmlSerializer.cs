@@ -83,7 +83,7 @@ namespace VocaluxeLib.Xml
         #endregion Debug Helpers   
 
         #region Deserialization
-        private object _GetValue(XmlNode node, Type type, string arrayItemName = null)
+        private object _GetValue(XmlNode node, Type type, string arrayItemName = null, object result = null)
         {
             if (type.IsEnum)
             {
@@ -106,35 +106,55 @@ namespace VocaluxeLib.Xml
                 if (!node.HasChildNodes)
                     return null;
                 Type subType = type.GetGenericArguments()[0];
-                return _GetValue(node, subType);
+                return _GetValue(node, subType, arrayItemName, result);
             }
             if (type.IsList() || type.IsArray)
             {
                 Type subType = type.IsArray ? type.GetElementType() : type.GetGenericArguments()[0];
                 String subName = arrayItemName ?? subType.GetTypeName();
+                subName = subName.ToLowerInvariant();
                 List<object> subValues = new List<object>();
                 foreach (XmlNode subNode in node.ChildNodes)
                 {
                     if (subNode is XmlComment)
                         continue;
-                    if (subName != subNode.Name && !subNode.Name.StartsWith(subName))
+                    if (subName == subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
                         throw new XmlException("Invalid list entry '" + subNode.Name + "' in " + _GetXPath(node) + "; Expected: " + subName);
                     object subValue = _GetValue(subNode, subType);
                     subValues.Add(subValue);
                 }
-                return _CreateList(type, subValues);
+                if (result == null)
+                    return _CreateList(type, subValues);
+                _FillList(result, type, subValues);
+                return result;
             }
             if (type.IsDictionary())
             {
                 Type subType = type.GetGenericArguments()[1];
-                object dict = Activator.CreateInstance(type);
+                object dict = result ?? Activator.CreateInstance(type);
                 MethodInfo add = type.GetMethod("Add");
+                if (arrayItemName != null)
+                    arrayItemName = arrayItemName.ToLowerInvariant();
                 foreach (XmlNode subNode in node.ChildNodes)
                 {
                     if (subNode is XmlComment)
                         continue;
                     object subValue = _GetValue(subNode, subType);
-                    add.Invoke(dict, new object[] {subNode.Name, subValue});
+                    string subName;
+                    if (arrayItemName != null)
+                    {
+                        if (arrayItemName != subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(arrayItemName))
+                            throw new XmlException("Invalid dictionary entry '" + subNode.Name + "' in " + _GetXPath(node) + "; Expected: " + arrayItemName);
+                        if (subNode.Attributes == null)
+                            throw new XmlException("'name' attribute is missing in " + _GetXPath(subNode));
+                        XmlNode nameAtt = subNode.Attributes.GetNamedItem("name");
+                        if (nameAtt == null)
+                            throw new XmlException("'name' attribute is missing in " + _GetXPath(subNode));
+                        subName = nameAtt.Value;
+                    }
+                    else
+                        subName = subNode.Name;
+                    add.Invoke(dict, new object[] {subName, subValue});
                 }
                 return dict;
             }
@@ -142,7 +162,7 @@ namespace VocaluxeLib.Xml
             object value;
             try
             {
-                value = Activator.CreateInstance(type);
+                value = result ?? Activator.CreateInstance(type);
             }
             catch (Exception)
             {
@@ -193,23 +213,29 @@ namespace VocaluxeLib.Xml
             return true;
         }
 
-        private static object _CreateList(Type type, ICollection values)
+        private static void _FillList(object list, Type type, ICollection values)
         {
+            if (values.Count <= 0)
+                return;
             if (type.IsArray)
             {
-                Array array = Array.CreateInstance(type.GetElementType(), values.Count);
+                Array array = (Array)list;
                 int i = 0;
                 foreach (object value in values)
                     array.SetValue(value, i++);
-                return array;
             }
-            object list = Activator.CreateInstance(type, new object[] {values.Count});
-            if (values.Count > 0)
+            else
             {
                 MethodInfo addMethod = type.GetMethod("Add");
                 foreach (object value in values)
                     addMethod.Invoke(list, new object[] {value});
             }
+        }
+
+        private static object _CreateList(Type type, ICollection values)
+        {
+            object list = type.IsArray ? Array.CreateInstance(type.GetElementType(), values.Count) : Activator.CreateInstance(type, new object[] {values.Count});
+            _FillList(list, type, values);
             return list;
         }
 
@@ -315,7 +341,7 @@ namespace VocaluxeLib.Xml
         #endregion Deserialization
 
         #region Serialization
-        private void _WriteNode(XmlWriter writer, string name, Type type, object value, bool isAttribute, string arrayItemName = null)
+        private void _WriteNode(XmlWriter writer, string name, Type type, object value, bool isAttribute, string arrayItemName = null, string nameAttribute = null)
         {
             if (!isAttribute && _GetCommentCallback != null)
             {
@@ -337,14 +363,23 @@ namespace VocaluxeLib.Xml
                 if (isAttribute)
                     writer.WriteAttributeString(name, strVal);
                 else
-                    writer.WriteElementString(name, strVal);
+                {
+                    writer.WriteStartElement(name);
+                    if (nameAttribute != null)
+                        writer.WriteAttributeString("name", nameAttribute);
+                    if (!string.IsNullOrEmpty(strVal))
+                        writer.WriteValue(strVal);
+                    writer.WriteEndElement();
+                }
             }
             else if (type.IsNullable())
-                _WriteNode(writer, name, type.GetGenericArguments()[0], value, isAttribute, arrayItemName);
+                _WriteNode(writer, name, type.GetGenericArguments()[0], value, isAttribute, arrayItemName, nameAttribute);
             else if (type.IsList() || type.IsArray)
             {
                 Debug.Assert(!isAttribute, "Lists cannot be attributes");
                 writer.WriteStartElement(name);
+                if (nameAttribute != null)
+                    writer.WriteAttributeString("name", nameAttribute);
                 Type subType = type.IsArray ? type.GetElementType() : type.GetGenericArguments()[0];
                 String subName = arrayItemName ?? subType.GetTypeName();
                 IEnumerable list = (IEnumerable)value;
@@ -356,16 +391,34 @@ namespace VocaluxeLib.Xml
             {
                 Debug.Assert(!isAttribute, "Dictionaries cannot be attributes");
                 writer.WriteStartElement(name);
+                if (nameAttribute != null)
+                    writer.WriteAttributeString("name", nameAttribute);
                 Type subType = type.GetGenericArguments()[1];
                 IDictionary dict = (IDictionary)value;
                 foreach (DictionaryEntry entry in dict)
-                    _WriteNode(writer, (string)entry.Key, subType, entry.Value, false);
+                {
+                    string subName;
+                    string subNameAttribute;
+                    if (arrayItemName == null)
+                    {
+                        subName = (string)entry.Key;
+                        subNameAttribute = null;
+                    }
+                    else
+                    {
+                        subName = arrayItemName;
+                        subNameAttribute = (string)entry.Key;
+                    }
+                    _WriteNode(writer, subName, subType, entry.Value, false, null, subNameAttribute);
+                }
                 writer.WriteEndElement();
             }
             else
             {
                 Debug.Assert(!isAttribute, "Complex types cannot be attributes");
                 writer.WriteStartElement(name);
+                if (nameAttribute != null)
+                    writer.WriteAttributeString("name", nameAttribute);
                 if (value != null)
                     _WriteChildNodes(writer, value);
                 writer.WriteEndElement();
@@ -405,7 +458,7 @@ namespace VocaluxeLib.Xml
                 throw new XmlException("No root element found!");
             try
             {
-                _ReadChildNodes(xDoc.DocumentElement, ref result, false);
+                result = _GetValue(xDoc.DocumentElement, typeof(T), typeof(T).GetSubTypeName(), result);
             }
             catch (TargetInvocationException e)
             {
@@ -476,12 +529,16 @@ namespace VocaluxeLib.Xml
                 else
                     name = "root";
             }
-            writer.WriteStartDocument();
-            writer.WriteStartElement(name);
-            _WriteChildNodes(writer, o);
-            writer.WriteEndElement();
-            writer.WriteEndDocument();
-            writer.Flush();
+            try
+            {
+                writer.WriteStartDocument();
+                _WriteNode(writer, name, o.GetType(), o, false, o.GetType().GetSubTypeName());
+                writer.WriteEndDocument();
+            }
+            finally
+            {
+                writer.Flush();
+            }
         }
 
         public void Serialize(string filePath, object o)

@@ -93,6 +93,23 @@ namespace VocaluxeLib.Xml
         private static readonly Dictionary<Type, List<SFieldInfo>> _CacheFields = new Dictionary<Type, List<SFieldInfo>>();
         private static readonly Dictionary<Type, String> _CacheTypeName = new Dictionary<Type, string>();
 
+        /// <summary>
+        ///     Gets the name of the subType (e.g. list/array element) if any
+        /// </summary>
+        /// <param name="type">Xml type name of the subType or null if no subType</param>
+        /// <returns></returns>
+        public static string GetSubTypeName(this Type type)
+        {
+            Type subType;
+            if (type.IsGenericType)
+                subType = type.GetGenericArguments().Last();
+            else if (type.IsArray)
+                subType = type.GetElementType();
+            else
+                return null;
+            return subType.GetTypeName();
+        }
+
         private static void _FillInfo(ref SFieldInfo info, MemberInfo field)
         {
             XmlAttributeAttribute attribute = field.GetAttribute<XmlAttributeAttribute>();
@@ -126,7 +143,7 @@ namespace VocaluxeLib.Xml
 
             if (info.Type.IsGenericType)
                 info.SubType = info.Type.GetGenericArguments().Last();
-            if (info.Type.IsArray)
+            else if (info.Type.IsArray)
                 info.SubType = info.Type.GetElementType();
             if (info.Type.IsList() || info.Type.IsArray)
             {
