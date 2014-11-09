@@ -30,6 +30,11 @@ namespace ServerLib
             UriTemplate = "/sendKeyEvent?key={key}")]
         void SendKeyEvent(string key);
 
+        [OperationContract, WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/sendKeyStringEvent?keyString={keyString}")]
+        void SendKeyStringEvent(string keyString);
+
         #region profile
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,

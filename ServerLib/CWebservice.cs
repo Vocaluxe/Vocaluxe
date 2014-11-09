@@ -58,6 +58,23 @@ namespace ServerLib
                 CServer.SendKeyEvent(key);
         }
 
+        public void SendKeyStringEvent(string keyString)
+        {
+            if (!_CheckRight(EUserRights.UseKeyboard))
+                return;
+
+            if (CServer.SendKeyStringEvent == null)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not found";
+                }
+            }
+            else
+                CServer.SendKeyStringEvent(keyString);
+        }
+
         #region profile
         public int GetOwnProfileId()
         {

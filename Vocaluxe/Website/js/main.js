@@ -26,11 +26,11 @@
     function preStart() {
         translator.translationLoaded.done(function () {
             translator.translate();
-            
+
             sessionHandler = new SessionHandler();
             imageLoader = new ImageLoader();
             externalServices = new ExternalServices();
-            pageHandler = new PageHandler();            
+            pageHandler = new PageHandler();
 
             pageHandler.init();
         });
@@ -154,7 +154,7 @@
             }
         };
     }
-   
+
     function ExternalServices() {
         var popupVideoHeight = 390;
         var popupVideoWidth = 640;
@@ -190,7 +190,7 @@
                     'height': h - (ifrPadding + ifrBorder)
                 };
             }
-            
+
             $("#popupVideo").find("a").click(function () {
                 $("#popupVideo").popup("close");
                 $("#popupVideo").popup("close"); //Sometimes twice??
@@ -316,9 +316,9 @@
         };
 
         this.reset = function () {
-           this.customSelectPlaylistSongCallback = null;
-           this.profileIdRequest = -1;
-           this.songIdRequest = -1;
+            this.customSelectPlaylistSongCallback = null;
+            this.profileIdRequest = -1;
+            this.songIdRequest = -1;
         };
 
         var replaceTransitionHandler = function () {
@@ -693,17 +693,21 @@
                 });
 
                 $('#keyboardButtonKeys').keyup(function (e) {
-                    var c = String.fromCharCode(e.keyCode);
-                    if (c.match(/\w/)) {
-                        c = e.keyCode >= 65 ? c.toLowerCase() : c;
-                        request({
-                            url: "sendKeyEvent?key=" + c
-                        });
+                    var text = $('#keyboardButtonKeys')[0].value;
+
+                    $('#keyboardButtonKeys')[0].value = "";
+                    if (text.length <= 0) {
+                        return;
                     }
-                    var oldText = $('#keyboardButtonKeys')[0].value;
-                    if (oldText.length > 0) {
-                        $('#keyboardButtonKeys')[0].value = oldText.slice(1);
-                    }
+
+                    request({
+                        contentType: "application/json;charset=utf-8",
+                        type: "GET",
+                        url: "sendKeyStringEvent?keyString=" + text
+                    }).fail(function () {
+                        $('#keyboardButtonKeys')[0].value = text + $('#keyboardButtonKeys')[0].value;
+                    });
+
                 });
             };
 
@@ -812,7 +816,7 @@
                 }
             };
 
-            var handleDisplayProfileData = function(data) {
+            var handleDisplayProfileData = function (data) {
                 $('#playerName').prop("value", data.PlayerName);
 
                 imageLoader.addImage($('#playerAvatar')[0], data.Avatar, "img/profile.png");
@@ -829,19 +833,19 @@
                     $('#playerPassword').prop('disabled', false).prop("value", "***__oldPassword__***").parent().show();
                     $('#playerPasswordLabel').show();
 
-                    $('#playerAvatar').click(function() {
+                    $('#playerAvatar').click(function () {
                         if ($('#captureContainer').length > 0) {
                             $('#captureContainer').remove();
                         }
 
                         if (document.location.protocol == "file:"
-                            && typeof(navigator) != 'undefined'
-                            && typeof(navigator.camera) != 'undefined'
-                            && typeof(navigator.camera.getPicture) != 'undefined') {
-                            navigator.camera.getPicture(function(imageData) {
+                            && typeof (navigator) != 'undefined'
+                            && typeof (navigator.camera) != 'undefined'
+                            && typeof (navigator.camera.getPicture) != 'undefined') {
+                            navigator.camera.getPicture(function (imageData) {
                                 $('#playerAvatar').prop("src", "data:image/jpeg;base64," + imageData);
                                 $('#playerAvatar').data("changed", true);
-                            }, function() {
+                            }, function () {
                                 //Fail - do nothing
                             }, {
                                 destinationType: navigator.camera.DestinationType.DATA_URL,
@@ -854,11 +858,11 @@
                         } else {
                             $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture> </div>');
 
-                            $('#capture').change(function(eventData) {
+                            $('#capture').change(function (eventData) {
                                 if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
                                     var file = eventData.target.files[0];
                                     var reader = new FileReader();
-                                    reader.onloadend = function(e) {
+                                    reader.onloadend = function (e) {
                                         $('#playerAvatar').prop("src", e.target.result);
                                         $('#playerAvatar').data("changed", true);
                                         $('#captureContainer').remove();
@@ -1358,25 +1362,25 @@
         this.sessionId = "";
         this.serverBaseAddress = "";
 
-        var init = function() {
+        var init = function () {
             initHeartbeat();
         };
 
         this.logout = function () {
             this.ownProfileId = -1;
-            
+
             this.sessionId = "";
-            
-            pageHandler.reset();            
+
+            pageHandler.reset();
 
             if (window.localStorage) {
                 window.localStorage.setItem("VocaluxeSessionKey", "");
             }
             $.mobile.changePage("#login", { transition: "slidefade" });
         };
-        
-        
-        var checkSession = function() {
+
+
+        var checkSession = function () {
             if (ownProfileId == -1
                 && profileIdRequest == -1
                 && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
@@ -1393,10 +1397,10 @@
             });
         };
 
-        var initHeartbeat = function() {
+        var initHeartbeat = function () {
             setInterval(checkSession, 20000);
         };
-        
+
         init();
     }
 

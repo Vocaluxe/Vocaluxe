@@ -64,6 +64,7 @@ namespace Vocaluxe.Base.Server
             _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
 
             CServer.SendKeyEvent = _SendKeyEvent;
+            CServer.SendKeyStringEvent = _sendKeyStringEvent;
             CServer.GetProfileData = _GetProfileData;
             CServer.SendProfileData = _SendProfileData;
             CServer.GetProfileList = _GetProfileList;
@@ -184,6 +185,31 @@ namespace Vocaluxe.Base.Server
             }
 
             return result;
+        }
+
+        private static bool _sendKeyStringEvent(string keyString)
+        {
+            bool result = false;
+            
+            foreach (var key in keyString.ToCharArray())
+            {
+                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, Char.IsUpper(key), false, false, key, _ParseKeys(key)));
+                result = true;
+            }
+
+            return result;
+        }
+
+        private static Keys _ParseKeys(char keyText)
+        {
+            Keys key;
+
+            if (!Enum.TryParse(keyText.ToString(), true, out key))
+            {
+                key = Keys.None;
+            }
+
+            return key;
         }
 
         #region profile

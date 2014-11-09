@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 namespace ServerLib
 {
     public delegate bool SendKeyEventDelegate(string key);
+    public delegate bool SendKeyStringEventDelegate(string keyString);
 
     #region profile
     public delegate SProfileData GetProfileDataDelegate(int profileId, bool isReadonly);
