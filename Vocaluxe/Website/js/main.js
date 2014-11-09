@@ -1355,10 +1355,10 @@
         this.ownProfileId = -1;
         this.sessionId = "";
         this.serverBaseAddress = "";
-		
-		var init = function(){
-			initHeartbeat();
-		}
+
+        var init = function() {
+            initHeartbeat();
+        };
 
         this.logout = function () {
             this.ownProfileId = -1;
@@ -1372,30 +1372,30 @@
             }
             $.mobile.changePage("#login", { transition: "slidefade" });
         };
-		
-		
-		var checkSession = function() {
-			if (ownProfileId == -1
-				&& profileIdRequest == -1
-				&& ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
-				return;
-			}
-			request({
-				url: "getOwnProfileId"
-			}, "noOverlay").done(function (result) {
-				if (result == -1) {
-					this.logout();
-				}
-			}).fail(function (result) {
-				this.logout();
-			});
-		};
+        
+        
+        var checkSession = function() {
+            if (ownProfileId == -1
+                && profileIdRequest == -1
+                && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
+                return;
+            }
+            request({
+                url: "getOwnProfileId"
+            }, "noOverlay").done(function (result) {
+                if (result == -1) {
+                    this.logout();
+                }
+            }).fail(function (result) {
+                this.logout();
+            });
+        };
 
-		var initHeartbeat = function() {
-			setInterval(checkSession, 20000);
-		};
-		
-		init();
+        var initHeartbeat = function() {
+            setInterval(checkSession, 20000);
+        };
+        
+        init();
     }
 
     initMain();
