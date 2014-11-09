@@ -1,4 +1,6 @@
-﻿(function () {
+﻿/// <reference path="../index.html" />
+/// <reference path="../index.html" />
+(function () {
     var imageLoader;
     var externalServices;
     var translator;
