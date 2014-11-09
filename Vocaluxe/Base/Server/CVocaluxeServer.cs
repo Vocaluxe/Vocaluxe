@@ -193,7 +193,7 @@ namespace Vocaluxe.Base.Server
             
             foreach (var key in keyString.ToCharArray())
             {
-                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, Char.IsUpper(key), false, false, key, _ParseKeys(key)));
+                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, Char.IsUpper(key), false, true, key, _ParseKeys(key)));
                 result = true;
             }
 
