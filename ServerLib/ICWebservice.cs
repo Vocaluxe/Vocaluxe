@@ -32,8 +32,8 @@ namespace ServerLib
 
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/sendKeyStringEvent?keyString={keyString}")]
-        void SendKeyStringEvent(string keyString);
+            UriTemplate = "/sendKeyStringEvent?keyString={keyString}&shift={isShiftPressed}&alt={isAltPressed}&ctrl={isCtrlPressed}")]
+        void SendKeyStringEvent(string keyString, bool isShiftPressed = false, bool isAltPressed = false, bool isCtrlPressed = false);
 
         #region profile
         [OperationContract, WebInvoke(Method = "GET",

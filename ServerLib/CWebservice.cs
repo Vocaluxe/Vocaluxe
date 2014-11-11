@@ -58,7 +58,7 @@ namespace ServerLib
                 CServer.SendKeyEvent(key);
         }
 
-        public void SendKeyStringEvent(string keyString)
+        public void SendKeyStringEvent(string keyString, bool isShiftPressed = false, bool isAltPressed = false, bool isCtrlPressed = false)
         {
             if (!_CheckRight(EUserRights.UseKeyboard))
                 return;
@@ -72,7 +72,7 @@ namespace ServerLib
                 }
             }
             else
-                CServer.SendKeyStringEvent(keyString);
+                CServer.SendKeyStringEvent(keyString, isShiftPressed, isAltPressed, isCtrlPressed);
         }
 
         #region profile

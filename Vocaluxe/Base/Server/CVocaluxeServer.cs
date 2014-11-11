@@ -126,9 +126,11 @@ namespace Vocaluxe.Base.Server
         private static bool _SendKeyEvent(string key)
         {
             bool result = false;
-            if (!string.IsNullOrEmpty(key))
+            var lowerKey = key.ToLower();
+
+            if (!string.IsNullOrEmpty(lowerKey))
             {
-                switch (key.ToLower())
+                switch (lowerKey)
                 {
                     case "up":
                         Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Up));
@@ -158,25 +160,22 @@ namespace Vocaluxe.Base.Server
                         Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Tab));
                         result = true;
                         break;
+                    case "backspace":
+                        Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, Keys.Back));
+                        result = true;
+                        break;
                     default:
-                        foreach (char c in key)
+                        if (lowerKey.StartsWith("f"))
                         {
-                            bool shift = true;
-                            char keyChar;
-                            if (char.ToUpper(c) != c)
-                            {
-                                keyChar = char.ToUpper(c);
-                                shift = false;
-                            }
-                            else
-                                keyChar = c;
+                            var numberString = lowerKey.Substring(1);
+                            int number;
+                            Keys fKey;
 
-                            if ((keyChar >= '0' && keyChar <= '9') || (keyChar >= 'A' && keyChar <= 'Z'))
+                            if (Int32.TryParse(numberString, out number) && number >= 1 
+                                && number <= 12 
+                                && Enum.TryParse("F" + number, true, out fKey))
                             {
-                                Keys keys = (Keys)keyChar;
-                                if (shift)
-                                    keys |= Keys.Shift;
-                                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, keys));
+                                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, fKey));
                                 result = true;
                             }
                         }
@@ -187,13 +186,17 @@ namespace Vocaluxe.Base.Server
             return result;
         }
 
-        private static bool _sendKeyStringEvent(string keyString)
+        private static bool _sendKeyStringEvent(string keyString, bool isShiftPressed , bool isAltPressed , bool isCtrlPressed )
         {
             bool result = false;
-            
+
             foreach (var key in keyString.ToCharArray())
             {
-                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, Char.IsUpper(key), false, true, key, _ParseKeys(key)));
+                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, isAltPressed, 
+                    Char.IsUpper(key) || isShiftPressed,
+                    isCtrlPressed, true,
+                    isShiftPressed?Char.ToUpper(key) :key,
+                    _ParseKeys(key)));
                 result = true;
             }
 
@@ -206,7 +209,15 @@ namespace Vocaluxe.Base.Server
 
             if (!Enum.TryParse(keyText.ToString(), true, out key))
             {
-                key = Keys.None;
+                switch (keyText)
+                {
+                    case ' ':
+                        key = Keys.Space;
+                        break;
+                    default:
+                        key = Keys.None;
+                        break;
+                }
             }
 
             return key;
