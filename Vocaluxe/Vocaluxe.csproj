@@ -509,7 +509,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"</PostBuildEvent>
+    <PostBuildEvent>xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
+powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\()(.*)(?=\))', '\"GITVERSION\"'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

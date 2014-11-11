@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Windows.Forms;
 using VocaluxeLib;
 
 namespace Vocaluxe.Base
@@ -180,8 +181,11 @@ namespace Vocaluxe.Base
 
             // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (VersionRevision != ERevision.Release)
+            {
                 // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                version += " " + _GetVersionStatus() + String.Format(" ({0:0000)}", _Assembly.Version.Revision);
+                var gitversion = Application.ProductVersion;
+                version += " " + _GetVersionStatus() + String.Format(" ({0})", gitversion);
+            }
 
             return version;
         }
