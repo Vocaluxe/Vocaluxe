@@ -80,5 +80,7 @@
     "keyboardButtonShift":  "Umschalt",
     "keyboardButtonAlt":  "Alt",
     "keyboardButtonCtrl": "Steuerung",
-    "keyboardButtonBackspace":  "Rücktaste"
+    "keyboardButtonBackspace": "Rücktaste",
+    "keyboardAutoSend": "Tasten autom. senden",
+    "keyboardButtonSend":  "Senden"
 }

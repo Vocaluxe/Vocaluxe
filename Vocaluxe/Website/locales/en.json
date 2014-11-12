@@ -80,5 +80,7 @@
     "keyboardButtonShift":  "Shift",
     "keyboardButtonAlt":  "Alt",
     "keyboardButtonCtrl": "Control",
-    "keyboardButtonBackspace":  "Backspace"
+    "keyboardButtonBackspace": "Backspace",
+    "keyboardAutoSend": "Auto send keys",
+    "keyboardButtonSend":  "Send"
 }
