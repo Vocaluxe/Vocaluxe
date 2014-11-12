@@ -26,11 +26,11 @@
     function preStart() {
         translator.translationLoaded.done(function () {
             translator.translate();
-            
+
             sessionHandler = new SessionHandler();
             imageLoader = new ImageLoader();
             externalServices = new ExternalServices();
-            pageHandler = new PageHandler();            
+            pageHandler = new PageHandler();
 
             pageHandler.init();
         });
@@ -154,7 +154,7 @@
             }
         };
     }
-   
+
     function ExternalServices() {
         var popupVideoHeight = 390;
         var popupVideoWidth = 640;
@@ -190,7 +190,7 @@
                     'height': h - (ifrPadding + ifrBorder)
                 };
             }
-            
+
             $("#popupVideo").find("a").click(function () {
                 $("#popupVideo").popup("close");
                 $("#popupVideo").popup("close"); //Sometimes twice??
@@ -300,6 +300,8 @@
         var songPageHandler;
         var playlistPageHandler;
 
+        var t = this;
+
         this.customSelectPlaylistSongCallback = null;
         this.profileIdRequest = -1;
         this.songIdRequest = -1;
@@ -316,9 +318,9 @@
         };
 
         this.reset = function () {
-           this.customSelectPlaylistSongCallback = null;
-           this.profileIdRequest = -1;
-           this.songIdRequest = -1;
+            t.customSelectPlaylistSongCallback = null;
+            t.profileIdRequest = -1;
+            t.songIdRequest = -1;
         };
 
         var replaceTransitionHandler = function () {
@@ -639,7 +641,6 @@
 
         var KeyboardPageHandler = function () {
             var init = function () {
-
                 initKeyboardPageHandler();
             };
 
@@ -686,25 +687,64 @@
                     });
                 });
 
-                $('#keyboardButtonP').click(function () {
+                $('#keyboardButtonBackspace').click(function () {
                     request({
-                        url: "sendKeyEvent?key=p"
+                        url: "sendKeyEvent?key=backspace"
                     });
                 });
 
-                $('#keyboardButtonKeys').keyup(function (e) {
-                    var c = String.fromCharCode(e.keyCode);
-                    if (c.match(/\w/)) {
-                        c = e.keyCode >= 65 ? c.toLowerCase() : c;
-                        request({
-                            url: "sendKeyEvent?key=" + c
-                        });
-                    }
-                    var oldText = $('#keyboardButtonKeys')[0].value;
-                    if (oldText.length > 0) {
-                        $('#keyboardButtonKeys')[0].value = oldText.slice(1);
+                $("#keyboardAutoSend").change(function () {
+                    if ($('#keyboardAutoSend').is(':checked')) {
+                        $('#keyboardButtonSend').hide();
+                    } else {
+                        $('#keyboardButtonSend').show();
                     }
                 });
+
+                $('#keyboardButtonSend').click(function () {
+                    sendKeyboardText();
+                });
+
+                $('#keyboardButtonKeys').keyup(function (e) {
+                    if (!$('#keyboardAutoSend').is(':checked') && e.keyCode != 13) {
+                        return;
+                    }
+                    sendKeyboardText();
+                });
+
+                function sendKeyboardText() {
+                    var text = $('#keyboardButtonKeys')[0].value;
+
+                    if (text.length <= 0) {
+                        return;
+                    }
+
+                    $('#keyboardButtonKeys')[0].value = "";
+                    $('#keyboardButtonKeys').first().focus();
+
+                    /* if ($('#keyboardButtonFunct').is(':checked')) {
+                         $('#keyboardButtonKeys')[0].value = text.splice(1) + $('#keyboardButtonKeys')[0].value;
+                         var numericElements = /^[0-9][0-9]?/.exec(text.charAt(0));
+                         if (parseInt(numericElements)) {
+                         request({
+                                 url: "sendKeyEvent?key=F" + numericElements
+                         });
+                     }
+                         $("#keyboardButtonFunct").attr("checked", false).checkboxradio("refresh");
+                     }*/
+
+                    request({
+                        contentType: "application/json;charset=utf-8",
+                        type: "GET",
+                        url: "sendKeyStringEvent?keyString=" + text
+                            + "&shift=" + $('#keyboardButtonShift').is(':checked')
+                            + "&alt=" + $('#keyboardButtonAlt').is(':checked')
+                            + "&ctrl=" + $('#keyboardButtonCtrl').is(':checked')
+
+                    }).fail(function () {
+                        $('#keyboardButtonKeys')[0].value = text + $('#keyboardButtonKeys')[0].value;
+                    });
+                }
             };
 
             init();
@@ -812,7 +852,7 @@
                 }
             };
 
-            var handleDisplayProfileData = function(data) {
+            var handleDisplayProfileData = function (data) {
                 $('#playerName').prop("value", data.PlayerName);
 
                 imageLoader.addImage($('#playerAvatar')[0], data.Avatar, "img/profile.png");
@@ -829,19 +869,19 @@
                     $('#playerPassword').prop('disabled', false).prop("value", "***__oldPassword__***").parent().show();
                     $('#playerPasswordLabel').show();
 
-                    $('#playerAvatar').click(function() {
+                    $('#playerAvatar').click(function () {
                         if ($('#captureContainer').length > 0) {
                             $('#captureContainer').remove();
                         }
 
                         if (document.location.protocol == "file:"
-                            && typeof(navigator) != 'undefined'
-                            && typeof(navigator.camera) != 'undefined'
-                            && typeof(navigator.camera.getPicture) != 'undefined') {
-                            navigator.camera.getPicture(function(imageData) {
+                            && typeof (navigator) != 'undefined'
+                            && typeof (navigator.camera) != 'undefined'
+                            && typeof (navigator.camera.getPicture) != 'undefined') {
+                            navigator.camera.getPicture(function (imageData) {
                                 $('#playerAvatar').prop("src", "data:image/jpeg;base64," + imageData);
                                 $('#playerAvatar').data("changed", true);
-                            }, function() {
+                            }, function () {
                                 //Fail - do nothing
                             }, {
                                 destinationType: navigator.camera.DestinationType.DATA_URL,
@@ -854,11 +894,11 @@
                         } else {
                             $(document.body).append('<div id="captureContainer" style="height: 0px;width:0px; overflow:hidden;"> <input type="file" accept="image/*" id="capture" capture> </div>');
 
-                            $('#capture').change(function(eventData) {
+                            $('#capture').change(function (eventData) {
                                 if (eventData && eventData.target && eventData.target.files && eventData.target.files.length == 1) {
                                     var file = eventData.target.files[0];
                                     var reader = new FileReader();
-                                    reader.onloadend = function(e) {
+                                    reader.onloadend = function (e) {
                                         $('#playerAvatar').prop("src", e.target.result);
                                         $('#playerAvatar').data("changed", true);
                                         $('#captureContainer').remove();
@@ -1358,27 +1398,29 @@
         this.sessionId = "";
         this.serverBaseAddress = "";
 
-        var init = function() {
+        var t = this;
+
+        var init = function () {
             initHeartbeat();
         };
 
         this.logout = function () {
-            this.ownProfileId = -1;
-            
-            this.sessionId = "";
-            
-            pageHandler.reset();            
+            t.ownProfileId = -1;
+
+            t.sessionId = "";
+
+            pageHandler.reset();
 
             if (window.localStorage) {
                 window.localStorage.setItem("VocaluxeSessionKey", "");
             }
             $.mobile.changePage("#login", { transition: "slidefade" });
         };
-        
-        
-        var checkSession = function() {
-            if (ownProfileId == -1
-                && profileIdRequest == -1
+
+
+        var checkSession = function () {
+            if (t.ownProfileId == -1
+                && pageHandler.profileIdRequest == -1
                 && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
                 return;
             }
@@ -1386,17 +1428,17 @@
                 url: "getOwnProfileId"
             }, "noOverlay").done(function (result) {
                 if (result == -1) {
-                    this.logout();
+                    t.logout();
                 }
             }).fail(function (result) {
-                this.logout();
+                t.logout();
             });
         };
 
-        var initHeartbeat = function() {
+        var initHeartbeat = function () {
             setInterval(checkSession, 20000);
         };
-        
+
         init();
     }
 
