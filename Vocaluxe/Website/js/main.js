@@ -688,24 +688,45 @@
                     });
                 });
 
-                $('#keyboardButtonP').click(function () {
+                $('#keyboardButtonBackspace').click(function () {
                     request({
-                        url: "sendKeyEvent?key=p"
+                        url: "sendKeyEvent?key=backspace"
                     });
                 });
 
+
                 $('#keyboardButtonKeys').keyup(function (e) {
-                    var c = String.fromCharCode(e.keyCode);
-                    if (c.match(/\w/)) {
-                        c = e.keyCode >= 65 ? c.toLowerCase() : c;
+                    var text = $('#keyboardButtonKeys')[0].value;
+
+                    $('#keyboardButtonKeys')[0].value = "";
+                    if (text.length <= 0) {
+                        return;
+                    }
+
+
+                   /* if ($('#keyboardButtonFunct').is(':checked')) {
+                        $('#keyboardButtonKeys')[0].value = text.splice(1) + $('#keyboardButtonKeys')[0].value;
+                        var numericElements = /^[0-9][0-9]?/.exec(text.charAt(0));
+                        if (parseInt(numericElements)) {
                         request({
-                            url: "sendKeyEvent?key=" + c
+                                url: "sendKeyEvent?key=F" + numericElements
                         });
                     }
-                    var oldText = $('#keyboardButtonKeys')[0].value;
-                    if (oldText.length > 0) {
-                        $('#keyboardButtonKeys')[0].value = oldText.slice(1);
-                    }
+                        $("#keyboardButtonFunct").attr("checked", false).checkboxradio("refresh");
+                    }*/
+
+                    request({
+                        contentType: "application/json;charset=utf-8",
+                        type: "GET",
+                        url: "sendKeyStringEvent?keyString=" + text
+                            + "&shift=" + $('#keyboardButtonShift').is(':checked')
+                            + "&alt=" + $('#keyboardButtonAlt').is(':checked')
+                            + "&ctrl=" + $('#keyboardButtonCtrl').is(':checked')
+
+                    }).fail(function () {
+                        $('#keyboardButtonKeys')[0].value = text + $('#keyboardButtonKeys')[0].value;
+                    });
+
                 });
             };
 
