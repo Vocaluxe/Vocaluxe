@@ -300,6 +300,8 @@
         var songPageHandler;
         var playlistPageHandler;
 
+        var t = this;
+
         this.customSelectPlaylistSongCallback = null;
         this.profileIdRequest = -1;
         this.songIdRequest = -1;
@@ -316,9 +318,9 @@
         };
 
         this.reset = function () {
-           this.customSelectPlaylistSongCallback = null;
-           this.profileIdRequest = -1;
-           this.songIdRequest = -1;
+            t.customSelectPlaylistSongCallback = null;
+            t.profileIdRequest = -1;
+            t.songIdRequest = -1;
         };
 
         var replaceTransitionHandler = function () {
@@ -1358,14 +1360,16 @@
         this.sessionId = "";
         this.serverBaseAddress = "";
 
+        var t = this;
+
         var init = function() {
             initHeartbeat();
         };
 
         this.logout = function () {
-            this.ownProfileId = -1;
+            t.ownProfileId = -1;
             
-            this.sessionId = "";
+            t.sessionId = "";
             
             pageHandler.reset();            
 
@@ -1377,8 +1381,8 @@
         
         
         var checkSession = function() {
-            if (ownProfileId == -1
-                && profileIdRequest == -1
+            if (t.ownProfileId == -1
+                && pageHandler.profileIdRequest == -1
                 && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
                 return;
             }
@@ -1386,10 +1390,10 @@
                 url: "getOwnProfileId"
             }, "noOverlay").done(function (result) {
                 if (result == -1) {
-                    this.logout();
+                    t.logout();
                 }
             }).fail(function (result) {
-                this.logout();
+                t.logout();
             });
         };
 
