@@ -43,9 +43,12 @@ namespace Vocaluxe.Base
 
         // ReSharper disable UnassignedField.Global
 #pragma warning disable 649
+        // ReSharper disable MemberCanBePrivate.Global
         public struct SConfigInfo
+            // ReSharper restore MemberCanBePrivate.Global
         {
             // ReSharper disable NotAccessedField.Global
+            // ReSharper disable NotAccessedField.Local
             public string Version;
             public string Time;
             public string Platform;
@@ -54,6 +57,7 @@ namespace Vocaluxe.Base
             public int Screens;
             public string PrimaryScreenResolution;
             public string Directory;
+            // ReSharper restore NotAccessedField.Local
             // ReSharper restore NotAccessedField.Global
         }
 
@@ -248,10 +252,20 @@ namespace Vocaluxe.Base
             _Initialized = true;
         }
 
+        private static bool _XmlErrorsOccured;
+
+        private static void _HandleXmlError(CXmlException e)
+        {
+            _XmlErrorsOccured = true;
+        }
+
         private static void _LoadConfig()
         {
-            var xml = new CXmlDeserializer();
+            _XmlErrorsOccured = false;
+            var xml = new CXmlDeserializer(new CXmlErrorHandler(_HandleXmlError));
             Config = xml.Deserialize<SConfig>(_FileConfig);
+            if (_XmlErrorsOccured)
+                CLog.LogError("There were some warnings or errors loading the config file. Some values might have been reset to their defaults.");
 
             if (Config.Game.SongFolder.Length > 0)
             {

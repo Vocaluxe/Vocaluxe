@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Xml;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;

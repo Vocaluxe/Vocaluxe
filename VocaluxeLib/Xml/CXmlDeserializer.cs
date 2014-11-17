@@ -18,7 +18,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -28,7 +27,7 @@ using System.Xml;
 
 namespace VocaluxeLib.Xml
 {
-    public class CXmlDeserializer
+    public class CXmlException : Exception
     {
         #region Debug Helpers
         /// <summary>
@@ -87,13 +86,105 @@ namespace VocaluxeLib.Xml
         }
         #endregion Debug Helpers
 
+        private readonly XmlNode _Node;
+        public readonly bool IsError;
+
+        public CXmlException(string msg, XmlNode node, bool isError = true)
+            : base(msg)
+        {
+            IsError = isError;
+            _Node = node;
+        }
+
+        public override string Message
+        {
+            get { return ToString(); }
+        }
+
+        public override String ToString()
+        {
+            string xPath = _Node == null ? "" : _GetXPath(_Node);
+            string type = IsError ? "Error" : "Warning";
+            return type + ": " + base.Message.Replace("%n", xPath);
+        }
+    }
+
+    public class CXmlInvalidValueException : CXmlException
+    {
+        private readonly string _Value;
+
+        public CXmlInvalidValueException(string msg, XmlNode node, string value, bool isError = true) : base(msg, node, isError)
+        {
+            _Value = value;
+        }
+
+        public override String ToString()
+        {
+            return base.ToString().Replace("%v", _Value);
+        }
+    }
+
+    public interface IXmlErrorHandler
+    {
+        /// <summary>
+        ///     Gets called for every error that occurs during xml reading.
+        ///     Recommended way of handling is throwing that error and log it<br />
+        ///     However if the function returns without throwing a fallback solution is applied to continue reading where possible e.g. by using default values or ignoring the element
+        /// </summary>
+        /// <param name="e">Error that would be thrown</param>
+        void HandleError(CXmlException e);
+    }
+
+    /// <summary>
+    ///     Class for simple construction of error handlers by using a delegate
+    /// </summary>
+    public class CXmlErrorHandler : IXmlErrorHandler
+    {
+        public delegate void HandleErrorDelegate(CXmlException e);
+
+        private readonly HandleErrorDelegate _HandleError;
+
+        public CXmlErrorHandler(HandleErrorDelegate handleError)
+        {
+            _HandleError = handleError;
+        }
+
+        public void HandleError(CXmlException e)
+        {
+            _HandleError(e);
+        }
+    }
+
+    public class CXmlDeserializer
+    {
+        private class CXmlDefaultErrorHandler : IXmlErrorHandler
+        {
+            public void HandleError(CXmlException e)
+            {
+                if (e.IsError)
+                    throw e;
+                CBase.Log.LogError(e.ToString());
+            }
+        }
+
+        private readonly IXmlErrorHandler _ErrorHandler;
+
+        /// <summary>
+        ///     Creates a new XmlDeserializer
+        /// </summary>
+        /// <param name="errorHandler">Class to be used for error callbacks, if not given a default handler will be used which throws errors and logs warnings</param>
+        public CXmlDeserializer(IXmlErrorHandler errorHandler = null)
+        {
+            _ErrorHandler = errorHandler ?? new CXmlDefaultErrorHandler();
+        }
+
         /// <summary>
         ///     Returns the value if the given node
         /// </summary>
         /// <param name="node">Node to process</param>
         /// <param name="type">Type of the object at that node</param>
         /// <param name="subName">Name of the sub nodes for array types(Array,List,Dictionary), can be set by XmlArrayItemAttribute and defaults to the type name</param>
-        /// <param name="value">If given, no new class is created and value is used instead</param>
+        /// <param name="value">If given, no new class is created and value is used instead, also used as default value</param>
         /// <returns></returns>
         private object _GetValue(XmlNode node, Type type, string subName = null, object value = null)
         {
@@ -106,13 +197,14 @@ namespace VocaluxeLib.Xml
                 }
                 catch (Exception)
                 {
-                    throw new XmlException("Invalid value in " + _GetXPath(node));
+                    _ErrorHandler.HandleError(new CXmlInvalidValueException("Invalid value '%v' in %n", node, stringValue));
+                    return value;
                 }
             }
             if (type == typeof(string))
                 return node.InnerText;
             if (type.IsPrimitive)
-                return _GetPrimitiveValue(node, type);
+                return _GetPrimitiveValue(node, type) ?? value;
             if (type.IsNullable())
             {
                 if (!node.HasChildNodes)
@@ -132,9 +224,10 @@ namespace VocaluxeLib.Xml
                     if (subNode is XmlComment)
                         continue;
                     if (subName == subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
-                        throw new XmlException("Invalid list entry '" + subNode.Name + "' in " + _GetXPath(node) + "; Expected: " + subName);
+                        _ErrorHandler.HandleError(new CXmlException("Invalid list entry '" + subNode.Name + "' in %n; Expected: " + subName, node));
                     object subValue = _GetValue(subNode, subType);
-                    subValues.Add(subValue);
+                    if (subValue != null)
+                        subValues.Add(subValue);
                 }
                 if (value == null)
                     return _CreateList(type, subValues);
@@ -152,22 +245,24 @@ namespace VocaluxeLib.Xml
                 {
                     if (subNode is XmlComment)
                         continue;
-                    object subValue = _GetValue(subNode, subType);
                     string key;
                     if (subName != null)
                     {
                         if (subName != subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
-                            throw new XmlException("Invalid dictionary entry '" + subNode.Name + "' in " + _GetXPath(node) + "; Expected: " + subName);
-                        if (subNode.Attributes == null)
-                            throw new XmlException("'name' attribute is missing in " + _GetXPath(subNode));
-                        XmlNode nameAtt = subNode.Attributes.GetNamedItem("name");
+                            _ErrorHandler.HandleError(new CXmlException("Invalid dictionary entry '" + subNode.Name + "' in %n; Expected: " + subName, node));
+                        XmlNode nameAtt = (subNode.Attributes == null) ? null : subNode.Attributes.GetNamedItem("name");
                         if (nameAtt == null)
-                            throw new XmlException("'name' attribute is missing in " + _GetXPath(subNode));
+                        {
+                            _ErrorHandler.HandleError(new CXmlException("'name' attribute is missing in %n", subNode));
+                            continue;
+                        }
                         key = nameAtt.Value;
                     }
                     else
                         key = subNode.Name;
-                    add.Invoke(dict, new object[] {key, subValue});
+                    object subValue = _GetValue(subNode, subType);
+                    if (subValue != null)
+                        add.Invoke(dict, new object[] {key, subValue});
                 }
                 return dict;
             }
@@ -180,7 +275,8 @@ namespace VocaluxeLib.Xml
                 }
                 catch (Exception)
                 {
-                    throw new XmlException("Could not create instance of " + _GetXPath(node) + "(Type=" + type.Name + ")");
+                    _ErrorHandler.HandleError(new CXmlException("Could not create instance of %n(Type=" + type.Name + ")", node));
+                    return null;
                 }
             }
             _ReadChildNodes(node, value, true);
@@ -203,7 +299,7 @@ namespace VocaluxeLib.Xml
                 int p = nodeVal.IndexOf(',');
                 if (p > 0 && p >= nodeVal.Length - 3)
                 {
-                    CBase.Log.LogError("German number format converted to english in " + _GetXPath(node));
+                    _ErrorHandler.HandleError(new CXmlInvalidValueException("German number format converted to English in %n", node, nodeVal, false));
                     char[] tmp = nodeVal.ToCharArray();
                     tmp[p] = '.';
                     nodeVal = new string(tmp);
@@ -212,11 +308,13 @@ namespace VocaluxeLib.Xml
             }
             catch (FormatException e)
             {
-                throw new XmlException("Invalid format in " + _GetXPath(node) + ": '" + nodeVal + "' (" + e.Message + ")");
+                _ErrorHandler.HandleError(new CXmlInvalidValueException("Invalid format in %n: '%v' (" + e.Message + ")", node, nodeVal));
+                return null;
             }
             catch (InvalidCastException e)
             {
-                throw new XmlException(e.Message + " in " + _GetXPath(node) + ": '" + nodeVal + "'");
+                _ErrorHandler.HandleError(new CXmlInvalidValueException(e.Message + " in %n: '%v'", node, nodeVal));
+                return null;
             }
             return value;
         }
@@ -324,16 +422,29 @@ namespace VocaluxeLib.Xml
                     }
                     if (curField >= fields.Count)
                     {
-                        string msg = "Unexpected element: " + _GetXPath(node);
+                        string msg = "Unexpected element: %n";
                         if (fields.Count > 0)
                             msg += " Expected: " + string.Join(", ", fields.Select(f => f.Name));
-                        throw new XmlException(msg);
+                        _ErrorHandler.HandleError(new CXmlException(msg, node));
+                        continue;
                     }
 
                     if (field.IsByteArray)
                     {
-                        field.SetValue(o, Convert.FromBase64String(node.InnerText));
-                        fields.RemoveAt(curField);
+                        fields.RemoveAt(curField); //Do this also on error
+                        byte[] value;
+                        try
+                        {
+                            value = Convert.FromBase64String(node.InnerText);
+                        }
+                        catch (Exception)
+                        {
+                            _ErrorHandler.HandleError(new CXmlInvalidValueException("Invalid value in %n: %v", node, node.InnerText));
+                            if (!_CheckAndSetDefaultValue(o, field))
+                                _ErrorHandler.HandleError(new CXmlException("No default value for %n", node));
+                            continue;
+                        }
+                        field.SetValue(o, value);
                     }
                     else if (field.IsEmbeddedList)
                     {
@@ -344,36 +455,30 @@ namespace VocaluxeLib.Xml
                             embLists.Add(field.Name, entry);
                         }
                         object subValue = _GetValue(node, field.SubType);
-                        entry.Item2.Add(subValue);
+                        if (subValue != null)
+                            entry.Item2.Add(subValue);
                     }
                     else
                     {
+                        fields.RemoveAt(curField); //Do this also on error
                         object value = _GetValue(node, field.Type, field.ArrayItemName);
-                        if (field.IsNormalized)
+                        if (value == null)
                         {
-                            if (field.IsNullable && !((float?)value).Value.IsInRange(0, 1) ||
-                                !field.IsNullable && !((float)value).IsInRange(0, 1))
-                                throw new XmlException("Value in " + _GetXPath(node) + " is not normalized. (Value=" + value + ")");
-                        }
-                        if (field.Ranged != null && value != null)
-                        {
-                            bool ok = false;
-                            if (field.Type == typeof(int))
-                                ok = ((int)value).IsInRange(field.Ranged.Min, field.Ranged.Max);
-                            else if (field.Type == typeof(float))
-                                ok = ((float)value).IsInRange(field.Ranged.Min, field.Ranged.Max);
-                            else if (field.Type == typeof(double))
-                                ok = ((double)value).IsInRange(field.Ranged.Min, field.Ranged.Max);
-                            else
-                                Debug.Assert(false, "Ranged attribute has invalid type");
-                            if (!ok)
+                            if (_CheckAndSetDefaultValue(o, field))
+                                continue;
+                            if (!field.IsNullable)
                             {
-                                throw new XmlException("Value in " + _GetXPath(node) + " is not in the range " + field.Ranged.Min + "-" + field.Ranged.Max + ". (Value=" + value +
-                                                       ")");
+                                _ErrorHandler.HandleError(new CXmlException("No default value for unset field at %n", node));
+                                continue;
                             }
                         }
+                        if (field.Ranged != null && value != null && !field.Ranged.IsValid(field.IsNullable ? field.SubType : field.Type, value))
+                        {
+                            _ErrorHandler.HandleError(new CXmlInvalidValueException("Value in %n is not in the range " + field.Ranged +
+                                                                                    ". (Value=%v)", node, value.ToString()));
+                        }
+
                         field.SetValue(o, value);
-                        fields.RemoveAt(curField);
                     }
                 }
                 //Add embedded lists
@@ -386,7 +491,7 @@ namespace VocaluxeLib.Xml
             foreach (SFieldInfo field in fields)
             {
                 if (!_CheckAndSetDefaultValue(o, field))
-                    throw new XmlException("element: " + field.Name + " is missing in " + _GetXPath(parent));
+                    _ErrorHandler.HandleError(new CXmlException("element: " + field.Name + " is missing in %n", parent));
             }
         }
 
@@ -400,12 +505,18 @@ namespace VocaluxeLib.Xml
         private T _Deserialize<T>(XmlReader reader, object o) where T : new()
         {
             if (reader.IsEmptyElement)
+            {
+                _ErrorHandler.HandleError(new CXmlException("No content in xml!", null));
                 return (T)o;
+            }
 
             XmlDocument xDoc = new XmlDocument();
             xDoc.Load(reader);
             if (xDoc.DocumentElement == null)
-                throw new XmlException("No root element found!");
+            {
+                _ErrorHandler.HandleError(new CXmlException("Root element not found!", null));
+                return (T)o;
+            }
             try
             {
                 o = _GetValue(xDoc.DocumentElement, o.GetType(), o.GetType().GetSubTypeName(), o);

@@ -18,7 +18,6 @@
 using System;
 using System.ComponentModel;
 using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib.Xml;
 
@@ -116,7 +115,7 @@ namespace VocaluxeLib.Profile
             }
             catch (Exception e2)
             {
-                if (!(e2 is XmlException))
+                if (!(e2 is CXmlException))
                     e = e2;
                 return false;
             }

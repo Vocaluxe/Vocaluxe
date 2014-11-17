@@ -21,7 +21,6 @@ using System.Drawing;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 using System.Linq;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -179,9 +178,9 @@ namespace Vocaluxe.Base
                 {
                     theme = xml.Deserialize<SThemeCover>(Path.Combine(folderPath, file));
                 }
-                catch (XmlException e)
+                catch (CXmlException e)
                 {
-                    CLog.LogError("Error loading cover theme " + file + ": " + e.Message);
+                    CLog.LogError("Error loading cover theme " + file + ": " + e);
                     continue;
                 }
 

@@ -44,7 +44,9 @@ namespace VocaluxeLib.Xml
     ///     Attribute for float fields to enforce normalized (0&lt;=x&lt;=1) values
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class XmlNormalizedAttribute : Attribute {}
+    public class XmlNormalizedAttribute : XmlRangedAttribute {
+        public XmlNormalizedAttribute() : base(0, 1) {}
+    }
 
     /// <summary>
     ///     Attribute for int fields to enforce values in the given range
@@ -59,6 +61,23 @@ namespace VocaluxeLib.Xml
         {
             Min = min;
             Max = max;
+        }
+
+        public bool IsValid(Type type, object value)
+        {
+            if (type == typeof(int))
+                return ((int)value).IsInRange(Min, Max);
+            if (type == typeof(float))
+                return ((float)value).IsInRange(Min, Max);
+            if (type == typeof(double))
+                return ((double)value).IsInRange(Min, Max);
+            Debug.Assert(false, "Ranged attribute has invalid type");
+            return false;
+        }
+
+        public override string ToString()
+        {
+            return Min + "-" + Max;
         }
     }
 
@@ -153,12 +172,10 @@ namespace VocaluxeLib.Xml
             }
 
             if (field.HasAttribute<XmlNormalizedAttribute>())
-            {
                 Debug.Assert(info.Type == typeof(float) || (info.IsNullable && info.SubType == typeof(float)), "Only floats can be normalized");
-                info.IsNormalized = true;
-            }
             info.Ranged = field.GetAttribute<XmlRangedAttribute>();
-            Debug.Assert(info.Ranged == null || info.Type == typeof(int) || info.Type == typeof(float) || info.Type == typeof(double),
+            Type tmpType = info.IsNullable ? info.SubType : info.Type;
+            Debug.Assert(info.Ranged == null || tmpType == typeof(int) || tmpType == typeof(float) || tmpType == typeof(double),
                          "Only ints,floats and double can be ranged");
 
             DefaultValueAttribute defAttr = field.GetAttribute<DefaultValueAttribute>();

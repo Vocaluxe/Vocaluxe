@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Xml;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;

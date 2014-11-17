@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Vocaluxe.Base;
@@ -167,7 +166,7 @@ namespace VocaluxeTests
             foreach (string s1 in s)
             {
                 string sTmp = s1;
-                _AssertFail<SBasic, XmlException>(sTmp);
+                _AssertFail<SBasic, CXmlException>(sTmp);
             }
         }
 
@@ -196,7 +195,7 @@ namespace VocaluxeTests
             foreach (string s1 in s)
             {
                 string sTmp = s1;
-                _AssertFail<SBasic, XmlException>(sTmp);
+                _AssertFail<SBasic, CXmlException>(sTmp);
             }
         }
 
@@ -253,7 +252,7 @@ namespace VocaluxeTests
             _AssertSerDeserMatch<SList>(_XMLList[2]);
             res = ser.Serialize(foo);
             Assert.AreEqual(_XMLList[2], res, "Serialization2 failed");
-            _AssertFail<SList, XmlException>(_Empty);
+            _AssertFail<SList, CXmlException>(_Empty);
         }
 
         [TestMethod]
@@ -275,7 +274,7 @@ namespace VocaluxeTests
             Assert.AreEqual(foo.Ints.Length, 0, "Deserialization2 failed");
             res = ser.Serialize(foo);
             Assert.AreEqual(_XMLList[2], res, "Serialization2 failed");
-            _AssertFail<SArray, XmlException>(_Empty);
+            _AssertFail<SArray, CXmlException>(_Empty);
         }
 
         private const string _XMLListEmb = _Head + @"<root>
@@ -319,7 +318,7 @@ namespace VocaluxeTests
             Assert.AreEqual(foo.Ints.Count, 0, "Deserialization failed");
             res = ser.Serialize(foo);
             Assert.AreEqual(_XMLListEmb3, res, "Serialization failed");
-            _AssertFail<SListEmb, XmlException>(_Empty);
+            _AssertFail<SListEmb, CXmlException>(_Empty);
         }
 
         [TestMethod]
@@ -341,7 +340,7 @@ namespace VocaluxeTests
             Assert.AreEqual(foo.Ints.Length, 0, "Deserialization failed");
             res = ser.Serialize(foo);
             Assert.AreEqual(_XMLListEmb3, res, "Serialization failed");
-            _AssertFail<SArrayEmb, XmlException>(_Empty);
+            _AssertFail<SArrayEmb, CXmlException>(_Empty);
         }
 
         [TestMethod]
@@ -377,7 +376,7 @@ namespace VocaluxeTests
         public void TestIgnore()
         {
             _AssertSerDeserMatch<SIgnore>(_XmlIgnore);
-            _AssertFail<SIgnore, XmlException>(_XmlIgnore2);
+            _AssertFail<SIgnore, CXmlException>(_XmlIgnore2);
         }
 
         [TestMethod]
@@ -438,7 +437,7 @@ namespace VocaluxeTests
                 }
                 Assert.IsInstanceOfType(foo, type, "Wrong type with " + type.Name);
                 var ser = new CXmlSerializer(type == typeof(CConfig.SConfig));
-                string newXml = ser.Serialize(type == typeof(Dictionary<string, string>) ? "resources" : foo);
+                string newXml = ser.Serialize(foo, type == typeof(Dictionary<string, string>) ? "resources" : null);
                 // Typename will be uppercase but input is lowercase
                 newXml = newXml.Replace("<String", "<string").Replace("</String", "</string");
                 string oldXml = File.ReadAllText(xmlPath);

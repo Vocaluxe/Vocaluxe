@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Xml;
 using System.Xml.Serialization;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -98,9 +97,9 @@ namespace Vocaluxe.Base.ThemeSystem
             {
                 _Required = xml.Deserialize<SRequiredElements>(path);
             }
-            catch (XmlException e)
+            catch (CXmlException e)
             {
-                CLog.LogError("Error reading required elements: " + e.Message);
+                CLog.LogError("Error reading required elements: " + e);
                 return false;
             }
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
