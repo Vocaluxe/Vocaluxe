@@ -112,6 +112,7 @@ namespace VocaluxeLib.Profile
                 var old = xml.Deserialize<SOldXmlProfile>(FilePath);
                 string newXml = ser.Serialize(old.Info);
                 xml.DeserializeString(newXml, this);
+                ser.Serialize(FilePath, this);
             }
             catch (Exception e2)
             {
