@@ -21,7 +21,7 @@ using System.Xml.XPath;
 
 namespace VocaluxeLib.Xml
 {
-    public class CXMLReader : CXmlReaderBase
+    public class CXmlReader : CXmlReaderBase
     {
         private readonly XPathNavigator _Navigator;
         private readonly String _FilePath;
@@ -32,7 +32,7 @@ namespace VocaluxeLib.Xml
         }
 
         //Private method. Use OpenFile factory method to get an instance
-        private CXMLReader(string uri)
+        private CXmlReader(string uri)
         {
             _FilePath = uri;
             var xmlDoc = new XPathDocument(uri);
@@ -44,11 +44,11 @@ namespace VocaluxeLib.Xml
             get { return _Navigator; }
         }
 
-        public static CXMLReader OpenFile(string fileName)
+        public static CXmlReader OpenFile(string fileName)
         {
             try
             {
-                return new CXMLReader(fileName);
+                return new CXmlReader(fileName);
             }
             catch (Exception e)
             {

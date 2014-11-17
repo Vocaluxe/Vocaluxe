@@ -298,12 +298,12 @@ namespace VocaluxeLib.Menu
             LoadSkin();
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
+        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
         {
             return LoadTheme(xmlPath, elementName, xmlReader, false);
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, bool buttonText)
+        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader, bool buttonText)
         {
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;

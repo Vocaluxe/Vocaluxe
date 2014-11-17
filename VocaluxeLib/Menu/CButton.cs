@@ -158,7 +158,7 @@ namespace VocaluxeLib.Menu
             _SelReflectionSpace = button._SelReflectionSpace;
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
+        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
             _ThemeLoaded = true;

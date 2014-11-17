@@ -120,7 +120,7 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        public override bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader)
+        public override bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
 

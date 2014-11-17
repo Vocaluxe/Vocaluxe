@@ -211,7 +211,7 @@ namespace VocaluxeTests
             _AssertSerDeserMatch<SBasic>(s);
         }
 
-        private readonly string[] _XMLList = new string[]
+        private readonly string[] _XmlList = new string[]
             {
                 _Head + @"<root>
   <Ints>
@@ -237,21 +237,21 @@ namespace VocaluxeTests
         {
             var xml = new CXmlDeserializer();
             var ser = new CXmlSerializer();
-            SList foo = xml.DeserializeString<SList>(_XMLList[0]);
+            SList foo = xml.DeserializeString<SList>(_XmlList[0]);
             Assert.AreEqual(foo.Ints.Count, 2, "Deserialization failed");
             Assert.AreEqual(foo.Ints[0].I, 1, "Deserialization failed");
             Assert.AreEqual(foo.Ints[1].I, 1, "Deserialization failed");
             string res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLList[0], res, "Serialization failed");
-            foo = xml.DeserializeString<SList>(_XMLList[1]);
+            Assert.AreEqual(_XmlList[0], res, "Serialization failed");
+            foo = xml.DeserializeString<SList>(_XmlList[1]);
             Assert.AreEqual(foo.Ints.Count, 0, "Deserialization2 failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLList[2], res, "Serialization2 failed");
-            foo = xml.DeserializeString<SList>(_XMLList[2]);
+            Assert.AreEqual(_XmlList[2], res, "Serialization2 failed");
+            foo = xml.DeserializeString<SList>(_XmlList[2]);
             Assert.AreEqual(foo.Ints.Count, 0, "Deserialization2 failed");
-            _AssertSerDeserMatch<SList>(_XMLList[2]);
+            _AssertSerDeserMatch<SList>(_XmlList[2]);
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLList[2], res, "Serialization2 failed");
+            Assert.AreEqual(_XmlList[2], res, "Serialization2 failed");
             _AssertFail<SList, CXmlException>(_Empty);
         }
 
@@ -260,31 +260,31 @@ namespace VocaluxeTests
         {
             var xml = new CXmlDeserializer();
             var ser = new CXmlSerializer();
-            SArray foo = xml.DeserializeString<SArray>(_XMLList[0]);
+            SArray foo = xml.DeserializeString<SArray>(_XmlList[0]);
             Assert.AreEqual(foo.Ints.Length, 2, "Deserialization failed");
             Assert.AreEqual(foo.Ints[0].I, 1, "Deserialization failed");
             Assert.AreEqual(foo.Ints[1].I, 1, "Deserialization failed");
             string res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLList[0], res, "Serialization failed");
-            foo = xml.DeserializeString<SArray>(_XMLList[1]);
+            Assert.AreEqual(_XmlList[0], res, "Serialization failed");
+            foo = xml.DeserializeString<SArray>(_XmlList[1]);
             Assert.AreEqual(foo.Ints.Length, 0, "Deserialization2 failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLList[2], res, "Serialization2 failed");
-            foo = xml.DeserializeString<SArray>(_XMLList[2]);
+            Assert.AreEqual(_XmlList[2], res, "Serialization2 failed");
+            foo = xml.DeserializeString<SArray>(_XmlList[2]);
             Assert.AreEqual(foo.Ints.Length, 0, "Deserialization2 failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLList[2], res, "Serialization2 failed");
+            Assert.AreEqual(_XmlList[2], res, "Serialization2 failed");
             _AssertFail<SArray, CXmlException>(_Empty);
         }
 
-        private const string _XMLListEmb = _Head + @"<root>
+        private const string _XmlListEmb = _Head + @"<root>
   <I>2</I>
   <Entry>
     <I>1</I>
   </Entry>
   <J>3</J>
 </root>";
-        private const string _XMLListEmb2 = _Head + @"<root>
+        private const string _XmlListEmb2 = _Head + @"<root>
   <I>2</I>
   <Entry>
     <I>1</I>
@@ -294,7 +294,7 @@ namespace VocaluxeTests
   </Entry>
   <J>3</J>
 </root>";
-        private const string _XMLListEmb3 = _Head + @"<root>
+        private const string _XmlListEmb3 = _Head + @"<root>
   <I>2</I>
   <J>3</J>
 </root>";
@@ -304,20 +304,20 @@ namespace VocaluxeTests
         {
             var xml = new CXmlDeserializer();
             var ser = new CXmlSerializer();
-            SListEmb foo = xml.DeserializeString<SListEmb>(_XMLListEmb);
+            SListEmb foo = xml.DeserializeString<SListEmb>(_XmlListEmb);
             Assert.AreEqual(foo.Ints.Count, 1, "Deserialization failed");
             Assert.AreEqual(foo.Ints[0].I, 1, "Deserialization failed");
             string res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLListEmb, res, "Serialization failed");
-            foo = xml.DeserializeString<SListEmb>(_XMLListEmb2);
+            Assert.AreEqual(_XmlListEmb, res, "Serialization failed");
+            foo = xml.DeserializeString<SListEmb>(_XmlListEmb2);
             Assert.AreEqual(foo.Ints.Count, 2, "Deserialization failed");
             Assert.AreEqual(foo.Ints[1].I, 2, "Deserialization failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLListEmb2, res, "Serialization failed");
-            foo = xml.DeserializeString<SListEmb>(_XMLListEmb3);
+            Assert.AreEqual(_XmlListEmb2, res, "Serialization failed");
+            foo = xml.DeserializeString<SListEmb>(_XmlListEmb3);
             Assert.AreEqual(foo.Ints.Count, 0, "Deserialization failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLListEmb3, res, "Serialization failed");
+            Assert.AreEqual(_XmlListEmb3, res, "Serialization failed");
             _AssertFail<SListEmb, CXmlException>(_Empty);
         }
 
@@ -326,20 +326,20 @@ namespace VocaluxeTests
         {
             var xml = new CXmlDeserializer();
             var ser = new CXmlSerializer();
-            SArrayEmb foo = xml.DeserializeString<SArrayEmb>(_XMLListEmb);
+            SArrayEmb foo = xml.DeserializeString<SArrayEmb>(_XmlListEmb);
             Assert.AreEqual(foo.Ints.Length, 1, "Deserialization failed");
             Assert.AreEqual(foo.Ints[0].I, 1, "Deserialization failed");
             string res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLListEmb, res, "Serialization failed");
-            foo = xml.DeserializeString<SArrayEmb>(_XMLListEmb2);
+            Assert.AreEqual(_XmlListEmb, res, "Serialization failed");
+            foo = xml.DeserializeString<SArrayEmb>(_XmlListEmb2);
             Assert.AreEqual(foo.Ints.Length, 2, "Deserialization failed");
             Assert.AreEqual(foo.Ints[1].I, 2, "Deserialization failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLListEmb2, res, "Serialization failed");
-            foo = xml.DeserializeString<SArrayEmb>(_XMLListEmb3);
+            Assert.AreEqual(_XmlListEmb2, res, "Serialization failed");
+            foo = xml.DeserializeString<SArrayEmb>(_XmlListEmb3);
             Assert.AreEqual(foo.Ints.Length, 0, "Deserialization failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XMLListEmb3, res, "Serialization failed");
+            Assert.AreEqual(_XmlListEmb3, res, "Serialization failed");
             _AssertFail<SArrayEmb, CXmlException>(_Empty);
         }
 

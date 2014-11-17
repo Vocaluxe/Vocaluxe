@@ -126,7 +126,7 @@ namespace VocaluxeLib.Menu
 
         private delegate void AddElementHandler<in T>(T element, String key);
 
-        private void _LoadThemeElement<T>(IEnumerable<string> elements, AddElementHandler<T> addElementHandler, CXMLReader xmlReader) where T : IThemeable
+        private void _LoadThemeElement<T>(IEnumerable<string> elements, AddElementHandler<T> addElementHandler, CXmlReader xmlReader) where T : IThemeable
         {
             if (elements != null)
             {
@@ -243,7 +243,7 @@ namespace VocaluxeLib.Menu
         {
             string file = Path.Combine(xmlPath, ThemeName + ".xml");
 
-            CXMLReader xmlReader = CXMLReader.OpenFile(file);
+            CXmlReader xmlReader = CXmlReader.OpenFile(file);
             if (xmlReader == null)
                 return;
 
@@ -582,7 +582,7 @@ namespace VocaluxeLib.Menu
         }
 
         #region Theme Handling
-        private bool _CheckVersion(int reqVersion, CXMLReader xmlReader)
+        private bool _CheckVersion(int reqVersion, CXmlReader xmlReader)
         {
             int actualVersion = 0;
             xmlReader.TryGetIntValue("//root/" + ThemeName + "/ScreenVersion", ref actualVersion);
@@ -600,7 +600,7 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        private void _LoadThemeBasics(CXMLReader xmlReader)
+        private void _LoadThemeBasics(CXmlReader xmlReader)
         {
             // Backgrounds
             var background = new CBackground(PartyModeID);

@@ -48,7 +48,7 @@ namespace VocaluxeLib.Xml
         /// <summary>
         ///     Uniform settings for writing XML files. ALWAYS use this!
         /// </summary>
-        private readonly XmlWriterSettings _XMLSettings = new XmlWriterSettings
+        private readonly XmlWriterSettings _XmlSettings = new XmlWriterSettings
             {
                 Indent = true,
                 Encoding = Encoding.UTF8,
@@ -217,7 +217,7 @@ namespace VocaluxeLib.Xml
         /// <param name="rootNodeName">Name of the root node (overwrites default value specified by XmlRoot/XmlTypeAttributes which defaults to "root")</param>
         public void Serialize(string filePath, object o, string rootNodeName = null)
         {
-            using (XmlWriter writer = XmlWriter.Create(filePath, _XMLSettings))
+            using (XmlWriter writer = XmlWriter.Create(filePath, _XmlSettings))
                 _Serialize(writer, o, rootNodeName);
         }
 
@@ -230,7 +230,7 @@ namespace VocaluxeLib.Xml
         public string Serialize(object o, string rootNodeName = null)
         {
             MemoryStream result = new MemoryStream();
-            using (XmlWriter writer = XmlWriter.Create(result, _XMLSettings))
+            using (XmlWriter writer = XmlWriter.Create(result, _XmlSettings))
                 _Serialize(writer, o, rootNodeName);
             result.Position = 0;
             return new StreamReader(result).ReadToEnd();
