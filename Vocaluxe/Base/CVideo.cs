@@ -17,7 +17,6 @@
 
 using Vocaluxe.Lib.Video;
 using VocaluxeLib;
-using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
 {
@@ -31,7 +30,7 @@ namespace Vocaluxe.Base
         {
             if (_VideoDecoder != null)
                 return false;
-            switch (CConfig.VideoDecoder)
+            switch (CConfig.Config.Video.VideoDecoder)
             {
                 case EVideoDecoder.FFmpeg:
                     _VideoDecoder = new CVideoDecoderFFmpeg();
@@ -60,49 +59,51 @@ namespace Vocaluxe.Base
             return _VideoDecoder.GetNumStreams();
         }
 
-        public static int Load(string videoFileName)
+        public static CVideoStream Load(string videoFileName)
         {
             return _VideoDecoder.Load(videoFileName);
         }
 
-        public static bool Close(int streamID)
+        public static void Close(ref CVideoStream stream)
         {
-            return _VideoDecoder.Close(streamID);
+            //Check for null because the videostreams may close themselves on destroy (GC)
+            if (_VideoDecoder != null)
+                _VideoDecoder.Close(ref stream);
         }
 
-        public static float GetLength(int streamID)
+        public static float GetLength(CVideoStream stream)
         {
-            return _VideoDecoder.GetLength(streamID);
+            return _VideoDecoder.GetLength(stream);
         }
 
-        public static bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
+        public static bool GetFrame(CVideoStream stream, float time)
         {
-            return _VideoDecoder.GetFrame(streamID, ref frame, time, out videoTime);
+            return _VideoDecoder.GetFrame(stream, time);
         }
 
-        public static bool Skip(int streamID, float start, float gap)
+        public static bool Skip(CVideoStream stream, float start, float gap)
         {
-            return _VideoDecoder.Skip(streamID, start, gap);
+            return _VideoDecoder.Skip(stream, start, gap);
         }
 
-        public static void SetLoop(int streamID, bool loop)
+        public static void SetLoop(CVideoStream stream, bool loop)
         {
-            _VideoDecoder.SetLoop(streamID, loop);
+            _VideoDecoder.SetLoop(stream, loop);
         }
 
-        public static void Pause(int streamID)
+        public static void Pause(CVideoStream stream)
         {
-            _VideoDecoder.Pause(streamID);
+            _VideoDecoder.Pause(stream);
         }
 
-        public static void Resume(int streamID)
+        public static void Resume(CVideoStream stream)
         {
-            _VideoDecoder.Resume(streamID);
+            _VideoDecoder.Resume(stream);
         }
 
-        public static bool Finished(int streamID)
+        public static bool Finished(CVideoStream stream)
         {
-            return _VideoDecoder.Finished(streamID);
+            return _VideoDecoder.Finished(stream);
         }
 
         public static void Update()

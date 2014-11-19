@@ -1,460 +1,275 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <PopupScreenPlayerControl>
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>PopupScreenPlayerControl</ScreenName>
     <ScreenVersion>1</ScreenVersion>
-    <StaticBG>
-      <!--<Skin>: Texture name-->
+  </Informations>
+  <Backgrounds />
+  <Statics>
+    <Static Name="StaticBG">
       <Skin>Menu</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>49</X>
-      <Y>0</Y>
-      <Z>0,00</Z>
-      <W>1181</W>
-      <H>42</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticBG>
-    <StaticCover>
-      <!--<Skin>: Texture name-->
+      <Color Name="StaticColor" />
+      <Rect>
+        <X>49</X>
+        <Y>0</Y>
+        <W>1181</W>
+        <H>42</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticCover">
       <Skin>CoverBackground</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>55</X>
-      <Y>2</Y>
-      <Z>0,00</Z>
-      <W>38</W>
-      <H>38</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticCover>
-    <TextCurrentSong>
-      <!--<X>, <Y>: Text position-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>55</X>
+        <Y>2</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="TextCurrentSong">
       <X>410</X>
       <Y>8</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>769</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextCurrentSong>
-    <ButtonPlay>
-      <!--<Skin>: Texture name-->
+    </Text>
+  </Texts>
+  <Buttons>
+    <Button Name="ButtonPlay">
       <Skin>PlayIcon</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>PlayIcon</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>146</X>
-      <Y>8</Y>
-      <Z>0,00</Z>
-      <W>28</W>
-      <H>28</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
+      <Rect>
+        <X>146</X>
+        <Y>8</Y>
+        <W>28</W>
+        <H>28</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
         <X>75</X>
         <Y>2</Y>
-        <!--<H>: Text height-->
+        <Z>0</Z>
         <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
-        <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
-        <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </ButtonPlay>
-    <ButtonPause>
-      <!--<Skin>: Texture name-->
+    </Button>
+    <Button Name="ButtonPause">
       <Skin>PauseIcon</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>PauseIcon</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>145</X>
-      <Y>8</Y>
-      <Z>0,00</Z>
-      <W>28</W>
-      <H>28</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
+      <Rect>
+        <X>145</X>
+        <Y>8</Y>
+        <W>28</W>
+        <H>28</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
         <X>75</X>
         <Y>2</Y>
-        <!--<H>: Text height-->
+        <Z>0</Z>
         <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
-        <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
-        <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </ButtonPause>
-    <ButtonPrevious>
-      <!--<Skin>: Texture name-->
+    </Button>
+    <Button Name="ButtonPrevious">
       <Skin>PreviousIcon</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>PreviousIcon</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>100</X>
-      <Y>2</Y>
-      <Z>0,00</Z>
-      <W>38</W>
-      <H>38</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
+      <Rect>
+        <X>100</X>
+        <Y>2</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
         <X>75</X>
         <Y>2</Y>
-        <!--<H>: Text height-->
+        <Z>0</Z>
         <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
-        <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
-        <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </ButtonPrevious>
-    <ButtonNext>
-      <!--<Skin>: Texture name-->
+    </Button>
+    <Button Name="ButtonNext">
       <Skin>NextIcon</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>NextIcon</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>185</X>
-      <Y>2</Y>
-      <Z>0,00</Z>
-      <W>38</W>
-      <H>38</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
+      <Rect>
+        <X>185</X>
+        <Y>2</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
         <X>190</X>
         <Y>25</Y>
-        <!--<H>: Text height-->
+        <Z>0</Z>
         <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
-        <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
-        <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </ButtonNext>
-    <ButtonRepeat>
-      <!--<Skin>: Texture name-->
+    </Button>
+    <Button Name="ButtonRepeat">
       <Skin>RepeatIcon</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>RepeatIcon</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>225</X>
-      <Y>2</Y>
-      <Z>0,00</Z>
-      <W>38</W>
-      <H>38</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
+      <Rect>
+        <X>225</X>
+        <Y>2</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
         <X>405</X>
         <Y>25</Y>
-        <!--<H>: Text height-->
+        <Z>0</Z>
         <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
-        <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
-        <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </ButtonRepeat>
-    <ButtonShowVideo>
-      <!--<Skin>: Texture name-->
+    </Button>
+    <Button Name="ButtonShowVideo">
       <Skin>VideoIconCO</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>VideoIconCO</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>270</X>
-      <Y>2</Y>
-      <Z>0,00</Z>
-      <W>38</W>
-      <H>38</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
+      <Rect>
+        <X>270</X>
+        <Y>2</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
         <X>315</X>
         <Y>0</Y>
-        <!--<H>: Text height-->
+        <Z>0</Z>
         <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
-        <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
-        <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </ButtonShowVideo>
-    <ButtonSing>
-      <!--<Skin>: Texture name-->
+    </Button>
+    <Button Name="ButtonSing">
       <Skin>DuetIcon</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>DuetIcon</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>360</X>
-      <Y>2</Y>
-      <Z>0,00</Z>
-      <W>38</W>
-      <H>38</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
+      <Rect>
+        <X>360</X>
+        <Y>2</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
         <X>380</X>
         <Y>0</Y>
-        <!--<H>: Text height-->
+        <Z>0</Z>
         <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
-        <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
-        <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </ButtonSing>
-    <ButtonToBackgroundVideo>
-      <!--<Skin>: Texture name-->
+    </Button>
+    <Button Name="ButtonToBackgroundVideo">
       <Skin>VideoIconBG</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>VideoIconBG</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>315</X>
-      <Y>2</Y>
-      <Z>0,00</Z>
-      <W>38</W>
-      <H>38</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
+      <Rect>
+        <X>315</X>
+        <Y>2</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
         <X>315</X>
         <Y>0</Y>
-        <!--<H>: Text height-->
+        <Z>0</Z>
         <H>32</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
-        <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
-        <!--<Font>: Text font name-->
         <Font>Normal</Font>
-        <!--<Text>: Nothing or translation tag-->
         <Text />
       </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-    </ButtonToBackgroundVideo>
-  </PopupScreenPlayerControl>
-</root>
+    </Button>
+  </Buttons>
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides />
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>

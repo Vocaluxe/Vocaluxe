@@ -44,7 +44,8 @@ namespace Vocaluxe.Lib.Draw
         private bool _TopMost;
         private Rectangle _Bounds;
 
-        private readonly Dictionary<int, CTexture> _Textures = new Dictionary<int, CTexture>();
+        private readonly Dictionary<int, CTextureRef> _Textures = new Dictionary<int, CTextureRef>();
+        private readonly Dictionary<string, CTextureRef> _TextureCache = new Dictionary<string, CTextureRef>();
         private readonly List<Bitmap> _Bitmaps = new List<Bitmap>();
 
         private readonly Color _ClearColor = Color.DarkBlue;
@@ -64,7 +65,6 @@ namespace Vocaluxe.Lib.Draw
             _G = Graphics.FromImage(_Backbuffer);
             _G.Clear(Color.DarkBlue);
 
-            Paint += _OnPaintEvent;
             Closing += _OnClosingEvent;
             KeyDown += _OnKeyDownEvent;
             KeyPress += _OnKeyPressEvent;
@@ -106,8 +106,6 @@ namespace Vocaluxe.Lib.Draw
 
             frontBuffer.DrawImage(_Backbuffer, new Rectangle(x, y, w, h), new Rectangle(0, 0, _Backbuffer.Width, _Backbuffer.Height), GraphicsUnit.Pixel);
         }
-
-        private void _OnPaintEvent(object sender, PaintEventArgs e) {}
 
         #region FullScreenStuff
         private void _ToggleFullScreen()
@@ -225,7 +223,7 @@ namespace Vocaluxe.Lib.Draw
             int delay = 0;
             Show();
 
-            if (CConfig.FullScreen == EOffOn.TR_CONFIG_ON)
+            if (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON)
                 _Maximize(this);
 
             while (_Run)
@@ -234,11 +232,12 @@ namespace Vocaluxe.Lib.Draw
 
                 if (_Run)
                 {
+                    ClearScreen();
                     _Run = _Run && CGraphics.Draw();
                     _Run = CGraphics.UpdateGameLogic(_Keys, _Mouse);
                     _FlipBuffer();
 
-                    if ((CConfig.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
+                    if ((CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
                         _ToggleFullScreen();
 
                     if (CTime.IsRunning())
@@ -254,11 +253,11 @@ namespace Vocaluxe.Lib.Draw
             Close();
         }
 
-        public void Unload()
+        public new void Close()
         {
             try
             {
-                Close();
+                base.Close();
             }
             catch {}
             Dispose();
@@ -279,11 +278,11 @@ namespace Vocaluxe.Lib.Draw
             _G.Clear(_ClearColor);
         }
 
-        public CTexture CopyScreen()
+        public CTextureRef CopyScreen()
         {
             var bmp = new Bitmap(_Backbuffer);
             _Bitmaps.Add(bmp);
-            CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
+            CTextureRef texture = _GetNewTexture(bmp.GetSize());
 
             // Add to Texture List
             _Textures[texture.ID] = texture;
@@ -291,9 +290,9 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        public void CopyScreen(ref CTexture texture)
+        public void CopyScreen(ref CTextureRef texture)
         {
-            if (!_TextureExists(texture) || texture.W2 != GetScreenWidth() || texture.H2 != GetScreenHeight())
+            if (!_TextureExists(texture) || texture.OrigSize.Width != GetScreenWidth() || texture.OrigSize.Height != GetScreenHeight())
             {
                 RemoveTexture(ref texture);
                 texture = CopyScreen();
@@ -309,20 +308,15 @@ namespace Vocaluxe.Lib.Draw
             _Backbuffer.Save(file, ImageFormat.Png);
         }
 
-        public void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
-        {
-            _G.DrawLine(new Pen(Color.FromArgb(a, r, g, b), w), new Point(x1, y1), new Point(x2, y2));
-        }
+        public void DrawRect(SColorF color, SRectF rect) {}
 
-        public void DrawColor(SColorF color, SRectF rect) {}
+        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height) {}
 
-        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height) {}
-
-        public CTexture AddTexture(Bitmap bmp)
+        public CTextureRef AddTexture(Bitmap bmp)
         {
             var bmp2 = new Bitmap(bmp);
             _Bitmaps.Add(bmp2);
-            CTexture texture = _GetNewTexture(bmp.Width, bmp.Height);
+            CTextureRef texture = _GetNewTexture(bmp.GetSize());
 
             // Add to Texture List
             _Textures[texture.ID] = texture;
@@ -330,62 +324,84 @@ namespace Vocaluxe.Lib.Draw
             return texture;
         }
 
-        private CTexture _GetNewTexture(int w, int h)
+        private CTextureRef _GetNewTexture(Size size)
         {
-            return new CTexture(w, h) {ID = _Bitmaps.Count - 1};
+            return new CTextureRef(_Bitmaps.Count - 1, size);
         }
 
-        public CTexture AddTexture(string texturePath)
+        public CTextureRef AddTexture(string texturePath)
         {
             if (File.Exists(texturePath))
             {
-                foreach (CTexture tex in _Textures.Values)
-                {
-                    if (tex.TexturePath == texturePath)
-                        return tex;
-                }
+                CTextureRef texture;
+                if (_TextureCache.TryGetValue(texturePath, out texture))
+                    return texture;
                 using (var bmp = new Bitmap(texturePath))
                 {
-                    CTexture texture = AddTexture(bmp);
-                    texture.TexturePath = texturePath;
+                    texture = AddTexture(bmp);
+                    _TextureCache.Add(texturePath, texture);
                 }
+                return texture;
             }
 
             return null;
         }
 
-        private bool _TextureExists(CTexture texture)
+        private bool _TextureExists(CTextureRef texture)
         {
             return texture != null && _Textures.ContainsKey(texture.ID);
         }
 
-        public void RemoveTexture(ref CTexture texture)
+        public CTextureRef CopyTexture(CTextureRef textureRef)
+        {
+            if (_TextureExists(textureRef))
+                return AddTexture(_Bitmaps[textureRef.ID]);
+            return null;
+        }
+
+        public void RemoveTexture(ref CTextureRef texture)
         {
             if (_TextureExists(texture))
             {
                 _Bitmaps[texture.ID].Dispose();
                 _Textures.Remove(texture.ID);
+                texture.SetRemoved();
             }
             texture = null;
         }
 
-        public CTexture EnqueueTexture(int w, int h, byte[] data)
+        public CTextureRef EnqueueTexture(int w, int h, byte[] data)
         {
             return AddTexture(w, h, data);
         }
 
-        public CTexture AddTexture(int w, int h, byte[] data)
+        public CTextureRef EnqueueTexture(string texturePath)
+        {
+            return AddTexture(texturePath);
+        }
+
+        public CTextureRef EnqueueTexture(Bitmap bmp)
+        {
+            return AddTexture(bmp);
+        }
+
+        public void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp)
+        {
+            UpdateTexture(textureRef, bmp);
+        }
+
+        public CTextureRef AddTexture(int w, int h, byte[] data)
         {
             using (var bmp = new Bitmap(w, h))
             {
-                BitmapData bmpData = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
+                BitmapData bmpData = bmp.LockBits(bmp.GetRect(), ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
                 bmp.UnlockBits(bmpData);
                 return AddTexture(bmp);
             }
         }
 
-        public bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
+        public void UpdateTexture(CTextureRef texture, int w, int h, byte[] data)
         {
             if (_TextureExists(texture))
             {
@@ -393,40 +409,22 @@ namespace Vocaluxe.Lib.Draw
                                                                    ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
                 Marshal.Copy(data, 0, bmpData.Scan0, data.Length);
                 _Bitmaps[texture.ID].UnlockBits(bmpData);
-                return true;
             }
-            return false;
         }
 
-        public bool UpdateOrAddTexture(ref CTexture texture, int w, int h, byte[] data)
+        public void UpdateTexture(CTextureRef textureRef, Bitmap bmp)
         {
-            if (!UpdateTexture(texture, w, h, data))
-            {
-                RemoveTexture(ref texture);
-                texture = AddTexture(w, h, data);
-            }
-            return true;
+            if (_TextureExists(textureRef))
+                _Bitmaps[textureRef.ID] = bmp;
         }
 
-        public void DrawTexture(CTexture texture)
-        {
-            if (texture != null)
-                DrawTexture(texture, texture.Rect, texture.Color);
-        }
-
-        public void DrawTexture(CTexture texture, SRectF rect)
-        {
-            if (texture != null)
-                DrawTexture(texture, rect, texture.Color);
-        }
-
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false)
         {
             if (texture != null)
                 DrawTexture(texture, rect, color, rect, mirrored);
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             if (!_TextureExists(texture))
                 return;
@@ -435,9 +433,9 @@ namespace Vocaluxe.Lib.Draw
             coloredBitmap.Dispose();
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, float begin, float end) {}
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end) {}
 
-        public void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) {}
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) {}
 
         public int GetTextureCount()
         {

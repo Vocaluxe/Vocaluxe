@@ -110,7 +110,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 _UpdateSlides();
                 if (_Buttons[_ButtonBack].Selected)
@@ -141,12 +141,6 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public override bool UpdateGame()
         {
-            return true;
-        }
-
-        public override bool Draw()
-        {
-            base.Draw();
             return true;
         }
 

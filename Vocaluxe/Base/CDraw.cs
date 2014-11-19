@@ -20,7 +20,6 @@ using System.Drawing;
 using Vocaluxe.Lib.Draw;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
 {
@@ -28,11 +27,15 @@ namespace Vocaluxe.Base
     {
         private static IDraw _Draw;
 
+        /// <summary>
+        ///     Initializes the Driver selected in the config
+        /// </summary>
+        /// <returns></returns>
         public static bool Init()
         {
             if (_Draw != null)
                 return false;
-            switch (CConfig.Renderer)
+            switch (CConfig.Config.Graphics.Renderer)
             {
                 case ERenderer.TR_CONFIG_SOFTWARE:
                     _Draw = new CDrawWinForm();
@@ -74,158 +77,327 @@ namespace Vocaluxe.Base
             return _Draw.Init();
         }
 
+        /// <summary>
+        ///     Has to be called to start rendering <br />
+        ///     Will only return if program is closed <br />
+        ///     Also inits the first screen
+        /// </summary>
         public static void MainLoop()
         {
             CGraphics.InitFirstScreen();
             _Draw.MainLoop();
         }
 
-        public static void Unload()
+        /// <summary>
+        ///     Unloads the current driver, e.g. to switch to another one
+        /// </summary>
+        public static void Close()
         {
             if (_Draw != null)
             {
-                _Draw.Unload();
+                _Draw.Close();
                 _Draw = null;
             }
         }
 
+        /// <summary>
+        ///     Gets the width of the rendering area
+        /// </summary>
+        /// <returns></returns>
         public static int GetScreenWidth()
         {
             return _Draw.GetScreenWidth();
         }
 
+        /// <summary>
+        ///     Gets the height of the rendering area
+        /// </summary>
+        /// <returns></returns>
         public static int GetScreenHeight()
         {
             return _Draw.GetScreenHeight();
         }
 
-        public static void DrawLine(int a, int r, int g, int b, int w, int x1, int y1, int x2, int y2)
-        {
-            _Draw.DrawLine(a, r, g, b, w, x1, y1, x2, y2);
-        }
-
-        public static void DrawRect(SColorF color, SRectF rect, float thickness)
-        {
-            if (thickness <= 0f)
-                return;
-
-            _Draw.DrawColor(color, new SRectF(rect.X - thickness / 2, rect.Y - thickness / 2, rect.W + thickness, thickness, rect.Z));
-            _Draw.DrawColor(color, new SRectF(rect.X - thickness / 2, rect.Y + rect.H - thickness / 2, rect.W + thickness, thickness, rect.Z));
-            _Draw.DrawColor(color, new SRectF(rect.X - thickness / 2, rect.Y - thickness / 2, thickness, rect.H + thickness, rect.Z));
-            _Draw.DrawColor(color, new SRectF(rect.X + rect.W - thickness / 2, rect.Y - thickness / 2, thickness, rect.H + thickness, rect.Z));
-        }
-
-        public static void DrawColor(SColorF color, SRectF rect)
-        {
-            _Draw.DrawColor(color, rect);
-        }
-
-        public static void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
-        {
-            _Draw.DrawColorReflection(color, rect, space, height);
-        }
-
-        public static void ClearScreen()
-        {
-            _Draw.ClearScreen();
-        }
-
-        public static CTexture CopyScreen()
-        {
-            return _Draw.CopyScreen();
-        }
-
-        public static void CopyScreen(ref CTexture texture)
-        {
-            _Draw.CopyScreen(ref texture);
-        }
-
+        /// <summary>
+        ///     Takes a screenshot and saves it to the Screenshot folder
+        /// </summary>
         public static void MakeScreenShot()
         {
             _Draw.MakeScreenShot();
         }
 
-        public static CTexture AddTexture(Bitmap bitmap)
+        /// <summary>
+        ///     Gets the current screen content as a texture
+        /// </summary>
+        /// <returns></returns>
+        public static CTextureRef CopyScreen()
+        {
+            return _Draw.CopyScreen();
+        }
+
+        /// <summary>
+        ///     Gets the current screen content updating the given texture
+        /// </summary>
+        /// <param name="texture"></param>
+        public static void CopyScreen(ref CTextureRef texture)
+        {
+            _Draw.CopyScreen(ref texture);
+        }
+
+        /// <summary>
+        ///     Adds a texture from a Bitmap and returns a reference to it<br />
+        ///     Must be called from main thread!
+        /// </summary>
+        /// <param name="bitmap"></param>
+        /// <returns>Reference to texture</returns>
+        public static CTextureRef AddTexture(Bitmap bitmap)
         {
             return _Draw.AddTexture(bitmap);
         }
 
-        public static CTexture AddTexture(string texturePath)
+        /// <summary>
+        ///     Adds a texture from an image file given by its file path<br />
+        ///     Must be called from main thread!
+        /// </summary>
+        /// <param name="texturePath"></param>
+        /// <returns>Reference to texture or null on error</returns>
+        public static CTextureRef AddTexture(string texturePath)
         {
             return _Draw.AddTexture(texturePath);
         }
 
-        public static CTexture AddTexture(int w, int h, byte[] data)
+        /// <summary>
+        ///     Adds a texture from a byte array<br />
+        ///     Must be called from main thread!
+        /// </summary>
+        /// <param name="w">Width of the image</param>
+        /// <param name="h">Height of the image</param>
+        /// <param name="data">Array of 4 byte values for each pixel</param>
+        /// <returns>Reference to texture</returns>
+        public static CTextureRef AddTexture(int w, int h, byte[] data)
         {
             return _Draw.AddTexture(w, h, data);
         }
 
-        public static CTexture EnqueueTexture(int w, int h, byte[] data)
+        /// <summary>
+        ///     Requests aadding a texture from a byte array <br />
+        ///     Use this if you add textures from another thread or don't need it immediatelly
+        /// </summary>
+        /// <param name="w">Width of the image</param>
+        /// <param name="h">Height of the image</param>
+        /// <param name="data">Array of 4 byte values for each pixel</param>
+        /// <returns>Reference to texture</returns>
+        public static CTextureRef EnqueueTexture(int w, int h, byte[] data)
         {
             return _Draw.EnqueueTexture(w, h, data);
         }
 
-        public static bool UpdateTexture(CTexture texture, int w, int h, byte[] data)
+        /// <summary>
+        ///     Requests adding a texture from a bitmap <br />
+        ///     Use this if you add textures from another thread or don't need it immediatelly
+        /// </summary>
+        /// <param name="bmp">Bitmap to add, gets disposed after adding!</param>
+        /// <returns>Reference to texture</returns>
+        public static CTextureRef EnqueueTexture(Bitmap bmp)
         {
-            return _Draw.UpdateTexture(texture, w, h, data);
+            return _Draw.EnqueueTexture(bmp);
         }
 
-        public static bool UpdateOrAddTexture(ref CTexture texture, int w, int h, byte[] data)
+        /// <summary>
+        ///     Requests adding a texture from a file <br />
+        ///     Use this if you add textures from another thread or don't need it immediatelly
+        /// </summary>
+        /// <param name="texturePath">Full path to the image file</param>
+        /// <returns>Reference to texture</returns>
+        public static CTextureRef EnqueueTexture(String texturePath)
         {
-            return _Draw.UpdateOrAddTexture(ref texture, w, h, data);
+            return _Draw.EnqueueTexture(texturePath);
         }
 
-        public static void RemoveTexture(ref CTexture texture)
+        /// <summary>
+        ///     Requests updating a texture from a bitmap<br />
+        ///     Use this if you add textures from another thread or don't need it immediatelly <br />
+        ///     Bitmap is freed after use
+        /// </summary>
+        /// <param name="textureRef">Reference to the texture to update</param>
+        /// <param name="bmp"></param>
+        public static void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp)
         {
-            _Draw.RemoveTexture(ref texture);
+            _Draw.EnqueueTextureUpdate(textureRef, bmp);
         }
 
-        public static void DrawTexture(CTexture texture)
+        /// <summary>
+        ///     Creates a copy of the texture <br />
+        ///     Updates to the copy do not affect the original texture
+        /// </summary>
+        /// <param name="textureRef">Original texture reference</param>
+        /// <returns>New texture reference of the copy</returns>
+        public static CTextureRef CopyTexture(CTextureRef textureRef)
         {
-            _Draw.DrawTexture(texture);
+            return _Draw.CopyTexture(textureRef);
         }
 
-        public static void DrawTexture(CTexture texture, SRectF rect)
+        /// <summary>
+        ///     Updates a texture, filling it with the new data
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="w">Width of the image</param>
+        /// <param name="h">Height of the image</param>
+        /// <param name="data">Array of 4 byte values for each pixel</param>
+        public static void UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
         {
-            _Draw.DrawTexture(texture, rect);
+            _Draw.UpdateTexture(textureRef, w, h, data);
         }
 
-        public static void DrawTexture(CTexture texture, SRectF rect, SColorF color, bool mirrored = false)
+        /// <summary>
+        ///     Updates a texture, filling it with the new data from the bitmap
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="bmp"></param>
+        public static void UpdateTexture(CTextureRef textureRef, Bitmap bmp)
         {
-            _Draw.DrawTexture(texture, rect, color, mirrored);
+            _Draw.UpdateTexture(textureRef, bmp);
         }
 
-        public static void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        /// <summary>
+        ///     Removes a texture from the VRAM and sets it to null to avoid accidential usage <br />
+        ///     Note: You can also use its Dispose method to do the same as this gets automaticly called from the Dispose method and destructor of a texture reference
+        /// </summary>
+        /// <param name="texture"></param>
+        public static void RemoveTexture(ref CTextureRef texture)
         {
-            _Draw.DrawTexture(texture, rect, color, bounds, mirrored);
+            // Disposed textures call this, possibly at program end!
+            if (_Draw != null)
+                _Draw.RemoveTexture(ref texture);
         }
 
-        public static void DrawTexture(CTexture texture, SRectF rect, SColorF color, float begin, float end)
-        {
-            _Draw.DrawTexture(texture, rect, color, begin, end);
-        }
-
-        public static void DrawTexture(CStatic staticBounds, CTexture texture, EAspect aspect)
-        {
-            if (texture == null)
-                return;
-
-            var bounds = new RectangleF(staticBounds.Rect.X, staticBounds.Rect.Y, staticBounds.Rect.W, staticBounds.Rect.H);
-            RectangleF rect;
-
-            CHelper.SetRect(bounds, out rect, texture.OrigAspect, aspect);
-            DrawTexture(texture, new SRectF(rect.X, rect.Y, rect.Width, rect.Height, staticBounds.Rect.Z),
-                        texture.Color, new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f));
-        }
-
-        public static void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float space, float height)
-        {
-            _Draw.DrawTextureReflection(texture, rect, color, bounds, space, height);
-        }
-
+        /// <summary>
+        ///     Returns the number of textures in the VRAM (textures might get reused so this might not be the actual number of textures in use)
+        /// </summary>
+        /// <returns></returns>
         public static int TextureCount()
         {
             return _Draw.GetTextureCount();
+        }
+
+        /// <summary>
+        ///     Draws a simple (filled) rectangle with the given color
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="rect"></param>
+        public static void DrawRect(SColorF color, SRectF rect)
+        {
+            _Draw.DrawRect(color, rect);
+        }
+
+        /// <summary>
+        ///     Draws the reflection of a filled rectangle with the given color
+        /// </summary>
+        /// <param name="color"></param>
+        /// <param name="rect">(Original) rectangle to draw the reflection for</param>
+        /// <param name="space">Spacing between the rect and the reflection</param>
+        /// <param name="height">Height of the reflection</param>
+        public static void DrawRectReflection(SColorF color, SRectF rect, float space, float height)
+        {
+            _Draw.DrawRectReflection(color, rect, space, height);
+        }
+
+        /// <summary>
+        ///     Draws a texture at its position and with its color
+        /// </summary>
+        /// <param name="texture">The texture to be drawn</param>
+        public static void DrawTexture(CTextureRef texture)
+        {
+            DrawTexture(texture, texture.Rect);
+        }
+
+        /// <summary>
+        ///     Draws a texture with its color at the given position
+        /// </summary>
+        /// <param name="textureRef">The texture to be drawn</param>
+        /// <param name="rect">A rectangle with the destination coordinates</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF rect)
+        {
+            DrawTexture(textureRef, rect, textureRef.Color);
+        }
+
+        /// <summary>
+        ///     Draws a texture at the given position with the given color
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="rect"></param>
+        /// <param name="color"></param>
+        /// <param name="mirrored">True to mirror the texture on the y axis</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
+        {
+            _Draw.DrawTexture(textureRef, rect, color, mirrored);
+        }
+
+        /// <summary>
+        ///     Draws a texture at the given position with the given color
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="rect"></param>
+        /// <param name="color"></param>
+        /// <param name="bounds">Bounds to draw the texture in (rest gets cropped off)</param>
+        /// <param name="mirrored">True to mirror the texture on the y axis</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        {
+            _Draw.DrawTexture(textureRef, rect, color, bounds, mirrored);
+        }
+
+        /// <summary>
+        ///     Draws a part of a texture at the given position with the given color
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="rect"></param>
+        /// <param name="color"></param>
+        /// <param name="begin">Normalized start x-coordinate (0..1)</param>
+        /// <param name="end">Normalized end x-coordinate (0..1)</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
+        {
+            _Draw.DrawTexture(textureRef, rect, color, begin, end);
+        }
+
+        /// <summary>
+        ///     Draws a texture fitting it within the given bounds with the method specified by aspect
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="bounds">Where to draw the texture</param>
+        /// <param name="aspect">How to fit a texture in the bounds if the size differs</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect)
+        {
+            DrawTexture(textureRef, bounds, aspect, textureRef.Color);
+        }
+
+        /// <summary>
+        ///     Draws a texture fitting it within the given color and bounds with the method specified by aspect
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="bounds">Where to draw the texture</param>
+        /// <param name="aspect">How to fit a texture in the bounds if the size differs</param>
+        /// <param name="color">Color to use</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect, SColorF color)
+        {
+            if (textureRef == null)
+                return;
+
+            SRectF rect = CHelper.FitInBounds(bounds, textureRef.OrigAspect, aspect);
+            DrawTexture(textureRef, rect, color);
+        }
+
+        /// <summary>
+        ///     Draws the reflection of a texture at the given position and with the given color
+        /// </summary>
+        /// <param name="textureRef"></param>
+        /// <param name="rect">(Original) rectangle to draw the reflection for</param>
+        /// <param name="color"></param>
+        /// <param name="bounds"></param>
+        /// <param name="space">Spacing between the rect and the reflection</param>
+        /// <param name="height">Height of the reflection</param>
+        public static void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        {
+            _Draw.DrawTextureReflection(textureRef, rect, color, bounds, space, height);
         }
     }
 }

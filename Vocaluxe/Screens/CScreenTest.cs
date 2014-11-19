@@ -23,7 +23,7 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenTest : CMenu
+    public class CScreenTest : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -89,7 +89,7 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent)) {}
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent)) {}
 
             if (mouseEvent.LB)
                 CGraphics.FadeTo(EScreens.ScreenMain);

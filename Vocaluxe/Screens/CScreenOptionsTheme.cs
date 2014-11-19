@@ -15,15 +15,16 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Fonts;
+using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenOptionsTheme : CMenu
+    public class CScreenOptionsTheme : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -42,11 +43,7 @@ namespace Vocaluxe.Screens
 
         private const string _ButtonExit = "ButtonExit";
 
-        private int _OldCoverTheme;
-        private int _OldTheme;
-        private int _OldSkin;
-
-        private int _TempSkin;
+        private string _OldCoverTheme;
 
         public override void Init()
         {
@@ -70,19 +67,13 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(xmlPath);
 
-            _SelectSlides[_SelectSlideTheme].AddValues(CTheme.ThemeNames);
-            _SelectSlides[_SelectSlideTheme].Selection = CTheme.GetThemeIndex(-1);
-
-            _SelectSlides[_SelectSlideSkin].AddValues(CTheme.SkinNames);
-            _SelectSlides[_SelectSlideSkin].Selection = CTheme.GetSkinIndex(-1);
-
             _SelectSlides[_SelectSlideCover].AddValues(CCover.CoverThemes);
             _SelectSlides[_SelectSlideCover].Selection = CCover.GetCoverThemeIndex();
-            _SelectSlides[_SelectSlideNoteLines].SetValues<EOffOn>((int)CConfig.DrawNoteLines);
-            _SelectSlides[_SelectSlideToneHelper].SetValues<EOffOn>((int)CConfig.DrawToneHelper);
-            _SelectSlides[_SelectSlideTimerLook].SetValues<ETimerLook>((int)CConfig.TimerLook);
-            _SelectSlides[_SelectSlideFadeInfo].SetValues<EFadePlayerInfo>((int)CConfig.FadePlayerInfo);
-            _SelectSlides[_SelectSlideCoverLoading].SetValues<ECoverLoading>((int)CConfig.CoverLoading);
+            _SelectSlides[_SelectSlideNoteLines].SetValues<EOffOn>((int)CConfig.Config.Theme.DrawNoteLines);
+            _SelectSlides[_SelectSlideToneHelper].SetValues<EOffOn>((int)CConfig.Config.Theme.DrawToneHelper);
+            _SelectSlides[_SelectSlideTimerLook].SetValues<ETimerLook>((int)CConfig.Config.Theme.TimerLook);
+            _SelectSlides[_SelectSlideFadeInfo].SetValues<EFadePlayerInfo>((int)CConfig.Config.Theme.FadePlayerInfo);
+            _SelectSlides[_SelectSlideCoverLoading].SetValues<ECoverLoading>((int)CConfig.Config.Theme.CoverLoading);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -128,7 +119,7 @@ namespace Vocaluxe.Screens
             if (mouseEvent.RB)
                 _Close();
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonExit].Selected)
                     _Close();
@@ -142,20 +133,24 @@ namespace Vocaluxe.Screens
         {
             base.OnShow();
 
-            _OldCoverTheme = CCover.GetCoverThemeIndex();
-            _OldTheme = CTheme.GetThemeIndex(-1);
-            _OldSkin = CTheme.GetSkinIndex(-1);
-            _TempSkin = _OldSkin;
+            _ResetSlides();
+
+            _OldCoverTheme = CConfig.Config.Theme.CoverTheme;
+        }
+
+        private void _ResetSlides()
+        {
+            _SelectSlides[_SelectSlideTheme].Clear();
+            _SelectSlides[_SelectSlideTheme].AddValues(CThemes.ThemeNames);
+            _SelectSlides[_SelectSlideTheme].Selection = Array.IndexOf(CThemes.ThemeNames, CConfig.Config.Theme.Theme);
+
+            _SelectSlides[_SelectSlideSkin].Clear();
+            _SelectSlides[_SelectSlideSkin].AddValues(CThemes.SkinNames);
+            _SelectSlides[_SelectSlideSkin].Selection = Array.IndexOf(CThemes.SkinNames, CConfig.Config.Theme.Skin);
         }
 
         public override bool UpdateGame()
         {
-            return true;
-        }
-
-        public override bool Draw()
-        {
-            base.Draw();
             return true;
         }
 
@@ -167,72 +162,39 @@ namespace Vocaluxe.Screens
 
         private void _SaveConfig()
         {
-            CConfig.Theme = CTheme.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
-            CConfig.Skin = CTheme.SkinNames[_SelectSlides[_SelectSlideSkin].Selection];
-            CConfig.CoverTheme = CCover.CoverThemes[_SelectSlides[_SelectSlideCover].Selection];
-            CConfig.DrawNoteLines = (EOffOn)_SelectSlides[_SelectSlideNoteLines].Selection;
-            CConfig.DrawToneHelper = (EOffOn)_SelectSlides[_SelectSlideToneHelper].Selection;
-            CConfig.TimerLook = (ETimerLook)_SelectSlides[_SelectSlideTimerLook].Selection;
-            CConfig.FadePlayerInfo = (EFadePlayerInfo)_SelectSlides[_SelectSlideFadeInfo].Selection;
-            CConfig.CoverLoading = (ECoverLoading)_SelectSlides[_SelectSlideCoverLoading].Selection;
+            CConfig.Config.Theme.CoverTheme = CCover.CoverThemes[_SelectSlides[_SelectSlideCover].Selection];
+            CConfig.Config.Theme.DrawNoteLines = (EOffOn)_SelectSlides[_SelectSlideNoteLines].Selection;
+            CConfig.Config.Theme.DrawToneHelper = (EOffOn)_SelectSlides[_SelectSlideToneHelper].Selection;
+            CConfig.Config.Theme.TimerLook = (ETimerLook)_SelectSlides[_SelectSlideTimerLook].Selection;
+            CConfig.Config.Theme.FadePlayerInfo = (EFadePlayerInfo)_SelectSlides[_SelectSlideFadeInfo].Selection;
+            CConfig.Config.Theme.CoverLoading = (ECoverLoading)_SelectSlides[_SelectSlideCoverLoading].Selection;
 
             CConfig.SaveConfig();
 
-            if (_OldCoverTheme != _SelectSlides[_SelectSlideCover].Selection)
+            if (_OldCoverTheme != _SelectSlides[_SelectSlideCover].Value)
                 CCover.ReloadCovers();
-
-            if (_OldTheme != _SelectSlides[_SelectSlideTheme].Selection)
-            {
-                CConfig.Theme = CTheme.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
-                _OldTheme = _SelectSlides[_SelectSlideTheme].Selection;
-
-                CTheme.UnloadSkins();
-                CFonts.UnloadThemeFonts(CConfig.Theme);
-                CTheme.ListSkins();
-                CConfig.Skin = CTheme.SkinNames[0];
-                _OldSkin = 0;
-                _TempSkin = _OldSkin;
-
-                CConfig.SaveConfig();
-
-                CTheme.LoadSkins();
-                CTheme.LoadTheme();
-                CGraphics.ReloadTheme();
-            }
         }
 
         private void _OnChange()
         {
-            if (_OldTheme != _SelectSlides[_SelectSlideTheme].Selection)
+            if (CConfig.Config.Theme.Theme != _SelectSlides[_SelectSlideTheme].Value)
             {
-                CConfig.Theme = CTheme.ThemeNames[_SelectSlides[_SelectSlideTheme].Selection];
-                _OldTheme = _SelectSlides[_SelectSlideTheme].Selection;
+                CConfig.Config.Theme.Theme = _SelectSlides[_SelectSlideTheme].Value;
 
-                CTheme.UnloadSkins();
-                CFonts.UnloadThemeFonts(CConfig.Theme);
-                CTheme.ListSkins();
-                CConfig.Skin = CTheme.SkinNames[0];
-                _OldSkin = 0;
-                _TempSkin = _OldSkin;
-
-                CConfig.SaveConfig();
-
-                CTheme.LoadSkins();
-                CTheme.LoadTheme();
+                CThemes.Reload();
                 CGraphics.ReloadTheme();
-
-                OnShow();
-                OnShowFinish();
+                _ResetSlides();
+                _ResumeBG();
                 return;
             }
 
-            if (_TempSkin != _SelectSlides[_SelectSlideSkin].Selection)
+            if (CConfig.Config.Theme.Skin != _SelectSlides[_SelectSlideSkin].Value)
             {
-                _TempSkin = _SelectSlides[_SelectSlideSkin].Selection;
+                CConfig.Config.Theme.Skin = _SelectSlides[_SelectSlideSkin].Value;
 
-                _PauseBG();
-                CConfig.Skin = CTheme.SkinNames[_TempSkin];
+                CThemes.ReloadSkin();
                 CGraphics.ReloadSkin();
+                _ResetSlides();
                 _ResumeBG();
             }
         }

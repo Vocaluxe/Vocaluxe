@@ -17,7 +17,7 @@
 
 using System.Collections.Generic;
 using Vocaluxe.Lib.Video.Acinerella;
-using VocaluxeLib.Draw;
+using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Video
 {
@@ -39,7 +39,7 @@ namespace Vocaluxe.Lib.Video
             _Decoder.Clear();
         }
 
-        public int Load(string videoFileName)
+        public CVideoStream Load(string videoFileName)
         {
             var decoder = new CDecoder();
 
@@ -47,21 +47,23 @@ namespace Vocaluxe.Lib.Video
             {
                 int id = _LastID++;
                 _Decoder.Add(id, decoder);
-                return id;
+                return new CVideoStream(id);
             }
-            return -1;
+            return null;
         }
 
-        public bool Close(int streamID)
+        public void Close(ref CVideoStream stream)
         {
+            if (stream == null)
+                return;
             CDecoder decoder;
-            if (_Decoder.TryGetValue(streamID, out decoder))
+            if (_TryGetDecoder(stream, out decoder))
             {
                 decoder.Close();
-                _Decoder.Remove(streamID);
-                return true;
+                _Decoder.Remove(stream.ID);
             }
-            return false;
+            stream.SetClosed();
+            stream = null;
         }
 
         public int GetNumStreams()
@@ -69,60 +71,70 @@ namespace Vocaluxe.Lib.Video
             return _Decoder.Count;
         }
 
-        public bool GetFrame(int streamID, ref CTexture frame, float time, out float videoTime)
+        public bool GetFrame(CVideoStream stream, float time)
         {
             CDecoder decoder;
-            if (_Decoder.TryGetValue(streamID, out decoder))
-                return decoder.GetFrame(ref frame, time, out videoTime);
-            videoTime = 0;
+            if (_TryGetDecoder(stream, out decoder))
+                return decoder.GetFrame(ref stream.Texture, time, out stream.VideoTime);
+            stream.VideoTime = 0;
             return false;
         }
 
-        public float GetLength(int streamID)
+        public float GetLength(CVideoStream stream)
         {
             CDecoder decoder;
-            if (_Decoder.TryGetValue(streamID, out decoder))
+            if (_TryGetDecoder(stream, out decoder))
                 return decoder.Length;
             return 0f;
         }
 
-        public bool Skip(int streamID, float start, float gap)
+        public bool Skip(CVideoStream stream, float start, float gap)
         {
             CDecoder decoder;
-            if (_Decoder.TryGetValue(streamID, out decoder))
+            if (_TryGetDecoder(stream, out decoder))
                 return decoder.Skip(start, gap);
             return false;
         }
 
-        public void SetLoop(int streamID, bool loop)
+        public void SetLoop(CVideoStream stream, bool loop)
         {
             CDecoder decoder;
-            if (_Decoder.TryGetValue(streamID, out decoder))
+            if (_TryGetDecoder(stream, out decoder))
                 decoder.Loop = loop;
         }
 
-        public void Pause(int streamID)
+        public void Pause(CVideoStream stream)
         {
             CDecoder decoder;
-            if (_Decoder.TryGetValue(streamID, out decoder))
+            if (_TryGetDecoder(stream, out decoder))
                 decoder.Paused = true;
         }
 
-        public void Resume(int streamID)
+        public void Resume(CVideoStream stream)
         {
             CDecoder decoder;
-            if (_Decoder.TryGetValue(streamID, out decoder))
+            if (_TryGetDecoder(stream, out decoder))
                 decoder.Paused = false;
         }
 
-        public bool Finished(int streamID)
+        public bool Finished(CVideoStream stream)
         {
             CDecoder decoder;
-            if (_Decoder.TryGetValue(streamID, out decoder))
+            if (_TryGetDecoder(stream, out decoder))
                 return decoder.Finished;
             return true;
         }
 
         public void Update() {}
+
+        private bool _TryGetDecoder(CVideoStream stream, out CDecoder decoder)
+        {
+            if (stream == null)
+            {
+                decoder = null;
+                return false;
+            }
+            return _Decoder.TryGetValue(stream.ID, out decoder);
+        }
     }
 }

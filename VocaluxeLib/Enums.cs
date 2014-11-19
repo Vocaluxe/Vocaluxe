@@ -19,6 +19,28 @@ using System;
 
 namespace VocaluxeLib
 {
+    public enum ECoverGeneratorType
+    {
+        Default,
+        Song,
+        Folder,
+        Artist,
+        Letter,
+        Edition,
+        Genre,
+        Language,
+        Year,
+        Decade,
+        Date
+    }
+
+    public enum EDirection
+    {
+        Up = 0,
+        Right = 1,
+        Down = 2,
+        Left = 3
+    }
 
     #region Inputs
     [Flags]
@@ -43,7 +65,16 @@ namespace VocaluxeLib
     {
         Crop,
         LetterBox,
-        Stretch
+        Stretch,
+        Zoom1,
+        Zoom2
+    }
+
+    public enum EGeneralAlignment
+    {
+        Middle,
+        Start,
+        End
     }
 
     public enum EAlignment
@@ -250,9 +281,11 @@ namespace VocaluxeLib
 
     public enum EBackgroundMusicOffOn
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_OFF,
         TR_CONFIG_ONLY_SONG,
         TR_CONFIG_ON
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EPlayerInfo

@@ -80,10 +80,15 @@ namespace VocaluxeLib.Songs
             get { return _Voices.Count; }
         }
 
-        public CVoice GetVoice(int index)
+        public CVoice GetVoice(int index, bool add = false)
         {
-            while (index >= _Voices.Count)
-                _Voices.Add(new CVoice());
+            if (add)
+            {
+                while (index >= _Voices.Count)
+                    _Voices.Add(new CVoice());
+            }
+            else if (index >= _Voices.Count)
+                return null;
 
             return _Voices[index];
         }

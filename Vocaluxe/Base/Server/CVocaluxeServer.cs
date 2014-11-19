@@ -61,7 +61,7 @@ namespace Vocaluxe.Base.Server
 
         public static void Init()
         {
-            _Server = new CServer(CConfig.ServerPort, CConfig.ServerEncryption == EOffOn.TR_CONFIG_ON);
+            _Server = new CServer(CConfig.Config.Server.ServerPort, CConfig.Config.Server.ServerEncryption == EOffOn.TR_CONFIG_ON);
 
             CServer.SendKeyEvent = _SendKeyEvent;
             CServer.SendKeyStringEvent = _sendKeyStringEvent;
@@ -93,7 +93,7 @@ namespace Vocaluxe.Base.Server
 
         public static void Start()
         {
-            if (CConfig.ServerActive == EOffOn.TR_CONFIG_ON)
+            if (CConfig.Config.Server.ServerActive == EOffOn.TR_CONFIG_ON)
             {
                 _Server.Start();
                 //_Discover.StartBroadcasting();
@@ -242,7 +242,7 @@ namespace Vocaluxe.Base.Server
                 newProfile = new CProfile
                     {
                         ID = existingProfile.ID,
-                        FileName = existingProfile.FileName,
+                        FilePath = existingProfile.FilePath,
                         Active = existingProfile.Active,
                         Avatar = existingProfile.Avatar,
                         Difficulty = existingProfile.Difficulty,
@@ -490,13 +490,13 @@ namespace Vocaluxe.Base.Server
         #endregion
 
         #region playlist
-        private static SPlaylistInfo[] _GetPlaylists()
+        private static SPlaylistData[] _GetPlaylists()
         {
             return (from p in CPlaylists.Playlists
                     select _GetPlaylistInfo(p)).ToArray();
         }
 
-        private static SPlaylistInfo _GetPlaylist(int playlistId)
+        private static SPlaylistData _GetPlaylist(int playlistId)
         {
             if (CPlaylists.Get(playlistId) == null)
                 throw new ArgumentException("invalid playlistId");
@@ -585,9 +585,9 @@ namespace Vocaluxe.Base.Server
             return result;
         }
 
-        private static SPlaylistInfo _GetPlaylistInfo(CPlaylistFile playlist)
+        private static SPlaylistData _GetPlaylistInfo(CPlaylistFile playlist)
         {
-            return new SPlaylistInfo
+            return new SPlaylistData
                 {
                     PlaylistId = playlist.Id,
                     PlaylistName = playlist.Name,

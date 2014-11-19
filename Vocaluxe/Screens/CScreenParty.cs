@@ -23,7 +23,7 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenParty : CMenu
+    public class CScreenParty : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -89,7 +89,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonStart].Selected)
                     _StartPartyMode();
@@ -119,18 +119,11 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideModes].Selection = 0;
             _UpdateSelection();
 
-            _SetInteractionToSelectSlide(_SelectSlides[_SelectSlideModes]);
+            _SelectElement(_SelectSlides[_SelectSlideModes]);
         }
 
         public override bool UpdateGame()
         {
-            return true;
-        }
-
-        public override bool Draw()
-        {
-            base.Draw();
-
             return true;
         }
 
@@ -173,13 +166,7 @@ namespace Vocaluxe.Screens
             _Texts[_TextVersion].Text = _PartyModeInfos[index].VersionMajor + "." + _PartyModeInfos[index].VersionMinor;
             _Texts[_TextVersion].TranslationID = _PartyModeInfos[index].PartyModeID;
 
-            if (!_PartyModeInfos[index].Playable)
-            {
-                _Buttons[_ButtonStart].Visible = false;
-                _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR";
-                _Texts[_TextError].Visible = true;
-            }
-            else if (CConfig.GetMaxNumMics() == 0)
+            if (CConfig.GetMaxNumMics() == 0)
             {
                 _Buttons[_ButtonStart].Visible = false;
                 _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR_MICS";

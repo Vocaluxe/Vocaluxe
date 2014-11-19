@@ -18,31 +18,22 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using System.Xml;
+using System.Xml.Serialization;
 using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Profile;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
     static class CConfig
     {
-        /// <summary>
-        ///     Uniform settings for writing XML files. ALWAYS use this!
-        /// </summary>
-        public static readonly XmlWriterSettings XMLSettings = new XmlWriterSettings
-            {
-                Indent = true,
-                Encoding = Encoding.UTF8,
-                ConformanceLevel = ConformanceLevel.Document
-            };
-
         private static bool _Initialized;
 
         // Base file and folder names (formerly from CSettings but they can be changed)
@@ -50,58 +41,146 @@ namespace Vocaluxe.Base
         public static string FileHighscoreDB = Path.Combine(CSettings.DataFolder, "HighscoreDB.sqlite");
         private static string _FileConfig = Path.Combine(CSettings.DataFolder, "Config.xml");
 
-        // Debug
-        public static EDebugLevel DebugLevel = EDebugLevel.TR_CONFIG_OFF;
-        public static EOffOn SaveModifiedSongs = EOffOn.TR_CONFIG_OFF;
+        // ReSharper disable UnassignedField.Global
+#pragma warning disable 649
+        // ReSharper disable MemberCanBePrivate.Global
+        public struct SConfigInfo
+            // ReSharper restore MemberCanBePrivate.Global
+        {
+            // ReSharper disable NotAccessedField.Global
+            // ReSharper disable NotAccessedField.Local
+            public string Version;
+            public string Time;
+            public string Platform;
+            public string OSVersion;
+            public int ProcessorCount;
+            public int Screens;
+            public string PrimaryScreenResolution;
+            public string Directory;
+            // ReSharper restore NotAccessedField.Local
+            // ReSharper restore NotAccessedField.Global
+        }
 
-        // Graphics
+        public struct SConfigDebug
+        {
+            [DefaultValue(EDebugLevel.TR_CONFIG_OFF)] public EDebugLevel DebugLevel;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn SaveModifiedSongs;
+        }
+
+        public struct SConfigGraphics
+        {
 #if WIN
-        public static ERenderer Renderer = ERenderer.TR_CONFIG_DIRECT3D;
+            [DefaultValue(ERenderer.TR_CONFIG_DIRECT3D)] public ERenderer Renderer;
 #else
-        public static ERenderer Renderer = ERenderer.TR_CONFIG_OPENGL;
+        [DefaultValue(ERenderer.TR_CONFIG_OPENGL)] public ERenderer Renderer;
 #endif
 
-        public static ETextureQuality TextureQuality = ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM;
-        public static float MaxFPS = 60f;
+            [DefaultValue(ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM)] public ETextureQuality TextureQuality;
+            [XmlRanged(32, 1024), DefaultValue(128)] public int CoverSize;
 
-        public static int ScreenW = 1024;
-        public static int ScreenH = 576;
+            [DefaultValue(1024)] public int ScreenW;
+            [DefaultValue(576)] public int ScreenH;
+            [DefaultValue(EGeneralAlignment.Middle)] public EGeneralAlignment ScreenAlignment;
+            [DefaultValue(0)] public int BorderLeft;
+            [DefaultValue(0)] public int BorderRight;
+            [DefaultValue(0)] public int BorderTop;
+            [DefaultValue(0)] public int BorderBottom;
+            [DefaultValue(EAntiAliasingModes.X0)] public EAntiAliasingModes AAMode;
+            [DefaultValue(60f)] public float MaxFPS;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VSync;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn FullScreen;
+            [DefaultValue(0.4f), XmlRanged(0, 3)] public float FadeTime;
+        }
 
-        public static int BorderLeft;
-        public static int BorderRight;
-        public static int BorderTop;
-        public static int BorderBottom;
+        public struct SConfigTheme
+        {
+            [XmlElement("Name"), DefaultValue("Ambient")] public string Theme;
+            [DefaultValue("Blue")] public string Skin;
+            [XmlElement("Cover"), DefaultValue("Blue")] public string CoverTheme;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawNoteLines;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawToneHelper;
+            [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)] public ETimerLook TimerLook;
+            [DefaultValue(EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH)] public EPlayerInfo PlayerInfo;
+            [DefaultValue(EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF)] public EFadePlayerInfo FadePlayerInfo;
+            [DefaultValue(ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC)] public ECoverLoading CoverLoading;
+            [DefaultValue(ELyricStyle.Slide)] public ELyricStyle LyricStyle;
+        }
 
-        public static EAntiAliasingModes AAMode = EAntiAliasingModes.X0;
+        public struct SConfigSound
+        {
+            [DefaultValue(EPlaybackLib.GstreamerSharp)] public EPlaybackLib PlayBackLib;
+            [DefaultValue(ERecordLib.PortAudio)] public ERecordLib RecordLib;
+            [DefaultValue(EBufferSize.B2048)] public EBufferSize AudioBufferSize;
+            [XmlRanged(-500, 500)] public int AudioLatency;
+            // ReSharper disable MemberHidesStaticFromOuterClass
+            [DefaultValue(EBackgroundMusicOffOn.TR_CONFIG_ON)] public EBackgroundMusicOffOn BackgroundMusic;
+            [XmlRanged(0, 100), DefaultValue(30)] public int BackgroundMusicVolume;
+            [DefaultValue(EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)] public EBackgroundMusicSource BackgroundMusicSource;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn BackgroundMusicUseStart;
+            [XmlRanged(0, 100), DefaultValue(50)] public int PreviewMusicVolume;
+            [XmlRanged(0, 100), DefaultValue(80)] public int GameMusicVolume;
+            // ReSharper restore MemberHidesStaticFromOuterClass
+        }
 
-        public static EOffOn VSync = EOffOn.TR_CONFIG_ON;
-        public static EOffOn FullScreen = EOffOn.TR_CONFIG_ON;
+        public struct SConfigGame
+        {
+            [DefaultValue(CSettings.FallbackLanguage)] public string Language;
+            public string[] SongFolder;
+            [DefaultValue(ESongMenu.TR_CONFIG_TILE_BOARD)] public ESongMenu SongMenu;
+            [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)] public ESongSorting SongSorting;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn IgnoreArticles;
+            [DefaultValue(10)] public float ScoreAnimationTime;
+            [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)] public ETimerMode TimerMode;
+            [XmlAltName("NumPlayer"), DefaultValue(2)] public int NumPlayers;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn Tabs;
+            [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)] public ELyricsPosition LyricsPosition;
+            [DefaultValue(0.1f)] public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
+            [XmlArrayItem("Player"), XmlArray] public string[] Players;
+        }
 
-        public static float FadeTime = 0.4f;
-        public static int CoverSize = 128;
+        public struct SConfigVideo
+        {
+            [DefaultValue(EVideoDecoder.FFmpeg)] public EVideoDecoder VideoDecoder;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideoBackgrounds;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideoPreview;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideosInSongs;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn VideosToBackground;
+            [DefaultValue(EWebcamLib.OpenCV)] public EWebcamLib WebcamLib;
+            public SWebcamConfig? WebcamConfig;
+        }
 
-        // Theme
-        public static string Theme = "Ambient";
-        public static string Skin = "Blue";
-        public static string CoverTheme = "Blue";
-        public static EOffOn DrawNoteLines = EOffOn.TR_CONFIG_ON;
-        public static EOffOn DrawToneHelper = EOffOn.TR_CONFIG_ON;
-        public static ETimerLook TimerLook = ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED;
-        public static EPlayerInfo PlayerInfo = EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH;
-        public static EFadePlayerInfo FadePlayerInfo = EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF;
-        public static ECoverLoading CoverLoading = ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC;
-        public static ELyricStyle LyricStyle = ELyricStyle.Slide;
+        public struct SConfigRecord
+        {
+            public SMicConfig[] MicConfig;
+            [DefaultValue(200)] public int MicDelay; //[ms]
+        }
 
-        // Sound
-        public static EPlaybackLib PlayBackLib = EPlaybackLib.GstreamerSharp;
-        public static EBufferSize AudioBufferSize = EBufferSize.B2048;
-        public static int AudioLatency;
-        private static int _BackgroundMusicVolume = 30;
-        public static EBackgroundMusicOffOn BackgroundMusic = EBackgroundMusicOffOn.TR_CONFIG_ON;
-        public static EBackgroundMusicSource BackgroundMusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
-        public static EOffOn BackgroundMusicUseStart = EOffOn.TR_CONFIG_ON;
-        private static int _PreviewMusicVolume = 50;
-        private static int _GameMusicVolume = 80;
+        public struct SConfigServer
+        {
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn ServerActive;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn ServerEncryption;
+            [DefaultValue(3000)] public int ServerPort;
+        }
+#pragma warning restore 649
+        // ReSharper restore UnassignedField.Global
+
+        public struct SConfig
+        {
+            // ReSharper disable NotAccessedField.Global
+            public SConfigInfo? Info;
+            // ReSharper restore NotAccessedField.Global
+            public SConfigDebug Debug;
+            public SConfigGraphics Graphics;
+            public SConfigTheme Theme;
+            public SConfigSound Sound;
+            public SConfigGame Game;
+            public SConfigVideo Video;
+            public SConfigRecord Record;
+            public SConfigServer Server;
+        }
+
+        public static SConfig Config;
+        public static bool LoadOldThemeFiles;
 
         //Folders
         public static readonly List<string> SongFolders = new List<string>
@@ -109,7 +188,8 @@ namespace Vocaluxe.Base
                 Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 
 #if INSTALLER
-            ,Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs);           
+                ,
+                Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)           
 #endif
             };
         /// <summary>
@@ -124,72 +204,36 @@ namespace Vocaluxe.Base
                 Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
             };
 
-        // Game
-        public static ESongMenu SongMenu = ESongMenu.TR_CONFIG_TILE_BOARD;
-        public static ESongSorting SongSorting = ESongSorting.TR_CONFIG_ARTIST;
-        public static EOffOn IgnoreArticles = EOffOn.TR_CONFIG_ON;
-        public static float ScoreAnimationTime = 10;
-        public static ETimerMode TimerMode = ETimerMode.TR_CONFIG_TIMERMODE_REMAINING;
-        public static int NumPlayer = 2;
-        public static EOffOn Tabs = EOffOn.TR_CONFIG_OFF;
-        public static string Language = CSettings.FallbackLanguage;
-        public static ELyricsPosition LyricsPosition = ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM;
-        public static readonly string[] Players = new string[CSettings.MaxNumPlayer];
-
-        public static float MinLineBreakTime = 0.1f; //Minimum time to show the text before it is (to be) sung (if possible)
-
-        // Video
-        public static EVideoDecoder VideoDecoder = EVideoDecoder.FFmpeg;
-        public static EOffOn VideoBackgrounds = EOffOn.TR_CONFIG_ON;
-        public static EOffOn VideoPreview = EOffOn.TR_CONFIG_ON;
-        public static EOffOn VideosInSongs = EOffOn.TR_CONFIG_ON;
-        public static EOffOn VideosToBackground = EOffOn.TR_CONFIG_OFF;
-
-        // Record
-        public static ERecordLib RecordLib = ERecordLib.PortAudio;
-        public static readonly SMicConfig[] MicConfig = new SMicConfig[CSettings.MaxNumPlayer];
-        public static int MicDelay = 200; //[ms]
-
-        // Webcam
-        public static EWebcamLib WebcamLib = EWebcamLib.OpenCV;
-        public static SWebcamConfig WebcamConfig;
-
-        // Server
-        public static EOffOn ServerActive = EOffOn.TR_CONFIG_OFF;
-        public static EOffOn ServerEncryption = EOffOn.TR_CONFIG_OFF;
-        public static int ServerPort = 3000;
-        //public static string ServerPassword = "vocaluxe";
-
         //Lists to save parameters and values
         private static readonly List<string> _Params = new List<string>();
         private static readonly List<string> _Values = new List<string>();
 
         public static int BackgroundMusicVolume
         {
-            get { return _BackgroundMusicVolume; }
+            get { return Config.Sound.BackgroundMusicVolume; }
             set
             {
-                _BackgroundMusicVolume = value.Clamp(0, 100);
+                Config.Sound.BackgroundMusicVolume = value.Clamp(0, 100);
                 SaveConfig();
             }
         }
 
         public static int GameMusicVolume
         {
-            get { return _GameMusicVolume; }
+            get { return Config.Sound.GameMusicVolume; }
             set
             {
-                _GameMusicVolume = value.Clamp(0, 100);
+                Config.Sound.GameMusicVolume = value.Clamp(0, 100);
                 SaveConfig();
             }
         }
 
         public static int PreviewMusicVolume
         {
-            get { return _PreviewMusicVolume; }
+            get { return Config.Sound.PreviewMusicVolume; }
             set
             {
-                _PreviewMusicVolume = value.Clamp(0, 100);
+                Config.Sound.PreviewMusicVolume = value.Clamp(0, 100);
                 SaveConfig();
             }
         }
@@ -208,432 +252,183 @@ namespace Vocaluxe.Base
             _Initialized = true;
         }
 
+        private static bool _XmlErrorsOccured;
+
+        private static void _HandleXmlError(CXmlException e)
+        {
+            _XmlErrorsOccured = true;
+        }
+
         private static void _LoadConfig()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(_FileConfig);
-            if (xmlReader == null)
-                return;
+            _XmlErrorsOccured = false;
+            var xml = new CXmlDeserializer(new CXmlErrorHandler(_HandleXmlError));
+            Config = xml.Deserialize<SConfig>(_FileConfig);
+            if (_XmlErrorsOccured)
+                CLog.LogError("There were some warnings or errors loading the config file. Some values might have been reset to their defaults.");
 
-            xmlReader.TryGetEnumValue("//root/Debug/DebugLevel", ref DebugLevel);
-            xmlReader.TryGetEnumValue("//root/Debug/SaveModifiedSongs", ref SaveModifiedSongs);
-
-            #region Graphics
-            xmlReader.TryGetEnumValue("//root/Graphics/Renderer", ref Renderer);
-            xmlReader.TryGetEnumValue("//root/Graphics/TextureQuality", ref TextureQuality);
-            xmlReader.TryGetIntValueRange("//root/Graphics/CoverSize", ref CoverSize, 32, 1024);
-
-            xmlReader.TryGetIntValue("//root/Graphics/ScreenW", ref ScreenW);
-            xmlReader.TryGetIntValue("//root/Graphics/ScreenH", ref ScreenH);
-
-            xmlReader.TryGetIntValue("//root/Graphics/BorderLeft", ref BorderLeft);
-            xmlReader.TryGetIntValue("//root/Graphics/BorderRight", ref BorderRight);
-            xmlReader.TryGetIntValue("//root/Graphics/BorderTop", ref BorderTop);
-            xmlReader.TryGetIntValue("//root/Graphics/BorderBottom", ref BorderBottom);
-
-            xmlReader.TryGetEnumValue("//root/Graphics/AAMode", ref AAMode);
-            xmlReader.TryGetFloatValue("//root/Graphics/MaxFPS", ref MaxFPS);
-            xmlReader.TryGetEnumValue("//root/Graphics/VSync", ref VSync);
-            xmlReader.TryGetEnumValue("//root/Graphics/FullScreen", ref FullScreen);
-            xmlReader.TryGetFloatValue("//root/Graphics/FadeTime", ref FadeTime);
-            #endregion Graphics
-
-            #region Theme
-            xmlReader.GetValue("//root/Theme/Name", out Theme, Theme);
-            xmlReader.GetValue("//root/Theme/Skin", out Skin, Skin);
-            xmlReader.GetValue("//root/Theme/Cover", out CoverTheme, CoverTheme);
-            xmlReader.TryGetEnumValue("//root/Theme/DrawNoteLines", ref DrawNoteLines);
-            xmlReader.TryGetEnumValue("//root/Theme/DrawToneHelper", ref DrawToneHelper);
-            xmlReader.TryGetEnumValue("//root/Theme/TimerLook", ref TimerLook);
-            xmlReader.TryGetEnumValue("//root/Theme/PlayerInfo", ref PlayerInfo);
-            xmlReader.TryGetEnumValue("//root/Theme/FadePlayerInfo", ref FadePlayerInfo);
-            xmlReader.TryGetEnumValue("//root/Theme/CoverLoading", ref CoverLoading);
-            xmlReader.TryGetEnumValue("//root/Theme/LyricStyle", ref LyricStyle);
-            #endregion Theme
-
-            #region Sound
-            xmlReader.TryGetEnumValue("//root/Sound/PlayBackLib", ref PlayBackLib);
-            xmlReader.TryGetEnumValue("//root/Sound/RecordLib", ref RecordLib);
-            xmlReader.TryGetEnumValue("//root/Sound/AudioBufferSize", ref AudioBufferSize);
-
-            xmlReader.TryGetIntValueRange("//root/Sound/AudioLatency", ref AudioLatency, -500, 500);
-
-            xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusic", ref BackgroundMusic);
-            xmlReader.TryGetIntValueRange("//root/Sound/BackgroundMusicVolume", ref _BackgroundMusicVolume);
-            xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicSource", ref BackgroundMusicSource);
-            xmlReader.TryGetEnumValue("//root/Sound/BackgroundMusicUseStart", ref BackgroundMusicUseStart);
-            xmlReader.TryGetIntValueRange("//root/Sound/PreviewMusicVolume", ref _PreviewMusicVolume);
-            xmlReader.TryGetIntValueRange("//root/Sound/GameMusicVolume", ref _GameMusicVolume);
-            #endregion Sound
-
-            #region Game
-            // Songfolder
-            string value = String.Empty;
-            int i = 1;
-            while (xmlReader.GetValue("//root/Game/SongFolder" + i, out value, value))
+            if (Config.Game.SongFolder.Length > 0)
             {
-                if (i == 1)
-                    SongFolders.Clear();
-                SongFolders.Add(value);
-                value = String.Empty;
-                i++;
+                SongFolders.Clear();
+                SongFolders.AddRange(Config.Game.SongFolder);
             }
+            if ((Config.Game.ScoreAnimationTime > 0 && Config.Game.ScoreAnimationTime < 1) || Config.Game.ScoreAnimationTime < 0)
+                Config.Game.ScoreAnimationTime = 1;
 
-            xmlReader.TryGetEnumValue("//root/Game/SongMenu", ref SongMenu);
-            xmlReader.TryGetEnumValue("//root/Game/SongSorting", ref SongSorting);
-            xmlReader.TryGetEnumValue("//root/Game/IgnoreArticles", ref IgnoreArticles);
-            xmlReader.TryGetFloatValue("//root/Game/ScoreAnimationTime", ref ScoreAnimationTime);
-            xmlReader.TryGetEnumValue("//root/Game/TimerMode", ref TimerMode);
-            xmlReader.TryGetIntValue("//root/Game/NumPlayer", ref NumPlayer);
-            xmlReader.TryGetEnumValue("//root/Game/Tabs", ref Tabs);
-            xmlReader.GetValue("//root/Game/Language", out Language, Language);
-            xmlReader.TryGetEnumValue("//root/Game/LyricsPosition", ref LyricsPosition);
-            xmlReader.TryGetFloatValue("//root/Game/MinLineBreakTime", ref MinLineBreakTime);
+            if (Config.Game.MinLineBreakTime < 0)
+                Config.Game.MinLineBreakTime = 0.1f;
 
-            if ((ScoreAnimationTime > 0 && ScoreAnimationTime < 1) || ScoreAnimationTime < 0)
-                ScoreAnimationTime = 1;
+            if (Config.Game.NumPlayers < 1 || Config.Game.NumPlayers > CSettings.MaxNumPlayer)
+                Config.Game.NumPlayers = 2;
+            Array.Resize(ref Config.Game.Players, CSettings.MaxNumPlayer);
 
-            if (MinLineBreakTime < 0)
-                MinLineBreakTime = 0.1f;
-
-            if (NumPlayer < 1 || NumPlayer > CSettings.MaxNumPlayer)
-                NumPlayer = 2;
-
-            bool langExists = CLanguage.SetLanguage(Language);
+            bool langExists = CLanguage.SetLanguage(Config.Game.Language);
 
             if (langExists == false)
             {
-                Language = CSettings.FallbackLanguage;
-                CLanguage.SetLanguage(Language);
+                Config.Game.Language = CSettings.FallbackLanguage;
+                CLanguage.SetLanguage(Config.Game.Language);
             }
 
-            //Read players from config
-            for (i = 1; i <= CSettings.MaxNumPlayer; i++)
-                xmlReader.GetValue("//root/Game/Players/Player" + i, out Players[i - 1], String.Empty);
-            #endregion Game
+            Config.Record.MicDelay = (int)(20 * Math.Round(Config.Record.MicDelay / 20.0));
 
-            #region Video
-            xmlReader.TryGetEnumValue("//root/Video/VideoDecoder", ref VideoDecoder);
-            xmlReader.TryGetEnumValue("//root/Video/VideoBackgrounds", ref VideoBackgrounds);
-            xmlReader.TryGetEnumValue("//root/Video/VideoPreview", ref VideoPreview);
-            xmlReader.TryGetEnumValue("//root/Video/VideosInSongs", ref VideosInSongs);
-            xmlReader.TryGetEnumValue("//root/Video/VideosToBackground", ref VideosToBackground);
+            if (Config.Server.ServerPort < 1 || Config.Server.ServerPort > 65535)
+                Config.Server.ServerPort = 3000;
 
-            xmlReader.TryGetEnumValue("//root/Video/WebcamLib", ref WebcamLib);
-            WebcamConfig = new SWebcamConfig();
-            xmlReader.GetValue("//root/Video/WebcamConfig/MonikerString", out WebcamConfig.MonikerString, String.Empty);
-            xmlReader.TryGetIntValue("//root/Video/WebcamConfig/Framerate", ref WebcamConfig.Framerate);
-            xmlReader.TryGetIntValue("//root/Video/WebcamConfig/Width", ref WebcamConfig.Width);
-            xmlReader.TryGetIntValue("//root/Video/WebcamConfig/Height", ref WebcamConfig.Height);
-            #endregion Video
-
-            #region Record
-            for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
-            {
-                MicConfig[p - 1] = new SMicConfig(0);
-                xmlReader.GetValue("//root/Record/MicConfig" + p + "/DeviceName", out MicConfig[p - 1].DeviceName, String.Empty);
-                xmlReader.GetValue("//root/Record/MicConfig" + p + "/DeviceDriver", out MicConfig[p - 1].DeviceDriver, String.Empty);
-                xmlReader.TryGetIntValue("//root/Record/MicConfig" + p + "/Channel", ref MicConfig[p - 1].Channel);
-            }
-
-            xmlReader.TryGetIntValueRange("//root/Record/MicDelay", ref MicDelay, 0, 500);
-            MicDelay = (int)(20 * Math.Round(MicDelay / 20.0));
-            #endregion Record
-
-            #region Server
-            xmlReader.TryGetEnumValue("//root/Server/ServerActive", ref ServerActive);
-            xmlReader.TryGetEnumValue("//root/Server/ServerEncryption", ref ServerEncryption);
-            xmlReader.TryGetIntValue("//root/Server/ServerPort", ref ServerPort);
-            if (ServerPort < 1 || ServerPort > 65535)
-                ServerPort = 3000;
-
-            //xmlReader.GetValue("//root/Server/ServerPassword", out ServerPassword, ServerPassword);
-            #endregion Server
+            Config.Info = new SConfigInfo
+                {
+                    Version = CSettings.GetFullVersionText(),
+                    Time = DateTime.Now.ToString(),
+                    Platform = Environment.OSVersion.Platform.ToString(),
+                    OSVersion = Environment.OSVersion.ToString(),
+                    ProcessorCount = Environment.ProcessorCount,
+                    Screens = Screen.AllScreens.Length,
+                    PrimaryScreenResolution = Screen.PrimaryScreen.Bounds.Size.ToString(),
+                    Directory = CSettings.ProgramFolder
+                };
         }
 
-        public static bool SaveConfig()
+        private static string _GetComment(string elName)
         {
-            XmlWriter writer = null;
-            try
+            switch (elName)
             {
-                writer = XmlWriter.Create(_FileConfig, XMLSettings);
-                writer.WriteStartDocument();
-                writer.WriteStartElement("root");
-
-
-                writer.WriteStartElement("Info");
-
-                writer.WriteElementString("Version", CSettings.GetFullVersionText());
-                writer.WriteElementString("Time", DateTime.Now.ToString());
-                writer.WriteElementString("Platform", Environment.OSVersion.Platform.ToString());
-                writer.WriteElementString("OSVersion", Environment.OSVersion.ToString());
-                writer.WriteElementString("ProcessorCount", Environment.ProcessorCount.ToString());
-
-                writer.WriteElementString("Screens", Screen.AllScreens.Length.ToString());
-                writer.WriteElementString("PrimaryScreenResolution", Screen.PrimaryScreen.Bounds.Size.ToString());
-
-                writer.WriteElementString("Directory", CSettings.ProgramFolder);
-
-                writer.WriteEndElement();
-
-                #region Debug
-                writer.WriteStartElement("Debug");
-
-                writer.WriteComment("DebugLevel: " + CHelper.ListStrings(Enum.GetNames(typeof(EDebugLevel))));
-                writer.WriteElementString("DebugLevel", Enum.GetName(typeof(EDebugLevel), DebugLevel));
-
-                writer.WriteComment("SaveModifiedSongs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("SaveModifiedSongs", Enum.GetName(typeof(EOffOn), SaveModifiedSongs));
-
-                writer.WriteEndElement();
-                #endregion Debug
-
-                #region Graphics
-                writer.WriteStartElement("Graphics");
-
-                writer.WriteComment("Renderer: " + CHelper.ListStrings(Enum.GetNames(typeof(ERenderer))));
-                writer.WriteElementString("Renderer", Enum.GetName(typeof(ERenderer), Renderer));
-
-                writer.WriteComment("TextureQuality: " + CHelper.ListStrings(Enum.GetNames(typeof(ETextureQuality))));
-                writer.WriteElementString("TextureQuality", Enum.GetName(typeof(ETextureQuality), TextureQuality));
-
-                writer.WriteComment("CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 128)");
-                writer.WriteElementString("CoverSize", CoverSize.ToString());
-
-                writer.WriteComment("Screen width and height (pixels)");
-                writer.WriteElementString("ScreenW", ScreenW.ToString());
-                writer.WriteElementString("ScreenH", ScreenH.ToString());
-
-                writer.WriteComment("Screen borders (pixels)");
-                writer.WriteElementString("BorderLeft", BorderLeft.ToString());
-                writer.WriteElementString("BorderRight", BorderRight.ToString());
-                writer.WriteElementString("BorderTop", BorderTop.ToString());
-                writer.WriteElementString("BorderBottom", BorderBottom.ToString());
-
-                writer.WriteComment("AAMode: " + CHelper.ListStrings(Enum.GetNames(typeof(EAntiAliasingModes))));
-                writer.WriteElementString("AAMode", Enum.GetName(typeof(EAntiAliasingModes), AAMode));
-
-                writer.WriteComment("MaxFPS should be between 1..200");
-                writer.WriteElementString("MaxFPS", MaxFPS.ToString("#"));
-
-                writer.WriteComment("VSync: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("VSync", Enum.GetName(typeof(EOffOn), VSync));
-
-                writer.WriteComment("FullScreen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("FullScreen", Enum.GetName(typeof(EOffOn), FullScreen));
-
-                writer.WriteComment("FadeTime should be between 0..3 Seconds");
-                writer.WriteElementString("FadeTime", FadeTime.ToString("#0.00"));
-
-                writer.WriteEndElement();
-                #endregion Graphics
-
-                #region Theme
-                writer.WriteStartElement("Theme");
-
-                writer.WriteComment("Theme name");
-                writer.WriteElementString("Name", Theme);
-
-                writer.WriteComment("Skin name");
-                writer.WriteElementString("Skin", Skin);
-
-                writer.WriteComment("Name of cover-theme");
-                writer.WriteElementString("Cover", CoverTheme);
-
-                writer.WriteComment("Draw note-lines: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("DrawNoteLines", Enum.GetName(typeof(EOffOn), DrawNoteLines));
-
-                writer.WriteComment("Draw tone-helper: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("DrawToneHelper", Enum.GetName(typeof(EOffOn), DrawToneHelper));
-
-                writer.WriteComment("Look of timer: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerLook))));
-                writer.WriteElementString("TimerLook", Enum.GetName(typeof(ETimerLook), TimerLook));
-
-                writer.WriteComment("Information about players on SingScreen: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlayerInfo))));
-                writer.WriteElementString("PlayerInfo", Enum.GetName(typeof(EPlayerInfo), PlayerInfo));
-
-                writer.WriteComment("Fade player-information with lyrics and notebars: " + CHelper.ListStrings(Enum.GetNames(typeof(EFadePlayerInfo))));
-                writer.WriteElementString("FadePlayerInfo", Enum.GetName(typeof(EFadePlayerInfo), FadePlayerInfo));
-
-                writer.WriteComment("Cover Loading: " + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading))));
-                writer.WriteElementString("CoverLoading", Enum.GetName(typeof(ECoverLoading), CoverLoading));
-
-                writer.WriteComment("Lyric Style: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle))));
-                writer.WriteElementString("LyricStyle", Enum.GetName(typeof(ELyricStyle), LyricStyle));
-
-                writer.WriteEndElement();
-                #endregion Theme
-
-                #region Sound
-                writer.WriteStartElement("Sound");
-
-                writer.WriteComment("PlayBackLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlaybackLib))));
-                writer.WriteElementString("PlayBackLib", Enum.GetName(typeof(EPlaybackLib), PlayBackLib));
-
-                writer.WriteComment("RecordLib: " + CHelper.ListStrings(Enum.GetNames(typeof(ERecordLib))));
-                writer.WriteElementString("RecordLib", Enum.GetName(typeof(ERecordLib), RecordLib));
-
-                writer.WriteComment("AudioBufferSize: " + CHelper.ListStrings(Enum.GetNames(typeof(EBufferSize))));
-                writer.WriteElementString("AudioBufferSize", Enum.GetName(typeof(EBufferSize), AudioBufferSize));
-
-                writer.WriteComment("AudioLatency from -500 to 500 ms");
-                writer.WriteElementString("AudioLatency", AudioLatency.ToString());
-
-                writer.WriteComment("Background Music: " + CHelper.ListStrings(Enum.GetNames(typeof(EBackgroundMusicOffOn))));
-                writer.WriteElementString("BackgroundMusic", Enum.GetName(typeof(EBackgroundMusicOffOn), BackgroundMusic));
-
-                writer.WriteComment("Background Music Volume from 0 to 100");
-                writer.WriteElementString("BackgroundMusicVolume", BackgroundMusicVolume.ToString());
-
-                writer.WriteComment("Background Music Source: " + CHelper.ListStrings(Enum.GetNames(typeof(EBackgroundMusicSource))));
-                writer.WriteElementString("BackgroundMusicSource", Enum.GetName(typeof(EBackgroundMusicSource), BackgroundMusicSource));
-
-                writer.WriteComment("Background Music use start-tag of songs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("BackgroundMusicUseStart", Enum.GetName(typeof(EOffOn), BackgroundMusicUseStart));
-
-                writer.WriteComment("Preview Volume from 0 to 100");
-                writer.WriteElementString("PreviewMusicVolume", PreviewMusicVolume.ToString());
-
-                writer.WriteComment("Game Volume from 0 to 100");
-                writer.WriteElementString("GameMusicVolume", GameMusicVolume.ToString());
-
-                writer.WriteEndElement();
-                #endregion Sound
-
-                #region Game
-                writer.WriteStartElement("Game");
-
-                writer.WriteComment("Game-Language:");
-                writer.WriteElementString("Language", Language);
-
-                // SongFolder
-                writer.WriteComment("SongFolder: SongFolder1, SongFolder2, SongFolder3, ...");
-                for (int i = 0; i < SongFolders.Count; i++)
-                    writer.WriteElementString("SongFolder" + (i + 1), SongFolders[i]);
-
-                writer.WriteComment("SongMenu: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongMenu))));
-                writer.WriteElementString("SongMenu", Enum.GetName(typeof(ESongMenu), SongMenu));
-
-                writer.WriteComment("SongSorting: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongSorting))));
-                writer.WriteElementString("SongSorting", Enum.GetName(typeof(ESongSorting), SongSorting));
-
-                writer.WriteComment("Ignore articles on song-sorting: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("IgnoreArticles", Enum.GetName(typeof(EOffOn), IgnoreArticles));
-
-                writer.WriteComment("ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.");
-                writer.WriteElementString("ScoreAnimationTime", ScoreAnimationTime.ToString());
-
-                writer.WriteComment("TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode))));
-                writer.WriteElementString("TimerMode", Enum.GetName(typeof(ETimerMode), TimerMode));
-
-                writer.WriteComment("NumPlayer: 1.." + CSettings.MaxNumPlayer);
-                writer.WriteElementString("NumPlayer", NumPlayer.ToString());
-
-                writer.WriteComment("Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("Tabs", Enum.GetName(typeof(EOffOn), Tabs));
-
-                writer.WriteComment("Position if lyrics on screen: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricsPosition))));
-                writer.WriteElementString("LyricsPosition", Enum.GetName(typeof(ELyricsPosition), LyricsPosition));
-
-                writer.WriteComment("MinLineBreakTime: Value >= 0 in s. Minimum time the text is shown before it is to be sung");
-                writer.WriteElementString("MinLineBreakTime", MinLineBreakTime.ToString());
-
-                writer.WriteComment("Default profile for players 1..." + CSettings.MaxNumPlayer + ":");
-                writer.WriteStartElement("Players");
-                for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
-                    writer.WriteElementString("Player" + i, Path.GetFileName(Players[i - 1]));
-                writer.WriteEndElement();
-
-                writer.WriteEndElement();
-                #endregion Game
-
-                #region Video
-                writer.WriteStartElement("Video");
-
-                writer.WriteComment("VideoDecoder: " + CHelper.ListStrings(Enum.GetNames(typeof(EVideoDecoder))));
-                writer.WriteElementString("VideoDecoder", Enum.GetName(typeof(EVideoDecoder), VideoDecoder));
-
-                writer.WriteComment("VideoBackgrounds: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("VideoBackgrounds", Enum.GetName(typeof(EOffOn), VideoBackgrounds));
-
-                writer.WriteComment("VideoPreview: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("VideoPreview", Enum.GetName(typeof(EOffOn), VideoPreview));
-
-                writer.WriteComment("Show Videos while singing: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("VideosInSongs", Enum.GetName(typeof(EOffOn), VideosInSongs));
-
-                writer.WriteComment("Show backgroundmusic videos as background: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("VideosToBackground", Enum.GetName(typeof(EOffOn), VideosToBackground));
-
-                writer.WriteComment("WebcamLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EWebcamLib))));
-                writer.WriteElementString("WebcamLib", Enum.GetName(typeof(EWebcamLib), WebcamLib));
-
-                writer.WriteStartElement("WebcamConfig");
-
-                writer.WriteElementString("MonikerString", WebcamConfig.MonikerString);
-                writer.WriteElementString("Framerate", WebcamConfig.Framerate.ToString());
-                writer.WriteElementString("Width", WebcamConfig.Width.ToString());
-                writer.WriteElementString("Height", WebcamConfig.Height.ToString());
-
-                writer.WriteEndElement();
-
-                writer.WriteEndElement();
-                #endregion Video
-
-                #region Record
-                writer.WriteStartElement("Record");
-
-                for (int p = 1; p <= CSettings.MaxNumPlayer; p++)
-                {
-                    if (MicConfig[p - 1].DeviceName != "" && MicConfig[p - 1].Channel > 0)
-                    {
-                        writer.WriteStartElement("MicConfig" + p);
-
-                        writer.WriteElementString("DeviceName", MicConfig[p - 1].DeviceName);
-                        writer.WriteElementString("DeviceDriver", MicConfig[p - 1].DeviceDriver);
-                        writer.WriteElementString("Channel", MicConfig[p - 1].Channel.ToString());
-
-                        writer.WriteEndElement();
-                    }
-                }
-
-                writer.WriteComment("Mic delay in ms. 0, 20, 40, 60 ... 500");
-                writer.WriteElementString("MicDelay", MicDelay.ToString());
-
-                writer.WriteEndElement();
-                #endregion Record
-
-                #region Server
-                writer.WriteStartElement("Server");
-
-                writer.WriteComment("Server On/Off: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("ServerActive", Enum.GetName(typeof(EOffOn), ServerActive));
-
-                writer.WriteComment("Server Encryption On/Off: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn))));
-                writer.WriteElementString("ServerEncryption", Enum.GetName(typeof(EOffOn), ServerEncryption));
-
-                writer.WriteComment("Server Port (default: 3000) [1..65535]");
-                writer.WriteElementString("ServerPort", ServerPort.ToString());
-
-                //writer.WriteComment("Server Password (default: vocaluxe)");
-                //writer.WriteElementString("ServerPassword", ServerPassword);
-
-                writer.WriteEndElement();
-                #endregion Server
-
-                // End of File
-                writer.WriteEndElement(); //end of root
-                writer.WriteEndDocument();
-                writer.Flush();
-                writer.Close();
-                writer = null;
+                case "DebugLevel":
+                    return "DebugLevel: " + CHelper.ListStrings(Enum.GetNames(typeof(EDebugLevel)));
+                case "SaveModifiedSongs":
+                    return "SaveModifiedSongs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "Renderer":
+                    return "Renderer: " + CHelper.ListStrings(Enum.GetNames(typeof(ERenderer)));
+                case "TextureQuality":
+                    return "TextureQuality: " + CHelper.ListStrings(Enum.GetNames(typeof(ETextureQuality)));
+                case "CoverSize":
+                    return "CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 128)";
+                case "ScreenW":
+                    return "Screen width and height (pixels)";
+                case "BorderLeft":
+                    return "Screen borders (pixels)";
+                case "AAMode":
+                    return "AAMode: " + CHelper.ListStrings(Enum.GetNames(typeof(EAntiAliasingModes)));
+                case "MaxFPS":
+                    return "MaxFPS should be between 1..200";
+                case "VSync":
+                    return "VSync: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "FullScreen":
+                    return "FullScreen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "FadeTime":
+                    return "FadeTime should be between 0..3 Seconds";
+                case "Theme":
+                    return "Theme name";
+                case "Skin":
+                    return "Skin name";
+                case "Cover":
+                    return "Name of cover-theme";
+                case "DrawNoteLines":
+                    return "Draw note-lines: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "DrawToneHelper":
+                    return "Draw tone-helper: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "TimerLook":
+                    return "Look of timer: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerLook)));
+                case "PlayerInfo":
+                    return "Information about players on SingScreen: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlayerInfo)));
+                case "FadePlayerInfo":
+                    return "Fade player-information with lyrics and notebars: " + CHelper.ListStrings(Enum.GetNames(typeof(EFadePlayerInfo)));
+                case "CoverLoading":
+                    return "Cover Loading: " + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading)));
+                case "LyricStyle":
+                    return "Lyric Style: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle)));
+                case "PlayBackLib":
+                    return "PlayBackLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EPlaybackLib)));
+                case "RecordLib":
+                    return "RecordLib: " + CHelper.ListStrings(Enum.GetNames(typeof(ERecordLib)));
+                case "AudioBufferSize":
+                    return "AudioBufferSize: " + CHelper.ListStrings(Enum.GetNames(typeof(EBufferSize)));
+                case "AudioLatency":
+                    return "AudioLatency from -500 to 500 ms";
+                case "BackgroundMusic":
+                    return "Background Music: " + CHelper.ListStrings(Enum.GetNames(typeof(EBackgroundMusicOffOn)));
+                case "BackgroundMusicVolume":
+                    return "Background Music Volume from 0 to 100";
+                case "BackgroundMusicSource":
+                    return "Background Music Source: " + CHelper.ListStrings(Enum.GetNames(typeof(EBackgroundMusicSource)));
+                case "BackgroundMusicUseStart":
+                    return "Background Music use start-tag of songs " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "PreviewMusicVolume":
+                    return "Preview Volume from 0 to 100";
+                case "GameMusicVolume":
+                    return "Game Volume from 0 to 100";
+                case "Language":
+                    return "Game-Language";
+                case "SongFolder":
+                    return "SongFolder: SongFolder1, SongFolder2, SongFolder3, ...";
+                case "SongMenu":
+                    return "SongMenu: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongMenu)));
+                case "SongSorting":
+                    return "SongSorting: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongSorting)));
+                case "IgnoreArticles":
+                    return "Ignore articles on song-sorting: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "ScoreAnimationTime":
+                    return "ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.";
+                case "TimerMode":
+                    return "TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode)));
+                case "NumPlayers":
+                    return "NumPlayers: 1.." + CSettings.MaxNumPlayer;
+                case "Tabs":
+                    return "Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "LyricsPosition":
+                    return "Position if lyrics on screen: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricsPosition)));
+                case "MinLineBreakTime":
+                    return "MinLineBreakTime: Value >= 0 in s. Minimum time the text is shown before it is to be sung";
+                case "Players":
+                    return "Default profile for players 1..." + CSettings.MaxNumPlayer + ":";
+                case "VideoDecoder":
+                    return "VideoDecoder: " + CHelper.ListStrings(Enum.GetNames(typeof(EVideoDecoder)));
+                case "VideoBackgrounds":
+                    return "VideoBackgrounds: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "VideoPreview":
+                    return "VideoPreview: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "VideosInSongs":
+                    return "Show Videos while singing: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "VideosToBackground":
+                    return "Show backgroundmusic videos as background: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "WebcamLib":
+                    return "WebcamLib: " + CHelper.ListStrings(Enum.GetNames(typeof(EWebcamLib)));
+                case "MicDelay":
+                    return "Mic delay in ms. 0, 20, 40, 60 ... 500";
+                case "ServerActive":
+                    return "Server On/Off: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "ServerEncryption":
+                    return "Server Encryption On/Off: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "ServerPort":
+                    return "Server Port (default: 3000) [1..65535]";
+                default:
+                    return null;
             }
-            catch (Exception)
-            {
-                if (writer != null)
-                    writer.Close();
-                return false;
-            }
-            return true;
+        }
+
+        public static void SaveConfig()
+        {
+            var xml = new CXmlSerializer(true, _GetComment);
+            xml.Serialize(_FileConfig, Config);
         }
 
         /// <summary>
@@ -641,7 +436,7 @@ namespace Vocaluxe.Base
         /// </summary>
         public static float CalcCycleTime()
         {
-            return (1f / MaxFPS) * 1000f;
+            return (1f / Config.Graphics.MaxFPS) * 1000f;
         }
 
         /// <summary>
@@ -703,14 +498,16 @@ namespace Vocaluxe.Base
                     //Check if there is one or more channels
                     if (device.Channels >= 2)
                     {
+                        if (Config.Record.MicConfig.Length < 2)
+                            Config.Record.MicConfig = new SMicConfig[2];
                         //Set this device to player 1
-                        MicConfig[0].DeviceName = device.Name;
-                        MicConfig[0].DeviceDriver = device.Driver;
-                        MicConfig[0].Channel = 1;
+                        Config.Record.MicConfig[0].DeviceName = device.Name;
+                        Config.Record.MicConfig[0].DeviceDriver = device.Driver;
+                        Config.Record.MicConfig[0].Channel = 1;
                         //Set this device to player 2
-                        MicConfig[1].DeviceName = device.Name;
-                        MicConfig[1].DeviceDriver = device.Driver;
-                        MicConfig[1].Channel = 2;
+                        Config.Record.MicConfig[1].DeviceName = device.Name;
+                        Config.Record.MicConfig[1].DeviceDriver = device.Driver;
+                        Config.Record.MicConfig[1].Channel = 2;
 
                         return true;
                     }
@@ -726,16 +523,16 @@ namespace Vocaluxe.Base
                     if (device.Channels >= 1)
                     {
                         //Set this device to player 1
-                        MicConfig[0].DeviceName = device.Name;
-                        MicConfig[0].DeviceDriver = device.Driver;
-                        MicConfig[0].Channel = 1;
+                        Config.Record.MicConfig[0].DeviceName = device.Name;
+                        Config.Record.MicConfig[0].DeviceDriver = device.Driver;
+                        Config.Record.MicConfig[0].Channel = 1;
 
                         if (device.Channels >= 2)
                         {
                             //Set this device to player 2
-                            MicConfig[1].DeviceName = device.Name;
-                            MicConfig[1].DeviceDriver = device.Driver;
-                            MicConfig[1].Channel = 2;
+                            Config.Record.MicConfig[1].DeviceName = device.Name;
+                            Config.Record.MicConfig[1].DeviceDriver = device.Driver;
+                            Config.Record.MicConfig[1].Channel = 2;
 
                             return true;
                         }
@@ -831,6 +628,11 @@ namespace Vocaluxe.Base
                         ProfileFolders.Clear();
                         ProfileFolders.Add(value);
                         break;
+
+                    case "oldtheme":
+                        if (value == "yes")
+                            LoadOldThemeFiles = true;
+                        break;
                 }
             }
         }
@@ -888,12 +690,12 @@ namespace Vocaluxe.Base
             for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
                 CGame.Players[j].ProfileID = -1;
-                if (Players[j] == "" || profiles == null)
+                if (string.IsNullOrEmpty(Config.Game.Players[j]))
                     continue;
 
                 foreach (CProfile profile in profiles)
                 {
-                    if (Path.GetFileName(profile.FileName) == Players[j] && profile.Active == EOffOn.TR_CONFIG_ON)
+                    if (Path.GetFileName(profile.FilePath) == Config.Game.Players[j] && profile.Active == EOffOn.TR_CONFIG_ON)
                     {
                         //Update Game-infos with player
                         CGame.Players[j].ProfileID = profile.ID;

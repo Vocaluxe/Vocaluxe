@@ -82,9 +82,15 @@ namespace VocaluxeLib.PartyModes
 
     public interface IPartyMode
     {
+        int ID { get; }
         bool Init();
-        void Initialize();
+
+        void LoadTheme();
+        void ReloadSkin();
+        void ReloadTheme();
+
         void AddScreen(CMenuParty screen, string screenName);
+        void SaveScreens();
         void DataFromScreen(string screenName, Object data);
 
         void UpdateGame();
@@ -104,8 +110,6 @@ namespace VocaluxeLib.PartyModes
         int GetMinPlayerPerTeam();
         int GetMaxPlayerPerTeam();
         int GetMaxNumRounds();
-        string GetFolder();
-        void SetFolder(string folder);
 
         void SetSearchString(string searchString, bool visible);
 

@@ -312,12 +312,12 @@ namespace ServerLib
         #endregion
 
         #region playlist
-        public SPlaylistInfo[] GetPlaylists()
+        public SPlaylistData[] GetPlaylists()
         {
             return CServer.GetPlaylists();
         }
 
-        public SPlaylistInfo GetPlaylist(int playlistId)
+        public SPlaylistData GetPlaylist(int playlistId)
         {
             return CServer.GetPlaylist(playlistId);
         }

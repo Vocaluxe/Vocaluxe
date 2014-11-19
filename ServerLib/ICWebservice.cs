@@ -133,12 +133,12 @@ namespace ServerLib
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getPlaylists")]
-        SPlaylistInfo[] GetPlaylists();
+        SPlaylistData[] GetPlaylists();
 
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getPlaylist?id={playlistId}")]
-        SPlaylistInfo GetPlaylist(int playlistId);
+        SPlaylistData GetPlaylist(int playlistId);
 
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,

@@ -379,8 +379,8 @@ namespace VocaluxeLib.Menu
                         //Update of Drag/Drop-Texture
                         CStatic selectedPlayer = _NameSelections[_NameSelection].TilePlayerAvatar(mouseEvent);
                         _ChooseAvatarStatic.Visible = true;
-                        _ChooseAvatarStatic.Rect = selectedPlayer.Rect;
-                        _ChooseAvatarStatic.Rect.Z = CBase.Settings.GetZNear();
+                        _ChooseAvatarStatic.MaxRect = selectedPlayer.Rect;
+                        _ChooseAvatarStatic.Z = CBase.Settings.GetZNear();
                         _ChooseAvatarStatic.Color = new SColorF(1, 1, 1, 1);
                         _ChooseAvatarStatic.Texture = selectedPlayer.Texture;
                     }
@@ -390,8 +390,8 @@ namespace VocaluxeLib.Menu
             if (mouseEvent.LBH && _SelectedProfileID >= 0 && !_SelectingFast)
             {
                 //Update coords for Drag/Drop-Texture
-                _ChooseAvatarStatic.Rect.X += mouseEvent.X - _OldMouseX;
-                _ChooseAvatarStatic.Rect.Y += mouseEvent.Y - _OldMouseY;
+                _ChooseAvatarStatic.X += mouseEvent.X - _OldMouseX;
+                _ChooseAvatarStatic.Y += mouseEvent.Y - _OldMouseY;
                 _OldMouseX = mouseEvent.X;
                 _OldMouseY = mouseEvent.Y;
             }
@@ -434,7 +434,7 @@ namespace VocaluxeLib.Menu
                 }
             }
 
-            else if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            else if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonBack].Selected)
                     Back();
@@ -534,6 +534,7 @@ namespace VocaluxeLib.Menu
             base.LoadTheme(xmlPath);
             _SelectSlides[_SelectSlidePlayer].WithTextures = true;
             _SelectSlides[_SelectSlidePlayer].SelectionByHover = true;
+            _AddStatic(_ChooseAvatarStatic);
         }
 
         public override bool UpdateGame()
@@ -552,16 +553,6 @@ namespace VocaluxeLib.Menu
 
             _UpdateButtonVisibility();
             _UpdateButtonState();
-        }
-
-        public override bool Draw()
-        {
-            base.Draw();
-
-            if (_ChooseAvatarStatic.Visible)
-                _ChooseAvatarStatic.Draw();
-
-            return true;
         }
 
         public abstract void Back();
@@ -683,7 +674,7 @@ namespace VocaluxeLib.Menu
             for (int i = 0; i < _TeamList[_CurrentTeam].Count; i++)
             {
                 string name = CBase.Profiles.GetPlayerName(_TeamList[_CurrentTeam][i]);
-                CTexture avatar = CBase.Profiles.GetAvatar(_TeamList[_CurrentTeam][i]);
+                CTextureRef avatar = CBase.Profiles.GetAvatar(_TeamList[_CurrentTeam][i]);
                 _SelectSlides[_SelectSlidePlayer].AddValue(name, avatar);
             }
             for (int i = _TeamList[_CurrentTeam].Count; i < _NumPlayerTeams[_CurrentTeam]; i++)
@@ -711,17 +702,17 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateButtonState()
         {
-            _Buttons[_ButtonIncreaseTeams].Enabled = _NumTeams < _PartyMode.GetMaxTeams();
-            _Buttons[_ButtonDecreaseTeams].Enabled = _NumTeams > _PartyMode.GetMinTeams();
+            _Buttons[_ButtonIncreaseTeams].Selectable = _NumTeams < _PartyMode.GetMaxTeams();
+            _Buttons[_ButtonDecreaseTeams].Selectable = _NumTeams > _PartyMode.GetMinTeams();
             if (_NumPlayerTeams != null && _NumPlayerTeams.Length > _CurrentTeam)
             {
-                _Buttons[_ButtonIncreasePlayer].Enabled = _NumPlayerTeams[_CurrentTeam] < _PartyMode.GetMaxPlayerPerTeam();
-                _Buttons[_ButtonDecreasePlayer].Enabled = _NumPlayerTeams[_CurrentTeam] > _PartyMode.GetMinPlayerPerTeam();
+                _Buttons[_ButtonIncreasePlayer].Selectable = _NumPlayerTeams[_CurrentTeam] < _PartyMode.GetMaxPlayerPerTeam();
+                _Buttons[_ButtonDecreasePlayer].Selectable = _NumPlayerTeams[_CurrentTeam] > _PartyMode.GetMinPlayerPerTeam();
             }
             else
             {
-                _Buttons[_ButtonIncreasePlayer].Enabled = false;
-                _Buttons[_ButtonDecreasePlayer].Enabled = false;
+                _Buttons[_ButtonIncreasePlayer].Selectable = false;
+                _Buttons[_ButtonDecreasePlayer].Selectable = false;
             }
         }
 

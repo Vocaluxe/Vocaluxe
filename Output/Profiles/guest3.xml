@@ -1,10 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <Info>
-    <PlayerName>Guest 3</PlayerName>
-    <Difficulty>TR_CONFIG_EASY</Difficulty>
-    <Avatar>Avatar_m.png</Avatar>
-    <UserRole>TR_USERROLE_NORMAL</UserRole>
-    <Active>TR_CONFIG_ON</Active>
-  </Info>
+  <PlayerName>Guest 3</PlayerName>
+  <Difficulty>TR_CONFIG_EASY</Difficulty>
+  <UserRole>TR_USERROLE_NORMAL</UserRole>
+  <Active>TR_CONFIG_ON</Active>
+  <Avatar>Avatar_m.png</Avatar>
 </root>

@@ -19,7 +19,6 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Playback
 {
-
     interface IPlayback
     {
         bool Init();

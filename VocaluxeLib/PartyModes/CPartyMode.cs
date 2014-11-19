@@ -23,14 +23,15 @@ namespace VocaluxeLib.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {
-        private string _Folder;
-        protected SScreenSongOptions _ScreenSongOptions;
-        protected readonly Dictionary<string, CMenuParty> _Screens;
+        private readonly string _Folder;
+        public int ID { get; private set; }
+        protected SScreenSongOptions _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};
+        protected readonly Dictionary<string, CMenuParty> _Screens = new Dictionary<string, CMenuParty>();
 
-        protected CPartyMode()
+        protected CPartyMode(int id, string folder)
         {
-            _Screens = new Dictionary<string, CMenuParty>();
-            _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};
+            ID = id;
+            _Folder = folder;
         }
 
         #region Implementation
@@ -39,11 +40,38 @@ namespace VocaluxeLib.PartyModes
             return false;
         }
 
-        public void Initialize() {}
+        public void LoadTheme()
+        {
+            string xmlPath = CBase.Themes.GetThemeScreensPath(ID);
+            foreach (CMenuParty menu in _Screens.Values)
+            {
+                menu.Init();
+                menu.LoadTheme(xmlPath);
+            }
+        }
+
+        public void ReloadSkin()
+        {
+            foreach (CMenuParty menu in _Screens.Values)
+                menu.ReloadSkin();
+        }
+
+        public void ReloadTheme()
+        {
+            string xmlPath = CBase.Themes.GetThemeScreensPath(ID);
+            foreach (CMenuParty menu in _Screens.Values)
+                menu.ReloadTheme(xmlPath);
+        }
 
         public void AddScreen(CMenuParty screen, string screenName)
         {
             _Screens.Add(screenName, screen);
+        }
+
+        public void SaveScreens()
+        {
+            foreach (KeyValuePair<string, CMenuParty> entry in _Screens)
+                entry.Value.SaveTheme();
         }
 
         public virtual void DataFromScreen(string screenName, Object data) {}
@@ -113,11 +141,6 @@ namespace VocaluxeLib.PartyModes
         public string GetFolder()
         {
             return _Folder;
-        }
-
-        public void SetFolder(string folder)
-        {
-            _Folder = folder;
         }
 
         public virtual void SetSearchString(string searchString, bool visible) {}

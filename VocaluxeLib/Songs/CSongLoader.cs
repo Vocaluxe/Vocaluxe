@@ -768,13 +768,13 @@ namespace VocaluxeLib.Songs
 
             private bool _AddNote(int player, CSongNote note)
             {
-                CVoice voice = _Song.Notes.GetVoice(player);
+                CVoice voice = _Song.Notes.GetVoice(player, true);
                 return voice.AddNote(note, false);
             }
 
             private bool _NewSentence(int player, int start)
             {
-                CVoice voice = _Song.Notes.GetVoice(player);
+                CVoice voice = _Song.Notes.GetVoice(player, true);
                 return voice.AddLine(start);
             }
         }

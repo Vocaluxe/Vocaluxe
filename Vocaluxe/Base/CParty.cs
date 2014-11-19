@@ -20,38 +20,20 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
-
-    #region Structs
-    struct SPartyMode
-    {
-        public int PartyModeID;
-        public int PartyModeSystemVersion;
-        public string Name;
-        public string Description;
-        public string Author;
-        public string Folder;
-        public string PartyModeFile;
-        public List<string> ScreenFiles;
-        public int PartyModeVersionMajor;
-        public int PartyModeVersionMinor;
-        public string TargetAudience;
-        public bool NoErrors;
-        public IPartyMode PartyMode;
-    }
-    #endregion Structs
-
     static class CParty
     {
         private const int _PartyModeSystemVersion = 1;
 
         private static Dictionary<int, SPartyMode> _PartyModes;
-        private static Queue<int> _IDs;
+        private static int _NextID;
 
         private static int _NormalGameModeID;
         private static SPartyMode _CurrentPartyMode;
@@ -60,17 +42,12 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             _PartyModes = new Dictionary<int, SPartyMode>();
-            _IDs = new Queue<int>(1000);
-
-            for (int i = 0; i < 1000; i++)
-                _IDs.Enqueue(i);
+            _NextID = 0;
 
             //add dummy normal game mode and set it as default
-            var pm = new SPartyMode {PartyMode = new CPartyModeNone(), ScreenFiles = new List<string>()};
-            pm.PartyMode.Initialize();
-            pm.PartyModeID = _IDs.Dequeue();
-            _NormalGameModeID = pm.PartyModeID;
-            _PartyModes.Add(pm.PartyModeID, pm);
+            var pm = new SPartyMode {ScreenFiles = new List<string>(), PartyMode = new CPartyModeNone(_NextID++, null)};
+            _NormalGameModeID = pm.PartyMode.ID;
+            _PartyModes.Add(pm.PartyMode.ID, pm);
             _CurrentPartyMode = pm;
 
             //load other party modes
@@ -81,8 +58,8 @@ namespace Vocaluxe.Base
         {
             get
             {
-                if (_CurrentPartyMode.PartyModeID != _NormalGameModeID)
-                    return _CurrentPartyMode.PartyModeID;
+                if (_CurrentPartyMode.PartyMode.ID != _NormalGameModeID)
+                    return _CurrentPartyMode.PartyMode.ID;
 
                 return -1;
             }
@@ -93,41 +70,32 @@ namespace Vocaluxe.Base
             get { return _PartyModes.Count; }
         }
 
+        public static void ReloadTheme()
+        {
+            foreach (SPartyMode pm in _PartyModes.Values)
+                pm.PartyMode.ReloadTheme();
+        }
+
+        public static void ReloadSkin()
+        {
+            foreach (SPartyMode pm in _PartyModes.Values)
+                pm.PartyMode.ReloadSkin();
+        }
+
+        public static void SaveThemes()
+        {
+            foreach (SPartyMode pm in _PartyModes.Values)
+                pm.PartyMode.SaveScreens();
+        }
+
         public static List<SPartyModeInfos> GetPartyModeInfos()
         {
             var infos = new List<SPartyModeInfos>();
 
-            var pmIDs = new int[_PartyModes.Count];
-            _PartyModes.Keys.CopyTo(pmIDs, 0);
-
-            foreach (int pmID in pmIDs)
+            foreach (KeyValuePair<int, SPartyMode> kvp in _PartyModes)
             {
-                if (pmID != _NormalGameModeID)
-                {
-                    SPartyMode mode;
-                    _PartyModes.TryGetValue(pmID, out mode);
-
-                    if (mode.PartyMode != null)
-                    {
-                        var info = new SPartyModeInfos
-                            {
-                                Author = mode.Author,
-                                Description = mode.Description,
-                                Name = mode.Name,
-                                PartyModeID = mode.PartyModeID,
-                                Playable = mode.NoErrors,
-                                VersionMajor = mode.PartyModeVersionMajor,
-                                VersionMinor = mode.PartyModeVersionMinor,
-                                TargetAudience = mode.TargetAudience,
-                                MaxPlayers = mode.PartyMode.GetMaxPlayer(),
-                                MinPlayers = mode.PartyMode.GetMinPlayer(),
-                                MaxTeams = mode.PartyMode.GetMaxTeams(),
-                                MinTeams = mode.PartyMode.GetMinTeams()
-                            };
-
-                        infos.Add(info);
-                    }
-                }
+                if (kvp.Key != _NormalGameModeID)
+                    infos.Add(kvp.Value.Info);
             }
             return infos;
         }
@@ -222,54 +190,32 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                SPartyMode pm = _LoadPartyMode(file);
-                if (pm.NoErrors)
-                    _PartyModes.Add(pm.PartyModeID, pm);
+                SPartyMode pm;
+                if (_LoadPartyMode(file, out pm))
+                    _PartyModes.Add(pm.PartyMode.ID, pm);
             }
         }
 
-        private static SPartyMode _LoadPartyMode(string file)
+        private static bool _LoadPartyMode(string filePath, out SPartyMode pm)
         {
-            var pm = new SPartyMode {PartyModeID = _IDs.Dequeue(), ScreenFiles = new List<string>(), NoErrors = false};
-
-            CXMLReader xmlReader = CXMLReader.OpenFile(file);
-
-            //Error...
-            if (xmlReader == null)
-                return pm;
-
-            bool loaded = true;
-
-            loaded &= xmlReader.TryGetIntValue("//root/PartyModeSystemVersion", ref pm.PartyModeSystemVersion);
-            loaded &= xmlReader.GetValue("//root/Info/Name", out pm.Name, "ERROR Name");
-            loaded &= xmlReader.GetValue("//root/Info/Description", out pm.Description, "ERROR Description");
-            loaded &= xmlReader.GetValue("//root/Info/Author", out pm.Author, "ERROR Author");
-            loaded &= xmlReader.GetValue("//root/Info/Folder", out pm.Folder, "ERROR Folder");
-            loaded &= xmlReader.GetValue("//root/Info/PartyModeFile", out pm.PartyModeFile, "ERROR PartyModeFile");
-            loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMajor", ref pm.PartyModeVersionMajor);
-            loaded &= xmlReader.TryGetIntValue("//root/Info/PartyModeVersionMinor", ref pm.PartyModeVersionMinor);
-            loaded &= xmlReader.GetValue("//root/Info/TargetAudience", out pm.TargetAudience, "ERROR TargetAudience");
-            loaded &= xmlReader.GetValues("//root/PartyScreens/*", ref pm.ScreenFiles);
-
-            if (!loaded)
+            CXmlDeserializer deser = new CXmlDeserializer();
+            try
             {
-                CLog.LogError("Error loading PartyMode file: " + file);
-                return pm;
+                pm = deser.Deserialize<SPartyMode>(filePath);
+                if (pm.PartyModeSystemVersion != _PartyModeSystemVersion)
+                    throw new Exception("Wrong PartyModeSystemVersion " + pm.PartyModeSystemVersion + " expected: " + _PartyModeSystemVersion);
+
+                if (pm.ScreenFiles.Count == 0)
+                    throw new Exception("No ScreenFiles found");
+            }
+            catch (Exception e)
+            {
+                pm = new SPartyMode();
+                CLog.LogError("Error loading PartyMode file " + filePath + ": " + e.Message);
+                return false;
             }
 
-            if (pm.PartyModeSystemVersion != _PartyModeSystemVersion)
-            {
-                CLog.LogError("Error loading PartyMode file (wrong PartyModeSystemVersion): " + file);
-                return pm;
-            }
-
-            if (pm.ScreenFiles.Count == 0)
-            {
-                CLog.LogError("Error loading PartyMode file (no ScreenFiles found): " + file);
-                return pm;
-            }
-
-            string pathToPm = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNamePartyModes, pm.Folder);
+            string pathToPm = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNamePartyModes, pm.Info.Folder);
             string pathToCode = Path.Combine(pathToPm, CSettings.FolderNamePartyModeCode);
 
             var filesToCompile = new List<string>();
@@ -277,19 +223,14 @@ namespace Vocaluxe.Base
 
             Assembly output = _CompileFiles(filesToCompile.ToArray());
             if (output == null)
-                return pm;
+                return false;
 
-            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyModeID, Path.Combine(pathToPm, CSettings.FolderNamePartyModeLanguages)))
-            {
-                CLog.LogError("Error loading language files for PartyMode: " + file);
-                return pm;
-            }
-
-            object instance = output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Folder + "." + pm.PartyModeFile);
+            object instance = output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Info.Folder + "." + pm.Info.PartyModeFile, false,
+                                                    BindingFlags.Public | BindingFlags.Instance, null, new object[] {_NextID++, pathToPm}, null, null);
             if (instance == null)
             {
-                CLog.LogError("Error creating Instance of PartyMode file: " + file);
-                return pm;
+                CLog.LogError("Error creating Instance of PartyMode file: " + filePath);
+                return false;
             }
 
             try
@@ -298,44 +239,37 @@ namespace Vocaluxe.Base
             }
             catch (Exception e)
             {
-                CLog.LogError("Error casting PartyMode file: " + file + "; " + e.Message);
-                return pm;
+                CLog.LogError("Error casting PartyMode file: " + filePath + "; " + e.Message);
+                return false;
             }
-            pm.PartyMode.Initialize();
-            pm.PartyMode.SetFolder(pathToPm);
 
-            if (!CTheme.AddTheme(Path.Combine(pathToPm, "Theme.xml"), pm.PartyModeID))
-                return pm;
+            if (!CLanguage.LoadPartyLanguageFiles(pm.PartyMode.ID, Path.Combine(pathToPm, CSettings.FolderNamePartyModeLanguages)))
+            {
+                CLog.LogError("Error loading language files for PartyMode: " + filePath);
+                return false;
+            }
 
-            int themeIndex = CTheme.GetThemeIndex(pm.PartyModeID);
-            CTheme.ListSkins(themeIndex);
-            int skinIndex = CTheme.GetSkinIndex(pm.PartyModeID);
+            if (!CThemes.ReadThemesFromFolder(Path.Combine(pathToPm, CSettings.FolderNameThemes), pm.PartyMode.ID))
+                return false;
 
-            if (!CTheme.LoadSkin(skinIndex))
-                return pm;
-
-            if (!CTheme.LoadTheme(themeIndex))
-                return pm;
+            if (!CThemes.LoadPartymodeTheme(pm.PartyMode.ID))
+                return false;
 
             foreach (string screenfile in pm.ScreenFiles)
             {
-                string xmlPath = Path.Combine(pathToPm, CSettings.FolderNamePartyModeScreens);
-                CMenuParty screen = _GetPartyScreenInstance(output, screenfile, pm.Folder);
+                CMenuParty screen = _GetPartyScreenInstance(output, screenfile, pm.Info.Folder);
 
                 if (screen != null)
                 {
-                    screen.Init();
                     screen.AssignPartyMode(pm.PartyMode);
-                    screen.SetPartyModeID(pm.PartyModeID);
-                    screen.LoadTheme(xmlPath);
                     pm.PartyMode.AddScreen(screen, screenfile);
                 }
                 else
-                    return pm;
+                    return false;
             }
-
-            pm.NoErrors = true;
-            return pm;
+            pm.PartyMode.LoadTheme();
+            pm.Info.LoadData(pm.PartyMode);
+            return true;
         }
 
         private static Assembly _CompileFiles(string[] files)

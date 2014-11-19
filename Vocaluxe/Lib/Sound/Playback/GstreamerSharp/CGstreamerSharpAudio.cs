@@ -16,6 +16,8 @@
 #endregion
 
 using Gst;
+using System;
+using Vocaluxe.Base;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
@@ -25,16 +27,23 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         {
             if (_Initialized)
                 return false;
+
 #if ARCH_X86
-            const string path = ".\\x86\\gstreamer";
+            const string varName = "GSTREAMER_1_0_ROOT_X86";
 #endif
 #if ARCH_X64
-            const string path = ".\\x64\\gstreamer";
+            const string varName = "GSTREAMER_1_0_ROOT_X86_64";
 #endif
-            //SetDllDirectory(path);
+            string gstreamerEnvVar = Environment.GetEnvironmentVariable(varName, EnvironmentVariableTarget.User);
+            if (gstreamerEnvVar == null)
+            {
+                CLog.LogError("Gstreamer not found! Make sure you installed it correctly and if it set the environment variable '" + varName + "'!", true);
+                return false;
+            }
+            string dllDirectory = gstreamerEnvVar + "bin\\";
+            COSFunctions.AddEnvironmentPath(dllDirectory);
+
             Application.Init();
-            Registry reg = Registry.Get();
-            reg.ScanPath(path);
 
             _Initialized = Application.IsInitialized;
             return _Initialized;

@@ -27,7 +27,7 @@ using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenHighscore : CMenu
+    public class CScreenHighscore : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -130,7 +130,7 @@ namespace Vocaluxe.Screens
 
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent)) {}
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent)) {}
 
             if (mouseEvent.LB)
                 _LeaveScreen();
@@ -215,7 +215,7 @@ namespace Vocaluxe.Screens
 
             for (int round = 0; round < points.NumRounds; round++)
             {
-                SPlayer[] players = points.GetPlayer(round, CGame.NumPlayer);
+                SPlayer[] players = points.GetPlayer(round, CGame.NumPlayers);
 
                 for (int p = 0; p < players.Length; p++)
                 {

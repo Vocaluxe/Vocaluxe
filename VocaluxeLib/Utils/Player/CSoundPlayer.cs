@@ -1,4 +1,21 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,10 +31,10 @@ namespace VocaluxeLib.Utils.Player
 
         public float Volume
         {
-            set 
+            set
             {
                 _Volume = value;
-                _ApplyVolume(); 
+                _ApplyVolume();
             }
             get { return _Volume; }
         }
@@ -25,13 +42,15 @@ namespace VocaluxeLib.Utils.Player
 
         public float Position
         {
-            set { 
-                if(_StreamID == -1)
+            set
+            {
+                if (_StreamID == -1)
                     return;
                 _StartPosition = value;
             }
-            get { 
-                if(_StreamID == -1)
+            get
+            {
+                if (_StreamID == -1)
                     return -1;
                 return CBase.Sound.GetPosition(_StreamID);
             }
@@ -50,7 +69,10 @@ namespace VocaluxeLib.Utils.Player
         public bool RepeatSong;
         public bool IsPlaying { get; protected set; }
 
-        public bool IsFinished { get { return RepeatSong ? false : CBase.Sound.IsFinished(_StreamID); } }
+        public bool IsFinished
+        {
+            get { return RepeatSong ? false : CBase.Sound.IsFinished(_StreamID); }
+        }
 
         public CSoundPlayer(bool loop = false)
         {
@@ -60,7 +82,7 @@ namespace VocaluxeLib.Utils.Player
         public CSoundPlayer(string file, bool loop = false, float position = 0f, bool autoplay = false)
         {
             _StreamID = CBase.Sound.Load(file, false, true);
-            if(position > 0f)
+            if (position > 0f)
                 Position = position;
             Loop = loop;
             if (autoplay)
@@ -96,7 +118,7 @@ namespace VocaluxeLib.Utils.Player
             if (_StreamID == -1)
                 return;
 
-            if(IsPlaying)
+            if (IsPlaying)
                 CBase.Sound.Fade(_StreamID, 0f, _FadeTime, EStreamAction.Pause);
             else
             {
@@ -126,7 +148,7 @@ namespace VocaluxeLib.Utils.Player
             float timeToPlay;
             float len = CBase.Sound.GetLength(_StreamID);
             timeToPlay = (len > 0f) ? len - CBase.Sound.GetPosition(_StreamID) : _FadeTime + 1f;
-            
+
             bool finished = CBase.Sound.IsFinished(_StreamID);
             if (timeToPlay <= _FadeTime || finished)
             {
@@ -139,7 +161,6 @@ namespace VocaluxeLib.Utils.Player
                 else
                     Stop();
             }
-        
         }
 
         private void _ApplyVolume()

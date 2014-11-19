@@ -31,7 +31,6 @@ namespace Vocaluxe.Base
     static class CPlaylists
     {
         private static List<CPlaylistFile> _Playlists;
-        private static int _NextID;
 
         public static IEnumerable<CPlaylistFile> Playlists
         {
@@ -78,8 +77,9 @@ namespace Vocaluxe.Base
 
             foreach (string file in files)
             {
-                CPlaylistFile playlist = new CPlaylistFile(files.IndexOf(file), file);
-                _Playlists.Add(playlist);
+                CPlaylistFile playlist = new CPlaylistFile();
+                if (playlist._Load(file))
+                    _Playlists.Add(playlist);
             }
         }
 
@@ -130,7 +130,7 @@ namespace Vocaluxe.Base
 
         public static int NewPlaylist(string name = "New Playlist")
         {
-            CPlaylistFile pl = new CPlaylistFile(_NextID++) {Name = name};
+            CPlaylistFile pl = new CPlaylistFile {Name = name};
             _Playlists.Add(pl);
             return pl.Id;
         }
@@ -212,7 +212,7 @@ namespace Vocaluxe.Base
 
         private static CPlaylistFile _ConvertUSDXPlaylist(string file)
         {
-            var pl = new CPlaylistFile(_NextID++);
+            var pl = new CPlaylistFile();
             ReadOnlyCollection<CSong> allSongs = CSongs.AllSongs;
 
             if (!File.Exists(file))

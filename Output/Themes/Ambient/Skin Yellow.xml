@@ -1,280 +1,200 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <SkinSystemVersion>3</SkinSystemVersion>
+  <SkinSystemVersion>4</SkinSystemVersion>
   <Info>
     <Name>Yellow</Name>
     <Author>bohning</Author>
-    <SkinVersionMajor>0</SkinVersionMajor>
-    <SkinVersionMinor>0</SkinVersionMinor>
+    <VersionMajor>0</VersionMajor>
+    <VersionMinor>0</VersionMinor>
   </Info>
   <Colors>
     <Player1>
-      <R>0,000</R>
-      <G>0,000</G>
-      <B>1,000</B>
-      <A>1,000</A>
+      <R>0.000</R>
+      <G>0.000</G>
+      <B>1.000</B>
+      <A>1.000</A>
     </Player1>
     <Player2>
-      <R>1,000</R>
-      <G>0,000</G>
-      <B>0,000</B>
-      <A>1,000</A>
+      <R>1.000</R>
+      <G>0.000</G>
+      <B>0.000</B>
+      <A>1.000</A>
     </Player2>
     <Player3>
-      <R>0,000</R>
-      <G>1,000</G>
-      <B>0,000</B>
-      <A>1,000</A>
+      <R>0.000</R>
+      <G>1.000</G>
+      <B>0.000</B>
+      <A>1.000</A>
     </Player3>
     <Player4>
-      <R>0,500</R>
-      <G>0,000</G>
-      <B>1,000</B>
-      <A>1,000</A>
+      <R>0.500</R>
+      <G>0.000</G>
+      <B>1.000</B>
+      <A>1.000</A>
     </Player4>
     <Player5>
-      <R>1,000</R>
-      <G>0,800</G>
-      <B>0,000</B>
-      <A>1,000</A>
+      <R>1.000</R>
+      <G>0.800</G>
+      <B>0.000</B>
+      <A>1.000</A>
     </Player5>
     <Player6>
-      <R>1,000</R>
-      <G>0,000</G>
-      <B>0,500</B>
-      <A>1,000</A>
+      <R>1.000</R>
+      <G>0.000</G>
+      <B>0.500</B>
+      <A>1.000</A>
     </Player6>
-  </Colors>
-  <ColorSchemes>
-    <Player1Dim>
-      <R>0,000</R>
-      <G>0,000</G>
-      <B>1,000</B>
-      <A>0,500</A>
-    </Player1Dim>
-    <Player2Dim>
-      <R>1,000</R>
-      <G>0,000</G>
-      <B>0,000</B>
-      <A>0,500</A>
-    </Player2Dim>
-    <Player3Dim>
-      <R>0,000</R>
-      <G>1,000</G>
-      <B>0,000</B>
-      <A>0,500</A>
-    </Player3Dim>
-    <Player4Dim>
-      <R>0,500</R>
-      <G>0,000</G>
-      <B>1,000</B>
-      <A>0,500</A>
-    </Player4Dim>
-    <Player5Dim>
-      <R>1,000</R>
-      <G>0,800</G>
-      <B>0,000</B>
-      <A>0,500</A>
-    </Player5Dim>
-    <Player6Dim>
-      <R>1,000</R>
-      <G>0,000</G>
-      <B>0,500</B>
-      <A>0,500</A>
-    </Player6Dim>
-    <Player1Dim2>
-      <R>0,000</R>
-      <G>0,000</G>
-      <B>1,000</B>
-      <A>0,400</A>
-    </Player1Dim2>
-    <Player2Dim2>
-      <R>1,000</R>
-      <G>0,000</G>
-      <B>0,000</B>
-      <A>0,400</A>
-    </Player2Dim2>
-    <Player3Dim2>
-      <R>0,000</R>
-      <G>1,000</G>
-      <B>0,000</B>
-      <A>0,400</A>
-    </Player3Dim2>
-    <Player4Dim2>
-      <R>0,500</R>
-      <G>0,000</G>
-      <B>1,000</B>
-      <A>0,400</A>
-    </Player4Dim2>
-    <Player5Dim2>
-      <R>1,000</R>
-      <G>0,800</G>
-      <B>0,000</B>
-      <A>0,400</A>
-    </Player5Dim2>
-    <Player6Dim2>
-      <R>1,000</R>
-      <G>0,000</G>
-      <B>0,500</B>
-      <A>0,400</A>
-    </Player6Dim2>
     <BackgroundColor>
-      <R>0,750</R>
-      <G>0,750</G>
-      <B>0,000</B>
-      <A>1,000</A>
+      <R>0.750</R>
+      <G>0.750</G>
+      <B>0.000</B>
+      <A>1.000</A>
     </BackgroundColor>
     <StaticColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>1,000</A>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>1.000</A>
     </StaticColor>
     <StaticColorAlpha>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>0,500</A>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>0.500</A>
     </StaticColorAlpha>
     <StaticWarningColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>1,000</A>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>0.600</A>
     </StaticWarningColor>
     <ButtonColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>0,300</A>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>0.300</A>
     </ButtonColor>
-    <ButtonSColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>1,000</A>
-    </ButtonSColor>
+    <ButtonSelColor>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>1.000</A>
+    </ButtonSelColor>
     <ButtonTextColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>0,500</A>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>0.500</A>
     </ButtonTextColor>
-    <ButtonTextSColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>1,000</A>
-    </ButtonTextSColor>
+    <ButtonTextSelColor>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>1.000</A>
+    </ButtonTextSelColor>
     <SelectSlideColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>1,000</A>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>1.000</A>
     </SelectSlideColor>
-    <SelectSlideHColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>1,000</A>
-    </SelectSlideHColor>
-    <SelectSlideSColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>0,500</A>
-    </SelectSlideSColor>
+    <SelectSlideSelColor>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>0.500</A>
+    </SelectSlideSelColor>
     <ArrowColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>0,300</A>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>0.300</A>
     </ArrowColor>
-    <ArrowSColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>1,000</A>
-    </ArrowSColor>
+    <ArrowSelColor>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>1.000</A>
+    </ArrowSelColor>
     <TextColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>0,500</A>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>0.500</A>
     </TextColor>
-    <TextSColor>
-      <R>0,968</R>
-      <G>0,956</G>
-      <B>0,674</B>
-      <A>1,000</A>
-    </TextSColor>
+    <TextSelColor>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>1.000</A>
+    </TextSelColor>
     <TextWarningColor>
-      <R>1,000</R>
-      <G>0,000</G>
-      <B>0,000</B>
-      <A>1,000</A>
+      <R>1.000</R>
+      <G>0.000</G>
+      <B>0.000</B>
+      <A>1.000</A>
     </TextWarningColor>
-    <TextBlack>
-      <R>0,000</R>
-      <G>0,000</G>
-      <B>0,000</B>
-      <A>1,000</A>
-    </TextBlack>
-    <TextWhite>
-      <R>0,000</R>
-      <G>0,000</G>
-      <B>0,000</B>
-      <A>1,000</A>
-    </TextWhite>
+    <Black>
+      <R>0.000</R>
+      <G>0.000</G>
+      <B>0.000</B>
+      <A>1.000</A>
+    </Black>
+    <White>
+      <R>1.000</R>
+      <G>1.000</G>
+      <B>1.000</B>
+      <A>1.000</A>
+    </White>
     <Visible>
-      <R>1,000</R>
-      <G>1,000</G>
-      <B>1,000</B>
-      <A>1,000</A>
+      <R>1.000</R>
+      <G>1.000</G>
+      <B>1.000</B>
+      <A>1.000</A>
     </Visible>
     <Invisible>
-      <R>1,000</R>
-      <G>1,000</G>
-      <B>1,000</B>
-      <A>0,000</A>
+      <R>1.000</R>
+      <G>1.000</G>
+      <B>1.000</B>
+      <A>0.000</A>
     </Invisible>
-    <LyricHighlight>
-      <R>1,000</R>
-      <G>1,000</G>
-      <B>0,000</B>
-      <A>1,000</A>
-    </LyricHighlight>
+    <LyricProcessedColor>
+      <R>1.000</R>
+      <G>1.000</G>
+      <B>0.000</B>
+      <A>1.000</A>
+    </LyricProcessedColor>
     <LyricMainColor>
-      <R>0,000</R>
-      <G>0,000</G>
-      <B>0,000</B>
-      <A>1,000</A>
+      <R>0.000</R>
+      <G>0.000</G>
+      <B>0.000</B>
+      <A>1.000</A>
     </LyricMainColor>
     <LyricSubColor>
-      <R>0,300</R>
-      <G>0,300</G>
-      <B>0,300</B>
-      <A>1,000</A>
+      <R>0.300</R>
+      <G>0.300</G>
+      <B>0.300</B>
+      <A>1.000</A>
     </LyricSubColor>
     <LyricHelper>
-      <R>1,000</R>
-      <G>1,000</G>
-      <B>0,000</B>
-      <A>0,500</A>
+      <R>1.000</R>
+      <G>1.000</G>
+      <B>0.000</B>
+      <A>0.500</A>
     </LyricHelper>
     <TimeBar>
-      <R>0,949</R>
-      <G>1,000</G>
-      <B>0,800</B>
-      <A>0,500</A>
+      <R>0.949</R>
+      <G>1.000</G>
+      <B>0.800</B>
+      <A>0.500</A>
     </TimeBar>
     <TimeBarSentence>
-      <R>0,949</R>
-      <G>1,000</G>
-      <B>0,800</B>
-      <A>0,850</A>
+      <R>0.949</R>
+      <G>1.000</G>
+      <B>0.800</B>
+      <A>0.850</A>
     </TimeBarSentence>
-  </ColorSchemes>
+  </Colors>
   <Skins>
     <BG_Default>[Yellow]BG_Default.png</BG_Default>
     <BG_Options>[Yellow]BG_Options.png</BG_Options>
@@ -315,7 +235,6 @@
     <VideoIconBG>VideoIconBG.png</VideoIconBG>
     <MedleyCalcIcon>MedleyCalcIcon.png</MedleyCalcIcon>
     <MedleyTagIcon>MedleyTagIcon.png</MedleyTagIcon>
-    <Invisible>Invisible.png</Invisible>
     <PlayerSelector>PlayerSelector.png</PlayerSelector>
     <PreviousIcon>PreviousIcon.png</PreviousIcon>
     <NextIcon>NextIcon.png</NextIcon>

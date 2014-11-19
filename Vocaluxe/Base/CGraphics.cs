@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Vocaluxe.Base.Fonts;
+using Vocaluxe.Base.ThemeSystem;
 using Vocaluxe.Screens;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -113,58 +114,69 @@ namespace Vocaluxe.Base
 
         public static void Close()
         {
-            if (_CurrentPopupScreen != EPopupScreens.NoPopup)
+            if (_CurrentPopupScreen != EPopupScreens.NoPopup && _PopupScreens.Count > 0)
                 _PopupScreens[(int)_CurrentPopupScreen].OnClose();
-            _Screens[(int)_CurrentScreen].OnClose();
+            if (_Screens.Count > 0)
+                _Screens[(int)_CurrentScreen].OnClose();
         }
 
         public static void LoadTheme()
         {
-            _Cursor.LoadTextures();
+            _Cursor.LoadSkin();
 
             for (int i = 0; i < _Screens.Count; i++)
             {
                 CLog.StartBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
                 _Screens[i].Init();
-                _Screens[i].LoadTheme(CTheme.GetThemeScreensPath(-1));
+                _Screens[i].LoadTheme(CThemes.GetThemeScreensPath(_Screens[i].PartyModeID));
                 CLog.StopBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
             }
 
             foreach (IMenu popup in _PopupScreens)
             {
                 popup.Init();
-                popup.LoadTheme(CTheme.GetThemeScreensPath(-1));
+                popup.LoadTheme(CThemes.GetThemeScreensPath(popup.PartyModeID));
             }
         }
 
         public static void ReloadTheme()
         {
-            _Cursor.ReloadTextures();
+            _Cursor.ReloadSkin();
             foreach (IMenu screen in _Screens)
-                screen.ReloadTheme(CTheme.GetThemeScreensPath(-1));
+                screen.ReloadTheme(CThemes.GetThemeScreensPath(screen.PartyModeID));
 
             foreach (IMenu popup in _PopupScreens)
-                popup.ReloadTheme(CTheme.GetThemeScreensPath(-1));
+                popup.ReloadTheme(CThemes.GetThemeScreensPath(popup.PartyModeID));
+
+            CParty.ReloadTheme();
         }
 
         public static void ReloadSkin()
         {
-            _Cursor.ReloadTextures();
+            _Cursor.ReloadSkin();
             foreach (IMenu menu in _Screens)
-                menu.ReloadTextures();
+                menu.ReloadSkin();
 
             foreach (IMenu menu in _PopupScreens)
-                menu.ReloadTextures();
+                menu.ReloadSkin();
+
+            CParty.ReloadSkin();
         }
 
         public static void SaveTheme()
         {
-            CTheme.SaveTheme();
-            foreach (IMenu screen in _Screens)
+            foreach (CMenu screen in _Screens)
+            {
+                if (screen.ThemePath == null || screen.ThemeName == "ScreenTest")
+                    continue;
+
                 screen.SaveTheme();
+            }
 
             foreach (IMenu popup in _PopupScreens)
                 popup.SaveTheme();
+
+            CParty.SaveThemes();
         }
 
         public static void InitFirstScreen()
@@ -187,9 +199,6 @@ namespace Vocaluxe.Base
             CController.Update();
             CProfiles.Update();
 
-            if (CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC && _CurrentScreen != EScreens.ScreenSing)
-                CSongs.LoadCover();
-
             if (CSettings.ProgramState != EProgramState.EditTheme)
             {
                 run &= _HandleInputs(keys, mouse);
@@ -209,7 +218,7 @@ namespace Vocaluxe.Base
         {
             if (_NextScreen != EScreens.ScreenNull && _Fading == null)
             {
-                _Fading = new CFading(0f, 1f, CConfig.FadeTime);
+                _Fading = new CFading(0f, 1f, CConfig.Config.Graphics.FadeTime);
 
                 if (_NextScreen == EScreens.ScreenPartyDummy)
                 {
@@ -334,13 +343,13 @@ namespace Vocaluxe.Base
 
             bool popupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
                                              (_CurrentScreen != EScreens.ScreenSong ||
-                                              (_CurrentScreen == EScreens.ScreenSong && !CSongs.IsInCategory && CConfig.Tabs == EOffOn.TR_CONFIG_ON))
+                                              (_CurrentScreen == EScreens.ScreenSong && !CSongs.IsInCategory && CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_ON))
                                              && _CurrentScreen != EScreens.ScreenCredits && !CBackgroundMusic.Disabled;
 
             bool popupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
             //Hide volume control for bg-music if bg-music is disabled
             if (popupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || CSongs.Category == -1)
-                && _CurrentScreen != EScreens.ScreenSing && CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+                && _CurrentScreen != EScreens.ScreenSing && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 popupVolumeControlAllowed = false;
 
 
@@ -353,32 +362,56 @@ namespace Vocaluxe.Base
                 if (!eventsAvailable)
                     keyEvent = inputKeyEvent;
 
-                if (keyEvent.IsArrowKey() || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0)
+                if (keyEvent.IsArrowKey() || keyEvent.Key == Keys.NumPad0 || keyEvent.Key == Keys.D0 || keyEvent.Key == Keys.Add)
                 {
                     _Cursor.Deactivate();
 
-                    if (keyEvent.ModAlt && keyEvent.ModCtrl && keyEvent.ModShift)
+                    if (keyEvent.ModAlt && keyEvent.ModCtrl)
                     {
                         switch (keyEvent.Key)
                         {
-                            case Keys.Left:
-                                CConfig.BorderLeft -= 1;
-                                CConfig.BorderRight -= 1;
-                                CConfig.BorderTop -= 1;
-                                CConfig.BorderBottom -= 1;
-                                break;
                             case Keys.Right:
-                                CConfig.BorderLeft += 1;
-                                CConfig.BorderRight += 1;
-                                CConfig.BorderTop += 1;
-                                CConfig.BorderBottom += 1;
+                                if (keyEvent.ModShift)
+                                    CConfig.Config.Graphics.BorderLeft++;
+                                else
+                                    CConfig.Config.Graphics.BorderRight--;
+                                break;
+                            case Keys.Left:
+                                if (keyEvent.ModShift)
+                                    CConfig.Config.Graphics.BorderLeft--;
+                                else
+                                    CConfig.Config.Graphics.BorderRight++;
+                                break;
+                            case Keys.Down:
+                                if (keyEvent.ModShift)
+                                    CConfig.Config.Graphics.BorderTop++;
+                                else
+                                    CConfig.Config.Graphics.BorderBottom--;
+                                break;
+                            case Keys.Up:
+                                if (keyEvent.ModShift)
+                                    CConfig.Config.Graphics.BorderTop--;
+                                else
+                                    CConfig.Config.Graphics.BorderBottom++;
                                 break;
                             case Keys.D0:
                             case Keys.NumPad0:
-                                CConfig.BorderLeft = 0;
-                                CConfig.BorderRight = 0;
-                                CConfig.BorderTop = 0;
-                                CConfig.BorderBottom = 0;
+                                CConfig.Config.Graphics.BorderLeft =
+                                    CConfig.Config.Graphics.BorderRight = CConfig.Config.Graphics.BorderTop = CConfig.Config.Graphics.BorderBottom = 0;
+                                break;
+                            case Keys.Add:
+                                switch (CConfig.Config.Graphics.ScreenAlignment)
+                                {
+                                    case EGeneralAlignment.Middle:
+                                        CConfig.Config.Graphics.ScreenAlignment = EGeneralAlignment.End;
+                                        break;
+                                    case EGeneralAlignment.End:
+                                        CConfig.Config.Graphics.ScreenAlignment = EGeneralAlignment.Start;
+                                        break;
+                                    default:
+                                        CConfig.Config.Graphics.ScreenAlignment = EGeneralAlignment.Middle;
+                                        break;
+                                }
                                 break;
                         }
                         CConfig.SaveConfig();
@@ -396,13 +429,13 @@ namespace Vocaluxe.Base
 
                 if (popupPlayerControlAllowed && keyEvent.Key == Keys.Tab)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                     else
                         HidePopup(EPopupScreens.PopupPlayerControl);
                 }
 
-                if (popupPlayerControlAllowed && CConfig.BackgroundMusic != EBackgroundMusicOffOn.TR_CONFIG_OFF)
+                if (popupPlayerControlAllowed && CConfig.Config.Sound.BackgroundMusic != EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 {
                     if (keyEvent.Key == Keys.MediaNextTrack)
                         CBackgroundMusic.Next();
@@ -467,7 +500,7 @@ namespace Vocaluxe.Base
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
                     CSettings.ProgramState = EProgramState.EditTheme;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
-                    CConfig.FullScreen = (CConfig.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
+                    CConfig.Config.Graphics.FullScreen = (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else
@@ -502,7 +535,7 @@ namespace Vocaluxe.Base
                 bool isOverPopupPlayerControl = CHelper.IsInBounds(_PopupScreens[(int)EPopupScreens.PopupPlayerControl].ScreenArea, mouseEvent);
                 if (popupPlayerControlAllowed && isOverPopupPlayerControl)
                 {
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
+                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                         ShowPopup(EPopupScreens.PopupPlayerControl);
                 }
 
@@ -554,10 +587,10 @@ namespace Vocaluxe.Base
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
                 {
                     CSettings.ProgramState = EProgramState.Normal;
-                    _Screens[(int)_CurrentScreen].NextInteraction();
+                    _Screens[(int)_CurrentScreen].NextElement();
                 }
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
-                    CConfig.FullScreen = (CConfig.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
+                    CConfig.Config.Graphics.FullScreen = (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.P))
                     CDraw.MakeScreenShot();
                 else
@@ -600,12 +633,12 @@ namespace Vocaluxe.Base
 
         private static void _DrawDebugInfos()
         {
-            if (CConfig.DebugLevel == EDebugLevel.TR_CONFIG_OFF)
+            if (CConfig.Config.Debug.DebugLevel == EDebugLevel.TR_CONFIG_OFF)
                 return;
 
             List<String> debugOutput = new List<string> {CTime.GetFPS().ToString("FPS: 000")};
 
-            if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
+            if (CConfig.Config.Debug.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL1)
             {
                 debugOutput.Add(CSound.GetStreamCount().ToString(CLanguage.Translate("TR_DEBUG_AUDIO_STREAMS") + ": 00"));
                 debugOutput.Add(CVideo.GetNumStreams().ToString(CLanguage.Translate("TR_DEBUG_VIDEO_STREAMS") + ": 00"));
@@ -613,32 +646,31 @@ namespace Vocaluxe.Base
                 long memory = GC.GetTotalMemory(false);
                 debugOutput.Add((memory / 1000000L).ToString(CLanguage.Translate("TR_DEBUG_MEMORY") + ": 00000 MB"));
 
-                if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
+                if (CConfig.Config.Debug.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL2)
                 {
                     debugOutput.Add(CRecord.GetToneAbs(0).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P1: 00"));
                     debugOutput.Add(CRecord.GetMaxVolume(0).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P1: 0.000"));
                     debugOutput.Add(CRecord.GetToneAbs(1).ToString(CLanguage.Translate("TR_DEBUG_TONE_ABS") + " P2: 00"));
                     debugOutput.Add(CRecord.GetMaxVolume(1).ToString(CLanguage.Translate("TR_DEBUG_MAX_VOLUME") + " P2: 0.000"));
 
-                    if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL3)
+                    if (CConfig.Config.Debug.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL3)
                     {
                         debugOutput.Add(CSongs.NumSongsWithCoverLoaded.ToString(CLanguage.Translate("TR_DEBUG_SONGS") + ": 00000"));
 
-                        if (CConfig.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
+                        if (CConfig.Config.Debug.DebugLevel >= EDebugLevel.TR_CONFIG_LEVEL_MAX)
                             debugOutput.Add(_Cursor.X.ToString(CLanguage.Translate("TR_DEBUG_MOUSE") + " : (0000/") + _Cursor.Y.ToString("0000)"));
                     }
                 }
             }
-            CFonts.Style = EStyle.Normal;
-            CFonts.SetFont("Normal");
-            CFonts.Height = 25;
+            CFont font = new CFont("Normal", EStyle.Normal, 25);
             SColorF gray = new SColorF(1f, 1f, 1f, 0.5f);
             float y = 0;
             foreach (string txt in debugOutput)
             {
-                RectangleF rect = new RectangleF(CSettings.RenderW - CFonts.GetTextWidth(txt), y, CFonts.GetTextWidth(txt), CFonts.GetTextHeight(txt));
-                CDraw.DrawColor(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
-                CFonts.DrawText(txt, rect.X, rect.Y, CSettings.ZNear);
+                float textWidth = CFonts.GetTextWidth(txt, font);
+                RectangleF rect = new RectangleF(CSettings.RenderW - textWidth, y, textWidth, CFonts.GetTextHeight(txt, font));
+                CDraw.DrawRect(gray, new SRectF(rect.X, rect.Top, rect.Width, rect.Height, CSettings.ZNear));
+                CFonts.DrawText(txt, font, rect.X, rect.Y, CSettings.ZNear);
                 y += rect.Height;
             }
         }

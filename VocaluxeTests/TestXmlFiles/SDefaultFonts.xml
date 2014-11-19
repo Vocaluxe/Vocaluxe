@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Fonts>
+    <Font>
+      <Name>Normal</Name>
+      <Outline>0</Outline>
+      <OutlineColor>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>1</A>
+      </OutlineColor>
+      <Folder>FreeSans</Folder>
+      <FileNormal>FreeSans.ttf</FileNormal>
+      <FileBold>FreeSansBold.ttf</FileBold>
+      <FileItalic>FreeSansOblique.ttf</FileItalic>
+      <FileBoldItalic>FreeSansBoldOblique.ttf</FileBoldItalic>
+    </Font>
+    <Font>
+      <Name>Outline</Name>
+      <Outline>0.1</Outline>
+      <OutlineColor>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>1</A>
+      </OutlineColor>
+      <Folder>FreeSans</Folder>
+      <FileNormal>FreeSans.ttf</FileNormal>
+      <FileBold>FreeSansBold.ttf</FileBold>
+      <FileItalic>FreeSansOblique.ttf</FileItalic>
+      <FileBoldItalic>FreeSansBoldOblique.ttf</FileBoldItalic>
+    </Font>
+  </Fonts>
+</root>

@@ -117,7 +117,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         {
             if (!_Initialized)
                 return -1;
-            IAudioStream stream = _CreateStream(_NextID, medium, loop);
+            IAudioStream stream = _CreateStream(_NextID++, medium, loop);
 
             if (stream.Open(prescan))
             {
@@ -127,7 +127,6 @@ namespace Vocaluxe.Lib.Sound.Playback
                     stream.VolumeMax = _GlobalVolume;
                     stream.SetOnCloseListener(this);
                     _Streams.Add(stream);
-                    _NextID++;
                     return stream.ID;
                 }
             }

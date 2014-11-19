@@ -30,8 +30,12 @@ namespace Vocaluxe.Screens
         }
 
         private const string _StaticBG = "StaticBG";
-
         private const string _SelectSlideVolume = "SelectSlideVolume";
+
+        public override SRectF ScreenArea
+        {
+            get { return _Statics[_StaticBG].Rect; }
+        }
 
         public override void Init()
         {
@@ -45,7 +49,6 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(xmlPath);
 
-            _ScreenArea = _Statics[_StaticBG].Rect;
             _SelectSlides[_SelectSlideVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
         }
@@ -64,7 +67,7 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 return true;
             }
-            if (mouseEvent.Wheel > 0 && CHelper.IsInBounds(_ScreenArea, mouseEvent))
+            if (mouseEvent.Wheel > 0 && CHelper.IsInBounds(ScreenArea, mouseEvent))
             {
                 if (_SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel >= 0)
                     _SelectSlides[_SelectSlideVolume].Selection = _SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel;
@@ -73,7 +76,7 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 return true;
             }
-            if (mouseEvent.Wheel < 0 && CHelper.IsInBounds(_ScreenArea, mouseEvent))
+            if (mouseEvent.Wheel < 0 && CHelper.IsInBounds(ScreenArea, mouseEvent))
             {
                 if (_SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel < _SelectSlides[_SelectSlideVolume].NumValues)
                     _SelectSlides[_SelectSlideVolume].Selection = _SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel;
@@ -95,14 +98,6 @@ namespace Vocaluxe.Screens
         {
             _UpdateSlides();
             return true;
-        }
-
-        public override bool Draw()
-        {
-            if (!_Active)
-                return false;
-
-            return base.Draw();
         }
 
         private void _SaveConfig()

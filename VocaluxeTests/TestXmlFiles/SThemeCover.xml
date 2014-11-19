@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Info>
+    <Name>Blue</Name>
+    <Folder>Blue</Folder>
+    <Author>flokuep</Author>
+  </Info>
+  <CoverGenerator Type="Default">
+    <Text>
+      <Text>%TEXT%</Text>
+      <Font>
+        <Name>Normal</Name>
+        <Style>Bold</Style>
+        <Size>500</Size>
+      </Font>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.8</A>
+      </Color>
+      <Margin Default="24">
+        <Left>24</Left>
+      </Margin>
+      <Indent>100</Indent>
+    </Text>
+    <BackgroundColor>
+      <R>1</R>
+      <G>1</G>
+      <B>1</B>
+      <A>1</A>
+    </BackgroundColor>
+    <Image>EmptyCover.png</Image>
+    <ImageAlpha>0.75</ImageAlpha>
+    <ShowFirstCover>True</ShowFirstCover>
+  </CoverGenerator>
+</root>

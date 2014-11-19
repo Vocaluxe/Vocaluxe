@@ -19,11 +19,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Xml;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Lib.Playlist
 {
@@ -31,15 +31,14 @@ namespace Vocaluxe.Lib.Playlist
     {
         public string Name = "";
         public string File;
-        public readonly int Id = -1;
+        public readonly int Id;
         public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
-        public CPlaylistFile(int id, string file = "")
+        private static int _NextID;
+
+        public CPlaylistFile()
         {
-            Id = id;
-            File = file;
-            if (File != "")
-                _Load();
+            Id = _NextID++;
         }
 
         public void Save()
@@ -61,90 +60,40 @@ namespace Vocaluxe.Lib.Playlist
                 File = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CConfig.FolderPlaylists), filename + ".xml");
             }
 
-            XmlWriter writer;
+            SPlaylist data = new SPlaylist {Info = {Name = Name}, Songs = Songs.Select(plSong => plSong.ToStruct()).ToArray()};
+
+            var xml = new CXmlSerializer();
+            xml.Serialize(File, data);
+        }
+
+        public bool _Load(string file)
+        {
+            File = file;
+            SPlaylist data;
             try
             {
-                writer = XmlWriter.Create(File, CConfig.XMLSettings);
+                var xml = new CXmlDeserializer();
+                data = xml.Deserialize<SPlaylist>(File);
             }
             catch (Exception e)
             {
-                CLog.LogError("Error creating/opening Playlist File " + File + ": " + e.Message);
-                return;
+                CLog.LogError("Cannot load playlist from " + file + ": " + e.Message);
+                return false;
             }
-
-            try
+            Name = data.Info.Name;
+            Songs = new List<CPlaylistSong>();
+            foreach (SPlaylistSong songEntry in data.Songs)
             {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("root");
-
-                writer.WriteStartElement("Info");
-                writer.WriteElementString("PlaylistName", Name);
-                writer.WriteEndElement();
-
-                writer.WriteStartElement("Songs");
-                for (int i = 0; i < Songs.Count; i++)
+                CSong plSong = CSongs.AllSongs.FirstOrDefault(song => song.Artist == songEntry.Artist && song.Title == songEntry.Title);
+                if (plSong == null)
+                    CLog.LogError("Can't find song '" + songEntry.Title + "' from '" + songEntry.Artist + "' in playlist file: " + File);
+                else
                 {
-                    CSong song = CSongs.GetSong(Songs[i].SongID);
-                    if (song != null)
-                    {
-                        writer.WriteStartElement("Song" + (i + 1));
-                        writer.WriteElementString("Artist", song.Artist);
-                        writer.WriteElementString("Title", song.Title);
-                        writer.WriteElementString("GameMode", Enum.GetName(typeof(EGameMode), Songs[i].GameMode));
-                        writer.WriteEndElement();
-                    }
-                    else
-                        CLog.LogError("Playlist.SavePlaylist(): Can't find Song. This should never happen!");
-                }
-                writer.WriteEndElement();
-
-                writer.WriteEndElement(); //end of root
-                writer.WriteEndDocument();
-
-                writer.Flush();
-            }
-            finally
-            {
-                writer.Close();
-            }
-        }
-
-        private void _Load()
-        {
-            CXMLReader xmlReader = CXMLReader.OpenFile(File);
-            if (xmlReader == null)
-                return;
-
-            string value;
-            if (xmlReader.GetValue("//root/Info/PlaylistName", out value, ""))
-            {
-                Name = value;
-
-                Songs = new List<CPlaylistSong>();
-
-                List<string> songs = xmlReader.GetNames("//root/Songs/*");
-
-                foreach (string songEntry in songs)
-                {
-                    string artist;
-                    string title;
-                    xmlReader.GetValue("//root/Songs/" + songEntry + "/Artist", out artist, String.Empty);
-                    xmlReader.GetValue("//root/Songs/" + songEntry + "/Title", out title, String.Empty);
-                    EGameMode gm = EGameMode.TR_GAMEMODE_NORMAL;
-                    xmlReader.TryGetEnumValue("//root/Songs/" + songEntry + "/GameMode", ref gm);
-
-                    CSong plSong = CSongs.AllSongs.FirstOrDefault(song => song.Artist == artist && song.Title == title);
-                    if (plSong != null)
-                    {
-                        var playlistSong = new CPlaylistSong(plSong.ID, gm);
-                        Songs.Add(playlistSong);
-                    }
-                    else
-                        CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + File);
+                    var playlistSong = new CPlaylistSong(plSong.ID, songEntry.GameMode);
+                    Songs.Add(playlistSong);
                 }
             }
-            else
-                CLog.LogError("Can't find PlaylistName in Playlist File: " + File);
+            return true;
         }
 
         public void AddSong(int songID)

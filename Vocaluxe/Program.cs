@@ -20,12 +20,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Server;
+using Vocaluxe.Base.ThemeSystem;
+
+[assembly: InternalsVisibleTo("VocaluxeTests")]
 
 namespace Vocaluxe
 {
@@ -81,7 +85,7 @@ namespace Vocaluxe
             {
                 // Init Log
                 CLog.Init();
-
+                CLog.StartBenchmark("Init Program");
                 if (!CProgrammHelper.CheckRequirements())
                     return;
                 CProgrammHelper.Init();
@@ -173,10 +177,23 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
-                // Init Font
-                CLog.StartBenchmark("Init Font");
-                CFonts.Init();
-                CLog.StopBenchmark("Init Font");
+                // Init Fonts
+                CLog.StartBenchmark("Init Fonts");
+                if (!CFonts.Init())
+                    throw new CLoadingException("fonts");
+                CLog.StopBenchmark("Init Fonts");
+
+                Application.DoEvents();
+
+                // Theme System
+                CLog.StartBenchmark("Init Theme");
+                if (!CThemes.Init())
+                    throw new CLoadingException("theme");
+                CLog.StopBenchmark("Init Theme");
+
+                CLog.StartBenchmark("Load Theme");
+                CThemes.Load();
+                CLog.StopBenchmark("Load Theme");
 
                 Application.DoEvents();
 
@@ -184,14 +201,6 @@ namespace Vocaluxe
                 CLog.StartBenchmark("Init Cover");
                 CCover.Init();
                 CLog.StopBenchmark("Init Cover");
-
-                Application.DoEvents();
-
-                // Theme System
-                CLog.StartBenchmark("Init Theme");
-                if (!CTheme.Init())
-                    throw new CLoadingException("theme");
-                CLog.StopBenchmark("Init Theme");
 
                 Application.DoEvents();
 
@@ -235,6 +244,7 @@ namespace Vocaluxe
                 //Only reasonable point to call GC.Collect() because initialization may cause lots of garbage
                 //Rely on GC doing its job afterwards and call Dispose methods where appropriate
                 GC.Collect();
+                CLog.StopBenchmark("Init Program");
             }
             catch (Exception e)
             {
@@ -250,7 +260,6 @@ namespace Vocaluxe
             // Start Main Loop
             if (_SplashScreen != null)
                 _SplashScreen.Close();
-            CVocaluxeServer.Start();
 
             CDraw.MainLoop();
         }
@@ -263,16 +272,25 @@ namespace Vocaluxe
                 CController.Close();
                 CVocaluxeServer.Close();
                 CGraphics.Close();
+                CThemes.Close();
                 CCover.Close();
+                CFonts.Close();
                 CBackgroundMusic.Close();
                 CWebcam.Close();
                 CDataBase.Close();
                 CVideo.Close();
                 CRecord.Close();
                 CSound.Close();
-                CDraw.Unload();
-                GC.Collect(); // Do a GC run here before we close logs to have finalizers run
-                CLog.CloseAll(); // Do this last, so we get all log entries!
+                CDraw.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown!", false, false, e);
+            }
+            GC.Collect(); // Do a GC run here before we close logs to have finalizers run
+            try
+            {
+                CLog.Close(); // Do this last, so we get all log entries!
             }
             catch (Exception) {}
             Environment.Exit(Environment.ExitCode);
