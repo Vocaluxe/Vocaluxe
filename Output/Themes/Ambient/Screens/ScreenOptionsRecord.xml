@@ -82,7 +82,7 @@
     </Static>
     <Static Name="StaticWarning">
       <Skin/>
-      <Color Name="StaticWarningColor" />
+      <Color Name="Invisible" />
       <Rect>
         <X>145</X>
         <Y>530</Y>
