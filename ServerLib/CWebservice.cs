@@ -128,7 +128,7 @@ namespace ServerLib
         public SProfileData GetProfile(int profileId)
         {
             Guid sessionKey = _GetSession();
-            if (_CheckRight(EUserRights.ViewOtherProfiles) || CSessionControl.GetUserIdFromSession(sessionKey) == profileId)
+            if (CSessionControl.GetUserIdFromSession(sessionKey) == profileId || _CheckRight(EUserRights.ViewOtherProfiles))
             {
                 if (CServer.GetProfileData == null)
                     return new SProfileData();
