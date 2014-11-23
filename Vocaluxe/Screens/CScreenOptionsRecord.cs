@@ -355,7 +355,7 @@ namespace Vocaluxe.Screens
 
             if (_CheckMicConfig())
             {
-                for (int p = 0; p < CSettings.MaxNumPlayer; p++)
+                for (int p = 0; p < CConfig.Config.Record.MicConfig.Length; p++)
                     CConfig.Config.Record.MicConfig[p].Channel = 0;
 
                 foreach (CRecordDevice device in _Devices)

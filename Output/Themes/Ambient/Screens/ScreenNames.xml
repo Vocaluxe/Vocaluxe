@@ -159,7 +159,7 @@
     </Static>
     <Static Name="StaticWarningMics">
       <Skin/>
-      <Color Name="StaticWarningColor" />
+      <Color Name="Invisible" />
       <Rect>
         <X>145</X>
         <Y>663</Y>
@@ -170,7 +170,7 @@
     </Static>
     <Static Name="StaticWarningProfiles">
       <Skin/>
-      <Color Name="StaticWarningColor" />
+      <Color Name="Invisible" />
       <Rect>
         <X>145</X>
         <Y>715</Y>
