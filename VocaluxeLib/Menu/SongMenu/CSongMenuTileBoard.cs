@@ -480,7 +480,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             foreach (CStatic tile in _Tiles)
             {
-                if (tile.Selected && Selected)
+                if (tile.Selected)
                     tile.Draw(EAspect.Crop, SelectedTileZoomFactor, -0.1f);
                 else
                 {
