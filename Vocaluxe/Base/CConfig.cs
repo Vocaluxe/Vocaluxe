@@ -244,10 +244,9 @@ namespace Vocaluxe.Base
                 return;
 
             // Init config file
+            _LoadConfig();
             if (!File.Exists(_FileConfig))
                 SaveConfig();
-            else
-                _LoadConfig();
 
             _Initialized = true;
         }
@@ -263,9 +262,14 @@ namespace Vocaluxe.Base
         {
             _XmlErrorsOccured = false;
             var xml = new CXmlDeserializer(new CXmlErrorHandler(_HandleXmlError));
-            Config = xml.Deserialize<SConfig>(_FileConfig);
-            if (_XmlErrorsOccured)
-                CLog.LogError("There were some warnings or errors loading the config file. Some values might have been reset to their defaults.");
+            if (File.Exists(_FileConfig))
+            {
+                Config = xml.Deserialize<SConfig>(_FileConfig);
+                if (_XmlErrorsOccured)
+                    CLog.LogError("There were some warnings or errors loading the config file. Some values might have been reset to their defaults.");
+            }
+            else
+                Config = xml.DeserializeString<SConfig>("<root />");
 
             if (Config.Game.SongFolder.Length > 0)
             {
@@ -278,7 +282,7 @@ namespace Vocaluxe.Base
             if (Config.Game.MinLineBreakTime < 0)
                 Config.Game.MinLineBreakTime = 0.1f;
 
-            if (Config.Game.NumPlayers < 1 || Config.Game.NumPlayers > CSettings.MaxNumPlayer)
+            if (!Config.Game.NumPlayers.IsInRange(1, CSettings.MaxNumPlayer))
                 Config.Game.NumPlayers = 2;
             Array.Resize(ref Config.Game.Players, CSettings.MaxNumPlayer);
 
@@ -290,9 +294,10 @@ namespace Vocaluxe.Base
                 CLanguage.SetLanguage(Config.Game.Language);
             }
 
+            Array.Resize(ref Config.Record.MicConfig, CSettings.MaxNumPlayer);
             Config.Record.MicDelay = (int)(20 * Math.Round(Config.Record.MicDelay / 20.0));
 
-            if (Config.Server.ServerPort < 1 || Config.Server.ServerPort > 65535)
+            if (!Config.Server.ServerPort.IsInRange(1, 65535))
                 Config.Server.ServerPort = 3000;
 
             Config.Info = new SConfigInfo
@@ -498,8 +503,6 @@ namespace Vocaluxe.Base
                     //Check if there is one or more channels
                     if (device.Channels >= 2)
                     {
-                        if (Config.Record.MicConfig.Length < 2)
-                            Config.Record.MicConfig = new SMicConfig[2];
                         //Set this device to player 1
                         Config.Record.MicConfig[0].DeviceName = device.Name;
                         Config.Record.MicConfig[0].DeviceDriver = device.Driver;

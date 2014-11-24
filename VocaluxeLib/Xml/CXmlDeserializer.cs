@@ -190,6 +190,8 @@ namespace VocaluxeLib.Xml
         {
             if (type.IsEnum)
             {
+                if (node == null)
+                    return null;
                 string stringValue = node.InnerText;
                 try
                 {
@@ -202,12 +204,12 @@ namespace VocaluxeLib.Xml
                 }
             }
             if (type == typeof(string))
-                return node.InnerText;
+                return node == null ? null : node.InnerText;
             if (type.IsPrimitive)
                 return _GetPrimitiveValue(node, type) ?? value;
             if (type.IsNullable())
             {
-                if (!node.HasChildNodes)
+                if (node == null || !node.HasChildNodes)
                     return null;
                 Type subType = type.GetGenericArguments()[0];
                 return _GetValue(node, subType, subName, value);
@@ -219,15 +221,18 @@ namespace VocaluxeLib.Xml
                     subName = subType.GetTypeName();
                 subName = subName.ToLowerInvariant();
                 List<object> subValues = new List<object>();
-                foreach (XmlNode subNode in node.ChildNodes)
+                if (node != null)
                 {
-                    if (subNode is XmlComment)
-                        continue;
-                    if (subName == subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
-                        _ErrorHandler.HandleError(new CXmlException("Invalid list entry '" + subNode.Name + "' in %n; Expected: " + subName, node));
-                    object subValue = _GetValue(subNode, subType);
-                    if (subValue != null)
-                        subValues.Add(subValue);
+                    foreach (XmlNode subNode in node.ChildNodes)
+                    {
+                        if (subNode is XmlComment)
+                            continue;
+                        if (subName == subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
+                            _ErrorHandler.HandleError(new CXmlException("Invalid list entry '" + subNode.Name + "' in %n; Expected: " + subName, node));
+                        object subValue = _GetValue(subNode, subType);
+                        if (subValue != null)
+                            subValues.Add(subValue);
+                    }
                 }
                 if (value == null)
                     return _CreateList(type, subValues);
@@ -241,28 +246,31 @@ namespace VocaluxeLib.Xml
                 MethodInfo add = type.GetMethod("Add");
                 if (subName != null)
                     subName = subName.ToLowerInvariant();
-                foreach (XmlNode subNode in node.ChildNodes)
+                if (node != null)
                 {
-                    if (subNode is XmlComment)
-                        continue;
-                    string key;
-                    if (subName != null)
+                    foreach (XmlNode subNode in node.ChildNodes)
                     {
-                        if (subName != subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
-                            _ErrorHandler.HandleError(new CXmlException("Invalid dictionary entry '" + subNode.Name + "' in %n; Expected: " + subName, node));
-                        XmlNode nameAtt = (subNode.Attributes == null) ? null : subNode.Attributes.GetNamedItem("name");
-                        if (nameAtt == null)
-                        {
-                            _ErrorHandler.HandleError(new CXmlException("'name' attribute is missing in %n", subNode));
+                        if (subNode is XmlComment)
                             continue;
+                        string key;
+                        if (subName != null)
+                        {
+                            if (subName != subNode.Name.ToLowerInvariant() && !subNode.Name.ToLowerInvariant().StartsWith(subName))
+                                _ErrorHandler.HandleError(new CXmlException("Invalid dictionary entry '" + subNode.Name + "' in %n; Expected: " + subName, node));
+                            XmlNode nameAtt = (subNode.Attributes == null) ? null : subNode.Attributes.GetNamedItem("name");
+                            if (nameAtt == null)
+                            {
+                                _ErrorHandler.HandleError(new CXmlException("'name' attribute is missing in %n", subNode));
+                                continue;
+                            }
+                            key = nameAtt.Value;
                         }
-                        key = nameAtt.Value;
+                        else
+                            key = subNode.Name;
+                        object subValue = _GetValue(subNode, subType);
+                        if (subValue != null)
+                            add.Invoke(dict, new object[] {key, subValue});
                     }
-                    else
-                        key = subNode.Name;
-                    object subValue = _GetValue(subNode, subType);
-                    if (subValue != null)
-                        add.Invoke(dict, new object[] {key, subValue});
                 }
                 return dict;
             }
@@ -292,6 +300,8 @@ namespace VocaluxeLib.Xml
         /// <returns></returns>
         private object _GetPrimitiveValue(XmlNode node, Type type)
         {
+            if (node == null)
+                return null;
             object value;
             string nodeVal = node.InnerText;
             try
@@ -396,7 +406,9 @@ namespace VocaluxeLib.Xml
         private void _ReadChildNodes(XmlNode parent, object o, bool attributes)
         {
             IEnumerable nodes;
-            if (attributes)
+            if (parent == null)
+                nodes = null;
+            else if (attributes)
                 nodes = parent.Attributes;
             else
                 nodes = parent.ChildNodes;
@@ -491,7 +503,13 @@ namespace VocaluxeLib.Xml
             foreach (SFieldInfo field in fields)
             {
                 if (!_CheckAndSetDefaultValue(o, field))
-                    _ErrorHandler.HandleError(new CXmlException("element: " + field.Name + " is missing in %n", parent));
+                {
+                    if (parent != null)
+                        _ErrorHandler.HandleError(new CXmlException("element: " + field.Name + " is missing in %n", parent));
+                    object value = _GetValue(null, field.Type, field.ArrayItemName, field.GetValue(o));
+                    if (value != null)
+                        field.SetValue(o, value);
+                }
             }
         }
 

@@ -258,7 +258,8 @@ namespace Vocaluxe.Base
                     _CurrentScreen = _NextScreen;
                     _NextScreen = EScreens.ScreenNull;
                     _Screens[(int)_CurrentScreen].OnShowFinish();
-                    _Screens[(int)_CurrentScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
+                    if (_Cursor.IsActive)
+                        _Screens[(int)_CurrentScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
 
                     _DrawScreen(_CurrentScreen);
 
