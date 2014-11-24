@@ -135,10 +135,9 @@ namespace Vocaluxe.Base
 
         private static int _GetPlayerFromMicConfig(string device, string devicedriver, int channel)
         {
-            for (int p = 0; p < CConfig.Config.Record.MicConfig.Length; p++)
+            for (int p = 0; p < CSettings.MaxNumPlayer; p++)
             {
-                if (CConfig.Config.Record.MicConfig[p].Channel != 0 &&
-                    CConfig.Config.Record.MicConfig[p].DeviceName == device &&
+                if (CConfig.Config.Record.MicConfig[p].DeviceName == device &&
                     CConfig.Config.Record.MicConfig[p].DeviceDriver == devicedriver &&
                     CConfig.Config.Record.MicConfig[p].Channel == channel)
                     return p + 1;

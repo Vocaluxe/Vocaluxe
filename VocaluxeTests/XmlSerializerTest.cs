@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -87,6 +88,22 @@ namespace VocaluxeTests
             [XmlIgnore] public int I;
             public int J;
         }
+
+        private struct SDefaultSub
+        {
+            [DefaultValue(111)]
+            public int I;            
+        }
+
+        private struct SDefault
+        {
+            [DefaultValue(1337)] public int I;
+            [DefaultValue("Foo")] public string S;
+            public float? F;
+            [DefaultValue(666.0)] public double D;
+            public SDefaultSub Sub;
+        }
+
 #pragma warning restore 169
 #pragma warning restore 649
 
@@ -414,6 +431,32 @@ namespace VocaluxeTests
   <String name=""val2"">3</String>
 </root>";
             _AssertSerDeserMatch<Dictionary<string, string>>(s);
+        }
+
+        [TestMethod]
+        public void TestDefaultValues()
+        {
+            const string s = _Head + @"<root>
+  <I>1</I>
+  <S>2</S>
+  <F>3</F>
+  <D>4</D>
+  <Sub>
+    <I>22</I>
+  </Sub>
+</root>";
+            _AssertSerDeserMatch<SDefault>(s);
+            var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }));
+            SDefault foo = xml.DeserializeString<SDefault>(@"<root />");
+            Assert.AreEqual(foo.I, 1337);
+            Assert.AreEqual(foo.F, null);
+            Assert.AreEqual(foo.S, "Foo");
+            Assert.AreEqual(foo.D, 666);
+            Assert.AreEqual(foo.Sub.I, 111);
+            string newXml = new CXmlSerializer().Serialize(foo);
+            Assert.AreEqual(_Head +@"<root>
+  <Sub />
+</root>", newXml);
         }
 
         [TestMethod]
