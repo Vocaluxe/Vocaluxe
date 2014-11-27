@@ -109,6 +109,12 @@ namespace VocaluxeLib.Menu
 
         private CStatic _PlayerSelector;
 
+        private SRectF _Rect;
+        public override SRectF Rect
+        {
+            get { return _Rect; }
+        }
+
         public bool Selectable
         {
             get { return Visible; }
@@ -489,15 +495,19 @@ namespace VocaluxeLib.Menu
             {
                 for (int j = 0; j < _Theme.Tiles.NumW; j++)
                 {
-                    var rect = new SRectF(Rect.X + j * (_Theme.Tiles.W + _Theme.Tiles.SpaceW), Rect.Y + i * (_Theme.Tiles.H + _Theme.Tiles.SpaceH), _Theme.Tiles.W, _Theme.Tiles.H,
-                                          Rect.Z);
+                    var rect = new SRectF(MaxRect.X + j * (_Theme.Tiles.W + _Theme.Tiles.SpaceW), MaxRect.Y + i * (_Theme.Tiles.H + _Theme.Tiles.SpaceH),
+                                          _Theme.Tiles.W, _Theme.Tiles.H, MaxRect.Z);
                     var tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, _ColorEmptyTile, rect) {Aspect = EAspect.Crop};
                     var tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.Tiles.Name.Space, rect.Z, _Theme.Tiles.Name.Height, rect.W, EAlignment.Center,
-                                             _Theme.Tiles.Name.Style,
-                                             _Theme.Tiles.Name.Font, _ColorNameTile, "");
+                                             _Theme.Tiles.Name.Style, _Theme.Tiles.Name.Font, _ColorNameTile, "");
                     _Tiles.Add(new CTile(tileStatic, tileText, -1));
                 }
             }
+            _Rect.X = MaxRect.X;
+            _Rect.Y = MaxRect.Y;
+            _Rect.Right = _Tiles[_Tiles.Count - 1].Avatar.Rect.Right;
+            _Rect.Bottom = _Tiles[_Tiles.Count - 1].Name.Rect.Bottom;
+            _Rect.Z = MaxRect.Z;
         }
 
         private void _UpdateVisibleProfiles()

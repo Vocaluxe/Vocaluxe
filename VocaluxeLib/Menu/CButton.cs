@@ -86,7 +86,7 @@ namespace VocaluxeLib.Menu
 
         public bool Selectable
         {
-            get { return _Selectable; }
+            get { return _Selectable && Visible; }
             set
             {
                 _Selectable = value;
