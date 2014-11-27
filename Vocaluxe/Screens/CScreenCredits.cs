@@ -145,6 +145,11 @@ namespace Vocaluxe.Screens
 
         private SThemeBackground _BGTheme;
 
+        public override EMusicType CurrentMusicType
+        {
+            get { return EMusicType.None; }
+        }
+
         public override void Init()
         {
             base.Init();
@@ -292,7 +297,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                     case Keys.Enter:
-                        CGraphics.FadeTo(EScreens.ScreenMain);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
                 }
             }
@@ -303,14 +308,14 @@ namespace Vocaluxe.Screens
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             if (mouseEvent.LB || mouseEvent.RB)
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
             return true;
         }
 
         public override bool UpdateGame()
         {
             if (!_Animation())
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
             return true;
         }
 

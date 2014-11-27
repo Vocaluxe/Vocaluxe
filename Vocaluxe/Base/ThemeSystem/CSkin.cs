@@ -147,7 +147,7 @@ namespace Vocaluxe.Base.ThemeSystem
             }
             catch (Exception e)
             {
-                CLog.LogError("Can't load skin file \"" + _FileName + "\". Invalid file!", false, false, e);
+                CLog.LogError("Can't load skin file \"" + Path.Combine(_Folder, _FileName) + "\". Invalid file!", false, false, e);
                 return false;
             }
 

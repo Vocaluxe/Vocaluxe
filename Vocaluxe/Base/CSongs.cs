@@ -29,6 +29,8 @@ namespace Vocaluxe.Base
 {
     static class CSongs
     {
+        public delegate void CategoryChangedHandler();
+
         private static readonly List<CSong> _Songs = new List<CSong>();
         private static readonly List<CSong> _SongsForRandom = new List<CSong>();
 
@@ -41,6 +43,7 @@ namespace Vocaluxe.Base
         public static readonly CSongCategorizer Categorizer = new CSongCategorizer();
 
         private static Thread _CoverLoaderThread;
+        public static event CategoryChangedHandler OnCategoryChanged;
 
         public static List<CSong> Songs
         {
@@ -84,8 +87,13 @@ namespace Vocaluxe.Base
             }
             set
             {
+                if (value == _CatIndex)
+                    return;
                 if (value == -1 || _IsCatIndexValid(value))
+                {
                     _CatIndex = value;
+                    OnCategoryChanged();
+                }
             }
         }
 

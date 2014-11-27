@@ -22,12 +22,6 @@ using VocaluxeLib.Profile;
 
 namespace VocaluxeLib.Menu
 {
-    public struct SPartyNameOptions
-    {
-        public int[] NumPlayerTeams;
-        public List<int>[] TeamList;
-    }
-
     public abstract class CMenuPartyNameSelection : CMenuParty
     {
         private bool _Teams;
@@ -63,7 +57,7 @@ namespace VocaluxeLib.Menu
         private const string _SelectSlidePlayer = "SelectSlidePlayer";
         private const string _NameSelection = "NameSelection";
 
-        private List<int>[] _TeamList;
+        protected List<int>[] _TeamList;
 
         public override void Init()
         {
@@ -557,12 +551,6 @@ namespace VocaluxeLib.Menu
 
         public abstract void Back();
         public abstract void Next();
-
-        public SPartyNameOptions GetData()
-        {
-            SPartyNameOptions option = new SPartyNameOptions {NumPlayerTeams = _NumPlayerTeams, TeamList = _TeamList};
-            return option;
-        }
 
         public void IncreaseTeamNum()
         {

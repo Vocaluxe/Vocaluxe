@@ -37,7 +37,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         None
     }
 
-    public class CPartyScreenTicTacToeMain : CMenuParty
+    // ReSharper disable UnusedMember.Global
+    public class CPartyScreenTicTacToeMain : CPartyScreenTicTacToe
+        // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -71,9 +73,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private bool _ExitPopupVisible;
 
-        private SDataFromScreen _Data;
-        private SDataToScreenMain _GameData;
-
         private List<CField> _Fields;
         private float _FieldFirstX = 25;
         private float _FieldFirstY = 25;
@@ -100,18 +99,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 };
             _ThemeStatics = new string[] {_StaticPopupBG, _StaticAvatarT1, _StaticAvatarT2};
 
-            _Data = new SDataFromScreen();
-            var config = new SFromScreenMain();
-            _GameData = new SDataToScreenMain();
-            config.SingRoundNr = 1;
-            config.Rounds = new List<CRound>();
-            config.Songs = new List<int>();
-            config.PlayerTeam1 = new List<int>();
-            config.PlayerTeam2 = new List<int>();
-            config.FadeToNameSelection = false;
-            config.FadeToSinging = false;
-            _Data.ScreenMain = config;
-
             _Fields = new List<CField>();
         }
 
@@ -121,19 +108,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             _CreateFields();
             _Buttons[_ButtonField].Visible = false;
-        }
-
-        public override void DataToScreen(object receivedData)
-        {
-            try
-            {
-                var config = (SDataToScreenMain)receivedData;
-                _GameData = config;
-            }
-            catch (Exception e)
-            {
-                CBase.Log.LogError("Error in party mode screen TicTacToe main. Can't cast received data from game mode " + ThemeName + ". " + e.Message);
-            }
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -149,7 +123,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     case Keys.Escape:
                         if (!_ExitPopupVisible)
                         {
-                            if (_GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
+                            if (_PartyMode.GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
                                 _Back();
                             else if (_Status == EStatus.None)
                                 _EndParty();
@@ -165,13 +139,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         {
                             if (_Buttons[_ButtonNextRound].Selected)
                                 _NextRound();
-                            if (_Buttons[_ButtonBack].Selected && _GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
+                            if (_Buttons[_ButtonBack].Selected && _PartyMode.GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
                                 _Back();
-                            if (_Buttons[_ButtonExit].Selected && (_GameData.CurrentRoundNr > 1 || _Status == EStatus.FieldSelected) && _Status != EStatus.None)
+                            if (_Buttons[_ButtonExit].Selected && (_PartyMode.GameData.CurrentRoundNr > 1 || _Status == EStatus.FieldSelected) && _Status != EStatus.None)
                                 _ShowPopup(true);
                             else if (_Status == EStatus.None)
                                 _EndParty();
-                            for (int i = 0; i < _GameData.NumFields; i++)
+                            for (int i = 0; i < _PartyMode.GameData.NumFields; i++)
                             {
                                 switch (_Status)
                                 {
@@ -236,7 +210,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         else
                             _ShowPopup(true);
                     }
-                    for (int i = 0; i < _GameData.NumFields; i++)
+                    for (int i = 0; i < _PartyMode.GameData.NumFields; i++)
                     {
                         switch (_Status)
                         {
@@ -282,7 +256,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 if (!_ExitPopupVisible)
                 {
-                    if (_GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
+                    if (_PartyMode.GameData.CurrentRoundNr == 1 && _Status != EStatus.FieldSelected)
                         _Back();
                     else if (_Status == EStatus.None)
                         _EndParty();
@@ -304,7 +278,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             _PreviewStream = -1;
 
-            if (_GameData.CurrentRoundNr == 1)
+            if (_PartyMode.GameData.CurrentRoundNr == 1)
             {
                 _BuildWinnerPossibilities();
                 _SelectedField = -1;
@@ -325,7 +299,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _UpdateFieldContents();
 
             int winner = _GetWinner();
-            if (_GameData.CurrentRoundNr <= _GameData.NumFields && winner == 0)
+            if (_PartyMode.GameData.CurrentRoundNr <= _PartyMode.GameData.NumFields && winner == 0)
             {
                 _UpdateTeamChoosingMessage();
                 _Texts[_TextNextPlayerT1].Visible = false;
@@ -390,7 +364,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _UpdateFields()
         {
-            var numOneRow = (int)Math.Sqrt(_GameData.NumFields);
+            var numOneRow = (int)Math.Sqrt(_PartyMode.GameData.NumFields);
             float fieldSizeY = ((float)CBase.Settings.GetRenderH() - 150 - numOneRow * _FieldSpace) / numOneRow;
             float fieldSizeX = ((float)CBase.Settings.GetRenderW() - 300 - numOneRow * _FieldSpace) / numOneRow;
             _FieldSize = Math.Min(fieldSizeX, fieldSizeY);
@@ -402,7 +376,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             float y = _FieldFirstY;
             for (int i = 0; i < _Fields.Count; i++)
             {
-                if (i < _GameData.NumFields)
+                if (i < _PartyMode.GameData.NumFields)
                 {
                     _Fields[i].Button.W = _FieldSize;
                     _Fields[i].Button.H = _FieldSize;
@@ -431,13 +405,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _UpdateFieldContents()
         {
-            for (int i = 0; i < _GameData.Rounds.Count; i++)
+            for (int i = 0; i < _PartyMode.GameData.Rounds.Count; i++)
             {
                 _Fields[i].Button.Selectable = true;
                 _Fields[i].Button.Texture = _Buttons[_ButtonField].Texture;
                 _Fields[i].Button.Color = _Buttons[_ButtonField].Color;
                 _Fields[i].Button.SelColor = _Buttons[_ButtonField].SelColor;
-                _Fields[i].Content = _GameData.Rounds[i];
+                _Fields[i].Content = _PartyMode.GameData.Rounds[i];
                 if (_Fields[i].Content.Finished)
                 {
                     _Fields[i].Button.Selectable = false;
@@ -454,7 +428,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
                 if (_Status == EStatus.JokerRetry && _Fields[i].Content.Finished)
                 {
-                    _Fields[i].Button.SelColor = CBase.Themes.GetPlayerColor(_GameData.Team + 1);
+                    _Fields[i].Button.SelColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Team + 1);
                     _Fields[i].Button.Selectable = true;
                 }
                 if (_Status == EStatus.JokerRetry && !_Fields[i].Content.Finished)
@@ -471,40 +445,33 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 int singerTeam1 = 0;
                 int singerTeam2 = 0;
 
-                if (_GameData.PlayerTeam1.Count > 0)
+                if (_PartyMode.GameData.PlayerTeam1.Count > 0)
                 {
-                    singerTeam1 = _GameData.PlayerTeam1[0];
-                    _GameData.PlayerTeam1.RemoveAt(0);
+                    singerTeam1 = _PartyMode.GameData.PlayerTeam1[0];
+                    _PartyMode.GameData.PlayerTeam1.RemoveAt(0);
                 }
 
-                if (_GameData.PlayerTeam2.Count > 0)
+                if (_PartyMode.GameData.PlayerTeam2.Count > 0)
                 {
-                    singerTeam2 = _GameData.PlayerTeam2[0];
-                    _GameData.PlayerTeam2.RemoveAt(0);
+                    singerTeam2 = _PartyMode.GameData.PlayerTeam2[0];
+                    _PartyMode.GameData.PlayerTeam2.RemoveAt(0);
                 }
-                _GameData.Rounds[_SelectedField].SingerTeam1 = singerTeam1;
-                _GameData.Rounds[_SelectedField].SingerTeam2 = singerTeam2;
+                _PartyMode.GameData.Rounds[_SelectedField].SingerTeam1 = singerTeam1;
+                _PartyMode.GameData.Rounds[_SelectedField].SingerTeam2 = singerTeam2;
 
                 _UpdatePlayerInformation();
             }
             int songID = 0;
-            if (_GameData.Songs.Count > 0)
+            if (_PartyMode.GameData.Songs.Count > 0)
             {
-                songID = _GameData.Songs[0];
-                _GameData.Songs.RemoveAt(0);
+                songID = _PartyMode.GameData.Songs[0];
+                _PartyMode.GameData.Songs.RemoveAt(0);
             }
-            CSong song = CBase.Songs.GetSongByID(songID);
 
-            CBase.BackgroundMusic.SetDisabled(true);
-
-            _PreviewStream = CBase.Sound.Load(song.GetMP3());
-            CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);
-            CBase.Sound.SetStreamVolume(_PreviewStream, 0f);
-            CBase.Sound.Play(_PreviewStream);
-            CBase.Sound.Fade(_PreviewStream, CBase.Config.GetBackgroundMusicVolume(), 1f);
+            _StartPreview(songID);
             _Status = EStatus.FieldSelected;
             _Fields[_SelectedField].Content.SongID = songID;
-            _GameData.Rounds[_SelectedField].SongID = songID;
+            _PartyMode.GameData.Rounds[_SelectedField].SongID = songID;
             _UpdateFieldContents();
             _UpdateJokerButtons();
 
@@ -518,23 +485,15 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _FieldSelectedAgain()
         {
             int songID = _Fields[_SelectedField].Content.SongID;
-            CSong song = CBase.Songs.GetSongByID(songID);
-            CBase.BackgroundMusic.SetDisabled(true);
-
-            _PreviewStream = CBase.Sound.Load(song.GetMP3());
-            CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);
-            CBase.Sound.SetStreamVolume(_PreviewStream, 0f);
-            CBase.Sound.Play(_PreviewStream);
-            CBase.Sound.Fade(_PreviewStream, CBase.Config.GetBackgroundMusicVolume(), 1f);
+            _StartPreview(songID);
             _Status = EStatus.FieldSelected;
             _Fields[_SelectedField].Content.SongID = songID;
-            _GameData.Rounds[_SelectedField].SongID = songID;
-            _GameData.Rounds[_SelectedField].SingerTeam1 = _GameData.Rounds[_OldSelectedField].SingerTeam1;
-            _GameData.Rounds[_SelectedField].SingerTeam2 = _GameData.Rounds[_OldSelectedField].SingerTeam2;
+            _PartyMode.GameData.Rounds[_SelectedField].SongID = songID;
+            _PartyMode.GameData.Rounds[_SelectedField].SingerTeam1 = _PartyMode.GameData.Rounds[_OldSelectedField].SingerTeam1;
+            _PartyMode.GameData.Rounds[_SelectedField].SingerTeam2 = _PartyMode.GameData.Rounds[_OldSelectedField].SingerTeam2;
             _UpdateFieldContents();
 
             _UpdatePlayerInformation();
-
             _UpdateJokerButtons();
 
             _Buttons[_ButtonNextRound].Visible = true;
@@ -544,18 +503,31 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectElement(_Buttons[_ButtonNextRound]);
         }
 
+        private void _StartPreview(int songID)
+        {
+            CSong song = CBase.Songs.GetSongByID(songID);
+            CBase.BackgroundMusic.SetDisabled(true);
+
+            _PreviewStream = CBase.Sound.Load(song.GetMP3());
+            CBase.Sound.SetGlobalVolume(CBase.Config.GetMusicVolume(EMusicType.Preview));
+            CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);
+            CBase.Sound.SetStreamVolume(_PreviewStream, 0f);
+            CBase.Sound.Play(_PreviewStream);
+            CBase.Sound.Fade(_PreviewStream, 1f, 1f);
+        }
+
         private void _UpdatePlayerInformation()
         {
             _Texts[_TextNextPlayerT1].Visible = true;
             _Texts[_TextNextPlayerT2].Visible = true;
             _Texts[_TextNextPlayerNameT1].Visible = true;
             _Texts[_TextNextPlayerNameT2].Visible = true;
-            _Texts[_TextNextPlayerNameT1].Text = CBase.Profiles.GetPlayerName(_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]);
-            _Texts[_TextNextPlayerNameT2].Text = CBase.Profiles.GetPlayerName(_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]);
+            _Texts[_TextNextPlayerNameT1].Text = CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIDsTeam1[_PartyMode.GameData.Rounds[_SelectedField].SingerTeam1]);
+            _Texts[_TextNextPlayerNameT2].Text = CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIDsTeam2[_PartyMode.GameData.Rounds[_SelectedField].SingerTeam2]);
             _Statics[_StaticAvatarT1].Visible = true;
             _Statics[_StaticAvatarT2].Visible = true;
-            _Statics[_StaticAvatarT1].Texture = CBase.Profiles.GetAvatar(_GameData.ProfileIDsTeam1[_GameData.Rounds[_SelectedField].SingerTeam1]);
-            _Statics[_StaticAvatarT2].Texture = CBase.Profiles.GetAvatar(_GameData.ProfileIDsTeam2[_GameData.Rounds[_SelectedField].SingerTeam2]);
+            _Statics[_StaticAvatarT1].Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ProfileIDsTeam1[_PartyMode.GameData.Rounds[_SelectedField].SingerTeam1]);
+            _Statics[_StaticAvatarT2].Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ProfileIDsTeam2[_PartyMode.GameData.Rounds[_SelectedField].SingerTeam2]);
         }
 
         private void _UseJoker(int teamNr, int jokerNum)
@@ -564,9 +536,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                     //Random-Joker
                 case 0:
-                    if (_GameData.NumJokerRandom[teamNr] > 0)
+                    if (_PartyMode.GameData.NumJokerRandom[teamNr] > 0)
                     {
-                        _GameData.NumJokerRandom[teamNr]--;
+                        _PartyMode.GameData.NumJokerRandom[teamNr]--;
                         if (!CBase.Sound.IsFinished(_PreviewStream))
                             CBase.Sound.Fade(_PreviewStream, 0, 1, EStreamAction.Close);
                         _FieldSelected(true);
@@ -575,10 +547,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
                     //Retry-Joker
                 case 1:
-                    if (_GameData.NumJokerRetry[teamNr] > 0 && _GameData.CurrentRoundNr > 1)
+                    if (_PartyMode.GameData.NumJokerRetry[teamNr] > 0 && _PartyMode.GameData.CurrentRoundNr > 1)
                     {
-                        _GameData.NumJokerRetry[teamNr]--;
-                        _GameData.Team = teamNr;
+                        _PartyMode.GameData.NumJokerRetry[teamNr]--;
+                        _PartyMode.GameData.Team = teamNr;
                         if (!CBase.Sound.IsFinished(_PreviewStream))
                             CBase.Sound.Fade(_PreviewStream, 0, 1, EStreamAction.Close);
                         _Status = EStatus.JokerRetry;
@@ -594,8 +566,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _UpdateTeamChoosingMessage()
         {
-            _Texts[_TextTeamChoosing].Color = CBase.Themes.GetPlayerColor(_GameData.Team + 1);
-            _Texts[_TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", PartyModeID) + " " + (_GameData.Team + 1) + "! " +
+            _Texts[_TextTeamChoosing].Color = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Team + 1);
+            _Texts[_TextTeamChoosing].Text = CBase.Language.Translate("TR_TEAM", PartyModeID) + " " + (_PartyMode.GameData.Team + 1) + "! " +
                                              CBase.Language.Translate("TR_SCREENMAIN_TEAM_CHOOSE", PartyModeID);
             if (_Status == EStatus.JokerRetry || _Status == EStatus.FieldChoosing)
                 _Texts[_TextTeamChoosing].Visible = true;
@@ -607,35 +579,28 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             _Buttons[_ButtonJokerRandomT1].Visible = true;
             _Buttons[_ButtonJokerRandomT2].Visible = true;
-            _Buttons[_ButtonJokerRandomT1].Text.Text = _GameData.NumJokerRandom[0].ToString();
-            _Buttons[_ButtonJokerRandomT2].Text.Text = _GameData.NumJokerRandom[1].ToString();
-            _Buttons[_ButtonJokerRandomT1].Selectable = _GameData.NumJokerRandom[0] > 0;
-            _Buttons[_ButtonJokerRandomT2].Selectable = _GameData.NumJokerRandom[1] > 0;
+            _Buttons[_ButtonJokerRandomT1].Text.Text = _PartyMode.GameData.NumJokerRandom[0].ToString();
+            _Buttons[_ButtonJokerRandomT2].Text.Text = _PartyMode.GameData.NumJokerRandom[1].ToString();
+            _Buttons[_ButtonJokerRandomT1].Selectable = _PartyMode.GameData.NumJokerRandom[0] > 0;
+            _Buttons[_ButtonJokerRandomT2].Selectable = _PartyMode.GameData.NumJokerRandom[1] > 0;
             _Buttons[_ButtonJokerRetryT1].Visible = true;
             _Buttons[_ButtonJokerRetryT2].Visible = true;
-            _Buttons[_ButtonJokerRetryT1].Text.Text = _GameData.NumJokerRetry[0].ToString();
-            _Buttons[_ButtonJokerRetryT2].Text.Text = _GameData.NumJokerRetry[1].ToString();
-            _Buttons[_ButtonJokerRetryT1].Selectable = _GameData.NumJokerRetry[0] > 0;
-            _Buttons[_ButtonJokerRetryT2].Selectable = _GameData.NumJokerRetry[1] > 0;
+            _Buttons[_ButtonJokerRetryT1].Text.Text = _PartyMode.GameData.NumJokerRetry[0].ToString();
+            _Buttons[_ButtonJokerRetryT2].Text.Text = _PartyMode.GameData.NumJokerRetry[1].ToString();
+            _Buttons[_ButtonJokerRetryT1].Selectable = _PartyMode.GameData.NumJokerRetry[0] > 0;
+            _Buttons[_ButtonJokerRetryT2].Selectable = _PartyMode.GameData.NumJokerRetry[1] > 0;
         }
 
         private void _NextRound()
         {
             CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
-            _Data.ScreenMain.Rounds = _GameData.Rounds;
-            _Data.ScreenMain.FadeToNameSelection = false;
-            _Data.ScreenMain.FadeToSinging = true;
-            _Data.ScreenMain.Songs = _GameData.Songs;
-            _Data.ScreenMain.SingRoundNr = _SelectedField;
-            _Data.ScreenMain.PlayerTeam1 = _GameData.PlayerTeam1;
-            _Data.ScreenMain.PlayerTeam2 = _GameData.PlayerTeam2;
-            _PartyMode.DataFromScreen(ThemeName, _Data);
+            _PartyMode.Next();
         }
 
         private void _EndParty()
         {
             CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
-            _FadeTo(EScreens.ScreenParty);
+            CBase.Graphics.FadeTo(EScreen.Party);
         }
 
         private void _ShowPopup(bool visible)
@@ -654,15 +619,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _Back()
         {
             CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
-            _Data.ScreenMain.FadeToNameSelection = true;
-            _Data.ScreenMain.FadeToSinging = false;
-            _Data.ScreenMain.SingRoundNr = _SelectedField;
-            _PartyMode.DataFromScreen(ThemeName, _Data);
+            _PartyMode.Back();
         }
 
         private void _BuildWinnerPossibilities()
         {
-            var numOneRow = (int)Math.Sqrt(_GameData.NumFields);
+            var numOneRow = (int)Math.Sqrt(_PartyMode.GameData.NumFields);
             _Possibilities = new int[(numOneRow * 2) + 2,numOneRow];
             for (int i = 0; i < _Possibilities.GetLength(0); i++)
             {

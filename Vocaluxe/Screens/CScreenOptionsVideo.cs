@@ -90,24 +90,24 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreens.ScreenOptions);
+                        CGraphics.FadeTo(EScreen.Options);
                         break;
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
-                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        CGraphics.FadeTo(EScreen.Song);
                         break;
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreens.ScreenOptions);
+                            CGraphics.FadeTo(EScreen.Options);
                         }
                         else if (_Buttons[_ButtonScreenAdjustments].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreens.ScreenOptionsVideoAdjustments);
+                            CGraphics.FadeTo(EScreen.OptionsVideoAdjustments);
                         }
                         break;
 
@@ -138,7 +138,7 @@ namespace Vocaluxe.Screens
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreens.ScreenOptions);
+                CGraphics.FadeTo(EScreen.Options);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
@@ -149,9 +149,9 @@ namespace Vocaluxe.Screens
                     _OnCapabilitiesEvent();
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptions);
+                    CGraphics.FadeTo(EScreen.Options);
                 if (_Buttons[_ButtonScreenAdjustments].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptionsVideoAdjustments);
+                    CGraphics.FadeTo(EScreen.OptionsVideoAdjustments);
             }
             return true;
         }

@@ -26,7 +26,8 @@ using System.Text.RegularExpressions;
 namespace ServerLib
 {
     public delegate bool SendKeyEventDelegate(string key);
-    public delegate bool SendKeyStringEventDelegate(string keyString, bool isShiftPressed , bool isAltPressed , bool isCtrlPressed);
+
+    public delegate bool SendKeyStringEventDelegate(string keyString, bool isShiftPressed, bool isAltPressed, bool isCtrlPressed);
 
     #region profile
     public delegate SProfileData GetProfileDataDelegate(int profileId, bool isReadonly);

@@ -112,11 +112,6 @@ namespace VocaluxeLib.Menu
             _ThemeScreenSettings = null;
         }
 
-        protected static void _FadeTo(EScreens nextScreen)
-        {
-            CBase.Graphics.FadeTo(nextScreen);
-        }
-
         #region ThemeHandler
         protected override void _ClearElements()
         {
@@ -567,6 +562,11 @@ namespace VocaluxeLib.Menu
         public virtual SRectF ScreenArea
         {
             get { return CBase.Settings.GetRenderRect(); }
+        }
+
+        public virtual EMusicType CurrentMusicType
+        {
+            get { return EMusicType.Background; }
         }
 
         protected void _ResumeBG()

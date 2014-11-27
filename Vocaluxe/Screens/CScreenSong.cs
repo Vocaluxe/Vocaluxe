@@ -94,6 +94,11 @@ namespace Vocaluxe.Screens
         private ISongMenu _SongMenu;
         private CPlaylist _Playlist;
 
+        public override EMusicType CurrentMusicType
+        {
+            get { return CSongs.IsInCategory ? EMusicType.Preview : EMusicType.Background; }
+        }
+
         public CScreenSong()
         {
             _AvailableGameModes = new List<EGameMode>();
@@ -192,7 +197,7 @@ namespace Vocaluxe.Screens
                     {
                         case Keys.Escape:
                             if ((CSongs.Category < 0 || _Sso.Sorting.Tabs == EOffOn.TR_CONFIG_OFF) && !_Sso.Selection.PartyMode && !_SearchActive)
-                                CGraphics.FadeTo(EScreens.ScreenMain);
+                                CGraphics.FadeTo(EScreen.Main);
                             if (_SearchActive)
                             {
                                 _SearchActive = false;
@@ -241,7 +246,7 @@ namespace Vocaluxe.Screens
                                     _ApplyNewSearchFilter(_SearchText.Remove(_SearchText.Length - 1));
                             }
                             else if ((!CSongs.IsInCategory || _Sso.Sorting.Tabs == EOffOn.TR_CONFIG_OFF) && !_Sso.Selection.PartyMode)
-                                CGraphics.FadeTo(EScreens.ScreenMain);
+                                CGraphics.FadeTo(EScreen.Main);
 
                             break;
 
@@ -372,26 +377,6 @@ namespace Vocaluxe.Screens
                         break;
                 }
             }
-
-            int volumeDiff = 0;
-            if (keyEvent.ModShift && (keyEvent.Key == Keys.Add || keyEvent.Key == Keys.PageUp))
-                volumeDiff = 5;
-            else if (keyEvent.ModShift && (keyEvent.Key == Keys.Subtract || keyEvent.Key == Keys.PageDown))
-                volumeDiff = -5;
-            if (volumeDiff != 0)
-            {
-                if (CSongs.IsInCategory)
-                {
-                    CConfig.PreviewMusicVolume += volumeDiff;
-                    CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
-                }
-                else
-                {
-                    CConfig.BackgroundMusicVolume += volumeDiff;
-                    CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
-                }
-            }
-
             return true;
         }
 
@@ -447,7 +432,7 @@ namespace Vocaluxe.Screens
 
                 if (CSongs.Category < 0 && !_Sso.Selection.PartyMode && !_SearchActive)
                 {
-                    CGraphics.FadeTo(EScreens.ScreenMain);
+                    CGraphics.FadeTo(EScreen.Main);
                     return true;
                 }
             }
@@ -659,8 +644,17 @@ namespace Vocaluxe.Screens
             _Playlist.DragAndDropSongID = -1;
 
             UpdateGame();
-            if (CSongs.IsInCategory)
-                CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
+        }
+
+        public override void OnShowFinish()
+        {
+            base.OnShowFinish();
+            CSongs.OnCategoryChanged += _OnCategoryChanged;
+        }
+
+        private static void _OnCategoryChanged()
+        {
+            CSound.SetGlobalVolume(CSongs.IsInCategory ? CConfig.PreviewMusicVolume : CConfig.BackgroundMusicVolume);
         }
 
         public override bool UpdateGame()
@@ -716,12 +710,7 @@ namespace Vocaluxe.Screens
             base.OnClose();
 
             _SongMenu.OnHide();
-
-            if (CGraphics.NextScreen != EScreens.ScreenNames || CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
-            {
-                CBackgroundMusic.Disabled = false;
-                CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
-            }
+            CSongs.OnCategoryChanged -= _OnCategoryChanged;
         }
 
         private void _HandlePartySongSelection(int songNr)
@@ -835,7 +824,7 @@ namespace Vocaluxe.Screens
                 CGame.ClearSongs();
 
                 if (CGame.AddVisibleSong(songNr, gm))
-                    CGraphics.FadeTo(EScreens.ScreenNames);
+                    CGraphics.FadeTo(EScreen.Names);
             }
         }
 
@@ -849,7 +838,7 @@ namespace Vocaluxe.Screens
                 CGame.ClearSongs();
 
                 if (CGame.AddVisibleSong(songNr, gm))
-                    CGraphics.FadeTo(EScreens.ScreenNames);
+                    CGraphics.FadeTo(EScreen.Names);
             }
         }
 
@@ -863,7 +852,7 @@ namespace Vocaluxe.Screens
                 CGame.Reset();
                 CGame.ClearSongs();
                 if (CGame.AddVisibleSong(songNr, EGameMode.TR_GAMEMODE_MEDLEY))
-                    CGraphics.FadeTo(EScreens.ScreenNames);
+                    CGraphics.FadeTo(EScreen.Names);
             }
         }
 
@@ -890,7 +879,7 @@ namespace Vocaluxe.Screens
             }
 
             if (CGame.GetNumSongs() > 0)
-                CGraphics.FadeTo(EScreens.ScreenNames);
+                CGraphics.FadeTo(EScreen.Names);
         }
 
         private void _StartRandomVisibleSongs()
@@ -914,7 +903,7 @@ namespace Vocaluxe.Screens
             }
 
             if (CGame.GetNumSongs() > 0)
-                CGraphics.FadeTo(EScreens.ScreenNames);
+                CGraphics.FadeTo(EScreen.Names);
         }
 
         private void _StartRandomMedley(int numSongs, bool allSongs)
@@ -950,7 +939,7 @@ namespace Vocaluxe.Screens
             }
 
             if (CGame.GetNumSongs() > 0)
-                CGraphics.FadeTo(EScreens.ScreenNames);
+                CGraphics.FadeTo(EScreen.Names);
         }
 
         private bool _SelectNextRandom(int teamNr)

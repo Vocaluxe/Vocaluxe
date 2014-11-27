@@ -277,13 +277,13 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Escape:
                     case Keys.Back:
-                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        CGraphics.FadeTo(EScreen.Song);
                         break;
 
                     case Keys.Enter:
 
                         if (_Buttons[_ButtonBack].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenSong);
+                            CGraphics.FadeTo(EScreen.Song);
                         else
                             _StartSong();
 
@@ -454,7 +454,7 @@ namespace Vocaluxe.Screens
             else if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonBack].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenSong);
+                    CGraphics.FadeTo(EScreen.Song);
                 else if (_Buttons[_ButtonStart].Selected)
                     _StartSong();
                 else
@@ -497,7 +497,7 @@ namespace Vocaluxe.Screens
                     }
                 }
                 if (exit)
-                    CGraphics.FadeTo(EScreens.ScreenSong);
+                    CGraphics.FadeTo(EScreen.Song);
             }
 
             if (mouseEvent.MB && _SelectingFast)
@@ -619,7 +619,7 @@ namespace Vocaluxe.Screens
                 for (int i = 0; i < CGame.NumPlayers; i++)
                     CGame.Players[i].VoiceNr = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
             }
-            CGraphics.FadeTo(EScreens.ScreenSing);
+            CGraphics.FadeTo(EScreen.Sing);
         }
 
         private void _UpdateSlides()

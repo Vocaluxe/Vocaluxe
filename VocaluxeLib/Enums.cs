@@ -360,32 +360,44 @@ namespace VocaluxeLib
         Freestyle
     }
 
-    public enum EScreens
+    public enum EMusicType
     {
-        ScreenTest = 0,
-        ScreenLoad = 1,
-        ScreenMain = 2,
-        ScreenSong = 3,
-        ScreenOptions = 4,
-        ScreenSing = 5,
-        ScreenProfiles = 6,
-        ScreenScore = 7,
-        ScreenHighscore = 8,
+        None,
+        Background,
+        Preview,
+        Game
+    }
 
-        ScreenOptionsGame = 9,
-        ScreenOptionsSound = 10,
-        ScreenOptionsRecord = 11,
-        ScreenOptionsVideo = 12,
-        ScreenOptionsVideoAdjustments = 13,
-        ScreenOptionsLyrics = 14,
-        ScreenOptionsTheme = 15,
+    /// <summary>
+    ///     Base screens
+    /// </summary>
+    public enum EScreen
+    {
+        Unknown = -1,
 
-        ScreenNames = 16,
-        ScreenCredits = 17,
-        ScreenParty = 18,
-        ScreenPartyDummy = 19,
+        Test,
+        Load,
+        Main,
+        Song,
+        Options,
+        Sing,
+        Profiles,
+        Score,
+        Highscore,
 
-        ScreenNull = -1
+        OptionsGame,
+        OptionsSound,
+        OptionsRecord,
+        OptionsVideo,
+        OptionsVideoAdjustments,
+        OptionsLyrics,
+        OptionsTheme,
+
+        Names,
+        Credits,
+        Party,
+
+        CountEntry //Leave this as last entry and never use it!
     }
 
     public enum EPopupScreens

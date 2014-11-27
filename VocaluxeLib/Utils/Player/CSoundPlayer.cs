@@ -71,7 +71,7 @@ namespace VocaluxeLib.Utils.Player
 
         public bool IsFinished
         {
-            get { return RepeatSong ? false : CBase.Sound.IsFinished(_StreamID); }
+            get { return !RepeatSong && CBase.Sound.IsFinished(_StreamID); }
         }
 
         public CSoundPlayer(bool loop = false)
@@ -145,9 +145,8 @@ namespace VocaluxeLib.Utils.Player
             if (_StreamID == -1 || !IsPlaying)
                 return;
 
-            float timeToPlay;
             float len = CBase.Sound.GetLength(_StreamID);
-            timeToPlay = (len > 0f) ? len - CBase.Sound.GetPosition(_StreamID) : _FadeTime + 1f;
+            float timeToPlay = (len > 0f) ? len - CBase.Sound.GetPosition(_StreamID) : _FadeTime + 1f;
 
             bool finished = CBase.Sound.IsFinished(_StreamID);
             if (timeToPlay <= _FadeTime || finished)

@@ -29,7 +29,5 @@ namespace VocaluxeLib.Menu
             _PartyMode = partyMode;
             PartyModeID = partyMode.ID;
         }
-
-        public virtual void DataToScreen(Object data) {}
     }
 }

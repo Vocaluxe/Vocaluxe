@@ -454,7 +454,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
                 if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !songOptions.Selection.PartyMode)
                 {
-                    CBase.Graphics.FadeTo(EScreens.ScreenMain);
+                    CBase.Graphics.FadeTo(EScreen.Main);
                     return true;
                 }
             }

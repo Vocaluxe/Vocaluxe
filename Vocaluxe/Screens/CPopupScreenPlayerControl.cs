@@ -206,7 +206,7 @@ namespace Vocaluxe.Screens
 
             CGame.AddSong(songNr, gm);
 
-            CGraphics.FadeTo(EScreens.ScreenNames);
+            CGame.GotoNameSelection();
         }
     }
 }

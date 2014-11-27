@@ -25,7 +25,6 @@ using Vocaluxe.Base.ThemeSystem;
 using Vocaluxe.Screens;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
-using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Base
 {
@@ -33,11 +32,7 @@ namespace Vocaluxe.Base
     {
         private static CFading _Fading;
         private static readonly CCursor _Cursor = new CCursor();
-        private static float _GlobalAlpha;
-        private static float _ZOffset;
 
-        private static EScreens _CurrentScreen;
-        private static EScreens _NextScreen;
         private static EPopupScreens _CurrentPopupScreen;
 
         private static readonly List<IMenu> _Screens = new List<IMenu>();
@@ -46,24 +41,20 @@ namespace Vocaluxe.Base
         private static Stopwatch _VolumePopupTimer;
         private static bool _CursorOverVolumeControl;
 
-        public static float GlobalAlpha
-        {
-            get { return _GlobalAlpha; }
-        }
+        public static float GlobalAlpha { get; private set; }
 
-        public static float ZOffset
-        {
-            get { return _ZOffset; }
-        }
+        public static float ZOffset { get; private set; }
 
-        public static EScreens CurrentScreen
-        {
-            get { return _CurrentScreen; }
-        }
+        public static IMenu CurrentScreen { get; private set; }
 
-        public static EScreens NextScreen
+        public static IMenu NextScreen { get; private set; }
+        public static EScreen NextScreenType
         {
-            get { return _NextScreen; }
+            get
+            {
+                int id = _Screens.IndexOf(NextScreen);
+                return (EScreen)id;
+            }
         }
 
         #region public methods
@@ -91,7 +82,8 @@ namespace Vocaluxe.Base
             _Screens.Add(new CScreenNames());
             _Screens.Add(new CScreenCredits());
             _Screens.Add(new CScreenParty());
-            _Screens.Add(new CScreenPartyDummy());
+
+            Debug.Assert(_Screens.Count == (int)EScreen.CountEntry, "Screen list and screens enum do not match");
 
             _PopupScreens.Add(new CPopupScreenPlayerControl());
             _PopupScreens.Add(new CPopupScreenVolumeControl());
@@ -99,13 +91,13 @@ namespace Vocaluxe.Base
 
             CLog.StopBenchmark("Build Screen List");
 
-            _CurrentScreen = EScreens.ScreenLoad;
-            _NextScreen = EScreens.ScreenNull;
+            CurrentScreen = _Screens[(int)EScreen.Load];
+            NextScreen = null;
             _CurrentPopupScreen = EPopupScreens.NoPopup;
             _VolumePopupTimer = new Stopwatch();
 
-            _GlobalAlpha = 1f;
-            _ZOffset = 0f;
+            GlobalAlpha = 1f;
+            ZOffset = 0f;
 
             CLog.StartBenchmark("Load Theme");
             LoadTheme();
@@ -116,8 +108,8 @@ namespace Vocaluxe.Base
         {
             if (_CurrentPopupScreen != EPopupScreens.NoPopup && _PopupScreens.Count > 0)
                 _PopupScreens[(int)_CurrentPopupScreen].OnClose();
-            if (_Screens.Count > 0)
-                _Screens[(int)_CurrentScreen].OnClose();
+            if (CurrentScreen != null)
+                CurrentScreen.OnClose();
         }
 
         public static void LoadTheme()
@@ -126,10 +118,10 @@ namespace Vocaluxe.Base
 
             for (int i = 0; i < _Screens.Count; i++)
             {
-                CLog.StartBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                CLog.StartBenchmark("Load Theme " + Enum.GetNames(typeof(EScreen))[i]);
                 _Screens[i].Init();
                 _Screens[i].LoadTheme(CThemes.GetThemeScreensPath(_Screens[i].PartyModeID));
-                CLog.StopBenchmark("Load Theme " + Enum.GetNames(typeof(EScreens))[i]);
+                CLog.StopBenchmark("Load Theme " + Enum.GetNames(typeof(EScreen))[i]);
             }
 
             foreach (IMenu popup in _PopupScreens)
@@ -181,8 +173,8 @@ namespace Vocaluxe.Base
 
         public static void InitFirstScreen()
         {
-            _Screens[(int)_CurrentScreen].OnShow();
-            _Screens[(int)_CurrentScreen].OnShowFinish();
+            CurrentScreen.OnShow();
+            CurrentScreen.OnShowFinish();
         }
 
         public static bool UpdateGameLogic(CKeys keys, CMouse mouse)
@@ -216,18 +208,18 @@ namespace Vocaluxe.Base
 
         public static bool Draw()
         {
-            if (_NextScreen != EScreens.ScreenNull && _Fading == null)
+            if (NextScreen != null && _Fading == null)
             {
                 _Fading = new CFading(0f, 1f, CConfig.Config.Graphics.FadeTime);
 
-                if (_NextScreen == EScreens.ScreenPartyDummy)
+                if (NextScreen.PartyModeID != -1)
                 {
-                    CFonts.PartyModeID = CParty.CurrentPartyModeID;
-                    _Screens[(int)_NextScreen].OnShow();
+                    CFonts.PartyModeID = NextScreen.PartyModeID;
+                    NextScreen.OnShow();
                     CFonts.PartyModeID = -1;
                 }
                 else
-                    _Screens[(int)_NextScreen].OnShow();
+                    NextScreen.OnShow();
 
                 HidePopup(EPopupScreens.PopupPlayerControl);
             }
@@ -239,35 +231,27 @@ namespace Vocaluxe.Base
 
                 if (!finished)
                 {
-                    _GlobalAlpha = 1f; // -newAlpha / 100f;
-                    _ZOffset = CSettings.ZFar / 2;
+                    GlobalAlpha = 1f;
+                    ZOffset = CSettings.ZFar / 2;
+                    _DrawScreen(CurrentScreen);
 
-                    _DrawScreen(_CurrentScreen);
+                    GlobalAlpha = newAlpha;
+                    ZOffset = 0f;
+                    _DrawScreen(NextScreen);
 
-
-                    _GlobalAlpha = newAlpha;
-                    _ZOffset = 0f;
-
-                    _DrawScreen(_NextScreen);
-
-                    _GlobalAlpha = 1f;
+                    GlobalAlpha = 1f;
                 }
                 else
                 {
-                    _Screens[(int)_CurrentScreen].OnClose();
-                    _CurrentScreen = _NextScreen;
-                    _NextScreen = EScreens.ScreenNull;
-                    _Screens[(int)_CurrentScreen].OnShowFinish();
+                    _FinishScreenFading();
                     if (_Cursor.IsActive)
-                        _Screens[(int)_CurrentScreen].ProcessMouseMove(_Cursor.X, _Cursor.Y);
+                        CurrentScreen.ProcessMouseMove(_Cursor.X, _Cursor.Y);
 
-                    _DrawScreen(_CurrentScreen);
-
-                    _Fading = null;
+                    _DrawScreen(CurrentScreen);
                 }
             }
             else
-                _DrawScreen(_CurrentScreen);
+                _DrawScreen(CurrentScreen);
 
             foreach (IMenu popup in _PopupScreens)
                 popup.Draw();
@@ -278,33 +262,53 @@ namespace Vocaluxe.Base
             return true;
         }
 
-        private static void _DrawScreen(EScreens screen)
+        private static void _FinishScreenFading()
         {
-            if (screen == EScreens.ScreenPartyDummy)
+            if (_Fading == null)
+                return;
+            Debug.Assert(NextScreen != null);
+            CurrentScreen.OnClose();
+            CurrentScreen = NextScreen;
+            NextScreen = null;
+            CurrentScreen.OnShowFinish();
+            CSound.SetGlobalVolume(CConfig.GetVolumeByType(CurrentScreen.CurrentMusicType) / 100f);
+            _Fading = null;
+        }
+
+        private static void _DrawScreen(IMenu screen)
+        {
+            if (screen.PartyModeID != -1)
             {
-                CFonts.PartyModeID = CParty.CurrentPartyModeID;
-                _Screens[(int)screen].Draw();
+                CFonts.PartyModeID = screen.PartyModeID;
+                screen.Draw();
                 CFonts.PartyModeID = -1;
             }
             else
-                _Screens[(int)screen].Draw();
+                screen.Draw();
         }
 
-        public static void FadeTo(EScreens screen)
+        public static IMenu GetScreen(EScreen screen)
         {
-            if (screen == EScreens.ScreenPartyDummy)
-            {
-                EScreens alt;
-                CMenu scr = CParty.GetNextPartyScreen(out alt);
-                if (scr == null)
-                {
-                    _NextScreen = alt;
-                    return;
-                }
-                _Screens[(int)EScreens.ScreenPartyDummy] = scr;
-            }
+            if (screen == EScreen.Unknown || screen == EScreen.CountEntry)
+                throw new ArgumentException("Invalid screen: " + screen);
+            return _Screens[(int)screen];
+        }
 
-            _NextScreen = screen;
+        public static void FadeTo(EScreen screen)
+        {
+            FadeTo(GetScreen(screen));
+        }
+
+        public static void FadeTo(IMenu screen)
+        {
+            if (screen == null)
+                throw new ArgumentNullException("screen");
+            Debug.Assert(NextScreen==null || NextScreen!=screen, "Don't fade to currently fading screen!");
+            if(screen==NextScreen)
+                return;
+            // Make sure the last screen change is done
+            _FinishScreenFading();
+            NextScreen = screen;
         }
 
         public static void ShowPopup(EPopupScreens popupScreen)
@@ -342,17 +346,11 @@ namespace Vocaluxe.Base
             SKeyEvent inputKeyEvent = new SKeyEvent();
             SMouseEvent inputMouseEvent = new SMouseEvent();
 
-            bool popupPlayerControlAllowed = _CurrentScreen != EScreens.ScreenOptionsRecord && _CurrentScreen != EScreens.ScreenSing &&
-                                             (_CurrentScreen != EScreens.ScreenSong ||
-                                              (_CurrentScreen == EScreens.ScreenSong && !CSongs.IsInCategory && CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_ON))
-                                             && _CurrentScreen != EScreens.ScreenCredits && !CBackgroundMusic.Disabled;
-
-            bool popupVolumeControlAllowed = _CurrentScreen != EScreens.ScreenCredits && _CurrentScreen != EScreens.ScreenOptionsRecord;
+            bool popupPlayerControlAllowed = CurrentScreen.CurrentMusicType == EMusicType.Background && !CBackgroundMusic.Disabled;
+            bool popupVolumeControlAllowed = CurrentScreen.CurrentMusicType != EMusicType.None;
             //Hide volume control for bg-music if bg-music is disabled
-            if (popupVolumeControlAllowed && (_CurrentScreen != EScreens.ScreenSong || CSongs.Category == -1)
-                && _CurrentScreen != EScreens.ScreenSing && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            if (popupVolumeControlAllowed && CurrentScreen.CurrentMusicType == EMusicType.Background && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 popupVolumeControlAllowed = false;
-
 
             bool resume = true;
             bool eventsAvailable;
@@ -451,53 +449,6 @@ namespace Vocaluxe.Base
                     }
                 }
 
-                if (popupVolumeControlAllowed)
-                {
-                    //TODO: Handle this in the volume popup
-                    int diff = 0;
-                    if ((keyEvent.ModShift && (keyEvent.Key == Keys.Add || keyEvent.Key == Keys.PageUp)) || (keyEvent.Sender == ESender.WiiMote && keyEvent.Key == Keys.Add))
-                        diff = 5;
-                    else if ((keyEvent.ModShift && (keyEvent.Key == Keys.Subtract || keyEvent.Key == Keys.PageDown)) ||
-                             (keyEvent.Sender == ESender.WiiMote && keyEvent.Key == Keys.Subtract))
-                        diff = -5;
-
-                    if (diff != 0)
-                    {
-                        switch (CurrentScreen)
-                        {
-                            case EScreens.ScreenSong:
-                                if (CSongs.IsInCategory)
-                                {
-                                    CConfig.PreviewMusicVolume += diff;
-                                    CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
-                                }
-                                else
-                                {
-                                    CConfig.BackgroundMusicVolume += diff;
-                                    CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
-                                }
-                                break;
-
-                            case EScreens.ScreenSing:
-                                CConfig.GameMusicVolume += diff;
-                                CSound.SetGlobalVolume(CConfig.GameMusicVolume);
-                                break;
-
-                            default:
-                                CConfig.BackgroundMusicVolume += diff;
-                                CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
-                                break;
-                        }
-                        CConfig.SaveConfig();
-                    }
-
-                    if (_CurrentPopupScreen == EPopupScreens.NoPopup && diff != 0)
-                    {
-                        ShowPopup(EPopupScreens.PopupVolumeControl);
-                        _VolumePopupTimer.Restart();
-                    }
-                }
-
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
                     CSettings.ProgramState = EProgramState.EditTheme;
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
@@ -510,10 +461,19 @@ namespace Vocaluxe.Base
                     {
                         bool handled = false;
                         if (_CurrentPopupScreen != EPopupScreens.NoPopup)
+                        {
                             handled = _PopupScreens[(int)_CurrentPopupScreen].HandleInput(keyEvent);
+                            if (popupVolumeControlAllowed && _CurrentPopupScreen == EPopupScreens.PopupVolumeControl && handled)
+                                _VolumePopupTimer.Restart();
+                        }
+                        else if (popupVolumeControlAllowed && _PopupScreens[(int)EPopupScreens.PopupVolumeControl].HandleInput(keyEvent))
+                        {
+                            ShowPopup(EPopupScreens.PopupVolumeControl);
+                            _VolumePopupTimer.Restart();
+                        }
 
                         if (!handled)
-                            resume &= _Screens[(int)_CurrentScreen].HandleInput(keyEvent);
+                            resume &= CurrentScreen.HandleInput(keyEvent);
                     }
                 }
 
@@ -570,7 +530,7 @@ namespace Vocaluxe.Base
                     handled = _PopupScreens[(int)_CurrentPopupScreen].HandleMouse(mouseEvent);
 
                 if (!handled && _Fading == null && (_Cursor.IsActive || mouseEvent.LB || mouseEvent.RB || mouseEvent.MB))
-                    resume &= _Screens[(int)_CurrentScreen].HandleMouse(mouseEvent);
+                    resume &= CurrentScreen.HandleMouse(mouseEvent);
 
                 if (!eventsAvailable)
                     inputEventsAvailable = CController.PollMouseEvent(ref inputMouseEvent);
@@ -588,7 +548,7 @@ namespace Vocaluxe.Base
                 if (keyEvent.ModShift && (keyEvent.Key == Keys.F1))
                 {
                     CSettings.ProgramState = EProgramState.Normal;
-                    _Screens[(int)_CurrentScreen].NextElement();
+                    CurrentScreen.NextElement();
                 }
                 else if (keyEvent.ModAlt && (keyEvent.Key == Keys.Enter))
                     CConfig.Config.Graphics.FullScreen = (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON) ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON;
@@ -597,14 +557,14 @@ namespace Vocaluxe.Base
                 else
                 {
                     if (_Fading == null)
-                        _Screens[(int)_CurrentScreen].HandleInputThemeEditor(keyEvent);
+                        CurrentScreen.HandleInputThemeEditor(keyEvent);
                 }
             }
 
             while (mouse.PollEvent(ref mouseEvent))
             {
                 if (_Fading == null)
-                    _Screens[(int)_CurrentScreen].HandleMouseThemeEditor(mouseEvent);
+                    CurrentScreen.HandleMouseThemeEditor(mouseEvent);
 
                 _UpdateMousePosition(mouseEvent.X, mouseEvent.Y);
             }
@@ -629,7 +589,7 @@ namespace Vocaluxe.Base
 
             if (_CurrentPopupScreen != EPopupScreens.NoPopup)
                 _PopupScreens[(int)_CurrentPopupScreen].UpdateGame();
-            return _Screens[(int)_CurrentScreen].UpdateGame();
+            return CurrentScreen.UpdateGame();
         }
 
         private static void _DrawDebugInfos()

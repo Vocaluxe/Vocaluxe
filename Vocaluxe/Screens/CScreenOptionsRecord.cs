@@ -63,6 +63,11 @@ namespace Vocaluxe.Screens
 
         private readonly CDelayTest _DelayTest = new CDelayTest(2);
 
+        public override EMusicType CurrentMusicType
+        {
+            get { return EMusicType.None; }
+        }
+
         public override void Init()
         {
             base.Init();
@@ -121,19 +126,19 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveMicConfig();
-                        CGraphics.FadeTo(EScreens.ScreenOptions);
+                        CGraphics.FadeTo(EScreen.Options);
                         break;
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
-                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        CGraphics.FadeTo(EScreen.Song);
                         break;
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveMicConfig();
-                            CGraphics.FadeTo(EScreens.ScreenOptions);
+                            CGraphics.FadeTo(EScreen.Options);
                         }
 
                         if (_Buttons[_ButtonDelayTest].Selected)
@@ -180,7 +185,7 @@ namespace Vocaluxe.Screens
             if (mouseEvent.RB)
             {
                 _SaveMicConfig();
-                CGraphics.FadeTo(EScreens.ScreenOptions);
+                CGraphics.FadeTo(EScreen.Options);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
@@ -198,7 +203,7 @@ namespace Vocaluxe.Screens
                 if (_Buttons[_ButtonExit].Selected)
                 {
                     _SaveMicConfig();
-                    CGraphics.FadeTo(EScreens.ScreenOptions);
+                    CGraphics.FadeTo(EScreen.Options);
                 }
 
                 if (_Buttons[_ButtonDelayTest].Selected)
