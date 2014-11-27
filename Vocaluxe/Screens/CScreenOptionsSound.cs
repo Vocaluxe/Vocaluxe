@@ -150,7 +150,7 @@ namespace Vocaluxe.Screens
             CConfig.SaveConfig();
 
             CBackgroundMusic.SetMusicSource(CConfig.Config.Sound.BackgroundMusicSource);
-            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume / 100f);
+            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
             if (CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)
                 CBackgroundMusic.Play();
             else

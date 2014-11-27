@@ -58,8 +58,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             get
             {
                 //TODO: Is it ok, to remove this? Gst should post a message if duration was changed so this should not be required
-                //if (base.Length < 0 && _Element != null)
-                //    _UpdateDuration();
+                // Removing would not work in some cases where length is not know at startup
+                if (base.Length < 0 && _Element != null)
+                    _UpdateDuration();
                 return base.Length >= 0f ? base.Length : 0f;
             }
         }

@@ -843,7 +843,7 @@ namespace Vocaluxe.Base
             CSound.Play(soundStream);
         }
 
-        public void Fade(int soundStream, float targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing)
+        public void Fade(int soundStream, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
             CSound.Fade(soundStream, targetVolume, duration, afterFadeAction);
         }
@@ -868,7 +868,7 @@ namespace Vocaluxe.Base
             return CSound.GetLength(soundStream);
         }
 
-        public void SetStreamVolume(int soundStream, float volume)
+        public void SetStreamVolume(int soundStream, int volume)
         {
             CSound.SetStreamVolume(soundStream, volume);
         }

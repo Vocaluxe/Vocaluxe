@@ -97,7 +97,7 @@ namespace Vocaluxe.Screens
         private int _CurrentStream = -1;
         private float _Length = -1f;
         //private int _NextStream = -1;
-        private const float _Volume = 100f;
+        private const int _Volume = 100;
         private CVideoStream _CurrentVideo;
         private EAspect _VideoAspect = EAspect.Crop;
         private CTextureRef _CurrentWebcamFrameTexture;
@@ -477,7 +477,7 @@ namespace Vocaluxe.Screens
         {
             if (_CurrentStream > -1)
             {
-                CSound.FadeAndClose(_CurrentStream, 0f, 0.5f);
+                CSound.FadeAndClose(_CurrentStream, 0, 0.5f);
                 _CurrentStream = -1;
             }
             CRecord.Stop();

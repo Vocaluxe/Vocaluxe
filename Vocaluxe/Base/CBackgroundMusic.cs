@@ -161,10 +161,8 @@ namespace Vocaluxe.Base
             _AddBackgroundMusic();
 
             _SongPlayer = new CSongPlayer();
-            _SongPlayer.Volume = CConfig.BackgroundMusicVolume;
 
             _PreviewPlayer = new CSongPlayer();
-            _PreviewPlayer.Volume = CConfig.PreviewMusicVolume;
             _PreviewPlayer.RepeatSong = true;
 
             _VideoEnabled = (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON);
@@ -213,6 +211,7 @@ namespace Vocaluxe.Base
                 _PreviewPlayer.Stop();
                 _PlaysPreview = false;
                 Pause();
+                CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
             }
             else
             {
@@ -344,6 +343,7 @@ namespace Vocaluxe.Base
                 start = song.Preview.StartTime;
 
             _PlaysPreview = true;
+            CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
             _PreviewPlayer.Load(song, start);
 
             float startposition = song.Preview.StartTime;
@@ -375,6 +375,7 @@ namespace Vocaluxe.Base
         {
             _PreviewPlayer.Stop();
             _PlaysPreview = false;
+            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
         }
 
         /// <summary>

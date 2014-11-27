@@ -366,7 +366,6 @@ namespace VocaluxeLib.PartyModes.Challenge
             _SetNumJokers();
             _SetTeamNames();
             GameData.CatSongIndices = null;
-            CBase.Graphics.FadeTo(EScreen.Song);
         }
 
         private void _SetNumJokers()

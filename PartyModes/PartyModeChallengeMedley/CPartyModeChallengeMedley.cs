@@ -193,7 +193,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     break;
                 case EStage.Main:
                     _Stage = EStage.Singing;
-                    _StartNextRound();
+                    if (!_StartNextRound())
+                        CBase.Graphics.FadeTo(EScreen.Party);
                     break;
                 case EStage.Singing:
                     _Stage = EStage.Main;
@@ -335,7 +336,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             Next();
         }
 
-        private void _StartNextRound()
+        private bool _StartNextRound()
         {
             _ScreenSongOptions.Selection.RandomOnly = _ScreenSongOptions.Sorting.Tabs != EOffOn.TR_CONFIG_ON;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_ON;
@@ -343,8 +344,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             _SetTeamNames();
             GameData.CatSongIndices = null;
 
-            if (_RandomizeSongs())
-                CBase.Graphics.FadeTo(EScreen.Sing);
+            return _RandomizeSongs();
         }
 
         private bool _RandomizeSongs()
@@ -383,7 +383,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             if (visibleSongs.Count == 0)
             {
                 CBase.Log.LogError("CPartyChallengeMedleyMode Error: There are no songs!");
-                CBase.Graphics.FadeTo(EScreen.Party);
                 return false;
             }
 
@@ -407,7 +406,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             if (ids.Count == 0)
             {
                 CBase.Log.LogError("CPartyChallengeMedleyMode Error: There are no medley songs!");
-                CBase.Graphics.FadeTo(EScreen.Party);
                 return false;
             }
 

@@ -271,7 +271,7 @@ namespace Vocaluxe.Base
             CurrentScreen = NextScreen;
             NextScreen = null;
             CurrentScreen.OnShowFinish();
-            CSound.SetGlobalVolume(CConfig.GetVolumeByType(CurrentScreen.CurrentMusicType) / 100f);
+            CSound.SetGlobalVolume(CConfig.GetVolumeByType(CurrentScreen.CurrentMusicType));
             _Fading = null;
         }
 

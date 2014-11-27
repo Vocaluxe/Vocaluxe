@@ -347,7 +347,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             base.OnClose();
             CBase.BackgroundMusic.SetDisabled(false);
-            CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
+            CBase.Sound.Fade(_PreviewStream, 0, 0.5f, EStreamAction.Close);
         }
 
         private void _CreateFields()
@@ -511,9 +511,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _PreviewStream = CBase.Sound.Load(song.GetMP3());
             CBase.Sound.SetGlobalVolume(CBase.Config.GetMusicVolume(EMusicType.Preview));
             CBase.Sound.SetPosition(_PreviewStream, song.Preview.StartTime);
-            CBase.Sound.SetStreamVolume(_PreviewStream, 0f);
+            CBase.Sound.SetStreamVolume(_PreviewStream, 0);
             CBase.Sound.Play(_PreviewStream);
-            CBase.Sound.Fade(_PreviewStream, 1f, 1f);
+            CBase.Sound.Fade(_PreviewStream, 100, 1f);
         }
 
         private void _UpdatePlayerInformation()
@@ -593,13 +593,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _NextRound()
         {
-            CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
+            CBase.Sound.Fade(_PreviewStream, 0, 0.5f, EStreamAction.Close);
             _PartyMode.Next();
         }
 
         private void _EndParty()
         {
-            CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
+            CBase.Sound.Fade(_PreviewStream, 0, 0.5f, EStreamAction.Close);
             CBase.Graphics.FadeTo(EScreen.Party);
         }
 
@@ -618,7 +618,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _Back()
         {
-            CBase.Sound.Fade(_PreviewStream, 0f, 0.5f, EStreamAction.Close);
+            CBase.Sound.Fade(_PreviewStream, 0, 0.5f, EStreamAction.Close);
             _PartyMode.Back();
         }
 

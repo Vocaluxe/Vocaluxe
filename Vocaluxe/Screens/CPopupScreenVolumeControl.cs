@@ -113,7 +113,7 @@ namespace Vocaluxe.Screens
             int volume = _SelectSlides[_SelectSlideVolume].Selection * 5;
             CConfig.SetVolumeByType(CGraphics.CurrentScreen.CurrentMusicType, volume);
             CConfig.SaveConfig();
-            CSound.SetGlobalVolume(volume / 100f);
+            CSound.SetGlobalVolume(volume);
         }
 
         private void _UpdateSlides()
