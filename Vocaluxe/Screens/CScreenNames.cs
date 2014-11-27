@@ -284,7 +284,7 @@ namespace Vocaluxe.Screens
 
                         if (_Buttons[_ButtonBack].Selected)
                             CGraphics.FadeTo(EScreen.Song);
-                        else
+                        else if (_Buttons[_ButtonStart].Selected)
                             _StartSong();
 
                         break;
