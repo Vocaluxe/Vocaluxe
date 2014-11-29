@@ -122,12 +122,12 @@ namespace Vocaluxe.Screens
                         if (_EditMode == EEditMode.PlayerName)
                             _EditMode = EEditMode.None;
                         else
-                            CGraphics.FadeTo(EScreens.ScreenMain);
+                            CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonExit].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenMain);
+                            CGraphics.FadeTo(EScreen.Main);
                         else if (_Buttons[_ButtonSave].Selected)
                             _SaveProfiles();
                         else if (_Buttons[_ButtonNew].Selected)
@@ -159,7 +159,7 @@ namespace Vocaluxe.Screens
                             _ProfilesChanged = true;
                         }
                         else
-                            CGraphics.FadeTo(EScreens.ScreenMain);
+                            CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.Delete:
@@ -199,7 +199,7 @@ namespace Vocaluxe.Screens
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonExit].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenMain);
+                    CGraphics.FadeTo(EScreen.Main);
                 else if (_Buttons[_ButtonSave].Selected)
                     _SaveProfiles();
                 else if (_Buttons[_ButtonNew].Selected)
@@ -246,7 +246,7 @@ namespace Vocaluxe.Screens
             }
 
             if (mouseEvent.RB)
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
             return true;
         }
 

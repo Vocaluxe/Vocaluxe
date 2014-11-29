@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Generic;
 using VocaluxeLib.Menu;
 
@@ -31,62 +30,38 @@ namespace VocaluxeLib.PartyModes.Challenge
             get { return 1; }
         }
 
-        private SDataFromScreen _Data;
+        private new CPartyModeChallenge _PartyMode;
 
         public override void Init()
         {
             base.Init();
-
-            _Data.ScreenNames.ProfileIDs = new List<int>();
-            _Data = new SDataFromScreen();
-            var names = new SFromScreenNames {FadeBack = false, ProfileIDs = new List<int>()};
-            _Data.ScreenNames = names;
-
+            _PartyMode = (CPartyModeChallenge)base._PartyMode;
             _AllowChangePlayerNum = false;
-        }
-
-        public override void DataToScreen(object receivedData)
-        {
-            try
-            {
-                var config = (SDataToScreenNames)receivedData;
-                _Data.ScreenNames.ProfileIDs = config.ProfileIDs ?? new List<int>();
-
-                SetPartyModeData(config.NumPlayer);
-
-                while (_Data.ScreenNames.ProfileIDs.Count > _NumPlayer)
-                    _Data.ScreenNames.ProfileIDs.RemoveAt(_Data.ScreenNames.ProfileIDs.Count - 1);
-
-                List<int>[] ids = new List<int>[] {_Data.ScreenNames.ProfileIDs};
-                SetPartyModeProfiles(ids);
-            }
-            catch (Exception e)
-            {
-                CBase.Log.LogError("Error in party mode screen challenge names. Can't cast received data from game mode " + ThemeName + ". " + e.Message);
-            }
         }
 
         public override void OnShow()
         {
             base.OnShow();
+            SetPartyModeData(_PartyMode.GameData.NumPlayer);
+            while (_PartyMode.GameData.ProfileIDs.Count > _NumPlayer)
+                _PartyMode.GameData.ProfileIDs.RemoveAt(_PartyMode.GameData.ProfileIDs.Count - 1);
+
+            List<int>[] ids = new List<int>[] {_PartyMode.GameData.ProfileIDs};
+            SetPartyModeProfiles(ids);
         }
 
         public override void Back()
         {
-            SPartyNameOptions options = GetData();
-            if (options.TeamList.Length == 1)
-                _Data.ScreenNames.ProfileIDs = options.TeamList[0];
-            _Data.ScreenNames.FadeBack = true;
-            _PartyMode.DataFromScreen(ThemeName, _Data);
+            if (_TeamList.Length == 1)
+                _PartyMode.GameData.ProfileIDs = _TeamList[0];
+            _PartyMode.Back();
         }
 
         public override void Next()
         {
-            SPartyNameOptions options = GetData();
-            if (options.TeamList.Length == 1)
-                _Data.ScreenNames.ProfileIDs = options.TeamList[0];
-            _Data.ScreenNames.FadeBack = false;
-            _PartyMode.DataFromScreen(ThemeName, _Data);
+            if (_TeamList.Length == 1)
+                _PartyMode.GameData.ProfileIDs = _TeamList[0];
+            _PartyMode.Next();
         }
     }
 }

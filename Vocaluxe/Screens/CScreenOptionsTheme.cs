@@ -92,7 +92,7 @@ namespace Vocaluxe.Screens
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
-                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        CGraphics.FadeTo(EScreen.Song);
                         break;
 
                     case Keys.Enter:
@@ -157,7 +157,7 @@ namespace Vocaluxe.Screens
         private void _Close()
         {
             _SaveConfig();
-            CGraphics.FadeTo(EScreens.ScreenOptions);
+            CGraphics.FadeTo(EScreen.Options);
         }
 
         private void _SaveConfig()

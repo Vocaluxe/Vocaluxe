@@ -161,22 +161,22 @@
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
-        <X>145</X>
-        <Y>663</Y>
-        <W>990</W>
+        <X>300</X>
+        <Y>603</Y>
+        <W>685</W>
         <H>50</H>
-        <Z>0</Z>
+        <Z>-1</Z>
       </Rect>
     </Static>
     <Static Name="StaticWarningProfiles">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
-        <X>145</X>
-        <Y>715</Y>
-        <W>990</W>
+        <X>300</X>
+        <Y>654</Y>
+        <W>685</W>
         <H>50</H>
-        <Z>0</Z>
+        <Z>-1</Z>
       </Rect>
     </Static>
   </Statics>
@@ -198,7 +198,7 @@
     <Text Name="TextWarningMics">
       <X>640</X>
       <Y>617</Y>
-      <Z>0</Z>
+      <Z>-1.1</Z>
       <H>27</H>
       <MaxW>970</MaxW>
       <Color Name="TextWarningColor" />
@@ -212,7 +212,7 @@
     <Text Name="TextWarningProfiles">
       <X>640</X>
       <Y>652</Y>
-      <Z>0</Z>
+      <Z>-1.1</Z>
       <H>27</H>
       <MaxW>970</MaxW>
       <Color Name="TextWarningColor" />

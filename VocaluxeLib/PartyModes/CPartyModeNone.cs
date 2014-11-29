@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
 {
@@ -37,6 +38,16 @@ namespace VocaluxeLib.PartyModes
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.All;
         }
 
+        public override bool Init()
+        {
+            return true;
+        }
+
+        public override IMenu GetStartScreen()
+        {
+            return CBase.Graphics.GetScreen(EScreen.Names);
+        }
+
         public override SScreenSongOptions GetScreenSongOptions()
         {
             _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
@@ -54,6 +65,11 @@ namespace VocaluxeLib.PartyModes
         {
             _ScreenSongOptions.Sorting.SearchString = searchString;
             _ScreenSongOptions.Sorting.SearchActive = visible;
+        }
+
+        public override void SongSelected(int songID)
+        {
+            CBase.Graphics.FadeTo(EScreen.Sing);
         }
     }
 }

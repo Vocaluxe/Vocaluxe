@@ -15,21 +15,16 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 namespace VocaluxeLib.Utils.Player
 {
     public class CSoundPlayer
     {
         protected int _StreamID = -1;
-        protected float _Volume;
+        protected int _Volume = 100;
         protected float _StartPosition;
-        protected float _FadeTime = CBase.Settings.GetSoundPlayerFadeTime();
+        protected readonly float _FadeTime = CBase.Settings.GetSoundPlayerFadeTime();
 
-        public float Volume
+        public int Volume
         {
             set
             {
@@ -71,7 +66,7 @@ namespace VocaluxeLib.Utils.Player
 
         public bool IsFinished
         {
-            get { return RepeatSong ? false : CBase.Sound.IsFinished(_StreamID); }
+            get { return !RepeatSong && CBase.Sound.IsFinished(_StreamID); }
         }
 
         public CSoundPlayer(bool loop = false)
@@ -107,19 +102,19 @@ namespace VocaluxeLib.Utils.Player
                 return;
 
             CBase.Sound.SetPosition(_StreamID, _StartPosition);
-            CBase.Sound.SetStreamVolume(_StreamID, 0f);
+            CBase.Sound.SetStreamVolume(_StreamID, 0);
             CBase.Sound.Fade(_StreamID, Volume, _FadeTime);
             CBase.Sound.Play(_StreamID);
             IsPlaying = true;
         }
 
-        public void TogglePause()
+        public virtual void TogglePause()
         {
             if (_StreamID == -1)
                 return;
 
             if (IsPlaying)
-                CBase.Sound.Fade(_StreamID, 0f, _FadeTime, EStreamAction.Pause);
+                CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Pause);
             else
             {
                 CBase.Sound.Fade(_StreamID, Volume, _FadeTime);
@@ -129,12 +124,12 @@ namespace VocaluxeLib.Utils.Player
             IsPlaying = !IsPlaying;
         }
 
-        public void Stop()
+        public virtual void Stop()
         {
             if (_StreamID == -1 || !IsPlaying)
                 return;
 
-            CBase.Sound.Fade(_StreamID, 0f, _FadeTime, EStreamAction.Close);
+            CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Close);
             _StreamID = -1;
 
             IsPlaying = false;
@@ -145,9 +140,8 @@ namespace VocaluxeLib.Utils.Player
             if (_StreamID == -1 || !IsPlaying)
                 return;
 
-            float timeToPlay;
             float len = CBase.Sound.GetLength(_StreamID);
-            timeToPlay = (len > 0f) ? len - CBase.Sound.GetPosition(_StreamID) : _FadeTime + 1f;
+            float timeToPlay = (len > 0f) ? len - CBase.Sound.GetPosition(_StreamID) : _FadeTime + 1f;
 
             bool finished = CBase.Sound.IsFinished(_StreamID);
             if (timeToPlay <= _FadeTime || finished)

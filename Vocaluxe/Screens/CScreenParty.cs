@@ -64,7 +64,7 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Back:
                     case Keys.Escape:
-                        CGraphics.FadeTo(EScreens.ScreenMain);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.Enter:
@@ -72,7 +72,7 @@ namespace Vocaluxe.Screens
                             _StartPartyMode();
 
                         if (_Buttons[_ButtonExit].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenMain);
+                            CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.Left:
@@ -95,14 +95,14 @@ namespace Vocaluxe.Screens
                     _StartPartyMode();
 
                 if (_Buttons[_ButtonExit].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenMain);
+                    CGraphics.FadeTo(EScreen.Main);
 
                 if (_SelectSlides[_SelectSlideModes].Selected)
                     _UpdateSelection();
             }
 
             if (mouseEvent.RB)
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
 
             return true;
         }
@@ -194,7 +194,7 @@ namespace Vocaluxe.Screens
             }
 
             CParty.SetPartyMode(_PartyModeInfos[index].PartyModeID);
-            CGraphics.FadeTo(EScreens.ScreenPartyDummy);
+            CGraphics.FadeTo(CParty.GetStartScreen());
         }
     }
 }

@@ -137,11 +137,11 @@ namespace Vocaluxe.Screens
 
             bool next = CConfig.Config.Theme.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
 
-            if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.ProgramState != EProgramState.EditTheme && CSongs.SongsLoaded)
+            if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.ProgramState == EProgramState.Start && CSongs.SongsLoaded)
+            {
                 CSettings.ProgramState = EProgramState.Normal;
-
-            if (CSettings.ProgramState == EProgramState.Normal)
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
+            }
 
             _Texts[_TextStatus].Text =
                 CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": " + CSongs.NumAllSongs + " " +

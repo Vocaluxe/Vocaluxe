@@ -1112,7 +1112,7 @@ namespace VocaluxeLib.Menu
                 for (int i = 0; i < CBase.Playlist.GetSongCount(ActivePlaylistID); i++)
                     CBase.Game.AddSong(CBase.Playlist.GetSong(ActivePlaylistID, i).SongID, CBase.Playlist.GetSong(ActivePlaylistID, i).GameMode);
                 if (CBase.Game.GetNumSongs() > 0)
-                    CBase.Graphics.FadeTo(EScreens.ScreenNames);
+                    CBase.Graphics.FadeTo(EScreen.Names);
             }
         }
 
@@ -1124,7 +1124,7 @@ namespace VocaluxeLib.Menu
             CBase.Game.AddSong(CBase.Playlist.GetSong(ActivePlaylistID, selected).SongID, CBase.Playlist.GetSong(ActivePlaylistID, selected).GameMode);
 
             if (CBase.Game.GetNumSongs() > 0)
-                CBase.Graphics.FadeTo(EScreens.ScreenNames);
+                CBase.Graphics.FadeTo(EScreen.Names);
         }
 
         private void _Update()

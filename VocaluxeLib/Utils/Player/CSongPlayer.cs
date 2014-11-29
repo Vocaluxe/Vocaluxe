@@ -133,14 +133,7 @@ namespace VocaluxeLib.Utils.Player
             Load(file, position, autoplay);
         }
 
-        public new void Play()
-        {
-            CBase.Sound.SetPosition(_StreamID, _StartPosition);
-            CBase.Video.Skip(_Video, _StartPosition, _Song.VideoGap);
-            TogglePause();
-        }
-
-        public new void Stop()
+        public override void Stop()
         {
             base.Stop();
 
@@ -150,7 +143,7 @@ namespace VocaluxeLib.Utils.Player
                 CBase.Video.Close(ref _Video);
         }
 
-        public new void TogglePause()
+        public override void TogglePause()
         {
             if (IsPlaying && _Video != null)
             {

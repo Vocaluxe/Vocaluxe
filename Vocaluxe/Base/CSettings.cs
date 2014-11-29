@@ -188,7 +188,7 @@ namespace Vocaluxe.Base
             if (VersionRevision != ERevision.Release)
             {
                 // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                var gitversion = Application.ProductVersion;
+                string gitversion = Application.ProductVersion;
                 version += " " + _GetVersionStatus() + String.Format(" ({0})", gitversion);
             }
 

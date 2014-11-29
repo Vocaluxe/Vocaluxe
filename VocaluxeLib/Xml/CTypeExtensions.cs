@@ -44,7 +44,8 @@ namespace VocaluxeLib.Xml
     ///     Attribute for float fields to enforce normalized (0&lt;=x&lt;=1) values
     /// </summary>
     [AttributeUsage(AttributeTargets.Field)]
-    public class XmlNormalizedAttribute : XmlRangedAttribute {
+    public class XmlNormalizedAttribute : XmlRangedAttribute
+    {
         public XmlNormalizedAttribute() : base(0, 1) {}
     }
 

@@ -180,14 +180,15 @@ namespace Vocaluxe.Screens
                                 return true;
 
                             _UpdateSelectedProfile(_SelectingFastPlayerNr - 1, _SelectedProfileID);
-
-                            _SelectElement(_Buttons[_ButtonStart]);
                         }
                         //Started selecting with 'P'
                         if (_SelectingFast)
                         {
                             if (_SelectingFastPlayerNr == CGame.NumPlayers)
+                            {
                                 resetSelection = true;
+                                _SelectElement(_Buttons[_ButtonStart]);
+                            }
                             else
                             {
                                 _SelectingFastPlayerNr++;
@@ -225,6 +226,7 @@ namespace Vocaluxe.Screens
 
                     case Keys.Escape:
                         resetSelection = true;
+                        _SelectElement(_SelectSlides[_SelectSlidePlayerNumber]);
                         break;
 
                     case Keys.Delete:
@@ -277,14 +279,14 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Escape:
                     case Keys.Back:
-                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        CGraphics.FadeTo(EScreen.Song);
                         break;
 
                     case Keys.Enter:
 
                         if (_Buttons[_ButtonBack].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenSong);
-                        else
+                            CGraphics.FadeTo(EScreen.Song);
+                        else if (_Buttons[_ButtonStart].Selected)
                             _StartSong();
 
                         break;
@@ -323,9 +325,17 @@ namespace Vocaluxe.Screens
                         break;
                 }
 
-
                 if (_SelectingFastPlayerNr > 0 && _SelectingFastPlayerNr <= CConfig.Config.Game.NumPlayers)
                 {
+                    _SelectingKeyboardActive = true;
+                    _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
+                }
+                if (_NameSelections[_NameSelection].Selected && !_SelectingKeyboardActive)
+                {
+                    _SelectingKeyboardActive = true;
+                    _ResetPlayerSelections();
+                    _SelectingFast = true;
+                    _SelectingFastPlayerNr = 1;
                     _SelectingKeyboardActive = true;
                     _NameSelections[_NameSelection].FastSelection(true, _SelectingFastPlayerNr);
                 }
@@ -454,7 +464,7 @@ namespace Vocaluxe.Screens
             else if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonBack].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenSong);
+                    CGraphics.FadeTo(EScreen.Song);
                 else if (_Buttons[_ButtonStart].Selected)
                     _StartSong();
                 else
@@ -497,7 +507,7 @@ namespace Vocaluxe.Screens
                     }
                 }
                 if (exit)
-                    CGraphics.FadeTo(EScreens.ScreenSong);
+                    CGraphics.FadeTo(EScreen.Song);
             }
 
             if (mouseEvent.MB && _SelectingFast)
@@ -619,7 +629,7 @@ namespace Vocaluxe.Screens
                 for (int i = 0; i < CGame.NumPlayers; i++)
                     CGame.Players[i].VoiceNr = _SelectSlides[_SelectSlideDuetPlayer[i]].Selection;
             }
-            CGraphics.FadeTo(EScreens.ScreenSing);
+            CGraphics.FadeTo(EScreen.Sing);
         }
 
         private void _UpdateSlides()

@@ -600,13 +600,13 @@ namespace VocaluxeLib.Menu
             {
                 case EDirection.Up:
                 case EDirection.Down:
-                    if (!other.X.IsInRange(current.X, current.Right) && !other.Right.IsInRange(current.X, current.Right))
+                    if (!other.X.IsInRange(current.X, current.Right) && !other.Right.IsInRange(current.X, current.Right) && !current.X.IsInRange(other.X, other.Right))
                         return float.MaxValue;
                     break;
 
                 case EDirection.Left:
                 case EDirection.Right:
-                    if (!other.Y.IsInRange(current.Y, current.Bottom) && !other.Bottom.IsInRange(current.Y, current.Bottom))
+                    if (!other.Y.IsInRange(current.Y, current.Bottom) && !other.Bottom.IsInRange(current.Y, current.Bottom) && !current.Y.IsInRange(other.Y, other.Bottom))
                         return float.MaxValue;
                     break;
             }

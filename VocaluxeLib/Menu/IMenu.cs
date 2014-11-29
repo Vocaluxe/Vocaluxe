@@ -42,6 +42,10 @@ namespace VocaluxeLib.Menu
         void OnClose();
 
         SRectF ScreenArea { get; }
+        /// <summary>
+        ///     Type of currently playing music
+        /// </summary>
+        EMusicType CurrentMusicType { get; }
 
         void NextElement();
         void PrevElement();

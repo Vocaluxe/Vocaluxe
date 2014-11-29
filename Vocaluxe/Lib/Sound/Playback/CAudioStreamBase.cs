@@ -43,7 +43,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         public abstract bool IsPaused { get; set; }
         public abstract bool IsFinished { get; }
 
-        public CAudioStreamBase(int id, string medium, bool loop)
+        protected CAudioStreamBase(int id, string medium, bool loop)
         {
             _ID = id;
             _Medium = medium;

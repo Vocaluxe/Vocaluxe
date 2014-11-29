@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -207,6 +208,39 @@ namespace Vocaluxe.Base
         //Lists to save parameters and values
         private static readonly List<string> _Params = new List<string>();
         private static readonly List<string> _Values = new List<string>();
+
+        public static int GetVolumeByType(EMusicType type)
+        {
+            switch (type)
+            {
+                case EMusicType.Preview:
+                    return PreviewMusicVolume;
+                case EMusicType.Game:
+                    return GameMusicVolume;
+                case EMusicType.Background:
+                    return BackgroundMusicVolume;
+                default:
+                    throw new ArgumentException("Invalid type: " + type);
+            }
+        }
+
+        public static void SetVolumeByType(EMusicType type, int volume)
+        {
+            switch (type)
+            {
+                case EMusicType.Preview:
+                    PreviewMusicVolume = volume;
+                    break;
+                case EMusicType.Game:
+                    GameMusicVolume = volume;
+                    break;
+                case EMusicType.Background:
+                    BackgroundMusicVolume = volume;
+                    break;
+                default:
+                    throw new ArgumentException("Invalid type: " + type);
+            }
+        }
 
         public static int BackgroundMusicVolume
         {

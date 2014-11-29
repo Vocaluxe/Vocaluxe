@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Generic;
 using VocaluxeLib.Menu;
 
@@ -35,10 +34,7 @@ namespace VocaluxeLib.PartyModes
         }
 
         #region Implementation
-        public virtual bool Init()
-        {
-            return false;
-        }
+        public abstract bool Init();
 
         public void LoadTheme()
         {
@@ -74,25 +70,9 @@ namespace VocaluxeLib.PartyModes
                 entry.Value.SaveTheme();
         }
 
-        public virtual void DataFromScreen(string screenName, Object data) {}
-
         public virtual void UpdateGame() {}
 
-        public virtual CMenuParty GetNextPartyScreen(out EScreens alternativeScreen)
-        {
-            alternativeScreen = EScreens.ScreenMain;
-            return null;
-        }
-
-        public virtual EScreens GetStartScreen()
-        {
-            return EScreens.ScreenSong;
-        }
-
-        public virtual EScreens GetMainScreen()
-        {
-            return EScreens.ScreenSong;
-        }
+        public abstract IMenu GetStartScreen();
 
         public virtual SScreenSongOptions GetScreenSongOptions()
         {
@@ -157,21 +137,21 @@ namespace VocaluxeLib.PartyModes
                 _ScreenSongOptions.Selection.NumJokers[teamNr]--;
         }
 
-        public virtual void SongSelected(int songID) {}
+        public abstract void SongSelected(int songID);
 
         public virtual void FinishedSinging()
         {
-            CBase.Graphics.FadeTo(EScreens.ScreenScore);
+            CBase.Graphics.FadeTo(EScreen.Score);
         }
 
         public virtual void LeavingScore()
         {
-            CBase.Graphics.FadeTo(EScreens.ScreenHighscore);
+            CBase.Graphics.FadeTo(EScreen.Highscore);
         }
 
         public virtual void LeavingHighscore()
         {
-            CBase.Graphics.FadeTo(EScreens.ScreenSong);
+            CBase.Graphics.FadeTo(EScreen.Song);
         }
         #endregion Implementation
     }

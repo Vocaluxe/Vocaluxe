@@ -97,7 +97,7 @@ namespace Vocaluxe.Screens
         private int _CurrentStream = -1;
         private float _Length = -1f;
         //private int _NextStream = -1;
-        private const float _Volume = 100f;
+        private const int _Volume = 100;
         private CVideoStream _CurrentVideo;
         private EAspect _VideoAspect = EAspect.Crop;
         private CTextureRef _CurrentWebcamFrameTexture;
@@ -119,6 +119,11 @@ namespace Vocaluxe.Screens
         private bool _Webcam;
 
         private CBackground _SlideShow;
+
+        public override EMusicType CurrentMusicType
+        {
+            get { return EMusicType.Game; }
+        }
 
         public override void Init()
         {
@@ -229,24 +234,6 @@ namespace Vocaluxe.Screens
                                 _LoadNextSong();
                                 _SetPause(false);
                             }
-                        }
-                        break;
-
-                    case Keys.Add:
-                    case Keys.PageUp:
-                        if (keyEvent.ModShift)
-                        {
-                            CConfig.GameMusicVolume += 5;
-                            CSound.SetGlobalVolume(CConfig.GameMusicVolume);
-                        }
-                        break;
-
-                    case Keys.Subtract:
-                    case Keys.PageDown:
-                        if (keyEvent.ModShift)
-                        {
-                            CConfig.GameMusicVolume -= 5;
-                            CSound.SetGlobalVolume(CConfig.GameMusicVolume);
                         }
                         break;
 
@@ -422,7 +409,6 @@ namespace Vocaluxe.Screens
             _UpdateNames();
 
             _CloseSong();
-            CSound.SetGlobalVolume(CConfig.GameMusicVolume);
         }
 
         public override void OnShowFinish()
@@ -484,13 +470,14 @@ namespace Vocaluxe.Screens
             _CloseSong();
             if (_Webcam)
                 CWebcam.Stop();
+            CBackgroundMusic.Disabled = false;
         }
 
         private void _CloseSong()
         {
             if (_CurrentStream > -1)
             {
-                CSound.FadeAndClose(_CurrentStream, 0f, 0.5f);
+                CSound.FadeAndClose(_CurrentStream, 0, 0.5f);
                 _CurrentStream = -1;
             }
             CRecord.Stop();

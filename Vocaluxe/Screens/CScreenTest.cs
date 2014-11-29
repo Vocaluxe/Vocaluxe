@@ -63,11 +63,11 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Escape:
                     case Keys.Back:
-                        CGraphics.FadeTo(EScreens.ScreenMain);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.Enter:
-                        CGraphics.FadeTo(EScreens.ScreenMain);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.F:
@@ -92,10 +92,10 @@ namespace Vocaluxe.Screens
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent)) {}
 
             if (mouseEvent.LB)
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
 
             if (mouseEvent.RB)
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
             return true;
         }
 

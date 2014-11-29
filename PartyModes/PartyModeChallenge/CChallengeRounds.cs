@@ -28,6 +28,16 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public readonly List<CCombination> Rounds;
 
+        public int Count
+        {
+            get { return Rounds.Count; }
+        }
+
+        public CCombination this[int index]
+        {
+            get { return Rounds[index]; }
+        }
+
         public CChallengeRounds(int numRounds, int numPlayer, int numPlayerAtOnce)
         {
             Rounds = new List<CCombination>();

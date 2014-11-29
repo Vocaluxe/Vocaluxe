@@ -51,19 +51,19 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
+                        CGraphics.FadeTo(EScreen.OptionsVideo);
                         break;
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
-                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        CGraphics.FadeTo(EScreen.Song);
                         break;
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
                         }
                         break;
                 }
@@ -78,14 +78,14 @@ namespace Vocaluxe.Screens
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
+                CGraphics.FadeTo(EScreen.OptionsVideo);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
+                    CGraphics.FadeTo(EScreen.OptionsVideo);
             }
             return true;
         }

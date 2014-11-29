@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
@@ -91,13 +90,10 @@ namespace VocaluxeLib.PartyModes
 
         void AddScreen(CMenuParty screen, string screenName);
         void SaveScreens();
-        void DataFromScreen(string screenName, Object data);
 
         void UpdateGame();
 
-        CMenuParty GetNextPartyScreen(out EScreens alternativeScreen);
-        EScreens GetStartScreen();
-        EScreens GetMainScreen();
+        IMenu GetStartScreen();
         SScreenSongOptions GetScreenSongOptions();
 
         void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions);

@@ -126,7 +126,7 @@ namespace Vocaluxe.Base.Server
         private static bool _SendKeyEvent(string key)
         {
             bool result = false;
-            var lowerKey = key.ToLower();
+            string lowerKey = key.ToLower();
 
             if (!string.IsNullOrEmpty(lowerKey))
             {
@@ -167,12 +167,12 @@ namespace Vocaluxe.Base.Server
                     default:
                         if (lowerKey.StartsWith("f"))
                         {
-                            var numberString = lowerKey.Substring(1);
+                            string numberString = lowerKey.Substring(1);
                             int number;
                             Keys fKey;
 
-                            if (Int32.TryParse(numberString, out number) && number >= 1 
-                                && number <= 12 
+                            if (Int32.TryParse(numberString, out number) && number >= 1
+                                && number <= 12
                                 && Enum.TryParse("F" + number, true, out fKey))
                             {
                                 Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, fKey));
@@ -186,17 +186,17 @@ namespace Vocaluxe.Base.Server
             return result;
         }
 
-        private static bool _sendKeyStringEvent(string keyString, bool isShiftPressed , bool isAltPressed , bool isCtrlPressed )
+        private static bool _sendKeyStringEvent(string keyString, bool isShiftPressed, bool isAltPressed, bool isCtrlPressed)
         {
             bool result = false;
 
-            foreach (var key in keyString.ToCharArray())
+            foreach (char key in keyString.ToCharArray())
             {
-                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, isAltPressed, 
-                    Char.IsUpper(key) || isShiftPressed,
-                    isCtrlPressed, true,
-                    isShiftPressed?Char.ToUpper(key) :key,
-                    _ParseKeys(key)));
+                Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, isAltPressed,
+                                                     Char.IsUpper(key) || isShiftPressed,
+                                                     isCtrlPressed, true,
+                                                     isShiftPressed ? Char.ToUpper(key) : key,
+                                                     _ParseKeys(key)));
                 result = true;
             }
 

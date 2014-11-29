@@ -71,37 +71,37 @@ namespace Vocaluxe.Screens
                 switch (keyEvent.Key)
                 {
                     case Keys.O:
-                        CGraphics.FadeTo(EScreens.ScreenOptions);
+                        CGraphics.FadeTo(EScreen.Options);
                         break;
 
                     case Keys.S:
                         if (CProfiles.NumProfiles > 0)
-                            CGraphics.FadeTo(EScreens.ScreenSong);
+                            CGraphics.FadeTo(EScreen.Song);
                         break;
 
                     case Keys.C:
-                        CGraphics.FadeTo(EScreens.ScreenCredits);
+                        CGraphics.FadeTo(EScreen.Credits);
                         break;
 
                     case Keys.T:
-                        CGraphics.FadeTo(EScreens.ScreenTest);
+                        CGraphics.FadeTo(EScreen.Test);
                         break;
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonSing].Selected)
                         {
                             CParty.SetNormalGameMode();
-                            CGraphics.FadeTo(EScreens.ScreenSong);
+                            CGraphics.FadeTo(EScreen.Song);
                         }
 
                         if (_Buttons[_ButtonParty].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenParty);
+                            CGraphics.FadeTo(EScreen.Party);
 
                         if (_Buttons[_ButtonOptions].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenOptions);
+                            CGraphics.FadeTo(EScreen.Options);
 
                         if (_Buttons[_ButtonProfiles].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenProfiles);
+                            CGraphics.FadeTo(EScreen.Profiles);
 
                         if (_Buttons[_ButtonExit].Selected)
                             return false;
@@ -121,17 +121,17 @@ namespace Vocaluxe.Screens
                 if (_Buttons[_ButtonSing].Selected)
                 {
                     CParty.SetNormalGameMode();
-                    CGraphics.FadeTo(EScreens.ScreenSong);
+                    CGraphics.FadeTo(EScreen.Song);
                 }
 
                 if (_Buttons[_ButtonParty].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenParty);
+                    CGraphics.FadeTo(EScreen.Party);
 
                 if (_Buttons[_ButtonOptions].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptions);
+                    CGraphics.FadeTo(EScreen.Options);
 
                 if (_Buttons[_ButtonProfiles].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenProfiles);
+                    CGraphics.FadeTo(EScreen.Profiles);
 
                 if (_Buttons[_ButtonExit].Selected)
                     return false;

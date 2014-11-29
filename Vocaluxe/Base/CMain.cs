@@ -71,9 +71,9 @@ namespace Vocaluxe.Base
             CConfig.BackgroundMusicVolume = newVolume;
         }
 
-        public int GetBackgroundMusicVolume()
+        public int GetMusicVolume(EMusicType type)
         {
-            return CConfig.BackgroundMusicVolume;
+            return CConfig.GetVolumeByType(type);
         }
 
         public EBackgroundMusicOffOn GetBackgroundMusicStatus()
@@ -446,7 +446,12 @@ namespace Vocaluxe.Base
             CGraphics.SaveTheme();
         }
 
-        public void FadeTo(EScreens nextScreen)
+        public void FadeTo(EScreen nextScreen)
+        {
+            CGraphics.FadeTo(nextScreen);
+        }
+
+        public void FadeTo(IMenu nextScreen)
         {
             CGraphics.FadeTo(nextScreen);
         }
@@ -456,9 +461,19 @@ namespace Vocaluxe.Base
             return CGraphics.GlobalAlpha;
         }
 
-        public EScreens GetNextScreen()
+        public IMenu GetNextScreen()
         {
             return CGraphics.NextScreen;
+        }
+
+        public EScreen GetNextScreenType()
+        {
+            return CGraphics.NextScreenType;
+        }
+
+        public IMenu GetScreen(EScreen screen)
+        {
+            return CGraphics.GetScreen(screen);
         }
     }
 
@@ -828,7 +843,7 @@ namespace Vocaluxe.Base
             CSound.Play(soundStream);
         }
 
-        public void Fade(int soundStream, float targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing)
+        public void Fade(int soundStream, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
             CSound.Fade(soundStream, targetVolume, duration, afterFadeAction);
         }
@@ -853,9 +868,14 @@ namespace Vocaluxe.Base
             return CSound.GetLength(soundStream);
         }
 
-        public void SetStreamVolume(int soundStream, float volume)
+        public void SetStreamVolume(int soundStream, int volume)
         {
             CSound.SetStreamVolume(soundStream, volume);
+        }
+
+        public void SetGlobalVolume(int volume)
+        {
+            CSound.SetGlobalVolume(volume);
         }
     }
 

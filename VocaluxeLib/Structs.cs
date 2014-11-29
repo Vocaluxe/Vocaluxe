@@ -189,10 +189,20 @@ namespace VocaluxeLib
         public float Right
         {
             get { return X + W; }
+            set
+            {
+                W = value - X;
+                Debug.Assert(W >= 0);
+            }
         }
         public float Bottom
         {
             get { return Y + H; }
+            set
+            {
+                H = value - Y;
+                Debug.Assert(H >= 0);
+            }
         }
         public Size SizeI
         {

@@ -113,11 +113,6 @@ namespace Vocaluxe.Base
 
             _CurrentPartyMode.PartyMode.Init();
         }
-
-        public static CMenu GetNextPartyScreen(out EScreens alternativeScreen)
-        {
-            return _CurrentPartyMode.PartyMode.GetNextPartyScreen(out alternativeScreen);
-        }
         #endregion public stuff
 
         #region Interface
@@ -126,14 +121,9 @@ namespace Vocaluxe.Base
             _CurrentPartyMode.PartyMode.UpdateGame();
         }
 
-        public static EScreens GetStartScreen()
+        public static IMenu GetStartScreen()
         {
             return _CurrentPartyMode.PartyMode.GetStartScreen();
-        }
-
-        public static EScreens GetMainScreen()
-        {
-            return _CurrentPartyMode.PartyMode.GetMainScreen();
         }
 
         public static SScreenSongOptions GetSongSelectionOptions()

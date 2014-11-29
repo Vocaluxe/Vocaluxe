@@ -20,6 +20,7 @@
 
 using System;
 using System.Collections.Generic;
+using Vocaluxe.Screens;
 using Vocaluxe.SongQueue;
 using VocaluxeLib;
 using VocaluxeLib.Game;
@@ -185,6 +186,11 @@ namespace Vocaluxe.Base
                 if (value > 0 && value <= CSettings.MaxNumPlayer)
                     _NumPlayers = value;
             }
+        }
+
+        public static void GotoNameSelection()
+        {
+            CGraphics.FadeTo(EScreen.Names);
         }
 
         public static void ResetPlayer()

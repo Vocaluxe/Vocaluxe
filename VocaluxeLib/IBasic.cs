@@ -32,7 +32,7 @@ namespace VocaluxeLib
         EOffOn GetSaveModifiedSongs();
 
         void SetBackgroundMusicVolume(int newVolume);
-        int GetBackgroundMusicVolume();
+        int GetMusicVolume(EMusicType type);
 
         EBackgroundMusicOffOn GetBackgroundMusicStatus();
 
@@ -147,11 +147,14 @@ namespace VocaluxeLib
     {
         void ReloadTheme();
         void SaveTheme();
-        void FadeTo(EScreens nextScreen);
+        void FadeTo(EScreen nextScreen);
+        void FadeTo(IMenu nextScreen);
 
         float GetGlobalAlpha();
 
-        EScreens GetNextScreen();
+        IMenu GetNextScreen();
+        EScreen GetNextScreenType();
+        IMenu GetScreen(EScreen screen);
     }
 
     public interface ILog
@@ -264,14 +267,15 @@ namespace VocaluxeLib
         int Load(string soundFile, bool loop = false, bool prescan = false);
         void SetPosition(int soundStream, float newPosition);
         void Play(int soundStream);
-        void Fade(int soundStream, float targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
+        void Fade(int soundStream, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
         void Close(int soundStream);
 
         bool IsFinished(int soundStream);
         float GetPosition(int soundStream);
         float GetLength(int soundStream);
 
-        void SetStreamVolume(int soundStream, float volume);
+        void SetStreamVolume(int soundStream, int volume);
+        void SetGlobalVolume(int volume);
     }
 
     public interface ICover
