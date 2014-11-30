@@ -219,6 +219,8 @@ namespace Vocaluxe.Base
                     return GameMusicVolume;
                 case EMusicType.Background:
                     return BackgroundMusicVolume;
+                case EMusicType.None:
+                    return 0;
                 default:
                     throw new ArgumentException("Invalid type: " + type);
             }
