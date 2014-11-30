@@ -16,6 +16,7 @@
 		PlayerSelector
 		Plus
 		Minus
+		RepeatIcon
 	</Textures>
 	<Videos>
 		BG_Video
