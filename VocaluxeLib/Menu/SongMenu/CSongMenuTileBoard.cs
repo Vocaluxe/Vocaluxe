@@ -143,15 +143,15 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 _Theme.Name = elementName;
 
-                _Theme.SongMenuTileBoard.TextArtist = _Artist.GetTheme();
-                _Theme.SongMenuTileBoard.TextSongLength = _SongLength.GetTheme();
-                _Theme.SongMenuTileBoard.TextTitle = _Title.GetTheme();
-                _Theme.SongMenuTileBoard.StaticCoverBig = _CoverBig.GetTheme();
-                _Theme.SongMenuTileBoard.StaticDuetIcon = _DuetIcon.GetTheme();
-                _Theme.SongMenuTileBoard.StaticMedleyCalcIcon = _MedleyCalcIcon.GetTheme();
-                _Theme.SongMenuTileBoard.StaticMedleyTagIcon = _MedleyTagIcon.GetTheme();
-                _Theme.SongMenuTileBoard.StaticTextBG = _TextBG.GetTheme();
-                _Theme.SongMenuTileBoard.StaticVideoIcon = _VideoIcon.GetTheme();
+                _Theme.SongMenuTileBoard.TextArtist = (SThemeText)_Artist.GetTheme();
+                _Theme.SongMenuTileBoard.TextSongLength = (SThemeText)_SongLength.GetTheme();
+                _Theme.SongMenuTileBoard.TextTitle = (SThemeText)_Title.GetTheme();
+                _Theme.SongMenuTileBoard.StaticCoverBig = (SThemeStatic)_CoverBig.GetTheme();
+                _Theme.SongMenuTileBoard.StaticDuetIcon = (SThemeStatic)_DuetIcon.GetTheme();
+                _Theme.SongMenuTileBoard.StaticMedleyCalcIcon = (SThemeStatic)_MedleyCalcIcon.GetTheme();
+                _Theme.SongMenuTileBoard.StaticMedleyTagIcon = (SThemeStatic)_MedleyTagIcon.GetTheme();
+                _Theme.SongMenuTileBoard.StaticTextBG = (SThemeStatic)_TextBG.GetTheme();
+                _Theme.SongMenuTileBoard.StaticVideoIcon = (SThemeStatic)_VideoIcon.GetTheme();
 
                 LoadSkin();
                 Init();

@@ -23,17 +23,22 @@ namespace VocaluxeLib.PartyModes
     public abstract class CPartyMode : IPartyMode
     {
         private readonly string _Folder;
-        public int ID { get; private set; }
+        private readonly int _ID;
         protected SScreenSongOptions _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};
         protected readonly Dictionary<string, CMenuParty> _Screens = new Dictionary<string, CMenuParty>();
 
         protected CPartyMode(int id, string folder)
         {
-            ID = id;
+            _ID = id;
             _Folder = folder;
         }
 
         #region Implementation
+        public int ID
+        {
+            get { return _ID; }
+        }
+
         public abstract bool Init();
 
         public void LoadTheme()

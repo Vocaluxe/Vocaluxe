@@ -45,8 +45,5 @@ namespace VocaluxeLib.Menu.SongMenu
         int GetPreviewSong();
 
         bool SmallView { get; set; }
-
-        bool ThemeLoaded { get; }
-        SThemeSongMenu GetTheme();
     }
 }

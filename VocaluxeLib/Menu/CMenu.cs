@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
@@ -49,7 +50,7 @@ namespace VocaluxeLib.Menu
         [XmlArray("Equalizers")] public List<SThemeEqualizer> Equalizers;
         [XmlArray("Playlists")] public List<SThemePlaylist> Playlists;
         [XmlArray("ParticleEffects")] public List<SThemeParticleEffect> ParticleEffects;
-        [XmlArray("ScreenSettings")] public List<SScreenSetting> ScreenSettings;
+        [XmlArray("ScreenSettings")] public List<SThemeScreenSetting> ScreenSettings;
     }
 
     struct SZSort
@@ -64,7 +65,7 @@ namespace VocaluxeLib.Menu
 
         protected abstract int _ScreenVersion { get; }
         public int PartyModeID { get; protected set; }
-        public string ThemeName { get; set; }
+        public string ThemeName { get; private set; }
         public SThemeScreen Theme;
 
         // ReSharper disable MemberCanBePrivate.Global
@@ -161,7 +162,7 @@ namespace VocaluxeLib.Menu
             Theme.Equalizers = new List<SThemeEqualizer>();
             Theme.Playlists = new List<SThemePlaylist>();
             Theme.ParticleEffects = new List<SThemeParticleEffect>();
-            Theme.ScreenSettings = new List<SScreenSetting>();
+            Theme.ScreenSettings = new List<SThemeScreenSetting>();
 
             try
             {
@@ -190,7 +191,7 @@ namespace VocaluxeLib.Menu
                 foreach (SThemePlaylist pl in Theme.Playlists)
                     _AddPlaylist(new CPlaylist(pl, PartyModeID), pl.Name);
 
-                foreach (SScreenSetting ss in Theme.ScreenSettings)
+                foreach (SThemeScreenSetting ss in Theme.ScreenSettings)
                     _AddScreenSetting(new CScreenSetting(ss, PartyModeID), ss.Name);
 
                 foreach (SThemeSelectSlide sl in Theme.SelectSlides)
@@ -234,7 +235,7 @@ namespace VocaluxeLib.Menu
             _ScreenSettings.Add(name, screenSetting);
         }
 
-        public virtual void LoadThemeOld(string xmlPath)
+        public void LoadThemeOld(string xmlPath)
         {
             string file = Path.Combine(xmlPath, ThemeName + ".xml");
 
@@ -286,44 +287,21 @@ namespace VocaluxeLib.Menu
             Theme.Equalizers = new List<SThemeEqualizer>();
             Theme.Playlists = new List<SThemePlaylist>();
             Theme.ParticleEffects = new List<SThemeParticleEffect>();
-            Theme.ScreenSettings = new List<SScreenSetting>();
+            Theme.ScreenSettings = new List<SThemeScreenSetting>();
+        }
+
+        private static void _AddThemeablesToList<T, TT>(ICollection<TT> themeList, IEnumerable<T> objects) where T : IThemeable
+        {
+            themeList.Clear();
+            foreach (T el in objects.Where(el => el.ThemeLoaded))
+                themeList.Add((TT)el.GetTheme());
         }
 
         public virtual void SaveTheme()
         {
-            if (CBase.Config.GetLoadOldThemeFiles())
-            {
-                //Have to add theme-stuff manually, later it will be done while de-serialization
-                foreach (CBackground el in _Backgrounds)
-                    Theme.Backgrounds.Add(el.GetTheme());
-                foreach (CButton el in _Buttons)
-                    Theme.Buttons.Add(el.GetTheme());
-                foreach (CEqualizer el in _Equalizers)
-                    Theme.Equalizers.Add(el.GetTheme());
-                foreach (CLyric el in _Lyrics)
-                    Theme.Lyrics.Add(el.GetTheme());
-                foreach (CNameSelection el in _NameSelections)
-                    Theme.NameSelections.Add(el.GetTheme());
-                foreach (CParticleEffect el in _ParticleEffects)
-                    Theme.ParticleEffects.Add(el.GetTheme());
-                foreach (CPlaylist el in _Playlists)
-                    Theme.Playlists.Add(el.GetTheme());
-                foreach (CScreenSetting el in _ScreenSettings.Values)
-                    Theme.ScreenSettings.Add(el.GetTheme());
-                foreach (CSelectSlide el in _SelectSlides)
-                    Theme.SelectSlides.Add(el.GetTheme());
-                foreach (CStatic el in _Statics)
-                    Theme.Statics.Add(el.GetTheme());
-                foreach (CText el in _Texts)
-                    Theme.Texts.Add(el.GetTheme());
-                foreach (CSongMenuFramework el in _SongMenus)
-                    Theme.SongMenus.Add(el.GetTheme());
-                foreach (CSingNotes el in _SingNotes)
-                    Theme.SingNotes.Add(el.GetTheme());
-            }
-
             if (string.IsNullOrEmpty(ThemePath))
                 return;
+            _ReadThemeSubElements();
 
             try
             {
@@ -338,6 +316,24 @@ namespace VocaluxeLib.Menu
             {
                 CBase.Log.LogError("Error while saving theme-file: " + ThemeName + " " + e.Message, true);
             }
+        }
+
+        private void _ReadThemeSubElements()
+        {
+            // Load changed/added theme elements into theme struct
+            _AddThemeablesToList(Theme.Backgrounds, _Backgrounds);
+            _AddThemeablesToList(Theme.Buttons, _Buttons);
+            _AddThemeablesToList(Theme.Equalizers, _Equalizers);
+            _AddThemeablesToList(Theme.Lyrics, _Lyrics);
+            _AddThemeablesToList(Theme.NameSelections, _NameSelections);
+            _AddThemeablesToList(Theme.ParticleEffects, _ParticleEffects);
+            _AddThemeablesToList(Theme.Playlists, _Playlists);
+            _AddThemeablesToList(Theme.ScreenSettings, _ScreenSettings.Values);
+            _AddThemeablesToList(Theme.SelectSlides, _SelectSlides);
+            _AddThemeablesToList(Theme.Statics, _Statics);
+            _AddThemeablesToList(Theme.Texts, _Texts);
+            _AddThemeablesToList(Theme.SongMenus, _SongMenus);
+            _AddThemeablesToList(Theme.SingNotes, _SingNotes);
         }
 
         public virtual void ReloadSkin()
@@ -423,6 +419,7 @@ namespace VocaluxeLib.Menu
             if (ThemePath == "")
                 return;
 
+            _ReadThemeSubElements();
             UnloadSkin();
             _ClearElements();
             LoadTheme(xmlPath);

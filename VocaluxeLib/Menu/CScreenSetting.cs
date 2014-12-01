@@ -31,7 +31,7 @@ namespace VocaluxeLib.Menu
     }
 
     [XmlType("ScreenSetting")]
-    public struct SScreenSetting
+    public struct SThemeScreenSetting
     {
         [XmlAttribute(AttributeName = "Name")] public string Name;
         public string Value;
@@ -45,7 +45,7 @@ namespace VocaluxeLib.Menu
     {
         private readonly int _PartyModeID;
 
-        private SScreenSetting _Theme;
+        private SThemeScreenSetting _Theme;
         private bool _ThemeLoaded;
 
         public string GetThemeName()
@@ -61,11 +61,11 @@ namespace VocaluxeLib.Menu
         public CScreenSetting(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SScreenSetting();
+            _Theme = new SThemeScreenSetting();
             _ThemeLoaded = false;
         }
 
-        public CScreenSetting(SScreenSetting theme, int partyModeID)
+        public CScreenSetting(SThemeScreenSetting theme, int partyModeID)
         {
             _PartyModeID = partyModeID;
             _Theme = theme;
@@ -104,7 +104,7 @@ namespace VocaluxeLib.Menu
             return null;
         }
 
-        public SScreenSetting GetTheme()
+        public object GetTheme()
         {
             return _Theme;
         }
