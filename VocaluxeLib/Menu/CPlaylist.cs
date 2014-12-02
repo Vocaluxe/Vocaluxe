@@ -253,14 +253,6 @@ namespace VocaluxeLib.Menu
             _ButtonPlaylistSing = new CButton(_Theme.ButtonPlaylistSing, _PartyModeID);
             _SelectSlideGameMode = new CSelectSlide(_Theme.SelectSlideGameMode, _PartyModeID);
 
-            Visible = false;
-            Selected = false;
-            ThemeLoaded = true;
-        }
-
-        public override void Init()
-        {
-            base.Init();
             _AddStatic(_StaticPlaylistFooter);
             _AddStatic(_StaticPlaylistHeader);
             _AddButton(_ButtonPlaylistName);
@@ -268,7 +260,10 @@ namespace VocaluxeLib.Menu
             _AddButton(_ButtonPlaylistDelete);
             _AddButton(_ButtonPlaylistSave);
             _AddButton(_ButtonPlaylistSing);
-            LoadSkin();
+
+            Visible = false;
+            Selected = false;
+            ThemeLoaded = true;
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
@@ -886,11 +881,13 @@ namespace VocaluxeLib.Menu
                             if (_ChangeOrderSource >= _PlaylistElementContents.Count)
                                 return true;
 
-                            _ChangeOrderElement = new CPlaylistElement(_PlaylistElements[_CurrentPlaylistElement]);
-                            _ChangeOrderElement.Background.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.Cover.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.SelectSlide.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.Text1.Z = CBase.Settings.GetZNear();
+                            _ChangeOrderElement = new CPlaylistElement(_PlaylistElements[_CurrentPlaylistElement])
+                                {
+                                    Background = {Z = CBase.Settings.GetZNear()},
+                                    Cover = {Z = CBase.Settings.GetZNear()},
+                                    SelectSlide = {Z = CBase.Settings.GetZNear()},
+                                    Text1 = {Z = CBase.Settings.GetZNear()}
+                                };
 
                             _ChangeOrderElement.Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SkinBackground, _PartyModeID);
                             _ChangeOrderElement.Background.Color = _BackgroundColor;

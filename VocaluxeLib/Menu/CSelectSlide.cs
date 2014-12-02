@@ -264,7 +264,6 @@ namespace VocaluxeLib.Menu
             _ValuePartyModeIDs = new List<int>();
 
             ThemeLoaded = true;
-            LoadSkin();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)

@@ -27,7 +27,7 @@ namespace VocaluxeLib.Menu
 {
     public abstract class CObjectInteractions
     {
-        private readonly List<CInteraction> _Elements = new List<CInteraction>();
+        protected readonly List<CInteraction> _Elements = new List<CInteraction>();
         private int _Selection;
 
         private Point _PrevMouse;
@@ -245,7 +245,7 @@ namespace VocaluxeLib.Menu
             return _Selection >= 0 && _Selection < _Elements.Count;
         }
 
-        private IMenuElement _GetElement(CInteraction element)
+        protected IMenuElement _GetElement(CInteraction element)
         {
             switch (element.Type)
             {

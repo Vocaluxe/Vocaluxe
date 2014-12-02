@@ -162,8 +162,7 @@ namespace Vocaluxe.Base
 
             _SongPlayer = new CSongPlayer();
 
-            _PreviewPlayer = new CSongPlayer();
-            _PreviewPlayer.RepeatSong = true;
+            _PreviewPlayer = new CSongPlayer {RepeatSong = true};
 
             _VideoEnabled = (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_ON && CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON);
             SetMusicSource(CConfig.Config.Sound.BackgroundMusicSource);
@@ -339,8 +338,10 @@ namespace Vocaluxe.Base
             if (song == null)
                 return;
 
+            // ReSharper disable CompareOfFloatsByEqualityOperator
             if (start == 0f)
                 start = song.Preview.StartTime;
+            // ReSharper restore CompareOfFloatsByEqualityOperator
 
             _PlaysPreview = true;
             CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);

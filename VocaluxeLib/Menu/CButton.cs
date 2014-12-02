@@ -122,7 +122,6 @@ namespace VocaluxeLib.Menu
             EditMode = false;
 
             ThemeLoaded = true;
-            LoadSkin();
         }
 
         public CButton(CButton button)

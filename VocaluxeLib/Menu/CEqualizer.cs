@@ -95,7 +95,6 @@ namespace VocaluxeLib.Menu
             _Theme = theme;
 
             ThemeLoaded = true;
-            LoadSkin();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)

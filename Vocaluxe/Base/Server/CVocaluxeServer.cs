@@ -190,7 +190,7 @@ namespace Vocaluxe.Base.Server
         {
             bool result = false;
 
-            foreach (char key in keyString.ToCharArray())
+            foreach (char key in keyString)
             {
                 Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, isAltPressed,
                                                      Char.IsUpper(key) || isShiftPressed,
@@ -695,10 +695,14 @@ namespace Vocaluxe.Base.Server
             IEnumerable<int> playerIds = (from p in CProfiles.GetProfiles()
                                           where String.Equals(p.PlayerName, username, StringComparison.OrdinalIgnoreCase)
                                           select p.ID);
-            if (!playerIds.Any())
+            try
+            {
+                return playerIds.First();
+            }
+            catch (InvalidOperationException)
+            {
                 throw new ArgumentException("Invalid playername");
-
-            return playerIds.First();
+            }
         }
 
         private static byte[] _Hash(byte[] password, byte[] salt)

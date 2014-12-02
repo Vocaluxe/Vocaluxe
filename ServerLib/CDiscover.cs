@@ -104,8 +104,9 @@ namespace ServerLib
                     IPEndPoint groupEp = new IPEndPoint(IPAddress.Any, _Port);
                     listener.Client.ReceiveTimeout = timeout;
 
-                    byte[] bytes = listener.Receive(ref groupEp);
-                    string message = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
+                    //byte[] bytes = 
+                    listener.Receive(ref groupEp);
+                    //string message = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
 
                     foundSomething = true;
                     if (!knownServer.Contains(groupEp.Address.ToString()))

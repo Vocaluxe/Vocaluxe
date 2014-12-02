@@ -103,7 +103,6 @@ namespace VocaluxeLib.Menu
             LyricStyle = ELyricStyle.Fill;
 
             ThemeLoaded = true;
-            LoadSkin();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)

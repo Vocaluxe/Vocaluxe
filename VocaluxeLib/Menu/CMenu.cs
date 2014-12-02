@@ -201,13 +201,27 @@ namespace VocaluxeLib.Menu
                     _AddSingNote(new CSingNotes(sb, PartyModeID), sb.Name);
 
                 foreach (SThemeSongMenu sm in Theme.SongMenus)
-                    _AddSongMenu(CSongMenuFactory.GetSongMenu(sm, PartyModeID), sm.Name);
+                    _AddSongMenu(CSongMenuFactory.CreateSongMenu(sm, PartyModeID), sm.Name);
 
                 foreach (SThemeStatic st in Theme.Statics)
                     _AddStatic(new CStatic(st, PartyModeID), st.Name);
 
                 foreach (SThemeText te in Theme.Texts)
                     _AddText(new CText(te, PartyModeID), te.Name);
+
+                if (_ScreenVersion != Theme.Informations.ScreenVersion)
+                {
+                    string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
+                    if (Theme.Informations.ScreenVersion < _ScreenVersion)
+                        msg += "the file ist outdated! ";
+                    else
+                        msg += "the file is for newer program versions! ";
+
+                    msg += "Current screen version is " + _ScreenVersion;
+                    CBase.Log.LogError(msg);
+                }
+                foreach (IThemeable el in _Elements.Select(_GetElement).OfType<IThemeable>())
+                    el.LoadSkin();
             }
             catch (InvalidOperationException)
             {
@@ -216,17 +230,6 @@ namespace VocaluxeLib.Menu
             catch (Exception e)
             {
                 CBase.Log.LogError(e.Message + e.StackTrace, true, true);
-            }
-            if (_ScreenVersion != Theme.Informations.ScreenVersion)
-            {
-                string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
-                if (Theme.Informations.ScreenVersion < _ScreenVersion)
-                    msg += "the file ist outdated! ";
-                else
-                    msg += "the file is for newer program versions! ";
-
-                msg += "Current screen version is " + _ScreenVersion;
-                CBase.Log.LogError(msg);
             }
         }
 
@@ -257,7 +260,7 @@ namespace VocaluxeLib.Menu
                 _LoadThemeElement<CSelectSlide>(_ThemeSelectSlides, _AddSelectSlide, xmlReader);
                 foreach (string elName in _ThemeSongMenus)
                 {
-                    ISongMenu element = CSongMenuFactory.GetSongMenu(PartyModeID);
+                    ISongMenu element = CSongMenuFactory.CreateSongMenu(PartyModeID);
                     if (element.LoadTheme("//root/" + ThemeName, elName, xmlReader))
                         _AddSongMenu(element, elName);
                     else
@@ -338,80 +341,14 @@ namespace VocaluxeLib.Menu
 
         public virtual void ReloadSkin()
         {
-            foreach (CBackground background in _Backgrounds)
-                background.ReloadSkin();
-
-            foreach (CButton button in _Buttons)
-                button.ReloadSkin();
-
-            foreach (CText text in _Texts)
-                text.ReloadSkin();
-
-            foreach (CStatic stat in _Statics)
-                stat.ReloadSkin();
-
-            foreach (CSelectSlide slide in _SelectSlides)
-                slide.ReloadSkin();
-
-            foreach (CSongMenuFramework sm in _SongMenus)
-                sm.ReloadSkin();
-
-            foreach (CLyric lyric in _Lyrics)
-                lyric.ReloadSkin();
-
-            foreach (CSingNotes sn in _SingNotes)
-                sn.ReloadSkin();
-
-            foreach (CNameSelection ns in _NameSelections)
-                ns.ReloadSkin();
-
-            foreach (CEqualizer eq in _Equalizers)
-                eq.ReloadSkin();
-
-            foreach (CPlaylist pls in _Playlists)
-                pls.ReloadSkin();
-
-            foreach (CParticleEffect pe in _ParticleEffects)
-                pe.ReloadSkin();
+            foreach (IThemeable el in _Elements.Select(_GetElement).OfType<IThemeable>())
+                el.ReloadSkin();
         }
 
         public virtual void UnloadSkin()
         {
-            foreach (CBackground background in _Backgrounds)
-                background.UnloadSkin();
-
-            foreach (CButton button in _Buttons)
-                button.UnloadSkin();
-
-            foreach (CText text in _Texts)
-                text.UnloadSkin();
-
-            foreach (CStatic stat in _Statics)
-                stat.UnloadSkin();
-
-            foreach (CSelectSlide slide in _SelectSlides)
-                slide.UnloadSkin();
-
-            foreach (CSongMenuFramework sm in _SongMenus)
-                sm.UnloadSkin();
-
-            foreach (CLyric lyric in _Lyrics)
-                lyric.UnloadSkin();
-
-            foreach (CSingNotes sn in _SingNotes)
-                sn.UnloadSkin();
-
-            foreach (CNameSelection ns in _NameSelections)
-                ns.UnloadSkin();
-
-            foreach (CPlaylist pls in _Playlists)
-                pls.UnloadSkin();
-
-            foreach (CEqualizer eq in _Equalizers)
-                eq.UnloadSkin();
-
-            foreach (CParticleEffect pe in _ParticleEffects)
-                pe.UnloadSkin();
+            foreach (IThemeable el in _Elements.Select(_GetElement).OfType<IThemeable>())
+                el.UnloadSkin();
         }
 
         public virtual void ReloadTheme(string xmlPath)

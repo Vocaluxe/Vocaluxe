@@ -84,7 +84,6 @@ namespace VocaluxeLib.Menu.SingNotes
             _BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
 
             ThemeLoaded = true;
-            LoadSkin();
         }
 
         public string GetThemeName()

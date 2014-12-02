@@ -136,7 +136,6 @@ namespace VocaluxeLib.Menu
             _UsedProfiles = new List<int>();
 
             ThemeLoaded = true;
-            LoadSkin();
         }
 
         public void Init()

@@ -157,7 +157,6 @@ namespace VocaluxeLib.Menu.SongMenu
             _Theme = theme;
 
             ThemeLoaded = true;
-            LoadSkin();
         }
 
         #region Theme
