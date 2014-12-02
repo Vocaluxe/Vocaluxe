@@ -97,7 +97,7 @@ namespace Vocaluxe.Base
         {
             [XmlElement("Name"), DefaultValue("Ambient")] public string Theme;
             [DefaultValue("Blue")] public string Skin;
-            [XmlElement("Cover"), DefaultValue("Blue")] public string CoverTheme;
+            [XmlElement("Cover"), DefaultValue("Ambient Blue")] public string CoverTheme;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawNoteLines;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawToneHelper;
             [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)] public ETimerLook TimerLook;
