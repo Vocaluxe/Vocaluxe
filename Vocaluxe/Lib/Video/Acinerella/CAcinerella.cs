@@ -190,6 +190,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
 #endif
 #endif
 
+        private static readonly Object _Lock = new Object();
+
         // Defines the type of an Acinerella media stream. Currently only video and
         // audio streams are supported, subtitle and data streams will be marked as
         // "unknown".
@@ -201,7 +203,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static IntPtr AcInit()
         {
-            return _ac_init();
+            lock (_Lock)
+            {
+                return _ac_init();
+            }
         }
 
         // Frees an Acinerella instance.
@@ -211,7 +216,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static void AcFree(IntPtr pAcInstance)
         {
-            _ac_free(pAcInstance);
+            lock (_Lock)
+            {
+                _ac_free(pAcInstance);
+            }
         }
 
         // Opens a media file.
@@ -266,7 +274,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public static Int32 AcOpen2(IntPtr pAcInstance, string filename)
             // ReSharper restore UnusedMethodReturnValue.Global
         {
-            return _ac_open2(pAcInstance, filename);
+            lock (_Lock)
+            {
+                return _ac_open2(pAcInstance, filename);
+            }
         }
 
         // Closes an opened media file.
@@ -276,7 +287,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static void AcClose(IntPtr pAcInstance)
         {
-            _ac_close(pAcInstance);
+            lock (_Lock)
+            {
+                _ac_close(pAcInstance);
+            }
         }
 
         // Stores information in "pInfo" about stream number "nb".
@@ -286,7 +300,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static void AcGetStreamInfo(IntPtr pAcInstance, Int32 nb, out SACStreamInfo info)
         {
-            _ac_get_stream_info(pAcInstance, nb, out info);
+            lock (_Lock)
+            {
+                _ac_get_stream_info(pAcInstance, nb, out info);
+            }
         }
 
         // Reads a package from an opened media file.
@@ -304,7 +321,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static IntPtr AcCreateVideoDecoder(IntPtr pAcInstance)
         {
-            return _ac_create_video_decoder(pAcInstance);
+            lock (_Lock)
+            {
+                return _ac_create_video_decoder(pAcInstance);
+            }
         }
 
         [DllImport(_AcDll, EntryPoint = "ac_create_audio_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
@@ -312,7 +332,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static IntPtr AcCreateAudioDecoder(IntPtr pAcInstance)
         {
-            return _ac_create_audio_decoder(pAcInstance);
+            lock (_Lock)
+            {
+                return _ac_create_audio_decoder(pAcInstance);
+            }
         }
 
         // Frees an created decoder.
@@ -322,7 +345,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static void AcFreeDecoder(IntPtr pAcDecoder)
         {
-            _ac_free_decoder(pAcDecoder);
+            lock (_Lock)
+            {
+                _ac_free_decoder(pAcDecoder);
+            }
         }
 
         // Decodes a package using the specified decoder. The decodec data is stored in the
@@ -333,7 +359,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcDecodePackage(IntPtr pAcPackage, IntPtr pAcDecoder)
         {
-            return _ac_decode_package(pAcPackage, pAcDecoder) != 0;
+            lock (_Lock)
+            {
+                return _ac_decode_package(pAcPackage, pAcDecoder) != 0;
+            }
         }
 
         [DllImport(_AcDll, EntryPoint = "ac_get_audio_frame", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
@@ -341,7 +370,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcGetAudioFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
         {
-            return _ac_get_audio_frame(pAcInstance, pAcDecoder) != 0;
+            lock (_Lock)
+            {
+                return _ac_get_audio_frame(pAcInstance, pAcDecoder) != 0;
+            }
         }
 
         [DllImport(_AcDll, EntryPoint = "ac_get_frame", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
@@ -349,7 +381,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcGetFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
         {
-            return _ac_get_frame(pAcInstance, pAcDecoder) != 0;
+            lock (_Lock)
+            {
+                return _ac_get_frame(pAcInstance, pAcDecoder) != 0;
+            }
         }
 
         [DllImport(_AcDll, EntryPoint = "ac_skip_frames", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
@@ -357,7 +392,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcSkipFrames(IntPtr pAcInstance, IntPtr pAcDecoder, Int32 num)
         {
-            return _ac_skip_frames(pAcInstance, pAcDecoder, num) != 0;
+            lock (_Lock)
+            {
+                return _ac_skip_frames(pAcInstance, pAcDecoder, num) != 0;
+            }
         }
 
         // Seeks to the given target position in the file. The seek funtion is not able to seek a single audio/video stream
@@ -370,7 +408,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcSeek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos)
         {
-            return _ac_seek(pAcDecoder, dir, targetPos) != 0;
+            lock (_Lock)
+            {
+                return _ac_seek(pAcDecoder, dir, targetPos) != 0;
+            }
         }
 
         //function ac_probe_input_buffer(buf: PChar; bufsize: Integer; filename: PChar;
