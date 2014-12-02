@@ -14,6 +14,7 @@
   <string name="TR_DEBUG_MAX_VOLUME">Volume massimo</string>
   <string name="TR_DEBUG_SONGS">Canzoni caricate</string>
   <string name="TR_DEBUG_MOUSE">Mouse</string>
+  <string name="TR_DEBUG_MEMORY">Uso della Memoria</string>
   <string name="TR_GAMEMODE_NORMAL">Normale</string>
   <string name="TR_GAMEMODE_DUET">Duetto</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
@@ -29,6 +30,7 @@
   <string name="TR_USERROLE_GUEST">Ospite</string>
   <string name="TR_USERROLE_NORMAL">Utente normale</string>
   <string name="TR_USERROLE_ADMIN">Amministratore</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Tasti Utente</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -46,6 +48,7 @@
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
   <string name="TR_CONFIG_LIST">Elenco</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
+  <string name="TR_CONFIG_TILE_BOARD">Scacchiera</string>
   <string name="TR_CONFIG_BOOK">Libro</string>
   <string name="TR_CONFIG_COVERLOADING_ONDEMAND">Su richiesta</string>
   <string name="TR_CONFIG_COVERLOADING_ATSTART">All\'avvio</string>
@@ -61,6 +64,7 @@
   <string name="TR_CONFIG_YEAR">Anno</string>
   <string name="TR_CONFIG_DECADE">Decade</string>
   <string name="TR_CONFIG_LANGUAGE">Lingua</string>
+  <string name="TR_CONFIG_DATEADDED">Inserimento Data</string>
   <string name="TR_CONFIG_EASY">Facile</string>
   <string name="TR_CONFIG_NORMAL">Normale</string>
   <string name="TR_CONFIG_HARD">Difficile</string>
@@ -72,9 +76,13 @@
   <string name="TR_CONFIG_OWN_MUSIC">Musica personale e musica di sfondo</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Nessuna musica personale</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Solo musica personale</string>
+  <string name="TR_CONFIG_ONLY_SONG">Solo la canzone selezionata</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Tutto</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Solo nomi e avatar</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Niente</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Sotto</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_TOP">Sopra</string>
+  <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Sopra e sotto</string>
   <string name="TR_CONFIG_LYRICSPOSITION_DYNAMIC">Dinamico</string>
   <string name="TR_SCREENLOAD_LOADING">Caricamento</string>
   <string name="TR_SCREENLOAD_TOTAL">Totale</string>
@@ -91,6 +99,7 @@
   <string name="TR_SCREENPARTY_AUTHOR">Autore</string>
   <string name="TR_SCREENPARTY_VERSION">Versione</string>
   <string name="TR_SCREENPARTY_ERROR">Impossibile caricare questa modalità festa.</string>
+  <string name="TR_SCREENPARTY_ERROR_MICS">Nessun microfono configurato!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Target di riferimento</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Nessuna squadra</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Numero di squadre</string>
@@ -116,6 +125,7 @@
   <string name="TR_SCREENSONG_BUTTON_SINGALL">Canta tutte le canzoni</string>
   <string name="TR_SCREENSONG_BUTTON_SINGALLVISIBLE">Canta tutte le canzoni visibili</string>
   <string name="TR_SCREENSONG_BUTTON_OPENPLAYLIST">Apri playlist</string>
+  <string name="TR_SCREENSONG_BUTTON_OPEN_SELECTED_ITEM">Selezione</string>
   <string name="TR_SCREENSONG_BUTTON_RANDOMMEDLEY">Canta un medley casuale</string>
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Canta canzoni medley</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Nuova playlist</string>
@@ -188,11 +198,24 @@
   <string name="TR_SCREENOTHEME_NOTELINES">Mostra note-linee</string>
   <string name="TR_SCREENOTHEME_TONEHELPER">Mostra Aiuto-Tono</string>
   <string name="TR_SCREENOTHEME_TIMERLOOK">Look timer</string>
+  <string name="TR_SCREENOTHEME_FADEINFO">Aumenta-Diminuisci info Giocatore</string>
+  <string name="TR_SCREENOTHEME_COVERLOADING">Modo di Caricamento Cover</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Opzioni testi</string>
   <string name="TR_SCREENOLYRICS_STYLE">Stile</string>
   <string name="TR_SCREENOLYRICS_POSITION">Posizione testi</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Opzioni video</string>
+  <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video di Sfondo</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Anteprima video</string>
+  <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Video durante il canto</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Mostra il video attuale sullo sfondo</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcam</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Risoluzione-Webcam</string>
+  <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Sistemazione schermo</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Sopra a sinistra</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Sopra a destra</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Sotto a sinistra</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Sotto a destra</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Indirizzo server</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Il server non sta funzionando. Per favore controlla il file config.xml!</string>
 </resources>

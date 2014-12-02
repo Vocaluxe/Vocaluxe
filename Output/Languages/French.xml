@@ -93,6 +93,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">Mode Fête</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Options</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profils</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">Aucun profil trouvé !</string>
   <string name="TR_SCREENPARTY_TITLE">Sélection du mode Fête</string>
   <string name="TR_SCREENPARTY_MODES">Mode Fête</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Description</string>
@@ -211,8 +212,8 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Résolution de la Webcam</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustements de l\'écran</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Appuyer sur CTR + ALT + SHIFT + Flèches pour ajuster l\'écran</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + SHIFT + 0 pour réinitialiser</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Appuyer sur CTRL + ALT (+ Maj) + Flèches|\"+\" pour ajuster l\'écran</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + 0 pour annuler</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Haut gauche</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Haut droit</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Bas gauche</string>
