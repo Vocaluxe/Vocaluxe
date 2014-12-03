@@ -298,7 +298,7 @@ namespace Vocaluxe.Screens
             else
                 finish = true;
 
-            if (finish)
+            if (finish && !_FadeOut)
                 _LoadNextSong();
 
             _UpdateSongText();
