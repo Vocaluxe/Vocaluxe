@@ -257,8 +257,8 @@ namespace Vocaluxe.Screens
                 _Config.Height = d.Capabilities[_CapabilityNr].Height;
                 _Config.Framerate = d.Capabilities[_CapabilityNr].Framerate;
 
-                CWebcam.Select(_Config);
-                CWebcam.Start();
+                if (CWebcam.Select(_Config))
+                    CWebcam.Start();
             }
         }
 

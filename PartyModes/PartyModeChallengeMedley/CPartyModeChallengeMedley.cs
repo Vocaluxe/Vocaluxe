@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -113,8 +114,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         public SData GameData;
         private EStage _Stage;
 
-        public CPartyModeChallengeMedley(int id, string folder)
-            : base(id, folder)
+        public CPartyModeChallengeMedley(int id, string folder) : base(id, folder)
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = true;
@@ -387,9 +387,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             }
 
             //Calc avarage sing-count
-            int totalCounts = 0;
-            foreach (CSong song in visibleSongs)
-                totalCounts += song.NumPlayedSession;
+            int totalCounts = visibleSongs.Sum(song => song.NumPlayedSession);
             int averageCount = totalCounts / visibleSongs.Count;
 
             // ReSharper disable LoopCanBeConvertedToQuery

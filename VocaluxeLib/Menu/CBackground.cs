@@ -48,7 +48,6 @@ namespace VocaluxeLib.Menu
     {
         private readonly int _PartyModeID;
         private SThemeBackground _Theme;
-        private bool _ThemeLoaded;
 
         private int _SlideShowCurrent;
         private readonly Stopwatch _SlideShowTimer = new Stopwatch();
@@ -62,10 +61,7 @@ namespace VocaluxeLib.Menu
         }
 
         public SColorF Color;
-        public bool ThemeLoaded
-        {
-            get { return _ThemeLoaded; }
-        }
+        public bool ThemeLoaded { get; private set; }
 
         public string GetThemeName()
         {
@@ -76,7 +72,7 @@ namespace VocaluxeLib.Menu
         public CBackground(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _ThemeLoaded = false;
+            ThemeLoaded = false;
             _Theme = new SThemeBackground {SlideShowTextures = new List<string>()};
 
             Color = new SColorF(0f, 0f, 0f, 1f);
@@ -87,7 +83,7 @@ namespace VocaluxeLib.Menu
             _Theme = theme;
             _PartyModeID = partyModeID;
 
-            LoadSkin();
+            ThemeLoaded = true;
         }
         #endregion Constructors
 
@@ -95,16 +91,16 @@ namespace VocaluxeLib.Menu
         public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
-            _ThemeLoaded = true;
+            ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
+            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
 
             bool vid = xmlReader.GetValue(item + "/Video", out _Theme.VideoName, String.Empty);
             bool tex = xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
-            _ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
+            ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
+                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
             else
             {
                 bool success = true;
@@ -114,7 +110,7 @@ namespace VocaluxeLib.Menu
                 success &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
 
                 if (_Theme.Type != EBackgroundTypes.None)
-                    _ThemeLoaded &= success;
+                    ThemeLoaded &= success;
             }
 
             _Theme.Color.Color = Color;
@@ -130,12 +126,12 @@ namespace VocaluxeLib.Menu
                 i++;
             }
 
-            if (_ThemeLoaded)
+            if (ThemeLoaded)
             {
                 _Theme.Name = elementName;
                 LoadSkin();
             }
-            return _ThemeLoaded;
+            return ThemeLoaded;
         }
 
         public void Resume()
@@ -179,12 +175,16 @@ namespace VocaluxeLib.Menu
 
         public void UnloadSkin()
         {
+            if (!ThemeLoaded)
+                return;
             _SlideShowTextures.Clear();
             CBase.Video.Close(ref _VideoStream);
         }
 
         public void LoadSkin()
         {
+            if (!ThemeLoaded)
+                return;
             _Theme.Color.Get(_PartyModeID, out Color);
 
             if (_Theme.Type == EBackgroundTypes.SlideShow)
@@ -224,7 +224,7 @@ namespace VocaluxeLib.Menu
             LoadSkin();
         }
 
-        public SThemeBackground GetTheme()
+        public object GetTheme()
         {
             return _Theme;
         }

@@ -138,8 +138,7 @@ namespace ServerLib
 
                 return CServer.GetProfileData(profileId, isReadonly);
             }
-            else
-                return new SProfileData();
+            return new SProfileData();
         }
 
         public SProfileData[] GetProfileList()

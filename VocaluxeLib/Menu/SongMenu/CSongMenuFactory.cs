@@ -21,7 +21,7 @@ namespace VocaluxeLib.Menu.SongMenu
 {
     public static class CSongMenuFactory
     {
-        public static ISongMenu GetSongMenu(SThemeSongMenu theme, int partyModeID)
+        public static ISongMenu CreateSongMenu(SThemeSongMenu theme, int partyModeID)
         {
             switch (CBase.Config.GetSongMenuType())
             {
@@ -47,7 +47,7 @@ namespace VocaluxeLib.Menu.SongMenu
         /// </summary>
         /// <param name="partyModeID"></param>
         /// <returns></returns>
-        public static ISongMenu GetSongMenu(int partyModeID)
+        public static ISongMenu CreateSongMenu(int partyModeID)
         {
             switch (CBase.Config.GetSongMenuType())
             {

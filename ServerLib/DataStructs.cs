@@ -69,9 +69,10 @@ namespace ServerLib
     [DataContract]
     public class CBase64Image
     {
+        // ReSharper disable InconsistentNaming
         [DataMember] private string base64Data = "";
-
         [DataMember] private string imageId = "";
+        // ReSharper restore InconsistentNaming
 
         public CBase64Image(Image img, ImageFormat format)
         {

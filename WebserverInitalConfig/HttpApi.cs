@@ -498,8 +498,7 @@ namespace WebserverInitalConfig
         {
             if (String.IsNullOrEmpty(networkURL))
                 throw new ArgumentNullException("networkURL");
-            HTTP_SERVICE_CONFIG_URLACL_SET res = new HTTP_SERVICE_CONFIG_URLACL_SET();
-            res.KeyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY("");
+            HTTP_SERVICE_CONFIG_URLACL_SET res = new HTTP_SERVICE_CONFIG_URLACL_SET {KeyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY("")};
             CallHttpApi(
                 delegate
                     {
@@ -539,9 +538,7 @@ namespace WebserverInitalConfig
                                 ThrowWin32ExceptionIfError(retVal);
                                 res = (HTTP_SERVICE_CONFIG_URLACL_SET)Marshal.PtrToStructure(pOutputConfigInfo, typeof(HTTP_SERVICE_CONFIG_URLACL_SET));
                             }
-                            else if (ERROR_FILE_NOT_FOUND == retVal)
-                                return;
-                            else
+                            else if (ERROR_FILE_NOT_FOUND != retVal)
                                 ThrowWin32ExceptionIfError(retVal);
                         }
                         finally
@@ -604,9 +601,7 @@ namespace WebserverInitalConfig
                         HTTP_SERVICE_CONFIG_URLACL_KEY keyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY(networkURL);
                         HTTP_SERVICE_CONFIG_URLACL_PARAM paramDesc = new HTTP_SERVICE_CONFIG_URLACL_PARAM(securityDescriptor);
 
-                        HTTP_SERVICE_CONFIG_URLACL_SET inputConfigInfoSet = new HTTP_SERVICE_CONFIG_URLACL_SET();
-                        inputConfigInfoSet.KeyDesc = keyDesc;
-                        inputConfigInfoSet.ParamDesc = paramDesc;
+                        HTTP_SERVICE_CONFIG_URLACL_SET inputConfigInfoSet = new HTTP_SERVICE_CONFIG_URLACL_SET {KeyDesc = keyDesc, ParamDesc = paramDesc};
 
                         IntPtr pInputConfigInfo = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_SET)));
                         Marshal.StructureToPtr(inputConfigInfoSet, pInputConfigInfo, false);

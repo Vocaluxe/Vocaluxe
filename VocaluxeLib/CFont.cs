@@ -27,9 +27,11 @@ namespace VocaluxeLib
 
     public struct SThemeFont
     {
+        // ReSharper disable UnassignedField.Global
         public string Name;
         public EStyle Style;
         public float Size;
+        // ReSharper restore UnassignedField.Global
     }
 
     public class CFont

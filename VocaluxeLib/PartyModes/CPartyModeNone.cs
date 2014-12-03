@@ -23,8 +23,7 @@ namespace VocaluxeLib.PartyModes
     public class CPartyModeNone : CPartyMode
     {
         //just a dummy for normal game mode
-        public CPartyModeNone(int id, string folder)
-            : base(id, folder)
+        public CPartyModeNone(int id, string folder) : base(id, folder)
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = false;

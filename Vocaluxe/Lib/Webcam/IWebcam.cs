@@ -63,7 +63,6 @@ namespace Vocaluxe.Lib.Webcam
         /// <summary>
         ///     Gets the last captured frame as a bitma
         /// </summary>
-        /// <param name="frame"></param>
         /// <returns>Null if no frame was captured, the bitmap otherwise</returns>
         Bitmap GetBitmap();
 

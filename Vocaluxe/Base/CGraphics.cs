@@ -220,6 +220,8 @@ namespace Vocaluxe.Base
                 }
                 else
                     NextScreen.OnShow();
+                if (_Cursor.IsActive)
+                    NextScreen.ProcessMouseMove(_Cursor.X, _Cursor.Y);
 
                 HidePopup(EPopupScreens.PopupPlayerControl);
             }

@@ -30,7 +30,7 @@ namespace Vocaluxe.Base.ThemeSystem
         private static readonly List<CTheme> _Themes = new List<CTheme>();
         public static string[] ThemeNames
         {
-            get { return _Themes.Select(th => th.Name).ToArray(); }
+            get { return _Themes.Where(th=>th is CBaseTheme).Select(th => th.Name).Distinct().ToArray(); }
         }
 
         public static string[] SkinNames
@@ -164,7 +164,8 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static string GetThemeScreensPath(int partyModeID)
         {
-            return CurrentThemes[partyModeID].GetScreenPath();
+            CTheme theme;
+            return CurrentThemes.TryGetValue(partyModeID, out theme) ? theme.GetScreenPath() : null;
         }
 
         private static void _LogMissingElement(int partyModeID, string elType, string elName)

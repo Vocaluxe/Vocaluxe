@@ -33,7 +33,7 @@ namespace VocaluxeLib.Menu
         ParticleEffect
     }
 
-    class CInteraction
+    public class CInteraction
     {
         public readonly int Num;
         public readonly EType Type;

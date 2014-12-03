@@ -92,7 +92,8 @@ namespace Vocaluxe.Base
                 if (value == -1 || _IsCatIndexValid(value))
                 {
                     _CatIndex = value;
-                    OnCategoryChanged();
+                    if (OnCategoryChanged != null)
+                        OnCategoryChanged();
                 }
             }
         }

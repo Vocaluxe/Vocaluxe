@@ -53,7 +53,6 @@ namespace VocaluxeLib.Menu.SingNotes
     {
         private readonly int _PartyModeID;
         private SThemeSingBar _Theme;
-        private bool _ThemeLoaded;
 
         public readonly List<CNoteBars> PlayerNotes = new List<CNoteBars>();
 
@@ -74,7 +73,7 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             _PartyModeID = partyModeID;
             _Theme = new SThemeSingBar {BarPos = new SBarPosition[CHelper.Sum(CBase.Settings.GetMaxNumPlayer())]};
-            _ThemeLoaded = false;
+            ThemeLoaded = false;
         }
 
         public CSingNotes(SThemeSingBar theme, int partyModeID)
@@ -84,7 +83,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             _BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
 
-            LoadSkin();
+            ThemeLoaded = true;
         }
 
         public string GetThemeName()
@@ -92,27 +91,24 @@ namespace VocaluxeLib.Menu.SingNotes
             return _Theme.Name;
         }
 
-        public bool ThemeLoaded
-        {
-            get { return _ThemeLoaded; }
-        }
+        public bool ThemeLoaded { get; private set; }
 
         public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
-            _ThemeLoaded = true;
+            ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinLeft", out _Theme.SkinLeft, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinMiddle", out _Theme.SkinMiddle, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinRight", out _Theme.SkinRight, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinLeft", out _Theme.SkinLeft, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinMiddle", out _Theme.SkinMiddle, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinRight", out _Theme.SkinRight, String.Empty);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundLeft", out _Theme.SkinBackgroundLeft, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundMiddle", out _Theme.SkinBackgroundMiddle, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundRight", out _Theme.SkinBackgroundRight, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundLeft", out _Theme.SkinBackgroundLeft, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundMiddle", out _Theme.SkinBackgroundMiddle, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundRight", out _Theme.SkinBackgroundRight, String.Empty);
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinGoldenStar", out _Theme.SkinGoldenStar, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinToneHelper", out _Theme.SkinToneHelper, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinPerfectNoteStar", out _Theme.SkinPerfectNoteStart, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinGoldenStar", out _Theme.SkinGoldenStar, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinToneHelper", out _Theme.SkinToneHelper, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinPerfectNoteStar", out _Theme.SkinPerfectNoteStart, String.Empty);
 
             int i = 0;
             _BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
@@ -122,24 +118,24 @@ namespace VocaluxeLib.Menu.SingNotes
                 {
                     _BarPos[player, numplayer] = new SRectF();
                     string target = "/BarPositions/P" + (player + 1) + "N" + (numplayer + 1);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "X", ref _BarPos[player, numplayer].X);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Y", ref _BarPos[player, numplayer].Y);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref _BarPos[player, numplayer].Z);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref _BarPos[player, numplayer].W);
-                    _ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref _BarPos[player, numplayer].H);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "X", ref _BarPos[player, numplayer].X);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Y", ref _BarPos[player, numplayer].Y);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref _BarPos[player, numplayer].Z);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref _BarPos[player, numplayer].W);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref _BarPos[player, numplayer].H);
                     _Theme.BarPos[i].Name = "P" + (player + 1) + "N" + (numplayer + 1);
                     _Theme.BarPos[i].Rect = _BarPos[player, numplayer];
                     i++;
                 }
             }
 
-            if (_ThemeLoaded)
+            if (ThemeLoaded)
             {
                 _Theme.Name = elementName;
                 LoadSkin();
             }
 
-            return _ThemeLoaded;
+            return ThemeLoaded;
         }
 
         public void Init(int numPlayers)
@@ -174,7 +170,7 @@ namespace VocaluxeLib.Menu.SingNotes
             LoadSkin();
         }
 
-        public SThemeSingBar GetTheme()
+        public object GetTheme()
         {
             return _Theme;
         }

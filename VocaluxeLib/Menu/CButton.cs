@@ -42,7 +42,6 @@ namespace VocaluxeLib.Menu
     public sealed class CButton : CMenuElementBase, IMenuElement, IThemeable
     {
         private SThemeButton _Theme;
-        private bool _ThemeLoaded;
         private readonly int _PartyModeID;
 
         public CTextureRef Texture;
@@ -100,10 +99,7 @@ namespace VocaluxeLib.Menu
             return _Theme.Name;
         }
 
-        public bool ThemeLoaded
-        {
-            get { return _ThemeLoaded; }
-        }
+        public bool ThemeLoaded { get; private set; }
 
         public CButton(int partyModeID)
         {
@@ -125,7 +121,7 @@ namespace VocaluxeLib.Menu
             Selected = false;
             EditMode = false;
 
-            LoadSkin();
+            ThemeLoaded = true;
         }
 
         public CButton(CButton button)
@@ -161,42 +157,42 @@ namespace VocaluxeLib.Menu
         public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
-            _ThemeLoaded = true;
+            ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", out _Theme.SkinSelected, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", out _Theme.SkinSelected, String.Empty);
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
 
             if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                _ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
+                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
             else
             {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
             }
 
             if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
-                _ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out SelColor);
+                ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out SelColor);
             else
             {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref SelColor.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref SelColor.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SelColor.A);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref SelColor.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref SelColor.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SelColor.A);
             }
 
-            _ThemeLoaded &= Text.LoadTheme(item, "Text", xmlReader, true);
+            ThemeLoaded &= Text.LoadTheme(item, "Text", xmlReader, true);
             Text.Z = Rect.Z;
             if (xmlReader.ItemExists(item + "/SText"))
             {
-                _ThemeLoaded &= _SelText.LoadTheme(item, "SText", xmlReader, true);
+                ThemeLoaded &= _SelText.LoadTheme(item, "SText", xmlReader, true);
                 _SelText.Z = Rect.Z;
             }
             else
@@ -207,8 +203,8 @@ namespace VocaluxeLib.Menu
             if (xmlReader.ItemExists(item + "/Reflection"))
             {
                 _Reflection = true;
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref _ReflectionSpace);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref _ReflectionHeight);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref _ReflectionSpace);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref _ReflectionHeight);
 
                 _Theme.Reflection = new SReflection(_ReflectionHeight, _ReflectionSpace);
             }
@@ -221,8 +217,8 @@ namespace VocaluxeLib.Menu
             if (xmlReader.ItemExists(item + "/SReflection"))
             {
                 _SelReflection = true;
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Space", ref _SelReflectionSpace);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Height", ref _SelReflectionHeight);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Space", ref _SelReflectionSpace);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Height", ref _SelReflectionHeight);
 
                 _Theme.SelReflection = new SReflection(_SelReflectionHeight, _SelReflectionSpace);
             }
@@ -232,20 +228,25 @@ namespace VocaluxeLib.Menu
                 _Theme.SelReflection = null;
             }
 
-            if (_ThemeLoaded)
+            if (ThemeLoaded)
             {
                 _Theme.Name = elementName;
                 _Theme.Color.Color = Color;
                 _Theme.SelColor.Color = SelColor;
-                _Theme.Text = Text.GetTheme();
-                if (_SelText == null)
-                    _Theme.SelText = null;
-                else
-                    _Theme.SelText = _SelText.GetTheme();
+                _ReadSubThemeElements();
 
                 LoadSkin();
             }
-            return _ThemeLoaded;
+            return ThemeLoaded;
+        }
+
+        private void _ReadSubThemeElements()
+        {
+            _Theme.Text = (SThemeText)Text.GetTheme();
+            if (_SelText == null)
+                _Theme.SelText = null;
+            else
+                _Theme.SelText = (SThemeText)_SelText.GetTheme();
         }
 
         public void Draw()
@@ -306,11 +307,15 @@ namespace VocaluxeLib.Menu
 
         public void UnloadSkin()
         {
+            if (!ThemeLoaded)
+                return;
             Text.UnloadSkin();
         }
 
         public void LoadSkin()
         {
+            if (!ThemeLoaded)
+                return;
             Text = new CText(_Theme.Text, _PartyModeID);
             Text.LoadSkin();
 
@@ -351,8 +356,9 @@ namespace VocaluxeLib.Menu
             LoadSkin();
         }
 
-        public SThemeButton GetTheme()
+        public object GetTheme()
         {
+            _ReadSubThemeElements();
             return _Theme;
         }
 

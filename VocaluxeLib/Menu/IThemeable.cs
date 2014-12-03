@@ -22,6 +22,8 @@ namespace VocaluxeLib.Menu
     public interface IThemeable
     {
         string GetThemeName();
+        object GetTheme();
+        bool ThemeLoaded { get; }
 
         bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader);
 

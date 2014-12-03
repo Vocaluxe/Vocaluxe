@@ -144,17 +144,13 @@ namespace VocaluxeLib.Menu
 
         private readonly int _PartyModeID;
         private SThemePlaylist _Theme;
-        private bool _ThemeLoaded;
 
         public string GetThemeName()
         {
             return _Theme.Name;
         }
 
-        public bool ThemeLoaded
-        {
-            get { return _ThemeLoaded; }
-        }
+        public bool ThemeLoaded { get; private set; }
 
         private readonly List<CPlaylistElement> _PlaylistElements = new List<CPlaylistElement>();
         private readonly List<CPlaylistElementContent> _PlaylistElementContents = new List<CPlaylistElementContent>();
@@ -257,13 +253,6 @@ namespace VocaluxeLib.Menu
             _ButtonPlaylistSing = new CButton(_Theme.ButtonPlaylistSing, _PartyModeID);
             _SelectSlideGameMode = new CSelectSlide(_Theme.SelectSlideGameMode, _PartyModeID);
 
-            Visible = false;
-            Selected = false;
-        }
-
-        public override void Init()
-        {
-            base.Init();
             _AddStatic(_StaticPlaylistFooter);
             _AddStatic(_StaticPlaylistHeader);
             _AddButton(_ButtonPlaylistName);
@@ -271,75 +260,83 @@ namespace VocaluxeLib.Menu
             _AddButton(_ButtonPlaylistDelete);
             _AddButton(_ButtonPlaylistSave);
             _AddButton(_ButtonPlaylistSing);
-            LoadSkin();
+
+            Visible = false;
+            Selected = false;
+            ThemeLoaded = true;
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
         {
             string item = xmlPath + "/" + elementName;
-            _ThemeLoaded = true;
+            ThemeLoaded = true;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", out _Theme.SkinBackground, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", out _Theme.SkinBackgroundSelected, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", out _Theme.SkinBackground, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", out _Theme.SkinBackgroundSelected, String.Empty);
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
             if (xmlReader.GetValue(item + "/ColorBackground", out _Theme.ColorBackground.Name, String.Empty))
-                _ThemeLoaded &= _Theme.ColorBackground.Get(_PartyModeID, out _BackgroundColor);
+                ThemeLoaded &= _Theme.ColorBackground.Get(_PartyModeID, out _BackgroundColor);
             else
             {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundR", ref _BackgroundColor.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundG", ref _BackgroundColor.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundB", ref _BackgroundColor.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundA", ref _BackgroundColor.A);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundR", ref _BackgroundColor.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundG", ref _BackgroundColor.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundB", ref _BackgroundColor.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundA", ref _BackgroundColor.A);
             }
             if (xmlReader.GetValue(item + "/SColorBackground", out _Theme.SelColorBackground.Name, String.Empty))
-                _ThemeLoaded &= _Theme.SelColorBackground.Get(_PartyModeID, out _BackgroundSelColor);
+                ThemeLoaded &= _Theme.SelColorBackground.Get(_PartyModeID, out _BackgroundSelColor);
             else
             {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundR", ref _BackgroundSelColor.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundG", ref _BackgroundSelColor.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundB", ref _BackgroundSelColor.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundA", ref _BackgroundSelColor.A);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundR", ref _BackgroundSelColor.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundG", ref _BackgroundSelColor.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundB", ref _BackgroundSelColor.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundA", ref _BackgroundSelColor.A);
             }
 
-            _ThemeLoaded &= _Text1.LoadTheme(item, "TextPart1", xmlReader);
+            ThemeLoaded &= _Text1.LoadTheme(item, "TextPart1", xmlReader);
 
             CStatic tmpStatic = new CStatic(_PartyModeID);
-            _ThemeLoaded &= tmpStatic.LoadTheme(item, "StaticCover", xmlReader);
-            _ThemeLoaded &= _StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", xmlReader);
-            _ThemeLoaded &= _StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", xmlReader);
+            ThemeLoaded &= tmpStatic.LoadTheme(item, "StaticCover", xmlReader);
+            ThemeLoaded &= _StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", xmlReader);
+            ThemeLoaded &= _StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", xmlReader);
 
-            _ThemeLoaded &= _ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", xmlReader);
-            _ThemeLoaded &= _ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", xmlReader);
-            _ThemeLoaded &= _ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", xmlReader);
-            _ThemeLoaded &= _ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", xmlReader);
-            _ThemeLoaded &= _ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", xmlReader);
+            ThemeLoaded &= _ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", xmlReader);
+            ThemeLoaded &= _ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", xmlReader);
+            ThemeLoaded &= _ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", xmlReader);
+            ThemeLoaded &= _ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", xmlReader);
+            ThemeLoaded &= _ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", xmlReader);
 
-            _ThemeLoaded &= _SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", xmlReader);
+            ThemeLoaded &= _SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", xmlReader);
 
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/EntryHeight", ref _Theme.EntryHeight);
-            if (_ThemeLoaded)
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/EntryHeight", ref _Theme.EntryHeight);
+            if (ThemeLoaded)
             {
                 _Theme.Name = elementName;
                 _Theme.ColorBackground.Color = _BackgroundColor;
                 _Theme.SelColorBackground.Color = _BackgroundSelColor;
-                _Theme.Text1 = _Text1.GetTheme();
-                _Theme.StaticCover = tmpStatic.GetTheme();
-                _Theme.StaticPlaylistFooter = _StaticPlaylistFooter.GetTheme();
-                _Theme.StaticPlaylistHeader = _StaticPlaylistHeader.GetTheme();
-                _Theme.ButtonPlaylistName = _ButtonPlaylistName.GetTheme();
-                _Theme.ButtonPlaylistSing = _ButtonPlaylistSing.GetTheme();
-                _Theme.ButtonPlaylistClose = _ButtonPlaylistClose.GetTheme();
-                _Theme.ButtonPlaylistSave = _ButtonPlaylistSave.GetTheme();
-                _Theme.ButtonPlaylistDelete = _ButtonPlaylistDelete.GetTheme();
+                _Theme.StaticCover = (SThemeStatic)tmpStatic.GetTheme();
+                _ReadSubThemeElements();
 
                 LoadSkin();
             }
-            return _ThemeLoaded;
+            return ThemeLoaded;
+        }
+
+        private void _ReadSubThemeElements()
+        {
+            _Theme.Text1 = (SThemeText)_Text1.GetTheme();
+            _Theme.StaticPlaylistFooter = (SThemeStatic)_StaticPlaylistFooter.GetTheme();
+            _Theme.StaticPlaylistHeader = (SThemeStatic)_StaticPlaylistHeader.GetTheme();
+            _Theme.ButtonPlaylistName = (SThemeButton)_ButtonPlaylistName.GetTheme();
+            _Theme.ButtonPlaylistSing = (SThemeButton)_ButtonPlaylistSing.GetTheme();
+            _Theme.ButtonPlaylistClose = (SThemeButton)_ButtonPlaylistClose.GetTheme();
+            _Theme.ButtonPlaylistSave = (SThemeButton)_ButtonPlaylistSave.GetTheme();
+            _Theme.ButtonPlaylistDelete = (SThemeButton)_ButtonPlaylistDelete.GetTheme();
         }
 
         public void UpdateGame()
@@ -884,11 +881,13 @@ namespace VocaluxeLib.Menu
                             if (_ChangeOrderSource >= _PlaylistElementContents.Count)
                                 return true;
 
-                            _ChangeOrderElement = new CPlaylistElement(_PlaylistElements[_CurrentPlaylistElement]);
-                            _ChangeOrderElement.Background.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.Cover.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.SelectSlide.Z = CBase.Settings.GetZNear();
-                            _ChangeOrderElement.Text1.Z = CBase.Settings.GetZNear();
+                            _ChangeOrderElement = new CPlaylistElement(_PlaylistElements[_CurrentPlaylistElement])
+                                {
+                                    Background = {Z = CBase.Settings.GetZNear()},
+                                    Cover = {Z = CBase.Settings.GetZNear()},
+                                    SelectSlide = {Z = CBase.Settings.GetZNear()},
+                                    Text1 = {Z = CBase.Settings.GetZNear()}
+                                };
 
                             _ChangeOrderElement.Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SkinBackground, _PartyModeID);
                             _ChangeOrderElement.Background.Color = _BackgroundColor;
@@ -1164,8 +1163,9 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public SThemePlaylist GetTheme()
+        public object GetTheme()
         {
+            _ReadSubThemeElements();
             return _Theme;
         }
 
