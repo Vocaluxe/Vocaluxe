@@ -165,7 +165,7 @@ namespace VocaluxeLib.Menu.SongMenu
             return _Theme.Name;
         }
 
-        public object GetTheme()
+        public virtual object GetTheme()
         {
             return _Theme;
         }
