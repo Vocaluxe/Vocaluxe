@@ -78,7 +78,7 @@
       <Skin>TimeLine</Skin>
       <Color Name="StaticColor" />
       <Rect>
-        <X>44</X>
+        <X>50</X>
         <Y>702</Y>
         <W>1090</W>
         <H>10</H>
@@ -89,7 +89,7 @@
       <Skin>TimeLine</Skin>
       <Color Name="TimeBar" />
       <Rect>
-        <X>44</X>
+        <X>50</X>
         <Y>696</Y>
         <W>1090</W>
         <H>9</H>
@@ -100,7 +100,7 @@
       <Skin>TimeLine</Skin>
       <Color Name="TimeBarSentence" />
       <Rect>
-        <X>44</X>
+        <X>50</X>
         <Y>696</Y>
         <W>1090</W>
         <H>9</H>
