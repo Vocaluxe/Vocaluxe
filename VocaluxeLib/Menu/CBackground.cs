@@ -163,7 +163,7 @@ namespace VocaluxeLib.Menu
                     ok = _DrawVideo();
                 }
             }
-            else if (_Theme.Type == EBackgroundTypes.SlideShow && _Theme.SlideShowTextures.Count > 0)
+            else if (_Theme.Type == EBackgroundTypes.SlideShow && _SlideShowTextures.Count > 0)
                 ok = _DrawSlideShow();
 
             if (!String.IsNullOrEmpty(_Theme.Skin) && (_Theme.Type == EBackgroundTypes.Texture || !ok))
