@@ -217,7 +217,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                     _Stage = EStage.Config;
                     break;
                 case EStage.Main:
-                    _Stage = EStage.Config;
+                    _Stage = EStage.Names;
                     break;
                 default: // Rest is not allowed
                     throw new ArgumentException("Invalid stage: " + _Stage);

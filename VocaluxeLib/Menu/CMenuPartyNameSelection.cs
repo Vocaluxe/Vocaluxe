@@ -117,6 +117,7 @@ namespace VocaluxeLib.Menu
         {
             _TeamList = teamProfiles;
             _UpdateSlides();
+            _UpdateNextButtonVisibility();
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
