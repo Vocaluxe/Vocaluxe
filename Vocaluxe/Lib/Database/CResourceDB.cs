@@ -38,7 +38,7 @@ namespace Vocaluxe.Lib.Database
         private readonly string[] _FilesV1 = new string[]
             {
                 "Logo_voc.png", "PerfectNoteStar.png", "redDot.png", "blueDot.png", "brunzel.png", "Darkice.png", "flokuep.png", "flamefire.png", "bohning.png", "mesand.png",
-                "babene03.png", "pantero.png", "Pinky007.png"
+                "babene03.png", "lukeIam.png"
             };
 #endif
         public CResourceDB(string filePath) : base(filePath) {}

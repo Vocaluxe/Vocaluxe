@@ -84,6 +84,8 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
 
             ThemeLoaded = true;
+
+            LoadSkin();
         }
         #endregion Constructors
 
