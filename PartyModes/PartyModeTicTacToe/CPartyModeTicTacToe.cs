@@ -187,7 +187,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case EStage.Main:
                     return _Screens["CPartyScreenTicTacToeMain"];
                 case EStage.Singing:
-                    return CBase.Graphics.GetScreen(EScreen.Song);
+                    return CBase.Graphics.GetScreen(EScreen.Sing);
                 default:
                     throw new ArgumentException("Invalid stage: " + _Stage);
             }
@@ -195,7 +195,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _FadeToScreen()
         {
-            CBase.Graphics.FadeTo(_GetNextScreen());
+            if(CBase.Graphics.GetNextScreen() != _GetNextScreen())
+                CBase.Graphics.FadeTo(_GetNextScreen());
         }
 
         public void Next()
@@ -242,7 +243,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Stage = EStage.Config;
                     break;
                 case EStage.Main:
-                    _Stage = EStage.Config;
+                    _Stage = EStage.Names;
                     break;
                 default: // Rest is not allowed
                     throw new ArgumentException("Invalid stage: " + _Stage);

@@ -137,11 +137,10 @@ namespace Vocaluxe.Screens
         private CTextureRef _TexNameDarkice;
         private CTextureRef _TexNameFlokuep;
         private CTextureRef _TexNameFlamefire;
+        private CTextureRef _TexNameLukeIam;
         private CTextureRef _TexNameMesand;
         private CTextureRef _TexNameBohning;
         private CTextureRef _TexNameBabene03;
-        private CTextureRef _TexNamePantero;
-        private CTextureRef _TexNamePinky007;
 
         private SThemeBackground _BGTheme;
 
@@ -208,11 +207,10 @@ namespace Vocaluxe.Screens
             ressourceOK &= CDataBase.GetCreditsRessource("Darkice.png", ref _TexNameDarkice);
             ressourceOK &= CDataBase.GetCreditsRessource("flokuep.png", ref _TexNameFlokuep);
             ressourceOK &= CDataBase.GetCreditsRessource("flamefire.png", ref _TexNameFlamefire);
+            ressourceOK &= CDataBase.GetCreditsRessource("lukeIam.png", ref _TexNameLukeIam);
             ressourceOK &= CDataBase.GetCreditsRessource("bohning.png", ref _TexNameBohning);
             ressourceOK &= CDataBase.GetCreditsRessource("mesand.png", ref _TexNameMesand);
             ressourceOK &= CDataBase.GetCreditsRessource("babene03.png", ref _TexNameBabene03);
-            ressourceOK &= CDataBase.GetCreditsRessource("pantero.png", ref _TexNamePantero);
-            ressourceOK &= CDataBase.GetCreditsRessource("Pinky007.png", ref _TexNamePinky007);
 
             if (!ressourceOK)
                 CLog.LogError("Could not load all ressources!", true, true);
@@ -228,6 +226,7 @@ namespace Vocaluxe.Screens
                         continue;
                     string newLine = " " + paragraph[e];
                     CText text = GetNewText(75, lastY, -2, 25, -1, EAlignment.Left, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), line);
+                    text.Visible = false;
                     if (CFonts.GetTextBounds(text).Width < (CSettings.RenderW - 220))
                     {
                         line += newLine;
@@ -247,6 +246,7 @@ namespace Vocaluxe.Screens
                         line = newLine;
                         lastY += 27;
                     }
+                    _AddText(text);
                 }
             }
 
@@ -273,11 +273,10 @@ namespace Vocaluxe.Screens
             _AddNewCreditName(_TexNameDarkice, 360, 55, true);
             _AddNewCreditName(_TexNameFlokuep, 214, 14, true);
             _AddNewCreditName(_TexNameFlamefire, 496, 46, true);
+            _AddNewCreditName(_TexNameLukeIam, 411, 26, true);
             _AddNewCreditName(_TexNameBohning, 383, 54, false);
             _AddNewCreditName(_TexNameMesand, 525, 13, false);
             _AddNewCreditName(_TexNameBabene03, 33, 26, false);
-            _AddNewCreditName(_TexNamePantero, 311, 45, false);
-            _AddNewCreditName(_TexNamePinky007, 113, 50, false);
         }
 
         public override void ReloadTheme(string xmlPath) {}
@@ -314,7 +313,7 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            if (!_Animation())
+            if (!_Animation() && CGraphics.NextScreen != CGraphics.GetScreen(EScreen.Main))
                 CGraphics.FadeTo(EScreen.Main);
             return true;
         }
@@ -465,7 +464,7 @@ namespace Vocaluxe.Screens
             }
 
             if (_TextTimer.IsRunning)
-                active = _TextTimer.ElapsedMilliseconds <= 60000;
+                active = _TextTimer.ElapsedMilliseconds <= 500;
 
             return active;
         }

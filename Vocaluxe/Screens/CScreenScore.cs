@@ -78,6 +78,7 @@ namespace Vocaluxe.Screens
 
             _SlideShowBG = GetNewBackground();
             _AddBackground(_SlideShowBG);
+            _SlideShowBG.Z--;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
