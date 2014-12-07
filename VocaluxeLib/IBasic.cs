@@ -238,6 +238,7 @@ namespace VocaluxeLib
 
         CSong GetVisibleSong(int visibleIndex);
         CSong GetSongByID(int songID);
+        ReadOnlyCollection<CSong> GetSongs();
         ReadOnlyCollection<CSong> GetVisibleSongs();
         CCategory GetCategory(int index);
 

@@ -23,12 +23,6 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
-    public class CField
-    {
-        public CRound Content;
-        public CButton Button;
-    }
-
     public enum EStatus
     {
         FieldChoosing,
@@ -73,7 +67,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private bool _ExitPopupVisible;
 
-        private List<CField> _Fields;
+        private List<CButton> _Fields = new List<CButton>();
         private float _FieldFirstX = 25;
         private float _FieldFirstY = 25;
         private const int _FieldSpace = 10;
@@ -97,8 +91,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _ButtonJokerRetryT2
                 };
             _ThemeStatics = new string[] {_StaticPopupBG, _StaticAvatarT1, _StaticAvatarT2};
-
-            _Fields = new List<CField>();
         }
 
         public override void LoadTheme(string xmlPath)
@@ -149,7 +141,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                 switch (_Status)
                                 {
                                     case EStatus.FieldChoosing:
-                                        if (_Fields[i].Button.Selected)
+                                        if (_Fields[i].Selected)
                                         {
                                             _PartyMode.GameData.FieldNr = i;
                                             _FieldSelected();
@@ -157,7 +149,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                         break;
 
                                     case EStatus.JokerRetry:
-                                        if (_Fields[i].Button.Selected)
+                                        if (_Fields[i].Selected)
                                         {
                                             _PartyMode.GameData.FieldNr = i;
                                             _FieldSelectedAgain();
@@ -214,7 +206,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                         switch (_Status)
                         {
                             case EStatus.FieldChoosing:
-                                if (_Fields[i].Button.Selected)
+                                if (_Fields[i].Selected)
                                 {
                                     _PartyMode.GameData.FieldNr = i;
                                     _FieldSelected();
@@ -222,7 +214,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                 break;
 
                             case EStatus.JokerRetry:
-                                if (_Fields[i].Button.Selected)
+                                if (_Fields[i].Selected)
                                 {
                                     _PartyMode.GameData.FieldNr = i;
                                     _FieldSelectedAgain();
@@ -353,10 +345,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             for (int i = 0; i < 25; i++)
             {
-                var f = new CField {Button = GetNewButton(_Buttons[_ButtonField])};
-                f.Button.Visible = false;
-                f.Content = new CRound();
-                _AddButton(f.Button);
+                CButton f = GetNewButton(_Buttons[_ButtonField]);
+                f.Visible = false;
+                _AddButton(f);
                 _Fields.Add(f);
             }
         }
@@ -377,12 +368,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 if (i < _PartyMode.GameData.NumFields)
                 {
-                    _Fields[i].Button.W = _FieldSize;
-                    _Fields[i].Button.H = _FieldSize;
-                    _Fields[i].Button.X = x;
-                    _Fields[i].Button.Y = y;
-                    _Fields[i].Button.Visible = true;
-                    _Fields[i].Button.Selectable = true;
+                    _Fields[i].W = _FieldSize;
+                    _Fields[i].H = _FieldSize;
+                    _Fields[i].X = x;
+                    _Fields[i].Y = y;
+                    _Fields[i].Visible = true;
+                    _Fields[i].Selectable = true;
                     column++;
                     if ((i + 1) >= numOneRow * (row + 1))
                     {
@@ -396,8 +387,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 }
                 else
                 {
-                    _Fields[i].Button.Visible = false;
-                    _Fields[i].Button.Selectable = false;
+                    _Fields[i].Visible = false;
+                    _Fields[i].Selectable = false;
                 }
             }
         }
@@ -406,34 +397,33 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             for (int i = 0; i < _PartyMode.GameData.Rounds.Count; i++)
             {
-                _Fields[i].Button.Selectable = true;
-                _Fields[i].Button.Texture = _Buttons[_ButtonField].Texture;
-                _Fields[i].Button.Color = _Buttons[_ButtonField].Color;
-                _Fields[i].Button.SelColor = _Buttons[_ButtonField].SelColor;
-                _Fields[i].Content = _PartyMode.GameData.Rounds[i];
-                if (_Fields[i].Content.Finished)
+                _Fields[i].Selectable = true;
+                _Fields[i].Texture = _Buttons[_ButtonField].Texture;
+                _Fields[i].Color = _Buttons[_ButtonField].Color;
+                _Fields[i].SelColor = _Buttons[_ButtonField].SelColor;
+                if (_PartyMode.GameData.Rounds[i].Finished)
                 {
-                    _Fields[i].Button.Selectable = false;
-                    _Fields[i].Button.Texture = CBase.Songs.GetSongByID(_Fields[i].Content.SongID).CoverTextureBig;
-                    _Fields[i].Button.Color = CBase.Themes.GetPlayerColor(_Fields[i].Content.Winner);
-                    _Fields[i].Button.SelColor = CBase.Themes.GetPlayerColor(_Fields[i].Content.Winner);
+                    _Fields[i].Selectable = false;
+                    _Fields[i].Texture = CBase.Songs.GetSongByID(_PartyMode.GameData.Rounds[i].SongID).CoverTextureBig;
+                    _Fields[i].Color = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[i].Winner);
+                    _Fields[i].SelColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[i].Winner);
                 }
                 if (_Status == EStatus.FieldSelected && _PartyMode.GameData.FieldNr == i)
                 {
-                    _Fields[i].Button.Texture = CBase.Songs.GetSongByID(_Fields[i].Content.SongID).CoverTextureBig;
-                    _Fields[i].Button.Color = new SColorF(1, 1, 1, 1);
-                    _Fields[i].Button.SelColor = new SColorF(1, 1, 1, 1);
-                    _Fields[i].Button.Selectable = false;
+                    _Fields[i].Texture = CBase.Songs.GetSongByID(_PartyMode.GameData.Rounds[i].SongID).CoverTextureBig;
+                    _Fields[i].Color = new SColorF(1, 1, 1, 1);
+                    _Fields[i].SelColor = new SColorF(1, 1, 1, 1);
+                    _Fields[i].Selectable = false;
                 }
-                if (_Status == EStatus.JokerRetry && _Fields[i].Content.Finished)
+                if (_Status == EStatus.JokerRetry && _PartyMode.GameData.Rounds[i].Finished)
                 {
-                    _Fields[i].Button.SelColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Team + 1);
-                    _Fields[i].Button.Selectable = true;
+                    _Fields[i].SelColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Team + 1);
+                    _Fields[i].Selectable = true;
                 }
-                if (_Status == EStatus.JokerRetry && !_Fields[i].Content.Finished)
-                    _Fields[i].Button.Selectable = false;
+                if (_Status == EStatus.JokerRetry && !_PartyMode.GameData.Rounds[i].Finished)
+                    _Fields[i].Selectable = false;
                 if (_Status == EStatus.FieldSelected)
-                    _Fields[i].Button.Selectable = false;
+                    _Fields[i].Selectable = false;
             }
         }
 
@@ -460,16 +450,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
                 _UpdatePlayerInformation();
             }
-            int songID = 0;
-            if (_PartyMode.GameData.Songs.Count > 0)
-            {
-                songID = _PartyMode.GameData.Songs[0];
-                _PartyMode.GameData.Songs.RemoveAt(0);
-            }
+            _PartyMode.UpdateSongList();
+            int songID = _PartyMode.GameData.Songs[0];
+            _PartyMode.GameData.Songs.RemoveAt(0);
 
             _StartPreview(songID);
             _Status = EStatus.FieldSelected;
-            _Fields[_PartyMode.GameData.FieldNr].Content.SongID = songID;
             _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongID = songID;
             _UpdateFieldContents();
             _UpdateJokerButtons();
@@ -483,10 +469,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _FieldSelectedAgain()
         {
-            int songID = _Fields[_PartyMode.GameData.FieldNr].Content.SongID;
+            int songID = _PartyMode.GameData.Rounds[_OldSelectedField].SongID;
             _StartPreview(songID);
             _Status = EStatus.FieldSelected;
-            _Fields[_PartyMode.GameData.FieldNr].Content.SongID = songID;
             _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongID = songID;
             _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1 = _PartyMode.GameData.Rounds[_OldSelectedField].SingerTeam1;
             _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2 = _PartyMode.GameData.Rounds[_OldSelectedField].SingerTeam2;
@@ -588,8 +573,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Buttons[_ButtonJokerRetryT2].Visible = true;
             _Buttons[_ButtonJokerRetryT1].Text.Text = _PartyMode.GameData.NumJokerRetry[0].ToString();
             _Buttons[_ButtonJokerRetryT2].Text.Text = _PartyMode.GameData.NumJokerRetry[1].ToString();
-            _Buttons[_ButtonJokerRetryT1].Selectable = _PartyMode.GameData.NumJokerRetry[0] > 0;
-            _Buttons[_ButtonJokerRetryT2].Selectable = _PartyMode.GameData.NumJokerRetry[1] > 0;
+            _Buttons[_ButtonJokerRetryT1].Selectable = _PartyMode.GameData.NumJokerRetry[0] > 0 && _PartyMode.GameData.CurrentRoundNr > 1;
+            _Buttons[_ButtonJokerRetryT2].Selectable = _PartyMode.GameData.NumJokerRetry[1] > 0 && _PartyMode.GameData.CurrentRoundNr > 1;
         }
 
         private void _NextRound()
@@ -659,8 +644,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 var check = new List<int>();
                 for (int j = 0; j < _Possibilities.GetLength(1); j++)
                 {
-                    if (_Fields[_Possibilities[i, j]].Content.Winner > 0)
-                        check.Add(_Fields[_Possibilities[i, j]].Content.Winner);
+                    if (_PartyMode.GameData.Rounds[_Possibilities[i, j]].Winner > 0)
+                        check.Add(_PartyMode.GameData.Rounds[_Possibilities[i, j]].Winner);
                 }
                 if (check.Count != _Possibilities.GetLength(1))
                     continue;

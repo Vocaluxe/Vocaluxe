@@ -17,9 +17,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Songs;
 
 [assembly: ComVisible(false)]
 
@@ -161,10 +163,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (CBase.Config.GetTabs() == EOffOn.TR_CONFIG_ON && _ScreenSongOptions.Sorting.SongSorting != ESongSorting.TR_CONFIG_NONE)
                 _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
 
-            GameData.Songs = new List<int>();
-            GameData.Rounds = new List<CRound>();
-            GameData.PlayerTeam1 = new List<int>();
-            GameData.PlayerTeam2 = new List<int>();
+            GameData.Songs.Clear();
+            GameData.Rounds.Clear();
+            GameData.PlayerTeam1.Clear();
+            GameData.PlayerTeam2.Clear();
             return true;
         }
 
@@ -215,7 +217,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _CreateRounds();
                     _SetNumJokers();
                     _PreparePlayerList(0);
-                    _PrepareSongList();
                     break;
                 case EStage.Main:
                     _Stage = EStage.Singing;
@@ -224,7 +225,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case EStage.Singing:
                     _Stage = EStage.Main;
                     GameData.Team = GameData.Team == 1 ? 0 : 1;
-                    _UpdateSongList();
                     _UpdatePlayerList();
                     break;
                 default:
@@ -431,10 +431,23 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
         }
 
-        private void _PrepareSongList()
+        private static void _Shuffle<T>(IList<T> list)
         {
-            var gm = EGameMode.TR_GAMEMODE_NORMAL;
+            for (int n = list.Count - 1; n >= 1; n--)
+            {
+                int k = CBase.Game.GetRandom(n);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
 
+        public void UpdateSongList()
+        {
+            if (GameData.Songs.Count > 0)
+                return;
+
+            EGameMode gm;
             switch (GameData.GameMode)
             {
                 case EPartyGameMode.TR_GAMEMODE_NORMAL:
@@ -448,61 +461,37 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case EPartyGameMode.TR_GAMEMODE_SHORTSONG:
                     gm = EGameMode.TR_GAMEMODE_SHORTSONG;
                     break;
+
+                default:
+                    gm = EGameMode.TR_GAMEMODE_NORMAL;
+                    break;
             }
 
-            while (GameData.Songs.Count < (GameData.NumFields + GameData.NumJokerRandom[0] + GameData.NumJokerRandom[1]))
+            switch (GameData.SongSource)
             {
-                var songs = new List<int>();
-                switch (GameData.SongSource)
-                {
-                    case ESongSource.TR_PLAYLIST:
-                        for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
-                        {
-                            int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
-                            // ReSharper disable LoopCanBeConvertedToQuery
-                            foreach (EGameMode mode in CBase.Songs.GetSongByID(id).AvailableGameModes)
-                                // ReSharper restore LoopCanBeConvertedToQuery
-                            {
-                                if (mode == gm)
-                                    songs.Add(id);
-                            }
-                        }
-                        break;
+                case ESongSource.TR_PLAYLIST:
+                    for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
+                    {
+                        int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
+                        if (CBase.Songs.GetSongByID(id).AvailableGameModes.Contains(gm))
+                            GameData.Songs.Add(id);
+                    }
+                    break;
 
-                    case ESongSource.TR_ALLSONGS:
-                        for (int i = 0; i < CBase.Songs.GetNumSongs(); i++)
-                        {
-                            // ReSharper disable LoopCanBeConvertedToQuery
-                            foreach (EGameMode mode in CBase.Songs.GetSongByID(i).AvailableGameModes)
-                                // ReSharper restore LoopCanBeConvertedToQuery
-                            {
-                                if (mode == gm)
-                                    songs.Add(i);
-                            }
-                        }
-                        break;
+                case ESongSource.TR_ALLSONGS:
+                    ReadOnlyCollection<CSong> avSongs = CBase.Songs.GetSongs();
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(gm)).Select(song => song.ID));
+                    break;
 
-                    case ESongSource.TR_CATEGORY:
-                        CBase.Songs.SetCategory(GameData.CategoryID);
-                        for (int i = 0; i < CBase.Songs.GetNumSongsVisible(); i++)
-                        {
-                            // ReSharper disable LoopCanBeConvertedToQuery
-                            foreach (EGameMode mode in CBase.Songs.GetVisibleSong(i).AvailableGameModes)
-                                // ReSharper restore LoopCanBeConvertedToQuery
-                            {
-                                if (mode == gm)
-                                    songs.Add(CBase.Songs.GetVisibleSong(i).ID);
-                            }
-                        }
-                        CBase.Songs.SetCategory(-1);
-                        break;
-                }
-                while (songs.Count > 0)
-                {
-                    GameData.Songs.Add(songs[CBase.Game.GetRandom(songs.Count - 1)]);
-                    songs.Remove(GameData.Songs[GameData.Songs.Count - 1]);
-                }
+                case ESongSource.TR_CATEGORY:
+                    CBase.Songs.SetCategory(GameData.CategoryID);
+                    avSongs = CBase.Songs.GetVisibleSongs();
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(gm)).Select(song => song.ID));
+
+                    CBase.Songs.SetCategory(-1);
+                    break;
             }
+            _Shuffle(GameData.Songs);
         }
 
         private void _UpdatePlayerList()
@@ -511,12 +500,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _PreparePlayerList(1);
             if (GameData.PlayerTeam2.Count == 0)
                 _PreparePlayerList(2);
-        }
-
-        private void _UpdateSongList()
-        {
-            if (GameData.Songs.Count == 0)
-                _PrepareSongList();
         }
 
         private void _StartRound(int roundNr)
