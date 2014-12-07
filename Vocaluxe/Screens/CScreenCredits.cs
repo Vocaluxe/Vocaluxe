@@ -251,6 +251,7 @@ namespace Vocaluxe.Screens
             }
 
             CBackground bg = new CBackground(_BGTheme, -1);
+            bg.LoadSkin();
             _AddBackground(bg);
 
             //Vocaluxe-Logo

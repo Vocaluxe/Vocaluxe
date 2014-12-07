@@ -667,6 +667,7 @@ namespace VocaluxeLib.Menu
 
             _CurrentTeam = _SelectSlides[_SelectSlideTeams].Selection;
             _UpdatePlayerSlide();
+            _UpdateButtonState();
         }
 
         private void _UpdatePlayerSlide()

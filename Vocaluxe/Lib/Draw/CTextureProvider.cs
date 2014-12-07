@@ -357,7 +357,7 @@ namespace Vocaluxe.Lib.Draw
         /// <returns></returns>
         protected CTextureRef _GetTextureReference(Size origSize, TTextureType texture)
         {
-            Debug.Assert(origSize.Width > 0 && origSize.Height > 0);
+            Debug.Assert(origSize.Width > 0 && origSize.Height > 0 || origSize.Width == -1 && origSize.Height == -1);
             Debug.Assert(texture != null);
             int id;
             lock (_MutexID)

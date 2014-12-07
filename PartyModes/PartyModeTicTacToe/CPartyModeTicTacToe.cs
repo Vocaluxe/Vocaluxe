@@ -17,8 +17,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Runtime.InteropServices;
 using VocaluxeLib.Menu;
+using VocaluxeLib.Songs;
 
 [assembly: ComVisible(false)]
 
@@ -105,7 +108,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             public List<int> Songs;
 
             public int CurrentRoundNr;
-            public int SingRoundNr;
+            public int FieldNr;
 
             public int[] NumJokerRandom;
             public int[] NumJokerRetry;
@@ -136,7 +139,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     PlayerTeam1 = new List<int>(),
                     PlayerTeam2 = new List<int>(),
                     CurrentRoundNr = 0,
-                    SingRoundNr = 0,
+                    FieldNr = 0,
                     SongSource = ESongSource.TR_ALLSONGS,
                     PlaylistID = 0,
                     CategoryID = 0,
@@ -160,10 +163,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (CBase.Config.GetTabs() == EOffOn.TR_CONFIG_ON && _ScreenSongOptions.Sorting.SongSorting != ESongSorting.TR_CONFIG_NONE)
                 _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
 
-            GameData.Songs = new List<int>();
-            GameData.Rounds = new List<CRound>();
-            GameData.PlayerTeam1 = new List<int>();
-            GameData.PlayerTeam2 = new List<int>();
+            GameData.Songs.Clear();
+            GameData.Rounds.Clear();
+            GameData.PlayerTeam1.Clear();
+            GameData.PlayerTeam2.Clear();
             return true;
         }
 
@@ -195,7 +198,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _FadeToScreen()
         {
-            if(CBase.Graphics.GetNextScreen() != _GetNextScreen())
+            if (CBase.Graphics.GetNextScreen() != _GetNextScreen())
                 CBase.Graphics.FadeTo(_GetNextScreen());
         }
 
@@ -214,16 +217,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _CreateRounds();
                     _SetNumJokers();
                     _PreparePlayerList(0);
-                    _PrepareSongList();
                     break;
                 case EStage.Main:
                     _Stage = EStage.Singing;
-                    _StartRound(GameData.SingRoundNr);
+                    _StartRound(GameData.FieldNr);
                     break;
                 case EStage.Singing:
                     _Stage = EStage.Main;
                     GameData.Team = GameData.Team == 1 ? 0 : 1;
-                    _UpdateSongList();
                     _UpdatePlayerList();
                     break;
                 default:
@@ -258,31 +259,22 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override SScreenSongOptions GetScreenSongOptions()
         {
-            _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
-            _ScreenSongOptions.Sorting.Tabs = CBase.Config.GetTabs();
-            _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
-
-            return _ScreenSongOptions;
+            throw new ArgumentException("Not required!");
         }
 
-        // ReSharper disable RedundantAssignment
         public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
-            // ReSharper restore RedundantAssignment
         {
-            screenSongOptions = _ScreenSongOptions;
+            throw new ArgumentException("Not required!");
         }
 
-        // ReSharper disable RedundantAssignment
         public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
-            // ReSharper restore RedundantAssignment
         {
-            screenSongOptions = _ScreenSongOptions;
+            throw new ArgumentException("Not required!");
         }
 
         public override void SetSearchString(string searchString, bool visible)
         {
-            _ScreenSongOptions.Sorting.SearchString = searchString;
-            _ScreenSongOptions.Sorting.SearchActive = visible;
+            throw new ArgumentException("Not required!");
         }
 
         public override int GetMaxPlayer()
@@ -324,25 +316,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override void SongSelected(int songID)
         {
-            var gm = EGameMode.TR_GAMEMODE_NORMAL;
-
-            switch (GameData.GameMode)
-            {
-                case EPartyGameMode.TR_GAMEMODE_NORMAL:
-                    gm = EGameMode.TR_GAMEMODE_NORMAL;
-                    break;
-
-                case EPartyGameMode.TR_GAMEMODE_DUET:
-                    gm = EGameMode.TR_GAMEMODE_DUET;
-                    break;
-
-                case EPartyGameMode.TR_GAMEMODE_SHORTSONG:
-                    gm = EGameMode.TR_GAMEMODE_SHORTSONG;
-                    break;
-            }
-            CBase.Game.AddSong(songID, gm);
-
-            CBase.Graphics.FadeTo(EScreen.Sing);
+            throw new ArgumentException("Not required!");
         }
 
         public override void LeavingHighscore()
@@ -457,10 +431,23 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
         }
 
-        private void _PrepareSongList()
+        private static void _Shuffle<T>(IList<T> list)
         {
-            var gm = EGameMode.TR_GAMEMODE_NORMAL;
+            for (int n = list.Count - 1; n >= 1; n--)
+            {
+                int k = CBase.Game.GetRandom(n);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+        }
 
+        public void UpdateSongList()
+        {
+            if (GameData.Songs.Count > 0)
+                return;
+
+            EGameMode gm;
             switch (GameData.GameMode)
             {
                 case EPartyGameMode.TR_GAMEMODE_NORMAL:
@@ -474,61 +461,37 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case EPartyGameMode.TR_GAMEMODE_SHORTSONG:
                     gm = EGameMode.TR_GAMEMODE_SHORTSONG;
                     break;
+
+                default:
+                    gm = EGameMode.TR_GAMEMODE_NORMAL;
+                    break;
             }
 
-            while (GameData.Songs.Count < (GameData.NumFields + GameData.NumJokerRandom[0] + GameData.NumJokerRandom[1]))
+            switch (GameData.SongSource)
             {
-                var songs = new List<int>();
-                switch (GameData.SongSource)
-                {
-                    case ESongSource.TR_PLAYLIST:
-                        for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
-                        {
-                            int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
-                            // ReSharper disable LoopCanBeConvertedToQuery
-                            foreach (EGameMode mode in CBase.Songs.GetSongByID(id).AvailableGameModes)
-                                // ReSharper restore LoopCanBeConvertedToQuery
-                            {
-                                if (mode == gm)
-                                    songs.Add(id);
-                            }
-                        }
-                        break;
+                case ESongSource.TR_PLAYLIST:
+                    for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
+                    {
+                        int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
+                        if (CBase.Songs.GetSongByID(id).AvailableGameModes.Contains(gm))
+                            GameData.Songs.Add(id);
+                    }
+                    break;
 
-                    case ESongSource.TR_ALLSONGS:
-                        for (int i = 0; i < CBase.Songs.GetNumSongs(); i++)
-                        {
-                            // ReSharper disable LoopCanBeConvertedToQuery
-                            foreach (EGameMode mode in CBase.Songs.GetSongByID(i).AvailableGameModes)
-                                // ReSharper restore LoopCanBeConvertedToQuery
-                            {
-                                if (mode == gm)
-                                    songs.Add(i);
-                            }
-                        }
-                        break;
+                case ESongSource.TR_ALLSONGS:
+                    ReadOnlyCollection<CSong> avSongs = CBase.Songs.GetSongs();
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(gm)).Select(song => song.ID));
+                    break;
 
-                    case ESongSource.TR_CATEGORY:
-                        CBase.Songs.SetCategory(GameData.CategoryID);
-                        for (int i = 0; i < CBase.Songs.GetNumSongsVisible(); i++)
-                        {
-                            // ReSharper disable LoopCanBeConvertedToQuery
-                            foreach (EGameMode mode in CBase.Songs.GetVisibleSong(i).AvailableGameModes)
-                                // ReSharper restore LoopCanBeConvertedToQuery
-                            {
-                                if (mode == gm)
-                                    songs.Add(CBase.Songs.GetVisibleSong(i).ID);
-                            }
-                        }
-                        CBase.Songs.SetCategory(-1);
-                        break;
-                }
-                while (songs.Count > 0)
-                {
-                    GameData.Songs.Add(songs[CBase.Game.GetRandom(songs.Count - 1)]);
-                    songs.Remove(GameData.Songs[GameData.Songs.Count - 1]);
-                }
+                case ESongSource.TR_CATEGORY:
+                    CBase.Songs.SetCategory(GameData.CategoryID);
+                    avSongs = CBase.Songs.GetVisibleSongs();
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(gm)).Select(song => song.ID));
+
+                    CBase.Songs.SetCategory(-1);
+                    break;
             }
+            _Shuffle(GameData.Songs);
         }
 
         private void _UpdatePlayerList()
@@ -537,12 +500,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _PreparePlayerList(1);
             if (GameData.PlayerTeam2.Count == 0)
                 _PreparePlayerList(2);
-        }
-
-        private void _UpdateSongList()
-        {
-            if (GameData.Songs.Count == 0)
-                _PrepareSongList();
         }
 
         private void _StartRound(int roundNr)
@@ -559,8 +516,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (players.Length < 2)
                 return;
 
-            CRound r = GameData.Rounds[roundNr];
-            bool isDuet = CBase.Songs.GetSongByID(r.SongID).IsDuet;
+            CRound round = GameData.Rounds[roundNr];
+            bool isDuet = CBase.Songs.GetSongByID(round.SongID).IsDuet;
 
             for (int i = 0; i < 2; i++)
             {
@@ -569,18 +526,31 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
 
             //try to fill with the right data
-            if (r != null)
+            players[0].ProfileID = GameData.ProfileIDsTeam1[round.SingerTeam1];
+            if (isDuet)
+                players[0].VoiceNr = 0;
+
+            players[1].ProfileID = GameData.ProfileIDsTeam2[round.SingerTeam2];
+            if (isDuet)
+                players[1].VoiceNr = 1;
+
+            var gm = EGameMode.TR_GAMEMODE_NORMAL;
+
+            switch (GameData.GameMode)
             {
-                players[0].ProfileID = GameData.ProfileIDsTeam1[r.SingerTeam1];
-                if (isDuet)
-                    players[0].VoiceNr = 0;
+                case EPartyGameMode.TR_GAMEMODE_NORMAL:
+                    gm = EGameMode.TR_GAMEMODE_NORMAL;
+                    break;
 
-                players[1].ProfileID = GameData.ProfileIDsTeam2[r.SingerTeam2];
-                if (isDuet)
-                    players[1].VoiceNr = 1;
+                case EPartyGameMode.TR_GAMEMODE_DUET:
+                    gm = EGameMode.TR_GAMEMODE_DUET;
+                    break;
 
-                SongSelected(r.SongID);
+                case EPartyGameMode.TR_GAMEMODE_SHORTSONG:
+                    gm = EGameMode.TR_GAMEMODE_SHORTSONG;
+                    break;
             }
+            CBase.Game.AddSong(round.SongID, gm);
         }
 
         private void _SetNumJokers()
@@ -612,7 +582,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _UpdateScores()
         {
-            if (!GameData.Rounds[GameData.SingRoundNr].Finished)
+            if (!GameData.Rounds[GameData.FieldNr].Finished)
                 GameData.CurrentRoundNr++;
 
             SPlayer[] results = CBase.Game.GetPlayers();
@@ -622,16 +592,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (results.Length < 2)
                 return;
 
-            GameData.Rounds[GameData.SingRoundNr].PointsTeam1 = (int)Math.Round(results[0].Points);
-            GameData.Rounds[GameData.SingRoundNr].PointsTeam2 = (int)Math.Round(results[1].Points);
-            GameData.Rounds[GameData.SingRoundNr].Finished = true;
-            if (GameData.Rounds[GameData.SingRoundNr].PointsTeam1 < GameData.Rounds[GameData.SingRoundNr].PointsTeam2)
-                GameData.Rounds[GameData.SingRoundNr].Winner = 2;
-            else if (GameData.Rounds[GameData.SingRoundNr].PointsTeam1 > GameData.Rounds[GameData.SingRoundNr].PointsTeam2)
-                GameData.Rounds[GameData.SingRoundNr].Winner = 1;
+            GameData.Rounds[GameData.FieldNr].PointsTeam1 = (int)Math.Round(results[0].Points);
+            GameData.Rounds[GameData.FieldNr].PointsTeam2 = (int)Math.Round(results[1].Points);
+            GameData.Rounds[GameData.FieldNr].Finished = true;
+            if (GameData.Rounds[GameData.FieldNr].PointsTeam1 < GameData.Rounds[GameData.FieldNr].PointsTeam2)
+                GameData.Rounds[GameData.FieldNr].Winner = 2;
+            else if (GameData.Rounds[GameData.FieldNr].PointsTeam1 > GameData.Rounds[GameData.FieldNr].PointsTeam2)
+                GameData.Rounds[GameData.FieldNr].Winner = 1;
             else
             {
-                GameData.Rounds[GameData.SingRoundNr].Finished = false;
+                GameData.Rounds[GameData.FieldNr].Finished = false;
                 GameData.CurrentRoundNr--;
             }
         }
