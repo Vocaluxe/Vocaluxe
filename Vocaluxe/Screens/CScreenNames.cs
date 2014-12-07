@@ -261,6 +261,7 @@ namespace Vocaluxe.Screens
                         //Reset all values
                         _SelectingFastPlayerNr = 0;
                         _SelectingKeyboardActive = false;
+                        _SelectElement(_SelectSlides[_SelectSlidePlayerNumber]);
                         _NameSelections[_NameSelection].FastSelection(false, -1);
                     }
                     else if (numberPressed <= CConfig.Config.Game.NumPlayers)
@@ -333,7 +334,6 @@ namespace Vocaluxe.Screens
                 if (_NameSelections[_NameSelection].Selected && !_SelectingKeyboardActive)
                 {
                     _SelectingKeyboardActive = true;
-                    _ResetPlayerSelections();
                     _SelectingFast = true;
                     _SelectingFastPlayerNr = 1;
                     _SelectingKeyboardActive = true;

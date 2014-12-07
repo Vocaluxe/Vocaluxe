@@ -24,6 +24,17 @@ namespace VocaluxeLib.Menu
 {
     public abstract class CMenuPartyNameSelection : CMenuParty
     {
+        private bool _AllPlayerSelected
+        {
+            get
+            {
+                for (int team = 0; team < _NumTeams; team++)
+                    if (_TeamList[team].Count < _NumPlayerTeams[team])
+                        return false;
+                return true;
+            }
+        }
+
         private bool _Teams;
         protected int _NumTeams = -1;
         protected int _NumPlayer = -1;
@@ -99,12 +110,14 @@ namespace VocaluxeLib.Menu
             _LoadProfiles();
             _UpdateButtonVisibility();
             _UpdateButtonState();
+            _UpdateNextButtonVisibility();
         }
 
         public void SetPartyModeProfiles(List<int>[] teamProfiles)
         {
             _TeamList = teamProfiles;
             _UpdateSlides();
+            _UpdateNextButtonVisibility();
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -547,6 +560,7 @@ namespace VocaluxeLib.Menu
 
             _UpdateButtonVisibility();
             _UpdateButtonState();
+            _UpdateNextButtonVisibility();
         }
 
         public abstract void Back();
@@ -716,6 +730,7 @@ namespace VocaluxeLib.Menu
             _TeamList[team].Add(profileID);
 
             _UpdatePlayerSlide();
+            _UpdateNextButtonVisibility();
         }
 
         private void _RemoveAllPlayer()
@@ -737,12 +752,16 @@ namespace VocaluxeLib.Menu
                 _TeamList[team].RemoveAt(index);
                 _NameSelections[_NameSelection].RemoveUsedProfile(id);
             }
+
+            _UpdateNextButtonVisibility();
         }
 
         private void _RemovePlayer(int team, int profileID)
         {
             _TeamList[team].Remove(profileID);
             _NameSelections[_NameSelection].RemoveUsedProfile(profileID);
+
+            _UpdateNextButtonVisibility();
         }
 
         private void _SelectRandom()
@@ -756,6 +775,11 @@ namespace VocaluxeLib.Menu
                     _AddPlayer(t, profileID);
                 }
             }
+        }
+
+        private void _UpdateNextButtonVisibility()
+        {
+            _Buttons[_ButtonNext].Visible = _AllPlayerSelected;
         }
         #endregion
     }

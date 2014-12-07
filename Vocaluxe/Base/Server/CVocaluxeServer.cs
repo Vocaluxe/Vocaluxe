@@ -88,6 +88,8 @@ namespace Vocaluxe.Base.Server
             CServer.RemovePlaylist = _RemovePlaylist;
             CServer.AddPlaylist = _AddPlaylist;
 
+            Start();
+
             //_Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
         }
 

@@ -261,7 +261,7 @@ namespace VocaluxeLib.Menu
                      float rheight = 0,
                      float rspace = 0) : this(partyModeID)
         {
-            _Theme = new SThemeText {FontFamily = fontFamily, FontStyle = style, FontHeight = h, Text = text};
+            _Theme = new SThemeText { FontFamily = fontFamily, FontStyle = style, FontHeight = h, Text = text, Color = { A = col.A, B = col.B, G = col.G, R = col.R } };
             ThemeLoaded = false;
             _ButtonText = false;
 

@@ -139,7 +139,7 @@ namespace VocaluxeLib.Profile
                 if (filename == "")
                     filename = "1";
 
-                FilePath = Path.Combine(CBase.Settings.GetDataPath(), CBase.Settings.GetFolderProfiles(), CHelper.GetUniqueFileName(FilePath, filename + ".xml", false));
+                FilePath = CHelper.GetUniqueFileName(Path.Combine(CBase.Settings.GetDataPath(), CBase.Settings.GetFolderProfiles()), filename + ".xml");
             }
 
             var xml = new CXmlSerializer();

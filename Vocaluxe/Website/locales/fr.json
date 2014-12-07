@@ -17,7 +17,7 @@
     "mainPageTakePhotoLink": "Prendre une photo",
     "mainPageTakePhotoLinkDesc": "Prends une photo et l'affiche à la fin de la partie actuelle",
     "mainPageKeyboard": "Clavier",
-    "mainPageKeyboardDesc": "Envoyer la clé",
+    "mainPageKeyboardDesc": "Envoyer les caractères",
     "mainPageSelectUserAdmin": "Administration",
     "mainPageSelectUserAdminDesc": "Configurer les droits administrateurs",
     "mainPageLogoutLink": "Se déconnecter",
@@ -50,7 +50,7 @@
     "keyboardButtonEscape": "echappe",
     "keyboardButtonTab": "tabulation",
     "keyboardButtonReturn": "Retour",
-    "keyboardButtonKeys": "Pour envoyer d'autres clé, taper ici :",
+    "keyboardButtonKeys": "Pour envoyer d'autres caractères, taper ici :",
     "selectUserAdminHeader": "Tous les profils",
     "displayUserAdminHeader": "Profil",
     "displayUserAdminContentSaveButton": "Sauvegarder",
@@ -76,5 +76,11 @@
     "discoverConnectServerAddress": "Adresse du serveur :",
     "discoverConnectButton": "Connecter",
     "Checking...": "Vérification",
-    "timeout": "Temps dépassé"
+    "timeout": "Temps dépassé",
+    "keyboardButtonShift": "Maj.",
+    "keyboardButtonAlt": "Alt",
+    "keyboardButtonCtrl": "Controle",
+    "keyboardButtonBackspace": "Retour",
+    "keyboardAutoSend": "Envoyer la saisie automatiquement",
+    "keyboardButtonSend": "Envoyer"
 }

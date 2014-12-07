@@ -1,7 +1,13 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Italiano</string>
-  <string name="TR_PARTYMODE_NAME">Tic-Tac-Toe</string>
+  <string name="TR_PARTYMODE_NAME">Tris</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Gioca a Tris in un modo speciale</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Turni di gioco divertenti per strategia, abilità e fortuna</string>
+  <string name="TR_BUTTON_NEXT">Prossimo</string>
+  <string name="TR_BUTTON_BACK">Indietro</string>
+  <string name="TR_BUTTON_START">Inizia</string>
+  <string name="TR_BUTTON_EXIT">Esci</string>
   <string name="TR_BUTTON_YES">Si</string>
   <string name="TR_BUTTON_NO">No</string>
   <string name="TR_BUTTON_NEXT_ROUND">Inizia</string>
@@ -10,8 +16,20 @@
   <string name="TR_PLAYLIST">Playlist</string>
   <string name="TR_CATEGORY">Categoria</string>
   <string name="TR_ALLSONGS">Tutte le canzoni</string>
+  <string name="TR_SCREENCONFIG_TITLE">Tris: Configurazione</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Numero di giocatori della squadra 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Numero di giocatori della squadra 2</string>
+  <string name="TR_SCREENCONFIG_NUMFIELDS">Numero di caselle</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Sorgente della Canzone</string>
+  <string name="TR_SCREENCONFIG_GAMEMODE">Modalità di Gioco</string>
+  <string name="TR_SCREENNAMES_TITLE">Tris: Scegli il Giocatore</string>
   <string name="TR_SCREENNAMES_TEAM1">Squadra 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Squadra 2</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Selezione casuale</string>
-  <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
+  <string name="TR_SCREENMAIN_TITLE">Tris</string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Scegli una casella.</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Prossimo giocatore</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Vuoi veramente uscire dal Tris?</string>
+  <string name="TR_SCREENMAIN_WINNER">E il vincitore è...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Non c\'è nessun vincitore in questo turno...</string>
 </resources>

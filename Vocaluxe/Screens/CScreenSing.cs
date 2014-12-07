@@ -894,6 +894,10 @@ namespace Vocaluxe.Screens
 
             _Statics[_StaticLyricsDuet].Alpha = 0f;
             _Statics[_StaticLyricHelperDuet].Alpha = 0f;
+
+            _Statics[_StaticTimeLine].Visible = CConfig.Config.Theme.TimerLook == ETimerLook.TR_CONFIG_TIMERLOOK_NORMAL;
+            _Statics[_StaticTimeLineExpandedHighlighted].Visible = false;
+            _Statics[_StaticTimeLineExpandedNormal].Visible = false;
         }
 
         private void _UpdateMedleyCountdown()

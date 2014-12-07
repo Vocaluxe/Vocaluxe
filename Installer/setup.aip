@@ -19,7 +19,7 @@
     <ROW Property="ARPSYSTEMCOMPONENT" Value="1"/>
     <ROW Property="ARPURLINFOABOUT" Value="www.vocaluxe.org"/>
     <ROW Property="BannerBitmap" Value="banner" MultiBuildValue="DefaultBuild:banner.jpg" Type="1" MsiKey="BannerBitmap"/>
-    <ROW Property="CTRLS" Value="2"/>
+    <ROW Property="CTRLS" Value="3"/>
     <ROW Property="DialogBitmap" Value="dialog" MultiBuildValue="DefaultBuild:dialog.jpg" Type="1" MsiKey="DialogBitmap"/>
     <ROW Property="Manufacturer" Value="Vocaluxe Team"/>
     <ROW Property="ProductCode" Value="1031:{6F739A39-4176-4B04-963E-EB795C92500C} 1055:{435EE1A8-3B5C-491E-902D-C832B8A35EAF} 1033:{0E70A564-F59D-4416-9204-8251148FC233} 1043:{E3F45D8B-BCA9-4E3E-AB81-1C434123EA1A} 1036:{43220506-39C8-4036-9A80-19C0A31C602D} 1038:{BBC1C7B6-8D91-45E7-89A4-2AFAECCBDF83} 1029:{56D06188-C172-4BBA-B9B2-275F7F969DEB} 1053:{207C81B6-7382-48DB-BA8B-BD65A60163BC} 3082:{2F040ED1-129B-41C4-A69A-A83455899E5A} 1040:{724EC6B8-3F68-45D9-A93D-11731BE438A5} " Type="16"/>
@@ -35,9 +35,12 @@
     <ROW Directory="AForge_Dir" Directory_Parent="Licenses_Dir" DefaultDir="AForge" DirectoryOptions="12"/>
     <ROW Directory="AI_Bin32_Dir" Directory_Parent="APPDIR" DefaultDir="x86" DirectoryOptions="12"/>
     <ROW Directory="APPDIR" Directory_Parent="TARGETDIR" DefaultDir="APPDIR:." IsPseudoRoot="1" DirectoryOptions="12"/>
+    <ROW Directory="AmbientBlue_Dir" Directory_Parent="Cover_Dir" DefaultDir="Ambien~1|Ambient Blue" DirectoryOptions="12"/>
+    <ROW Directory="AmbientGreen_Dir" Directory_Parent="Cover_Dir" DefaultDir="Ambien~2|Ambient Green" DirectoryOptions="12"/>
+    <ROW Directory="AmbientRed_Dir" Directory_Parent="Cover_Dir" DefaultDir="Ambien~3|Ambient Red" DirectoryOptions="12"/>
+    <ROW Directory="AmbientYellow_Dir" Directory_Parent="Cover_Dir" DefaultDir="Ambien~4|Ambient Yellow" DirectoryOptions="12"/>
     <ROW Directory="Ambient_Dir" Directory_Parent="Themes_Dir" DefaultDir="Ambient" DirectoryOptions="12"/>
     <ROW Directory="BackgroundMusic_Dir" Directory_Parent="APPDIR" DefaultDir="Backgr~1|BackgroundMusic" DirectoryOptions="12"/>
-    <ROW Directory="Blue_Dir" Directory_Parent="Cover_Dir" DefaultDir="Blue" DirectoryOptions="12"/>
     <ROW Directory="ChallengeMedley_Dir" Directory_Parent="PartyModes_Dir" DefaultDir="Challe~2|ChallengeMedley" DirectoryOptions="12"/>
     <ROW Directory="Challenge_Dir" Directory_Parent="PartyModes_Dir" DefaultDir="Challe~1|Challenge" DirectoryOptions="12"/>
     <ROW Directory="Changelog_Dir" Directory_Parent="Themes_Dir" DefaultDir="Change~1|Changelog" DirectoryOptions="12"/>
@@ -64,7 +67,10 @@
     <ROW Directory="Profiles_Dir" Directory_Parent="APPDIR" DefaultDir="Profiles" DirectoryOptions="12"/>
     <ROW Directory="ProgramMenuFolder" Directory_Parent="TARGETDIR" DefaultDir="Progra~1|ProgramMenuFolder" IsPseudoRoot="1"/>
     <ROW Directory="QRCoder_Dir" Directory_Parent="Licenses_Dir" DefaultDir="QRCode~1|QR Coder" DirectoryOptions="12"/>
-    <ROW Directory="Resources_Dir" Directory_Parent="Blue_Dir" DefaultDir="Resour~1|Resources" DirectoryOptions="12"/>
+    <ROW Directory="Resources_1_Dir" Directory_Parent="AmbientGreen_Dir" DefaultDir="Resour~1|Resources" DirectoryOptions="12"/>
+    <ROW Directory="Resources_2_Dir" Directory_Parent="AmbientRed_Dir" DefaultDir="Resour~1|Resources" DirectoryOptions="12"/>
+    <ROW Directory="Resources_3_Dir" Directory_Parent="AmbientYellow_Dir" DefaultDir="Resour~1|Resources" DirectoryOptions="12"/>
+    <ROW Directory="Resources_Dir" Directory_Parent="AmbientBlue_Dir" DefaultDir="Resour~1|Resources" DirectoryOptions="12"/>
     <ROW Directory="SHORTCUTDIR" Directory_Parent="TARGETDIR" DefaultDir="SHORTC~1|SHORTCUTDIR" IsPseudoRoot="1"/>
     <ROW Directory="Screens_1_Dir" Directory_Parent="Default_1_Dir" DefaultDir="Screens" DirectoryOptions="12"/>
     <ROW Directory="Screens_3_Dir" Directory_Parent="Ambient_Dir" DefaultDir="Screens" DirectoryOptions="12"/>
@@ -97,13 +103,16 @@
     <ROW Component="APPDIR" ComponentId="{72BE02D1-0943-4177-B302-815DA7754FA8}" Directory_="APPDIR" Attributes="0"/>
     <ROW Component="Ambient" ComponentId="{DC7427AB-12EF-452E-94C1-7309632BBDDD}" Directory_="Ambient_Dir" Attributes="0"/>
     <ROW Component="Ambient.xml" ComponentId="{0213554B-EF23-4655-8B64-92EFE66F1425}" Directory_="Themes_Dir" Attributes="0" KeyPath="Ambient.xml" Type="0"/>
+    <ROW Component="AmbientBlue" ComponentId="{82D7FE41-AC46-4C11-A4B0-7549CC4CF0C5}" Directory_="AmbientBlue_Dir" Attributes="0"/>
+    <ROW Component="AmbientBlue.xml" ComponentId="{262E1B4E-ED9F-4CFB-9D54-41BFCA79D32D}" Directory_="Cover_Dir" Attributes="0" KeyPath="AmbientBlue.xml" Type="0"/>
+    <ROW Component="AmbientGreen" ComponentId="{D2BE1634-32DF-4753-A269-95C328BE1692}" Directory_="AmbientGreen_Dir" Attributes="0"/>
+    <ROW Component="AmbientRed" ComponentId="{0A9D09CF-9D5F-44B2-B3A6-C31798103F9C}" Directory_="AmbientRed_Dir" Attributes="0"/>
+    <ROW Component="AmbientYellow" ComponentId="{96A50396-9BDE-4865-BE00-750C65CF0471}" Directory_="AmbientYellow_Dir" Attributes="0"/>
     <ROW Component="Asturian.xml" ComponentId="{A1214E0E-6378-4402-B16D-DEE6B41630A2}" Directory_="Languages_1_Dir" Attributes="0" KeyPath="Asturian.xml_1" Type="0"/>
     <ROW Component="Asturian.xml_1" ComponentId="{045C3BEA-DE7A-4260-A754-18502F28288B}" Directory_="Languages_2_Dir" Attributes="0" KeyPath="Asturian.xml_2" Type="0"/>
     <ROW Component="Asturian.xml_2" ComponentId="{634399A5-CEAF-489D-A850-A105B2657DB6}" Directory_="Languages_4_Dir" Attributes="0" KeyPath="Asturian.xml_3" Type="0"/>
     <ROW Component="Avatar_f.png" ComponentId="{46E859E0-8764-4B14-9193-2DA48ADB2CA7}" Directory_="Profiles_Dir" Attributes="0" KeyPath="Avatar_f.png" Type="0"/>
     <ROW Component="BackgroundMusic" ComponentId="{73CD8D8F-F612-476A-B38E-1FEE0F8711A7}" Directory_="BackgroundMusic_Dir" Attributes="0"/>
-    <ROW Component="Blue" ComponentId="{867F9F81-FB29-4B94-89A0-6B555414767A}" Directory_="Blue_Dir" Attributes="0"/>
-    <ROW Component="Blue.xml" ComponentId="{0C838877-B4FB-4C77-A2C1-C6B9B0A8ADAF}" Directory_="Cover_Dir" Attributes="0" KeyPath="Blue.xml" Type="0"/>
     <ROW Component="BlueBG_Video.mp4" ComponentId="{1FE452C4-3B93-423F-84D4-CD8B736AC956}" Directory_="Ambient_Dir" Attributes="0" KeyPath="BlueBG_Video.mp4_3"/>
     <ROW Component="BlueIntroIn.mp4" ComponentId="{2FC2D1B3-D2FB-46D0-BC7D-5189E12F46DA}" Directory_="Ambient_Dir" Attributes="0" KeyPath="BlueIntroIn.mp4"/>
     <ROW Component="BlueIntroMid.mp4" ComponentId="{B6B15798-C829-48EE-817A-DF9CFAD42870}" Directory_="Ambient_Dir" Attributes="0" KeyPath="BlueIntroMid.mp4"/>
@@ -158,6 +167,14 @@
     <ROW Component="Logo.png" ComponentId="{2E8C0ABB-13CC-4A6E-A948-16C6E576F2EC}" Directory_="Graphics_Dir" Attributes="0" KeyPath="Logo.png" Type="0"/>
     <ROW Component="Newtonsoft.Json" ComponentId="{0433930F-8A4C-4275-9F8D-4FBDEF8C44FB}" Directory_="Newtonsoft.Json_Dir" Attributes="0"/>
     <ROW Component="Newtonsoft.Json.dll" ComponentId="{F20947AC-7914-4EA0-AD43-F657A1CD89AC}" Directory_="APPDIR" Attributes="0" KeyPath="Newtonsoft.Json.dll"/>
+    <ROW Component="NoCover.png" ComponentId="{D1EB057B-A994-44BE-8BC7-700A5197F0C2}" Directory_="AmbientBlue_Dir" Attributes="0" KeyPath="NoCover.png" Type="0"/>
+    <ROW Component="NoCover.png_1" ComponentId="{FEE00209-2BDB-4F70-91C5-EDAD19A3E3A6}" Directory_="AmbientGreen_Dir" Attributes="0" KeyPath="NoCover.png_2" Type="0"/>
+    <ROW Component="NoCover.png_2" ComponentId="{9C4B66C6-DCFC-4426-AC04-30B549BFE89C}" Directory_="AmbientRed_Dir" Attributes="0" KeyPath="NoCover.png_3" Type="0"/>
+    <ROW Component="NoCover.png_3" ComponentId="{2B554C6C-19B0-4743-9C60-5A69F2157722}" Directory_="AmbientYellow_Dir" Attributes="0" KeyPath="NoCover.png_4" Type="0"/>
+    <ROW Component="Normal.psd" ComponentId="{50E3E3E1-170B-4D41-981A-E8C2B31FE2CE}" Directory_="Resources_Dir" Attributes="0" KeyPath="Normal.psd" Type="0"/>
+    <ROW Component="Normal.psd_1" ComponentId="{08F16FE4-9BE5-47CA-BB9C-D5ED7D38B600}" Directory_="Resources_1_Dir" Attributes="0" KeyPath="Normal.psd_1" Type="0"/>
+    <ROW Component="Normal.psd_2" ComponentId="{EAA42EA7-B982-4118-869B-A09119D0B752}" Directory_="Resources_2_Dir" Attributes="0" KeyPath="Normal.psd_2" Type="0"/>
+    <ROW Component="Normal.psd_3" ComponentId="{0404BA00-6962-4950-A8D6-51F7754026CD}" Directory_="Resources_3_Dir" Attributes="0" KeyPath="Normal.psd_3" Type="0"/>
     <ROW Component="OpenTK.Compatibility.dll" ComponentId="{0F3041E7-B21A-4F65-82BA-866D524DB1D5}" Directory_="APPDIR" Attributes="0" KeyPath="OpenTK.Compatibility.dll"/>
     <ROW Component="OpenTK.GLControl.dll" ComponentId="{6D360081-5F26-4D8D-834B-5C77EB5E65D1}" Directory_="APPDIR" Attributes="0" KeyPath="OpenTK.GLControl.dll"/>
     <ROW Component="OpenTK.dll" ComponentId="{61840A8C-9EEF-4986-82BA-D42DF6FAA88C}" Directory_="APPDIR" Attributes="0" KeyPath="OpenTK.dll"/>
@@ -180,7 +197,10 @@
     <ROW Component="RedIntroIn.mp4" ComponentId="{4D8493D8-8939-4AE6-9FF6-0659E405457C}" Directory_="Ambient_Dir" Attributes="0" KeyPath="RedIntroIn.mp4"/>
     <ROW Component="RedIntroMid.mp4" ComponentId="{9BE05B9D-0DD5-4EA5-B645-A756558C41FC}" Directory_="Ambient_Dir" Attributes="0" KeyPath="RedIntroMid.mp4"/>
     <ROW Component="RedIntroOut.mp4" ComponentId="{9012D3A7-EBBE-4C26-998E-2DCC63E42BF4}" Directory_="Ambient_Dir" Attributes="0" KeyPath="RedIntroOut.mp4"/>
-    <ROW Component="Resources" ComponentId="{9746A1A0-9044-4B3E-B048-4B229680FF3C}" Directory_="Resources_Dir" Attributes="0"/>
+    <ROW Component="Resources" ComponentId="{BBF24917-8471-4BB9-AA10-986CEEE4EA99}" Directory_="Resources_Dir" Attributes="0"/>
+    <ROW Component="Resources_1" ComponentId="{C6C0BBB6-6A94-4C7C-B357-51BA2D92319A}" Directory_="Resources_1_Dir" Attributes="0"/>
+    <ROW Component="Resources_2" ComponentId="{D2B65565-37D1-4654-9B94-CCCC93A52894}" Directory_="Resources_2_Dir" Attributes="0"/>
+    <ROW Component="Resources_3" ComponentId="{9FF61E04-C304-4C05-B804-6EB59462605A}" Directory_="Resources_3_Dir" Attributes="0"/>
     <ROW Component="SHORTCUTDIR" ComponentId="{C10A4597-B766-410E-85C0-425F13FD363A}" Directory_="SHORTCUTDIR" Attributes="0"/>
     <ROW Component="SQLite.Interop.dll_5" ComponentId="{041B75EB-EF2C-4AC3-8ED3-925DAB1784C1}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="SQLite.Interop.dll_5"/>
     <ROW Component="SQLite.Interop.dll_6" ComponentId="{E323C9DC-5634-4D17-A077-7A197DBBF907}" Directory_="x64_Dir" Attributes="256" KeyPath="SQLite.Interop.dll_6"/>
@@ -223,7 +243,6 @@
     <ROW Component="copyright.txt" ComponentId="{8A49A724-A0ED-438B-BBC1-E53AAF91CF1C}" Directory_="PortAudioSharp_Dir" Attributes="0" KeyPath="copyright.txt" Type="0"/>
     <ROW Component="cs.json" ComponentId="{7BB106A9-E26B-4162-AF75-602D9EBD6AE8}" Directory_="locales_Dir" Attributes="0" KeyPath="cs.json" Type="0"/>
     <ROW Component="css" ComponentId="{4382981E-81CA-470E-8DF1-55A9CF3F814C}" Directory_="css_Dir" Attributes="0"/>
-    <ROW Component="decades.xcf" ComponentId="{E0C77AE2-6192-4B17-BBF0-CD2D5B619155}" Directory_="Resources_Dir" Attributes="0" KeyPath="decades.xcf" Type="0"/>
     <ROW Component="glibsharp.dll" ComponentId="{CFF6C74B-8820-4886-9F29-28E683792064}" Directory_="APPDIR" Attributes="0" KeyPath="glibsharp.dll"/>
     <ROW Component="gpl3.0.txt" ComponentId="{95A03EDD-DD51-472D-9C9D-E6352A0ABC82}" Directory_="AForge_Dir" Attributes="0" KeyPath="gpl3.0.txt" Type="0"/>
     <ROW Component="gstreamersharp.dll" ComponentId="{8FB927DE-6137-4C37-9872-A1333016D9B1}" Directory_="APPDIR" Attributes="0" KeyPath="gstreamersharp.dll"/>
@@ -238,7 +257,6 @@
     <ROW Component="libgstreamersharpglue1.0.0.dll" ComponentId="{1F031537-E1C8-4DB3-84C0-C8C0A39FA975}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="libgstreamersharpglue1.0.0.dll"/>
     <ROW Component="libgstreamersharpglue1.0.0.dll_1" ComponentId="{34F4482C-E766-4C83-8FBF-DD11CA6CF2FA}" Directory_="x64_Dir" Attributes="256" KeyPath="libgstreamersharpglue1.0.0.dll_1"/>
     <ROW Component="locales" ComponentId="{0E263FC0-1ADF-4EF4-B02D-183BF7F2C4B2}" Directory_="locales_Dir" Attributes="0"/>
-    <ROW Component="png" ComponentId="{804F4EFE-B9A8-4543-ADE3-4ADA12AAFF2F}" Directory_="Blue_Dir" Attributes="0" KeyPath="png" Type="0"/>
     <ROW Component="swresample0.dll_5" ComponentId="{47770C0D-03C4-4D7B-BB80-D0BB89D87951}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="swresample0.dll_5"/>
     <ROW Component="swresample0.dll_6" ComponentId="{9737B32B-C0AC-4569-B0F4-0E693D69CF95}" Directory_="x64_Dir" Attributes="256" KeyPath="swresample0.dll_6"/>
     <ROW Component="swscale2.dll_5" ComponentId="{C636390C-6929-49B4-ABD2-BE83FBF12354}" Directory_="AI_Bin32_Dir" Attributes="0" KeyPath="swscale2.dll_5"/>
@@ -247,26 +265,27 @@
     <ROW Component="x86" ComponentId="{F2634242-1280-4509-B10E-234D7BF81FA4}" Directory_="AI_Bin32_Dir" Attributes="0"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFeatsComponent">
-    <ROW Feature="AI32BitFiles" Title="32-bit" Description="32-bit Executables and Libraries" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="SQLite.Interop.dll_5 SlimDX.dll_5 System.Data.SQLite.dll Vocaluxe.exe.config Vocaluxe.exe_2 acinerella.dll_5 avcodec54.dll_5 avformat54.dll_5 avutil52.dll_5 hidapi.dll_5 swresample0.dll_5 swscale2.dll_5"/>
-    <ROW Feature="AI64BitFiles" Title="64-bit" Description="64-bit Executables and Libraries" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="SQLite.Interop.dll_6 SlimDX.dll_6 System.Data.SQLite.dll_3 Vocaluxe_x64.exe Vocaluxe_x64.exe.config acinerella.dll_6 avcodec54.dll_6 avformat54.dll_6 avutil52.dll_6 hidapi.dll_6 swresample0.dll_6 swscale2.dll_6"/>
-    <ROW Feature="AIOtherFiles" Title="Common" Description="Shared Resource and Regular Files" Display="5" Level="1" Directory_="APPDIR" Attributes="16" Components="AForge AForge.Video.DirectShow.dll AForge.Video.dll AIShRegAnswer Ambient Ambient.xml Asturian.xml Asturian.xml_1 Asturian.xml_2 Avatar_f.png BackgroundMusic Blue Blue.xml Button.png_3 CChallengeRounds.cs CChallengeRounds.cs_1 CPartyModeTicTacToe.cs Challenge Challenge.xml ChallengeMedley Changelog Changelog_ScreenHighscore.txt ClientServerLib.dll Code Code_1 Code_4 Community.CsharpSqlite.dll Cover DJadWalkingAloneLicense.txt Default Default.xml Default.xml_1 Default.xml_2 Default.xml_3 Default.xml_4 Default.xml_5 Default_1 Default_2 Dutch.xml Fonts Fonts.xml FreeSans FreeSans.ttf Graphics Hz.mp3 InstallLanguage Interop.NetFwTypeLib.dll LICENSE.txt LICENSE.txt_1 LICENSENewtonsoft.Json.txt Languages Languages_1 Languages_2 Languages_4 License.txt Licenses Logo.png Newtonsoft.Json Newtonsoft.Json.dll OpenTK.Compatibility.dll OpenTK.GLControl.dll OpenTK.dll PartyModes PartyScreenChallengeConfig.xml PartyScreenChallengeMedleyConfig.xml PartyScreenTicTacToeConfig.xml PopupScreenPlayerControl.xml PortAudio PortAudio.dll PortAudio.dll_1 PortAudioSharp PortAudioSharp.dll Profiles QRCoder QRCoder.dll QRCoder.txt Resources SHORTCUTDIR Screens Screens_1 Screens_3 Screens_4 Security.Cryptography.dll SlimDx Sounds Themes Themes_1 Themes_2 Themes_3 TicTacToe VocaluxeLib.dll Website addPlaylist.png ajaxloader.gif copyright.txt cs.json css decades.xcf glibsharp.dll gpl3.0.txt gstreamersharp.dll i18next1.7.1.min.js images img index.html jquery.mobile1.3.2.min.css js libgstreamersharpglue1.0.0.dll libgstreamersharpglue1.0.0.dll_1 locales png x64 x86"/>
-    <ROW Feature="Funktion" Feature_Parent="AIOtherFiles" Title="Videos" Description="Beschreibung" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="BlueBG_Video.mp4 BlueIntroIn.mp4 BlueIntroMid.mp4 BlueIntroOut.mp4 GreenBG_Video.mp4 GreenIntroIn.mp4 GreenIntroMid.mp4 GreenIntroOut.mp4 RedBG_Video.mp4 RedIntroIn.mp4 RedIntroMid.mp4 RedIntroOut.mp4 YellowBG_Video.mp4 YellowIntroIn.mp4 YellowIntroMid.mp4 YellowIntroOut.mp4"/>
-    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="3" Level="0" Directory_="APPDIR" Attributes="0" Components="APPDIR ProductInformation"/>
+    <ROW Feature="AI32BitFiles" Title="32-bit" Description="32-bit Executables and Libraries" Display="7" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_CustomARPName AI_DisableModify AI_ExePath SQLite.Interop.dll_5 SlimDX.dll_5 System.Data.SQLite.dll Vocaluxe.exe.config Vocaluxe.exe_2 acinerella.dll_5 avcodec54.dll_5 avformat54.dll_5 avutil52.dll_5 hidapi.dll_5 swresample0.dll_5 swscale2.dll_5"/>
+    <ROW Feature="AI64BitFiles" Title="64-bit" Description="64-bit Executables and Libraries" Display="9" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_CustomARPName AI_DisableModify AI_ExePath SQLite.Interop.dll_6 SlimDX.dll_6 System.Data.SQLite.dll_3 Vocaluxe_x64.exe Vocaluxe_x64.exe.config acinerella.dll_6 avcodec54.dll_6 avformat54.dll_6 avutil52.dll_6 hidapi.dll_6 swresample0.dll_6 swscale2.dll_6"/>
+    <ROW Feature="AIOtherFiles" Title="Common" Description="Shared Resource and Regular Files" Display="5" Level="1" Directory_="APPDIR" Attributes="16" Components="AForge AForge.Video.DirectShow.dll AForge.Video.dll AIShRegAnswer AI_CustomARPName AI_DisableModify AI_ExePath Ambient Ambient.xml AmbientBlue AmbientBlue.xml AmbientGreen AmbientRed AmbientYellow Asturian.xml Asturian.xml_1 Asturian.xml_2 Avatar_f.png BackgroundMusic Button.png_3 CChallengeRounds.cs CChallengeRounds.cs_1 CPartyModeTicTacToe.cs Challenge Challenge.xml ChallengeMedley Changelog Changelog_ScreenHighscore.txt ClientServerLib.dll Code Code_1 Code_4 Community.CsharpSqlite.dll Cover DJadWalkingAloneLicense.txt Default Default.xml Default.xml_1 Default.xml_2 Default.xml_3 Default.xml_4 Default.xml_5 Default_1 Default_2 Dutch.xml Fonts Fonts.xml FreeSans FreeSans.ttf Graphics Hz.mp3 InstallLanguage Interop.NetFwTypeLib.dll LICENSE.txt LICENSE.txt_1 LICENSENewtonsoft.Json.txt Languages Languages_1 Languages_2 Languages_4 License.txt Licenses Logo.png Newtonsoft.Json Newtonsoft.Json.dll NoCover.png NoCover.png_1 NoCover.png_2 NoCover.png_3 Normal.psd Normal.psd_1 Normal.psd_2 Normal.psd_3 OpenTK.Compatibility.dll OpenTK.GLControl.dll OpenTK.dll PartyModes PartyScreenChallengeConfig.xml PartyScreenChallengeMedleyConfig.xml PartyScreenTicTacToeConfig.xml PopupScreenPlayerControl.xml PortAudio PortAudio.dll PortAudio.dll_1 PortAudioSharp PortAudioSharp.dll Profiles QRCoder QRCoder.dll QRCoder.txt Resources Resources_1 Resources_2 Resources_3 SHORTCUTDIR Screens Screens_1 Screens_3 Screens_4 Security.Cryptography.dll SlimDx Sounds Themes Themes_1 Themes_2 Themes_3 TicTacToe VocaluxeLib.dll Website addPlaylist.png ajaxloader.gif copyright.txt cs.json css glibsharp.dll gpl3.0.txt gstreamersharp.dll i18next1.7.1.min.js images img index.html jquery.mobile1.3.2.min.css js libgstreamersharpglue1.0.0.dll libgstreamersharpglue1.0.0.dll_1 locales x64 x86"/>
+    <ROW Feature="Funktion" Feature_Parent="AIOtherFiles" Title="Videos" Description="Beschreibung" Display="3" Level="1" Directory_="APPDIR" Attributes="0" Components="AI_CustomARPName AI_DisableModify AI_ExePath BlueBG_Video.mp4 BlueIntroIn.mp4 BlueIntroMid.mp4 BlueIntroOut.mp4 GreenBG_Video.mp4 GreenIntroIn.mp4 GreenIntroMid.mp4 GreenIntroOut.mp4 RedBG_Video.mp4 RedIntroIn.mp4 RedIntroMid.mp4 RedIntroOut.mp4 YellowBG_Video.mp4 YellowIntroIn.mp4 YellowIntroMid.mp4 YellowIntroOut.mp4"/>
+    <ROW Feature="MainFeature" Title="MainFeature" Description="Description" Display="3" Level="0" Directory_="APPDIR" Attributes="0" Components="AI_CustomARPName AI_DisableModify AI_ExePath APPDIR ProductInformation"/>
     <ATTRIBUTE name="CurrentFeature" value="AIOtherFiles"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiFilesComponent">
-    <ROW File="A.png" Component_="png" FileName="A.png" Attributes="0" SourcePath="..\Output\Cover\Blue\A.png" SelfReg="false" NextFile="B.png"/>
     <ROW File="AForge.Video.DirectShow.dll" Component_="AForge.Video.DirectShow.dll" FileName="AForge~1.dll|AForge.Video.DirectShow.dll" Attributes="0" SourcePath="..\Output\AForge.Video.DirectShow.dll" SelfReg="false" NextFile="AForge.Video.dll"/>
     <ROW File="AForge.Video.dll" Component_="AForge.Video.dll" FileName="AForge~2.dll|AForge.Video.dll" Attributes="0" SourcePath="..\Output\AForge.Video.dll" SelfReg="false" NextFile="ClientServerLib.dll"/>
     <ROW File="Ambient.xml" Component_="Ambient.xml" FileName="Ambient.xml" Attributes="0" SourcePath="..\Output\Themes\Ambient.xml" SelfReg="false" NextFile="Changelog_ScreenHighscore.txt"/>
+    <ROW File="AmbientBlue.xml" Component_="AmbientBlue.xml" FileName="Ambien~1.xml|Ambient Blue.xml" Attributes="0" SourcePath="..\Output\Cover\Ambient Blue.xml" SelfReg="false" NextFile="AmbientGreen.xml"/>
+    <ROW File="AmbientGreen.xml" Component_="AmbientBlue.xml" FileName="Ambien~2.xml|Ambient Green.xml" Attributes="0" SourcePath="..\Output\Cover\Ambient Green.xml" SelfReg="false" NextFile="AmbientRed.xml"/>
+    <ROW File="AmbientRed.xml" Component_="AmbientBlue.xml" FileName="Ambien~3.xml|Ambient Red.xml" Attributes="0" SourcePath="..\Output\Cover\Ambient Red.xml" SelfReg="false" NextFile="AmbientYellow.xml"/>
+    <ROW File="AmbientYellow.xml" Component_="AmbientBlue.xml" FileName="Ambien~4.xml|Ambient Yellow.xml" Attributes="0" SourcePath="..\Output\Cover\Ambient Yellow.xml" SelfReg="false"/>
     <ROW File="Asturian.xml" Component_="Dutch.xml" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml"/>
     <ROW File="Asturian.xml_1" Component_="Asturian.xml" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml_1"/>
     <ROW File="Asturian.xml_2" Component_="Asturian.xml_1" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml_2"/>
     <ROW File="Asturian.xml_3" Component_="Asturian.xml_2" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml_3"/>
     <ROW File="Avatar_f.png" Component_="Avatar_f.png" FileName="Avatar_f.png" Attributes="0" SourcePath="..\Output\Profiles\Avatar_f.png" SelfReg="false" NextFile="Avatar_m.png"/>
     <ROW File="Avatar_m.png" Component_="Avatar_f.png" FileName="Avatar_m.png" Attributes="0" SourcePath="..\Output\Profiles\Avatar_m.png" SelfReg="false" NextFile="guest1.xml"/>
-    <ROW File="B.png" Component_="png" FileName="B.png" Attributes="0" SourcePath="..\Output\Cover\Blue\B.png" SelfReg="false" NextFile="C.png"/>
-    <ROW File="Blue.xml" Component_="Blue.xml" FileName="Blue.xml" Attributes="0" SourcePath="..\Output\Cover\Blue.xml" SelfReg="false" NextFile="Fonts.xml"/>
     <ROW File="BlueBG_Default.png_3" Component_="Button.png_3" FileName="_Blue_~1.png|[Blue]BG_Default.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Blue]BG_Default.png" SelfReg="false" NextFile="BlueBG_Options.png"/>
     <ROW File="BlueBG_Options.png" Component_="Button.png_3" FileName="_Blue_~2.png|[Blue]BG_Options.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Blue]BG_Options.png" SelfReg="false" NextFile="BlueBG_Video.mp4_3"/>
     <ROW File="BlueBG_Video.mp4_3" Component_="BlueBG_Video.mp4" FileName="_Blue_~1.mp4|[Blue]BG_Video.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Blue]BG_Video.mp4" SelfReg="false" NextFile="BlueIntroIn.mp4"/>
@@ -274,7 +293,6 @@
     <ROW File="BlueIntroMid.mp4" Component_="BlueIntroMid.mp4" FileName="_Blue_~3.mp4|[Blue]IntroMid.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Blue]IntroMid.mp4" SelfReg="false" NextFile="BlueIntroOut.mp4"/>
     <ROW File="BlueIntroOut.mp4" Component_="BlueIntroOut.mp4" FileName="_Blue_~4.mp4|[Blue]IntroOut.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Blue]IntroOut.mp4" SelfReg="false" NextFile="GreenBG_Default.png"/>
     <ROW File="Button.png_3" Component_="Button.png_3" FileName="Button.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Button.png" SelfReg="false" NextFile="Close.png"/>
-    <ROW File="C.png" Component_="png" FileName="C.png" Attributes="0" SourcePath="..\Output\Cover\Blue\C.png" SelfReg="false" NextFile="D.png"/>
     <ROW File="CChallengeRounds.cs" Component_="CChallengeRounds.cs" FileName="CChall~1.cs|CChallengeRounds.cs" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Code\CChallengeRounds.cs" SelfReg="false" NextFile="CPartyModeChallenge.cs"/>
     <ROW File="CChallengeRounds.cs_1" Component_="CChallengeRounds.cs_1" FileName="CChall~1.cs|CChallengeRounds.cs" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Code\CChallengeRounds.cs" SelfReg="false" NextFile="CPartyModeChallengeMedley.cs"/>
     <ROW File="CPartyModeChallenge.cs" Component_="CChallengeRounds.cs" FileName="CParty~1.cs|CPartyModeChallenge.cs" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Code\CPartyModeChallenge.cs" SelfReg="false" NextFile="CPartyScreenChallengeConfig.cs"/>
@@ -316,8 +334,7 @@
     <ROW File="Czech.xml_1" Component_="Asturian.xml" FileName="Czech.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Czech.xml" SelfReg="false" NextFile="Dutch.xml_1"/>
     <ROW File="Czech.xml_2" Component_="Asturian.xml_1" FileName="Czech.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Czech.xml" SelfReg="false" NextFile="Dutch.xml_2"/>
     <ROW File="Czech.xml_3" Component_="Asturian.xml_2" FileName="Czech.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Czech.xml" SelfReg="false" NextFile="Dutch.xml_3"/>
-    <ROW File="D.png" Component_="png" FileName="D.png" Attributes="0" SourcePath="..\Output\Cover\Blue\D.png" SelfReg="false" NextFile="E.png"/>
-    <ROW File="DJadWalkingAlone.mp3" Component_="DJadWalkingAloneLicense.txt" FileName="DJad-W~1.mp3|DJad - Walking Alone.mp3" Attributes="0" SourcePath="..\Output\BackgroundMusic\DJad - Walking Alone.mp3" SelfReg="false" NextFile="png"/>
+    <ROW File="DJadWalkingAlone.mp3" Component_="DJadWalkingAloneLicense.txt" FileName="DJad-W~1.mp3|DJad - Walking Alone.mp3" Attributes="0" SourcePath="..\Output\BackgroundMusic\DJad - Walking Alone.mp3" SelfReg="false" NextFile="Fonts.xml"/>
     <ROW File="DJadWalkingAloneLicense.txt" Component_="DJadWalkingAloneLicense.txt" FileName="DJad-W~1.txt|DJad - Walking Alone - License.txt" Attributes="0" SourcePath="..\Output\BackgroundMusic\DJad - Walking Alone - License.txt" SelfReg="false" NextFile="DJadWalkingAlone.mp3"/>
     <ROW File="Default.xml" Component_="Default.xml" FileName="Default.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Themes\Default\Default.xml" SelfReg="false" NextFile="PartyScreenChallengeConfig.xml"/>
     <ROW File="Default.xml_1" Component_="Default.xml_1" FileName="Default.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Themes\Default.xml" SelfReg="false" NextFile="Challenge.xml"/>
@@ -331,26 +348,20 @@
     <ROW File="Dutch.xml_1" Component_="Asturian.xml" FileName="Dutch.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Dutch.xml" SelfReg="false" NextFile="English.xml_1"/>
     <ROW File="Dutch.xml_2" Component_="Asturian.xml_1" FileName="Dutch.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Dutch.xml" SelfReg="false" NextFile="English.xml_2"/>
     <ROW File="Dutch.xml_3" Component_="Asturian.xml_2" FileName="Dutch.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Dutch.xml" SelfReg="false" NextFile="English.xml_3"/>
-    <ROW File="E.png" Component_="png" FileName="E.png" Attributes="0" SourcePath="..\Output\Cover\Blue\E.png" SelfReg="false" NextFile="English.png"/>
-    <ROW File="EnergyBeam.png" Component_="Button.png_3" FileName="Energy~1.png|EnergyBeam.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\EnergyBeam.png" SelfReg="false" NextFile="Invisible.png_3"/>
-    <ROW File="English.png" Component_="png" FileName="English.png" Attributes="0" SourcePath="..\Output\Cover\Blue\English.png" SelfReg="false" NextFile="F.png"/>
+    <ROW File="EnergyBeam.png" Component_="Button.png_3" FileName="Energy~1.png|EnergyBeam.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\EnergyBeam.png" SelfReg="false" NextFile="LyricHelper.png"/>
     <ROW File="English.xml" Component_="Dutch.xml" FileName="English.xml" Attributes="0" SourcePath="..\Output\Languages\English.xml" SelfReg="false" NextFile="French.xml"/>
     <ROW File="English.xml_1" Component_="Asturian.xml" FileName="English.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\English.xml" SelfReg="false" NextFile="French.xml_1"/>
     <ROW File="English.xml_2" Component_="Asturian.xml_1" FileName="English.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\English.xml" SelfReg="false" NextFile="French.xml_2"/>
     <ROW File="English.xml_3" Component_="Asturian.xml_2" FileName="English.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\English.xml" SelfReg="false" NextFile="French.xml_3"/>
-    <ROW File="F.png" Component_="png" FileName="F.png" Attributes="0" SourcePath="..\Output\Cover\Blue\F.png" SelfReg="false" NextFile="French.png"/>
     <ROW File="Fonts.xml" Component_="Fonts.xml" FileName="Fonts.xml" Attributes="0" SourcePath="..\Output\Fonts\Fonts.xml" SelfReg="false" NextFile="FreeSans.ttf"/>
     <ROW File="FreeSans.ttf" Component_="FreeSans.ttf" FileName="FreeSans.ttf" Attributes="0" SourcePath="..\Output\Fonts\FreeSans\FreeSans.ttf" SelfReg="false" NextFile="FreeSansBold.ttf"/>
     <ROW File="FreeSansBold.ttf" Component_="FreeSans.ttf" FileName="FreeSa~1.ttf|FreeSansBold.ttf" Attributes="0" SourcePath="..\Output\Fonts\FreeSans\FreeSansBold.ttf" SelfReg="false" NextFile="FreeSansBoldOblique.ttf"/>
     <ROW File="FreeSansBoldOblique.ttf" Component_="FreeSans.ttf" FileName="FreeSa~2.ttf|FreeSansBoldOblique.ttf" Attributes="0" SourcePath="..\Output\Fonts\FreeSans\FreeSansBoldOblique.ttf" SelfReg="false" NextFile="FreeSansOblique.ttf"/>
     <ROW File="FreeSansOblique.ttf" Component_="FreeSans.ttf" FileName="FreeSa~3.ttf|FreeSansOblique.ttf" Attributes="0" SourcePath="..\Output\Fonts\FreeSans\FreeSansOblique.ttf" SelfReg="false" NextFile="readme.txt"/>
-    <ROW File="French.png" Component_="png" FileName="French.png" Attributes="0" SourcePath="..\Output\Cover\Blue\French.png" SelfReg="false" NextFile="G.png"/>
     <ROW File="French.xml" Component_="Dutch.xml" FileName="French.xml" Attributes="0" SourcePath="..\Output\Languages\French.xml" SelfReg="false" NextFile="German.xml"/>
     <ROW File="French.xml_1" Component_="Asturian.xml" FileName="French.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\French.xml" SelfReg="false" NextFile="German.xml_1"/>
     <ROW File="French.xml_2" Component_="Asturian.xml_1" FileName="French.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\French.xml" SelfReg="false" NextFile="German.xml_2"/>
     <ROW File="French.xml_3" Component_="Asturian.xml_2" FileName="French.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\French.xml" SelfReg="false" NextFile="German.xml_4"/>
-    <ROW File="G.png" Component_="png" FileName="G.png" Attributes="0" SourcePath="..\Output\Cover\Blue\G.png" SelfReg="false" NextFile="German.png"/>
-    <ROW File="German.png" Component_="png" FileName="German.png" Attributes="0" SourcePath="..\Output\Cover\Blue\German.png" SelfReg="false" NextFile="H.png"/>
     <ROW File="German.xml" Component_="Dutch.xml" FileName="German.xml" Attributes="0" SourcePath="..\Output\Languages\German.xml" SelfReg="false" NextFile="Hungarian.xml"/>
     <ROW File="German.xml_1" Component_="Asturian.xml" FileName="German.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\German.xml" SelfReg="false" NextFile="Hungarian.xml_1"/>
     <ROW File="German.xml_2" Component_="Asturian.xml_1" FileName="German.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\German.xml" SelfReg="false" NextFile="Hungarian.xml_2"/>
@@ -361,23 +372,16 @@
     <ROW File="GreenIntroIn.mp4" Component_="GreenIntroIn.mp4" FileName="_Green~2.mp4|[Green]IntroIn.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Green]IntroIn.mp4" SelfReg="false" NextFile="GreenIntroMid.mp4"/>
     <ROW File="GreenIntroMid.mp4" Component_="GreenIntroMid.mp4" FileName="_Green~3.mp4|[Green]IntroMid.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Green]IntroMid.mp4" SelfReg="false" NextFile="GreenIntroOut.mp4"/>
     <ROW File="GreenIntroOut.mp4" Component_="GreenIntroOut.mp4" FileName="_Green~4.mp4|[Green]IntroOut.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Green]IntroOut.mp4" SelfReg="false" NextFile="RedBG_Default.png"/>
-    <ROW File="H.png" Component_="png" FileName="H.png" Attributes="0" SourcePath="..\Output\Cover\Blue\H.png" SelfReg="false" NextFile="I.png"/>
     <ROW File="Hungarian.xml" Component_="Dutch.xml" FileName="Hungar~1.xml|Hungarian.xml" Attributes="0" SourcePath="..\Output\Languages\Hungarian.xml" SelfReg="false" NextFile="Spanish.xml"/>
     <ROW File="Hungarian.xml_1" Component_="Asturian.xml" FileName="Hungar~1.xml|Hungarian.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Hungarian.xml" SelfReg="false" NextFile="Italian.xml_1"/>
     <ROW File="Hungarian.xml_2" Component_="Asturian.xml_1" FileName="Hungar~1.xml|Hungarian.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Hungarian.xml" SelfReg="false" NextFile="Italian.xml_2"/>
     <ROW File="Hungarian.xml_3" Component_="Asturian.xml_2" FileName="Hungar~1.xml|Hungarian.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Hungarian.xml" SelfReg="false" NextFile="Italian.xml_3"/>
     <ROW File="Hz.mp3" Component_="Hz.mp3" FileName="440Hz.mp3" Attributes="0" SourcePath="..\Output\Sounds\440Hz.mp3" SelfReg="false" NextFile="Button.png_3"/>
-    <ROW File="I.png" Component_="png" FileName="I.png" Attributes="0" SourcePath="..\Output\Cover\Blue\I.png" SelfReg="false" NextFile="Italian.png"/>
     <ROW File="Interop.NetFwTypeLib.dll" Component_="Interop.NetFwTypeLib.dll" FileName="Intero~1.dll|Interop.NetFwTypeLib.dll" Attributes="0" SourcePath="..\Output\Interop.NetFwTypeLib.dll" SelfReg="false" NextFile="PortAudioSharp.dll"/>
-    <ROW File="Invisible.png_3" Component_="Button.png_3" FileName="Invisi~1.png|Invisible.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Invisible.png" SelfReg="false" NextFile="LyricHelper.png"/>
-    <ROW File="Italian.png" Component_="png" FileName="Italian.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Italian.png" SelfReg="false" NextFile="J.png"/>
     <ROW File="Italian.xml" Component_="Dutch.xml" FileName="Italian.xml" Attributes="0" SourcePath="..\Output\Languages\Italian.xml" SelfReg="false" NextFile="Swedish.xml"/>
     <ROW File="Italian.xml_1" Component_="Asturian.xml" FileName="Italian.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Italian.xml" SelfReg="false" NextFile="Spanish.xml_1"/>
     <ROW File="Italian.xml_2" Component_="Asturian.xml_1" FileName="Italian.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Italian.xml" SelfReg="false" NextFile="Spanish.xml_2"/>
     <ROW File="Italian.xml_3" Component_="Asturian.xml_2" FileName="Italian.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Italian.xml" SelfReg="false" NextFile="Spanish.xml_3"/>
-    <ROW File="J.png" Component_="png" FileName="J.png" Attributes="0" SourcePath="..\Output\Cover\Blue\J.png" SelfReg="false" NextFile="K.png"/>
-    <ROW File="K.png" Component_="png" FileName="K.png" Attributes="0" SourcePath="..\Output\Cover\Blue\K.png" SelfReg="false" NextFile="L.png"/>
-    <ROW File="L.png" Component_="png" FileName="L.png" Attributes="0" SourcePath="..\Output\Cover\Blue\L.png" SelfReg="false" NextFile="M.png"/>
     <ROW File="LICENSE.txt" Component_="LICENSENewtonsoft.Json.txt" FileName="LICENSE.txt" Attributes="0" SourcePath="..\Output\LICENSE.txt" SelfReg="false" NextFile="Readme.txt_1"/>
     <ROW File="LICENSE.txt_2" Component_="LICENSE.txt" FileName="LICENSE.txt" Attributes="0" SourcePath="..\Output\Licenses\Newtonsoft.Json\LICENSE.txt" SelfReg="false" NextFile="SourceAndVersion.txt_1"/>
     <ROW File="LICENSE.txt_3" Component_="LICENSE.txt_1" FileName="LICENSE.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio\LICENSE.txt" SelfReg="false" NextFile="README.txt_2"/>
@@ -386,21 +390,29 @@
     <ROW File="Logo.png" Component_="Logo.png" FileName="Logo.png" Attributes="0" SourcePath="..\Output\Graphics\Logo.png" SelfReg="false" NextFile="Dutch.xml"/>
     <ROW File="LyricHelper.png" Component_="Button.png_3" FileName="LyricH~1.png|LyricHelper.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\LyricHelper.png" SelfReg="false" NextFile="Lyrics.png"/>
     <ROW File="Lyrics.png" Component_="Button.png_3" FileName="Lyrics.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Lyrics.png" SelfReg="false" NextFile="MedleyCalcIcon.png"/>
-    <ROW File="M.png" Component_="png" FileName="M.png" Attributes="0" SourcePath="..\Output\Cover\Blue\M.png" SelfReg="false" NextFile="N.png"/>
     <ROW File="MedleyCalcIcon.png" Component_="Button.png_3" FileName="Medley~1.png|MedleyCalcIcon.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\MedleyCalcIcon.png" SelfReg="false" NextFile="MedleyTagIcon.png"/>
     <ROW File="MedleyTagIcon.png" Component_="Button.png_3" FileName="Medley~2.png|MedleyTagIcon.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\MedleyTagIcon.png" SelfReg="false" NextFile="Menu.png_3"/>
     <ROW File="Menu.png_3" Component_="Button.png_3" FileName="Menu.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Menu.png" SelfReg="false" NextFile="Minus.png"/>
     <ROW File="Minus.png" Component_="Button.png_3" FileName="Minus.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Minus.png" SelfReg="false" NextFile="NextIcon.png"/>
-    <ROW File="N.png" Component_="png" FileName="N.png" Attributes="0" SourcePath="..\Output\Cover\Blue\N.png" SelfReg="false" NextFile="O.png"/>
     <ROW File="Newtonsoft.Json.dll" Component_="Newtonsoft.Json.dll" FileName="Newton~1.dll|Newtonsoft.Json.dll" Attributes="0" SourcePath="..\Output\Newtonsoft.Json.dll" SelfReg="false" NextFile="OpenTK.Compatibility.dll"/>
     <ROW File="NextIcon.png" Component_="Button.png_3" FileName="NextIcon.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\NextIcon.png" SelfReg="false" NextFile="notes_bg_left.png"/>
-    <ROW File="O.png" Component_="png" FileName="O.png" Attributes="0" SourcePath="..\Output\Cover\Blue\O.png" SelfReg="false" NextFile="P.png"/>
+    <ROW File="NoCover.png" Component_="NoCover.png" FileName="NoCove~1.png|No Cover.png" Attributes="0" SourcePath="..\Output\Cover\Ambient Blue\No Cover.png" SelfReg="false" NextFile="Normal.png"/>
+    <ROW File="NoCover.png_2" Component_="NoCover.png_1" FileName="NoCove~1.png|No Cover.png" Attributes="0" SourcePath="..\Output\Cover\Ambient Green\No Cover.png" SelfReg="false" NextFile="Normal.png_1"/>
+    <ROW File="NoCover.png_3" Component_="NoCover.png_2" FileName="NoCove~1.png|No Cover.png" Attributes="0" SourcePath="..\Output\Cover\Ambient Red\No Cover.png" SelfReg="false" NextFile="Normal.png_2"/>
+    <ROW File="NoCover.png_4" Component_="NoCover.png_3" FileName="NoCove~1.png|No Cover.png" Attributes="0" SourcePath="..\Output\Cover\Ambient Yellow\No Cover.png" SelfReg="false" NextFile="Normal.png_3"/>
+    <ROW File="Normal.png" Component_="NoCover.png" FileName="Normal.png" Attributes="0" SourcePath="..\Output\Cover\Ambient Blue\Normal.png" SelfReg="false" NextFile="Normal.psd"/>
+    <ROW File="Normal.png_1" Component_="NoCover.png_1" FileName="Normal.png" Attributes="0" SourcePath="..\Output\Cover\Ambient Green\Normal.png" SelfReg="false" NextFile="Normal.psd_1"/>
+    <ROW File="Normal.png_2" Component_="NoCover.png_2" FileName="Normal.png" Attributes="0" SourcePath="..\Output\Cover\Ambient Red\Normal.png" SelfReg="false" NextFile="Normal.psd_2"/>
+    <ROW File="Normal.png_3" Component_="NoCover.png_3" FileName="Normal.png" Attributes="0" SourcePath="..\Output\Cover\Ambient Yellow\Normal.png" SelfReg="false" NextFile="Normal.psd_3"/>
+    <ROW File="Normal.psd" Component_="Normal.psd" FileName="Normal.psd" Attributes="0" SourcePath="..\Output\Cover\Ambient Blue\Resources\Normal.psd" SelfReg="false" NextFile="NoCover.png_2"/>
+    <ROW File="Normal.psd_1" Component_="Normal.psd_1" FileName="Normal.psd" Attributes="0" SourcePath="..\Output\Cover\Ambient Green\Resources\Normal.psd" SelfReg="false" NextFile="NoCover.png_3"/>
+    <ROW File="Normal.psd_2" Component_="Normal.psd_2" FileName="Normal.psd" Attributes="0" SourcePath="..\Output\Cover\Ambient Red\Resources\Normal.psd" SelfReg="false" NextFile="NoCover.png_4"/>
+    <ROW File="Normal.psd_3" Component_="Normal.psd_3" FileName="Normal.psd" Attributes="0" SourcePath="..\Output\Cover\Ambient Yellow\Resources\Normal.psd" SelfReg="false" NextFile="AmbientBlue.xml"/>
     <ROW File="OpenTK.Compatibility.dll" Component_="OpenTK.Compatibility.dll" FileName="OpenTK~1.dll|OpenTK.Compatibility.dll" Attributes="0" SourcePath="..\Output\OpenTK.Compatibility.dll" SelfReg="false" NextFile="OpenTK.dll"/>
     <ROW File="OpenTK.Compatibility.dll.config" Component_="LICENSENewtonsoft.Json.txt" FileName="OpenTK~1.con|OpenTK.Compatibility.dll.config" Attributes="0" SourcePath="..\Output\OpenTK.Compatibility.dll.config" SelfReg="false" NextFile="OpenTK.dll.config"/>
     <ROW File="OpenTK.GLControl.dll" Component_="OpenTK.GLControl.dll" FileName="OpenTK~2.dll|OpenTK.GLControl.dll" Attributes="0" SourcePath="..\Output\OpenTK.GLControl.dll" SelfReg="false" NextFile="VocaluxeLib.dll"/>
     <ROW File="OpenTK.dll" Component_="OpenTK.dll" FileName="OpenTK.dll" Attributes="0" SourcePath="..\Output\OpenTK.dll" SelfReg="false" NextFile="OpenTK.GLControl.dll"/>
     <ROW File="OpenTK.dll.config" Component_="LICENSENewtonsoft.Json.txt" FileName="OpenTK~2.con|OpenTK.dll.config" Attributes="0" SourcePath="..\Output\OpenTK.dll.config" SelfReg="false" NextFile="glibsharp.dll"/>
-    <ROW File="P.png" Component_="png" FileName="P.png" Attributes="0" SourcePath="..\Output\Cover\Blue\P.png" SelfReg="false" NextFile="Polish.png"/>
     <ROW File="PartyScreenChallengeConfig.xml" Component_="PartyScreenChallengeConfig.xml" FileName="PartyS~1.xml|PartyScreenChallengeConfig.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Themes\Default\Screens\PartyScreenChallengeConfig.xml" SelfReg="false" NextFile="PartyScreenChallengeMain.xml"/>
     <ROW File="PartyScreenChallengeMain.xml" Component_="PartyScreenChallengeConfig.xml" FileName="PartyS~2.xml|PartyScreenChallengeMain.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Themes\Default\Screens\PartyScreenChallengeMain.xml" SelfReg="false" NextFile="PartyScreenChallengeNames.xml"/>
     <ROW File="PartyScreenChallengeMedleyConfig.xml" Component_="PartyScreenChallengeMedleyConfig.xml" FileName="PartyS~1.xml|PartyScreenChallengeMedleyConfig.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Themes\Default\Screens\PartyScreenChallengeMedleyConfig.xml" SelfReg="false" NextFile="PartyScreenChallengeMedleyMain.xml"/>
@@ -417,7 +429,6 @@
     <ROW File="PlayerSelector.png" Component_="Button.png_3" FileName="Player~1.png|PlayerSelector.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\PlayerSelector.png" SelfReg="false" NextFile="PlayIcon.png"/>
     <ROW File="Plus.png" Component_="Button.png_3" FileName="Plus.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Plus.png" SelfReg="false" NextFile="Pointer.png"/>
     <ROW File="Pointer.png" Component_="Button.png_3" FileName="Pointer.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Pointer.png" SelfReg="false" NextFile="points_bar.png"/>
-    <ROW File="Polish.png" Component_="png" FileName="Polish.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Polish.png" SelfReg="false" NextFile="Q.png"/>
     <ROW File="Popup.png_3" Component_="Button.png_3" FileName="Popup.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Popup.png" SelfReg="false" NextFile="PreviousIcon.png"/>
     <ROW File="PopupScreenPlayerControl.xml" Component_="PopupScreenPlayerControl.xml" FileName="PopupS~1.xml|PopupScreenPlayerControl.xml" Attributes="0" SourcePath="..\Output\Themes\Ambient\Screens\PopupScreenPlayerControl.xml" SelfReg="false" NextFile="PopupScreenVolumeControl.xml"/>
     <ROW File="PopupScreenVolumeControl.xml" Component_="PopupScreenPlayerControl.xml" FileName="PopupS~2.xml|PopupScreenVolumeControl.xml" Attributes="0" SourcePath="..\Output\Themes\Ambient\Screens\PopupScreenVolumeControl.xml" SelfReg="false" NextFile="ScreenHighscore.xml"/>
@@ -426,10 +437,8 @@
     <ROW File="PortAudioSharp.dll" Component_="PortAudioSharp.dll" FileName="PortAu~1.dll|PortAudioSharp.dll" Attributes="0" SourcePath="..\Output\PortAudioSharp.dll" SelfReg="false" NextFile="PortAudioSharp.dll.config"/>
     <ROW File="PortAudioSharp.dll.config" Component_="LICENSENewtonsoft.Json.txt" FileName="PortAu~1.con|PortAudioSharp.dll.config" Attributes="0" SourcePath="..\Output\PortAudioSharp.dll.config" SelfReg="false" NextFile="QRCoder.dll"/>
     <ROW File="PreviousIcon.png" Component_="Button.png_3" FileName="Previo~1.png|PreviousIcon.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\PreviousIcon.png" SelfReg="false" NextFile="Random.png_1"/>
-    <ROW File="Q.png" Component_="png" FileName="Q.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Q.png" SelfReg="false" NextFile="R.png"/>
     <ROW File="QRCoder.dll" Component_="QRCoder.dll" FileName="QRCoder.dll" Attributes="0" SourcePath="..\Output\QRCoder.dll" SelfReg="false" NextFile="Security.Cryptography.dll"/>
     <ROW File="QRCoder.txt" Component_="QRCoder.txt" FileName="QRCoder.txt" Attributes="0" SourcePath="..\Output\Licenses\QR Coder\QRCoder.txt" SelfReg="false" NextFile="SourceAndVersion.txt_4"/>
-    <ROW File="R.png" Component_="png" FileName="R.png" Attributes="0" SourcePath="..\Output\Cover\Blue\R.png" SelfReg="false" NextFile="decades.xcf"/>
     <ROW File="README.txt_2" Component_="LICENSE.txt_1" FileName="README.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio\README.txt" SelfReg="false" NextFile="SourceAndVersion.txt_2"/>
     <ROW File="Random.png_1" Component_="Button.png_3" FileName="Random.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Random.png" SelfReg="false" NextFile="RepeatIcon.png_1"/>
     <ROW File="Readme.txt_1" Component_="LICENSENewtonsoft.Json.txt" FileName="Readme.txt" Attributes="0" SourcePath="..\Output\Readme.txt" SelfReg="false" NextFile="Vocaluxe.ico"/>
@@ -440,8 +449,7 @@
     <ROW File="RedIntroMid.mp4" Component_="RedIntroMid.mp4" FileName="_Red_I~2.mp4|[Red]IntroMid.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Red]IntroMid.mp4" SelfReg="false" NextFile="RedIntroOut.mp4"/>
     <ROW File="RedIntroOut.mp4" Component_="RedIntroOut.mp4" FileName="_Red_I~3.mp4|[Red]IntroOut.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Red]IntroOut.mp4" SelfReg="false" NextFile="YellowBG_Default.png"/>
     <ROW File="RepeatIcon.png_1" Component_="Button.png_3" FileName="Repeat~1.png|RepeatIcon.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\RepeatIcon.png" SelfReg="false" NextFile="Save.png"/>
-    <ROW File="RequiredSkinElements.xml" Component_="LICENSENewtonsoft.Json.txt" FileName="Requir~1.xml|RequiredSkinElements.xml" Attributes="0" SourcePath="..\Output\RequiredSkinElements.xml" SelfReg="false"/>
-    <ROW File="S.png" Component_="png" FileName="S.png" Attributes="0" SourcePath="..\Output\Cover\Blue\S.png" SelfReg="false" NextFile="Spanish.png"/>
+    <ROW File="RequiredSkinElements.xml" Component_="LICENSENewtonsoft.Json.txt" FileName="Requir~1.xml|RequiredSkinElements.xml" Attributes="0" SourcePath="..\Output\RequiredSkinElements.xml" SelfReg="false" NextFile="NoCover.png"/>
     <ROW File="SQLite.Interop.dll_5" Component_="SQLite.Interop.dll_5" FileName="SQLite~1.dll|SQLite.Interop.dll" Attributes="0" SourcePath="..\Output\x86\SQLite.Interop.dll" SelfReg="false" NextFile="swresample0.dll_5"/>
     <ROW File="SQLite.Interop.dll_6" Component_="SQLite.Interop.dll_6" FileName="SQLite~1.dll|SQLite.Interop.dll" Attributes="0" SourcePath="..\Output\x64\SQLite.Interop.dll" SelfReg="false" NextFile="swresample0.dll_6"/>
     <ROW File="Save.png" Component_="Button.png_3" FileName="Save.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Save.png" SelfReg="false" NextFile="Score.png"/>
@@ -486,7 +494,6 @@
     <ROW File="SourceAndVersion.txt_3" Component_="copyright.txt" FileName="Source~1.txt|SourceAndVersion.txt" Attributes="0" SourcePath="..\Output\Licenses\PortAudio-Sharp\SourceAndVersion.txt" SelfReg="false" NextFile="QRCoder.txt"/>
     <ROW File="SourceAndVersion.txt_4" Component_="QRCoder.txt" FileName="Source~1.txt|SourceAndVersion.txt" Attributes="0" SourcePath="..\Output\Licenses\QR Coder\SourceAndVersion.txt" SelfReg="false" NextFile="License.txt_5"/>
     <ROW File="SourceAndVersion.txt_5" Component_="License.txt" FileName="Source~1.txt|SourceAndVersion.txt" Attributes="0" SourcePath="..\Output\Licenses\SlimDx\SourceAndVersion.txt" SelfReg="false" NextFile="ajaxloader.gif"/>
-    <ROW File="Spanish.png" Component_="png" FileName="Spanish.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Spanish.png" SelfReg="false" NextFile="T.png"/>
     <ROW File="Spanish.xml" Component_="Dutch.xml" FileName="Spanish.xml" Attributes="0" SourcePath="..\Output\Languages\Spanish.xml" SelfReg="false" NextFile="Turkish.xml"/>
     <ROW File="Spanish.xml_1" Component_="Asturian.xml" FileName="Spanish.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Spanish.xml" SelfReg="false" NextFile="Swedish.xml_1"/>
     <ROW File="Spanish.xml_2" Component_="Asturian.xml_1" FileName="Spanish.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Spanish.xml" SelfReg="false" NextFile="Swedish.xml_2"/>
@@ -498,7 +505,6 @@
     <ROW File="Swedish.xml_3" Component_="Asturian.xml_2" FileName="Swedish.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Swedish.xml" SelfReg="false" NextFile="Turkish.xml_3"/>
     <ROW File="System.Data.SQLite.dll" Component_="System.Data.SQLite.dll" FileName="System~1.dll|System.Data.SQLite.dll" Attributes="0" SourcePath="..\Output\x86\System.Data.SQLite.dll" SelfReg="false" NextFile="acinerella.dll_6"/>
     <ROW File="System.Data.SQLite.dll_3" Component_="System.Data.SQLite.dll_3" FileName="System~1.dll|System.Data.SQLite.dll" Attributes="0" SourcePath="..\Output\x64\System.Data.SQLite.dll" SelfReg="false" NextFile="DJadWalkingAloneLicense.txt"/>
-    <ROW File="T.png" Component_="png" FileName="T.png" Attributes="0" SourcePath="..\Output\Cover\Blue\T.png" SelfReg="false" NextFile="U.png"/>
     <ROW File="TextBG.png" Component_="Button.png_3" FileName="TextBG.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\TextBG.png" SelfReg="false" NextFile="TimeBar.png"/>
     <ROW File="Thumbs.db" Component_="addPlaylist.png" FileName="Thumbs.db" Attributes="6" SourcePath="..\Output\Website\img\Thumbs.db" SelfReg="false" NextFile="wikipedia.png"/>
     <ROW File="Thumbs.db_1" Component_="Default.xml" FileName="Thumbs.db" Attributes="6" SourcePath="..\Output\PartyModes\Challenge\Themes\Default\Thumbs.db" SelfReg="false" NextFile="Default.xml_1"/>
@@ -513,8 +519,6 @@
     <ROW File="Turkish.xml_1" Component_="Asturian.xml" FileName="Turkish.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Turkish.xml" SelfReg="false" NextFile="Default.xml"/>
     <ROW File="Turkish.xml_2" Component_="Asturian.xml_1" FileName="Turkish.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Turkish.xml" SelfReg="false" NextFile="Default.xml_2"/>
     <ROW File="Turkish.xml_3" Component_="Asturian.xml_2" FileName="Turkish.xml" Attributes="0" SourcePath="..\Output\PartyModes\TicTacToe\Languages\Turkish.xml" SelfReg="false" NextFile="Default.xml_4"/>
-    <ROW File="U.png" Component_="png" FileName="U.png" Attributes="0" SourcePath="..\Output\Cover\Blue\U.png" SelfReg="false" NextFile="V.png"/>
-    <ROW File="V.png" Component_="png" FileName="V.png" Attributes="0" SourcePath="..\Output\Cover\Blue\V.png" SelfReg="false" NextFile="W.png"/>
     <ROW File="VideoIcon.png" Component_="Button.png_3" FileName="VideoI~1.png|VideoIcon.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\VideoIcon.png" SelfReg="false" NextFile="VideoIconBG.png"/>
     <ROW File="VideoIconBG.png" Component_="Button.png_3" FileName="VideoI~2.png|VideoIconBG.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\VideoIconBG.png" SelfReg="false" NextFile="VideoIconCO.png"/>
     <ROW File="VideoIconCO.png" Component_="Button.png_3" FileName="VideoI~3.png|VideoIconCO.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\VideoIconCO.png" SelfReg="false" NextFile="Warning.png"/>
@@ -524,17 +528,13 @@
     <ROW File="VocaluxeLib.dll" Component_="VocaluxeLib.dll" FileName="Vocalu~1.dll|VocaluxeLib.dll" Attributes="0" SourcePath="..\Output\VocaluxeLib.dll" SelfReg="false" NextFile="LICENSE.txt"/>
     <ROW File="Vocaluxe_x64.exe" Component_="Vocaluxe_x64.exe" FileName="Vocalu~1.exe|Vocaluxe_x64.exe" Attributes="0" SourcePath="..\Output\Vocaluxe_x64.exe" SelfReg="false" NextFile="Vocaluxe_x64.exe.config" DigSign="true"/>
     <ROW File="Vocaluxe_x64.exe.config" Component_="Vocaluxe_x64.exe.config" FileName="Vocalu~1.con|Vocaluxe_x64.exe.config" Attributes="0" SourcePath="..\Output\Vocaluxe_x64.exe.config" SelfReg="false" NextFile="Vocaluxe.exe.config"/>
-    <ROW File="W.png" Component_="png" FileName="W.png" Attributes="0" SourcePath="..\Output\Cover\Blue\W.png" SelfReg="false" NextFile="X.png"/>
     <ROW File="Warning.png" Component_="Button.png_3" FileName="Warning.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\Warning.png" SelfReg="false" NextFile="BlueBG_Default.png_3"/>
-    <ROW File="X.png" Component_="png" FileName="X.png" Attributes="0" SourcePath="..\Output\Cover\Blue\X.png" SelfReg="false" NextFile="Y.png"/>
-    <ROW File="Y.png" Component_="png" FileName="Y.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Y.png" SelfReg="false" NextFile="Z.png"/>
     <ROW File="YellowBG_Default.png" Component_="Button.png_3" FileName="_Yello~1.png|[Yellow]BG_Default.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Yellow]BG_Default.png" SelfReg="false" NextFile="YellowBG_Options.png"/>
     <ROW File="YellowBG_Options.png" Component_="Button.png_3" FileName="_Yello~2.png|[Yellow]BG_Options.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Yellow]BG_Options.png" SelfReg="false" NextFile="YellowBG_Video.mp4"/>
     <ROW File="YellowBG_Video.mp4" Component_="YellowBG_Video.mp4" FileName="_Yello~1.mp4|[Yellow]BG_Video.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Yellow]BG_Video.mp4" SelfReg="false" NextFile="YellowIntroIn.mp4"/>
     <ROW File="YellowIntroIn.mp4" Component_="YellowIntroIn.mp4" FileName="_Yello~2.mp4|[Yellow]IntroIn.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Yellow]IntroIn.mp4" SelfReg="false" NextFile="YellowIntroMid.mp4"/>
     <ROW File="YellowIntroMid.mp4" Component_="YellowIntroMid.mp4" FileName="_Yello~3.mp4|[Yellow]IntroMid.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Yellow]IntroMid.mp4" SelfReg="false" NextFile="YellowIntroOut.mp4"/>
     <ROW File="YellowIntroOut.mp4" Component_="YellowIntroOut.mp4" FileName="_Yello~4.mp4|[Yellow]IntroOut.mp4" Attributes="0" SourcePath="..\Output\Themes\Ambient\[Yellow]IntroOut.mp4" SelfReg="false" NextFile="Ambient.xml"/>
-    <ROW File="Z.png" Component_="png" FileName="Z.png" Attributes="0" SourcePath="..\Output\Cover\Blue\Z.png" SelfReg="false" NextFile="Blue.xml"/>
     <ROW File="acinerella.dll_5" Component_="acinerella.dll_5" FileName="aciner~1.dll|acinerella.dll" Attributes="0" SourcePath="..\Output\x86\acinerella.dll" SelfReg="false" NextFile="avcodec54.dll_5"/>
     <ROW File="acinerella.dll_6" Component_="acinerella.dll_6" FileName="aciner~1.dll|acinerella.dll" Attributes="0" SourcePath="..\Output\x64\acinerella.dll" SelfReg="false" NextFile="avcodec54.dll_6"/>
     <ROW File="addPlaylist.png" Component_="addPlaylist.png" FileName="addPla~1.png|addPlaylist.png" Attributes="0" SourcePath="..\Output\Website\img\addPlaylist.png" SelfReg="false" NextFile="admin.png"/>
@@ -551,7 +551,6 @@
     <ROW File="copyrightNeonGlowIcons.txt" Component_="Button.png_3" FileName="copyri~1.txt|copyright Neon Glow Icons.txt" Attributes="0" SourcePath="..\Output\Themes\Ambient\copyright Neon Glow Icons.txt" SelfReg="false" NextFile="CoverBackground.png"/>
     <ROW File="cs.json" Component_="cs.json" FileName="cs~1.jso|cs.json" Attributes="0" SourcePath="..\Output\Website\locales\cs.json" SelfReg="false" NextFile="de.json"/>
     <ROW File="de.json" Component_="cs.json" FileName="de~1.jso|de.json" Attributes="0" SourcePath="..\Output\Website\locales\de.json" SelfReg="false" NextFile="en.json"/>
-    <ROW File="decades.xcf" Component_="decades.xcf" FileName="decades.xcf" Attributes="0" SourcePath="..\Output\Cover\Blue\Resources\decades.xcf" SelfReg="false" NextFile="language.xcf"/>
     <ROW File="en.json" Component_="cs.json" FileName="en~1.jso|en.json" Attributes="0" SourcePath="..\Output\Website\locales\en.json" SelfReg="false" NextFile="fr.json"/>
     <ROW File="fr.json" Component_="cs.json" FileName="fr~1.jso|fr.json" Attributes="0" SourcePath="..\Output\Website\locales\fr.json" SelfReg="false" NextFile="sv.json"/>
     <ROW File="glibsharp.dll" Component_="glibsharp.dll" FileName="glib-s~1.dll|glib-sharp.dll" Attributes="0" SourcePath="..\Output\glib-sharp.dll" SelfReg="false" NextFile="gstreamersharp.dll"/>
@@ -575,8 +574,6 @@
     <ROW File="jquery1.9.1.min.js" Component_="i18next1.7.1.min.js" FileName="jquery~1.js|jquery-1.9.1.min.js" Attributes="0" SourcePath="..\Output\Website\js\jquery-1.9.1.min.js" SelfReg="false" NextFile="jqueryui1.10.3.custom.min.js"/>
     <ROW File="jqueryui1.10.3.custom.min.js" Component_="i18next1.7.1.min.js" FileName="jquery~2.js|jquery-ui-1.10.3.custom.min.js" Attributes="0" SourcePath="..\Output\Website\js\jquery-ui-1.10.3.custom.min.js" SelfReg="false" NextFile="jquery.mobile1.3.2.min.js"/>
     <ROW File="keyboard.png" Component_="addPlaylist.png" FileName="keyboard.png" Attributes="0" SourcePath="..\Output\Website\img\keyboard.png" SelfReg="false" NextFile="logout.png"/>
-    <ROW File="language.xcf" Component_="decades.xcf" FileName="language.xcf" Attributes="0" SourcePath="..\Output\Cover\Blue\Resources\language.xcf" SelfReg="false" NextFile="letter.xcf"/>
-    <ROW File="letter.xcf" Component_="decades.xcf" FileName="letter.xcf" Attributes="0" SourcePath="..\Output\Cover\Blue\Resources\letter.xcf" SelfReg="false" NextFile="no_cover.xcf"/>
     <ROW File="lgpl3.0.txt" Component_="gpl3.0.txt" FileName="lgpl-3~1.txt|lgpl-3.0.txt" Attributes="0" SourcePath="..\Output\Licenses\AForge\lgpl-3.0.txt" SelfReg="false" NextFile="License.txt_1"/>
     <ROW File="libgstreamersharpglue1.0.0.dll" Component_="libgstreamersharpglue1.0.0.dll" FileName="libgst~1.dll|libgstreamersharpglue-1.0.0.dll" Attributes="0" SourcePath="..\Output\x86\libgstreamersharpglue-1.0.0.dll" SelfReg="false" NextFile="PortAudio.dll"/>
     <ROW File="libgstreamersharpglue1.0.0.dll_1" Component_="libgstreamersharpglue1.0.0.dll_1" FileName="libgst~1.dll|libgstreamersharpglue-1.0.0.dll" Attributes="0" SourcePath="..\Output\x64\libgstreamersharpglue-1.0.0.dll" SelfReg="false" NextFile="PortAudio.dll_1"/>
@@ -585,7 +582,6 @@
     <ROW File="main.js" Component_="i18next1.7.1.min.js" FileName="main.js" Attributes="0" SourcePath="..\Output\Website\js\main.js" SelfReg="false" NextFile="cs.json"/>
     <ROW File="music.png" Component_="addPlaylist.png" FileName="music.png" Attributes="0" SourcePath="..\Output\Website\img\music.png" SelfReg="false" NextFile="noCover.png_1"/>
     <ROW File="noCover.png_1" Component_="addPlaylist.png" FileName="noCover.png" Attributes="0" SourcePath="..\Output\Website\img\noCover.png" SelfReg="false" NextFile="photo.png"/>
-    <ROW File="no_cover.xcf" Component_="decades.xcf" FileName="no_cover.xcf" Attributes="0" SourcePath="..\Output\Cover\Blue\Resources\no_cover.xcf" SelfReg="false" NextFile="S.png"/>
     <ROW File="notes_bg_left.png" Component_="Button.png_3" FileName="notes_~1.png|notes_bg_left.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\notes_bg_left.png" SelfReg="false" NextFile="notes_bg_mid.png"/>
     <ROW File="notes_bg_mid.png" Component_="Button.png_3" FileName="notes_~2.png|notes_bg_mid.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\notes_bg_mid.png" SelfReg="false" NextFile="notes_bg_right.png"/>
     <ROW File="notes_bg_right.png" Component_="Button.png_3" FileName="notes_~3.png|notes_bg_right.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\notes_bg_right.png" SelfReg="false" NextFile="notes_left.png"/>
@@ -595,7 +591,6 @@
     <ROW File="photo.png" Component_="addPlaylist.png" FileName="photo.png" Attributes="0" SourcePath="..\Output\Website\img\photo.png" SelfReg="false" NextFile="playlist.png"/>
     <ROW File="playlist.png" Component_="addPlaylist.png" FileName="playlist.png" Attributes="0" SourcePath="..\Output\Website\img\playlist.png" SelfReg="false" NextFile="playlists.png"/>
     <ROW File="playlists.png" Component_="addPlaylist.png" FileName="playli~1.png|playlists.png" Attributes="0" SourcePath="..\Output\Website\img\playlists.png" SelfReg="false" NextFile="profile.png"/>
-    <ROW File="png" Component_="png" FileName="#.png" Attributes="0" SourcePath="..\Output\Cover\Blue\#.png" SelfReg="false" NextFile="A.png"/>
     <ROW File="points_bar.png" Component_="Button.png_3" FileName="points~1.png|points_bar.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\points_bar.png" SelfReg="false" NextFile="points_bar_bg.png"/>
     <ROW File="points_bar_bg.png" Component_="Button.png_3" FileName="points~2.png|points_bar_bg.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\points_bar_bg.png" SelfReg="false" NextFile="Popup.png_3"/>
     <ROW File="profile.png" Component_="addPlaylist.png" FileName="profile.png" Attributes="0" SourcePath="..\Output\Website\img\profile.png" SelfReg="false" NextFile="profiles.png"/>
@@ -739,8 +734,6 @@
     <ROW Directory_="FreeSans_Dir" Component_="FreeSans"/>
     <ROW Directory_="x64_Dir" Component_="x64"/>
     <ROW Directory_="Cover_Dir" Component_="Cover"/>
-    <ROW Directory_="Blue_Dir" Component_="Blue"/>
-    <ROW Directory_="Resources_Dir" Component_="Resources"/>
     <ROW Directory_="Graphics_Dir" Component_="Graphics"/>
     <ROW Directory_="BackgroundMusic_Dir" Component_="BackgroundMusic"/>
     <ROW Directory_="Sounds_Dir" Component_="Sounds"/>
@@ -782,6 +775,14 @@
     <ROW Directory_="Themes_3_Dir" Component_="Themes_3"/>
     <ROW Directory_="Default_2_Dir" Component_="Default_2"/>
     <ROW Directory_="Screens_4_Dir" Component_="Screens_4"/>
+    <ROW Directory_="AmbientBlue_Dir" Component_="AmbientBlue"/>
+    <ROW Directory_="Resources_Dir" Component_="Resources"/>
+    <ROW Directory_="AmbientGreen_Dir" Component_="AmbientGreen"/>
+    <ROW Directory_="Resources_1_Dir" Component_="Resources_1"/>
+    <ROW Directory_="AmbientRed_Dir" Component_="AmbientRed"/>
+    <ROW Directory_="Resources_2_Dir" Component_="Resources_2"/>
+    <ROW Directory_="AmbientYellow_Dir" Component_="AmbientYellow"/>
+    <ROW Directory_="Resources_3_Dir" Component_="Resources_3"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
     <ROW Action="AI_AiRemoveFilesCommit" Type="11777" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesCommit" WithoutSeq="true"/>
@@ -824,6 +825,7 @@
     <ROW Action="AI_SETPROGRAMFILES64" Type="51" Source="AI_ProgramFiles" Target="[ProgramFiles64Folder]"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
     <ROW Action="AI_STORE_LOCATION" Type="51" Source="ARPINSTALLLOCATION" Target="[APPDIR]"/>
+    <ROW Action="AI_ViewReadme" Type="1" Source="aicustact.dll" Target="[#Readme.txt_1]"/>
     <ROW Action="SET_APPDIR" Type="307" Source="APPDIR" Target="[ProgramFilesFolder][Manufacturer]\[ProductName]" MultiBuildTarget="DefaultBuild:[AI_ProgramFiles]\[ProductName]"/>
     <ROW Action="SET_SHORTCUTDIR" Type="307" Source="SHORTCUTDIR" Target="[ProgramMenuFolder][ProductName]"/>
     <ROW Action="SET_TARGETDIR_TO_APPDIR" Type="51" Source="TARGETDIR" Target="[APPDIR]"/>
@@ -889,8 +891,6 @@
     <ROW LockObject="FreeSans_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
     <ROW LockObject="x64_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
     <ROW LockObject="Cover_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
-    <ROW LockObject="Blue_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
-    <ROW LockObject="Resources_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
     <ROW LockObject="Graphics_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
     <ROW LockObject="BackgroundMusic_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
     <ROW LockObject="Sounds_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
@@ -931,6 +931,14 @@
     <ROW LockObject="Themes_3_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
     <ROW LockObject="Default_2_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
     <ROW LockObject="Screens_4_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="AmbientBlue_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="Resources_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="AmbientGreen_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="Resources_1_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="AmbientRed_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="Resources_2_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="AmbientYellow_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
+    <ROW LockObject="Resources_3_Dir" Table="CreateFolder" User="Everyone" Permission="1880096767"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiRegLocatorComponent">
     <ROW Signature_="AI_EXE_PATH_CU" Root="1" Key="Software\Caphyon\Advanced Installer\LZMA\[ProductCode]\[ProductVersion]" Name="AI_ExePath" Type="2"/>

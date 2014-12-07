@@ -76,6 +76,7 @@
   <string name="TR_CONFIG_OWN_MUSIC">Eigene Musik und Hintergrundmusik</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Keine eigene Musik</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Nur eigene Musik</string>
+  <string name="TR_CONFIG_ONLY_SONG">Nur bei gewähltem Song</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Alle</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Nur Namen und Avatar</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Keine</string>
@@ -211,8 +212,8 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcam-Auflösung</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Anzeigeanpassungen</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">STRG + ALT (+ SHIFT) + Pfeiltasten|"+" drücken um den Bildschirm anzupassen</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">STRG + ALT + 0 um die Anpassungen zurückzusetzen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">STRG + ALT (+ SHIFT) + Pfeiltasten oder "+" drücken um den Bildschirm zu justieren.</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">STRG + ALT + 0 um die Änderungen zurückzusetzen.</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Oben links</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Oben rechts</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Unten links</string>
