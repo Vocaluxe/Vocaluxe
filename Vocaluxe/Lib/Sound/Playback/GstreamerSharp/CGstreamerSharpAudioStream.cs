@@ -175,7 +175,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             // Passing CLOCK_TIME_NONE here causes the pipeline to block for a long time so with
             // prescan enabled the pipeline will wait 500ms for stream to initialize and then continue
             // if it takes more than 500ms, duration queries will be performed asynchronously
-            Message msg = _Element.Bus.TimedPopFiltered(prescan ? ulong.MaxValue : 0L, MessageType.AsyncDone | MessageType.Error);
+            Message msg = _Element.Bus.TimedPopFiltered(prescan ? ulong.MaxValue : 0L, MessageType.AsyncDone | MessageType.Error | MessageType.DurationChanged);
             if (!_OnMessage(msg))
             {
                 _Dispose(true);
@@ -237,7 +237,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
         private bool _OnMessage(Message msg)
         {
-            if (msg.Handle == IntPtr.Zero)
+            if (msg == null || msg.Handle == IntPtr.Zero)
                 return true;
             switch (msg.Type)
             {
