@@ -91,7 +91,10 @@ namespace Vocaluxe.Base
 
         public static CTextureRef GenerateCover(string text, ECoverGeneratorType type, CSong firstSong)
         {
-            CTextureRef texture = CDraw.CopyTexture(NoCover);
+            CTextureRef texture = Cover(text);
+            if (texture != NoCover)
+                return texture;
+            texture = CDraw.CopyTexture(NoCover);
             Task.Factory.StartNew(() =>
                 {
                     _CancelToken.Token.ThrowIfCancellationRequested();
