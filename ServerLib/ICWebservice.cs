@@ -127,6 +127,11 @@ namespace ServerLib
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getAllSongs")]
         SSongInfo[] GetAllSongs();
+
+        [OperationContract, WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getMp3?songId={songId}")]
+        Stream GetMp3File(int songId);
         #endregion
 
         #region playlist

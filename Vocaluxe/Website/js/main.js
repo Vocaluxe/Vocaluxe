@@ -1066,6 +1066,13 @@
 
                 $('#displaySongIsDuet').text(result.IsDuet ? "Yes" : "No");
 
+                if (result.SongId >= 0) {
+                    $('#displaySongPlayer').show()[0].src = "getMp3?songId=" + result.SongId;
+                } else {
+                    $('#displaySongPlayer').hide();
+                }
+
+
                 if (result.Title != null || result.Artist != null) {
                     $('#displaySongLinks').show();
 

@@ -59,6 +59,8 @@ namespace ServerLib
         public static GetAllSongsDelegate GetAllSongs { internal get; set; }
 
         public static GetCurrentSongIdDelegate GetCurrentSongId { internal get; set; }
+
+        public static GetMp3PathDelegate GetMp3Path { internal get; set; }
         #endregion
 
         #region playlist

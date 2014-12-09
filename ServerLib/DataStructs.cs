@@ -111,6 +111,8 @@ namespace ServerLib
 
     public delegate int GetCurrentSongIdDelegate();
 
+    public delegate string GetMp3PathDelegate(int songId);
+
     [DataContract]
     public struct SSongInfo
     {

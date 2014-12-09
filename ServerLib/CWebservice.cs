@@ -37,7 +37,8 @@ namespace ServerLib
             {
                 sessionKey = Guid.Parse(sessionHeader);
             }
-            catch (Exception) {}
+            catch (Exception)
+            { }
             return sessionKey;
         }
 
@@ -144,7 +145,7 @@ namespace ServerLib
         public SProfileData[] GetProfileList()
         {
             if (CServer.GetProfileList == null)
-                return new SProfileData[] {};
+                return new SProfileData[] { };
             return CServer.GetProfileList();
         }
         #endregion
@@ -307,6 +308,32 @@ namespace ServerLib
         public SSongInfo[] GetAllSongs()
         {
             return CServer.GetAllSongs();
+        }
+
+        public Stream GetMp3File(int songId)
+        {
+            if (WebOperationContext.Current != null)
+            {
+                WebOperationContext.Current.OutgoingResponse.ContentType = "audio/mpeg";
+                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
+                WebOperationContext.Current.OutgoingResponse.Headers.Add(
+                    HttpResponseHeader.Expires,
+                    DateTime.UtcNow.AddYears(1).ToString("r"));
+            }
+
+
+            String path = CServer.GetMp3Path(songId);
+            path = path.Replace("..", "");
+
+
+            if (!File.Exists(path) || !(path.EndsWith(".mp3", StringComparison.InvariantCulture) || path.EndsWith(".ogg", StringComparison.InvariantCulture)))
+            {
+                if (WebOperationContext.Current != null)
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+                return null;
+            }
+
+            return File.OpenRead(path);
         }
         #endregion
 
