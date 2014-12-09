@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.Draw;
@@ -26,38 +25,36 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
-    class CSongMenuListAndCover : CSongMenuFramework
+    class CSongMenuList : CSongMenuFramework
     {
         private SRectF _ScrollRect;
         private List<CStatic> _Tiles;
         private List<CText> _Texts;
-        private CStatic _CoverBig;
-        private CStatic _TextBG;
-        private CStatic _DuetIcon;
-        private CStatic _VideoIcon;
-        private CStatic _MedleyCalcIcon;
-        private CStatic _MedleyTagIcon;
+        private readonly CStatic _CoverBig;
+        private readonly CStatic _TextBG;
+        private readonly CStatic _DuetIcon;
+        private readonly CStatic _VideoIcon;
+        private readonly CStatic _MedleyCalcIcon;
+        private readonly CStatic _MedleyTagIcon;
 
-        private CTexture _CoverBigBGTexture;
-        private CTexture _CoverBGTexture;
+        private CTextureRef _CoverBigBGTexture;
+        private CTextureRef _CoverBGTexture;
 
-        private CText _Artist;
-        private CText _Title;
-        private CText _SongLength;
-
+        private readonly CText _Artist;
+        private readonly CText _Title;
+        private readonly CText _SongLength;
 
         private float _SpaceW;
         private float _SpaceH;
 
         private int _TileW;
         private int _TileH;
-        
+
         //TODO: remove all 1* from the code (artifacts from translation from tile board)
         //TODO: make variable list length
         private int _ListLength = 15;
         private float _CoverTileWidth;
         private float _ListTextWidth;
-        
 
         // Offset is the song or categoryNr of the tile in the left upper corner
         private int _Offset;
@@ -67,6 +64,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _LastKnownCategory;
 
         private bool _MouseWasInRect;
+
+        private readonly List<IMenuElement> _SubElements = new List<IMenuElement>();
 
         public override float SelectedTileZoomFactor
         {
@@ -86,16 +85,6 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
-        private void _UpdateTileSelection()
-        {
-            foreach (CStatic tile in _Tiles)
-                tile.Selected = false;
-
-            int tileNr = _SelectionNr - _Offset;
-            if (tileNr >= 0 && tileNr < _Tiles.Count)
-                _Tiles[tileNr].Selected = true;
-        }
-
         public override bool SmallView
         {
             set
@@ -108,9 +97,6 @@ namespace VocaluxeLib.Menu.SongMenu
                 _UpdateTileSelection();
             }
         }
-
-        public CSongMenuListAndCover(int partyModeID)
-            : base(partyModeID) {}
 
         protected override int _PreviewNr
         {
@@ -127,23 +113,44 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
+        public CSongMenuList(SThemeSongMenu theme, int partyModeID) : base(theme, partyModeID)
+        {
+            _SpaceW = _Theme.SongMenuTileBoard.SpaceW;
+            _SpaceH = _Theme.SongMenuTileBoard.SpaceH;
+            _Artist = new CText(_Theme.SongMenuTileBoard.TextArtist, _PartyModeID);
+            _Title = new CText(_Theme.SongMenuTileBoard.TextTitle, _PartyModeID);
+            _SongLength = new CText(_Theme.SongMenuTileBoard.TextSongLength, _PartyModeID);
+            _CoverBig = new CStatic(_Theme.SongMenuTileBoard.StaticCoverBig, _PartyModeID);
+            _TextBG = new CStatic(_Theme.SongMenuTileBoard.StaticTextBG, _PartyModeID);
+            _DuetIcon = new CStatic(_Theme.SongMenuTileBoard.StaticDuetIcon, _PartyModeID);
+            _VideoIcon = new CStatic(_Theme.SongMenuTileBoard.StaticVideoIcon, _PartyModeID);
+            _MedleyCalcIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyCalcIcon, _PartyModeID);
+            _MedleyTagIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyTagIcon, _PartyModeID);
+            _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
+        }
+
+        private void _ReadSubTheme()
+        {
+            _Theme.SongMenuTileBoard.TextArtist = (SThemeText)_Artist.GetTheme();
+            _Theme.SongMenuTileBoard.TextSongLength = (SThemeText)_SongLength.GetTheme();
+            _Theme.SongMenuTileBoard.TextTitle = (SThemeText)_Title.GetTheme();
+            _Theme.SongMenuTileBoard.StaticCoverBig = (SThemeStatic)_CoverBig.GetTheme();
+            _Theme.SongMenuTileBoard.StaticDuetIcon = (SThemeStatic)_DuetIcon.GetTheme();
+            _Theme.SongMenuTileBoard.StaticMedleyCalcIcon = (SThemeStatic)_MedleyCalcIcon.GetTheme();
+            _Theme.SongMenuTileBoard.StaticMedleyTagIcon = (SThemeStatic)_MedleyTagIcon.GetTheme();
+            _Theme.SongMenuTileBoard.StaticTextBG = (SThemeStatic)_TextBG.GetTheme();
+            _Theme.SongMenuTileBoard.StaticVideoIcon = (SThemeStatic)_VideoIcon.GetTheme();
+        }
+
+        public override object GetTheme()
+        {
+            _ReadSubTheme();
+            return base.GetTheme();
+        }
+
         public override void Init()
         {
             base.Init();
-
-            _SpaceW = _Theme.SongMenuTileBoard.SpaceW;
-            _SpaceH = _Theme.SongMenuTileBoard.SpaceH;
-
-            _CoverBig = _Theme.SongMenuTileBoard.StaticCoverBig;
-            _TextBG = _Theme.SongMenuTileBoard.StaticTextBG;
-            _DuetIcon = _Theme.SongMenuTileBoard.StaticDuetIcon;
-            _VideoIcon = _Theme.SongMenuTileBoard.StaticVideoIcon;
-            _MedleyCalcIcon = _Theme.SongMenuTileBoard.StaticMedleyCalcIcon;
-            _MedleyTagIcon = _Theme.SongMenuTileBoard.StaticMedleyTagIcon;
-
-            _Artist = _Theme.SongMenuTileBoard.TextArtist;
-            _Title = _Theme.SongMenuTileBoard.TextTitle;
-            _SongLength = _Theme.SongMenuTileBoard.TextSongLength;
 
             _PreviewNr = -1;
             _InitTiles();
@@ -151,23 +158,21 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _InitTiles()
         {
-            Rect = _Theme.SongMenuTileBoard.TileRect;
+            MaxRect = _Theme.SongMenuTileBoard.TileRect;
 
             //keep tile ratio 3/2 so the covers still look nice. 
-            _CoverTileWidth = _ListLength * 3 / 2;
+            _CoverTileWidth = _ListLength * 3.0f / 2;
             _ListTextWidth = Rect.W - _ListTextWidth;
 
             _TileW = (int)((Rect.W - _SpaceW * (_CoverTileWidth - 1)) / _CoverTileWidth);
             _TileH = (int)((Rect.H - _SpaceH * (_ListLength - 1)) / _ListLength);
 
-            _CoverBGTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBackgroundName, _PartyModeID);
-            _CoverBigBGTexture = CBase.Theme.GetSkinTexture(_Theme.CoverBigBackgroundName, _PartyModeID);
+            _CoverBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBackground, _PartyModeID);
+            _CoverBigBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBigBackground, _PartyModeID);
 
             //Create cover tiles
             _Tiles = new List<CStatic>();
             _Texts = new List<CText>();
-
-          
 
             for (int i = 0; i < _ListLength; i++)
             {
@@ -177,23 +182,30 @@ namespace VocaluxeLib.Menu.SongMenu
                 _Tiles.Add(tile);
 
                 //Create text
-                var textRect = new SRectF(Rect.X + 2*(_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _ListTextWidth, _TileH, Rect.Z);
-                //string textString = _Artist.Text + " - " + _Title.Text;
-                string textString = "";                
-                CText text = new CText(textRect.X,textRect.Y,textRect.Z,
-                    textRect.H,textRect.W,EAlignment.Left,EStyle.Normal,
-                    "Normal",_Artist.Color,textString);
+                var textRect = new SRectF(Rect.X + 2 * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _ListTextWidth, _TileH, Rect.Z);
+                //string textString = _Artist.Text + " - " + _Title.Text;               
+                CText text = new CText(textRect.X, textRect.Y, textRect.Z,
+                                       textRect.H, textRect.W, EAlignment.Left, EStyle.Normal,
+                                       "Normal", _Artist.Color, "");
 
                 _Texts.Add(text);
             }
 
-            _ScrollRect = new SRectF(0, 0, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), Rect.Z);
+            _ScrollRect = CBase.Settings.GetRenderRect();
+        }
+
+        private void _UpdateTileSelection()
+        {
+            foreach (CStatic tile in _Tiles)
+                tile.Selected = false;
+
+            int tileNr = _SelectionNr - _Offset;
+            if (tileNr >= 0 && tileNr < _Tiles.Count)
+                _Tiles[tileNr].Selected = true;
         }
 
         public override void Update(SScreenSongOptions songOptions)
         {
-            base.Update(songOptions);
-
             if (songOptions.Selection.RandomOnly)
                 _PreviewNr = _SelectionNr;
 
@@ -415,15 +427,11 @@ namespace VocaluxeLib.Menu.SongMenu
                 int i = 0;
                 bool somethingSelected = false;
 
-                //needed for hover over list selection
-                SRectF songRect;
-
-
                 foreach (CStatic tile in _Tiles)
                 {
                     //create a rect including the cover and text of the song. 
                     //(this way mouse over text should make a selection as well)
-                    songRect = new SRectF(tile.Rect.X, tile.Rect.Y, Rect.W, tile.Rect.H, tile.Rect.Z);
+                    SRectF songRect = new SRectF(tile.Rect.X, tile.Rect.Y, Rect.W, tile.Rect.H, tile.Rect.Z);
                     if (tile.Texture != _CoverBGTexture && CHelper.IsInBounds(songRect, mouseEvent))
                     {
                         somethingSelected = true;
@@ -452,7 +460,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
                 if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !songOptions.Selection.PartyMode)
                 {
-                    CBase.Graphics.FadeTo(EScreens.ScreenMain);
+                    CBase.Graphics.FadeTo(EScreen.Main);
                     return true;
                 }
             }
@@ -478,7 +486,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             foreach (CStatic tile in _Tiles)
             {
-                if (tile.Selected && Active)
+                if (tile.Selected)
                     tile.Draw(EAspect.Crop, SelectedTileZoomFactor, -0.1f);
                 else
                 {
@@ -487,53 +495,37 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
             }
 
-            //hightlight the text of the selected song
+            //highlight the text of the selected song
             int i = 0;
-            foreach(CText text in _Texts)
+            foreach (CText text in _Texts)
             {
-                if(i < _Tiles.Count && _Tiles.ElementAt(i).Selected && Active)
-                {
-                    text.Style = EStyle.BoldItalic;
-                }
+                if (i < _Tiles.Count && _Tiles[i].Selected)
+                    text.Font.Style = EStyle.BoldItalic;
                 else if (i < _Tiles.Count)
-                {
-                    text.Style = EStyle.Normal;
-                } else
-                {
+                    text.Font.Style = EStyle.Normal;
+                else
                     text.Text = "";
-                }
                 text.Draw();
                 i++;
             }
 
             _TextBG.Draw();
 
-            CTexture vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
+            CTextureRef vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
 
             if (vidtex != null)
             {
                 if (vidtex.Color.A < 1)
                     _CoverBig.Draw(EAspect.Crop);
-                var bounds = new RectangleF(_CoverBig.Rect.X, _CoverBig.Rect.Y, _CoverBig.Rect.W, _CoverBig.Rect.H);
-                RectangleF rect;
-                CHelper.SetRect(bounds, out rect, vidtex.OrigAspect, EAspect.Crop);
-                var vidRect = new SRectF(rect.X, rect.Y, rect.Width, rect.Height, _CoverBig.Rect.Z);
-                var vidRectBounds = new SRectF(bounds.X, bounds.Y, bounds.Width, bounds.Height, 0f);
-
-                CBase.Drawing.DrawTexture(vidtex, vidRect, vidtex.Color, vidRectBounds);
-                CBase.Drawing.DrawTextureReflection(vidtex, vidRect, vidtex.Color, vidRectBounds, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
+                SRectF rect = CHelper.FitInBounds(_CoverBig.Rect, vidtex.OrigAspect, EAspect.Crop);
+                CBase.Drawing.DrawTexture(vidtex, rect, vidtex.Color, _CoverBig.Rect);
+                CBase.Drawing.DrawTextureReflection(vidtex, rect, vidtex.Color, _CoverBig.Rect, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
             else
                 _CoverBig.Draw(EAspect.Crop);
 
-
-            _Artist.Draw();
-            _Title.Draw();
-            _SongLength.Draw();
-            _DuetIcon.Draw();
-            _VideoIcon.Draw();
-            _MedleyCalcIcon.Draw();
-            _MedleyTagIcon.Draw();
+            foreach (IMenuElement element in _SubElements)
+                element.Draw();
         }
 
         public override CStatic GetSelectedSongCover()
@@ -614,45 +606,46 @@ namespace VocaluxeLib.Menu.SongMenu
             if (offset == _Offset && !force)
                 return;
 
-            CSong currentSong;
-            string textString;
-
             for (int i = 0; i < _Tiles.Count; i++)
             {
-                if (itemCount > i + offset)
+                if (i + offset < itemCount)
                 {
-                    currentSong = CBase.Songs.GetVisibleSong(i+offset);
-                    //isInCategory does not really seem to be interesting.. :D
-                    _Tiles[i].Texture = isInCategory ? currentSong.CoverTextureSmall : currentSong.CoverTextureSmall;
                     _Tiles[i].Color = new SColorF(1f, 1f, 1f, 1f);
-
-                    textString = currentSong.Artist + " - "+ currentSong.Title;
-                    _Texts.ElementAt(i).Text = textString;
+                    if (isInCategory)
+                    {
+                        CSong currentSong = CBase.Songs.GetVisibleSong(i + offset);
+                        _Tiles[i].Texture = currentSong.CoverTextureSmall;
+                        _Texts[i].Text = currentSong.Artist + " - " + currentSong.Title;
+                    }
+                    else
+                    {
+                        CCategory currentCat = CBase.Songs.GetCategory(i + offset);
+                        _Tiles[i].Texture = currentCat.CoverTextureSmall;
+                        int num = currentCat.GetNumSongsNotSung();
+                        String songOrSongs = (num == 1) ? "TR_SCREENSONG_NUMSONG" : "TR_SCREENSONG_NUMSONGS";
+                        _Texts[i].Text = currentCat.Name + " " + CBase.Language.Translate(songOrSongs).Replace("%v", num.ToString());
+                    }
                 }
                 else
                 {
                     _Tiles[i].Texture = _CoverBGTexture;
                     _Tiles[i].Color = _Color;
-                    _Texts.ElementAt(i).Text = "";
+                    _Texts[i].Text = "";
                 }
             }
             _Offset = offset;
         }
 
-        public override void LoadTextures()
+        public override void LoadSkin()
         {
-            base.LoadTextures();
+            base.LoadSkin();
+            foreach (IThemeable themeable in _SubElements.OfType<IThemeable>())
+                themeable.LoadSkin();
+            // Those are drawn seperately so they are not in the above list
+            _CoverBig.LoadSkin();
+            _TextBG.LoadSkin();
 
-            _Theme.SongMenuTileBoard.StaticCoverBig.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticTextBG.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticDuetIcon.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticVideoIcon.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticMedleyCalcIcon.ReloadTextures();
-            _Theme.SongMenuTileBoard.StaticMedleyTagIcon.ReloadTextures();
-
-            _Theme.SongMenuTileBoard.TextArtist.ReloadTextures();
-            _Theme.SongMenuTileBoard.TextTitle.ReloadTextures();
-            _Theme.SongMenuTileBoard.TextSongLength.ReloadTextures();
+            Init();
         }
     }
 }

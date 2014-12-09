@@ -25,9 +25,8 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             switch (CBase.Config.GetSongMenuType())
             {
-                    //case ESongMenu.TR_CONFIG_LIST:
-                    //    _SongMenu = new CSongMenuList();
-                    //    break;
+                case ESongMenu.TR_CONFIG_LIST:
+                    return new CSongMenuList(theme, partyModeID);
 
                     //case ESongMenu.TR_CONFIG_DREIDEL:
                     //    _SongMenu = new CSongMenuDreidel();
