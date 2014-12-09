@@ -199,7 +199,8 @@ namespace Vocaluxe
 
                 // Load Cover
                 CLog.StartBenchmark("Init Cover");
-                CCover.Init();
+                if (!CCover.Init())
+                    throw new CLoadingException("covertheme");
                 CLog.StopBenchmark("Init Cover");
 
                 Application.DoEvents();

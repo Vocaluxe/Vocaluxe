@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Threading;
@@ -40,10 +41,10 @@ namespace Vocaluxe.Base
 
         public static CTextureRef NoCover { get; private set; }
 
-        public static void Init()
+        public static bool Init()
         {
             _LoadCoverThemes();
-            _LoadCovers(CConfig.Config.Theme.CoverTheme);
+            return _CoverThemes.Count != 0 && _LoadCovers();
         }
 
         public static void Close()
@@ -91,7 +92,10 @@ namespace Vocaluxe.Base
 
         public static CTextureRef GenerateCover(string text, ECoverGeneratorType type, CSong firstSong)
         {
-            CTextureRef texture = CDraw.CopyTexture(NoCover);
+            CTextureRef texture = Cover(text);
+            if (texture != NoCover)
+                return texture;
+            texture = CDraw.CopyTexture(NoCover);
             Task.Factory.StartNew(() =>
                 {
                     _CancelToken.Token.ThrowIfCancellationRequested();
@@ -127,7 +131,7 @@ namespace Vocaluxe.Base
         public static void ReloadCovers()
         {
             _UnloadCovers();
-            _LoadCovers(CConfig.Config.Theme.CoverTheme);
+            _LoadCovers();
         }
 
         private static void _UnloadCovers()
@@ -150,14 +154,15 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Returns a SCoverTheme by cover-theme-name
         /// </summary>
-        private static SThemeCover _CoverTheme(string coverThemeName)
+        private static SThemeCover _GetCoverTheme()
         {
-            for (int i = 0; i < _CoverThemes.Count; i++)
+            int index = GetCoverThemeIndex();
+            if (index < 0)
             {
-                if (_CoverThemes[i].Info.Name == coverThemeName)
-                    return _CoverThemes[i];
+                index = 0;
+                CConfig.Config.Theme.CoverTheme = _CoverThemes[0].Info.Name;
             }
-            return new SThemeCover();
+                return _CoverThemes[index];
         }
 
         /// <summary>
@@ -184,7 +189,7 @@ namespace Vocaluxe.Base
                     continue;
                 }
 
-                if (theme.Info.Folder != "" && theme.Info.Name != "")
+                if (!String.IsNullOrEmpty(theme.Info.Folder) && !String.IsNullOrEmpty(theme.Info.Name))
                 {
                     theme.FolderPath = Path.Combine(folderPath, theme.Info.Folder);
                     _CoverThemes.Add(theme);
@@ -195,12 +200,11 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Loads all covers from the theme
         /// </summary>
-        private static void _LoadCovers(string coverThemeName)
+        private static bool _LoadCovers()
         {
-            SThemeCover coverTheme = _CoverTheme(coverThemeName);
+            SThemeCover coverTheme = _GetCoverTheme();
 
-            if (String.IsNullOrEmpty(coverTheme.Info.Name))
-                return;
+            Debug.Assert(!String.IsNullOrEmpty(coverTheme.Info.Name));
 
             List<string> files = CHelper.ListImageFiles(coverTheme.FolderPath, true, true);
 
@@ -213,9 +217,16 @@ namespace Vocaluxe.Base
                 else if (_CoverExists(_NoCoverNameAlt))
                     NoCover = _Covers[_NoCoverNameAlt];
                 else
-                    CBase.Log.LogError("Covertheme \"" + coverThemeName + "\" does not include a cover file named \"" + _NoCoverName + "\" and cannot be used!", true, true);
+                {
+                    CBase.Log.LogError("Covertheme \"" + coverTheme.Info.Name + "\" does not include a cover file named \"" + _NoCoverName + "\" and cannot be used!", true, true);
+                    _UnloadCovers();
+                    // Remove current theme and recursively try the other themes
+                    _CoverThemes.Remove(coverTheme);
+                    return _CoverThemes.Count > 0 && _LoadCovers();
+                }
             }
             _LoadCoverGenerators(coverTheme);
+            return true;
         }
 
         public static ECoverGeneratorType _SongSortingToType(ESongSorting sorting)
