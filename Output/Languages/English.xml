@@ -46,7 +46,7 @@
   <string name="TR_CONFIG_LEVEL2">Level 2</string>
   <string name="TR_CONFIG_LEVEL3">Level 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
-  <string name="TR_CONFIG_LIST">List</string>
+  <string name="TR_CONFIG_LIST">Song List</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
   <string name="TR_CONFIG_TILE_BOARD">TileBoard</string>
   <string name="TR_CONFIG_BOOK">Book</string>
