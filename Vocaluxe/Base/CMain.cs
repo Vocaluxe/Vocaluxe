@@ -160,6 +160,11 @@ namespace Vocaluxe.Base
         {
             CConfig.SongMenuChanged += onSongMenuChanged;
         }
+
+        public void RemoveSongMenuListener(OnSongMenuChanged onSongMenuChanged)
+        {
+            CConfig.SongMenuChanged -= onSongMenuChanged;
+        }
     }
 
     class CBsettings : ISettings

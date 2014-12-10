@@ -638,14 +638,13 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public override void LoadSkin()
         {
-            base.LoadSkin();
             foreach (IThemeable themeable in _SubElements.OfType<IThemeable>())
                 themeable.LoadSkin();
             // Those are drawn seperately so they are not in the above list
             _CoverBig.LoadSkin();
             _TextBG.LoadSkin();
 
-            Init();
+            base.LoadSkin();
         }
     }
 }

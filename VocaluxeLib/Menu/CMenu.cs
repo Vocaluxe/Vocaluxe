@@ -89,6 +89,12 @@ namespace VocaluxeLib.Menu
         protected CMenu()
         {
             PartyModeID = -1;
+            CBase.Config.AddSongMenuListener(_OnSongMenuChanged);
+        }
+
+        ~CMenu()
+        {
+            CBase.Config.RemoveSongMenuListener(_OnSongMenuChanged);
         }
 
         public override void Init()
@@ -111,6 +117,16 @@ namespace VocaluxeLib.Menu
             _ThemePlaylists = null;
             _ThemeParticleEffects = null;
             _ThemeScreenSettings = null;
+        }
+
+        protected virtual void _OnSongMenuChanged()
+        {
+            for (int i = 0; i < _SongMenus.Count; i++)
+            {
+                SThemeSongMenu theme = (SThemeSongMenu)_SongMenus[i].GetTheme();
+                _SongMenus[i] = CSongMenuFactory.CreateSongMenu(theme, PartyModeID);
+                _SongMenus[i].LoadSkin();
+            }
         }
 
         #region ThemeHandler
@@ -201,7 +217,7 @@ namespace VocaluxeLib.Menu
                     _AddSingNote(new CSingNotes(sb, PartyModeID), sb.Name);
 
                 foreach (SThemeSongMenu sm in Theme.SongMenus)
-                    _AddSongMenu(new CSongMenu(sm, PartyModeID), sm.Name);
+                    _AddSongMenu(CSongMenuFactory.CreateSongMenu(sm, PartyModeID), sm.Name);
 
                 foreach (SThemeStatic st in Theme.Statics)
                     _AddStatic(new CStatic(st, PartyModeID), st.Name);
@@ -258,7 +274,14 @@ namespace VocaluxeLib.Menu
                 _LoadThemeElement<CText>(_ThemeTexts, _AddText, xmlReader);
                 _LoadThemeElement<CButton>(_ThemeButtons, _AddButton, xmlReader);
                 _LoadThemeElement<CSelectSlide>(_ThemeSelectSlides, _AddSelectSlide, xmlReader);
-                _LoadThemeElement<CSongMenu>(_ThemeSongMenus, _AddSongMenu, xmlReader);
+                foreach (string elName in _ThemeSongMenus)
+                {
+                    ISongMenu element = CSongMenuFactory.CreateSongMenu(PartyModeID);
+                    if (element.LoadTheme("//root/" + ThemeName, elName, xmlReader))
+                        _AddSongMenu(element, elName);
+                    else
+                        CBase.Log.LogError("Can't load songmenu \"" + elName + "\" in screen " + ThemeName);
+                }
                 _LoadThemeElement<CSongMenuFramework>(_ThemeSongMenus, _AddSongMenu, xmlReader);
                 _LoadThemeElement<CLyric>(_ThemeLyrics, _AddLyric, xmlReader);
                 _LoadThemeElement<CSingNotes>(_ThemeSingNotes, _AddSingNote, xmlReader);

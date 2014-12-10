@@ -147,6 +147,12 @@ namespace Vocaluxe.Screens
             _DragAndDropCover = GetNewStatic();
         }
 
+        protected override void _OnSongMenuChanged()
+        {
+            base._OnSongMenuChanged();
+            _SongMenu = _SongMenus[_SongMenuName];
+        }
+
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);

@@ -36,6 +36,11 @@ namespace VocaluxeLib.Menu
                 _ParentName = _ParentName.Remove(0, 1);
         }
 
+        public int Count
+        {
+            get { return _Items.Count; }
+        }
+
         public T this[int index]
         {
             get { return _Items[index]; }

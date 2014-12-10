@@ -28,6 +28,7 @@ using VocaluxeLib.Songs;
 namespace VocaluxeLib
 {
     public delegate void OnSongMenuChanged();
+
     public interface IConfig
     {
         EOffOn GetSaveModifiedSongs();
@@ -60,6 +61,7 @@ namespace VocaluxeLib
 
         bool GetLoadOldThemeFiles();
         void AddSongMenuListener(OnSongMenuChanged onSongMenuChanged);
+        void RemoveSongMenuListener(OnSongMenuChanged onSongMenuChanged);
     }
 
     public interface ISettings
