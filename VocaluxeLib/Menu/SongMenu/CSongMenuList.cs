@@ -579,18 +579,13 @@ namespace VocaluxeLib.Menu.SongMenu
             _UpdateList(true);
         }
 
-        private int _GetOffsetForPosition(int index, int rowNum = 0)
-        {
-            return (index / 1) * 1 - (1 * rowNum.Clamp(0, _ListLength - 1, true));
-        }
-
         private void _UpdateList(bool force = false)
         {
             int offset;
             if (_SelectionNr < _Offset && _SelectionNr >= 0)
-                offset = _GetOffsetForPosition(_SelectionNr);
-            else if (_SelectionNr >= _Offset + 1 * _ListLength)
-                offset = _GetOffsetForPosition(_SelectionNr, _ListLength);
+                offset = _SelectionNr;
+            else if (_SelectionNr >= _Offset + _ListLength)
+                offset = _SelectionNr - _ListLength + 1;
             else
                 offset = _Offset;
             _UpdateList(offset, force);
@@ -601,7 +596,7 @@ namespace VocaluxeLib.Menu.SongMenu
             bool isInCategory = CBase.Songs.IsInCategory();
             int itemCount = isInCategory ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
 
-            offset = offset.Clamp(0, _GetOffsetForPosition(itemCount, _ListLength - 1), true);
+            offset = offset.Clamp(0, itemCount - _ListLength, true);
 
             if (offset == _Offset && !force)
                 return;
@@ -628,8 +623,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
                 else
                 {
-                    _Tiles[i].Texture = _CoverBGTexture;
-                    _Tiles[i].Color = _Color;
+                    _Tiles[i].Color.A = 0;
                     _Texts[i].Text = "";
                 }
             }
