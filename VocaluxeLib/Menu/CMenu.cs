@@ -201,7 +201,7 @@ namespace VocaluxeLib.Menu
                     _AddSingNote(new CSingNotes(sb, PartyModeID), sb.Name);
 
                 foreach (SThemeSongMenu sm in Theme.SongMenus)
-                    _AddSongMenu(CSongMenuFactory.CreateSongMenu(sm, PartyModeID), sm.Name);
+                    _AddSongMenu(new CSongMenu(sm, PartyModeID), sm.Name);
 
                 foreach (SThemeStatic st in Theme.Statics)
                     _AddStatic(new CStatic(st, PartyModeID), st.Name);
@@ -258,14 +258,7 @@ namespace VocaluxeLib.Menu
                 _LoadThemeElement<CText>(_ThemeTexts, _AddText, xmlReader);
                 _LoadThemeElement<CButton>(_ThemeButtons, _AddButton, xmlReader);
                 _LoadThemeElement<CSelectSlide>(_ThemeSelectSlides, _AddSelectSlide, xmlReader);
-                foreach (string elName in _ThemeSongMenus)
-                {
-                    ISongMenu element = CSongMenuFactory.CreateSongMenu(PartyModeID);
-                    if (element.LoadTheme("//root/" + ThemeName, elName, xmlReader))
-                        _AddSongMenu(element, elName);
-                    else
-                        CBase.Log.LogError("Can't load songmenu \"" + elName + "\" in screen " + ThemeName);
-                }
+                _LoadThemeElement<CSongMenu>(_ThemeSongMenus, _AddSongMenu, xmlReader);
                 _LoadThemeElement<CSongMenuFramework>(_ThemeSongMenus, _AddSongMenu, xmlReader);
                 _LoadThemeElement<CLyric>(_ThemeLyrics, _AddLyric, xmlReader);
                 _LoadThemeElement<CSingNotes>(_ThemeSingNotes, _AddSingNote, xmlReader);

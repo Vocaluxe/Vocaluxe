@@ -27,6 +27,7 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib
 {
+    public delegate void OnSongMenuChanged();
     public interface IConfig
     {
         EOffOn GetSaveModifiedSongs();
@@ -58,6 +59,7 @@ namespace VocaluxeLib
         int GetMaxNumMics();
 
         bool GetLoadOldThemeFiles();
+        void AddSongMenuListener(OnSongMenuChanged onSongMenuChanged);
     }
 
     public interface ISettings

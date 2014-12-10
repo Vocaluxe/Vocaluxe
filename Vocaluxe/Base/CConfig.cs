@@ -126,7 +126,9 @@ namespace Vocaluxe.Base
         {
             [DefaultValue(CSettings.FallbackLanguage)] public string Language;
             public string[] SongFolder;
+            // ReSharper disable MemberHidesStaticFromOuterClass
             [DefaultValue(ESongMenu.TR_CONFIG_TILE_BOARD)] public ESongMenu SongMenu;
+            // ReSharper restore MemberHidesStaticFromOuterClass
             [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)] public ESongSorting SongSorting;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn IgnoreArticles;
             [DefaultValue(10)] public float ScoreAnimationTime;
@@ -181,6 +183,7 @@ namespace Vocaluxe.Base
 
         public static SConfig Config;
         public static bool LoadOldThemeFiles;
+        public static event OnSongMenuChanged SongMenuChanged;
 
         //Folders
         public static readonly List<string> SongFolders = new List<string>
@@ -270,6 +273,19 @@ namespace Vocaluxe.Base
             {
                 Config.Sound.PreviewMusicVolume = value.Clamp(0, 100);
                 SaveConfig();
+            }
+        }
+
+        public static ESongMenu SongMenu
+        {
+            get { return Config.Game.SongMenu; }
+            set
+            {
+                if (Config.Game.SongMenu == value)
+                    return;
+                Config.Game.SongMenu = value;
+                if (SongMenuChanged != null)
+                    SongMenuChanged();
             }
         }
 
