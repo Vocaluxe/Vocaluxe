@@ -34,6 +34,72 @@ namespace Vocaluxe.Screens
         Up
     }
 
+    class CCreditTranslation
+    {
+        private readonly string _Language;
+        private readonly List<CText> _Texts;
+        public float StartTime;
+
+        public float Y
+        {
+            get { return _Texts[0].Y; }
+            set
+            {
+                float diff = value - _Texts[0].Y;
+                foreach (CText t in _Texts)
+                    t.Y += diff;
+            }
+        }
+
+        public float Alpha
+        {
+            get { return _Texts[0].Alpha; }
+            set
+            {
+                foreach (CText t in _Texts)
+                    t.Alpha = value;
+            }
+        }
+
+        public bool Visible
+        {
+            set
+            {
+                foreach (CText t in _Texts)
+                    t.Visible = value;
+            }
+        }
+
+        public float LastY
+        {
+            get
+            {
+                int lastText = _Texts.Count - 1;
+                return _Texts[lastText].Y + _Texts[lastText].H;
+            }
+        }
+
+        public CCreditTranslation(string language, List<CText> texts)
+        {
+            _Language = language;
+            _Texts = texts;
+        }
+
+        public void Reset()
+        {
+            StartTime = -1;
+            Alpha = 1f;
+            Visible = true;
+            _Texts[0].Y = CSettings.RenderH + 1;
+            float y = CSettings.RenderH + 1;
+            foreach (CText t in _Texts)
+            {
+                y += 25;
+                t.Y = y;
+            }
+        }
+    }
+
     class CCreditName
     {
         private readonly CStatic _Image;
@@ -120,8 +186,12 @@ namespace Vocaluxe.Screens
         private CParticleEffect _StarsBlue;
         private List<CCreditName> _CreditNames;
 
+        private List<CCreditTranslation> _Translations;
+        private int _NumTranslationTexts;
+
         private Stopwatch _LogoTimer;
         private Stopwatch _CreditsTimer;
+        private Stopwatch _TranslationsTimer;
         private Stopwatch _TextTimer;
 
         private List<string[]> _Paragraphs;
@@ -155,6 +225,7 @@ namespace Vocaluxe.Screens
 
             _LogoTimer = new Stopwatch();
             _CreditsTimer = new Stopwatch();
+            _TranslationsTimer = new Stopwatch();
             _TextTimer = new Stopwatch();
 
             //Text for last part of credits.
@@ -278,6 +349,8 @@ namespace Vocaluxe.Screens
             _AddNewCreditName(_TexNameBohning, 383, 54, false);
             _AddNewCreditName(_TexNameMesand, 525, 13, false);
             _AddNewCreditName(_TexNameBabene03, 33, 26, false);
+
+            _AddTranslations();
         }
 
         public override void ReloadTheme(string xmlPath) {}
@@ -349,6 +422,42 @@ namespace Vocaluxe.Screens
             _AddParticleEffect(particle);
         }
 
+        private void _AddTranslations()
+        {
+            CCreditTranslation intro = _AddNewTranslation("A special thanks to all our translators", new List<string> { });
+            CCreditTranslation asturian = _AddNewTranslation("Asturian", new List<string> { "Puxarra" });
+            CCreditTranslation czech = _AddNewTranslation("Czech", new List<string> { "fri" });
+            CCreditTranslation dutch = _AddNewTranslation("Dutch", new List<string> { "thijsblaauw" });
+            CCreditTranslation french = _AddNewTranslation("French", new List<string> { "pinky007" });
+            CCreditTranslation hungarian = _AddNewTranslation("Hungarian", new List<string> { "warez" });
+            CCreditTranslation italian = _AddNewTranslation("Italian", new List<string> { "giuseppep", "LFactory" });
+            CCreditTranslation spanish = _AddNewTranslation("Spanish", new List<string> { "Pantero03", "RubenDjOn", "TeLiX", "karv" });
+            CCreditTranslation swedish = _AddNewTranslation("Swedish", new List<string> { "u28151" });
+            CCreditTranslation turkish = _AddNewTranslation("Turkish", new List<string> { "spirax", "Swertyy" });
+
+            _Translations = new List<CCreditTranslation> { intro, asturian, czech, dutch, french, hungarian, italian, spanish, swedish, turkish };
+        }
+
+        private CCreditTranslation _AddNewTranslation(string language, List<string> translators)
+        {
+            List<CText> texts = new List<CText>();
+            CText text = GetNewText(new CText(CSettings.RenderW / 2, CSettings.RenderH + 1, -4f, 30, -1, EAlignment.Center, EStyle.Bold, "Outline", new SColorF(1, 1, 1, 1), language));
+            _AddText(text);
+            texts.Add(text);
+            _NumTranslationTexts++;
+            float y = texts[0].Y;
+            foreach (string t in translators)
+            {
+                y += 30;
+                text = GetNewText(new CText(CSettings.RenderW / 2, y, -4f, 27, -1, EAlignment.Center, EStyle.Normal, "Outline", new SColorF(1, 1, 1, 1), t));
+                _AddText(text);
+                texts.Add(text);
+                _NumTranslationTexts++;
+            }
+            CCreditTranslation cct = new CCreditTranslation(language, texts);
+            return cct;
+        }
+
         public override void OnShow()
         {
             base.OnShow();
@@ -368,10 +477,13 @@ namespace Vocaluxe.Screens
             _Logo.Y = -270;
             _StarsRed.Y = _Logo.Y;
             _StarsBlue.Y = _Logo.Y;
+            foreach (CCreditTranslation translation in _Translations)
+                translation.Reset();
 
             _TextTimer.Reset();
             _LogoTimer.Reset();
             _CreditsTimer.Reset();
+            _TranslationsTimer.Reset();
         }
 
         public override void OnShowFinish()
@@ -447,9 +559,7 @@ namespace Vocaluxe.Screens
                                 if (i == _CreditNames.Count - 1)
                                 {
                                     _CreditsTimer.Stop();
-                                    _TextTimer.Start();
-                                    foreach (CText text in _ParagraphTexts)
-                                        text.Visible = true;
+                                    _TranslationsTimer.Start();
                                 }
                             }
                             else if (_CreditNames[i].Y <= 360f)
@@ -463,9 +573,43 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
+            if (_TranslationsTimer.IsRunning)
+            {
+                active = true;
 
+                for (int i = 0; i < _Translations.Count; i++) 
+                {
+                    if (i * 1500f < _TranslationsTimer.ElapsedMilliseconds)
+                    {
+                        if (_Translations[i].StartTime == -1)
+                            _Translations[i].StartTime = _TranslationsTimer.ElapsedMilliseconds;
+                        float newY = 720f - (520f / 5000f) * (_TranslationsTimer.ElapsedMilliseconds - _Translations[i].StartTime);
+                        _Translations[i].Y = newY;
+                    }
+
+                    if (_Translations[i].Y <= 160f)
+                    {
+                        _Translations[i].Visible = false;
+                        if (i == _Translations.Count - 1)
+                        {
+                            _TranslationsTimer.Stop();
+                            _TextTimer.Start();
+                            foreach (CText text in _ParagraphTexts)
+                                text.Visible = true;
+                        }
+                    }
+                    if (_Translations[i].Y <= 360f)
+                    {
+                        //Fade out
+                        float alpha = ((360 - _Translations[i].Y) / 200).Clamp(0,1);
+                        _Translations[i].Alpha = 1 - alpha;
+                    }
+                }
+
+                
+            }
             if (_TextTimer.IsRunning)
-                active = _TextTimer.ElapsedMilliseconds <= 500;
+                active = _TextTimer.ElapsedMilliseconds <= 10000;
 
             return active;
         }
