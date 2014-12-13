@@ -50,7 +50,6 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _TileW;
         private int _TileH;
 
-        //TODO: remove all 1* from the code (artifacts from translation from tile board)
         //TODO: make variable list length
         private int _ListLength = 15;
         private float _CoverTileWidth;
@@ -183,7 +182,6 @@ namespace VocaluxeLib.Menu.SongMenu
 
                 //Create text
                 var textRect = new SRectF(Rect.X + 2 * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _ListTextWidth, _TileH, Rect.Z);
-                //string textString = _Artist.Text + " - " + _Title.Text;               
                 CText text = new CText(textRect.X, textRect.Y, textRect.Z,
                                        textRect.H, textRect.W, EAlignment.Left, EStyle.Normal,
                                        "Normal", _Artist.Color, "");
@@ -421,7 +419,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (!songOptions.Selection.RandomOnly || (!CBase.Songs.IsInCategory() && songOptions.Selection.CategoryChangeAllowed))
             {
                 if (mouseEvent.Wheel != 0 && CHelper.IsInBounds(_ScrollRect, mouseEvent))
-                    _UpdateList(_Offset + 1 * mouseEvent.Wheel);
+                    _UpdateList(_Offset +  mouseEvent.Wheel);
 
                 int lastSelection = _SelectionNr;
                 int i = 0;
@@ -508,7 +506,6 @@ namespace VocaluxeLib.Menu.SongMenu
                 text.Draw();
                 i++;
             }
-
             _TextBG.Draw();
 
             CTextureRef vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
@@ -595,6 +592,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             bool isInCategory = CBase.Songs.IsInCategory();
             int itemCount = isInCategory ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
+            int totalSongNumber = CBase.Songs.GetNumSongs();
 
             offset = offset.Clamp(0, itemCount - _ListLength, true);
 
