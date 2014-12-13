@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
@@ -61,8 +62,23 @@ namespace VocaluxeLib.Menu
         public int NumVisible;
     }
 
-    public sealed class CSelectSlide : CMenuElementBase, IMenuElement, ICloneable, IThemeable
+    public sealed class CSelectSlide : CMenuElementBase, IMenuElement, IThemeable
     {
+        private struct SValue
+        {
+            public string Text;
+            public int TranslationId;
+            public int Tag;
+            public CTextureRef Texture;
+        }
+
+        private class CElement
+        {
+            public CText Text;
+            public CStatic Img;
+            public SRectF Bounds;
+        }
+
         private readonly int _PartyModeID;
         private SThemeSelectSlide _Theme;
 
@@ -138,51 +154,51 @@ namespace VocaluxeLib.Menu
                 }
             }
         }
-        public bool ValueSelected
+        public bool IsValueSelected
         {
             get { return Selected && !_ArrowLeftSelected && !_ArrowRightSelected; }
         }
 
-        public bool SelectionByHover;
-
         private bool _ArrowLeftSelected;
         private bool _ArrowRightSelected;
 
-        private readonly List<string> _ValueNames;
-        private readonly List<int> _ValuePartyModeIDs;
-        private readonly List<CTextureRef> _Textures;
-        private readonly List<int> _ValueIndexes;
-
-        private readonly List<SRectF> _ValueBounds = new List<SRectF>();
-
-        public bool WithTextures;
+        public bool SelectByHovering;
+        public bool DrawTextures;
 
         private int _Selection = -1;
         public int Selection
         {
             get { return _Selection; }
-            set { _Selection = value.Clamp(0, _ValueNames.Count - 1, false); }
-        }
-
-        public string Value
-        {
-            get { return (_Selection >= 0 && _Selection < _ValueNames.Count) ? _ValueNames[_Selection] : null; }
-        }
-
-        public int ValueIndex
-        {
-            get
+            set
             {
-                if (_Selection >= 0 && _ValueIndexes.Count > _Selection)
-                    return _ValueIndexes[_Selection];
-                return -1;
+                value = value.Clamp(0, _Values.Count - 1, false);
+                if (value == _Selection)
+                    return;
+                _Selection = value;
+                _Invalidate();
             }
+        }
+
+        public string SelectedValue
+        {
+            get { return _Selection >= 0 ? _Values[_Selection].Text : null; }
+            set { Selection = _Values.FindIndex(val => val.Text == value); }
+        }
+
+        public int SelectedTag
+        {
+            get { return _Selection >= 0 ? _Values[_Selection].Tag : -1; }
+            set { Selection = _Values.FindIndex(val => val.Tag == value); }
         }
 
         public int NumValues
         {
-            get { return _ValueNames.Count; }
+            get { return _Values.Count; }
         }
+
+        private readonly List<SValue> _Values = new List<SValue>();
+        private readonly List<CElement> _VisibleElements = new List<CElement>();
+        private bool _NeedsRevalidate = true;
 
         private int _NumVisible = -1;
         private CTextureRef _Texture;
@@ -197,10 +213,11 @@ namespace VocaluxeLib.Menu
             get { return _NumVisible; }
             set
             {
-                if (value > 0)
-                    _NumVisible = value;
+                if (value <= 0 || value == _NumVisible)
+                    return;
+                _NumVisible = value;
 
-                _ValueBounds.Clear();
+                _Invalidate();
             }
         }
 
@@ -210,11 +227,6 @@ namespace VocaluxeLib.Menu
             ThemeLoaded = false;
             _TextH = 1f;
             _MaxW = 0f;
-
-            _Textures = new List<CTextureRef>();
-            _ValueIndexes = new List<int>();
-            _ValueNames = new List<string>();
-            _ValuePartyModeIDs = new List<int>();
         }
 
         public CSelectSlide(CSelectSlide slide)
@@ -241,15 +253,11 @@ namespace VocaluxeLib.Menu
             _TextRelativeY = slide._TextRelativeY;
             _MaxW = slide._MaxW;
 
-            _Textures = new List<CTextureRef>(slide._Textures);
-            _ValueIndexes = new List<int>(slide._ValueIndexes);
-            _ValueNames = new List<string>(slide._ValueNames);
-            _ValueBounds = new List<SRectF>(slide._ValueBounds);
-            _ValuePartyModeIDs = new List<int>(slide._ValuePartyModeIDs);
+            _Values.AddRange(slide._Values);
             _Selection = slide._Selection;
             _NumVisible = slide._NumVisible;
 
-            WithTextures = slide.WithTextures;
+            DrawTextures = slide.DrawTextures;
             Visible = slide.Visible;
         }
 
@@ -257,11 +265,6 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _Theme = theme;
-
-            _Textures = new List<CTextureRef>();
-            _ValueIndexes = new List<int>();
-            _ValueNames = new List<string>();
-            _ValuePartyModeIDs = new List<int>();
 
             ThemeLoaded = true;
         }
@@ -382,58 +385,53 @@ namespace VocaluxeLib.Menu
             return ThemeLoaded;
         }
 
-        public void AddValue(string value)
+        private void _Invalidate()
         {
-            AddValue(value, _PartyModeID);
+            _NeedsRevalidate = true;
         }
 
-        public void AddValue(string value, int partyModeID)
+        /// <summary>
+        ///     Adds an entry to the slide.
+        /// </summary>
+        /// <param name="text">Label to show</param>
+        /// <param name="texture">Texture to show</param>
+        /// <param name="tag">User value (e.g. id of entry)</param>
+        public void AddValue(string text, CTextureRef texture = null, int tag = 0)
         {
-            AddValue(value, null, _ValueIndexes.Count, partyModeID);
+            AddValue(text, _PartyModeID, texture, tag);
         }
 
-        public void AddValue(string value, CTextureRef texture)
+        /// <summary>
+        ///     Adds an entry to the slide.
+        /// </summary>
+        /// <param name="text">Label to show</param>
+        /// <param name="translationId">Translation id to use for the text</param>
+        /// <param name="texture">Texture to show</param>
+        /// <param name="tag">User value (e.g. id of entry)</param>
+        public void AddValue(string text, int translationId, CTextureRef texture = null, int tag = 0)
         {
-            AddValue(value, texture, _ValueIndexes.Count, _PartyModeID);
-        }
+            SValue value = new SValue {Text = text, TranslationId = translationId, Tag = tag, Texture = texture};
 
-        private void _AddValue(string value, CTextureRef texture, int valueIndex)
-        {
-            AddValue(value, texture, valueIndex, _PartyModeID);
-        }
+            _Values.Add(value);
 
-        public void AddValue(string value, CTextureRef texture, int valueIndex, int partyModeID)
-        {
-            _ValueNames.Add(value);
-            _Textures.Add(texture);
-            _ValueIndexes.Add(valueIndex);
-            _ValuePartyModeIDs.Add(partyModeID);
-
-            if (Selection == -1)
+            if (Selection < 0)
                 Selection = 0;
 
-            _ValueBounds.Clear();
+            _Invalidate();
         }
 
         public void AddValues(IEnumerable<string> values)
         {
             foreach (string value in values)
-                _AddValue(value, null, _PartyModeID);
-
-            _ValueBounds.Clear();
+                AddValue(value);
         }
 
         public void AddValues(string[] values, CTextureRef[] textures)
         {
-            if (values.Length != textures.Length)
-                return;
+            Debug.Assert(values.Length == textures.Length);
 
             for (int i = 0; i < values.Length; i++)
                 AddValue(values[i], textures[i]);
-            if (Selection == -1)
-                Selection = 0;
-
-            _ValueBounds.Clear();
         }
 
         public void SetValues<T>(int selection)
@@ -447,31 +445,20 @@ namespace VocaluxeLib.Menu
             RenameValue(Selection, newName);
         }
 
-        public void RenameValue(int selection, string newName, CTextureRef newTexture = null)
+        public void RenameValue(int index, string newName, CTextureRef newTexture = null)
         {
-            if (selection < 0 && selection >= _ValueNames.Count)
+            if (index < 0 && index >= _Values.Count)
                 return;
 
-            _ValueNames[selection] = newName;
-            _Textures[selection] = newTexture;
-        }
-
-        public bool SetSelectionByValueIndex(int valueIndex)
-        {
-            for (int i = 0; i < _ValueIndexes.Count; i++)
-            {
-                if (_ValueIndexes[i] == valueIndex)
-                {
-                    Selection = i;
-                    return true;
-                }
-            }
-            return false;
+            SValue value = _Values[index];
+            value.Text = newName;
+            value.Texture = newTexture;
+            _Values[index] = value;
         }
 
         public bool SelectNextValue()
         {
-            if (Selection < _ValueNames.Count - 1)
+            if (Selection < _Values.Count - 1)
             {
                 Selection++;
                 return true;
@@ -491,50 +478,46 @@ namespace VocaluxeLib.Menu
 
         public void SelectFirstValue()
         {
-            if (_ValueNames.Count > 0)
+            if (_Values.Count > 0)
                 Selection = 0;
         }
 
         public void SelectLastValue()
         {
-            if (_ValueNames.Count > 0)
-                Selection = _ValueNames.Count - 1;
+            if (_Values.Count > 0)
+                Selection = _Values.Count - 1;
         }
 
         public void Clear()
         {
+            _Values.Clear();
             _Selection = -1;
-            _ValueNames.Clear();
-            _Textures.Clear();
-            _ValueBounds.Clear();
-            _ValueIndexes.Clear();
+            _Invalidate();
+        }
+
+        private int _GetCurOffset()
+        {
+            int offset = _Selection - _NumVisible / 2;
+            return offset.Clamp(0, _Values.Count - _NumVisible, true);
+        }
+
+        private void _SelectAtPos(int x, int y)
+        {
+            if (_NeedsRevalidate)
+                _Revalidate();
+            int index = _VisibleElements.FindIndex(el => CHelper.IsInBounds(el.Bounds, x, y));
+            if (index < 0)
+                return;
+            Selection = index + _GetCurOffset();
         }
 
         public void ProcessMouseMove(int x, int y)
         {
             _ArrowLeftSelected = CHelper.IsInBounds(RectArrowLeft, x, y) && _Selection > 0;
-            _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y) && _Selection < _ValueNames.Count - 1;
+            _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y) && _Selection < _Values.Count - 1;
 
-            if (SelectionByHover)
-            {
-                for (int i = 0; i < _ValueBounds.Count; i++)
-                {
-                    if (CHelper.IsInBounds(_ValueBounds[i], x, y))
-                    {
-                        int offset = _Selection - _NumVisible / 2;
-
-                        if (_ValueNames.Count - _NumVisible - offset < 0)
-                            offset = _ValueNames.Count - _NumVisible;
-
-                        if (offset < 0)
-                            offset = 0;
-
-                        Selection = i + offset;
-                        _ValueBounds.Clear();
-                        break;
-                    }
-                }
-            }
+            if (SelectByHovering)
+                _SelectAtPos(x, y);
         }
 
         public void ProcessMouseLBClick(int x, int y)
@@ -547,21 +530,78 @@ namespace VocaluxeLib.Menu
             if (_ArrowRightSelected)
                 SelectNextValue();
 
-            for (int i = 0; i < _ValueBounds.Count; i++)
+            _SelectAtPos(x, y);
+        }
+
+        private void _Revalidate()
+        {
+            if (!_NeedsRevalidate)
+                return;
+            _NeedsRevalidate = false;
+            int numvis = Math.Min(_NumVisible, _Values.Count);
+            if (numvis != _VisibleElements.Count)
             {
-                if (CHelper.IsInBounds(_ValueBounds[i], x, y))
+                _VisibleElements.Clear();
+                for (int i = 0; i < numvis; i++)
                 {
-                    int offset = _Selection - _NumVisible / 2;
+                    var el = new CElement
+                        {
+                            Text = new CText(0, 0, 0, _TextH, _MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, _TextColor, "T", _PartyModeID),
+                            Img = new CStatic(_PartyModeID)
+                        };
+                    _VisibleElements.Add(el);
+                }
+            }
+            if (numvis == 0)
+                return;
 
-                    if (_ValueNames.Count - _NumVisible - offset < 0)
-                        offset = _ValueNames.Count - _NumVisible;
+            float elWidth = (Rect.W - _TextRelativeX * 2) / numvis;
+            //Center point of the first entry
+            float xStart = Rect.X + _TextRelativeX + elWidth / 2f;
 
-                    if (offset < 0)
-                        offset = 0;
+            int offset = _GetCurOffset();
 
-                    Selection = i + offset;
-                    _ValueBounds.Clear();
-                    break;
+            for (int i = 0; i < numvis; i++)
+            {
+                CText text = _VisibleElements[i].Text;
+                RectangleF textBounds;
+                float curX = xStart + elWidth * i;
+                if (String.IsNullOrEmpty(_Values[i + offset].Text))
+                {
+                    text.Visible = false;
+                    textBounds = new RectangleF();
+                }
+                else
+                {
+                    text.Visible = true;
+                    text.Text = _Values[i + offset].Text;
+                    text.TranslationID = _Values[i + offset].TranslationId;
+                    text.Color = (i + offset == Selection) ? _SelTextColor : _TextColor;
+                    textBounds = CBase.Fonts.GetTextBounds(text);
+                    text.X = curX;
+                    text.Z = Rect.Z;
+                }
+
+                CStatic img = _VisibleElements[i].Img;
+                if (!DrawTextures || _Values[i + offset].Texture == null)
+                {
+                    if (text.Visible)
+                        text.Y = Rect.Y + (Rect.H - textBounds.Height) / 2 - _TextRelativeY;
+                    img.Visible = false;
+                    _VisibleElements[i].Bounds = new SRectF(text.X - textBounds.Width / 2f, text.Y, textBounds.Width, textBounds.Height, Rect.Z);
+                }
+                else
+                {
+                    text.Y = (int)(Rect.Y + Rect.H - textBounds.Height - _TextRelativeY);
+                    img.Texture = _Values[i + offset].Texture;
+                    float alpha = (i + offset == _Selection) ? 1f : 0.35f;
+                    img.Color = new SColorF(1f, 1f, 1f, alpha);
+                    float size = Rect.H - textBounds.Height - 2 * _TextRelativeY;
+                    if (size > elWidth)
+                        size = elWidth;
+                    var imgRect = new SRectF(curX - size / 2, Rect.Y + _TextRelativeY, size, size, Rect.Z);
+                    img.MaxRect = imgRect;
+                    _VisibleElements[i].Bounds = imgRect;
                 }
             }
         }
@@ -584,7 +624,7 @@ namespace VocaluxeLib.Menu
                     CBase.Drawing.DrawTexture(_TextureArrowLeft, RectArrowLeft, _ColorArrow);
             }
 
-            if (_Selection < _ValueNames.Count - 1 || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
+            if (_Selection < _Values.Count - 1 || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 if (_ArrowRightSelected)
                     CBase.Drawing.DrawTexture(_SelTextureArrowRight, RectArrowRight, _SelColorArrow);
@@ -592,63 +632,12 @@ namespace VocaluxeLib.Menu
                     CBase.Drawing.DrawTexture(_TextureArrowRight, RectArrowRight, _ColorArrow);
             }
 
-            if (_NumVisible < 1 || _ValueNames.Count == 0)
-                return;
-
-            float x = Rect.X + (Rect.W - _TextRelativeX) * 0.1f;
-            float dx = (Rect.W - _TextRelativeX) * 0.8f / _NumVisible;
-            //float y = Rect.Y + (Rect.H - TextH);
-            int offset = _Selection - _NumVisible / 2;
-
-            if (_ValueNames.Count - _NumVisible - offset < 0)
-                offset = _ValueNames.Count - _NumVisible;
-
-            if (offset < 0)
-                offset = 0;
-
-
-            int numvis = _NumVisible;
-            if (_ValueNames.Count < numvis)
-                numvis = _ValueNames.Count;
-
-            _ValueBounds.Clear();
-            for (int i = 0; i < numvis; i++)
+            if (_NeedsRevalidate)
+                _Revalidate();
+            foreach (CElement element in _VisibleElements)
             {
-                var text = new CText(0, 0, 0, _TextH, _MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, _TextColor, "T",
-                                     _ValuePartyModeIDs[i + offset]);
-
-                if (_ValueNames[i + offset] != "")
-                    text.Text = _ValueNames[i + offset];
-                else
-                    text.Visible = false;
-
-                var alpha = new SColorF(1f, 1f, 1f, 0.35f);
-                if (i + offset == _Selection)
-                {
-                    text.Color = _SelTextColor;
-                    alpha = new SColorF(1f, 1f, 1f, 1f);
-                }
-
-                RectangleF bounds = CBase.Fonts.GetTextBounds(text);
-                text.X = (x + dx / 2f + dx * i) + _TextRelativeX;
-
-                if (!WithTextures)
-                    text.Y = (int)((Rect.Y + (Rect.H - bounds.Height) / 2) + _TextRelativeY);
-                else
-                    text.Y = (int)((Rect.Y + (Rect.H - bounds.Height)) + _TextRelativeY);
-
-                text.Z = Rect.Z;
-                text.Draw();
-
-                if (WithTextures)
-                {
-                    float dh = text.Y - Rect.Y - Rect.H * 0.1f;
-                    var rect = new SRectF(text.X - dh / 2, Rect.Y + Rect.H * 0.05f, dh, dh, Rect.Z);
-                    CBase.Drawing.DrawTexture(_Textures[i + offset], rect, alpha, rect);
-                    _ValueBounds.Add(rect);
-                }
-                else
-                    _ValueBounds.Add(new SRectF(text.X - bounds.Width / 2f, text.Y, bounds.Width, bounds.Height, Rect.Z));
+                element.Text.Draw();
+                element.Img.Draw();
             }
         }
 
@@ -686,17 +675,13 @@ namespace VocaluxeLib.Menu
             _SelTexture = CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
             _SelTextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SkinArrowLeftSelected, _PartyModeID);
             _SelTextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SkinArrowRightSelected, _PartyModeID);
+            _Invalidate();
         }
 
         public void ReloadSkin()
         {
             UnloadSkin();
             LoadSkin();
-        }
-
-        public object Clone()
-        {
-            return MemberwiseClone();
         }
 
         #region ThemeEdit

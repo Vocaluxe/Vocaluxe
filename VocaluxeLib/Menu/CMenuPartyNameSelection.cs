@@ -29,8 +29,10 @@ namespace VocaluxeLib.Menu
             get
             {
                 for (int team = 0; team < _NumTeams; team++)
+                {
                     if (_TeamList[team].Count < _NumPlayerTeams[team])
                         return false;
+                }
                 return true;
             }
         }
@@ -350,7 +352,7 @@ namespace VocaluxeLib.Menu
                             IncreaseTeamNum();
                     }
                     if (numPressed <= _SelectSlides[_SelectSlideTeams].NumValues)
-                        _SelectSlides[_SelectSlideTeams].SetSelectionByValueIndex(numPressed - 1);
+                        _SelectSlides[_SelectSlideTeams].SelectedTag = numPressed;
                 }
             }
             if (_SelectingFastPlayerNr > 0 && _SelectingFastPlayerNr <= _NumPlayerTeams[_CurrentTeam])
@@ -488,7 +490,7 @@ namespace VocaluxeLib.Menu
             else if (mouseEvent.RB)
             {
                 bool exit = true;
-                if (_SelectSlides[_SelectSlidePlayer].Selected && _TeamList[_CurrentTeam].Count > 0)
+                if (_SelectSlides[_SelectSlidePlayer].Selected && _TeamList[_CurrentTeam].Count > _SelectSlides[_SelectSlidePlayer].Selection)
                 {
                     int currentSelection = _SelectSlides[_SelectSlidePlayer].Selection;
                     int id = _TeamList[_CurrentTeam][currentSelection];
@@ -539,8 +541,8 @@ namespace VocaluxeLib.Menu
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
-            _SelectSlides[_SelectSlidePlayer].WithTextures = true;
-            _SelectSlides[_SelectSlidePlayer].SelectionByHover = true;
+            _SelectSlides[_SelectSlidePlayer].DrawTextures = true;
+            _SelectSlides[_SelectSlidePlayer].SelectByHovering = true;
             _AddStatic(_ChooseAvatarStatic);
         }
 
@@ -684,7 +686,7 @@ namespace VocaluxeLib.Menu
                 _SelectSlides[_SelectSlidePlayer].AddValue("", _NameSelections[_NameSelection].TextureEmptyTile);
             if (selection >= _TeamList[_CurrentTeam].Count)
                 selection = _TeamList[_CurrentTeam].Count - 1;
-            _SelectSlides[_SelectSlidePlayer].SetSelectionByValueIndex(selection);
+            _SelectSlides[_SelectSlidePlayer].Selection = selection;
         }
 
         private void _UpdateTeamSlide()
@@ -692,7 +694,7 @@ namespace VocaluxeLib.Menu
             _SelectSlides[_SelectSlideTeams].Visible = _Teams;
             _SelectSlides[_SelectSlideTeams].Clear();
             for (int i = 1; i <= _NumTeams; i++)
-                _SelectSlides[_SelectSlideTeams].AddValue("Team " + i);
+                _SelectSlides[_SelectSlideTeams].AddValue("Team " + i, null, i);
         }
 
         private void _UpdateButtonVisibility()

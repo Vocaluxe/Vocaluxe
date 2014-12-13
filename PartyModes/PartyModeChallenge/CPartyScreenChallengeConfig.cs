@@ -127,7 +127,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _SelectSlides[_SelectSlideNumPlayers].Clear();
             for (int i = _PartyMode.GetMinPlayer(); i <= _PartyMode.GetMaxPlayer(); i++)
                 _SelectSlides[_SelectSlideNumPlayers].AddValue(i.ToString());
-            _SelectSlides[_SelectSlideNumPlayers].Selection = _PartyMode.GameData.NumPlayer - _PartyMode.GetMinPlayer();
+            _SelectSlides[_SelectSlideNumPlayers].SelectedValue = _PartyMode.GameData.NumPlayer.ToString();
 
             _UpdateMicsAtOnce();
             _SetRoundSteps();

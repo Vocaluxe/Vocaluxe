@@ -522,12 +522,12 @@ namespace Vocaluxe.Screens
                         _HandleSelectButton();
                         return true;
                     }
-                    else if (_SelectSlides[_SelectSlideOptionsPlaylistOpen].ValueSelected)
+                    else if (_SelectSlides[_SelectSlideOptionsPlaylistOpen].IsValueSelected)
                     {
                         _OpenPlaylist(_SelectSlides[_SelectSlideOptionsPlaylistOpen].Selection);
                         return true;
                     }
-                    else if (_SelectSlides[_SelectSlideOptionsPlaylistAdd].ValueSelected)
+                    else if (_SelectSlides[_SelectSlideOptionsPlaylistAdd].IsValueSelected)
                     {
                         _OpenPlaylist(_SelectSlides[_SelectSlideOptionsPlaylistAdd].Selection - 1);
                         return true;
@@ -1171,7 +1171,7 @@ namespace Vocaluxe.Screens
         {
             if (CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].IsGameModeAvailable(gameMode))
             {
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), gameMode));
+                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), gameMode), null, (int)gameMode);
                 _AvailableGameModes.Add(gameMode);
             }
         }
@@ -1189,11 +1189,7 @@ namespace Vocaluxe.Screens
             _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_MEDLEY);
 
             //Set SelectSlide-Selection to last selected game-mode if possible
-            for (int i = 0; i < _AvailableGameModes.Count; i++)
-            {
-                if (_AvailableGameModes[i] == lastMode)
-                    _SelectSlides[_SelectSlideOptionsMode].SetSelectionByValueIndex(i);
-            }
+            _SelectSlides[_SelectSlideOptionsMode].SelectedTag = (int)lastMode;
             _SelectSlides[_SelectSlideOptionsMode].Visible = true;
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = true;
             _Buttons[_ButtonOptionsSing].Visible = true;
@@ -1242,9 +1238,9 @@ namespace Vocaluxe.Screens
                     _SelectSlides[_SelectSlideOptionsNumMedleySongs].AddValue(i.ToString());
             }
             if (_SelectSlides[_SelectSlideOptionsNumMedleySongs].NumValues >= 5)
-                _SelectSlides[_SelectSlideOptionsNumMedleySongs].SetSelectionByValueIndex(4);
+                _SelectSlides[_SelectSlideOptionsNumMedleySongs].SelectedValue = "5";
             else
-                _SelectSlides[_SelectSlideOptionsNumMedleySongs].SetSelectionByValueIndex(_SelectSlides[_SelectSlideOptionsNumMedleySongs].NumValues - 1);
+                _SelectSlides[_SelectSlideOptionsNumMedleySongs].SelectLastValue();
             _SelectElement(_Buttons[_ButtonOptionsStartMedley]);
         }
 

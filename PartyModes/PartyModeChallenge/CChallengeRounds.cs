@@ -83,12 +83,12 @@ namespace VocaluxeLib.PartyModes.Challenge
 
             int max = numPlayed.Max();
 
-            int num = Rounds[0].Player.Count;
+            int playersPerRound = Rounds[0].Player.Count;
             List<int> result = new List<int>();
             List<int> other = new List<int>();
             List<int> last = new List<int>();
 
-            for (int i = 0; i < numPlayed.Count; i++)
+            for (int i = 0; i < _NumPlayer; i++)
             {
                 if (roundIndex == 0 || numPlayed[i] < max)
                 {
@@ -111,7 +111,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 }
             }
 
-            while (result.Count < num && other.Count > 0)
+            while (result.Count < playersPerRound && other.Count > 0)
             {
                 int n = other.Count;
                 int r = _Rand.Next(n);
@@ -119,7 +119,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 other.RemoveAt(r);
             }
 
-            while (result.Count < num)
+            while (result.Count < playersPerRound)
             {
                 int n = last.Count;
                 int r = _Rand.Next(n);
@@ -127,7 +127,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 last.RemoveAt(r);
             }
 
-            while (result.Count > num)
+            while (result.Count > playersPerRound)
             {
                 int n = result.Count;
                 int r = _Rand.Next(n);

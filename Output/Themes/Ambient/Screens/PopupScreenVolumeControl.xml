@@ -46,22 +46,22 @@
       <SkinArrowLeftSelected>Minus</SkinArrowLeftSelected>
       <SkinArrowRightSelected>Plus</SkinArrowRightSelected>
       <Rect>
-        <X>1090</X>
+        <X>1070</X>
         <Y>680</Y>
         <W>200</W>
-        <H>50</H>
+        <H>30</H>
         <Z>-2</Z>
       </Rect>
       <RectArrowLeft>
         <X>1195</X>
-        <Y>682</Y>
+        <Y>680</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1240</X>
-        <Y>682</Y>
+        <X>1235</X>
+        <Y>680</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2</Z>
@@ -73,9 +73,9 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
-      <TextRelativeX>-15</TextRelativeX>
-      <TextRelativeY>-8</TextRelativeY>
-      <TextMaxW>500</TextMaxW>
+      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>25</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
