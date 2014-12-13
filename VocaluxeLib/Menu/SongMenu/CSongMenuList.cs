@@ -50,8 +50,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _TileW;
         private int _TileH;
 
-        //TODO: make variable list length
-        private int _ListLength = 15;
+        private int _ListLength;
         private float _CoverTileWidth;
         private float _ListTextWidth;
 
@@ -114,31 +113,32 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public CSongMenuList(SThemeSongMenu theme, int partyModeID) : base(theme, partyModeID)
         {
-            _SpaceW = _Theme.SongMenuTileBoard.SpaceW;
-            _SpaceH = _Theme.SongMenuTileBoard.SpaceH;
-            _Artist = new CText(_Theme.SongMenuTileBoard.TextArtist, _PartyModeID);
-            _Title = new CText(_Theme.SongMenuTileBoard.TextTitle, _PartyModeID);
-            _SongLength = new CText(_Theme.SongMenuTileBoard.TextSongLength, _PartyModeID);
-            _CoverBig = new CStatic(_Theme.SongMenuTileBoard.StaticCoverBig, _PartyModeID);
-            _TextBG = new CStatic(_Theme.SongMenuTileBoard.StaticTextBG, _PartyModeID);
-            _DuetIcon = new CStatic(_Theme.SongMenuTileBoard.StaticDuetIcon, _PartyModeID);
-            _VideoIcon = new CStatic(_Theme.SongMenuTileBoard.StaticVideoIcon, _PartyModeID);
-            _MedleyCalcIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyCalcIcon, _PartyModeID);
-            _MedleyTagIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyTagIcon, _PartyModeID);
+            _ListLength = _Theme.SongMenuList.ListLength;
+            _SpaceW = _Theme.SongMenuList.SpaceW;
+            _SpaceH = _Theme.SongMenuList.SpaceH;
+            _Artist = new CText(_Theme.SongMenuList.TextArtist, _PartyModeID);
+            _Title = new CText(_Theme.SongMenuList.TextTitle, _PartyModeID);
+            _SongLength = new CText(_Theme.SongMenuList.TextSongLength, _PartyModeID);
+            _CoverBig = new CStatic(_Theme.SongMenuList.StaticCoverBig, _PartyModeID);
+            _TextBG = new CStatic(_Theme.SongMenuList.StaticTextBG, _PartyModeID);
+            _DuetIcon = new CStatic(_Theme.SongMenuList.StaticDuetIcon, _PartyModeID);
+            _VideoIcon = new CStatic(_Theme.SongMenuList.StaticVideoIcon, _PartyModeID);
+            _MedleyCalcIcon = new CStatic(_Theme.SongMenuList.StaticMedleyCalcIcon, _PartyModeID);
+            _MedleyTagIcon = new CStatic(_Theme.SongMenuList.StaticMedleyTagIcon, _PartyModeID);
             _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
         }
 
         private void _ReadSubTheme()
         {
-            _Theme.SongMenuTileBoard.TextArtist = (SThemeText)_Artist.GetTheme();
-            _Theme.SongMenuTileBoard.TextSongLength = (SThemeText)_SongLength.GetTheme();
-            _Theme.SongMenuTileBoard.TextTitle = (SThemeText)_Title.GetTheme();
-            _Theme.SongMenuTileBoard.StaticCoverBig = (SThemeStatic)_CoverBig.GetTheme();
-            _Theme.SongMenuTileBoard.StaticDuetIcon = (SThemeStatic)_DuetIcon.GetTheme();
-            _Theme.SongMenuTileBoard.StaticMedleyCalcIcon = (SThemeStatic)_MedleyCalcIcon.GetTheme();
-            _Theme.SongMenuTileBoard.StaticMedleyTagIcon = (SThemeStatic)_MedleyTagIcon.GetTheme();
-            _Theme.SongMenuTileBoard.StaticTextBG = (SThemeStatic)_TextBG.GetTheme();
-            _Theme.SongMenuTileBoard.StaticVideoIcon = (SThemeStatic)_VideoIcon.GetTheme();
+            _Theme.SongMenuList.TextArtist = (SThemeText)_Artist.GetTheme();
+            _Theme.SongMenuList.TextSongLength = (SThemeText)_SongLength.GetTheme();
+            _Theme.SongMenuList.TextTitle = (SThemeText)_Title.GetTheme();
+            _Theme.SongMenuList.StaticCoverBig = (SThemeStatic)_CoverBig.GetTheme();
+            _Theme.SongMenuList.StaticDuetIcon = (SThemeStatic)_DuetIcon.GetTheme();
+            _Theme.SongMenuList.StaticMedleyCalcIcon = (SThemeStatic)_MedleyCalcIcon.GetTheme();
+            _Theme.SongMenuList.StaticMedleyTagIcon = (SThemeStatic)_MedleyTagIcon.GetTheme();
+            _Theme.SongMenuList.StaticTextBG = (SThemeStatic)_TextBG.GetTheme();
+            _Theme.SongMenuList.StaticVideoIcon = (SThemeStatic)_VideoIcon.GetTheme();
         }
 
         public override object GetTheme()
@@ -157,7 +157,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _InitTiles()
         {
-            MaxRect = _Theme.SongMenuTileBoard.TileRect;
+            MaxRect = _Theme.SongMenuList.TileRect;
 
             //keep tile ratio 3/2 so the covers still look nice. 
             _CoverTileWidth = _ListLength * 3.0f / 2;
