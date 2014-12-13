@@ -19,12 +19,14 @@ namespace VocaluxeLib.Menu
 {
     public interface IMenu
     {
+        int PartyModeID { get; }
+
         void Init();
 
         void LoadTheme(string xmlPath);
         void SaveTheme();
-        void ReloadTextures();
-        void UnloadTextures();
+        void ReloadSkin();
+        void UnloadSkin();
         void ReloadTheme(string xmlPath);
 
         bool HandleInput(SKeyEvent keyEvent);
@@ -33,19 +35,23 @@ namespace VocaluxeLib.Menu
         bool HandleMouseThemeEditor(SMouseEvent mouseEvent);
 
         bool UpdateGame();
+        void Draw();
         void ApplyVolume();
         void OnShow();
         void OnShowFinish();
         void OnClose();
 
-        bool Draw();
         SRectF ScreenArea { get; }
+        /// <summary>
+        ///     Type of currently playing music
+        /// </summary>
+        EMusicType CurrentMusicType { get; }
 
-        void NextInteraction();
-        void PrevInteraction();
+        void NextElement();
+        void PrevElement();
 
-        bool NextElement();
-        bool PrevElement();
+        bool NextValue();
+        bool PrevValue();
 
         void ProcessMouseClick(int x, int y);
         void ProcessMouseMove(int x, int y);

@@ -58,6 +58,23 @@ namespace ServerLib
                 CServer.SendKeyEvent(key);
         }
 
+        public void SendKeyStringEvent(string keyString, bool isShiftPressed = false, bool isAltPressed = false, bool isCtrlPressed = false)
+        {
+            if (!_CheckRight(EUserRights.UseKeyboard))
+                return;
+
+            if (CServer.SendKeyStringEvent == null)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not found";
+                }
+            }
+            else
+                CServer.SendKeyStringEvent(keyString, isShiftPressed, isAltPressed, isCtrlPressed);
+        }
+
         #region profile
         public int GetOwnProfileId()
         {
@@ -111,7 +128,7 @@ namespace ServerLib
         public SProfileData GetProfile(int profileId)
         {
             Guid sessionKey = _GetSession();
-            if (_CheckRight(EUserRights.ViewOtherProfiles) || CSessionControl.GetUserIdFromSession(sessionKey) == profileId)
+            if (CSessionControl.GetUserIdFromSession(sessionKey) == profileId || _CheckRight(EUserRights.ViewOtherProfiles))
             {
                 if (CServer.GetProfileData == null)
                     return new SProfileData();
@@ -121,8 +138,7 @@ namespace ServerLib
 
                 return CServer.GetProfileData(profileId, isReadonly);
             }
-            else
-                return new SProfileData();
+            return new SProfileData();
         }
 
         public SProfileData[] GetProfileList()
@@ -295,12 +311,12 @@ namespace ServerLib
         #endregion
 
         #region playlist
-        public SPlaylistInfo[] GetPlaylists()
+        public SPlaylistData[] GetPlaylists()
         {
             return CServer.GetPlaylists();
         }
 
-        public SPlaylistInfo GetPlaylist(int playlistId)
+        public SPlaylistData GetPlaylist(int playlistId)
         {
             return CServer.GetPlaylist(playlistId);
         }

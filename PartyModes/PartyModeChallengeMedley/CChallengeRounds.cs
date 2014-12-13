@@ -28,6 +28,16 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         public readonly List<CCombination> Rounds;
 
+        public int Count
+        {
+            get { return Rounds.Count; }
+        }
+
+        public CCombination this[int index]
+        {
+            get { return Rounds[index]; }
+        }
+
         public CChallengeRounds(int numRounds, int numPlayer, int numPlayerAtOnce)
         {
             Rounds = new List<CCombination>();
@@ -59,7 +69,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 Rounds.Add(combinations.GetNextCombination(_GetPlayerDemand(i)));
         }
 
-        private List<int> _GetPlayerDemand(int roundIndex)
+        private IEnumerable<int> _GetPlayerDemand(int roundIndex)
         {
             List<int> numPlayed = new List<int>(_NumPlayer);
             for (int i = 0; i < _NumPlayer; i++)

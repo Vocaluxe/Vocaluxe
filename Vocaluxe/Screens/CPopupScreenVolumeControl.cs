@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -30,8 +31,12 @@ namespace Vocaluxe.Screens
         }
 
         private const string _StaticBG = "StaticBG";
-
         private const string _SelectSlideVolume = "SelectSlideVolume";
+
+        public override SRectF ScreenArea
+        {
+            get { return _Statics[_StaticBG].Rect; }
+        }
 
         public override void Init()
         {
@@ -45,7 +50,6 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(xmlPath);
 
-            _ScreenArea = _Statics[_StaticBG].Rect;
             _SelectSlides[_SelectSlideVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
         }
@@ -53,6 +57,19 @@ namespace Vocaluxe.Screens
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             _UpdateSlides();
+            if (keyEvent.ModShift || keyEvent.Sender == ESender.WiiMote)
+            {
+                if (keyEvent.Key == Keys.Add || keyEvent.Key == Keys.PageUp)
+                    _SelectSlides[_SelectSlideVolume].Selection++;
+                else if (keyEvent.Key == Keys.Subtract || keyEvent.Key == Keys.PageDown)
+                    _SelectSlides[_SelectSlideVolume].Selection--;
+                else
+                    return false;
+            }
+            else
+                return false;
+
+            _SaveConfig();
             return true;
         }
 
@@ -64,21 +81,15 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 return true;
             }
-            if (mouseEvent.Wheel > 0 && CHelper.IsInBounds(_ScreenArea, mouseEvent))
+            if (mouseEvent.Wheel > 0 && CHelper.IsInBounds(ScreenArea, mouseEvent))
             {
-                if (_SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel >= 0)
-                    _SelectSlides[_SelectSlideVolume].Selection = _SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel;
-                else if (_SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel < 0)
-                    _SelectSlides[_SelectSlideVolume].Selection = 0;
+                _SelectSlides[_SelectSlideVolume].Selection = _SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel;
                 _SaveConfig();
                 return true;
             }
-            if (mouseEvent.Wheel < 0 && CHelper.IsInBounds(_ScreenArea, mouseEvent))
+            if (mouseEvent.Wheel < 0 && CHelper.IsInBounds(ScreenArea, mouseEvent))
             {
-                if (_SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel < _SelectSlides[_SelectSlideVolume].NumValues)
-                    _SelectSlides[_SelectSlideVolume].Selection = _SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel;
-                else if (_SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel >= _SelectSlides[_SelectSlideVolume].NumValues)
-                    _SelectSlides[_SelectSlideVolume].Selection = _SelectSlides[_SelectSlideVolume].NumValues - 1;
+                _SelectSlides[_SelectSlideVolume].Selection = _SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel;
                 _SaveConfig();
                 return true;
             }
@@ -97,58 +108,17 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
-        {
-            if (!_Active)
-                return false;
-
-            return base.Draw();
-        }
-
         private void _SaveConfig()
         {
             int volume = _SelectSlides[_SelectSlideVolume].Selection * 5;
-            switch (CGraphics.CurrentScreen)
-            {
-                case EScreens.ScreenSong:
-                    if (CSongs.IsInCategory)
-                        CConfig.PreviewMusicVolume = volume;
-                    else
-                        CConfig.BackgroundMusicVolume = volume;
-                    break;
-
-                case EScreens.ScreenSing:
-                    CConfig.GameMusicVolume = volume;
-                    break;
-
-                default:
-                    CConfig.BackgroundMusicVolume = volume;
-                    break;
-            }
+            CConfig.SetVolumeByType(CGraphics.CurrentScreen.CurrentMusicType, volume);
             CConfig.SaveConfig();
             CSound.SetGlobalVolume(volume);
         }
 
         private void _UpdateSlides()
         {
-            int volume;
-            switch (CGraphics.CurrentScreen)
-            {
-                case EScreens.ScreenSong:
-                    if (CSongs.IsInCategory)
-                        volume = CConfig.PreviewMusicVolume;
-                    else
-                        volume = CConfig.BackgroundMusicVolume;
-                    break;
-
-                case EScreens.ScreenSing:
-                    volume = CConfig.GameMusicVolume;
-                    break;
-
-                default:
-                    volume = CConfig.BackgroundMusicVolume;
-                    break;
-            }
+            int volume = CConfig.GetVolumeByType(CGraphics.CurrentScreen.CurrentMusicType);
             _SelectSlides[_SelectSlideVolume].Selection = volume / 5;
         }
     }

@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.IO;
 using Vocaluxe.Lib.Sound.Playback;
 using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
@@ -40,7 +39,7 @@ namespace Vocaluxe.Base
         {
             if (_Playback != null)
                 return false;
-            switch (CConfig.PlayBackLib)
+            switch (CConfig.Config.Sound.PlayBackLib)
             {
                 case EPlaybackLib.PortAudio:
                     _Playback = new CPortAudioPlay();
@@ -61,7 +60,11 @@ namespace Vocaluxe.Base
             return _Playback.Init();
         }
 
-        public static void SetGlobalVolume(float volume)
+        /// <summary>
+        /// Sets the volume (in percent 0-100)
+        /// </summary>
+        /// <param name="volume"></param>
+        public static void SetGlobalVolume(int volume)
         {
             _Playback.SetGlobalVolume(volume);
         }
@@ -110,27 +113,27 @@ namespace Vocaluxe.Base
             _Playback.Stop(stream);
         }
 
-        public static void Fade(int stream, float targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
+        public static void Fade(int stream, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
             _Playback.Fade(stream, targetVolume, seconds, afterFadeAction);
         }
 
-        public static void FadeAndPause(int stream, float targetVolume, float seconds)
+        public static void FadeAndPause(int stream, int targetVolume, float seconds)
         {
             Fade(stream, targetVolume, seconds, EStreamAction.Pause);
         }
 
-        public static void FadeAndClose(int stream, float targetVolume, float seconds)
+        public static void FadeAndClose(int stream, int targetVolume, float seconds)
         {
             Fade(stream, targetVolume, seconds, EStreamAction.Close);
         }
 
-        public static void FadeAndStop(int stream, float targetVolume, float seconds)
+        public static void FadeAndStop(int stream, int targetVolume, float seconds)
         {
             Fade(stream, targetVolume, seconds, EStreamAction.Stop);
         }
 
-        public static void SetStreamVolume(int stream, float volume)
+        public static void SetStreamVolume(int stream, int volume)
         {
             _Playback.SetStreamVolume(stream, volume);
         }
@@ -205,8 +208,8 @@ namespace Vocaluxe.Base
                 }
                 if (length > 0f)
                 {
-                    SetStreamVolume(stream, 0f);
-                    Fade(stream, 100f, length);
+                    SetStreamVolume(stream, 0);
+                    Fade(stream, 100, length);
                 }
             }
             return stream;

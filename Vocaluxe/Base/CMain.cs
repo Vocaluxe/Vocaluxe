@@ -19,8 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Xml;
 using Vocaluxe.Base.Fonts;
+using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Draw;
@@ -34,7 +34,7 @@ namespace Vocaluxe.Base
     {
         private static readonly IConfig _Config = new CBconfig();
         private static readonly ISettings _Settings = new CBsettings();
-        private static readonly ITheme _Theme = new CBtheme();
+        private static readonly IThemes _Themes = new CBtheme();
         private static readonly IBackgroundMusic _BackgroundMusic = new CBbackgroundMusic();
         private static readonly IDrawing _Draw = new CBdraw();
         private static readonly IGraphics _Graphics = new CBGraphics();
@@ -54,7 +54,7 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            CBase.Assign(_Config, _Settings, _Theme, _Log, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
+            CBase.Assign(_Config, _Settings, _Themes, _Log, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
                          _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist);
         }
     }
@@ -63,7 +63,7 @@ namespace Vocaluxe.Base
     {
         public EOffOn GetSaveModifiedSongs()
         {
-            return CConfig.SaveModifiedSongs;
+            return CConfig.Config.Debug.SaveModifiedSongs;
         }
 
         public void SetBackgroundMusicVolume(int newVolume)
@@ -71,14 +71,14 @@ namespace Vocaluxe.Base
             CConfig.BackgroundMusicVolume = newVolume;
         }
 
-        public int GetBackgroundMusicVolume()
+        public int GetMusicVolume(EMusicType type)
         {
-            return CConfig.BackgroundMusicVolume;
+            return CConfig.GetVolumeByType(type);
         }
 
         public EBackgroundMusicOffOn GetBackgroundMusicStatus()
         {
-            return CConfig.BackgroundMusic;
+            return CConfig.Config.Sound.BackgroundMusic;
         }
 
         public int GetPreviewMusicVolume()
@@ -93,32 +93,32 @@ namespace Vocaluxe.Base
 
         public EOffOn GetVideosToBackground()
         {
-            return CConfig.VideosToBackground;
+            return CConfig.Config.Video.VideosToBackground;
         }
 
         public EOffOn GetVideoBackgrounds()
         {
-            return CConfig.VideoBackgrounds;
+            return CConfig.Config.Video.VideoBackgrounds;
         }
 
         public EOffOn GetVideoPreview()
         {
-            return CConfig.VideoPreview;
+            return CConfig.Config.Video.VideoPreview;
         }
 
         public EOffOn GetDrawNoteLines()
         {
-            return CConfig.DrawNoteLines;
+            return CConfig.Config.Theme.DrawNoteLines;
         }
 
         public EOffOn GetDrawToneHelper()
         {
-            return CConfig.DrawToneHelper;
+            return CConfig.Config.Theme.DrawToneHelper;
         }
 
         public int GetCoverSize()
         {
-            return CConfig.CoverSize;
+            return CConfig.Config.Graphics.CoverSize;
         }
 
         public IEnumerable<string> GetSongFolders()
@@ -128,17 +128,17 @@ namespace Vocaluxe.Base
 
         public ESongSorting GetSongSorting()
         {
-            return CConfig.SongSorting;
+            return CConfig.Config.Game.SongSorting;
         }
 
         public EOffOn GetTabs()
         {
-            return CConfig.Tabs;
+            return CConfig.Config.Game.Tabs;
         }
 
         public EOffOn GetIgnoreArticles()
         {
-            return CConfig.IgnoreArticles;
+            return CConfig.Config.Game.IgnoreArticles;
         }
 
         public bool IsMicConfigured(int playerNr)
@@ -151,9 +151,19 @@ namespace Vocaluxe.Base
             return CConfig.GetMaxNumMics();
         }
 
-        public XmlWriterSettings GetXMLSettings()
+        public bool GetLoadOldThemeFiles()
         {
-            return CConfig.XMLSettings;
+            return CConfig.LoadOldThemeFiles;
+        }
+
+        public void AddSongMenuListener(OnSongMenuChanged onSongMenuChanged)
+        {
+            CConfig.SongMenuChanged += onSongMenuChanged;
+        }
+
+        public void RemoveSongMenuListener(OnSongMenuChanged onSongMenuChanged)
+        {
+            CConfig.SongMenuChanged -= onSongMenuChanged;
         }
     }
 
@@ -167,6 +177,11 @@ namespace Vocaluxe.Base
         public int GetRenderH()
         {
             return CSettings.RenderH;
+        }
+
+        public SRectF GetRenderRect()
+        {
+            return CSettings.RenderRect;
         }
 
         public bool IsTabNavigation()
@@ -255,71 +270,36 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBtheme : ITheme
+    class CBtheme : IThemes
     {
         public string GetThemeScreensPath(int partyModeID)
         {
-            return CTheme.GetThemeScreensPath(partyModeID);
+            return CThemes.GetThemeScreensPath(partyModeID);
         }
 
-        public int GetSkinIndex(int partyModeID)
+        public CTextureRef GetSkinTexture(string textureName, int partyModeID)
         {
-            return CTheme.GetSkinIndex(partyModeID);
+            return CThemes.GetSkinTexture(textureName, partyModeID);
         }
 
-        public CTexture GetSkinTexture(string textureName, int partyModeID)
+        public CVideoStream GetSkinVideo(string videoName, int partyModeID, bool loop)
         {
-            return CTheme.GetSkinTexture(textureName, partyModeID);
+            return CThemes.GetSkinVideo(videoName, partyModeID, loop);
         }
 
-        public CTexture GetSkinVideoTexture(string videoName, int partyModeID)
+        public bool GetColor(string colorName, int partyModeID, out SColorF color)
         {
-            return CTheme.GetSkinVideoTexture(videoName, partyModeID);
-        }
-
-        public void SkinVideoResume(string videoName, int partyModeID)
-        {
-            CTheme.SkinVideoResume(videoName, partyModeID);
-        }
-
-        public void SkinVideoPause(string videoName, int partyModeID)
-        {
-            CTheme.SkinVideoPause(videoName, partyModeID);
-        }
-
-        public SColorF GetColor(string colorName, int partyModeID)
-        {
-            return CTheme.GetColor(colorName, partyModeID);
-        }
-
-        public bool GetColor(string colorName, int skinIndex, out SColorF color)
-        {
-            return CTheme.GetColor(colorName, skinIndex, out color);
+            return CThemes.GetColor(colorName, partyModeID, out color);
         }
 
         public SColorF GetPlayerColor(int playerNr)
         {
-            return CTheme.GetPlayerColor(playerNr);
+            return CThemes.GetPlayerColor(playerNr);
         }
 
-        public void UnloadSkins()
+        public void Reload()
         {
-            CTheme.UnloadSkins();
-        }
-
-        public void ListSkins()
-        {
-            CTheme.ListSkins();
-        }
-
-        public void LoadSkins()
-        {
-            CTheme.LoadSkins();
-        }
-
-        public void LoadTheme()
-        {
-            CTheme.LoadTheme();
+            CThemes.Reload();
         }
     }
 
@@ -400,7 +380,7 @@ namespace Vocaluxe.Base
             CBackgroundMusic.StopPreview();
         }
 
-        public CTexture GetVideoTexture()
+        public CTextureRef GetVideoTexture()
         {
             return CBackgroundMusic.GetVideoTexture();
         }
@@ -408,44 +388,59 @@ namespace Vocaluxe.Base
 
     class CBdraw : IDrawing
     {
-        public void DrawTexture(CTexture texture, SRectF rect)
+        public void DrawTexture(CTextureRef texture, SRectF rect)
         {
             CDraw.DrawTexture(texture, rect);
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color)
         {
             CDraw.DrawTexture(texture, rect, color);
         }
 
-        public void DrawTexture(CTexture texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
         {
             CDraw.DrawTexture(texture, rect, color, bounds, mirrored);
         }
 
-        public void DrawTextureReflection(CTexture texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight)
+        public void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect)
+        {
+            CDraw.DrawTexture(textureRef, bounds, aspect);
+        }
+
+        public void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect, SColorF color)
+        {
+            CDraw.DrawTexture(textureRef, bounds, aspect, color);
+        }
+
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight)
         {
             CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight);
         }
 
-        public CTexture AddTexture(string fileName)
+        public CTextureRef AddTexture(string fileName)
         {
             return CDraw.AddTexture(fileName);
         }
 
-        public void RemoveTexture(ref CTexture texture)
+        public CTextureRef EnqueueTexture(string fileName)
+        {
+            return CDraw.EnqueueTexture(fileName);
+        }
+
+        public void RemoveTexture(ref CTextureRef texture)
         {
             CDraw.RemoveTexture(ref texture);
         }
 
-        public void DrawColor(SColorF color, SRectF rect)
+        public void DrawRect(SColorF color, SRectF rect)
         {
-            CDraw.DrawColor(color, rect);
+            CDraw.DrawRect(color, rect);
         }
 
-        public void DrawColorReflection(SColorF color, SRectF rect, float space, float height)
+        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height)
         {
-            CDraw.DrawColorReflection(color, rect, space, height);
+            CDraw.DrawRectReflection(color, rect, space, height);
         }
     }
 
@@ -461,7 +456,12 @@ namespace Vocaluxe.Base
             CGraphics.SaveTheme();
         }
 
-        public void FadeTo(EScreens nextScreen)
+        public void FadeTo(EScreen nextScreen)
+        {
+            CGraphics.FadeTo(nextScreen);
+        }
+
+        public void FadeTo(IMenu nextScreen)
         {
             CGraphics.FadeTo(nextScreen);
         }
@@ -471,17 +471,27 @@ namespace Vocaluxe.Base
             return CGraphics.GlobalAlpha;
         }
 
-        public EScreens GetNextScreen()
+        public IMenu GetNextScreen()
         {
             return CGraphics.NextScreen;
+        }
+
+        public EScreen GetNextScreenType()
+        {
+            return CGraphics.NextScreenType;
+        }
+
+        public IMenu GetScreen(EScreen screen)
+        {
+            return CGraphics.GetScreen(screen);
         }
     }
 
     class CBlog : ILog
     {
-        public void LogError(string errorText)
+        public void LogError(string errorText, bool showMsg = false, bool exit = false)
         {
-            CLog.LogError(errorText);
+            CLog.LogError(errorText, showMsg, exit);
         }
 
         public void LogDebug(string text)
@@ -497,39 +507,24 @@ namespace Vocaluxe.Base
 
     class CBfonts : IFonts
     {
-        public void SetFont(string fontName)
-        {
-            CFonts.SetFont(fontName);
-        }
-
-        public void SetStyle(EStyle fontStyle)
-        {
-            CFonts.Style = fontStyle;
-        }
-
         public RectangleF GetTextBounds(CText text)
         {
             return CFonts.GetTextBounds(text);
         }
 
-        public RectangleF GetTextBounds(CText text, float textHeight)
+        public void DrawText(string text, CFont font, float x, float y, float z, SColorF color)
         {
-            return CFonts.GetTextBounds(text, textHeight);
+            CFonts.DrawText(text, font, x, y, z, color);
         }
 
-        public void DrawText(string text, float textHeight, float x, float y, float z, SColorF color)
+        public void DrawTextReflection(string text, CFont font, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight)
         {
-            CFonts.DrawText(text, textHeight, x, y, z, color);
+            CFonts.DrawTextReflection(text, font, x, y, z, color, reflectionSpace, reflectionHeight);
         }
 
-        public void DrawTextReflection(string text, float textHeight, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight)
+        public void DrawText(string text, CFont font, float x, float y, float z, SColorF color, float begin, float end)
         {
-            CFonts.DrawTextReflection(text, textHeight, x, y, z, color, reflectionSpace, reflectionHeight);
-        }
-
-        public void DrawText(string text, float textHeight, float x, float y, float z, SColorF color, float begin, float end)
-        {
-            CFonts.DrawText(text, textHeight, x, y, z, color, begin, end);
+            CFonts.DrawText(text, font, x, y, z, color, begin, end);
         }
     }
 
@@ -555,12 +550,12 @@ namespace Vocaluxe.Base
     {
         public int GetNumPlayer()
         {
-            return CGame.NumPlayer;
+            return CGame.NumPlayers;
         }
 
         public void SetNumPlayer(int numPlayer)
         {
-            CGame.NumPlayer = numPlayer;
+            CGame.NumPlayers = numPlayer;
         }
 
         public SPlayer[] GetPlayers()
@@ -651,7 +646,7 @@ namespace Vocaluxe.Base
             return CProfiles.GetPlayerName(profileID, playerNum);
         }
 
-        public CTexture GetAvatar(int profileID)
+        public CTextureRef GetAvatar(int profileID)
         {
             return CProfiles.GetAvatarTextureFromProfile(profileID);
         }
@@ -679,9 +674,9 @@ namespace Vocaluxe.Base
 
     class CBrecord : IRecording
     {
-        public int GetToneAbs(int playerNr)
+        public int GetToneAbs(int player)
         {
-            return CRecord.GetToneAbs(playerNr);
+            return CRecord.GetToneAbs(player);
         }
     }
 
@@ -800,44 +795,44 @@ namespace Vocaluxe.Base
 
     class CBvideo : IVideo
     {
-        public int Load(string videoFileName)
+        public CVideoStream Load(string videoFileName)
         {
             return CVideo.Load(videoFileName);
         }
 
-        public bool Skip(int videoStream, float startPosition, float videoGap)
+        public bool Skip(CVideoStream stream, float startPosition, float videoGap)
         {
-            return CVideo.Skip(videoStream, startPosition, videoGap);
+            return CVideo.Skip(stream, startPosition, videoGap);
         }
 
-        public bool GetFrame(int videoStream, ref CTexture videoTexture, float time, out float videoTime)
+        public bool GetFrame(CVideoStream stream, float time)
         {
-            return CVideo.GetFrame(videoStream, ref videoTexture, time, out videoTime);
+            return CVideo.GetFrame(stream, time);
         }
 
-        public bool IsFinished(int videoStream)
+        public bool IsFinished(CVideoStream stream)
         {
-            return CVideo.Finished(videoStream);
+            return CVideo.Finished(stream);
         }
 
-        public bool Close(int videoStream)
+        public void Close(ref CVideoStream stream)
         {
-            return CVideo.Close(videoStream);
+            CVideo.Close(ref stream);
         }
 
-        public void SetLoop(int streamID, bool loop = true)
+        public void SetLoop(CVideoStream stream, bool loop = true)
         {
-            CVideo.SetLoop(streamID, loop);
+            CVideo.SetLoop(stream, loop);
         }
 
-        public void Pause(int streamID)
+        public void Pause(CVideoStream stream)
         {
-            CVideo.Pause(streamID);
+            CVideo.Pause(stream);
         }
 
-        public void Resume(int streamID)
+        public void Resume(CVideoStream stream)
         {
-            CVideo.Resume(streamID);
+            CVideo.Resume(stream);
         }
     }
 
@@ -858,7 +853,7 @@ namespace Vocaluxe.Base
             CSound.Play(soundStream);
         }
 
-        public void Fade(int soundStream, float targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing)
+        public void Fade(int soundStream, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
             CSound.Fade(soundStream, targetVolume, duration, afterFadeAction);
         }
@@ -883,23 +878,33 @@ namespace Vocaluxe.Base
             return CSound.GetLength(soundStream);
         }
 
-        public void SetStreamVolume(int soundStream, float volume)
+        public void SetStreamVolume(int soundStream, int volume)
         {
             CSound.SetStreamVolume(soundStream, volume);
+        }
+
+        public void SetGlobalVolume(int volume)
+        {
+            CSound.SetGlobalVolume(volume);
         }
     }
 
     class CBcover : ICover
     {
-        public CTexture GetNoCover()
+        public CTextureRef GetNoCover()
         {
             return CCover.NoCover;
+        }
+
+        public CTextureRef GenerateCover(string text, ECoverGeneratorType type, CSong firstSong)
+        {
+            return CCover.GenerateCover(text, type, firstSong);
         }
     }
 
     class CBdataBase : IDataBase
     {
-        public bool GetCover(string fileName, ref CTexture texture, int coverSize)
+        public bool GetCover(string fileName, ref CTextureRef texture, int coverSize)
         {
             return CDataBase.GetCover(fileName, ref texture, coverSize);
         }

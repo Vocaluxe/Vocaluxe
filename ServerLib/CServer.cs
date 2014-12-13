@@ -33,6 +33,7 @@ namespace ServerLib
         private bool _Encrypted;
 
         public static SendKeyEventDelegate SendKeyEvent { internal get; set; }
+        public static SendKeyStringEventDelegate SendKeyStringEvent { internal get; set; }
 
         #region profile
         public static GetProfileDataDelegate GetProfileData { internal get; set; }

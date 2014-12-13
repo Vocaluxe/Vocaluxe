@@ -18,76 +18,118 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Xml;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
-    struct SThemeSelectSlide
+    [XmlType("SelectSlide")]
+    public struct SThemeSelectSlide
     {
-        public string Name;
+        [XmlAttribute(AttributeName = "Name")] public string Name;
 
-        public string TextureName;
-        public string TextureArrowLeftName;
-        public string TextureArrowRightName;
+        public string Skin;
+        public string SkinArrowLeft;
+        public string SkinArrowRight;
 
-        public string SelTextureName;
-        public string SelTextureArrowLeftName;
-        public string SelTextureArrowRightName;
+        public string SkinSelected;
+        public string SkinArrowLeftSelected;
+        public string SkinArrowRightSelected;
 
-        public string HighlightTextureName;
+        public SRectF Rect;
+        public SRectF RectArrowLeft;
+        public SRectF RectArrowRight;
 
-        public string ColorName;
-        public string SelColorName;
-        public string HighlightColorName;
+        public SThemeColor Color;
+        public SThemeColor SelColor;
 
-        public string ArrowColorName;
-        public string SelArrowColorName;
+        public SThemeColor ArrowColor;
+        public SThemeColor ArrowSelColor;
 
-        public string TextColorName;
-        public string SelTextColorName;
+        public SThemeColor TextColor;
+        public SThemeColor TextSelColor;
+
+        public float TextH;
+        public float TextRelativeX;
+        public float TextRelativeY;
+        public float TextMaxW;
 
         public string TextFont;
         public EStyle TextStyle;
+
+        public int NumVisible;
     }
 
-    public class CSelectSlide : IMenuElement, ICloneable
+    public sealed class CSelectSlide : CMenuElementBase, IMenuElement, ICloneable, IThemeable
     {
         private readonly int _PartyModeID;
         private SThemeSelectSlide _Theme;
-        private bool _ThemeLoaded;
 
         public string GetThemeName()
         {
             return _Theme.Name;
         }
 
-        public SRectF Rect;
+        public bool ThemeLoaded { get; private set; }
+
         public SRectF RectArrowLeft;
         public SRectF RectArrowRight;
 
-        public SColorF Color;
-        public SColorF SelColor;
-        public SColorF HighlightColor;
+        private SColorF _Color;
+        private SColorF _SelColor;
 
-        public SColorF ColorArrow;
-        public SColorF SelColorArrow;
+        private SColorF _ColorArrow;
+        private SColorF _SelColorArrow;
 
-        public SColorF TextColor;
-        public SColorF SelTextColor;
+        private SColorF _TextColor;
+        private SColorF _SelTextColor;
 
-        public float TextRelativeX;
-        public float TextRelativeY;
-        public float TextH;
-        public float MaxW;
+        private float _TextRelativeX;
+        private float _TextRelativeY;
+        private float _TextH;
+        private float _MaxW;
 
-        private bool _Selected;
-        public bool Selected
+        public bool Selectable
         {
-            get { return _Selected; }
+            get { return Visible; }
+        }
+        public override float X
+        {
             set
             {
-                _Selected = value;
+                float delta = value - X;
+                RectArrowLeft.X += delta;
+                RectArrowRight.X += delta;
+                base.X = value;
+            }
+        }
+        public override float Y
+        {
+            set
+            {
+                float delta = value - Y;
+                RectArrowLeft.Y += delta;
+                RectArrowRight.Y += delta;
+                base.Y = value;
+            }
+        }
+        public override float Z
+        {
+            set
+            {
+                float delta = value - Z;
+                RectArrowLeft.Z += delta;
+                RectArrowRight.Z += delta;
+                base.Z = value;
+            }
+        }
+
+        public override bool Selected
+        {
+            set
+            {
+                base.Selected = value;
 
                 if (!value)
                 {
@@ -98,11 +140,8 @@ namespace VocaluxeLib.Menu
         }
         public bool ValueSelected
         {
-            get { return _Selected && !_ArrowLeftSelected && !_ArrowRightSelected; }
+            get { return Selected && !_ArrowLeftSelected && !_ArrowRightSelected; }
         }
-
-        public bool Visible = true;
-        public bool Highlighted;
 
         public bool SelectionByHover;
 
@@ -111,7 +150,7 @@ namespace VocaluxeLib.Menu
 
         private readonly List<string> _ValueNames;
         private readonly List<int> _ValuePartyModeIDs;
-        private readonly List<CTexture> _Textures;
+        private readonly List<CTextureRef> _Textures;
         private readonly List<int> _ValueIndexes;
 
         private readonly List<SRectF> _ValueBounds = new List<SRectF>();
@@ -122,11 +161,12 @@ namespace VocaluxeLib.Menu
         public int Selection
         {
             get { return _Selection; }
-            set
-            {
-                if (value >= 0 && value < _ValueNames.Count)
-                    _Selection = value;
-            }
+            set { _Selection = value.Clamp(0, _ValueNames.Count - 1, false); }
+        }
+
+        public string Value
+        {
+            get { return (_Selection >= 0 && _Selection < _ValueNames.Count) ? _ValueNames[_Selection] : null; }
         }
 
         public int ValueIndex
@@ -145,6 +185,13 @@ namespace VocaluxeLib.Menu
         }
 
         private int _NumVisible = -1;
+        private CTextureRef _Texture;
+        private CTextureRef _TextureArrowLeft;
+        private CTextureRef _TextureArrowRight;
+        private CTextureRef _SelTexture;
+        private CTextureRef _SelTextureArrowLeft;
+        private CTextureRef _SelTextureArrowRight;
+
         public int NumVisible
         {
             get { return _NumVisible; }
@@ -160,26 +207,11 @@ namespace VocaluxeLib.Menu
         public CSelectSlide(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeSelectSlide();
-            _ThemeLoaded = false;
+            ThemeLoaded = false;
+            _TextH = 1f;
+            _MaxW = 0f;
 
-            Rect = new SRectF();
-            RectArrowLeft = new SRectF();
-            RectArrowRight = new SRectF();
-
-            Color = new SColorF();
-            SelColor = new SColorF();
-
-            ColorArrow = new SColorF();
-            SelColorArrow = new SColorF();
-
-            TextColor = new SColorF();
-            SelTextColor = new SColorF();
-            TextH = 1f;
-            MaxW = 0f;
-
-            _Selected = false;
-            _Textures = new List<CTexture>();
+            _Textures = new List<CTextureRef>();
             _ValueIndexes = new List<int>();
             _ValueNames = new List<string>();
             _ValuePartyModeIDs = new List<int>();
@@ -188,46 +220,28 @@ namespace VocaluxeLib.Menu
         public CSelectSlide(CSelectSlide slide)
         {
             _PartyModeID = slide._PartyModeID;
-            _Theme = new SThemeSelectSlide
-                {
-                    TextureArrowLeftName = slide._Theme.TextureArrowLeftName,
-                    TextureArrowRightName = slide._Theme.TextureArrowRightName,
-                    SelTextureName = slide._Theme.SelTextureName,
-                    SelTextureArrowLeftName = slide._Theme.SelTextureArrowLeftName,
-                    SelTextureArrowRightName = slide._Theme.SelTextureArrowRightName,
-                    HighlightTextureName = slide._Theme.HighlightTextureName,
-                    ColorName = slide._Theme.ColorName,
-                    SelColorName = slide._Theme.SelColorName,
-                    HighlightColorName = slide._Theme.HighlightColorName,
-                    ArrowColorName = slide._Theme.ArrowColorName,
-                    SelArrowColorName = slide._Theme.SelArrowColorName,
-                    TextColorName = slide._Theme.TextColorName,
-                    SelTextColorName = slide._Theme.SelTextColorName,
-                    TextFont = slide._Theme.TextFont,
-                    TextStyle = slide._Theme.TextStyle
-                };
+            _Theme = slide._Theme;
 
-            _ThemeLoaded = false;
+            ThemeLoaded = false;
 
-            Rect = new SRectF(slide.Rect);
-            RectArrowLeft = new SRectF(slide.RectArrowLeft);
-            RectArrowRight = new SRectF(slide.RectArrowRight);
+            MaxRect = slide.MaxRect;
+            RectArrowLeft = slide.RectArrowLeft;
+            RectArrowRight = slide.RectArrowRight;
 
-            Color = new SColorF(slide.Color);
-            SelColor = new SColorF(slide.SelColor);
+            _Color = slide._Color;
+            _SelColor = slide._SelColor;
 
-            ColorArrow = new SColorF(slide.ColorArrow);
-            SelColorArrow = new SColorF(slide.SelColorArrow);
+            _ColorArrow = slide._ColorArrow;
+            _SelColorArrow = slide._SelColorArrow;
 
-            TextColor = new SColorF(slide.TextColor);
-            SelTextColor = new SColorF(slide.SelTextColor);
-            TextH = slide.TextH;
-            TextRelativeX = slide.TextRelativeX;
-            TextRelativeY = slide.TextRelativeY;
-            MaxW = slide.MaxW;
+            _TextColor = slide._TextColor;
+            _SelTextColor = slide._SelTextColor;
+            _TextH = slide._TextH;
+            _TextRelativeX = slide._TextRelativeX;
+            _TextRelativeY = slide._TextRelativeY;
+            _MaxW = slide._MaxW;
 
-            _Selected = slide._Selected;
-            _Textures = new List<CTexture>(slide._Textures);
+            _Textures = new List<CTextureRef>(slide._Textures);
             _ValueIndexes = new List<int>(slide._ValueIndexes);
             _ValueNames = new List<string>(slide._ValueNames);
             _ValueBounds = new List<SRectF>(slide._ValueBounds);
@@ -239,289 +253,133 @@ namespace VocaluxeLib.Menu
             Visible = slide.Visible;
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXMLReader xmlReader, int skinIndex)
+        public CSelectSlide(SThemeSelectSlide theme, int partyModeID)
         {
-            string item = xmlPath + "/" + elementName;
-            _ThemeLoaded = true;
+            _PartyModeID = partyModeID;
+            _Theme = theme;
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.TextureName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeft", out _Theme.TextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRight", out _Theme.TextureArrowRightName, String.Empty);
+            _Textures = new List<CTextureRef>();
+            _ValueIndexes = new List<int>();
+            _ValueNames = new List<string>();
+            _ValuePartyModeIDs = new List<int>();
 
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", out _Theme.SelTextureName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeftSelected", out _Theme.SelTextureArrowLeftName, String.Empty);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRightSelected", out _Theme.SelTextureArrowRightName, String.Empty);
-
-            _ThemeLoaded &= xmlReader.GetValue(item + "/SkinHighlighted", out _Theme.HighlightTextureName, String.Empty);
-
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref Rect.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref Rect.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref Rect.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref Rect.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref Rect.H);
-
-            if (xmlReader.GetValue(item + "/Color", out _Theme.ColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ColorName, skinIndex, out Color);
-            else
-            {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
-            }
-
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelColorName, skinIndex, out SelColor);
-            else
-            {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref SelColor.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref SelColor.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SelColor.A);
-            }
-
-            if (xmlReader.GetValue(item + "/HColor", out _Theme.HighlightColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.HighlightColorName, skinIndex, out HighlightColor);
-            else
-            {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HR", ref HighlightColor.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HG", ref HighlightColor.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HB", ref HighlightColor.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/HA", ref HighlightColor.A);
-            }
-
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftX", ref RectArrowLeft.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftY", ref RectArrowLeft.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftZ", ref RectArrowLeft.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftW", ref RectArrowLeft.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftH", ref RectArrowLeft.H);
-
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightX", ref RectArrowRight.X);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightY", ref RectArrowRight.Y);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightZ", ref RectArrowRight.Z);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightW", ref RectArrowRight.W);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
-
-            if (xmlReader.GetValue(item + "/ArrowColor", out _Theme.ArrowColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.ArrowColorName, skinIndex, out ColorArrow);
-            else
-            {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowR", ref ColorArrow.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowG", ref ColorArrow.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowB", ref ColorArrow.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowA", ref ColorArrow.A);
-            }
-
-            if (xmlReader.GetValue(item + "/ArrowSColor", out _Theme.SelArrowColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelArrowColorName, skinIndex, out SelColorArrow);
-            else
-            {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSR", ref SelColorArrow.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSG", ref SelColorArrow.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSB", ref SelColorArrow.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSA", ref SelColorArrow.A);
-            }
-
-            if (xmlReader.GetValue(item + "/TextColor", out _Theme.TextColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.TextColorName, skinIndex, out TextColor);
-            else
-            {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextR", ref TextColor.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextG", ref TextColor.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextB", ref TextColor.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextA", ref TextColor.A);
-            }
-
-            if (xmlReader.GetValue(item + "/TextSColor", out _Theme.SelTextColorName, String.Empty))
-                _ThemeLoaded &= CBase.Theme.GetColor(_Theme.SelTextColorName, skinIndex, out SelTextColor);
-            else
-            {
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSR", ref SelTextColor.R);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSG", ref SelTextColor.G);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSB", ref SelTextColor.B);
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSA", ref SelTextColor.A);
-            }
-
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextH", ref TextH);
-            if (xmlReader.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX))
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextRelativeX", ref TextRelativeX);
-            if (xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY))
-                _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref TextRelativeY);
-            _ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextMaxW", ref MaxW);
-            _ThemeLoaded &= xmlReader.GetValue(item + "/TextFont", out _Theme.TextFont, "Normal");
-            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/TextStyle", ref _Theme.TextStyle);
-
-            _ThemeLoaded &= xmlReader.TryGetIntValue(item + "/NumVisible", ref _NumVisible);
-
-            if (_ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-                LoadTextures();
-            }
-            return _ThemeLoaded;
+            ThemeLoaded = true;
         }
 
-        public bool SaveTheme(XmlWriter writer)
+        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
         {
-            if (_ThemeLoaded)
+            string item = xmlPath + "/" + elementName;
+            ThemeLoaded = true;
+
+            ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeft", out _Theme.SkinArrowLeft, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRight", out _Theme.SkinArrowRight, String.Empty);
+
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", out _Theme.SkinSelected, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeftSelected", out _Theme.SkinArrowLeftSelected, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRightSelected", out _Theme.SkinArrowRightSelected, String.Empty);
+
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
+
+            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
+                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out _Color);
+            else
             {
-                writer.WriteStartElement(_Theme.Name);
-
-                writer.WriteComment("<Skin>: Texture name");
-                writer.WriteElementString("Skin", _Theme.TextureName);
-
-                writer.WriteComment("<SkinArrowLeft>: Texture name of left arrow");
-                writer.WriteElementString("SkinArrowLeft", _Theme.TextureArrowLeftName);
-
-                writer.WriteComment("<SkinArrowRight>: Texture name of right arrow");
-                writer.WriteElementString("SkinArrowRight", _Theme.TextureArrowRightName);
-
-
-                writer.WriteComment("<SkinSelected>: Texture name for selected SelectSlide");
-                writer.WriteElementString("SkinSelected", _Theme.SelTextureName);
-
-                writer.WriteComment("<SkinArrowLeftSelected>: Texture name of selected left arrow");
-                writer.WriteElementString("SkinArrowLeftSelected", _Theme.SelTextureArrowLeftName);
-
-                writer.WriteComment("<SkinArrowRightSelected>: Texture name of selected right arrow");
-                writer.WriteElementString("SkinArrowRightSelected", _Theme.SelTextureArrowRightName);
-
-                writer.WriteComment("<SkinHighlighted>: Texture name for highlighted SelectSlide");
-                writer.WriteElementString("SkinHighlighted", _Theme.HighlightTextureName);
-
-                writer.WriteComment("<X>, <Y>, <Z>, <W>, <H>: SelectSlide position, width and height");
-                writer.WriteElementString("X", Rect.X.ToString("#0"));
-                writer.WriteElementString("Y", Rect.Y.ToString("#0"));
-                writer.WriteElementString("Z", Rect.Z.ToString("#0.00"));
-                writer.WriteElementString("W", Rect.W.ToString("#0"));
-                writer.WriteElementString("H", Rect.H.ToString("#0"));
-
-                writer.WriteComment("<ArrowLeftX>, <ArrowLeftY>, <ArrowLeftZ>, <ArrowLeftW>, <ArrowLeftH>: Left arrow position, width and height");
-                writer.WriteElementString("ArrowLeftX", RectArrowLeft.X.ToString("#0"));
-                writer.WriteElementString("ArrowLeftY", RectArrowLeft.Y.ToString("#0"));
-                writer.WriteElementString("ArrowLeftZ", RectArrowLeft.Z.ToString("#0.00"));
-                writer.WriteElementString("ArrowLeftW", RectArrowLeft.W.ToString("#0"));
-                writer.WriteElementString("ArrowLeftH", RectArrowLeft.H.ToString("#0"));
-
-                writer.WriteComment("<ArrowRightX>, <ArrowRightY>, <ArrowRightZ>, <ArrowRightW>, <ArrowRightH>: Right arrow position, width and height");
-                writer.WriteElementString("ArrowRightX", RectArrowRight.X.ToString("#0"));
-                writer.WriteElementString("ArrowRightY", RectArrowRight.Y.ToString("#0"));
-                writer.WriteElementString("ArrowRightZ", RectArrowRight.Z.ToString("#0.00"));
-                writer.WriteElementString("ArrowRightW", RectArrowRight.W.ToString("#0"));
-                writer.WriteElementString("ArrowRightH", RectArrowRight.H.ToString("#0"));
-
-                writer.WriteComment("<Color>: SelectSlide color from ColorScheme (high priority)");
-                writer.WriteComment("or <R>, <G>, <B>, <A> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ColorName))
-                    writer.WriteElementString("Color", _Theme.ColorName);
-                else
-                {
-                    writer.WriteElementString("R", Color.R.ToString("#0.00"));
-                    writer.WriteElementString("G", Color.G.ToString("#0.00"));
-                    writer.WriteElementString("B", Color.B.ToString("#0.00"));
-                    writer.WriteElementString("A", Color.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<SColor>: Selected SelectSlide color from ColorScheme (high priority)");
-                writer.WriteComment("or <SR>, <SG>, <SB>, <SA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.SelColorName))
-                    writer.WriteElementString("SColor", _Theme.SelColorName);
-                else
-                {
-                    writer.WriteElementString("SR", SelColor.R.ToString("#0.00"));
-                    writer.WriteElementString("SG", SelColor.G.ToString("#0.00"));
-                    writer.WriteElementString("SB", SelColor.B.ToString("#0.00"));
-                    writer.WriteElementString("SA", SelColor.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<HColor>: Highlighted SelectSlide color from ColorScheme (high priority)");
-                writer.WriteComment("or <HR>, <HG>, <HB>, <HA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.HighlightColorName))
-                    writer.WriteElementString("HColor", _Theme.HighlightColorName);
-                else
-                {
-                    writer.WriteElementString("HR", HighlightColor.R.ToString("#0.00"));
-                    writer.WriteElementString("HG", HighlightColor.G.ToString("#0.00"));
-                    writer.WriteElementString("HB", HighlightColor.B.ToString("#0.00"));
-                    writer.WriteElementString("HA", HighlightColor.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<ArrowColor>: Arrow color from ColorScheme (high priority)");
-                writer.WriteComment("or <ArrowR>, <ArrowG>, <ArrowB>, <ArrowA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.ArrowColorName))
-                    writer.WriteElementString("ArrowColor", _Theme.ArrowColorName);
-                else
-                {
-                    writer.WriteElementString("ArrowR", ColorArrow.R.ToString("#0.00"));
-                    writer.WriteElementString("ArrowG", ColorArrow.G.ToString("#0.00"));
-                    writer.WriteElementString("ArrowB", ColorArrow.B.ToString("#0.00"));
-                    writer.WriteElementString("ArrowA", ColorArrow.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<ArrowSColor>: Selected arrow color from ColorScheme (high priority)");
-                writer.WriteComment("or <ArrowSR>, <ArrowSG>, <ArrowSB>, <ArrowSA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.SelArrowColorName))
-                    writer.WriteElementString("ArrowSColor", _Theme.SelArrowColorName);
-                else
-                {
-                    writer.WriteElementString("ArrowSR", SelColorArrow.R.ToString("#0.00"));
-                    writer.WriteElementString("ArrowSG", SelColorArrow.G.ToString("#0.00"));
-                    writer.WriteElementString("ArrowSB", SelColorArrow.B.ToString("#0.00"));
-                    writer.WriteElementString("ArrowSA", SelColorArrow.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<TextColor>: Text color from ColorScheme (high priority)");
-                writer.WriteComment("or <TextR>, <TextG>, <TextB>, <TextA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.TextColorName))
-                    writer.WriteElementString("TextColor", _Theme.TextColorName);
-                else
-                {
-                    writer.WriteElementString("TextR", TextColor.R.ToString("#0.00"));
-                    writer.WriteElementString("TextG", TextColor.G.ToString("#0.00"));
-                    writer.WriteElementString("TextB", TextColor.B.ToString("#0.00"));
-                    writer.WriteElementString("TextA", TextColor.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<TextSColor>: Selected text color from ColorScheme (high priority)");
-                writer.WriteComment("or <TextSR>, <TextSG>, <TextSB>, <TextSA> (lower priority)");
-                if (!String.IsNullOrEmpty(_Theme.SelTextColorName))
-                    writer.WriteElementString("TextSColor", _Theme.SelTextColorName);
-                else
-                {
-                    writer.WriteElementString("TextSR", SelTextColor.R.ToString("#0.00"));
-                    writer.WriteElementString("TextSG", SelTextColor.G.ToString("#0.00"));
-                    writer.WriteElementString("TextSB", SelTextColor.B.ToString("#0.00"));
-                    writer.WriteElementString("TextSA", SelTextColor.A.ToString("#0.00"));
-                }
-
-                writer.WriteComment("<TextH>: Text height");
-                writer.WriteElementString("TextH", TextH.ToString("#0.00"));
-
-                writer.WriteComment("<TextRelativeX>: Text relative x-position");
-                if (Math.Abs(TextRelativeX) > 0.01)
-                    writer.WriteElementString("TextRelativeX", TextRelativeX.ToString("#0.00"));
-
-                writer.WriteComment("<TextRelativeY>: Text relative y-position");
-                if (Math.Abs(TextRelativeY) > 0.01)
-                    writer.WriteElementString("TextRelativeY", TextRelativeY.ToString("#0.00"));
-
-                writer.WriteComment("<TextMaxW>: Maximum text width (if exists)");
-                writer.WriteElementString("TextMaxW", MaxW.ToString("#0.00"));
-
-                writer.WriteComment("<TextFont>: Text font name");
-                writer.WriteElementString("TextFont", _Theme.TextFont);
-
-                writer.WriteComment("<TextStyle>: Text style: " + CHelper.ListStrings(Enum.GetNames(typeof(EStyle))));
-                writer.WriteElementString("TextStyle", Enum.GetName(typeof(EStyle), _Theme.TextStyle));
-
-                writer.WriteComment("<NumVisible>: Number of visible elements in the slide");
-                writer.WriteElementString("NumVisible", _NumVisible.ToString());
-
-                writer.WriteEndElement();
-
-                return true;
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _Color.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref _Color.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref _Color.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _Color.A);
             }
-            return false;
+
+            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
+                ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out _SelColor);
+            else
+            {
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref _SelColor.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref _SelColor.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref _SelColor.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref _SelColor.A);
+            }
+
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftX", ref RectArrowLeft.X);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftY", ref RectArrowLeft.Y);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftZ", ref RectArrowLeft.Z);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftW", ref RectArrowLeft.W);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftH", ref RectArrowLeft.H);
+
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightX", ref RectArrowRight.X);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightY", ref RectArrowRight.Y);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightZ", ref RectArrowRight.Z);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightW", ref RectArrowRight.W);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
+
+            if (xmlReader.GetValue(item + "/ArrowColor", out _Theme.ArrowColor.Name, String.Empty))
+                ThemeLoaded &= _Theme.ArrowColor.Get(_PartyModeID, out _ColorArrow);
+            else
+            {
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowR", ref _ColorArrow.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowG", ref _ColorArrow.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowB", ref _ColorArrow.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowA", ref _ColorArrow.A);
+            }
+
+            if (xmlReader.GetValue(item + "/ArrowSColor", out _Theme.ArrowSelColor.Name, String.Empty))
+                ThemeLoaded &= _Theme.ArrowSelColor.Get(_PartyModeID, out _SelColorArrow);
+            else
+            {
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSR", ref _SelColorArrow.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSG", ref _SelColorArrow.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSB", ref _SelColorArrow.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSA", ref _SelColorArrow.A);
+            }
+
+            if (xmlReader.GetValue(item + "/TextColor", out _Theme.TextColor.Name, String.Empty))
+                ThemeLoaded &= _Theme.TextColor.Get(_PartyModeID, out _TextColor);
+            else
+            {
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextR", ref _TextColor.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextG", ref _TextColor.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextB", ref _TextColor.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextA", ref _TextColor.A);
+            }
+
+            if (xmlReader.GetValue(item + "/TextSColor", out _Theme.TextSelColor.Name, String.Empty))
+                ThemeLoaded &= _Theme.TextSelColor.Get(_PartyModeID, out _SelTextColor);
+            else
+            {
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSR", ref _SelTextColor.R);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSG", ref _SelTextColor.G);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSB", ref _SelTextColor.B);
+                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSA", ref _SelTextColor.A);
+            }
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextH", ref _Theme.TextH);
+            xmlReader.TryGetFloatValue(item + "/TextRelativeX", ref _Theme.TextRelativeX);
+            xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref _Theme.TextRelativeY);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextMaxW", ref _Theme.TextMaxW);
+
+            ThemeLoaded &= xmlReader.GetValue(item + "/TextFont", out _Theme.TextFont, "Normal");
+            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/TextStyle", ref _Theme.TextStyle);
+
+            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/NumVisible", ref _Theme.NumVisible);
+
+            if (ThemeLoaded)
+            {
+                _Theme.Name = elementName;
+                _Theme.ArrowColor.Color = _ColorArrow;
+                _Theme.ArrowSelColor.Color = _SelColorArrow;
+                _Theme.Color.Color = _Color;
+                _Theme.RectArrowLeft = RectArrowLeft;
+                _Theme.RectArrowRight = RectArrowRight;
+                _Theme.SelColor.Color = _SelColor;
+                _Theme.TextColor.Color = _TextColor;
+                _Theme.TextSelColor.Color = _SelTextColor;
+                LoadSkin();
+            }
+            return ThemeLoaded;
         }
 
         public void AddValue(string value)
@@ -534,17 +392,17 @@ namespace VocaluxeLib.Menu
             AddValue(value, null, _ValueIndexes.Count, partyModeID);
         }
 
-        public void AddValue(string value, CTexture texture)
+        public void AddValue(string value, CTextureRef texture)
         {
             AddValue(value, texture, _ValueIndexes.Count, _PartyModeID);
         }
 
-        private void _AddValue(string value, CTexture texture, int valueIndex)
+        private void _AddValue(string value, CTextureRef texture, int valueIndex)
         {
             AddValue(value, texture, valueIndex, _PartyModeID);
         }
 
-        public void AddValue(string value, CTexture texture, int valueIndex, int partyModeID)
+        public void AddValue(string value, CTextureRef texture, int valueIndex, int partyModeID)
         {
             _ValueNames.Add(value);
             _Textures.Add(texture);
@@ -565,7 +423,7 @@ namespace VocaluxeLib.Menu
             _ValueBounds.Clear();
         }
 
-        public void AddValues(string[] values, CTexture[] textures)
+        public void AddValues(string[] values, CTextureRef[] textures)
         {
             if (values.Length != textures.Length)
                 return;
@@ -589,7 +447,7 @@ namespace VocaluxeLib.Menu
             RenameValue(Selection, newName);
         }
 
-        public void RenameValue(int selection, string newName, CTexture newTexture = null)
+        public void RenameValue(int selection, string newName, CTextureRef newTexture = null)
         {
             if (selection < 0 && selection >= _ValueNames.Count)
                 return;
@@ -611,7 +469,7 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        public bool NextValue()
+        public bool SelectNextValue()
         {
             if (Selection < _ValueNames.Count - 1)
             {
@@ -621,7 +479,7 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        public bool PrevValue()
+        public bool SelectPrevValue()
         {
             if (Selection > 0)
             {
@@ -631,13 +489,13 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
-        public void FirstValue()
+        public void SelectFirstValue()
         {
             if (_ValueNames.Count > 0)
                 Selection = 0;
         }
 
-        public void LastValue()
+        public void SelectLastValue()
         {
             if (_ValueNames.Count > 0)
                 Selection = _ValueNames.Count - 1;
@@ -684,10 +542,10 @@ namespace VocaluxeLib.Menu
             ProcessMouseMove(x, y);
 
             if (_ArrowLeftSelected)
-                PrevValue();
+                SelectPrevValue();
 
             if (_ArrowRightSelected)
-                NextValue();
+                SelectNextValue();
 
             for (int i = 0; i < _ValueBounds.Count; i++)
             {
@@ -713,47 +571,32 @@ namespace VocaluxeLib.Menu
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
                 return;
 
-            CTexture texture = CBase.Theme.GetSkinTexture(_Theme.TextureName, _PartyModeID);
-            CTexture textureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.TextureArrowLeftName, _PartyModeID);
-            CTexture textureArrowRight = CBase.Theme.GetSkinTexture(_Theme.TextureArrowRightName, _PartyModeID);
-
-            CTexture selTexture = CBase.Theme.GetSkinTexture(_Theme.SelTextureName, _PartyModeID);
-            CTexture selTextureArrowLeft = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowLeftName, _PartyModeID);
-            CTexture selTextureArrowRight = CBase.Theme.GetSkinTexture(_Theme.SelTextureArrowRightName, _PartyModeID);
-
-            CTexture highlightTexture = CBase.Theme.GetSkinTexture(_Theme.HighlightTextureName, _PartyModeID);
-
             if (Selected)
-            {
-                if (Highlighted)
-                    CBase.Drawing.DrawTexture(highlightTexture, Rect, HighlightColor);
-                else
-                    CBase.Drawing.DrawTexture(selTexture, Rect, SelColor);
-            }
+                CBase.Drawing.DrawTexture(_SelTexture, Rect, _SelColor);
             else
-                CBase.Drawing.DrawTexture(texture, Rect, Color);
+                CBase.Drawing.DrawTexture(_Texture, Rect, _Color);
 
             if (_Selection > 0 || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 if (_ArrowLeftSelected)
-                    CBase.Drawing.DrawTexture(selTextureArrowLeft, RectArrowLeft, SelColorArrow);
+                    CBase.Drawing.DrawTexture(_SelTextureArrowLeft, RectArrowLeft, _SelColorArrow);
                 else
-                    CBase.Drawing.DrawTexture(textureArrowLeft, RectArrowLeft, ColorArrow);
+                    CBase.Drawing.DrawTexture(_TextureArrowLeft, RectArrowLeft, _ColorArrow);
             }
 
             if (_Selection < _ValueNames.Count - 1 || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 if (_ArrowRightSelected)
-                    CBase.Drawing.DrawTexture(selTextureArrowRight, RectArrowRight, SelColorArrow);
+                    CBase.Drawing.DrawTexture(_SelTextureArrowRight, RectArrowRight, _SelColorArrow);
                 else
-                    CBase.Drawing.DrawTexture(textureArrowRight, RectArrowRight, ColorArrow);
+                    CBase.Drawing.DrawTexture(_TextureArrowRight, RectArrowRight, _ColorArrow);
             }
 
             if (_NumVisible < 1 || _ValueNames.Count == 0)
                 return;
 
-            float x = Rect.X + (Rect.W - TextRelativeX) * 0.1f;
-            float dx = (Rect.W - TextRelativeX) * 0.8f / _NumVisible;
+            float x = Rect.X + (Rect.W - _TextRelativeX) * 0.1f;
+            float dx = (Rect.W - _TextRelativeX) * 0.8f / _NumVisible;
             //float y = Rect.Y + (Rect.H - TextH);
             int offset = _Selection - _NumVisible / 2;
 
@@ -771,7 +614,7 @@ namespace VocaluxeLib.Menu
             _ValueBounds.Clear();
             for (int i = 0; i < numvis; i++)
             {
-                var text = new CText(0, 0, 0, TextH, MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, TextColor, "T",
+                var text = new CText(0, 0, 0, _TextH, _MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, _TextColor, "T",
                                      _ValuePartyModeIDs[i + offset]);
 
                 if (_ValueNames[i + offset] != "")
@@ -782,17 +625,17 @@ namespace VocaluxeLib.Menu
                 var alpha = new SColorF(1f, 1f, 1f, 0.35f);
                 if (i + offset == _Selection)
                 {
-                    text.Color = SelTextColor;
+                    text.Color = _SelTextColor;
                     alpha = new SColorF(1f, 1f, 1f, 1f);
                 }
 
                 RectangleF bounds = CBase.Fonts.GetTextBounds(text);
-                text.X = (x + dx / 2f + dx * i) + TextRelativeX;
+                text.X = (x + dx / 2f + dx * i) + _TextRelativeX;
 
                 if (!WithTextures)
-                    text.Y = (int)((Rect.Y + (Rect.H - bounds.Height) / 2) + TextRelativeY);
+                    text.Y = (int)((Rect.Y + (Rect.H - bounds.Height) / 2) + _TextRelativeY);
                 else
-                    text.Y = (int)((Rect.Y + (Rect.H - bounds.Height)) + TextRelativeY);
+                    text.Y = (int)((Rect.Y + (Rect.H - bounds.Height)) + _TextRelativeY);
 
                 text.Z = Rect.Z;
                 text.Draw();
@@ -809,36 +652,46 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public void UnloadTextures() {}
-
-        public void LoadTextures()
+        public object GetTheme()
         {
-            if (!String.IsNullOrEmpty(_Theme.ColorName))
-                Color = CBase.Theme.GetColor(_Theme.ColorName, _PartyModeID);
-
-            if (!String.IsNullOrEmpty(_Theme.SelColorName))
-                SelColor = CBase.Theme.GetColor(_Theme.SelColorName, _PartyModeID);
-
-            if (!String.IsNullOrEmpty(_Theme.HighlightColorName))
-                HighlightColor = CBase.Theme.GetColor(_Theme.HighlightColorName, _PartyModeID);
-
-            if (!String.IsNullOrEmpty(_Theme.ArrowColorName))
-                ColorArrow = CBase.Theme.GetColor(_Theme.ArrowColorName, _PartyModeID);
-
-            if (!String.IsNullOrEmpty(_Theme.SelArrowColorName))
-                SelColorArrow = CBase.Theme.GetColor(_Theme.SelArrowColorName, _PartyModeID);
-
-            if (!String.IsNullOrEmpty(_Theme.TextColorName))
-                TextColor = CBase.Theme.GetColor(_Theme.TextColorName, _PartyModeID);
-
-            if (!String.IsNullOrEmpty(_Theme.SelColorName))
-                SelTextColor = CBase.Theme.GetColor(_Theme.SelTextColorName, _PartyModeID);
+            return _Theme;
         }
 
-        public void ReloadTextures()
+        public void UnloadSkin() {}
+
+        public void LoadSkin()
         {
-            UnloadTextures();
-            LoadTextures();
+            _Theme.Color.Get(_PartyModeID, out _Color);
+            _Theme.SelColor.Get(_PartyModeID, out _SelColor);
+            _Theme.ArrowColor.Get(_PartyModeID, out _ColorArrow);
+            _Theme.ArrowSelColor.Get(_PartyModeID, out _SelColorArrow);
+            _Theme.TextColor.Get(_PartyModeID, out _TextColor);
+            _Theme.TextSelColor.Get(_PartyModeID, out _SelTextColor);
+
+            MaxRect = _Theme.Rect;
+            RectArrowLeft = _Theme.RectArrowLeft;
+            RectArrowRight = _Theme.RectArrowRight;
+
+            NumVisible = _Theme.NumVisible;
+
+            _TextH = _Theme.TextH;
+            _TextRelativeX = _Theme.TextRelativeX;
+            _TextRelativeY = _Theme.TextRelativeY;
+            _MaxW = _Theme.TextMaxW;
+
+            _Texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
+            _TextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SkinArrowLeft, _PartyModeID);
+            _TextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SkinArrowRight, _PartyModeID);
+
+            _SelTexture = CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
+            _SelTextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SkinArrowLeftSelected, _PartyModeID);
+            _SelTextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SkinArrowRightSelected, _PartyModeID);
+        }
+
+        public void ReloadSkin()
+        {
+            UnloadSkin();
+            LoadSkin();
         }
 
         public object Clone()
@@ -849,22 +702,33 @@ namespace VocaluxeLib.Menu
         #region ThemeEdit
         public void MoveElement(int stepX, int stepY)
         {
-            if (!_ArrowLeftSelected && !_ArrowRightSelected)
-            {
-                Rect.X += stepX;
-                Rect.Y += stepY;
-            }
-
             if (_ArrowLeftSelected)
             {
                 RectArrowLeft.X += stepX;
                 RectArrowLeft.Y += stepY;
-            }
 
-            if (_ArrowRightSelected)
+                _Theme.RectArrowLeft.X += stepX;
+                _Theme.RectArrowLeft.Y += stepY;
+            }
+            else if (_ArrowRightSelected)
             {
                 RectArrowRight.X += stepX;
                 RectArrowRight.Y += stepY;
+
+                _Theme.RectArrowRight.X += stepX;
+                _Theme.RectArrowRight.Y += stepY;
+            }
+            else
+            {
+                X += stepX;
+                Y += stepY;
+
+                _Theme.Rect.X += stepX;
+                _Theme.Rect.Y += stepY;
+                _Theme.RectArrowLeft.X += stepX;
+                _Theme.RectArrowLeft.Y += stepY;
+                _Theme.RectArrowRight.X += stepX;
+                _Theme.RectArrowRight.Y += stepY;
             }
         }
 
@@ -872,13 +736,16 @@ namespace VocaluxeLib.Menu
         {
             if (!_ArrowLeftSelected && !_ArrowRightSelected)
             {
-                Rect.W += stepW;
-                if (Rect.W <= 0)
-                    Rect.W = 1;
+                W += stepW;
+                if (W <= 0)
+                    W = 1;
 
-                Rect.H += stepH;
-                if (Rect.H <= 0)
-                    Rect.H = 1;
+                H += stepH;
+                if (H <= 0)
+                    H = 1;
+
+                _Theme.Rect.W = Rect.W;
+                _Theme.Rect.H = Rect.H;
             }
 
             if (_ArrowLeftSelected)
@@ -890,6 +757,9 @@ namespace VocaluxeLib.Menu
                 RectArrowLeft.H += stepH;
                 if (RectArrowLeft.H <= 0)
                     RectArrowLeft.H = 1;
+
+                _Theme.RectArrowLeft.W = RectArrowLeft.W;
+                _Theme.RectArrowLeft.H = RectArrowLeft.H;
             }
 
             if (_ArrowRightSelected)
@@ -901,6 +771,9 @@ namespace VocaluxeLib.Menu
                 RectArrowRight.H += stepH;
                 if (RectArrowRight.H <= 0)
                     RectArrowRight.H = 1;
+
+                _Theme.RectArrowRight.W = RectArrowRight.W;
+                _Theme.RectArrowRight.H = RectArrowRight.H;
             }
         }
         #endregion ThemeEdit

@@ -193,7 +193,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         /// <param name="time">Maximum start time for frame</param>
         /// <param name="finished">Set to whether there are no more frames (stream finished, no loop, future calls will always return false)</param>
         /// <returns>True if a new frame was gotten</returns>
-        public bool GetFrame(ref CTexture frame, ref float time, out bool finished)
+        public bool GetFrame(ref CTextureRef frame, ref float time, out bool finished)
         {
             bool result;
             if (Math.Abs(_LastShownTime - time) < _FrameDuration && frame != null) //Check 1 frame difference
@@ -206,7 +206,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 CFramebuffer.CFrame curFrame = _FindFrame(time);
                 if (curFrame != null)
                 {
-                    CDraw.UpdateOrAddTexture(ref frame, _Width, _Height, curFrame.Data);
+                    if (frame == null)
+                        frame = CDraw.AddTexture(_Width, _Height, curFrame.Data);
+                    else
+                        CDraw.UpdateTexture(frame, _Width, _Height, curFrame.Data);
                     if (!_Paused)
                         curFrame.SetRead();
                     time = curFrame.Time;

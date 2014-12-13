@@ -297,7 +297,7 @@ namespace Vocaluxe.Base
         public static CProfile[] GetProfiles()
         {
             if (_Profiles.Count == 0)
-                return null;
+                return new CProfile[0];
 
             var list = new List<CProfile>(_Profiles.Values);
             list.Sort(_CompareByPlayerName);
@@ -327,10 +327,10 @@ namespace Vocaluxe.Base
         {
             var profile = new CProfile
                 {
-                    FileName = fileName != "" ? Path.Combine(CConfig.ProfileFolders[0], fileName) : String.Empty
+                    FilePath = fileName != "" ? Path.Combine(CConfig.ProfileFolders[0], fileName) : String.Empty
                 };
 
-            if (File.Exists(profile.FileName))
+            if (File.Exists(profile.FilePath))
                 return -1;
 
             profile.ID = _ProfileIDs.Dequeue();
@@ -393,7 +393,7 @@ namespace Vocaluxe.Base
             if (!IsProfileIDValid(profileID))
                 return String.Empty;
 
-            return Path.GetFileName(_Profiles[profileID].FileName);
+            return Path.GetFileName(_Profiles[profileID].FilePath);
         }
 
         public static string AddGetPlayerName(int profileID, char chr)
@@ -504,7 +504,7 @@ namespace Vocaluxe.Base
         #endregion profile properties
 
         #region avatar texture
-        public static CTexture GetAvatarTexture(int avatarID)
+        public static CTextureRef GetAvatarTexture(int avatarID)
         {
             if (!IsAvatarIDValid(avatarID))
                 return null;
@@ -512,7 +512,7 @@ namespace Vocaluxe.Base
             return _Avatars[avatarID].Texture;
         }
 
-        public static CTexture GetAvatarTextureFromProfile(int profileID)
+        public static CTextureRef GetAvatarTextureFromProfile(int profileID)
         {
             if (!IsProfileIDValid(profileID) || _Profiles[profileID].Avatar == null)
                 return null;
@@ -534,7 +534,7 @@ namespace Vocaluxe.Base
                 foreach (int id in ids)
                 {
                     if (_Profiles[id].LoadProfile())
-                        knownFiles.Add(Path.GetFileName(_Profiles[id].FileName));
+                        knownFiles.Add(Path.GetFileName(_Profiles[id].FilePath));
                     else
                         _Profiles.Remove(id);
                 }
@@ -550,13 +550,9 @@ namespace Vocaluxe.Base
                 if (knownFiles.Contains(Path.GetFileName(file)))
                     continue;
 
-                var profile = new CProfile
-                    {
-                        FileName = Path.GetFileName(file),
-                        FilePath = Path.GetDirectoryName(file)
-                    };
+                var profile = new CProfile();
 
-                if (profile.LoadProfile())
+                if (profile.LoadProfile(file))
                 {
                     profile.ID = _ProfileIDs.Dequeue();
                     _Profiles.Add(profile.ID, profile);
@@ -605,7 +601,7 @@ namespace Vocaluxe.Base
             if (!IsProfileIDValid(profileID))
                 return;
 
-            if (_Profiles[profileID].FileName == "")
+            if (string.IsNullOrEmpty(_Profiles[profileID].FilePath))
             {
                 _RemoveProfile(profileID);
                 return;
@@ -614,15 +610,15 @@ namespace Vocaluxe.Base
             try
             {
                 //Check if profile saved in config
-                for (int i = 0; i < CConfig.Players.Length; i++)
+                for (int i = 0; i < CSettings.MaxNumPlayer; i++)
                 {
-                    if (CConfig.Players[i] == _Profiles[profileID].FileName)
+                    if (CConfig.Config.Game.Players[i] == GetProfileFileName(profileID))
                     {
-                        CConfig.Players[i] = string.Empty;
+                        CConfig.Config.Game.Players[i] = string.Empty;
                         CConfig.SaveConfig();
                     }
                 }
-                File.Delete(Path.Combine(_Profiles[profileID].FilePath, _Profiles[profileID].FileName));
+                File.Delete(_Profiles[profileID].FilePath);
                 _RemoveProfile(profileID);
 
                 //Check if profile is selected in game
@@ -636,7 +632,7 @@ namespace Vocaluxe.Base
             }
             catch (Exception)
             {
-                CLog.LogError("Can't delete Profile File " + _Profiles[profileID].FileName + ".xml");
+                CLog.LogError("Can't delete Profile File " + _Profiles[profileID].FilePath);
             }
             _ProfilesChanged = true;
         }

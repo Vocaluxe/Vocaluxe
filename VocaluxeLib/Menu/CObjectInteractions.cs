@@ -17,280 +17,221 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using VocaluxeLib.Menu.SingNotes;
+using VocaluxeLib.Menu.SongMenu;
 
 namespace VocaluxeLib.Menu
 {
-    class CObjectInteractions
+    public abstract class CObjectInteractions
     {
-        private List<CInteraction> _Interactions;
+        protected readonly List<CInteraction> _Elements = new List<CInteraction>();
         private int _Selection;
 
-        private List<CStatic> _Statics;
-        private List<CText> _Texts;
-        private List<CButton> _Buttons;
-        private List<CSelectSlide> _SelectSlides;
+        private Point _PrevMouse;
 
-        private int _PrevMouseX;
-        private int _PrevMouseY;
+        protected bool _Active;
 
-        protected int _MouseDX;
-        protected int _MouseDY;
+        protected readonly COrderedDictionaryLite<CButton> _Buttons;
+        protected readonly COrderedDictionaryLite<CText> _Texts;
+        protected readonly COrderedDictionaryLite<CBackground> _Backgrounds;
+        protected readonly COrderedDictionaryLite<CStatic> _Statics;
+        protected readonly COrderedDictionaryLite<CSelectSlide> _SelectSlides;
+        protected readonly COrderedDictionaryLite<ISongMenu> _SongMenus;
+        protected readonly COrderedDictionaryLite<CLyric> _Lyrics;
+        protected readonly COrderedDictionaryLite<CSingNotes> _SingNotes;
+        protected readonly COrderedDictionaryLite<CNameSelection> _NameSelections;
+        protected readonly COrderedDictionaryLite<CEqualizer> _Equalizers;
+        protected readonly COrderedDictionaryLite<CPlaylist> _Playlists;
+        protected readonly COrderedDictionaryLite<CParticleEffect> _ParticleEffects;
+        private readonly SColorF _HighlightColor = new SColorF(1, 0, 0, 0);
 
-        public bool Active;
-
-        protected SRectF _ScreenArea;
-
-        public SRectF ScreenArea
+        protected CObjectInteractions()
         {
-            get { return _ScreenArea; }
+            _Backgrounds = new COrderedDictionaryLite<CBackground>(this);
+            _Buttons = new COrderedDictionaryLite<CButton>(this);
+            _Texts = new COrderedDictionaryLite<CText>(this);
+            _Statics = new COrderedDictionaryLite<CStatic>(this);
+            _SelectSlides = new COrderedDictionaryLite<CSelectSlide>(this);
+            _SongMenus = new COrderedDictionaryLite<ISongMenu>(this);
+            _Lyrics = new COrderedDictionaryLite<CLyric>(this);
+            _SingNotes = new COrderedDictionaryLite<CSingNotes>(this);
+            _NameSelections = new COrderedDictionaryLite<CNameSelection>(this);
+            _Equalizers = new COrderedDictionaryLite<CEqualizer>(this);
+            _Playlists = new COrderedDictionaryLite<CPlaylist>(this);
+            _ParticleEffects = new COrderedDictionaryLite<CParticleEffect>(this);
         }
 
-        public CObjectInteractions()
+        public virtual void Init()
         {
-            _Init();
+            _Selection = -1;
+            _PrevMouse = new Point(0, 0);
+            _Active = false;
         }
 
-        protected void _Init()
+        protected virtual void _ClearElements()
         {
-            _Interactions = new List<CInteraction>();
-            _Selection = 0;
-
-            _Statics = new List<CStatic>();
-            _Texts = new List<CText>();
-            _Buttons = new List<CButton>();
-            _SelectSlides = new List<CSelectSlide>();
-
-            _PrevMouseX = 0;
-            _PrevMouseY = 0;
-
-            _MouseDX = 0;
-            _MouseDY = 0;
-
-            Active = false;
-            _ScreenArea = new SRectF(0f, 0f, CBase.Settings.GetRenderW(), CBase.Settings.GetRenderH(), 0f);
-        }
-
-        public void Clear()
-        {
-            _Interactions.Clear();
-            _Statics.Clear();
-            _Texts.Clear();
+            _Elements.Clear();
+            _Backgrounds.Clear();
             _Buttons.Clear();
+            _Texts.Clear();
+            _Statics.Clear();
             _SelectSlides.Clear();
-
-            _Selection = 0;
-
-            _PrevMouseX = 0;
-            _PrevMouseY = 0;
-
-            _MouseDX = 0;
-            _MouseDY = 0;
-
-            Active = false;
+            _SongMenus.Clear();
+            _Lyrics.Clear();
+            _SingNotes.Clear();
+            _NameSelections.Clear();
+            _Equalizers.Clear();
+            _Playlists.Clear();
+            _ParticleEffects.Clear();
         }
 
-        #region GetLists
-        public List<CButton> GetButtons()
+        private void _SetSelected(int newSelection)
         {
-            return _Buttons;
+            IMenuElement el = _GetElement(_Selection);
+            if (el != null)
+                el.Selected = false;
+            _Selection = newSelection;
+            el = _GetElement(_Selection);
+            if (el != null)
+                el.Selected = true;
         }
-
-        public List<CSelectSlide> GetSelectSlides()
-        {
-            return _SelectSlides;
-        }
-        #endregion GetLists
-
-        #region ElementHandler
-
-        #region Get Arrays
-        public CButton[] Buttons
-        {
-            get { return _Buttons.ToArray(); }
-        }
-
-        public CSelectSlide[] SelectSlides
-        {
-            get { return _SelectSlides.ToArray(); }
-        }
-        #endregion Get Arrays
-
-        #endregion ElementHandler
 
         #region MenuHandler
-        public bool HandleInput(SKeyEvent keyEvent)
+        public virtual bool HandleInput(SKeyEvent keyEvent)
         {
             if (!CBase.Settings.IsTabNavigation())
             {
                 if (keyEvent.Key == Keys.Left)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
-                        keyEvent.Handled = PrevElement();
+                    if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
+                        keyEvent.Handled = PrevValue();
                     else
-                        keyEvent.Handled = _NextInteraction(keyEvent);
+                        keyEvent.Handled = _NextElement(keyEvent);
                 }
 
                 if (keyEvent.Key == Keys.Right)
                 {
-                    if (_Interactions.Count > 0 && _Interactions[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
-                        keyEvent.Handled = NextElement();
+                    if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
+                        keyEvent.Handled = NextValue();
                     else
-                        keyEvent.Handled = _NextInteraction(keyEvent);
+                        keyEvent.Handled = _NextElement(keyEvent);
                 }
 
                 if (keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down)
-                    keyEvent.Handled = _NextInteraction(keyEvent);
+                    keyEvent.Handled = _NextElement(keyEvent);
             }
             else
             {
                 if (keyEvent.Key == Keys.Tab)
                 {
                     if (keyEvent.Mod == EModifier.Shift)
-                        PrevInteraction();
+                        PrevElement();
                     else
-                        NextInteraction();
+                        NextElement();
                 }
 
                 if (keyEvent.Key == Keys.Left)
-                    PrevElement();
+                    PrevValue();
 
                 if (keyEvent.Key == Keys.Right)
-                    NextElement();
+                    NextValue();
             }
 
             return true;
         }
 
-        public bool HandleMouse(SMouseEvent mouseEvent)
+        public virtual bool HandleMouse(SMouseEvent mouseEvent)
         {
-            int selection = _Selection;
             ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
-            if (selection != _Selection)
-            {
-                _UnsetHighlighted(selection);
-                _SetHighlighted(_Selection);
-            }
 
             if (mouseEvent.LB)
                 ProcessMouseClick(mouseEvent.X, mouseEvent.Y);
 
-            _PrevMouseX = mouseEvent.X;
-            _PrevMouseY = mouseEvent.Y;
+            _PrevMouse.X = mouseEvent.X;
+            _PrevMouse.Y = mouseEvent.Y;
 
             return true;
         }
 
-        public bool HandleInputThemeEditor(SKeyEvent keyEvent)
+        public virtual bool HandleInputThemeEditor(SKeyEvent keyEvent)
         {
-            _UnsetHighlighted(_Selection);
-            if (keyEvent.KeyPressed) {}
-            else
+            int dx = 0;
+            int dy = 0;
+            if (!keyEvent.KeyPressed)
             {
                 switch (keyEvent.Key)
                 {
-                    case Keys.S:
-                        CBase.Graphics.SaveTheme();
-                        break;
-
                     case Keys.Up:
-                        if (keyEvent.Mod == EModifier.Ctrl)
-                            _MoveElement(0, -1);
-
-                        if (keyEvent.Mod == EModifier.Shift)
-                            _ResizeElement(0, 1);
-
+                        dy = -1;
                         break;
                     case Keys.Down:
-                        if (keyEvent.Mod == EModifier.Ctrl)
-                            _MoveElement(0, 1);
-
-                        if (keyEvent.Mod == EModifier.Shift)
-                            _ResizeElement(0, -1);
-
+                        dy = 1;
                         break;
-
                     case Keys.Right:
-                        if (keyEvent.Mod == EModifier.Ctrl)
-                            _MoveElement(1, 0);
-
-                        if (keyEvent.Mod == EModifier.Shift)
-                            _ResizeElement(1, 0);
-
-                        if (keyEvent.Mod == EModifier.None)
-                            NextInteraction();
+                        dx = 1;
                         break;
                     case Keys.Left:
-                        if (keyEvent.Mod == EModifier.Ctrl)
-                            _MoveElement(-1, 0);
-
-                        if (keyEvent.Mod == EModifier.Shift)
-                            _ResizeElement(-1, 0);
-
-                        if (keyEvent.Mod == EModifier.None)
-                            PrevInteraction();
+                        dx = -1;
                         break;
+                    case Keys.Tab:
+                        _NextElement(keyEvent);
+                        return true;
+                    default:
+                        return false;
                 }
             }
+            else
+                return false;
+
+            if ((keyEvent.Mod & EModifier.Ctrl) != EModifier.Ctrl)
+            {
+                dx *= 5;
+                dy *= 5;
+            }
+
+            if ((keyEvent.Mod & EModifier.Alt) == EModifier.Alt)
+                _MoveElement(dx, dy);
+            else if ((keyEvent.Mod & EModifier.Shift) == EModifier.Shift)
+                _ResizeElement(dx, dy);
+            else
+            {
+                if (_IsSelectionValid())
+                    _GetElement(_Selection).Highlighted = false;
+                if (_NextElement(keyEvent))
+                    _GetElement(_Selection).Highlighted = true;
+            }
+
             return true;
         }
 
-        public bool HandleMouseThemeEditor(SMouseEvent mouseEvent)
+        public virtual bool HandleMouseThemeEditor(SMouseEvent mouseEvent)
         {
-            _UnsetHighlighted(_Selection);
-            _MouseDX = mouseEvent.X - _PrevMouseX;
-            _MouseDY = mouseEvent.Y - _PrevMouseY;
+            if (_IsSelectionValid())
+                _GetElement(_Selection).Highlighted = false;
 
-            int stepX = 0;
-            int stepY = 0;
-
-            if ((mouseEvent.Mod & EModifier.Ctrl) == EModifier.Ctrl)
+            Point mouse = new Point(mouseEvent.X, mouseEvent.Y);
+            if ((mouseEvent.Mod & EModifier.Ctrl) != EModifier.Ctrl)
             {
-                _PrevMouseX = mouseEvent.X;
-                _PrevMouseY = mouseEvent.Y;
+                // Clip to raster
+                mouse.X = (int)(Math.Round((double)mouse.X / 5) * 5);
+                mouse.Y = (int)(Math.Round((double)mouse.Y / 5) * 5);
             }
-            else
-            {
-                while (Math.Abs(mouseEvent.X - _PrevMouseX) >= 5)
-                {
-                    if (mouseEvent.X - _PrevMouseX >= 5)
-                        stepX += 5;
 
-                    if (mouseEvent.X - _PrevMouseX <= -5)
-                        stepX -= 5;
+            int mouseDX = mouse.X - _PrevMouse.X;
+            int mouseDY = mouse.Y - _PrevMouse.Y;
 
-                    _PrevMouseX = mouseEvent.X - (_MouseDX - stepX);
-                }
-
-                while (Math.Abs(mouseEvent.Y - _PrevMouseY) >= 5)
-                {
-                    if (mouseEvent.Y - _PrevMouseY >= 5)
-                        stepY += 5;
-
-                    if (mouseEvent.Y - _PrevMouseY <= -5)
-                        stepY -= 5;
-
-                    _PrevMouseY = mouseEvent.Y - (_MouseDY - stepY);
-                }
-            }
+            _PrevMouse.X = mouseEvent.X;
+            _PrevMouse.Y = mouseEvent.Y;
 
             if (mouseEvent.LBH)
             {
-                //if (IsMouseOver(MouseEvent.X, _PrevMouseY))
-                //{
-                if (mouseEvent.Mod == EModifier.None)
-                    _MoveElement(stepX, stepY);
-
-                if (mouseEvent.Mod == EModifier.Ctrl)
-                    _MoveElement(_MouseDX, _MouseDY);
-
                 if (mouseEvent.Mod == EModifier.Shift)
-                    _ResizeElement(stepX, stepY);
-
-                if (mouseEvent.Mod == (EModifier.Shift | EModifier.Ctrl))
-                    _ResizeElement(_MouseDX, _MouseDY);
-                //}
+                    _ResizeElement(mouseDX, mouseDX);
+                else
+                    _MoveElement(mouseDX, mouseDY);
             }
             else
                 ProcessMouseMove(mouseEvent.X, mouseEvent.Y);
@@ -299,24 +240,61 @@ namespace VocaluxeLib.Menu
         }
         #endregion MenuHandler
 
-        #region Drawing
-        public void Draw()
+        private bool _IsSelectionValid()
         {
-            if (_Interactions.Count <= 0)
+            return _Selection >= 0 && _Selection < _Elements.Count;
+        }
+
+        protected IMenuElement _GetElement(CInteraction element)
+        {
+            switch (element.Type)
+            {
+                case EType.Background:
+                    return _Backgrounds[element.Num];
+                case EType.Button:
+                    return _Buttons[element.Num];
+                case EType.SelectSlide:
+                    return _SelectSlides[element.Num];
+                case EType.Text:
+                    return _Texts[element.Num];
+                case EType.Static:
+                    return _Statics[element.Num];
+                case EType.SongMenu:
+                    return _SongMenus[element.Num];
+                case EType.Lyric:
+                    return _Lyrics[element.Num];
+                case EType.SingNote:
+                    return _SingNotes[element.Num];
+                case EType.NameSelection:
+                    return _NameSelections[element.Num];
+                case EType.Equalizer:
+                    return _Equalizers[element.Num];
+                case EType.Playlist:
+                    return _Playlists[element.Num];
+                case EType.ParticleEffect:
+                    return _ParticleEffects[element.Num];
+            }
+            throw new ArgumentException("Invalid element type: " + element.Type);
+        }
+
+        private IMenuElement _GetElement(int element)
+        {
+            return (element >= 0 && element < _Elements.Count) ? _GetElement(_Elements[element]) : null;
+        }
+
+        #region Drawing
+        public virtual void Draw()
+        {
+            if (!_Active)
+                return;
+            if (_Elements.Count <= 0)
                 return;
 
             var items = new List<SZSort>();
 
-            for (int i = 0; i < _Interactions.Count; i++)
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                if (_IsVisible(i) && (
-                                         _Interactions[i].Type == EType.Button ||
-                                         _Interactions[i].Type == EType.SelectSlide ||
-                                         _Interactions[i].Type == EType.Static ||
-                                         _Interactions[i].Type == EType.NameSelection ||
-                                         _Interactions[i].Type == EType.Text ||
-                                         _Interactions[i].Type == EType.SongMenu ||
-                                         _Interactions[i].Type == EType.Equalizer))
+                if (_IsVisible(i))
                 {
                     var zs = new SZSort {ID = i, Z = _GetZValue(i)};
                     items.Add(zs);
@@ -330,763 +308,421 @@ namespace VocaluxeLib.Menu
             items.Sort((s1, s2) => s2.Z.CompareTo(s1.Z));
 
             for (int i = 0; i < items.Count; i++)
-                _DrawInteraction(items[i].ID);
+            {
+                IMenuElement el = _GetElement(items[i].ID);
+                if (el.Highlighted)
+                    CBase.Drawing.DrawRect(_HighlightColor, el.MaxRect);
+                el.Draw();
+            }
         }
         #endregion Drawing
 
-        #region Elements
-        public int AddStatic(CStatic stat)
+        #region Element-Adding
+        protected void _AddBackground(CBackground bg, String key = null)
         {
-            _Statics.Add(stat);
-            _AddInteraction(_Statics.Count - 1, EType.Static);
-            return _Statics.Count - 1;
+            _AddElement(_Backgrounds.Add(bg, key), EType.Background);
         }
 
-        public int AddText(CText text)
+        protected void _AddButton(CButton button, String key = null)
         {
-            _Texts.Add(text);
-            _AddInteraction(_Texts.Count - 1, EType.Text);
-            return _Texts.Count - 1;
+            _AddElement(_Buttons.Add(button, key), EType.Button);
         }
 
-        public int AddButton(CButton button)
+        protected void _AddSelectSlide(CSelectSlide slide, String key = null)
         {
-            _Buttons.Add(button);
-            _AddInteraction(_Buttons.Count - 1, EType.Button);
-            return _Buttons.Count - 1;
+            _AddElement(_SelectSlides.Add(slide, key), EType.SelectSlide);
         }
 
-        public int AddSelectSlide(CSelectSlide slide)
+        protected void _AddStatic(CStatic stat, String key = null)
         {
-            _SelectSlides.Add(slide);
-            _AddInteraction(_SelectSlides.Count - 1, EType.SelectSlide);
-            return _SelectSlides.Count - 1;
+            _AddElement(_Statics.Add(stat, key), EType.Static);
         }
-        #endregion Elements
+
+        protected void _AddText(CText text, String key = null)
+        {
+            _AddElement(_Texts.Add(text, key), EType.Text);
+        }
+
+        protected void _AddSongMenu(ISongMenu songmenu, String key = null)
+        {
+            _AddElement(_SongMenus.Add(songmenu, key), EType.SongMenu);
+        }
+
+        protected void _AddLyric(CLyric lyric, String key = null)
+        {
+            _AddElement(_Lyrics.Add(lyric, key), EType.Lyric);
+        }
+
+        protected void _AddSingNote(CSingNotes sn, String key = null)
+        {
+            _AddElement(_SingNotes.Add(sn, key), EType.SingNote);
+        }
+
+        protected void _AddNameSelection(CNameSelection ns, String key = null)
+        {
+            _AddElement(_NameSelections.Add(ns, key), EType.NameSelection);
+        }
+
+        protected void _AddEqualizer(CEqualizer eq, String key = null)
+        {
+            _AddElement(_Equalizers.Add(eq, key), EType.Equalizer);
+        }
+
+        protected void _AddPlaylist(CPlaylist pls, String key = null)
+        {
+            _AddElement(_Playlists.Add(pls, key), EType.Playlist);
+        }
+
+        protected void _AddParticleEffect(CParticleEffect pe, String key = null)
+        {
+            _AddElement(_ParticleEffects.Add(pe, key), EType.ParticleEffect);
+        }
+        #endregion Element-Adding
 
         #region InteractionHandling
-        public void NextInteraction()
+        protected void _SelectElement(IMenuElement element)
         {
-            if (_Interactions.Count > 0)
-                _NextInteraction();
-        }
-
-        public void PrevInteraction()
-        {
-            if (_Interactions.Count > 0)
-                _PrevInteraction();
-        }
-
-        /// <summary>
-        ///     Selects the next element in a menu interaction.
-        /// </summary>
-        /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
-        public bool NextElement()
-        {
-            if (_Interactions.Count > 0)
-                return _NextElement();
-
-            return false;
-        }
-
-        /// <summary>
-        ///     Selects the previous element in a menu interaction.
-        /// </summary>
-        /// <returns>True if the previous element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
-        public bool PrevElement()
-        {
-            if (_Interactions.Count > 0)
-                return _PrevElement();
-
-            return false;
-        }
-
-        public bool SetInteractionToButton(CButton button)
-        {
-            for (int i = 0; i < _Interactions.Count; i++)
+            if (!element.Visible)
+                return;
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                if (_Interactions[i].Type == EType.Button)
+                if (_GetElement(i) == element)
                 {
-                    if (_Buttons[_Interactions[i].Num].Visible && _Buttons[_Interactions[i].Num] == button)
-                    {
-                        _UnsetSelected();
-                        _UnsetHighlighted(_Selection);
-                        _Selection = i;
-                        _SetSelected();
-                        return true;
-                    }
+                    _SetSelected(i);
+                    return;
                 }
             }
-            return false;
-        }
-
-        public bool SetInteractionToSelectSlide(CSelectSlide slide)
-        {
-            for (int i = 0; i < _Interactions.Count; i++)
-            {
-                if (_Interactions[i].Type == EType.SelectSlide)
-                {
-                    if (_SelectSlides[_Interactions[i].Num].Visible && _SelectSlides[_Interactions[i].Num] == slide)
-                    {
-                        _UnsetSelected();
-                        _UnsetHighlighted(_Selection);
-                        _Selection = i;
-                        _SetSelected();
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
 
         public void ProcessMouseClick(int x, int y)
         {
-            if (_Selection >= _Interactions.Count || _Selection < 0)
+            if (!_IsSelectionValid())
                 return;
 
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
+            if (_Elements[_Selection].Type == EType.SelectSlide)
             {
-                if (_SelectSlides[_Interactions[_Selection].Num].Visible)
-                    _SelectSlides[_Interactions[_Selection].Num].ProcessMouseLBClick(x, y);
+                if (_SelectSlides[_Elements[_Selection].Num].Visible)
+                    _SelectSlides[_Elements[_Selection].Num].ProcessMouseLBClick(x, y);
             }
         }
 
         public void ProcessMouseMove(int x, int y)
         {
-            SelectByMouse(x, y);
+            _SelectByMouse(x, y);
 
-            if (_Selection >= _Interactions.Count || _Selection < 0)
+            if (!_IsSelectionValid())
                 return;
 
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
+            if (_Elements[_Selection].Type == EType.SelectSlide)
             {
-                if (_SelectSlides[_Interactions[_Selection].Num].Visible)
-                    _SelectSlides[_Interactions[_Selection].Num].ProcessMouseMove(x, y);
+                if (_SelectSlides[_Elements[_Selection].Num].Visible)
+                    _SelectSlides[_Elements[_Selection].Num].ProcessMouseMove(x, y);
             }
         }
 
-        public void SelectByMouse(int x, int y)
+        private void _SelectByMouse(int x, int y)
         {
             float z = CBase.Settings.GetZFar();
-            for (int i = 0; i < _Interactions.Count; i++)
+            int element = -1;
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                if ((CBase.Settings.GetProgramState() == EProgramState.EditTheme) || (!_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i)))
-                {
-                    if (_IsMouseOver(x, y, _Interactions[i]))
-                    {
-                        if (_GetZValue(_Interactions[i]) <= z)
-                        {
-                            z = _GetZValue(_Interactions[i]);
-                            _UnsetSelected();
-                            _Selection = i;
-                            _SetSelected();
-                        }
-                    }
-                }
+                if (!_IsSelectable(i))
+                    continue;
+                if (!_IsMouseOverElement(x, y, _Elements[i]))
+                    continue;
+                if (_GetZValue(i) > z)
+                    continue;
+                z = _GetZValue(i);
+                element = i;
             }
+            _SetSelected(element);
         }
 
-        public bool IsMouseOver(SMouseEvent mouseEvent)
+        protected bool _IsMouseOverCurSelection(SMouseEvent mouseEvent)
         {
-            return IsMouseOver(mouseEvent.X, mouseEvent.Y);
-        }
-
-        public bool IsMouseOver(int x, int y)
-        {
-            if (_Selection >= _Interactions.Count || _Selection < 0)
+            if (!_IsSelectionValid())
                 return false;
 
-            return _Interactions.Count > 0 && _IsMouseOver(x, y, _Interactions[_Selection]);
+            return _IsMouseOverElement(mouseEvent.X, mouseEvent.Y, _Elements[_Selection]);
         }
 
-        private bool _IsMouseOver(int x, int y, CInteraction interact)
+        private bool _IsMouseOverElement(int x, int y, CInteraction interact)
         {
-            switch (interact.Type)
+            bool result = CHelper.IsInBounds(_GetRect(interact), x, y);
+            if (result)
+                return true;
+            if (interact.Type == EType.SelectSlide)
             {
-                case EType.Button:
-                    if (CHelper.IsInBounds(_Buttons[interact.Num].Rect, x, y))
-                        return true;
-                    break;
-                case EType.SelectSlide:
-                    if (CHelper.IsInBounds(_SelectSlides[interact.Num].Rect, x, y) ||
-                        CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowLeft, x, y) ||
-                        CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowRight, x, y))
-                        return true;
-                    break;
+                return CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowLeft, x, y) ||
+                       CHelper.IsInBounds(_SelectSlides[interact.Num].RectArrowRight, x, y);
             }
             return false;
         }
 
-        private float _GetZValue(CInteraction interact)
+        public void NextElement()
         {
-            switch (interact.Type)
+            int element = _Selection;
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                case EType.Static:
-                    return _Statics[interact.Num].Rect.Z;
-                case EType.Text:
-                    return _Texts[interact.Num].Z;
-                case EType.Button:
-                    return _Buttons[interact.Num].Rect.Z;
-                case EType.SelectSlide:
-                    return _SelectSlides[interact.Num].Rect.Z;
+                element++;
+                if (element >= _Elements.Count)
+                    element = 0;
+                if (_IsSelectable(element))
+                    break;
             }
-            return CBase.Settings.GetZFar();
+            _SetSelected(element);
         }
 
-        private float _GetZValue(int interaction)
+        public void PrevElement()
         {
-            switch (_Interactions[interaction].Type)
+            Debug.Assert(_Selection == 0 || _Selection < _Elements.Count);
+            int element = _Selection;
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                case EType.Static:
-                    return _Statics[_Interactions[interaction].Num].Rect.Z;
-                case EType.Text:
-                    return _Texts[_Interactions[interaction].Num].Z;
-                case EType.Button:
-                    return _Buttons[_Interactions[interaction].Num].Rect.Z;
-                case EType.SelectSlide:
-                    return _SelectSlides[_Interactions[interaction].Num].Rect.Z;
+                element--;
+                if (element < 0)
+                    element = _Elements.Count - 1;
+                if (_IsSelectable(element))
+                    break;
             }
-
-            return CBase.Settings.GetZFar();
-        }
-
-        private void _NextInteraction()
-        {
-            _UnsetSelected();
-            if (CBase.Settings.GetProgramState() != EProgramState.EditTheme)
-            {
-                bool found = false;
-                int start = _Selection;
-                do
-                {
-                    start++;
-                    if (start > _Interactions.Count - 1)
-                        start = 0;
-
-                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsEnabled(start)))
-                        found = true;
-                } while (!found);
-                _Selection = start;
-            }
-            else
-            {
-                _Selection++;
-                if (_Selection > _Interactions.Count - 1)
-                    _Selection = 0;
-            }
-            _SetSelected();
-        }
-
-        private void _PrevInteraction()
-        {
-            _UnsetSelected();
-            if (CBase.Settings.GetProgramState() != EProgramState.EditTheme)
-            {
-                bool found = false;
-                int start = _Selection;
-                do
-                {
-                    start--;
-                    if (start < 0)
-                        start = _Interactions.Count - 1;
-
-                    if ((start == _Selection) || (!_Interactions[start].ThemeEditorOnly && _IsVisible(start) && _IsEnabled(start)))
-                        found = true;
-                } while (!found);
-                _Selection = start;
-            }
-            else
-            {
-                _Selection--;
-                if (_Selection < 0)
-                    _Selection = _Interactions.Count - 1;
-            }
-            _SetSelected();
+            _SetSelected(element);
         }
 
         /// <summary>
-        ///     Selects the next best interaction in a menu.
+        ///     Selects the next best element in a menu.
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        private bool _NextInteraction(SKeyEvent key)
+        private bool _NextElement(SKeyEvent key)
         {
-            var directions = new SKeyEvent[4];
-            var distances = new float[4];
-            var stages = new int[4];
-            var elements = new int[4];
-
-            for (int i = 0; i < 4; i++)
-                directions[i] = new SKeyEvent();
-
-            directions[0].Key = Keys.Up;
-            directions[1].Key = Keys.Right;
-            directions[2].Key = Keys.Down;
-            directions[3].Key = Keys.Left;
-
-            for (int i = 0; i < 4; i++)
-                elements[i] = _GetNextElement(directions[i], out distances[i], out stages[i]);
-
-            int element = _Selection;
-            int stage = int.MaxValue;
-            int direction = -1;
-
-            int mute = -1;
+            int element;
             switch (key.Key)
             {
                 case Keys.Up:
-                    mute = 2;
+                    element = _GetNextElement(EDirection.Up);
                     break;
                 case Keys.Right:
-                    mute = 3;
+                    element = _GetNextElement(EDirection.Right);
                     break;
                 case Keys.Down:
-                    mute = 0;
+                    element = _GetNextElement(EDirection.Down);
                     break;
                 case Keys.Left:
-                    mute = 1;
+                    element = _GetNextElement(EDirection.Left);
                     break;
-            }
-
-            for (int i = 0; i < 4; i++)
-            {
-                if (i != mute && elements[i] != _Selection && (stages[i] <= stage && directions[i].Key == key.Key))
-                {
-                    stage = stages[i];
-                    element = elements[i];
-                    direction = i;
-                }
-            }
-
-            if (direction != -1)
-            {
-                // select the new element
-                if (directions[direction].Key == key.Key)
-                {
-                    _UnsetHighlighted(_Selection);
-                    _UnsetSelected();
-
-                    _Selection = element;
-                    _SetSelected();
-                    _SetHighlighted(_Selection);
-
+                case Keys.Tab:
+                    if (key.Mod == EModifier.Shift)
+                        PrevElement();
+                    else
+                        NextElement();
                     return true;
-                }
+                default:
+                    return false;
             }
-            return false;
+            if (element < 0)
+                return false;
+
+            // select the new element
+            _SetSelected(element);
+            return true;
         }
 
-        private int _GetNextElement(SKeyEvent key, out float distance, out int stage)
+        private int _GetNextElement(EDirection direction)
         {
-            distance = float.MaxValue;
-            int min = _Selection;
-            SRectF actualRect = _GetRect(_Selection);
-            stage = int.MaxValue;
+            float distance = float.MaxValue;
+            int min = -1;
+            SRectF currentRect = _IsSelectionValid() ? _GetRect(_Selection) : new SRectF(_PrevMouse.X, _PrevMouse.Y, 1, 1, 1);
 
-            for (int i = 0; i < _Interactions.Count; i++)
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
+                if (i != _Selection && _IsSelectable(i))
                 {
-                    SRectF targetRect = _GetRect(i);
-                    float dist = _GetDistanceDirect(key, actualRect, targetRect);
+                    float dist = _GetDistanceDirect(direction, currentRect, _GetRect(i));
                     if (dist >= 0f && dist < distance)
                     {
                         distance = dist;
                         min = i;
-                        stage = 10;
                     }
                 }
             }
+            if (min >= 0)
+                return min;
 
-            if (min == _Selection)
+            for (int i = 0; i < _Elements.Count; i++)
             {
-                for (int i = 0; i < _Interactions.Count; i++)
+                if (i != _Selection && _IsSelectable(i))
                 {
-                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
+                    float dist = _GetDistance180(direction, currentRect, _GetRect(i));
+                    if (dist >= 0f && dist < distance)
                     {
-                        SRectF targetRect = _GetRect(i);
-                        float dist = _GetDistance180(key, actualRect, targetRect);
-                        if (dist >= 0f && dist < distance)
-                        {
-                            distance = dist;
-                            min = i;
-                            stage = 20;
-                        }
+                        distance = dist;
+                        min = i;
                     }
                 }
             }
+            if (min >= 0)
+                return min;
 
-            if (min == _Selection)
+            switch (direction)
             {
-                switch (key.Key)
-                {
-                    case Keys.Up:
-                        actualRect = new SRectF(actualRect.X, CBase.Settings.GetRenderH(), 1, 1, actualRect.Z);
-                        break;
-                    case Keys.Down:
-                        actualRect = new SRectF(actualRect.X, 0, 1, 1, actualRect.Z);
-                        break;
-                    case Keys.Left:
-                        actualRect = new SRectF(CBase.Settings.GetRenderW(), actualRect.Y, 1, 1, actualRect.Z);
-                        break;
-                    case Keys.Right:
-                        actualRect = new SRectF(0, actualRect.Y, 1, 1, actualRect.Z);
-                        break;
-                }
+                case EDirection.Up:
+                    currentRect = new SRectF(currentRect.X, CBase.Settings.GetRenderH(), 1, 1, currentRect.Z);
+                    break;
+                case EDirection.Down:
+                    currentRect = new SRectF(currentRect.X, 0, 1, 1, currentRect.Z);
+                    break;
+                case EDirection.Left:
+                    currentRect = new SRectF(CBase.Settings.GetRenderW(), currentRect.Y, 1, 1, currentRect.Z);
+                    break;
+                case EDirection.Right:
+                    currentRect = new SRectF(0, currentRect.Y, 1, 1, currentRect.Z);
+                    break;
+            }
 
-                for (int i = 0; i < _Interactions.Count; i++)
+            for (int i = 0; i < _Elements.Count; i++)
+            {
+                if (i != _Selection && _IsSelectable(i))
                 {
-                    if (i != _Selection && !_Interactions[i].ThemeEditorOnly && _IsVisible(i) && _IsEnabled(i))
+                    float dist = _GetDistance180(direction, currentRect, _GetRect(i));
+                    if (dist >= 0f && dist < distance)
                     {
-                        SRectF targetRect = _GetRect(i);
-                        float dist = _GetDistance180(key, actualRect, targetRect);
-                        if (dist >= 0f && dist < distance)
-                        {
-                            distance = dist;
-                            min = i;
-                            stage = 30;
-                        }
+                        distance = dist;
+                        min = i;
                     }
                 }
             }
             return min;
         }
 
-        private float _GetDistanceDirect(SKeyEvent key, SRectF actualRect, SRectF targetRect)
+        private static float _GetDistanceDirect(EDirection direction, SRectF current, SRectF other)
         {
-            var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
-            var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
-
-            var vector = new PointF(dest.X - source.X, dest.Y - source.Y);
-            var distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-            bool inDirection = false;
-            switch (key.Key)
+            switch (direction)
             {
-                case Keys.Up:
-                    if (vector.Y < 0f && (targetRect.X + targetRect.W > actualRect.X && actualRect.X + actualRect.W > targetRect.X))
-                        inDirection = true;
+                case EDirection.Up:
+                case EDirection.Down:
+                    if (!other.X.IsInRange(current.X, current.Right) && !other.Right.IsInRange(current.X, current.Right) && !current.X.IsInRange(other.X, other.Right))
+                        return float.MaxValue;
                     break;
 
-                case Keys.Down:
-                    if (vector.Y > 0f && (targetRect.X + targetRect.W > actualRect.X && actualRect.X + actualRect.W > targetRect.X))
-                        inDirection = true;
-                    break;
-
-                case Keys.Left:
-                    if (vector.X < 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
-                        inDirection = true;
-                    break;
-
-                case Keys.Right:
-                    if (vector.X > 0f && (targetRect.Y + targetRect.H > actualRect.Y && actualRect.Y + actualRect.H > targetRect.Y))
-                        inDirection = true;
+                case EDirection.Left:
+                case EDirection.Right:
+                    if (!other.Y.IsInRange(current.Y, current.Bottom) && !other.Bottom.IsInRange(current.Y, current.Bottom) && !current.Y.IsInRange(other.Y, other.Bottom))
+                        return float.MaxValue;
                     break;
             }
-            return !inDirection ? float.MaxValue : distance;
+            return _GetDistance180(direction, current, other);
         }
 
-        private float _GetDistance180(SKeyEvent key, SRectF actualRect, SRectF targetRect)
+        private static float _GetDistance180(EDirection direction, SRectF current, SRectF other)
         {
-            var source = new PointF(actualRect.X + actualRect.W / 2f, actualRect.Y + actualRect.H / 2f);
-            var dest = new PointF(targetRect.X + targetRect.W / 2f, targetRect.Y + targetRect.H / 2f);
+            var source = new PointF(current.X + current.W / 2f, current.Y + current.H / 2f);
+            var dest = new PointF(other.X + other.W / 2f, other.Y + other.H / 2f);
 
             var vector = new PointF(dest.X - source.X, dest.Y - source.Y);
             var distance = (float)Math.Sqrt(vector.X * vector.X + vector.Y * vector.Y);
-            bool inDirection = false;
-            switch (key.Key)
+            switch (direction)
             {
-                case Keys.Up:
+                case EDirection.Up:
                     if (vector.Y < 0f)
-                        inDirection = true;
+                        return distance;
                     break;
 
-                case Keys.Down:
+                case EDirection.Down:
                     if (vector.Y > 0f)
-                        inDirection = true;
+                        return distance;
                     break;
 
-                case Keys.Left:
+                case EDirection.Left:
                     if (vector.X < 0f)
-                        inDirection = true;
+                        return distance;
                     break;
 
-                case Keys.Right:
+                case EDirection.Right:
                     if (vector.X > 0f)
-                        inDirection = true;
+                        return distance;
                     break;
             }
-            return !inDirection ? float.MaxValue : distance;
+            return float.MaxValue;
         }
 
         /// <summary>
-        ///     Selects the next element in a menu interaction.
+        ///     Selects the next value in a menu element.
         /// </summary>
-        /// <returns>True if the next element is selected. False if either there is no next element or the interaction does not provide such a method.</returns>
-        private bool _NextElement()
+        /// <returns>True if the next value is selected. False if either there is no next value or the element does not provide such a method.</returns>
+        public bool NextValue()
         {
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
-                return _SelectSlides[_Interactions[_Selection].Num].NextValue();
+            if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide)
+                return _SelectSlides[_Elements[_Selection].Num].SelectNextValue();
 
             return false;
         }
 
         /// <summary>
-        ///     Selects the previous element in a menu interaction.
+        ///     Selects the previous value in a menu element.
         /// </summary>
         /// <returns>
-        ///     True if the previous element is selected. False if either there is no previous element or the interaction does not provide such a method.
+        ///     True if the previous value is selected. False if either there is no previous value or the element does not provide such a method.
         /// </returns>
-        private bool _PrevElement()
+        public bool PrevValue()
         {
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
-                return _SelectSlides[_Interactions[_Selection].Num].PrevValue();
+            if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide)
+                return _SelectSlides[_Elements[_Selection].Num].SelectPrevValue();
 
             return false;
         }
 
-        private void _SetSelected()
+        private void _AddElement(int num, EType type)
         {
-            switch (_Interactions[_Selection].Type)
-            {
-                case EType.Button:
-                    _Buttons[_Interactions[_Selection].Num].Selected = true;
-                    break;
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[_Selection].Num].Selected = true;
-                    break;
-            }
-        }
-
-        private void _UnsetSelected()
-        {
-            switch (_Interactions[_Selection].Type)
-            {
-                case EType.Button:
-                    _Buttons[_Interactions[_Selection].Num].Selected = false;
-                    break;
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[_Selection].Num].Selected = false;
-                    break;
-            }
-        }
-
-        private void _SetHighlighted(int selection)
-        {
-            if (selection >= _Interactions.Count || selection < 0)
-                return;
-
-            switch (_Interactions[selection].Type)
-            {
-                case EType.Button:
-                    //_Buttons[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[selection].Num].Highlighted = true;
-                    break;
-                case EType.Static:
-                    //_Statics[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.Text:
-                    //_Texts[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.SongMenu:
-                    //_SongMenus[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.Lyric:
-                    //_Lyrics[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.NameSelection:
-                    //_NameSelections[_Interactions[selection].Num].Selected = true;
-                    break;
-                case EType.Playlist:
-                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
-                    break;
-            }
-        }
-
-        private void _UnsetHighlighted(int selection)
-        {
-            if (selection >= _Interactions.Count || selection < 0)
-                return;
-
-            switch (_Interactions[selection].Type)
-            {
-                case EType.Button:
-                    //_Buttons[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.SelectSlide:
-                    _SelectSlides[_Interactions[selection].Num].Highlighted = false;
-                    break;
-                case EType.Static:
-                    //_Statics[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.Text:
-                    //_Texts[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.SongMenu:
-                    //_SongMenus[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.Lyric:
-                    //_Lyrics[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.NameSelection:
-                    //_NameSelections[_Interactions[selection].Num].Selected = false;
-                    break;
-                case EType.Playlist:
-                    //_Playlists[_Interactions[_Selection].Num].Selected = true;
-                    break;
-            }
-        }
-
-        private void _ToggleHighlighted()
-        {
-            if (_Selection >= _Interactions.Count || _Selection < 0)
-                return;
-
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
-                _SelectSlides[_Interactions[_Selection].Num].Highlighted = !_SelectSlides[_Interactions[_Selection].Num].Highlighted;
-        }
-
-        private bool _IsHighlighted()
-        {
-            if (_Selection >= _Interactions.Count || _Selection < 0)
-                return false;
-
-            if (_Interactions[_Selection].Type == EType.SelectSlide)
-                return _SelectSlides[_Interactions[_Selection].Num].Highlighted;
-
-            return false;
-        }
-
-        private bool _IsVisible(int interaction)
-        {
-            switch (_Interactions[interaction].Type)
-            {
-                case EType.Static:
-                    return _Statics[_Interactions[interaction].Num].Visible;
-
-                case EType.Text:
-                    return _Texts[_Interactions[interaction].Num].Visible;
-
-                case EType.Button:
-                    return _Buttons[_Interactions[interaction].Num].Visible;
-
-                case EType.SelectSlide:
-                    return _SelectSlides[_Interactions[interaction].Num].Visible;
-            }
-
-            return false;
-        }
-
-        private bool _IsEnabled(int interaction)
-        {
-            switch (_Interactions[interaction].Type)
-            {
-                case EType.Button:
-                    return _Buttons[_Interactions[interaction].Num].Enabled;
-
-                case EType.SelectSlide:
-                    return _SelectSlides[_Interactions[interaction].Num].Visible;
-
-                case EType.Static:
-                    return false; //_Statics[_Interactions[interaction].Num].Visible;
-
-                case EType.Text:
-                    return false; //_Texts[_Interactions[interaction].Num].Visible;
-            }
-
-            return false;
-        }
-
-        private SRectF _GetRect(int interaction)
-        {
-            var result = new SRectF();
-            switch (_Interactions[interaction].Type)
-            {
-                case EType.Button:
-                    return _Buttons[_Interactions[interaction].Num].Rect;
-
-                case EType.SelectSlide:
-                    return _SelectSlides[_Interactions[interaction].Num].Rect;
-            }
-
-            return result;
-        }
-
-        private void _AddInteraction(int num, EType type)
-        {
-            _Interactions.Add(new CInteraction(num, type));
-            if (!_Interactions[_Selection].ThemeEditorOnly)
-                _SetSelected();
+            _Elements.Add(new CInteraction(num, type));
+            if (_IsSelectable(_Selection))
+                _SetSelected(_Selection);
             else
-                _NextInteraction();
-        }
-
-        private void _DrawInteraction(int interaction)
-        {
-            bool sel;
-            switch (_Interactions[interaction].Type)
-            {
-                case EType.Static:
-                    _Statics[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.Text:
-                    _Texts[_Interactions[interaction].Num].Draw();
-                    break;
-
-                case EType.Button:
-                    sel = _Buttons[_Interactions[interaction].Num].Selected;
-                    if (!Active)
-                        _Buttons[_Interactions[interaction].Num].Selected = false;
-                    _Buttons[_Interactions[interaction].Num].Draw();
-                    _Buttons[_Interactions[interaction].Num].Selected = sel;
-                    break;
-
-                case EType.SelectSlide:
-                    sel = _SelectSlides[_Interactions[interaction].Num].Selected;
-                    if (!Active)
-                        _SelectSlides[_Interactions[interaction].Num].Selected = false;
-                    _SelectSlides[_Interactions[interaction].Num].Draw();
-                    _SelectSlides[_Interactions[interaction].Num].Selected = sel;
-                    break;
-            }
+                NextElement();
         }
         #endregion InteractionHandling
+
+        #region Element-property getters
+        private bool _IsVisible(int element)
+        {
+            IMenuElement el = _GetElement(element);
+            return el != null && el.Visible;
+        }
+
+        private bool _IsSelectable(int element)
+        {
+            IMenuElement el = _GetElement(element);
+            return el != null && (el.Selectable || CBase.Settings.GetProgramState() == EProgramState.EditTheme);
+        }
+
+        private SRectF _GetRect(CInteraction element)
+        {
+            return _GetElement(element).Rect;
+        }
+
+        private SRectF _GetRect(int element)
+        {
+            return _GetRect(_Elements[element]);
+        }
+
+        private float _GetZValue(int element)
+        {
+            return _GetElement(_Elements[element]).Rect.Z;
+        }
+        #endregion
 
         #region Theme Handling
         private void _MoveElement(int stepX, int stepY)
         {
-            if (_Interactions.Count > 0)
-            {
-                switch (_Interactions[_Selection].Type)
-                {
-                    case EType.Button:
-                        _Buttons[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                        break;
-
-                    case EType.SelectSlide:
-                        _SelectSlides[_Interactions[_Selection].Num].MoveElement(stepX, stepY);
-                        break;
-                }
-            }
+            IMenuElement el = _GetElement(_Selection);
+            if (el != null)
+                el.MoveElement(stepX, stepY);
         }
 
         private void _ResizeElement(int stepW, int stepH)
         {
-            if (_Interactions.Count > 0)
-            {
-                switch (_Interactions[_Selection].Type)
-                {
-                    case EType.Button:
-                        _Buttons[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                        break;
-
-                    case EType.SelectSlide:
-                        _SelectSlides[_Interactions[_Selection].Num].ResizeElement(stepW, stepH);
-                        break;
-                }
-            }
+            IMenuElement el = _GetElement(_Selection);
+            if (el != null)
+                el.ResizeElement(stepW, stepH);
         }
         #endregion Theme Handling
     }

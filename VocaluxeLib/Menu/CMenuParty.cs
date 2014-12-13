@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using VocaluxeLib.PartyModes;
 
 namespace VocaluxeLib.Menu
@@ -24,39 +23,10 @@ namespace VocaluxeLib.Menu
     {
         protected IPartyMode _PartyMode;
 
-        protected CMenuParty()
-        {
-            _PartyMode = new CPartyModeNone();
-        }
-
-        public void SetPartyModeID(int partyModeID)
-        {
-            _PartyModeID = partyModeID;
-        }
-
         public void AssignPartyMode(IPartyMode partyMode)
         {
             _PartyMode = partyMode;
+            PartyModeID = partyMode.ID;
         }
-
-        public virtual void DataToScreen(Object data) {}
-
-        /*
-        public sealed override void LoadTheme()
-        {
-        }
-
-        public sealed override void ReloadTextures()
-        {
-        }
-
-        public sealed override void ReloadTheme()
-        {
-        }
-
-        public override void UnloadTextures()
-        {
-        }
-        */
     }
 }

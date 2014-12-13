@@ -24,8 +24,8 @@ namespace VocaluxeLib.Songs
     public class CCategory
     {
         public readonly string Name;
-        private CTexture _CoverTextureSmall;
-        private CTexture _CoverTextureBig;
+        private CTextureRef _CoverTextureSmall;
+        private CTextureRef _CoverTextureBig;
         public readonly List<CSongPointer> Songs = new List<CSongPointer>();
 
         public CCategory(string name)
@@ -33,14 +33,14 @@ namespace VocaluxeLib.Songs
             Name = name;
         }
 
-        public CTexture CoverTextureSmall
+        public CTextureRef CoverTextureSmall
         {
             get { return _CoverTextureSmall; }
 
             set { _CoverTextureSmall = value; }
         }
 
-        public CTexture CoverTextureBig
+        public CTextureRef CoverTextureBig
         {
             get { return _CoverTextureBig ?? _CoverTextureSmall; }
             set
@@ -56,18 +56,11 @@ namespace VocaluxeLib.Songs
             return Songs.Count(sp => !sp.IsSung);
         }
 
-        public CCategory(string name, CTexture coverSmall, CTexture coverBig)
+        public CSong GetSong(int numInCategory)
         {
-            Name = name;
-            CoverTextureSmall = coverSmall;
-            CoverTextureBig = coverBig;
-        }
-
-        public CCategory(CCategory cat)
-        {
-            Name = cat.Name;
-            CoverTextureSmall = cat.CoverTextureSmall;
-            CoverTextureBig = cat.CoverTextureBig;
+            if (numInCategory >= 0 && numInCategory < Songs.Count)
+                return CBase.Songs.GetSongByID(Songs[numInCategory].SongID);
+            return null;
         }
     }
 }

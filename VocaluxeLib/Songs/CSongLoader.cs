@@ -416,7 +416,9 @@ namespace VocaluxeLib.Songs
                     {
                         //PreviewStart is not set or <=0
                         _Song.Preview.StartTime = (headerFlags & EHeaderFlags.MedleyStartBeat) != 0 ? CBase.Game.GetTimeFromBeats(_Song.Medley.StartBeat, _Song.BPM) : 0f;
+                        // ReSharper disable CompareOfFloatsByEqualityOperator
                         _Song.Preview.Source = _Song.Preview.StartTime == 0 ? EDataSource.None : EDataSource.Calculated;
+                        // ReSharper restore CompareOfFloatsByEqualityOperator
                     }
 
                     if ((headerFlags & EHeaderFlags.MedleyStartBeat) != 0 && (headerFlags & EHeaderFlags.MedleyEndBeat) != 0)
@@ -768,13 +770,13 @@ namespace VocaluxeLib.Songs
 
             private bool _AddNote(int player, CSongNote note)
             {
-                CVoice voice = _Song.Notes.GetVoice(player);
+                CVoice voice = _Song.Notes.GetVoice(player, true);
                 return voice.AddNote(note, false);
             }
 
             private bool _NewSentence(int player, int start)
             {
-                CVoice voice = _Song.Notes.GetVoice(player);
+                CVoice voice = _Song.Notes.GetVoice(player, true);
                 return voice.AddLine(start);
             }
         }

@@ -18,6 +18,7 @@
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -27,7 +28,7 @@ namespace Vocaluxe.Base
     {
         private int _MouseMoveDiffMin = CSettings.MouseMoveDiffMinActive;
         private CFading _Fading;
-        private CTexture _Cursor;
+        private CTextureRef _Cursor;
         private Point _LastDiffPos;
 
         private readonly Stopwatch _Movetimer = new Stopwatch();
@@ -84,28 +85,28 @@ namespace Vocaluxe.Base
             _Cursor.Rect.Y = y;
         }
 
-        public void LoadTextures()
+        public void LoadSkin()
         {
-            _Cursor = CDraw.AddTexture(CTheme.GetSkinFilePath(CTheme.Cursor.SkinName, -1));
+            SThemeCursor theme = CThemes.GetCursorTheme();
+            _Cursor = CDraw.CopyTexture(CThemes.GetSkinTexture(theme.SkinName, -1));
 
-            _Cursor.Color = !String.IsNullOrEmpty(CTheme.Cursor.Color)
-                                ? CTheme.GetColor(CTheme.Cursor.Color, -1) : new SColorF(CTheme.Cursor.R, CTheme.Cursor.G, CTheme.Cursor.B, CTheme.Cursor.A);
-            _Cursor.Rect.W = CTheme.Cursor.W;
-            _Cursor.Rect.H = CTheme.Cursor.H;
+            theme.Color.Get(-1, out _Cursor.Color);
+            _Cursor.Rect.W = theme.W;
+            _Cursor.Rect.H = theme.H;
             _Cursor.Rect.Z = CSettings.ZNear;
         }
 
-        public void UnloadTextures()
+        public void UnloadSkin()
         {
             CDraw.RemoveTexture(ref _Cursor);
         }
 
-        public void ReloadTextures()
+        public void ReloadSkin()
         {
             int x = X;
             int y = Y;
-            UnloadTextures();
-            LoadTextures();
+            UnloadSkin();
+            LoadSkin();
             UpdatePosition(x, y);
         }
 

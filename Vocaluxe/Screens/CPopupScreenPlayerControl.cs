@@ -58,25 +58,30 @@ namespace Vocaluxe.Screens
 
         private bool _VideoBackground
         {
-            get { return CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON; }
+            get { return CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON; }
             set
             {
                 if (!value)
                 {
-                    if (CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
+                    if (CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON)
                     {
-                        CConfig.VideosToBackground = EOffOn.TR_CONFIG_OFF;
+                        CConfig.Config.Video.VideosToBackground = EOffOn.TR_CONFIG_OFF;
                         if (!_VideoPreviewInt)
                             CBackgroundMusic.VideoEnabled = false;
                     }
                 }
                 else
                 {
-                    CConfig.VideosToBackground = EOffOn.TR_CONFIG_ON;
+                    CConfig.Config.Video.VideosToBackground = EOffOn.TR_CONFIG_ON;
                     CBackgroundMusic.VideoEnabled = true;
                 }
                 CConfig.SaveConfig();
             }
+        }
+
+        public override SRectF ScreenArea
+        {
+            get { return _Statics[_StaticBG].Rect; }
         }
 
         public override void Init()
@@ -85,15 +90,7 @@ namespace Vocaluxe.Screens
 
             _ThemeStatics = new string[] {_StaticBG, _StaticCover};
             _ThemeTexts = new string[] {_TextCurrentSong};
-
             _ThemeButtons = new string[] {_ButtonPlay, _ButtonPause, _ButtonPrevious, _ButtonNext, _ButtonRepeat, _ButtonShowVideo, _ButtonSing, _ButtonToBackgroundVideo};
-        }
-
-        public override void LoadTheme(string xmlPath)
-        {
-            base.LoadTheme(xmlPath);
-
-            _ScreenArea = _Statics[_StaticBG].Rect;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -136,7 +133,7 @@ namespace Vocaluxe.Screens
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             base.HandleMouse(mouseEvent);
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonNext].Selected)
                     CBackgroundMusic.Next();
@@ -181,26 +178,19 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            if (CBackgroundMusic.VideoEnabled && _VideoPreview && CBackgroundMusic.SongHasVideo)
+                _Statics[_StaticCover].Texture = CBackgroundMusic.GetVideoTexture();
+            else
+                _Statics[_StaticCover].Texture = CBackgroundMusic.Cover;
             _Statics[_StaticCover].Visible = !_VideoPreviewInt || !CBackgroundMusic.SongHasVideo;
             _Buttons[_ButtonToBackgroundVideo].Pressed = _VideoBackground;
             _Buttons[_ButtonShowVideo].Pressed = _VideoPreviewInt;
             _Buttons[_ButtonRepeat].Pressed = CBackgroundMusic.RepeatSong;
             _Buttons[_ButtonSing].Visible = CBackgroundMusic.CanSing && CParty.CurrentPartyModeID == -1;
-            return true;
-        }
-
-        public override bool Draw()
-        {
-            if (!_Active)
-                return false;
-            _Statics[_StaticCover].Texture = CBackgroundMusic.Cover;
-            if (CBackgroundMusic.VideoEnabled && _VideoPreview && CBackgroundMusic.SongHasVideo)
-                CDraw.DrawTexture(_Statics[_StaticCover], CBackgroundMusic.GetVideoTexture(), EAspect.Crop);
             _Buttons[_ButtonPause].Visible = CBackgroundMusic.IsPlaying;
             _Buttons[_ButtonPlay].Visible = !CBackgroundMusic.IsPlaying;
             _Texts[_TextCurrentSong].Text = CBackgroundMusic.ArtistAndTitle;
-
-            return base.Draw();
+            return true;
         }
 
         private void _StartSong(int songNr)
@@ -216,7 +206,7 @@ namespace Vocaluxe.Screens
 
             CGame.AddSong(songNr, gm);
 
-            CGraphics.FadeTo(EScreens.ScreenNames);
+            CGame.GotoNameSelection();
         }
     }
 }

@@ -30,6 +30,11 @@ namespace ServerLib
             UriTemplate = "/sendKeyEvent?key={key}")]
         void SendKeyEvent(string key);
 
+        [OperationContract, WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/sendKeyStringEvent?keyString={keyString}&shift={isShiftPressed}&alt={isAltPressed}&ctrl={isCtrlPressed}")]
+        void SendKeyStringEvent(string keyString, bool isShiftPressed = false, bool isAltPressed = false, bool isCtrlPressed = false);
+
         #region profile
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
@@ -128,12 +133,12 @@ namespace ServerLib
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getPlaylists")]
-        SPlaylistInfo[] GetPlaylists();
+        SPlaylistData[] GetPlaylists();
 
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getPlaylist?id={playlistId}")]
-        SPlaylistInfo GetPlaylist(int playlistId);
+        SPlaylistData GetPlaylist(int playlistId);
 
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,

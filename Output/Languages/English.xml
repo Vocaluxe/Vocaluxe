@@ -46,10 +46,9 @@
   <string name="TR_CONFIG_LEVEL2">Level 2</string>
   <string name="TR_CONFIG_LEVEL3">Level 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
-  <string name="TR_CONFIG_LIST">List</string>
+  <string name="TR_CONFIG_LIST">Song List</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
   <string name="TR_CONFIG_TILE_BOARD">TileBoard</string>
-  <string name="TR_CONFIG_LIST__AND_COVER">Song List</string>
   <string name="TR_CONFIG_BOOK">Book</string>
   <string name="TR_CONFIG_COVERLOADING_ONDEMAND">On Demand</string>
   <string name="TR_CONFIG_COVERLOADING_ATSTART">At Startup</string>
@@ -94,6 +93,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">Party</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Options</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profiles</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">No profiles found!</string>
   <string name="TR_SCREENPARTY_TITLE">Party Mode Selection</string>
   <string name="TR_SCREENPARTY_MODES">Party Mode</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Description</string>
@@ -212,8 +212,8 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcam-Resolution</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Screen adjustments</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Press CTR + ALT + SHIFT + Arrows to adjust screen</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + SHIFT + 0 to reset</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Press CTR + ALT (+ SHIFT) + Arrows|\"+\" to adjust screen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + 0 to reset</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Top left</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Top right</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Bottom left</string>

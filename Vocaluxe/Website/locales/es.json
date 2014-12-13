@@ -76,5 +76,11 @@
     "discoverConnectServerAddress": "Dirección del servidor:",
     "discoverConnectButton": "Conectar",
     "Checking...": "Comprobando...",
-    "timeout": "Tiempo de espera"
+    "timeout": "Tiempo de espera",
+    "keyboardButtonShift": "Shift",
+    "keyboardButtonAlt": "Alt",
+    "keyboardButtonCtrl": "Control",
+    "keyboardButtonBackspace": "Backspace",
+    "keyboardAutoSend": "Auto send keys",
+    "keyboardButtonSend": "Send"
 }

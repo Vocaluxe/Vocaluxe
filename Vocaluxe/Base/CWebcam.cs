@@ -30,7 +30,7 @@ namespace Vocaluxe.Base
         {
             if (_Webcam != null)
                 return false;
-            switch (CConfig.WebcamLib)
+            switch (CConfig.Config.Video.WebcamLib)
             {
                 case EWebcamLib.AForgeNet:
                     _Webcam = new CAForgeNet();
@@ -42,9 +42,9 @@ namespace Vocaluxe.Base
             }
             if (!_Webcam.Init())
                 return false;
-            _Webcam.Select(CConfig.WebcamConfig);
+            _Webcam.Select(CConfig.Config.Video.WebcamConfig.HasValue ? CConfig.Config.Video.WebcamConfig.Value : new SWebcamConfig());
 
-            CConfig.WebcamConfig = _Webcam.GetConfig();
+            CConfig.Config.Video.WebcamConfig = _Webcam.GetConfig();
             CConfig.SaveConfig();
             return true;
         }
@@ -57,7 +57,7 @@ namespace Vocaluxe.Base
             _Webcam = null;
         }
 
-        public static bool GetFrame(ref CTexture tex)
+        public static bool GetFrame(ref CTextureRef tex)
         {
             return _Webcam != null && _Webcam.GetFrame(ref tex);
         }
@@ -69,23 +69,20 @@ namespace Vocaluxe.Base
 
         public static void Pause()
         {
-            if (_Webcam == null)
-                return;
-            _Webcam.Pause();
+            if (_Webcam != null)
+                _Webcam.Pause();
         }
 
         public static void Start()
         {
-            if (_Webcam == null)
-                return;
-            _Webcam.Start();
+            if (_Webcam != null)
+                _Webcam.Start();
         }
 
         public static void Stop()
         {
-            if (_Webcam == null)
-                return;
-            _Webcam.Stop();
+            if (_Webcam != null)
+                _Webcam.Stop();
         }
 
         public static bool Select(SWebcamConfig c)
@@ -95,9 +92,8 @@ namespace Vocaluxe.Base
 
         public static void DeSelect()
         {
-            if (_Webcam == null)
-                return;
-            _Webcam.DeSelect();
+            if (_Webcam != null)
+                _Webcam.DeSelect();
         }
 
         public static SWebcamDevice[] GetDevices()

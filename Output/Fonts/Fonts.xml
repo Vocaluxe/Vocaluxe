@@ -3,11 +3,13 @@
 	<Fonts>
 		<Font1>
 			<Name>Normal</Name>
-			<Outline>0,00</Outline>
-			<OutlineColorR>0,00</OutlineColorR>
-			<OutlineColorG>0,00</OutlineColorG>
-			<OutlineColorB>0,00</OutlineColorB>
-			<OutlineColorA>1,00</OutlineColorA>
+			<Outline>0.00</Outline>
+			<OutlineColor>
+				<R>0.00</R>
+				<G>0.00</G>
+				<B>0.00</B>
+				<A>1.00</A>
+			</OutlineColor>
 			<Folder>FreeSans</Folder>
 			<FileNormal>FreeSans.ttf</FileNormal>
 			<FileBold>FreeSansBold.ttf</FileBold>
@@ -16,11 +18,13 @@
 		</Font1>
 		<Font2>
 			<Name>Outline</Name>
-			<Outline>0,10</Outline>
-			<OutlineColorR>0,00</OutlineColorR>
-			<OutlineColorG>0,00</OutlineColorG>
-			<OutlineColorB>0,00</OutlineColorB>
-			<OutlineColorA>1,00</OutlineColorA>
+			<Outline>0.10</Outline>
+			<OutlineColor>
+				<R>0.00</R>
+				<G>0.00</G>
+				<B>0.00</B>
+				<A>1.00</A>
+			</OutlineColor>
 			<Folder>FreeSans</Folder>
 			<FileNormal>FreeSans.ttf</FileNormal>
 			<FileBold>FreeSansBold.ttf</FileBold>

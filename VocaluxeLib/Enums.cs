@@ -19,6 +19,28 @@ using System;
 
 namespace VocaluxeLib
 {
+    public enum ECoverGeneratorType
+    {
+        Default,
+        Song,
+        Folder,
+        Artist,
+        Letter,
+        Edition,
+        Genre,
+        Language,
+        Year,
+        Decade,
+        Date
+    }
+
+    public enum EDirection
+    {
+        Up = 0,
+        Right = 1,
+        Down = 2,
+        Left = 3
+    }
 
     #region Inputs
     [Flags]
@@ -43,7 +65,16 @@ namespace VocaluxeLib
     {
         Crop,
         LetterBox,
-        Stretch
+        Stretch,
+        Zoom1,
+        Zoom2
+    }
+
+    public enum EGeneralAlignment
+    {
+        Middle,
+        Start,
+        End
     }
 
     public enum EAlignment
@@ -169,11 +200,10 @@ namespace VocaluxeLib
     public enum ESongMenu
     {
         // ReSharper disable InconsistentNaming
-        TR_CONFIG_LIST,		    //a simple list
-        //TR_CONFIG_DREIDEL,	    //as in ultrastar deluxe
+        TR_CONFIG_LIST,       // list of covers and artist - title
+        //TR_CONFIG_DREIDEL,  //as in ultrastar deluxe
         TR_CONFIG_TILE_BOARD, //chessboard like
-        //TR_CONFIG_LIST__AND_COVER // list of covers and artist - title
-        //TR_CONFIG_BOOK          //for playlists
+        //TR_CONFIG_BOOK      //for playlists
         // ReSharper restore InconsistentNaming
     }
 
@@ -251,9 +281,11 @@ namespace VocaluxeLib
 
     public enum EBackgroundMusicOffOn
     {
+        // ReSharper disable InconsistentNaming
         TR_CONFIG_OFF,
         TR_CONFIG_ONLY_SONG,
         TR_CONFIG_ON
+        // ReSharper restore InconsistentNaming
     }
 
     public enum EPlayerInfo
@@ -328,32 +360,44 @@ namespace VocaluxeLib
         Freestyle
     }
 
-    public enum EScreens
+    public enum EMusicType
     {
-        ScreenTest = 0,
-        ScreenLoad = 1,
-        ScreenMain = 2,
-        ScreenSong = 3,
-        ScreenOptions = 4,
-        ScreenSing = 5,
-        ScreenProfiles = 6,
-        ScreenScore = 7,
-        ScreenHighscore = 8,
+        None,
+        Background,
+        Preview,
+        Game
+    }
 
-        ScreenOptionsGame = 9,
-        ScreenOptionsSound = 10,
-        ScreenOptionsRecord = 11,
-        ScreenOptionsVideo = 12,
-        ScreenOptionsVideoAdjustments = 13,
-        ScreenOptionsLyrics = 14,
-        ScreenOptionsTheme = 15,
+    /// <summary>
+    ///     Base screens
+    /// </summary>
+    public enum EScreen
+    {
+        Unknown = -1,
 
-        ScreenNames = 16,
-        ScreenCredits = 17,
-        ScreenParty = 18,
-        ScreenPartyDummy = 19,
+        Test,
+        Load,
+        Main,
+        Song,
+        Options,
+        Sing,
+        Profiles,
+        Score,
+        Highscore,
 
-        ScreenNull = -1
+        OptionsGame,
+        OptionsSound,
+        OptionsRecord,
+        OptionsVideo,
+        OptionsVideoAdjustments,
+        OptionsLyrics,
+        OptionsTheme,
+
+        Names,
+        Credits,
+        Party,
+
+        CountEntry //Leave this as last entry and never use it!
     }
 
     public enum EPopupScreens

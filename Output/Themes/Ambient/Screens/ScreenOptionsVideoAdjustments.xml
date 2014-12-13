@@ -1,251 +1,154 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <ScreenOptionsVideoAdjustments>
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>ScreenOptionsVideoAdjustments</ScreenName>
     <ScreenVersion>1</ScreenVersion>
-    <Background1>
-      <!--<Type>: Background type: None, Color, Texture, Video-->
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
       <Type>Color</Type>
-      <!--<Video>: Background video name-->
+      <SlideShowTextures />
       <Video>BG_Video</Video>
-      <!--<Skin>: Background Texture name-->
       <Skin>BG_Options</Skin>
-      <!--<Color>: Background color for type "Color" from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>1,00</G>
-      <B>1,00</B>
-      <A>1,00</A>
-    </Background1>
-    <Text1>
-      <!--<X>, <Y>: Text position-->
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>1</A>
+      </Color>
+    </Background>
+  </Backgrounds>
+  <Statics />
+  <Texts>
+    <Text Name="Text1">
       <X>0</X>
       <Y>0</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Top</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text1>
-    <Text2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="Text2">
       <X>1280</X>
       <Y>0</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Right</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Top</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text2>
-    <Text3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="Text3">
       <X>0</X>
       <Y>693</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Bottom</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text3>
-    <Text4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="Text4">
       <X>1280</X>
       <Y>693</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Right</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Bottom</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text4>
-    <Text5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="Text5">
       <X>640</X>
       <Y>320</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>35</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEOADJUSTMENTS_NOTES</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text5>
-    <Text6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="Text6">
       <X>640</X>
       <Y>360</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>35</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text6>
-    <ButtonExit>
-      <!--<Skin>: Texture name-->
+    </Text>
+  </Texts>
+  <Buttons>
+    <Button Name="ButtonExit">
       <Skin>Button</Skin>
-      <!--<SkinSelected>: Texture name for selected button-->
       <SkinSelected>Button</SkinSelected>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Button position, width and height-->
-      <X>145</X>
-      <Y>600</Y>
-      <Z>0,00</Z>
-      <W>150</W>
-      <H>50</H>
-      <!--<Color>: Button color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>ButtonColor</Color>
-      <!--<SColor>: Selected button color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>ButtonSColor</SColor>
-      <Text>
-        <!--<X>, <Y>: Text position-->
+      <Rect>
+        <X>145</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
-        <!--<H>: Text height-->
+        <Z>0</Z>
         <H>27</H>
-        <!--<MaxW>: Maximum text width (if exists)-->
         <MaxW>142</MaxW>
-        <!--<Color>: Text color from ColorScheme (high priority)-->
-        <!--or <R>, <G>, <B>, <A> (lower priority)-->
-        <Color>ButtonTextColor</Color>
-        <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-        <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-        <SColor>ButtonTextSColor</SColor>
-        <!--<Align>: Text align horizontal: Left, Center, Right-->
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
-        <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-        <HAlign>Center</HAlign>
-        <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+        <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
-        <!--<Font>: Text font name-->
         <Font>Outline</Font>
-        <!--<Text>: Nothing or translation tag-->
         <Text>TR_BUTTON_BACK</Text>
       </Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
       <Reflection>
-        <Space>10</Space>
         <Height>26</Height>
+        <Space>10</Space>
       </Reflection>
-      <!--<SReflection> If exists:-->
-      <!--   <Space>: Reflection Space of selected button-->
-      <!--   <Height>: Reflection Height of selected button-->
-      <SReflection>
-        <Space>10</Space>
+      <SelReflection>
         <Height>26</Height>
-      </SReflection>
-    </ButtonExit>
-  </ScreenOptionsVideoAdjustments>
-</root>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+  </Buttons>
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides />
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>

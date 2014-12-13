@@ -199,7 +199,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 out _Stream,
                 ref outputParams,
                 format.SamplesPerSecond,
-                (uint)CConfig.AudioBufferSize / 2,
+                (uint)CConfig.Config.Sound.AudioBufferSize / 2,
                 PortAudioSharp.PortAudio.PaStreamFlags.paNoFlag,
                 _PaStreamCallback,
                 IntPtr.Zero) || _Stream == IntPtr.Zero)
@@ -208,7 +208,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 return false;
             }
 
-            _Latency = CConfig.AudioLatency / 1000f + (float)PortAudioSharp.PortAudio.Pa_GetStreamInfo(_Stream).outputLatency;
+            _Latency = CConfig.Config.Sound.AudioLatency / 1000f + (float)PortAudioSharp.PortAudio.Pa_GetStreamInfo(_Stream).outputLatency;
 
             //From now on closing the driver and the decoder is handled by the thread ONLY!
 
@@ -240,15 +240,13 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             if (!_FileOpened || _Terminated || !IsPaused)
                 return;
             IsPaused = false;
-            _PaHandle.CheckError("StartStream", PortAudioSharp.PortAudio.Pa_StartStream(_Stream));
         }
 
         public override void Stop()
         {
             if (!_FileOpened || _Terminated)
                 return;
-            _Paused = true;
-            _PaHandle.CheckError("StopStream (playback)", PortAudioSharp.PortAudio.Pa_StopStream(_Stream));
+            IsPaused = true;
             Position = 0f;
         }
 

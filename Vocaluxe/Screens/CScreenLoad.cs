@@ -23,7 +23,7 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenLoad : CMenu
+    public class CScreenLoad : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -105,7 +105,7 @@ namespace Vocaluxe.Screens
             _CurrentIntroVideo = -1;
             _IntroOutPlayed = false;
 
-            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
+            if (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
             {
                 for (int i = 0; i < _Intros.Length; i++)
                     _Intros[i].Load(_IntroVideo[i]);
@@ -117,7 +117,7 @@ namespace Vocaluxe.Screens
         {
             base.OnShowFinish();
 
-            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
+            if (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
             {
                 foreach (CVideoPlayer videoPlayer in _Intros)
                     videoPlayer.PreLoad();
@@ -135,13 +135,13 @@ namespace Vocaluxe.Screens
         {
             _CheckStartIntroVideos();
 
-            bool next = CConfig.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
+            bool next = CConfig.Config.Theme.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
 
-            if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.ProgramState != EProgramState.EditTheme && CSongs.SongsLoaded)
+            if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.ProgramState == EProgramState.Start && CSongs.SongsLoaded)
+            {
                 CSettings.ProgramState = EProgramState.Normal;
-
-            if (CSettings.ProgramState == EProgramState.Normal)
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
+            }
 
             _Texts[_TextStatus].Text =
                 CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": " + CSongs.NumAllSongs + " " +
@@ -152,7 +152,7 @@ namespace Vocaluxe.Screens
             {
                 CBackgroundMusic.OwnSongsAvailable = true;
 
-                if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_ON || CConfig.VideosToBackground == EOffOn.TR_CONFIG_ON)
+                if (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_ON || CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON)
                     CBackgroundMusic.VideoEnabled = true;
 
                 CBackgroundMusic.Play();
@@ -161,15 +161,12 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool Draw()
+        public override void Draw()
         {
-            _DrawBG();
-
             if (_CurrentIntroVideo >= 0 && _CurrentIntroVideo < _Intros.Length)
                 _Intros[_CurrentIntroVideo].Draw();
 
-            _DrawFG();
-            return true;
+            base.Draw();
         }
 
         public override void OnClose()
@@ -192,7 +189,7 @@ namespace Vocaluxe.Screens
             if (_IntroOutPlayed)
                 return;
 
-            if (CConfig.VideoBackgrounds == EOffOn.TR_CONFIG_OFF)
+            if (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_OFF)
             {
                 _IntroOutPlayed = true;
                 return;
@@ -203,7 +200,7 @@ namespace Vocaluxe.Screens
                 _CurrentIntroVideo = 0;
                 _Intros[0].Start();
             }
-            else if (_CurrentIntroVideo == 0 && _Intros[0].IsFinished && CConfig.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
+            else if (_CurrentIntroVideo == 0 && _Intros[0].IsFinished && CConfig.Config.Theme.CoverLoading == ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART)
             {
                 _Intros[_CurrentIntroVideo].Close();
                 _CurrentIntroVideo = 1;

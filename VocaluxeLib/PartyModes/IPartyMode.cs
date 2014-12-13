@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
@@ -82,16 +81,19 @@ namespace VocaluxeLib.PartyModes
 
     public interface IPartyMode
     {
+        int ID { get; }
         bool Init();
-        void Initialize();
+
+        void LoadTheme();
+        void ReloadSkin();
+        void ReloadTheme();
+
         void AddScreen(CMenuParty screen, string screenName);
-        void DataFromScreen(string screenName, Object data);
+        void SaveScreens();
 
         void UpdateGame();
 
-        CMenuParty GetNextPartyScreen(out EScreens alternativeScreen);
-        EScreens GetStartScreen();
-        EScreens GetMainScreen();
+        IMenu GetStartScreen();
         SScreenSongOptions GetScreenSongOptions();
 
         void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions);
@@ -104,8 +106,6 @@ namespace VocaluxeLib.PartyModes
         int GetMinPlayerPerTeam();
         int GetMaxPlayerPerTeam();
         int GetMaxNumRounds();
-        string GetFolder();
-        void SetFolder(string folder);
 
         void SetSearchString(string searchString, bool visible);
 

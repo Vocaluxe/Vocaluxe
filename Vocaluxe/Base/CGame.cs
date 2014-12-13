@@ -30,7 +30,7 @@ namespace Vocaluxe.Base
     static class CGame
     {
         private static ISongQueue _SongQueue;
-        private static int _NumPlayer = CConfig.NumPlayer;
+        private static int _NumPlayers = CConfig.Config.Game.NumPlayers;
 
         /// <summary>
         ///     Last beat that has been evaluated
@@ -177,14 +177,19 @@ namespace Vocaluxe.Base
             get { return _SongQueue.GetNumSongs(); }
         }
 
-        public static int NumPlayer
+        public static int NumPlayers
         {
-            get { return _NumPlayer; }
+            get { return _NumPlayers; }
             set
             {
                 if (value > 0 && value <= CSettings.MaxNumPlayer)
-                    _NumPlayer = value;
+                    _NumPlayers = value;
             }
+        }
+
+        public static void GotoNameSelection()
+        {
+            CGraphics.FadeTo(EScreen.Names);
         }
 
         public static void ResetPlayer()
@@ -222,15 +227,15 @@ namespace Vocaluxe.Base
 
             CurrentBeatF = b;
 
-            MidRecordedBeat = -0.5f + GetBeatFromTime(time, song.BPM, song.Gap + CConfig.MicDelay / 1000f);
+            MidRecordedBeat = -0.5f + GetBeatFromTime(time, song.BPM, song.Gap + CConfig.Config.Record.MicDelay / 1000f);
 
-            for (int p = 0; p < _NumPlayer; p++)
+            for (int p = 0; p < _NumPlayers; p++)
                 CRecord.AnalyzeBuffer(p);
 
             if (_LastEvalBeat >= RecordedBeat)
                 return;
 
-            for (int p = 0; p < _NumPlayer; p++)
+            for (int p = 0; p < _NumPlayers; p++)
             {
                 for (int beat = _LastEvalBeat + 1; beat <= RecordedBeat; beat++)
                 {
@@ -364,20 +369,20 @@ namespace Vocaluxe.Base
             _LastEvalBeat = RecordedBeat;
         }
 
-        public static void ResetToLastLine(int soundStream, int vidStream)
+        public static void ResetToLastLine(int soundStream, CVideoStream vidStream)
         {
             float[] time = _GetLastSungLineStart();
             ResetToTime(time[0], time[1], soundStream, vidStream);
         }
 
-        public static void ResetToTime(float time, float nextStart, int soundStream, int vidStream)
+        public static void ResetToTime(float time, float nextStart, int soundStream, CVideoStream vidStream)
         {
             if (time < 0)
                 time = 0;
 
             CurrentBeatF = GetBeatFromTime(time, GetSong().BPM, GetSong().Gap);
 
-            for (int p = 0; p < _NumPlayer; p++)
+            for (int p = 0; p < _NumPlayers; p++)
             {
                 Players[p].Points = 0;
                 Players[p].PointsGoldenNotes = 0;

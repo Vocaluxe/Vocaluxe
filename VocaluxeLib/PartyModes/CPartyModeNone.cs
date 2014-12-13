@@ -16,13 +16,14 @@
 #endregion
 
 using System;
+using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
 {
     public class CPartyModeNone : CPartyMode
     {
         //just a dummy for normal game mode
-        public CPartyModeNone()
+        public CPartyModeNone(int id, string folder) : base(id, folder)
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = false;
@@ -34,6 +35,16 @@ namespace VocaluxeLib.PartyModes
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.All;
+        }
+
+        public override bool Init()
+        {
+            return true;
+        }
+
+        public override IMenu GetStartScreen()
+        {
+            return CBase.Graphics.GetScreen(EScreen.Names);
         }
 
         public override SScreenSongOptions GetScreenSongOptions()
@@ -53,6 +64,11 @@ namespace VocaluxeLib.PartyModes
         {
             _ScreenSongOptions.Sorting.SearchString = searchString;
             _ScreenSongOptions.Sorting.SearchActive = visible;
+        }
+
+        public override void SongSelected(int songID)
+        {
+            CBase.Graphics.FadeTo(EScreen.Sing);
         }
     }
 }

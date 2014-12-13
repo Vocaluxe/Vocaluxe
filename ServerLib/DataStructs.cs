@@ -27,6 +27,8 @@ namespace ServerLib
 {
     public delegate bool SendKeyEventDelegate(string key);
 
+    public delegate bool SendKeyStringEventDelegate(string keyString, bool isShiftPressed, bool isAltPressed, bool isCtrlPressed);
+
     #region profile
     public delegate SProfileData GetProfileDataDelegate(int profileId, bool isReadonly);
 
@@ -67,9 +69,10 @@ namespace ServerLib
     [DataContract]
     public class CBase64Image
     {
+        // ReSharper disable InconsistentNaming
         [DataMember] private string base64Data = "";
-
         [DataMember] private string imageId = "";
+        // ReSharper restore InconsistentNaming
 
         public CBase64Image(Image img, ImageFormat format)
         {
@@ -128,9 +131,9 @@ namespace ServerLib
     #endregion
 
     #region playlists
-    public delegate SPlaylistInfo[] GetPlaylistsDelegate();
+    public delegate SPlaylistData[] GetPlaylistsDelegate();
 
-    public delegate SPlaylistInfo GetPlaylistDelegate(int playlistId);
+    public delegate SPlaylistData GetPlaylistDelegate(int playlistId);
 
     public delegate void AddSongToPlaylistDelegate(int songId, int playlistId, bool allowDuplicates);
 
@@ -156,7 +159,7 @@ namespace ServerLib
     }
 
     [DataContract]
-    public struct SPlaylistInfo
+    public struct SPlaylistData
     {
         [DataMember] public int PlaylistId;
         [DataMember] public string PlaylistName;

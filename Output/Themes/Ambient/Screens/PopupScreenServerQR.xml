@@ -1,315 +1,191 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <PopupScreenServerQR>
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>PopupScreenServerQR</ScreenName>
     <ScreenVersion>1</ScreenVersion>
-    <Static1>
-      <!--<Skin>: Texture name-->
+  </Informations>
+  <Backgrounds />
+  <Statics>
+    <Static Name="Static1">
       <Skin>SongMenuBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>0</X>
-      <Y>0</Y>
-      <Z>-1,99</Z>
-      <W>1280</W>
-      <H>720</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>1,00</G>
-      <B>1,00</B>
-      <A>0,80</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Static1>
-    <StaticQRServer>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.8</A>
+      </Color>
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>1280</W>
+        <H>720</H>
+        <Z>-1.99</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticQRServer">
       <Skin>Menu</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>490</X>
-      <Y>210</Y>
-      <Z>-2,00</Z>
-      <W>300</W>
-      <H>300</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticQRServer>
-    <StaticQRAndroid>
-      <!--<Skin>: Texture name-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>490</X>
+        <Y>210</Y>
+        <W>300</W>
+        <H>300</H>
+        <Z>-2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticQRAndroid">
       <Skin>Menu</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>25</X>
-      <Y>25</Y>
-      <Z>-2,00</Z>
-      <W>200</W>
-      <H>200</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticQRAndroid>
-    <StaticQRSymbian>
-      <!--<Skin>: Texture name-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>25</X>
+        <Y>25</Y>
+        <W>200</W>
+        <H>200</H>
+        <Z>-2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticQRSymbian">
       <Skin>Menu</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>1055</X>
-      <Y>25</Y>
-      <Z>-2,00</Z>
-      <W>200</W>
-      <H>200</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticQRSymbian>
-    <StaticQRWebOS>
-      <!--<Skin>: Texture name-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>1055</X>
+        <Y>25</Y>
+        <W>200</W>
+        <H>200</H>
+        <Z>-2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticQRWebOS">
       <Skin>Menu</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>25</X>
-      <Y>495</Y>
-      <Z>-2,00</Z>
-      <W>200</W>
-      <H>200</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticQRWebOS>
-    <StaticQRWindowsPhone>
-      <!--<Skin>: Texture name-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>25</X>
+        <Y>495</Y>
+        <W>200</W>
+        <H>200</H>
+        <Z>-2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticQRWindowsPhone">
       <Skin>Menu</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>1055</X>
-      <Y>495</Y>
-      <Z>-2,00</Z>
-      <W>200</W>
-      <H>200</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticQRWindowsPhone>
-    <TextServerAddress>
-      <!--<X>, <Y>: Text position-->
-      <X>640</X>
-      <Y>515</Y>
-      <!--<Z>: Text position-->
-      <Z>-2,00</Z>
-      <!--<H>: Text height-->
-      <H>35</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <MaxW>300</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
-      <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <Style>Bold</Style>
-      <!--<Font>: Text font name-->
-      <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
-      <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextServerAddress>
-    <TextServerNotRunning>
-      <!--<X>, <Y>: Text position-->
-      <X>640</X>
-      <Y>265</Y>
-      <!--<Z>: Text position-->
-      <Z>-2,00</Z>
-      <!--<H>: Text height-->
-      <H>45</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <MaxW>600</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
-      <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
-      <Style>Bold</Style>
-      <!--<Font>: Text font name-->
-      <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
-      <Text>TR_SCREENPSERVERQR_NOTRUNNING</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextServerNotRunning>
-    <Text1>
-      <!--<X>, <Y>: Text position-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>1055</X>
+        <Y>495</Y>
+        <W>200</W>
+        <H>200</H>
+        <Z>-2</Z>
+      </Rect>
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="Text1">
       <X>640</X>
       <Y>180</Y>
-      <!--<Z>: Text position-->
-      <Z>-2,00</Z>
-      <!--<H>: Text height-->
+      <Z>-2</Z>
       <H>35</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>300</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENPSERVERQR_ADDRESS</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text1>
-    <Text2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="Text2">
       <X>125</X>
       <Y>230</Y>
-      <!--<Z>: Text position-->
-      <Z>-2,00</Z>
-      <!--<H>: Text height-->
+      <Z>-2</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>200</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>Android</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text2>
-    <Text3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="Text3">
       <X>1155</X>
       <Y>230</Y>
-      <!--<Z>: Text position-->
-      <Z>-2,00</Z>
-      <!--<H>: Text height-->
+      <Z>-2</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>200</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>Symbian</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text3>
-    <Text4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="Text4">
       <X>125</X>
       <Y>460</Y>
-      <!--<Z>: Text position-->
-      <Z>-2,00</Z>
-      <!--<H>: Text height-->
+      <Z>-2</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>200</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>WebOS</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text4>
-    <Text5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="Text5">
       <X>1155</X>
       <Y>460</Y>
-      <!--<Z>: Text position-->
-      <Z>-2,00</Z>
-      <!--<H>: Text height-->
+      <Z>-2</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>200</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>Windows Phone</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text5>
-  </PopupScreenServerQR>
-</root>
+    </Text>
+    <Text Name="TextServerAddress">
+      <X>640</X>
+      <Y>515</Y>
+      <Z>-2</Z>
+      <H>35</H>
+      <MaxW>300</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextServerNotRunning">
+      <X>640</X>
+      <Y>265</Y>
+      <Z>-2</Z>
+      <H>45</H>
+      <MaxW>600</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENPSERVERQR_NOTRUNNING</Text>
+    </Text>
+  </Texts>
+  <Buttons />
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides />
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>

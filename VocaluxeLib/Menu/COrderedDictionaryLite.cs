@@ -25,13 +25,20 @@ namespace VocaluxeLib.Menu
     {
         private readonly List<T> _Items;
         private readonly Dictionary<String, int> _HtIndex;
-        private readonly CMenu _Parent;
+        private readonly String _ParentName;
 
-        public COrderedDictionaryLite(CMenu parent)
+        public COrderedDictionaryLite(object parent)
         {
             _Items = new List<T>();
             _HtIndex = new Dictionary<String, int>();
-            _Parent = parent;
+            _ParentName = parent.GetType().Name;
+            if (_ParentName[0] == 'C' && Char.IsUpper(_ParentName[1]))
+                _ParentName = _ParentName.Remove(0, 1);
+        }
+
+        public int Count
+        {
+            get { return _Items.Count; }
         }
 
         public T this[int index]
@@ -50,7 +57,7 @@ namespace VocaluxeLib.Menu
                 }
                 catch (Exception)
                 {
-                    CBase.Log.LogError("Can't find " + typeof(T).Name.Substring(1) + " Element \"" + key + "\" in Screen " + _Parent.ThemeName);
+                    CBase.Log.LogError("Can't find " + typeof(T).Name.Substring(1) + " Element \"" + key + "\" in " + _ParentName);
                     throw;
                 }
             }
@@ -82,6 +89,12 @@ namespace VocaluxeLib.Menu
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public void Clear()
+        {
+            _HtIndex.Clear();
+            _Items.Clear();
         }
     }
 }

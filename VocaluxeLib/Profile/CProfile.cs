@@ -16,8 +16,10 @@
 #endregion
 
 using System;
+using System.ComponentModel;
 using System.IO;
-using System.Xml;
+using System.Xml.Serialization;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Profile
 {
@@ -33,20 +35,41 @@ namespace VocaluxeLib.Profile
 
     public class CProfile
     {
-        public int ID;
+        private struct SOldXmlProfile
+        {
+#pragma warning disable 649
+            public CProfile Info;
+#pragma warning restore 649
+        }
+
+        [XmlIgnore] public int ID;
 
         public string PlayerName;
-        public string FilePath;
-        public string FileName;
-        public byte[] PasswordHash;
-        public byte[] PasswordSalt;
+        [XmlIgnore] public string FilePath;
+        [DefaultValue(null)] public byte[] PasswordHash;
+        [DefaultValue(null)] public byte[] PasswordSalt;
 
         public EGameDifficulty Difficulty;
 
+        [XmlIgnore]
         public CAvatar Avatar { get; set; }
 
         public EUserRole UserRole;
         public EOffOn Active;
+
+        [XmlElement("Avatar")]
+        // ReSharper disable UnusedMember.Global
+        public string AvatarFileName
+            // ReSharper restore UnusedMember.Global
+        {
+            get { return Path.GetFileName(Avatar.FileName); }
+            set
+            {
+                Avatar = CBase.Profiles.GetAvatarByFilename(value);
+                if (Avatar == null)
+                    throw new Exception("Avatar '" + value + "' not found");
+            }
+        }
 
         public CProfile()
         {
@@ -54,59 +77,55 @@ namespace VocaluxeLib.Profile
             Difficulty = EGameDifficulty.TR_CONFIG_EASY;
             UserRole = EUserRole.TR_USERROLE_NORMAL;
             Active = EOffOn.TR_CONFIG_ON;
-
-            FileName = String.Empty;
         }
 
-        public bool LoadProfile(string pathName, string fileName)
+        public bool LoadProfile(string filePath)
         {
-            FilePath = pathName;
-            FileName = fileName;
-            return LoadProfile();
-        }
-
-        public bool LoadProfile(string file)
-        {
-            FileName = Path.GetFileName(file);
-            FilePath = Path.GetDirectoryName(file);
+            FilePath = filePath;
 
             return LoadProfile();
         }
 
         public bool LoadProfile()
         {
-            CXMLReader xmlReader = CXMLReader.OpenFile(Path.Combine(FilePath, FileName));
-            if (xmlReader == null)
-                return false;
-
-            string value = String.Empty;
-            if (xmlReader.GetValue("//root/Info/PlayerName", out value, value))
+            var xml = new CXmlDeserializer();
+            try
             {
-                PlayerName = value;
-                string avatarFileName;
-                xmlReader.TryGetEnumValue("//root/Info/Difficulty", ref Difficulty);
-                xmlReader.GetValue("//root/Info/Avatar", out avatarFileName, String.Empty);
-                Avatar = CBase.Profiles.GetAvatarByFilename(avatarFileName);
-                xmlReader.TryGetEnumValue("//root/Info/UserRole", ref UserRole);
-                xmlReader.TryGetEnumValue("//root/Info/Active", ref Active);
-                string passwordHash;
-                xmlReader.GetValue("//root/Info/PasswordHash", out passwordHash, "");
-                PasswordHash = !string.IsNullOrEmpty(passwordHash) ? Convert.FromBase64String(passwordHash) : null;
-                string passwordSalt;
-                xmlReader.GetValue("//root/Info/PasswordSalt", out passwordSalt, "");
-                PasswordSalt = !string.IsNullOrEmpty(passwordSalt) ? Convert.FromBase64String(passwordSalt) : null;
-                return true;
+                xml.Deserialize(FilePath, this);
             }
+            catch (Exception e)
+            {
+                if (_ConvertProfile(ref e))
+                    return true;
+                CBase.Log.LogError("Error loading profile file " + Path.GetFileName(FilePath) + ": " + e.Message);
+                return false;
+            }
+            return true;
+        }
 
-            CBase.Log.LogError("Can't find PlayerName in Profile File: " + FileName);
-            return false;
+        private bool _ConvertProfile(ref Exception e)
+        {
+            var xml = new CXmlDeserializer();
+            var ser = new CXmlSerializer();
+            try
+            {
+                var old = xml.Deserialize<SOldXmlProfile>(FilePath);
+                string newXml = ser.Serialize(old.Info);
+                xml.DeserializeString(newXml, this);
+                ser.Serialize(FilePath, this);
+            }
+            catch (Exception e2)
+            {
+                if (!(e2 is CXmlException))
+                    e = e2;
+                return false;
+            }
+            return true;
         }
 
         public void SaveProfile()
         {
             if (String.IsNullOrEmpty(FilePath))
-                FilePath = Path.Combine(CBase.Settings.GetDataPath(), CBase.Settings.GetFolderProfiles());
-            if (FileName == String.Empty)
             {
                 string filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery
@@ -120,45 +139,11 @@ namespace VocaluxeLib.Profile
                 if (filename == "")
                     filename = "1";
 
-                FileName = CHelper.GetUniqueFileName(FilePath, filename + ".xml", false);
+                FilePath = CHelper.GetUniqueFileName(Path.Combine(CBase.Settings.GetDataPath(), CBase.Settings.GetFolderProfiles()), filename + ".xml");
             }
 
-            XmlWriter writer;
-            try
-            {
-                writer = XmlWriter.Create(Path.Combine(FilePath, FileName), CBase.Config.GetXMLSettings());
-            }
-            catch (Exception e)
-            {
-                CBase.Log.LogError("Error creating/opening Profile File " + FileName + ": " + e.Message);
-                return;
-            }
-            try
-            {
-                writer.WriteStartDocument();
-                writer.WriteStartElement("root");
-
-                writer.WriteStartElement("Info");
-                writer.WriteElementString("PlayerName", PlayerName);
-                writer.WriteElementString("Difficulty", Enum.GetName(typeof(EGameDifficulty), Difficulty));
-                writer.WriteElementString("Avatar", Path.GetFileName(Avatar.FileName));
-                writer.WriteElementString("UserRole", Enum.GetName(typeof(EUserRole), UserRole));
-                writer.WriteElementString("Active", Enum.GetName(typeof(EOffOn), Active));
-                if (PasswordHash != null)
-                    writer.WriteElementString("PasswordHash", Convert.ToBase64String(PasswordHash));
-                if (PasswordSalt != null)
-                    writer.WriteElementString("PasswordSalt", Convert.ToBase64String(PasswordSalt));
-                writer.WriteEndElement();
-
-                writer.WriteEndElement(); //end of root
-                writer.WriteEndDocument();
-
-                writer.Flush();
-            }
-            finally
-            {
-                writer.Close();
-            }
+            var xml = new CXmlSerializer();
+            xml.Serialize(FilePath, this);
         }
     }
 }

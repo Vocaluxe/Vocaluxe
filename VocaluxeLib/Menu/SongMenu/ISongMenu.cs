@@ -19,7 +19,7 @@ using VocaluxeLib.PartyModes;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
-    interface ISongMenu : IMenuElement
+    public interface ISongMenu : IMenuElement, IThemeable
     {
         void Update(SScreenSongOptions songOptions);
         void OnShow();
@@ -27,7 +27,6 @@ namespace VocaluxeLib.Menu.SongMenu
 
         bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options);
         bool HandleMouse(ref SMouseEvent mouseEvent, SScreenSongOptions songOptions);
-        void Draw();
 
         // The selected song is the song, where the mouse is hovering over
         // The number is refering to the index in the visible songs array
@@ -45,10 +44,6 @@ namespace VocaluxeLib.Menu.SongMenu
         // The song that is currently playing (set e.g. by clicking on a song)
         int GetPreviewSong();
 
-        SRectF Rect { get; }
-        bool Active { get; set; }
-        bool Selected { get; set; }
-        bool Visible { get; set; }
         bool SmallView { get; set; }
     }
 }

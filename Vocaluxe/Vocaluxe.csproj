@@ -216,14 +216,26 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
+    <Compile Include="Base\CCoverGenerator.cs" />
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
+    <Compile Include="Base\ThemeSystem\CBaseTheme.cs" />
+    <Compile Include="Base\ThemeSystem\CPartySkin.cs" />
+    <Compile Include="Base\ThemeSystem\CBaseSkin.cs" />
+    <Compile Include="Base\ThemeSystem\CPartyTheme.cs" />
+    <Compile Include="Base\ThemeSystem\CTheme.cs" />
     <Compile Include="Base\CVideoPlayer.cs" />
+    <Compile Include="Base\ThemeSystem\CSkin.cs" />
+    <Compile Include="Base\XmlStructs.cs" />
     <Compile Include="COSFunctions.cs" />
     <Compile Include="Lib\Database\CCoverDB.cs" />
     <Compile Include="Lib\Database\CDatabaseBase.cs" />
     <Compile Include="Lib\Database\CHighscoreDB.cs" />
     <Compile Include="Lib\Database\CResourceDB.cs" />
+    <Compile Include="Lib\Draw\CDrawBase.cs" />
+    <Compile Include="Lib\Draw\CDrawBaseWindows.cs" />
+    <Compile Include="Lib\Draw\CTextureBase.cs" />
+    <Compile Include="Lib\Draw\CTextureProvider.cs" />
     <Compile Include="Lib\Sound\Playback\CAudioStreamBase.cs" />
     <Compile Include="Lib\Sound\Playback\CPlaybackBase.cs" />
     <Compile Include="Lib\Sound\Playback\CRingBuffer.cs" />
@@ -241,7 +253,7 @@
     <Compile Include="Base\CDraw.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPt1.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CSyncTimer.cs" />
-    <Compile Include="Base\Fonts\CFont.cs" />
+    <Compile Include="Base\Fonts\CFontStyle.cs" />
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CController.cs" />
     <Compile Include="Base\CLanguage.cs" />
@@ -257,7 +269,7 @@
     <Compile Include="Base\CUtility.cs" />
     <Compile Include="Base\CSettings.cs" />
     <Compile Include="Base\CSongs.cs" />
-    <Compile Include="Base\CTheme.cs" />
+    <Compile Include="Base\ThemeSystem\CThemes.cs" />
     <Compile Include="Base\CVideo.cs" />
     <Compile Include="Base\CWebcam.cs" />
     <Compile Include="Base\Fonts\CFonts.cs" />
@@ -280,13 +292,7 @@
     <Compile Include="Lib\Sound\Record\PitchTracker\CPitchTrackerTest.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtAKF.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\CPtSharp.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\IPitchTracker.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\CircularBuffer.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\Extensions.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\IIRFilter.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\PitchDsp.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\Pitch\PitchTracker.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
     <Compile Include="Lib\Video\Acinerella\CDecoderThread.cs" />
     <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
@@ -509,7 +515,11 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"</PostBuildEvent>
+    <PostBuildEvent>xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
+powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\()(.*)(?=\))', '\"GITVERSION\"'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PostBuildEvent>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PreBuildEvent>powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

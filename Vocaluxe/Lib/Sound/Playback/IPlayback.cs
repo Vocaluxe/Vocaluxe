@@ -19,19 +19,18 @@ using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Playback
 {
-
     interface IPlayback
     {
         bool Init();
         void Close();
-        float GetGlobalVolume();
+        int GetGlobalVolume();
 
         /// <summary>
         ///     Set the global (maximum) volume<br />
         ///     All streams (existent and future ones) will have their maximum volume set to this value
         /// </summary>
         /// <param name="volume">Volume in percent</param>
-        void SetGlobalVolume(float volume);
+        void SetGlobalVolume(int volume);
 
         int GetStreamCount();
         void CloseAll();
@@ -43,14 +42,14 @@ namespace Vocaluxe.Lib.Sound.Playback
         void Play(int streamID);
         void Pause(int streamID);
         void Stop(int streamID);
-        void Fade(int streamID, float targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing);
+        void Fade(int streamID, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing);
 
         /// <summary>
         ///     Set the streams current volume. Cancels fading
         /// </summary>
         /// <param name="streamID">Id of the stream (optained by Load)</param>
         /// <param name="volume">Volume in percent</param>
-        void SetStreamVolume(int streamID, float volume);
+        void SetStreamVolume(int streamID, int volume);
 
         float GetLength(int streamID);
         float GetPosition(int streamID);

@@ -35,7 +35,7 @@ namespace Vocaluxe.Screens
         PlayerName
     }
 
-    class CScreenProfiles : CMenu
+    public class CScreenProfiles : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -64,7 +64,7 @@ namespace Vocaluxe.Screens
 
         private EEditMode _EditMode;
 
-        private CTexture _WebcamTexture;
+        private CTextureRef _WebcamTexture;
         private Bitmap _Snapshot;
 
         public override void Init()
@@ -122,12 +122,12 @@ namespace Vocaluxe.Screens
                         if (_EditMode == EEditMode.PlayerName)
                             _EditMode = EEditMode.None;
                         else
-                            CGraphics.FadeTo(EScreens.ScreenMain);
+                            CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonExit].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenMain);
+                            CGraphics.FadeTo(EScreen.Main);
                         else if (_Buttons[_ButtonSave].Selected)
                             _SaveProfiles();
                         else if (_Buttons[_ButtonNew].Selected)
@@ -159,7 +159,7 @@ namespace Vocaluxe.Screens
                             _ProfilesChanged = true;
                         }
                         else
-                            CGraphics.FadeTo(EScreens.ScreenMain);
+                            CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.Delete:
@@ -196,10 +196,10 @@ namespace Vocaluxe.Screens
             if (_EditMode == EEditMode.None)
                 base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonExit].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenMain);
+                    CGraphics.FadeTo(EScreen.Main);
                 else if (_Buttons[_ButtonSave].Selected)
                     _SaveProfiles();
                 else if (_Buttons[_ButtonNew].Selected)
@@ -246,7 +246,7 @@ namespace Vocaluxe.Screens
             }
 
             if (mouseEvent.RB)
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
             return true;
         }
 
@@ -386,7 +386,7 @@ namespace Vocaluxe.Screens
             CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].ValueIndex,
                                 _SelectSlides[_SelectSlideAvatars].ValueIndex);
 
-            _SetInteractionToButton(_Buttons[_ButtonPlayerName]);
+            _SelectElement(_Buttons[_ButtonPlayerName]);
             _EditMode = EEditMode.PlayerName;
         }
 

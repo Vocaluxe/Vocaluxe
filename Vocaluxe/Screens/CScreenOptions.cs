@@ -22,7 +22,7 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenOptions : CMenu
+    public class CScreenOptions : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -55,32 +55,32 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.Escape:
                     case Keys.Back:
-                        CGraphics.FadeTo(EScreens.ScreenMain);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
-                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        CGraphics.FadeTo(EScreen.Song);
                         break;
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonOptionsGame].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenOptionsGame);
+                            CGraphics.FadeTo(EScreen.OptionsGame);
 
                         if (_Buttons[_ButtonOptionsSound].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenOptionsSound);
+                            CGraphics.FadeTo(EScreen.OptionsSound);
 
                         if (_Buttons[_ButtonOptionsRecord].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenOptionsRecord);
+                            CGraphics.FadeTo(EScreen.OptionsRecord);
 
                         if (_Buttons[_ButtonOptionsVideo].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
 
                         if (_Buttons[_ButtonOptionsLyrics].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenOptionsLyrics);
+                            CGraphics.FadeTo(EScreen.OptionsLyrics);
 
                         if (_Buttons[_ButtonOptionsTheme].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenOptionsTheme);
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
 
                         break;
                 }
@@ -92,40 +92,34 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonOptionsGame].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptionsGame);
+                    CGraphics.FadeTo(EScreen.OptionsGame);
 
                 if (_Buttons[_ButtonOptionsSound].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptionsSound);
+                    CGraphics.FadeTo(EScreen.OptionsSound);
 
                 if (_Buttons[_ButtonOptionsRecord].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptionsRecord);
+                    CGraphics.FadeTo(EScreen.OptionsRecord);
 
                 if (_Buttons[_ButtonOptionsVideo].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptionsVideo);
+                    CGraphics.FadeTo(EScreen.OptionsVideo);
 
                 if (_Buttons[_ButtonOptionsLyrics].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptionsLyrics);
+                    CGraphics.FadeTo(EScreen.OptionsLyrics);
 
                 if (_Buttons[_ButtonOptionsTheme].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptionsTheme);
+                    CGraphics.FadeTo(EScreen.OptionsTheme);
             }
 
             if (mouseEvent.RB)
-                CGraphics.FadeTo(EScreens.ScreenMain);
+                CGraphics.FadeTo(EScreen.Main);
             return true;
         }
 
         public override bool UpdateGame()
         {
-            return true;
-        }
-
-        public override bool Draw()
-        {
-            base.Draw();
             return true;
         }
     }

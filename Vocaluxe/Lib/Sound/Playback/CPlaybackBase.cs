@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using VocaluxeLib;
@@ -62,19 +63,19 @@ namespace Vocaluxe.Lib.Sound.Playback
             }
         }
 
-        public float GetGlobalVolume()
+        public int GetGlobalVolume()
         {
-            return (_Initialized) ? _GlobalVolume * 100f : 100f;
+            return (_Initialized) ? (int) Math.Round(_GlobalVolume * 100) : 100;
         }
 
-        public void SetGlobalVolume(float volume)
+        public void SetGlobalVolume(int volume)
         {
             if (!_Initialized)
                 return;
-            volume = volume.Clamp(0f, 100f) / 100f;
+            float volumeF = volume.Clamp(0, 100) / 100f;
             foreach (IAudioStream stream in _Streams)
-                stream.VolumeMax = volume;
-            _GlobalVolume = volume;
+                stream.VolumeMax = volumeF;
+            _GlobalVolume = volumeF;
         }
 
         public int GetStreamCount()
@@ -117,7 +118,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         {
             if (!_Initialized)
                 return -1;
-            IAudioStream stream = _CreateStream(_NextID, medium, loop);
+            IAudioStream stream = _CreateStream(_NextID++, medium, loop);
 
             if (stream.Open(prescan))
             {
@@ -127,7 +128,6 @@ namespace Vocaluxe.Lib.Sound.Playback
                     stream.VolumeMax = _GlobalVolume;
                     stream.SetOnCloseListener(this);
                     _Streams.Add(stream);
-                    _NextID++;
                     return stream.ID;
                 }
             }
@@ -179,28 +179,28 @@ namespace Vocaluxe.Lib.Sound.Playback
             }
         }
 
-        public void Fade(int streamID, float targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
+        public void Fade(int streamID, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
         {
             if (!_Initialized)
                 return;
-            targetVolume = targetVolume.Clamp(0f, 100f) / 100f;
+            float targetVolumeF = targetVolume.Clamp(0, 100) / 100f;
             lock (_Streams)
             {
                 if (_StreamExists(streamID))
-                    _Streams[_GetStreamIndex(streamID)].Fade(targetVolume, seconds, afterFadeAction);
+                    _Streams[_GetStreamIndex(streamID)].Fade(targetVolumeF, seconds, afterFadeAction);
             }
         }
 
-        public void SetStreamVolume(int streamID, float volume)
+        public void SetStreamVolume(int streamID, int volume)
         {
             if (!_Initialized)
                 return;
-            volume = volume.Clamp(0f, 100f) / 100f;
+            float volumeF = volume.Clamp(0, 100) / 100f;
             lock (_Streams)
             {
                 if (_StreamExists(streamID))
                 {
-                    _Streams[_GetStreamIndex(streamID)].Volume = volume;
+                    _Streams[_GetStreamIndex(streamID)].Volume = volumeF;
                     _Streams[_GetStreamIndex(streamID)].CancelFading();
                 }
             }

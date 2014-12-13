@@ -17,40 +17,163 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Diagnostics.Contracts;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib
 {
+    public struct SMargin
+    {
+        [XmlAttribute] public int Default;
+        public int? Left, Right, Top, Bottom;
+        [XmlIgnore] public bool LeftSpecified;
+        [XmlIgnore] public bool RightSpecified;
+        [XmlIgnore] public bool TopSpecified;
+        [XmlIgnore] public bool BottomSpecified;
+    }
+
+    public struct SThemeCoverGeneratorText
+    {
+        public string Text;
+        public SThemeFont Font;
+        public SThemeColor Color;
+        public SMargin Margin;
+        public int Indent;
+    }
+
+    public struct SThemeCoverGenerator
+    {
+        [XmlAttribute] public ECoverGeneratorType Type;
+        public SThemeCoverGeneratorText Text;
+        public SThemeColor BackgroundColor;
+        [XmlElement(IsNullable = true)] public string Image;
+        [DefaultValue(0.5f)] public float ImageAlpha;
+        [DefaultValue(false)] public bool ShowFirstCover;
+    }
+
+    public struct SThemeCoverInfo
+    {
+        public string Name;
+        public string Folder;
+        [XmlElement(IsNullable = true)] public string Author;
+    }
+
+    [XmlRoot("root")]
+    public struct SThemeCover
+    {
+        [XmlIgnore] public string FolderPath;
+        public SThemeCoverInfo Info;
+        [XmlElement("CoverGenerator", IsNullable = false)] public List<SThemeCoverGenerator> CoverGenerators;
+    }
 
     #region Drawing
     public struct SColorF
     {
-        public float R;
-        public float G;
-        public float B;
-        public float A;
+        [XmlNormalized] public float R, G, B, A;
 
         public SColorF(float r, float g, float b, float a)
         {
+            Debug.Assert(r.IsInRange(0, 1) && g.IsInRange(0, 1) && b.IsInRange(0, 1));
+            Debug.Assert(a.IsInRange(0, 1));
             R = r;
             G = g;
             B = b;
             A = a;
         }
 
-        public SColorF(SColorF color)
+        public SColorF(SColorF color, float a) : this(color.R, color.G, color.B, a) {}
+        public SColorF(Color color, float a) : this(color.R / 255f, color.G / 255f, color.B / 255f, a) {}
+
+        public SColorF(Color color)
         {
-            R = color.R;
-            G = color.G;
-            B = color.B;
-            A = color.A;
+            R = color.R / 255f;
+            G = color.G / 255f;
+            B = color.B / 255f;
+            A = color.A / 255f;
         }
 
+        [Pure]
         public Color AsColor()
         {
             return Color.FromArgb((int)(A * 255), (int)(R * 255), (int)(G * 255), (int)(B * 255));
+        }
+    }
+
+    //Use for holding theme-colors
+    [XmlRoot("Color")]
+    public struct SThemeColor
+    {
+        [DefaultValue(null), XmlAttribute] public string Name;
+        [XmlNormalized] public float? R;
+        [XmlNormalized] public float? G;
+        [XmlNormalized] public float? B;
+        [XmlNormalized] public float? A;
+
+        //Needed for serialization
+        public bool NameSpecified
+        {
+            get { return !String.IsNullOrEmpty(Name); }
+        }
+        public bool RSpecified
+        {
+            get { return R.HasValue; }
+        }
+        public bool GSpecified
+        {
+            get { return G.HasValue; }
+        }
+        public bool BSpecified
+        {
+            get { return B.HasValue; }
+        }
+        public bool ASpecified
+        {
+            get { return A.HasValue; }
+        }
+
+        /// <summary>
+        ///     Use only for old code! Remove when removing old LoadTheme()
+        /// </summary>
+        [XmlIgnore]
+        public SColorF Color
+        {
+            set
+            {
+                if (NameSpecified)
+                    return;
+                R = value.R;
+                G = value.G;
+                B = value.B;
+                A = value.A;
+            }
+        }
+
+        public bool Get(int partyModeId, out SColorF color)
+        {
+            bool ok;
+            if (!String.IsNullOrEmpty(Name))
+                ok = CBase.Themes.GetColor(Name, partyModeId, out color);
+            else
+            {
+                Debug.Assert(R.HasValue || G.HasValue || B.HasValue);
+                ok = true;
+                color = new SColorF(1, 1, 1, 1);
+            }
+            if (R.HasValue)
+                color.R = R.Value;
+            if (G.HasValue)
+                color.G = G.Value;
+            if (B.HasValue)
+                color.B = B.Value;
+            if (A.HasValue)
+                color.A = A.Value;
+            return ok;
         }
     }
 
@@ -61,7 +184,34 @@ namespace VocaluxeLib
         public float W;
         public float H;
         public float Z;
-        public float Rotation; //0..360°
+        [XmlIgnore] public float Rotation; //0..360°
+
+        public float Right
+        {
+            get { return X + W; }
+            set
+            {
+                W = value - X;
+                Debug.Assert(W >= 0);
+            }
+        }
+        public float Bottom
+        {
+            get { return Y + H; }
+            set
+            {
+                H = value - Y;
+                Debug.Assert(H >= 0);
+            }
+        }
+        public Size SizeI
+        {
+            get { return new Size((int)W, (int)H); }
+        }
+        public SizeF Size
+        {
+            get { return new SizeF(W, H); }
+        }
 
         public SRectF(float x, float y, float w, float h, float z)
         {
@@ -73,14 +223,27 @@ namespace VocaluxeLib
             Rotation = 0f;
         }
 
-        public SRectF(SRectF rect)
+        public SRectF(Rectangle rect)
         {
             X = rect.X;
             Y = rect.Y;
-            W = rect.W;
-            H = rect.H;
-            Z = rect.Z;
-            Rotation = 0f;
+            W = rect.Width;
+            H = rect.Height;
+            Z = 0;
+            Rotation = 0;
+        }
+    }
+
+    [XmlRoot("Reflection")]
+    public struct SReflection
+    {
+        public float Height;
+        public float Space;
+
+        public SReflection(float height, float space)
+        {
+            Height = height;
+            Space = space;
         }
     }
 
@@ -212,23 +375,6 @@ namespace VocaluxeLib
         public EGameDifficulty Difficulty;
         public int VoiceNr;
         public int ID;
-    }
-
-    public struct SPartyModeInfos
-    {
-        public int PartyModeID;
-        public string Name;
-        public string Description;
-        public string TargetAudience;
-        public int MaxPlayers;
-        public int MinPlayers;
-        public int MaxTeams;
-        public int MinTeams;
-
-        public string Author;
-        public bool Playable;
-        public int VersionMajor;
-        public int VersionMinor;
     }
     #endregion Game
 }

@@ -22,12 +22,12 @@ using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
 {
-    class CScreenMain : CMenu
+    public class CScreenMain : CMenu
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private const string _ButtonSing = "ButtonSing";
@@ -35,23 +35,30 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptions = "ButtonOptions";
         private const string _ButtonProfiles = "ButtonProfiles";
         private const string _ButtonExit = "ButtonExit";
-
-        private CText _ReleaseText;
+        private const string _StaticWarningProfiles = "StaticWarningProfiles";
+        private const string _TextWarningProfiles = "TextWarningProfiles";
+        private const string _TextRelease = "TextRelease";
 
         //CParticleEffect Snowflakes;
         public override void Init()
         {
             base.Init();
 
-            _ThemeStatics = new string[] {"StaticMenuBar"};
+            _ThemeStatics = new string[] {"StaticMenuBar", _StaticWarningProfiles};
             _ThemeButtons = new string[] {_ButtonSing, _ButtonParty, _ButtonOptions, _ButtonProfiles, _ButtonExit};
+            _ThemeTexts = new string[] {_TextRelease, _TextWarningProfiles};
         }
 
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
 
-            _ReleaseText = GetNewText(10, 690, -1, 15, -1, EAlignment.Left, EStyle.Normal, "Normal", new SColorF(1f, 1f, 1f, 1f), CSettings.GetFullVersionText());
+            _Texts[_TextRelease].Text = CSettings.GetFullVersionText();
+            // ReSharper disable ConditionIsAlwaysTrueOrFalse
+            _Texts[_TextRelease].Visible = CSettings.VersionRevision != ERevision.Release;
+            // ReSharper restore ConditionIsAlwaysTrueOrFalse
+            _Statics[_StaticWarningProfiles].Visible = false;
+            _Texts[_TextWarningProfiles].Visible = false;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -64,36 +71,37 @@ namespace Vocaluxe.Screens
                 switch (keyEvent.Key)
                 {
                     case Keys.O:
-                        CGraphics.FadeTo(EScreens.ScreenOptions);
+                        CGraphics.FadeTo(EScreen.Options);
                         break;
 
                     case Keys.S:
-                        CGraphics.FadeTo(EScreens.ScreenSong);
+                        if (CProfiles.NumProfiles > 0)
+                            CGraphics.FadeTo(EScreen.Song);
                         break;
 
                     case Keys.C:
-                        CGraphics.FadeTo(EScreens.ScreenCredits);
+                        CGraphics.FadeTo(EScreen.Credits);
                         break;
 
                     case Keys.T:
-                        CGraphics.FadeTo(EScreens.ScreenTest);
+                        CGraphics.FadeTo(EScreen.Test);
                         break;
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonSing].Selected)
                         {
                             CParty.SetNormalGameMode();
-                            CGraphics.FadeTo(EScreens.ScreenSong);
+                            CGraphics.FadeTo(EScreen.Song);
                         }
 
                         if (_Buttons[_ButtonParty].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenParty);
+                            CGraphics.FadeTo(EScreen.Party);
 
                         if (_Buttons[_ButtonOptions].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenOptions);
+                            CGraphics.FadeTo(EScreen.Options);
 
                         if (_Buttons[_ButtonProfiles].Selected)
-                            CGraphics.FadeTo(EScreens.ScreenProfiles);
+                            CGraphics.FadeTo(EScreen.Profiles);
 
                         if (_Buttons[_ButtonExit].Selected)
                             return false;
@@ -108,22 +116,22 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(mouseEvent);
 
-            if (mouseEvent.LB && _IsMouseOver(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonSing].Selected)
                 {
                     CParty.SetNormalGameMode();
-                    CGraphics.FadeTo(EScreens.ScreenSong);
+                    CGraphics.FadeTo(EScreen.Song);
                 }
 
                 if (_Buttons[_ButtonParty].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenParty);
+                    CGraphics.FadeTo(EScreen.Party);
 
                 if (_Buttons[_ButtonOptions].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenOptions);
+                    CGraphics.FadeTo(EScreen.Options);
 
                 if (_Buttons[_ButtonProfiles].Selected)
-                    CGraphics.FadeTo(EScreens.ScreenProfiles);
+                    CGraphics.FadeTo(EScreen.Profiles);
 
                 if (_Buttons[_ButtonExit].Selected)
                     return false;
@@ -132,50 +140,14 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        // ReSharper disable RedundantOverridenMember
-        public override void OnShow()
-        {
-            base.OnShow();
-
-            //if (Snowflakes != null)
-            //    Snowflakes.Resume();
-        }
-
-        // ReSharper restore RedundantOverridenMember
-
         public override bool UpdateGame()
         {
+            bool profileOK = CProfiles.NumProfiles > 0;
+            _Statics[_StaticWarningProfiles].Visible = !profileOK;
+            _Texts[_TextWarningProfiles].Visible = !profileOK;
+            _Buttons[_ButtonSing].Selectable = profileOK;
+            _Buttons[_ButtonParty].Selectable = profileOK;
             return true;
         }
-
-        public override bool Draw()
-        {
-            _DrawBG();
-
-            //if (Snowflakes == null)
-            //    Snowflakes = new CParticleEffect(300, new SColorF(1, 1, 1, 1), new SRectF(0, 0, CSettings.iRenderW, 0, 0.5f), "Snowflake", 25, EParticeType.Snow);
-
-            //Snowflakes.Update();
-            //Snowflakes.Draw();
-            _DrawFG();
-
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            if (CSettings.VersionRevision != ERevision.Release)
-                // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                _ReleaseText.Draw();
-
-            return true;
-        }
-
-        // ReSharper disable RedundantOverridenMember
-        public override void OnClose()
-        {
-            base.OnClose();
-
-            //if (Snowflakes != null)
-            //    Snowflakes.Pause();
-        }
-
-        // ReSharper restore RedundantOverridenMember
     }
 }

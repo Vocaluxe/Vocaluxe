@@ -51,3 +51,4 @@ using System.Runtime.InteropServices;
 
 [assembly: AssemblyVersion("0.3.0.83")]
 [assembly: AssemblyFileVersion("0.3.0.83")]
+[assembly: AssemblyInformationalVersion("GITVERSION")]

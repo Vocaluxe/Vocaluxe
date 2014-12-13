@@ -1,3773 +1,2160 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root>
-  <ScreenScore>
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>ScreenScore</ScreenName>
     <ScreenVersion>3</ScreenVersion>
-    <Background1>
-      <!--<Type>: Background type: None, Color, Texture, Video-->
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
       <Type>Video</Type>
-      <!--<Video>: Background video name-->
+      <SlideShowTextures />
       <Video>BG_Video</Video>
-      <!--<Skin>: Background Texture name-->
       <Skin>BG_Default</Skin>
-      <!--<Color>: Background color for type "Color" from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>BackgroundColor</Color>
-    </Background1>
-    <Static1>
-      <!--<Skin>: Texture name-->
+      <Color Name="BackgroundColor" />
+    </Background>
+  </Backgrounds>
+  <Statics>
+    <Static Name="Static1">
       <Skin>Menu</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>40</X>
-      <Y>40</Y>
-      <Z>0,00</Z>
-      <W>1200</W>
-      <H>50</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Static1>
-    <Static2>
-      <!--<Skin>: Texture name-->
+      <Color Name="StaticColor" />
+      <Rect>
+        <X>40</X>
+        <Y>40</Y>
+        <W>1200</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="Static2">
       <Skin>TextBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>50</X>
-      <Y>90</Y>
-      <Z>0,00</Z>
-      <W>1180</W>
-      <H>610</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>0,00</B>
-      <A>0,00</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Static2>
-    <StaticPointsBarBGP1N1>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0</A>
+      </Color>
+      <Rect>
+        <X>50</X>
+        <Y>90</Y>
+        <W>1180</W>
+        <H>610</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarBGP1N1">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>560</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP1N1>
-    <StaticPointsBarP1N1>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>560</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP1N1">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>560</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP1N1>
-    <StaticAvatarP1N1>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player1" />
+      <Rect>
+        <X>560</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP1N1">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>560</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>560</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP1N1>
-    <StaticPointsBarBGP1N2>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP1N2">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP1N2>
-    <StaticPointsBarP1N2>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>352</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP1N2">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP1N2>
-    <StaticAvatarP1N2>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player1" />
+      <Rect>
+        <X>352</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP1N2">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>352</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP1N2>
-    <StaticPointsBarBGP2N2>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP2N2">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>0,00</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP2N2>
-    <StaticPointsBarP2N2>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>768</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP2N2">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP2N2>
-    <StaticAvatarP2N2>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player2" />
+      <Rect>
+        <X>768</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP2N2">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>768</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP2N2>
-    <StaticPointsBarBGP1N3>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP1N3">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>238</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP1N3>
-    <StaticPointsBarP1N3>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>238</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP1N3">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>238</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP1N3>
-    <StaticAvatarP1N3>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player1" />
+      <Rect>
+        <X>238</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP1N3">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>238</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>238</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP1N3>
-    <StaticPointsBarBGP2N3>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP2N3">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>560</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>0,00</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP2N3>
-    <StaticPointsBarP2N3>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>560</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP2N3">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>560</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP2N3>
-    <StaticAvatarP2N3>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player2" />
+      <Rect>
+        <X>560</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP2N3">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>560</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>560</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP2N3>
-    <StaticPointsBarBGP3N3>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP3N3">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>882</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>1,00</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP3N3>
-    <StaticPointsBarP3N3>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>1</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>882</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP3N3">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>882</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player3</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP3N3>
-    <StaticAvatarP3N3>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player3" />
+      <Rect>
+        <X>882</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP3N3">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>882</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>882</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP3N3>
-    <StaticPointsBarBGP1N4>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP1N4">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>190</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP1N4>
-    <StaticPointsBarP1N4>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>190</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP1N4">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>190</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP1N4>
-    <StaticAvatarP1N4>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player1" />
+      <Rect>
+        <X>190</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP1N4">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>190</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>190</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP1N4>
-    <StaticPointsBarBGP2N4>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP2N4">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>422</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>0,00</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP2N4>
-    <StaticPointsBarP2N4>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>422</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP2N4">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>422</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP2N4>
-    <StaticAvatarP2N4>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player2" />
+      <Rect>
+        <X>422</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP2N4">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>422</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>422</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP2N4>
-    <StaticPointsBarBGP3N4>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP3N4">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>654</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>1,00</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP3N4>
-    <StaticPointsBarP3N4>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>1</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>654</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP3N4">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>654</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player3</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP3N4>
-    <StaticAvatarP3N4>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player3" />
+      <Rect>
+        <X>654</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP3N4">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>654</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>654</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP3N4>
-    <StaticPointsBarBGP4N4>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP4N4">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>886</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,50</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP4N4>
-    <StaticPointsBarP4N4>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0.5</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>886</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP4N4">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>886</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player4</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP4N4>
-    <StaticAvatarP4N4>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player4" />
+      <Rect>
+        <X>886</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP4N4">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>886</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>886</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP4N4>
-    <StaticPointsBarBGP1N5>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP1N5">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>144</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP1N5>
-    <StaticPointsBarP1N5>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>144</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP1N5">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>144</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP1N5>
-    <StaticAvatarP1N5>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player1" />
+      <Rect>
+        <X>144</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP1N5">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>144</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>144</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP1N5>
-    <StaticPointsBarBGP2N5>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP2N5">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>0,00</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP2N5>
-    <StaticPointsBarP2N5>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>352</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP2N5">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP2N5>
-    <StaticAvatarP2N5>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player2" />
+      <Rect>
+        <X>352</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP2N5">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>352</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>352</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP2N5>
-    <StaticPointsBarBGP3N5>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP3N5">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>560</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>1,00</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP3N5>
-    <StaticPointsBarP3N5>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>1</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>560</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP3N5">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>560</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player3</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP3N5>
-    <StaticAvatarP3N5>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player3" />
+      <Rect>
+        <X>560</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP3N5">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>560</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>560</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP3N5>
-    <StaticPointsBarBGP4N5>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP4N5">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,50</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP4N5>
-    <StaticPointsBarP4N5>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0.5</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>768</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP4N5">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player4</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP4N5>
-    <StaticAvatarP4N5>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player4" />
+      <Rect>
+        <X>768</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP4N5">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>768</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>768</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP4N5>
-    <StaticPointsBarBGP5N5>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP5N5">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>976</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>0,80</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP5N5>
-    <StaticPointsBarP5N5>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>1</R>
+        <G>0.8</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>976</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP5N5">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>976</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player5</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP5N5>
-    <StaticAvatarP5N5>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player5" />
+      <Rect>
+        <X>976</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP5N5">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>976</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>976</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP5N5>
-    <StaticPointsBarBGP1N6>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP1N6">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>45</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP1N6>
-    <StaticPointsBarP1N6>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>45</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP1N6">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>45</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player1</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP1N6>
-    <StaticAvatarP1N6>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player1" />
+      <Rect>
+        <X>45</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP1N6">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>45</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>45</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP1N6>
-    <StaticPointsBarBGP2N6>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP2N6">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>253</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>0,00</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP2N6>
-    <StaticPointsBarP2N6>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>253</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP2N6">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>253</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player2</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP2N6>
-    <StaticAvatarP2N6>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player2" />
+      <Rect>
+        <X>253</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP2N6">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>253</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>253</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP2N6>
-    <StaticPointsBarBGP3N6>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP3N6">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>461</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,00</R>
-      <G>1,00</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP3N6>
-    <StaticPointsBarP3N6>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0</R>
+        <G>1</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>461</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP3N6">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>461</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player3</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP3N6>
-    <StaticAvatarP3N6>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player3" />
+      <Rect>
+        <X>461</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP3N6">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>461</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>461</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP3N6>
-    <StaticPointsBarBGP4N6>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP4N6">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>669</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>0,50</R>
-      <G>0,00</G>
-      <B>1,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP4N6>
-    <StaticPointsBarP4N6>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>0.5</R>
+        <G>0</G>
+        <B>1</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>669</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP4N6">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>669</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player4</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP4N6>
-    <StaticAvatarP4N6>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player4" />
+      <Rect>
+        <X>669</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP4N6">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>669</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>669</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP4N6>
-    <StaticPointsBarBGP5N6>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP5N6">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>877</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>0,80</G>
-      <B>0,00</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP5N6>
-    <StaticPointsBarP5N6>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>1</R>
+        <G>0.8</G>
+        <B>0</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>877</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP5N6">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>877</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player5</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP5N6>
-    <StaticAvatarP5N6>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player5" />
+      <Rect>
+        <X>877</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP5N6">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>877</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>877</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP5N6>
-    <StaticPointsBarBGP6N6>
-      <!--<Skin>: Texture name-->
+    </Static>
+    <Static Name="StaticPointsBarBGP6N6">
       <Skin>PointsBarBG</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>1085</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>220</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <R>1,00</R>
-      <G>0,00</G>
-      <B>0,50</B>
-      <A>0,75</A>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarBGP6N6>
-    <StaticPointsBarP6N6>
-      <!--<Skin>: Texture name-->
+      <Color>
+        <R>1</R>
+        <G>0</G>
+        <B>0.5</B>
+        <A>0.75</A>
+      </Color>
+      <Rect>
+        <X>1085</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>220</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticPointsBarP6N6">
       <Skin>PointsBar</Skin>
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>1085</X>
-      <Y>180</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>0</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Player6</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </StaticPointsBarP6N6>
-    <StaticAvatarP6N6>
-      <!--<Skin>: Texture name-->
+      <Color Name="Player6" />
+      <Rect>
+        <X>1085</X>
+        <Y>180</Y>
+        <W>160</W>
+        <H>0</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarP6N6">
       <Skin />
-      <!--<X>, <Y>, <Z>, <W>, <H>: Static position, width and height-->
-      <X>1085</X>
-      <Y>410</Y>
-      <Z>0,00</Z>
-      <W>160</W>
-      <H>160</H>
-      <!--<Color>: Static color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>Visible</Color>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
+      <Color Name="Visible" />
+      <Rect>
+        <X>1085</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>160</H>
+        <Z>0</Z>
+      </Rect>
       <Reflection>
-        <Space>15</Space>
         <Height>40</Height>
+        <Space>15</Space>
       </Reflection>
-    </StaticAvatarP6N6>
-    <Text1>
-      <!--<X>, <Y>: Text position-->
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="Text1">
       <X>60</X>
       <Y>50</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Left</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text>TR_SCREENSCORE_SCORES</Text>
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </Text1>
-    <TextSong>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextSong">
       <X>640</X>
       <Y>50</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextSong>
-    <TextNameP1N1>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP1N1">
       <X>640</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP1N1>
-    <TextScoreP1N1>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP1N1">
       <X>640</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP1N1>
-    <TextRatingP1N1>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP1N1">
       <X>640</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP1N1>
-    <TextDifficultyP1N1>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP1N1">
       <X>640</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP1N1>
-    <TextNameP1N2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP1N2">
       <X>432</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP1N2>
-    <TextScoreP1N2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP1N2">
       <X>432</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP1N2>
-    <TextRatingP1N2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP1N2">
       <X>432</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP1N2>
-    <TextDifficultyP1N2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP1N2">
       <X>432</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP1N2>
-    <TextNameP2N2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP2N2">
       <X>848</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP2N2>
-    <TextScoreP2N2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP2N2">
       <X>848</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP2N2>
-    <TextRatingP2N2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP2N2">
       <X>848</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP2N2>
-    <TextDifficultyP2N2>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP2N2">
       <X>858</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP2N2>
-    <TextNameP1N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP1N3">
       <X>318</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP1N3>
-    <TextScoreP1N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP1N3">
       <X>318</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP1N3>
-    <TextRatingP1N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP1N3">
       <X>318</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP1N3>
-    <TextDifficultyP1N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP1N3">
       <X>318</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP1N3>
-    <TextNameP2N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP2N3">
       <X>640</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP2N3>
-    <TextScoreP2N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP2N3">
       <X>640</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP2N3>
-    <TextRatingP2N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP2N3">
       <X>640</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP2N3>
-    <TextDifficultyP2N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP2N3">
       <X>640</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP2N3>
-    <TextNameP3N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP3N3">
       <X>962</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP3N3>
-    <TextScoreP3N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP3N3">
       <X>962</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP3N3>
-    <TextRatingP3N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP3N3">
       <X>962</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP3N3>
-    <TextDifficultyP3N3>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP3N3">
       <X>962</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP3N3>
-    <TextNameP1N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP1N4">
       <X>270</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP1N4>
-    <TextScoreP1N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP1N4">
       <X>270</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP1N4>
-    <TextRatingP1N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP1N4">
       <X>270</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP1N4>
-    <TextDifficultyP1N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP1N4">
       <X>270</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP1N4>
-    <TextNameP2N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP2N4">
       <X>502</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP2N4>
-    <TextScoreP2N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP2N4">
       <X>502</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP2N4>
-    <TextRatingP2N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP2N4">
       <X>502</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP2N4>
-    <TextDifficultyP2N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP2N4">
       <X>502</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP2N4>
-    <TextNameP3N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP3N4">
       <X>734</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP3N4>
-    <TextScoreP3N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP3N4">
       <X>734</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP3N4>
-    <TextRatingP3N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP3N4">
       <X>734</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP3N4>
-    <TextDifficultyP3N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP3N4">
       <X>734</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP3N4>
-    <TextNameP4N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP4N4">
       <X>966</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP4N4>
-    <TextScoreP4N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP4N4">
       <X>966</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP4N4>
-    <TextRatingP4N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP4N4">
       <X>966</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP4N4>
-    <TextDifficultyP4N4>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP4N4">
       <X>966</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP4N4>
-    <TextNameP1N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP1N5">
       <X>224</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP1N5>
-    <TextScoreP1N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP1N5">
       <X>224</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP1N5>
-    <TextRatingP1N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP1N5">
       <X>224</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP1N5>
-    <TextDifficultyP1N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP1N5">
       <X>224</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP1N5>
-    <TextNameP2N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP2N5">
       <X>432</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP2N5>
-    <TextScoreP2N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP2N5">
       <X>432</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP2N5>
-    <TextRatingP2N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP2N5">
       <X>432</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP2N5>
-    <TextDifficultyP2N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP2N5">
       <X>432</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP2N5>
-    <TextNameP3N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP3N5">
       <X>640</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP3N5>
-    <TextScoreP3N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP3N5">
       <X>640</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP3N5>
-    <TextRatingP3N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP3N5">
       <X>640</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP3N5>
-    <TextDifficultyP3N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP3N5">
       <X>640</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP3N5>
-    <TextNameP4N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP4N5">
       <X>848</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP4N5>
-    <TextScoreP4N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP4N5">
       <X>848</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP4N5>
-    <TextRatingP4N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP4N5">
       <X>848</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP4N5>
-    <TextDifficultyP4N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP4N5">
       <X>848</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP4N5>
-    <TextNameP5N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP5N5">
       <X>1056</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP5N5>
-    <TextScoreP5N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP5N5">
       <X>1056</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP5N5>
-    <TextRatingP5N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP5N5">
       <X>1056</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP5N5>
-    <TextDifficultyP5N5>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP5N5">
       <X>1056</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP5N5>
-    <TextNameP1N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP1N6">
       <X>125</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP1N6>
-    <TextScoreP1N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP1N6">
       <X>125</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP1N6>
-    <TextRatingP1N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP1N6">
       <X>125</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP1N6>
-    <TextDifficultyP1N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP1N6">
       <X>125</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP1N6>
-    <TextNameP2N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP2N6">
       <X>333</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP2N6>
-    <TextScoreP2N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP2N6">
       <X>333</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP2N6>
-    <TextRatingP2N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP2N6">
       <X>333</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP2N6>
-    <TextDifficultyP2N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP2N6">
       <X>333</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP2N6>
-    <TextNameP3N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP3N6">
       <X>541</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP3N6>
-    <TextScoreP3N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP3N6">
       <X>541</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP3N6>
-    <TextRatingP3N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP3N6">
       <X>541</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP3N6>
-    <TextDifficultyP3N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP3N6">
       <X>541</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP3N6>
-    <TextNameP4N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP4N6">
       <X>749</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP4N6>
-    <TextScoreP4N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP4N6">
       <X>749</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP4N6>
-    <TextRatingP4N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP4N6">
       <X>749</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP4N6>
-    <TextDifficultyP4N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP4N6">
       <X>749</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP4N6>
-    <TextNameP5N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP5N6">
       <X>957</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP5N6>
-    <TextScoreP5N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP5N6">
       <X>957</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP5N6>
-    <TextRatingP5N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP5N6">
       <X>957</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP5N6>
-    <TextDifficultyP5N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP5N6">
       <X>957</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP5N6>
-    <TextNameP6N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextNameP6N6">
       <X>1165</X>
       <Y>630</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>44</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextNameP6N6>
-    <TextScoreP6N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextScoreP6N6">
       <X>1165</X>
       <Y>142</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextScoreP6N6>
-    <TextRatingP6N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextRatingP6N6">
       <X>1165</X>
       <Y>107</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>27</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextRatingP6N6>
-    <TextDifficultyP6N6>
-      <!--<X>, <Y>: Text position-->
+    </Text>
+    <Text Name="TextDifficultyP6N6">
       <X>1165</X>
       <Y>670</Y>
-      <!--<Z>: Text position-->
-      <Z>0,00</Z>
-      <!--<H>: Text height-->
+      <Z>0</Z>
       <H>28</H>
-      <!--<MaxW>: Maximum text width (if exists)-->
       <MaxW>160</MaxW>
-      <!--<Color>: Text color from ColorScheme (high priority)-->
-      <!--or <R>, <G>, <B>, <A> (lower priority)-->
-      <Color>StaticColor</Color>
-      <!--<SColor>: Selected Text color from ColorScheme (high priority)-->
-      <!--or <SR>, <SG>, <SB>, <SA> (lower priority)-->
-      <SColor>TextSColor</SColor>
-      <!--<Align>: Text align horizontal: Left, Center, Right-->
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
       <Align>Center</Align>
-      <!--<ResizeAlign>: Text align vertical (on downsizing): Top, Center, Bottom-->
-      <HAlign>Center</HAlign>
-      <!--<Style>: Text style: Normal, Italic, Bold, BoldItalic-->
+      <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <!--<Font>: Text font name-->
       <Font>Outline</Font>
-      <!--<Text>: Nothing or translation tag-->
       <Text />
-      <!--<Reflection> If exists:-->
-      <!--   <Space>: Reflection Space-->
-      <!--   <Height>: Reflection Height-->
-    </TextDifficultyP6N6>
-    <ScreenSettingShortScore>
-      <!--<Type>: Type of theme-setting-value: Int, String, Color, Texture-->
-      <Type>Int</Type>
-      <!--<Value>: Value of theme-setting-->
+    </Text>
+  </Texts>
+  <Buttons />
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides />
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings>
+    <ScreenSetting Name="ScreenSettingShortScore">
       <Value>7</Value>
-    </ScreenSettingShortScore>
-    <ScreenSettingShortRating>
-      <!--<Type>: Type of theme-setting-value: Int, String, Color, Texture-->
       <Type>Int</Type>
-      <!--<Value>: Value of theme-setting-->
+    </ScreenSetting>
+    <ScreenSetting Name="ScreenSettingShortRating">
       <Value>4</Value>
-    </ScreenSettingShortRating>
-    <ScreenSettingShortDifficulty>
-      <!--<Type>: Type of theme-setting-value: Int, String, Color, Texture-->
       <Type>Int</Type>
-      <!--<Value>: Value of theme-setting-->
+    </ScreenSetting>
+    <ScreenSetting Name="ScreenSettingShortDifficulty">
       <Value>4</Value>
-    </ScreenSettingShortDifficulty>
-    <ScreenSettingAnimationDirection>
-      <!--<Type>: Type of theme-setting-value: Int, String, Color, Texture-->
-      <Type>String</Type>
-      <!--<Value>: Value of theme-setting-->
+      <Type>Int</Type>
+    </ScreenSetting>
+    <ScreenSetting Name="ScreenSettingAnimationDirection">
       <Value>Horizontal</Value>
-    </ScreenSettingAnimationDirection>
-  </ScreenScore>
-</root>
+      <Type>String</Type>
+    </ScreenSetting>
+  </ScreenSettings>
+</Screen>
