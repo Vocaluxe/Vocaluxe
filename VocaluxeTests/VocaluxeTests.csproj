@@ -70,7 +70,9 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="CTestHelpers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CombinatoricsTest.cs" />
     <Compile Include="XmlSerializerTest.cs" />
   </ItemGroup>
   <ItemGroup>
