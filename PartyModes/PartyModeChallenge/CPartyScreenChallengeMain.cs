@@ -119,7 +119,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _NextPlayerTexts = new List<CText>();
             _NextPlayerStatics = new List<CStatic>();
 
-            for (int i = 0; i < _PartyMode.GetMaxPlayer(); i++)
+            for (int i = 0; i < _PartyMode.MaxPlayers; i++)
             {
                 _NextPlayerTexts.Add(GetNewText(_Texts[_TextNextPlayer]));
                 _AddText(_NextPlayerTexts[_NextPlayerTexts.Count - 1]);
@@ -326,7 +326,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
                 x += _Statics[_StaticNextPlayer].Rect.W + 15;
             }
-            for (int i = _PartyMode.GameData.NumPlayerAtOnce; i < _PartyMode.GetMaxPlayer(); i++)
+            for (int i = _PartyMode.GameData.NumPlayerAtOnce; i < _PartyMode.MaxPlayers; i++)
             {
                 _NextPlayerStatics[i].Visible = false;
                 _NextPlayerTexts[i].Visible = false;

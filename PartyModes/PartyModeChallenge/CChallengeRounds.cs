@@ -92,7 +92,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             {
                 if (roundIndex == 0 || numPlayed[i] < max)
                 {
-                    if (roundIndex == 0 || roundIndex > 0 && numPlayed[i] < max && !Rounds[roundIndex - 1].IsAvailable(i))
+                    if (roundIndex == 0 || roundIndex > 0 && numPlayed[i] < max && !Rounds[roundIndex - 1].Contains(i))
                         result.Add(i);
                     else if (numPlayed[i] < max)
                         other.Add(i);
@@ -101,7 +101,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 {
                     if (roundIndex > 0)
                     {
-                        if (!Rounds[roundIndex - 1].IsAvailable(i))
+                        if (!Rounds[roundIndex - 1].Contains(i))
                             other.Add(i);
                         else
                             last.Add(i);
@@ -165,11 +165,11 @@ namespace VocaluxeLib.PartyModes.Challenge
             //filter against PlayerNrDemand
             List<CCombination> combsFiltered = new List<CCombination>();
             if (playerNrDemand != null)
-                combsFiltered.AddRange(_Combs.Where(t => t.IsAvailableAll(playerNrDemand)));
+                combsFiltered.AddRange(_Combs.Where(t => t.ContainsAll(playerNrDemand)));
 
             //1st fallback
             if (playerNrDemand != null && combsFiltered.Count == 0)
-                combsFiltered.AddRange(_Combs.Where(t => t.IsAvailableSomeone(playerNrDemand)));
+                combsFiltered.AddRange(_Combs.Where(t => t.ContainsAny(playerNrDemand)));
 
             //2nd fallback
             if (combsFiltered.Count == 0)
@@ -191,7 +191,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
             int num = (int)Math.Pow(2, _NumPlayer);
 
-            for (int i = 1; i <= num; i++)
+            for (int i = 1; i < num; i++)
             {
                 CCombination c = new CCombination();
 
@@ -216,19 +216,19 @@ namespace VocaluxeLib.PartyModes.Challenge
             Player = new List<int>();
         }
 
-        public bool IsAvailable(int playerIndex)
+        public bool Contains(int playerIndex)
         {
             return Player.Any(p => p == playerIndex);
         }
 
-        public bool IsAvailableAll(IEnumerable<int> playerIndices)
+        public bool ContainsAll(IEnumerable<int> playerIndices)
         {
-            return playerIndices.All(IsAvailable);
+            return playerIndices.All(Contains);
         }
 
-        public bool IsAvailableSomeone(IEnumerable<int> playerIndices)
+        public bool ContainsAny(IEnumerable<int> playerIndices)
         {
-            return playerIndices.Any(IsAvailable);
+            return playerIndices.Any(Contains);
         }
     }
 }

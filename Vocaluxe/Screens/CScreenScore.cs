@@ -187,26 +187,23 @@ namespace Vocaluxe.Screens
 
         private static string _GetRating(double points)
         {
-            string rating = String.Empty;
+            string rating;
 
             if (points >= 9800)
-            {
-                //in case of the game names so:
                 rating = "TR_RATING_VOCAL_HERO";
-            }
-            else if (points < 9800 && points >= 8400)
+            else if (points >= 8400)
                 rating = "TR_RATING_SUPERSTAR";
-            else if (points < 8400 && points >= 7000)
+            else if (points >= 7000)
                 rating = "TR_RATING_LEAD_SINGER";
-            else if (points < 7000 && points >= 5600)
+            else if (points >= 5600)
                 rating = "TR_RATING_RISING_STAR";
-            else if (points < 5600 && points >= 4200)
+            else if (points >= 4200)
                 rating = "TR_RATING_HOPEFUL";
-            else if (points < 4200 && points >= 2800)
+            else if (points >= 2800)
                 rating = "TR_RATING_WANNABE";
-            else if (points < 2800 && points >= 1400)
+            else if (points >= 1400)
                 rating = "TR_RATING_AMATEUR";
-            else if (points < 1400)
+            else
                 rating = "TR_RATING_TONE_DEAF";
 
             return rating;

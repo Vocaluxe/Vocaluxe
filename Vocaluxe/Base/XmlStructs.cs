@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Xml.Serialization;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
@@ -121,17 +122,7 @@ namespace Vocaluxe.Base
         [XmlAltName("PartyModeVersionMajor")] public int VersionMajor;
         [XmlAltName("PartyModeVersionMinor")] public int VersionMinor;
         public string TargetAudience;
-        [XmlIgnore] public int MaxPlayers, MinPlayers, MaxTeams, MinTeams;
-        [XmlIgnore] public int PartyModeID;
-
-        public void LoadData(IPartyMode pm)
-        {
-            MaxPlayers = pm.GetMaxPlayer();
-            MinPlayers = pm.GetMinPlayer();
-            MaxTeams = pm.GetMaxTeams();
-            MinTeams = pm.GetMinTeams();
-            PartyModeID = pm.ID;
-        }
+        [XmlIgnore] public IPartyModeInfo ExtInfo;
     }
 
     struct SPartyMode

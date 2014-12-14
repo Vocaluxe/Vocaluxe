@@ -391,6 +391,15 @@ namespace VocaluxeLib.Menu
         }
 
         /// <summary>
+        ///     Adds an integer to the slide setting its tag to the value and its text to the text representation of the tag
+        /// </summary>
+        /// <param name="tag">Value to add</param>
+        public void AddValue(int tag)
+        {
+            AddValue(tag.ToString(), null, tag);
+        }
+
+        /// <summary>
         ///     Adds an entry to the slide.
         /// </summary>
         /// <param name="text">Label to show</param>
@@ -432,6 +441,17 @@ namespace VocaluxeLib.Menu
 
             for (int i = 0; i < values.Length; i++)
                 AddValue(values[i], textures[i]);
+        }
+
+        public void RemoveValue(string text)
+        {
+            int idx = _Values.FindIndex(val => val.Text == text);
+            if (idx < 0)
+                return;
+            _Values.RemoveAt(idx);
+            if (Selection >= idx)
+                Selection--;
+            _Invalidate();
         }
 
         public void SetValues<T>(int selection)

@@ -16,6 +16,7 @@
 #endregion
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using VocaluxeLib.Songs;
@@ -113,8 +114,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             base.OnShow();
 
-            if (CBase.Config.GetMaxNumMics() >= 2)
-                _ConfigOk = true;
+            Debug.Assert(CBase.Config.GetMaxNumMics() >= 2);
 
             _FillSlides();
             _UpdateSlides();
@@ -129,15 +129,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _FillSlides()
         {
             _SelectSlides[_SelectSlideNumFields].Clear();
-            _SelectSlides[_SelectSlideNumFields].AddValue("9");
-            _SelectSlides[_SelectSlideNumFields].AddValue("16");
-            _SelectSlides[_SelectSlideNumFields].AddValue("25");
-            if (_PartyMode.GameData.NumFields == 9)
-                _SelectSlides[_SelectSlideNumFields].Selection = 0;
-            else if (_PartyMode.GameData.NumFields == 16)
-                _SelectSlides[_SelectSlideNumFields].Selection = 1;
-            else if (_PartyMode.GameData.NumFields == 25)
-                _SelectSlides[_SelectSlideNumFields].Selection = 2;
+            _SelectSlides[_SelectSlideNumFields].AddValue(9);
+            _SelectSlides[_SelectSlideNumFields].AddValue(16);
+            _SelectSlides[_SelectSlideNumFields].AddValue(25);
+
+            _SelectSlides[_SelectSlideNumFields].SelectedTag = _PartyMode.GameData.NumFields;
 
             _SelectSlides[_SelectSlideSongSource].Clear();
             _SelectSlides[_SelectSlideSongSource].SetValues<ESongSource>((int)_PartyMode.GameData.SongSource);
@@ -152,52 +148,32 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectSlides[_SelectSlidePlaylist].Selection = _PartyMode.GameData.PlaylistID;
             _SelectSlides[_SelectSlidePlaylist].Visible = _PartyMode.GameData.SongSource == ESongSource.TR_PLAYLIST;
 
-            var categories = new string[CBase.Songs.GetNumCategories()];
-            for (int i = 0; i < CBase.Songs.GetNumCategories(); i++)
-                categories[i] = CBase.Songs.GetCategory(i).Name;
             _SelectSlides[_SelectSlideCategory].Clear();
-            for (int i = 0; i < categories.Length; i++)
+            for (int i = 0; i < CBase.Songs.GetNumCategories(); i++)
             {
-                string value = categories[i] + " (" + CBase.Songs.GetNumSongsNotSungInCategory(i) + " " + CBase.Language.Translate("TR_SONGS", PartyModeID) + ")";
+                CCategory cat = CBase.Songs.GetCategory(i);
+                string value = cat.Name + " (" + cat.GetNumSongsNotSung() + " " + CBase.Language.Translate("TR_SONGS", PartyModeID) + ")";
                 _SelectSlides[_SelectSlideCategory].AddValue(value);
             }
-            _SelectSlides[_SelectSlideCategory].Selection = _PartyMode.GameData.CategoryID;
+            _SelectSlides[_SelectSlideCategory].Selection = _PartyMode.GameData.CategoryIndex;
             _SelectSlides[_SelectSlideCategory].Visible = _PartyMode.GameData.SongSource == ESongSource.TR_CATEGORY;
 
             _SelectSlides[_SelectSlideGameMode].Visible = true;
-            _SelectSlides[_SelectSlideGameMode].SetValues<EPartyGameMode>((int)_PartyMode.GameData.GameMode);
+            _SelectSlides[_SelectSlideGameMode].Clear();
+            _SelectSlides[_SelectSlideGameMode].SetValues<EGameMode>((int)_PartyMode.GameData.GameMode);
+            _SelectSlides[_SelectSlideGameMode].RemoveValue(EGameMode.TR_GAMEMODE_MEDLEY.ToString());
         }
 
         private void _UpdateSlides()
         {
-            if (_SelectSlides[_SelectSlideNumFields].Selection == 0)
-                _PartyMode.GameData.NumFields = 9;
-            else if (_SelectSlides[_SelectSlideNumFields].Selection == 1)
-                _PartyMode.GameData.NumFields = 16;
-            else if (_SelectSlides[_SelectSlideNumFields].Selection == 2)
-                _PartyMode.GameData.NumFields = 25;
+            _PartyMode.GameData.NumFields = _SelectSlides[_SelectSlideNumFields].SelectedTag;
 
             _PartyMode.GameData.SongSource = (ESongSource)_SelectSlides[_SelectSlideSongSource].Selection;
             _PartyMode.GameData.PlaylistID = _SelectSlides[_SelectSlidePlaylist].Selection;
-            _PartyMode.GameData.CategoryID = _SelectSlides[_SelectSlideCategory].Selection;
-            _PartyMode.GameData.GameMode = (EPartyGameMode)_SelectSlides[_SelectSlideGameMode].Selection;
+            _PartyMode.GameData.CategoryIndex = _SelectSlides[_SelectSlideCategory].Selection;
+            _PartyMode.GameData.GameMode = (EGameMode)_SelectSlides[_SelectSlideGameMode].Selection;
 
-            var gm = EGameMode.TR_GAMEMODE_NORMAL;
-
-            switch (_PartyMode.GameData.GameMode)
-            {
-                case EPartyGameMode.TR_GAMEMODE_NORMAL:
-                    gm = EGameMode.TR_GAMEMODE_NORMAL;
-                    break;
-
-                case EPartyGameMode.TR_GAMEMODE_DUET:
-                    gm = EGameMode.TR_GAMEMODE_DUET;
-                    break;
-
-                case EPartyGameMode.TR_GAMEMODE_SHORTSONG:
-                    gm = EGameMode.TR_GAMEMODE_SHORTSONG;
-                    break;
-            }
+            EGameMode gm = _PartyMode.GameData.GameMode;
 
             if (_PartyMode.GameData.SongSource == ESongSource.TR_PLAYLIST)
             {
@@ -224,11 +200,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 if (CBase.Songs.GetNumCategories() == 0)
                     _ConfigOk = false;
-                else if (CBase.Songs.GetNumSongsNotSungInCategory(_PartyMode.GameData.CategoryID) <= 0)
+                else if (CBase.Songs.GetNumSongsNotSungInCategory(_PartyMode.GameData.CategoryIndex) <= 0)
                     _ConfigOk = false;
                 else
                 {
-                    CBase.Songs.SetCategory(_PartyMode.GameData.CategoryID);
+                    CBase.Songs.SetCategory(_PartyMode.GameData.CategoryIndex);
                     _ConfigOk = false;
                     foreach (CSong song in CBase.Songs.GetVisibleSongs())
                     {
