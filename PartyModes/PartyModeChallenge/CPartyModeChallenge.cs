@@ -341,13 +341,13 @@ namespace VocaluxeLib.PartyModes.Challenge
             if (players.Length < GameData.NumPlayerAtOnce)
                 return;
 
-            CCombination c = GameData.Rounds.GetRound(GameData.CurrentRoundNr - 1);
+            CRound c = GameData.Rounds[GameData.CurrentRoundNr - 1];
 
             for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
             {
                 //try to fill with the right data
                 if (c != null)
-                    players[i].ProfileID = GameData.ProfileIDs[c.Player[i]];
+                    players[i].ProfileID = GameData.ProfileIDs[c.Players[i]];
                 else
                     players[i].ProfileID = -1;
             }
@@ -413,15 +413,10 @@ namespace VocaluxeLib.PartyModes.Challenge
             }
 
             _ScreenSongOptions.Selection.TeamNames = new string[GameData.NumPlayerAtOnce];
-            CCombination c = GameData.Rounds.GetRound(GameData.CurrentRoundNr - 1);
+            CRound c = GameData.Rounds[GameData.CurrentRoundNr - 1];
 
             for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
-            {
-                if (c != null)
-                    _ScreenSongOptions.Selection.TeamNames[i] = CBase.Profiles.GetPlayerName(GameData.ProfileIDs[c.Player[i]]);
-                else
-                    _ScreenSongOptions.Selection.TeamNames[i] = "foobar";
-            }
+                _ScreenSongOptions.Selection.TeamNames[i] = CBase.Profiles.GetPlayerName(GameData.ProfileIDs[c.Players[i]]);
         }
 
         private void _UpdateScores()

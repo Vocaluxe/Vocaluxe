@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace VocaluxeLib.Utils.Combinatorics
 {
@@ -143,8 +144,7 @@ namespace VocaluxeLib.Utils.Combinatorics
                 get
                 {
                     List<T> result = new List<T>(_K);
-                    for (int i = 0; i < _K; i++)
-                        result.Add(_Parent._Values[_CurSet[i]]);
+                    result.AddRange(_CurSet.Select(i => _Parent._Values[i]));
                     return result;
                 }
             }

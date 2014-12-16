@@ -415,17 +415,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
         }
 
-        private static void _Shuffle<T>(IList<T> list)
-        {
-            for (int n = list.Count - 1; n >= 1; n--)
-            {
-                int k = CBase.Game.GetRandom(n);
-                T value = list[k];
-                list[k] = list[n];
-                list[n] = value;
-            }
-        }
-
         public void UpdateSongList()
         {
             if (GameData.Songs.Count > 0)
@@ -455,7 +444,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     CBase.Songs.SetCategory(-1);
                     break;
             }
-            _Shuffle(GameData.Songs);
+            GameData.Songs.Shuffle();
         }
 
         private void _UpdatePlayerList()
