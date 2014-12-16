@@ -1232,7 +1232,7 @@
           <Text />
           </Text>
             </ButtonPlaylistSing>
-      <SelectSlideGameMode>
+      <SelectSlideGameMode Name="SelectSlideGameMode">
         <Skin>Button</Skin>
         <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
         <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>

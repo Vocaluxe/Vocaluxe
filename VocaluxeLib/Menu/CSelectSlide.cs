@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Xml.Serialization;
@@ -52,8 +53,8 @@ namespace VocaluxeLib.Menu
         public SThemeColor TextSelColor;
 
         public float TextH;
-        public float TextRelativeX;
-        public float TextRelativeY;
+        [DefaultValue(0.0f)] public float TextRelativeX;
+        [DefaultValue(0.0f)] public float TextRelativeY;
         public float TextMaxW;
 
         public string TextFont;

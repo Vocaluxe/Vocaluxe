@@ -86,14 +86,14 @@ namespace VocaluxeLib.Xml
         }
         #endregion Debug Helpers
 
-        private readonly XmlNode _Node;
+        public readonly XmlNode Node;
         public readonly bool IsError;
 
         public CXmlException(string msg, XmlNode node, bool isError = true)
             : base(msg)
         {
             IsError = isError;
-            _Node = node;
+            Node = node;
         }
 
         public override string Message
@@ -103,9 +103,19 @@ namespace VocaluxeLib.Xml
 
         public override String ToString()
         {
-            string xPath = _Node == null ? "" : _GetXPath(_Node);
+            string xPath = Node == null ? "" : _GetXPath(Node);
             string type = IsError ? "Error" : "Warning";
             return type + ": " + base.Message.Replace("%n", xPath);
+        }
+    }
+
+    public class CXmlMissingElementException : CXmlException
+    {
+        public readonly SFieldInfo Field;
+
+        public CXmlMissingElementException(XmlNode parent, SFieldInfo field, bool isError = true) : base("Element: " + field.Name + " is missing in %n", parent, isError)
+        {
+            Field = field;
         }
     }
 
@@ -157,9 +167,9 @@ namespace VocaluxeLib.Xml
 
     public class CXmlDeserializer
     {
-        private class CXmlDefaultErrorHandler : IXmlErrorHandler
+        public class CXmlDefaultErrorHandler : IXmlErrorHandler
         {
-            public void HandleError(CXmlException e)
+            public virtual void HandleError(CXmlException e)
             {
                 if (e.IsError)
                     throw e;
@@ -421,7 +431,7 @@ namespace VocaluxeLib.Xml
                 Dictionary<string, Tuple<SFieldInfo, List<object>>> embLists = new Dictionary<string, Tuple<SFieldInfo, List<object>>>();
                 foreach (XmlNode node in nodes)
                 {
-                    if (node is XmlComment)
+                    if (node is XmlComment || node.LocalName == "xsd" || node.LocalName == "xsi")
                         continue;
 
                     SFieldInfo field = new SFieldInfo();
@@ -505,7 +515,7 @@ namespace VocaluxeLib.Xml
                 if (!_CheckAndSetDefaultValue(o, field))
                 {
                     if (parent != null)
-                        _ErrorHandler.HandleError(new CXmlException("element: " + field.Name + " is missing in %n", parent));
+                        _ErrorHandler.HandleError(new CXmlMissingElementException(parent, field));
                     object value = _GetValue(null, field.Type, field.ArrayItemName, field.GetValue(o));
                     if (value != null)
                         field.SetValue(o, value);
