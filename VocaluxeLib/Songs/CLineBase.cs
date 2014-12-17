@@ -75,10 +75,10 @@ namespace VocaluxeLib.Songs
 
         #region Methods
         /// <summary>
-        ///     Find last note with StartBeat
+        ///     Find last note with StartBeat &lt;= beat
         /// </summary>
         /// <param name="beat"></param>
-        /// <returns>Note index of last note with StartBeat or -1 if all notes start after beat</returns>
+        /// <returns>Note index of last note with StartBeat &lt;= beat or -1 if all notes start after beat</returns>
         public int FindPreviousNote(int beat)
         {
             //If no notes -> No previous note
