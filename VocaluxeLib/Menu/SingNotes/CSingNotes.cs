@@ -17,6 +17,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using System.Xml.Serialization;
 using VocaluxeLib.Xml;
 
@@ -55,6 +57,12 @@ namespace VocaluxeLib.Menu.SingNotes
         private SThemeSingBar _Theme;
 
         public readonly List<CNoteBars> PlayerNotes = new List<CNoteBars>();
+
+        private SRectF _Rect;
+        public override SRectF Rect
+        {
+            get { return _Rect; }
+        }
 
         public bool Selectable
         {
@@ -143,6 +151,16 @@ namespace VocaluxeLib.Menu.SingNotes
             PlayerNotes.Clear();
             for (int p = 0; p < numPlayers; p++)
                 PlayerNotes.Add(new CNoteBars(_PartyModeID, p, _BarPos[p, numPlayers - 1], _Theme));
+            if (numPlayers == 0)
+                _Rect = new SRectF(0, 0, 0, 0, Rect.Z);
+            else
+            {
+                _Rect.X = PlayerNotes.Select(bp => bp.Rect.X).Min();
+                _Rect.Y = PlayerNotes.Select(bp => bp.Rect.X).Min();
+                _Rect.Right = PlayerNotes.Select(bp => bp.Rect.Right).Max();
+                _Rect.Bottom = PlayerNotes.Select(bp => bp.Rect.Bottom).Max();
+                _Rect.Z = PlayerNotes.Select(bp => bp.Rect.Z).Average();
+            }
         }
 
         public void Draw()
@@ -155,6 +173,12 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public void LoadSkin()
         {
+            Debug.Assert(_Theme.BarPos.Length > 0);
+            X = _Theme.BarPos.Select(bp => bp.Rect.X).Min();
+            Y = _Theme.BarPos.Select(bp => bp.Rect.X).Min();
+            W = X - _Theme.BarPos.Select(bp => bp.Rect.Right).Max();
+            H = Y - _Theme.BarPos.Select(bp => bp.Rect.Bottom).Max();
+            Z = _Theme.BarPos.Select(bp => bp.Rect.Z).Average();
             foreach (SBarPosition bp in _Theme.BarPos)
             {
                 int n = Int32.Parse(bp.Name.Substring(3, 1)) - 1;
