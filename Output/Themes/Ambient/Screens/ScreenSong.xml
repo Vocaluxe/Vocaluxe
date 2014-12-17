@@ -899,7 +899,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>25</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>280</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -941,7 +941,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>25</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>280</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -983,7 +983,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>25</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>280</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -1025,7 +1025,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>25</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>280</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -1232,7 +1232,7 @@
           <Text />
           </Text>
             </ButtonPlaylistSing>
-      <SelectSlideGameMode>
+      <SelectSlideGameMode Name="SelectSlideGameMode">
         <Skin>Button</Skin>
         <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
         <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>

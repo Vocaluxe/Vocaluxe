@@ -20,10 +20,42 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
 {
-    public class CPartyModeNone : CPartyMode
+    public class CPartyModeNormal : CPartyMode
     {
-        //just a dummy for normal game mode
-        public CPartyModeNone(int id, string folder) : base(id, folder)
+        public override int MinMics
+        {
+            get { return 1; }
+        }
+        public override int MaxMics
+        {
+            get { return CBase.Config.GetMaxNumMics(); }
+        }
+        public override int MinPlayers
+        {
+            get { return 1; }
+        }
+        public override int MaxPlayers
+        {
+            get { return CBase.Settings.GetMaxNumPlayer(); }
+        }
+        public override int MinTeams
+        {
+            get { return 1; }
+        }
+        public override int MaxTeams
+        {
+            get { return 1; }
+        }
+        public override int MinPlayersPerTeam
+        {
+            get { return MinPlayers; }
+        }
+        public override int MaxPlayersPerTeam
+        {
+            get { return MaxPlayers; }
+        }
+
+        public CPartyModeNormal(int id) : base(id)
         {
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = false;
@@ -42,6 +74,8 @@ namespace VocaluxeLib.PartyModes
             return true;
         }
 
+        public override void UpdateGame() {}
+
         public override IMenu GetStartScreen()
         {
             return CBase.Graphics.GetScreen(EScreen.Names);
@@ -59,6 +93,10 @@ namespace VocaluxeLib.PartyModes
 
             return _ScreenSongOptions;
         }
+
+        public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions) {}
+
+        public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions) {}
 
         public override void SetSearchString(string searchString, bool visible)
         {

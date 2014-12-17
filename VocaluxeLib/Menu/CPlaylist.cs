@@ -1145,12 +1145,9 @@ namespace VocaluxeLib.Menu
                     string t1 = CBase.Language.Translate(_Text1.Text).Replace("%a", song.Artist).Replace("%t", song.Title);
                     _PlaylistElements[i].Text1.Text = /*(Offset + i + 1) + ") " + */ t1; //TODO: Add text field for the number
                     _PlaylistElements[i].SelectSlide.Clear();
-                    for (int g = 0; g < pec.Modes.Count; g++)
-                    {
-                        _PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(EGameMode), pec.Modes[g]));
-                        if (pec.Modes[g] == pec.Mode)
-                            _PlaylistElements[i].SelectSlide.SetSelectionByValueIndex(g);
-                    }
+                    foreach (EGameMode gm in pec.Modes)
+                        _PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(EGameMode), gm), null, (int)gm);
+                    _PlaylistElements[i].SelectSlide.SelectedTag = (int)pec.Mode;
                 }
                 else
                 {

@@ -302,7 +302,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>205.33</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -344,7 +344,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>205.33</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -386,7 +386,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>205.33</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -428,7 +428,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>205.33</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -470,7 +470,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>308</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -512,7 +512,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>205.33</TextMaxW>
       <TextFont>Outline</TextFont>
