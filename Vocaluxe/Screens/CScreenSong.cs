@@ -629,10 +629,11 @@ namespace Vocaluxe.Screens
             _SongMenu.OnShow();
 
             if (_Sso.Selection.PartyMode)
+            {
                 _PlaylistActive = false;
-
-            if (_Sso.Selection.PartyMode)
                 _ToggleSongOptions(ESongOptionsView.None);
+                _SelectElement(_Buttons[_ButtonStart]);
+            }
 
             _SongMenu.Selected = !_PlaylistActive;
             _SongMenu.SmallView = _Playlist.Visible;

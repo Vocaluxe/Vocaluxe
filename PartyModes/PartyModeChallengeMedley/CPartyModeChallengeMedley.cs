@@ -196,7 +196,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 case EStage.Main:
                     return _Screens["CPartyScreenChallengeMedleyMain"];
                 case EStage.Singing:
-                    return CBase.Graphics.GetScreen(EScreen.Song);
+                    return CBase.Graphics.GetScreen(EScreen.Sing);
                 default:
                     throw new ArgumentException("Invalid stage: " + _Stage);
             }
@@ -508,60 +508,58 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                         GameData.Results[i, j] = 0;
                 }
             }
-            else
+            
+            CPoints gamePoints = CBase.Game.GetPoints();
+            if (gamePoints == null || gamePoints.NumPlayer < GameData.NumPlayerAtOnce)
+                return;
+
+            SPlayer[] results = gamePoints.GetPlayer(0, GameData.NumPlayerAtOnce);
+            if (results == null)
+                return;
+
+            if (results.Length < GameData.NumPlayerAtOnce)
+                return;
+
+            if (gamePoints.NumRounds == 0)
+                return;
+
+            for (int i = 1; i < gamePoints.NumRounds; i++)
             {
-                CPoints gamePoints = CBase.Game.GetPoints();
-                if (gamePoints == null || gamePoints.NumPlayer < GameData.NumPlayerAtOnce)
-                    return;
+                SPlayer[] temp = gamePoints.GetPlayer(i, GameData.NumPlayerAtOnce);
+                for (int p = 0; p < GameData.NumPlayerAtOnce; p++)
+                    results[p].Points += temp[p].Points;
+            }
 
-                SPlayer[] results = gamePoints.GetPlayer(0, GameData.NumPlayerAtOnce);
-                if (results == null)
-                    return;
+            for (int j = 0; j < GameData.NumPlayerAtOnce; j++)
+            {
+                results[j].Points = results[j].Points / gamePoints.NumRounds;
+                GameData.Results[GameData.CurrentRoundNr - 2, j] = (int)Math.Round(results[j].Points);
+            }
 
-                if (results.Length < GameData.NumPlayerAtOnce)
-                    return;
+            List<SStats> points = _GetPointsForPlayer(results);
 
-                if (gamePoints.NumRounds == 0)
-                    return;
-
-                for (int i = 1; i < gamePoints.NumRounds; i++)
+            for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
+            {
+                int index = -1;
+                for (int j = 0; j < GameData.ResultTable.Count; j++)
                 {
-                    SPlayer[] temp = gamePoints.GetPlayer(i, GameData.NumPlayerAtOnce);
-                    for (int p = 0; p < GameData.NumPlayerAtOnce; p++)
-                        results[p].Points += temp[p].Points;
+                    if (points[i].ProfileID == GameData.ResultTable[j].PlayerID)
+                    {
+                        index = j;
+                        break;
+                    }
                 }
 
-                for (int j = 0; j < GameData.NumPlayerAtOnce; j++)
+                if (index != -1)
                 {
-                    results[j].Points = results[j].Points / gamePoints.NumRounds;
-                    GameData.Results[GameData.CurrentRoundNr - 2, j] = (int)Math.Round(results[j].Points);
-                }
+                    CResultTableRow row = GameData.ResultTable[index];
 
-                List<SStats> points = _GetPointsForPlayer(results);
+                    row.NumPlayed++;
+                    row.NumWon += points[i].Won;
+                    row.NumSingPoints += points[i].SingPoints;
+                    row.NumGamePoints += points[i].GamePoints;
 
-                for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
-                {
-                    int index = -1;
-                    for (int j = 0; j < GameData.ResultTable.Count; j++)
-                    {
-                        if (points[i].ProfileID == GameData.ResultTable[j].PlayerID)
-                        {
-                            index = j;
-                            break;
-                        }
-                    }
-
-                    if (index != -1)
-                    {
-                        CResultTableRow row = GameData.ResultTable[index];
-
-                        row.NumPlayed++;
-                        row.NumWon += points[i].Won;
-                        row.NumSingPoints += points[i].SingPoints;
-                        row.NumGamePoints += points[i].GamePoints;
-
-                        GameData.ResultTable[index] = row;
-                    }
+                    GameData.ResultTable[index] = row;
                 }
             }
 
