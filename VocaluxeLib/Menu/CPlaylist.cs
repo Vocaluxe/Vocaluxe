@@ -1037,14 +1037,16 @@ namespace VocaluxeLib.Menu
                         Cover = new CStatic(_Theme.StaticCover, _PartyModeID)
                     };
 
+                en.Cover.LoadSkin();
                 en.Cover.Y += Rect.Y + (i * _Theme.EntryHeight);
-                en.Cover.X += Rect.X;
+                en.Cover.X += Rect.X;             
 
                 en.Text1 = new CText(_Text1);
                 en.Text1.X += Rect.X;
                 en.Text1.Y += Rect.Y + (i * _Theme.EntryHeight);
 
                 en.SelectSlide = new CSelectSlide(_SelectSlideGameMode);
+                en.SelectSlide.LoadSkin();
                 en.SelectSlide.X += Rect.X;
                 en.SelectSlide.Y += Rect.Y + (i * _Theme.EntryHeight);
 

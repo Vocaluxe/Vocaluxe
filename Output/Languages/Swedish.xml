@@ -93,6 +93,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">Party</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Alternativ</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profiler</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">Inga profiler funna!</string>
   <string name="TR_SCREENPARTY_TITLE">Party Läge Väljare</string>
   <string name="TR_SCREENPARTY_MODES">Party Läge</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Beskrivning</string>
@@ -100,6 +101,7 @@
   <string name="TR_SCREENPARTY_VERSION">Version</string>
   <string name="TR_SCREENPARTY_ERROR">kan ej ladda detta party läge</string>
   <string name="TR_SCREENPARTY_ERROR_MICS">Det finns inga mikrofoner konfigurerade!</string>
+  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">%d mikrofoner krävs för denna party-mode!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Mål publik</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Inga lag</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Antal lag</string>
@@ -211,8 +213,8 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webkameror</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webkamera Upplösning</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Skärmjusteringar</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Tryck CTRL + ALT +SHIFT + Pilar för att justera skärmen</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + SHIFT + 0 för att återställa</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Tryck CTR + ALT (+ SHIFT) + Pilar"+" för att justera skärmen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + 0 för att återställa</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Överst till vänster</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Överst till höger</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Nederst till vänster</string>
