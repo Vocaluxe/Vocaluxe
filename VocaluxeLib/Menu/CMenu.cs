@@ -153,6 +153,26 @@ namespace VocaluxeLib.Menu
             }
         }
 
+        private class CLoadThemeErrorHandler : CXmlDeserializer.CXmlDefaultErrorHandler
+        {
+            private static readonly string[] _AllowedMissing = new string[]
+                {
+                    "Backgrounds", "Statics", "Texts", "Buttons", "SongMenus", "Lyrics", "SelectSlides", "SingNotes",
+                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings"
+                };
+
+            public override void HandleError(CXmlException e)
+            {
+                CXmlMissingElementException missingEx = e as CXmlMissingElementException;
+                if (missingEx != null)
+                {
+                    if (_AllowedMissing.Contains(missingEx.Field.Name))
+                        return;
+                }
+                base.HandleError(e);
+            }
+        }
+
         public virtual void LoadTheme(string xmlPath)
         {
             if (CBase.Config.GetLoadOldThemeFiles())
@@ -165,26 +185,10 @@ namespace VocaluxeLib.Menu
 
             string file = Path.Combine(xmlPath, ThemeName + ".xml");
 
-            Theme.Informations = new SScreenInformation();
-            Theme.Backgrounds = new List<SThemeBackground>();
-            Theme.Statics = new List<SThemeStatic>();
-            Theme.Texts = new List<SThemeText>();
-            Theme.Buttons = new List<SThemeButton>();
-            Theme.SongMenus = new List<SThemeSongMenu>();
-            Theme.Lyrics = new List<SThemeLyrics>();
-            Theme.SelectSlides = new List<SThemeSelectSlide>();
-            Theme.SingNotes = new List<SThemeSingBar>();
-            Theme.NameSelections = new List<SThemeNameSelection>();
-            Theme.Equalizers = new List<SThemeEqualizer>();
-            Theme.Playlists = new List<SThemePlaylist>();
-            Theme.ParticleEffects = new List<SThemeParticleEffect>();
-            Theme.ScreenSettings = new List<SThemeScreenSetting>();
-
             try
             {
-                TextReader textReader = new StreamReader(file);
-                XmlSerializer deserializer = new XmlSerializer(typeof(SThemeScreen));
-                Theme = (SThemeScreen)deserializer.Deserialize(textReader);
+                CXmlDeserializer deserializer = new CXmlDeserializer(new CLoadThemeErrorHandler());
+                Theme = deserializer.Deserialize<SThemeScreen>(file);
 
                 foreach (SThemeBackground bg in Theme.Backgrounds)
                     _AddBackground(new CBackground(bg, PartyModeID), bg.Name);
@@ -242,6 +246,10 @@ namespace VocaluxeLib.Menu
             catch (InvalidOperationException)
             {
                 CBase.Log.LogError("Error while reading " + ThemeName + ".xml", true, true);
+            }
+            catch (CXmlException e)
+            {
+                CBase.Log.LogError("Error while reading " + ThemeName + ".xml: " + e, true, true);
             }
             catch (Exception e)
             {
@@ -324,12 +332,8 @@ namespace VocaluxeLib.Menu
 
             try
             {
-                TextWriter textWriter = new StreamWriter(Path.Combine(ThemePath, ThemeName + ".xml"));
-
-                XmlSerializer serializer = new XmlSerializer(typeof(SThemeScreen));
-                serializer.Serialize(textWriter, Theme);
-
-                textWriter.Close();
+                CXmlSerializer serializer = new CXmlSerializer();
+                serializer.Serialize(Path.Combine(ThemePath, ThemeName + ".xml"), Theme);
             }
             catch (Exception e)
             {

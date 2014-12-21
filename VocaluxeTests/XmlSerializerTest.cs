@@ -91,8 +91,7 @@ namespace VocaluxeTests
 
         private struct SDefaultSub
         {
-            [DefaultValue(111)]
-            public int I;            
+            [DefaultValue(111)] public int I;
         }
 
         private struct SDefault
@@ -107,23 +106,10 @@ namespace VocaluxeTests
 #pragma warning restore 169
 #pragma warning restore 649
 
-        private static void _AssertFail<T>(Action test) where T : Exception
-        {
-            try
-            {
-                test.Invoke();
-                Assert.Fail("Exception " + typeof(T).Name + " not thrown!");
-            }
-            catch (Exception e)
-            {
-                Assert.IsInstanceOfType(e, typeof(T));
-            }
-        }
-
         private static void _AssertFail<T, T2>(String xmlString) where T2 : Exception where T : new()
         {
             var deserializer = new CXmlDeserializer();
-            _AssertFail<T2>(() => deserializer.DeserializeString<T>(xmlString));
+            CTestHelpers.AssertFail<T2>(() => deserializer.DeserializeString<T>(xmlString));
         }
 
         private static T _AssertSerDeserMatch<T>(string xmlString) where T : new()
@@ -454,7 +440,7 @@ namespace VocaluxeTests
             Assert.AreEqual(foo.D, 666);
             Assert.AreEqual(foo.Sub.I, 111);
             string newXml = new CXmlSerializer().Serialize(foo);
-            Assert.AreEqual(_Head +@"<root>
+            Assert.AreEqual(_Head + @"<root>
   <Sub />
 </root>", newXml);
         }

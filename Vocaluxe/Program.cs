@@ -238,7 +238,8 @@ namespace Vocaluxe
 
                 // Init Party Modes;
                 CLog.StartBenchmark("Init Party Modes");
-                CParty.Init();
+                if (!CParty.Init())
+                    throw new CLoadingException("Party Modes");
                 CLog.StopBenchmark("Init Party Modes");
 
                 Application.DoEvents();

@@ -108,6 +108,7 @@
     <Compile Include="Draw\CTextureRef.cs" />
     <Compile Include="Menu\IThemeable.cs" />
     <Compile Include="Menu\SingNotes\CNoteBars.cs" />
+    <Compile Include="Utils\Combinatorics\CCombinations.cs" />
     <Compile Include="XmlStructs.cs" />
     <Compile Include="Xml\CTypeExtensions.cs" />
     <Compile Include="Xml\CXmlDeserializer.cs" />
@@ -139,7 +140,7 @@
     <Compile Include="Songs\CSongLoader.cs" />
     <Compile Include="Structs.cs" />
     <Compile Include="PartyModes\CPartyMode.cs" />
-    <Compile Include="PartyModes\CPartyModeNone.cs" />
+    <Compile Include="PartyModes\CPartyModeNormal.cs" />
     <Compile Include="PartyModes\IPartyMode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\CWavFile.cs" />

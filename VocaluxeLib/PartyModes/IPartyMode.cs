@@ -79,9 +79,24 @@ namespace VocaluxeLib.PartyModes
     }
     #endregion Structs
 
-    public interface IPartyMode
+    public interface IPartyModeInfo
     {
         int ID { get; }
+        int MinMics { get; }
+        int MaxMics { get; }
+        int MinPlayers { get; }
+        int MaxPlayers { get; }
+        int MinTeams { get; }
+        int MaxTeams { get; }
+        int MinPlayersPerTeam { get; }
+        int MaxPlayersPerTeam { get; }
+    }
+
+    public interface IPartyMode : IPartyModeInfo
+    {
+        int NumPlayers { get; set; }
+        int NumTeams { get; set; }
+
         bool Init();
 
         void LoadTheme();
@@ -98,14 +113,6 @@ namespace VocaluxeLib.PartyModes
 
         void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions);
         void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions);
-
-        int GetMaxPlayer();
-        int GetMinPlayer();
-        int GetMaxTeams();
-        int GetMinTeams();
-        int GetMinPlayerPerTeam();
-        int GetMaxPlayerPerTeam();
-        int GetMaxNumRounds();
 
         void SetSearchString(string searchString, bool visible);
 

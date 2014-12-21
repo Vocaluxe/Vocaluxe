@@ -20,6 +20,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Screens
 {
@@ -115,7 +116,7 @@ namespace Vocaluxe.Screens
 
             _SelectSlides[_SelectSlideModes].Clear();
             foreach (SPartyModeInfos info in _PartyModeInfos)
-                _SelectSlides[_SelectSlideModes].AddValue(info.Name, info.PartyModeID);
+                _SelectSlides[_SelectSlideModes].AddValue(info.Name, info.ExtInfo.ID);
             _SelectSlides[_SelectSlideModes].Selection = 0;
             _UpdateSelection();
 
@@ -134,42 +135,48 @@ namespace Vocaluxe.Screens
 
             int index = _SelectSlides[_SelectSlideModes].Selection;
             if (index >= _PartyModeInfos.Count)
-                return;
+            {
+                index = 0;
+                _SelectSlides[_SelectSlideModes].Selection = 0;
+            }
 
             //Description    
-            _Texts[_TextDescription].Text = _PartyModeInfos[index].Description;
-            _Texts[_TextDescription].TranslationID = _PartyModeInfos[index].PartyModeID;
+            SPartyModeInfos infos = _PartyModeInfos[index];
+            IPartyModeInfo extInfo = infos.ExtInfo;
+            _Texts[_TextDescription].Text = infos.Description;
+            _Texts[_TextDescription].TranslationID = extInfo.ID;
 
             //TargetAudience
-            _Texts[_TextTargetAudience].TranslationID = _PartyModeInfos[index].PartyModeID;
-            _Texts[_TextTargetAudience].Text = _PartyModeInfos[index].TargetAudience;
+            _Texts[_TextTargetAudience].TranslationID = extInfo.ID;
+            _Texts[_TextTargetAudience].Text = infos.TargetAudience;
 
             //NumTeams
-            if (_PartyModeInfos[index].MaxTeams == 0)
+            if (extInfo.MaxTeams == 1)
                 _Texts[_TextNumTeams].Text = "TR_SCREENPARTY_NOTEAMS";
-            else if (_PartyModeInfos[index].MaxTeams == _PartyModeInfos[index].MinTeams)
-                _Texts[_TextNumTeams].Text = _PartyModeInfos[index].MaxTeams.ToString();
-            else if (_PartyModeInfos[index].MaxTeams > _PartyModeInfos[index].MinTeams)
-                _Texts[_TextNumTeams].Text = _PartyModeInfos[index].MinTeams + " - " + _PartyModeInfos[index].MaxTeams;
+            else if (extInfo.MaxTeams == extInfo.MinTeams)
+                _Texts[_TextNumTeams].Text = extInfo.MaxTeams.ToString();
+            else
+                _Texts[_TextNumTeams].Text = extInfo.MinTeams + " - " + extInfo.MaxTeams;
 
             //NumPlayers
-            if (_PartyModeInfos[index].MaxPlayers == _PartyModeInfos[index].MinPlayers)
-                _Texts[_TextNumPlayers].Text = _PartyModeInfos[index].MaxTeams.ToString();
-            else if (_PartyModeInfos[index].MaxPlayers > _PartyModeInfos[index].MinPlayers)
-                _Texts[_TextNumPlayers].Text = _PartyModeInfos[index].MinPlayers + " - " + _PartyModeInfos[index].MaxPlayers;
+            if (extInfo.MaxPlayers == extInfo.MinPlayers)
+                _Texts[_TextNumPlayers].Text = extInfo.MaxTeams.ToString();
+            else
+                _Texts[_TextNumPlayers].Text = extInfo.MinPlayers + " - " + extInfo.MaxPlayers;
 
             //Author
-            _Texts[_TextAuthor].Text = _PartyModeInfos[index].Author;
-            _Texts[_TextAuthor].TranslationID = _PartyModeInfos[index].PartyModeID;
+            _Texts[_TextAuthor].Text = infos.Author;
+            _Texts[_TextAuthor].TranslationID = extInfo.ID;
 
             //Version
-            _Texts[_TextVersion].Text = _PartyModeInfos[index].VersionMajor + "." + _PartyModeInfos[index].VersionMinor;
-            _Texts[_TextVersion].TranslationID = _PartyModeInfos[index].PartyModeID;
+            _Texts[_TextVersion].Text = infos.VersionMajor + "." + infos.VersionMinor;
+            _Texts[_TextVersion].TranslationID = extInfo.ID;
 
-            if (CConfig.GetMaxNumMics() == 0)
+            if (CConfig.GetMaxNumMics() < extInfo.MinMics)
             {
                 _Buttons[_ButtonStart].Visible = false;
-                _Texts[_TextError].Text = "TR_SCREENPARTY_ERROR_MICS";
+                _Texts[_TextError].Text = CConfig.GetMaxNumMics() == 0
+                                              ? "TR_SCREENPARTY_ERROR_MICS" : CLanguage.Translate("TR_SCREENPARTY_ERROR_MIC_NUM").Replace("%d", extInfo.MinMics.ToString());
                 _Texts[_TextError].Visible = true;
             }
             else
@@ -193,7 +200,7 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            CParty.SetPartyMode(_PartyModeInfos[index].PartyModeID);
+            CParty.SetPartyMode(_PartyModeInfos[index].ExtInfo.ID);
             CGraphics.FadeTo(CParty.GetStartScreen());
         }
     }

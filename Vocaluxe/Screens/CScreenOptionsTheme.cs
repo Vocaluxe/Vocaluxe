@@ -171,15 +171,15 @@ namespace Vocaluxe.Screens
 
             CConfig.SaveConfig();
 
-            if (_OldCoverTheme != _SelectSlides[_SelectSlideCover].Value)
+            if (_OldCoverTheme != _SelectSlides[_SelectSlideCover].SelectedValue)
                 CCover.ReloadCovers();
         }
 
         private void _OnChange()
         {
-            if (CConfig.Config.Theme.Theme != _SelectSlides[_SelectSlideTheme].Value)
+            if (CConfig.Config.Theme.Theme != _SelectSlides[_SelectSlideTheme].SelectedValue)
             {
-                CConfig.Config.Theme.Theme = _SelectSlides[_SelectSlideTheme].Value;
+                CConfig.Config.Theme.Theme = _SelectSlides[_SelectSlideTheme].SelectedValue;
 
                 CThemes.Reload();
                 CGraphics.ReloadTheme();
@@ -188,9 +188,9 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            if (CConfig.Config.Theme.Skin != _SelectSlides[_SelectSlideSkin].Value)
+            if (CConfig.Config.Theme.Skin != _SelectSlides[_SelectSlideSkin].SelectedValue)
             {
-                CConfig.Config.Theme.Skin = _SelectSlides[_SelectSlideSkin].Value;
+                CConfig.Config.Theme.Skin = _SelectSlides[_SelectSlideSkin].SelectedValue;
 
                 CThemes.ReloadSkin();
                 CGraphics.ReloadSkin();

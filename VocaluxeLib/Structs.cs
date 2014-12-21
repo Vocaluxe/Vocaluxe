@@ -186,6 +186,7 @@ namespace VocaluxeLib
         public float Z;
         [XmlIgnore] public float Rotation; //0..360°
 
+        [XmlIgnore]
         public float Right
         {
             get { return X + W; }
@@ -195,6 +196,8 @@ namespace VocaluxeLib
                 Debug.Assert(W >= 0);
             }
         }
+
+        [XmlIgnore]
         public float Bottom
         {
             get { return Y + H; }
@@ -204,10 +207,14 @@ namespace VocaluxeLib
                 Debug.Assert(H >= 0);
             }
         }
+
+        [XmlIgnore]
         public Size SizeI
         {
             get { return new Size((int)W, (int)H); }
         }
+
+        [XmlIgnore]
         public SizeF Size
         {
             get { return new SizeF(W, H); }

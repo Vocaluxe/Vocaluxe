@@ -18,6 +18,7 @@
 using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using Vocaluxe.Base.ThemeSystem;
@@ -32,40 +33,52 @@ namespace Vocaluxe.Base
     {
         private const int _PartyModeSystemVersion = 1;
 
-        private static Dictionary<int, SPartyMode> _PartyModes;
+        private static readonly Dictionary<int, SPartyMode> _PartyModes = new Dictionary<int, SPartyMode>();
         private static int _NextID;
-
-        private static int _NormalGameModeID;
-        private static SPartyMode _CurrentPartyMode;
+        private static IPartyMode _CurrentPartyMode;
 
         #region public stuff
-        public static void Init()
+        public static bool Init()
         {
-            _PartyModes = new Dictionary<int, SPartyMode>();
-            _NextID = 0;
-
-            //add dummy normal game mode and set it as default
-            var pm = new SPartyMode {ScreenFiles = new List<string>(), PartyMode = new CPartyModeNone(_NextID++, null)};
-            _NormalGameModeID = pm.PartyMode.ID;
-            _PartyModes.Add(pm.PartyMode.ID, pm);
-            _CurrentPartyMode = pm;
+            if (_PartyModes.Count > 0)
+                return false; //Already initialized
+            SPartyMode pm = new SPartyMode
+                {
+                    Info = new SPartyModeInfos {Author = "Vocaluxe Team", Description = "Normal game", Name = "Normal", TargetAudience = "Just a normal game for everyone"},
+                    PartyMode = new CPartyModeNormal(-1),
+                    PartyModeSystemVersion = _PartyModeSystemVersion,
+                    ScreenFiles = new List<string>()
+                };
+            _PartyModes.Add(-1, pm);
+            _CurrentPartyMode = pm.PartyMode;
+            Debug.Assert(_CurrentPartyMode != null && _CurrentPartyMode.ID == -1);
 
             //load other party modes
             _LoadPartyModes();
+            return _CurrentPartyMode.Init();
         }
 
         public static int CurrentPartyModeID
         {
-            get
+            get { return _CurrentPartyMode.ID; }
+            set
             {
-                if (_CurrentPartyMode.PartyMode.ID != _NormalGameModeID)
-                    return _CurrentPartyMode.PartyMode.ID;
-
-                return -1;
+                if (_CurrentPartyMode.ID == value)
+                    return;
+                if (value != -1 && !_PartyModes.ContainsKey(value))
+                    throw new ArgumentException("Partymode with ID=" + value + " does not exist!");
+                IPartyMode pm = _PartyModes[value].PartyMode;
+                if (pm.Init())
+                    _CurrentPartyMode = pm;
+                else
+                {
+                    CLog.LogError("Could not init PartyMode \"" + _PartyModes[value].Info.Name + "\"! Removing...", true);
+                    _PartyModes.Remove(value);
+                }
             }
         }
 
-        public static int NumModes
+        public static int Count
         {
             get { return _PartyModes.Count; }
         }
@@ -90,85 +103,81 @@ namespace Vocaluxe.Base
 
         public static List<SPartyModeInfos> GetPartyModeInfos()
         {
-            var infos = new List<SPartyModeInfos>();
-
-            foreach (KeyValuePair<int, SPartyMode> kvp in _PartyModes)
+            List<SPartyModeInfos> list = new List<SPartyModeInfos>();
+            foreach (SPartyMode pm in _PartyModes.Values)
             {
-                if (kvp.Key != _NormalGameModeID)
-                    infos.Add(kvp.Value.Info);
+                if (pm.PartyMode.ID >= 0)
+                    list.Add(pm.Info);
             }
-            return infos;
+            return list;
         }
 
         public static void SetNormalGameMode()
         {
             CSongs.ResetPartySongSung();
-            SetPartyMode(_NormalGameModeID);
+            CurrentPartyModeID = -1;
         }
 
         public static void SetPartyMode(int partyModeID)
         {
-            if (!_PartyModes.TryGetValue(partyModeID, out _CurrentPartyMode))
-                CLog.LogError("CParty: Can't find party mode ID: " + partyModeID);
-
-            _CurrentPartyMode.PartyMode.Init();
+            CurrentPartyModeID = partyModeID;
         }
         #endregion public stuff
 
         #region Interface
         public static void UpdateGame()
         {
-            _CurrentPartyMode.PartyMode.UpdateGame();
+            _CurrentPartyMode.UpdateGame();
         }
 
         public static IMenu GetStartScreen()
         {
-            return _CurrentPartyMode.PartyMode.GetStartScreen();
+            return _CurrentPartyMode.GetStartScreen();
         }
 
         public static SScreenSongOptions GetSongSelectionOptions()
         {
-            return _CurrentPartyMode.PartyMode.GetScreenSongOptions();
+            return _CurrentPartyMode.GetScreenSongOptions();
         }
 
         public static void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
         {
-            _CurrentPartyMode.PartyMode.OnSongChange(songIndex, ref screenSongOptions);
+            _CurrentPartyMode.OnSongChange(songIndex, ref screenSongOptions);
         }
 
         public static void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
         {
-            _CurrentPartyMode.PartyMode.OnCategoryChange(categoryIndex, ref screenSongOptions);
+            _CurrentPartyMode.OnCategoryChange(categoryIndex, ref screenSongOptions);
         }
 
         public static void SetSearchString(string searchString, bool visible)
         {
-            _CurrentPartyMode.PartyMode.SetSearchString(searchString, visible);
+            _CurrentPartyMode.SetSearchString(searchString, visible);
         }
 
         public static void JokerUsed(int teamNr)
         {
-            _CurrentPartyMode.PartyMode.JokerUsed(teamNr);
+            _CurrentPartyMode.JokerUsed(teamNr);
         }
 
         public static void SongSelected(int songID)
         {
-            _CurrentPartyMode.PartyMode.SongSelected(songID);
+            _CurrentPartyMode.SongSelected(songID);
         }
 
         public static void FinishedSinging()
         {
-            _CurrentPartyMode.PartyMode.FinishedSinging();
+            _CurrentPartyMode.FinishedSinging();
         }
 
         public static void LeavingScore()
         {
-            _CurrentPartyMode.PartyMode.LeavingScore();
+            _CurrentPartyMode.LeavingScore();
         }
 
         public static void LeavingHighscore()
         {
-            _CurrentPartyMode.PartyMode.LeavingHighscore();
+            _CurrentPartyMode.LeavingHighscore();
         }
         #endregion Interface
 
@@ -216,7 +225,7 @@ namespace Vocaluxe.Base
                 return false;
 
             object instance = output.CreateInstance(typeof(IPartyMode).Namespace + "." + pm.Info.Folder + "." + pm.Info.PartyModeFile, false,
-                                                    BindingFlags.Public | BindingFlags.Instance, null, new object[] {_NextID++, pathToPm}, null, null);
+                                                    BindingFlags.Public | BindingFlags.Instance, null, new object[] {_NextID++}, null, null);
             if (instance == null)
             {
                 CLog.LogError("Error creating Instance of PartyMode file: " + filePath);
@@ -258,7 +267,7 @@ namespace Vocaluxe.Base
                     return false;
             }
             pm.PartyMode.LoadTheme();
-            pm.Info.LoadData(pm.PartyMode);
+            pm.Info.ExtInfo = pm.PartyMode;
             return true;
         }
 
@@ -269,6 +278,7 @@ namespace Vocaluxe.Base
 
             var compilerParams = new CompilerParameters();
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
+            compilerParams.ReferencedAssemblies.Add("System.dll");
             compilerParams.ReferencedAssemblies.Add("System.Core.dll");
             compilerParams.ReferencedAssemblies.Add("VocaluxeLib.dll");
             compilerParams.GenerateInMemory = true;

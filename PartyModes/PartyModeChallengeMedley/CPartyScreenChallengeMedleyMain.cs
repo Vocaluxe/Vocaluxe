@@ -119,7 +119,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             _NextPlayerTexts = new List<CText>();
             _NextPlayerStatics = new List<CStatic>();
 
-            for (int i = 0; i < _PartyMode.GetMaxPlayer(); i++)
+            for (int i = 0; i < _PartyMode.MaxPlayers; i++)
             {
                 _NextPlayerTexts.Add(GetNewText(_Texts[_TextNextPlayer]));
                 _AddText(_NextPlayerTexts[_NextPlayerTexts.Count - 1]);
@@ -326,7 +326,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
                 x += _Statics[_StaticNextPlayer].Rect.W + 15;
             }
-            for (int i = _PartyMode.GameData.NumPlayerAtOnce; i < _PartyMode.GetMaxPlayer(); i++)
+            for (int i = _PartyMode.GameData.NumPlayerAtOnce; i < _PartyMode.MaxPlayers; i++)
             {
                 _NextPlayerStatics[i].Visible = false;
                 _NextPlayerTexts[i].Visible = false;
@@ -340,7 +340,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 _Texts[_TextNextPlayerMessage].Visible = true;
                 for (int i = 0; i < _PartyMode.GameData.NumPlayerAtOnce; i++)
                 {
-                    int id = _PartyMode.GameData.ProfileIDs[_PartyMode.GameData.Rounds[_PartyMode.GameData.CurrentRoundNr - 1].Player[i]];
+                    int id = _PartyMode.GameData.ProfileIDs[_PartyMode.GameData.Rounds[_PartyMode.GameData.CurrentRoundNr - 1].Players[i]];
                     _NextPlayerStatics[i].Texture = CBase.Profiles.GetAvatar(id);
                     _NextPlayerTexts[i].Text = CBase.Profiles.GetPlayerName(id);
                     _NextPlayerTexts[i].Color = CBase.Themes.GetPlayerColor(i + 1);
@@ -452,14 +452,14 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             {
                 for (int p = 0; p < _RoundsTable[i].TextPlayer.Count; p++)
                 {
-                    if (_PartyMode.GameData.Rounds.Count > i + _RoundsTableOffset && _PartyMode.GameData.Rounds[i + _RoundsTableOffset].Player.Count > p)
+                    if (_PartyMode.GameData.Rounds.Count > i + _RoundsTableOffset && _PartyMode.GameData.Rounds[i + _RoundsTableOffset].Players.Count > p)
                     {
                         _RoundsTable[i].Number.Visible = true;
                         _RoundsTable[i].TextPlayer[p].Visible = true;
                         _RoundsTable[i].TextScores[p].Visible = true;
                         _RoundsTable[i].Number.Text = (i + 1 + _RoundsTableOffset) + ")";
                         _RoundsTable[i].TextPlayer[p].Text =
-                            CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIDs[_PartyMode.GameData.Rounds[i + _RoundsTableOffset].Player[p]]);
+                            CBase.Profiles.GetPlayerName(_PartyMode.GameData.ProfileIDs[_PartyMode.GameData.Rounds[i + _RoundsTableOffset].Players[p]]);
                         // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
                         if ((_PartyMode.GameData.CurrentRoundNr - 1) > i + _RoundsTableOffset)
                             // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
