@@ -169,15 +169,16 @@ namespace VocaluxeLib.Menu
         private readonly CStatic _StaticPlaylistHeader;
         private readonly CStatic _StaticPlaylistFooter;
 
-        private bool _Selected;
         public SRectF Rect
         {
             get { return MaxRect; }
         }
         public SRectF MaxRect { get; set; }
+        private bool _Selectable = true;
         public bool Selectable
         {
-            get { return Visible; }
+            get { return Visible && _Selectable; }
+            set { _Selectable = value; }
         }
         public bool Visible
         {
@@ -185,6 +186,7 @@ namespace VocaluxeLib.Menu
             set { _Active = value; }
         }
         public bool Highlighted { get; set; }
+        private bool _Selected;
         public bool Selected
         {
             get { return _Selected; }
@@ -204,6 +206,8 @@ namespace VocaluxeLib.Menu
                     _ChangeOrderElement = null;
                     _EditMode = EEditMode.None;
                 }
+                else if (_CurrentPlaylistElement == -1 && _PlaylistElements.Count > 0)
+                    _SelectElement(_PlaylistElements[0].SelectSlide);
             }
         }
 
@@ -420,7 +424,7 @@ namespace VocaluxeLib.Menu
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             if (!Selected)
-                return true;
+                return false;
             //Active EditMode ignores other input!
             if (_EditMode == EEditMode.PlaylistName)
             {
@@ -446,6 +450,8 @@ namespace VocaluxeLib.Menu
                             if (!String.IsNullOrEmpty(_ButtonPlaylistName.Text.Text))
                                 _ButtonPlaylistName.Text.Text = _ButtonPlaylistName.Text.Text.Remove(_ButtonPlaylistName.Text.Text.Length - 1);
                             break;
+                        default:
+                            return false;
                     }
                 }
                 return true;
@@ -453,10 +459,10 @@ namespace VocaluxeLib.Menu
             if (_CurrentPlaylistElement == -1 || _PlaylistElementContents.Count == 0)
             {
                 //no song is selected
-                base.HandleInput(keyEvent);
+                bool handled = base.HandleInput(keyEvent);
                 _CurrentPlaylistElement = _GetSelectedElementNr();
 
-                if (_CurrentPlaylistElement != -1)
+                if (_CurrentPlaylistElement != -1 || handled)
                     return true;
             }
             else if (_CurrentPlaylistElement != -1)
@@ -669,6 +675,8 @@ namespace VocaluxeLib.Menu
                             UpdatePlaylist();
                         }
                         break;
+                    default:
+                        return false;
                 }
                 return true;
             }
@@ -720,6 +728,8 @@ namespace VocaluxeLib.Menu
                 case Keys.PageUp:
                     _SetSelectionToFirstEntry();
                     break;
+                default:
+                    return false;
             }
             return true;
         }

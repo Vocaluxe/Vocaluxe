@@ -80,7 +80,6 @@ namespace Vocaluxe.Screens
         private readonly List<string> _ButtonsJoker = new List<string>();
         private readonly List<string> _TextsPlayer = new List<string>();
         private ESongOptionsView _CurSongOptionsView;
-        private bool _PlaylistActive;
         private readonly List<EGameMode> _AvailableGameModes;
         private SScreenSongOptions _Sso;
 
@@ -163,15 +162,25 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_Playlist.Visible)
+            {
+                keyEvent.Handled = _Playlist.HandleInput(keyEvent);
+                if (keyEvent.Handled)
+                    return true;
+                if (!keyEvent.KeyPressed && keyEvent.Key == Keys.Escape)
+                {
+                    _ClosePlaylist();
+                    keyEvent.Handled = true;
+                    return true;
+                }
+            }
+
+            // Playlist selection is handled below not in base!
+            _Playlist.Selectable = false;
             base.HandleInput(keyEvent);
+            _Playlist.Selectable = true;
             if (keyEvent.Handled)
                 return true;
-
-            if (_PlaylistActive)
-            {
-                _Playlist.HandleInput(keyEvent);
-                return true;
-            }
 
             if (_CurSongOptionsView == ESongOptionsView.None)
             {
@@ -233,9 +242,8 @@ namespace Vocaluxe.Screens
                         case Keys.Tab:
                             if (_Playlist.Visible)
                             {
-                                _PlaylistActive = !_PlaylistActive;
-                                _Playlist.Selected = _PlaylistActive;
-                                _SongMenu.Selected = !_PlaylistActive;
+                                _Playlist.Selected = !_Playlist.Selected;
+                                _SongMenu.Selected = !_Playlist.Selected;
                             }
                             break;
 
@@ -392,27 +400,18 @@ namespace Vocaluxe.Screens
             _OldMousePosX = mouseEvent.X;
             _OldMousePosY = mouseEvent.Y;
 
-            if (_Playlist.Visible && _Playlist.IsMouseOver(mouseEvent))
+            if (_Playlist.Visible && _Playlist.Selected)
             {
-                _PlaylistActive = true;
-                _Playlist.Selected = _PlaylistActive;
-                _SongMenu.Selected = !_PlaylistActive;
+                _SongMenu.Selected = false;
                 _ToggleSongOptions(ESongOptionsView.None);
-            }
-            else if (CHelper.IsInBounds(_SongMenu.Rect, mouseEvent))
-            {
-                _PlaylistActive = false;
-                _Playlist.Selected = _PlaylistActive;
-                _SongMenu.Selected = !_PlaylistActive;
-            }
-
-
-            if (_Playlist.Visible && _PlaylistActive)
-            {
                 if (_Playlist.HandleMouse(mouseEvent))
                     return true;
             }
-
+            else if (CHelper.IsInBounds(_SongMenu.Rect, mouseEvent))
+            {
+                _Playlist.Selected = false;
+                _SongMenu.Selected = true;
+            }
 
             if (mouseEvent.RB)
             {
@@ -630,12 +629,12 @@ namespace Vocaluxe.Screens
 
             if (_Sso.Selection.PartyMode)
             {
-                _PlaylistActive = false;
+                _ClosePlaylist();
                 _ToggleSongOptions(ESongOptionsView.None);
                 _SelectElement(_Buttons[_ButtonStart]);
             }
 
-            _SongMenu.Selected = !_PlaylistActive;
+            _SongMenu.Selected = !_Playlist.Visible;
             _SongMenu.SmallView = _Playlist.Visible;
 
             if (_Playlist.ActivePlaylistID != -1)
@@ -660,7 +659,7 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            if (_PlaylistActive)
+            if (_Playlist.Visible)
             {
                 if (_Playlist.ActivePlaylistID == -1)
                     _ClosePlaylist();
@@ -1257,12 +1256,12 @@ namespace Vocaluxe.Screens
 
         private void _ClosePlaylist()
         {
-            if (_Playlist.Visible || _PlaylistActive)
+            if (_Playlist.Visible)
             {
                 _SongMenu.SmallView = false;
-                _PlaylistActive = false;
-                _Playlist.Selected = _PlaylistActive;
-                _SongMenu.Selected = !_PlaylistActive;
+                _Playlist.Visible = false;
+                _Playlist.Selected = false;
+                _SongMenu.Selected = false;
                 _Playlist.ClosePlaylist();
             }
         }
