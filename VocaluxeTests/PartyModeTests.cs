@@ -60,6 +60,9 @@ namespace VocaluxeTests
                             CChallengeRounds rounds = new CChallengeRounds(numRounds, numPlayer, numMic);
                             Assert.IsTrue(rounds.Count >= numRounds);
                             _CheckRounds(rounds, numPlayer);
+                            if (rounds.Count != numRounds)
+                                CBase.Log.LogDebug("Number of rounds does not match. Expected: " + numRounds + ", Is: " + rounds.Count + " for " + numPlayer + "/" +
+                                                   ((numPlayer < numMic) ? numPlayer : numMic));
                         }
                     }
                 }
