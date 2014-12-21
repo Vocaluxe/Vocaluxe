@@ -530,6 +530,17 @@ namespace VocaluxeLib.Menu.SongMenu
             return _Tiles.FirstOrDefault(tile => tile.Selected);
         }
 
+        public override bool IsMouseOverSelectedSong(SMouseEvent mEvent)
+        {
+            for (int i = 0; i < _Tiles.Count; i++)
+            {
+                if (!_Tiles[i].Selected)
+                    continue;
+                return CHelper.IsInBounds(_Tiles[i].Rect, mEvent) || CHelper.IsInBounds(_Texts[i].Rect, mEvent);
+            }
+            return false;
+        }
+
         protected override void _EnterCategory(int categoryNr)
         {
             base._EnterCategory(categoryNr);

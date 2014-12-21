@@ -299,7 +299,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 CBase.Drawing.DrawTexture(CBase.BackgroundMusic.GetVideoTexture(), new SRectF(0, 0, 1280, 720, 0));
         }
 
-        public bool IsMouseOverSelectedSong(SMouseEvent mEvent)
+        public virtual bool IsMouseOverSelectedSong(SMouseEvent mEvent)
         {
             CStatic selCov = GetSelectedSongCover();
             return selCov != null && CHelper.IsInBounds(selCov.Rect.Scale(SelectedTileZoomFactor), mEvent);
