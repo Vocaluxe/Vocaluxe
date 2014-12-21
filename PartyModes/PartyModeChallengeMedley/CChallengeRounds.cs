@@ -46,6 +46,18 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 playersPerRound = numPlayer;
 
             _BuildRounds(numRounds, numPlayer, playersPerRound);
+            if (Count > numRounds)
+            {
+                //Try again and take the better one
+                List<CRound> old = new List<CRound>(_Rounds);
+                _Rounds.Clear();
+                _BuildRounds(numRounds, numPlayer, playersPerRound);
+                if (Count > old.Count)
+                {
+                    _Rounds.Clear();
+                    _Rounds.AddRange(old);
+                }
+            }
         }
 
         /// <summary>
@@ -74,7 +86,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             combinations.Shuffle();
         }
 
-        private static CRound _GetMatchingCombination(List<int> playersInRound, List<CRound> combinations)
+        private static CRound _GetMatchingCombination(List<int> playersInRound, List<int> numSung, List<CRound> combinations)
         {
             foreach (CRound round in combinations)
             {
@@ -83,8 +95,23 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 if (matching == round.Players.Count || matching == playersInRound.Count)
                     return round;
             }
-            Debug.Assert(false, "This should not happen!");
-            return combinations[0];
+            // It may happen, that there are only players that already sung against each other. So create a 2nd best option with the most number of players that should sing in it
+            int maxMatching = combinations.Max(c => c.Players.Count(playersInRound.Contains));
+            List<CRound> nextOptions = combinations.Where(c => c.Players.Count(playersInRound.Contains) == maxMatching).ToList();
+            // And select the combination that minimizes the sum of the number of songs sung (--> favor rounds with players that sung less than others)
+            CRound result = null;
+            int minSung = int.MaxValue;
+            foreach (CRound round in nextOptions)
+            {
+                int curNumSung = round.Players.Sum(pl => numSung[pl]);
+                if (curNumSung < minSung)
+                {
+                    minSung = curNumSung;
+                    result = round;
+                }
+            }
+            Debug.Assert(result != null);
+            return result;
         }
 
         private void _BuildRounds(int numRounds, int numPlayer, int playersPerRound)
@@ -101,16 +128,15 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 if (combinations.Count == 0)
                     _AddCombinations(numPlayer, playersPerRound, combinations);
                 List<int> playersInRound = _GetPlayersForRound(numSung);
-                CRound curRound = _GetMatchingCombination(playersInRound, combinations);
+                CRound curRound = _GetMatchingCombination(playersInRound, numSung, combinations);
                 foreach (int player in curRound.Players)
                     numSung[player]++;
                 _Rounds.Add(curRound);
+                combinations.Remove(curRound);
                 //Stop if we have enough rounds and all players sung the same amount of songs
                 if (_Rounds.Count >= numRounds && numSung.All(ct => ct == numSung[0]))
                     break;
             }
-            if (_Rounds.Count != numRounds)
-                CBase.Log.LogDebug("Number of rounds does not match. Expected: " + numRounds + ", Is: " + _Rounds.Count + " for " + numPlayer + "/" + playersPerRound);
         }
     }
 

@@ -300,11 +300,6 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public void ProcessMouseMove(int x, int y)
-        {
-            Selected = CHelper.IsInBounds(Rect, x, y);
-        }
-
         public void UnloadSkin()
         {
             if (!ThemeLoaded)
@@ -318,6 +313,7 @@ namespace VocaluxeLib.Menu
                 return;
             Text = new CText(_Theme.Text, _PartyModeID);
             Text.LoadSkin();
+            Text.Selected = Selected;
 
             if (_Theme.SelText.HasValue)
             {
