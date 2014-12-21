@@ -1039,7 +1039,7 @@ namespace VocaluxeLib.Menu
 
                 en.Cover.LoadSkin();
                 en.Cover.Y += Rect.Y + (i * _Theme.EntryHeight);
-                en.Cover.X += Rect.X;             
+                en.Cover.X += Rect.X;
 
                 en.Text1 = new CText(_Text1);
                 en.Text1.X += Rect.X;
