@@ -862,7 +862,7 @@
       </SongMenuTileBoard>
 	  
 	   <SongMenuList>
-        <ListLength>20</ListLength>
+        <ListLength>15</ListLength>
         <SpaceW>10</SpaceW>
         <SpaceH>10</SpaceH>
         <TileRect>

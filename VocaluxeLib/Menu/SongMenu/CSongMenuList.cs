@@ -185,6 +185,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 CText text = new CText(textRect.X, textRect.Y, textRect.Z,
                                        textRect.H, textRect.W, EAlignment.Left, EStyle.Normal,
                                        "Normal", _Artist.Color, "");
+                text.MaxRect = new SRectF(text.MaxRect.X, text.MaxRect.Y, MaxRect.W + MaxRect.X - text.Rect.X - 5f, text.MaxRect.H, text.MaxRect.Z);
+                text.ResizeAlign = EHAlignment.Center;
 
                 _Texts.Add(text);
             }
