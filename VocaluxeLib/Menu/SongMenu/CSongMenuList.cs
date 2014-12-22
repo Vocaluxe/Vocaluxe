@@ -157,7 +157,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _InitTiles()
         {
-            MaxRect = _Theme.SongMenuList.TileRect;
+            MaxRect = SmallView ? _Theme.SongMenuList.TileRectSmall : _Theme.SongMenuList.TileRect;
 
             //keep tile ratio 3/2 so the covers still look nice. 
             _CoverTileWidth = _ListLength * 3.0f / 2;

@@ -60,6 +60,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public float SpaceH;
 
         public SRectF TileRect;
+        public SRectF TileRectSmall;
 
         public SThemeText TextArtist;
         public SThemeText TextTitle;
@@ -251,11 +252,17 @@ namespace VocaluxeLib.Menu.SongMenu
             ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/SpaceW", ref _Theme.SongMenuList.SpaceW);
             ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/SpaceH", ref _Theme.SongMenuList.SpaceH);
 
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectX", ref _Theme.SongMenuList.TileRect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectY", ref _Theme.SongMenuList.TileRect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectZ", ref _Theme.SongMenuList.TileRect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectW", ref _Theme.SongMenuList.TileRect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectH", ref _Theme.SongMenuList.TileRect.H);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/X", ref _Theme.SongMenuList.TileRect.X);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/Y", ref _Theme.SongMenuList.TileRect.Y);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/Z", ref _Theme.SongMenuList.TileRect.Z);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/W", ref _Theme.SongMenuList.TileRect.W);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/H", ref _Theme.SongMenuList.TileRect.H);
+
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/X", ref _Theme.SongMenuList.TileRectSmall.X);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/Y", ref _Theme.SongMenuList.TileRectSmall.Y);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/Z", ref _Theme.SongMenuList.TileRectSmall.Z);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/W", ref _Theme.SongMenuList.TileRectSmall.W);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/H", ref _Theme.SongMenuList.TileRectSmall.H);
             #endregion SongMenuList
 
             if (ThemeLoaded)

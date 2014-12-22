@@ -872,6 +872,13 @@
           <H>550</H>
           <Z>-1</Z>
         </TileRect>
+        <TileRectSmall>
+          <X>410</X>
+          <Y>40</Y>
+          <W>555</W>
+          <H>550</H>
+          <Z>-1</Z>
+        </TileRectSmall>
         <TextArtist Name="TextArtist">
           <X>222</X>
           <Y>416</Y>
