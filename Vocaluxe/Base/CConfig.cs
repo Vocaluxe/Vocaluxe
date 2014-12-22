@@ -348,8 +348,14 @@ namespace Vocaluxe.Base
                 };
         }
 
+        private static readonly List<string> _CommentsGot = new List<string>();
+
         private static string _GetComment(string elName)
         {
+            // Avoid multiple comments (e.g. for array entries)
+            if (_CommentsGot.Contains(elName))
+                return null;
+            _CommentsGot.Add(elName);
             switch (elName)
             {
                 case "DebugLevel":
@@ -467,6 +473,7 @@ namespace Vocaluxe.Base
 
         public static void SaveConfig()
         {
+            _CommentsGot.Clear();
             var xml = new CXmlSerializer(true, _GetComment);
             xml.Serialize(_FileConfig, Config);
         }
