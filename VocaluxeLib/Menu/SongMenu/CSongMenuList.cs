@@ -161,8 +161,8 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _ListTextWidth = MaxRect.W - _ListTextWidth;
 
-            _TileW = (int)((MaxRect.W - _SpaceW * (_ListLength - 1)) / _ListLength);
-            _TileH = _TileW
+            _TileW = (int)((MaxRect.H - _SpaceH * (_ListLength - 1)) / _ListLength);
+            _TileH = _TileW;
 
             _CoverBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBackground, _PartyModeID);
             _CoverBigBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBigBackground, _PartyModeID);
