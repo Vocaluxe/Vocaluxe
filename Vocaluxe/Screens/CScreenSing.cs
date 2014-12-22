@@ -96,8 +96,7 @@ namespace Vocaluxe.Screens
         private int _CurrentBeat;
         private int _CurrentStream = -1;
         private float _Length = -1f;
-        //private int _NextStream = -1;
-        private const int _Volume = 100;
+
         private CVideoStream _CurrentVideo;
         private EAspect _VideoAspect = EAspect.Crop;
         private CTextureRef _CurrentWebcamFrameTexture;
@@ -528,7 +527,7 @@ namespace Vocaluxe.Screens
             _Texts[_TextSongName].Text = songname;
 
             _CurrentStream = CSound.Load(song.GetMP3(), false, true);
-            CSound.SetStreamVolume(_CurrentStream, _Volume);
+            CSound.SetStreamVolume(_CurrentStream, 100);
             CSound.SetPosition(_CurrentStream, song.Start);
             _CurrentTime = song.Start;
             _FinishTime = song.Finish;

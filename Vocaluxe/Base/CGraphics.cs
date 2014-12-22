@@ -228,12 +228,12 @@ namespace Vocaluxe.Base
 
             if (_Fading != null)
             {
+                Debug.Assert(NextScreen != null);
                 bool finished;
                 float newAlpha = _Fading.GetValue(out finished);
 
                 if (!finished)
                 {
-                    GlobalAlpha = 1f;
                     ZOffset = CSettings.ZFar / 2;
                     _DrawScreen(CurrentScreen);
 
@@ -242,6 +242,9 @@ namespace Vocaluxe.Base
                     _DrawScreen(NextScreen);
 
                     GlobalAlpha = 1f;
+                    int oldVol = CConfig.GetVolumeByType(CurrentScreen.CurrentMusicType);
+                    int newVol = CConfig.GetVolumeByType(NextScreen.CurrentMusicType);
+                    CSound.SetGlobalVolume((int)((newVol - oldVol) * newAlpha + oldVol));
                 }
                 else
                 {
@@ -305,8 +308,8 @@ namespace Vocaluxe.Base
         {
             if (screen == null)
                 throw new ArgumentNullException("screen");
-            Debug.Assert(NextScreen==null || NextScreen!=screen, "Don't fade to currently fading screen!");
-            if(screen==NextScreen)
+            Debug.Assert(NextScreen == null || NextScreen != screen, "Don't fade to currently fading screen!");
+            if (screen == NextScreen)
                 return;
             // Make sure the last screen change is done
             _FinishScreenFading();
