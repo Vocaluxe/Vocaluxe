@@ -432,7 +432,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     //create a rect including the cover and text of the song. 
                     //(this way mouse over text should make a selection as well)
                     SRectF songRect = new SRectF(tile.Rect.X, tile.Rect.Y, Rect.W, tile.Rect.H, tile.Rect.Z);
-                    if (tile.Texture != _CoverBGTexture && CHelper.IsInBounds(songRect, mouseEvent))
+                    if (tile.Texture != _CoverBGTexture && CHelper.IsInBounds(songRect, mouseEvent) && tile.Color.A != 0)
                     {
                         somethingSelected = true;
                         _SelectionNr = i + _Offset;
