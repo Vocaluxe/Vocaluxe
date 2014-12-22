@@ -159,12 +159,10 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             MaxRect = SmallView ? _Theme.SongMenuList.TileRectSmall : _Theme.SongMenuList.TileRect;
 
-            //keep tile ratio 3/2 so the covers still look nice. 
-            _CoverTileWidth = _ListLength * 3.0f / 2;
-            _ListTextWidth = Rect.W - _ListTextWidth;
+            _ListTextWidth = MaxRect.W - _ListTextWidth;
 
-            _TileW = (int)((Rect.W - _SpaceW * (_CoverTileWidth - 1)) / _CoverTileWidth);
-            _TileH = (int)((Rect.H - _SpaceH * (_ListLength - 1)) / _ListLength);
+            _TileW = (int)((MaxRect.W - _SpaceW * (_ListLength - 1)) / _ListLength);
+            _TileH = _TileW
 
             _CoverBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBackground, _PartyModeID);
             _CoverBigBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBigBackground, _PartyModeID);
@@ -181,7 +179,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _Tiles.Add(tile);
 
                 //Create text
-                var textRect = new SRectF(Rect.X + 2 * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _ListTextWidth, _TileH, Rect.Z);
+                var textRect = new SRectF(MaxRect.X + 2 * (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _ListTextWidth, _TileH, Rect.Z);
                 CText text = new CText(textRect.X, textRect.Y, textRect.Z,
                                        textRect.H, textRect.W, EAlignment.Left, EStyle.Normal,
                                        "Normal", _Artist.Color, "");
