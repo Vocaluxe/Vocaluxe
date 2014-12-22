@@ -165,8 +165,14 @@ namespace VocaluxeLib.Xml
                 if (field.IsEmbeddedList)
                 {
                     IEnumerable values = (IEnumerable)value;
+                    bool empty = true;
                     foreach (object subValue in values)
+                    {
                         _WriteValue(writer, field.Name, field.SubType, subValue, field.IsAttribute);
+                        empty = false;
+                    }
+                    if (empty && _WriteDefaults)
+                        writer.WriteElementString(field.Name, "");
                 }
                 else if (field.IsByteArray)
                     writer.WriteElementString(field.Name, Convert.ToBase64String((byte[])value));

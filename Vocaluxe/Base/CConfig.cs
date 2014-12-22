@@ -419,7 +419,7 @@ namespace Vocaluxe.Base
                 case "Language":
                     return "Game-Language";
                 case "SongFolder":
-                    return "SongFolder: SongFolder1, SongFolder2, SongFolder3, ...";
+                    return "SongFolder: Add each song folder in a seperate SongFolder entry";
                 case "SongMenu":
                     return "SongMenu: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongMenu)));
                 case "SongSorting":
