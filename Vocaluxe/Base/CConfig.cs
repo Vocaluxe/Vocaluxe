@@ -145,7 +145,7 @@ namespace Vocaluxe.Base
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideoPreview;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideosInSongs;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn VideosToBackground;
-            [DefaultValue(EWebcamLib.OpenCV)] public EWebcamLib WebcamLib;
+            [DefaultValue(EWebcamLib.AForgeNet)] public EWebcamLib WebcamLib;
             public SWebcamConfig? WebcamConfig;
         }
 
