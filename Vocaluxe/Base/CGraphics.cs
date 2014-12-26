@@ -224,6 +224,8 @@ namespace Vocaluxe.Base
                     NextScreen.ProcessMouseMove(_Cursor.X, _Cursor.Y);
 
                 HidePopup(EPopupScreens.PopupPlayerControl);
+                if (NextScreen.CurrentMusicType != EMusicType.Background && NextScreen.CurrentMusicType != EMusicType.Preview)
+                    CBackgroundMusic.Disabled = true;
             }
 
             if (_Fading != null)
@@ -277,6 +279,11 @@ namespace Vocaluxe.Base
             NextScreen = null;
             CurrentScreen.OnShowFinish();
             CSound.SetGlobalVolume(CConfig.GetVolumeByType(CurrentScreen.CurrentMusicType));
+            if (CurrentScreen.CurrentMusicType == EMusicType.Background || CurrentScreen.CurrentMusicType == EMusicType.Preview)
+            {
+                CBackgroundMusic.Disabled = false;
+                CBackgroundMusic.IsPlayingPreview = CurrentScreen.CurrentMusicType == EMusicType.Preview;
+            }
             _Fading = null;
         }
 
@@ -351,7 +358,7 @@ namespace Vocaluxe.Base
             SKeyEvent inputKeyEvent = new SKeyEvent();
             SMouseEvent inputMouseEvent = new SMouseEvent();
 
-            bool popupPlayerControlAllowed = CurrentScreen.CurrentMusicType == EMusicType.Background && !CBackgroundMusic.Disabled;
+            bool popupPlayerControlAllowed = CurrentScreen.CurrentMusicType == EMusicType.Background;
             bool popupVolumeControlAllowed = CurrentScreen.CurrentMusicType != EMusicType.None;
             //Hide volume control for bg-music if bg-music is disabled
             if (popupVolumeControlAllowed && CurrentScreen.CurrentMusicType == EMusicType.Background && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)

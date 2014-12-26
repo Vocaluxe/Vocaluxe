@@ -413,7 +413,6 @@ namespace Vocaluxe.Screens
         public override void OnShowFinish()
         {
             base.OnShowFinish();
-            CBackgroundMusic.Disabled = true;
 
             CGame.Start();
             _LoadNextSong();

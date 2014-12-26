@@ -121,7 +121,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 else if (value >= CBase.Songs.GetNumCategories())
                 {
                     value = -1;
-                    CBase.BackgroundMusic.Stop();
+                    CBase.BackgroundMusic.SetPlayingPreview(false);
                 }
 
                 _PreviewNrInternal = value;
@@ -371,7 +371,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 return;
 
             CBase.BackgroundMusic.StopPreview();
-
+            CBase.Sound.SetGlobalVolume(CBase.Config.GetMusicVolume(EMusicType.Background));
             if (playBGagain)
                 CBase.BackgroundMusic.Play();
 

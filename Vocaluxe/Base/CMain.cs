@@ -355,19 +355,19 @@ namespace Vocaluxe.Base
             CBackgroundMusic.Stop();
         }
 
-        public void LoadPreview(CSong song, float start = 0f)
+        public void LoadPreview(CSong song, float start = -1f)
         {
             CBackgroundMusic.LoadPreview(song, start);
-        }
-
-        public void PlayPreview(float start = -1f)
-        {
-            CBackgroundMusic.PlayPreview(start);
         }
 
         public void StopPreview()
         {
             CBackgroundMusic.StopPreview();
+        }
+
+        public void SetPlayingPreview(bool playPreview)
+        {
+            CBackgroundMusic.IsPlayingPreview = playPreview;
         }
 
         public CTextureRef GetVideoTexture()
@@ -876,6 +876,11 @@ namespace Vocaluxe.Base
         public void SetGlobalVolume(int volume)
         {
             CSound.SetGlobalVolume(volume);
+        }
+
+        public bool IsPaused(int streamID)
+        {
+            return CSound.IsPaused(streamID);
         }
     }
 

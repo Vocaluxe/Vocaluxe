@@ -99,7 +99,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (value == base._PreviewNr)
                 {
                     if (!CBase.BackgroundMusic.IsPlaying() && value != -1)
-                        CBase.BackgroundMusic.PlayPreview();
+                        CBase.BackgroundMusic.Play();
                     return;
                 }
                 base._PreviewNr = value;
