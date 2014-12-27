@@ -23,61 +23,70 @@ namespace Vocaluxe.Base
 {
     class CPlaylistElement
     {
-        private readonly CSong _Song;
+        public readonly CSong Song;
         private readonly string _MusicFilePath = String.Empty;
+
+        public bool HasMetaData
+        {
+            get { return Song != null; }
+        }
 
         public int SongID
         {
-            get { return (_Song == null) ? -1 : _Song.ID; }
+            get { return HasMetaData ? Song.ID : -1; }
         }
 
         public string MusicFilePath
         {
-            get { return _Song != null ? _Song.GetMP3() : _MusicFilePath; }
+            get { return HasMetaData ? Song.GetMP3() : _MusicFilePath; }
         }
 
         public string VideoFilePath
         {
-            get { return _Song != null ? _Song.GetVideo() : string.Empty; }
+            get { return HasMetaData ? Song.GetVideo() : string.Empty; }
         }
 
         public string Title
         {
-            get { return _Song != null ? _Song.Title : ""; }
+            get { return HasMetaData ? Song.Title : ""; }
         }
 
         public string Artist
         {
-            get { return _Song != null ? _Song.Artist : ""; }
+            get { return HasMetaData ? Song.Artist : ""; }
         }
 
         public float Start
         {
-            get { return _Song != null ? _Song.Start : 0f; }
+            get { return HasMetaData ? Song.Start : 0f; }
         }
 
         public float Finish
         {
-            get { return _Song != null ? _Song.Finish : 0f; }
+            get { return HasMetaData ? Song.Finish : 0f; }
         }
 
         public CTextureRef Cover
         {
-            get { return _Song != null ? _Song.CoverTextureSmall : CCover.NoCover; }
+            get { return HasMetaData ? Song.CoverTextureSmall : CCover.NoCover; }
         }
 
         public float VideoGap
         {
-            get { return _Song != null ? _Song.VideoGap : 0; }
+            get { return HasMetaData ? Song.VideoGap : 0; }
         }
 
         public CPlaylistElement(CSong song)
         {
-            _Song = song;
+            if (song == null)
+                throw new ArgumentNullException("song");
+            Song = song;
         }
 
         public CPlaylistElement(string filePath)
         {
+            if (String.IsNullOrEmpty(filePath))
+                throw new ArgumentNullException("filePath");
             _MusicFilePath = filePath;
         }
     }

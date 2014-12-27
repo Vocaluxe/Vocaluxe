@@ -63,7 +63,7 @@ namespace VocaluxeLib.Xml
         /// <param name="type">Type of the value</param>
         /// <param name="value">Object to write</param>
         /// <param name="isAttribute">When true, value will be written as an attribute to the currently open node, otherwhise it will create a new node</param>
-        /// <param name="arrayItemName">>Name of the sub nodes for array types(Array,List,Dictionary), can be set by XmlArrayItemAttribute and defaults to the type name</param>
+        /// <param name="arrayItemName">Name of the sub nodes for array types(Array,List,Dictionary), can be set by XmlArrayItemAttribute and defaults to the type name</param>
         /// <param name="nameAttribute">If set, an attribute 'name' with this value will be written</param>
         private void _WriteValue(XmlWriter writer, string name, Type type, object value, bool isAttribute, string arrayItemName = null, string nameAttribute = null)
         {
@@ -165,8 +165,14 @@ namespace VocaluxeLib.Xml
                 if (field.IsEmbeddedList)
                 {
                     IEnumerable values = (IEnumerable)value;
+                    bool empty = true;
                     foreach (object subValue in values)
+                    {
                         _WriteValue(writer, field.Name, field.SubType, subValue, field.IsAttribute);
+                        empty = false;
+                    }
+                    if (empty && _WriteDefaults)
+                        writer.WriteElementString(field.Name, "");
                 }
                 else if (field.IsByteArray)
                     writer.WriteElementString(field.Name, Convert.ToBase64String((byte[])value));

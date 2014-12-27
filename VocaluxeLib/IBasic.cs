@@ -121,9 +121,9 @@ namespace VocaluxeLib
 
         CTextureRef GetVideoTexture();
 
-        void LoadPreview(CSong song, float start = 0f);
-        void PlayPreview(float start = -1f);
+        void LoadPreview(CSong song, float start = -1f);
         void StopPreview();
+        void SetPlayingPreview(bool playPreview);
     }
 
     public interface IDrawing
@@ -266,17 +266,18 @@ namespace VocaluxeLib
     public interface ISound
     {
         int Load(string soundFile, bool loop = false, bool prescan = false);
-        void SetPosition(int soundStream, float newPosition);
-        void Play(int soundStream);
-        void Fade(int soundStream, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
-        void Close(int soundStream);
+        void SetPosition(int streamID, float newPosition);
+        void Play(int streamID);
+        void Fade(int streamID, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
+        void Close(int streamID);
 
-        bool IsFinished(int soundStream);
-        float GetPosition(int soundStream);
-        float GetLength(int soundStream);
+        bool IsFinished(int streamID);
+        float GetPosition(int streamID);
+        float GetLength(int streamID);
 
-        void SetStreamVolume(int soundStream, int volume);
+        void SetStreamVolume(int streamID, int volume);
         void SetGlobalVolume(int volume);
+        bool IsPaused(int streamID);
     }
 
     public interface ICover

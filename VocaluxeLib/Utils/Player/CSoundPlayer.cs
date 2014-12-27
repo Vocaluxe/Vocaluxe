@@ -15,58 +15,52 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.IO;
+
 namespace VocaluxeLib.Utils.Player
 {
     public class CSoundPlayer
     {
         protected int _StreamID = -1;
-        protected int _Volume = 100;
-        protected float _StartPosition;
         protected readonly float _FadeTime = CBase.Settings.GetSoundPlayerFadeTime();
+        public string FilePath { get; private set; }
 
-        public int Volume
-        {
-            set
-            {
-                _Volume = value;
-                _ApplyVolume();
-            }
-            get { return _Volume; }
-        }
         public bool Loop;
 
+        /// <summary>
+        ///     Gets the current stream position or sets it
+        /// </summary>
         public float Position
         {
             set
             {
-                if (_StreamID == -1)
+                if (!SoundLoaded)
                     return;
-                _StartPosition = value;
+                CBase.Sound.SetPosition(_StreamID, value);
             }
-            get
-            {
-                if (_StreamID == -1)
-                    return -1;
-                return CBase.Sound.GetPosition(_StreamID);
-            }
+            get { return !SoundLoaded ? -1 : CBase.Sound.GetPosition(_StreamID); }
         }
 
         public float Length
         {
-            get
-            {
-                if (_StreamID == -1)
-                    return 0;
-                return CBase.Sound.GetLength(_StreamID);
-            }
+            get { return !SoundLoaded ? -1 : CBase.Sound.GetLength(_StreamID); }
         }
 
-        public bool RepeatSong;
-        public bool IsPlaying { get; protected set; }
+        public bool IsPlaying { get; private set; }
 
         public bool IsFinished
         {
-            get { return !RepeatSong && CBase.Sound.IsFinished(_StreamID); }
+            get { return !Loop && CBase.Sound.IsFinished(_StreamID); }
+        }
+
+        public bool SoundLoaded
+        {
+            get { return _StreamID != -1; }
+        }
+
+        public virtual string ArtistAndTitle
+        {
+            get { return string.IsNullOrEmpty(FilePath) ? "" : Path.GetFileNameWithoutExtension(FilePath); }
         }
 
         public CSoundPlayer(bool loop = false)
@@ -74,95 +68,97 @@ namespace VocaluxeLib.Utils.Player
             Loop = loop;
         }
 
-        public CSoundPlayer(string file, bool loop = false, float position = 0f, bool autoplay = false)
+        public void Load(string file, float position = -1f, bool autoplay = false)
         {
-            _StreamID = CBase.Sound.Load(file, false, true);
-            if (position > 0f)
-                Position = position;
-            Loop = loop;
-            if (autoplay)
-                Play();
-        }
-
-        public void Load(string file, float position = 0f, bool autoplay = false)
-        {
-            if (IsPlaying)
-                Stop();
+            Close();
 
             _StreamID = CBase.Sound.Load(file, false, true);
-            if (position > 0f)
-                Position = position;
-            if (autoplay)
-                Play();
-        }
-
-        public void Play()
-        {
-            if (_StreamID == -1 || IsPlaying)
+            if (_StreamID < 0)
                 return;
+            FilePath = file;
+            if (position > 0f)
+                Position = position;
+            if (autoplay)
+                Play();
+        }
 
-            CBase.Sound.SetPosition(_StreamID, _StartPosition);
+        /// <summary>
+        ///     Starts or resumes the player
+        /// </summary>
+        /// <returns>True if state changed, false if nothing loaded or already playing</returns>
+        public virtual bool Play()
+        {
+            if (!SoundLoaded || IsPlaying)
+                return false;
+
             CBase.Sound.SetStreamVolume(_StreamID, 0);
-            CBase.Sound.Fade(_StreamID, Volume, _FadeTime);
+            CBase.Sound.Fade(_StreamID, 100, _FadeTime);
             CBase.Sound.Play(_StreamID);
             IsPlaying = true;
+            return true;
         }
 
-        public virtual void TogglePause()
+        /// <summary>
+        ///     Pauses the player
+        /// </summary>
+        /// <returns>True if state changed, false if nothing loaded or already paused</returns>
+        public virtual bool Pause()
         {
-            if (_StreamID == -1)
-                return;
+            if (!SoundLoaded || CBase.Sound.IsPaused(_StreamID))
+                return false;
 
-            if (IsPlaying)
-                CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Pause);
-            else
-            {
-                CBase.Sound.Fade(_StreamID, Volume, _FadeTime);
-                CBase.Sound.Play(_StreamID);
-            }
-
-            IsPlaying = !IsPlaying;
+            CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Pause);
+            IsPlaying = false;
+            return true;
         }
 
-        public virtual void Stop()
+        /// <summary>
+        ///     Stops the player (no playback and position is set to start)
+        /// </summary>
+        /// <returns>True if playback was stopped</returns>
+        public virtual bool Stop()
         {
-            if (_StreamID == -1 || !IsPlaying)
+            if (!SoundLoaded)
+                return false;
+
+            CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Stop);
+            IsPlaying = false;
+            return true;
+        }
+
+        public virtual void Close()
+        {
+            if (!SoundLoaded)
                 return;
 
             CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Close);
             _StreamID = -1;
-
+            FilePath = "";
             IsPlaying = false;
         }
 
         public void Update()
         {
-            if (_StreamID == -1 || !IsPlaying)
+            if (!IsPlaying)
                 return;
+
+            bool finished = CBase.Sound.IsFinished(_StreamID);
+            if (Loop)
+            {
+                if (finished)
+                {
+                    // Restart
+                    Stop();
+                    Play();
+                }
+                return;
+            }
 
             float len = CBase.Sound.GetLength(_StreamID);
             float timeToPlay = (len > 0f) ? len - CBase.Sound.GetPosition(_StreamID) : _FadeTime + 1f;
 
-            bool finished = CBase.Sound.IsFinished(_StreamID);
             if (timeToPlay <= _FadeTime || finished)
-            {
-                if (RepeatSong)
-                {
-                    //Set to false for restarting
-                    IsPlaying = false;
-                    Play();
-                }
-                else
-                    Stop();
-            }
-        }
-
-        private void _ApplyVolume()
-        {
-            if (_StreamID == -1)
-                return;
-
-            CBase.Sound.SetStreamVolume(_StreamID, Volume);
+                Stop();
         }
     }
 }

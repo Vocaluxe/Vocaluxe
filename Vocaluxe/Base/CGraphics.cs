@@ -224,16 +224,18 @@ namespace Vocaluxe.Base
                     NextScreen.ProcessMouseMove(_Cursor.X, _Cursor.Y);
 
                 HidePopup(EPopupScreens.PopupPlayerControl);
+                if (NextScreen.CurrentMusicType != EMusicType.Background && NextScreen.CurrentMusicType != EMusicType.Preview)
+                    CBackgroundMusic.Disabled = true;
             }
 
             if (_Fading != null)
             {
+                Debug.Assert(NextScreen != null);
                 bool finished;
                 float newAlpha = _Fading.GetValue(out finished);
 
                 if (!finished)
                 {
-                    GlobalAlpha = 1f;
                     ZOffset = CSettings.ZFar / 2;
                     _DrawScreen(CurrentScreen);
 
@@ -242,6 +244,9 @@ namespace Vocaluxe.Base
                     _DrawScreen(NextScreen);
 
                     GlobalAlpha = 1f;
+                    int oldVol = CConfig.GetVolumeByType(CurrentScreen.CurrentMusicType);
+                    int newVol = CConfig.GetVolumeByType(NextScreen.CurrentMusicType);
+                    CSound.SetGlobalVolume((int)((newVol - oldVol) * newAlpha + oldVol));
                 }
                 else
                 {
@@ -274,6 +279,11 @@ namespace Vocaluxe.Base
             NextScreen = null;
             CurrentScreen.OnShowFinish();
             CSound.SetGlobalVolume(CConfig.GetVolumeByType(CurrentScreen.CurrentMusicType));
+            if (CurrentScreen.CurrentMusicType == EMusicType.Background || CurrentScreen.CurrentMusicType == EMusicType.Preview)
+            {
+                CBackgroundMusic.Disabled = false;
+                CBackgroundMusic.IsPlayingPreview = CurrentScreen.CurrentMusicType == EMusicType.Preview;
+            }
             _Fading = null;
         }
 
@@ -305,8 +315,8 @@ namespace Vocaluxe.Base
         {
             if (screen == null)
                 throw new ArgumentNullException("screen");
-            Debug.Assert(NextScreen==null || NextScreen!=screen, "Don't fade to currently fading screen!");
-            if(screen==NextScreen)
+            Debug.Assert(NextScreen == null || NextScreen != screen, "Don't fade to currently fading screen!");
+            if (screen == NextScreen)
                 return;
             // Make sure the last screen change is done
             _FinishScreenFading();
@@ -348,7 +358,7 @@ namespace Vocaluxe.Base
             SKeyEvent inputKeyEvent = new SKeyEvent();
             SMouseEvent inputMouseEvent = new SMouseEvent();
 
-            bool popupPlayerControlAllowed = CurrentScreen.CurrentMusicType == EMusicType.Background && !CBackgroundMusic.Disabled;
+            bool popupPlayerControlAllowed = CurrentScreen.CurrentMusicType == EMusicType.Background;
             bool popupVolumeControlAllowed = CurrentScreen.CurrentMusicType != EMusicType.None;
             //Hide volume control for bg-music if bg-music is disabled
             if (popupVolumeControlAllowed && CurrentScreen.CurrentMusicType == EMusicType.Background && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)

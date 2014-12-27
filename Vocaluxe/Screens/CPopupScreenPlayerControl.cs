@@ -112,7 +112,7 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonPrevious].Selected)
                             CBackgroundMusic.Previous();
                         if (_Buttons[_ButtonPlay].Selected)
-                            CBackgroundMusic.Pause();
+                            CBackgroundMusic.Play();
                         if (_Buttons[_ButtonPause].Selected)
                             CBackgroundMusic.Pause();
                         if (_Buttons[_ButtonRepeat].Selected)
@@ -140,7 +140,7 @@ namespace Vocaluxe.Screens
                 if (_Buttons[_ButtonPrevious].Selected)
                     CBackgroundMusic.Previous();
                 if (_Buttons[_ButtonPlay].Selected)
-                    CBackgroundMusic.Pause();
+                    CBackgroundMusic.Play();
                 if (_Buttons[_ButtonPause].Selected)
                     CBackgroundMusic.Pause();
                 if (_Buttons[_ButtonRepeat].Selected)
