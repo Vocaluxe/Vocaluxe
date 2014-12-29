@@ -36,7 +36,7 @@ namespace Vocaluxe.Lib.Video
         ///     Loads the file with the given file path.
         /// </summary>
         /// <param name="videoFileName">Absolute file path of the video file</param>
-        /// <returns>stream &gt;=0 on success or -1 on failure</returns>
+        /// <returns>Loaded video stream or null on failure</returns>
         CVideoStream Load(string videoFileName);
 
         /// <summary>

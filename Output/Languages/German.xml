@@ -101,6 +101,7 @@
   <string name="TR_SCREENPARTY_VERSION">Version</string>
   <string name="TR_SCREENPARTY_ERROR">Dieser Party-Modus konnte nicht geladen werden.</string>
   <string name="TR_SCREENPARTY_ERROR_MICS">Es sind keine Mikros konfiguriert!</string>
+  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">Für diesen Party-Modus werden %d Mikros benötigt!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Zielgruppe</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Keine Teams</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Anzahl der Teams</string>

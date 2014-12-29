@@ -134,7 +134,7 @@ namespace Vocaluxe.Screens
         private void _SaveConfig()
         {
             CLanguage.LanguageId = _SelectSlides[_SelectSlideLanguage].Selection;
-            CConfig.Config.Game.Language = _SelectSlides[_SelectSlideLanguage].Value;
+            CConfig.Config.Game.Language = _SelectSlides[_SelectSlideLanguage].SelectedValue;
             CConfig.Config.Debug.DebugLevel = (EDebugLevel)_SelectSlides[_SelectSlideDebugLevel].Selection;
             CConfig.Config.Game.SongMenu = (ESongMenu)_SelectSlides[_SelectSlideSongMenu].Selection;
             CConfig.Config.Game.SongSorting = (ESongSorting)_SelectSlides[_SelectSlideSongSorting].Selection;

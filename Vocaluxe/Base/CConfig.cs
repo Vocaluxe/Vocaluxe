@@ -145,7 +145,7 @@ namespace Vocaluxe.Base
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideoPreview;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideosInSongs;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn VideosToBackground;
-            [DefaultValue(EWebcamLib.OpenCV)] public EWebcamLib WebcamLib;
+            [DefaultValue(EWebcamLib.AForgeNet)] public EWebcamLib WebcamLib;
             public SWebcamConfig? WebcamConfig;
         }
 
@@ -348,8 +348,14 @@ namespace Vocaluxe.Base
                 };
         }
 
+        private static readonly List<string> _CommentsGot = new List<string>();
+
         private static string _GetComment(string elName)
         {
+            // Avoid multiple comments (e.g. for array entries)
+            if (_CommentsGot.Contains(elName))
+                return null;
+            _CommentsGot.Add(elName);
             switch (elName)
             {
                 case "DebugLevel":
@@ -419,7 +425,7 @@ namespace Vocaluxe.Base
                 case "Language":
                     return "Game-Language";
                 case "SongFolder":
-                    return "SongFolder: SongFolder1, SongFolder2, SongFolder3, ...";
+                    return "SongFolder: Add each song folder in a seperate SongFolder entry";
                 case "SongMenu":
                     return "SongMenu: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongMenu)));
                 case "SongSorting":
@@ -467,6 +473,7 @@ namespace Vocaluxe.Base
 
         public static void SaveConfig()
         {
+            _CommentsGot.Clear();
             var xml = new CXmlSerializer(true, _GetComment);
             xml.Serialize(_FileConfig, Config);
         }

@@ -169,15 +169,16 @@ namespace VocaluxeLib.Menu
         private readonly CStatic _StaticPlaylistHeader;
         private readonly CStatic _StaticPlaylistFooter;
 
-        private bool _Selected;
         public SRectF Rect
         {
             get { return MaxRect; }
         }
         public SRectF MaxRect { get; set; }
+        private bool _Selectable = true;
         public bool Selectable
         {
-            get { return Visible; }
+            get { return Visible && _Selectable; }
+            set { _Selectable = value; }
         }
         public bool Visible
         {
@@ -185,6 +186,7 @@ namespace VocaluxeLib.Menu
             set { _Active = value; }
         }
         public bool Highlighted { get; set; }
+        private bool _Selected;
         public bool Selected
         {
             get { return _Selected; }
@@ -204,6 +206,8 @@ namespace VocaluxeLib.Menu
                     _ChangeOrderElement = null;
                     _EditMode = EEditMode.None;
                 }
+                else if (_CurrentPlaylistElement == -1 && _PlaylistElements.Count > 0)
+                    _SelectElement(_PlaylistElements[0].SelectSlide);
             }
         }
 
@@ -420,7 +424,7 @@ namespace VocaluxeLib.Menu
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             if (!Selected)
-                return true;
+                return false;
             //Active EditMode ignores other input!
             if (_EditMode == EEditMode.PlaylistName)
             {
@@ -446,6 +450,8 @@ namespace VocaluxeLib.Menu
                             if (!String.IsNullOrEmpty(_ButtonPlaylistName.Text.Text))
                                 _ButtonPlaylistName.Text.Text = _ButtonPlaylistName.Text.Text.Remove(_ButtonPlaylistName.Text.Text.Length - 1);
                             break;
+                        default:
+                            return false;
                     }
                 }
                 return true;
@@ -453,10 +459,10 @@ namespace VocaluxeLib.Menu
             if (_CurrentPlaylistElement == -1 || _PlaylistElementContents.Count == 0)
             {
                 //no song is selected
-                base.HandleInput(keyEvent);
+                bool handled = base.HandleInput(keyEvent);
                 _CurrentPlaylistElement = _GetSelectedElementNr();
 
-                if (_CurrentPlaylistElement != -1)
+                if (_CurrentPlaylistElement != -1 || handled)
                     return true;
             }
             else if (_CurrentPlaylistElement != -1)
@@ -669,6 +675,8 @@ namespace VocaluxeLib.Menu
                             UpdatePlaylist();
                         }
                         break;
+                    default:
+                        return false;
                 }
                 return true;
             }
@@ -720,6 +728,8 @@ namespace VocaluxeLib.Menu
                 case Keys.PageUp:
                     _SetSelectionToFirstEntry();
                     break;
+                default:
+                    return false;
             }
             return true;
         }
@@ -1037,6 +1047,7 @@ namespace VocaluxeLib.Menu
                         Cover = new CStatic(_Theme.StaticCover, _PartyModeID)
                     };
 
+                en.Cover.LoadSkin();
                 en.Cover.Y += Rect.Y + (i * _Theme.EntryHeight);
                 en.Cover.X += Rect.X;
 
@@ -1045,6 +1056,7 @@ namespace VocaluxeLib.Menu
                 en.Text1.Y += Rect.Y + (i * _Theme.EntryHeight);
 
                 en.SelectSlide = new CSelectSlide(_SelectSlideGameMode);
+                en.SelectSlide.LoadSkin();
                 en.SelectSlide.X += Rect.X;
                 en.SelectSlide.Y += Rect.Y + (i * _Theme.EntryHeight);
 
@@ -1145,12 +1157,9 @@ namespace VocaluxeLib.Menu
                     string t1 = CBase.Language.Translate(_Text1.Text).Replace("%a", song.Artist).Replace("%t", song.Title);
                     _PlaylistElements[i].Text1.Text = /*(Offset + i + 1) + ") " + */ t1; //TODO: Add text field for the number
                     _PlaylistElements[i].SelectSlide.Clear();
-                    for (int g = 0; g < pec.Modes.Count; g++)
-                    {
-                        _PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(EGameMode), pec.Modes[g]));
-                        if (pec.Modes[g] == pec.Mode)
-                            _PlaylistElements[i].SelectSlide.SetSelectionByValueIndex(g);
-                    }
+                    foreach (EGameMode gm in pec.Modes)
+                        _PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(EGameMode), gm), null, (int)gm);
+                    _PlaylistElements[i].SelectSlide.SelectedTag = (int)pec.Mode;
                 }
                 else
                 {

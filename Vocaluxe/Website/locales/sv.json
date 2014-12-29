@@ -80,7 +80,7 @@
     "keyboardButtonShift": "Shift",
     "keyboardButtonAlt": "Alt",
     "keyboardButtonCtrl": "Control",
-    "keyboardButtonBackspace": "Backspace",
-    "keyboardAutoSend": "Auto send keys",
-    "keyboardButtonSend": "Send"
+    "keyboardButtonBackspace": "Backsteg",
+    "keyboardAutoSend": "Auto skicka knappar",
+    "keyboardButtonSend": "Skicka"
 }

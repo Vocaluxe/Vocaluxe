@@ -65,6 +65,11 @@ namespace Vocaluxe.Screens
         private bool _AvatarsChanged;
         private bool _ProfilesChanged;
 
+        public override EMusicType CurrentMusicType
+        {
+            get { return EMusicType.Preview; }
+        }
+
         #region public methods
         public override void Init()
         {

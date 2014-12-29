@@ -45,9 +45,9 @@ namespace Vocaluxe.Lib.Sound.Playback
         void Fade(int streamID, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing);
 
         /// <summary>
-        ///     Set the streams current volume. Cancels fading
+        ///     Set the stream's current volume. Cancels fading
         /// </summary>
-        /// <param name="streamID">Id of the stream (optained by Load)</param>
+        /// <param name="streamID">Id of the stream (obtained by Load)</param>
         /// <param name="volume">Volume in percent</param>
         void SetStreamVolume(int streamID, int volume);
 

@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Windows.Forms;
 
 namespace VocaluxeLib.PartyModes.Challenge
@@ -35,8 +36,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         private const string _ButtonNext = "ButtonNext";
         private const string _ButtonBack = "ButtonBack";
 
-        private int _MaxNumMics = 2;
-        private int _MaxNumRounds = 100;
+        private const int _MaxNumRounds = 100;
         private int _RoundSteps = 1;
 
         public override void Init()
@@ -107,12 +107,6 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             base.OnShow();
 
-            _MaxNumMics = CBase.Config.GetMaxNumMics();
-            if (_MaxNumMics > 6)
-                _MaxNumMics = 6;
-
-            _MaxNumRounds = _PartyMode.GetMaxNumRounds();
-
             _RebuildSlides();
         }
 
@@ -125,9 +119,9 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             // build num player slide (min player ... max player);
             _SelectSlides[_SelectSlideNumPlayers].Clear();
-            for (int i = _PartyMode.GetMinPlayer(); i <= _PartyMode.GetMaxPlayer(); i++)
+            for (int i = _PartyMode.MinPlayers; i <= _PartyMode.MaxPlayers; i++)
                 _SelectSlides[_SelectSlideNumPlayers].AddValue(i.ToString());
-            _SelectSlides[_SelectSlideNumPlayers].Selection = _PartyMode.GameData.NumPlayer - _PartyMode.GetMinPlayer();
+            _SelectSlides[_SelectSlideNumPlayers].SelectedValue = _PartyMode.GameData.NumPlayer.ToString();
 
             _UpdateMicsAtOnce();
             _SetRoundSteps();
@@ -138,8 +132,8 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             int player = _PartyMode.GameData.NumPlayer;
             int mics = _PartyMode.GameData.NumPlayerAtOnce;
-            _PartyMode.GameData.NumPlayer = _SelectSlides[_SelectSlideNumPlayers].Selection + _PartyMode.GetMinPlayer();
-            _PartyMode.GameData.NumPlayerAtOnce = _SelectSlides[_SelectSlideNumMics].Selection + _PartyMode.GetMinPlayer();
+            _PartyMode.GameData.NumPlayer = _SelectSlides[_SelectSlideNumPlayers].Selection + _PartyMode.MinPlayers;
+            _PartyMode.GameData.NumPlayerAtOnce = _SelectSlides[_SelectSlideNumMics].Selection + _PartyMode.MinPlayers;
             _PartyMode.GameData.NumRounds = (_SelectSlides[_SelectSlideNumRounds].Selection + 1) * _RoundSteps;
 
             _UpdateMicsAtOnce();
@@ -158,9 +152,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _UpdateMicsAtOnce()
         {
-            int maxNum = _MaxNumMics;
-            if (_PartyMode.GameData.NumPlayer < _MaxNumMics)
-                maxNum = _PartyMode.GameData.NumPlayer;
+            int maxNum = Math.Min(_PartyMode.MaxMics, _PartyMode.GameData.NumPlayer);
 
             if (_PartyMode.GameData.NumPlayerAtOnce > maxNum)
                 _PartyMode.GameData.NumPlayerAtOnce = maxNum;
@@ -169,7 +161,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _SelectSlides[_SelectSlideNumMics].Clear();
             for (int i = 1; i <= maxNum; i++)
                 _SelectSlides[_SelectSlideNumMics].AddValue(i.ToString());
-            _SelectSlides[_SelectSlideNumMics].Selection = _PartyMode.GameData.NumPlayerAtOnce - _PartyMode.GetMinPlayer();
+            _SelectSlides[_SelectSlideNumMics].Selection = _PartyMode.GameData.NumPlayerAtOnce - _PartyMode.MinPlayers;
         }
 
         private void _UpdateSlideRounds()

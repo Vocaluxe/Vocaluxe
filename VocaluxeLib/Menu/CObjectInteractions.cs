@@ -91,6 +91,15 @@ namespace VocaluxeLib.Menu
         private void _SetSelected(int newSelection)
         {
             IMenuElement el = _GetElement(_Selection);
+            if (newSelection == _Selection)
+            {
+                // Don't change current selection
+                if (el == null)
+                    _Selection = -1;
+                else if (!el.Selected)
+                    el.Selected = true;
+                return;
+            }
             if (el != null)
                 el.Selected = false;
             _Selection = newSelection;

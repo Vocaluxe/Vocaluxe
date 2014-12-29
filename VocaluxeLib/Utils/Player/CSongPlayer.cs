@@ -39,28 +39,32 @@ namespace VocaluxeLib.Utils.Player
                 _VideoEnabled = value;
                 if (_VideoEnabled)
                     _LoadVideo();
-                else if (_Video != null)
-                    CBase.Video.Close(ref _Video);
+                else
+                    _CloseVideo();
             }
         }
+
         public int SongID
         {
             get { return _Song == null ? -1 : _Song.ID; }
         }
-        public bool SongHasVideo
-        {
-            get { return _Song != null && File.Exists(Path.Combine(_Song.Folder, _Song.VideoFileName)); }
-        }
 
-        public string ArtistAndTitle
+        public bool SongHasVideo
         {
             get
             {
-                if (_Song == null)
-                    return "";
-                if (_Song.Artist != "" && _Song.Title != "")
+                return _Song != null && !String.IsNullOrEmpty(_Song.Folder) && !String.IsNullOrEmpty(_Song.VideoFileName) &&
+                       File.Exists(Path.Combine(_Song.Folder, _Song.VideoFileName));
+            }
+        }
+
+        public override string ArtistAndTitle
+        {
+            get
+            {
+                if (_Song != null && !String.IsNullOrEmpty(_Song.Artist) && !String.IsNullOrEmpty(_Song.Title))
                     return _Song.Artist + " - " + _Song.Title;
-                return Path.GetFileNameWithoutExtension(_Song.MP3FileName);
+                return base.ArtistAndTitle;
             }
         }
 
@@ -69,25 +73,7 @@ namespace VocaluxeLib.Utils.Player
             get { return _Song == null ? CBase.Cover.GetNoCover() : _Song.CoverTextureBig; }
         }
 
-        public bool SongLoaded
-        {
-            get { return _StreamID != -1; }
-        }
-
         public CSongPlayer(bool loop = false) : base(loop) {}
-
-        public CSongPlayer(CSong song, bool loop = false, float position = 0f, bool autoplay = false)
-            : base(Path.Combine(song.Folder, song.MP3FileName), loop, position, autoplay)
-        {
-            _Song = song;
-            _LoadVideo();
-        }
-
-        public CSongPlayer(string file, bool loop = false, float position = 0f, bool autoplay = false)
-            : base(file, loop, position, autoplay)
-        {
-            _Song = null;
-        }
 
         public CTextureRef GetVideoTexture()
         {
@@ -110,49 +96,11 @@ namespace VocaluxeLib.Utils.Player
         public void Load(CSong song, float position = 0f, bool autoplay = false)
         {
             if (song == null)
-                return;
+                throw new ArgumentNullException("song");
 
-            Stop();
-
-            _Song = song;
-
-            Load(Path.Combine(song.Folder, song.MP3FileName), position, autoplay);
+            Load(song.GetMP3(), position, autoplay);
             _LoadVideo();
-
-            if (autoplay)
-                Play();
-        }
-
-        public void LoadFile(string file, float position = 0f, bool autoplay = false)
-        {
-            if (String.IsNullOrEmpty(file))
-                return;
-
-            Stop();
-
-            Load(file, position, autoplay);
-        }
-
-        public override void Stop()
-        {
-            base.Stop();
-
-            _Song = null;
-
-            if (_Video != null)
-                CBase.Video.Close(ref _Video);
-        }
-
-        public override void TogglePause()
-        {
-            if (IsPlaying && _Video != null)
-            {
-                CBase.Video.Pause(_Video);
-                CBase.Video.Skip(_Video, CBase.Sound.GetPosition(_StreamID) + _FadeTime, _Song.VideoGap);
-            }
-            else if (_Video != null)
-                CBase.Video.Resume(_Video);
-            base.TogglePause();
+            _Song = song;
         }
 
         private void _LoadVideo()
@@ -160,11 +108,13 @@ namespace VocaluxeLib.Utils.Player
             if (_Song == null)
                 return;
 
-            string videoFilePath = Path.Combine(_Song.Folder, _Song.VideoFileName);
-            if (_Video != null || String.IsNullOrEmpty(videoFilePath))
+            if (_Video != null || !SongHasVideo)
                 return;
+            string videoFilePath = Path.Combine(_Song.Folder, _Song.VideoFileName);
             _Video = CBase.Video.Load(videoFilePath);
-            CBase.Video.Skip(_Video, 0f, _Song.VideoGap); //Use gap, otherwhise we will overwrite position in GetVideoTexture
+            if (_Video == null)
+                return;
+
             _VideoFading = new CFading(0f, 1f, 3f);
 
             if (IsPlaying)
@@ -172,6 +122,57 @@ namespace VocaluxeLib.Utils.Player
                 CBase.Video.Skip(_Video, Position, _Song.VideoGap);
                 CBase.Video.Resume(_Video);
             }
+            else
+                CBase.Video.Skip(_Video, 0f, _Song.VideoGap);
+        }
+
+        public override bool Play()
+        {
+            if (!base.Play())
+                return false;
+
+            if (_Video != null)
+            {
+                CBase.Video.Skip(_Video, Position, _Song.VideoGap);
+                CBase.Video.Resume(_Video);
+            }
+            return true;
+        }
+
+        public override bool Pause()
+        {
+            if (!base.Pause())
+                return false;
+
+            if (_Video != null)
+                CBase.Video.Pause(_Video);
+            return true;
+        }
+
+        public override bool Stop()
+        {
+            if (!base.Stop())
+                return false;
+            if (_Video != null)
+            {
+                CBase.Video.Pause(_Video);
+                CBase.Video.Skip(_Video, 0f, _Song.VideoGap);
+            }
+            return true;
+        }
+
+        private void _CloseVideo()
+        {
+            if (_Video != null)
+                CBase.Video.Close(ref _Video);
+        }
+
+        public override void Close()
+        {
+            base.Close();
+
+            _Song = null;
+            _CloseVideo();
         }
     }
 }

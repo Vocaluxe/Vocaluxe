@@ -44,8 +44,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             {
                 _ExternTime.Time = value;
                 _SetValue = value;
-                _Timer.Reset();
-                _Timer.Start();
+                _Timer.Restart();
             }
         }
 

@@ -75,37 +75,46 @@ namespace Vocaluxe.Base
 
         public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID)
         {
+            if (_HighscoreDB == null)
+            {
+                numPlayed = 0;
+                dateAdded = new DateTime();
+                highscoreID = 0;
+                return false;
+            }
             return _HighscoreDB.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreID);
         }
 
         public static List<SDBScoreEntry> LoadScore(int songID, EGameMode gameMode)
         {
-            return _HighscoreDB.LoadScore(songID, gameMode);
+            return _HighscoreDB == null ? null : _HighscoreDB.LoadScore(songID, gameMode);
         }
 
         public static int AddScore(SPlayer player)
         {
-            return _HighscoreDB.AddScore(player);
+            return _HighscoreDB == null ? -1 : _HighscoreDB.AddScore(player);
         }
 
         public static void IncreaseSongCounter(int dataBaseSongID)
         {
-            _HighscoreDB.IncreaseSongCounter(dataBaseSongID);
+            if (_HighscoreDB != null)
+                _HighscoreDB.IncreaseSongCounter(dataBaseSongID);
         }
 
         public static bool GetCover(string fileName, ref CTextureRef tex, int maxSize)
         {
-            return _CoverDB.GetCover(fileName, ref tex, maxSize);
+            return _CoverDB != null && _CoverDB.GetCover(fileName, ref tex, maxSize);
         }
 
         public static void CommitCovers()
         {
-            _CoverDB.CommitCovers();
+            if (_CoverDB != null)
+                _CoverDB.CommitCovers();
         }
 
         public static bool GetCreditsRessource(string fileName, ref CTextureRef tex)
         {
-            return _ResourceDB.GetCreditsRessource(fileName, ref tex);
+            return _ResourceDB != null && _ResourceDB.GetCreditsRessource(fileName, ref tex);
         }
     }
 }

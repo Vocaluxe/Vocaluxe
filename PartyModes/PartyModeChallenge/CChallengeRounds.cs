@@ -17,218 +17,136 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using VocaluxeLib.Utils.Combinatorics;
 
 namespace VocaluxeLib.PartyModes.Challenge
 {
     public class CChallengeRounds
     {
-        private readonly Random _Rand;
-        private readonly int _NumPlayer;
-
-        public readonly List<CCombination> Rounds;
+        private readonly List<CRound> _Rounds = new List<CRound>();
 
         public int Count
         {
-            get { return Rounds.Count; }
+            get { return _Rounds.Count; }
         }
 
-        public CCombination this[int index]
+        public CRound this[int index]
         {
-            get { return Rounds[index]; }
+            get { return _Rounds[index]; }
         }
 
-        public CChallengeRounds(int numRounds, int numPlayer, int numPlayerAtOnce)
+        public CChallengeRounds(int numRounds, int numPlayer, int playersPerRound)
         {
-            Rounds = new List<CCombination>();
-            _Rand = new Random(DateTime.Now.Millisecond);
+            if (numRounds < 1 || numPlayer < 1 || playersPerRound < 1)
+                throw new ArgumentException("Invalid paramters for the rounds");
 
-            if (numPlayerAtOnce < 1 || numRounds < 1 || numPlayer == 0)
-                _NumPlayer = 0;
-            else
+            if (playersPerRound > numPlayer)
+                playersPerRound = numPlayer;
+
+            _BuildRounds(numRounds, numPlayer, playersPerRound);
+            if (Count > numRounds)
             {
-                _NumPlayer = numPlayer;
-                _BuildRounds(numRounds, numPlayerAtOnce, _Rand);
-            }
-        }
-
-        public CCombination GetRound(int roundNr)
-        {
-            if (roundNr >= Rounds.Count || _NumPlayer == 0 || Rounds.Count == 0)
-                return null;
-
-            return Rounds[roundNr];
-        }
-
-        private void _BuildRounds(int numRounds, int numPlayerAtOnce, Random rand)
-        {
-            CCombinations combinations = new CCombinations(_NumPlayer, numPlayerAtOnce, rand);
-            Rounds.Add(combinations.GetNextCombination(null));
-
-            for (int i = 1; i < numRounds; i++)
-                Rounds.Add(combinations.GetNextCombination(_GetPlayerDemand(i)));
-        }
-
-        private IEnumerable<int> _GetPlayerDemand(int roundIndex)
-        {
-            List<int> numPlayed = new List<int>(_NumPlayer);
-            for (int i = 0; i < _NumPlayer; i++)
-                numPlayed.Add(0);
-
-            for (int i = 0; i < roundIndex; i++)
-            {
-                foreach (int playerIndex in Rounds[i].Player)
-                    numPlayed[playerIndex]++;
-            }
-
-            int max = numPlayed.Max();
-
-            int num = Rounds[0].Player.Count;
-            List<int> result = new List<int>();
-            List<int> other = new List<int>();
-            List<int> last = new List<int>();
-
-            for (int i = 0; i < numPlayed.Count; i++)
-            {
-                if (roundIndex == 0 || numPlayed[i] < max)
+                //Try again and take the better one
+                List<CRound> old = new List<CRound>(_Rounds);
+                _Rounds.Clear();
+                _BuildRounds(numRounds, numPlayer, playersPerRound);
+                if (Count > old.Count)
                 {
-                    if (roundIndex == 0 || roundIndex > 0 && numPlayed[i] < max && !Rounds[roundIndex - 1].IsAvailable(i))
-                        result.Add(i);
-                    else if (numPlayed[i] < max)
-                        other.Add(i);
-                }
-                else
-                {
-                    if (roundIndex > 0)
-                    {
-                        if (!Rounds[roundIndex - 1].IsAvailable(i))
-                            other.Add(i);
-                        else
-                            last.Add(i);
-                    }
-                    else
-                        last.Add(i);
+                    _Rounds.Clear();
+                    _Rounds.AddRange(old);
                 }
             }
+        }
 
-            while (result.Count < num && other.Count > 0)
+        /// <summary>
+        ///     Divides players in 2 categories: Those how sung the most and the others
+        /// </summary>
+        /// <param name="numSung">List matching the playerIndex to the number of songs sung</param>
+        private static List<int> _GetPlayersForRound(IList<int> numSung)
+        {
+            List<int> mustSing = new List<int>();
+            int max = numSung.Max();
+            for (int i = 0; i < numSung.Count; i++)
             {
-                int n = other.Count;
-                int r = _Rand.Next(n);
-                result.Add(other[r]);
-                other.RemoveAt(r);
+                if (numSung[i] < max)
+                    mustSing.Add(i);
             }
+            return mustSing;
+        }
 
-            while (result.Count < num)
+        private static void _AddCombinations(int numPlayer, int playersPerRound, List<CRound> combinations)
+        {
+            List<int> input = new List<int>(numPlayer);
+            for (int i = 0; i < numPlayer; i++)
+                input.Add(i);
+            CCombinations<int> combs = new CCombinations<int>(input, playersPerRound);
+            combinations.AddRange(combs.Select(combination => new CRound(combination)));
+            combinations.Shuffle();
+        }
+
+        private static CRound _GetMatchingCombination(List<int> playersInRound, List<int> numSung, List<CRound> combinations)
+        {
+            foreach (CRound round in combinations)
             {
-                int n = last.Count;
-                int r = _Rand.Next(n);
-                result.Add(last[r]);
-                last.RemoveAt(r);
+                int matching = round.Players.Count(playersInRound.Contains);
+                // A valid round contains only players from playersInRound or all players from playersInRound (and some others)
+                if (matching == round.Players.Count || matching == playersInRound.Count)
+                    return round;
             }
-
-            while (result.Count > num)
+            // It may happen, that there are only players that already sung against each other. So create a 2nd best option with the most number of players that should sing in it
+            int maxMatching = combinations.Max(c => c.Players.Count(playersInRound.Contains));
+            List<CRound> nextOptions = combinations.Where(c => c.Players.Count(playersInRound.Contains) == maxMatching).ToList();
+            // And select the combination that minimizes the sum of the number of songs sung (--> favor rounds with players that sung less than others)
+            CRound result = null;
+            int minSung = int.MaxValue;
+            foreach (CRound round in nextOptions)
             {
-                int n = result.Count;
-                int r = _Rand.Next(n);
-                result.RemoveAt(r);
+                int curNumSung = round.Players.Sum(pl => numSung[pl]);
+                if (curNumSung < minSung)
+                {
+                    minSung = curNumSung;
+                    result = round;
+                }
             }
-
-            result.Sort();
+            Debug.Assert(result != null);
             return result;
         }
-    }
 
-    class CCombinations
-    {
-        private readonly List<CCombination> _Combs;
-        private readonly Random _Rand;
-        private readonly int _NumPlayer;
-        private readonly int _NumMics;
-
-        public CCombinations(int numPlayer, int numMics, Random rand)
+        private void _BuildRounds(int numRounds, int numPlayer, int playersPerRound)
         {
-            _Combs = new List<CCombination>();
-            _NumMics = numMics;
-            _NumPlayer = numPlayer;
-            _Rand = rand;
-        }
-
-        public CCombination GetNextCombination(IEnumerable<int> playerNrDemand)
-        {
-            if (_Combs.Count == 0)
-                _Create();
-
-            if (_NumPlayer == _NumMics)
-                return _Combs[0];
-
-            //filter against PlayerNrDemand
-            List<CCombination> combsFiltered = new List<CCombination>();
-            if (playerNrDemand != null)
-                combsFiltered.AddRange(_Combs.Where(t => t.IsAvailableAll(playerNrDemand)));
-
-            //1st fallback
-            if (playerNrDemand != null && combsFiltered.Count == 0)
-                combsFiltered.AddRange(_Combs.Where(t => t.IsAvailableSomeone(playerNrDemand)));
-
-            //2nd fallback
-            if (combsFiltered.Count == 0)
-                combsFiltered.AddRange(_Combs);
-
-            int num = combsFiltered.Count;
-            int rand = _Rand.Next(num);
-            CCombination c = new CCombination();
-            for (int i = 0; i < combsFiltered[rand].Player.Count; i++)
-                c.Player.Add(combsFiltered[rand].Player[i]);
-            _Combs.Remove(combsFiltered[rand]);
-
-            return combsFiltered[rand];
-        }
-
-        private void _Create()
-        {
-            _Combs.Clear();
-
-            int num = (int)Math.Pow(2, _NumPlayer);
-
-            for (int i = 1; i <= num; i++)
+            // What we want is that every player sung the same amount of songs
+            // So we keep track how many songs each palyer sung
+            List<int> numSung = new List<int>(numPlayer);
+            for (int i = 0; i < numPlayer; i++)
+                numSung.Add(0);
+            List<CRound> combinations = new List<CRound>();
+            // Posibly add more rounds than requested if the song count per player is unequal
+            for (int i = 0; i < numRounds * 10; i++)
             {
-                CCombination c = new CCombination();
-
-                for (int j = 0; j < _NumPlayer; j++)
-                {
-                    if ((i & (1 << j)) > 0)
-                        c.Player.Add(j);
-                }
-
-                if (c.Player.Count == _NumMics)
-                    _Combs.Add(c);
+                if (combinations.Count == 0)
+                    _AddCombinations(numPlayer, playersPerRound, combinations);
+                List<int> playersInRound = _GetPlayersForRound(numSung);
+                CRound curRound = _GetMatchingCombination(playersInRound, numSung, combinations);
+                foreach (int player in curRound.Players)
+                    numSung[player]++;
+                _Rounds.Add(curRound);
+                combinations.Remove(curRound);
+                //Stop if we have enough rounds and all players sung the same amount of songs
+                if (_Rounds.Count >= numRounds && numSung.All(ct => ct == numSung[0]))
+                    break;
             }
         }
     }
 
-    public class CCombination
+    public class CRound
     {
-        public readonly List<int> Player;
+        public readonly List<int> Players;
 
-        public CCombination()
+        public CRound(List<int> players)
         {
-            Player = new List<int>();
-        }
-
-        public bool IsAvailable(int playerIndex)
-        {
-            return Player.Any(p => p == playerIndex);
-        }
-
-        public bool IsAvailableAll(IEnumerable<int> playerIndices)
-        {
-            return playerIndices.All(IsAvailable);
-        }
-
-        public bool IsAvailableSomeone(IEnumerable<int> playerIndices)
-        {
-            return playerIndices.Any(IsAvailable);
+            Players = players.Shuffle();
         }
     }
 }

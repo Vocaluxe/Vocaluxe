@@ -80,7 +80,6 @@ namespace Vocaluxe.Screens
         private readonly List<string> _ButtonsJoker = new List<string>();
         private readonly List<string> _TextsPlayer = new List<string>();
         private ESongOptionsView _CurSongOptionsView;
-        private bool _PlaylistActive;
         private readonly List<EGameMode> _AvailableGameModes;
         private SScreenSongOptions _Sso;
 
@@ -163,15 +162,25 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_Playlist.Visible)
+            {
+                keyEvent.Handled = _Playlist.HandleInput(keyEvent);
+                if (keyEvent.Handled)
+                    return true;
+                if (!keyEvent.KeyPressed && keyEvent.Key == Keys.Escape)
+                {
+                    _ClosePlaylist();
+                    keyEvent.Handled = true;
+                    return true;
+                }
+            }
+
+            // Playlist selection is handled below not in base!
+            _Playlist.Selectable = false;
             base.HandleInput(keyEvent);
+            _Playlist.Selectable = true;
             if (keyEvent.Handled)
                 return true;
-
-            if (_PlaylistActive)
-            {
-                _Playlist.HandleInput(keyEvent);
-                return true;
-            }
 
             if (_CurSongOptionsView == ESongOptionsView.None)
             {
@@ -233,9 +242,8 @@ namespace Vocaluxe.Screens
                         case Keys.Tab:
                             if (_Playlist.Visible)
                             {
-                                _PlaylistActive = !_PlaylistActive;
-                                _Playlist.Selected = _PlaylistActive;
-                                _SongMenu.Selected = !_PlaylistActive;
+                                _Playlist.Selected = !_Playlist.Selected;
+                                _SongMenu.Selected = !_Playlist.Selected;
                             }
                             break;
 
@@ -392,27 +400,18 @@ namespace Vocaluxe.Screens
             _OldMousePosX = mouseEvent.X;
             _OldMousePosY = mouseEvent.Y;
 
-            if (_Playlist.Visible && _Playlist.IsMouseOver(mouseEvent))
+            if (_Playlist.Visible && _Playlist.Selected)
             {
-                _PlaylistActive = true;
-                _Playlist.Selected = _PlaylistActive;
-                _SongMenu.Selected = !_PlaylistActive;
+                _SongMenu.Selected = false;
                 _ToggleSongOptions(ESongOptionsView.None);
-            }
-            else if (CHelper.IsInBounds(_SongMenu.Rect, mouseEvent))
-            {
-                _PlaylistActive = false;
-                _Playlist.Selected = _PlaylistActive;
-                _SongMenu.Selected = !_PlaylistActive;
-            }
-
-
-            if (_Playlist.Visible && _PlaylistActive)
-            {
                 if (_Playlist.HandleMouse(mouseEvent))
                     return true;
             }
-
+            else if (CHelper.IsInBounds(_SongMenu.Rect, mouseEvent))
+            {
+                _Playlist.Selected = false;
+                _SongMenu.Selected = true;
+            }
 
             if (mouseEvent.RB)
             {
@@ -522,12 +521,12 @@ namespace Vocaluxe.Screens
                         _HandleSelectButton();
                         return true;
                     }
-                    else if (_SelectSlides[_SelectSlideOptionsPlaylistOpen].ValueSelected)
+                    else if (_SelectSlides[_SelectSlideOptionsPlaylistOpen].IsValueSelected)
                     {
                         _OpenPlaylist(_SelectSlides[_SelectSlideOptionsPlaylistOpen].Selection);
                         return true;
                     }
-                    else if (_SelectSlides[_SelectSlideOptionsPlaylistAdd].ValueSelected)
+                    else if (_SelectSlides[_SelectSlideOptionsPlaylistAdd].IsValueSelected)
                     {
                         _OpenPlaylist(_SelectSlides[_SelectSlideOptionsPlaylistAdd].Selection - 1);
                         return true;
@@ -629,12 +628,13 @@ namespace Vocaluxe.Screens
             _SongMenu.OnShow();
 
             if (_Sso.Selection.PartyMode)
-                _PlaylistActive = false;
-
-            if (_Sso.Selection.PartyMode)
+            {
+                _ClosePlaylist();
                 _ToggleSongOptions(ESongOptionsView.None);
+                _SelectElement(_Buttons[_ButtonStart]);
+            }
 
-            _SongMenu.Selected = !_PlaylistActive;
+            _SongMenu.Selected = !_Playlist.Visible;
             _SongMenu.SmallView = _Playlist.Visible;
 
             if (_Playlist.ActivePlaylistID != -1)
@@ -659,7 +659,7 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            if (_PlaylistActive)
+            if (_Playlist.Visible)
             {
                 if (_Playlist.ActivePlaylistID == -1)
                     _ClosePlaylist();
@@ -1171,7 +1171,7 @@ namespace Vocaluxe.Screens
         {
             if (CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].IsGameModeAvailable(gameMode))
             {
-                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), gameMode));
+                _SelectSlides[_SelectSlideOptionsMode].AddValue(Enum.GetName(typeof(EGameMode), gameMode), null, (int)gameMode);
                 _AvailableGameModes.Add(gameMode);
             }
         }
@@ -1189,11 +1189,7 @@ namespace Vocaluxe.Screens
             _CheckAndAddGameMode(EGameMode.TR_GAMEMODE_MEDLEY);
 
             //Set SelectSlide-Selection to last selected game-mode if possible
-            for (int i = 0; i < _AvailableGameModes.Count; i++)
-            {
-                if (_AvailableGameModes[i] == lastMode)
-                    _SelectSlides[_SelectSlideOptionsMode].SetSelectionByValueIndex(i);
-            }
+            _SelectSlides[_SelectSlideOptionsMode].SelectedTag = (int)lastMode;
             _SelectSlides[_SelectSlideOptionsMode].Visible = true;
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = true;
             _Buttons[_ButtonOptionsSing].Visible = true;
@@ -1242,9 +1238,9 @@ namespace Vocaluxe.Screens
                     _SelectSlides[_SelectSlideOptionsNumMedleySongs].AddValue(i.ToString());
             }
             if (_SelectSlides[_SelectSlideOptionsNumMedleySongs].NumValues >= 5)
-                _SelectSlides[_SelectSlideOptionsNumMedleySongs].SetSelectionByValueIndex(4);
+                _SelectSlides[_SelectSlideOptionsNumMedleySongs].SelectedValue = "5";
             else
-                _SelectSlides[_SelectSlideOptionsNumMedleySongs].SetSelectionByValueIndex(_SelectSlides[_SelectSlideOptionsNumMedleySongs].NumValues - 1);
+                _SelectSlides[_SelectSlideOptionsNumMedleySongs].SelectLastValue();
             _SelectElement(_Buttons[_ButtonOptionsStartMedley]);
         }
 
@@ -1260,12 +1256,12 @@ namespace Vocaluxe.Screens
 
         private void _ClosePlaylist()
         {
-            if (_Playlist.Visible || _PlaylistActive)
+            if (_Playlist.Visible)
             {
                 _SongMenu.SmallView = false;
-                _PlaylistActive = false;
-                _Playlist.Selected = _PlaylistActive;
-                _SongMenu.Selected = !_PlaylistActive;
+                _Playlist.Visible = false;
+                _Playlist.Selected = false;
+                _SongMenu.Selected = false;
                 _Playlist.ClosePlaylist();
             }
         }

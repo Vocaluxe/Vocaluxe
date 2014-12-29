@@ -178,6 +178,18 @@ namespace VocaluxeLib
                 rect.Z);
         }
 
+        public static List<T> Shuffle<T>(this List<T> list)
+        {
+            for (int n = list.Count - 1; n >= 1; n--)
+            {
+                int k = CBase.Game.GetRandom(n);
+                T value = list[k];
+                list[k] = list[n];
+                list[n] = value;
+            }
+            return list;
+        }
+
         public static Size GetSize(this Bitmap bmp)
         {
             return new Size(bmp.Width, bmp.Height);

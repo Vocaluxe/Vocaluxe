@@ -237,7 +237,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
         private bool _OnMessage(Message msg)
         {
-            if (msg.Handle == IntPtr.Zero)
+            if (msg == null || msg.Handle == IntPtr.Zero)
                 return true;
             switch (msg.Type)
             {

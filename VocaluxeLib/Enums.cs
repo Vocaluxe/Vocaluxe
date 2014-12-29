@@ -180,7 +180,6 @@ namespace VocaluxeLib
 
     public enum EWebcamLib
     {
-        OpenCV,
         AForgeNet
     }
 
