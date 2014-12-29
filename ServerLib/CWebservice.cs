@@ -173,6 +173,12 @@ namespace ServerLib
             return sessionId;
         }
 
+        public void Logout()
+        {
+            Guid sessionKey = _GetSession();
+            CSessionControl.InvalidateSessions(sessionKey);
+        }
+
         public Stream Index()
         {
             if (WebOperationContext.Current != null)

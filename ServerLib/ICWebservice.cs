@@ -73,6 +73,11 @@ namespace ServerLib
 
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/logout")]
+        void Logout();
+
+        [OperationContract, WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "")]
         Stream Index();
 

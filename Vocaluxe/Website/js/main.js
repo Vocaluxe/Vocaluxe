@@ -1412,16 +1412,20 @@
         };
 
         this.logout = function () {
-            t.ownProfileId = -1;
+            request({
+                url: "logout"
+            }, "noOverlay").always(function () {
+                t.ownProfileId = -1;
 
-            t.sessionId = "";
+                t.sessionId = "";
 
-            pageHandler.reset();
+                pageHandler.reset();
 
-            if (window.localStorage) {
-                window.localStorage.setItem("VocaluxeSessionKey", "");
-            }
-            $.mobile.changePage("#login", { transition: "slidefade" });
+                if (window.localStorage) {
+                    window.localStorage.setItem("VocaluxeSessionKey", "");
+                }
+                $.mobile.changePage("#login", { transition: "slidefade" });
+            });
         };
 
 

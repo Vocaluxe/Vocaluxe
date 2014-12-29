@@ -34,7 +34,7 @@ namespace ServerLib
             int id = _GetProfileIdFormUsername(userName);
             EUserRoles roles = _GetUserRoles(id);
             CSession session = new CSession(newId, id, roles);
-            InvalidateSessions(id);
+            //InvalidateSessions(id);
             _ActiveSessions.Add(newId, session);
 
             return newId;
@@ -61,6 +61,14 @@ namespace ServerLib
                                                         where kv.Value.ProfileId == profileId
                                                         select kv).ToList())
                 _ActiveSessions.Remove(s.Key);
+        }
+
+        internal static void InvalidateSessions(Guid sessionId)
+        {
+            if (_ActiveSessions.ContainsKey(sessionId))
+            {
+                _ActiveSessions.Remove(sessionId);
+            }
         }
 
         internal static bool RequestRight(Guid sessionId, EUserRights requestedRight)
