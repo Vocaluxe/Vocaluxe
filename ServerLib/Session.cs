@@ -38,12 +38,20 @@ namespace ServerLib
         {
             get { return _Roles; }
         }
+       
+        private DateTime _LastSeen;
+        public DateTime LastSeen
+        {
+            get { return _LastSeen; }
+            internal set { _LastSeen = value; }
+        }
 
         public CSession(Guid id, int profileId, EUserRoles roles)
         {
             _ID = id;
             _ProfileId = profileId;
             _Roles = roles;
+            _LastSeen = DateTime.Now;
         }
     }
 }

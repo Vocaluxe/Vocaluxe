@@ -39,6 +39,7 @@ namespace ServerLib
             }
             catch (Exception)
             { }
+            CSessionControl.ResetSessionTimeout(sessionKey);
             return sessionKey;
         }
 
@@ -296,6 +297,7 @@ namespace ServerLib
 
         public bool IsServerOnline()
         {
+            _GetSession();
             return true;
         }
         #endregion
