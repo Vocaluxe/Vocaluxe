@@ -585,6 +585,7 @@
                         url: "sendPhoto",
                         contentType: "application/json;charset=utf-8",
                         type: "POST",
+                        timeout: 40000,
                         data: JSON.stringify({ Photo: { base64Data: imgData } })
                     }, 'Uploading photo...');
                 }
