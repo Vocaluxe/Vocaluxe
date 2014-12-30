@@ -322,7 +322,6 @@ namespace ServerLib
         {
             if (WebOperationContext.Current != null)
             {
-                WebOperationContext.Current.OutgoingResponse.ContentType = "audio/mpeg";
                 WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
                 WebOperationContext.Current.OutgoingResponse.Headers.Add(
                     HttpResponseHeader.Expires,
@@ -334,11 +333,35 @@ namespace ServerLib
             path = path.Replace("..", "");
 
 
-            if (!File.Exists(path) || !(path.EndsWith(".mp3", StringComparison.InvariantCulture) || path.EndsWith(".ogg", StringComparison.InvariantCulture)))
+            if (!File.Exists(path) 
+                || !(path.EndsWith(".mp3", StringComparison.InvariantCulture) 
+                        || path.EndsWith(".ogg", StringComparison.InvariantCulture)
+                        || path.EndsWith(".wav", StringComparison.InvariantCulture)
+                        || path.EndsWith(".webm", StringComparison.InvariantCulture)))
             {
                 if (WebOperationContext.Current != null)
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
                 return null;
+            }
+
+            if (WebOperationContext.Current != null)
+            {
+                if (path.EndsWith(".mp3", StringComparison.InvariantCulture))
+                {
+                    WebOperationContext.Current.OutgoingResponse.ContentType = "audio/mpeg";
+                }
+                else if (path.EndsWith(".ogg", StringComparison.InvariantCulture))
+                {
+                    WebOperationContext.Current.OutgoingResponse.ContentType = "audio/ogg";
+                }
+                else if (path.EndsWith(".wav", StringComparison.InvariantCulture))
+                {
+                    WebOperationContext.Current.OutgoingResponse.ContentType = "audio/wav";
+                }
+                else if (path.EndsWith(".webm", StringComparison.InvariantCulture))
+                {
+                    WebOperationContext.Current.OutgoingResponse.ContentType = "audio/webm";
+                }
             }
 
             return File.OpenRead(path);
