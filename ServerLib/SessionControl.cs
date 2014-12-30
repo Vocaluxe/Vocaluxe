@@ -18,12 +18,35 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Timers;
 
 namespace ServerLib
 {
     static class CSessionControl
     {
-        private static readonly Dictionary<Guid, CSession> _ActiveSessions = new Dictionary<Guid, CSession>();
+        private static readonly Dictionary<Guid, CSession> _ActiveSessions;
+        private const int _UserTimeoutCheckIntervall = 120000;
+        private const int _UserTimeout = 120000;
+
+        static CSessionControl()
+        {
+            _ActiveSessions = new Dictionary<Guid, CSession>();
+            Timer timer = new Timer(_UserTimeoutCheckIntervall) {AutoReset = true, Enabled = true};
+            timer.Elapsed += _CheckForUserTimeouts;
+            timer.Start();
+        }
+
+        private static void _CheckForUserTimeouts(object sender, ElapsedEventArgs e)
+        {
+            var sessionIdsToRemove = _ActiveSessions.Where(pair => (DateTime.Now-pair.Value.LastSeen).TotalMilliseconds > _UserTimeout)
+                         .Select(pair => pair.Key)
+                         .ToList();
+
+            foreach (var sessionToRemove in sessionIdsToRemove)
+            {
+                InvalidateSessions(sessionToRemove);
+            }
+        }
 
         public static Guid OpenSession(string userName, string password)
         {
@@ -34,7 +57,7 @@ namespace ServerLib
             int id = _GetProfileIdFormUsername(userName);
             EUserRoles roles = _GetUserRoles(id);
             CSession session = new CSession(newId, id, roles);
-            InvalidateSessions(id);
+            //InvalidateSessions(id);
             _ActiveSessions.Add(newId, session);
 
             return newId;
@@ -63,6 +86,14 @@ namespace ServerLib
                 _ActiveSessions.Remove(s.Key);
         }
 
+        internal static void InvalidateSessions(Guid sessionId)
+        {
+            if (_ActiveSessions.ContainsKey(sessionId))
+            {
+                _ActiveSessions.Remove(sessionId);
+            }
+        }
+
         internal static bool RequestRight(Guid sessionId, EUserRights requestedRight)
         {
             return ((CUserRoleControl.GetUserRightsFromUserRole(_ActiveSessions[sessionId].Roles)
@@ -74,6 +105,15 @@ namespace ServerLib
             if (!_ActiveSessions.ContainsKey(sessionId))
                 return -1;
             return _ActiveSessions[sessionId].ProfileId;
+        }
+
+        internal static void ResetSessionTimeout(Guid sessionId)
+        {
+            CSession value;
+            if (_ActiveSessions.TryGetValue(sessionId, out value))
+            {
+                value.LastSeen = DateTime.Now;
+            }
         }
     }
 }

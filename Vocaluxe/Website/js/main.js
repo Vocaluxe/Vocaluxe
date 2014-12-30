@@ -1066,6 +1066,13 @@
 
                 $('#displaySongIsDuet').text(result.IsDuet ? "Yes" : "No");
 
+                if (result.SongId >= 0) {
+                    $('#displaySongPlayer').show()[0].src = "getMp3?songId=" + result.SongId;
+                } else {
+                    $('#displaySongPlayer').hide();
+                }
+
+
                 if (result.Title != null || result.Artist != null) {
                     $('#displaySongLinks').show();
 
@@ -1405,16 +1412,20 @@
         };
 
         this.logout = function () {
-            t.ownProfileId = -1;
+            request({
+                url: "logout"
+            }, "noOverlay").always(function () {
+                t.ownProfileId = -1;
 
-            t.sessionId = "";
+                t.sessionId = "";
 
-            pageHandler.reset();
+                pageHandler.reset();
 
-            if (window.localStorage) {
-                window.localStorage.setItem("VocaluxeSessionKey", "");
-            }
-            $.mobile.changePage("#login", { transition: "slidefade" });
+                if (window.localStorage) {
+                    window.localStorage.setItem("VocaluxeSessionKey", "");
+                }
+                $.mobile.changePage("#login", { transition: "slidefade" });
+            });
         };
 
 

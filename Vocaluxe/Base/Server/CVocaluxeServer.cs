@@ -73,6 +73,7 @@ namespace Vocaluxe.Base.Server
             CServer.GetSong = _GetSong;
             CServer.GetAllSongs = _GetAllSongs;
             CServer.GetCurrentSongId = _GetCurrentSongId;
+            CServer.GetMp3Path = _GetMp3Path;
             CServer.ValidatePassword = _ValidatePassword;
             CServer.GetUserRole = _GetUserRole;
             CServer.SetUserRole = _SetUserRole;
@@ -462,6 +463,11 @@ namespace Vocaluxe.Base.Server
             List<CSong> songs = CSongs.Songs;
             return (from s in songs
                     select _GetSongInfo(s, false)).ToArray<SSongInfo>();
+        }
+        private static string _GetMp3Path(int songId)
+        {
+            CSong song = CSongs.GetSong(songId);
+            return song.GetMP3();
         }
 
         private static int _GetCurrentSongId()
