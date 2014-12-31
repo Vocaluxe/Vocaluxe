@@ -376,48 +376,153 @@ namespace ServerLib
 
         public SPlaylistData GetPlaylist(int playlistId)
         {
-            return CServer.GetPlaylist(playlistId);
+            try
+            {
+                return CServer.GetPlaylist(playlistId);
+            }
+            catch (ArgumentException e)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
+                }
+
+                return new SPlaylistData();
+            }
+           
         }
 
         public void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
         {
-            if (_CheckRight(EUserRights.AddSongToPlaylist))
+            if (!_CheckRight(EUserRights.AddSongToPlaylist))
+                return;
+
+            try
+            {
                 CServer.AddSongToPlaylist(songId, playlistId, allowDuplicates);
+            }
+            catch (ArgumentException e)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
+                }
+            }
         }
 
         public void RemoveSongFromPlaylist(int position, int playlistId, int songId)
         {
-            if (_CheckRight(EUserRights.RemoveSongsFromPlaylists))
+            if (!_CheckRight(EUserRights.RemoveSongsFromPlaylists))
+                return;
+
+            try
+            {
                 CServer.RemoveSongFromPlaylist(position, playlistId, songId);
+            }
+            catch (ArgumentException e)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
+                }
+            }
         }
 
         public void MoveSongInPlaylist(int newPosition, int playlistId, int songId)
         {
-            if (_CheckRight(EUserRights.ReorderPlaylists))
+            if (!_CheckRight(EUserRights.ReorderPlaylists))
+                return;
+
+            try
+            {
                 CServer.MoveSongInPlaylist(newPosition, playlistId, songId);
+            }
+            catch (ArgumentException e)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
+                }
+            }
         }
 
         public bool PlaylistContainsSong(int songId, int playlistId)
         {
-            return CServer.PlaylistContainsSong(songId, playlistId);
+            try
+            {
+                return CServer.PlaylistContainsSong(songId, playlistId);
+            }
+            catch (ArgumentException e)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
+                }
+
+                return false;
+            }
         }
 
         public SPlaylistSongInfo[] GetPlaylistSongs(int playlistId)
         {
-            return CServer.GetPlaylistSongs(playlistId);
+            try
+            {
+                return CServer.GetPlaylistSongs(playlistId);
+            }
+            catch (ArgumentException e)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
+                }
+                return new SPlaylistSongInfo[0];
+            }
         }
 
         public void RemovePlaylist(int playlistId)
         {
-            if (_CheckRight(EUserRights.DeletePlaylists))
+            if (!_CheckRight(EUserRights.DeletePlaylists))
+                return;
+
+            try
+            {
                 CServer.RemovePlaylist(playlistId);
+            }
+            catch (ArgumentException e)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
+                }
+            }
         }
 
         public int AddPlaylist(string playlistName)
         {
-            if (_CheckRight(EUserRights.CreatePlaylists))
-                return CServer.AddPlaylist(playlistName);
+            if (!_CheckRight(EUserRights.CreatePlaylists))
             return -1;
+
+            try
+            {
+                return CServer.AddPlaylist(playlistName);
+            }
+            catch (ArgumentException e)
+            {
+                if (WebOperationContext.Current != null)
+                {
+                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
+                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
+                }
+
+                return -1;
+            }
         }
         #endregion
 
