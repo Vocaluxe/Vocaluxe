@@ -46,6 +46,10 @@
             data.timeout = 10000; //10 sec. timeout
         }
 
+        if ((typeof data.type) == "undefined") {
+            data.type = "GET"; 
+        }
+
         if (message != "noOverlay") {
             var message2 = message;
             if (i18n.t) {
@@ -1227,7 +1231,7 @@
                     if (name != null
                         && name.replace(" ", "") != ""
                         && $('h2').filter(function () { return this.textContent == name; }).length == 0) {
-                        request({ url: "addPlaylist?playlistName=" + name }, "Creating...").done(function () {
+                        request({ url: "addPlaylist?playlistName=" + name, dataType: "json" }, "Creating...").done(function () {
                             request({
                                 url: "getPlaylists"
                             }).done(function (data2) {
