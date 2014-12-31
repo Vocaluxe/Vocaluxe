@@ -43,7 +43,7 @@ namespace Vocaluxe.Lib.Playlist
 
         public void Save()
         {
-            if (File == "")
+            if (string.IsNullOrEmpty(File))
             {
                 string filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery
