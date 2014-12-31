@@ -743,7 +743,8 @@ namespace VocaluxeLib.Songs
                 sr.Dispose();
                 try
                 {
-                    _Song._FindRefrain();
+                    _Song._CalcMedley();
+                    _Song._CheckPreview();
                     _Song._FindShortEnd();
                     _Song.NotesLoaded = true;
                     if (_Song.IsDuet)

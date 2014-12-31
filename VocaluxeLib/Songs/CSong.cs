@@ -402,7 +402,7 @@ namespace VocaluxeLib.Songs
             return series;
         }
 
-        private void _FindRefrain()
+        private void _CalcMedley()
         {
             if (IsDuet)
             {
@@ -410,7 +410,7 @@ namespace VocaluxeLib.Songs
                 return;
             }
 
-            if (!_CalculateMedley)
+            if (!_CalculateMedley || Medley.Source != EDataSource.None)
                 return;
 
             List<SSeries> series = _GetSeries();
@@ -458,14 +458,16 @@ namespace VocaluxeLib.Songs
                     Medley.FadeOutTime = CBase.Settings.GetDefaultMedleyFadeOutTime();
                 }
             }
+        }
 
-            if (Preview.Source == EDataSource.None)
+        private void _CheckPreview()
+        {
+            if (Preview.Source != EDataSource.None)
+                return;
+            if (Medley.Source != EDataSource.None)
             {
-                if (Medley.Source != EDataSource.None)
-                {
-                    Preview.StartTime = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM);
-                    Preview.Source = EDataSource.Calculated;
-                }
+                Preview.StartTime = CBase.Game.GetTimeFromBeats(Medley.StartBeat, BPM);
+                Preview.Source = EDataSource.Calculated;
             }
         }
 
