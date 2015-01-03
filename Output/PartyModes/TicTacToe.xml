@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <root>
-  <PartyModeSystemVersion>1</PartyModeSystemVersion>
+  <PartyModeSystemVersion>2</PartyModeSystemVersion>
   <Info>
     <Name>TR_PARTYMODE_NAME</Name>
     <Author>flokuep</Author>
