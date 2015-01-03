@@ -29,6 +29,13 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.PartyModes.ChallengeMedley
 {
+    public enum ESongSource
+    {
+        TR_ALLSONGS,
+        TR_CATEGORY,
+        TR_PLAYLIST
+    }
+
     public class CResultTableRow : IComparable
     {
         public int Position;
@@ -72,8 +79,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
     public sealed class CPartyModeChallengeMedley : CPartyMode
         // ReSharper restore ClassNeverInstantiated.Global
     {
-        private const int _NumSongs = 5;
-
         public override int MinMics
         {
             get { return 1; }
@@ -107,6 +112,16 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             get { return MaxPlayers; }
         }
 
+        public int MinSongs
+        {
+            get { return 1; }
+        }
+
+        public int MaxSongs
+        {
+            get { return 10; }
+        }
+
         private enum EStage
         {
             Config,
@@ -121,6 +136,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             public int NumPlayerAtOnce;
             public int NumRounds;
             public List<int> ProfileIDs;
+            public int NumSongs;
+            public List<int> Songs;
 
             public CChallengeRounds Rounds;
             public List<CResultTableRow> ResultTable;
@@ -129,6 +146,10 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             public int CurrentRoundNr;
 
             public int[] CatSongIndices;
+
+            public ESongSource SongSource;
+            public int CategoryIndex;
+            public int PlaylistID;
         }
 
         private struct SStats
@@ -144,17 +165,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         public CPartyModeChallengeMedley(int id) : base(id)
         {
-            _ScreenSongOptions.Selection.RandomOnly = false;
-            _ScreenSongOptions.Selection.PartyMode = true;
-            _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
-            _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
-            _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
-
-            _ScreenSongOptions.Sorting.SearchString = String.Empty;
-            _ScreenSongOptions.Sorting.SearchActive = false;
-            _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
-
-            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
+            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, CurrentRoundNr = 1, ProfileIDs = new List<int>(), NumSongs = 5, Songs = new List<int>(), SongSource = ESongSource.TR_ALLSONGS, CatSongIndices = null, Results = null};
         }
 
         public override bool Init()
@@ -162,14 +173,6 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             if (!base.Init())
                 return false;
             _Stage = EStage.Config;
-
-            _ScreenSongOptions.Sorting.IgnoreArticles = EOffOn.TR_CONFIG_OFF;
-            _ScreenSongOptions.Sorting.SongSorting = ESongSorting.TR_CONFIG_NONE;
-            _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_OFF;
-            _ScreenSongOptions.Selection.SongIndex = -1;
-
-            CBase.Songs.SortSongs(ESongSorting.TR_CONFIG_NONE, EOffOn.TR_CONFIG_OFF, EOffOn.TR_CONFIG_OFF, String.Empty, EDuetOptions.NoDuets);
-            CBase.Songs.SetCategory(0);
 
             GameData.ResultTable = new List<CResultTableRow>();
 
@@ -259,79 +262,27 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
         {
             return _Screens["CPartyScreenChallengeMedleyConfig"];
         }
-
         public override SScreenSongOptions GetScreenSongOptions()
         {
-            _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
-            _ScreenSongOptions.Sorting.Tabs = CBase.Config.GetTabs();
-            _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
-
-            return _ScreenSongOptions;
+            throw new ArgumentException("Not required!");
         }
 
-        // ReSharper disable RedundantAssignment
         public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions)
-            // ReSharper restore RedundantAssignment
         {
-            _ScreenSongOptions.Selection.SongIndex = -1;
-
-            if (_ScreenSongOptions.Selection.SelectNextRandomSong && songIndex != -1)
-            {
-                _ScreenSongOptions.Selection.SelectNextRandomSong = false;
-                _CreateCatSongIndices();
-
-                if (GameData.CatSongIndices != null)
-                {
-                    if (GameData.CatSongIndices[CBase.Songs.GetCurrentCategoryIndex()] == -1)
-                        GameData.CatSongIndices[CBase.Songs.GetCurrentCategoryIndex()] = songIndex;
-                }
-            }
-
-            screenSongOptions = _ScreenSongOptions;
+            throw new ArgumentException("Not required!");
         }
 
-        // ReSharper disable RedundantAssignment
         public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
-            // ReSharper restore RedundantAssignment
         {
-            if (GameData.CatSongIndices != null && categoryIndex != -1)
-            {
-                if (GameData.CatSongIndices[categoryIndex] == -1)
-                    _ScreenSongOptions.Selection.SelectNextRandomSong = true;
-                else
-                    _ScreenSongOptions.Selection.SongIndex = GameData.CatSongIndices[categoryIndex];
-            }
-
-            if (GameData.CatSongIndices == null && categoryIndex != -1)
-                _ScreenSongOptions.Selection.SelectNextRandomSong = true;
-
-            if (categoryIndex == -1)
-                _ScreenSongOptions.Selection.RandomOnly = false;
-
-            if (_ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF || categoryIndex != -1)
-                _ScreenSongOptions.Selection.RandomOnly = true;
-
-            screenSongOptions = _ScreenSongOptions;
+            throw new ArgumentException("Not required!");
         }
 
         public override void SetSearchString(string searchString, bool visible)
         {
-            _ScreenSongOptions.Sorting.SearchString = searchString;
-            _ScreenSongOptions.Sorting.SearchActive = visible;
+            throw new ArgumentException("Not required!");
         }
 
-        public override void JokerUsed(int teamNr)
-        {
-            if (_ScreenSongOptions.Selection.NumJokers == null)
-                return;
-
-            if (teamNr >= _ScreenSongOptions.Selection.NumJokers.Length)
-                return;
-
-            _ScreenSongOptions.Selection.NumJokers[teamNr]--;
-            _ScreenSongOptions.Selection.RandomOnly = true;
-            _ScreenSongOptions.Selection.CategoryChangeAllowed = false;
-        }
+        public override void JokerUsed(int teamNr) { }
 
         public override void SongSelected(int songID) {}
 
@@ -343,16 +294,13 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private bool _StartNextRound()
         {
-            _ScreenSongOptions.Selection.RandomOnly = _ScreenSongOptions.Sorting.Tabs != EOffOn.TR_CONFIG_ON;
-            _ScreenSongOptions.Selection.CategoryChangeAllowed = _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_ON;
-            _SetNumJokers();
             _SetTeamNames();
             GameData.CatSongIndices = null;
 
-            return _RandomizeSongs();
+            return _PrepareGame();
         }
 
-        private bool _RandomizeSongs()
+        private bool _PrepareGame()
         {
             CBase.Game.Reset();
             CBase.Game.ClearSongs();
@@ -379,84 +327,49 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             #endregion PlayerNames
 
             #region SongQueue
-            if (CBase.Songs.GetNumSongsVisible() < _NumSongs)
-                CBase.Songs.ResetSongSung();
-
-            List<int> ids = new List<int>();
-
-            ReadOnlyCollection<CSong> visibleSongs = CBase.Songs.GetVisibleSongs();
-            if (visibleSongs.Count == 0)
+            for (int i = 0; i < GameData.NumSongs; i++)
             {
-                CBase.Log.LogError("CPartyChallengeMedleyMode Error: There are no songs!");
-                return false;
-            }
-
-            //Calc avarage sing-count
-            int totalCounts = visibleSongs.Sum(song => song.NumPlayedSession);
-            int averageCount = totalCounts / visibleSongs.Count;
-
-            // ReSharper disable LoopCanBeConvertedToQuery
-            foreach (CSong song in visibleSongs)
-            {
-                foreach (EGameMode mode in song.AvailableGameModes)
-                {
-                    if (mode == EGameMode.TR_GAMEMODE_MEDLEY && song.NumPlayedSession <= averageCount)
-                        ids.Add(song.ID);
-                }
-            }
-            // ReSharper restore LoopCanBeConvertedToQuery
-
-            if (ids.Count == 0)
-            {
-                CBase.Log.LogError("CPartyChallengeMedleyMode Error: There are no medley songs!");
-                return false;
-            }
-
-            int s = 0;
-            while (s < _NumSongs && ids.Count > 0)
-            {
-                int songID = ids[CBase.Game.GetRandom(ids.Count)];
-                CBase.Game.AddSong(songID, EGameMode.TR_GAMEMODE_MEDLEY);
-                CBase.Songs.AddPartySongSung(songID);
-                ids.Remove(songID);
-                s++;
+                if (GameData.Songs.Count == 0)
+                    _UpdateSongList();
+                CBase.Game.AddSong(GameData.Songs[0], EGameMode.TR_GAMEMODE_MEDLEY);
+                GameData.Songs.RemoveAt(0);
             }
             return true;
             #endregion SongQueue
         }
 
-        private void _SetNumJokers()
+        private void _UpdateSongList()
         {
-            switch (GameData.NumPlayerAtOnce)
+            if (GameData.Songs.Count > 0)
+                return;
+
+            switch (GameData.SongSource)
             {
-                case 1:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {10};
+                case ESongSource.TR_PLAYLIST:
+                    for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
+                    {
+                        int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
+                        if (CBase.Songs.GetSongByID(id).AvailableGameModes.Contains(EGameMode.TR_GAMEMODE_MEDLEY))
+                            GameData.Songs.Add(id);
+                    }
                     break;
 
-                case 2:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
+                case ESongSource.TR_ALLSONGS:
+                    ReadOnlyCollection<CSong> avSongs = CBase.Songs.GetSongs();
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(EGameMode.TR_GAMEMODE_MEDLEY)).Select(song => song.ID));
                     break;
 
-                case 3:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {4, 4, 4};
-                    break;
+                case ESongSource.TR_CATEGORY:
+                    CBase.Songs.SetCategory(GameData.CategoryIndex);
+                    avSongs = CBase.Songs.GetVisibleSongs();
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(EGameMode.TR_GAMEMODE_MEDLEY)).Select(song => song.ID));
 
-                case 4:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {3, 3, 3, 3};
-                    break;
-
-                case 5:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {2, 2, 2, 2, 2};
-                    break;
-
-                case 6:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {2, 2, 2, 2, 2, 2};
-                    break;
-                default:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
+                    CBase.Songs.SetCategory(-1);
                     break;
             }
+            GameData.Songs.Shuffle();
         }
+
 
         private void _SetTeamNames()
         {

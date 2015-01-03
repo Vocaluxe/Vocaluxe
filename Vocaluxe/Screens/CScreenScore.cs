@@ -57,6 +57,11 @@ namespace Vocaluxe.Screens
         private CPoints _Points;
         private Stopwatch _Timer;
 
+        public override EMusicType CurrentMusicType
+        {
+            get { return CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF ? EMusicType.None : EMusicType.Preview; }
+        }
+
         public override void Init()
         {
             base.Init();

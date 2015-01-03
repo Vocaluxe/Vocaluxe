@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <PartyModeSystemVersion>1</PartyModeSystemVersion>
+  <PartyModeSystemVersion>2</PartyModeSystemVersion>
   <Info>
     <Name>TR_PARTYMODE_NAME</Name>
     <Author>brunzel</Author>
@@ -8,7 +8,7 @@
     <Folder>ChallengeMedley</Folder>
 	<PartyModeFile>CPartyModeChallengeMedley</PartyModeFile>
     <PartyModeVersionMajor>0</PartyModeVersionMajor>
-    <PartyModeVersionMinor>1</PartyModeVersionMinor>
+    <PartyModeVersionMinor>2</PartyModeVersionMinor>
 	<TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
   </Info>
   <PartyScreens>

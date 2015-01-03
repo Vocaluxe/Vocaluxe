@@ -31,7 +31,7 @@ namespace Vocaluxe.Base
 {
     static class CParty
     {
-        private const int _PartyModeSystemVersion = 1;
+        private const int _PartyModeSystemVersion = 2;
 
         private static readonly Dictionary<int, SPartyMode> _PartyModes = new Dictionary<int, SPartyMode>();
         private static int _NextID;
