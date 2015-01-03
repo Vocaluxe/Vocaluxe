@@ -155,12 +155,12 @@ namespace Vocaluxe.Base
 
             foreach (string path in soundFiles)
                 _BGMusicFiles.Add(new CPlaylistElement(path));
+            _CurPlayer = _BGPlayer;
             //Set a default to have a consistent starting point, use SetMusicSource afterwards
             _MusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
             _AddBackgroundMusic();
 
             SetMusicSource(CConfig.Config.Sound.BackgroundMusicSource);
-            _CurPlayer = _BGPlayer;
             _Initialized = true;
         }
 
@@ -178,7 +178,7 @@ namespace Vocaluxe.Base
 
         public static void Play()
         {
-            if (!IsPlayingPreview && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            if (!IsPlayingPreview && CConfig.Config.Sound.BackgroundMusic != EBackgroundMusicOffOn.TR_CONFIG_ON)
                 return;
 
             if (IsPlayingPreview || _BGPlayer.SoundLoaded)

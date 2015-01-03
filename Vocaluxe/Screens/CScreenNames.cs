@@ -67,7 +67,7 @@ namespace Vocaluxe.Screens
 
         public override EMusicType CurrentMusicType
         {
-            get { return EMusicType.Preview; }
+            get { return CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF ? EMusicType.None : EMusicType.Preview; }
         }
 
         #region public methods

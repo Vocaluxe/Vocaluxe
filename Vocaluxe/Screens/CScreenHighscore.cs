@@ -50,6 +50,11 @@ namespace Vocaluxe.Screens
         private int _Pos;
         private bool _IsDuet;
 
+        public override EMusicType CurrentMusicType
+        {
+            get { return CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF ? EMusicType.None : EMusicType.Preview; }
+        }
+
         public override void Init()
         {
             base.Init();
