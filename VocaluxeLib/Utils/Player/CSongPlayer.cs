@@ -99,8 +99,8 @@ namespace VocaluxeLib.Utils.Player
                 throw new ArgumentNullException("song");
 
             Load(song.GetMP3(), position, autoplay);
-            _LoadVideo();
             _Song = song;
+            _LoadVideo();
         }
 
         private void _LoadVideo()
