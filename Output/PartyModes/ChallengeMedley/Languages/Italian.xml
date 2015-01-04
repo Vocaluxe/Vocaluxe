@@ -2,7 +2,6 @@
 <resources>
   <string name="language">Italiano</string>
   <string name="TR_PARTYMODE_NAME">Sfida in Modalità Medley</string>
-  <string name="TR_PARTYMODE_DESCRIPTION">Gioca alcuni turni di sfida usando solo un gruppo di 5 canzoni come Medley.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Per tutti quelli interessati a scontrarsi con duelli di Medley.</string>
   <string name="TR_BUTTON_NEXT">Prossimo</string>
   <string name="TR_BUTTON_BACK">Indietro</string>
@@ -11,10 +10,15 @@
   <string name="TR_BUTTON_YES">Si</string>
   <string name="TR_BUTTON_NO">No</string>
   <string name="TR_BUTTON_NEXT_ROUND">Prossimo Turno</string>
+  <string name="TR_PLAYLIST">Playlist</string>
+  <string name="TR_CATEGORY">Categoria</string>
+  <string name="TR_ALLSONGS">Tutte le canzoni</string>
+  <string name="TR_SONGS">Canzoni</string>
   <string name="TR_SCREENCONFIG_TITLE">Sfida in Modalità Medley: Configurazione</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Numero di giocatori</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Numero di microfoni</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Numero di Turni</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Sorgente della Canzone</string>
   <string name="TR_SCREENNAMES_TITLE">Sfida in Modalità Medley: Scegli il Giocatore</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Selezione casuale</string>
   <string name="TR_SCREENMAIN_TITLE">Sfida in Modalità Medley: Panoramica</string>
