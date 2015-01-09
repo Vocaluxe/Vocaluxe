@@ -2,6 +2,7 @@
 <resources>
   <string name="language">Anglický</string>
   <string name="TR_PARTYMODE_NAME">Soutěžní směskový režim</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Hrajte soutěžní režim jen se směskami.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Pro všechny ty, kdož se zajímají o pěvecké souboje a mnoho kol složených ze směsek.</string>
   <string name="TR_BUTTON_NEXT">Další</string>
   <string name="TR_BUTTON_BACK">Zpět</string>
@@ -18,6 +19,7 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Počet hráčů</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Počet mikrofonů</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Počet kol</string>
+  <string name="TR_SCREENCONFIG_NUMSONGS">Počet písní na kolo</string>
   <string name="TR_SCREENCONFIG_SONGSOURCE">Zdroj písně</string>
   <string name="TR_SCREENNAMES_TITLE">Soutěžní směskový režim: Výběr hráče</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>

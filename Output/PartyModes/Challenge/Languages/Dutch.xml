@@ -16,6 +16,7 @@
   <string name="TR_SCREENCONFIG_NUMMICS">Aantal microfoons</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Aantal rondes</string>
   <string name="TR_SCREENNAMES_TITLE">Uitdaging: Kies speler</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Selecteer willekeurig</string>
   <string name="TR_SCREENMAIN_TITLE">Uitdaging: Overzicht</string>
   <string name="TR_SCREENMAIN_TABLE_POS">#</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Naam</string>

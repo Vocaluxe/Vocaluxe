@@ -93,6 +93,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">Večírek</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Volby</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profily</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">Nenalezeny žádné profily!</string>
   <string name="TR_SCREENPARTY_TITLE">Výběr režimu oslavy</string>
   <string name="TR_SCREENPARTY_MODES">Režim oslavy</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Popis</string>
@@ -100,6 +101,7 @@
   <string name="TR_SCREENPARTY_VERSION">Verze</string>
   <string name="TR_SCREENPARTY_ERROR">Nelze nahrát tento režim oslavy.</string>
   <string name="TR_SCREENPARTY_ERROR_MICS">Nejsou nastaveny žádné mikrofony!</string>
+  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">Pro tento večírkový režim je potřeba %d mikrofonů!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Cíloví posluchači</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Žádné týmy</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Počet týmů</string>
@@ -211,6 +213,8 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Kamery</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Rozlišení kamery</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Přizpůsobení obrazovky</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Stiskněte Ctrl + Alt (+ Shift) + šipky|"+" pro upravení obrazovky</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">Ctrl + Alt + 0 pro vrácení úprav zpět na výchozí hodnoty</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Nahoře vlevo</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Nahoře vpravo</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Dole vlevo</string>

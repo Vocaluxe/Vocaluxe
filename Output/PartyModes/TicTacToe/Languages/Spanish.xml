@@ -22,14 +22,14 @@
   <string name="TR_SCREENCONFIG_NUMFIELDS">Nro. de campos</string>
   <string name="TR_SCREENCONFIG_SONGSOURCE">Origen de la canción</string>
   <string name="TR_SCREENCONFIG_GAMEMODE">Modo de juego</string>
-  <string name="TR_SCREENNAMES_TITLE">TODO: Tic-Tac-Toe: Choose Player</string>
-  <string name="TR_SCREENNAMES_TEAM1">TODO: Team 1</string>
-  <string name="TR_SCREENNAMES_TEAM2">TODO: Team 2</string>
+  <string name="TR_SCREENNAMES_TITLE">Ta-Te-Ti: Selección de cantante</string>
+  <string name="TR_SCREENNAMES_TEAM1">Equipo 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Equiipo 2</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Seleccionar aleatoriamente</string>
-  <string name="TR_SCREENMAIN_TITLE">TODO: Tic-Tac-Toe</string>
-  <string name="TR_SCREENMAIN_TEAM_CHOOSE">TODO: Choose a field.</string>
+  <string name="TR_SCREENMAIN_TITLE">Ta-Te-Ti: </string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Elige un recuadro</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Siguiente cantante</string>
-  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">TODO: Really exit Tic-Tac-Toe?</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">¿Realmente deseas salir de Ta-Te-Ti?</string>
   <string name="TR_SCREENMAIN_WINNER">Y el ganador es...</string>
   <string name="TR_SCREENMAIN_NOWINNER">No hay ganadores en esta ronda...</string>
 </resources>
