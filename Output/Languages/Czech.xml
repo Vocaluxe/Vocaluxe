@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Anglický</string>
+  <string name="language"> čeština</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
   <string name="TR_GENERAL_AND">a</string>
   <string name="TR_BUTTON_EXIT">Ukončit</string>
@@ -213,7 +213,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Kamery</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Rozlišení kamery</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Přizpůsobení obrazovky</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Stiskněte Ctrl + Alt (+ Shift) + šipky|"+" pro upravení obrazovky</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Stiskněte Ctrl + Alt (+ Shift) + šipky|\"+\" pro upravení obrazovky</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">Ctrl + Alt + 0 pro vrácení úprav zpět na výchozí hodnoty</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Nahoře vlevo</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Nahoře vpravo</string>

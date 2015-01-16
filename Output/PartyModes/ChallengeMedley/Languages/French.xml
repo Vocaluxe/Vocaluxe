@@ -2,6 +2,7 @@
 <resources>
   <string name="language">Français</string>
   <string name="TR_PARTYMODE_NAME">Mode Challenge Medley</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Jouer des tours en mode Challenge seulement en utilisant des Medleys.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Pour tous ceux qui sont intéressé par des combats de micro et les medleys.</string>
   <string name="TR_BUTTON_NEXT">Suivant</string>
   <string name="TR_BUTTON_BACK">Retour</string>
@@ -18,6 +19,7 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Nombre de joueurs</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Nombre de micros</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Nombre de tours</string>
+  <string name="TR_SCREENCONFIG_NUMSONGS">Nombre de chansons par tour</string>
   <string name="TR_SCREENCONFIG_SONGSOURCE">Source des chansons</string>
   <string name="TR_SCREENNAMES_TITLE">Mode Challenge Medley: Choix des joueurs</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Sélectionner au hasard</string>

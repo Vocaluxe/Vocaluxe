@@ -79,8 +79,8 @@
     "timeout": "Překročení časového omezení",
     "keyboardButtonShift": "Shift",
     "keyboardButtonAlt": "Alt",
-    "keyboardButtonCtrl": "Control",
+    "keyboardButtonCtrl": "Ctrl",
     "keyboardButtonBackspace": "Backspace",
-    "keyboardAutoSend": "Auto send keys",
-    "keyboardButtonSend": "Send"
+    "keyboardAutoSend": "Poslat klávesy automaticky",
+    "keyboardButtonSend": "Poslat"
 }
