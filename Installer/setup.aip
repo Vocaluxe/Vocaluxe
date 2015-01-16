@@ -22,7 +22,7 @@
     <ROW Property="CTRLS" Value="3"/>
     <ROW Property="DialogBitmap" Value="dialog" MultiBuildValue="DefaultBuild:dialog.jpg" Type="1" MsiKey="DialogBitmap"/>
     <ROW Property="Manufacturer" Value="Vocaluxe Team"/>
-    <ROW Property="ProductCode" Value="1031:{6F739A39-4176-4B04-963E-EB795C92500C} 1055:{435EE1A8-3B5C-491E-902D-C832B8A35EAF} 1033:{0E70A564-F59D-4416-9204-8251148FC233} 1043:{E3F45D8B-BCA9-4E3E-AB81-1C434123EA1A} 1036:{43220506-39C8-4036-9A80-19C0A31C602D} 1038:{BBC1C7B6-8D91-45E7-89A4-2AFAECCBDF83} 1029:{56D06188-C172-4BBA-B9B2-275F7F969DEB} 1053:{207C81B6-7382-48DB-BA8B-BD65A60163BC} 3082:{2F040ED1-129B-41C4-A69A-A83455899E5A} 1040:{724EC6B8-3F68-45D9-A93D-11731BE438A5} " Type="16"/>
+    <ROW Property="ProductCode" Value="1031:{6F739A39-4176-4B04-963E-EB795C92500C} 1055:{435EE1A8-3B5C-491E-902D-C832B8A35EAF} 1033:{0E70A564-F59D-4416-9204-8251148FC233} 1043:{E3F45D8B-BCA9-4E3E-AB81-1C434123EA1A} 1036:{43220506-39C8-4036-9A80-19C0A31C602D} 1038:{BBC1C7B6-8D91-45E7-89A4-2AFAECCBDF83} 1029:{56D06188-C172-4BBA-B9B2-275F7F969DEB} 1053:{207C81B6-7382-48DB-BA8B-BD65A60163BC} 3082:{2F040ED1-129B-41C4-A69A-A83455899E5A} 1040:{724EC6B8-3F68-45D9-A93D-11731BE438A5} 2070:{0A75202D-5406-4AFF-BC78-A1EDEF6942AC} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1031"/>
     <ROW Property="ProductName" Value="Vocaluxe"/>
     <ROW Property="ProductVersion" Value="0.3.0.83" Type="32"/>
@@ -279,7 +279,7 @@
     <ROW File="AmbientBlue.xml" Component_="AmbientBlue.xml" FileName="Ambien~1.xml|Ambient Blue.xml" Attributes="0" SourcePath="..\Output\Cover\Ambient Blue.xml" SelfReg="false" NextFile="AmbientGreen.xml"/>
     <ROW File="AmbientGreen.xml" Component_="AmbientBlue.xml" FileName="Ambien~2.xml|Ambient Green.xml" Attributes="0" SourcePath="..\Output\Cover\Ambient Green.xml" SelfReg="false" NextFile="AmbientRed.xml"/>
     <ROW File="AmbientRed.xml" Component_="AmbientBlue.xml" FileName="Ambien~3.xml|Ambient Red.xml" Attributes="0" SourcePath="..\Output\Cover\Ambient Red.xml" SelfReg="false" NextFile="AmbientYellow.xml"/>
-    <ROW File="AmbientYellow.xml" Component_="AmbientBlue.xml" FileName="Ambien~4.xml|Ambient Yellow.xml" Attributes="0" SourcePath="..\Output\Cover\Ambient Yellow.xml" SelfReg="false"/>
+    <ROW File="AmbientYellow.xml" Component_="AmbientBlue.xml" FileName="Ambien~4.xml|Ambient Yellow.xml" Attributes="0" SourcePath="..\Output\Cover\Ambient Yellow.xml" SelfReg="false" NextFile="Portuguese.xml"/>
     <ROW File="Asturian.xml" Component_="Dutch.xml" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml"/>
     <ROW File="Asturian.xml_1" Component_="Asturian.xml" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\PartyModes\Challenge\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml_1"/>
     <ROW File="Asturian.xml_2" Component_="Asturian.xml_1" FileName="Asturian.xml" Attributes="0" SourcePath="..\Output\PartyModes\ChallengeMedley\Languages\Asturian.xml" SelfReg="false" NextFile="Czech.xml_2"/>
@@ -436,6 +436,7 @@
     <ROW File="PortAudio.dll_1" Component_="PortAudio.dll_1" FileName="PortAu~1.dll|PortAudio.dll" Attributes="0" SourcePath="..\Output\x64\PortAudio.dll" SelfReg="false" NextFile="CChallengeRounds.cs"/>
     <ROW File="PortAudioSharp.dll" Component_="PortAudioSharp.dll" FileName="PortAu~1.dll|PortAudioSharp.dll" Attributes="0" SourcePath="..\Output\PortAudioSharp.dll" SelfReg="false" NextFile="PortAudioSharp.dll.config"/>
     <ROW File="PortAudioSharp.dll.config" Component_="LICENSENewtonsoft.Json.txt" FileName="PortAu~1.con|PortAudioSharp.dll.config" Attributes="0" SourcePath="..\Output\PortAudioSharp.dll.config" SelfReg="false" NextFile="QRCoder.dll"/>
+    <ROW File="Portuguese.xml" Component_="Dutch.xml" FileName="Portug~1.xml|Portuguese.xml" Attributes="0" SourcePath="..\Output\Languages\Portuguese.xml" SelfReg="false"/>
     <ROW File="PreviousIcon.png" Component_="Button.png_3" FileName="Previo~1.png|PreviousIcon.png" Attributes="0" SourcePath="..\Output\Themes\Ambient\PreviousIcon.png" SelfReg="false" NextFile="Random.png_1"/>
     <ROW File="QRCoder.dll" Component_="QRCoder.dll" FileName="QRCoder.dll" Attributes="0" SourcePath="..\Output\QRCoder.dll" SelfReg="false" NextFile="Security.Cryptography.dll"/>
     <ROW File="QRCoder.txt" Component_="QRCoder.txt" FileName="QRCoder.txt" Attributes="0" SourcePath="..\Output\Licenses\QR Coder\QRCoder.txt" SelfReg="false" NextFile="SourceAndVersion.txt_4"/>
@@ -616,7 +617,7 @@
     <ROW RemoveFile="Benchmark1.log" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;) AND (NOT UPGRADINGPRODUCTCODE)" Options="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="." Languages="de;en;nl;fr;hu;sv;es;tr;cs;it" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="4" LangsDialog="true" UseLargeSchema="true" ExeName="vocaluxe-[|ProductVersion]-setup" MsiPackageType="AI_ALL" UACExecutionLevel="2"/>
+    <ROW BuildKey="DefaultBuild" BuildName="DefaultBuild" BuildOrder="1" BuildType="0" PackageFolder="." Languages="de;en;nl;fr;hu;sv;es;tr;cs;it;pt" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="..\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" ExtUI="true" Options="4" LangsDialog="true" UseLargeSchema="true" ExeName="vocaluxe-[|ProductVersion]-setup" MsiPackageType="AI_ALL" UACExecutionLevel="2"/>
     <ATTRIBUTE name="CompConditionPolicy" value="0"/>
     <ATTRIBUTE name="CurrentBuild" value="DefaultBuild"/>
   </COMPONENT>
@@ -632,6 +633,7 @@
     <ROW Path="&lt;AI_DICTS&gt;ui_tr.ail"/>
     <ROW Path="&lt;AI_DICTS&gt;ui_cs.ail"/>
     <ROW Path="&lt;AI_DICTS&gt;ui_it.ail"/>
+    <ROW Path="&lt;AI_DICTS&gt;ui_pt.ail"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.FragmentComponent">
     <ROW Fragment="CommonUI.aip" Path="&lt;AI_FRAGS&gt;CommonUI.aip"/>

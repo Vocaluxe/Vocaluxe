@@ -364,6 +364,7 @@ namespace VocaluxeLib
         None,
         Background,
         Preview,
+        BackgroundPreview,
         Game
     }
 

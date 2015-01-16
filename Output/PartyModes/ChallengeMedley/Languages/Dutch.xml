@@ -2,7 +2,7 @@
 <resources>
   <string name="language">Engels</string>
   <string name="TR_PARTYMODE_NAME">Uitdaging Medley</string>
-  <string name="TR_PARTYMODE_DESCRIPTION">Speel Uitdaging met alleen 5 Medleys</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Speel een paar uitdagingsronden met alleen Medleys.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Voor iedereen geïnteresseerd in duelleren en Medleys.</string>
   <string name="TR_BUTTON_NEXT">Volgende</string>
   <string name="TR_BUTTON_BACK">Vorige</string>
@@ -11,11 +11,18 @@
   <string name="TR_BUTTON_YES">Ja</string>
   <string name="TR_BUTTON_NO">Nee</string>
   <string name="TR_BUTTON_NEXT_ROUND">Volgende Ronde</string>
+  <string name="TR_PLAYLIST">Afspeellijst</string>
+  <string name="TR_CATEGORY">Categorie</string>
+  <string name="TR_ALLSONGS">Alle liedjes</string>
+  <string name="TR_SONGS">Liedjes</string>
   <string name="TR_SCREENCONFIG_TITLE">Uitdaging Medley: Configuratie</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Aantal spelers</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Aantal microfoons</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Aantal rondes</string>
+  <string name="TR_SCREENCONFIG_NUMSONGS">Aantal liedjes per ronde</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Liedjesbron</string>
   <string name="TR_SCREENNAMES_TITLE">Uitdaging Medley: Kies speler</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Selecteer willekeurig</string>
   <string name="TR_SCREENMAIN_TITLE">Uitdaging Medley: Overzicht</string>
   <string name="TR_SCREENMAIN_TABLE_POS">#</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Naam</string>

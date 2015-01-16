@@ -25,6 +25,7 @@
   <string name="TR_SCREENNAMES_TITLE">Drie-op-een-rij: Kies speler</string>
   <string name="TR_SCREENNAMES_TEAM1">Team 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Team 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Selecteer willekeurig</string>
   <string name="TR_SCREENMAIN_TITLE">Drie-op-een-rij</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Kies een vakje.</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Volgende speler</string>

@@ -2,7 +2,6 @@
 <resources>
   <string name="language">Türkçe</string>
   <string name="TR_PARTYMODE_NAME">Potpuri Yarış Modu</string>
-  <string name="TR_PARTYMODE_DESCRIPTION">Sadece 5 Potpuri kullanarak yarışma turları oyna.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Düel yarışmaları ve Potpuri ile ilgilenen herkes için.</string>
   <string name="TR_BUTTON_NEXT">Sonraki</string>
   <string name="TR_BUTTON_BACK">Önceki</string>
@@ -11,10 +10,15 @@
   <string name="TR_BUTTON_YES">Evet</string>
   <string name="TR_BUTTON_NO">Hayır</string>
   <string name="TR_BUTTON_NEXT_ROUND">Sonraki Tur</string>
+  <string name="TR_PLAYLIST">Çalma Listesi</string>
+  <string name="TR_CATEGORY">Kategori</string>
+  <string name="TR_ALLSONGS">Tüm Şarkılar</string>
+  <string name="TR_SONGS">Şarkılar</string>
   <string name="TR_SCREENCONFIG_TITLE">Potpuri Yarış Modu: Yapılandırma</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Oyuncu sayısı</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Mikrofon sayısı</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Tur sayısı</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Şarkı Kaynağı</string>
   <string name="TR_SCREENNAMES_TITLE">Potpuri Yarışma Modu: Oyuncu Seçimi</string>
   <string name="TR_SCREENMAIN_TITLE">Potpuri Yarışma Modu: Genel Bakış</string>
   <string name="TR_SCREENMAIN_TABLE_POS">Pos</string>

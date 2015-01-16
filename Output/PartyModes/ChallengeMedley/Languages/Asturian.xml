@@ -10,6 +10,10 @@
   <string name="TR_BUTTON_YES">Sí</string>
   <string name="TR_BUTTON_NO">Non</string>
   <string name="TR_BUTTON_NEXT_ROUND">Ronda siguiente</string>
+  <string name="TR_PLAYLIST">Llista de reproducción</string>
+  <string name="TR_CATEGORY">Estaya</string>
+  <string name="TR_ALLSONGS">Toles sones</string>
+  <string name="TR_SONGS">Sones</string>
   <string name="TR_SCREENCONFIG_TITLE">Mou retu Medley: Configuración</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Númberu de xugadores</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Númberu de microfonos</string>

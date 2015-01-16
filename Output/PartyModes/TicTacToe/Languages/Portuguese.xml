@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Inglês</string>
+  <string name="TR_PARTYMODE_NAME">Jogo do Galo</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Jogar o Jogo do Galo de uma maneira especial</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Rondas engraçadas com estratéga, sorte e habilidade </string>
+  <string name="TR_BUTTON_NEXT">Seguinte</string>
+  <string name="TR_BUTTON_BACK">Voltar</string>
+  <string name="TR_BUTTON_START">Iniciar</string>
+  <string name="TR_BUTTON_EXIT">Sair</string>
+  <string name="TR_BUTTON_YES">Sim</string>
+  <string name="TR_BUTTON_NO">Não</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Iniciar</string>
+  <string name="TR_SONGS">Músicas</string>
+  <string name="TR_TEAM">Equipa</string>
+  <string name="TR_PLAYLIST">Lista de Reprodução</string>
+  <string name="TR_CATEGORY">Categoria </string>
+  <string name="TR_ALLSONGS">Todas as Músicas</string>
+  <string name="TR_SCREENCONFIG_TITLE">Jogo do Galo: Configuração</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Número de Jogadores na Equipa 1 </string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Número de Jogadores na Equipa 2</string>
+  <string name="TR_SCREENCONFIG_NUMFIELDS">Número de Campos</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Origem da Música</string>
+  <string name="TR_SCREENCONFIG_GAMEMODE">Modo do Jogo</string>
+  <string name="TR_SCREENNAMES_TITLE">Jogo do Galo: Esolher Jogador</string>
+  <string name="TR_SCREENNAMES_TEAM1">Equipa 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Equipa 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Escolha Aleatória</string>
+  <string name="TR_SCREENMAIN_TITLE">Jogo do Galo</string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Escolher um campo.</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Jogador Seguinte</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Sair do Jogo do Galo?</string>
+  <string name="TR_SCREENMAIN_WINNER">E o vencedor é...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Não existe vencedor nesta ronda...</string>
+</resources>

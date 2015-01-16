@@ -1,8 +1,8 @@
-﻿<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Deutsch</string>
   <string name="TR_PARTYMODE_NAME">Challenge Medley Modus</string>
-  <string name="TR_PARTYMODE_DESCRIPTION">Spiele einen Wettkampfmodus nur mit 5er Medleys</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Spiele einen Wettkampfmodus nur mit Medleys</string>
   <string name="TR_PARTYMODE_AUDIENCE">Für alle, die Spaß am Wettkampf und vielen Medleyrunden haben.</string>
   <string name="TR_BUTTON_NEXT">Weiter</string>
   <string name="TR_BUTTON_BACK">Zurück</string>
@@ -11,10 +11,16 @@
   <string name="TR_BUTTON_YES">Ja</string>
   <string name="TR_BUTTON_NO">Nein</string>
   <string name="TR_BUTTON_NEXT_ROUND">Nächste Runde</string>
+  <string name="TR_PLAYLIST">Playlist</string>
+  <string name="TR_CATEGORY">Kategorie</string>
+  <string name="TR_ALLSONGS">Alle Songs</string>
+  <string name="TR_SONGS">Songs</string>
   <string name="TR_SCREENCONFIG_TITLE">Challenge Medley Modus: Einstellungen</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Anzahl der Spieler</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Anzahl der Mikrofone</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Anzahl der Runden</string>
+  <string name="TR_SCREENCONFIG_NUMSONGS">Anzahl der Songs pro Runde</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Song-Quelle</string>
   <string name="TR_SCREENNAMES_TITLE">Challenge Medley Modus: Spielerwahl</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Zufällig auswählen</string>
   <string name="TR_SCREENMAIN_TITLE">Challenge Medley Modus: Übersicht</string>

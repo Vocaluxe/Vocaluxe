@@ -224,7 +224,7 @@ namespace Vocaluxe.Base
                     NextScreen.ProcessMouseMove(_Cursor.X, _Cursor.Y);
 
                 HidePopup(EPopupScreens.PopupPlayerControl);
-                if (NextScreen.CurrentMusicType != EMusicType.Background && NextScreen.CurrentMusicType != EMusicType.Preview)
+                if (NextScreen.CurrentMusicType != EMusicType.Background && NextScreen.CurrentMusicType != EMusicType.Preview && NextScreen.CurrentMusicType != EMusicType.BackgroundPreview)
                     CBackgroundMusic.Disabled = true;
             }
 
@@ -279,10 +279,10 @@ namespace Vocaluxe.Base
             NextScreen = null;
             CurrentScreen.OnShowFinish();
             CSound.SetGlobalVolume(CConfig.GetVolumeByType(CurrentScreen.CurrentMusicType));
-            if (CurrentScreen.CurrentMusicType == EMusicType.Background || CurrentScreen.CurrentMusicType == EMusicType.Preview)
+            if (CurrentScreen.CurrentMusicType == EMusicType.Background || CurrentScreen.CurrentMusicType == EMusicType.Preview || CurrentScreen.CurrentMusicType == EMusicType.BackgroundPreview)
             {
                 CBackgroundMusic.Disabled = false;
-                CBackgroundMusic.IsPlayingPreview = CurrentScreen.CurrentMusicType == EMusicType.Preview;
+                CBackgroundMusic.IsPlayingPreview = CurrentScreen.CurrentMusicType == EMusicType.Preview || CurrentScreen.CurrentMusicType == EMusicType.BackgroundPreview;
             }
             _Fading = null;
         }
@@ -361,7 +361,7 @@ namespace Vocaluxe.Base
             bool popupPlayerControlAllowed = CurrentScreen.CurrentMusicType == EMusicType.Background;
             bool popupVolumeControlAllowed = CurrentScreen.CurrentMusicType != EMusicType.None;
             //Hide volume control for bg-music if bg-music is disabled
-            if (popupVolumeControlAllowed && CurrentScreen.CurrentMusicType == EMusicType.Background && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            if (popupVolumeControlAllowed && (CurrentScreen.CurrentMusicType == EMusicType.Background || CurrentScreen.CurrentMusicType == EMusicType.BackgroundPreview) && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 popupVolumeControlAllowed = false;
 
             bool resume = true;

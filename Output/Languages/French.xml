@@ -101,6 +101,7 @@
   <string name="TR_SCREENPARTY_VERSION">Version</string>
   <string name="TR_SCREENPARTY_ERROR">Impossible de charger ce mode Fête.</string>
   <string name="TR_SCREENPARTY_ERROR_MICS">Aucun micro n'est configuré !</string>
+  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">%d micros sont nécessaires pour ce Mode Fête !</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Personnes visées</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Pas d'équipes</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Nombre d'équipes</string>

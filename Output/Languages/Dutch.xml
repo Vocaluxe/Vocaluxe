@@ -27,6 +27,10 @@
   <string name="TR_RATING_WANNABE">Wannabe</string>
   <string name="TR_RATING_AMATEUR">Amateur</string>
   <string name="TR_RATING_TONE_DEAF">Toondoof</string>
+  <string name="TR_USERROLE_GUEST">Gast</string>
+  <string name="TR_USERROLE_NORMAL">Normale gebruiker</string>
+  <string name="TR_USERROLE_ADMIN">Administrator</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Toetsenbord gebruiker</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -60,6 +64,7 @@
   <string name="TR_CONFIG_YEAR">Jaar</string>
   <string name="TR_CONFIG_DECADE">Decennium</string>
   <string name="TR_CONFIG_LANGUAGE">Taal</string>
+  <string name="TR_CONFIG_DATEADDED">Datum toegevoegd</string>
   <string name="TR_CONFIG_EASY">Eenvoudig</string>
   <string name="TR_CONFIG_NORMAL">Normaal</string>
   <string name="TR_CONFIG_HARD">Moeilijk</string>
@@ -71,6 +76,7 @@
   <string name="TR_CONFIG_OWN_MUSIC">Eigen Muziek en Achtergrondmuziek</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Geen eigen Muziek</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Alleen eigen Muziek</string>
+  <string name="TR_CONFIG_ONLY_SONG">Alleen het geselecteerde liedje</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Alles</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Alleen namen en avatars</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Niets</string>
@@ -87,6 +93,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">Party</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Instellingen</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profielen</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">Geen profielen gevonden!</string>
   <string name="TR_SCREENPARTY_TITLE">Partymodus Selectie</string>
   <string name="TR_SCREENPARTY_MODES">Partymodus</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Omschrijving</string>
@@ -94,6 +101,7 @@
   <string name="TR_SCREENPARTY_VERSION">Versie</string>
   <string name="TR_SCREENPARTY_ERROR">Kan deze Partymodus niet laden</string>
   <string name="TR_SCREENPARTY_ERROR_MICS">Er zijn geen microfoons ingesteld!</string>
+  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">%d microfoons zijn benodigd voor deze party-mode!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Doelgroep</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Geen teams</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Aantal teams</string>
@@ -147,6 +155,7 @@
   <string name="TR_SCREENPROFILES_PLAYERNAME">Spelernaam</string>
   <string name="TR_SCREENPROFILES_GAMEDIFFICULTY">Moeilijkheidsgraad</string>
   <string name="TR_SCREENPROFILES_AVATAR">Avatar</string>
+  <string name="TR_SCREENPROFILES_USERROLE">Gebruikersrol</string>
   <string name="TR_SCREENPROFILES_ACTIVE">Actief</string>
   <string name="TR_SCREENPROFILES_BUTTON_NEW">Nieuw</string>
   <string name="TR_SCREENPROFILES_BUTTON_DELETE">Verwijderen</string>
@@ -161,6 +170,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Songteksten</string>
   <string name="TR_SCREENO_BUTTON_THEME">Thema</string>
+  <string name="TR_SCREENOGAME_BUTTON_SERVER">Serveradres</string>
   <string name="TR_SCREENOGAME_OPTIONS">Spelinstellingen</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Taal</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debug Niveau</string>
@@ -194,9 +204,22 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Gedrag Laden Covers</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Songtekstopties</string>
   <string name="TR_SCREENOLYRICS_STYLE">Stijl</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Positie van de songtexten</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video-opties</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Videoachtergronden</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Videopreview</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Video tijdens zingen</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Toon huidige achtergroundmuziekvideo</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
+  <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcam resolutie</string>
+  <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Beeldscherm aanpassingen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Druk Ctrl+ Alt (+ Shift) + pijltjestoetsen|\"+\" om het scherm aan te passen.</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">Ctrl + Alt + 0 om te herstellen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Top links</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Top rechts</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Onder links</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Onder rechts</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
+  <string name="TR_SCREENPSERVERQR_ADDRESS">Serveradres</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server loopt niet. Controleer config.xml!</string>
 </resources>

@@ -74,7 +74,8 @@ namespace Vocaluxe.Lib.Sound.Playback
                 return;
             float volumeF = volume.Clamp(0, 100) / 100f;
             foreach (IAudioStream stream in _Streams)
-                stream.VolumeMax = volumeF;
+                if(!stream.IsFading)
+                    stream.VolumeMax = volumeF;
             _GlobalVolume = volumeF;
         }
 

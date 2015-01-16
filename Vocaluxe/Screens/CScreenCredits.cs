@@ -427,10 +427,11 @@ namespace Vocaluxe.Screens
             CCreditTranslation intro = _AddNewTranslation("A special thanks to all our translators", new List<string> { });
             CCreditTranslation asturian = _AddNewTranslation("Asturian", new List<string> { "Puxarra" });
             CCreditTranslation czech = _AddNewTranslation("Czech", new List<string> { "fri" });
-            CCreditTranslation dutch = _AddNewTranslation("Dutch", new List<string> { "thijsblaauw" });
+            CCreditTranslation dutch = _AddNewTranslation("Dutch", new List<string> { "thijsblaauw", "DeMarin" });
             CCreditTranslation french = _AddNewTranslation("French", new List<string> { "pinky007" });
             CCreditTranslation hungarian = _AddNewTranslation("Hungarian", new List<string> { "warez" });
             CCreditTranslation italian = _AddNewTranslation("Italian", new List<string> { "giuseppep", "LFactory" });
+            CCreditTranslation portugese = _AddNewTranslation("Portuguese", new List<string> { "2borG", "xventil" });
             CCreditTranslation spanish = _AddNewTranslation("Spanish", new List<string> { "Pantero03", "RubenDjOn", "TeLiX", "karv" });
             CCreditTranslation swedish = _AddNewTranslation("Swedish", new List<string> { "u28151" });
             CCreditTranslation turkish = _AddNewTranslation("Turkish", new List<string> { "spirax", "Swertyy" });
