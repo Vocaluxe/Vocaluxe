@@ -28,6 +28,7 @@ namespace Vocaluxe.Lib.Sound.Playback
     public interface IAudioStream : IDisposable
     {
         int ID { get; }
+        bool IsFading { get; }
         float Volume { get; set; }
         float VolumeMax { get; set; }
         float Length { get; }
