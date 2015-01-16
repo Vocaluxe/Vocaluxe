@@ -216,6 +216,7 @@ namespace Vocaluxe.Base
                     return PreviewMusicVolume;
                 case EMusicType.Game:
                     return GameMusicVolume;
+                case EMusicType.BackgroundPreview:
                 case EMusicType.Background:
                     return BackgroundMusicVolume;
                 case EMusicType.None:
@@ -235,6 +236,7 @@ namespace Vocaluxe.Base
                 case EMusicType.Game:
                     GameMusicVolume = volume;
                     break;
+                case EMusicType.BackgroundPreview:
                 case EMusicType.Background:
                     BackgroundMusicVolume = volume;
                     break;
