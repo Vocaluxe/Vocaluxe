@@ -515,8 +515,12 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
-powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\()(.*)(?=\))', '\"GITVERSION\"'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PostBuildEvent>
+    <PostBuildEvent>
+      xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
+
+      powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js') | Foreach-Object {$_ -replace '(?&lt;=var *matchingServerVersion * = *\\\")\w*(?=\\\" *;)', %24('@(VersionNumber)'+' ('+$version+')')} | Set-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js'"
+
+      powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\()(.*)(?=\))', '\"GITVERSION\"'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
@@ -528,4 +532,18 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="PostBuildMacros">
+    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
+      <Output TaskParameter="Assemblies" ItemName="Targets" />
+    </GetAssemblyIdentity>
+    <ItemGroup>
+      <VersionNumber Include="@(Targets->'%(Version)')" />
+    </ItemGroup>
+  </Target>
+  <PropertyGroup>
+    <PostBuildEventDependsOn>
+      $(PostBuildEventDependsOn);
+      PostBuildMacros;
+    </PostBuildEventDependsOn>
+  </PropertyGroup>
 </Project>

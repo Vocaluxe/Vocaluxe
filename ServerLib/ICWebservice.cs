@@ -115,6 +115,11 @@ namespace ServerLib
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/isServerOnline")]
         bool IsServerOnline();
+
+        [OperationContract, WebInvoke(Method = "GET",
+            ResponseFormat = WebMessageFormat.Json,
+            UriTemplate = "/getServerVersion")]
+        String GetServerVersion();
         #endregion
 
         #region songs
