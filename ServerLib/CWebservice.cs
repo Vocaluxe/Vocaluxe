@@ -300,6 +300,11 @@ namespace ServerLib
             _GetSession();
             return true;
         }
+
+        public string GetServerVersion()
+        {
+            return CServer.GetServerVersion();
+        }
         #endregion
 
         #region songs

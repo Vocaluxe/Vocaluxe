@@ -6,6 +6,7 @@
     var translator;
     var pageHandler;
     var sessionHandler;
+    var matchingServerVersion = "";
 
     var initMain = function () {
         if (document.location.protocol == "file:") {
@@ -47,7 +48,7 @@
         }
 
         if ((typeof data.type) == "undefined") {
-            data.type = "GET"; 
+            data.type = "GET";
         }
 
         if (message != "noOverlay") {
@@ -377,13 +378,19 @@
                         }
                         sessionHandler.serverBaseAddress = "";
                         request({
-                            url: address + "isServerOnline",
+                            url: address + "getServerVersion",
                             timeout: 10000
                         }, "Checking...")
-                            .done(function () {
-                                sessionHandler.serverBaseAddress = address;
-                                window.localStorage.setItem("VocaluxeServerAddress", address);
-                                $.mobile.changePage("#login", { transition: "slidefade" });
+                            .done(function (serverVersion) {
+                                if(serverVersion === matchingServerVersion){
+                                    sessionHandler.serverBaseAddress = address;
+                                    window.localStorage.setItem("VocaluxeServerAddress", address);
+                                    $.mobile.changePage("#login", { transition: "none" });
+                                }
+                                else{
+                                    window.location.href = address;									
+                                    return;
+                                }
                             })
                             .fail(function () {
                                 $('#discoverServerAddress').prop("value", "");
@@ -429,12 +436,18 @@
                         if (address != null) {
                             sessionHandler.serverBaseAddress = "";
                             var prom = request({
-                                url: address + "isServerOnline",
+                                url: address + "getServerVersion",
                                 timeout: 10000
-                            }, "Checking...").done(function () {
-                                sessionHandler.serverBaseAddress = address;
-                                window.localStorage.setItem("VocaluxeServerAddress", address);
-                                $.mobile.changePage("#login", { transition: "none" });
+                            }, "Checking...").done(function (serverVersion) {
+                                if (serverVersion === matchingServerVersion) {
+                                    sessionHandler.serverBaseAddress = address;
+                                    window.localStorage.setItem("VocaluxeServerAddress", address);
+                                    $.mobile.changePage("#login", { transition: "none" });
+                                }
+                                else {
+                                    window.location.href = address;
+                                    return;
+                                }
                             }).fail(function () {
                                 if (typeof window.BarcodeScanner != "undefined") {
                                     $('#discoverReadQr').show();
@@ -443,7 +456,7 @@
                             $(this).data('promise', prom);
                             return;
                         }
-                        if (typeof window.BarcodeScanner != "undefined") {
+                        else if (typeof window.BarcodeScanner != "undefined") {
                             $('#discoverReadQr').show();
                         }
                     }

@@ -51,10 +51,12 @@ namespace ServerLib
         public static GetSiteFileDelegate GetSiteFile { internal get; set; }
 
         public static GetDelayedImageDelegate GetDelayedImage { internal get; set; }
-        #endregion
 
-        #region songs
-        public static GetSongDelegate GetSong { internal get; set; }
+        public static GetServerVersionDelegate GetServerVersion { internal get; set; }
+    #endregion
+
+    #region songs
+    public static GetSongDelegate GetSong { internal get; set; }
 
         public static GetAllSongsDelegate GetAllSongs { internal get; set; }
 

@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Windows.Forms;
@@ -70,6 +71,7 @@ namespace Vocaluxe.Base.Server
             CServer.GetProfileList = _GetProfileList;
             CServer.SendPhoto = _SendPhoto;
             CServer.GetSiteFile = _GetSiteFile;
+            CServer.GetServerVersion = _GetServerVersion;
             CServer.GetSong = _GetSong;
             CServer.GetAllSongs = _GetAllSongs;
             CServer.GetCurrentSongId = _GetCurrentSongId;
@@ -93,6 +95,7 @@ namespace Vocaluxe.Base.Server
 
             //_Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
         }
+        
 
         public static void Start()
         {
@@ -433,6 +436,16 @@ namespace Vocaluxe.Base.Server
             if (!_DelayedImagePath.ContainsKey(hashedFilename))
                 _DelayedImagePath.Add(hashedFilename, filename);
             return hashedFilename;
+        }
+
+        private static string _GetServerVersion()
+        {
+            var informationalVersion = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false).FirstOrDefault();
+            if (informationalVersion != null)
+            {
+                informationalVersion = "";
+            }
+            return Assembly.GetExecutingAssembly().GetName().Version.ToString() + " (" + informationalVersion + ")";
         }
 
         private static CBase64Image _GetDelayedImage(string hashedFilename)

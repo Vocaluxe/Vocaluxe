@@ -64,6 +64,8 @@ namespace ServerLib
     public delegate byte[] GetSiteFileDelegate(string filename);
 
     public delegate CBase64Image GetDelayedImageDelegate(string hashedFilename);
+
+    public delegate String GetServerVersionDelegate();
     #endregion
 
     [DataContract]
