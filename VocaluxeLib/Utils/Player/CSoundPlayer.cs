@@ -50,7 +50,7 @@ namespace VocaluxeLib.Utils.Player
 
         public bool IsFinished
         {
-            get { return !Loop && CBase.Sound.IsFinished(_StreamID); }
+            get { return !Loop && (CBase.Sound.IsFinished(_StreamID) || !IsPlaying); }
         }
 
         public bool SoundLoaded
