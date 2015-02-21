@@ -17,7 +17,7 @@
 
 using System;
 
-namespace ServerLib
+namespace Vocaluxe.Base.Server
 {
     class CSession
     {

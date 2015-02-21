@@ -16,13 +16,13 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Net;
 using System.ServiceModel;
-using System.ServiceModel.Web;
-using System.IO;
 using System.ServiceModel.Channels;
+using System.ServiceModel.Web;
 
-namespace ServerLib
+namespace Vocaluxe.Base.Server
 {
     class CWebservice : ICWebservice
     {
@@ -48,33 +48,16 @@ namespace ServerLib
             if (!_CheckRight(EUserRights.UseKeyboard))
                 return;
 
-            if (CServer.SendKeyEvent == null)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not found";
-                }
-            }
-            else
-                CServer.SendKeyEvent(key);
+
+            CVocaluxeServer.DoTask(CVocaluxeServer.SendKeyEvent,key);
         }
 
         public void SendKeyStringEvent(string keyString, bool isShiftPressed = false, bool isAltPressed = false, bool isCtrlPressed = false)
         {
             if (!_CheckRight(EUserRights.UseKeyboard))
                 return;
-
-            if (CServer.SendKeyStringEvent == null)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not found";
-                }
-            }
-            else
-                CServer.SendKeyStringEvent(keyString, isShiftPressed, isAltPressed, isCtrlPressed);
+           
+            CVocaluxeServer.DoTask(CVocaluxeServer.SendKeyStringEvent, keyString, isShiftPressed, isAltPressed, isCtrlPressed);
         }
 
         #region profile
@@ -114,17 +97,7 @@ namespace ServerLib
                     return;
             }
 
-            if (CServer.SendProfileData == null)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not found";
-                }
-                return;
-            }
-
-            CServer.SendProfileData(profile);
+            CVocaluxeServer.DoTask(CVocaluxeServer.SendProfileData, profile);
         }
 
         public SProfileData GetProfile(int profileId)
@@ -132,22 +105,18 @@ namespace ServerLib
             Guid sessionKey = _GetSession();
             if (CSessionControl.GetUserIdFromSession(sessionKey) == profileId || _CheckRight(EUserRights.ViewOtherProfiles))
             {
-                if (CServer.GetProfileData == null)
-                    return new SProfileData();
-
                 bool isReadonly = (!CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles) &&
                                    CSessionControl.GetUserIdFromSession(sessionKey) != profileId);
 
-                return CServer.GetProfileData(profileId, isReadonly);
+
+                return CVocaluxeServer.DoTask(CVocaluxeServer.GetProfileData,profileId, isReadonly);
             }
             return new SProfileData();
         }
 
         public SProfileData[] GetProfileList()
         {
-            if (CServer.GetProfileList == null)
-                return new SProfileData[] { };
-            return CServer.GetProfileList();
+            return CVocaluxeServer.DoTask(CVocaluxeServer.GetProfileList);
         }
         #endregion
 
@@ -155,7 +124,7 @@ namespace ServerLib
         public void SendPhoto(SPhotoData photo)
         {
             if (_CheckRight(EUserRights.UploadPhotos))
-                CServer.SendPhoto(photo);
+                CVocaluxeServer.DoTask(CVocaluxeServer.SendPhoto, photo);
         }
         #endregion
 
@@ -185,7 +154,7 @@ namespace ServerLib
             if (WebOperationContext.Current != null)
                 WebOperationContext.Current.OutgoingResponse.ContentType = "text/html";
 
-            return new MemoryStream(CServer.GetSiteFile("index.html"));
+            return new MemoryStream(CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile,"index.html"));
         }
 
         public Stream GetJsFile(string filename)
@@ -199,7 +168,7 @@ namespace ServerLib
                     DateTime.UtcNow.AddHours(4).ToString("r"));
             }
 
-            byte[] data = CServer.GetSiteFile("js/" + filename);
+            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "js/" + filename);
 
             if (data != null)
                 return new MemoryStream(data);
@@ -220,7 +189,7 @@ namespace ServerLib
                     DateTime.UtcNow.AddHours(4).ToString("r"));
             }
 
-            byte[] data = CServer.GetSiteFile("css/" + filename);
+            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "css/" + filename);
 
             if (data != null)
                 return new MemoryStream(data);
@@ -240,7 +209,7 @@ namespace ServerLib
                     DateTime.UtcNow.AddYears(1).ToString("r"));
             }
 
-            byte[] data = CServer.GetSiteFile("css\\images\\" + filename);
+            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "css\\images\\" + filename);
 
             if (data != null)
                 return new MemoryStream(data);
@@ -260,7 +229,7 @@ namespace ServerLib
                     DateTime.UtcNow.AddYears(1).ToString("r"));
             }
 
-            byte[] data = CServer.GetSiteFile("img/" + filename);
+            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "img/" + filename);
 
             if (data != null)
                 return new MemoryStream(data);
@@ -280,7 +249,7 @@ namespace ServerLib
                     DateTime.UtcNow.AddHours(4).ToString("r"));
             }
 
-            byte[] data = CServer.GetSiteFile("locales/" + filename);
+            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "locales/" + filename);
 
             if (data != null)
                 return new MemoryStream(data);
@@ -292,7 +261,7 @@ namespace ServerLib
 
         public CBase64Image GetDelayedImage(string id)
         {
-            return CServer.GetDelayedImage(id);
+            return CVocaluxeServer.DoTask(CVocaluxeServer.GetDelayedImage, id);
         }
 
         public bool IsServerOnline()
@@ -303,24 +272,24 @@ namespace ServerLib
 
         public string GetServerVersion()
         {
-            return CServer.GetServerVersion();
+            return CVocaluxeServer.DoTask(CVocaluxeServer.GetServerVersion);
         }
         #endregion
 
         #region songs
         public SSongInfo GetSong(int songId)
         {
-            return CServer.GetSong(songId);
+            return CVocaluxeServer.DoTask(CVocaluxeServer.GetSong, songId);
         }
 
         public int GetCurrentSongId()
         {
-            return CServer.GetCurrentSongId();
+            return CVocaluxeServer.DoTask(CVocaluxeServer.GetCurrentSongId);
         }
 
         public SSongInfo[] GetAllSongs()
         {
-            return CServer.GetAllSongs();
+            return CVocaluxeServer.DoTask(CVocaluxeServer.GetAllSongs);
         }
 
         public Stream GetMp3File(int songId)
@@ -334,7 +303,7 @@ namespace ServerLib
             }
 
 
-            String path = CServer.GetMp3Path(songId);
+            String path = CVocaluxeServer.DoTask(CVocaluxeServer.GetMp3Path,songId);
             path = path.Replace("..", "");
 
 
@@ -376,14 +345,14 @@ namespace ServerLib
         #region playlist
         public SPlaylistData[] GetPlaylists()
         {
-            return CServer.GetPlaylists();
+            return CVocaluxeServer.DoTask(CVocaluxeServer.GetPlaylists);
         }
 
         public SPlaylistData GetPlaylist(int playlistId)
         {
             try
             {
-                return CServer.GetPlaylist(playlistId);
+                return CVocaluxeServer.DoTask(CVocaluxeServer.GetPlaylist, playlistId);
             }
             catch (ArgumentException e)
             {
@@ -405,7 +374,7 @@ namespace ServerLib
 
             try
             {
-                CServer.AddSongToPlaylist(songId, playlistId, allowDuplicates);
+                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.AddSongToPlaylist, songId, playlistId, allowDuplicates);
             }
             catch (ArgumentException e)
             {
@@ -424,7 +393,7 @@ namespace ServerLib
 
             try
             {
-                CServer.RemoveSongFromPlaylist(position, playlistId, songId);
+                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.RemoveSongFromPlaylist, position, playlistId, songId);
             }
             catch (ArgumentException e)
             {
@@ -443,7 +412,7 @@ namespace ServerLib
 
             try
             {
-                CServer.MoveSongInPlaylist(newPosition, playlistId, songId);
+                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.MoveSongInPlaylist, newPosition, playlistId, songId);
             }
             catch (ArgumentException e)
             {
@@ -459,7 +428,7 @@ namespace ServerLib
         {
             try
             {
-                return CServer.PlaylistContainsSong(songId, playlistId);
+                return CVocaluxeServer.DoTask(CVocaluxeServer.PlaylistContainsSong, songId, playlistId);
             }
             catch (ArgumentException e)
             {
@@ -477,7 +446,7 @@ namespace ServerLib
         {
             try
             {
-                return CServer.GetPlaylistSongs(playlistId);
+                return CVocaluxeServer.DoTask(CVocaluxeServer.GetPlaylistSongs, playlistId);
             }
             catch (ArgumentException e)
             {
@@ -497,7 +466,7 @@ namespace ServerLib
 
             try
             {
-                CServer.RemovePlaylist(playlistId);
+                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.RemovePlaylist, playlistId);
             }
             catch (ArgumentException e)
             {
@@ -516,7 +485,7 @@ namespace ServerLib
 
             try
             {
-                return CServer.AddPlaylist(playlistName);
+                return CVocaluxeServer.DoTask(CVocaluxeServer.AddPlaylist, playlistName);
             }
             catch (ArgumentException e)
             {
@@ -534,13 +503,13 @@ namespace ServerLib
         #region user management
         public int GetUserRole(int profileId)
         {
-            return CServer.GetUserRole(profileId);
+            return CVocaluxeServer.DoTask(CVocaluxeServer.GetUserRole, profileId);
         }
 
         public void SetUserRole(int profileId, int userRole)
         {
             if (_CheckRight(EUserRights.EditAllProfiles))
-                CServer.SetUserRole(profileId, userRole);
+                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.SetUserRole, profileId, userRole);
         }
 
         public bool HasUserRight(int right)

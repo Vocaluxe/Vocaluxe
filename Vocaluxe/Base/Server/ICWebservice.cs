@@ -20,7 +20,7 @@ using System.IO;
 using System.ServiceModel;
 using System.ServiceModel.Web;
 
-namespace ServerLib
+namespace Vocaluxe.Base.Server
 {
     [ServiceContract]
     public interface ICWebservice

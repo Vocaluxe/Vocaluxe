@@ -20,7 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Timers;
 
-namespace ServerLib
+namespace Vocaluxe.Base.Server
 {
     static class CSessionControl
     {
@@ -65,17 +65,17 @@ namespace ServerLib
 
         private static bool _ValidateUserAndPassword(string userName, string password)
         {
-            return CServer.ValidatePassword(_GetProfileIdFormUsername(userName), password);
+            return CVocaluxeServer.ValidatePassword(_GetProfileIdFormUsername(userName), password);
         }
 
         private static int _GetProfileIdFormUsername(string username)
         {
-            return CServer.GetUserIdFromUsername(username);
+            return CVocaluxeServer.GetUserIdFromUsername(username);
         }
 
         private static EUserRoles _GetUserRoles(int profileId)
         {
-            return (EUserRoles)CServer.GetUserRole(profileId);
+            return (EUserRoles)CVocaluxeServer.GetUserRole(profileId);
         }
 
         internal static void InvalidateSessions(int profileId)

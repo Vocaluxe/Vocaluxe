@@ -15,17 +15,21 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
+
 namespace Vocaluxe.Base.Server
 {
-    class CClientHandler
+    [Flags]
+    enum EUserRoles
     {
-        private int _ConnectionID;
-        public bool LoggedIn;
-
-        public CClientHandler(int connectionID)
-        {
-            _ConnectionID = connectionID;
-            LoggedIn = false;
-        }
+        // ReSharper disable InconsistentNaming
+        TR_USERROLE_GUEST = 0,
+        TR_USERROLE_NORMAL = 1,
+        TR_USERROLE_ADMIN = 2,
+        TR_USERROLE_KEYBOARDUSER = 4,
+        TR_USERROLE_ADDSONGSUSER = 8,
+        TR_USERROLE_PLAYLISTEDITOR = 16,
+        TR_USERROLE_PROFILEEDITOR = 32
+        // ReSharper restore InconsistentNaming
     }
 }

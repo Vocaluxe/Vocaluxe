@@ -210,6 +210,9 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.ServiceModel.Web" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -219,6 +222,13 @@
     <Compile Include="Base\CCoverGenerator.cs" />
     <Compile Include="Base\CPlaylistElement.cs" />
     <Compile Include="Base\CRecord.cs" />
+    <Compile Include="Base\Server\CWebservice.cs" />
+    <Compile Include="Base\Server\ICWebservice.cs" />
+    <Compile Include="Base\Server\Session.cs" />
+    <Compile Include="Base\Server\SessionControl.cs" />
+    <Compile Include="Base\Server\UserRights.cs" />
+    <Compile Include="Base\Server\UserRoleControl.cs" />
+    <Compile Include="Base\Server\UserRoles.cs" />
     <Compile Include="Base\ThemeSystem\CBaseTheme.cs" />
     <Compile Include="Base\ThemeSystem\CPartySkin.cs" />
     <Compile Include="Base\ThemeSystem\CBaseSkin.cs" />
@@ -274,8 +284,6 @@
     <Compile Include="Base\CWebcam.cs" />
     <Compile Include="Base\Fonts\CFonts.cs" />
     <Compile Include="Base\Fonts\CGlyph.cs" />
-    <Compile Include="Base\Server\CClientHandler.cs" />
-    <Compile Include="Base\Server\CCommands.cs" />
     <Compile Include="Base\Server\CVocaluxeServer.cs" />
     <Compile Include="Base\Server\VocaluxeStructs.cs" />
     <Compile Include="CProgrammHelper.cs" />
@@ -513,10 +521,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\ServerLib\ServerLib.csproj">
-      <Project>{ec5167e4-ccfb-4cee-987c-cf816f1062a3}</Project>
-      <Name>ServerLib</Name>
-    </ProjectReference>
     <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
       <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
       <Name>VocaluxeLib</Name>
