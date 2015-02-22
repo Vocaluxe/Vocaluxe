@@ -227,25 +227,25 @@ namespace Vocaluxe.Base.Server
             return task.Result;
         }
 
-        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2>(Func<TParameterType1, TParameterType2, TReturnType> action, TParameterType1 parameter1, TParameterType2 parmaeter2)
+        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2>(Func<TParameterType1, TParameterType2, TReturnType> action, TParameterType1 parameter1, TParameterType2 parameter2)
         {
-            var task = new Task<TReturnType>(() => action(parameter1, parmaeter2));
+            var task = new Task<TReturnType>(() => action(parameter1, parameter2));
             _ServerTaskQueue.Enqueue(task);
             task.Wait(); //wait until the task is completed
             return task.Result;
         }
 
-        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2, TParameterType3>(Func<TParameterType1, TParameterType2, TParameterType3, TReturnType> action, TParameterType1 parameter1, TParameterType2 parmaeter2, TParameterType3 parmaeter3)
+        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2, TParameterType3>(Func<TParameterType1, TParameterType2, TParameterType3, TReturnType> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3)
         {
-            var task = new Task<TReturnType>(() => action(parameter1, parmaeter2, parmaeter3));
+            var task = new Task<TReturnType>(() => action(parameter1, parameter2, parameter3));
             _ServerTaskQueue.Enqueue(task);
             task.Wait(); //wait until the task is completed
             return task.Result;
         }
 
-        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2, TParameterType3, TParameterType4>(Func<TParameterType1, TParameterType2, TParameterType3, TParameterType4, TReturnType> action, TParameterType1 parameter1, TParameterType2 parmaeter2, TParameterType3 parmaeter3, TParameterType4 parmaeter4)
+        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2, TParameterType3, TParameterType4>(Func<TParameterType1, TParameterType2, TParameterType3, TParameterType4, TReturnType> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3, TParameterType4 parameter4)
         {
-            var task = new Task<TReturnType>(() => action(parameter1, parmaeter2, parmaeter3, parmaeter4));
+            var task = new Task<TReturnType>(() => action(parameter1, parameter2, parameter3, parameter4));
             _ServerTaskQueue.Enqueue(task);
             task.Wait(); //wait until the task is completed
             return task.Result;
@@ -266,23 +266,23 @@ namespace Vocaluxe.Base.Server
             task.Wait(); //wait until the task is completed
         }
 
-        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2>(Action<TParameterType1, TParameterType2> action, TParameterType1 parameter1, TParameterType2 parmaeter2)
+        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2>(Action<TParameterType1, TParameterType2> action, TParameterType1 parameter1, TParameterType2 parameter2)
         {
-            var task = new Task(() => action(parameter1, parmaeter2));
+            var task = new Task(() => action(parameter1, parameter2));
             _ServerTaskQueue.Enqueue(task);
             task.Wait(); //wait until the task is completed
         }
 
-        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2, TParameterType3>(Action<TParameterType1, TParameterType2, TParameterType3> action, TParameterType1 parameter1, TParameterType2 parmaeter2, TParameterType3 parmaeter3)
+        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2, TParameterType3>(Action<TParameterType1, TParameterType2, TParameterType3> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3)
         {
-            var task = new Task(() => action(parameter1, parmaeter2, parmaeter3));
+            var task = new Task(() => action(parameter1, parameter2, parameter3));
             _ServerTaskQueue.Enqueue(task);
             task.Wait(); //wait until the task is completed
         }
 
-        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2, TParameterType3, TParameterType4>(Action<TParameterType1, TParameterType2, TParameterType3, TParameterType4> action, TParameterType1 parameter1, TParameterType2 parmaeter2, TParameterType3 parmaeter3, TParameterType4 parmaeter4)
+        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2, TParameterType3, TParameterType4>(Action<TParameterType1, TParameterType2, TParameterType3, TParameterType4> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3, TParameterType4 parameter4)
         {
-            var task = new Task(() => action(parameter1, parmaeter2, parmaeter3, parmaeter4));
+            var task = new Task(() => action(parameter1, parameter2, parameter3, parameter4));
             _ServerTaskQueue.Enqueue(task);
             task.Wait(); //wait until the task is completed
         }
