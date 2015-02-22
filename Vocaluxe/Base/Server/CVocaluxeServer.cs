@@ -205,8 +205,6 @@ namespace Vocaluxe.Base.Server
                 Task task = _ServerTaskQueue.Dequeue();
                 //Start the task
                 task.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
-                
-                task.Wait();
             }
         }
 
