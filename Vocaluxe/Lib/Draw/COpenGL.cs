@@ -23,6 +23,7 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using OpenTK.Graphics.OpenGL;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -71,8 +72,8 @@ namespace Vocaluxe.Lib.Draw
 
             GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, texWidth, texHeight, 0, PixelFormat.Bgra, PixelType.UnsignedByte, IntPtr.Zero);
 
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.ClampToEdge);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)OpenTK.Graphics.TextureWrapMode.ClampToEdge);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)OpenTK.Graphics.TextureWrapMode.ClampToEdge);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.LinearMipmapLinear);
 
@@ -334,7 +335,7 @@ namespace Vocaluxe.Lib.Draw
             GL.Enable(EnableCap.Blend);
             GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
 
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
             GL.MatrixMode(MatrixMode.Color);
             GL.PushMatrix();
             if (Math.Abs(rect.Rotation) > 0.001)
@@ -385,7 +386,7 @@ namespace Vocaluxe.Lib.Draw
                 GL.Translate(-0.5f, -0.5f, 0);
             }
 
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
 
             GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
             GL.Vertex3(rx2, ry1, rect.Z + CGraphics.ZOffset);
@@ -470,7 +471,7 @@ namespace Vocaluxe.Lib.Draw
                 GL.Translate(-0.5f, -0.5f, 0);
             }
 
-            GL.Begin(BeginMode.Quads);
+            GL.Begin(PrimitiveType.Quads);
 
             GL.Color4(color.R, color.G, color.B, color.A * CGraphics.GlobalAlpha);
             GL.TexCoord2(dc.Tx1, dc.Ty1);

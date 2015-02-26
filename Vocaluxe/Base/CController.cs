@@ -37,6 +37,7 @@ namespace Vocaluxe.Base
             _MousePool = new List<SMouseEvent>();
 
             _AddController(new CWiiMote());
+            _AddController(new CGamePad());
             _AddController(CVocaluxeServer.Controller);
         }
 

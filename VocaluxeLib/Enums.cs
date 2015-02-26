@@ -56,7 +56,8 @@ namespace VocaluxeLib
     {
         Mouse,
         Keyboard,
-        WiiMote
+        WiiMote,
+        Gamepad
     }
     #endregion Inputs
 
