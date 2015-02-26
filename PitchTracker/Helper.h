@@ -1,5 +1,5 @@
 #pragma once
-
+#include <stddef.h>
 float* short2FloatArray(short* in, size_t len);
 double* short2DoubleArray(short* in, size_t len, bool scale = true);
 void freeFloatArray(float* floats);

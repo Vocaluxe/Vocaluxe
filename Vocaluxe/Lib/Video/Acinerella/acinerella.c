@@ -26,6 +26,7 @@
 #include <libswresample/swresample.h>
 #include <string.h>
 
+#define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000
 #define AUDIO_BUFFER_BASE_SIZE AVCODEC_MAX_AUDIO_FRAME_SIZE
 
 #define CODEC_TYPE_VIDEO AVMEDIA_TYPE_VIDEO
@@ -252,7 +253,7 @@ void CALL_CONVT ac_free_package(lp_ac_package pPackage)
   if (pPackage != NULL) {        
     AVPacket* pkt = &((lp_ac_package_data)pPackage)->ffpackage;
     if (pkt) {
-      if (pkt->destruct) pkt->destruct(pkt);
+      if (pkt->destruct){pkt->destruct = av_destruct_packet; pkt->destruct(pkt);} //FIXME: workaround for deprecation of AVPacket::destruct
       pkt->data = NULL; pkt->size = 0;
     }     
     av_free((lp_ac_package_data)pPackage);

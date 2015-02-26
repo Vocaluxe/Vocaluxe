@@ -12,6 +12,8 @@
     <AssemblyName>VocaluxeLib</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(OS)' == 'Windows_NT' ">
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWin|AnyCPU'">
@@ -112,7 +114,7 @@
     <Compile Include="XmlStructs.cs" />
     <Compile Include="Xml\CTypeExtensions.cs" />
     <Compile Include="Xml\CXmlDeserializer.cs" />
-    <Compile Include="Xml\CXmlReader.cs" />
+    <Compile Include="Xml\CXMLReader.cs" />
     <Compile Include="Xml\CXmlReaderBase.cs" />
     <Compile Include="Xml\CXmlSerializer.cs" />
     <Compile Include="Enums.cs" />

@@ -27,7 +27,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         {
             if (_Initialized)
                 return false;
-
+            #if WIN
 #if ARCH_X86
             const string varName = "GSTREAMER_1_0_ROOT_X86";
 #endif
@@ -42,7 +42,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             }
             string dllDirectory = gstreamerEnvVar + "bin\\";
             COSFunctions.AddEnvironmentPath(dllDirectory);
-
+            #endif
             Application.Init();
 
             _Initialized = Application.IsInitialized;

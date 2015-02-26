@@ -29,6 +29,9 @@ using System.Data.SQLite;
 
 #else
 using Mono.Data.Sqlite;
+using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
+using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
+using SQLiteTransaction = Mono.Data.Sqlite.SqliteTransaction;
 #endif
 
 namespace Vocaluxe.Lib.Database
