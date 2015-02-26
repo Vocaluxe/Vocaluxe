@@ -18,7 +18,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ServerLib
+namespace Vocaluxe.Base.Server
 {
     static class CUserRoleControl
     {
