@@ -47,7 +47,7 @@ namespace Vocaluxe.Lib.Input
 #endif
 
 #if LINUX
-        private const string _HIDApiDll = "libhidapi.so";
+        private const string _HIDApiDll = "libhidapi-libusb.so";
 #endif
 #endif
 

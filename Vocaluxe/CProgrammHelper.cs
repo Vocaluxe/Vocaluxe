@@ -96,6 +96,23 @@ namespace Vocaluxe
             return _IsProgramInstalled("Microsoft Visual C++ 2010");
         }
 
+        private static void _EnsureDataFolderExists()
+        {
+            if (!Directory.Exists(CSettings.DataFolder)) {
+                Directory.CreateDirectory(CSettings.DataFolder);
+                // copy default profiles to DataFolder instead of adding ProgramFolder to CConfig.ProfileFolders
+                // because we want to be able to edit them, but might not have permission to write to ProgramFolder
+                string profilePath = Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles);
+                Directory.CreateDirectory(profilePath);
+                DirectoryInfo defaultProfileDir = new DirectoryInfo(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles));
+                FileInfo[] files = defaultProfileDir.GetFiles();
+                foreach (FileInfo file in files) {
+                    string newPath = Path.Combine(profilePath, file.Name);
+                    file.CopyTo(newPath, false);
+                }
+            }
+        }
+
         public static bool CheckRequirements()
         {
 #if WIN
@@ -135,6 +152,9 @@ namespace Vocaluxe
 #endif
             path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + path;
             COSFunctions.AddEnvironmentPath(path);
+#if LINUX
+            _EnsureDataFolderExists();
+#endif
         }
     }
 }
