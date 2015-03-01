@@ -85,11 +85,12 @@ namespace Vocaluxe
             {
                 // Init Log
                 CLog.Init();
-                CLog.StartBenchmark("Init Program");
+
                 if (!CProgrammHelper.CheckRequirements())
                     return;
                 CProgrammHelper.Init();
 
+                CLog.StartBenchmark("Init Program");
                 CMain.Init();
                 Application.DoEvents();
 
