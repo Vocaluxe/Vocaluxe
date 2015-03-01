@@ -598,12 +598,7 @@ namespace Vocaluxe.Base.Server
 
         public static string GetServerVersion()
         {
-            var informationalVersion = Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyInformationalVersionAttribute), false).FirstOrDefault();
-            if (informationalVersion != null)
-            {
-                informationalVersion = "";
-            }
-            return Assembly.GetExecutingAssembly().GetName().Version.ToString() + " (" + informationalVersion + ")";
+            return Application.ProductVersion;
         }
 
         public static CBase64Image GetDelayedImage(string hashedFilename)
