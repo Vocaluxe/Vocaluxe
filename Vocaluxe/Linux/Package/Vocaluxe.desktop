@@ -1,0 +1,12 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=Vocaluxe
+Keywords=game;party;singing;
+GenericName=Karaoke
+Icon=INSTALLPATH/Vocaluxe.ico
+Path=INSTALLPATH
+Exec=mono INSTALLPATH/Vocaluxe.exe %U
+Terminal=false
+StartupNotify=false
+Categories=Game;

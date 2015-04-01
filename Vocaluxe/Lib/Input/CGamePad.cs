@@ -16,8 +16,6 @@
 #endregion
 
 using System;
-using System.Diagnostics.PerformanceData;
-using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
 using OpenTK.Input;
