@@ -562,9 +562,6 @@ namespace Vocaluxe.Screens
                     _Background = CDraw.AddTexture(Path.Combine(song.Folder, song.BackgroundFileNames[0]));
             }
 
-            _SingNotes[_SingBars].Init(CGame.NumPlayers);
-
-
             if (song.IsDuet)
             {
                 //TODO: Show more than 2 voicenames
@@ -579,10 +576,13 @@ namespace Vocaluxe.Screens
                 }
                 else
                 {
-                    for (int i = 0; i < CGame.NumPlayers; i++)
-                        CGame.Players[i].VoiceNr = voiceAssignments[i];
+					for (int i = 0; i < CGame.NumPlayers; i++) 
+						CGame.Players [i].VoiceNr = voiceAssignments [i];
                 }
             }
+
+			//Attention: This needs to be done after player-assignment!
+			_SingNotes[_SingBars].Init(CGame.NumPlayers);
 
             _DynamicLyricsTop = false;
             _DynamicLyricsBottom = false;
