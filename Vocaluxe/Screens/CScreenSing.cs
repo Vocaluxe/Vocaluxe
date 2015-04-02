@@ -859,6 +859,32 @@ namespace Vocaluxe.Screens
             _Texts[_TextDuetName1].Visible = false;
             _Texts[_TextDuetName2].Visible = false;
 
+            List<string> staticsExtra = new List<string> ();
+            List<string> textsExtra = new List<string> ();
+
+            //Everything Static or Text with Extra should be only visible
+            //If Player-Number matches CGame.NumPlayers
+            foreach(CStatic st in _Statics)
+                if(st.GetThemeName().StartsWith("StaticExtra"))
+                    staticsExtra.Add(st.GetThemeName());
+
+            foreach(CText tx in _Texts)
+                if(tx.GetThemeName().StartsWith("TextExtra"))
+                    textsExtra.Add(tx.GetThemeName());
+
+            string curN = "N"+(CGame.NumPlayers);
+            foreach (string st in staticsExtra) 
+            {
+                string n = st.Substring(st.Length - 2);
+                _Statics[st].Visible = n == curN;        
+            }
+
+            foreach (string tx in textsExtra) 
+            {
+                string n = tx.Substring(tx.Length - 2);
+                _Texts[tx].Visible = n == curN;        
+            }
+
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
                 for (int player = 0; player < CSettings.MaxNumPlayer && player <= numplayer; player++)
