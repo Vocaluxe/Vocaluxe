@@ -576,13 +576,13 @@ namespace Vocaluxe.Screens
                 }
                 else
                 {
-					for (int i = 0; i < CGame.NumPlayers; i++) 
-						CGame.Players [i].VoiceNr = voiceAssignments [i];
+                    for (int i = 0; i < CGame.NumPlayers; i++) 
+                        CGame.Players [i].VoiceNr = voiceAssignments [i];
                 }
             }
 
-			//Attention: This needs to be done after player-assignment!
-			_SingNotes[_SingBars].Init(CGame.NumPlayers);
+            //Attention: This needs to be done after player-assignment!
+            _SingNotes[_SingBars].Init(CGame.NumPlayers);
 
             _DynamicLyricsTop = false;
             _DynamicLyricsBottom = false;
