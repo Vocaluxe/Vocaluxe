@@ -5,6 +5,8 @@ Version 7
 
 Add:
 <TextMedleyCountdown> !text-position and size will be overwritten by vocaluxe!
+<StaticExtra$P$N$> Only shown if N$ matches Number of players
+<TextExtra$P$N$> Only shown if N$ matches Number of players
 
 +++++++++
 Version 6

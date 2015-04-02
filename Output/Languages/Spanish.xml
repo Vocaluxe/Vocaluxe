@@ -76,6 +76,7 @@
   <string name="TR_CONFIG_OWN_MUSIC">Canciones del juego y tema Vocaluxe</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Sin canciones del juego</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Solo canciones del juego</string>
+  <string name="TR_CONFIG_ONLY_SONG">Sólo la canción seleccionada</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Todas</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Solo nombres y avatares</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Nada</string>
@@ -92,6 +93,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">TODO: Party</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Opciones</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Perfiles</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">¡No se encuentra perfil!</string>
   <string name="TR_SCREENPARTY_TITLE">TODO: Party Mode Selection</string>
   <string name="TR_SCREENPARTY_MODES">TODO: Party Mode</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">TODO: Description</string>
@@ -99,6 +101,7 @@
   <string name="TR_SCREENPARTY_VERSION">TODO: Version</string>
   <string name="TR_SCREENPARTY_ERROR">TODO: Can\'t load this party-mode.</string>
   <string name="TR_SCREENPARTY_ERROR_MICS">¡No hay micrófonos configurados!</string>
+  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">¡Se necesitan %d micrófonos para este modo fiesta!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">TODO: Target audience</string>
   <string name="TR_SCREENPARTY_NOTEAMS">TODO: No Teams</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">TODO: Number of teams</string>
@@ -210,6 +213,8 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Cámaras web</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Resolución cámara web</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustes de pantalla</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Presione CTRL + ALT (+ SHIFT) + Flechas|\"+\" para ajustar la pantalla</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + SHIFT + 0 para reiniciar</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Arriba izquierda</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Abajo derecha</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Abajo izquierda</string>
