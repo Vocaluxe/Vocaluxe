@@ -113,6 +113,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             public int NumPlayer;
             public int NumPlayerAtOnce;
             public int NumRounds;
+            public int NumJokers;
             public List<int> ProfileIDs;
 
             public CChallengeRounds Rounds;
@@ -147,7 +148,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
 
-            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
+            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, NumJokers = 5, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
         }
 
         public override bool Init()
@@ -373,35 +374,11 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _SetNumJokers()
         {
-            switch (GameData.NumPlayerAtOnce)
-            {
-                case 1:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {10};
-                    break;
+            int[] jokers = new int[GameData.NumPlayerAtOnce];
+            for (int i = 0; i < jokers.Length; i++)
+                jokers[i] = GameData.NumJokers;
 
-                case 2:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
-                    break;
-
-                case 3:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {4, 4, 4};
-                    break;
-
-                case 4:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {3, 3, 3, 3};
-                    break;
-
-                case 5:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {2, 2, 2, 2, 2};
-                    break;
-
-                case 6:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {2, 2, 2, 2, 2, 2};
-                    break;
-                default:
-                    _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
-                    break;
-            }
+            _ScreenSongOptions.Selection.NumJokers = jokers;
         }
 
         private void _SetTeamNames()
