@@ -27,13 +27,14 @@ namespace VocaluxeLib.PartyModes.Challenge
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         private const string _SelectSlideNumPlayers = "SelectSlideNumPlayers";
         private const string _SelectSlideNumMics = "SelectSlideNumMics";
         private const string _SelectSlideNumRounds = "SelectSlideNumRounds";
         private const string _SelectSlideNumJokers = "SelectSlideNumJokers";
+        private const string _SelectSlideRefillJokers = "SelectSlideRefillJokers";
         private const string _ButtonNext = "ButtonNext";
         private const string _ButtonBack = "ButtonBack";
 
@@ -44,7 +45,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             base.Init();
 
-            _ThemeSelectSlides = new string[] {_SelectSlideNumPlayers, _SelectSlideNumMics, _SelectSlideNumRounds, _SelectSlideNumJokers};
+            _ThemeSelectSlides = new string[] { _SelectSlideNumPlayers, _SelectSlideNumMics, _SelectSlideNumRounds, _SelectSlideNumJokers, _SelectSlideRefillJokers };
             _ThemeButtons = new string[] {_ButtonNext, _ButtonBack};
         }
 
@@ -132,6 +133,12 @@ namespace VocaluxeLib.PartyModes.Challenge
             }
             _SelectSlides[_SelectSlideNumJokers].SelectedValue = "5";
 
+            //build joker config slide
+            _SelectSlides[_SelectSlideRefillJokers].Clear();
+            _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_NO", PartyModeID));
+            _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_YES", PartyModeID));
+            _SelectSlides[_SelectSlideRefillJokers].SelectLastValue();
+
             _UpdateMicsAtOnce();
             _SetRoundSteps();
             _UpdateSlideRounds();
@@ -145,6 +152,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _PartyMode.GameData.NumPlayerAtOnce = _SelectSlides[_SelectSlideNumMics].Selection + _PartyMode.MinPlayers;
             _PartyMode.GameData.NumRounds = (_SelectSlides[_SelectSlideNumRounds].Selection + 1) * _RoundSteps;
             _PartyMode.GameData.NumJokers = _SelectSlides[_SelectSlideNumJokers].Selection + 1;
+            _PartyMode.GameData.RefillJokers = (_SelectSlides[_SelectSlideRefillJokers].Selection == 1) ? true : false;
 
             _UpdateMicsAtOnce();
             _SetRoundSteps();
