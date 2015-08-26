@@ -114,6 +114,8 @@ namespace VocaluxeLib.PartyModes.Challenge
             public int NumPlayerAtOnce;
             public int NumRounds;
             public int NumJokers;
+            public bool RefillJokers;
+            public int[] Jokers;
             public List<int> ProfileIDs;
 
             public CChallengeRounds Rounds;
@@ -148,7 +150,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
 
-            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, NumJokers = 5, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
+            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, NumJokers = 5, RefillJokers = true, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
         }
 
         public override bool Init()
@@ -214,6 +216,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     GameData.ResultTable = new List<CResultTableRow>();
                     GameData.Rounds = new CChallengeRounds(GameData.NumRounds, GameData.NumPlayer, GameData.NumPlayerAtOnce);
                     GameData.CurrentRoundNr = 1;
+                    GameData.Jokers = null;
                     break;
                 case EStage.Main:
                     _Stage = EStage.Singing;
@@ -321,6 +324,11 @@ namespace VocaluxeLib.PartyModes.Challenge
             if (teamNr >= _ScreenSongOptions.Selection.NumJokers.Length)
                 return;
 
+            if (!GameData.RefillJokers)
+            {
+                CRound round = GameData.Rounds[GameData.CurrentRoundNr - 1];
+                GameData.Jokers[round.Players[teamNr]]--;
+            }
             _ScreenSongOptions.Selection.NumJokers[teamNr]--;
             _ScreenSongOptions.Selection.RandomOnly = true;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = false;
@@ -375,9 +383,27 @@ namespace VocaluxeLib.PartyModes.Challenge
         private void _SetNumJokers()
         {
             int[] jokers = new int[GameData.NumPlayerAtOnce];
-            for (int i = 0; i < jokers.Length; i++)
-                jokers[i] = GameData.NumJokers;
-
+            if (GameData.RefillJokers)
+            {                
+                for (int i = 0; i < jokers.Length; i++)
+                    jokers[i] = GameData.NumJokers;                
+            }
+            else
+            {
+                if (GameData.Jokers == null)
+                {
+                    GameData.Jokers = new int[GameData.NumPlayer];
+                    for (int i = 0; i < GameData.ProfileIDs.Count; i++)
+                    {
+                        GameData.Jokers[i] = GameData.NumJokers;
+                    }
+                }
+                CRound round = GameData.Rounds[GameData.CurrentRoundNr - 1];
+                for (int i = 0; i < GameData.NumPlayerAtOnce; i++)
+                {
+                    jokers[i] = GameData.Jokers[round.Players[i]];
+                }
+            }
             _ScreenSongOptions.Selection.NumJokers = jokers;
         }
 
