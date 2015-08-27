@@ -56,7 +56,6 @@
     <None Include="app.manifest">
       <SubType>Designer</SubType>
     </None>
-    <None Include="NuGet.Config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

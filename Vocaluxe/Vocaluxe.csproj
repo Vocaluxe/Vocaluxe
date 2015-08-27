@@ -343,7 +343,6 @@
     <Content Include="Website\locales\tr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="NuGet.Config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
