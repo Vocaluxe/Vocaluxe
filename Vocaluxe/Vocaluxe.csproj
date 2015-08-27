@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
@@ -143,17 +143,6 @@
     <DefineConstants>WIN;ARCH_X64;INSTALLER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
-  <ItemGroup Condition="'$(Platform)' == 'x86' And ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
-    <Reference Include="SlimDX">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\x86\SlimDX.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\Output\x86\System.Data.SQLite.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup Condition="'$(Platform)' == 'x64' And ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
     <Reference Include="SlimDX">
       <HintPath>..\Output\x64\SlimDX.dll</HintPath>
@@ -165,48 +154,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="AForge.Video, Version=2.2.4.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\AForge.Video.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AForge.Video.DirectShow, Version=2.2.4.1, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\AForge.Video.DirectShow.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Community.CsharpSqlite">
-      <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
-      <SpecificVersion>True</SpecificVersion>
-      <HintPath>..\Output\glib-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="gstreamer-sharp, Version=0.99.0.0, Culture=neutral, PublicKeyToken=5cbf79803e97ff61, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\gstreamer-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\Output\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.Compatibility">
-      <HintPath>..\Output\OpenTK.Compatibility.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
-    </Reference>
-    <Reference Include="PortAudioSharp, Version=0.19.3.27472, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\PortAudioSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="QRCoder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\QRCoder.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -216,7 +163,6 @@
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
-    <Reference Include="Mono.Data.Sqlite" Condition=" !('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
@@ -297,8 +243,8 @@
     <Compile Include="Lib\Input\CControllerFramework.cs" />
     <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudio.cs" />
     <Compile Include="Lib\Sound\Record\CRecordBase.cs" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')"/>
-    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')"/>
+    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
+    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPitchTrackerTest.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtAKF.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
@@ -313,9 +259,7 @@
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="SongQueue\ISongQueue.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Lib\Draw\CDirect3D.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
-      <SubType>Form</SubType>
-    </Compile>
+    <Compile Include="Lib\Draw\CDirect3D.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
     <Compile Include="Lib\Draw\CDrawWinForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -536,7 +480,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-  <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
 powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js') |  Foreach-Object {$_ -replace '(?&lt;=var *matchingServerVersion * = *\")\w*(?=\" *;)', "$version"} | Set-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js'"
 powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\()(.*)(?=\))', '\"GITVERSION\"'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">cp -ruT "$(ProjectDir)Website" "$(SolutionDir)/PhoneGap"</PostBuildEvent>
