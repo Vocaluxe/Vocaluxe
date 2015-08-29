@@ -31,7 +31,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>82574e3f</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>561bc599</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -578,6 +578,7 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.0\build\vocaluxe.dependencies.slimdx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.slimdx.1.0.0\build\vocaluxe.dependencies.slimdx.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets'))" />
   </Target>
   <Import Project="..\packages\vocaluxe.dependencies.sqlite.1.0.0\build\vocaluxe.dependencies.sqlite.targets" Condition="Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.0\build\vocaluxe.dependencies.sqlite.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.acinerella.1.0.0\build\vocaluxe.dependencies.acinerella.targets" Condition="Exists('..\packages\vocaluxe.dependencies.acinerella.1.0.0\build\vocaluxe.dependencies.acinerella.targets')" />
@@ -590,4 +591,5 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
   <Import Project="..\packages\vocaluxe.dependencies.slimdx.1.0.0\build\vocaluxe.dependencies.slimdx.targets" Condition="Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.0\build\vocaluxe.dependencies.slimdx.targets')" />
   <Import Project="..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets" Condition="Exists('..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets" Condition="Exists('..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets" Condition="Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets')" />
 </Project>
