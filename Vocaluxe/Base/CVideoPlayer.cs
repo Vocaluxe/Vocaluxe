@@ -41,6 +41,10 @@ namespace Vocaluxe.Base
         public void Load(string videoName)
         {
             _VideoStream = CThemes.GetSkinVideo(videoName, -1, false);
+            if (_VideoStream == null)
+            {
+                return;
+            }
             _Loaded = true;
             CVideo.Pause(_VideoStream);
         }
@@ -68,6 +72,11 @@ namespace Vocaluxe.Base
 
         public void Draw()
         {
+            if (!_Loaded)
+            {
+                return;
+            }
+
             if (!_Finished)
             {
                 float videoTime = _VideoTimer.ElapsedMilliseconds / 1000f;
@@ -83,6 +92,10 @@ namespace Vocaluxe.Base
 
         public void PreLoad()
         {
+            if (!_Loaded)
+            {
+                return;
+            }
             bool paused = _VideoTimer.IsRunning;
             if (paused)
                 CVideo.Resume(_VideoStream);

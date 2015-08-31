@@ -8,7 +8,7 @@
     <Folder>Challenge</Folder>
 	<PartyModeFile>CPartyModeChallenge</PartyModeFile>
     <PartyModeVersionMajor>0</PartyModeVersionMajor>
-    <PartyModeVersionMinor>1</PartyModeVersionMinor>
+    <PartyModeVersionMinor>3</PartyModeVersionMinor>
 	<TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
   </Info>
   <PartyScreens>
