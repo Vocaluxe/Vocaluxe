@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using Vocaluxe.Base.Server;
 using Vocaluxe.Lib.Input;
+using Vocaluxe.Lib.Input.Buzz;
 using Vocaluxe.Lib.Input.WiiMote;
 using VocaluxeLib;
 
@@ -39,6 +40,7 @@ namespace Vocaluxe.Base
             _AddController(new CWiiMote());
             _AddController(new CGamePad());
             _AddController(CVocaluxeServer.Controller);
+            _AddController(new CBuzz());
         }
 
         private static void _AddController(IController controller)
