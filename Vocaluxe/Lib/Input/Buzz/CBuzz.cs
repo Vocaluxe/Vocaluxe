@@ -87,6 +87,11 @@ namespace Vocaluxe.Lib.Input.Buzz
         {
             //no Rumble, so nothing to do
         }
+
+        public override void SetLEDs(bool led1, bool led2, bool led3, bool led4)
+        {
+            _Buzz.SetLEDs(led1, led2, led3, led4);
+        }
         
         private void _MainLoop()
         {

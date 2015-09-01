@@ -299,6 +299,7 @@ namespace VocaluxeLib
     public interface IControllers
     {
         void SetRumble(float duration);
+        void SetLEDs(bool led1, bool led2, bool led3, bool led4);
     }
 
     public interface IPlaylist

@@ -45,6 +45,8 @@ namespace Vocaluxe.Lib.Input
         bool PollMouseEvent(ref SMouseEvent mouseEvent);
 
         void SetRumble(float duration);
+
+        void SetLEDs(bool led1, bool led2, bool led3, bool led4);
     }
 
     class CRumbleTimer

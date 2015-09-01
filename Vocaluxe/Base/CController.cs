@@ -122,5 +122,11 @@ namespace Vocaluxe.Base
             foreach (IController controller in _Controller)
                 controller.SetRumble(duration);
         }
+
+        public static void SetLEDs(bool led1, bool led2, bool led3, bool led4)
+        {
+            foreach (IController controller in _Controller)
+                controller.SetLEDs(led1, led2, led3, led4);
+        }
     }
 }

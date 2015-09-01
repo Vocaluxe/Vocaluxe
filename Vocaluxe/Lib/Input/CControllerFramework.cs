@@ -107,6 +107,8 @@ namespace Vocaluxe.Lib.Input
 
         public abstract void SetRumble(float duration);
 
+        public abstract void SetLEDs(bool led1, bool led2, bool led3, bool led4);
+
         public void AddKeyEvent(SKeyEvent keyEvent)
         {
             if (!_Initialized)

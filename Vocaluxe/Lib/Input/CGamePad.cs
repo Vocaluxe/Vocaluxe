@@ -104,6 +104,7 @@ namespace Vocaluxe.Lib.Input
             }
         }
 
+        public override void SetLEDs(bool led1, bool led2, bool led3, bool led4) {}
         private void _MainLoop()
         {
             
