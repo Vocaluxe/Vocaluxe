@@ -171,6 +171,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\vocaluxe.dependencies.gstreamersharp.1.0.0\lib\net40\gstreamer-sharp.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Data.Sqlite">
+      <HintPath>..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\lib\net4\Mono.Data.Sqlite.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
@@ -201,6 +204,9 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Portable">
+      <HintPath>..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\lib\net4\System.Data.Portable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data.SQLite, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\System.Data.SQLite.Core.1.0.98.1\lib\net40\System.Data.SQLite.dll</HintPath>
@@ -209,6 +215,10 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Transactions.Portable">
+      <HintPath>..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\lib\net4\System.Transactions.Portable.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -592,4 +602,9 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
   <Import Project="..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets" Condition="Exists('..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets" Condition="Exists('..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets" Condition="Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets')" />
+  <Import Project="..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\tools\Mono.Data.Sqlite.Portable.targets" Condition="Exists('..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\tools\Mono.Data.Sqlite.Portable.targets')" />
+  <Target Name="EnsureMonoDataSqlitePortableImported" BeforeTargets="BeforeBuild" Condition="'$(MonoDataSqlitePortableImported)' == ''">
+    <Error Condition="!Exists('..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\tools\Mono.Data.Sqlite.Portable.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them." />
+    <Error Condition="Exists('..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\tools\Mono.Data.Sqlite.Portable.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build." />
+  </Target>
 </Project>
