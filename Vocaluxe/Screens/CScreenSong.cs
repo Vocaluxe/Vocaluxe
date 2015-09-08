@@ -411,8 +411,12 @@ namespace Vocaluxe.Screens
             {
                 _Playlist.Selected = false;
                 _SongMenu.Selected = true;
+                if (mouseEvent.LB)
+                {
+                    _ToggleSongOptions(ESongOptionsView.None);
+                }
             }
-
+           
             if (mouseEvent.RB)
             {
                 if (_CurSongOptionsView != ESongOptionsView.None)
