@@ -209,10 +209,6 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Transactions.Portable">
-      <HintPath>..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\lib\net4\System.Transactions.Portable.dll</HintPath>
-    </Reference>
     <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
@@ -312,7 +308,9 @@
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="SongQueue\ISongQueue.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Lib\Draw\CDirect3D.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
+    <Compile Include="Lib\Draw\CDirect3D.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Lib\Draw\CDrawWinForm.cs">
       <SubType>Form</SubType>
     </Compile>
