@@ -9,7 +9,7 @@ platform:
 clone_depth: 1
 before_build:
 - ps: >-
-    nuget restore
+    nuget restore -DisableParallelProcessing
 
     (Get-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj') | Foreach-Object {$_ -replace 'v110_xp', 'v120_xp'} | Set-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj'
 build:
@@ -18,6 +18,7 @@ build:
 after_build:
 - cd Output
 - 7z a Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip *
+- appveyor PushArtifact Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip -FileName Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip -DeploymentName ReleaseZip
 - cd ..
 test: off
 artifacts:
@@ -33,6 +34,7 @@ deploy:
   auth_token:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
   artifact: ReleaseZip
+  prerelease: true
   on:
     APPVEYOR_REPO_TAG: true
 - provider: GitHub
