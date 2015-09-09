@@ -26,6 +26,7 @@
 
 #include "dywapitchtrack.h"
 #include <math.h>
+#include <cmath>
 #include <stdlib.h>
 #include <string.h> // for memset
 
