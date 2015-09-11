@@ -31,7 +31,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>561bc599</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>e721eb4f</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -168,10 +168,6 @@
     <Reference Include="Mono.Data.Sqlite">
       <HintPath>..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\lib\net4\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=7.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\Newtonsoft.Json.7.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\vocaluxe.dependencies.opentk.1.0.0\lib\net40\OpenTK.dll</HintPath>
@@ -192,10 +188,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\vocaluxe.dependencies.qrcoder.1.0.0\lib\net40\QRCoder.dll</HintPath>
     </Reference>
-    <Reference Include="Security.Cryptography, Version=1.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\vocaluxe.dependencies.securitycryptography.1.0.0\lib\net40\Security.Cryptography.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Portable">
@@ -209,7 +201,6 @@
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -394,7 +385,9 @@
     <Content Include="Website\locales\tr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Doc\Roadmap.txt" />
@@ -577,10 +570,10 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.jsonnet.1.0.0\build\vocaluxe.dependencies.jsonnet.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.jsonnet.1.0.0\build\vocaluxe.dependencies.jsonnet.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.pitchtracker.1.0.0\build\vocaluxe.dependencies.pitchtracker.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.pitchtracker.1.0.0\build\vocaluxe.dependencies.pitchtracker.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.0\build\vocaluxe.dependencies.portaudiosharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.portaudiosharp.1.0.0\build\vocaluxe.dependencies.portaudiosharp.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.0\build\vocaluxe.dependencies.slimdx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.slimdx.1.0.0\build\vocaluxe.dependencies.slimdx.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.1.0.1\build\vocaluxe.dependencies.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.1.0.1\build\vocaluxe.dependencies.targets'))" />
   </Target>
   <Import Project="..\packages\vocaluxe.dependencies.sqlite.1.0.0\build\vocaluxe.dependencies.sqlite.targets" Condition="Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.0\build\vocaluxe.dependencies.sqlite.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.acinerella.1.0.0\build\vocaluxe.dependencies.acinerella.targets" Condition="Exists('..\packages\vocaluxe.dependencies.acinerella.1.0.0\build\vocaluxe.dependencies.acinerella.targets')" />
@@ -590,13 +583,13 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
   <Import Project="..\packages\vocaluxe.dependencies.jsonnet.1.0.0\build\vocaluxe.dependencies.jsonnet.targets" Condition="Exists('..\packages\vocaluxe.dependencies.jsonnet.1.0.0\build\vocaluxe.dependencies.jsonnet.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.pitchtracker.1.0.0\build\vocaluxe.dependencies.pitchtracker.targets" Condition="Exists('..\packages\vocaluxe.dependencies.pitchtracker.1.0.0\build\vocaluxe.dependencies.pitchtracker.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.portaudiosharp.1.0.0\build\vocaluxe.dependencies.portaudiosharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.0\build\vocaluxe.dependencies.portaudiosharp.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.slimdx.1.0.0\build\vocaluxe.dependencies.slimdx.targets" Condition="Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.0\build\vocaluxe.dependencies.slimdx.targets')" />
   <Import Project="..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets" Condition="Exists('..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets" Condition="Exists('..\packages\vocaluxe.dependencies.1.0.0\build\vocaluxe.dependencies.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets" Condition="Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.0\build\vocaluxe.dependencies.gstreamer.targets')" />
   <Import Project="..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\tools\Mono.Data.Sqlite.Portable.targets" Condition="Exists('..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\tools\Mono.Data.Sqlite.Portable.targets')" />
   <Target Name="EnsureMonoDataSqlitePortableImported" BeforeTargets="BeforeBuild" Condition="'$(MonoDataSqlitePortableImported)' == ''">
     <Error Condition="!Exists('..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\tools\Mono.Data.Sqlite.Portable.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them." />
     <Error Condition="Exists('..\packages\Mono.Data.Sqlite.Portable.1.0.3.5\tools\Mono.Data.Sqlite.Portable.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build." />
   </Target>
+  <Import Project="..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets" Condition="Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.1.0.1\build\vocaluxe.dependencies.targets" Condition="Exists('..\packages\vocaluxe.dependencies.1.0.1\build\vocaluxe.dependencies.targets')" />
 </Project>
