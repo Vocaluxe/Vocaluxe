@@ -146,15 +146,7 @@
   </PropertyGroup>
   <ItemGroup>    
     <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Data.Portable, Version=4.0.0.0, Culture=neutral, PublicKeyToken=59e704a76bc4613a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\vocaluxe.dependencies.sqlite.1.0.1\lib\net40\System.Data.Portable.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Data.SQLite, Version=1.0.98.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\vocaluxe.dependencies.sqlite.1.0.1\lib\net40\System.Data.SQLite.dll</HintPath>
-    </Reference>
+    <Reference Include="System.Data" />    
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
