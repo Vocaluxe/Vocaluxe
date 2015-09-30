@@ -40,10 +40,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             if (gstreamerEnvVar == null)
             {
 #if ARCH_X86
-                dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "gstreamer86\\bin\\");
+                dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\gstreamer86\\bin\\");
 #endif
 #if ARCH_X64
-                dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "gstreamer64\\bin\\");
+                dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\gstreamer64\\bin\\");
 #endif
                 if (!Directory.Exists(dllDirectory))
                 {

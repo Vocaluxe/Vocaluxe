@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <NuGetPackageImportStamp>2127e8d4</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,15 +36,7 @@
   <PropertyGroup>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="Interop.NetFwTypeLib">
-      <HintPath>..\packages\vocaluxe.dependencies.netfwtypelib.1.0.0\lib\net40\Interop.NetFwTypeLib.dll</HintPath>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
-    </Reference>
-    <Reference Include="Security.Cryptography, Version=1.6.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\vocaluxe.dependencies.securitycryptography.1.0.0\lib\net40\Security.Cryptography.dll</HintPath>
-    </Reference>
+  <ItemGroup>    
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Windows.Forms" />
@@ -73,7 +66,16 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
-  </PropertyGroup>
+  </PropertyGroup>  
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Rebuild for automatic package restore. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.netfwtypelib.1.0.1\build\vocaluxe.dependencies.netfwtypelib.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.netfwtypelib.1.0.1\build\vocaluxe.dependencies.netfwtypelib.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.securitycryptography.1.0.1\build\vocaluxe.dependencies.securitycryptography.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.securitycryptography.1.0.1\build\vocaluxe.dependencies.securitycryptography.targets'))" />
+  </Target>
+  <Import Project="..\packages\vocaluxe.dependencies.netfwtypelib.1.0.1\build\vocaluxe.dependencies.netfwtypelib.targets" Condition="Exists('..\packages\vocaluxe.dependencies.netfwtypelib.1.0.1\build\vocaluxe.dependencies.netfwtypelib.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.securitycryptography.1.0.1\build\vocaluxe.dependencies.securitycryptography.targets" Condition="Exists('..\packages\vocaluxe.dependencies.securitycryptography.1.0.1\build\vocaluxe.dependencies.securitycryptography.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
