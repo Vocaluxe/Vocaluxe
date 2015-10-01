@@ -144,14 +144,14 @@
     <DefineConstants>WIN;ARCH_X64;INSTALLER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
-  <ItemGroup>    
+  <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Data" />    
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Transactions" />    
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
   </ItemGroup>
@@ -250,7 +250,9 @@
     <Compile Include="GameModes\IGameMode.cs" />
     <Compile Include="SongQueue\ISongQueue.cs" />
     <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Lib\Draw\CDirect3D.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
+    <Compile Include="Lib\Draw\CDirect3D.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Lib\Draw\CDrawWinForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -502,7 +504,36 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
       $(PostBuildEventDependsOn);
       PostBuildMacros;
     </PostBuildEventDependsOn>
-  </PropertyGroup>  
+  </PropertyGroup>
+  <Target Name="managedDepCopyAfterBuild" BeforeTargets="AfterBuild">
+    <Message Text="copy all libs to the managed dependencies folder" Importance="normal"/>
+    <ItemGroup>
+      <RootDLLFilesToMove Include="$(TargetDir)*.dll"/>
+    </ItemGroup>
+    <ItemGroup>
+      <x64FolderFilesToMove Include="$(TargetDir)x64\*.*"/>
+    </ItemGroup>	
+	<ItemGroup>
+      <x86FolderFilesToMove Include="$(TargetDir)x86\*.*"/>
+    </ItemGroup>
+	<ItemGroup>
+      <OtherFilesToMove Include="$(TargetDir)System.Data.SQLite.xml;$(TargetDir)VocaluxeLib.pdb;"/>
+    </ItemGroup>
+    <Move
+        SourceFiles="@(RootDLLFilesToMove)"
+        DestinationFiles="@(RootDLLFilesToMove->'$(TargetDir)libs\managed\%(Filename)%(Extension)')"/>
+	<Move
+        SourceFiles="@(x64FolderFilesToMove)"
+        DestinationFiles="@(x64FolderFilesToMove->'$(TargetDir)libs\managed\x64\%(Filename)%(Extension)')"/>
+	<Move
+        SourceFiles="@(x86FolderFilesToMove)"
+        DestinationFiles="@(x86FolderFilesToMove->'$(TargetDir)libs\managed\x86\%(Filename)%(Extension)')"/>
+	<Move
+        SourceFiles="@(OtherFilesToMove)"
+        DestinationFiles="@(OtherFilesToMove->'$(TargetDir)libs\managed\%(Filename)%(Extension)')"/>
+	<RemoveDir
+        Directories="$(TargetDir)\x64\;$(TargetDir)\x86\" />
+  </Target>
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Rebuild for automatic package restore. The missing file is {0}.</ErrorText>
