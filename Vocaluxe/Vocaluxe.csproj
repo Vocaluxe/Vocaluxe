@@ -517,7 +517,7 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
       <x86FolderFilesToMove Include="$(TargetDir)x86\*.*"/>
     </ItemGroup>
 	<ItemGroup>
-      <OtherFilesToMove Include="$(TargetDir)System.Data.SQLite.xml;$(TargetDir)VocaluxeLib.pdb;"/>
+      <OtherFilesToMove Include="$(TargetDir)System.Data.SQLite.xml;"/>
     </ItemGroup>
     <Move
         SourceFiles="@(RootDLLFilesToMove)"
