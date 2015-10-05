@@ -6,26 +6,42 @@ configuration: ReleaseWin
 platform:
 - x64
 - x86
-clone_depth: 1
+clone_depth: 10
+environment:
+  GitHubKey:
+    secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
+install:
+- ps: >-
+    $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"
+
+    $Env:githubRepoApiUri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/"
+
+    ./.appveyor/gitDescribe.ps1
+
+    $Env:GIT_VERSION_TAG = $Env:VersionTag
 before_build:
 - ps: >-
     nuget restore -DisableParallelProcessing
 
-    (Get-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj') | Foreach-Object {$_ -replace 'v110_xp', 'v120_xp'} | Set-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj'
+    #(Get-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj') | Foreach-Object {$_ -replace 'v110_xp', 'v120_xp'} | Set-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj'
 build:
   project: Vocaluxe.sln
   verbosity: normal
 after_build:
-- cd Output
-- 7z a Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip *
-- appveyor PushArtifact Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip -FileName Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip -DeploymentName ReleaseZip
-- cd ..
+- cmd: >-
+    cd Output
+
+    7z a Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip *
+
+    appveyor PushArtifact Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip -FileName Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip -DeploymentName ReleaseZip
+
+    cd ..
 test: off
 artifacts:
 - path: Output\Vocaluxe_{APPVEYOR_REPO_BRANCH}_Windows_{PLATFORM}.zip
   name: ReleaseZip
 before_deploy:
-- set GIT_VERSION_TAG=git describe --long
+- ps: ./.appveyor/prepareDeploy.ps1
 deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
@@ -46,3 +62,4 @@ deploy:
   artifact: ReleaseZip
   on:
     branch: appveyorTest
+    APPVEYOR_PULL_REQUEST_NUMBER: ''
