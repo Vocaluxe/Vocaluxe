@@ -56,8 +56,8 @@ before_deploy:
 deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
-  release: $(APPVEYOR_REPO_TAG_NAME) ($(APPVEYOR_REPO_COMMIT_TIMESTAMP))
-  description: 'Version: $(GIT_VERSION_TAG)'
+  release: $(APPVEYOR_REPO_TAG_NAME)
+  description: 
   auth_token:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
   artifact: ReleaseZip
@@ -67,8 +67,8 @@ deploy:
     NIGHTLY_BUILD: false
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
-  release: Latest Nightly build ($(APPVEYOR_REPO_COMMIT_TIMESTAMP))
-  description: 'Version: $(GIT_VERSION_TAG)'
+  release: Latest Nightly build
+  description: 
   auth_token:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
   artifact: ReleaseZip
