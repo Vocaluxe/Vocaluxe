@@ -22,7 +22,7 @@ catch [System.Net.WebException]
 	# No Release found for this tag
     $statusCode = [int]$_.Exception.Response.StatusCode
     $html = $_.Exception.Response.StatusDescription
-	Write-Host "No Release found for this tag ($html)"
+	Write-Host "No Release found for this tag ($html): $($Env:APPVEYOR_REPO_TAG_NAME)"
 	Return;
 }
 
@@ -44,14 +44,14 @@ $deleteAssetParams = @{
 }
 try{
 	$result = Invoke-RestMethod @deleteAssetParams 
-	Write-Host "Successfully deleted asset"
+	Write-Host "Successfully deleted asset: Vocaluxe_$($Env:APPVEYOR_REPO_TAG_NAME)_Windows_$($Env:PLATFORM).zip"
 }
 catch [System.Net.WebException] 
 {
 	# Could not delete asset
     $statusCode = [int]$_.Exception.Response.StatusCode
     $html = $_.Exception.Response.StatusDescription
-	Write-Host "Could not delete asset ($html)"
+	Write-Host "Could not delete asset ($html): Vocaluxe_$($Env:APPVEYOR_REPO_TAG_NAME)_Windows_$($Env:PLATFORM).zip"
 	Return;
 }
  

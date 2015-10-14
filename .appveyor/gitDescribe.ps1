@@ -29,7 +29,7 @@ catch [System.Net.WebException]
 	# Error getting tags
     $statusCode = [int]$_.Exception.Response.StatusCode
     $html = $_.Exception.Response.StatusDescription
-	Write-Host "Error getting tags ($html)"
+	Write-Host "Error getting info for tags ($html)"
 	Return ;
 }
 
@@ -42,7 +42,7 @@ catch [System.Net.WebException]
 	# Error comparing tags
     $statusCode = [int]$_.Exception.Response.StatusCode
     $html = $_.Exception.Response.StatusDescription
-	Write-Host "Error comparing tags ($html)"
+	Write-Host "Error comparing tags with current commit ($html)"
 	Return ;
 }
 

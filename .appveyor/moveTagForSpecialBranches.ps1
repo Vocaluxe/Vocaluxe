@@ -4,7 +4,7 @@ if($Env:APPVEYOR_REPO_TAG -ne "true") {
 		$Env:NIGHTLY_BUILD = true		
 	}
 	else{
-		Write-Host "No tag or special branch found"
+		Write-Host "No special branch found"
 		Return
 	}
 	git config --global user.email "build@vocaluxe.de";
@@ -12,5 +12,5 @@ if($Env:APPVEYOR_REPO_TAG -ne "true") {
 	git tag "$targetTag" -f;
 	git push -q -f "https://$($Env:GitHubKey):x-oauth-basic@github.com/lukeIam/Vocaluxe.git" "$targetTag";
 	
-	Write-Host "Branch $Env:APPVEYOR_REPO_BRANCH -> Tag=$targetTag"
+	Write-Host "Tag $targetTag points now to the head of branch $Env:APPVEYOR_REPO_BRANCH"
 }
