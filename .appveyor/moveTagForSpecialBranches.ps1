@@ -1,7 +1,5 @@
-$Env:NIGHTLY_BUILD = false
 if($Env:APPVEYOR_REPO_TAG -ne "true") {
 	if($Env:APPVEYOR_REPO_BRANCH -eq "appveyorTest"){		
-		$targetTag = "Nightly"	
 		$Env:NIGHTLY_BUILD = true		
 	}
 	else{
