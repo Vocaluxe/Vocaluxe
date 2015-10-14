@@ -3,19 +3,7 @@ if($Env:APPVEYOR_REPO_TAG -eq "true") {
 	Write-Host "Tag=$targetTag"
 }
 else{
-	if($Env:APPVEYOR_REPO_BRANCH -eq "appveyorTest"){		
-		$targetTag = "Nightly"		
-	}
-	else{
-		Write-Host "No tag or special branch found"
-		Return
-	}
-	git config --global user.email "build@vocaluxe.de";
-	git config --global user.name "Vocaluxe_Automatic_Build";
-	git tag "$targetTag" -f;
-	git push -q -f "https://$($Env:GitHubKey):x-oauth-basic@github.com/lukeIam/Vocaluxe.git" "$targetTag";
-	
-	Write-Host "Branch $Env:APPVEYOR_REPO_BRANCH -> Tag=$targetTag"
+	Return;
 }
 
 $getRelaseInfoParams = @{
@@ -31,15 +19,15 @@ catch [System.Net.WebException]
     $statusCode = [int]$_.Exception.Response.StatusCode
     $html = $_.Exception.Response.StatusDescription
 	Write-Host "No Release found for this tag ($html)"
-	Return
+	Return;
 }
 
-$assetId = ($result.assets | where {$_.name -EQ "Vocaluxe_$Env:APPVEYOR_REPO_BRANCH_Windows_$Env:PLATFORM.zip" }  | Select-Object -first 1 ).id
+$assetId = ($result.assets | where {$_.name -EQ "Vocaluxe_$Env:APPVEYOR_REPO_TAG_NAME_Windows_$Env:PLATFORM.zip" }  | Select-Object -first 1 ).id
 
 if(!$assetId){
 	# No matching asset found in this release
-	Write-Host "No matching asset found in this release"
-	Return
+	Write-Host "No matching asset found in this release: Vocaluxe_$Env:APPVEYOR_REPO_TAG_NAME_Windows_$Env:PLATFORM.zip"
+	Return;
 }
 
 $deleteAssetParams = @{
@@ -60,6 +48,6 @@ catch [System.Net.WebException]
     $statusCode = [int]$_.Exception.Response.StatusCode
     $html = $_.Exception.Response.StatusDescription
 	Write-Host "Could not delete asset ($html)"
-	Return
+	Return;
 }
  

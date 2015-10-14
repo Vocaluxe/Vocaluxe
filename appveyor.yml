@@ -19,6 +19,9 @@ install:
     ./.appveyor/gitDescribe.ps1
 
     $Env:GIT_VERSION_TAG = $Env:VersionTag
+
+
+    ./.appveyor/moveTagForSpecialBranches.ps1
 before_build:
 - ps: >-
     nuget restore -DisableParallelProcessing
@@ -45,7 +48,7 @@ before_deploy:
 deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
-  release: $(APPVEYOR_REPO_TAG_NAME) ({APPVEYOR_REPO_COMMIT_TIMESTAMP})
+  release: $(APPVEYOR_REPO_TAG_NAME) ($(APPVEYOR_REPO_COMMIT_TIMESTAMP))
   description: 'Version: {GIT_VERSION_TAG}'
   auth_token:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
@@ -53,13 +56,14 @@ deploy:
   prerelease: true
   on:
     APPVEYOR_REPO_TAG: true
+    NIGHTLY_BUILD: false
 - provider: GitHub
-  tag: Nightly
-  release: Current Nightly ({APPVEYOR_REPO_COMMIT_TIMESTAMP})
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  release: Latest Nightly build ($(APPVEYOR_REPO_COMMIT_TIMESTAMP))
   description: 'Version: {GIT_VERSION_TAG}'
   auth_token:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
   artifact: ReleaseZip
   on:
-    branch: appveyorTest
-    APPVEYOR_PULL_REQUEST_NUMBER: ''
+    APPVEYOR_REPO_TAG: true
+    NIGHTLY_BUILD: true
