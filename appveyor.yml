@@ -20,6 +20,17 @@ install:
 
     $Env:GIT_VERSION_TAG = $Env:VersionTag
 
+    if($Env:APPVEYOR_REPO_TAG){
+
+    $Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK = $Env:APPVEYOR_REPO_TAG_NAME
+
+    }
+
+    else{
+
+    $Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK = $Env:APPVEYOR_REPO_BRANCH
+
+    }
 
     ./.appveyor/moveTagForSpecialBranches.ps1
 before_build:
@@ -34,14 +45,14 @@ after_build:
 - cmd: >-
     cd Output
 
-    7z a Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip *
+    7z a Vocaluxe_%TAG_NAME_WITH_BRANCH_NAME_FALLBACK%_Windows_%PLATFORM%.zip *
 
-    appveyor PushArtifact Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip -FileName Vocaluxe_%APPVEYOR_REPO_BRANCH%_Windows_%PLATFORM%.zip -DeploymentName ReleaseZip
+    appveyor PushArtifact Vocaluxe_%TAG_NAME_WITH_BRANCH_NAME_FALLBACK%_Windows_%PLATFORM%.zip -FileName Vocaluxe_%TAG_NAME_WITH_BRANCH_NAME_FALLBACK%_Windows_%PLATFORM%.zip -DeploymentName ReleaseZip
 
     cd ..
 test: off
 artifacts:
-- path: Output\Vocaluxe_{APPVEYOR_REPO_BRANCH}_Windows_{PLATFORM}.zip
+- path: Output\Vocaluxe_$(TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$(PLATFORM).zip
   name: ReleaseZip
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1
@@ -49,7 +60,7 @@ deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
   release: $(APPVEYOR_REPO_TAG_NAME) ($(APPVEYOR_REPO_COMMIT_TIMESTAMP))
-  description: 'Version: {GIT_VERSION_TAG}'
+  description: 'Version: $(GIT_VERSION_TAG)'
   auth_token:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
   artifact: ReleaseZip
@@ -60,7 +71,7 @@ deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
   release: Latest Nightly build ($(APPVEYOR_REPO_COMMIT_TIMESTAMP))
-  description: 'Version: {GIT_VERSION_TAG}'
+  description: 'Version: $(GIT_VERSION_TAG)'
   auth_token:
     secure: QBwVoI9PlI+PWfX8vtjH22cSPhj2nwJ78CQcwC4Olsibn1QNar2KX4HEfOGNbazA
   artifact: ReleaseZip
