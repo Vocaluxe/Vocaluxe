@@ -26,11 +26,11 @@ catch [System.Net.WebException]
 	Return;
 }
 
-$assetId = ($result.assets | where {$_.name -EQ "Vocaluxe_$Env:APPVEYOR_REPO_TAG_NAME_Windows_$Env:PLATFORM.zip" }  | Select-Object -first 1 ).id
+$assetId = ($result.assets | where {$_.name -EQ "Vocaluxe_$($Env:APPVEYOR_REPO_TAG_NAME)_Windows_$($Env:PLATFORM).zip" }  | Select-Object -first 1 ).id
 
 if(!$assetId){
 	# No matching asset found in this release
-	Write-Host "No matching asset found in this release: Vocaluxe_$Env:APPVEYOR_REPO_TAG_NAME_Windows_$Env:PLATFORM.zip"
+	Write-Host "No matching asset found in this release: Vocaluxe_$($Env:APPVEYOR_REPO_TAG_NAME)_Windows_$($Env:PLATFORM).zip"
 	Return;
 }
 
