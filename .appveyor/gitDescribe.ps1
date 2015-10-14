@@ -6,7 +6,7 @@ $Env:VersionTag = ""
 Function IIf($If, $Right, $Wrong) {If ($If) {$Right} Else {$Wrong}}
 
 try{
-	$result = Invoke-RestMethod -Uri "$($githubRepoApiUri)git/refs/tags" -Method 'GET'
+	$result = Invoke-RestMethod -Uri "$($githubRepoApiUri)git/refs/tags?access_token=$Env:GitHubKey" -Method 'GET'
 }
 catch [System.Net.WebException] 
 {	
@@ -19,7 +19,7 @@ catch [System.Net.WebException]
 
 # Get tag info
 try{
-	$tagsInfo = ($result | % { "$($githubRepoApiUri)git/tags/$($_.object.sha)" ;} | % { Invoke-RestMethod -Method 'GET' -Uri $($_)})
+	$tagsInfo = ($result | % { "$($githubRepoApiUri)git/tags/$($_.object.sha)?access_token=$Env:GitHubKey" ;} | % { Invoke-RestMethod -Method 'GET' -Uri $($_)})
 }
 catch [System.Net.WebException] 
 {	
@@ -32,7 +32,7 @@ catch [System.Net.WebException]
 
 # Compare taged commits with current commit
 try{
-	$commitTagComp = $tagsInfo | select sha, tag, tagger, @{n='dist';e={[int](Invoke-RestMethod -Method 'GET' -Uri "$($githubRepoApiUri)compare/$($_.object.sha)...$currentCommitSha" | % { (IIf ($_.status -ne "diverged") ($_.ahead_by) (-1))})}}
+	$commitTagComp = $tagsInfo | select sha, tag, tagger, @{n='dist';e={[int](Invoke-RestMethod -Method 'GET' -Uri "$($githubRepoApiUri)compare/$($_.object.sha)...$currentCommitSha?access_token=$Env:GitHubKey" | % { (IIf ($_.status -ne "diverged") ($_.ahead_by) (-1))})}}
 }
 catch [System.Net.WebException] 
 {	
