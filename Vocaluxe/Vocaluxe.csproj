@@ -475,13 +475,13 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
-powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js') |  Foreach-Object {$_ -replace '(?&lt;=var *matchingServerVersion * = *\")\w*(?=\" *;)', "$version"} | Set-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js'"
+powershell -command "if($Env:GIT_VERSION_TAG) {$version = $Env:GIT_VERSION_TAG;} else {$version = git describe --long;}(Get-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js') |  Foreach-Object {$_ -replace '(?&lt;=var *matchingServerVersion * = *\")\w*(?=\" *;)', "$version"} | Set-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js'"
 powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\()(.*)(?=\))', '\"GITVERSION\"'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">cp -ruT "$(ProjectDir)Website" "$(SolutionDir)/PhoneGap"</PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(ProjectDir)Linux/Build/PostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -command "if($Env:GIT_VERSION_TAG) {$version = $Env:GIT_VERSION_TAG;} else {$version = git describe --long;} (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
     <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(ProjectDir)Linux/Build/PreBuildEvent.sh $(ProjectDir)</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
