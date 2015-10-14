@@ -1,12 +1,15 @@
 $currentCommitSha = $Env:CurrentCommitSha
 $githubRepoApiUri = $Env:githubRepoApiUri #"https://api.github.com/repos/:user/:repo/"
 $Env:VersionTag = ""
-
+$gitApiAuthHeader = @{
+		Authorization = 'Basic ' + [Convert]::ToBase64String(
+		[Text.Encoding]::ASCII.GetBytes($Env:GitHubKey + ":x-oauth-basic"));
+	};
 # Inline-if helper function
 Function IIf($If, $Right, $Wrong) {If ($If) {$Right} Else {$Wrong}}
 
 try{
-	$result = Invoke-RestMethod -Uri "$($githubRepoApiUri)git/refs/tags?access_token=$Env:GitHubKey" -Method 'GET'
+	$result = Invoke-RestMethod -Uri "$($githubRepoApiUri)git/refs/tags" -Method 'GET' -Headers $gitApiAuthHeader
 }
 catch [System.Net.WebException] 
 {	
@@ -19,7 +22,7 @@ catch [System.Net.WebException]
 
 # Get tag info
 try{
-	$tagsInfo = ($result | % { "$($githubRepoApiUri)git/tags/$($_.object.sha)?access_token=$Env:GitHubKey" ;} | % { Invoke-RestMethod -Method 'GET' -Uri $($_)})
+	$tagsInfo = ($result | % { "$($githubRepoApiUri)git/tags/$($_.object.sha)" ;} | % { Invoke-RestMethod -Method 'GET' -Uri $($_) -Headers $gitApiAuthHeader})
 }
 catch [System.Net.WebException] 
 {	
@@ -32,7 +35,7 @@ catch [System.Net.WebException]
 
 # Compare taged commits with current commit
 try{
-	$commitTagComp = $tagsInfo | select sha, tag, tagger, @{n='dist';e={[int](Invoke-RestMethod -Method 'GET' -Uri "$($githubRepoApiUri)compare/$($_.object.sha)...$currentCommitSha?access_token=$Env:GitHubKey" | % { (IIf ($_.status -ne "diverged") ($_.ahead_by) (-1))})}}
+	$commitTagComp = $tagsInfo | select sha, tag, tagger, @{n='dist';e={[int](Invoke-RestMethod -Method 'GET' -Uri "$($githubRepoApiUri)compare/$($_.object.sha)...$currentCommitSha" -Headers $gitApiAuthHeader | % { (IIf ($_.status -ne "diverged") ($_.ahead_by) (-1))})}}
 }
 catch [System.Net.WebException] 
 {	
