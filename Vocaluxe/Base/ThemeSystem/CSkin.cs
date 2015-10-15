@@ -178,8 +178,8 @@ namespace Vocaluxe.Base.ThemeSystem
                 CVideoSkinElement sk = new CVideoSkinElement {FileName = kvp.Value};
                 if (!File.Exists(Path.Combine(_Folder, sk.FileName)))
                 {
-                    CLog.LogError("Video \"" + kvp.Key + "\": (" + sk.FileName + ") not found!", true);
-                    return false;
+                    CLog.LogError("Video \"" + kvp.Key + "\": (" + sk.FileName + ") not found!");
+                    continue;
                 }
                 _Videos.Add(kvp.Key, sk);
             }

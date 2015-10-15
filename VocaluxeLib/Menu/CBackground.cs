@@ -318,11 +318,15 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawVideo()
         {
-            CBase.Video.GetFrame(_VideoStream, _VideoStream.VideoTime);
-            if (_VideoStream.Texture != null)
+            if (_VideoStream != null)
             {
-                CBase.Drawing.DrawTexture(_VideoStream.Texture, Rect, EAspect.Crop);
-                return true;
+                CBase.Video.GetFrame(_VideoStream, _VideoStream.VideoTime);
+                if (_VideoStream.Texture != null)
+                {
+                    CBase.Drawing.DrawTexture(_VideoStream.Texture, Rect, EAspect.Crop);
+                    return true;
+                }
+                return false;
             }
             return false;
         }
