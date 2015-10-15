@@ -506,7 +506,7 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
     </PostBuildEventDependsOn>
   </PropertyGroup>
   <Target Name="managedDepCopyAfterBuild" BeforeTargets="AfterBuild">
-    <Message Text="copy all libs to the managed dependencies folder" Importance="normal"/>
+    <Message Text="move all libs to the managed dependencies folder" Importance="normal"/>
     <ItemGroup>
       <RootDLLFilesToMove Include="$(TargetDir)*.dll"/>
     </ItemGroup>
@@ -519,18 +519,26 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
 	<ItemGroup>
       <OtherFilesToMove Include="$(TargetDir)System.Data.SQLite.xml;"/>
     </ItemGroup>
-    <Move
+    <Copy
         SourceFiles="@(RootDLLFilesToMove)"
         DestinationFiles="@(RootDLLFilesToMove->'$(TargetDir)libs\managed\%(Filename)%(Extension)')"/>
-	<Move
+	<Copy
         SourceFiles="@(x64FolderFilesToMove)"
         DestinationFiles="@(x64FolderFilesToMove->'$(TargetDir)libs\managed\x64\%(Filename)%(Extension)')"/>
-	<Move
+	<Copy
         SourceFiles="@(x86FolderFilesToMove)"
         DestinationFiles="@(x86FolderFilesToMove->'$(TargetDir)libs\managed\x86\%(Filename)%(Extension)')"/>
-	<Move
+	<Copy
         SourceFiles="@(OtherFilesToMove)"
         DestinationFiles="@(OtherFilesToMove->'$(TargetDir)libs\managed\%(Filename)%(Extension)')"/>
+	<Delete
+        Files="@(RootDLLFilesToMove)" />
+	<Delete
+        Files="@(x64FolderFilesToMove)" />
+	<Delete
+        Files="@(x86FolderFilesToMove)" />
+	<Delete
+        Files="@(OtherFilesToMove)" />
 	<RemoveDir
         Directories="$(TargetDir)\x64\;$(TargetDir)\x86\" />
   </Target>
