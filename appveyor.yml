@@ -50,6 +50,8 @@ after_build:
     appveyor PushArtifact Vocaluxe_%TAG_NAME_WITH_BRANCH_NAME_FALLBACK%_Windows_%PLATFORM%.zip -FileName Vocaluxe_%TAG_NAME_WITH_BRANCH_NAME_FALLBACK%_Windows_%PLATFORM%.zip -DeploymentName ReleaseZip
 
     cd ..
+
+    powershell .\.appveyor\nightlyDetect.ps1
 test: off
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1

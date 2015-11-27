@@ -1,12 +1,9 @@
 if($Env:APPVEYOR_REPO_TAG -eq "true") {
 	$targetTag = $Env:APPVEYOR_REPO_TAG_NAME
-	Write-Host "Tag=$targetTag"
-	$Env:NIGHTLY_BUILD = "false"
-	if($targetTag -eq "Nightly") {
-		$Env:NIGHTLY_BUILD = "true"
-	}
+	Write-Host "Deploy for tag $targetTag"	
 }
 else{
+    Write-Host "No tag found: no preparation required"
 	Return;
 }
 

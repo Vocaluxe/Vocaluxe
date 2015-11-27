@@ -1,8 +1,7 @@
-
 if($Env:APPVEYOR_REPO_TAG -ne "true") {
-    Write-Host "Pushed tag detected"
+    Write-Host "Push without tag detected"
 	if($Env:APPVEYOR_REPO_BRANCH -eq "appveyorTest"){
-        Write-Host "Nightly build tag was detected"
+        Write-Host "Nightly build branch was detected"
 		$targetTag = "Nightly"	
 		$Env:NIGHTLY_BUILD = true		
 	}
@@ -17,8 +16,4 @@ if($Env:APPVEYOR_REPO_TAG -ne "true") {
 	git push -q -f "https://$($Env:GitHubKey):x-oauth-basic@github.com/lukeIam/Vocaluxe.git" "$targetTag";
 	
 	Write-Host "Tag $targetTag points now to the head of branch $Env:APPVEYOR_REPO_BRANCH"
-}
-else
-{
-    Write-Host "No tag for this detected"
 }
