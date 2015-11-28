@@ -349,7 +349,7 @@ namespace VocaluxeLib.Songs
                                 if (identifier.StartsWith("DUETSINGER"))
                                 {
                                     identifier = identifier.Substring(10);
-                                    if (identifier.StartsWith("P")) // fix for missing "P"
+                                    if (!identifier.StartsWith("P")) // fix for missing "P"
                                         identifier = "P" + identifier;
                                 }
                                 if (identifier.StartsWith("P"))
