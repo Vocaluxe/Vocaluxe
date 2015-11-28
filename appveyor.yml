@@ -42,16 +42,16 @@ build:
   project: Vocaluxe.sln
   verbosity: normal
 after_build:
-- cmd: >-
+- ps: >-
     cd Output
 
-    7z a Vocaluxe_%TAG_NAME_WITH_BRANCH_NAME_FALLBACK%_Windows_%PLATFORM%.zip *
+    7z a "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM).zip" *
 
-    appveyor PushArtifact Vocaluxe_%TAG_NAME_WITH_BRANCH_NAME_FALLBACK%_Windows_%PLATFORM%.zip -FileName Vocaluxe_%TAG_NAME_WITH_BRANCH_NAME_FALLBACK%_Windows_%PLATFORM%.zip -DeploymentName ReleaseZip
+    appveyor PushArtifact "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM).zip" -FileName "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM).zip" -DeploymentName ReleaseZip
 
     cd ..
 
-    powershell .\.appveyor\nightlyDetect.ps1
+    .\.appveyor\nightlyDetect.ps1
 test: off
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1
