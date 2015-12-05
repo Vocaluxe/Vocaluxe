@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.5" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">    
+    <UsingTask TaskName="lukeIam.msbuild.tasks.FilesExists.FilesExistsTask" AssemblyFile="$(MSBuildThisFileDirectory)..\tools\lukeIam.msbuild.tasks.FileExists.dll" /> 
+    <UsingTask TaskName="lukeIam.msbuild.tasks.ZipDownload.ZipDownloadTask"  AssemblyFile="$(MSBuildThisFileDirectory)..\tools\lukeIam.msbuild.tasks.ZipDownload.dll" />
+    
+    <Target Name="AmbientBeforeBuild" BeforeTargets="BeforeBuild">
+        <PropertyGroup>
+            <ZipAdress>https://github.com/lukeIam/VocaluxeDependencies/blob/master/zips/themes/vocaluxe.themes.ambient.zip?raw=true</ZipAdress>
+            <TargetFolder>$(TargetDir)</TargetFolder>
+            <FilesToCheck>Themes\Ambient.xml;Themes\Ambient\Skin Blue.xml;Themes\Ambient\Screens\ScreenMain.xml;Themes\Ambient\[Blue]BG_Default.png</FilesToCheck>
+        </PropertyGroup>
+
+        <Message Text="File exists check started" Importance="normal"/>
+        <FilesExistsTask Files='$(FilesToCheck)' Folder='$(TargetFolder)'>
+          <Output PropertyName="AllFilesExists" TaskParameter="Result" />
+        </FilesExistsTask>
+      
+        <Message Text="All files allready exists -> exit" Importance="normal" Condition="$(AllFilesExists)" />
+        <Message Text="Some files were missing - download started:" Importance="normal" Condition="!$(AllFilesExists)"/>
+        <Message Text='$(ZipAdress)' Importance="normal" Condition="!$(AllFilesExists)"/>
+        <ZipDownloadTask Address='$(ZipAdress)' TargetFolder='$(TargetFolder)' Condition="!$(AllFilesExists)"/>
+        <Message Text="Download and extraction finished" Importance="normal" Condition="!$(AllFilesExists)"/>
+    </Target>
+</Project>
