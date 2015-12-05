@@ -18,9 +18,7 @@
 		Minus
 		RepeatIcon
 	</Textures>
-	<Videos>
-		BG_Video
-	</Videos>
+	<Videos></Videos>
 	<Colors>
 		Player1
 		Player2

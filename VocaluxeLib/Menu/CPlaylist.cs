@@ -171,7 +171,7 @@ namespace VocaluxeLib.Menu
 
         public SRectF Rect
         {
-            get { return MaxRect; }
+            get { return _CompleteRect; }
         }
         public SRectF MaxRect { get; set; }
         private bool _Selectable = true;
@@ -1038,27 +1038,27 @@ namespace VocaluxeLib.Menu
         {
             _PlaylistElements.Clear();
 
-            for (int i = 0; i < Math.Floor(Rect.H / _Theme.EntryHeight); i++)
+            for (int i = 0; i < Math.Floor(_Theme.Rect.H / _Theme.EntryHeight); i++)
             {
                 var en = new CPlaylistElement
                     {
                         Background = new CStatic(_PartyModeID, _Theme.SkinBackground, _BackgroundColor,
-                                                 new SRectF(Rect.X, Rect.Y + (i * _Theme.EntryHeight), Rect.W, _Theme.EntryHeight, Rect.Z)),
+                                                 new SRectF(_Theme.Rect.X, _Theme.Rect.Y + (i * _Theme.EntryHeight), _Theme.Rect.W, _Theme.EntryHeight, _Theme.Rect.Z)),
                         Cover = new CStatic(_Theme.StaticCover, _PartyModeID)
                     };
 
                 en.Cover.LoadSkin();
-                en.Cover.Y += Rect.Y + (i * _Theme.EntryHeight);
-                en.Cover.X += Rect.X;
+                en.Cover.Y += _Theme.Rect.Y + (i * _Theme.EntryHeight);
+                en.Cover.X += _Theme.Rect.X;
 
                 en.Text1 = new CText(_Text1);
-                en.Text1.X += Rect.X;
-                en.Text1.Y += Rect.Y + (i * _Theme.EntryHeight);
+                en.Text1.X += _Theme.Rect.X;
+                en.Text1.Y += _Theme.Rect.Y + (i * _Theme.EntryHeight);
 
                 en.SelectSlide = new CSelectSlide(_SelectSlideGameMode);
                 en.SelectSlide.LoadSkin();
-                en.SelectSlide.X += Rect.X;
-                en.SelectSlide.Y += Rect.Y + (i * _Theme.EntryHeight);
+                en.SelectSlide.X += _Theme.Rect.X;
+                en.SelectSlide.Y += _Theme.Rect.Y + (i * _Theme.EntryHeight);
 
                 en.Content = -1;
 
@@ -1181,7 +1181,7 @@ namespace VocaluxeLib.Menu
         private void _UpdateRect()
         {
             //Check for highest x/y-coords
-            _CompleteRect = Rect;
+            _CompleteRect = _Theme.Rect;
             //ButtonPlaylistClose
             if (_ButtonPlaylistClose.Rect.X < _CompleteRect.X)
                 _CompleteRect.X = _ButtonPlaylistClose.Rect.X;
