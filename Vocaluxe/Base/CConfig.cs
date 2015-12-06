@@ -324,10 +324,14 @@ namespace Vocaluxe.Base
             else
                 Config = xml.DeserializeString<SConfig>("<root />");
 
-            if (Config.Game.SongFolder.Length > 0)
+            if (Config.Game.SongFolder.Length > 0 && Config.Game.SongFolder[0] != "")
             {
                 SongFolders.Clear();
                 SongFolders.AddRange(Config.Game.SongFolder);
+            }
+            else
+            {
+                Config.Game.SongFolder = SongFolders.ToArray();
             }
             if ((Config.Game.ScoreAnimationTime > 0 && Config.Game.ScoreAnimationTime < 1) || Config.Game.ScoreAnimationTime < 0)
                 Config.Game.ScoreAnimationTime = 1;

@@ -246,7 +246,7 @@ namespace Vocaluxe.Base
 
         private static void _CreateFolder(string path)
         {
-            if (!Directory.Exists(path))
+            if (path != "" && !Directory.Exists(path))
             {
                 try
                 {
