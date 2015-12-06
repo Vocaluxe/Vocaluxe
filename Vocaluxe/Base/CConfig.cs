@@ -76,7 +76,7 @@ namespace Vocaluxe.Base
 #endif
 
             [DefaultValue(ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM)] public ETextureQuality TextureQuality;
-            [XmlRanged(32, 1024), DefaultValue(128)] public int CoverSize;
+            [XmlRanged(32, 1024), DefaultValue(300)] public int CoverSize;
 
             [DefaultValue(1024)] public int ScreenW;
             [DefaultValue(576)] public int ScreenH;
