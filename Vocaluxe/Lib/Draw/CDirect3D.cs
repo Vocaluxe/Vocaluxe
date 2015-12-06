@@ -207,7 +207,7 @@ namespace Vocaluxe.Lib.Draw
             _H = _Form.ClientSize.Height;
             _W = _Form.ClientSize.Width;
 
-            if (CConfig.Config.Graphics.Strech != EOffOn.TR_CONFIG_ON)
+            if (CConfig.Config.Graphics.Stretch != EOffOn.TR_CONFIG_ON)
             {
                 _AdjustAspect(false);
             }

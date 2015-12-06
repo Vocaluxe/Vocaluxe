@@ -219,7 +219,7 @@ namespace Vocaluxe.Lib.Draw
             _W = _Control.Width;
             _CurrentAlignment = CConfig.Config.Graphics.ScreenAlignment;
 
-            if (CConfig.Config.Graphics.Strech != EOffOn.TR_CONFIG_ON)
+            if (CConfig.Config.Graphics.Stretch != EOffOn.TR_CONFIG_ON)
             {
                 _AdjustAspect(true);
             }
