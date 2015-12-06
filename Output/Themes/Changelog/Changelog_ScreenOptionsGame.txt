@@ -1,8 +1,0 @@
-ScreenOptionsGame
-
-++++++++++
-Version 2:
-
-Add:
-<ButtonServer>
-++++++++++ 

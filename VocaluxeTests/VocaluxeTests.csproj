@@ -56,6 +56,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.XML" />
+    <Reference Include="VocaluxeLib, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Output\libs\managed\VocaluxeLib.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Choose>
     <When Condition="('$(VisualStudioVersion)' == '10.0' or '$(VisualStudioVersion)' == '') and '$(TargetFrameworkVersion)' == 'v3.5'">
@@ -80,10 +84,6 @@
     <ProjectReference Include="..\PartyModes\PartyModeChallenge\PartyModeChallenge.csproj">
       <Project>{5a4053f1-5ad5-441f-b254-d97a088127b6}</Project>
       <Name>PartyModeChallenge</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
-      <Project>{d2b6ddef-e0e1-4ddf-a73a-e6acef5c95ec}</Project>
-      <Name>VocaluxeLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\Vocaluxe\Vocaluxe.csproj">
       <Project>{2a1e0f2d-5392-4bb7-b0a1-a9dfa13e79ff}</Project>

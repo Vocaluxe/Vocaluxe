@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
@@ -31,6 +31,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <NuGetPackageImportStamp>3d91144f</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -143,80 +144,16 @@
     <DefineConstants>WIN;ARCH_X64;INSTALLER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
   </PropertyGroup>
-  <ItemGroup Condition="'$(Platform)' == 'x86' And ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
-    <Reference Include="SlimDX">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\x86\SlimDX.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\Output\x86\System.Data.SQLite.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup Condition="'$(Platform)' == 'x64' And ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
-    <Reference Include="SlimDX">
-      <HintPath>..\Output\x64\SlimDX.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite">
-      <HintPath>..\Output\x64\System.Data.SQLite.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-  </ItemGroup>
   <ItemGroup>
-    <Reference Include="AForge.Video, Version=2.2.4.0, Culture=neutral, PublicKeyToken=cbfb6e07d173c401, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\AForge.Video.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="AForge.Video.DirectShow, Version=2.2.4.1, Culture=neutral, PublicKeyToken=61ea4348d43881b7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\AForge.Video.DirectShow.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Community.CsharpSqlite">
-      <HintPath>..\Output\Community.CsharpSqlite.dll</HintPath>
-    </Reference>
-    <Reference Include="glib-sharp, Version=3.0.0.0, Culture=neutral, PublicKeyToken=35e10195dab3c99f, processorArchitecture=MSIL">
-      <SpecificVersion>True</SpecificVersion>
-      <HintPath>..\Output\glib-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="gstreamer-sharp, Version=0.99.0.0, Culture=neutral, PublicKeyToken=5cbf79803e97ff61, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\gstreamer-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK">
-      <HintPath>..\Output\OpenTK.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.Compatibility">
-      <HintPath>..\Output\OpenTK.Compatibility.dll</HintPath>
-    </Reference>
-    <Reference Include="OpenTK.GLControl">
-      <HintPath>..\Output\OpenTK.GLControl.dll</HintPath>
-    </Reference>
-    <Reference Include="PortAudioSharp, Version=0.19.3.27472, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\PortAudioSharp.dll</HintPath>
-    </Reference>
-    <Reference Include="QRCoder, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Output\QRCoder.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
-    <Reference Include="Mono.Data.Sqlite" Condition=" !('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')"/>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
@@ -297,8 +234,8 @@
     <Compile Include="Lib\Input\CControllerFramework.cs" />
     <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudio.cs" />
     <Compile Include="Lib\Sound\Record\CRecordBase.cs" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')"/>
-    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')"/>
+    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
+    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPitchTrackerTest.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtAKF.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
@@ -399,6 +336,7 @@
     <Content Include="Website\locales\tr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Doc\Roadmap.txt" />
@@ -536,14 +474,14 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-  <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
-powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js') |  Foreach-Object {$_ -replace '(?&lt;=var *matchingServerVersion * = *\")\w*(?=\" *;)', "$version"} | Set-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js'"
+    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
+powershell -command "if($Env:GIT_VERSION_TAG) {$version = $Env:GIT_VERSION_TAG;} else {$version = git describe --long;}(Get-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js') |  Foreach-Object {$_ -replace '(?&lt;=var *matchingServerVersion * = *\")\w*(?=\" *;)', "$version"} | Set-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js'"
 powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\()(.*)(?=\))', '\"GITVERSION\"'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">cp -ruT "$(ProjectDir)Website" "$(SolutionDir)/PhoneGap"</PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(ProjectDir)Linux/Build/PostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -command "$version = git describe --long; (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -command "if($Env:GIT_VERSION_TAG) {$version = $Env:GIT_VERSION_TAG;} else {$version = git describe --long;} (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
     <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(ProjectDir)Linux/Build/PreBuildEvent.sh $(ProjectDir)</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -567,4 +505,76 @@ powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\Assemb
       PostBuildMacros;
     </PostBuildEventDependsOn>
   </PropertyGroup>
+  <Target Name="managedDepCopyAfterBuild" BeforeTargets="AfterBuild">
+    <Message Text="move all libs to the managed dependencies folder" Importance="normal"/>
+    <ItemGroup>
+      <RootDLLFilesToMove Include="$(TargetDir)*.dll"/>
+    </ItemGroup>
+    <ItemGroup>
+      <x64FolderFilesToMove Include="$(TargetDir)x64\*.*"/>
+    </ItemGroup>	
+	<ItemGroup>
+      <x86FolderFilesToMove Include="$(TargetDir)x86\*.*"/>
+    </ItemGroup>
+	<ItemGroup>
+      <OtherFilesToMove Include="$(TargetDir)System.Data.SQLite.xml;"/>
+    </ItemGroup>
+    <Copy
+        SourceFiles="@(RootDLLFilesToMove)"
+        DestinationFiles="@(RootDLLFilesToMove->'$(TargetDir)libs\managed\%(Filename)%(Extension)')"/>
+	<Copy
+        SourceFiles="@(x64FolderFilesToMove)"
+        DestinationFiles="@(x64FolderFilesToMove->'$(TargetDir)libs\managed\x64\%(Filename)%(Extension)')"/>
+	<Copy
+        SourceFiles="@(x86FolderFilesToMove)"
+        DestinationFiles="@(x86FolderFilesToMove->'$(TargetDir)libs\managed\x86\%(Filename)%(Extension)')"/>
+	<Copy
+        SourceFiles="@(OtherFilesToMove)"
+        DestinationFiles="@(OtherFilesToMove->'$(TargetDir)libs\managed\%(Filename)%(Extension)')"/>
+	<Delete
+        Files="@(RootDLLFilesToMove)" />
+	<Delete
+        Files="@(x64FolderFilesToMove)" />
+	<Delete
+        Files="@(x86FolderFilesToMove)" />
+	<Delete
+        Files="@(OtherFilesToMove)" />
+	<RemoveDir
+        Directories="$(TargetDir)\x64\;$(TargetDir)\x86\" />
+  </Target>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Rebuild for automatic package restore. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.acinerella.1.0.1\build\vocaluxe.dependencies.acinerella.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.acinerella.1.0.1\build\vocaluxe.dependencies.acinerella.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.csharpsqlite.1.0.1\build\vocaluxe.dependencies.csharpsqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.csharpsqlite.1.0.1\build\vocaluxe.dependencies.csharpsqlite.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.ffmpeg.1.0.1\build\vocaluxe.dependencies.ffmpeg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.ffmpeg.1.0.1\build\vocaluxe.dependencies.ffmpeg.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.hidapi.1.0.1\build\vocaluxe.dependencies.hidapi.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.hidapi.1.0.1\build\vocaluxe.dependencies.hidapi.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.pitchtracker.1.0.1\build\vocaluxe.dependencies.pitchtracker.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.pitchtracker.1.0.1\build\vocaluxe.dependencies.pitchtracker.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.1\build\vocaluxe.dependencies.portaudiosharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.portaudiosharp.1.0.1\build\vocaluxe.dependencies.portaudiosharp.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.1\build\vocaluxe.dependencies.gstreamer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamer.1.0.1\build\vocaluxe.dependencies.gstreamer.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.1.0.4\build\vocaluxe.dependencies.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.1.0.4\build\vocaluxe.dependencies.targets'))" />
+  </Target>
+  <Import Project="..\packages\vocaluxe.dependencies.acinerella.1.0.1\build\vocaluxe.dependencies.acinerella.targets" Condition="Exists('..\packages\vocaluxe.dependencies.acinerella.1.0.1\build\vocaluxe.dependencies.acinerella.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets" Condition="Exists('..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.csharpsqlite.1.0.1\build\vocaluxe.dependencies.csharpsqlite.targets" Condition="Exists('..\packages\vocaluxe.dependencies.csharpsqlite.1.0.1\build\vocaluxe.dependencies.csharpsqlite.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.ffmpeg.1.0.1\build\vocaluxe.dependencies.ffmpeg.targets" Condition="Exists('..\packages\vocaluxe.dependencies.ffmpeg.1.0.1\build\vocaluxe.dependencies.ffmpeg.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.hidapi.1.0.1\build\vocaluxe.dependencies.hidapi.targets" Condition="Exists('..\packages\vocaluxe.dependencies.hidapi.1.0.1\build\vocaluxe.dependencies.hidapi.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets" Condition="Exists('..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.pitchtracker.1.0.1\build\vocaluxe.dependencies.pitchtracker.targets" Condition="Exists('..\packages\vocaluxe.dependencies.pitchtracker.1.0.1\build\vocaluxe.dependencies.pitchtracker.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.portaudiosharp.1.0.1\build\vocaluxe.dependencies.portaudiosharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.1\build\vocaluxe.dependencies.portaudiosharp.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets" Condition="Exists('..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets')" />
+  <Import Project="..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets" Condition="Exists('..\packages\vocaluxe.themes.ambient.1.0.0\build\vocaluxe.themes.ambient.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets" Condition="Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets" Condition="Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.gstreamer.1.0.1\build\vocaluxe.dependencies.gstreamer.targets" Condition="Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.1\build\vocaluxe.dependencies.gstreamer.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.1.0.4\build\vocaluxe.dependencies.targets" Condition="Exists('..\packages\vocaluxe.dependencies.1.0.4\build\vocaluxe.dependencies.targets')" />
 </Project>

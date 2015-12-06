@@ -1,7 +1,0 @@
-ScreenLoading
-
-++++++++++
-Version 2:
-
-Rename:<Text1> -> <TextProgramName>
-++++++++++ 
