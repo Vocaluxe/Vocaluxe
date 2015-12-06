@@ -22,6 +22,7 @@ using System.Windows.Forms;
 using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
@@ -51,7 +52,6 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _TileH;
 
         private int _ListLength;
-        private float _CoverTileWidth;
         private float _ListTextWidth;
 
         // Offset is the song or categoryNr of the tile in the left upper corner
@@ -103,7 +103,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (value == base._PreviewNr)
                 {
                     if (!CBase.BackgroundMusic.IsPlaying() && value != -1)
-                        CBase.BackgroundMusic.PlayPreview();
+                        CBase.BackgroundMusic.Play();
                     return;
                 }
                 base._PreviewNr = value;
@@ -126,6 +126,39 @@ namespace VocaluxeLib.Menu.SongMenu
             _MedleyCalcIcon = new CStatic(_Theme.SongMenuList.StaticMedleyCalcIcon, _PartyModeID);
             _MedleyTagIcon = new CStatic(_Theme.SongMenuList.StaticMedleyTagIcon, _PartyModeID);
             _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
+        }
+
+        public override bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
+        {
+            string item = xmlPath + "/" + elementName;
+
+            bool themeLoaded = true;
+            themeLoaded &= base.LoadTheme(xmlPath, elementName, xmlReader);
+
+
+            themeLoaded &= _Artist.LoadTheme(item + "/SongMenuList", "TextArtist", xmlReader);
+            themeLoaded &= _Title.LoadTheme(item + "/SongMenuList", "TextTitle", xmlReader);
+            themeLoaded &= _SongLength.LoadTheme(item + "/SongMenuList", "TextSongLength", xmlReader);
+
+            themeLoaded &= _CoverBig.LoadTheme(item + "/SongMenuList", "StaticCoverBig", xmlReader);
+            themeLoaded &= _TextBG.LoadTheme(item + "/SongMenuList", "StaticTextBG", xmlReader);
+            themeLoaded &= _DuetIcon.LoadTheme(item + "/SongMenuList", "StaticDuetIcon", xmlReader);
+            themeLoaded &= _VideoIcon.LoadTheme(item + "/SongMenuList", "StaticVideoIcon", xmlReader);
+            themeLoaded &= _MedleyCalcIcon.LoadTheme(item + "/SongMenuList", "StaticMedleyCalcIcon", xmlReader);
+            themeLoaded &= _MedleyTagIcon.LoadTheme(item + "/SongMenuList", "StaticMedleyTagIcon", xmlReader);
+
+            if (themeLoaded)
+            {
+                _Theme.Name = elementName;
+
+                _ReadSubTheme();
+                _SubElements.Clear();
+                _SubElements.AddRange(new IMenuElement[] { _Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon });
+                LoadSkin();
+                Init();
+            }
+
+            return themeLoaded;
         }
 
         private void _ReadSubTheme()
