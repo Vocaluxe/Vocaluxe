@@ -88,7 +88,7 @@ namespace Vocaluxe.Base
 
         public ESongMenu GetSongMenuType()
         {
-            return CConfig.Config.Game.SongMenu;
+            return CConfig.SongMenu;
         }
 
         public EOffOn GetVideosToBackground()
@@ -154,6 +154,16 @@ namespace Vocaluxe.Base
         public bool GetLoadOldThemeFiles()
         {
             return CConfig.LoadOldThemeFiles;
+        }
+
+        public void AddSongMenuListener(OnSongMenuChanged onSongMenuChanged)
+        {
+            CConfig.SongMenuChanged += onSongMenuChanged;
+        }
+
+        public void RemoveSongMenuListener(OnSongMenuChanged onSongMenuChanged)
+        {
+            CConfig.SongMenuChanged -= onSongMenuChanged;
         }
     }
 
