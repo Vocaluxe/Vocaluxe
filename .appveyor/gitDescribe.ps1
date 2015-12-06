@@ -1,3 +1,9 @@
+if($Env:APPVEYOR_PULL_REQUEST_NUMBER)
+{
+	$Env:VersionTag = "PR_$Env:APPVEYOR_PULL_REQUEST_NUMBER"
+	Return $Env:VersionTag
+}
+
 $currentCommitSha = $Env:CurrentCommitSha
 $githubRepoApiUri = $Env:githubRepoApiUri #"https://api.github.com/repos/:user/:repo/"
 $Env:VersionTag = ""
