@@ -1,4 +1,4 @@
-if($Env:APPVEYOR_REPO_TAG -ne "true") {
+if($Env:APPVEYOR_REPO_TAG -ne "true" -and (-not $Env:APPVEYOR_PULL_REQUEST_NUMBER)) {
     Write-Host "Push without tag detected"
 	if($Env:APPVEYOR_REPO_BRANCH -eq "develop"){
         Write-Host "Nightly build branch was detected"
