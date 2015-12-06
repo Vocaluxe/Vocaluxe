@@ -8,7 +8,7 @@ else{
 }
 
 $getRelaseInfoParams = @{
-	Uri = "https://api.github.com/repos/lukeIam/Vocaluxe/releases/tags/$targetTag";
+	Uri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/releases/tags/$targetTag";
 	Method = 'GET';   
 }
 try{
@@ -32,7 +32,7 @@ if(!$assetId){
 }
 
 $deleteAssetParams = @{
-	Uri = "https://api.github.com/repos/lukeIam/Vocaluxe/releases/assets/$assetId";
+	Uri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/releases/assets/$assetId";
 	Method = 'DELETE';
 	Headers = @{
 		Authorization = 'Basic ' + [Convert]::ToBase64String(
