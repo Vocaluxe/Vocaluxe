@@ -9,7 +9,11 @@ else{
 
 $getRelaseInfoParams = @{
 	Uri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/releases/tags/$targetTag";
-	Method = 'GET';   
+	Method = 'GET';
+	Headers = @{
+		Authorization = 'Basic ' + [Convert]::ToBase64String(
+		[Text.Encoding]::ASCII.GetBytes($Env:GitHubKey + ":x-oauth-basic"));
+	}
 }
 try{
 	$result = Invoke-RestMethod @getRelaseInfoParams 
