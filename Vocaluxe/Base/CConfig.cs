@@ -188,7 +188,7 @@ namespace Vocaluxe.Base
         //Folders
         public static readonly List<string> SongFolders = new List<string>
             {
-                Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
+                CSettings.FolderNameSongs
 
 #if INSTALLER
                 ,
@@ -201,10 +201,11 @@ namespace Vocaluxe.Base
         /// </summary>
         public static readonly List<string> ProfileFolders = new List<string>
             {
+                CSettings.FolderNameProfiles
 #if INSTALLER
-                Path.Combine(Environment.CurrentDirectory, CSettings.FolderNameProfiles),
+            ,
+            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
 #endif
-                Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
             };
 
         //Lists to save parameters and values
