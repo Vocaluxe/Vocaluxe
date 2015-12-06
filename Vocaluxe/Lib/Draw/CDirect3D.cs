@@ -207,7 +207,10 @@ namespace Vocaluxe.Lib.Draw
             _H = _Form.ClientSize.Height;
             _W = _Form.ClientSize.Width;
 
-            _AdjustAspect(false);
+            if (CConfig.Config.Graphics.Stretch != EOffOn.TR_CONFIG_ON)
+            {
+                _AdjustAspect(false);
+            }
 
             //Apply the new sizes to the PresentParameters
             _PresentParameters.BackBufferWidth = _Form.ClientSize.Width;

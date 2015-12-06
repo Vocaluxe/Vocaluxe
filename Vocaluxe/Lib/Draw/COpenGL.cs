@@ -219,7 +219,11 @@ namespace Vocaluxe.Lib.Draw
             _W = _Control.Width;
             _CurrentAlignment = CConfig.Config.Graphics.ScreenAlignment;
 
-            _AdjustAspect(true);
+            if (CConfig.Config.Graphics.Stretch != EOffOn.TR_CONFIG_ON)
+            {
+                _AdjustAspect(true);
+            }
+
             _AdjustNewBorders();
             GL.Viewport(_X, _Y, _W, _H);
         }
