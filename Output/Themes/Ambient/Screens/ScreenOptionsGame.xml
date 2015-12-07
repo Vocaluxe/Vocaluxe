@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>ScreenOptionsGame</ScreenName>
+    <ScreenVersion>2</ScreenVersion>
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
+      <Type>Video</Type>
+      <SlideShowTextures />
+      <Video>BG_Video</Video>
+      <Skin>BG_Options</Skin>
+      <Color Name="BackgroundColor" />
+    </Background>
+  </Backgrounds>
+  <Statics>
+    <Static Name="Static1">
+      <Skin>Menu</Skin>
+      <Color Name="StaticColor" />
+      <Rect>
+        <X>40</X>
+        <Y>40</Y>
+        <W>1200</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="Static2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>50</X>
+        <Y>100</Y>
+        <W>460</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="Static3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>50</X>
+        <Y>160</Y>
+        <W>460</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="Static4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>50</X>
+        <Y>220</Y>
+        <W>460</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="Static5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>50</X>
+        <Y>280</Y>
+        <W>460</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="Static6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>50</X>
+        <Y>340</Y>
+        <W>460</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="Static7">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>50</X>
+        <Y>400</Y>
+        <W>460</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="Text1">
+      <X>640</X>
+      <Y>50</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENOGAME_OPTIONS</Text>
+    </Text>
+    <Text Name="Text2">
+      <X>75</X>
+      <Y>107</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENOGAME_LANGUAGE</Text>
+    </Text>
+    <Text Name="Text3">
+      <X>75</X>
+      <Y>167</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENOGAME_DEBUGLEVEL</Text>
+    </Text>
+    <Text Name="Text4">
+      <X>75</X>
+      <Y>227</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENOGAME_SONGMENU</Text>
+    </Text>
+    <Text Name="Text5">
+      <X>75</X>
+      <Y>287</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENOGAME_SONGSORTING</Text>
+    </Text>
+    <Text Name="Text6">
+      <X>75</X>
+      <Y>347</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENOGAME_TABS</Text>
+    </Text>
+    <Text Name="Text7">
+      <X>75</X>
+      <Y>407</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENOGAME_TIMERMODE</Text>
+    </Text>
+  </Texts>
+  <Buttons>
+    <Button Name="ButtonExit">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>145</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>12</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_BUTTON_BACK</Text>
+      </Text>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonServer">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>355</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>12</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENOGAME_BUTTON_SERVER</Text>
+      </Text>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+  </Buttons>
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides>
+    <SelectSlide Name="SelectSlideLanguage">
+      <Skin/>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>500</X>
+        <Y>100</Y>
+        <W>700</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>505</X>
+        <Y>105</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1170</X>
+        <Y>105</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColor" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>27</TextH>
+      <TextRelativeX>50</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>205.33</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>3</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideDebugLevel">
+      <Skin/>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>500</X>
+        <Y>160</Y>
+        <W>700</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>505</X>
+        <Y>165</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1170</X>
+        <Y>165</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColor" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>27</TextH>
+      <TextRelativeX>50</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>205.33</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>3</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideSongMenu">
+      <Skin/>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>500</X>
+        <Y>220</Y>
+        <W>700</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>505</X>
+        <Y>225</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1170</X>
+        <Y>225</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColor" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>27</TextH>
+      <TextRelativeX>50</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>205.33</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>3</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideSongSorting">
+      <Skin/>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>500</X>
+        <Y>280</Y>
+        <W>700</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>505</X>
+        <Y>285</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1170</X>
+        <Y>285</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColor" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>27</TextH>
+      <TextRelativeX>50</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>205.33</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>3</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideTabs">
+      <Skin/>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>500</X>
+        <Y>340</Y>
+        <W>700</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>505</X>
+        <Y>345</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1170</X>
+        <Y>345</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColor" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>27</TextH>
+      <TextRelativeX>50</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>308</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>2</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideTimerMode">
+      <Skin/>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>500</X>
+        <Y>400</Y>
+        <W>700</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>505</X>
+        <Y>405</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1170</X>
+        <Y>405</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColor" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>27</TextH>
+      <TextRelativeX>50</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>205.33</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>3</NumVisible>
+    </SelectSlide>
+  </SelectSlides>
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>

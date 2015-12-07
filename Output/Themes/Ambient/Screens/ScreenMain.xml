@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>ScreenMain</ScreenName>
+    <ScreenVersion>2</ScreenVersion>
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
+      <Type>Video</Type>
+      <SlideShowTextures />
+      <Video>BG_Video</Video>
+      <Skin>BG_Default</Skin>
+      <Color Name="BackgroundColor" />
+    </Background>
+  </Backgrounds>
+  <Statics>
+    <Static Name="StaticMenuBar">
+      <Skin>Menu</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>49</X>
+        <Y>32</Y>
+        <W>1181</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticWarningProfiles">
+      <Skin>TextBG</Skin>
+      <Color Name="StaticWarningColor" />
+      <Rect>
+        <X>150</X>
+        <Y>610</Y>
+        <W>355</W>
+        <H>30</H>
+        <Z>-1.9</Z>
+      </Rect>
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="TextRelease">
+      <X>10</X>
+      <Y>690</Y>
+      <Z>-1</Z>
+      <H>15</H>
+      <MaxW>0</MaxW>
+      <Color Name="White" />
+      <SelColor Name="White" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Normal</Font>
+      <Text>Vocaluxe "Shining Heaven" v0.3.0 (x64) Beta (0083)</Text>
+    </Text>
+    <Text Name="TextWarningProfiles">
+      <X>320</X>
+      <Y>612</Y>
+      <Z>-2</Z>
+      <H>27</H>
+      <MaxW>355</MaxW>
+      <Color Name="TextWarningColor" />
+      <SelColor Name="TextWarningColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_TEXT_NOPROFILES</Text>
+    </Text>
+  </Texts>
+  <Buttons>
+    <Button Name="ButtonSing">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>145</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>12</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENMAIN_BUTTON_SING</Text>
+      </Text>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonParty">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>355</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>12</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENMAIN_BUTTON_PARTY</Text>
+      </Text>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonOptions">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>565</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>12</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENMAIN_BUTTON_OPTIONS</Text>
+      </Text>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonProfiles">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>775</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>12</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENMAIN_BUTTON_PROFILES</Text>
+      </Text>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonExit">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>985</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>12</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_BUTTON_EXIT</Text>
+      </Text>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+  </Buttons>
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides />
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>
