@@ -59,7 +59,7 @@ Thumbs.db
 /TestResults
 /VocaluxeTests/bin
 /Output/libs
-/Output/Themes
+/Output/Themes/*.mp4
 /packages
 /Output/x64
 /Output/x86

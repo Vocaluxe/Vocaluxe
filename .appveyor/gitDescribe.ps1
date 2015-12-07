@@ -28,7 +28,7 @@ catch [System.Net.WebException]
 
 # Get tag info
 try{
-	$tagsInfo = ($result | % { "$($githubRepoApiUri)git/tags/$($_.object.sha)" ;} | % { Invoke-RestMethod -Method 'GET' -Uri $($_) -Headers $gitApiAuthHeader})
+	$tagsInfo = ($result | % { "$($githubRepoApiUri)git/tags/$($_.object.sha)" ;} | % { try { Invoke-RestMethod -Method 'GET' -Uri $($_) -Headers $gitApiAuthHeader} catch {}})
 }
 catch [System.Net.WebException] 
 {	
