@@ -1,0 +1,29 @@
+++++++++++
+Version 5:
+
+Rename:
+Text5/6 to TextWebcam/TextWebcamResolution
+
+++++++++++
+Version 4:
+
+Add:
+<ButtonScreenAdjustments>
+
+++++++++++
+Version 3:
+
+Add:
+<SelectSlideWebcamDevices>, <SelectSlideWebcamCapabilities>, <StaticWebcamOutput>
+
+and some texts and static for description (Text6, Text7)
+"TR_SCREENO_VIDEO_WEBCAMDEVICES", "TR_SCREENO_VIDEO_WEBCAMCAPABILITIES"
+
+++++++++++
+Version 2:
+
+Add:
+<SelectSlideVideosToBackground>
+and some texts and statics for description (Text5)
+"TR_SCREENO_VIDEO_VIDEOSTOBACKGROUND"
+++++++++++ 
