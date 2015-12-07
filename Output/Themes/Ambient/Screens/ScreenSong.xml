@@ -860,8 +860,7 @@
           </Rect>
             </StaticMedleyTagIcon>
       </SongMenuTileBoard>
-	  
-	   <SongMenuList>
+      <SongMenuList>
         <ListLength>15</ListLength>
         <SpaceW>10</SpaceW>
         <SpaceH>10</SpaceH>
@@ -892,7 +891,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-            </TextArtist>
+        </TextArtist>
         <TextTitle Name="TextTitle">
           <X>222</X>
           <Y>456</Y>
@@ -906,7 +905,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-            </TextTitle>
+        </TextTitle>
         <TextSongLength Name="TextSongLength">
           <X>222</X>
           <Y>490</Y>
@@ -920,7 +919,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-            </TextSongLength>
+        </TextSongLength>
         <StaticCoverBig Name="StaticCoverBig">
           <Skin>CoverBackground</Skin>
           <Color Name="Visible" />
@@ -931,7 +930,7 @@
             <H>360</H>
             <Z>-1</Z>
           </Rect>
-            </StaticCoverBig>
+        </StaticCoverBig>
         <StaticTextBG Name="StaticTextBG">
           <Skin>CoverBackground</Skin>
           <Color Name="StaticColor" />
@@ -942,7 +941,7 @@
             <H>550</H>
             <Z>-1</Z>
           </Rect>
-            </StaticTextBG>
+        </StaticTextBG>
         <StaticDuetIcon Name="StaticDuetIcon">
           <Skin>DuetIcon</Skin>
           <Color Name="StaticColor" />
@@ -953,7 +952,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-            </StaticDuetIcon>
+        </StaticDuetIcon>
         <StaticVideoIcon Name="StaticVideoIcon">
           <Skin>VideoIcon</Skin>
           <Color Name="StaticColor" />
@@ -964,7 +963,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-            </StaticVideoIcon>
+        </StaticVideoIcon>
         <StaticMedleyCalcIcon Name="StaticMedleyCalcIcon">
           <Skin>MedleyCalcIcon</Skin>
           <Color Name="StaticColor" />
@@ -975,7 +974,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-            </StaticMedleyCalcIcon>
+        </StaticMedleyCalcIcon>
         <StaticMedleyTagIcon Name="StaticMedleyTagIcon">
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
@@ -986,9 +985,8 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-            </StaticMedleyTagIcon>
+        </StaticMedleyTagIcon>
       </SongMenuList>
-	  
     </SongMenu>
   </SongMenus>
   <Lyrics />

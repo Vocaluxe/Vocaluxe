@@ -1,0 +1,79 @@
+version: '{build}'
+pull_requests:
+  do_not_increment_build_number: true
+os: Windows Server 2012 R2
+configuration: ReleaseWin
+platform:
+- x64
+- x86
+clone_depth: 15
+environment:
+  GitHubKey:
+    secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
+install:
+- ps: >-
+    $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"
+
+    $Env:githubRepoApiUri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/"
+
+    ./.appveyor/gitDescribe.ps1
+
+    $Env:GIT_VERSION_TAG = $Env:VersionTag
+
+    if($Env:APPVEYOR_REPO_TAG -eq "true"){
+
+    $Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK = $Env:APPVEYOR_REPO_TAG_NAME
+
+    }
+
+    else{
+
+    $Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK = $Env:APPVEYOR_REPO_BRANCH
+
+    }
+
+    ./.appveyor/moveTagForSpecialBranches.ps1
+before_build:
+- ps: >-
+    nuget restore -DisableParallelProcessing
+
+    #(Get-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj') | Foreach-Object {$_ -replace 'v110_xp', 'v120_xp'} | Set-Content -Encoding UTF8 'PitchTracker\PitchTracker.vcxproj'
+build:
+  project: Vocaluxe.sln
+  verbosity: normal
+after_build:
+- ps: >-
+    cd Output
+
+    7z a "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM).zip" *
+
+    appveyor PushArtifact "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM).zip" -FileName "Vocaluxe_$($Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK)_Windows_$($Env:PLATFORM).zip" -DeploymentName ReleaseZip
+
+    cd ..
+
+    .\.appveyor\nightlyDetect.ps1
+test: off
+before_deploy:
+- ps: ./.appveyor/prepareDeploy.ps1
+deploy:
+- provider: GitHub
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  release: $(APPVEYOR_REPO_TAG_NAME)
+  description: 
+  auth_token:
+    secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
+  artifact: ReleaseZip
+  prerelease: true
+  on:
+    APPVEYOR_REPO_TAG: true
+    NIGHTLY_BUILD: false
+- provider: GitHub
+  tag: $(APPVEYOR_REPO_TAG_NAME)
+  release: Latest Nightly build
+  description: 
+  auth_token:
+    secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
+  artifact: ReleaseZip
+  on:
+    APPVEYOR_REPO_TAG: true
+    NIGHTLY_BUILD: true

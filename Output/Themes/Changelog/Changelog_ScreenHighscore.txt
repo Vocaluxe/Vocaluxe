@@ -1,7 +1,0 @@
-ScreenHighscore
-
-++++++++++
-Version 2:
-
-Add: ParticleEffectsNew[1..10] (one for each entry!)
-++++++++++

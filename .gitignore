@@ -25,6 +25,7 @@ Thumbs.db
 *.psess
 *.vshost.*
 *.userprefs
+*.user
 /*.vsp
 /*.ctl
 /Output/Config.xml
@@ -57,3 +58,8 @@ Thumbs.db
 /PhoneGap/
 /TestResults
 /VocaluxeTests/bin
+/Output/libs
+/Output/Themes
+/packages
+/Output/x64
+/Output/x86
