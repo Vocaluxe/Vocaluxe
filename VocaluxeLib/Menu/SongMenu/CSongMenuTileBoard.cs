@@ -30,19 +30,19 @@ namespace VocaluxeLib.Menu.SongMenu
     {
         private SRectF _ScrollRect;
         private List<CStatic> _Tiles;
-        private  CStatic _CoverBig;
-        private  CStatic _TextBG;
-        private  CStatic _DuetIcon;
-        private  CStatic _VideoIcon;
-        private  CStatic _MedleyCalcIcon;
-        private  CStatic _MedleyTagIcon;
+        private CStatic _CoverBig;
+        private CStatic _TextBG;
+        private CStatic _DuetIcon;
+        private CStatic _VideoIcon;
+        private CStatic _MedleyCalcIcon;
+        private CStatic _MedleyTagIcon;
 
         private CTextureRef _CoverBigBGTexture;
         private CTextureRef _CoverBGTexture;
 
-        private  CText _Artist;
-        private  CText _Title;
-        private  CText _SongLength;
+        private CText _Artist;
+        private CText _Title;
+        private CText _SongLength;
 
         private int _NumW;
         private int _NumH;
