@@ -293,24 +293,33 @@ namespace Vocaluxe.Base
             if (!IsPlayingPreview)
             {
                 Pause();
-                _CurPlayer = _PreviewPlayer;
                 CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
             }
 
             _PreviewPlayer.Load(song);
 
-            float length = _PreviewPlayer.Length;
-            if (length < 1)
-                length = 30; // If length is unknow or invalid assume a length of 30s
+            //Change song position only if song is changed or near to end
+            if (_CurPlayer.SongID != _PreviewPlayer.SongID && _CurPlayer.Position + 30 < _CurPlayer.Length)
+            {
+                float length = _PreviewPlayer.Length;
+                if (length < 1)
+                    length = 30; // If length is unknow or invalid assume a length of 30s
 
-            if (start < 0)
-                start = (song.Preview.Source == EDataSource.None) ? length / 4f : song.Preview.StartTime;
-            if (start > length - 5f)
-                start = Math.Max(0f, Math.Min(length / 4f, length - 5f));
-            if (start >= 0.5f)
-                start -= 0.5f;
+                if (start < 0)
+                    start = (song.Preview.Source == EDataSource.None) ? length / 4f : song.Preview.StartTime;
+                if (start > length - 5f)
+                    start = Math.Max(0f, Math.Min(length / 4f, length - 5f));
+                if (start >= 0.5f)
+                    start -= 0.5f;
 
-            _PreviewPlayer.Position = start;
+                _PreviewPlayer.Position = start;
+            }
+            else
+            {
+                _PreviewPlayer.Position = _CurPlayer.Position;
+            }
+
+            _CurPlayer = _PreviewPlayer;
 
             Play();
         }
@@ -321,6 +330,11 @@ namespace Vocaluxe.Base
                 return;
             Stop();
             _CurPlayer = _BGPlayer;
+            if (_MusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
+            {
+                _CurPlayer.Load(CSongs.GetSong(_PreviewPlayer.SongID));
+                _CurPlayer.Position = _PreviewPlayer.Position;
+            }
             CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
         }
 
