@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>5</ScreenVersion>
+    <ScreenVersion>6</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -860,6 +860,133 @@
           </Rect>
             </StaticMedleyTagIcon>
       </SongMenuTileBoard>
+      <SongMenuList>
+        <ListLength>15</ListLength>
+        <SpaceW>10</SpaceW>
+        <SpaceH>10</SpaceH>
+        <TileRect>
+          <X>410</X>
+          <Y>40</Y>
+          <W>830</W>
+          <H>550</H>
+          <Z>-1</Z>
+        </TileRect>
+        <TileRectSmall>
+          <X>410</X>
+          <Y>40</Y>
+          <W>555</W>
+          <H>550</H>
+          <Z>-1</Z>
+        </TileRectSmall>
+        <TextArtist Name="TextArtist">
+          <X>222</X>
+          <Y>416</Y>
+          <Z>-1.01</Z>
+          <H>39</H>
+          <MaxW>340</MaxW>
+          <Color Name="StaticColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Center</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextArtist>
+        <TextTitle Name="TextTitle">
+          <X>222</X>
+          <Y>456</Y>
+          <Z>-1.01</Z>
+          <H>32</H>
+          <MaxW>340</MaxW>
+          <Color Name="StaticColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Center</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextTitle>
+        <TextSongLength Name="TextSongLength">
+          <X>222</X>
+          <Y>490</Y>
+          <Z>-1.01</Z>
+          <H>28</H>
+          <MaxW>340</MaxW>
+          <Color Name="StaticColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Center</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextSongLength>
+        <StaticCoverBig Name="StaticCoverBig">
+          <Skin>CoverBackground</Skin>
+          <Color Name="Visible" />
+          <Rect>
+            <X>40</X>
+            <Y>40</Y>
+            <W>360</W>
+            <H>360</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticCoverBig>
+        <StaticTextBG Name="StaticTextBG">
+          <Skin>CoverBackground</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>40</X>
+            <Y>40</Y>
+            <W>360</W>
+            <H>550</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticTextBG>
+        <StaticDuetIcon Name="StaticDuetIcon">
+          <Skin>DuetIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>200</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticDuetIcon>
+        <StaticVideoIcon Name="StaticVideoIcon">
+          <Skin>VideoIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>120</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticVideoIcon>
+        <StaticMedleyCalcIcon Name="StaticMedleyCalcIcon">
+          <Skin>MedleyCalcIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>280</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticMedleyCalcIcon>
+        <StaticMedleyTagIcon Name="StaticMedleyTagIcon">
+          <Skin>MedleyTagIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>280</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticMedleyTagIcon>
+      </SongMenuList>
     </SongMenu>
   </SongMenus>
   <Lyrics />

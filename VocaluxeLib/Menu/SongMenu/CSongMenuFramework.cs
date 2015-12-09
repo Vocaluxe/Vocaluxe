@@ -39,9 +39,41 @@ namespace VocaluxeLib.Menu.SongMenu
 
         //public SThemeSongMenuBook songMenuBook;
         //public SThemeSongMenuDreidel songMenuDreidel;
-        //public SThemeSongMenuList songMenuList;
+        public SThemeSongMenuList SongMenuList;
         public SThemeSongMenuTileBoard SongMenuTileBoard;
     }
+    public struct SThemeSongMenuList
+    {
+        /// <summary>
+        ///     Number of visible songs in list
+        /// </summary>
+        public int ListLength;
+
+        /// <summary>
+        ///     Space between tiles horizontal
+        /// </summary>
+        public float SpaceW;
+
+        /// <summary>
+        ///     Space between tiles vertical
+        /// </summary>
+        public float SpaceH;
+
+        public SRectF TileRect;
+        public SRectF TileRectSmall;
+
+        public SThemeText TextArtist;
+        public SThemeText TextTitle;
+        public SThemeText TextSongLength;
+
+        public SThemeStatic StaticCoverBig;
+        public SThemeStatic StaticTextBG;
+        public SThemeStatic StaticDuetIcon;
+        public SThemeStatic StaticVideoIcon;
+        public SThemeStatic StaticMedleyCalcIcon;
+        public SThemeStatic StaticMedleyTagIcon;
+    }
+
 
     public struct SThemeSongMenuTileBoard
     {
@@ -215,6 +247,24 @@ namespace VocaluxeLib.Menu.SongMenu
             ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallH", ref _Theme.SongMenuTileBoard.TileRectSmall.H);
             #endregion SongMenuTileBoard
 
+            #region SongMenuList
+            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuList/ListLength", ref _Theme.SongMenuList.ListLength);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/SpaceW", ref _Theme.SongMenuList.SpaceW);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/SpaceH", ref _Theme.SongMenuList.SpaceH);
+
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/X", ref _Theme.SongMenuList.TileRect.X);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/Y", ref _Theme.SongMenuList.TileRect.Y);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/Z", ref _Theme.SongMenuList.TileRect.Z);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/W", ref _Theme.SongMenuList.TileRect.W);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/H", ref _Theme.SongMenuList.TileRect.H);
+
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/X", ref _Theme.SongMenuList.TileRectSmall.X);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/Y", ref _Theme.SongMenuList.TileRectSmall.Y);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/Z", ref _Theme.SongMenuList.TileRectSmall.Z);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/W", ref _Theme.SongMenuList.TileRectSmall.W);
+            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/H", ref _Theme.SongMenuList.TileRectSmall.H);
+            #endregion SongMenuList
+
             if (ThemeLoaded)
             {
                 _Theme.Name = elementName;
@@ -239,7 +289,10 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void OnHide()
         {
-            if (CBase.Graphics.GetNextScreenType() != EScreen.Names || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            EScreen check = CBase.Graphics.GetNextScreenType();
+            if (CBase.Graphics.GetNextScreenType() == EScreen.Sing)
+                _ResetPreview(false);
+            else if (CBase.Graphics.GetNextScreenType() != EScreen.Names || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 _ResetPreview();
         }
 
@@ -256,7 +309,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 CBase.Drawing.DrawTexture(CBase.BackgroundMusic.GetVideoTexture(), new SRectF(0, 0, 1280, 720, 0));
         }
 
-        public bool IsMouseOverSelectedSong(SMouseEvent mEvent)
+        public virtual bool IsMouseOverSelectedSong(SMouseEvent mEvent)
         {
             CStatic selCov = GetSelectedSongCover();
             return selCov != null && CHelper.IsInBounds(selCov.Rect.Scale(SelectedTileZoomFactor), mEvent);

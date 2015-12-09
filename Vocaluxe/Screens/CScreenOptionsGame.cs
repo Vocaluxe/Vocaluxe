@@ -56,7 +56,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideLanguage].Selection = CLanguage.LanguageId;
 
             _SelectSlides[_SelectSlideDebugLevel].SetValues<EDebugLevel>((int)CConfig.Config.Debug.DebugLevel);
-            _SelectSlides[_SelectSlideSongMenu].SetValues<ESongMenu>((int)CConfig.Config.Game.SongMenu);
+            _SelectSlides[_SelectSlideSongMenu].SetValues<ESongMenu>((int)CConfig.SongMenu);
             _SelectSlides[_SelectSlideSongSorting].SetValues<ESongSorting>((int)CConfig.Config.Game.SongSorting);
             _SelectSlides[_SelectSlideTabs].SetValues<EOffOn>((int)CConfig.Config.Game.Tabs);
             _SelectSlides[_SelectSlideTimerMode].SetValues<ETimerMode>((int)CConfig.Config.Game.TimerMode);
@@ -136,7 +136,7 @@ namespace Vocaluxe.Screens
             CLanguage.LanguageId = _SelectSlides[_SelectSlideLanguage].Selection;
             CConfig.Config.Game.Language = _SelectSlides[_SelectSlideLanguage].SelectedValue;
             CConfig.Config.Debug.DebugLevel = (EDebugLevel)_SelectSlides[_SelectSlideDebugLevel].Selection;
-            CConfig.Config.Game.SongMenu = (ESongMenu)_SelectSlides[_SelectSlideSongMenu].Selection;
+            CConfig.SongMenu = (ESongMenu)_SelectSlides[_SelectSlideSongMenu].Selection;
             CConfig.Config.Game.SongSorting = (ESongSorting)_SelectSlides[_SelectSlideSongSorting].Selection;
             CConfig.Config.Game.Tabs = (EOffOn)_SelectSlides[_SelectSlideTabs].Selection;
             CConfig.Config.Game.TimerMode = (ETimerMode)_SelectSlides[_SelectSlideTimerMode].Selection;

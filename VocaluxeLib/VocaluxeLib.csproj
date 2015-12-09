@@ -120,6 +120,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Menu\IMenu.cs" />
     <Compile Include="Menu\IMenuElement.cs" />
+    <Compile Include="Menu\SongMenu\CSongMenuList.cs" />
     <Compile Include="Profile\CAvatar.cs" />
     <Compile Include="Profile\CProfile.cs" />
     <Compile Include="Songs\CLineBase.cs" />

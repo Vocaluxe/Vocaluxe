@@ -42,7 +42,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 5; }
+            get { return 6; }
         }
 
         private const string _TextCategory = "TextCategory";
@@ -144,6 +144,12 @@ namespace Vocaluxe.Screens
             _ThemePlaylists = new string[] {_PlaylistName};
 
             _DragAndDropCover = GetNewStatic();
+        }
+
+        protected override void _OnSongMenuChanged()
+        {
+            base._OnSongMenuChanged();
+            _SongMenu = _SongMenus[_SongMenuName];
         }
 
         public override void LoadTheme(string xmlPath)
@@ -678,7 +684,7 @@ namespace Vocaluxe.Screens
             {
                 int song = _SongMenu.GetSelectedSongNr();
                 if (song >= 0 && song < CSongs.VisibleSongs.Count)
-                    selectionText = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title;
+                    selectionText = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title + "   ( "+(song+1)+" / "+CSongs.NumAllSongs+" )";
             }
             else
             {

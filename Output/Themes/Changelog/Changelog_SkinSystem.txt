@@ -1,0 +1,25 @@
+Skin System
+
+++++++++++
+Version 4:
+All Colors in <Colors> (Playercolors and ColorSchemes)
+
+++++++++++
+Version 3:
+
+Added videos:
+<IntroIn>
+<IntroMid>
+<IntroOut>
+
+++++++++++
+
+
+++++++++++
+Version 2:
+
+Changed:
+<ColorSheme>
+to
+<ColorScheme>
+++++++++++ 

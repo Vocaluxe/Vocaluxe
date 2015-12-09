@@ -1,0 +1,10 @@
+ScreenProfiles
+++++++++++
+Version 3:
+Rename: <SelectSlideGuestProfile> to <SelectSlideUserRole>
+
+++++++++++
+Version 2:
+
+Add: <ButtonDiscardSnapshot>, <ButtonSaveSnapshot>, <ButtonWebcam>, <ButtonTakeSnapshot>
+++++++++++

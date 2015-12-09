@@ -89,6 +89,12 @@ namespace VocaluxeLib.Menu
         protected CMenu()
         {
             PartyModeID = -1;
+            CBase.Config.AddSongMenuListener(_OnSongMenuChanged);
+        }
+
+        ~CMenu()
+        {
+            CBase.Config.RemoveSongMenuListener(_OnSongMenuChanged);
         }
 
         public override void Init()
@@ -111,6 +117,16 @@ namespace VocaluxeLib.Menu
             _ThemePlaylists = null;
             _ThemeParticleEffects = null;
             _ThemeScreenSettings = null;
+        }
+
+        protected virtual void _OnSongMenuChanged()
+        {
+            for (int i = 0; i < _SongMenus.Count; i++)
+            {
+                SThemeSongMenu theme = (SThemeSongMenu)_SongMenus[i].GetTheme();
+                _SongMenus[i] = CSongMenuFactory.CreateSongMenu(theme, PartyModeID);
+                _SongMenus[i].LoadSkin();
+            }
         }
 
         #region ThemeHandler

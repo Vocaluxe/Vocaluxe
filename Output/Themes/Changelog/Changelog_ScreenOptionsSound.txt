@@ -1,0 +1,30 @@
+ScreenOptionsSound
+
+++++++++++
+Version 3:
+
+Add:
+
+<SelectSlidePreviewMusicVolume>
+<SelectSlideGameMusicVolume>
+
+and some texts for description (Text5, Text6)
+"TR_SCRsEENOSOUND_PREVIEWMUSICVOLUME"
+"TR_SCREENOSOUND_GAMEMUSICVOLUEM"
+
+++++++++++
+Version 2:
+
+Add:
+
+<ButtonExit>
+
+<SelectSlideBackgroundMusic>
+<SelectSlideBackgroundMusicVolume>
+<SelectSlideBackgroundMusicSource>
+
+and some texts for description (Text2, Text3, Text4)
+"TR_SCREENOSOUND_BACKGROUNDMUSIC"
+"TR_SCREENOSOUND_BACKGROUNDMUSICVOLUME"
+"TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE"
+++++++++++ 

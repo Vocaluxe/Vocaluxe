@@ -25,9 +25,8 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             switch (CBase.Config.GetSongMenuType())
             {
-                    //case ESongMenu.TR_CONFIG_LIST:
-                    //    _SongMenu = new CSongMenuList();
-                    //    break;
+                case ESongMenu.TR_CONFIG_LIST:
+                    return new CSongMenuList(theme, partyModeID);
 
                     //case ESongMenu.TR_CONFIG_DREIDEL:
                     //    _SongMenu = new CSongMenuDreidel();
@@ -49,23 +48,7 @@ namespace VocaluxeLib.Menu.SongMenu
         /// <returns></returns>
         public static ISongMenu CreateSongMenu(int partyModeID)
         {
-            switch (CBase.Config.GetSongMenuType())
-            {
-                    //case ESongMenu.TR_CONFIG_LIST:
-                    //    _SongMenu = new CSongMenuList();
-                    //    break;
-
-                    //case ESongMenu.TR_CONFIG_DREIDEL:
-                    //    _SongMenu = new CSongMenuDreidel();
-                    //    break;
-                case ESongMenu.TR_CONFIG_TILE_BOARD:
-                    return new CSongMenuTileBoard(partyModeID);
-
-                    //case ESongMenu.TR_CONFIG_BOOK:
-                    //    _SongMenu = new CSongMenuBook();
-                    //    break;
-            }
-            throw new ArgumentException("Invalid songmenu type: " + CBase.Config.GetSongMenuType());
+            return new CSongMenuTileBoard(partyModeID);
         }
     }
 }

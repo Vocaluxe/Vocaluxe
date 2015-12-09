@@ -1,0 +1,93 @@
+Theme System
+
+
+++++++++++
+Version 5 (yes it's still 5!):
+
+Added:
+<HAlign> to Texts (horizontal align)
+
+It's optional. Possible values: Top, Center, Bottom (default: Center)
+It's for downsizing only (if the text-width reaches MaxW).
+
+
+++++++++++
+Version 5:
+
+Added:
+<Outline>			outline thickness 0..1
+<OutlineColorR>		outline color red
+<OutlineColorG> 	outline color green
+<OutlineColorB> 	outline color blue
+<OutlineColorA> 	outline color alpha
+
+to Fonts
+
+
+++++++++++
+Version 4:
+
+Added:
+<TextFont>, <TextMaxW>, <TextStyle>
+and
+<SkinSelected>, <SkinArrowLeftSelected>, <SkinArrowRightSelected>, <SkinHighlighted>
+and
+<HColor> or <HR>, <HG>, <HB>, <HA>
+on SelectSlide-Elements
+
+Added support for Theme-Fonts (optional)
+
+TextFont: Text font name
+TextMaxW: Maximum text width for each element
+HColor: Highlighted Color (selected but not focused)
+
+++++++++++
+Version 3:
+
+Added:
+<SongMenuTileBoard>
+on SongMenu-Elements
+
+
+++++++++++
+Version 2:
+
+Changed:
+<SelectedColor>
+to
+<SColor>
+on Button-Elements.
+
+
+Changed:
+<SelectedColor>
+to
+<SColor>
+on SelectSlide-Elements.
+
+Changed:
+<SelectedR>, <SelectedG>, <SelectedB> and <SelectedA>
+to
+<SR>, <SG>, <SB> and <SA>
+on SelectSlide-Elements.
+
+
+Changed:
+<ArrowSelectedColor>
+to
+<ArrowSColor>
+on SelectSlide-Elements.
+
+Changed:
+<ArrowSelectedR>, <ArrowSelectedG>, <ArrowSelectedB> and <ArrowSelectedA>
+to
+<ArrowSR>, <ArrowSG>, <ArrowSB> and <ArrowSA>
+on SelectSlide-Elements.
+
+
+Changed:
+<TextSelectedR>, <TextSelectedG>, <TextSelectedB> and <TextSelectedA>
+to
+<TextSR>, <TextSG>, <TextSB> and <TextSA>
+on SelectSlide-Elements.
+++++++++++ 
