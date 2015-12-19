@@ -296,10 +296,12 @@ namespace Vocaluxe.Base
                 CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
             }
 
+            bool songChanged = _CurPlayer.SongID != song.ID;
+
             _PreviewPlayer.Load(song);
 
             //Change song position only if song is changed or near to end
-            if (_CurPlayer.SongID != _PreviewPlayer.SongID && _CurPlayer.Position + 30 < _CurPlayer.Length)
+            if (songChanged || _CurPlayer.Position + 30 < _CurPlayer.Length)
             {
                 float length = _PreviewPlayer.Length;
                 if (length < 1)
