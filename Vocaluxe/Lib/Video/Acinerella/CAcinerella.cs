@@ -192,17 +192,23 @@ namespace Vocaluxe.Lib.Video.Acinerella
 #endif
 
         private static readonly Object _Lock = new Object();
+        private static readonly Object _DictionaryLock = new Object();
         private static readonly Dictionary<Int64, object> _AcInstanceLocks = new Dictionary<Int64, object>(20);
 
         private static object _GetLockToken(IntPtr pAcDecoder)
         {
-            object l = null;
-            _AcInstanceLocks.TryGetValue(pAcDecoder.ToInt64(), out l);
-            if (l == null)
+            object l;
+
+            lock (_DictionaryLock)
             {
-                l = new object();
-                _AcInstanceLocks.Add(pAcDecoder.ToInt64(), l);
+                _AcInstanceLocks.TryGetValue(pAcDecoder.ToInt64(), out l);
+                if (l == null)
+                {
+                    l = new object();
+                    _AcInstanceLocks.Add(pAcDecoder.ToInt64(), l);
+                }
             }
+           
             return l;
         }
 
