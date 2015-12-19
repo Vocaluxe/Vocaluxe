@@ -15,6 +15,8 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Anzahl der Spieler</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Anzahl der Mikrofone</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Anzahl der Runden</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Joker-Anzahl</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Joker nach jeder Runde auffüllen</string>
   <string name="TR_SCREENNAMES_TITLE">Challenge Modus: Spielerwahl</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Zufällig auswählen</string>
   <string name="TR_SCREENMAIN_TITLE">Challenge Modus: Übersicht</string>

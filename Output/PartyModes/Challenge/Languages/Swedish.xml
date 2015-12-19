@@ -15,7 +15,10 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Antal spelare</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Antal mikrofoner</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Antal omgångar</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Antal joker</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Fyll på jokers varje runda</string>
   <string name="TR_SCREENNAMES_TITLE">Utmanarläge: Välj Spelare</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Välj slumpmässig</string>
   <string name="TR_SCREENMAIN_TITLE">Utmanarläge: Översikt</string>
   <string name="TR_SCREENMAIN_TABLE_POS">Position</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Namn</string>
