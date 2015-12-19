@@ -46,7 +46,7 @@
   <string name="TR_CONFIG_LEVEL2">Nivå 2</string>
   <string name="TR_CONFIG_LEVEL3">Nivå 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
-  <string name="TR_CONFIG_LIST">Lista</string>
+  <string name="TR_CONFIG_LIST">Låtlista</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
   <string name="TR_CONFIG_TILE_BOARD">Bricktavla</string>
   <string name="TR_CONFIG_BOOK">Bok</string>
@@ -213,7 +213,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webkameror</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webkamera Upplösning</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Skärmjusteringar</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Tryck CTR + ALT (+ SHIFT) + Pilar"+" för att justera skärmen</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Tryck CTR + ALT (+ SHIFT) + Pilar\"+\" för att justera skärmen</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + 0 för att återställa</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Överst till vänster</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Överst till höger</string>
