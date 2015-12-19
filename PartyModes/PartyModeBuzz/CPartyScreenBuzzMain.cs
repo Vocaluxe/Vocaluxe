@@ -359,6 +359,7 @@ namespace VocaluxeLib.PartyModes.Buzz
         {
             _CurrentStage = EStage.Song;
             int[] result = new int[_PartyMode.GameData.NumChoices];
+            CBase.Controller.SetLEDs(false, false, false, false);
             foreach (int i in _Vote)
             {
                 result[i - 1]++;
