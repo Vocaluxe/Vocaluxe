@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <PartyModeSystemVersion>2</PartyModeSystemVersion>
+  <Info>
+    <Name>TR_PARTYMODE_NAME</Name>
+    <Author>Syrome</Author>
+	<Description>TR_PARTYMODE_DESCRIPTION</Description>
+    <Folder>Buzz</Folder>
+	<PartyModeFile>CPartyModeBuzz</PartyModeFile>
+    <PartyModeVersionMajor>0</PartyModeVersionMajor>
+    <PartyModeVersionMinor>1</PartyModeVersionMinor>
+	<TargetAudience>TR_PARTYMODE_AUDIENCE</TargetAudience>
+  </Info>
+  <PartyScreens>
+    <ScreenFile>CPartyScreenBuzzMain</ScreenFile>
+	<ScreenFile>CPartyScreenBuzzConfig</ScreenFile>
+	<ScreenFile>CPartyScreenBuzzNames</ScreenFile>
+	<ScreenFile>CPartyScreenBuzzScores</ScreenFile>
+  </PartyScreens>
+</root>

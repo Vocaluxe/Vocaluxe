@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>PartyScreenBuzzMain</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
+      <Type>Video</Type>
+      <SlideShowTextures />
+      <Video>BG_Video</Video>
+      <Skin>BG_Default</Skin>
+      <Color Name="BackgroundColor" />
+    </Background>
+  </Backgrounds>
+  <Statics>
+    <Static Name="Static1">
+      <Skin>Menu</Skin>
+      <Color Name="StaticColor" />
+      <Rect>
+        <X>40</X>
+        <Y>40</Y>
+        <W>1200</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+	<Static Name="StaticNextPlayer">
+      <Skin/>
+      <Color Name="Visible" />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>100</W>
+        <H>100</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+	<Static Name="StaticNextSongCover">
+      <Skin/>
+      <Color Name="Visible" />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>200</W>
+        <H>200</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+	<Static Name="StaticPlayPreviewIcon">
+      <Skin>PlayIcon</Skin>
+      <Color Name="White"/>
+      <Rect>
+        <X>400</X>
+        <Y>400</Y>
+        <W>100</W>
+        <H>100</H>
+        <Z>-2.1</Z>
+      </Rect>
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="Text1">
+      <X>640</X>
+      <Y>48</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENMAIN_TITLE</Text>
+    </Text>
+	<Text Name="TextNextPlayer">
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>100</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+	<Text Name="TextNextSongArtist">
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>200</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+	<Text Name="TextNextSongTitle">
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>200</MaxW>
+      <Color Name="StaticColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+  </Texts>
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>
