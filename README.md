@@ -11,7 +11,7 @@ It allows up to six players to sing along with music using microphones in order 
 It features mouse, keyboard, gamepad and Wiimote navigation, a multi-language interface, and singer profiles with avatars and supports songs in CP1250/52 and UTF8 encodings.
 
 Supported Operating Systems / Requirements:
-- WinXP, Vista, Windows 7 with .NET 4.0
+- WinXP, Vista, Windows 7, Windows 8, Windows 8.1 and Windows 10 with .NET 4.0
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
 
 
@@ -42,7 +42,7 @@ Just [open an issue](https://github.com/Vocaluxe/Vocaluxe/issues/new) or mention
 
 ## 4. Help & Support
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki   
-GitGub Issues Tracker:	https://github.com/Vocaluxe/Vocaluxe/issues   
+GitHub Issues Tracker:	https://github.com/Vocaluxe/Vocaluxe/issues   
 Translations:			https://www.transifex.com/projects/p/vocaluxe/   
 Support Forum (German):	http://www.ultra-star.de   
 Song-Database (USDB):	http://usdb.animux.de/
