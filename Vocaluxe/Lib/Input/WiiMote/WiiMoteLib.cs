@@ -198,7 +198,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
             {
                 _Connected = value;
 
-                WiiMoteConnectionChanged?.Invoke(this, new CWiiMoteConnectionChangedEventArgs(value));
+                if (WiiMoteConnectionChanged != null)
+                    WiiMoteConnectionChanged.Invoke(this, new CWiiMoteConnectionChangedEventArgs(value));
             }
         }
 
