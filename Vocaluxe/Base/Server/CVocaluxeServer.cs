@@ -667,7 +667,17 @@ namespace Vocaluxe.Base.Server
                 result.IsDuet = song.IsDuet;
                 result.SongId = song.ID;
                 if (includeCover)
-                    result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.CoverFileName));
+                {
+                    if (song.CoverFileName == "")
+                    {
+                        result.Cover = new CBase64Image(_CreateDelayedImage("Website\\img\\noCover.png"));
+                    }
+                    else
+                    {
+                        result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.CoverFileName));
+                    }
+                }
+                    
             }
             return result;
         }
