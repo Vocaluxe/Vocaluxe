@@ -625,19 +625,19 @@ namespace Vocaluxe.Base.Server
         }
 
 
-        private static SSongInfo[] songInfoCache = null;
+        private static SSongInfo[] _SongInfoCache = null;
         public static SSongInfo[] GetAllSongs()
         {
             bool sendCovers = CConfig.Config.Server.SongCountCoverThreshold == -1 || CConfig.Config.Server.SongCountCoverThreshold > CSongs.Songs.Count;
 
-            if (songInfoCache == null)
+            if (_SongInfoCache == null)
             {
                 List<CSong> songs = CSongs.Songs;
-                songInfoCache = (from s in songs
+                _SongInfoCache = (from s in songs
                     select _GetSongInfo(s, sendCovers)).AsParallel().ToArray<SSongInfo>();
             }
             
-            return songInfoCache;
+            return _SongInfoCache;
         }
 
         public static string GetMp3Path(int songId)
