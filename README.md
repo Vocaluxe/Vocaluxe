@@ -1,10 +1,9 @@
 ![Vocaluxe Logo](https://raw.githubusercontent.com/Vocaluxe/Vocaluxe/develop/Output/Graphics/Logo.png)
 
-[1. About]()                     
-[2. Download]()                     
-[3. Contributing]()        
-[4. Help & Support]()     
-
+[1. About](#1-about)                     
+[2. Download](#2-download)                     
+[3. Contributing](#3-contributing)        
+[4. Help & Support](#4-help--support)
 
 ## 1. About
 Vocaluxe is a free and open source singing game, inspired by the original UltraStar (developed by corvus5) and the great Ultrastar Deluxe project - yet it is an entirely new development in C#.   
