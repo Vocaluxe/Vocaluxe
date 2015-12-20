@@ -628,7 +628,7 @@ namespace Vocaluxe.Base.Server
         {
             List<CSong> songs = CSongs.Songs;
             return (from s in songs
-                    select _GetSongInfo(s, false)).ToArray<SSongInfo>();
+                    select _GetSongInfo(s, false)).AsParallel().ToArray<SSongInfo>();
         }
 
         public static string GetMp3Path(int songId)
