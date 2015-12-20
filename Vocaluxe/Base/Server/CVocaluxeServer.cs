@@ -628,11 +628,13 @@ namespace Vocaluxe.Base.Server
         private static SSongInfo[] songInfoCache = null;
         public static SSongInfo[] GetAllSongs()
         {
+            bool sendCovers = CConfig.Config.Server.SongCountCoverThreshold == -1 || CConfig.Config.Server.SongCountCoverThreshold > CSongs.Songs.Count;
+
             if (songInfoCache == null)
             {
                 List<CSong> songs = CSongs.Songs;
                 songInfoCache = (from s in songs
-                    select _GetSongInfo(s, false)).AsParallel().ToArray<SSongInfo>();
+                    select _GetSongInfo(s, sendCovers)).AsParallel().ToArray<SSongInfo>();
             }
             
             return songInfoCache;
