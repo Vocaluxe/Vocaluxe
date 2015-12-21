@@ -48,6 +48,11 @@ namespace VocaluxeLib.PartyModes
             return true;
         }
 
+        public virtual void SetDefaults()
+        {
+            return;
+        }
+
         public void LoadTheme()
         {
             string xmlPath = CBase.Themes.GetThemeScreensPath(ID);
