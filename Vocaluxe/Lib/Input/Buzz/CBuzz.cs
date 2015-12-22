@@ -32,9 +32,7 @@ namespace Vocaluxe.Lib.Input.Buzz
         private bool[] _oldState;
         private bool _Connected;
 
-        private Thread _HandlerThread;
         private bool _Active;
-        private AutoResetEvent _EvTerminate;
 
         public override string GetName()
         {
@@ -46,31 +44,27 @@ namespace Vocaluxe.Lib.Input.Buzz
             if (!base.Init())
                 return false;
 
-            _HandlerThread = new Thread(_MainLoop) { Name = "Buzz", Priority = ThreadPriority.BelowNormal };
             _oldState = new bool[20];
-            _EvTerminate = new AutoResetEvent(false);
+            _Buzz = new CBuzzLib();
+            _Buzz.BuzzChanged += _BuzzChanged;
+            _Buzz.BuzzConnectionChanged += _BuzzConnectionChanged;
             return true;
         }
 
         public override void Close()
         {
             _Active = false;
-            if (_HandlerThread != null)
-            {
-                //Join before freeing stuff
-                //This also ensures, that no other thread is created till the current one is terminated
-                _HandlerThread.Join();
-                _HandlerThread = null;
-            }
+            _Buzz.Disconnect();
+            _Connected = false;
             base.Close();
         }
 
         public override void Connect()
         {
-            if (_Active || _HandlerThread == null)
+            if (_Active)
                 return;
             _Active = true;
-            _HandlerThread.Start();
+            _Buzz.Connect();
         }
 
         public override void Disconnect()
@@ -93,52 +87,27 @@ namespace Vocaluxe.Lib.Input.Buzz
             _Buzz.SetLEDs(led1, led2, led3, led4);
         }
         
-        private void _MainLoop()
+        private void _BuzzConnectionChanged(object sender, CBuzzConnectionChangedEventArgs e)
         {
-            _Buzz = new CBuzzLib();
-            _Buzz.BuzzChanged += _BuzzChanged;
-
-            while (_Active)
+            if (!e.Connected)
             {
-                Thread.Sleep(5);
-                if (!_Buzz.Connected)
-                {
-                    if (!_DoConnect())
-                        _EvTerminate.WaitOne(1000);
-                }
+                _Connected = false;
             }
-
-            _Buzz.Disconnect();
-            _Connected = false;
-        }
-
-        private bool _DoConnect()
-        {
-            try
+            else
             {
-                if (!_Buzz.Connect())
-                    return false;
+                _Buzz.SetLEDs(true, true, true, true);
+                Thread.Sleep(250);
+                _Buzz.SetLEDs(false, false, false, false);
+                Thread.Sleep(250);
+                _Buzz.SetLEDs(true, true, true, true);
+                Thread.Sleep(250);
+                _Buzz.SetLEDs(false, false, false, false);
+                Thread.Sleep(250);
+                _Buzz.SetLEDs(true, true, true, true);
+                Thread.Sleep(250);
+                _Buzz.SetLEDs(false, false, false, false);
+                _Connected = true;
             }
-            catch
-            {
-                return false;
-            }
-
-            
-            _Buzz.SetLEDs(true, true, true, true);                        
-            Thread.Sleep(250);
-            _Buzz.SetLEDs(false, false, false, false);
-            Thread.Sleep(250);
-            _Buzz.SetLEDs(true, true, true, true);
-            Thread.Sleep(250);
-            _Buzz.SetLEDs(false, false, false, false);
-            Thread.Sleep(250);
-            _Buzz.SetLEDs(true, true, true, true);
-            Thread.Sleep(250);
-            _Buzz.SetLEDs(false, false, false, false);
-
-            _Connected = true;
-            return true;
         }
 
         private void _BuzzChanged(object sender, CBuzzChangedEventArgs args)

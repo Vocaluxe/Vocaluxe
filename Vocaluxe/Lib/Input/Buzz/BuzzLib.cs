@@ -57,6 +57,16 @@ namespace Vocaluxe.Lib.Input.Buzz
         }
     }
 
+    public class CBuzzConnectionChangedEventArgs : EventArgs
+    {
+        public readonly bool Connected;
+
+        public CBuzzConnectionChangedEventArgs(bool connected)
+        {
+            Connected = connected;
+        }
+    }
+
     #endregion
     public sealed class CBuzzLib
     {
@@ -71,11 +81,21 @@ namespace Vocaluxe.Lib.Input.Buzz
         private Thread _Reader;
         private readonly bool _Error;
 
-        public bool Connected { get; private set; }
+        private bool _Connected;
+        public bool Connected
+        {
+            get { return _Connected; }
+            private set
+            {
+                _Connected = value;
+                if (BuzzConnectionChanged != null)
+                    BuzzConnectionChanged.Invoke(this, new CBuzzConnectionChangedEventArgs(value));
+            }
+        }
 
         private readonly CBuzzStatus _BuzzState = new CBuzzStatus();
         public event EventHandler<CBuzzChangedEventArgs> BuzzChanged;
-
+        public event EventHandler<CBuzzConnectionChangedEventArgs> BuzzConnectionChanged;
         public CBuzzLib()
         {
             if (!CHIDApi.Init())
@@ -175,6 +195,7 @@ namespace Vocaluxe.Lib.Input.Buzz
                     if (bytesRead == -1)
                     {
                         Connected = false; //Disconnected
+                        Connect();
                         break;
                     }
                 }
@@ -188,7 +209,7 @@ namespace Vocaluxe.Lib.Input.Buzz
                 if (bytesRead > 0 && _ParseInputReport(buff))
                 {
                     if (BuzzChanged != null)
-                        BuzzChanged(this, new CBuzzChangedEventArgs(_BuzzState));
+                        BuzzChanged.Invoke(this, new CBuzzChangedEventArgs(_BuzzState));
                 }
                 Thread.Sleep(5);
             }
