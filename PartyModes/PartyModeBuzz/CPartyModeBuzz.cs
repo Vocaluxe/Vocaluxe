@@ -210,7 +210,7 @@ namespace VocaluxeLib.PartyModes.Buzz
                 case EStage.Names:
                     _Stage = EStage.Config;
                     break;
-                case EStage.Main:
+                case EStage.Scores:
                     _Stage = EStage.Names;
                     break;
                 default: // Rest is not allowed
