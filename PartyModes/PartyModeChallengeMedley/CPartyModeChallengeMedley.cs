@@ -168,14 +168,19 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, CurrentRoundNr = 1, ProfileIDs = new List<int>(), NumSongs = 5, Songs = new List<int>(), SongSource = ESongSource.TR_ALLSONGS, CatSongIndices = null, Results = null};
         }
 
+        public override void SetDefaults()
+        {
+            _Stage = EStage.Config;
+            GameData.CurrentRoundNr = 1;
+            GameData.ResultTable = new List<CResultTableRow>();
+        }
+
         public override bool Init()
         {
             if (!base.Init())
                 return false;
-            _Stage = EStage.Config;
 
-            GameData.ResultTable = new List<CResultTableRow>();
-
+            SetDefaults();
             return true;
         }
 

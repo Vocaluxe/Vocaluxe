@@ -153,10 +153,8 @@ namespace VocaluxeLib.PartyModes.Challenge
             GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, NumJokers = 5, RefillJokers = true, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
         }
 
-        public override bool Init()
+        public override void SetDefaults()
         {
-            if (!base.Init())
-                return false;
             _Stage = EStage.Config;
 
             _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
@@ -168,7 +166,15 @@ namespace VocaluxeLib.PartyModes.Challenge
                 _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
 
             GameData.ResultTable = new List<CResultTableRow>();
+        }
 
+        public override bool Init()
+        {
+            if (!base.Init())
+                return false;
+            _Stage = EStage.Config;
+
+            SetDefaults();
             return true;
         }
 
