@@ -27,7 +27,7 @@ namespace VocaluxeLib.PartyModes.Challenge
     public class CResultTableRow : IComparable
     {
         public int Position;
-        public int PlayerID;
+        public Guid PlayerID;
         public int NumPlayed;
         public int NumWon;
         public int NumSingPoints;
@@ -116,7 +116,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             public int NumJokers;
             public bool RefillJokers;
             public int[] Jokers;
-            public List<int> ProfileIDs;
+            public List<Guid> ProfileIDs;
 
             public CChallengeRounds Rounds;
             public List<CResultTableRow> ResultTable;
@@ -129,7 +129,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private struct SStats
         {
-            public int ProfileID;
+            public Guid ProfileID;
             public int SingPoints;
             public int GamePoints;
             public int Won;
@@ -150,7 +150,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
 
-            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, NumJokers = 5, RefillJokers = true, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
+            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, NumJokers = 5, RefillJokers = true, CurrentRoundNr = 1, ProfileIDs = new List<Guid>(), CatSongIndices = null, Results = null};
         }
 
         public override bool Init()
@@ -358,7 +358,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 if (c != null)
                     players[i].ProfileID = GameData.ProfileIDs[c.Players[i]];
                 else
-                    players[i].ProfileID = -1;
+                    players[i].ProfileID = Guid.Empty;
             }
 
             CBase.Graphics.FadeTo(EScreen.Sing);

@@ -110,8 +110,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             public int NumPlayerTeam2;
             public int NumFields;
             public int Team;
-            public List<int> ProfileIDsTeam1;
-            public List<int> ProfileIDsTeam2;
+            public List<Guid> ProfileIDsTeam1;
+            public List<Guid> ProfileIDsTeam2;
             public List<int> PlayerTeam1;
             public List<int> PlayerTeam2;
 
@@ -151,8 +151,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     NumPlayerTeam1 = 2,
                     NumPlayerTeam2 = 2,
                     NumFields = 9,
-                    ProfileIDsTeam1 = new List<int>(),
-                    ProfileIDsTeam2 = new List<int>(),
+                    ProfileIDsTeam1 = new List<Guid>(),
+                    ProfileIDsTeam2 = new List<Guid>(),
                     PlayerTeam1 = new List<int>(),
                     PlayerTeam2 = new List<int>(),
                     CurrentRoundNr = 0,
@@ -475,7 +475,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             for (int i = 0; i < 2; i++)
             {
                 //default values
-                players[i].ProfileID = -1;
+                players[i].ProfileID = Guid.Empty;
             }
 
             //try to fill with the right data

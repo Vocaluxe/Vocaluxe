@@ -39,7 +39,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
     public class CResultTableRow : IComparable
     {
         public int Position;
-        public int PlayerID;
+        public Guid PlayerID;
         public int NumPlayed;
         public int NumWon;
         public int NumSingPoints;
@@ -135,7 +135,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             public int NumPlayer;
             public int NumPlayerAtOnce;
             public int NumRounds;
-            public List<int> ProfileIDs;
+            public List<Guid> ProfileIDs;
             public int NumSongs;
             public List<int> Songs;
 
@@ -154,7 +154,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private struct SStats
         {
-            public int ProfileID;
+            public Guid ProfileID;
             public int SingPoints;
             public int GamePoints;
             public int Won;
@@ -165,7 +165,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         public CPartyModeChallengeMedley(int id) : base(id)
         {
-            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, CurrentRoundNr = 1, ProfileIDs = new List<int>(), NumSongs = 5, Songs = new List<int>(), SongSource = ESongSource.TR_ALLSONGS, CatSongIndices = null, Results = null};
+            GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, CurrentRoundNr = 1, ProfileIDs = new List<Guid>(), NumSongs = 5, Songs = new List<int>(), SongSource = ESongSource.TR_ALLSONGS, CatSongIndices = null, Results = null};
         }
 
         public override bool Init()
@@ -322,7 +322,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
                 if (c != null)
                     players[i].ProfileID = GameData.ProfileIDs[c.Players[i]];
                 else
-                    players[i].ProfileID = -1;
+                    players[i].ProfileID = Guid.Empty;
             }
             #endregion PlayerNames
 
@@ -373,15 +373,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
 
         private void _SetTeamNames()
         {
-            CProfile[] profiles = CBase.Profiles.GetProfiles();
 
-            if (profiles == null)
-            {
-                _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
-                return;
-            }
-
-            if (GameData.NumPlayerAtOnce < 1 || GameData.ProfileIDs.Count < GameData.NumPlayerAtOnce || profiles.Length < GameData.NumPlayerAtOnce)
+            if (CBase.Profiles.GetNum() == 0 || GameData.NumPlayerAtOnce < 1 || GameData.ProfileIDs.Count < GameData.NumPlayerAtOnce || CBase.Profiles.GetNum() < GameData.NumPlayerAtOnce)
             {
                 _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
                 return;
@@ -394,8 +387,8 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             {
                 if (c != null)
                 {
-                    if (GameData.ProfileIDs[c.Players[i]] < profiles.Length)
-                        _ScreenSongOptions.Selection.TeamNames[i] = profiles[GameData.ProfileIDs[c.Players[i]]].PlayerName;
+                    if (CBase.Profiles.IsProfileIDValid(GameData.ProfileIDs[c.Players[i]]))
+                        _ScreenSongOptions.Selection.TeamNames[i] = CBase.Profiles.GetPlayerName(GameData.ProfileIDs[c.Players[i]]);
                     else
                         _ScreenSongOptions.Selection.TeamNames[i] = "foobar";
                 }

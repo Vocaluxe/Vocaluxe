@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Generic;
 using VocaluxeLib.Menu;
 
@@ -46,7 +47,7 @@ namespace VocaluxeLib.PartyModes.ChallengeMedley
             while (_PartyMode.GameData.ProfileIDs.Count > _NumPlayer)
                 _PartyMode.GameData.ProfileIDs.RemoveAt(_PartyMode.GameData.ProfileIDs.Count - 1);
 
-            List<int>[] ids = new List<int>[] {_PartyMode.GameData.ProfileIDs};
+            List<Guid>[] ids = new List<Guid>[] {_PartyMode.GameData.ProfileIDs};
             SetPartyModeProfiles(ids);
         }
 

@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using VocaluxeLib.Draw;
@@ -53,7 +54,7 @@ namespace VocaluxeLib.Menu
         private bool _SelectingKeyboardActive;
         private bool _SelectingFast;
         private int _SelectingFastPlayerNr;
-        private int _SelectedProfileID = -1;
+        private Guid _SelectedProfileID = Guid.Empty;
 
         private CStatic _ChooseAvatarStatic;
         private int _OldMouseX;
@@ -70,7 +71,7 @@ namespace VocaluxeLib.Menu
         private const string _SelectSlidePlayer = "SelectSlidePlayer";
         private const string _NameSelection = "NameSelection";
 
-        protected List<int>[] _TeamList;
+        protected List<Guid>[] _TeamList;
 
         public override void Init()
         {
@@ -98,13 +99,13 @@ namespace VocaluxeLib.Menu
             _NumPlayer = numPlayer;
             _NumPlayerTeams = numPlayerTeams;
 
-            _TeamList = new List<int>[_NumTeams > 0 ? _NumTeams : 1];
+            _TeamList = new List<Guid>[_NumTeams > 0 ? _NumTeams : 1];
 
             if (_NumTeams != _NumPlayerTeams.Length)
                 _NumPlayerTeams = new int[_NumTeams];
 
             for (int i = 0; i < _TeamList.Length; i++)
-                _TeamList[i] = new List<int>();
+                _TeamList[i] = new List<Guid>();
 
             _Teams = _NumTeams > 0;
 
@@ -115,7 +116,7 @@ namespace VocaluxeLib.Menu
             _UpdateNextButtonVisibility();
         }
 
-        public void SetPartyModeProfiles(List<int>[] teamProfiles)
+        public void SetPartyModeProfiles(List<Guid>[] teamProfiles)
         {
             _TeamList = teamProfiles;
             _UpdateSlides();
@@ -135,9 +136,9 @@ namespace VocaluxeLib.Menu
                 {
                     case Keys.Enter:
                         //Check, if a player is selected
-                        if (_NameSelections[_NameSelection].Selection > -1)
+                        if (_NameSelections[_NameSelection].SelectedID != Guid.Empty)
                         {
-                            _SelectedProfileID = _NameSelections[_NameSelection].Selection;
+                            _SelectedProfileID = _NameSelections[_NameSelection].SelectedID;
 
                             if (!CBase.Profiles.IsProfileIDValid(_SelectedProfileID))
                                 return true;
@@ -373,7 +374,7 @@ namespace VocaluxeLib.Menu
                 base.HandleMouse(mouseEvent);
 
             //Check if LeftButton is hold and Select-Mode inactive
-            if (mouseEvent.LBH && _SelectedProfileID < 0 && !_SelectingFast)
+            if (mouseEvent.LBH && _SelectedProfileID == Guid.Empty && !_SelectingFast)
             {
                 //Save mouse-coords
                 _OldMouseX = mouseEvent.X;
@@ -382,8 +383,8 @@ namespace VocaluxeLib.Menu
                 if (_NameSelections[_NameSelection].IsOverTile(mouseEvent))
                 {
                     //Get player-number of tile
-                    _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
-                    if (_SelectedProfileID != -1)
+                    _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerID(mouseEvent);
+                    if (_SelectedProfileID != Guid.Empty)
                     {
                         //Update of Drag/Drop-Texture
                         CStatic selectedPlayer = _NameSelections[_NameSelection].TilePlayerAvatar(mouseEvent);
@@ -396,7 +397,7 @@ namespace VocaluxeLib.Menu
                 }
             }
             //Check if LeftButton is hold and Select-Mode active
-            if (mouseEvent.LBH && _SelectedProfileID >= 0 && !_SelectingFast)
+            if (mouseEvent.LBH && _SelectedProfileID != Guid.Empty && !_SelectingFast)
             {
                 //Update coords for Drag/Drop-Texture
                 _ChooseAvatarStatic.X += mouseEvent.X - _OldMouseX;
@@ -405,7 +406,7 @@ namespace VocaluxeLib.Menu
                 _OldMouseY = mouseEvent.Y;
             }
                 // LeftButton isn't hold anymore, but Select-Mode is still active -> "Drop" of Avatar
-            else if (_SelectedProfileID >= 0 && !_SelectingFast)
+            else if (_SelectedProfileID != Guid.Empty && !_SelectingFast)
             {
                 //Check if mouse is in drop-area
                 if (CHelper.IsInBounds(_SelectSlides[_SelectSlidePlayer].Rect, mouseEvent))
@@ -417,7 +418,7 @@ namespace VocaluxeLib.Menu
                 }
 
                 //Reset variables
-                _SelectedProfileID = -1;
+                _SelectedProfileID = Guid.Empty;
                 _ChooseAvatarStatic.Visible = false;
             }
             if (mouseEvent.LB && _SelectingFast)
@@ -425,8 +426,8 @@ namespace VocaluxeLib.Menu
                 if (_NameSelections[_NameSelection].IsOverTile(mouseEvent))
                 {
                     //Get player-number of tile
-                    _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
-                    if (_SelectedProfileID != -1)
+                    _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerID(mouseEvent);
+                    if (_SelectedProfileID != Guid.Empty)
                     {
                         if (!CBase.Profiles.IsProfileIDValid(_SelectedProfileID))
                             return true;
@@ -475,8 +476,8 @@ namespace VocaluxeLib.Menu
 
             if (mouseEvent.LD && _NameSelections[_NameSelection].IsOverTile(mouseEvent) && !_SelectingFast)
             {
-                _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerNr(mouseEvent);
-                if (_SelectedProfileID > -1)
+                _SelectedProfileID = _NameSelections[_NameSelection].TilePlayerID(mouseEvent);
+                if (_SelectedProfileID != Guid.Empty)
                 {
                     if (!CBase.Profiles.IsProfileIDValid(_SelectedProfileID))
                         return true;
@@ -493,7 +494,7 @@ namespace VocaluxeLib.Menu
                 if (_SelectSlides[_SelectSlidePlayer].Selected && _TeamList[_CurrentTeam].Count > _SelectSlides[_SelectSlidePlayer].Selection)
                 {
                     int currentSelection = _SelectSlides[_SelectSlidePlayer].Selection;
-                    int id = _TeamList[_CurrentTeam][currentSelection];
+                    Guid id = _TeamList[_CurrentTeam][currentSelection];
                     _RemovePlayer(_CurrentTeam, id);
                     _UpdatePlayerSlide();
                     exit = false;
@@ -577,9 +578,9 @@ namespace VocaluxeLib.Menu
             {
                 _NumTeams++;
                 int[] numPlayerTeams = _NumPlayerTeams;
-                List<int>[] teamList = _TeamList;
+                List<Guid>[] teamList = _TeamList;
                 _NumPlayerTeams = new int[_NumTeams];
-                _TeamList = new List<int>[_NumTeams];
+                _TeamList = new List<Guid>[_NumTeams];
                 for (int i = 0; i < _NumPlayerTeams.Length; i++)
                 {
                     if (i < numPlayerTeams.Length)
@@ -590,7 +591,7 @@ namespace VocaluxeLib.Menu
                     else
                     {
                         _NumPlayerTeams[i] = _NumPlayer;
-                        _TeamList[i] = new List<int>();
+                        _TeamList[i] = new List<Guid>();
                     }
                 }
             }
@@ -721,7 +722,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private void _AddPlayer(int team, int profileID)
+        private void _AddPlayer(int team, Guid profileID, bool updateElements=true)
         {
             if (_NumPlayerTeams[team] == _TeamList[team].Count && !_ChangePlayerNumDynamic)
                 return;
@@ -731,17 +732,20 @@ namespace VocaluxeLib.Menu
             _NameSelections[_NameSelection].UseProfile(profileID);
             _TeamList[team].Add(profileID);
 
-            _UpdatePlayerSlide();
-            _UpdateNextButtonVisibility();
+            if (updateElements)
+            {
+                _UpdatePlayerSlide();
+                _UpdateNextButtonVisibility();
+            }
         }
 
         private void _RemoveAllPlayer()
         {
             for (int t = 0; t < _TeamList.Length; t++)
             {
-                List<int> ids = new List<int>();
+                List<Guid> ids = new List<Guid>();
                 ids.AddRange(_TeamList[t]);
-                foreach (int id in ids)
+                foreach (Guid id in ids)
                     _RemovePlayer(t, id);
             }
         }
@@ -750,7 +754,7 @@ namespace VocaluxeLib.Menu
         {
             if (_TeamList[team].Count > index)
             {
-                int id = _TeamList[team][index];
+                Guid id = _TeamList[team][index];
                 _TeamList[team].RemoveAt(index);
                 _NameSelections[_NameSelection].RemoveUsedProfile(id);
             }
@@ -758,7 +762,7 @@ namespace VocaluxeLib.Menu
             _UpdateNextButtonVisibility();
         }
 
-        private void _RemovePlayer(int team, int profileID)
+        private void _RemovePlayer(int team, Guid profileID)
         {
             _TeamList[team].Remove(profileID);
             _NameSelections[_NameSelection].RemoveUsedProfile(profileID);
@@ -773,10 +777,13 @@ namespace VocaluxeLib.Menu
             {
                 for (int p = 0; p < _NumPlayerTeams[t]; p++)
                 {
-                    int profileID = _NameSelections[_NameSelection].GetRandomUnusedProfile();
-                    _AddPlayer(t, profileID);
+                    Guid profileID = _NameSelections[_NameSelection].GetRandomUnusedProfile();
+                    _AddPlayer(t, profileID, false);
                 }
             }
+
+            _UpdatePlayerSlide();
+            _UpdateButtonVisibility();
         }
 
         private void _UpdateNextButtonVisibility()

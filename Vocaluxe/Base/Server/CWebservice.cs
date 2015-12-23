@@ -61,7 +61,7 @@ namespace Vocaluxe.Base.Server
         }
 
         #region profile
-        public int GetOwnProfileId()
+        public Guid GetOwnProfileId()
         {
             Guid sessionKey = _GetSession();
             if (sessionKey == Guid.Empty)
@@ -71,17 +71,17 @@ namespace Vocaluxe.Base.Server
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
                 }
-                return -1;
+                return Guid.Empty;
             }
-            int profileId = CSessionControl.GetUserIdFromSession(sessionKey);
-            if (profileId < 0)
+            Guid profileId = CSessionControl.GetUserIdFromSession(sessionKey);
+            if (profileId == Guid.Empty)
             {
                 if (WebOperationContext.Current != null)
                 {
                     WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
                     WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
                 }
-                return -1;
+                return Guid.Empty;
             }
             return profileId;
         }
@@ -90,7 +90,7 @@ namespace Vocaluxe.Base.Server
         {
             Guid sessionKey = _GetSession();
 
-            if (profile.ProfileId != -1) //-1 is the id for a new profile
+            if (profile.ProfileId != Guid.Empty) //-1 is the id for a new profile
             {
                 if (CSessionControl.GetUserIdFromSession(sessionKey) != profile.ProfileId
                     && !(_CheckRight(EUserRights.EditAllProfiles)))
@@ -100,7 +100,7 @@ namespace Vocaluxe.Base.Server
             CVocaluxeServer.DoTask(CVocaluxeServer.SendProfileData, profile);
         }
 
-        public SProfileData GetProfile(int profileId)
+        public SProfileData GetProfile(Guid profileId)
         {
             Guid sessionKey = _GetSession();
             if (CSessionControl.GetUserIdFromSession(sessionKey) == profileId || _CheckRight(EUserRights.ViewOtherProfiles))
@@ -146,7 +146,7 @@ namespace Vocaluxe.Base.Server
         public void Logout()
         {
             Guid sessionKey = _GetSession();
-            CSessionControl.InvalidateSessions(sessionKey);
+            CSessionControl.InvalidateSessionByID(sessionKey);
         }
 
         public Stream Index()
@@ -501,12 +501,12 @@ namespace Vocaluxe.Base.Server
         #endregion
 
         #region user management
-        public int GetUserRole(int profileId)
+        public int GetUserRole(Guid profileId)
         {
             return CVocaluxeServer.DoTask(CVocaluxeServer.GetUserRole, profileId);
         }
 
-        public void SetUserRole(int profileId, int userRole)
+        public void SetUserRole(Guid profileId, int userRole)
         {
             if (_CheckRight(EUserRights.EditAllProfiles))
                 CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.SetUserRole, profileId, userRole);

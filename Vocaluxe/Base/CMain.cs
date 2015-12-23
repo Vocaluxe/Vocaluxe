@@ -636,17 +636,22 @@ namespace Vocaluxe.Base
             return CProfiles.GetProfiles();
         }
 
-        public EGameDifficulty GetDifficulty(int profileID)
+        public int GetNum()
+        {
+            return CProfiles.NumProfiles;
+        }
+
+        public EGameDifficulty GetDifficulty(Guid profileID)
         {
             return CProfiles.GetDifficulty(profileID);
         }
 
-        public string GetPlayerName(int profileID, int playerNum = 0)
+        public string GetPlayerName(Guid profileID, int playerNum = 0)
         {
             return CProfiles.GetPlayerName(profileID, playerNum);
         }
 
-        public CTextureRef GetAvatar(int profileID)
+        public CTextureRef GetAvatar(Guid profileID)
         {
             return CProfiles.GetAvatarTextureFromProfile(profileID);
         }
@@ -656,12 +661,12 @@ namespace Vocaluxe.Base
             return CProfiles.GetAvatarByFilename(fileName);
         }
 
-        public bool IsProfileIDValid(int profileID)
+        public bool IsProfileIDValid(Guid profileID)
         {
             return CProfiles.IsProfileIDValid(profileID);
         }
 
-        public bool IsGuest(int profileID)
+        public bool IsGuest(Guid profileID)
         {
             return CProfiles.IsGuestProfile(profileID);
         }
