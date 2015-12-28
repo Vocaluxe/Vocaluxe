@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -419,7 +420,7 @@ namespace Vocaluxe.Screens
             if (_EditMode == EEditMode.PlayerName)
                 name = CProfiles.GetPlayerName(_GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag));
 
-            int selectedProfileID = _SelectSlides[_SelectSlideProfiles].SelectedTag;
+            Guid selectedProfileID = _GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag);
             _SelectSlides[_SelectSlideProfiles].Clear();
             _SelectSlideGuids.Clear();
 
@@ -434,20 +435,20 @@ namespace Vocaluxe.Screens
 
             if (CProfiles.NumProfiles > 0 && CProfiles.NumAvatars > 0)
             {
-                if (selectedProfileID != -1)
-                    _SelectSlides[_SelectSlideProfiles].SelectedTag = selectedProfileID;
+                if (selectedProfileID != Guid.Empty)
+                    _SelectSlides[_SelectSlideProfiles].SelectedTag = _SelectSlideGuids.FirstOrDefault(x => x.Value.Equals(selectedProfileID)).Key;
                 else
                 {
                     _SelectSlides[_SelectSlideProfiles].Selection = 0;
-                    selectedProfileID = _SelectSlides[_SelectSlideProfiles].SelectedTag;
+                    selectedProfileID = _GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag);
                 }
 
                 if (!keep)
                 {
-                    _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(_GetIdFromTag(selectedProfileID));
-                    _SelectSlides[_SelectSlideUserRole].Selection = (int)CProfiles.GetUserRoleProfile(_GetIdFromTag(selectedProfileID));
-                    _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(_GetIdFromTag(selectedProfileID));
-                    _SelectSlides[_SelectSlideAvatars].SelectedTag = CProfiles.GetAvatarID(_GetIdFromTag(selectedProfileID));
+                    _SelectSlides[_SelectSlideDifficulty].Selection = (int)CProfiles.GetDifficulty(selectedProfileID);
+                    _SelectSlides[_SelectSlideUserRole].Selection = (int)CProfiles.GetUserRoleProfile(selectedProfileID);
+                    _SelectSlides[_SelectSlideActive].Selection = (int)CProfiles.GetActive(selectedProfileID);
+                    _SelectSlides[_SelectSlideAvatars].SelectedTag = CProfiles.GetAvatarID(selectedProfileID);
                 }
 
                 if (_EditMode == EEditMode.PlayerName)
