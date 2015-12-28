@@ -168,10 +168,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 };
         }
 
-        public override bool Init()
+        public override void SetDefaults()
         {
-            if (!base.Init())
-                return false;
             _Stage = EStage.Config;
 
             _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
@@ -186,6 +184,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             GameData.Rounds.Clear();
             GameData.PlayerTeam1.Clear();
             GameData.PlayerTeam2.Clear();
+        }
+
+        public override bool Init()
+        {
+            if (!base.Init())
+                return false;
+
+            SetDefaults();
             return true;
         }
 

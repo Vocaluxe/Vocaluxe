@@ -99,6 +99,7 @@ namespace VocaluxeLib.PartyModes
 
         bool Init();
 
+        void SetDefaults();
         void LoadTheme();
         void ReloadSkin();
         void ReloadTheme();
