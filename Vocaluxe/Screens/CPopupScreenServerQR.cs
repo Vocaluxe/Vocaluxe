@@ -30,20 +30,11 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private CTextureRef _QRServerAddress;
-        private CTextureRef _QRAndroidLink;
-        private CTextureRef _QRSymbianLink;
-        private CTextureRef _QRWebOSLink;
-        private CTextureRef _QRWindowsPhoneLink;
-
         private const string _StaticQRServer = "StaticQRServer";
-        private const string _StaticQRAndroid = "StaticQRAndroid";
-        private const string _StaticQRSymbian = "StaticQRSymbian";
-        private const string _StaticQRWebOS = "StaticQRWebOS";
-        private const string _StaticQRWindowsPhone = "StaticQRWindowsPhone";
 
         private const string _TextServerAddress = "TextServerAddress";
         private const string _TextServerNotRunning = "TextServerNotRunning";
@@ -52,7 +43,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeStatics = new string[] {_StaticQRServer, _StaticQRAndroid, _StaticQRSymbian, _StaticQRWebOS, _StaticQRWindowsPhone};
+            _ThemeStatics = new string[] {_StaticQRServer};
             _ThemeTexts = new string[] {_TextServerAddress, _TextServerNotRunning};
         }
 
@@ -63,10 +54,6 @@ namespace Vocaluxe.Screens
             {
                 _GenerateQRs();
                 _Statics[_StaticQRServer].Texture = _QRServerAddress;
-                _Statics[_StaticQRAndroid].Texture = _QRAndroidLink;
-                _Statics[_StaticQRSymbian].Texture = _QRSymbianLink;
-                _Statics[_StaticQRWebOS].Texture = _QRWebOSLink;
-                _Statics[_StaticQRWindowsPhone].Texture = _QRWindowsPhoneLink;
                 _Texts[_TextServerAddress].Text = CVocaluxeServer.GetServerAddress();
             }
             _Texts[_TextServerAddress].Visible = CVocaluxeServer.IsServerRunning();
@@ -108,22 +95,6 @@ namespace Vocaluxe.Screens
             //ServerAddress
             QRCodeGenerator.QRCode qrcode = qr.CreateQrCode(CVocaluxeServer.GetServerAddress(), QRCodeGenerator.ECCLevel.H);
             _QRServerAddress = CDraw.AddTexture(qrcode.GetGraphic(20));
-
-            //Android
-            qrcode = qr.CreateQrCode(CSettings.LinkAndroidApp, QRCodeGenerator.ECCLevel.H);
-            _QRAndroidLink = CDraw.AddTexture(qrcode.GetGraphic(20));
-
-            //Symbian
-            qrcode = qr.CreateQrCode(CSettings.LinkSymbianApp, QRCodeGenerator.ECCLevel.H);
-            _QRSymbianLink = CDraw.AddTexture(qrcode.GetGraphic(20));
-
-            //WebOS
-            qrcode = qr.CreateQrCode(CSettings.LinkWebOSApp, QRCodeGenerator.ECCLevel.H);
-            _QRWebOSLink = CDraw.AddTexture(qrcode.GetGraphic(20));
-
-            //WindowsPhone
-            qrcode = qr.CreateQrCode(CSettings.LinkWindowsPhoneApp, QRCodeGenerator.ECCLevel.H);
-            _QRWindowsPhoneLink = CDraw.AddTexture(qrcode.GetGraphic(20));
         }
     }
 }

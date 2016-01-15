@@ -2,7 +2,6 @@
 /// <reference path="../index.html" />
 (function () {
     var imageLoader;
-    var externalServices;
     var translator;
     var pageHandler;
     var sessionHandler;
@@ -30,7 +29,6 @@
 
             sessionHandler = new SessionHandler();
             imageLoader = new ImageLoader();
-            externalServices = new ExternalServices();
             pageHandler = new PageHandler();
 
             pageHandler.init();
@@ -158,115 +156,6 @@
                 $(img).prop("src", defaultImg);
             }
         };
-    }
-
-    function ExternalServices() {
-        var popupVideoHeight = 390;
-        var popupVideoWidth = 640;
-
-        var init = function () {
-            initVideoPopup();
-        };
-
-        var initVideoPopup = function () {
-
-            function scale(width, height, padding, border) {
-                var scrWidth = $(window).width() - 30,
-                    scrHeight = $(window).height() - 30,
-                    ifrPadding = 2 * padding,
-                    ifrBorder = 2 * border,
-                    ifrWidth = width + ifrPadding + ifrBorder,
-                    ifrHeight = height + ifrPadding + ifrBorder,
-                    h, w;
-
-                if (ifrWidth < scrWidth && ifrHeight < scrHeight) {
-                    w = ifrWidth;
-                    h = ifrHeight;
-                } else if ((ifrWidth / scrWidth) > (ifrHeight / scrHeight)) {
-                    w = scrWidth;
-                    h = (scrWidth / ifrWidth) * ifrHeight;
-                } else {
-                    h = scrHeight;
-                    w = (scrHeight / ifrHeight) * ifrWidth;
-                }
-
-                return {
-                    'width': w - (ifrPadding + ifrBorder),
-                    'height': h - (ifrPadding + ifrBorder)
-                };
-            }
-
-            $("#popupVideo").find("a").click(function () {
-                $("#popupVideo").popup("close");
-                $("#popupVideo").popup("close"); //Sometimes twice??
-            });
-
-            $("#popupVideo iframe")
-                .attr("width", 0)
-                .attr("height", 0);
-
-            $("#popupVideo").on({
-                popupbeforeposition: function () {
-                    var size = scale(popupVideoWidth, popupVideoHeight, 15, 1),
-                        w = size.width,
-                        h = size.height;
-
-                    $("#popupVideo iframe")
-                        .attr("width", w)
-                        .attr("height", h);
-                },
-                popupafterclose: function () {
-                    $("#popupVideo iframe")
-                        .attr("width", 0)
-                        .attr("height", 0)
-                        .attr("src", "");
-                }
-            });
-        };
-
-        this.showYoutube = function (artist, title) {
-            request({
-                url: "http://gdata.youtube.com/feeds/api/videos/-/Music?max-results=1&alt=json&format=5&q=" + artist + " " + title,
-                dataType: "json",
-            }, "external")
-                .done(function (result) {
-                    if (result && result.feed && result.feed.entry && result.feed.entry.length > 0) {
-                        var vidId = result.feed.entry[0].id.$t.replace("http://gdata.youtube.com/feeds/api/videos/", "");
-                        popupVideoHeight = 390;
-                        popupVideoWidth = 640;
-
-                        $("#popupVideo iframe").attr("src", "http://www.youtube.com/embed/" + vidId + "?&autoplay=1&rel=0&showinfo=0&disablekb=1&autohide=1");
-                        $("#popupVideo").popup("open");
-                    }
-                });
-        };
-
-        this.showSpotify = function (artist, title) {
-            request({
-                url: "http://ws.spotify.com/search/1/track.json?q=" + title + "+artist:" + artist,
-                dataType: "json",
-            }, "external")
-                .done(function (result) {
-                    if (result && result.tracks && result.tracks.length > 0) {
-                        var spotId = result.tracks[0].href;
-                        popupVideoHeight = 80;
-                        popupVideoWidth = 300;
-
-                        $("#popupVideo iframe").attr("src", "https://embed.spotify.com/?uri=" + spotId);
-                        $("#popupVideo").popup("open");
-                    }
-                });
-        };
-
-        this.showWikipedia = function (artist) {
-            popupVideoHeight = 800;
-            popupVideoWidth = 600;
-
-            $("#popupVideo iframe").attr("src", "http://m.wikipedia.org/wiki/Special:Search/" + artist);
-            $("#popupVideo").popup("open");
-        };
-
-        init();
     }
 
     function Translator() {
@@ -1101,18 +990,7 @@
                         };
                         $.mobile.changePage("#selectPlaylist", { transition: "slidefade" });
                     });
-
-                    $('#displaySongLinkYoutube').unbind('click').click(function () {
-                        externalServices.showYoutube(result.Artist, result.Title);
-                    });
-
-                    $('#displaySongLinkSpotify').unbind('click').click(function () {
-                        externalServices.showSpotify(result.Artist, result.Title);
-                    });
-
-                    $('#displaySongLinkWikipedia').unbind('click').click(function () {
-                        externalServices.showWikipedia(result.Artist);
-                    });
+                    
                 } else {
                     $('#displaySongLinks').hide();
                 }

@@ -63,8 +63,10 @@ namespace Vocaluxe.Base
             get { return _CurrentPartyMode.ID; }
             set
             {
-                if (_CurrentPartyMode.ID == value)
+                if (_CurrentPartyMode.ID == value) {
+                    _CurrentPartyMode.SetDefaults();
                     return;
+                }
                 if (value != -1 && !_PartyModes.ContainsKey(value))
                     throw new ArgumentException("Partymode with ID=" + value + " does not exist!");
                 IPartyMode pm = _PartyModes[value].PartyMode;

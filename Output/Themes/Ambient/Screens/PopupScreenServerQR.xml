@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>PopupScreenServerQR</ScreenName>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
   </Informations>
   <Backgrounds />
   <Statics>
@@ -26,54 +26,10 @@
       <Skin>Menu</Skin>
       <Color Name="Visible" />
       <Rect>
-        <X>490</X>
+        <X>465</X>
         <Y>210</Y>
-        <W>300</W>
-        <H>300</H>
-        <Z>-2</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticQRAndroid">
-      <Skin>Menu</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>25</X>
-        <Y>25</Y>
-        <W>200</W>
-        <H>200</H>
-        <Z>-2</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticQRSymbian">
-      <Skin>Menu</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1055</X>
-        <Y>25</Y>
-        <W>200</W>
-        <H>200</H>
-        <Z>-2</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticQRWebOS">
-      <Skin>Menu</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>25</X>
-        <Y>495</Y>
-        <W>200</W>
-        <H>200</H>
-        <Z>-2</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticQRWindowsPhone">
-      <Skin>Menu</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1055</X>
-        <Y>495</Y>
-        <W>200</W>
-        <H>200</H>
+        <W>350</W>
+        <H>350</H>
         <Z>-2</Z>
       </Rect>
     </Static>
@@ -81,7 +37,7 @@
   <Texts>
     <Text Name="Text1">
       <X>640</X>
-      <Y>180</Y>
+      <Y>170</Y>
       <Z>-2</Z>
       <H>35</H>
       <MaxW>300</MaxW>
@@ -93,65 +49,9 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPSERVERQR_ADDRESS</Text>
     </Text>
-    <Text Name="Text2">
-      <X>125</X>
-      <Y>230</Y>
-      <Z>-2</Z>
-      <H>27</H>
-      <MaxW>200</MaxW>
-      <Color Name="StaticColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>Android</Text>
-    </Text>
-    <Text Name="Text3">
-      <X>1155</X>
-      <Y>230</Y>
-      <Z>-2</Z>
-      <H>27</H>
-      <MaxW>200</MaxW>
-      <Color Name="StaticColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>Symbian</Text>
-    </Text>
-    <Text Name="Text4">
-      <X>125</X>
-      <Y>460</Y>
-      <Z>-2</Z>
-      <H>27</H>
-      <MaxW>200</MaxW>
-      <Color Name="StaticColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>WebOS</Text>
-    </Text>
-    <Text Name="Text5">
-      <X>1155</X>
-      <Y>460</Y>
-      <Z>-2</Z>
-      <H>27</H>
-      <MaxW>200</MaxW>
-      <Color Name="StaticColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>Windows Phone</Text>
-    </Text>
     <Text Name="TextServerAddress">
       <X>640</X>
-      <Y>515</Y>
+      <Y>570</Y>
       <Z>-2</Z>
       <H>35</H>
       <MaxW>300</MaxW>

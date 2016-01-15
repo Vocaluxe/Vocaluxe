@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
 namespace Vocaluxe.Lib.Video.Acinerella
@@ -191,6 +192,26 @@ namespace Vocaluxe.Lib.Video.Acinerella
 #endif
 
         private static readonly Object _Lock = new Object();
+        private static readonly Object _DictionaryLock = new Object();
+        private static readonly Dictionary<Int64, object> _AcInstanceLocks = new Dictionary<Int64, object>(20);
+
+        private static object _GetLockToken(IntPtr pAcDecoder)
+        {
+            object l;
+
+            lock (_DictionaryLock)
+            {
+                _AcInstanceLocks.TryGetValue(pAcDecoder.ToInt64(), out l);
+                if (l == null)
+                {
+                    l = new object();
+                    _AcInstanceLocks.Add(pAcDecoder.ToInt64(), l);
+                }
+            }
+           
+            return l;
+        }
+
 
         // Defines the type of an Acinerella media stream. Currently only video and
         // audio streams are supported, subtitle and data streams will be marked as
@@ -216,7 +237,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static void AcFree(IntPtr pAcInstance)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcInstance))
             {
                 _ac_free(pAcInstance);
             }
@@ -261,7 +282,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             IntPtr proberesult
             )
         {
-            lock (_lock)
+            lock (_GetLockToken(pAcDecoder))
             {
                 return _ac_open(PAc_instance, sender, open_proc, read_proc, seek_proc, close_proc, proberesult);
             }
@@ -274,7 +295,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public static Int32 AcOpen2(IntPtr pAcInstance, string filename)
             // ReSharper restore UnusedMethodReturnValue.Global
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcInstance))
             {
                 return _ac_open2(pAcInstance, filename);
             }
@@ -287,7 +308,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static void AcClose(IntPtr pAcInstance)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcInstance))
             {
                 _ac_close(pAcInstance);
             }
@@ -300,7 +321,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static void AcGetStreamInfo(IntPtr pAcInstance, Int32 nb, out SACStreamInfo info)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcInstance))
             {
                 _ac_get_stream_info(pAcInstance, nb, out info);
             }
@@ -321,7 +342,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static IntPtr AcCreateVideoDecoder(IntPtr pAcInstance)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcInstance))
             {
                 return _ac_create_video_decoder(pAcInstance);
             }
@@ -332,7 +353,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static IntPtr AcCreateAudioDecoder(IntPtr pAcInstance)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcInstance))
             {
                 return _ac_create_audio_decoder(pAcInstance);
             }
@@ -347,8 +368,12 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_Lock)
             {
-                _ac_free_decoder(pAcDecoder);
+                lock (_GetLockToken(pAcDecoder))
+                {
+                    _ac_free_decoder(pAcDecoder);
+                }
             }
+           
         }
 
         // Decodes a package using the specified decoder. The decodec data is stored in the
@@ -359,7 +384,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcDecodePackage(IntPtr pAcPackage, IntPtr pAcDecoder)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcDecoder))
             {
                 return _ac_decode_package(pAcPackage, pAcDecoder) != 0;
             }
@@ -370,7 +395,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcGetAudioFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcDecoder))
             {
                 return _ac_get_audio_frame(pAcInstance, pAcDecoder) != 0;
             }
@@ -381,7 +406,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcGetFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcDecoder))
             {
                 return _ac_get_frame(pAcInstance, pAcDecoder) != 0;
             }
@@ -392,7 +417,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcSkipFrames(IntPtr pAcInstance, IntPtr pAcDecoder, Int32 num)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcDecoder))
             {
                 return _ac_skip_frames(pAcInstance, pAcDecoder, num) != 0;
             }
@@ -408,7 +433,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcSeek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos)
         {
-            lock (_Lock)
+            lock (_GetLockToken(pAcDecoder))
             {
                 return _ac_seek(pAcDecoder, dir, targetPos) != 0;
             }
