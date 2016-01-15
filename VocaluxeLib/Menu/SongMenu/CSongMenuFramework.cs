@@ -415,7 +415,7 @@ namespace VocaluxeLib.Menu.SongMenu
             if (song == null)
                 return;
 
-            CBase.BackgroundMusic.LoadPreview(song);
+            CBase.BackgroundMusic.LoadPreview(song, song.Preview.StartTime);
         }
 
         protected void _ResetPreview(bool playBGagain = true)
