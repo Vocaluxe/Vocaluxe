@@ -926,6 +926,11 @@ namespace Vocaluxe.Base
         {
             CController.SetRumble(duration);
         }
+
+        public void SetLEDs(bool led1, bool led2, bool led3, bool led4)
+        {
+            CController.SetLEDs(led1, led2, led3, led4);
+        }
     }
 
     class CBplaylist : IPlaylist

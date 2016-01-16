@@ -104,6 +104,11 @@ namespace Vocaluxe.Lib.Input.WiiMote
             }
         }
 
+        public override void SetLEDs(bool led1, bool led2, bool led3, bool led4)
+        {
+            _WiiMote.SetLEDs(led1, led2, led3, led4);
+        }
+
         private void _MainLoop()
         {
             _WiiMote = new CWiiMoteLib();

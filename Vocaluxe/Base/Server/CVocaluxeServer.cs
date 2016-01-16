@@ -62,6 +62,8 @@ namespace Vocaluxe.Base.Server
             }
 
             public override void SetRumble(float duration) {}
+
+            public override void SetLEDs(bool led1, bool led2, bool led3, bool led4) {}
         }
 
         public static readonly CControllerFramework Controller = new CServerController();
