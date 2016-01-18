@@ -5,7 +5,6 @@
     var translator;
     var pageHandler;
     var sessionHandler;
-    var matchingServerVersion = "";
 
     var initMain = function () {
         if (document.location.protocol == "file:") {
@@ -175,19 +174,15 @@
         };
 
         this.translate = function () {
-            //repair broken buttons on the first page (get broken while translating)
-            var repairButtons = function () {
-                $($('#discoverConnect')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
-                $($('#discoverReadQr')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
-            };
             $('body').i18n();
-            repairButtons();
+            //repair broken buttons on the first page (got broken while translating)
+            $($('#loginButton')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
+            $($('#registerButton')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
         };
     }
 
     function PageHandler() {
         var loginPageHandler;
-        var discoverPageHandler;
         var mainPageHandler;
         var keyboardPageHandler;
         var userPageHandler;
@@ -203,7 +198,6 @@
         this.init = function () {
             replaceTransitionHandler();
             loginPageHandler = new LoginPageHandler();
-            discoverPageHandler = new DiscoverPageHandler();
             mainPageHandler = new MainPageHandler();
             keyboardPageHandler = new KeyboardPageHandler();
             userPageHandler = new UserPageHandler();
@@ -238,124 +232,6 @@
                 }
                 return oldDefaultTransitionHandler(name, reverse, $to, $from);
             };
-        };
-
-        var DiscoverPageHandler = function () {
-            var init = function () {
-                //pageLoadHandler for discover
-                $(document).on('pagebeforeshow', '#discover', pagebeforeshowDiscover);
-
-                initDiscoverPageHandler();
-            };
-
-            var initDiscoverPageHandler = function () {
-                var keyPressed = function (e) {
-                    if (e.which == 13) {
-                        $('#discoverConnect').click();
-                    }
-                };
-
-                $('#discoverServerAddress').keypress(keyPressed);
-
-                function handleAddress(address) {
-                    if (address != null && address != "") {
-                        if (address.indexOf("http") != 0) {
-                            address = "http://" + address;
-                        }
-                        if (address.slice(-1) != '/') {
-                            address = address + '/';
-                        }
-                        sessionHandler.serverBaseAddress = "";
-                        request({
-                            url: address + "getServerVersion",
-                            timeout: 10000
-                        }, "Checking...")
-                            .done(function (serverVersion) {
-                                if(serverVersion === matchingServerVersion){
-                                    sessionHandler.serverBaseAddress = address;
-                                    window.localStorage.setItem("VocaluxeServerAddress", address);
-                                    $.mobile.changePage("#login", { transition: "none" });
-                                }
-                                else{
-                                    window.location.href = address;									
-                                    return;
-                                }
-                            })
-                            .fail(function () {
-                                $('#discoverServerAddress').prop("value", "");
-                                if (document.location.protocol == "file:"
-                                    && typeof window.BarcodeScanner != "undefined") {
-                                    $('#discoverReadQr').show();
-                                }
-                            });
-                    }
-                }
-
-                $('#discoverConnect').click(function () {
-                    handleAddress($('#discoverServerAddress').prop("value"));
-                });
-
-                try {
-                    window.BarcodeScanner = cordova.require("cordova/plugin/BarcodeScanner");
-                } catch (e) {
-                }
-
-                $('#discoverReadQr').hide().click(function () {
-                    window.BarcodeScanner.scan(
-                        function (result) {
-                            handleAddress(result.text);
-                        },
-                        function () {
-                            showError("Scan faild");
-                        }
-                    );
-                });
-
-                //Fire pageLoadHandler for discover (first page shown after start)
-                setTimeout(function () {
-                    pagebeforeshowDiscover();
-                    $(this).removeData('promise');
-                }, 1);
-            };
-
-            var pagebeforeshowDiscover = function () {
-                if (document.location.protocol == "file:") {
-                    if (window.localStorage) {
-                        var address = window.localStorage.getItem("VocaluxeServerAddress");
-                        if (address != null) {
-                            sessionHandler.serverBaseAddress = "";
-                            var prom = request({
-                                url: address + "getServerVersion",
-                                timeout: 10000
-                            }, "Checking...").done(function (serverVersion) {
-                                if (serverVersion === matchingServerVersion) {
-                                    sessionHandler.serverBaseAddress = address;
-                                    window.localStorage.setItem("VocaluxeServerAddress", address);
-                                    $.mobile.changePage("#login", { transition: "none" });
-                                }
-                                else {
-                                    window.location.href = address;
-                                    return;
-                                }
-                            }).fail(function () {
-                                if (typeof window.BarcodeScanner != "undefined") {
-                                    $('#discoverReadQr').show();
-                                }
-                            });
-                            $(this).data('promise', prom);
-                            return;
-                        }
-                        else if (typeof window.BarcodeScanner != "undefined") {
-                            $('#discoverReadQr').show();
-                        }
-                    }
-                } else {
-                    $('#discoverReadQr').hide();
-                    $.mobile.changePage("#login", { transition: "none" });
-                }
-            };
-
-            init();
         };
 
         var LoginPageHandler = function () {
@@ -1328,7 +1204,7 @@
         var checkSession = function () {
             if (t.ownProfileId == -1
                 && pageHandler.profileIdRequest == -1
-                && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
+                && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login")) {
                 return;
             }
             request({
