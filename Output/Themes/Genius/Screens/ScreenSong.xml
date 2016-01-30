@@ -487,7 +487,7 @@
     </Button>
     <Button Name="ButtonOptionsRandom">
       <Skin>SongSelectButton</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>40</X>
         <Y>90</Y>
@@ -514,7 +514,7 @@
     </Button>
     <Button Name="ButtonOptionsRandomCategory">
       <Skin>SongSelectButton</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>40</X>
         <Y>90</Y>
@@ -541,7 +541,7 @@
     </Button>
     <Button Name="ButtonOptionsSingAll">
       <Skin>SongSelectButton</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>40</X>
         <Y>225</Y>
@@ -568,7 +568,7 @@
     </Button>
     <Button Name="ButtonOptionsSingAllVisible">
       <Skin>SongSelectButton</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>40</X>
         <Y>270</Y>
@@ -595,7 +595,7 @@
     </Button>
     <Button Name="ButtonOptionsOpenSelectedItem">
       <Skin>SongSelectButton</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>40</X>
         <Y>135</Y>
@@ -684,7 +684,7 @@
     </Button>
     <Button Name="ButtonOptionsRandomMedley">
       <Skin>SongSelectButton</Skin>
-      <SkinSelected>Button</SkinSelected>
+      <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>40</X>
         <Y>315</Y>
@@ -886,16 +886,16 @@
         <SpaceW>10</SpaceW>
         <SpaceH>10</SpaceH>
         <TileRect>
-          <X>410</X>
-          <Y>40</Y>
-          <W>830</W>
-          <H>550</H>
+          <X>375</X>
+          <Y>42</Y>
+          <W>850</W>
+          <H>555</H>
           <Z>-1</Z>
         </TileRect>
         <TileRectSmall>
-          <X>410</X>
-          <Y>40</Y>
-          <W>555</W>
+          <X>375</X>
+          <Y>42</Y>
+          <W>450</W>
           <H>550</H>
           <Z>-1</Z>
         </TileRectSmall>
@@ -1024,21 +1024,21 @@
         <Y>135</Y>
         <W>360</W>
         <H>40</H>
-        <Z>-2.11</Z>
+        <Z>-1.11</Z>
       </Rect>
       <RectArrowLeft>
         <X>45</X>
         <Y>140</Y>
         <W>30</W>
         <H>30</H>
-        <Z>-2.12</Z>
+        <Z>-1.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>365</X>
         <Y>140</Y>
         <W>30</W>
         <H>30</H>
-        <Z>-2.12</Z>
+        <Z>-1.12</Z>
       </RectArrowRight>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
@@ -1112,14 +1112,14 @@
       </Rect>
       <RectArrowLeft>
         <X>45</X>
-        <Y>190</Y>
+        <Y>185</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>365</X>
-        <Y>190</Y>
+        <Y>185</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2.12</Z>
@@ -1188,9 +1188,9 @@
     <Playlist Name="Playlist">
       <Rect>
         <X>830</X>
-        <Y>80</Y>
+        <Y>90</Y>
         <W>410</W>
-        <H>460</H>
+        <H>450</H>
         <Z>-0.9</Z>
       </Rect>
       <EntryHeight>50</EntryHeight>
@@ -1230,7 +1230,7 @@
           <X>830</X>
           <Y>40</Y>
           <W>410</W>
-          <H>40</H>
+          <H>50</H>
           <Z>-1</Z>
         </Rect>
         </StaticPlaylistHeader>
@@ -1239,9 +1239,9 @@
         <Color Name="StaticColor" />
         <Rect>
           <X>830</X>
-          <Y>550</Y>
+          <Y>540</Y>
           <W>410</W>
-          <H>40</H>
+          <H>50</H>
           <Z>-1</Z>
         </Rect>
         </StaticPlaylistFooter>
@@ -1250,19 +1250,19 @@
         <SkinSelected />
         <Rect>
           <X>835</X>
-          <Y>45</Y>
+          <Y>50</Y>
           <W>360</W>
-          <H>25</H>
+          <H>30</H>
           <Z>-1.01</Z>
         </Rect>
         <Color Name="ButtonColor" />
         <SelColor Name="ButtonSelColor" />
         <Text Name="Text">
-          <X>0</X>
+          <X>5</X>
           <Y>2</Y>
           <Z>0</Z>
           <H>25</H>
-          <MaxW>360</MaxW>
+          <MaxW>350</MaxW>
           <Color Name="ButtonTextColor" />
           <SelColor Name="ButtonTextSelColor" />
           <Align>Left</Align>
@@ -1277,7 +1277,7 @@
         <SkinSelected>CloseIcon</SkinSelected>
         <Rect>
           <X>1200</X>
-          <Y>42</Y>
+          <Y>47</Y>
           <W>35</W>
           <H>35</H>
           <Z>-1.01</Z>
@@ -1304,7 +1304,7 @@
         <SkinSelected>SaveIcon</SkinSelected>
         <Rect>
           <X>1160</X>
-          <Y>553</Y>
+          <Y>548</Y>
           <W>35</W>
           <H>35</H>
           <Z>-1.01</Z>
@@ -1331,7 +1331,7 @@
         <SkinSelected>DeleteIcon</SkinSelected>
         <Rect>
           <X>1200</X>
-          <Y>553</Y>
+          <Y>548</Y>
           <W>35</W>
           <H>35</H>
           <Z>-1.01</Z>
@@ -1358,7 +1358,7 @@
         <SkinSelected>SingIcon</SkinSelected>
         <Rect>
           <X>835</X>
-          <Y>553</Y>
+          <Y>548</Y>
           <W>35</W>
           <H>35</H>
           <Z>-1.01</Z>
@@ -1381,21 +1381,21 @@
           </Text>
       </ButtonPlaylistSing>
       <SelectSlideGameMode Name="SelectSlideGameMode">
-        <Skin />
+        <Skin>SongMenuBG</Skin>
         <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
         <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-        <SkinSelected />
+        <SkinSelected>SongMenuBG</SkinSelected>
         <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
         <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
         <Rect>
-          <X>0</X>
+          <X>52</X>
           <Y>25</Y>
-          <W>410</W>
+          <W>358</W>
           <H>24</H>
           <Z>-1.01</Z>
         </Rect>
         <RectArrowLeft>
-          <X>54</X>
+          <X>56</X>
           <Y>28</Y>
           <W>20</W>
           <H>20</H>
