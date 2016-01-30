@@ -204,6 +204,7 @@
   <Skins>
     <BG_Default>BG_Default.png</BG_Default>
     <BG_Options>BG_Default.png</BG_Options>
+	<BG_Loading>BG_Loading.png</BG_Loading>
     <Menu>Menu.png</Menu>
     <Button>Button.png</Button>
     <CoverTile>CoverTile.png</CoverTile>
