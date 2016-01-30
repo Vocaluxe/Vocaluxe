@@ -777,9 +777,9 @@
     </Text>
     <Text Name="TextPause">
       <X>640</X>
-      <Y>170</Y>
+      <Y>350</Y>
       <Z>-2.11</Z>
-      <H>90</H>
+      <H>40</H>
       <MaxW>0</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
@@ -1531,7 +1531,7 @@
       <SkinSelected>Button</SkinSelected>
       <Rect>
         <X>775</X>
-        <Y>300</Y>
+        <Y>450</Y>
         <W>150</W>
         <H>50</H>
         <Z>-2.11</Z>
@@ -1566,7 +1566,7 @@
       <SkinSelected>Button</SkinSelected>
       <Rect>
         <X>355</X>
-        <Y>300</Y>
+        <Y>450</Y>
         <W>150</W>
         <H>50</H>
         <Z>-2.11</Z>
@@ -1601,7 +1601,7 @@
       <SkinSelected>Button</SkinSelected>
       <Rect>
         <X>565</X>
-        <Y>300</Y>
+        <Y>450</Y>
         <W>150</W>
         <H>50</H>
         <Z>-2.11</Z>
