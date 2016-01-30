@@ -186,7 +186,7 @@
     <Text Name="Text1">
       <X>640</X>
       <Y>50</Y>
-      <Z>0</Z>
+      <Z>-3</Z>
       <H>27</H>
       <MaxW>0</MaxW>
       <Color Name="StaticColor" />
@@ -435,22 +435,22 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>41</X>
-        <Y>105</Y>
-        <W>88</W>
+        <X>65</X>
+        <Y>185</Y>
+        <W>100</W>
         <H>20</H>
         <Z>-4</Z>
       </Rect>
       <RectArrowLeft>
-        <X>20</X>
-        <Y>105</Y>
+        <X>40</X>
+        <Y>185</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>20</X>
-        <Y>105</Y>
+        <X>170</X>
+        <Y>185</Y>
         <W>20</W>
         <H>20</H>
         <Z>-4.01</Z>
@@ -464,7 +464,7 @@
       <TextH>20</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>86</TextMaxW>
+      <TextMaxW>90</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
@@ -477,25 +477,25 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>41</X>
-        <Y>260</Y>
-        <W>88</W>
+        <X>65</X>
+        <Y>340</Y>
+        <W>100</W>
         <H>20</H>
         <Z>-4</Z>
       </Rect>
       <RectArrowLeft>
-        <X>20</X>
-        <Y>260</Y>
+        <X>40</X>
+        <Y>340</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>20</X>
-        <Y>260</Y>
+        <X>170</X>
+        <Y>340</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
       <SelColor Name="SelectSlideSelColor" />
@@ -506,7 +506,7 @@
       <TextH>20</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>86</TextMaxW>
+      <TextMaxW>90</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
@@ -519,25 +519,25 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>41</X>
-        <Y>415</Y>
-        <W>88</W>
+        <X>65</X>
+        <Y>495</Y>
+        <W>100</W>
         <H>20</H>
         <Z>-4</Z>
       </Rect>
       <RectArrowLeft>
-        <X>20</X>
-        <Y>415</Y>
+        <X>40</X>
+        <Y>495</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>20</X>
-        <Y>415</Y>
+        <X>170</X>
+        <Y>495</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
       <SelColor Name="SelectSlideSelColor" />
@@ -548,7 +548,7 @@
       <TextH>20</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>86</TextMaxW>
+      <TextMaxW>90</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
@@ -561,25 +561,25 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>1152</X>
-        <Y>105</Y>
-        <W>88</W>
+        <X>1115</X>
+        <Y>185</Y>
+        <W>100</W>
         <H>20</H>
         <Z>-4</Z>
       </Rect>
       <RectArrowLeft>
-        <X>1240</X>
-        <Y>105</Y>
+        <X>1090</X>
+        <Y>185</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1240</X>
-        <Y>105</Y>
+        <X>1220</X>
+        <Y>185</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
       <SelColor Name="SelectSlideSelColor" />
@@ -590,7 +590,7 @@
       <TextH>20</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>86</TextMaxW>
+      <TextMaxW>90</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
@@ -603,25 +603,25 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>1152</X>
-        <Y>260</Y>
-        <W>88</W>
+        <X>1115</X>
+        <Y>340</Y>
+        <W>100</W>
         <H>20</H>
         <Z>-4</Z>
       </Rect>
       <RectArrowLeft>
-        <X>1240</X>
-        <Y>260</Y>
+        <X>1090</X>
+        <Y>340</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1240</X>
-        <Y>260</Y>
+        <X>1220</X>
+        <Y>340</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
       <SelColor Name="SelectSlideSelColor" />
@@ -632,7 +632,7 @@
       <TextH>20</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>86</TextMaxW>
+      <TextMaxW>90</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
@@ -645,25 +645,25 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>1152</X>
-        <Y>415</Y>
-        <W>88</W>
+        <X>1115</X>
+        <Y>495</Y>
+        <W>100</W>
         <H>20</H>
         <Z>-4</Z>
       </Rect>
       <RectArrowLeft>
-        <X>1240</X>
-        <Y>415</Y>
+        <X>1090</X>
+        <Y>495</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1240</X>
-        <Y>415</Y>
+        <X>1220</X>
+        <Y>495</Y>
         <W>20</W>
         <H>20</H>
-        <Z>-4.01</Z>
+        <Z>-4</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
       <SelColor Name="SelectSlideSelColor" />
@@ -674,7 +674,7 @@
       <TextH>20</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>86</TextMaxW>
+      <TextMaxW>90</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
