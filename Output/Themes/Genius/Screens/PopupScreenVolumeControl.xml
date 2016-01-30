@@ -10,9 +10,9 @@
       <Skin>Menu</Skin>
       <Color Name="StaticColor" />
       <Rect>
-        <X>1065</X>
+        <X>1140</X>
         <Y>672</Y>
-        <W>225</W>
+        <W>160</W>
         <H>48</H>
         <Z>-2</Z>
       </Rect>
@@ -25,7 +25,7 @@
       <Z>-2</Z>
       <H>27</H>
       <MaxW>80</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="Invisible" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -46,14 +46,14 @@
       <SkinArrowLeftSelected>Minus</SkinArrowLeftSelected>
       <SkinArrowRightSelected>Plus</SkinArrowRightSelected>
       <Rect>
-        <X>1070</X>
+        <X>1190</X>
         <Y>680</Y>
-        <W>200</W>
+        <W>40</W>
         <H>30</H>
         <Z>-2</Z>
       </Rect>
       <RectArrowLeft>
-        <X>1195</X>
+        <X>1155</X>
         <Y>680</Y>
         <W>30</W>
         <H>30</H>
@@ -75,7 +75,7 @@
       <TextH>27</TextH>
       <TextRelativeX>0</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>25</TextMaxW>
+      <TextMaxW>40</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
