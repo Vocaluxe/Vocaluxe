@@ -48,9 +48,9 @@ namespace Vocaluxe.Base
         private static bool _BackgroundMusicAdded;
         private static bool _Disabled;
 
-        private static Task PreviewStartHelperTask;
-        private static int PreviewStartWaitCounter;
-        private const int PreviewStartWaitMaxTries = 10;
+        private static Task _PreviewStartHelperTask;
+        private static int _PreviewStartWaitCounter;
+        private const int _PreviewStartWaitMaxTries = 10;
 
         public static bool VideoEnabled
         {
@@ -254,12 +254,12 @@ namespace Vocaluxe.Base
 
         public static void Update()
         {
-            if (PreviewStartHelperTask != null && ( _PreviewPlayer.Length > 0 || PreviewStartWaitCounter++ >= PreviewStartWaitMaxTries))
+            if (_PreviewStartHelperTask != null && ( _PreviewPlayer.Length > 0 || _PreviewStartWaitCounter++ >= _PreviewStartWaitMaxTries))
             {
-                PreviewStartHelperTask.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
-                PreviewStartHelperTask.Dispose();
-                PreviewStartHelperTask = null;
-                PreviewStartWaitCounter = 0;
+                _PreviewStartHelperTask.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
+                _PreviewStartHelperTask.Dispose();
+                _PreviewStartHelperTask = null;
+                _PreviewStartWaitCounter = 0;
             }
 
             if (!IsPlaying)
@@ -317,7 +317,7 @@ namespace Vocaluxe.Base
             //Change song position only if song is changed or near to end
             if (songChanged || _CurPlayer.Position + 30 < _CurPlayer.Length)
             {
-                PreviewStartHelperTask = new Task(() =>
+                _PreviewStartHelperTask = new Task(() =>
                 {
                     float length = _PreviewPlayer.Length;
                     if (length < 1)
@@ -337,8 +337,8 @@ namespace Vocaluxe.Base
             }
             else
             {
-                PreviewStartHelperTask.Dispose();
-                PreviewStartHelperTask = null;
+                _PreviewStartHelperTask.Dispose();
+                _PreviewStartHelperTask = null;
                 _PreviewPlayer.Position = _CurPlayer.Position;
                 _CurPlayer = _PreviewPlayer;
                 Play();
