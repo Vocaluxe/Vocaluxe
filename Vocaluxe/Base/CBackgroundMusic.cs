@@ -49,6 +49,8 @@ namespace Vocaluxe.Base
         private static bool _Disabled;
 
         private static Task PreviewStartHelperTask;
+        private static int PreviewStartWaitCounter;
+        private const int PreviewStartWaitMaxTries = 10;
 
         public static bool VideoEnabled
         {
@@ -252,11 +254,12 @@ namespace Vocaluxe.Base
 
         public static void Update()
         {
-            if (PreviewStartHelperTask != null && _PreviewPlayer.Length > 0)
+            if (PreviewStartHelperTask != null && ( _PreviewPlayer.Length > 0 || PreviewStartWaitCounter++ >= PreviewStartWaitMaxTries))
             {
                 PreviewStartHelperTask.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
                 PreviewStartHelperTask.Dispose();
                 PreviewStartHelperTask = null;
+                PreviewStartWaitCounter = 0;
             }
 
             if (!IsPlaying)
