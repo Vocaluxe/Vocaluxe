@@ -214,7 +214,7 @@
     <TimeLine>TimeLine.png</TimeLine>
     <Pointer>Pointer.png</Pointer>
     <SelectSlide>SelectSlide.png</SelectSlide>
-    <SelectSlidePlayer>SelectSlidePlayer.png</SelectSlidePlayer>
+    <SelectSlidePlayer>Menu.png</SelectSlidePlayer>
     <SelectSlideArrowLeft>SelectSlideArrowLeft.png</SelectSlideArrowLeft>
     <SelectSlideArrowRight>SelectSlideArrowRight.png</SelectSlideArrowRight>
     <NoteLeft>notes_left.png</NoteLeft>
@@ -225,7 +225,6 @@
     <NoteBackgroundRight>notes_bg_right.png</NoteBackgroundRight>
     <PointsBar>points_bar.png</PointsBar>
     <PointsBarBG>points_bar_bg.png</PointsBarBG>
-    <Lyrics>Lyrics.png</Lyrics>
     <LyricHelper>LyricHelper.png</LyricHelper>
     <ToneHelper>ToneHelper.png</ToneHelper>
     <TextBG>TextBG.png</TextBG>
@@ -256,6 +255,8 @@
     <SingIcon>Sing.png</SingIcon>
     <Minus>Minus.png</Minus>
     <Plus>Plus.png</Plus>
+	<VolUp>VolUp.png</VolUp>
+    <VolDown>VolDown.png</VolDown>
     <Random>Random.png</Random>
     <PopupBG>Popup.png</PopupBG>
     <ScrollUp>ScrollUp.png</ScrollUp>

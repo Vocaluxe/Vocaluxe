@@ -40,11 +40,11 @@
   <SelectSlides>
     <SelectSlide Name="SelectSlideVolume">
       <Skin/>
-      <SkinArrowLeft>Minus</SkinArrowLeft>
-      <SkinArrowRight>Plus</SkinArrowRight>
+      <SkinArrowLeft>VolDown</SkinArrowLeft>
+      <SkinArrowRight>VolUp</SkinArrowRight>
       <SkinSelected />
-      <SkinArrowLeftSelected>Minus</SkinArrowLeftSelected>
-      <SkinArrowRightSelected>Plus</SkinArrowRightSelected>
+      <SkinArrowLeftSelected>VolDown</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>VolUp</SkinArrowRightSelected>
       <Rect>
         <X>1190</X>
         <Y>680</Y>
