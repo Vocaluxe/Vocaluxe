@@ -624,11 +624,20 @@ namespace Vocaluxe.Base.Server
             return _GetSongInfo(song, true);
         }
 
+
+        private static SSongInfo[] _SongInfoCache = null;
         public static SSongInfo[] GetAllSongs()
         {
-            List<CSong> songs = CSongs.Songs;
-            return (from s in songs
-                    select _GetSongInfo(s, false)).ToArray<SSongInfo>();
+            bool sendCovers = CConfig.Config.Server.SongCountCoverThreshold == -1 || CConfig.Config.Server.SongCountCoverThreshold > CSongs.Songs.Count;
+
+            if (_SongInfoCache == null)
+            {
+                List<CSong> songs = CSongs.Songs;
+                _SongInfoCache = (from s in songs
+                    select _GetSongInfo(s, sendCovers)).AsParallel().ToArray<SSongInfo>();
+            }
+            
+            return _SongInfoCache;
         }
 
         public static string GetMp3Path(int songId)
@@ -658,7 +667,17 @@ namespace Vocaluxe.Base.Server
                 result.IsDuet = song.IsDuet;
                 result.SongId = song.ID;
                 if (includeCover)
-                    result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.CoverFileName));
+                {
+                    if (song.CoverFileName == "")
+                    {
+                        result.Cover = new CBase64Image(_CreateDelayedImage("Website\\img\\noCover.png"));
+                    }
+                    else
+                    {
+                        result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.CoverFileName));
+                    }
+                }
+                    
             }
             return result;
         }
