@@ -71,8 +71,7 @@
     </Static>
     <Static Name="StaticTimeBar">
       <Skin>TimeBar</Skin>
-      <Color Name="StaticColor">
-	  </Color>
+      <Color Name="StaticColor" />
       <Rect>
         <X>0</X>
         <Y>700</Y>
@@ -83,7 +82,9 @@
     </Static>
     <Static Name="StaticTimeLine">
       <Skin>TimeLine</Skin>
-      <Color Name="StaticColor" />
+      <Color Name="TimeBar">
+		<A>0.2</A>
+	  </Color>
       <Rect>
         <X>10</X>
         <Y>707</Y>
@@ -116,12 +117,7 @@
     </Static>
     <Static Name="StaticTimePointer">
       <Skin>Pointer</Skin>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>1</A>
-      </Color>
+      <Color Name="White" />
       <Rect>
         <X>44</X>
         <Y>706</Y>
