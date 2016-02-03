@@ -684,7 +684,7 @@ namespace Vocaluxe.Screens
             {
                 int song = _SongMenu.GetSelectedSongNr();
                 if (song >= 0 && song < CSongs.VisibleSongs.Count)
-                    selectionText = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title + "   ( "+(song+1)+" / "+CSongs.NumAllSongs+" )";
+                    selectionText = CSongs.VisibleSongs[song].Artist + " - " + CSongs.VisibleSongs[song].Title + "   ( "+(song+1)+" / "+CSongs.NumSongsVisible+" )";
             }
             else
             {

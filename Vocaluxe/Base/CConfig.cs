@@ -163,6 +163,7 @@ namespace Vocaluxe.Base
             [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn ServerActive;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn ServerEncryption;
             [DefaultValue(3000)] public int ServerPort;
+            [DefaultValue(70)] public int SongCountCoverThreshold;
         }
 #pragma warning restore 649
         // ReSharper restore UnassignedField.Global
@@ -495,6 +496,8 @@ namespace Vocaluxe.Base
                     return "Server Encryption On/Off: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 case "ServerPort":
                     return "Server Port (default: 3000) [1..65535]";
+                case "SongCountCoverThreshold":
+                    return "Threshold of songs for that covers will not longer be included in get-all-songs-requests (e.g. song list) (default: 70) [-1..65535] -1 => always deliver covers";
                 case "Stretch":
                     return "Stretch view to full window size: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 default:

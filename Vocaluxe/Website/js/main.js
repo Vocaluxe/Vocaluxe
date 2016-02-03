@@ -897,9 +897,26 @@
                 }
 
                 for (var id in allSongsCache) {
-                    $('<li id="selectSongLine_' + allSongsCache[id].SongId + '"> <a href="#"> '/*+'<img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[id].Avatar.base64Data : "img/profile.png") + '"> '*/ + ' <h2>' + allSongsCache[id].Artist + '</h2> <p>' + allSongsCache[id].Title + '</p> </a> </li>')
+                    var coverString = "";
+                    var currentCoverId = "";
+
+                    if (allSongsCache[id].Cover !== null) {
+                        if (allSongsCache[id].Cover.base64Data !== "") {
+                            coverString = '<img src="' + allSongsCache[id].Cover.base64Data + '">';
+                        }
+                        else if (allSongsCache[id].Cover.imageId !== "") {
+                            currentCoverId = "songListCoverId_" + id;
+                            coverString = '<img id="' + currentCoverId + '" src="">';
+                        }
+                    }
+
+                    $('<li id="selectSongLine_' + allSongsCache[id].SongId + '"> <a href="#"> ' + coverString + ' <h2>' + allSongsCache[id].Artist + '</h2> <p>' + allSongsCache[id].Title + '</p> </a> </li>')
                         .appendTo('#selectSongList')
                         .click(handleSelectSongLineClick);
+
+                    if (currentCoverId !== "") {
+                        imageLoader.delayedImageLoad($("#" + currentCoverId)[0], allSongsCache[id].Cover.imageId, "img/noCover.png");
+                    }
                 }
 
                 $('#selectSongList').listview('refresh');
