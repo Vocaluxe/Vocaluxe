@@ -406,23 +406,31 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         public static bool AcGetFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
         {
+            if (pAcDecoder == IntPtr.Zero)
+            {
+                return false;
+            }
+
             lock (_GetLockToken(pAcDecoder))
             {
-                var pckt = _ac_read_package(pAcInstance);
-                if (pckt != IntPtr.Zero)
+                do
                 {
-                    if (pAcDecoder != IntPtr.Zero)
+                    var pckt = _ac_read_package(pAcInstance);
+                    if (pckt == IntPtr.Zero)
                     {
-                        // The packet is for the video stream, try to decode it
-                        if (_ac_decode_package(pckt, pAcDecoder) != 0)
-                        {
-                            ac_free_package(pckt);
-                            return true;
-                        }
+                        return false;
                     }
+
+                    // The packet is for the video stream, try to decode it
+                    if (_ac_decode_package(pckt, pAcDecoder) != 0)
+                    {
+                        ac_free_package(pckt);
+                        return true;
+                    }
+                        
                     ac_free_package(pckt);
-                }
-                return false;
+                   
+                } while (true);
             }
         }
 
