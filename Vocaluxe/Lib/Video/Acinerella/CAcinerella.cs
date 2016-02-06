@@ -401,36 +401,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
         }
 
-        [DllImport(_AcDll, EntryPoint = "ac_read_package", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern IntPtr _ac_read_package(IntPtr pAcInstance);
+        [DllImport(_AcDll, EntryPoint = "ac_get_frame", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        private static extern Int32 _ac_get_frame(IntPtr pAcInstance, IntPtr pAcDecoder);
 
         public static bool AcGetFrame(IntPtr pAcInstance, IntPtr pAcDecoder)
         {
-            if (pAcDecoder == IntPtr.Zero)
-            {
-                return false;
-            }
-
             lock (_GetLockToken(pAcDecoder))
             {
-                do
-                {
-                    var pckt = _ac_read_package(pAcInstance);
-                    if (pckt == IntPtr.Zero)
-                    {
-                        return false;
-                    }
-
-                    // The packet is for the video stream, try to decode it
-                    if (_ac_decode_package(pckt, pAcDecoder) != 0)
-                    {
-                        ac_free_package(pckt);
-                        return true;
-                    }
-                        
-                    ac_free_package(pckt);
-                   
-                } while (true);
+                return _ac_get_frame(pAcInstance, pAcDecoder) != 0;
             }
         }
 
