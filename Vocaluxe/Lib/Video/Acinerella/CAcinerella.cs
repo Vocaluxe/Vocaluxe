@@ -434,36 +434,15 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
         }
 
-        [DllImport(_AcDll, EntryPoint = "ac_skip_package", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern Int32 _ac_skip_package(IntPtr pAcInstance, IntPtr pAcDecoder);
+        [DllImport(_AcDll, EntryPoint = "ac_skip_frames", ExactSpelling = true, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        private static extern Int32 _ac_skip_frames(IntPtr pAcInstance, IntPtr pAcDecoder, Int32 num);
 
         public static bool AcSkipFrames(IntPtr pAcInstance, IntPtr pAcDecoder, Int32 num)
         {
-            int skipedFrames = 0;
-            while (skipedFrames < num)
+            lock (_GetLockToken(pAcDecoder))
             {
-                lock (_GetLockToken(pAcDecoder))
-                {
-                    var pckt = _ac_read_package(pAcInstance);
-                    if (pckt != IntPtr.Zero)
-                    {
-                        if (pAcDecoder != IntPtr.Zero)
-                        {
-                            // Decode the package to figure out if its completing a frame
-                            if (_ac_skip_package(pckt, pAcDecoder) != 0)
-                            {
-                                skipedFrames++;
-                            }
-                        }
-                        ac_free_package(pckt);
-                    }
-                    else
-                    {
-                        return false;
-                    }
-                }
+                return _ac_skip_frames(pAcInstance, pAcDecoder, num) != 0;
             }
-            return true;
         }
 
         // Seeks to the given target position in the file. The seek funtion is not able to seek a single audio/video stream
