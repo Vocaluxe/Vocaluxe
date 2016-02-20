@@ -7,38 +7,40 @@
   <Backgrounds />
   <Statics>
     <Static Name="StaticBG">
-      <Skin>Menu</Skin>
-      <Color Name="StaticColor" />
+      <Skin />
+      <Color Name="BackgroundColor">
+		<A>0.5</A>
+	  </Color>
       <Rect>
-        <X>49</X>
+        <X>0</X>
         <Y>0</Y>
-        <W>1181</W>
-        <H>42</H>
-        <Z>0</Z>
+        <W>1280</W>
+        <H>40</H>
+        <Z>-1</Z>
       </Rect>
     </Static>
     <Static Name="StaticCover">
       <Skin>CoverBackground</Skin>
-      <Color Name="Visible" />
+      <Color Name="Invisible" />
       <Rect>
         <X>55</X>
         <Y>2</Y>
         <W>38</W>
         <H>38</H>
-        <Z>0</Z>
+        <Z>-2</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="TextCurrentSong">
-      <X>410</X>
+      <X>640</X>
       <Y>8</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>27</H>
       <MaxW>769</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
+      <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
@@ -50,18 +52,18 @@
       <Skin>PlayIcon</Skin>
       <SkinSelected>PlayIcon</SkinSelected>
       <Rect>
-        <X>146</X>
-        <Y>8</Y>
-        <W>28</W>
-        <H>28</H>
-        <Z>0</Z>
+        <X>41</X>
+        <Y>5</Y>
+        <W>30</W>
+        <H>30</H>
+        <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>2</Y>
-        <Z>0</Z>
+        <Z>-2</Z>
         <H>32</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
@@ -77,18 +79,18 @@
       <Skin>PauseIcon</Skin>
       <SkinSelected>PauseIcon</SkinSelected>
       <Rect>
-        <X>145</X>
-        <Y>8</Y>
-        <W>28</W>
-        <H>28</H>
-        <Z>0</Z>
+        <X>41</X>
+        <Y>5</Y>
+        <W>30</W>
+        <H>30</H>
+        <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>2</Y>
-        <Z>0</Z>
+        <Z>-2</Z>
         <H>32</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
@@ -104,18 +106,18 @@
       <Skin>PreviousIcon</Skin>
       <SkinSelected>PreviousIcon</SkinSelected>
       <Rect>
-        <X>100</X>
-        <Y>2</Y>
-        <W>38</W>
-        <H>38</H>
-        <Z>0</Z>
+        <X>10</X>
+        <Y>7</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
         <Y>2</Y>
-        <Z>0</Z>
+        <Z>-2</Z>
         <H>32</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
@@ -131,18 +133,18 @@
       <Skin>NextIcon</Skin>
       <SkinSelected>NextIcon</SkinSelected>
       <Rect>
-        <X>185</X>
-        <Y>2</Y>
-        <W>38</W>
-        <H>38</H>
-        <Z>0</Z>
+        <X>76</X>
+        <Y>7</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>190</X>
         <Y>25</Y>
-        <Z>0</Z>
+        <Z>-2</Z>
         <H>32</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
@@ -158,18 +160,18 @@
       <Skin>RepeatIcon</Skin>
       <SkinSelected>RepeatIcon</SkinSelected>
       <Rect>
-        <X>225</X>
-        <Y>2</Y>
-        <W>38</W>
-        <H>38</H>
-        <Z>0</Z>
+        <X>112</X>
+        <Y>10</Y>
+        <W>20</W>
+        <H>20</H>
+        <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSelColor" />
+      <SelColor Name="Player1" />
       <Text Name="Text">
         <X>405</X>
         <Y>25</Y>
-        <Z>0</Z>
+        <Z>-2</Z>
         <H>32</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
@@ -182,21 +184,21 @@
       </Text>
     </Button>
     <Button Name="ButtonShowVideo">
-      <Skin>VideoIconCO</Skin>
-      <SkinSelected>VideoIconCO</SkinSelected>
+      <Skin>VideoIcon</Skin>
+      <SkinSelected>VideoIcon</SkinSelected>
       <Rect>
-        <X>270</X>
-        <Y>2</Y>
+        <X>0</X>
+        <Y>720</Y>
         <W>38</W>
         <H>38</H>
-        <Z>0</Z>
+        <Z>-2</Z>
       </Rect>
-      <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSelColor" />
+      <Color Name="Invisible" />
+      <SelColor Name="Invisible" />
       <Text Name="Text">
         <X>315</X>
         <Y>0</Y>
-        <Z>0</Z>
+        <Z>-2</Z>
         <H>32</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
@@ -209,21 +211,21 @@
       </Text>
     </Button>
     <Button Name="ButtonSing">
-      <Skin>DuetIcon</Skin>
-      <SkinSelected>DuetIcon</SkinSelected>
+      <Skin>SingIcon</Skin>
+      <SkinSelected>SingIcon</SkinSelected>
       <Rect>
-        <X>360</X>
-        <Y>2</Y>
-        <W>38</W>
-        <H>38</H>
-        <Z>0</Z>
+        <X>162</X>
+        <Y>7</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>380</X>
         <Y>0</Y>
-        <Z>0</Z>
+        <Z>-2</Z>
         <H>32</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />
@@ -236,21 +238,21 @@
       </Text>
     </Button>
     <Button Name="ButtonToBackgroundVideo">
-      <Skin>VideoIconBG</Skin>
-      <SkinSelected>VideoIconBG</SkinSelected>
+      <Skin>VideoIcon</Skin>
+      <SkinSelected>VideoIcon</SkinSelected>
       <Rect>
-        <X>315</X>
-        <Y>2</Y>
-        <W>38</W>
-        <H>38</H>
-        <Z>0</Z>
+        <X>137</X>
+        <Y>10</Y>
+        <W>20</W>
+        <H>20</H>
+        <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSelColor" />
+      <SelColor Name="Player1" />
       <Text Name="Text">
         <X>315</X>
         <Y>0</Y>
-        <Z>0</Z>
+        <Z>-2</Z>
         <H>32</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />

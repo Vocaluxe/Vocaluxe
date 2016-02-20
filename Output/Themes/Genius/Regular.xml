@@ -238,8 +238,6 @@
 	<SearchBar>SearchBar.png</SearchBar>
     <DuetIcon>DuetIcon.png</DuetIcon>
     <VideoIcon>VideoIcon.png</VideoIcon>
-    <VideoIconCO>VideoIconCO.png</VideoIconCO>
-    <VideoIconBG>VideoIconBG.png</VideoIconBG>
     <MedleyCalcIcon>MedleyCalcIcon.png</MedleyCalcIcon>
     <MedleyTagIcon>MedleyTagIcon.png</MedleyTagIcon>
     <PlayerSelector>PlayerSelector.png</PlayerSelector>
@@ -252,7 +250,7 @@
     <CloseIcon>Close.png</CloseIcon>
     <DeleteIcon>Delete.png</DeleteIcon>
     <SaveIcon>Save.png</SaveIcon>
-    <SingIcon>Sing.png</SingIcon>
+    <SingIcon>SingIcon.png</SingIcon>
     <Minus>Minus.png</Minus>
     <Plus>Plus.png</Plus>
 	<VolUp>VolUp.png</VolUp>
