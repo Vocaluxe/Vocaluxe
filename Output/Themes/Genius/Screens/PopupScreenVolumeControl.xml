@@ -7,13 +7,15 @@
   <Backgrounds />
   <Statics>
     <Static Name="StaticBG">
-      <Skin>Menu</Skin>
-      <Color Name="StaticColor" />
+      <Skin />
+      <Color Name="BackgroundColor">
+		<A>0.5</A>
+	  </Color>
       <Rect>
         <X>1140</X>
-        <Y>672</Y>
+        <Y>680</Y>
         <W>160</W>
-        <H>48</H>
+        <H>40</H>
         <Z>-2</Z>
       </Rect>
     </Static>
@@ -47,21 +49,21 @@
       <SkinArrowRightSelected>VolUp</SkinArrowRightSelected>
       <Rect>
         <X>1190</X>
-        <Y>680</Y>
+        <Y>685</Y>
         <W>40</W>
         <H>30</H>
         <Z>-2</Z>
       </Rect>
       <RectArrowLeft>
         <X>1155</X>
-        <Y>680</Y>
+        <Y>685</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>1235</X>
-        <Y>680</Y>
+        <Y>685</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2</Z>
