@@ -248,11 +248,11 @@
     <RepeatIcon>RepeatIcon.png</RepeatIcon>
     <SongMenuBG>SongMenuBG.png</SongMenuBG>
     <CloseIcon>Close.png</CloseIcon>
-    <DeleteIcon>Delete.png</DeleteIcon>
-    <SaveIcon>Save.png</SaveIcon>
+    <DeleteIcon>DeleteIcon.png</DeleteIcon>
+    <SaveIcon>SaveIcon.png</SaveIcon>
     <SingIcon>SingIcon.png</SingIcon>
-    <Minus>Minus.png</Minus>
-    <Plus>Plus.png</Plus>
+    <Minus>MinusIcon.png</Minus>
+    <Plus>PlusIcon.png</Plus>
 	<VolUp>VolUp.png</VolUp>
     <VolDown>VolDown.png</VolDown>
     <Random>Random.png</Random>

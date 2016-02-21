@@ -1196,8 +1196,10 @@
       <EntryHeight>50</EntryHeight>
       <SkinBackground>CoverTile</SkinBackground>
       <SkinBackgroundSelected>CoverTile</SkinBackgroundSelected>
-      <ColorBackground Name="StaticColorAlpha" />
-      <SelColorBackground Name="StaticColor" />
+      <ColorBackground Name="StaticColorAlpha">
+		<A>0.3</A>
+	  </ColorBackground>
+      <SelColorBackground Name="StaticColorAlpha" />
       <Text1 Name="TextPart1">
         <X>54</X>
         <Y>5</Y>
@@ -1381,10 +1383,10 @@
           </Text>
       </ButtonPlaylistSing>
       <SelectSlideGameMode Name="SelectSlideGameMode">
-        <Skin>SongMenuBG</Skin>
+        <Skin />
         <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
         <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-        <SkinSelected>SongMenuBG</SkinSelected>
+        <SkinSelected />
         <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
         <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
         <Rect>
