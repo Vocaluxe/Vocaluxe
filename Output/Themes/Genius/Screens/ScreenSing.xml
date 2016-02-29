@@ -1708,7 +1708,7 @@
       <SkinBackgroundRight>NoteBackgroundRight</SkinBackgroundRight>
       <SkinGoldenStar>Star</SkinGoldenStar>
       <SkinToneHelper>ToneHelper</SkinToneHelper>
-      <SkinPerfectNoteStart>PerfectNoteStar</SkinPerfectNoteStart>
+      <SkinPerfectNoteStart>Star</SkinPerfectNoteStart>
       <BarPositions>
         <Position Name="P1N1">
           <Rect>
