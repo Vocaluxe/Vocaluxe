@@ -214,7 +214,7 @@
     <TimeLine>TimeLine.png</TimeLine>
     <Pointer>Pointer.png</Pointer>
     <SelectSlide>SelectSlide.png</SelectSlide>
-    <SelectSlidePlayer>Menu.png</SelectSlidePlayer>
+    <SelectSlidePlayer>SelectSlidePlayer.png</SelectSlidePlayer>
     <SelectSlideArrowLeft>SelectSlideArrowLeft.png</SelectSlideArrowLeft>
     <SelectSlideArrowRight>SelectSlideArrowRight.png</SelectSlideArrowRight>
     <NoteLeft>notes_left.png</NoteLeft>
@@ -227,10 +227,8 @@
     <PointsBarBG>points_bar_bg.png</PointsBarBG>
     <LyricHelper>LyricHelper.png</LyricHelper>
     <ToneHelper>ToneHelper.png</ToneHelper>
-    <TextBG>TextBG.png</TextBG>
     <Score>Score.png</Score>
     <Star>Star.png</Star>
-    <Snowflake>Snowflake.png</Snowflake>
     <SongMenu>SongMenu.png</SongMenu>
     <PauseBG>Pause.png</PauseBG>
     <EnergyBeam>EnergyBeam.png</EnergyBeam>
@@ -245,7 +243,6 @@
     <PlayIcon>PlayIcon.png</PlayIcon>
     <PauseIcon>PauseIcon.png</PauseIcon>
     <RepeatIcon>RepeatIcon.png</RepeatIcon>
-    <SongMenuBG>SongMenuBG.png</SongMenuBG>
     <CloseIcon>Close.png</CloseIcon>
     <DeleteIcon>DeleteIcon.png</DeleteIcon>
     <SaveIcon>SaveIcon.png</SaveIcon>

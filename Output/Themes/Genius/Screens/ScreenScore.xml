@@ -27,22 +27,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="Static2">
-      <Skin>TextBG</Skin>
-      <Color>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
-        <A>0</A>
-      </Color>
-      <Rect>
-        <X>50</X>
-        <Y>90</Y>
-        <W>1180</W>
-        <H>610</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticPointsBarBGP1N1">
       <Skin>PointsBarBG</Skin>
       <Color Name="Player1">

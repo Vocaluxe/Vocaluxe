@@ -26,7 +26,7 @@
       </Rect>
     </Static>
     <Static Name="StaticWarningProfiles">
-      <Skin>TextBG</Skin>
+      <Skin />
       <Color Name="StaticWarningColor" />
       <Rect>
         <X>150</X>

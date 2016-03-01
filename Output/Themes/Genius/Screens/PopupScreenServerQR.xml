@@ -7,11 +7,11 @@
   <Backgrounds />
   <Statics>
     <Static Name="Static1">
-      <Skin>SongMenuBG</Skin>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
+      <Skin />
+      <Color >
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
         <A>0.8</A>
       </Color>
       <Rect>

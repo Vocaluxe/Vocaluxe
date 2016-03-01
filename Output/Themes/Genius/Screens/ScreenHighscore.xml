@@ -27,17 +27,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="Static2">
-      <Skin>TextBG</Skin>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>50</X>
-        <Y>90</Y>
-        <W>1180</W>
-        <H>610</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
   </Statics>
   <Texts>
     <Text Name="Text1">
