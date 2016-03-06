@@ -530,7 +530,7 @@ namespace Vocaluxe.Base
             if (devices == null)
                 return false;
 
-            return devices.Any(t => t.PlayerChannel1 != 0 || t.PlayerChannel2 != 0);
+            return devices.Any(t => t.PlayerChannel[0] != 0 || t.PlayerChannel[1] != 0);
         }
 
         /// <summary>
@@ -544,7 +544,7 @@ namespace Vocaluxe.Base
             if (devices == null)
                 return false;
 
-            return devices.Any(t => t.PlayerChannel1 == player || t.PlayerChannel2 == player);
+            return devices.Any(t => t.PlayerChannel.Contains(player));
         }
 
         public static int GetMaxNumMics()
