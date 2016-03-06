@@ -223,14 +223,14 @@
     <SelectSlidePlayer>SelectSlidePlayer.png</SelectSlidePlayer>
     <SelectSlideArrowLeft>SelectSlideArrowLeft.png</SelectSlideArrowLeft>
     <SelectSlideArrowRight>SelectSlideArrowRight.png</SelectSlideArrowRight>
-    <NoteLeft>notes_left.png</NoteLeft>
-    <NoteMiddle>notes_mid.png</NoteMiddle>
-    <NoteRight>notes_right.png</NoteRight>
-    <NoteBackgroundLeft>notes_bg_left.png</NoteBackgroundLeft>
-    <NoteBackgroundMiddle>notes_bg_mid.png</NoteBackgroundMiddle>
-    <NoteBackgroundRight>notes_bg_right.png</NoteBackgroundRight>
-    <PointsBar>points_bar.png</PointsBar>
-    <PointsBarBG>points_bar_bg.png</PointsBarBG>
+    <NoteLeft>NotesLeft.png</NoteLeft>
+    <NoteMiddle>NotesMid.png</NoteMiddle>
+    <NoteRight>NotesRight.png</NoteRight>
+    <NoteBackgroundLeft>NotesBGLeft.png</NoteBackgroundLeft>
+    <NoteBackgroundMiddle>NotesBGMid.png</NoteBackgroundMiddle>
+    <NoteBackgroundRight>NotesBGRight.png</NoteBackgroundRight>
+    <PointsBar>PointsBar.png</PointsBar>
+    <PointsBarBG>PointsBarBG.png</PointsBarBG>
     <LyricHelper>LyricHelper.png</LyricHelper>
     <ToneHelper>ToneHelper.png</ToneHelper>
     <Score>Score.png</Score>
