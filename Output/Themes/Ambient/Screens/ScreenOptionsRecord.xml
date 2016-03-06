@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptionsRecord</ScreenName>
-    <ScreenVersion>4</ScreenVersion>
+    <ScreenVersion>5</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
