@@ -523,28 +523,24 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Checks, if there is a mic-configuration
         /// </summary>
-        /// <returns></returns>
-        public static bool IsMicConfig()
-        {
-            ReadOnlyCollection<CRecordDevice> devices = CRecord.GetDevices();
-            if (devices == null)
-                return false;
-
-            return devices.Any(t => t.PlayerChannel[0] != 0 || t.PlayerChannel[1] != 0);
-        }
-
-        /// <summary>
-        ///     Checks, if there is a mic-configuration
-        /// </summary>
         /// <param name="player">Player-Number</param>
         /// <returns></returns>
-        public static bool IsMicConfig(int player)
+        public static bool IsMicConfig(int player = 0)
         {
             ReadOnlyCollection<CRecordDevice> devices = CRecord.GetDevices();
             if (devices == null)
                 return false;
 
-            return devices.Any(t => t.PlayerChannel.Contains(player));
+            if (player > 0)
+                return devices.Any(t => t.PlayerChannel.Contains(player));
+
+            for (int p = 0; p < CSettings.MaxNumPlayer; ++p)
+                if (devices.Any(t => t.PlayerChannel.Contains(p+1)))
+                {
+                    return true;
+                }
+
+            return false;
         }
 
         public static int GetMaxNumMics()
