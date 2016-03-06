@@ -50,6 +50,12 @@
       <B>0.000</B>
       <A>1.000</A>
     </BackgroundColor>
+	<BackgroundColorAlpha>
+      <R>0.000</R>
+      <G>0.000</G>
+      <B>0.000</B>
+      <A>0.500</A>
+    </BackgroundColorAlpha>
     <StaticColor>
       <R>0.980</R>
       <G>0.980</G>

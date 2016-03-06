@@ -32,9 +32,7 @@
     </Static>
     <Static Name="StaticLyrics">
       <Skin />
-      <Color Name="BackgroundColor">
-		<A>0.5</A>
-	  </Color>
+      <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
         <Y>610</Y>
@@ -45,9 +43,7 @@
     </Static>
     <Static Name="StaticLyricsDuet">
       <Skin />
-      <Color Name="BackgroundColor">
-		<A>0.5</A>
-	  </Color>
+      <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
         <Y>0</Y>
@@ -58,9 +54,7 @@
     </Static>
     <Static Name="StaticLyricsTop">
       <Skin />
-      <Color Name="BackgroundColor">
-		<A>0.5</A>
-	  </Color>
+      <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
         <Y>0</Y>

@@ -16,9 +16,7 @@
   <Statics>
     <Static Name="Static1">
       <Skin />
-      <Color Name="BackgroundColor">
-		<A>0.5</A>
-	  </Color>
+      <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>00</X>
         <Y>40</Y>

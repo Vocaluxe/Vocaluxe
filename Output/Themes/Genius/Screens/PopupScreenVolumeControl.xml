@@ -8,9 +8,7 @@
   <Statics>
     <Static Name="StaticBG">
       <Skin />
-      <Color Name="BackgroundColor">
-		<A>0.5</A>
-	  </Color>
+      <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>1140</X>
         <Y>680</Y>

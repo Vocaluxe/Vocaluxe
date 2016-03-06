@@ -61,9 +61,7 @@
     </Static>
     <Static Name="StaticOptionsBG">
       <Skin />
-      <Color Name="BackgroundColor">
-		<A>0.5</A>
-	  </Color>
+      <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>40</X>
         <Y>40</Y>
