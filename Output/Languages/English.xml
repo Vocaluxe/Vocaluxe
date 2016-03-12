@@ -182,8 +182,12 @@
   <string name="TR_SCREENORECORD_OPTIONS">Record Options</string>
   <string name="TR_SCREENORECORD_DEVICE">Device</string>
   <string name="TR_SCREENORECORD_INPUT">Input</string>
-  <string name="TR_SCREENORECORD_CHANNEL_1">Channel 1</string>
-  <string name="TR_SCREENORECORD_CHANNEL_2">Channel 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_1">Player 1</string>
+  <string name="TR_SCREENORECORD_PLAYER_2">Player 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_3">Player 3</string>
+  <string name="TR_SCREENORECORD_PLAYER_4">Player 4</string>
+  <string name="TR_SCREENORECORD_PLAYER_5">Player 5</string>
+  <string name="TR_SCREENORECORD_PLAYER_6">Player 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Mic Delay</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Warning: At least one player is assigned to two mics.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Delay Test</string>
