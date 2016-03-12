@@ -18,6 +18,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Vocaluxe.Base;
+using System;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
@@ -76,32 +77,25 @@ namespace Vocaluxe.Lib.Sound.Record
         /// <param name="data">Recorded samples, assume Int16 and interleaved for multi-channels</param>
         protected void _HandleData(CRecordDevice device, byte[] data)
         {
-            byte[] leftBuffer;
-            byte[] rightBuffer;
 
-            if (device.Channels == 2)
+            int totalChannels = device.Channels;
+            int doubleChannels = totalChannels * 2;
+            byte[][] allBuffers = new byte[totalChannels][];
+
+            for (int currChannel = 0; currChannel < totalChannels; ++currChannel)
+                allBuffers[currChannel] = new byte[data.Length / totalChannels];
+
+            for (int i = 0; i < data.Length / doubleChannels; ++i)
             {
-                leftBuffer = new byte[data.Length / 2];
-                rightBuffer = new byte[data.Length / 2];
-                //[]: Sample, L: Left channel R: Right channel
-                //[LR][LR][LR][LR][LR][LR]
-                //The data is interleaved and needs to be demultiplexed
-                for (int i = 0; i < data.Length / 4; i++)
-                {
-                    leftBuffer[i * 2] = data[i * 4];
-                    leftBuffer[i * 2 + 1] = data[i * 4 + 1];
-                    rightBuffer[i * 2] = data[i * 4 + 2];
-                    rightBuffer[i * 2 + 1] = data[i * 4 + 3];
-                }
+                for (int j = 0; j < doubleChannels; ++j)
+                    allBuffers[(int)Math.Floor(j / (double)2)][i * 2 + (j % 2)] = data[i * doubleChannels + j];
             }
-            else
-                leftBuffer = rightBuffer = data;
 
-            if (device.PlayerChannel1 > 0)
-                _Buffer[device.PlayerChannel1 - 1].ProcessNewBuffer(leftBuffer);
-
-            if (device.PlayerChannel2 > 0)
-                _Buffer[device.PlayerChannel2 - 1].ProcessNewBuffer(rightBuffer);
+            for (int ch = 0; ch < totalChannels; ++ch)
+            {
+                if (device.PlayerChannel[ch] > 0)
+                    _Buffer[device.PlayerChannel[ch] - 1].ProcessNewBuffer(allBuffers[ch]);
+            }
         }
 
         /// <summary>

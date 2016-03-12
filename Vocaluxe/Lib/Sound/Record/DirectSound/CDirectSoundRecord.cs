@@ -68,9 +68,15 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
 
             foreach (CRecordDevice device in _Devices)
             {
-                if (device.PlayerChannel1 > 0 || device.PlayerChannel2 > 0)
+                bool usingDevice = false;
+                for (int ch = 0; ch < device.Channels; ++ch)
                 {
-                    var source = new CSoundCardSource(device.Driver, (short)device.Channels) {SampleRateKhz = 44.1};
+                    if (device.PlayerChannel[ch] > 0)
+                        usingDevice = true;
+                }
+                if (usingDevice)
+                {
+                    var source = new CSoundCardSource(device.Driver, (short)device.Channels) { SampleRateKhz = 44.1 };
                     source.SampleDataReady += _OnDataReady;
                     source.Start();
 
