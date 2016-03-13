@@ -10,3 +10,19 @@ This is a new theme-element. Check ScreenOptionsRecord.xml for style-possibiliti
 Version 4:
 Rename Text 3/4 to TextChannel1/2
 Rename Text5 to Text3
+++++++++++
+Version 5:
+
+Added:
+StaticEnergyPlayer1-6
+TextPlayer1-6
+TextDelayPlayer1-6
+SelectSlideRecordPlayer1-6
+EqualizerPlayer1-6
+
+Removed:
+StaticEnergyChannel1-2
+TextChannel1-2
+TextDelayChannel1-2
+SelectSlideRecordChannel1-2
+EqualizerChannel1-2

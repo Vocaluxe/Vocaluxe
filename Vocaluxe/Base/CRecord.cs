@@ -126,8 +126,8 @@ namespace Vocaluxe.Base
             {
                 foreach (CRecordDevice device in devices)
                 {
-                    device.PlayerChannel1 = _GetPlayerFromMicConfig(device.Name, device.Driver, 1);
-                    device.PlayerChannel2 = _GetPlayerFromMicConfig(device.Name, device.Driver, 2);
+                    for(int ch = 0; ch < device.Channels; ++ch)
+                        device.PlayerChannel[ch] = _GetPlayerFromMicConfig(device.Name, device.Driver, ch+1);
                 }
                 return devices;
             }

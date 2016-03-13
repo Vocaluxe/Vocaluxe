@@ -99,16 +99,21 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
             for (int dev = 0; dev < _Devices.Count; dev++)
             {
-                if (_Devices[dev].PlayerChannel1 > 0 || _Devices[dev].PlayerChannel2 > 0)
+                bool usingDevice = false;
+                for (int ch = 0; ch < _Devices[dev].Channels; ++ch) {
+                    if (_Devices[dev].PlayerChannel[ch] > 0)
+                        usingDevice = true;
+                }
+                if (usingDevice)
                 {
                     PortAudioSharp.PortAudio.PaStreamParameters? inputParams = new PortAudioSharp.PortAudio.PaStreamParameters
-                        {
-                            channelCount = _Devices[dev].Channels,
-                            device = _Devices[dev].ID,
-                            sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
-                            suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
-                            hostApiSpecificStreamInfo = IntPtr.Zero
-                        };
+                    {
+                        channelCount = _Devices[dev].Channels,
+                        device = _Devices[dev].ID,
+                        sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
+                        suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
+                        hostApiSpecificStreamInfo = IntPtr.Zero
+                    };
                     if (!_PaHandle.OpenInputStream(
                         out _RecHandle[dev],
                         ref inputParams,
@@ -181,10 +186,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 {
                     CRecordDevice dev = _Devices[userData.ToInt32()];
                     uint numBytes;
-                    if (dev.Channels == 2)
-                        numBytes = frameCount * 4;
-                    else
-                        numBytes = frameCount * 2;
+                    numBytes = frameCount * (uint)dev.Channels * 2;
 
                     byte[] recbuffer = new byte[numBytes];
 
