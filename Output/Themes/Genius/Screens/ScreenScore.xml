@@ -25,12 +25,12 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP1N1">
+	<Static Name="StaticPointsBarBGP1N1">
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>535</X>
-        <Y>390</Y>
+        <X>520</X>
+        <Y>360</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -40,8 +40,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>535</X>
-        <Y>390</Y>
+        <X>520</X>
+        <Y>360</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -51,10 +51,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>360</X>
+        <X>375</X>
         <Y>270</Y>
-        <W>160</W>
-        <H>160</H>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -62,8 +62,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>535</X>
-        <Y>320</Y>
+        <X>520</X>
+        <Y>290</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -73,8 +73,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>535</X>
-        <Y>320</Y>
+        <X>520</X>
+        <Y>290</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -84,10 +84,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>360</X>
+        <X>375</X>
         <Y>200</Y>
-        <W>160</W>
-        <H>160</H>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -95,8 +95,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>535</X>
-        <Y>565</Y>
+        <X>520</X>
+        <Y>535</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -106,8 +106,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>535</X>
-        <Y>565</Y>
+        <X>520</X>
+        <Y>535</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -117,10 +117,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>360</X>
+        <X>375</X>
         <Y>445</Y>
-        <W>160</W>
-        <H>160</H>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -128,8 +128,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>535</X>
-        <Y>236</Y>
+        <X>520</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -139,8 +139,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>535</X>
-        <Y>236</Y>
+        <X>520</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -150,10 +150,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>360</X>
-        <Y>116</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>375</X>
+        <Y>131</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -161,8 +161,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>535</X>
-        <Y>427</Y>
+        <X>520</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -172,8 +172,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>535</X>
-        <Y>427</Y>
+        <X>520</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -183,10 +183,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>360</X>
-        <Y>307</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>375</X>
+        <Y>322</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -194,8 +194,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>535</X>
-        <Y>618</Y>
+        <X>520</X>
+        <Y>603</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -205,8 +205,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player3" />
       <Rect>
-        <X>535</X>
-        <Y>618</Y>
+        <X>520</X>
+        <Y>603</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -216,10 +216,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>360</X>
-        <Y>498</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>375</X>
+        <Y>513</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -227,8 +227,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>225</X>
-        <Y>320</Y>
+        <X>210</X>
+        <Y>290</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -238,8 +238,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>225</X>
-        <Y>320</Y>
+        <X>210</X>
+        <Y>290</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -249,10 +249,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>50</X>
+        <X>65</X>
         <Y>200</Y>
-        <W>160</W>
-        <H>160</H>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -260,8 +260,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>225</X>
-        <Y>565</Y>
+        <X>210</X>
+        <Y>535</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -271,8 +271,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>225</X>
-        <Y>565</Y>
+        <X>210</X>
+        <Y>535</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -282,10 +282,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>50</X>
+        <X>65</X>
         <Y>445</Y>
-        <W>160</W>
-        <H>160</H>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -293,8 +293,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>835</X>
-        <Y>320</Y>
+        <X>820</X>
+        <Y>290</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -304,8 +304,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player3" />
       <Rect>
-        <X>835</X>
-        <Y>320</Y>
+        <X>820</X>
+        <Y>290</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -315,10 +315,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>660</X>
+        <X>675</X>
         <Y>200</Y>
-        <W>160</W>
-        <H>160</H>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -326,8 +326,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>835</X>
-        <Y>565</Y>
+        <X>820</X>
+        <Y>535</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -337,8 +337,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player4" />
       <Rect>
-        <X>835</X>
-        <Y>565</Y>
+        <X>820</X>
+        <Y>535</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -348,10 +348,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>660</X>
+        <X>675</X>
         <Y>445</Y>
-        <W>160</W>
-        <H>160</H>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -359,8 +359,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>225</X>
-        <Y>236</Y>
+        <X>210</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -370,8 +370,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>225</X>
-        <Y>236</Y>
+        <X>210</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -381,10 +381,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>50</X>
-        <Y>116</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>65</X>
+        <Y>131</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -392,8 +392,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>225</X>
-        <Y>427</Y>
+        <X>210</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -403,8 +403,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>225</X>
-        <Y>427</Y>
+        <X>210</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -414,10 +414,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>50</X>
-        <Y>307</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>65</X>
+        <Y>322</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -425,8 +425,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>225</X>
-        <Y>618</Y>
+        <X>210</X>
+        <Y>603</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -436,8 +436,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player3" />
       <Rect>
-        <X>225</X>
-        <Y>618</Y>
+        <X>210</X>
+        <Y>603</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -447,10 +447,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>50</X>
-        <Y>498</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>65</X>
+        <Y>513</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -458,8 +458,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>835</X>
-        <Y>236</Y>
+        <X>820</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -469,8 +469,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player4" />
       <Rect>
-        <X>835</X>
-        <Y>236</Y>
+        <X>820</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -480,10 +480,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>660</X>
-        <Y>116</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>675</X>
+        <Y>131</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -491,8 +491,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>835</X>
-        <Y>427</Y>
+        <X>820</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -502,8 +502,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player5" />
       <Rect>
-        <X>835</X>
-        <Y>427</Y>
+        <X>820</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -513,10 +513,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>660</X>
-        <Y>307</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>675</X>
+        <Y>322</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -524,8 +524,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>225</X>
-        <Y>236</Y>
+        <X>210</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -535,8 +535,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>225</X>
-        <Y>236</Y>
+        <X>210</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -546,10 +546,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>50</X>
-        <Y>116</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>65</X>
+        <Y>131</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -557,8 +557,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>225</X>
-        <Y>427</Y>
+        <X>210</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -568,8 +568,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>225</X>
-        <Y>427</Y>
+        <X>210</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -579,10 +579,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>50</X>
-        <Y>307</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>65</X>
+        <Y>322</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -590,8 +590,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>225</X>
-        <Y>618</Y>
+        <X>210</X>
+        <Y>603</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -601,8 +601,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player3" />
       <Rect>
-        <X>225</X>
-        <Y>618</Y>
+        <X>210</X>
+        <Y>603</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -612,10 +612,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>50</X>
-        <Y>498</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>65</X>
+        <Y>513</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -623,8 +623,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>835</X>
-        <Y>236</Y>
+        <X>820</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -634,8 +634,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player4" />
       <Rect>
-        <X>835</X>
-        <Y>236</Y>
+        <X>820</X>
+        <Y>221</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -645,10 +645,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>660</X>
-        <Y>116</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>675</X>
+        <Y>131</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -656,8 +656,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>835</X>
-        <Y>427</Y>
+        <X>820</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -667,8 +667,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player5" />
       <Rect>
-        <X>835</X>
-        <Y>427</Y>
+        <X>820</X>
+        <Y>412</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -678,10 +678,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>660</X>
-        <Y>307</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>675</X>
+        <Y>322</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -689,8 +689,8 @@
       <Skin>PointsBarBG</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>835</X>
-        <Y>618</Y>
+        <X>820</X>
+        <Y>603</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -700,8 +700,8 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player6" />
       <Rect>
-        <X>835</X>
-        <Y>618</Y>
+        <X>820</X>
+        <Y>603</Y>
         <W>390</W>
         <H>10</H>
         <Z>0</Z>
@@ -711,10 +711,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>660</X>
-        <Y>498</Y>
-        <W>160</W>
-        <H>160</H>
+        <X>675</X>
+        <Y>513</Y>
+        <W>130</W>
+        <H>130</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -749,7 +749,7 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N1">
-      <X>535</X>
+      <X>520</X>
       <Y>275</Y>
       <Z>0</Z>
       <H>40</H>
@@ -763,8 +763,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N1">
-      <X>925</X>
-      <Y>400</Y>
+      <X>910</X>
+      <Y>370</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -777,7 +777,7 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N1">
-      <X>535</X>
+      <X>520</X>
       <Y>315</Y>
       <Z>0</Z>
       <H>27</H>
@@ -791,8 +791,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N1">
-      <X>535</X>
-      <Y>400</Y>
+      <X>520</X>
+      <Y>370</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -805,7 +805,7 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N2">
-      <X>535</X>
+      <X>520</X>
       <Y>205</Y>
       <Z>0</Z>
       <H>40</H>
@@ -819,8 +819,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N2">
-      <X>925</X>
-      <Y>330</Y>
+      <X>910</X>
+      <Y>300</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -833,7 +833,7 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N2">
-      <X>535</X>
+      <X>520</X>
       <Y>245</Y>
       <Z>0</Z>
       <H>27</H>
@@ -847,8 +847,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N2">
-      <X>535</X>
-      <Y>330</Y>
+      <X>520</X>
+      <Y>300</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -861,7 +861,7 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N2">
-      <X>535</X>
+      <X>520</X>
       <Y>450</Y>
       <Z>0</Z>
       <H>40</H>
@@ -875,8 +875,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N2">
-      <X>925</X>
-      <Y>575</Y>
+      <X>910</X>
+      <Y>545</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -889,7 +889,7 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N2">
-      <X>535</X>
+      <X>520</X>
       <Y>490</Y>
       <Z>0</Z>
       <H>27</H>
@@ -903,8 +903,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N2">
-      <X>535</X>
-      <Y>575</Y>
+      <X>520</X>
+      <Y>545</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -917,8 +917,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N3">
-      <X>535</X>
-      <Y>121</Y>
+      <X>520</X>
+      <Y>136</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -931,8 +931,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N3">
-      <X>925</X>
-      <Y>246</Y>
+      <X>910</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -945,8 +945,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N3">
-      <X>535</X>
-      <Y>161</Y>
+      <X>520</X>
+      <Y>176</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -959,8 +959,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N3">
-      <X>535</X>
-      <Y>246</Y>
+      <X>520</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -973,8 +973,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N3">
-      <X>535</X>
-      <Y>312</Y>
+      <X>520</X>
+      <Y>327</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -987,8 +987,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N3">
-      <X>925</X>
-      <Y>437</Y>
+      <X>910</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1001,8 +1001,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N3">
-      <X>535</X>
-      <Y>352</Y>
+      <X>520</X>
+      <Y>367</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1015,8 +1015,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N3">
-      <X>535</X>
-      <Y>437</Y>
+      <X>520</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1029,8 +1029,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N3">
-      <X>535</X>
-      <Y>503</Y>
+      <X>520</X>
+      <Y>518</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1043,8 +1043,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N3">
-      <X>925</X>
-      <Y>628</Y>
+      <X>910</X>
+      <Y>613</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1057,8 +1057,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP3N3">
-      <X>535</X>
-      <Y>543</Y>
+      <X>520</X>
+      <Y>558</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1071,8 +1071,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N3">
-      <X>535</X>
-      <Y>628</Y>
+      <X>520</X>
+      <Y>613</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1085,7 +1085,7 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N4">
-      <X>225</X>
+      <X>210</X>
       <Y>205</Y>
       <Z>0</Z>
       <H>40</H>
@@ -1099,8 +1099,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N4">
-      <X>615</X>
-      <Y>330</Y>
+      <X>600</X>
+      <Y>300</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1113,7 +1113,7 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N4">
-      <X>225</X>
+      <X>210</X>
       <Y>245</Y>
       <Z>0</Z>
       <H>27</H>
@@ -1127,8 +1127,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N4">
-      <X>225</X>
-      <Y>330</Y>
+      <X>210</X>
+      <Y>300</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1141,7 +1141,7 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N4">
-      <X>225</X>
+      <X>210</X>
       <Y>450</Y>
       <Z>0</Z>
       <H>40</H>
@@ -1155,8 +1155,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N4">
-      <X>615</X>
-      <Y>575</Y>
+      <X>600</X>
+      <Y>545</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1169,7 +1169,7 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N4">
-      <X>225</X>
+      <X>210</X>
       <Y>490</Y>
       <Z>0</Z>
       <H>27</H>
@@ -1183,8 +1183,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N4">
-      <X>225</X>
-      <Y>575</Y>
+      <X>210</X>
+      <Y>545</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1197,7 +1197,7 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N4">
-      <X>835</X>
+      <X>820</X>
       <Y>205</Y>
       <Z>0</Z>
       <H>40</H>
@@ -1211,8 +1211,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N4">
-      <X>1225</X>
-      <Y>330</Y>
+      <X>1210</X>
+      <Y>300</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1225,7 +1225,7 @@
       <Text />
     </Text>
     <Text Name="TextRatingP3N4">
-      <X>835</X>
+      <X>820</X>
       <Y>245</Y>
       <Z>0</Z>
       <H>27</H>
@@ -1239,8 +1239,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N4">
-      <X>835</X>
-      <Y>330</Y>
+      <X>820</X>
+      <Y>300</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1253,7 +1253,7 @@
       <Text />
     </Text>
     <Text Name="TextNameP4N4">
-      <X>835</X>
+      <X>820</X>
       <Y>450</Y>
       <Z>0</Z>
       <H>40</H>
@@ -1267,8 +1267,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP4N4">
-      <X>1225</X>
-      <Y>575</Y>
+      <X>1210</X>
+      <Y>545</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1281,7 +1281,7 @@
       <Text />
     </Text>
     <Text Name="TextRatingP4N4">
-      <X>835</X>
+      <X>820</X>
       <Y>490</Y>
       <Z>0</Z>
       <H>27</H>
@@ -1295,8 +1295,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N4">
-      <X>835</X>
-      <Y>575</Y>
+      <X>820</X>
+      <Y>545</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1309,8 +1309,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N5">
-      <X>225</X>
-      <Y>121</Y>
+      <X>210</X>
+      <Y>136</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1323,8 +1323,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N5">
-      <X>615</X>
-      <Y>246</Y>
+      <X>600</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1337,8 +1337,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N5">
-      <X>225</X>
-      <Y>161</Y>
+      <X>210</X>
+      <Y>176</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1351,8 +1351,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N5">
-      <X>225</X>
-      <Y>246</Y>
+      <X>210</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1365,8 +1365,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N5">
-      <X>225</X>
-      <Y>312</Y>
+      <X>210</X>
+      <Y>327</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1379,8 +1379,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N5">
-      <X>615</X>
-      <Y>437</Y>
+      <X>600</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1393,8 +1393,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N5">
-      <X>225</X>
-      <Y>352</Y>
+      <X>210</X>
+      <Y>367</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1407,8 +1407,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N5">
-      <X>225</X>
-      <Y>437</Y>
+      <X>210</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1421,8 +1421,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N5">
-      <X>225</X>
-      <Y>503</Y>
+      <X>210</X>
+      <Y>518</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1435,8 +1435,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N5">
-      <X>615</X>
-      <Y>628</Y>
+      <X>600</X>
+      <Y>613</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1449,8 +1449,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP3N5">
-      <X>225</X>
-      <Y>543</Y>
+      <X>210</X>
+      <Y>558</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1463,8 +1463,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N5">
-      <X>225</X>
-      <Y>628</Y>
+      <X>210</X>
+      <Y>613</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1477,8 +1477,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP4N5">
-      <X>835</X>
-      <Y>121</Y>
+      <X>820</X>
+      <Y>136</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1491,8 +1491,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP4N5">
-      <X>1225</X>
-      <Y>246</Y>
+      <X>1210</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1505,8 +1505,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP4N5">
-      <X>835</X>
-      <Y>161</Y>
+      <X>820</X>
+      <Y>176</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1519,8 +1519,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N5">
-      <X>835</X>
-      <Y>246</Y>
+      <X>820</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1533,8 +1533,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP5N5">
-      <X>835</X>
-      <Y>312</Y>
+      <X>820</X>
+      <Y>327</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1547,8 +1547,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP5N5">
-      <X>1225</X>
-      <Y>437</Y>
+      <X>1210</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1561,8 +1561,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP5N5">
-      <X>835</X>
-      <Y>352</Y>
+      <X>820</X>
+      <Y>367</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1575,8 +1575,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP5N5">
-      <X>835</X>
-      <Y>437</Y>
+      <X>820</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1589,8 +1589,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N6">
-      <X>225</X>
-      <Y>121</Y>
+      <X>210</X>
+      <Y>136</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1603,8 +1603,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N6">
-      <X>615</X>
-      <Y>246</Y>
+      <X>600</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1617,8 +1617,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N6">
-      <X>225</X>
-      <Y>161</Y>
+      <X>210</X>
+      <Y>176</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1631,8 +1631,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N6">
-      <X>225</X>
-      <Y>246</Y>
+      <X>210</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1645,8 +1645,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N6">
-      <X>225</X>
-      <Y>312</Y>
+      <X>210</X>
+      <Y>327</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1659,8 +1659,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N6">
-      <X>615</X>
-      <Y>437</Y>
+      <X>600</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1673,8 +1673,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N6">
-      <X>225</X>
-      <Y>352</Y>
+      <X>210</X>
+      <Y>367</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1687,8 +1687,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N6">
-      <X>225</X>
-      <Y>437</Y>
+      <X>210</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1701,8 +1701,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N6">
-      <X>225</X>
-      <Y>503</Y>
+      <X>210</X>
+      <Y>518</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1715,8 +1715,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N6">
-      <X>615</X>
-      <Y>628</Y>
+      <X>600</X>
+      <Y>613</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1729,8 +1729,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP3N6">
-      <X>225</X>
-      <Y>543</Y>
+      <X>210</X>
+      <Y>558</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1743,8 +1743,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N6">
-      <X>225</X>
-      <Y>628</Y>
+      <X>210</X>
+      <Y>613</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1757,8 +1757,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP4N6">
-      <X>835</X>
-      <Y>121</Y>
+      <X>820</X>
+      <Y>136</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1771,8 +1771,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP4N6">
-      <X>1225</X>
-      <Y>246</Y>
+      <X>1210</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1785,8 +1785,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP4N6">
-      <X>835</X>
-      <Y>161</Y>
+      <X>820</X>
+      <Y>176</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1799,8 +1799,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N6">
-      <X>835</X>
-      <Y>246</Y>
+      <X>820</X>
+      <Y>231</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1813,8 +1813,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP5N6">
-      <X>835</X>
-      <Y>312</Y>
+      <X>820</X>
+      <Y>327</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1827,8 +1827,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP5N6">
-      <X>1225</X>
-      <Y>437</Y>
+      <X>1210</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1841,8 +1841,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP5N6">
-      <X>835</X>
-      <Y>352</Y>
+      <X>820</X>
+      <Y>367</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1855,8 +1855,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP5N6">
-      <X>835</X>
-      <Y>437</Y>
+      <X>820</X>
+      <Y>422</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
@@ -1869,8 +1869,8 @@
       <Text />
     </Text>
     <Text Name="TextNameP6N6">
-      <X>835</X>
-      <Y>503</Y>
+      <X>820</X>
+      <Y>518</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>390</MaxW>
@@ -1883,8 +1883,8 @@
       <Text />
     </Text>
     <Text Name="TextScoreP6N6">
-      <X>1225</X>
-      <Y>628</Y>
+      <X>1210</X>
+      <Y>613</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>220</MaxW>
@@ -1897,8 +1897,8 @@
       <Text />
     </Text>
     <Text Name="TextRatingP6N6">
-      <X>835</X>
-      <Y>543</Y>
+      <X>820</X>
+      <Y>558</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>170</MaxW>
@@ -1911,8 +1911,8 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP6N6">
-      <X>835</X>
-      <Y>628</Y>
+      <X>820</X>
+      <Y>613</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>390</MaxW>
