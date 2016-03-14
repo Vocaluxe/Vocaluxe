@@ -14,7 +14,7 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="Static1">
+	<Static Name="Static1">
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
@@ -27,14 +27,12 @@
     </Static>
     <Static Name="StaticPointsBarBGP1N1">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player1">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>560</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>535</X>
+        <Y>390</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -42,10 +40,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>560</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>535</X>
+        <Y>390</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -53,27 +51,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>560</X>
-        <Y>410</Y>
+        <X>360</X>
+        <Y>270</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP1N2">
+	<Static Name="StaticPointsBarBGP1N2">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player1">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>352</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>535</X>
+        <Y>320</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -81,10 +73,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>352</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>535</X>
+        <Y>320</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -92,27 +84,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>352</X>
-        <Y>410</Y>
+        <X>360</X>
+        <Y>200</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP2N2">
+	<Static Name="StaticPointsBarBGP2N2">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player2">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>768</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>535</X>
+        <Y>565</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -120,10 +106,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>768</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>535</X>
+        <Y>565</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -131,27 +117,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>768</X>
-        <Y>410</Y>
+        <X>360</X>
+        <Y>445</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP1N3">
+	<Static Name="StaticPointsBarBGP1N3">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player1">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>238</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>535</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -159,10 +139,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>238</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>535</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -170,27 +150,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>238</X>
-        <Y>410</Y>
+        <X>360</X>
+        <Y>116</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP2N3">
+	<Static Name="StaticPointsBarBGP2N3">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player2">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>560</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>535</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -198,10 +172,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>560</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>535</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -209,27 +183,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>560</X>
-        <Y>410</Y>
+        <X>360</X>
+        <Y>307</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP3N3">
+	<Static Name="StaticPointsBarBGP3N3">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player3">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>882</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>535</X>
+        <Y>618</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -237,10 +205,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player3" />
       <Rect>
-        <X>882</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>535</X>
+        <Y>618</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -248,27 +216,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>882</X>
-        <Y>410</Y>
+        <X>360</X>
+        <Y>498</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP1N4">
+	<Static Name="StaticPointsBarBGP1N4">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player1">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>190</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>225</X>
+        <Y>320</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -276,10 +238,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>190</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>225</X>
+        <Y>320</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -287,27 +249,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>190</X>
-        <Y>410</Y>
+        <X>50</X>
+        <Y>200</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP2N4">
+	<Static Name="StaticPointsBarBGP2N4">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player2">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>422</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>225</X>
+        <Y>565</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -315,10 +271,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>422</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>225</X>
+        <Y>565</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -326,27 +282,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>422</X>
-        <Y>410</Y>
+        <X>50</X>
+        <Y>445</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP3N4">
+	<Static Name="StaticPointsBarBGP3N4">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player3">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>654</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>835</X>
+        <Y>320</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -354,10 +304,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player3" />
       <Rect>
-        <X>654</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>835</X>
+        <Y>320</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -365,27 +315,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>654</X>
-        <Y>410</Y>
+        <X>660</X>
+        <Y>200</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP4N4">
+	<Static Name="StaticPointsBarBGP4N4">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player4">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>886</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>835</X>
+        <Y>565</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -393,10 +337,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player4" />
       <Rect>
-        <X>886</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>835</X>
+        <Y>565</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -404,27 +348,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>886</X>
-        <Y>410</Y>
+        <X>660</X>
+        <Y>445</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP1N5">
+	<Static Name="StaticPointsBarBGP1N5">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player1">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>144</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>225</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -432,10 +370,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>144</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>225</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -443,27 +381,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>144</X>
-        <Y>410</Y>
+        <X>50</X>
+        <Y>116</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP2N5">
+	<Static Name="StaticPointsBarBGP2N5">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player2">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>352</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>225</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -471,10 +403,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>352</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>225</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -482,27 +414,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>352</X>
-        <Y>410</Y>
+        <X>50</X>
+        <Y>307</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP3N5">
+	<Static Name="StaticPointsBarBGP3N5">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player3">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>560</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>225</X>
+        <Y>618</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -510,10 +436,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player3" />
       <Rect>
-        <X>560</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>225</X>
+        <Y>618</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -521,27 +447,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>560</X>
-        <Y>410</Y>
+        <X>50</X>
+        <Y>498</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP4N5">
+	<Static Name="StaticPointsBarBGP4N5">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player4">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>768</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>835</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -549,10 +469,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player4" />
       <Rect>
-        <X>768</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>835</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -560,27 +480,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>768</X>
-        <Y>410</Y>
+        <X>660</X>
+        <Y>116</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP5N5">
+	<Static Name="StaticPointsBarBGP5N5">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player5">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>976</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>835</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -588,10 +502,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player5" />
       <Rect>
-        <X>976</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>835</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -599,27 +513,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>976</X>
-        <Y>410</Y>
+        <X>660</X>
+        <Y>307</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP1N6">
+	<Static Name="StaticPointsBarBGP1N6">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player1">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>45</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>225</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -627,10 +535,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player1" />
       <Rect>
-        <X>45</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>225</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -638,27 +546,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>45</X>
-        <Y>410</Y>
+        <X>50</X>
+        <Y>116</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP2N6">
+	<Static Name="StaticPointsBarBGP2N6">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player2">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>253</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>225</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -666,10 +568,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player2" />
       <Rect>
-        <X>253</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>225</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -677,27 +579,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>253</X>
-        <Y>410</Y>
+        <X>50</X>
+        <Y>307</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP3N6">
+	<Static Name="StaticPointsBarBGP3N6">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player3">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>461</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>225</X>
+        <Y>618</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -705,10 +601,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player3" />
       <Rect>
-        <X>461</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>225</X>
+        <Y>618</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -716,27 +612,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>461</X>
-        <Y>410</Y>
+        <X>50</X>
+        <Y>498</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP4N6">
+	<Static Name="StaticPointsBarBGP4N6">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player4">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>669</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>835</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -744,10 +634,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player4" />
       <Rect>
-        <X>669</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>835</X>
+        <Y>236</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -755,27 +645,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>669</X>
-        <Y>410</Y>
+        <X>660</X>
+        <Y>116</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP5N6">
+	<Static Name="StaticPointsBarBGP5N6">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player5">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>877</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>835</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -783,10 +667,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player5" />
       <Rect>
-        <X>877</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>835</X>
+        <Y>427</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -794,27 +678,21 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>877</X>
-        <Y>410</Y>
+        <X>660</X>
+        <Y>307</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
-    <Static Name="StaticPointsBarBGP6N6">
+	<Static Name="StaticPointsBarBGP6N6">
       <Skin>PointsBarBG</Skin>
-      <Color Name="Player6">
-        <A>0.75</A>
-      </Color>
+      <Color Name="StaticColorAlpha" />
       <Rect>
-        <X>1085</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>220</H>
+        <X>835</X>
+        <Y>618</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -822,10 +700,10 @@
       <Skin>PointsBar</Skin>
       <Color Name="Player6" />
       <Rect>
-        <X>1085</X>
-        <Y>180</Y>
-        <W>160</W>
-        <H>0</H>
+        <X>835</X>
+        <Y>618</Y>
+        <W>390</W>
+        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -833,16 +711,12 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>1085</X>
-        <Y>410</Y>
+        <X>660</X>
+        <Y>498</Y>
         <W>160</W>
         <H>160</H>
         <Z>0</Z>
       </Rect>
-      <Reflection>
-        <Height>40</Height>
-        <Space>15</Space>
-      </Reflection>
     </Static>
   </Statics>
   <Texts>
@@ -875,1177 +749,1177 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N1">
-      <X>640</X>
-      <Y>630</Y>
+      <X>535</X>
+      <Y>275</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>1100</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP1N1">
-      <X>640</X>
-      <Y>142</Y>
+      <X>925</X>
+      <Y>400</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N1">
-      <X>640</X>
-      <Y>107</Y>
+      <X>535</X>
+      <Y>315</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N1">
-      <X>640</X>
-      <Y>670</Y>
+      <X>535</X>
+      <Y>400</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N2">
-      <X>432</X>
-      <Y>630</Y>
+      <X>535</X>
+      <Y>205</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>300</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP1N2">
-      <X>432</X>
-      <Y>142</Y>
+      <X>925</X>
+      <Y>330</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N2">
-      <X>432</X>
-      <Y>107</Y>
+      <X>535</X>
+      <Y>245</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N2">
-      <X>432</X>
-      <Y>670</Y>
+      <X>535</X>
+      <Y>330</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N2">
-      <X>848</X>
-      <Y>630</Y>
+      <X>535</X>
+      <Y>450</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>300</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP2N2">
-      <X>848</X>
-      <Y>142</Y>
+      <X>925</X>
+      <Y>575</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N2">
-      <X>848</X>
-      <Y>107</Y>
+      <X>535</X>
+      <Y>490</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N2">
-      <X>858</X>
-      <Y>670</Y>
+      <X>535</X>
+      <Y>575</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N3">
-      <X>318</X>
-      <Y>630</Y>
+      <X>535</X>
+      <Y>121</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>250</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP1N3">
-      <X>318</X>
-      <Y>142</Y>
+      <X>925</X>
+      <Y>246</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N3">
-      <X>318</X>
-      <Y>107</Y>
+      <X>535</X>
+      <Y>161</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N3">
-      <X>318</X>
-      <Y>670</Y>
+      <X>535</X>
+      <Y>246</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N3">
-      <X>640</X>
-      <Y>630</Y>
+      <X>535</X>
+      <Y>312</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>250</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP2N3">
-      <X>640</X>
-      <Y>142</Y>
+      <X>925</X>
+      <Y>437</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N3">
-      <X>640</X>
-      <Y>107</Y>
+      <X>535</X>
+      <Y>352</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N3">
-      <X>640</X>
-      <Y>670</Y>
+      <X>535</X>
+      <Y>437</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP3N3">
-      <X>962</X>
-      <Y>630</Y>
+      <X>535</X>
+      <Y>503</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>250</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP3N3">
-      <X>962</X>
-      <Y>142</Y>
+      <X>925</X>
+      <Y>628</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP3N3">
-      <X>962</X>
-      <Y>107</Y>
+      <X>535</X>
+      <Y>543</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N3">
-      <X>962</X>
-      <Y>670</Y>
+      <X>535</X>
+      <Y>628</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N4">
-      <X>270</X>
-      <Y>630</Y>
+      <X>225</X>
+      <Y>205</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP1N4">
-      <X>270</X>
-      <Y>142</Y>
+      <X>615</X>
+      <Y>330</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N4">
-      <X>270</X>
-      <Y>107</Y>
+      <X>225</X>
+      <Y>245</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N4">
-      <X>270</X>
-      <Y>670</Y>
+      <X>225</X>
+      <Y>330</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N4">
-      <X>502</X>
-      <Y>630</Y>
+      <X>225</X>
+      <Y>450</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP2N4">
-      <X>502</X>
-      <Y>142</Y>
+      <X>615</X>
+      <Y>575</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N4">
-      <X>502</X>
-      <Y>107</Y>
+      <X>225</X>
+      <Y>490</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N4">
-      <X>502</X>
-      <Y>670</Y>
+      <X>225</X>
+      <Y>575</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP3N4">
-      <X>734</X>
-      <Y>630</Y>
+      <X>835</X>
+      <Y>205</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP3N4">
-      <X>734</X>
-      <Y>142</Y>
+      <X>1225</X>
+      <Y>330</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP3N4">
-      <X>734</X>
-      <Y>107</Y>
+      <X>835</X>
+      <Y>245</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N4">
-      <X>734</X>
-      <Y>670</Y>
+      <X>835</X>
+      <Y>330</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP4N4">
-      <X>966</X>
-      <Y>630</Y>
+      <X>835</X>
+      <Y>450</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP4N4">
-      <X>966</X>
-      <Y>142</Y>
+      <X>1225</X>
+      <Y>575</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>0</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP4N4">
-      <X>966</X>
-      <Y>107</Y>
+      <X>835</X>
+      <Y>490</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N4">
-      <X>966</X>
-      <Y>670</Y>
+      <X>835</X>
+      <Y>575</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>0</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N5">
-      <X>224</X>
-      <Y>630</Y>
+      <X>225</X>
+      <Y>121</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP1N5">
-      <X>224</X>
-      <Y>142</Y>
+      <X>615</X>
+      <Y>246</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N5">
-      <X>224</X>
-      <Y>107</Y>
+      <X>225</X>
+      <Y>161</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N5">
-      <X>224</X>
-      <Y>670</Y>
+      <X>225</X>
+      <Y>246</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N5">
-      <X>432</X>
-      <Y>630</Y>
+      <X>225</X>
+      <Y>312</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP2N5">
-      <X>432</X>
-      <Y>142</Y>
+      <X>615</X>
+      <Y>437</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N5">
-      <X>432</X>
-      <Y>107</Y>
+      <X>225</X>
+      <Y>352</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N5">
-      <X>432</X>
-      <Y>670</Y>
+      <X>225</X>
+      <Y>437</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP3N5">
-      <X>640</X>
-      <Y>630</Y>
+      <X>225</X>
+      <Y>503</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP3N5">
-      <X>640</X>
-      <Y>142</Y>
+      <X>615</X>
+      <Y>628</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP3N5">
-      <X>640</X>
-      <Y>107</Y>
+      <X>225</X>
+      <Y>543</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N5">
-      <X>640</X>
-      <Y>670</Y>
+      <X>225</X>
+      <Y>628</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP4N5">
-      <X>848</X>
-      <Y>630</Y>
+      <X>835</X>
+      <Y>121</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP4N5">
-      <X>848</X>
-      <Y>142</Y>
+      <X>1225</X>
+      <Y>246</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP4N5">
-      <X>848</X>
-      <Y>107</Y>
+      <X>835</X>
+      <Y>161</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N5">
-      <X>848</X>
-      <Y>670</Y>
+      <X>835</X>
+      <Y>246</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP5N5">
-      <X>1056</X>
-      <Y>630</Y>
+      <X>835</X>
+      <Y>312</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP5N5">
-      <X>1056</X>
-      <Y>142</Y>
+      <X>1225</X>
+      <Y>437</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP5N5">
-      <X>1056</X>
-      <Y>107</Y>
+      <X>835</X>
+      <Y>352</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP5N5">
-      <X>1056</X>
-      <Y>670</Y>
+      <X>835</X>
+      <Y>437</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP1N6">
-      <X>125</X>
-      <Y>630</Y>
+      <X>225</X>
+      <Y>121</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP1N6">
-      <X>125</X>
-      <Y>142</Y>
+      <X>615</X>
+      <Y>246</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP1N6">
-      <X>125</X>
-      <Y>107</Y>
+      <X>225</X>
+      <Y>161</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N6">
-      <X>125</X>
-      <Y>670</Y>
+      <X>225</X>
+      <Y>246</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP2N6">
-      <X>333</X>
-      <Y>630</Y>
+      <X>225</X>
+      <Y>312</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP2N6">
-      <X>333</X>
-      <Y>142</Y>
+      <X>615</X>
+      <Y>437</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP2N6">
-      <X>333</X>
-      <Y>107</Y>
+      <X>225</X>
+      <Y>352</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N6">
-      <X>333</X>
-      <Y>670</Y>
+      <X>225</X>
+      <Y>437</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP3N6">
-      <X>541</X>
-      <Y>630</Y>
+      <X>225</X>
+      <Y>503</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP3N6">
-      <X>541</X>
-      <Y>142</Y>
+      <X>615</X>
+      <Y>628</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP3N6">
-      <X>541</X>
-      <Y>107</Y>
+      <X>225</X>
+      <Y>543</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N6">
-      <X>541</X>
-      <Y>670</Y>
+      <X>225</X>
+      <Y>628</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP4N6">
-      <X>749</X>
-      <Y>630</Y>
+      <X>835</X>
+      <Y>121</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP4N6">
-      <X>749</X>
-      <Y>142</Y>
+      <X>1225</X>
+      <Y>246</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP4N6">
-      <X>749</X>
-      <Y>107</Y>
+      <X>835</X>
+      <Y>161</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N6">
-      <X>749</X>
-      <Y>670</Y>
+      <X>835</X>
+      <Y>246</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP5N6">
-      <X>957</X>
-      <Y>630</Y>
+      <X>835</X>
+      <Y>312</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP5N6">
-      <X>957</X>
-      <Y>142</Y>
+      <X>1225</X>
+      <Y>437</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP5N6">
-      <X>957</X>
-      <Y>107</Y>
+      <X>835</X>
+      <Y>352</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP5N6">
-      <X>957</X>
-      <Y>670</Y>
+      <X>835</X>
+      <Y>437</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextNameP6N6">
-      <X>1165</X>
-      <Y>630</Y>
+      <X>835</X>
+      <Y>503</Y>
       <Z>0</Z>
-      <H>44</H>
-      <MaxW>160</MaxW>
+      <H>40</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextScoreP6N6">
-      <X>1165</X>
-      <Y>142</Y>
+      <X>1225</X>
+      <Y>628</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>220</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Right</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextRatingP6N6">
-      <X>1165</X>
-      <Y>107</Y>
+      <X>835</X>
+      <Y>543</Y>
       <Z>0</Z>
       <H>27</H>
-      <MaxW>160</MaxW>
+      <MaxW>170</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
     </Text>
     <Text Name="TextDifficultyP6N6">
-      <X>1165</X>
-      <Y>670</Y>
+      <X>835</X>
+      <Y>628</Y>
       <Z>0</Z>
-      <H>28</H>
-      <MaxW>160</MaxW>
+      <H>27</H>
+      <MaxW>390</MaxW>
       <Color Name="StaticColor" />
       <SelColor Name="TextSelColor" />
-      <Align>Center</Align>
-      <ResizeAlign>Center</ResizeAlign>
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
@@ -2066,15 +1940,15 @@
       <Type>Int</Type>
     </ScreenSetting>
     <ScreenSetting Name="ScreenSettingShortRating">
-      <Value>4</Value>
+      <Value>1</Value>
       <Type>Int</Type>
     </ScreenSetting>
     <ScreenSetting Name="ScreenSettingShortDifficulty">
-      <Value>4</Value>
+      <Value>1</Value>
       <Type>Int</Type>
     </ScreenSetting>
     <ScreenSetting Name="ScreenSettingAnimationDirection">
-      <Value>Horizontal</Value>
+      <Value>Vertical</Value>
       <Type>String</Type>
     </ScreenSetting>
   </ScreenSettings>
