@@ -80,6 +80,10 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">All</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Only names and avatars</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Nothing</string>
+  <string name="TR_CONFIG_LYRICSTYLE_FILL">Fill</string>
+  <string name="TR_CONFIG_LYRICSTYLE_JUMP">Jump</string>
+  <string name="TR_CONFIG_LYRICSTYLE_SLIDE">Slide</string>
+  <string name="TR_CONFIG_LYRICSTYLE_ZOOM">Zoom</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Bottom</string>
   <string name="TR_CONFIG_LYRICSPOSITION_TOP">Top</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Top and bottom</string>
