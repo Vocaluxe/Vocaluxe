@@ -46,7 +46,6 @@
   <string name="TR_CONFIG_LEVEL2">Nivel 2</string>
   <string name="TR_CONFIG_LEVEL3">Nivel 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Máx</string>
-  <string name="TR_CONFIG_LIST">Lista</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
   <string name="TR_CONFIG_TILE_BOARD">Cuadrícula</string>
   <string name="TR_CONFIG_BOOK">Libro</string>
@@ -182,8 +181,6 @@
   <string name="TR_SCREENORECORD_OPTIONS">Opciones de Grabación</string>
   <string name="TR_SCREENORECORD_DEVICE">Dispositivo</string>
   <string name="TR_SCREENORECORD_INPUT">Entrada</string>
-  <string name="TR_SCREENORECORD_CHANNEL_1">Canal 1</string>
-  <string name="TR_SCREENORECORD_CHANNEL_2">Canal 2</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Retraso del Micrófono</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Advertencia: Al menos un jugador ha sido asignado a dos micrófonos.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Prueba de Retraso</string>

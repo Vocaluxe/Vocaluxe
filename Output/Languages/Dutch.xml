@@ -46,7 +46,6 @@
   <string name="TR_CONFIG_LEVEL2">Niveau 2</string>
   <string name="TR_CONFIG_LEVEL3">Niveau 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
-  <string name="TR_CONFIG_LIST">Lijst</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
   <string name="TR_CONFIG_TILE_BOARD">Tegels</string>
   <string name="TR_CONFIG_BOOK">Boek</string>
@@ -182,8 +181,6 @@
   <string name="TR_SCREENORECORD_OPTIONS">Opname-opties</string>
   <string name="TR_SCREENORECORD_DEVICE">Apparaat</string>
   <string name="TR_SCREENORECORD_INPUT">Input</string>
-  <string name="TR_SCREENORECORD_CHANNEL_1">Kanaal 1</string>
-  <string name="TR_SCREENORECORD_CHANNEL_2">Kanaal 2</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Microfoonvertraging</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Waarschuwing: Ten minste één speler is toegewezen aan twee microfoons.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Vertragingstest</string>
