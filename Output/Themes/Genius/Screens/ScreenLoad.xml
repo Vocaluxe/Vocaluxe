@@ -17,7 +17,7 @@
   <Texts>
     <Text Name="Text1">
       <X>640</X>
-      <Y>350</Y>
+      <Y>375</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>0</MaxW>
@@ -31,7 +31,7 @@
     </Text>
     <Text Name="TextStatus">
       <X>640</X>
-      <Y>400</Y>
+      <Y>420</Y>
       <Z>0</Z>
       <H>20</H>
       <MaxW>0</MaxW>
@@ -41,7 +41,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>Gesamt: 168 Lieder (168 geladen)</Text>
+      <Text>Loading: 666 songs (666 loaded)</Text>
     </Text>
     <Text Name="TextProgramName">
       <X>640</X>
