@@ -46,7 +46,6 @@
   <string name="TR_CONFIG_LEVEL2">Úroveň 2</string>
   <string name="TR_CONFIG_LEVEL3">Úroveň 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Nejvíce</string>
-  <string name="TR_CONFIG_LIST">Seznam</string>
   <string name="TR_CONFIG_DREIDEL">Drejdl (čtyřboká kostka)</string>
   <string name="TR_CONFIG_TILE_BOARD">Herní deska</string>
   <string name="TR_CONFIG_BOOK">Kniha</string>
@@ -182,8 +181,6 @@
   <string name="TR_SCREENORECORD_OPTIONS">Nastavení nahrávání</string>
   <string name="TR_SCREENORECORD_DEVICE">Zařízení</string>
   <string name="TR_SCREENORECORD_INPUT">Vstup</string>
-  <string name="TR_SCREENORECORD_CHANNEL_1">Kanál 1</string>
-  <string name="TR_SCREENORECORD_CHANNEL_2">Kanál 2</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Zpoždění mikrofonu</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Varování: Alespoň jeden hráčům je přiřazen ke dvěma mikrofonům.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Zkouška zpoždění</string>
