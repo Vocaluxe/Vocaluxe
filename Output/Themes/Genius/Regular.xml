@@ -214,7 +214,7 @@
     <Menu>Menu.png</Menu>
     <Button>Button.png</Button>
     <CoverTile>CoverTile.png</CoverTile>
-    <CoverBackground>CoverBackground.png</CoverBackground>
+    <CoverTextBackground>CoverTextBackground.png</CoverTextBackground>
     <Cursor>Cursor.png</Cursor>
     <TimeBar>TimeBar.png</TimeBar>
     <TimeLine>TimeLine.png</TimeLine>

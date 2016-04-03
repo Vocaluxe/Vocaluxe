@@ -738,7 +738,7 @@
   <SongMenus>
     <SongMenu Name="SongMenu">
       <CoverBackground>CoverTile</CoverBackground>
-      <CoverBigBackground>CoverBackground</CoverBigBackground>
+      <CoverBigBackground />
       <DuetIcon>DuetIcon</DuetIcon>
       <VideoIcon>VideoIcon</VideoIcon>
       <MedleyCalcIcon>MedleyCalcIcon</MedleyCalcIcon>
@@ -813,7 +813,7 @@
           <Text />
         </TextSongLength>
         <StaticCoverBig Name="StaticCoverBig">
-          <Skin>CoverBackground</Skin>
+          <Skin />
           <Color Name="Visible" />
           <Rect>
             <X>40</X>
@@ -824,13 +824,13 @@
           </Rect>
         </StaticCoverBig>
         <StaticTextBG Name="StaticTextBG">
-          <Skin>CoverBackground</Skin>
+          <Skin>CoverTextBackground</Skin>
           <Color Name="StaticColor" />
           <Rect>
             <X>40</X>
-            <Y>40</Y>
+            <Y>410</Y>
             <W>360</W>
-            <H>550</H>
+            <H>180</H>
             <Z>-1</Z>
           </Rect>
         </StaticTextBG>
@@ -877,7 +877,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-            </StaticMedleyTagIcon>
+        </StaticMedleyTagIcon>
       </SongMenuTileBoard>
       <SongMenuList>
         <ListLength>15</ListLength>
@@ -940,7 +940,7 @@
           <Text />
         </TextSongLength>
         <StaticCoverBig Name="StaticCoverBig">
-          <Skin>CoverBackground</Skin>
+          <Skin />
           <Color Name="Visible" />
           <Rect>
             <X>40</X>
@@ -951,13 +951,13 @@
           </Rect>
         </StaticCoverBig>
         <StaticTextBG Name="StaticTextBG">
-          <Skin>CoverBackground</Skin>
+          <Skin>CoverTextBackground</Skin>
           <Color Name="StaticColor" />
           <Rect>
             <X>40</X>
-            <Y>40</Y>
+            <Y>410</Y>
             <W>360</W>
-            <H>550</H>
+            <H>180</H>
             <Z>-1</Z>
           </Rect>
         </StaticTextBG>
