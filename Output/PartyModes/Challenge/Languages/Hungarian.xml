@@ -16,6 +16,7 @@
   <string name="TR_SCREENCONFIG_NUMMICS">Mikrofonok Száma</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Körök Száma</string>
   <string name="TR_SCREENNAMES_TITLE">Bajnokság Mód: Válassz Játékost</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Véletlenszerű választás</string>
   <string name="TR_SCREENMAIN_TITLE">Bajnokság Mód: Áttekintés</string>
   <string name="TR_SCREENMAIN_TABLE_POS">Poz</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Név</string>

@@ -41,7 +41,6 @@
   <string name="TR_CONFIG_LEVEL2">Seviye 2</string>
   <string name="TR_CONFIG_LEVEL3">Seviye 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
-  <string name="TR_CONFIG_LIST">Liste</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
   <string name="TR_CONFIG_TILE_BOARD">Döşemeli Pano</string>
   <string name="TR_CONFIG_BOOK">Kitap</string>
@@ -164,8 +163,6 @@
   <string name="TR_SCREENORECORD_OPTIONS">Kaydetme Seçenekleri</string>
   <string name="TR_SCREENORECORD_DEVICE">Aygıt</string>
   <string name="TR_SCREENORECORD_INPUT">Giriş</string>
-  <string name="TR_SCREENORECORD_CHANNEL_1">Kanal 1</string>
-  <string name="TR_SCREENORECORD_CHANNEL_2">Kanal 2 </string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Mikrofon Gecikmesi</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Uyarı: Tek oyuncuya iki mikrofon atandı.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Gecikme Testi</string>

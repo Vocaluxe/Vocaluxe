@@ -16,6 +16,7 @@
   <string name="TR_SCREENCONFIG_NUMMICS">Nombre de micros</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Nombre de tours</string>
   <string name="TR_SCREENNAMES_TITLE">Mode Challenge: Choix des joueurs</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Sélectionner au hasard</string>
   <string name="TR_SCREENMAIN_TITLE">Mode Challenge: Résumé</string>
   <string name="TR_SCREENMAIN_TABLE_POS">Pos</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Nom</string>

@@ -1,6 +1,8 @@
 obj
 PitchTracker.dll
 Thumbs.db
+.transifexrc
+tx.exe
 *.mp4
 *.pdb
 *.csproj.user

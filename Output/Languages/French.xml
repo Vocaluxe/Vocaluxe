@@ -46,7 +46,6 @@
   <string name="TR_CONFIG_LEVEL2">Niveau 2</string>
   <string name="TR_CONFIG_LEVEL3">Niveau 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
-  <string name="TR_CONFIG_LIST">Liste</string>
   <string name="TR_CONFIG_DREIDEL">Caroussel</string>
   <string name="TR_CONFIG_TILE_BOARD">Damier</string>
   <string name="TR_CONFIG_BOOK">Livre</string>
@@ -182,8 +181,6 @@
   <string name="TR_SCREENORECORD_OPTIONS">Options d'Enregistrement</string>
   <string name="TR_SCREENORECORD_DEVICE">Appareil</string>
   <string name="TR_SCREENORECORD_INPUT">Entrée</string>
-  <string name="TR_SCREENORECORD_CHANNEL_1">Canal 1</string>
-  <string name="TR_SCREENORECORD_CHANNEL_2">Canal 2</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Retard du Micro</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Attention: Au moins un des joueurs est assigné à 2 micros.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Test du Retard</string>

@@ -104,7 +104,7 @@ namespace Vocaluxe.Base
             [DefaultValue(EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH)] public EPlayerInfo PlayerInfo;
             [DefaultValue(EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF)] public EFadePlayerInfo FadePlayerInfo;
             [DefaultValue(ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC)] public ECoverLoading CoverLoading;
-            [DefaultValue(ELyricStyle.Slide)] public ELyricStyle LyricStyle;
+            [DefaultValue(ELyricStyle.TR_CONFIG_LYRICSTYLE_SLIDE)] public ELyricStyle LyricStyle;
         }
 
         public struct SConfigSound

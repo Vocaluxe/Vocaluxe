@@ -321,10 +321,10 @@ namespace VocaluxeLib
 
     public enum ELyricStyle
     {
-        Fill,
-        Jump,
-        Slide,
-        Zoom
+        TR_CONFIG_LYRICSTYLE_FILL,
+        TR_CONFIG_LYRICSTYLE_JUMP,
+        TR_CONFIG_LYRICSTYLE_SLIDE,
+        TR_CONFIG_LYRICSTYLE_ZOOM
     }
     #endregion Config
 
