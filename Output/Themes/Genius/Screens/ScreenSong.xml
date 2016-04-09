@@ -170,8 +170,8 @@
       <Font>Outline</Font>
       <Text />
       <Reflection>
-        <Height>26</Height>
-        <Space>24</Space>
+        <Height>13</Height>
+        <Space>33</Space>
       </Reflection>
     </Text>
     <Text Name="TextSelection">
@@ -220,8 +220,8 @@
       <Font>Outline</Font>
       <Text />
 	  <Reflection>
-        <Height>16</Height>
-        <Space>30</Space>
+        <Height>14</Height>
+        <Space>32</Space>
       </Reflection>
     </Text>
     <Text Name="TextOptionsTitle">
