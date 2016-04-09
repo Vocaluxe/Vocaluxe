@@ -102,7 +102,7 @@ namespace VocaluxeLib.Menu.SingNotes
                     SRectF rect = _GetNoteRect(note);
 
                     _DrawNoteBG(rect, color);
-                    _DrawNote(rect, new SColorF(Color.White, 0.7f * Alpha), 0.7f);
+                    _DrawNoteBase(rect, new SColorF(Color.White, Alpha), 1f);
                 }
             }
 
@@ -118,9 +118,9 @@ namespace VocaluxeLib.Menu.SingNotes
                     if (note.EndBeat == CBase.Game.GetRecordedBeat())
                         rect.W -= (1 - (CBase.Game.GetMidRecordedBeat() - CBase.Game.GetRecordedBeat())) * Rect.W / beats;
 
-                    float factor = (note.Hit) ? 0.7f : 0.4f;
+                    float factor = (note.Hit) ? 1f : 0.6f;
 
-                    _DrawNote(rect, color, factor);
+                    _DrawNoteFill(rect, color, factor);
 
                     if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.HitNote.Type == ENoteType.Golden)
                     {
@@ -221,7 +221,7 @@ namespace VocaluxeLib.Menu.SingNotes
             CBase.Drawing.DrawTexture(toneHelper, drawRect, color);
         }
 
-        private void _DrawNote(SRectF rect, SColorF color, float factor)
+        private void _DrawNote(SRectF rect, SColorF color, float factor, CTextureRef noteBegin, CTextureRef noteMiddle, CTextureRef noteEnd)
         {
             if (factor <= 0)
                 return;
@@ -230,10 +230,6 @@ namespace VocaluxeLib.Menu.SingNotes
             float dw = Math.Min(dh, rect.W / 2);
 
             var noteRect = new SRectF(rect.X + dw, rect.Y + dh, rect.W - 2 * dw, rect.H - 2 * dh, rect.Z);
-
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinLeft, _PartyModeID);
-            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinMiddle, _PartyModeID);
-            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinRight, _PartyModeID);
 
             //Width of each of the ends (round parts)
             //Need 2 of them so use minimum
@@ -250,7 +246,26 @@ namespace VocaluxeLib.Menu.SingNotes
             CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW, noteRect.Y, endsW, noteRect.H, noteRect.Z), color);
         }
 
-        private void _DrawNoteBG(SRectF noteRect, SColorF color)
+        private void _DrawNoteBase(SRectF rect, SColorF color, float factor)
+        {
+            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinLeft, _PartyModeID);
+            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinMiddle, _PartyModeID);
+            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinRight, _PartyModeID);
+
+            _DrawNote(rect, color, factor, noteBegin, noteMiddle, noteEnd);
+        }
+
+        private void _DrawNoteFill(SRectF rect, SColorF color, float factor)
+        {
+
+            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinFillLeft, _PartyModeID);
+            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinFillMiddle, _PartyModeID);
+            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinFillRight, _PartyModeID);
+
+            _DrawNote(rect, color, factor, noteBegin, noteMiddle, noteEnd);
+        }
+
+        private void _DrawNoteBG(SRectF rect, SColorF color)
         {
             const float period = 1500; //[ms]
 
@@ -262,27 +277,15 @@ namespace VocaluxeLib.Menu.SingNotes
 
             float alpha = (float)(Math.Cos(_Timer.ElapsedMilliseconds / period * Math.PI * 2) + 1) / 4 + 0.5f;
 
-            CTextureRef noteBackgroundBegin = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundLeft, _PartyModeID);
-            CTextureRef noteBackgroundMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundMiddle, _PartyModeID);
-            CTextureRef noteBackgroundEnd = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundRight, _PartyModeID);
-
-            float dx = noteRect.H * noteBackgroundBegin.OrigAspect;
-            if (2 * dx > noteRect.W)
-                dx = noteRect.W / 2;
-
             var col = new SColorF(color, color.A * alpha);
 
-            CBase.Drawing.DrawTexture(noteBackgroundBegin, new SRectF(noteRect.X, noteRect.Y, dx, noteRect.H, noteRect.Z), col);
+            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundLeft, _PartyModeID);
+            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundMiddle, _PartyModeID);
+            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundRight, _PartyModeID);
 
-            if (noteRect.W - 2 * dx >= 2 * dx)
-                CBase.Drawing.DrawTexture(noteBackgroundMiddle, new SRectF(noteRect.X + dx, noteRect.Y, noteRect.W - 2 * dx, noteRect.H, noteRect.Z), col);
-            else
-            {
-                CBase.Drawing.DrawTexture(noteBackgroundMiddle, new SRectF(noteRect.X + dx, noteRect.Y, 2 * dx, noteRect.H, noteRect.Z), col,
-                                          new SRectF(noteRect.X + dx, noteRect.Y, noteRect.W - 2 * dx, noteRect.H, noteRect.Z));
-            }
+            float factor = 1f;
 
-            CBase.Drawing.DrawTexture(noteBackgroundEnd, new SRectF(noteRect.X + noteRect.W - dx, noteRect.Y, dx, noteRect.H, noteRect.Z), col);
+            _DrawNote(rect, col, factor, noteBegin, noteMiddle, noteEnd);
         }
 
         private void _AddGoldenNote(SRectF noteRect)
