@@ -44,6 +44,12 @@
       <B>0.500</B>
       <A>1.000</A>
     </Player6>
+    <NoteLinesColor>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>0.200</A>
+    </NoteLinesColor>
     <BackgroundColor>
       <R>0.750</R>
       <G>0.750</G>
