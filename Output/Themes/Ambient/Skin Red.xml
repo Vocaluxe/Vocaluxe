@@ -213,7 +213,7 @@
     <NoteLeft>notes_left.png</NoteLeft>
     <NoteMiddle>notes_mid.png</NoteMiddle>
     <NoteRight>notes_right.png</NoteRight>
-	<NoteFillLeft>notes_fill_left.png</NoteFillLeft>
+    <NoteFillLeft>notes_fill_left.png</NoteFillLeft>
     <NoteFillMiddle>notes_fill_mid.png</NoteFillMiddle>
     <NoteFillRight>notes_fill_right.png</NoteFillRight>
     <NoteBackgroundLeft>notes_bg_left.png</NoteBackgroundLeft>
