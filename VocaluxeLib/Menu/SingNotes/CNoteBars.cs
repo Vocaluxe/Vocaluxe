@@ -221,7 +221,7 @@ namespace VocaluxeLib.Menu.SingNotes
             CBase.Drawing.DrawTexture(toneHelper, drawRect, color);
         }
 
-        private void _DrawNote(SRectF rect, SColorF color, float factor, CTextureRef noteBegin, CTextureRef noteMiddle, CTextureRef noteEnd)
+        private void _DrawNote(SRectF rect, SColorF color, CTextureRef noteBegin, CTextureRef noteMiddle, CTextureRef noteEnd, float factor)
         {
             if (factor <= 0)
                 return;
@@ -252,7 +252,7 @@ namespace VocaluxeLib.Menu.SingNotes
             CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinMiddle, _PartyModeID);
             CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinRight, _PartyModeID);
 
-            _DrawNote(rect, color, factor, noteBegin, noteMiddle, noteEnd);
+            _DrawNote(rect, color, noteBegin, noteMiddle, noteEnd, factor);
         }
 
         private void _DrawNoteFill(SRectF rect, SColorF color, float factor)
@@ -262,7 +262,7 @@ namespace VocaluxeLib.Menu.SingNotes
             CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinFillMiddle, _PartyModeID);
             CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinFillRight, _PartyModeID);
 
-            _DrawNote(rect, color, factor, noteBegin, noteMiddle, noteEnd);
+            _DrawNote(rect, color, noteBegin, noteMiddle, noteEnd, factor);
         }
 
         private void _DrawNoteBG(SRectF rect, SColorF color)
@@ -283,9 +283,7 @@ namespace VocaluxeLib.Menu.SingNotes
             CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundMiddle, _PartyModeID);
             CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundRight, _PartyModeID);
 
-            float factor = 1f;
-
-            _DrawNote(rect, col, factor, noteBegin, noteMiddle, noteEnd);
+            _DrawNote(rect, col, noteBegin, noteMiddle, noteEnd, 1f);
         }
 
         private void _AddGoldenNote(SRectF noteRect)
