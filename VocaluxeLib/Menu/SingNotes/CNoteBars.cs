@@ -62,7 +62,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             _Color = CBase.Themes.GetPlayerColor(player + 1);
             if (!CBase.Themes.GetColor("NoteLinesColor", _PartyModeID, out _NoteLinesColor))
-                _NoteLinesColor = new SColorF(Color.Gray, 0.5f * Alpha);
+                _NoteLinesColor = new SColorF(Color.Gray, 0.5f);
 
             SPlayer playerData = CBase.Game.GetPlayers()[player];
             _Lines = CBase.Game.GetSong().Notes.GetVoice(playerData.VoiceNr).Lines;
@@ -91,7 +91,7 @@ namespace VocaluxeLib.Menu.SingNotes
             CSongLine line = _Lines[_CurrentLine];
 
             if (CBase.Config.GetDrawNoteLines() == EOffOn.TR_CONFIG_ON)
-                _DrawNoteLines(_NoteLinesColor);
+                _DrawNoteLines(new SColorF(_NoteLinesColor, _NoteLinesColor.A * Alpha));
 
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
 

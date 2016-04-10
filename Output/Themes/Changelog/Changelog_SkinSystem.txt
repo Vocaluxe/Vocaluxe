@@ -2,7 +2,7 @@ Skin System
 
 ++++++++++
 Version 5:
-Added optional <NoteLineColor> to be able to colour the note lines (Fallback to gray with 0.2 Alpha if not set)
+Added optional <NoteLineColor> to be able to colour the note lines (Fallback to gray with 0.5 Alpha if not set)
 
 ++++++++++
 Version 4:
