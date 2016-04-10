@@ -33,6 +33,7 @@ namespace VocaluxeLib.Menu.SingNotes
         public readonly SRectF Rect;
         private readonly SColorF _Color;
         private readonly SColorF _NoteLinesColor;
+        private readonly SColorF _NoteBaseColor;
         public float Alpha = 1;
         private readonly CSongLine[] _Lines;
 
@@ -61,8 +62,12 @@ namespace VocaluxeLib.Menu.SingNotes
             Rect = rect;
 
             _Color = CBase.Themes.GetPlayerColor(player + 1);
+
             if (!CBase.Themes.GetColor("NoteLinesColor", _PartyModeID, out _NoteLinesColor))
                 _NoteLinesColor = new SColorF(Color.Gray, 0.5f);
+
+            if (!CBase.Themes.GetColor("NoteBaseColor", _PartyModeID, out _NoteBaseColor))
+                _NoteBaseColor = new SColorF(Color.White);
 
             SPlayer playerData = CBase.Game.GetPlayers()[player];
             _Lines = CBase.Game.GetSong().Notes.GetVoice(playerData.VoiceNr).Lines;
@@ -105,7 +110,7 @@ namespace VocaluxeLib.Menu.SingNotes
                     SRectF rect = _GetNoteRect(note);
 
                     _DrawNoteBG(rect, color);
-                    _DrawNoteBase(rect, new SColorF(Color.White, Alpha), 1f);
+                    _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f);
                 }
             }
 
