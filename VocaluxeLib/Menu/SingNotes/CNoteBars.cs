@@ -258,9 +258,14 @@ namespace VocaluxeLib.Menu.SingNotes
 
             SRectF lastMidRect = new SRectF(middleRect.X + midCount * midW, noteRect.Y, middleRect.W - (midCount * midW), noteRect.H, noteRect.Z);
 
+            //gapAdjust fixes 1px empty gap appearing with certain note lengths.
+            float gapAdjust = 0f;
+            if (lastMidRect.W < 1)
+                gapAdjust = lastMidRect.W;
+
             CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X + (midCount * midW), middleRect.Y, midW, middleRect.H, middleRect.Z), color, lastMidRect);
 
-            CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW, noteRect.Y, endsW, noteRect.H, noteRect.Z), color);
+            CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW - gapAdjust, noteRect.Y, endsW, noteRect.H, noteRect.Z), color);
         }
 
         private void _DrawNoteBase(SRectF rect, SColorF color, float factor)
