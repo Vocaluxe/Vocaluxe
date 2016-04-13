@@ -69,9 +69,9 @@
       <A>0.500</A>
     </StaticColorAlpha>
     <StaticWarningColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.882</R>
+      <G>0.149</G>
+      <B>0.110</B>
       <A>0.600</A>
     </StaticWarningColor>
     <ButtonColor>
@@ -263,6 +263,7 @@
     <ScrollDown>ScrollDown.png</ScrollDown>
 	<VocaluxeLogo>VocaluxeLogo.png</VocaluxeLogo>
 	<SongSelectButton>SongSelectButton.png</SongSelectButton>
+    <Warning>Warning.png</Warning>
   </Skins>
   <Videos>
     <BG_Video>BG_Video.mp4</BG_Video>

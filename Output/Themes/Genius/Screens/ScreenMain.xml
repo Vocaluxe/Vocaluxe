@@ -26,13 +26,13 @@
       </Rect>
     </Static>
     <Static Name="StaticWarningProfiles">
-      <Skin />
+      <Skin>Warning</Skin>
       <Color Name="StaticWarningColor" />
       <Rect>
-        <X>150</X>
-        <Y>610</Y>
-        <W>355</W>
-        <H>30</H>
+        <X>260</X>
+        <Y>310</Y>
+        <W>760</W>
+        <H>50</H>
         <Z>-1.9</Z>
       </Rect>
     </Static>
@@ -53,11 +53,11 @@
       <Text>Vocaluxe "Shining Heaven" v0.3.0 (x64) Beta (0083)</Text>
     </Text>
     <Text Name="TextWarningProfiles">
-      <X>320</X>
-      <Y>612</Y>
+      <X>640</X>
+      <Y>322</Y>
       <Z>-2</Z>
-      <H>27</H>
-      <MaxW>355</MaxW>
+      <H>25</H>
+      <MaxW>640</MaxW>
       <Color Name="TextWarningColor" />
       <SelColor Name="TextWarningColor" />
       <Align>Center</Align>

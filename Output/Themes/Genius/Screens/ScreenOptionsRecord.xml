@@ -92,15 +92,19 @@
       </Rect>
     </Static>
     <Static Name="StaticWarning">
-      <Skin/>
-      <Color Name="Invisible" />
+      <Skin>Warning</Skin>
+      <Color Name="StaticWarningColor" />
       <Rect>
-        <X>145</X>
-        <Y>480</Y>
-        <W>990</W>
+        <X>260</X>
+        <Y>600</Y>
+        <W>760</W>
         <H>50</H>
         <Z>0</Z>
       </Rect>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
     </Static>
     <Static Name="StaticEnergyPlayer1">
       <Skin>EnergyBeam</Skin>
@@ -214,10 +218,10 @@
     </Text>
     <Text Name="TextWarning">
       <X>640</X>
-      <Y>615</Y>
+      <Y>612</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>970</MaxW>
+      <H>25</H>
+      <MaxW>640</MaxW>
       <Color Name="TextWarningColor" />
       <SelColor Name="TextWarningColor" />
       <Align>Center</Align>
@@ -225,6 +229,10 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_MIC_WARNING</Text>
+      <Reflection>
+        <Height>14</Height>
+        <Space>35</Space>
+      </Reflection>
     </Text>
     <Text Name="TextPlayer1">
       <X>125</X>
@@ -400,7 +408,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>145</X>
+        <X>55</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
@@ -435,7 +443,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>985</X>
+        <X>1075</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
