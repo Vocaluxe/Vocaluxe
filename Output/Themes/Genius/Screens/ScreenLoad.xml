@@ -41,7 +41,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>Loading: 666 songs (666 loaded)</Text>
+      <Text />
     </Text>
     <Text Name="TextProgramName">
       <X>640</X>
