@@ -49,8 +49,8 @@
       <Z>0</Z>
       <H>101</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
-      <SelColor Name="TextSelColor" />
+      <Color Name="Invisible" />
+      <SelColor Name="Invisible" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
