@@ -1224,7 +1224,7 @@
         </Rect>
         </StaticCover>
       <StaticPlaylistHeader Name="StaticPlaylistHeader">
-        <Skin>Menu</Skin>
+        <Skin>PlaylistBG</Skin>
         <Color Name="StaticColorAlpha" />
         <Rect>
           <X>830</X>
@@ -1235,7 +1235,7 @@
         </Rect>
         </StaticPlaylistHeader>
       <StaticPlaylistFooter Name="StaticPlaylistFooter">
-        <Skin>Menu</Skin>
+        <Skin>PlaylistBG</Skin>
         <Color Name="StaticColorAlpha" />
         <Rect>
           <X>830</X>
