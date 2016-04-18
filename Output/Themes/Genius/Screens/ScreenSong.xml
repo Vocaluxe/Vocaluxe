@@ -16,7 +16,7 @@
   <Statics>
     <Static Name="Static1">
       <Skin>SongMenu</Skin>
-      <Color Name="StaticColor" />
+      <Color Name="StaticColorAlpha" />
       <Rect>
         <X>410</X>
         <Y>600</Y>
@@ -46,7 +46,7 @@
     </Static>
     <Static Name="StaticSearchBar">
       <Skin>SearchBar</Skin>
-      <Color Name="StaticColor" />
+      <Color Name="StaticColorAlpha" />
       <Rect>
         <X>40</X>
         <Y>600</Y>
@@ -825,7 +825,7 @@
         </StaticCoverBig>
         <StaticTextBG Name="StaticTextBG">
           <Skin>CoverTextBackground</Skin>
-          <Color Name="StaticColor" />
+          <Color Name="StaticColorAlpha" />
           <Rect>
             <X>40</X>
             <Y>410</Y>
@@ -1195,8 +1195,8 @@
       <SkinBackground>CoverTile</SkinBackground>
       <SkinBackgroundSelected>CoverTile</SkinBackgroundSelected>
       <ColorBackground Name="StaticColorAlpha">
-		<A>0.3</A>
-	  </ColorBackground>
+        <A>0.3</A>
+      </ColorBackground>
       <SelColorBackground Name="StaticColorAlpha" />
       <Text1 Name="TextPart1">
         <X>54</X>
@@ -1225,7 +1225,7 @@
         </StaticCover>
       <StaticPlaylistHeader Name="StaticPlaylistHeader">
         <Skin>Menu</Skin>
-        <Color Name="StaticColor" />
+        <Color Name="StaticColorAlpha" />
         <Rect>
           <X>830</X>
           <Y>40</Y>
@@ -1236,7 +1236,7 @@
         </StaticPlaylistHeader>
       <StaticPlaylistFooter Name="StaticPlaylistFooter">
         <Skin>Menu</Skin>
-        <Color Name="StaticColor" />
+        <Color Name="StaticColorAlpha" />
         <Rect>
           <X>830</X>
           <Y>540</Y>

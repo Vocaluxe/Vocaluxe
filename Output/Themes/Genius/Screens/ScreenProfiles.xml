@@ -25,61 +25,6 @@
         <Z>1</Z>
       </Rect>
     </Static>
-    <Static Name="Static2">
-      <Skin/>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>50</X>
-        <Y>160</Y>
-        <W>460</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="Static3">
-      <Skin/>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>50</X>
-        <Y>220</Y>
-        <W>460</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="Static4">
-      <Skin/>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>50</X>
-        <Y>280</Y>
-        <W>460</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="Static5">
-      <Skin/>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>50</X>
-        <Y>340</Y>
-        <W>460</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="Static6">
-      <Skin/>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>50</X>
-        <Y>400</Y>
-        <W>460</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatar">
       <Skin />
       <Color Name="Visible" />
