@@ -1152,14 +1152,14 @@
       </Rect>
       <RectArrowLeft>
         <X>45</X>
-        <Y>100</Y>
+        <Y>95</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>365</X>
-        <Y>100</Y>
+        <Y>95</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2.12</Z>
