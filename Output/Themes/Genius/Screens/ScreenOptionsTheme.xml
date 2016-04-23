@@ -247,7 +247,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>145</X>
+        <X>55</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>

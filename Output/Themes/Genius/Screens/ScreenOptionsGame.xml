@@ -18,7 +18,7 @@
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
-        <X>00</X>
+        <X>0</X>
         <Y>40</Y>
         <W>1280</W>
         <H>45</H>
@@ -197,7 +197,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>145</X>
+        <X>55</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
@@ -232,7 +232,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>355</X>
+        <X>1075</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
