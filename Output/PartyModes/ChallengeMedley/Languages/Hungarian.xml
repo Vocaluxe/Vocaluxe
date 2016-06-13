@@ -2,6 +2,7 @@
 <resources>
   <string name="language">Magyar</string>
   <string name="TR_PARTYMODE_NAME">Bajnokság Egyveleg Mód</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Bajnokság Módban egymás ellen, csak dalrészletekkel</string>
   <string name="TR_PARTYMODE_AUDIENCE">Azoknak akik egymás ellen szeretnének játszani és csak dalrészleteket énekelni.</string>
   <string name="TR_BUTTON_NEXT">Következő</string>
   <string name="TR_BUTTON_BACK">Vissza</string>
@@ -18,8 +19,10 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Játékosok Száma</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Mikrofonok Száma</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Körök Száma</string>
+  <string name="TR_SCREENCONFIG_NUMSONGS">Dalok száma körönként</string>
   <string name="TR_SCREENCONFIG_SONGSOURCE">Dal-forrás</string>
   <string name="TR_SCREENNAMES_TITLE">Bajnokság Egyveleg Mód: Válassz Játékost</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Véletlenszerű választás</string>
   <string name="TR_SCREENMAIN_TITLE">Bajnokság Egyveleg Mód: Áttekintés</string>
   <string name="TR_SCREENMAIN_TABLE_POS">Poz</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Név</string>
