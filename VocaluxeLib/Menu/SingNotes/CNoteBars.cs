@@ -247,7 +247,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             var middleRect = new SRectF(noteRect.X + endsW, noteRect.Y, noteRect.W - 2 * endsW, noteRect.H, noteRect.Z);
 
-            float midW = noteRect.H * noteMiddle.OrigAspect;
+            float midW = (float)Math.Round(noteRect.H * noteMiddle.OrigAspect);
 
             int midCount = (int)Math.Floor(middleRect.W / midW);
 
