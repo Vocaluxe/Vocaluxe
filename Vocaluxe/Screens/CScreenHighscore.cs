@@ -177,7 +177,7 @@ namespace Vocaluxe.Screens
                         name += " (P" + (_Scores[_Round][_Pos + p].VoiceNr + 1) + ")";
                     _Texts[_TextName[p]].Text = name;
 
-                    _Texts[_TextScore[p]].Text = _Scores[_Round][_Pos + p].Score.ToString("00000");
+                    _Texts[_TextScore[p]].Text = _Scores[_Round][_Pos + p].Score.ToString("D");
                     _Texts[_TextDate[p]].Text = _Scores[_Round][_Pos + p].Date;
 
                     _ParticleEffects[_ParticleEffectNew[p]].Visible = _IsNewEntry(_Scores[_Round][_Pos + p].ID);
