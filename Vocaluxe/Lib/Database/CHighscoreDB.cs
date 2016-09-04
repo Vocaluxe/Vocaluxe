@@ -305,8 +305,13 @@ namespace Vocaluxe.Lib.Database
                         return scores;
 
                     command.CommandText = "SELECT PlayerName, Score, Date, Difficulty, LineNr, id FROM Scores " +
-                                          "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
-                                          "ORDER BY [Score] DESC";
+                                          "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong ";
+                    if (CBase.Config.GetHighscoreStyle() == EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST)
+                    {
+                        command.CommandText += "GROUP BY PlayerName, Difficulty, LineNr ";
+                    }
+                    command.CommandText += "ORDER BY [Score] DESC, [Date] ASC";
+
                     command.Parameters.Add("@SongID", DbType.Int32, 0).Value = dataBaseSongID;
                     command.Parameters.Add("@Medley", DbType.Int32, 0).Value = medley;
                     command.Parameters.Add("@Duet", DbType.Int32, 0).Value = duet;

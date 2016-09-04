@@ -1,6 +1,12 @@
 ScreenOptionsGame
 
 ++++++++++
+Version 3:
+
+Add:
+<Text8>
+<SelectSlideHighscoreStyle>
+++++++++++
 Version 2:
 
 Add:
