@@ -239,7 +239,8 @@ namespace Vocaluxe.Screens
             {
                 int songID = CGame.GetSong(round).ID;
                 EGameMode gameMode = CGame.GetGameMode(round);
-                _Scores[round] = CDataBase.LoadScore(songID, gameMode);
+                EHighscoreStyle style = CBase.Config.GetHighscoreStyle();
+                _Scores[round] = CDataBase.LoadScore(songID, gameMode, style);
             }
         }
 

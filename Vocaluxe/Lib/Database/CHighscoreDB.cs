@@ -266,7 +266,7 @@ namespace Vocaluxe.Lib.Database
             return lastInsertID;
         }
 
-        public List<SDBScoreEntry> LoadScore(int songID, EGameMode gameMode)
+        public List<SDBScoreEntry> LoadScore(int songID, EGameMode gameMode, EHighscoreStyle style)
         {
             var scores = new List<SDBScoreEntry>();
             using (var connection = new SQLiteConnection())
@@ -304,13 +304,28 @@ namespace Vocaluxe.Lib.Database
                     if (dataBaseSongID < 0)
                         return scores;
 
-                    command.CommandText = "SELECT PlayerName, Score, Date, Difficulty, LineNr, id FROM Scores " +
-                                          "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong ";
-                    if (CBase.Config.GetHighscoreStyle() == EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST)
+                    switch (style)
                     {
-                        command.CommandText += "GROUP BY PlayerName, Difficulty, LineNr ";
+                        case EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST:
+                            command.CommandText = "SELECT sc.PlayerName, sc.Score, MIN(sc.Date) AS Date, sc.Difficulty, sc.LineNr, sc.id " +
+                            "FROM Scores sc " +
+                            "INNER JOIN ( " +
+                            "SELECT Playername, MAX(Score) AS _Score, Difficulty, LineNr, id " +
+                            "FROM Scores " +
+                            "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
+                            "GROUP BY PlayerName, Difficulty, LineNr "+
+                            ") AS mc " +
+                            "ON sc.PlayerName = mc.PlayerName AND sc.Difficulty = mc.Difficulty AND sc.LineNr = mc.LineNr AND sc.Score = mc._Score AND sc.id = mc.id " +
+                            "GROUP BY sc.PlayerName, sc.Difficulty, sc.LineNr, sc.Score " +
+                            "ORDER BY [Score] DESC, [Date] ASC";
+                            break;
+                        case EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_ALL:
+                            command.CommandText = "SELECT PlayerName, Score, Date, Difficulty, LineNr, id " +
+                            "FROM Scores " +
+                            "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
+                            "ORDER BY [Score] DESC, [Date] ASC";
+                            break;
                     }
-                    command.CommandText += "ORDER BY [Score] DESC, [Date] ASC";
 
                     command.Parameters.Add("@SongID", DbType.Int32, 0).Value = dataBaseSongID;
                     command.Parameters.Add("@Medley", DbType.Int32, 0).Value = medley;
