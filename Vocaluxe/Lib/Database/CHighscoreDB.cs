@@ -307,17 +307,25 @@ namespace Vocaluxe.Lib.Database
                     switch (style)
                     {
                         case EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST:
-                            command.CommandText = "SELECT sc.PlayerName, sc.Score, MIN(sc.Date) AS Date, sc.Difficulty, sc.LineNr, sc.id " +
+                            command.CommandText = "SELECT os.PlayerName, os.Score, os.Date, os.Difficulty, os.LineNr, os.id " +
+                            "FROM Scores os " +
+                            "INNER JOIN ( " +
+                            "SELECT sc.PlayerName, sc.Score, sc.Difficulty, sc.LineNr, MIN(sc.Date) AS Date " +
                             "FROM Scores sc " +
                             "INNER JOIN ( " +
-                            "SELECT Playername, MAX(Score) AS _Score, Difficulty, LineNr, id " +
+                            "SELECT Playername, MAX(Score) AS Score, Difficulty, LineNr " +
                             "FROM Scores " +
                             "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
-                            "GROUP BY PlayerName, Difficulty, LineNr "+
+                            "GROUP BY PlayerName, Difficulty, LineNr " +
                             ") AS mc " +
-                            "ON sc.PlayerName = mc.PlayerName AND sc.Difficulty = mc.Difficulty AND sc.LineNr = mc.LineNr AND sc.Score = mc._Score AND sc.id = mc.id " +
+                            "ON sc.PlayerName = mc.PlayerName AND sc.Difficulty = mc.Difficulty AND sc.LineNr = mc.LineNr AND sc.Score = mc.Score " +
+                            "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
                             "GROUP BY sc.PlayerName, sc.Difficulty, sc.LineNr, sc.Score " +
-                            "ORDER BY [Score] DESC, [Date] ASC";
+                            ") AS iq " +
+                            "ON os.PlayerName = iq.PlayerName AND os.Difficulty = iq.Difficulty AND os.LineNr = iq.LineNr AND os.Score = iq.Score AND os.Date = iq.Date " +
+                            "WHERE [SongID] = @SongID AND [Medley] = @Medley AND [Duet] = @Duet AND [ShortSong] = @ShortSong " +
+                            "GROUP BY os.PlayerName, os.Difficulty, os.LineNr, os.Score " +
+                            "ORDER BY os.Score DESC, os.Date ASC";
                             break;
                         case EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_ALL:
                             command.CommandText = "SELECT PlayerName, Score, Date, Difficulty, LineNr, id " +
