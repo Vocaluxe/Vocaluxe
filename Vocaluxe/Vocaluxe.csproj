@@ -185,6 +185,7 @@
     <Compile Include="Lib\Draw\CTextureBase.cs" />
     <Compile Include="Lib\Draw\CTextureProvider.cs" />
     <Compile Include="Lib\Input\CGamePad.cs" />
+    <Compile Include="Lib\Sound\EAudioEffect.cs" />
     <Compile Include="Lib\Sound\Playback\CAudioStreamBase.cs" />
     <Compile Include="Lib\Sound\Playback\CPlaybackBase.cs" />
     <Compile Include="Lib\Sound\Playback\CRingBuffer.cs" />

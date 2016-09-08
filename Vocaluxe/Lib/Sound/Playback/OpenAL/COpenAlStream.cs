@@ -122,7 +122,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             }
         }
 
-        public COpenAlStream(int id, string medium, bool loop) : base(id, medium, loop) {}
+        public COpenAlStream(int id, string medium, bool loop, EAudioEffect effect = EAudioEffect.None) : base(id, medium, loop, effect) {}
 
         protected override void _Dispose(bool disposing)
         {

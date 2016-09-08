@@ -36,7 +36,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         void CloseAll();
 
         #region stream Handling
-        int Load(string medium, bool loop = false, bool prescan = false);
+        int Load(string medium, bool loop = false, bool prescan = false, EAudioEffect effekt= EAudioEffect.None);
         void Close(int streamID);
 
         void Play(int streamID);

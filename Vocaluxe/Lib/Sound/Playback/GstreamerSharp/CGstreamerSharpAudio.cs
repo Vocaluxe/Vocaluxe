@@ -72,9 +72,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             Application.Deinit();
         }
 
-        protected override IAudioStream _CreateStream(int id, string media, bool loop)
+        protected override IAudioStream _CreateStream(int id, string media, bool loop, EAudioEffect effect = EAudioEffect.None)
         {
-            return new CGstreamerSharpAudioStream(id, media, loop);
+            return new CGstreamerSharpAudioStream(id, media, loop, effect);
         }
     }
 }

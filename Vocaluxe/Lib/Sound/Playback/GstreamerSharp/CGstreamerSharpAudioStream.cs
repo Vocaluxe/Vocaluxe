@@ -102,7 +102,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             }
         }
 
-        public CGstreamerSharpAudioStream(int id, string medium, bool loop) : base(id, medium, loop) {}
+        public CGstreamerSharpAudioStream(int id, string medium, bool loop, EAudioEffect effect = EAudioEffect.None) : base(id, medium, loop, effect) {}
 
         public override bool Open(bool prescan)
         {
@@ -125,7 +125,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
             var audioSinkBin = new Bin("Audiosink");
             Element audiokaraoke = null;
-            if (CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON)
+            if (_Effect.HasFlag(EAudioEffect.Karaoke))
             {
                 audiokaraoke = ElementFactory.Make("audiokaraoke", "karaoke");
                 audioSinkBin.Add(audiokaraoke);
