@@ -27,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _SelectSlideBackgroundMusic = "SelectSlideBackgroundMusic";
