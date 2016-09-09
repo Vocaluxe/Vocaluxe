@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptionsSound</ScreenName>
-    <ScreenVersion>3</ScreenVersion>
+    <ScreenVersion>4</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
