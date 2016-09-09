@@ -139,6 +139,7 @@ namespace Vocaluxe.Base
             [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)] public ELyricsPosition LyricsPosition;
             [DefaultValue(0.1f)] public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
             [XmlArrayItem("Player"), XmlArray] public string[] Players;
+            [DefaultValue(EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST)] public EHighscoreStyle HighscoreStyle;
         }
 
         public struct SConfigVideo
