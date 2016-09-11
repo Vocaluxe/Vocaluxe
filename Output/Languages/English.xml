@@ -204,6 +204,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Background-music source</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Preview-music volume</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Game-music volume</string>
+  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Karaoke effect</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Theme Options</string>
   <string name="TR_SCREENOTHEME_THEME">Theme</string>
   <string name="TR_SCREENOTHEME_SKIN">Skin</string>
