@@ -25,6 +25,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         private readonly int _ID;
         protected readonly string _Medium;
         protected readonly bool _Loop;
+        protected readonly EAudioEffect _Effect;
 
         protected ICloseStreamListener _CloseStreamListener;
 
@@ -48,11 +49,12 @@ namespace Vocaluxe.Lib.Sound.Playback
         public abstract bool IsPaused { get; set; }
         public abstract bool IsFinished { get; }
 
-        protected CAudioStreamBase(int id, string medium, bool loop)
+        protected CAudioStreamBase(int id, string medium, bool loop, EAudioEffect effect = EAudioEffect.None)
         {
             _ID = id;
             _Medium = medium;
             _Loop = loop;
+            _Effect = effect;
         }
 
         ~CAudioStreamBase()

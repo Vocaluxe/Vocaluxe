@@ -131,7 +131,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             }
         }
 
-        public CPortAudioStream(int id, string medium, bool loop) : base(id, medium, loop) {}
+        public CPortAudioStream(int id, string medium, bool loop, EAudioEffect effect = EAudioEffect.None) : base(id, medium, loop, effect) {}
 
         public override bool Open(bool prescan)
         {

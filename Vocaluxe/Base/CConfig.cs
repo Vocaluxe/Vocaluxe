@@ -120,6 +120,8 @@ namespace Vocaluxe.Base
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn BackgroundMusicUseStart;
             [XmlRanged(0, 100), DefaultValue(50)] public int PreviewMusicVolume;
             [XmlRanged(0, 100), DefaultValue(80)] public int GameMusicVolume;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn KaraokeEffect;
+            [XmlRanged(0, 1), DefaultValue(1.0f)] public float KaraokeEffectLevel;
             // ReSharper restore MemberHidesStaticFromOuterClass
         }
 
@@ -453,6 +455,10 @@ namespace Vocaluxe.Base
                     return "Preview Volume from 0 to 100";
                 case "GameMusicVolume":
                     return "Game Volume from 0 to 100";
+                case "KaraokeEffect":
+                    return "Apply a karaoke effect to song playback (EPlaybackLib.GstreamerSharp only)";
+                case "KaraokeEffectLevel":
+                    return "The level of the karaoke effect [0-1] (EPlaybackLib.GstreamerSharp only)";
                 case "Language":
                     return "Game-Language";
                 case "SongFolder":
