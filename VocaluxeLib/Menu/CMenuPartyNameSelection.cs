@@ -774,7 +774,8 @@ namespace VocaluxeLib.Menu
                 for (int p = 0; p < _NumPlayerTeams[t]; p++)
                 {
                     int profileID = _NameSelections[_NameSelection].GetRandomUnusedProfile();
-                    _AddPlayer(t, profileID);
+                    if(profileID >= 0) //only add valid profiles
+                        _AddPlayer(t, profileID);
                 }
             }
         }
