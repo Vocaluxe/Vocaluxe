@@ -618,6 +618,7 @@ namespace VocaluxeLib.Menu
                 _UpdatePlayerSlide();
             }
             _UpdateButtonState();
+            _UpdateNextButtonVisibility();
         }
 
         public void DecreasePlayerNum(int team)
@@ -633,6 +634,7 @@ namespace VocaluxeLib.Menu
                 _UpdatePlayerSlide();
             }
             _UpdateButtonState();
+            _UpdateNextButtonVisibility();
         }
 
         #region private methods
