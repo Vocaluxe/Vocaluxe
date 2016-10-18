@@ -465,23 +465,11 @@ namespace VocaluxeLib.Menu
 
         public int GetRandomUnusedProfile()
         {
-            int id = -1;
-
             if (_VisibleProfiles.Count == 0)
-                return id;
+                return -1;
 
-            if (_VisibleProfiles.Count == _UsedProfiles.Count)
-                return id;
-
-            while (id == -1)
-            {
-                int rand = CBase.Game.GetRandom(_VisibleProfiles.Count);
-                if (_UsedProfiles.Contains(_VisibleProfiles[rand]))
-                    continue;
-                id = _VisibleProfiles[rand];
-            }
-
-            return id;
+            int rand = CBase.Game.GetRandom(_VisibleProfiles.Count);
+            return _VisibleProfiles[rand];
         }
 
         private void _PrepareTiles()
