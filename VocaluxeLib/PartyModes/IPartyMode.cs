@@ -34,6 +34,7 @@ namespace VocaluxeLib.PartyModes
         public EOffOn IgnoreArticles;
         public string SearchString;
         public bool SearchActive;
+        public int FilterPlaylistID; //show only songs that are in this playlist, -1 for all songs
         public EDuetOptions DuetOptions;
     }
 

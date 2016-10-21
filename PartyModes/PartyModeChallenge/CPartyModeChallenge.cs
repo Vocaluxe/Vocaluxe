@@ -149,6 +149,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
+            _ScreenSongOptions.Sorting.FilterPlaylistID = -1;
 
             GameData = new SData {NumPlayer = 4, NumPlayerAtOnce = 2, NumRounds = 12, NumJokers = 5, RefillJokers = true, CurrentRoundNr = 1, ProfileIDs = new List<int>(), CatSongIndices = null, Results = null};
         }
