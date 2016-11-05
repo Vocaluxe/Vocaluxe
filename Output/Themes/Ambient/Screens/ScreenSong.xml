@@ -58,10 +58,10 @@
   </Statics>
   <Texts>
     <Text Name="TextPlayer1">
-      <X>1070</X>
+      <X>1120</X>
       <Y>65</Y>
       <Z>-2.11</Z>
-      <H>42</H>
+      <H>32</H>
       <MaxW>350</MaxW>
       <Color Name="Player1" />
       <SelColor Name="Player1" />
@@ -72,10 +72,10 @@
       <Text />
     </Text>
     <Text Name="TextPlayer2">
-      <X>1070</X>
+      <X>1120</X>
       <Y>135</Y>
       <Z>-2.11</Z>
-      <H>42</H>
+      <H>32</H>
       <MaxW>350</MaxW>
       <Color Name="Player2" />
       <SelColor Name="Player2" />
@@ -86,10 +86,10 @@
       <Text />
     </Text>
     <Text Name="TextPlayer3">
-      <X>1070</X>
+      <X>1120</X>
       <Y>205</Y>
       <Z>-2.11</Z>
-      <H>42</H>
+      <H>32</H>
       <MaxW>350</MaxW>
       <Color Name="Player3" />
       <SelColor Name="Player3" />
@@ -100,10 +100,10 @@
       <Text />
     </Text>
     <Text Name="TextPlayer4">
-      <X>1070</X>
+      <X>1120</X>
       <Y>275</Y>
       <Z>-2.11</Z>
-      <H>42</H>
+      <H>32</H>
       <MaxW>350</MaxW>
       <Color Name="Player4" />
       <SelColor Name="Player4" />
@@ -114,10 +114,10 @@
       <Text />
     </Text>
     <Text Name="TextPlayer5">
-      <X>1070</X>
+      <X>1120</X>
       <Y>345</Y>
       <Z>-2.11</Z>
-      <H>42</H>
+      <H>32</H>
       <MaxW>350</MaxW>
       <Color Name="Player5" />
       <SelColor Name="Player5" />
@@ -128,10 +128,10 @@
       <Text />
     </Text>
     <Text Name="TextPlayer6">
-      <X>1070</X>
+      <X>1120</X>
       <Y>415</Y>
       <Z>-2.11</Z>
-      <H>42</H>
+      <H>32</H>
       <MaxW>350</MaxW>
       <Color Name="Player6" />
       <SelColor Name="Player6" />
@@ -225,20 +225,20 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>1050</X>
         <Y>50</Y>
-        <W>80</W>
-        <H>80</H>
+        <W>60</W>
+        <H>60</H>
         <Z>-1.01</Z>
       </Rect>
       <Color Name="Player1" ><A>0.5</A></Color>
       <SelColor Name="Player1" />
       <Text Name="Text">
-        <X>40</X>
-        <Y>23</Y>
+        <X>30</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>34</H>
-        <MaxW>60</MaxW>
+        <H>30</H>
+        <MaxW>50</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -252,19 +252,19 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>1050</X>
         <Y>120</Y>
-        <W>80</W>
-        <H>80</H>
+        <W>60</W>
+        <H>60</H>
         <Z>-1.01</Z>
       </Rect>
       <Color Name="Player2" ><A>0.5</A></Color>
       <SelColor Name="Player2" />
       <Text Name="Text">
-        <X>40</X>
-        <Y>23</Y>
+        <X>30</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>34</H>
+        <H>30</H>
         <MaxW>60</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -279,19 +279,19 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>1050</X>
         <Y>190</Y>
-        <W>80</W>
-        <H>80</H>
+        <W>60</W>
+        <H>60</H>
         <Z>-1.01</Z>
       </Rect>
       <Color Name="Player3" ><A>0.5</A></Color>
       <SelColor Name="Player3" />
       <Text Name="Text">
-        <X>40</X>
-        <Y>23</Y>
+        <X>30</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>34</H>
+        <H>30</H>
         <MaxW>60</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -306,19 +306,19 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>1050</X>
         <Y>260</Y>
-        <W>80</W>
-        <H>80</H>
+        <W>60</W>
+        <H>60</H>
         <Z>-1.01</Z>
       </Rect>
       <Color Name="Player4" ><A>0.5</A></Color>
       <SelColor Name="Player4" />
       <Text Name="Text">
-        <X>40</X>
-        <Y>23</Y>
+        <X>30</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>34</H>
+        <H>30</H>
         <MaxW>60</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -333,19 +333,19 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>1050</X>
         <Y>330</Y>
-        <W>80</W>
-        <H>80</H>
+        <W>60</W>
+        <H>60</H>
         <Z>-1.01</Z>
       </Rect>
       <Color Name="Player5" ><A>0.5</A></Color>
       <SelColor Name="Player5" />
       <Text Name="Text">
-        <X>40</X>
-        <Y>23</Y>
+        <X>30</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>34</H>
+        <H>30</H>
         <MaxW>60</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -360,19 +360,19 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>1050</X>
         <Y>400</Y>
-        <W>80</W>
-        <H>80</H>
+        <W>60</W>
+        <H>60</H>
         <Z>-1.01</Z>
       </Rect>
       <Color Name="Player6" ><A>0.5</A></Color>
       <SelColor Name="Player6" />
       <Text Name="Text">
-        <X>40</X>
-        <Y>23</Y>
+        <X>30</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>34</H>
+        <H>30</H>
         <MaxW>60</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -630,7 +630,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>985</X>
+        <X>1050</X>
         <Y>500</Y>
         <W>150</W>
         <H>50</H>
@@ -987,6 +987,140 @@
           </Rect>
         </StaticMedleyTagIcon>
       </SongMenuList>
+	  <SongMenuListRecord>
+        <ListLength>8</ListLength>
+        <SpaceW>10</SpaceW>
+        <SpaceH>10</SpaceH>
+        <TileRect>
+          <X>640</X>
+          <Y>40</Y>
+          <W>550</W>
+          <H>550</H>
+          <Z>-1</Z>
+        </TileRect>
+        <TileRectSmall>
+          <X>640</X>
+          <Y>40</Y>
+          <W>395</W>
+          <H>550</H>
+          <Z>-1</Z>
+        </TileRectSmall>
+		<TileRectRecord>
+          <X>400</X>
+          <Y>420</Y>
+          <W>280</W>
+          <H>210</H>
+          <Z>-1</Z>
+        </TileRectRecord>
+        <TextArtist Name="TextArtist">
+          <X>222</X>
+          <Y>416</Y>
+          <Z>-1.01</Z>
+          <H>39</H>
+          <MaxW>340</MaxW>
+          <Color Name="StaticColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Center</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextArtist>
+        <TextTitle Name="TextTitle">
+          <X>222</X>
+          <Y>456</Y>
+          <Z>-1.01</Z>
+          <H>32</H>
+          <MaxW>340</MaxW>
+          <Color Name="StaticColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Center</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextTitle>
+        <TextSongLength Name="TextSongLength">
+          <X>222</X>
+          <Y>490</Y>
+          <Z>-1.01</Z>
+          <H>28</H>
+          <MaxW>340</MaxW>
+          <Color Name="StaticColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Center</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextSongLength>
+        <StaticCoverBig Name="StaticCoverBig">
+          <Skin>CoverBackground</Skin>
+          <Color Name="Visible" />
+          <Rect>
+            <X>40</X>
+            <Y>40</Y>
+            <W>640</W>
+            <H>360</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticCoverBig>
+        <StaticTextBG Name="StaticTextBG">
+          <Skin>CoverBackground</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>40</X>
+            <Y>40</Y>
+            <W>640</W>
+            <H>550</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticTextBG>
+        <StaticDuetIcon Name="StaticDuetIcon">
+          <Skin>DuetIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>200</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticDuetIcon>
+        <StaticVideoIcon Name="StaticVideoIcon">
+          <Skin>VideoIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>120</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticVideoIcon>
+        <StaticMedleyCalcIcon Name="StaticMedleyCalcIcon">
+          <Skin>MedleyCalcIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>280</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticMedleyCalcIcon>
+        <StaticMedleyTagIcon Name="StaticMedleyTagIcon">
+          <Skin>MedleyTagIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>280</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticMedleyTagIcon>
+      </SongMenuListRecord>
     </SongMenu>
   </SongMenus>
   <Lyrics />

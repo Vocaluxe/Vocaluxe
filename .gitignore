@@ -28,6 +28,8 @@ tx.exe
 *.vshost.*
 *.userprefs
 *.user
+*.VC.opendb
+*:VC.db
 /*.vsp
 /*.ctl
 /Output/Config.xml

@@ -923,6 +923,11 @@ namespace Vocaluxe.Base
         {
             return CDataBase.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreID);
         }
+
+        public List<SDBScoreEntry> LoadScore(int songID, EGameMode gameMode, EHighscoreStyle style)
+        {
+            return CDataBase.LoadScore(songID, gameMode, style);
+        }
     }
 
     class CBcontrollers : IControllers
