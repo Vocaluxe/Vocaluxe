@@ -1007,9 +1007,9 @@
         </TileRectSmall>
 		<TileRectRecord>
           <X>400</X>
-          <Y>420</Y>
+          <Y>415</Y>
           <W>280</W>
-          <H>210</H>
+          <H>170</H>
           <Z>-1</Z>
         </TileRectRecord>
         <TextArtist Name="TextArtist">

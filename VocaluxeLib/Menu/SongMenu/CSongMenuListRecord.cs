@@ -247,12 +247,13 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 
                 //Create text for Record
-                var textRect = new SRectF(rect.X, rect.Y + i * (rect.H / 5 - _SpaceH), rect.W - _SpaceW, rect.H / 5 - _SpaceH, rect.Z);
+                var textRect = new SRectF(rect.X, rect.Y + i * (rect.H / 5), rect.W, rect.H / 5, rect.Z);
                 CText text = new CText(textRect.X, textRect.Y, textRect.Z,
                                        textRect.H, textRect.W, EAlignment.Left, EStyle.Normal,
                                        "Normal", _Artist.Color, "");
                 text.MaxRect = new SRectF(text.MaxRect.X, text.MaxRect.Y, text.MaxRect.W + text.MaxRect.X - text.Rect.X - 5f, text.MaxRect.H, text.MaxRect.Z);
                 text.ResizeAlign = EHAlignment.Center;
+                text.Font.Style = EStyle.Bold;
 
                 _Records.Add(text);
             }
@@ -362,14 +363,36 @@ namespace VocaluxeLib.Menu.SongMenu
                 return;
 
             List<SDBScoreEntry> _Scores = CBase.DataBase.LoadScore(song.ID,EGameMode.TR_GAMEMODE_NORMAL, EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_ALL);
-
+            List<String> players = new List<string>();
+            int k = 0;
             for (int i = 0; i < 5; i++)
             {
-                if (i < _Scores.Count)
+                if (k < _Scores.Count)
                 {
-                    SDBScoreEntry score = _Scores[i];
-                    _Records[i].Text = (i+1) +". "+ score.Name + " " + score.Score + " ("+ CBase.Language.Translate(score.Difficulty.ToString()) + ") " + score.Date;
-                }else
+                    SDBScoreEntry score = _Scores[k];
+                    while (players.Contains(score.Name))
+                    {
+                        k++;
+                        if (k < _Scores.Count)
+                        {
+                            score = _Scores[k];
+                        }
+                        else
+                        {
+                            break;
+                        }
+                    }
+                    if (!players.Contains(score.Name))
+                    {
+                        _Records[i].Text = (i + 1) + ". " + score.Name + " " + score.Score + " (" + CBase.Language.Translate(score.Difficulty.ToString()) + ")"; //+ score.Date;
+                        players.Add(score.Name);
+                    }
+                    else
+                    {
+                        _Records[i].Text = "";
+                    }
+                }
+                else
                 {
                     _Records[i].Text = "";
                 }
