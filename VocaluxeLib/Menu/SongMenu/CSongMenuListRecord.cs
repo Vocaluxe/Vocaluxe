@@ -772,7 +772,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 else
                 {
                     _Tiles[i].Color.A = 0;
-                    _Texts[i].Text = "";
+                    _Texts[i * 2].Text = "";
+                    _Texts[i * 2 + 1].Text = "";
                 }
             }
             _Offset = offset;
