@@ -93,6 +93,13 @@ namespace VocaluxeLib.Menu.SongMenu
         /// </summary>
         public float SpaceH;
 
+        /*<summary>
+        RECORDSTYLE_ONE = One per Player
+        RECORDSTYLE_DIFFICULTY = One per Player per Difficulty
+        RECORDSTYLE_ALL = The best 5 independent from Players
+        </summary>*/
+        public ERecordStyle RecordStyle;
+
         public SRectF TileRect;
         public SRectF TileRectSmall;
 

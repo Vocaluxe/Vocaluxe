@@ -991,6 +991,10 @@
         <ListLength>8</ListLength>
         <SpaceW>10</SpaceW>
         <SpaceH>10</SpaceH>
+		<!-- RECORDSTYLE_SINGLE = One per Player
+			 RECORDSTYLE_DIFFICULTY = One per Player per Difficulty
+			 RECORDSTYLE_ALL = The best 5 Records independent from Players -->
+		<RecordStyle>RECORDSTYLE_SINGLE</RecordStyle>
         <TileRect>
           <X>640</X>
           <Y>40</Y>

@@ -430,4 +430,11 @@ namespace VocaluxeLib
         TR_USERROLE_PROFILEEDITOR = 32
         // ReSharper restore InconsistentNaming
     }
+
+    public enum ERecordStyle
+    {
+        RECORDSTYLE_SINGLE,
+        RECORDSTYLE_DIFFICULTY,
+        RECORDSTYLE_ALL
+    }
 }

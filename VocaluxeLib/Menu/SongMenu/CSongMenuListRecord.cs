@@ -359,43 +359,98 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _UpdateRecords(CSong song)
         {
+            if (!CBase.Songs.IsInCategory())
+            {
+                _ResetRecords();
+                return;
+            }
+
             if (song == null)
                 return;
 
+            ERecordStyle recordStyle = _Theme.SongMenuListRecord.RecordStyle;
+
             List<SDBScoreEntry> _Scores = CBase.DataBase.LoadScore(song.ID,EGameMode.TR_GAMEMODE_NORMAL, EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_ALL);
             List<String> players = new List<string>();
-            int k = 0;
-            for (int i = 0; i < 5; i++)
+
+            if (recordStyle.Equals(ERecordStyle.RECORDSTYLE_ALL))
             {
-                if (k < _Scores.Count)
+                for(int i = 0; i < 5; i++)
                 {
-                    SDBScoreEntry score = _Scores[k];
-                    while (players.Contains(score.Name))
+                    if (i < _Scores.Count)
                     {
-                        k++;
-                        if (k < _Scores.Count)
+                        SDBScoreEntry score = _Scores[i];
+                        _Records[i].Text = (i + 1) + ". " + score.Name + " " + score.Score + " (" + CBase.Language.Translate(score.Difficulty.ToString()) + ")";
+                    }else
+                    {
+                        _Records[i].Text = "";
+                    }
+                }
+            }
+            else
+            {
+                int k = 0;
+                for (int i = 0; i < 5; i++)
+                {
+                    if (k < _Scores.Count)
+                    {
+                        SDBScoreEntry score = _Scores[k];
+    
+                        String recordName = "";
+
+                        if (recordStyle.Equals(ERecordStyle.RECORDSTYLE_DIFFICULTY))
                         {
-                            score = _Scores[k];
+                            recordName = score.Name + score.Difficulty;
                         }
                         else
                         {
-                            break;
+                            recordName = score.Name;
                         }
-                    }
-                    if (!players.Contains(score.Name))
-                    {
-                        _Records[i].Text = (i + 1) + ". " + score.Name + " " + score.Score + " (" + CBase.Language.Translate(score.Difficulty.ToString()) + ")"; //+ score.Date;
-                        players.Add(score.Name);
+
+                        while (players.Contains(recordName))
+                        {
+                            k++;
+                            if (k < _Scores.Count)
+                            {
+                                score = _Scores[k];
+
+                                if (recordStyle.Equals(ERecordStyle.RECORDSTYLE_DIFFICULTY))
+                                {
+                                    recordName = score.Name + score.Difficulty;
+                                }
+                                else
+                                {
+                                    recordName = score.Name;
+                                }
+                            }
+                            else
+                            {
+                                break;
+                            }
+                        }
+                        if (!players.Contains(recordName))
+                        {
+                            _Records[i].Text = (i + 1) + ". " + score.Name + " " + score.Score + " (" + CBase.Language.Translate(score.Difficulty.ToString()) + ")"; //+ score.Date;
+                            players.Add(recordName);
+                        }
+                        else
+                        {
+                            _Records[i].Text = "";
+                        }
                     }
                     else
                     {
                         _Records[i].Text = "";
                     }
                 }
-                else
-                {
-                    _Records[i].Text = "";
-                }
+            }
+        }
+
+        private void _ResetRecords()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                _Records[i].Text = "";
             }
         }
 
@@ -693,6 +748,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
             SetSelectedCategory(0);
             _UpdateListIfRequired();
+            _ResetRecords();
         }
 
         private void _NextCategory()
@@ -767,6 +823,7 @@ namespace VocaluxeLib.Menu.SongMenu
                         int num = currentCat.GetNumSongsNotSung();
                         String songOrSongs = (num == 1) ? "TR_SCREENSONG_NUMSONG" : "TR_SCREENSONG_NUMSONGS";
                         _Texts[i * 2].Text = currentCat.Name + " " + CBase.Language.Translate(songOrSongs).Replace("%v", num.ToString());
+                        _Texts[i * 2 + 1].Text = "";
                     }
                 }
                 else
