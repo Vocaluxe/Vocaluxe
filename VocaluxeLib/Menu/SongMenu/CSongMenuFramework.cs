@@ -93,6 +93,10 @@ namespace VocaluxeLib.Menu.SongMenu
         /// </summary>
         public float SpaceH;
 
+        /// <summary>
+        ///     Number of visible Records
+        /// </summary>
+        public int NumRecords;
         /*<summary>
         RECORDSTYLE_ONE = One per Player
         RECORDSTYLE_DIFFICULTY = One per Player per Difficulty

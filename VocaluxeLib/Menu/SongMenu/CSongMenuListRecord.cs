@@ -56,6 +56,9 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _ListLength;
         private float _ListTextWidth;
 
+        private int _NumRecords;
+        private ERecordStyle _RecordStyle;
+
         // Offset is the song or categoryNr of the tile in the left upper corner
         private int _Offset;
 
@@ -118,6 +121,8 @@ namespace VocaluxeLib.Menu.SongMenu
             _ListLength = _Theme.SongMenuListRecord.ListLength;
             _SpaceW = _Theme.SongMenuListRecord.SpaceW;
             _SpaceH = _Theme.SongMenuListRecord.SpaceH;
+            _NumRecords = _Theme.SongMenuListRecord.NumRecords;
+            _RecordStyle = _Theme.SongMenuListRecord.RecordStyle;
             _Artist = new CText(_Theme.SongMenuListRecord.TextArtist, _PartyModeID);
             _Title = new CText(_Theme.SongMenuListRecord.TextTitle, _PartyModeID);
             _SongLength = new CText(_Theme.SongMenuListRecord.TextSongLength, _PartyModeID);
@@ -243,11 +248,11 @@ namespace VocaluxeLib.Menu.SongMenu
             SRectF rect = _Theme.SongMenuListRecord.TileRectRecord;
             _Records = new List<CText>();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < _NumRecords; i++)
             {
                 
                 //Create text for Record
-                var textRect = new SRectF(rect.X, rect.Y + i * (rect.H / 5), rect.W, rect.H / 5, rect.Z);
+                var textRect = new SRectF(rect.X, rect.Y + i * (rect.H / _NumRecords), rect.W, rect.H / _NumRecords, rect.Z);
                 CText text = new CText(textRect.X, textRect.Y, textRect.Z,
                                        textRect.H, textRect.W, EAlignment.Left, EStyle.Normal,
                                        "Normal", _Artist.Color, "");
@@ -368,14 +373,12 @@ namespace VocaluxeLib.Menu.SongMenu
             if (song == null)
                 return;
 
-            ERecordStyle recordStyle = _Theme.SongMenuListRecord.RecordStyle;
-
             List<SDBScoreEntry> _Scores = CBase.DataBase.LoadScore(song.ID,EGameMode.TR_GAMEMODE_NORMAL, EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_ALL);
             List<String> players = new List<string>();
 
-            if (recordStyle.Equals(ERecordStyle.RECORDSTYLE_ALL))
+            if (_RecordStyle.Equals(ERecordStyle.RECORDSTYLE_ALL))
             {
-                for(int i = 0; i < 5; i++)
+                for(int i = 0; i < _Records.Count; i++)
                 {
                     if (i < _Scores.Count)
                     {
@@ -390,7 +393,7 @@ namespace VocaluxeLib.Menu.SongMenu
             else
             {
                 int k = 0;
-                for (int i = 0; i < 5; i++)
+                for (int i = 0; i < _Records.Count; i++)
                 {
                     if (k < _Scores.Count)
                     {
@@ -398,7 +401,7 @@ namespace VocaluxeLib.Menu.SongMenu
     
                         String recordName = "";
 
-                        if (recordStyle.Equals(ERecordStyle.RECORDSTYLE_DIFFICULTY))
+                        if (_RecordStyle.Equals(ERecordStyle.RECORDSTYLE_DIFFICULTY))
                         {
                             recordName = score.Name + score.Difficulty;
                         }
@@ -414,7 +417,7 @@ namespace VocaluxeLib.Menu.SongMenu
                             {
                                 score = _Scores[k];
 
-                                if (recordStyle.Equals(ERecordStyle.RECORDSTYLE_DIFFICULTY))
+                                if (_RecordStyle.Equals(ERecordStyle.RECORDSTYLE_DIFFICULTY))
                                 {
                                     recordName = score.Name + score.Difficulty;
                                 }
@@ -448,7 +451,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _ResetRecords()
         {
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < _Records.Count; i++)
             {
                 _Records[i].Text = "";
             }
