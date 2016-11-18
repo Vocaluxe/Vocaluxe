@@ -67,3 +67,5 @@ tx.exe
 /packages
 /Output/x64
 /Output/x86
+/PitchTracker/bin
+/PitchTracker/obj
