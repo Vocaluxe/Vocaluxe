@@ -149,8 +149,7 @@ namespace VocaluxeLib.PartyModes.ChallengeRounds
 
                 if (lastRounds.ContainsKey(key))
                 {
-                    
-                    lastRounds.TryGetValue(key, out lastRound);
+                    lastRound = lastRounds[key];
 
                     int first = lastRound.First();
                     lastRound.RemoveAt(0);

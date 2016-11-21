@@ -97,11 +97,10 @@ namespace VocaluxeLib.Menu.SongMenu
         ///     Number of visible Records
         /// </summary>
         public int NumRecords;
-        /*<summary>
-        RECORDSTYLE_ONE = One per Player
-        RECORDSTYLE_DIFFICULTY = One per Player per Difficulty
-        RECORDSTYLE_ALL = The best 5 independent from Players
-        </summary>*/
+
+        /// <summary>
+        ///     Defines which Records are shown
+        /// </summary>
         public ERecordStyle RecordStyle;
 
         public SRectF TileRect;
