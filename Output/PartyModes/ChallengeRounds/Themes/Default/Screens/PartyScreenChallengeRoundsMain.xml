@@ -187,7 +187,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>1)</Text>
+      <Text />
     </Text>
     <Text Name="TextRoundPlayer">
       <X>0</X>
