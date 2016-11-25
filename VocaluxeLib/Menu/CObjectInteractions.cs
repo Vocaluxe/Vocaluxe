@@ -22,6 +22,9 @@ using System.Drawing;
 using System.Windows.Forms;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
+#if DEBUG_GUI
+using System.Linq;
+#endif
 
 namespace VocaluxeLib.Menu
 {
@@ -47,6 +50,11 @@ namespace VocaluxeLib.Menu
         protected readonly COrderedDictionaryLite<CPlaylist> _Playlists;
         protected readonly COrderedDictionaryLite<CParticleEffect> _ParticleEffects;
         private readonly SColorF _HighlightColor = new SColorF(1, 0, 0, 0);
+
+#if DEBUG_GUI
+        private readonly Dictionary<string, string> _DebugGuiElementData = new Dictionary<string, string>();
+        private readonly List<string> _CurrentVisibleElement = new List<string>();
+#endif
 
         protected CObjectInteractions()
         {
@@ -108,7 +116,7 @@ namespace VocaluxeLib.Menu
                 el.Selected = true;
         }
 
-        #region MenuHandler
+#region MenuHandler
         public virtual bool HandleInput(SKeyEvent keyEvent)
         {
             if (!CBase.Settings.IsTabNavigation())
@@ -162,6 +170,63 @@ namespace VocaluxeLib.Menu
             _PrevMouse.X = mouseEvent.X;
             _PrevMouse.Y = mouseEvent.Y;
 
+#if DEBUG_GUI
+            if (mouseEvent.MB)
+            {
+                _CurrentVisibleElement.Clear();
+                
+                CInteraction interElem;
+                if (_Selection >= 0)
+                {
+                    //Selectable element
+                    interElem = _Elements[_Selection];
+                }
+                else
+                {
+                    //Search for non-selectable elements
+                    float z = CBase.Settings.GetZFar();
+                    float lastZ = -1;
+                    int lastIndex = -1;
+                    for (int i = 0; i < _Elements.Count; i++)
+                    {
+                        if(_Elements[i].Type == EType.Background)
+                            continue;
+                        if (!_IsMouseOverElement(mouseEvent.X, mouseEvent.Y, _Elements[i]))
+                            continue;
+                        if (_GetZValue(i) <= lastZ)
+                            continue;
+                        lastZ = _GetZValue(i);
+                        lastIndex = i;
+                    }
+
+                    if (lastIndex >= 0)
+                    {
+                        interElem = _Elements[lastIndex];
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+
+                var elem = _GetElement(interElem);
+                var id = Convert.ToBase64String(BitConverter.GetBytes(elem.GetHashCode()));
+                _CurrentVisibleElement.Add("Id: " + id + "\n");
+                _CurrentVisibleElement.Add("Type: " + interElem.Type + "\n");
+                _CurrentVisibleElement.Add("Num: " + interElem.Num + "\n");
+                _CurrentVisibleElement.Add("Visible: " + elem.Visible + "\n");
+                _CurrentVisibleElement.Add("Selectable: " + elem.Selectable + "\n");
+                _CurrentVisibleElement.Add("Highlighted: " + elem.Highlighted + "\n");
+                _CurrentVisibleElement.Add("Rect: " + elem.Rect + "\n");
+                _CurrentVisibleElement.Add("MaxRect.: " + elem.MaxRect + "\n");
+                if (_DebugGuiElementData.ContainsKey(id))
+                {
+                    _CurrentVisibleElement.Add("Created with: \n");
+                    _CurrentVisibleElement.AddRange(_DebugGuiElementData[id].Split('\n').Skip(2));
+                }
+               
+            }
+#endif
             return true;
         }
 
@@ -247,7 +312,7 @@ namespace VocaluxeLib.Menu
 
             return true;
         }
-        #endregion MenuHandler
+#endregion MenuHandler
 
         private bool _IsSelectionValid()
         {
@@ -291,7 +356,7 @@ namespace VocaluxeLib.Menu
             return (element >= 0 && element < _Elements.Count) ? _GetElement(_Elements[element]) : null;
         }
 
-        #region Drawing
+#region Drawing
         public virtual void Draw()
         {
             if (!_Active)
@@ -315,80 +380,140 @@ namespace VocaluxeLib.Menu
 
 
             items.Sort((s1, s2) => s2.Z.CompareTo(s1.Z));
-
+           
             for (int i = 0; i < items.Count; i++)
             {
                 IMenuElement el = _GetElement(items[i].ID);
                 if (el.Highlighted)
                     CBase.Drawing.DrawRect(_HighlightColor, el.MaxRect);
                 el.Draw();
+#if DEBUG_GUI
+                CBase.Drawing.DrawRect(new SColorF(1, 0, 0, 0.2f), el.Rect);
+                if (_CurrentVisibleElement.Count != 0)
+                {
+                    int offset = 0;
+                    foreach (var line in _CurrentVisibleElement)
+                    {
+                        CBase.Fonts.DrawText(line.Trim(), new CFont("Normal", EStyle.Normal, 15), 10, 10 + offset, CBase.Settings.GetZNear(), new SColorF(0, 1, 0, 1));
+                        offset += 15;
+                    }
+                }
+#endif
             }
         }
-        #endregion Drawing
+#endregion Drawing
 
-        #region Element-Adding
+#region Element-Adding
         protected void _AddBackground(CBackground bg, String key = null)
         {
             _AddElement(_Backgrounds.Add(bg, key), EType.Background);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(bg.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddButton(CButton button, String key = null)
         {
             _AddElement(_Buttons.Add(button, key), EType.Button);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(button.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddSelectSlide(CSelectSlide slide, String key = null)
         {
             _AddElement(_SelectSlides.Add(slide, key), EType.SelectSlide);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(slide.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddStatic(CStatic stat, String key = null)
         {
             _AddElement(_Statics.Add(stat, key), EType.Static);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(stat.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddText(CText text, String key = null)
         {
             _AddElement(_Texts.Add(text, key), EType.Text);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(text.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddSongMenu(ISongMenu songmenu, String key = null)
         {
             _AddElement(_SongMenus.Add(songmenu, key), EType.SongMenu);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(songmenu.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddLyric(CLyric lyric, String key = null)
         {
             _AddElement(_Lyrics.Add(lyric, key), EType.Lyric);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(lyric.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddSingNote(CSingNotes sn, String key = null)
         {
             _AddElement(_SingNotes.Add(sn, key), EType.SingNote);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(sn.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddNameSelection(CNameSelection ns, String key = null)
         {
             _AddElement(_NameSelections.Add(ns, key), EType.NameSelection);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(ns.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddEqualizer(CEqualizer eq, String key = null)
         {
             _AddElement(_Equalizers.Add(eq, key), EType.Equalizer);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(eq.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddPlaylist(CPlaylist pls, String key = null)
         {
             _AddElement(_Playlists.Add(pls, key), EType.Playlist);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(pls.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
 
         protected void _AddParticleEffect(CParticleEffect pe, String key = null)
         {
             _AddElement(_ParticleEffects.Add(pe, key), EType.ParticleEffect);
+#if DEBUG_GUI
+            var id = Convert.ToBase64String(BitConverter.GetBytes(pe.GetHashCode()));
+            _DebugGuiElementData[id] = Environment.StackTrace;
+#endif
         }
-        #endregion Element-Adding
+#endregion Element-Adding
 
-        #region InteractionHandling
+#region InteractionHandling
         protected void _SelectElement(IMenuElement element)
         {
             if (!element.Visible)
@@ -688,9 +813,9 @@ namespace VocaluxeLib.Menu
             else
                 NextElement();
         }
-        #endregion InteractionHandling
+#endregion InteractionHandling
 
-        #region Element-property getters
+#region Element-property getters
         private bool _IsVisible(int element)
         {
             IMenuElement el = _GetElement(element);
@@ -717,9 +842,9 @@ namespace VocaluxeLib.Menu
         {
             return _GetElement(_Elements[element]).Rect.Z;
         }
-        #endregion
+#endregion
 
-        #region Theme Handling
+#region Theme Handling
         private void _MoveElement(int stepX, int stepY)
         {
             IMenuElement el = _GetElement(_Selection);
@@ -733,6 +858,6 @@ namespace VocaluxeLib.Menu
             if (el != null)
                 el.ResizeElement(stepW, stepH);
         }
-        #endregion Theme Handling
+#endregion Theme Handling
     }
 }

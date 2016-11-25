@@ -239,6 +239,11 @@ namespace VocaluxeLib
             Z = 0;
             Rotation = 0;
         }
+
+        public override string ToString()
+        {
+            return $"(X:{X}, Y:{Y}, Z:{Z}, W:{W}, H:{H})";
+        }
     }
 
     [XmlRoot("Reflection")]
