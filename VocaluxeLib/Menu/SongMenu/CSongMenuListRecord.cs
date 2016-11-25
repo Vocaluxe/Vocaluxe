@@ -376,7 +376,7 @@ namespace VocaluxeLib.Menu.SongMenu
             List<SDBScoreEntry> _Scores = CBase.DataBase.LoadScore(song.ID,EGameMode.TR_GAMEMODE_NORMAL, EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_ALL);
             List<String> players = new List<string>();
 
-            if (_RecordStyle.Equals(ERecordStyle.RECORDSTYLE_ALL))
+            if (_RecordStyle == ERecordStyle.RECORDSTYLE_ALL)
             {
                 for(int i = 0; i < _Records.Count; i++)
                 {
@@ -401,7 +401,7 @@ namespace VocaluxeLib.Menu.SongMenu
     
                         String recordName = "";
 
-                        if (_RecordStyle.Equals(ERecordStyle.RECORDSTYLE_DIFFICULTY))
+                        if (_RecordStyle == ERecordStyle.RECORDSTYLE_DIFFICULTY)
                         {
                             recordName = score.Name + score.Difficulty;
                         }
@@ -417,7 +417,7 @@ namespace VocaluxeLib.Menu.SongMenu
                             {
                                 score = _Scores[k];
 
-                                if (_RecordStyle.Equals(ERecordStyle.RECORDSTYLE_DIFFICULTY))
+                                if (_RecordStyle == ERecordStyle.RECORDSTYLE_DIFFICULTY)
                                 {
                                     recordName = score.Name + score.Difficulty;
                                 }

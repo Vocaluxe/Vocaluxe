@@ -151,9 +151,6 @@
     <Compile Include="Utils\Player\CSoundPlayer.cs" />
     <Compile Include="Xml\SFieldInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

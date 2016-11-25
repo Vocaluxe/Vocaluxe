@@ -135,8 +135,8 @@ namespace VocaluxeLib.PartyModes.Challenge
 
             //build joker config slide
             _SelectSlides[_SelectSlideRefillJokers].Clear();
-            _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_NO", PartyModeID));
-            _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_YES", PartyModeID));
+            _SelectSlides[_SelectSlideRefillJokers].AddValue("TR_BUTTON_NO");
+            _SelectSlides[_SelectSlideRefillJokers].AddValue("TR_BUTTON_YES");
             _SelectSlides[_SelectSlideRefillJokers].SelectLastValue();
 
             _UpdateMicsAtOnce();
@@ -152,7 +152,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             _PartyMode.GameData.NumPlayerAtOnce = _SelectSlides[_SelectSlideNumMics].Selection + _PartyMode.MinPlayers;
             _PartyMode.GameData.NumRounds = (_SelectSlides[_SelectSlideNumRounds].Selection + 1) * _RoundSteps;
             _PartyMode.GameData.NumJokers = _SelectSlides[_SelectSlideNumJokers].Selection + 1;
-            _PartyMode.GameData.RefillJokers = (_SelectSlides[_SelectSlideRefillJokers].Selection == 1) ? true : false;
+            _PartyMode.GameData.RefillJokers = _SelectSlides[_SelectSlideRefillJokers].Selection == 1;
 
             _UpdateMicsAtOnce();
             _SetRoundSteps();
