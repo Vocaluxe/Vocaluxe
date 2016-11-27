@@ -727,7 +727,7 @@ namespace VocaluxeLib.Menu
         {
             if (_NumPlayerTeams[team] == _TeamList[team].Count && !_ChangePlayerNumDynamic)
                 return;
-            if (_NumPlayerTeams[team] == _PartyMode.MaxPlayersPerTeam)
+            if (_NumPlayerTeams[team] > _PartyMode.MaxPlayersPerTeam)
                 return;
 
             _NameSelections[_NameSelection].UseProfile(profileID);
