@@ -32,7 +32,17 @@ install:
         $Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK = $Env:APPVEYOR_REPO_BRANCH
     }    
 before_build:
-- ps: >-
+- ps: |
+    Try
+    {
+        Start-FileDownload 'https://github.com/lukeIam/VocaluxeDependencies/blob/master/zips/themes/vocaluxe.themes.ambient.video.zip?raw=true'
+        & 7z x '-aoa' '-oOutput/' './vocaluxe.themes.ambient.video.zip'
+        Remove-Item './vocaluxe.themes.ambient.video.zip'
+    }
+    Catch
+    {
+        Write-Warning "Ambient-Video download failed"
+    }
     nuget restore -DisableParallelProcessing
 
 build:
