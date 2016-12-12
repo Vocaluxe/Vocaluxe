@@ -1,9 +1,3 @@
-if($Env:APPVEYOR_PULL_REQUEST_NUMBER)
-{
-	$Env:VersionTag = "PR_$Env:APPVEYOR_PULL_REQUEST_NUMBER"
-	Return $Env:VersionTag
-}
-
 $currentCommitSha = $Env:CurrentCommitSha
 $githubRepoApiUri = $Env:githubRepoApiUri #"https://api.github.com/repos/:user/:repo/"
 $Env:VersionTag = ""
@@ -59,5 +53,12 @@ if(!$latestTag){
 	Return ;
 }
 
-$Env:VersionTag = "$($latestTag.tag)-$($latestTag.dist)-g$($currentCommitSha.Substring(0,7))"
+if($Env:APPVEYOR_PULL_REQUEST_NUMBER)
+{
+	$Env:VersionTag = "$($latestTag.tag)-$($latestTag.dist)-PR_$Env:APPVEYOR_PULL_REQUEST_NUMBER"
+}
+else
+{
+    $Env:VersionTag = "$($latestTag.tag)-$($latestTag.dist)-g$($currentCommitSha.Substring(0,7))"
+}
 Return $Env:VersionTag
