@@ -220,9 +220,10 @@ namespace Vocaluxe.Base
         {
             string version = _Version + " (" + _Arch + ")";
 
-            if (VersionRevision != ERevision.Release)
+            string gitversion = Application.ProductVersion;
+
+            if (VersionRevision != ERevision.Release || gitversion.Split('-')[1] != "0")
             {
-                string gitversion = Application.ProductVersion;
                 version += " " + _GetVersionStatus() + String.Format(" ({0})", gitversion);
             }
 

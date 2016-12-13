@@ -54,9 +54,7 @@ namespace Vocaluxe.Screens
             base.LoadTheme(xmlPath);
 
             _Texts[_TextRelease].Text = CSettings.GetFullVersionText();
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            _Texts[_TextRelease].Visible = CSettings.VersionRevision != ERevision.Release;
-            // ReSharper restore ConditionIsAlwaysTrueOrFalse
+            _Texts[_TextRelease].Visible = true;
             _Statics[_StaticWarningProfiles].Visible = false;
             _Texts[_TextWarningProfiles].Visible = false;
         }
