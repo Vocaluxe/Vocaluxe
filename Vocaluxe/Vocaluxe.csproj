@@ -479,12 +479,12 @@
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
 powershell -command "if($Env:GIT_VERSION_TAG) {$version = $Env:GIT_VERSION_TAG;} else {$version = git describe --long;}(Get-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js') |  Foreach-Object {$_ -replace '(?&lt;=var *matchingServerVersion * = *\")\w*(?=\" *;)', "$version"} | Set-Content -Encoding UTF8 '$(ProjectDir)..\Output\Website\js\main.js'"
-powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\()(.*)(?=\))', '\"GITVERSION\"'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PostBuildEvent>
+powershell -command "(Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\(\").*(?=\")', 'GITVERSION'} | Foreach-Object {$_ -replace '(?&lt;=(AssemblyVersion|AssemblyFileVersion)\(\").*(?=\")', 'SHORTVERSION'} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs' "</PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">cp -ruT "$(ProjectDir)Website" "$(SolutionDir)/PhoneGap"</PostBuildEvent>
     <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(ProjectDir)Linux/Build/PostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -command "if($Env:GIT_VERSION_TAG) {$version = $Env:GIT_VERSION_TAG;} else {$version = git describe --long;} (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace 'GITVERSION', $version} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs'"</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -command " if($Env:GIT_VERSION_TAG) {$version = $Env:GIT_VERSION_TAG;} else {$version = git describe --long;} (Get-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs') | Foreach-Object {$_ -replace '(?&lt;=AssemblyInformationalVersion\(\").*(?=\")', $version} | Foreach-Object {$_ -replace '(?&lt;=(AssemblyVersion|AssemblyFileVersion)\(\").*(?=\")', $version.Split('-')[0].replace('alpha','0').replace('beta','1').replace('rc','2')} | Foreach-Object {$_ -replace '(?&lt;=AssemblyCopyright\(\".*)[0-9]+(?=\")', (Get-Date).Year} | Set-Content -Encoding UTF8 '$(ProjectDir)Properties\AssemblyInfo.cs' "</PreBuildEvent>
     <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(ProjectDir)Linux/Build/PreBuildEvent.sh $(ProjectDir)</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
