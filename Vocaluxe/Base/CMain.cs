@@ -170,6 +170,11 @@ namespace Vocaluxe.Base
         {
             CConfig.SongMenuChanged -= onSongMenuChanged;
         }
+
+        public int GetNumScreens()
+        {
+            return CConfig.GetNumScreens();
+        }
     }
 
     class CBsettings : ISettings
@@ -227,6 +232,11 @@ namespace Vocaluxe.Base
         public int GetMaxNumPlayer()
         {
             return CSettings.MaxNumPlayer;
+        }
+
+        public int GetMaxNumScreens()
+        {
+            return CSettings.MaxNumScreens;
         }
 
         public float GetDefaultMedleyFadeInTime()
@@ -398,14 +408,14 @@ namespace Vocaluxe.Base
             CDraw.DrawTexture(texture, rect);
         }
 
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool allMonitors = true)
         {
-            CDraw.DrawTexture(texture, rect, color);
+            CDraw.DrawTexture(texture, rect, color, false, allMonitors);
         }
 
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false, bool allMonitors = true)
         {
-            CDraw.DrawTexture(texture, rect, color, bounds, mirrored);
+            CDraw.DrawTexture(texture, rect, color, bounds, mirrored, allMonitors);
         }
 
         public void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect)
@@ -418,9 +428,9 @@ namespace Vocaluxe.Base
             CDraw.DrawTexture(textureRef, bounds, aspect, color);
         }
 
-        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight)
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight, bool allMonitors = true)
         {
-            CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight);
+            CDraw.DrawTextureReflection(texture, rect, color, bounds, reflectionSpace, reflectionHeight, allMonitors);
         }
 
         public CTextureRef AddTexture(string fileName)
@@ -438,9 +448,9 @@ namespace Vocaluxe.Base
             CDraw.RemoveTexture(ref texture);
         }
 
-        public void DrawRect(SColorF color, SRectF rect)
+        public void DrawRect(SColorF color, SRectF rect, bool allMonitors = true)
         {
-            CDraw.DrawRect(color, rect);
+            CDraw.DrawRect(color, rect, allMonitors);
         }
 
         public void DrawRectReflection(SColorF color, SRectF rect, float space, float height)
@@ -517,9 +527,9 @@ namespace Vocaluxe.Base
             return CFonts.GetTextBounds(text);
         }
 
-        public void DrawText(string text, CFont font, float x, float y, float z, SColorF color)
+        public void DrawText(string text, CFont font, float x, float y, float z, SColorF color, bool allMonitors = true)
         {
-            CFonts.DrawText(text, font, x, y, z, color);
+            CFonts.DrawText(text, font, x, y, z, color, allMonitors);
         }
 
         public void DrawTextReflection(string text, CFont font, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight)

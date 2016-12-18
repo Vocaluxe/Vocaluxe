@@ -32,6 +32,7 @@ namespace VocaluxeLib.Menu
         public SThemeColor Color;
         public SRectF Rect;
         public SReflection? Reflection;
+        public bool? AllMonitors;
     }
 
     public sealed class CStatic : CMenuElementBase, IMenuElement, IThemeable
@@ -66,6 +67,8 @@ namespace VocaluxeLib.Menu
         public float ReflectionSpace;
         public float ReflectionHeight;
 
+        public bool AllMonitors = true;
+
         public float Alpha = 1;
 
         public EAspect Aspect = EAspect.Stretch;
@@ -85,6 +88,7 @@ namespace VocaluxeLib.Menu
             Reflection = s.Reflection;
             ReflectionSpace = s.ReflectionHeight;
             ReflectionHeight = s.ReflectionSpace;
+            AllMonitors = s.AllMonitors;
 
             Alpha = s.Alpha;
             Visible = s.Visible;
@@ -176,9 +180,9 @@ namespace VocaluxeLib.Menu
             {
                 if (texture != null)
                 {
-                    CBase.Drawing.DrawTexture(texture, rect, color, bounds);
+                    CBase.Drawing.DrawTexture(texture, rect, color, bounds, false, AllMonitors);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight, AllMonitors);
                 }
                 else
                     CBase.Drawing.DrawRect(color, rect);

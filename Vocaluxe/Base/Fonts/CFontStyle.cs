@@ -99,12 +99,12 @@ namespace Vocaluxe.Base.Fonts
             return new Font(_Family, height, _GetSystemFontStyle(), GraphicsUnit.Pixel);
         }
 
-        public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color)
+        public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color, bool allMonitors = true)
         {
             CTextureRef texture;
             SRectF rect;
             GetOrAddGlyph(chr, fontHeight).GetTextureAndRect(fontHeight, x, y, z, out texture, out rect);
-            CDraw.DrawTexture(texture, rect, color);
+            CDraw.DrawTexture(texture, rect, color, false, allMonitors);
         }
 
         public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color, float begin, float end)

@@ -225,7 +225,9 @@ namespace Vocaluxe.Base
         private void _Add(int x, int y, bool lb, bool ld, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
         {
             _CheckModifiers();
-            x = (int)(x * (float)CSettings.RenderW / CDraw.GetScreenWidth());
+            x = (int)(x * (float)CSettings.RenderW * CConfig.Config.Graphics.NumScreens / CDraw.GetScreenWidth());
+            while (x > CSettings.RenderW)
+                x -= CSettings.RenderW;
             y = (int)(y * (float)CSettings.RenderH / CDraw.GetScreenHeight());
 
             var pool = new SMouseEvent(ESender.Mouse, _Mod, x, y, lb, ld, rb, -wheel / 120, lbh, rbh, mb, mbh);

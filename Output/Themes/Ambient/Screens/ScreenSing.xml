@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>7</ScreenVersion>
+    <ScreenVersion>8</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -167,7 +167,7 @@
         <Z>-2.1</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP1N1">
+    <Static Name="StaticScoreS1P1N1">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -178,7 +178,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP1N1">
+    <Static Name="StaticAvatarS1P1N1">
       <Skin/>
       <Color>
         <R>1</R>
@@ -194,7 +194,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP1N2">
+    <Static Name="StaticScoreS1P1N2">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -205,7 +205,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP1N2">
+    <Static Name="StaticAvatarS1P1N2">
       <Skin/>
       <Color>
         <R>1</R>
@@ -221,7 +221,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP2N2">
+    <Static Name="StaticScoreS1P2N2">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -232,7 +232,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP2N2">
+    <Static Name="StaticAvatarS1P2N2">
       <Skin/>
       <Color>
         <R>1</R>
@@ -248,7 +248,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP1N3">
+    <Static Name="StaticScoreS1P1N3">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -259,7 +259,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP1N3">
+    <Static Name="StaticAvatarS1P1N3">
       <Skin/>
       <Color>
         <R>1</R>
@@ -275,7 +275,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP2N3">
+    <Static Name="StaticScoreS1P2N3">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -286,7 +286,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP2N3">
+    <Static Name="StaticAvatarS1P2N3">
       <Skin/>
       <Color>
         <R>1</R>
@@ -302,7 +302,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP3N3">
+    <Static Name="StaticScoreS1P3N3">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -313,7 +313,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP3N3">
+    <Static Name="StaticAvatarS1P3N3">
       <Skin/>
       <Color>
         <R>1</R>
@@ -329,7 +329,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP1N4">
+    <Static Name="StaticScoreS1P1N4">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -340,7 +340,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP1N4">
+    <Static Name="StaticAvatarS1P1N4">
       <Skin/>
       <Color>
         <R>1</R>
@@ -356,7 +356,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP2N4">
+    <Static Name="StaticScoreS1P2N4">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -367,7 +367,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP2N4">
+    <Static Name="StaticAvatarS1P2N4">
       <Skin/>
       <Color>
         <R>1</R>
@@ -383,7 +383,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP3N4">
+    <Static Name="StaticScoreS1P3N4">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -394,7 +394,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP3N4">
+    <Static Name="StaticAvatarS1P3N4">
       <Skin/>
       <Color>
         <R>1</R>
@@ -410,7 +410,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP4N4">
+    <Static Name="StaticScoreS1P4N4">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -421,7 +421,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP4N4">
+    <Static Name="StaticAvatarS1P4N4">
       <Skin/>
       <Color>
         <R>1</R>
@@ -437,7 +437,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP1N5">
+    <Static Name="StaticScoreS1P1N5">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -448,7 +448,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP1N5">
+    <Static Name="StaticAvatarS1P1N5">
       <Skin/>
       <Color>
         <R>1</R>
@@ -464,7 +464,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP2N5">
+    <Static Name="StaticScoreS1P2N5">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -475,7 +475,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP2N5">
+    <Static Name="StaticAvatarS1P2N5">
       <Skin/>
       <Color>
         <R>1</R>
@@ -491,7 +491,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP3N5">
+    <Static Name="StaticScoreS1P3N5">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -502,7 +502,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP3N5">
+    <Static Name="StaticAvatarS1P3N5">
       <Skin/>
       <Color>
         <R>1</R>
@@ -518,7 +518,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP4N5">
+    <Static Name="StaticScoreS1P4N5">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -529,7 +529,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP4N5">
+    <Static Name="StaticAvatarS1P4N5">
       <Skin/>
       <Color>
         <R>1</R>
@@ -545,7 +545,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP5N5">
+    <Static Name="StaticScoreS1P5N5">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -556,7 +556,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP5N5">
+    <Static Name="StaticAvatarS1P5N5">
       <Skin/>
       <Color>
         <R>1</R>
@@ -572,7 +572,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP1N6">
+    <Static Name="StaticScoreS1P1N6">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -583,7 +583,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP1N6">
+    <Static Name="StaticAvatarS1P1N6">
       <Skin/>
       <Color>
         <R>1</R>
@@ -599,7 +599,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP2N6">
+    <Static Name="StaticScoreS1P2N6">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -610,7 +610,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP2N6">
+    <Static Name="StaticAvatarS1P2N6">
       <Skin/>
       <Color>
         <R>1</R>
@@ -626,7 +626,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP3N6">
+    <Static Name="StaticScoreS1P3N6">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -637,7 +637,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP3N6">
+    <Static Name="StaticAvatarS1P3N6">
       <Skin/>
       <Color>
         <R>1</R>
@@ -653,7 +653,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP4N6">
+    <Static Name="StaticScoreS1P4N6">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -664,7 +664,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP4N6">
+    <Static Name="StaticAvatarS1P4N6">
       <Skin/>
       <Color>
         <R>1</R>
@@ -680,7 +680,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP5N6">
+    <Static Name="StaticScoreS1P5N6">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -691,7 +691,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP5N6">
+    <Static Name="StaticAvatarS1P5N6">
       <Skin/>
       <Color>
         <R>1</R>
@@ -707,7 +707,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticScoreP6N6">
+    <Static Name="StaticScoreS1P6N6">
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
@@ -718,7 +718,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticAvatarP6N6">
+    <Static Name="StaticAvatarS1P6N6">
       <Skin/>
       <Color>
         <R>1</R>
@@ -728,6 +728,2841 @@
       </Color>
       <Rect>
         <X>1103</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P1N1">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P1N1">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>360</Y>
+        <W>190</W>
+        <H>190</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P1N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P1N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P2N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P2N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P1N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P1N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P2N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P2N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P3N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P3N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P1N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>1808</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P1N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P2N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>1808</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P2N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P3N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P3N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2383</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P4N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P4N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2383</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P1N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>1808</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P1N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P2N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>1808</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P2N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P3N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>1808</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P3N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P4N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P4N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2383</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P5N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P5N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2383</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P1N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>1808</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P1N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P2N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>1808</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P2N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P3N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>1808</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P3N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>1320</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P4N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P4N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2383</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P5N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P5N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2383</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS2P6N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>2430</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS2P6N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2383</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P1N1">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P1N1">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>360</Y>
+        <W>190</W>
+        <H>190</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P1N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P1N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P2N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P2N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P1N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P1N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P2N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P2N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P3N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P3N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P1N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3088</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P1N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P2N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3088</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P2N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P3N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P3N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3663</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P4N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P4N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3663</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P1N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3088</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P1N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P2N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3088</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P2N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P3N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3088</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P3N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P4N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P4N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3663</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P5N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P5N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3663</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P1N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3088</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P1N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P2N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3088</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P2N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P3N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3088</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P3N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>2600</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P4N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P4N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3663</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P5N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P5N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3663</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS3P6N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>3710</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS3P6N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3663</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P1N1">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P1N1">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>360</Y>
+        <W>190</W>
+        <H>190</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P1N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P1N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P2N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P2N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P1N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P1N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P2N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P2N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P3N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P3N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P1N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4368</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P1N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P2N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4368</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P2N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P3N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P3N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>4943</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P4N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P4N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>4943</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P1N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4368</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P1N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P2N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4368</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P2N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P3N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4368</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P3N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P4N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P4N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>4943</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P5N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P5N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>4943</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P1N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4368</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P1N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P2N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4368</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P2N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P3N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4368</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P3N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>3880</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P4N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P4N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>4943</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P5N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P5N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>4943</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS4P6N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>4990</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS4P6N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>4943</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P1N1">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P1N1">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>360</Y>
+        <W>190</W>
+        <H>190</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P1N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P1N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P2N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P2N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P1N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P1N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P2N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P2N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P3N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P3N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P1N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>5648</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P1N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P2N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>5648</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P2N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P3N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P3N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6223</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P4N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P4N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6223</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P1N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>5648</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P1N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P2N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>5648</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P2N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P3N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>5648</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P3N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P4N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P4N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6223</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P5N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P5N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6223</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P1N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>5648</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P1N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P2N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>5648</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P2N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P3N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>5648</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P3N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>5160</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P4N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P4N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6223</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P5N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P5N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6223</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS5P6N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6270</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS5P6N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6223</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P1N1">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P1N1">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>360</Y>
+        <W>190</W>
+        <H>190</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P1N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P1N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P2N2">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P2N2">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P1N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P1N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P2N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P2N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P3N3">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P3N3">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P1N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6928</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P1N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P2N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6928</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P2N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P3N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P3N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>7503</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P4N4">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P4N4">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>7503</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P1N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6928</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P1N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P2N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6928</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P2N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P3N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6928</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P3N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P4N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>150</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P4N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>7503</X>
+        <Y>160</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P5N5">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>350</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P5N5">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>7503</X>
+        <Y>360</Y>
+        <W>165</W>
+        <H>165</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P1N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6928</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P1N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P2N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6928</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P2N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P3N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>6928</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P3N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>6440</X>
+        <Y>442</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P4N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>10</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P4N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>7503</X>
+        <Y>111</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P5N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>210</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P5N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>7503</X>
+        <Y>274</Y>
+        <W>140</W>
+        <H>140</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticScoreS6P6N6">
+      <Skin/>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>7550</X>
+        <Y>410</Y>
+        <W>100</W>
+        <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticAvatarS6P6N6">
+      <Skin/>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <Rect>
+        <X>7503</X>
         <Y>442</Y>
         <W>140</W>
         <H>140</H>
@@ -820,7 +3655,8 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP1N1">
+            
+    <Text Name="TextScoreS1P1N1">
       <X>1240</X>
       <Y>355</Y>
       <Z>-1</Z>
@@ -834,7 +3670,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP1N1">
+    <Text Name="TextNameS1P1N1">
       <X>110</X>
       <Y>513</Y>
       <Z>-1</Z>
@@ -853,7 +3689,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP1N2">
+    <Text Name="TextScoreS1P1N2">
       <X>1240</X>
       <Y>155</Y>
       <Z>-1</Z>
@@ -867,7 +3703,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP1N2">
+    <Text Name="TextNameS1P1N2">
       <X>110</X>
       <Y>288</Y>
       <Z>-1</Z>
@@ -886,7 +3722,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP2N2">
+    <Text Name="TextScoreS1P2N2">
       <X>1240</X>
       <Y>355</Y>
       <Z>-1</Z>
@@ -900,7 +3736,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP2N2">
+    <Text Name="TextNameS1P2N2">
       <X>110</X>
       <Y>488</Y>
       <Z>-1</Z>
@@ -919,7 +3755,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP1N3">
+    <Text Name="TextScoreS1P1N3">
       <X>1240</X>
       <Y>106</Y>
       <Z>-1</Z>
@@ -933,7 +3769,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP1N3">
+    <Text Name="TextNameS1P1N3">
       <X>110</X>
       <Y>219</Y>
       <Z>-1</Z>
@@ -952,7 +3788,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP2N3">
+    <Text Name="TextScoreS1P2N3">
       <X>1240</X>
       <Y>269</Y>
       <Z>-1</Z>
@@ -966,7 +3802,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP2N3">
+    <Text Name="TextNameS1P2N3">
       <X>110</X>
       <Y>382</Y>
       <Z>-1</Z>
@@ -985,7 +3821,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP3N3">
+    <Text Name="TextScoreS1P3N3">
       <X>1240</X>
       <Y>437</Y>
       <Z>-1</Z>
@@ -999,7 +3835,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP3N3">
+    <Text Name="TextNameS1P3N3">
       <X>110</X>
       <Y>550</Y>
       <Z>-1</Z>
@@ -1018,7 +3854,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP1N4">
+    <Text Name="TextScoreS1P1N4">
       <X>324</X>
       <Y>155</Y>
       <Z>-1</Z>
@@ -1032,7 +3868,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP1N4">
+    <Text Name="TextNameS1P1N4">
       <X>110</X>
       <Y>288</Y>
       <Z>-1</Z>
@@ -1051,7 +3887,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP2N4">
+    <Text Name="TextScoreS1P2N4">
       <X>324</X>
       <Y>355</Y>
       <Z>-1</Z>
@@ -1065,7 +3901,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP2N4">
+    <Text Name="TextNameS1P2N4">
       <X>110</X>
       <Y>488</Y>
       <Z>-1</Z>
@@ -1084,7 +3920,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP3N4">
+    <Text Name="TextScoreS1P3N4">
       <X>967</X>
       <Y>155</Y>
       <Z>-1</Z>
@@ -1098,7 +3934,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP3N4">
+    <Text Name="TextNameS1P3N4">
       <X>1173</X>
       <Y>288</Y>
       <Z>-1</Z>
@@ -1117,7 +3953,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP4N4">
+    <Text Name="TextScoreS1P4N4">
       <X>967</X>
       <Y>355</Y>
       <Z>-1</Z>
@@ -1131,7 +3967,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP4N4">
+    <Text Name="TextNameS1P4N4">
       <X>1173</X>
       <Y>488</Y>
       <Z>-1</Z>
@@ -1150,7 +3986,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP1N5">
+    <Text Name="TextScoreS1P1N5">
       <X>324</X>
       <Y>106</Y>
       <Z>-1</Z>
@@ -1164,7 +4000,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP1N5">
+    <Text Name="TextNameS1P1N5">
       <X>110</X>
       <Y>219</Y>
       <Z>-1</Z>
@@ -1183,7 +4019,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP2N5">
+    <Text Name="TextScoreS1P2N5">
       <X>324</X>
       <Y>269</Y>
       <Z>-1</Z>
@@ -1197,7 +4033,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP2N5">
+    <Text Name="TextNameS1P2N5">
       <X>110</X>
       <Y>382</Y>
       <Z>-1</Z>
@@ -1216,7 +4052,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP3N5">
+    <Text Name="TextScoreS1P3N5">
       <X>324</X>
       <Y>437</Y>
       <Z>-1</Z>
@@ -1230,7 +4066,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP3N5">
+    <Text Name="TextNameS1P3N5">
       <X>110</X>
       <Y>550</Y>
       <Z>-1</Z>
@@ -1249,7 +4085,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP4N5">
+    <Text Name="TextScoreS1P4N5">
       <X>967</X>
       <Y>155</Y>
       <Z>-1</Z>
@@ -1263,7 +4099,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP4N5">
+    <Text Name="TextNameS1P4N5">
       <X>1173</X>
       <Y>288</Y>
       <Z>-1</Z>
@@ -1282,7 +4118,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP5N5">
+    <Text Name="TextScoreS1P5N5">
       <X>967</X>
       <Y>355</Y>
       <Z>-1</Z>
@@ -1296,7 +4132,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP5N5">
+    <Text Name="TextNameS1P5N5">
       <X>1173</X>
       <Y>488</Y>
       <Z>-1</Z>
@@ -1315,7 +4151,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP1N6">
+    <Text Name="TextScoreS1P1N6">
       <X>324</X>
       <Y>106</Y>
       <Z>-1</Z>
@@ -1329,7 +4165,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP1N6">
+    <Text Name="TextNameS1P1N6">
       <X>110</X>
       <Y>219</Y>
       <Z>-1</Z>
@@ -1348,7 +4184,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP2N6">
+    <Text Name="TextScoreS1P2N6">
       <X>324</X>
       <Y>269</Y>
       <Z>-1</Z>
@@ -1362,7 +4198,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP2N6">
+    <Text Name="TextNameS1P2N6">
       <X>110</X>
       <Y>382</Y>
       <Z>-1</Z>
@@ -1381,7 +4217,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP3N6">
+    <Text Name="TextScoreS1P3N6">
       <X>324</X>
       <Y>437</Y>
       <Z>-1</Z>
@@ -1395,7 +4231,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP3N6">
+    <Text Name="TextNameS1P3N6">
       <X>110</X>
       <Y>550</Y>
       <Z>-1</Z>
@@ -1414,7 +4250,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP4N6">
+    <Text Name="TextScoreS1P4N6">
       <X>967</X>
       <Y>106</Y>
       <Z>-1</Z>
@@ -1428,7 +4264,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP4N6">
+    <Text Name="TextNameS1P4N6">
       <X>1173</X>
       <Y>219</Y>
       <Z>-1</Z>
@@ -1447,7 +4283,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP5N6">
+    <Text Name="TextScoreS1P5N6">
       <X>967</X>
       <Y>269</Y>
       <Z>-1</Z>
@@ -1461,7 +4297,7 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP5N6">
+    <Text Name="TextNameS1P5N6">
       <X>1173</X>
       <Y>382</Y>
       <Z>-1</Z>
@@ -1480,7 +4316,7 @@
       <Font>Outline</Font>
       <Text />
     </Text>
-    <Text Name="TextScoreP6N6">
+    <Text Name="TextScoreS1P6N6">
       <X>967</X>
       <Y>437</Y>
       <Z>-1</Z>
@@ -1494,8 +4330,3473 @@
       <Font>Normal</Font>
       <Text />
     </Text>
-    <Text Name="TextNameP6N6">
+    <Text Name="TextNameS1P6N6">
       <X>1173</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P1N1">
+      <X>2520</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>198</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P1N1">
+      <X>1390</X>
+      <Y>513</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P1N2">
+      <X>2520</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P1N2">
+      <X>1390</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P2N2">
+      <X>2520</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P2N2">
+      <X>1390</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P1N3">
+      <X>2520</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P1N3">
+      <X>1390</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P2N3">
+      <X>2520</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P2N3">
+      <X>1390</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P3N3">
+      <X>2520</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P3N3">
+      <X>1390</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P1N4">
+      <X>1604</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P1N4">
+      <X>1390</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P2N4">
+      <X>1604</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P2N4">
+      <X>1390</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P3N4">
+      <X>2247</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P3N4">
+      <X>2453</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P4N4">
+      <X>2247</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P4N4">
+      <X>2453</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P1N5">
+      <X>1604</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P1N5">
+      <X>1390</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P2N5">
+      <X>1604</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P2N5">
+      <X>1390</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P3N5">
+      <X>1604</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P3N5">
+      <X>1390</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P4N5">
+      <X>2247</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P4N5">
+      <X>2453</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P5N5">
+      <X>2247</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P5N5">
+      <X>2453</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P1N6">
+      <X>1604</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P1N6">
+      <X>1390</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P2N6">
+      <X>1604</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P2N6">
+      <X>1390</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P3N6">
+      <X>1604</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P3N6">
+      <X>1390</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P4N6">
+      <X>2247</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P4N6">
+      <X>2453</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P5N6">
+      <X>2247</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P5N6">
+      <X>2453</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS2P6N6">
+      <X>2247</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player6"><A>0.4</A></Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS2P6N6">
+      <X>2453</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P1N1">
+      <X>3800</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>198</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P1N1">
+      <X>2670</X>
+      <Y>513</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P1N2">
+      <X>3800</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P1N2">
+      <X>2670</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P2N2">
+      <X>3800</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P2N2">
+      <X>2670</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P1N3">
+      <X>3800</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P1N3">
+      <X>2670</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P2N3">
+      <X>3800</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P2N3">
+      <X>2670</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P3N3">
+      <X>3800</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P3N3">
+      <X>2670</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P1N4">
+      <X>2884</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P1N4">
+      <X>2670</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P2N4">
+      <X>2884</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P2N4">
+      <X>2670</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P3N4">
+      <X>3527</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P3N4">
+      <X>3733</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P4N4">
+      <X>3527</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P4N4">
+      <X>3733</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P1N5">
+      <X>2884</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P1N5">
+      <X>2670</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P2N5">
+      <X>2884</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P2N5">
+      <X>2670</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P3N5">
+      <X>2884</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P3N5">
+      <X>2670</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P4N5">
+      <X>3527</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P4N5">
+      <X>3733</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P5N5">
+      <X>3527</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P5N5">
+      <X>3733</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P1N6">
+      <X>2884</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P1N6">
+      <X>2670</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P2N6">
+      <X>2884</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P2N6">
+      <X>2670</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P3N6">
+      <X>2884</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P3N6">
+      <X>2670</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P4N6">
+      <X>3527</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P4N6">
+      <X>3733</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P5N6">
+      <X>3527</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P5N6">
+      <X>3733</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS3P6N6">
+      <X>3527</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player6"><A>0.4</A></Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS3P6N6">
+      <X>3733</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P1N1">
+      <X>5080</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>198</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P1N1">
+      <X>3950</X>
+      <Y>513</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P1N2">
+      <X>5080</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P1N2">
+      <X>3950</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P2N2">
+      <X>5080</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P2N2">
+      <X>3950</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P1N3">
+      <X>5080</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P1N3">
+      <X>3950</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P2N3">
+      <X>5080</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P2N3">
+      <X>3950</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P3N3">
+      <X>5080</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P3N3">
+      <X>3950</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P1N4">
+      <X>4164</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P1N4">
+      <X>3950</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P2N4">
+      <X>4164</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P2N4">
+      <X>3950</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P3N4">
+      <X>4807</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P3N4">
+      <X>5013</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P4N4">
+      <X>4807</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P4N4">
+      <X>5013</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P1N5">
+      <X>4164</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P1N5">
+      <X>3950</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P2N5">
+      <X>4164</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P2N5">
+      <X>3950</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P3N5">
+      <X>4164</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P3N5">
+      <X>3950</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P4N5">
+      <X>4807</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P4N5">
+      <X>5013</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P5N5">
+      <X>4807</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P5N5">
+      <X>5013</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P1N6">
+      <X>4164</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P1N6">
+      <X>3950</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P2N6">
+      <X>4164</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P2N6">
+      <X>3950</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P3N6">
+      <X>4164</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P3N6">
+      <X>3950</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P4N6">
+      <X>4807</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P4N6">
+      <X>5013</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P5N6">
+      <X>4807</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P5N6">
+      <X>5013</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS4P6N6">
+      <X>4807</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player6"><A>0.4</A></Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS4P6N6">
+      <X>5013</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P1N1">
+      <X>6360</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>198</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P1N1">
+      <X>5230</X>
+      <Y>513</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P1N2">
+      <X>6360</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P1N2">
+      <X>5230</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P2N2">
+      <X>6360</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P2N2">
+      <X>5230</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P1N3">
+      <X>6360</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P1N3">
+      <X>5230</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P2N3">
+      <X>6360</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P2N3">
+      <X>5230</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P3N3">
+      <X>6360</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P3N3">
+      <X>5230</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P1N4">
+      <X>5444</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P1N4">
+      <X>5230</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P2N4">
+      <X>5444</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P2N4">
+      <X>5230</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P3N4">
+      <X>6087</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P3N4">
+      <X>6293</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P4N4">
+      <X>6087</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P4N4">
+      <X>6293</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P1N5">
+      <X>5444</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P1N5">
+      <X>5230</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P2N5">
+      <X>5444</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P2N5">
+      <X>5230</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P3N5">
+      <X>5444</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P3N5">
+      <X>5230</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P4N5">
+      <X>6087</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P4N5">
+      <X>6293</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P5N5">
+      <X>6087</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P5N5">
+      <X>6293</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P1N6">
+      <X>5444</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P1N6">
+      <X>5230</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P2N6">
+      <X>5444</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P2N6">
+      <X>5230</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P3N6">
+      <X>5444</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P3N6">
+      <X>5230</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P4N6">
+      <X>6087</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P4N6">
+      <X>6293</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P5N6">
+      <X>6087</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P5N6">
+      <X>6293</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS5P6N6">
+      <X>6087</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player6"><A>0.4</A></Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS5P6N6">
+      <X>6293</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P1N1">
+      <X>7640</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>198</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P1N1">
+      <X>6510</X>
+      <Y>513</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P1N2">
+      <X>7640</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P1N2">
+      <X>6510</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P2N2">
+      <X>7640</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P2N2">
+      <X>6510</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P1N3">
+      <X>7640</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P1N3">
+      <X>6510</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P2N3">
+      <X>7640</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P2N3">
+      <X>6510</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P3N3">
+      <X>7640</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Right</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P3N3">
+      <X>6510</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P1N4">
+      <X>6724</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P1N4">
+      <X>6510</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P2N4">
+      <X>6724</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P2N4">
+      <X>6510</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P3N4">
+      <X>7367</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P3N4">
+      <X>7573</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P4N4">
+      <X>7367</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P4N4">
+      <X>7573</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P1N5">
+      <X>6724</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P1N5">
+      <X>6510</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P2N5">
+      <X>6724</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P2N5">
+      <X>6510</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P3N5">
+      <X>6724</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P3N5">
+      <X>6510</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P4N5">
+      <X>7367</X>
+      <Y>155</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P4N5">
+      <X>7573</X>
+      <Y>288</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P5N5">
+      <X>7367</X>
+      <Y>355</Y>
+      <Z>-1</Z>
+      <H>173</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P5N5">
+      <X>7573</X>
+      <Y>488</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P1N6">
+      <X>6724</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player1"><A>0.4</A></Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P1N6">
+      <X>6510</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player1" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P2N6">
+      <X>6724</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player2"><A>0.4</A></Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P2N6">
+      <X>6510</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player2" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P3N6">
+      <X>6724</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player3"><A>0.4</A></Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P3N6">
+      <X>6510</X>
+      <Y>550</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player3" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P4N6">
+      <X>7367</X>
+      <Y>106</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player4"><A>0.4</A></Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P4N6">
+      <X>7573</X>
+      <Y>219</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player4" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P5N6">
+      <X>7367</X>
+      <Y>269</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player5"><A>0.4</A></Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P5N6">
+      <X>7573</X>
+      <Y>382</Y>
+      <Z>-1</Z>
+      <H>28</H>
+      <MaxW>0</MaxW>
+      <Color>
+        <R>1</R>
+        <G>1</G>
+        <B>1</B>
+        <A>0.4</A>
+      </Color>
+      <SelColor Name="Player5" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextScoreS6P6N6">
+      <X>7367</X>
+      <Y>437</Y>
+      <Z>-1</Z>
+      <H>148</H>
+      <MaxW>0</MaxW>
+      <Color Name="Player6"><A>0.4</A></Color>
+      <SelColor Name="Player6" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text />
+    </Text>
+    <Text Name="TextNameS6P6N6">
+      <X>7573</X>
       <Y>550</Y>
       <Z>-1</Z>
       <H>28</H>
@@ -1703,7 +8004,7 @@
       <SkinToneHelper>ToneHelper</SkinToneHelper>
       <SkinPerfectNoteStart>PerfectNoteStar</SkinPerfectNoteStart>
       <BarPositions>
-        <Position Name="P1N1">
+      <Position Name="S1P1N1">
           <Rect>
             <X>35</X>
             <Y>350</Y>
@@ -1712,7 +8013,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P1N2">
+        <Position Name="S1P1N2">
           <Rect>
             <X>35</X>
             <Y>150</Y>
@@ -1721,7 +8022,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P2N2">
+        <Position Name="S1P2N2">
           <Rect>
             <X>35</X>
             <Y>350</Y>
@@ -1730,7 +8031,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P1N3">
+        <Position Name="S1P1N3">
           <Rect>
             <X>35</X>
             <Y>105</Y>
@@ -1739,7 +8040,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P2N3">
+        <Position Name="S1P2N3">
           <Rect>
             <X>35</X>
             <Y>268</Y>
@@ -1748,7 +8049,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P3N3">
+        <Position Name="S1P3N3">
           <Rect>
             <X>35</X>
             <Y>436</Y>
@@ -1757,7 +8058,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P1N4">
+        <Position Name="S1P1N4">
           <Rect>
             <X>35</X>
             <Y>150</Y>
@@ -1766,7 +8067,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P2N4">
+        <Position Name="S1P2N4">
           <Rect>
             <X>35</X>
             <Y>350</Y>
@@ -1775,7 +8076,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P3N4">
+        <Position Name="S1P3N4">
           <Rect>
             <X>678</X>
             <Y>150</Y>
@@ -1784,7 +8085,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P4N4">
+        <Position Name="S1P4N4">
           <Rect>
             <X>678</X>
             <Y>350</Y>
@@ -1793,7 +8094,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P1N5">
+        <Position Name="S1P1N5">
           <Rect>
             <X>35</X>
             <Y>105</Y>
@@ -1802,7 +8103,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P2N5">
+        <Position Name="S1P2N5">
           <Rect>
             <X>35</X>
             <Y>268</Y>
@@ -1811,7 +8112,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P3N5">
+        <Position Name="S1P3N5">
           <Rect>
             <X>35</X>
             <Y>436</Y>
@@ -1820,7 +8121,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P4N5">
+        <Position Name="S1P4N5">
           <Rect>
             <X>678</X>
             <Y>150</Y>
@@ -1829,7 +8130,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P5N5">
+        <Position Name="S1P5N5">
           <Rect>
             <X>678</X>
             <Y>350</Y>
@@ -1838,7 +8139,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P1N6">
+        <Position Name="S1P1N6">
           <Rect>
             <X>35</X>
             <Y>105</Y>
@@ -1847,7 +8148,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P2N6">
+        <Position Name="S1P2N6">
           <Rect>
             <X>35</X>
             <Y>268</Y>
@@ -1856,7 +8157,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P3N6">
+        <Position Name="S1P3N6">
           <Rect>
             <X>35</X>
             <Y>436</Y>
@@ -1865,7 +8166,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P4N6">
+        <Position Name="S1P4N6">
           <Rect>
             <X>678</X>
             <Y>105</Y>
@@ -1874,7 +8175,7 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P5N6">
+        <Position Name="S1P5N6">
           <Rect>
             <X>678</X>
             <Y>268</Y>
@@ -1883,9 +8184,954 @@
             <Z>-1.5</Z>
           </Rect>
         </Position>
-        <Position Name="P6N6">
+        <Position Name="S1P6N6">
           <Rect>
             <X>678</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P1N1">
+          <Rect>
+            <X>1315</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>200</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P1N2">
+          <Rect>
+            <X>1315</X>
+            <Y>150</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P2N2">
+          <Rect>
+            <X>1315</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P1N3">
+          <Rect>
+            <X>1315</X>
+            <Y>105</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P2N3">
+          <Rect>
+            <X>1315</X>
+            <Y>268</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P3N3">
+          <Rect>
+            <X>1315</X>
+            <Y>436</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P1N4">
+          <Rect>
+            <X>1315</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P2N4">
+          <Rect>
+            <X>1315</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P3N4">
+          <Rect>
+            <X>1958</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P4N4">
+          <Rect>
+            <X>1958</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P1N5">
+          <Rect>
+            <X>1315</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P2N5">
+          <Rect>
+            <X>1315</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P3N5">
+          <Rect>
+            <X>1315</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P4N5">
+          <Rect>
+            <X>1958</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P5N5">
+          <Rect>
+            <X>1958</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P1N6">
+          <Rect>
+            <X>1315</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P2N6">
+          <Rect>
+            <X>1315</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P3N6">
+          <Rect>
+            <X>1315</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P4N6">
+          <Rect>
+            <X>1958</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P5N6">
+          <Rect>
+            <X>1958</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S2P6N6">
+          <Rect>
+            <X>1958</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P1N1">
+          <Rect>
+            <X>2595</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>200</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P1N2">
+          <Rect>
+            <X>2595</X>
+            <Y>150</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P2N2">
+          <Rect>
+            <X>2595</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P1N3">
+          <Rect>
+            <X>2595</X>
+            <Y>105</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P2N3">
+          <Rect>
+            <X>2595</X>
+            <Y>268</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P3N3">
+          <Rect>
+            <X>2595</X>
+            <Y>436</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P1N4">
+          <Rect>
+            <X>2595</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P2N4">
+          <Rect>
+            <X>2595</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P3N4">
+          <Rect>
+            <X>3238</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P4N4">
+          <Rect>
+            <X>3238</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P1N5">
+          <Rect>
+            <X>2595</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P2N5">
+          <Rect>
+            <X>2595</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P3N5">
+          <Rect>
+            <X>2595</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P4N5">
+          <Rect>
+            <X>3238</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P5N5">
+          <Rect>
+            <X>3238</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P1N6">
+          <Rect>
+            <X>2595</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P2N6">
+          <Rect>
+            <X>2595</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P3N6">
+          <Rect>
+            <X>2595</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P4N6">
+          <Rect>
+            <X>3238</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P5N6">
+          <Rect>
+            <X>3238</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S3P6N6">
+          <Rect>
+            <X>3238</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P1N1">
+          <Rect>
+            <X>3875</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>200</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P1N2">
+          <Rect>
+            <X>3875</X>
+            <Y>150</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P2N2">
+          <Rect>
+            <X>3875</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P1N3">
+          <Rect>
+            <X>3875</X>
+            <Y>105</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P2N3">
+          <Rect>
+            <X>3875</X>
+            <Y>268</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P3N3">
+          <Rect>
+            <X>3875</X>
+            <Y>436</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P1N4">
+          <Rect>
+            <X>3875</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P2N4">
+          <Rect>
+            <X>3875</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P3N4">
+          <Rect>
+            <X>4518</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P4N4">
+          <Rect>
+            <X>4518</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P1N5">
+          <Rect>
+            <X>3875</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P2N5">
+          <Rect>
+            <X>3875</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P3N5">
+          <Rect>
+            <X>3875</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P4N5">
+          <Rect>
+            <X>4518</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P5N5">
+          <Rect>
+            <X>4518</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P1N6">
+          <Rect>
+            <X>3875</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P2N6">
+          <Rect>
+            <X>3875</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P3N6">
+          <Rect>
+            <X>3875</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P4N6">
+          <Rect>
+            <X>4518</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P5N6">
+          <Rect>
+            <X>4518</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S4P6N6">
+          <Rect>
+            <X>4518</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P1N1">
+          <Rect>
+            <X>5155</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>200</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P1N2">
+          <Rect>
+            <X>5155</X>
+            <Y>150</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P2N2">
+          <Rect>
+            <X>5155</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P1N3">
+          <Rect>
+            <X>5155</X>
+            <Y>105</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P2N3">
+          <Rect>
+            <X>5155</X>
+            <Y>268</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P3N3">
+          <Rect>
+            <X>5155</X>
+            <Y>436</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P1N4">
+          <Rect>
+            <X>5155</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P2N4">
+          <Rect>
+            <X>5155</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P3N4">
+          <Rect>
+            <X>5798</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P4N4">
+          <Rect>
+            <X>5798</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P1N5">
+          <Rect>
+            <X>5155</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P2N5">
+          <Rect>
+            <X>5155</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P3N5">
+          <Rect>
+            <X>5155</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P4N5">
+          <Rect>
+            <X>5798</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P5N5">
+          <Rect>
+            <X>5798</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P1N6">
+          <Rect>
+            <X>5155</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P2N6">
+          <Rect>
+            <X>5155</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P3N6">
+          <Rect>
+            <X>5155</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P4N6">
+          <Rect>
+            <X>5798</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P5N6">
+          <Rect>
+            <X>5798</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S5P6N6">
+          <Rect>
+            <X>5798</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P1N1">
+          <Rect>
+            <X>6435</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>200</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P1N2">
+          <Rect>
+            <X>6435</X>
+            <Y>150</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P2N2">
+          <Rect>
+            <X>6435</X>
+            <Y>350</Y>
+            <W>1210</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P1N3">
+          <Rect>
+            <X>6435</X>
+            <Y>105</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P2N3">
+          <Rect>
+            <X>6435</X>
+            <Y>268</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P3N3">
+          <Rect>
+            <X>6435</X>
+            <Y>436</Y>
+            <W>1210</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P1N4">
+          <Rect>
+            <X>6435</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P2N4">
+          <Rect>
+            <X>6435</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P3N4">
+          <Rect>
+            <X>7078</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P4N4">
+          <Rect>
+            <X>7078</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P1N5">
+          <Rect>
+            <X>6435</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P2N5">
+          <Rect>
+            <X>6435</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P3N5">
+          <Rect>
+            <X>6435</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P4N5">
+          <Rect>
+            <X>7078</X>
+            <Y>150</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P5N5">
+          <Rect>
+            <X>7078</X>
+            <Y>350</Y>
+            <W>578</W>
+            <H>175</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P1N6">
+          <Rect>
+            <X>6435</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P2N6">
+          <Rect>
+            <X>6435</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P3N6">
+          <Rect>
+            <X>6435</X>
+            <Y>436</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P4N6">
+          <Rect>
+            <X>7078</X>
+            <Y>105</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P5N6">
+          <Rect>
+            <X>7078</X>
+            <Y>268</Y>
+            <W>578</W>
+            <H>150</H>
+            <Z>-1.5</Z>
+          </Rect>
+        </Position>
+        <Position Name="S6P6N6">
+          <Rect>
+            <X>7078</X>
             <Y>436</Y>
             <W>578</W>
             <H>150</H>

@@ -1,6 +1,21 @@
 ScreenSing
 
 +++++++++
+Version 8
+
+Add:
+Modified elements for 6 monitors support 
+
+S# = Screen
+P# = Player
+N# = Players on screen
+
+<StaticAvatarS#P#N#>
+<StaticScoreS#P#N#>
+<TextNameS#P#N#>
+<TextScoreS#P#N#>
+
++++++++++
 Version 7
 
 Add:
