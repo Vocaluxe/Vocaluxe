@@ -25,19 +25,24 @@ namespace VocaluxeLib.Menu
     [XmlType("Text")]
     public struct SThemeText
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public float X;
         public float Y;
         public float Z;
-        [XmlElement("H")] public float FontHeight;
-        [XmlElement("MaxW")] public float MaxWidth;
+        [XmlElement("H")]
+        public float FontHeight;
+        [XmlElement("MaxW")]
+        public float MaxWidth;
         public SThemeColor Color;
         public SThemeColor SelColor; //for Buttons
         public EAlignment Align;
         public EHAlignment ResizeAlign;
-        [XmlElement("Style")] public EStyle FontStyle;
-        [XmlElement("Font")] public string FontFamily;
+        [XmlElement("Style")]
+        public EStyle FontStyle;
+        [XmlElement("Font")]
+        public string FontFamily;
         public string Text;
         public SReflection? Reflection;
     }
@@ -428,7 +433,7 @@ namespace VocaluxeLib.Menu
             Y -= ry;
         }
 
-        public void UnloadSkin() {}
+        public void UnloadSkin() { }
 
         public void LoadSkin()
         {

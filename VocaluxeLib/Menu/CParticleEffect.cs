@@ -27,7 +27,8 @@ namespace VocaluxeLib.Menu
     [XmlType("ParticleEffect")]
     public struct SThemeParticleEffect
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public string Skin;
         public SRectF Rect;

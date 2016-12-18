@@ -45,7 +45,7 @@ namespace Vocaluxe.Base
 #pragma warning disable 649
         // ReSharper disable MemberCanBePrivate.Global
         public struct SConfigInfo
-            // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore MemberCanBePrivate.Global
         {
             // ReSharper disable NotAccessedField.Global
             // ReSharper disable NotAccessedField.Local
@@ -63,110 +63,173 @@ namespace Vocaluxe.Base
 
         public struct SConfigDebug
         {
-            [DefaultValue(EDebugLevel.TR_CONFIG_OFF)] public EDebugLevel DebugLevel;
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn SaveModifiedSongs;
+            [DefaultValue(EDebugLevel.TR_CONFIG_OFF)]
+            public EDebugLevel DebugLevel;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn SaveModifiedSongs;
         }
 
         public struct SConfigGraphics
         {
 #if WIN
-            [DefaultValue(ERenderer.TR_CONFIG_DIRECT3D)] public ERenderer Renderer;
+            [DefaultValue(ERenderer.TR_CONFIG_DIRECT3D)]
+            public ERenderer Renderer;
 #else
         [DefaultValue(ERenderer.TR_CONFIG_OPENGL)] public ERenderer Renderer;
 #endif
 
-            [DefaultValue(ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM)] public ETextureQuality TextureQuality;
-            [XmlRanged(32, 1024), DefaultValue(256)] public int CoverSize;
+            [DefaultValue(ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM)]
+            public ETextureQuality TextureQuality;
+            [XmlRanged(32, 1024), DefaultValue(256)]
+            public int CoverSize;
 
-            [DefaultValue(1024)] public int ScreenW;
-            [DefaultValue(576)] public int ScreenH;
-            [DefaultValue(EGeneralAlignment.Middle)] public EGeneralAlignment ScreenAlignment;
-            [DefaultValue(0)] public int BorderLeft;
-            [DefaultValue(0)] public int BorderRight;
-            [DefaultValue(0)] public int BorderTop;
-            [DefaultValue(0)] public int BorderBottom;
-            [DefaultValue(EAntiAliasingModes.X0)] public EAntiAliasingModes AAMode;
-            [DefaultValue(60f)] public float MaxFPS;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VSync;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn FullScreen;
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn Stretch;
-            [DefaultValue(0.4f), XmlRanged(0, 3)] public float FadeTime;
+            [DefaultValue(1024)]
+            public int ScreenW;
+            [DefaultValue(576)]
+            public int ScreenH;
+            [DefaultValue(EGeneralAlignment.Middle)]
+            public EGeneralAlignment ScreenAlignment;
+            [DefaultValue(0)]
+            public int BorderLeft;
+            [DefaultValue(0)]
+            public int BorderRight;
+            [DefaultValue(0)]
+            public int BorderTop;
+            [DefaultValue(0)]
+            public int BorderBottom;
+            [DefaultValue(EAntiAliasingModes.X0)]
+            public EAntiAliasingModes AAMode;
+            [DefaultValue(60f)]
+            public float MaxFPS;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn VSync;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn FullScreen;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn Stretch;
+            [DefaultValue(0.4f), XmlRanged(0, 3)]
+            public float FadeTime;
         }
 
         public struct SConfigTheme
         {
-            [XmlElement("Name"), DefaultValue("Ambient")] public string Theme;
-            [DefaultValue("Blue")] public string Skin;
-            [XmlElement("Cover"), DefaultValue("Ambient Blue")] public string CoverTheme;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawNoteLines;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawToneHelper;
-            [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)] public ETimerLook TimerLook;
-            [DefaultValue(EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH)] public EPlayerInfo PlayerInfo;
-            [DefaultValue(EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF)] public EFadePlayerInfo FadePlayerInfo;
-            [DefaultValue(ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC)] public ECoverLoading CoverLoading;
-            [DefaultValue(ELyricStyle.TR_CONFIG_LYRICSTYLE_SLIDE)] public ELyricStyle LyricStyle;
+            [XmlElement("Name"), DefaultValue("Ambient")]
+            public string Theme;
+            [DefaultValue("Blue")]
+            public string Skin;
+            [XmlElement("Cover"), DefaultValue("Ambient Blue")]
+            public string CoverTheme;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn DrawNoteLines;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn DrawToneHelper;
+            [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)]
+            public ETimerLook TimerLook;
+            [DefaultValue(EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH)]
+            public EPlayerInfo PlayerInfo;
+            [DefaultValue(EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF)]
+            public EFadePlayerInfo FadePlayerInfo;
+            [DefaultValue(ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC)]
+            public ECoverLoading CoverLoading;
+            [DefaultValue(ELyricStyle.TR_CONFIG_LYRICSTYLE_SLIDE)]
+            public ELyricStyle LyricStyle;
         }
 
         public struct SConfigSound
         {
-            [DefaultValue(EPlaybackLib.GstreamerSharp)] public EPlaybackLib PlayBackLib;
-            [DefaultValue(ERecordLib.PortAudio)] public ERecordLib RecordLib;
-            [DefaultValue(EBufferSize.B2048)] public EBufferSize AudioBufferSize;
-            [XmlRanged(-500, 500)] public int AudioLatency;
+            [DefaultValue(EPlaybackLib.GstreamerSharp)]
+            public EPlaybackLib PlayBackLib;
+            [DefaultValue(ERecordLib.PortAudio)]
+            public ERecordLib RecordLib;
+            [DefaultValue(EBufferSize.B2048)]
+            public EBufferSize AudioBufferSize;
+            [XmlRanged(-500, 500)]
+            public int AudioLatency;
             // ReSharper disable MemberHidesStaticFromOuterClass
-            [DefaultValue(EBackgroundMusicOffOn.TR_CONFIG_ON)] public EBackgroundMusicOffOn BackgroundMusic;
-            [XmlRanged(0, 100), DefaultValue(30)] public int BackgroundMusicVolume;
-            [DefaultValue(EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)] public EBackgroundMusicSource BackgroundMusicSource;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn BackgroundMusicUseStart;
-            [XmlRanged(0, 100), DefaultValue(50)] public int PreviewMusicVolume;
-            [XmlRanged(0, 100), DefaultValue(80)] public int GameMusicVolume;
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn KaraokeEffect;
-            [XmlRanged(0, 1), DefaultValue(1.0f)] public float KaraokeEffectLevel;
+            [DefaultValue(EBackgroundMusicOffOn.TR_CONFIG_ON)]
+            public EBackgroundMusicOffOn BackgroundMusic;
+            [XmlRanged(0, 100), DefaultValue(30)]
+            public int BackgroundMusicVolume;
+            [DefaultValue(EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)]
+            public EBackgroundMusicSource BackgroundMusicSource;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn BackgroundMusicUseStart;
+            [XmlRanged(0, 100), DefaultValue(50)]
+            public int PreviewMusicVolume;
+            [XmlRanged(0, 100), DefaultValue(80)]
+            public int GameMusicVolume;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn KaraokeEffect;
+            [XmlRanged(0, 1), DefaultValue(1.0f)]
+            public float KaraokeEffectLevel;
             // ReSharper restore MemberHidesStaticFromOuterClass
         }
 
         public struct SConfigGame
         {
-            [DefaultValue(CSettings.FallbackLanguage)] public string Language;
+            [DefaultValue(CSettings.FallbackLanguage)]
+            public string Language;
             public string[] SongFolder;
             // ReSharper disable MemberHidesStaticFromOuterClass
-            [DefaultValue(ESongMenu.TR_CONFIG_TILE_BOARD)] public ESongMenu SongMenu;
+            [DefaultValue(ESongMenu.TR_CONFIG_TILE_BOARD)]
+            public ESongMenu SongMenu;
             // ReSharper restore MemberHidesStaticFromOuterClass
-            [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)] public ESongSorting SongSorting;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn IgnoreArticles;
-            [DefaultValue(10)] public float ScoreAnimationTime;
-            [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)] public ETimerMode TimerMode;
-            [XmlAltName("NumPlayer"), DefaultValue(2)] public int NumPlayers;
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn Tabs;
-            [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)] public ELyricsPosition LyricsPosition;
-            [DefaultValue(0.1f)] public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
-            [XmlArrayItem("Player"), XmlArray] public string[] Players;
-            [DefaultValue(EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST)] public EHighscoreStyle HighscoreStyle;
+            [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)]
+            public ESongSorting SongSorting;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn IgnoreArticles;
+            [DefaultValue(10)]
+            public float ScoreAnimationTime;
+            [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)]
+            public ETimerMode TimerMode;
+            [XmlAltName("NumPlayer"), DefaultValue(2)]
+            public int NumPlayers;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn Tabs;
+            [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)]
+            public ELyricsPosition LyricsPosition;
+            [DefaultValue(0.1f)]
+            public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
+            [XmlArrayItem("Player"), XmlArray]
+            public string[] Players;
+            [DefaultValue(EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST)]
+            public EHighscoreStyle HighscoreStyle;
         }
 
         public struct SConfigVideo
         {
-            [DefaultValue(EVideoDecoder.FFmpeg)] public EVideoDecoder VideoDecoder;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideoBackgrounds;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideoPreview;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn VideosInSongs;
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn VideosToBackground;
-            [DefaultValue(EWebcamLib.AForgeNet)] public EWebcamLib WebcamLib;
+            [DefaultValue(EVideoDecoder.FFmpeg)]
+            public EVideoDecoder VideoDecoder;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn VideoBackgrounds;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn VideoPreview;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn VideosInSongs;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn VideosToBackground;
+            [DefaultValue(EWebcamLib.AForgeNet)]
+            public EWebcamLib WebcamLib;
             public SWebcamConfig? WebcamConfig;
         }
 
         public struct SConfigRecord
         {
             public SMicConfig[] MicConfig;
-            [DefaultValue(200)] public int MicDelay; //[ms]
+            [DefaultValue(200)]
+            public int MicDelay; //[ms]
         }
 
         public struct SConfigServer
         {
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn ServerActive;
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn ServerEncryption;
-            [DefaultValue(3000)] public int ServerPort;
-            [DefaultValue(70)] public int SongCountCoverThreshold;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn ServerActive;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn ServerEncryption;
+            [DefaultValue(3000)]
+            public int ServerPort;
+            [DefaultValue(70)]
+            public int SongCountCoverThreshold;
         }
 #pragma warning restore 649
         // ReSharper restore UnassignedField.Global
@@ -369,16 +432,16 @@ namespace Vocaluxe.Base
                 Config.Server.ServerPort = 3000;
 
             Config.Info = new SConfigInfo
-                {
-                    Version = CSettings.GetFullVersionText(),
-                    Time = DateTime.Now.ToString(),
-                    Platform = Environment.OSVersion.Platform.ToString(),
-                    OSVersion = Environment.OSVersion.ToString(),
-                    ProcessorCount = Environment.ProcessorCount,
-                    Screens = Screen.AllScreens.Length,
-                    PrimaryScreenResolution = Screen.PrimaryScreen.Bounds.Size.ToString(),
-                    Directory = CSettings.ProgramFolder
-                };
+            {
+                Version = CSettings.GetFullVersionText(),
+                Time = DateTime.Now.ToString(),
+                Platform = Environment.OSVersion.Platform.ToString(),
+                OSVersion = Environment.OSVersion.ToString(),
+                ProcessorCount = Environment.ProcessorCount,
+                Screens = Screen.AllScreens.Length,
+                PrimaryScreenResolution = Screen.PrimaryScreen.Bounds.Size.ToString(),
+                Directory = CSettings.ProgramFolder
+            };
         }
 
         private static readonly List<string> _CommentsGot = new List<string>();
@@ -542,7 +605,7 @@ namespace Vocaluxe.Base
                 return devices.Any(t => t.PlayerChannel.Contains(player));
 
             for (int p = 0; p < CSettings.MaxNumPlayer; ++p)
-                if (devices.Any(t => t.PlayerChannel.Contains(p+1)))
+                if (devices.Any(t => t.PlayerChannel.Contains(p + 1)))
                 {
                     return true;
                 }
@@ -647,7 +710,7 @@ namespace Vocaluxe.Base
 
                 switch (parts.Length)
                 {
-                        //Only found a parameter
+                    //Only found a parameter
                     case 1:
                         if (parts[0] != "")
                         {
@@ -660,7 +723,7 @@ namespace Vocaluxe.Base
                         break;
 
 
-                        //Found parameter and value
+                    //Found parameter and value
                     case 2:
                         if (parts[0] != "")
                         {

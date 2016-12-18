@@ -54,11 +54,11 @@ namespace Vocaluxe.Base
         public static EProgramState ProgramState = EProgramState.Start;
 
         //Adjusting of programName and version now in the assembly config.
-        private static readonly Dictionary<string,string> _CodeNames = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> _CodeNames = new Dictionary<string, string>()
         {
             {"0.3.", "Shining Heaven"},
             {"0.4.", "Blue Sunrise"}
-        }; 
+        };
 
         private static string _ProgramCodeName
         {
@@ -233,7 +233,7 @@ namespace Vocaluxe.Base
         public static string GetFullVersionText()
         {
             string version = ProgramName;
-            
+
             if (_ProgramCodeName != "")
                 version += " \"" + _ProgramCodeName + "\"";
 

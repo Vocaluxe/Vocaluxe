@@ -86,7 +86,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CDirect3D()
         {
-            _Form = new CRenderFormHook {ClientSize = new Size(CConfig.Config.Graphics.ScreenW, CConfig.Config.Graphics.ScreenH)};
+            _Form = new CRenderFormHook { ClientSize = new Size(CConfig.Config.Graphics.ScreenW, CConfig.Config.Graphics.ScreenH) };
 
             try
             {
@@ -110,15 +110,15 @@ namespace Vocaluxe.Lib.Draw
             _Form.MouseEnter += _OnMouseEnter;
 
             _PresentParameters = new PresentParameters
-                {
-                    Windowed = true,
-                    SwapEffect = SwapEffect.Discard,
-                    BackBufferHeight = CConfig.Config.Graphics.ScreenH,
-                    BackBufferWidth = CConfig.Config.Graphics.ScreenW,
-                    BackBufferFormat = _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format,
-                    Multisample = MultisampleType.None,
-                    MultisampleQuality = 0
-                };
+            {
+                Windowed = true,
+                SwapEffect = SwapEffect.Discard,
+                BackBufferHeight = CConfig.Config.Graphics.ScreenH,
+                BackBufferWidth = CConfig.Config.Graphics.ScreenW,
+                BackBufferFormat = _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format,
+                Multisample = MultisampleType.None,
+                MultisampleQuality = 0
+            };
 
             //Apply antialiasing and check if antialiasing mode is supported
 

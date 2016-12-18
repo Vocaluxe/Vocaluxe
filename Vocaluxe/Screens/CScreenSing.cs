@@ -129,7 +129,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            var texts = new List<string> {_TextSongName, _TextTime, _TextPause, _TextDuetName1, _TextDuetName2, _TextMedleyCountdown};
+            var texts = new List<string> { _TextSongName, _TextTime, _TextPause, _TextDuetName1, _TextDuetName2, _TextMedleyCountdown };
             _BuildTextStrings(texts);
             _ThemeTexts = texts.ToArray();
 
@@ -152,9 +152,9 @@ namespace Vocaluxe.Screens
             _BuildStaticStrings(ref statics);
             _ThemeStatics = statics.ToArray();
 
-            _ThemeButtons = new string[] {_ButtonCancel, _ButtonContinue, _ButtonSkip};
-            _ThemeLyrics = new string[] {_LyricMain, _LyricSub, _LyricMainDuet, _LyricSubDuet, _LyricMainTop, _LyricSubTop};
-            _ThemeSingNotes = new string[] {_SingBars};
+            _ThemeButtons = new string[] { _ButtonCancel, _ButtonContinue, _ButtonSkip };
+            _ThemeLyrics = new string[] { _LyricMain, _LyricSub, _LyricMainDuet, _LyricSubDuet, _LyricMainTop, _LyricSubTop };
+            _ThemeSingNotes = new string[] { _SingBars };
 
             _TimeRects = new List<STimeRect>();
             _TimerSongText = new Stopwatch();
@@ -577,8 +577,8 @@ namespace Vocaluxe.Screens
                 }
                 else
                 {
-                    for (int i = 0; i < CGame.NumPlayers; i++) 
-                        CGame.Players [i].VoiceNr = voiceAssignments [i];
+                    for (int i = 0; i < CGame.NumPlayers; i++)
+                        CGame.Players[i].VoiceNr = voiceAssignments[i];
                 }
             }
 
@@ -804,8 +804,8 @@ namespace Vocaluxe.Screens
 
         private void _BuildTextStrings(List<string> texts)
         {
-            _TextScores = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _TextNames = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
+            _TextScores = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _TextNames = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
 
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
@@ -826,8 +826,8 @@ namespace Vocaluxe.Screens
 
         private void _BuildStaticStrings(ref List<string> statics)
         {
-            _StaticScores = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _StaticAvatars = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
+            _StaticScores = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _StaticAvatars = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
 
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
@@ -860,30 +860,30 @@ namespace Vocaluxe.Screens
             _Texts[_TextDuetName1].Visible = false;
             _Texts[_TextDuetName2].Visible = false;
 
-            List<string> staticsExtra = new List<string> ();
-            List<string> textsExtra = new List<string> ();
+            List<string> staticsExtra = new List<string>();
+            List<string> textsExtra = new List<string>();
 
             //Everything Static or Text with Extra should be only visible
             //If Player-Number matches CGame.NumPlayers
-            foreach(CStatic st in _Statics)
-                if(st.GetThemeName().StartsWith("StaticExtra"))
+            foreach (CStatic st in _Statics)
+                if (st.GetThemeName().StartsWith("StaticExtra"))
                     staticsExtra.Add(st.GetThemeName());
 
-            foreach(CText tx in _Texts)
-                if(tx.GetThemeName().StartsWith("TextExtra"))
+            foreach (CText tx in _Texts)
+                if (tx.GetThemeName().StartsWith("TextExtra"))
                     textsExtra.Add(tx.GetThemeName());
 
-            string curN = "N"+(CGame.NumPlayers);
-            foreach (string st in staticsExtra) 
+            string curN = "N" + (CGame.NumPlayers);
+            foreach (string st in staticsExtra)
             {
                 string n = st.Substring(st.Length - 2);
-                _Statics[st].Visible = n == curN;        
+                _Statics[st].Visible = n == curN;
             }
 
-            foreach (string tx in textsExtra) 
+            foreach (string tx in textsExtra)
             {
                 string n = tx.Substring(tx.Length - 2);
-                _Texts[tx].Visible = n == curN;        
+                _Texts[tx].Visible = n == curN;
             }
 
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
@@ -1333,7 +1333,7 @@ namespace Vocaluxe.Screens
                     {
                         foreach (CSongLine line in voice.Lines.Where(line => line.VisibleInTimeLine))
                         {
-                            var trect = new STimeRect {StartBeat = line.FirstNoteBeat, EndBeat = line.EndBeat};
+                            var trect = new STimeRect { StartBeat = line.FirstNoteBeat, EndBeat = line.EndBeat };
                             trect.Rect = GetNewStatic(null,
                                                       new SColorF(1f, 1f, 1f, 1f),
                                                       new SRectF(

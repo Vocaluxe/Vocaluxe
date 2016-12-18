@@ -100,7 +100,7 @@ namespace Vocaluxe.Lib.Draw
 
         public COpenGL()
         {
-            _Form = new CFormHook {ClientSize = new Size(CConfig.Config.Graphics.ScreenW, CConfig.Config.Graphics.ScreenH)};
+            _Form = new CFormHook { ClientSize = new Size(CConfig.Config.Graphics.ScreenW, CConfig.Config.Graphics.ScreenH) };
             //OpenGL needs that here but D3D needs it in the constructor, so do NOT unify!
 
             //Check AA Mode
@@ -109,11 +109,11 @@ namespace Vocaluxe.Lib.Draw
             bool ok = false;
             try
             {
-                #if WIN
+#if WIN
                 var gm = new GraphicsMode(32, 24, 0, (int)CConfig.Config.Graphics.AAMode);
-                #else
+#else
                 var gm = new GraphicsMode(24, 24, 0, (int)CConfig.Config.Graphics.AAMode);
-                #endif
+#endif
                 _Control = new GLControl(gm, 2, 1, GraphicsContextFlags.Default);
                 if (_Control.GraphicsMode != null)
                     ok = true;

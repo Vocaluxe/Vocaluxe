@@ -26,7 +26,8 @@ namespace VocaluxeLib.Menu
     [XmlType("Static")]
     public struct SThemeStatic
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
         public string Skin;
         public SThemeColor Color;
         public SRectF Rect;
@@ -187,7 +188,7 @@ namespace VocaluxeLib.Menu
                 CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), rect);
         }
 
-        public void UnloadSkin() {}
+        public void UnloadSkin() { }
 
         public void LoadSkin()
         {

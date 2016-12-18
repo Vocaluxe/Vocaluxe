@@ -259,7 +259,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 base.Close();
             }
-            catch {}
+            catch { }
             Dispose();
         }
 
@@ -308,9 +308,9 @@ namespace Vocaluxe.Lib.Draw
             _Backbuffer.Save(file, ImageFormat.Png);
         }
 
-        public void DrawRect(SColorF color, SRectF rect) {}
+        public void DrawRect(SColorF color, SRectF rect) { }
 
-        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height) {}
+        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height) { }
 
         public CTextureRef AddTexture(Bitmap bmp)
         {
@@ -433,9 +433,9 @@ namespace Vocaluxe.Lib.Draw
             coloredBitmap.Dispose();
         }
 
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end) {}
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end) { }
 
-        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) {}
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) { }
 
         public int GetTextureCount()
         {
@@ -448,7 +448,7 @@ namespace Vocaluxe.Lib.Draw
 
             using (Graphics g = Graphics.FromImage(newBitmap))
             {
-                var cm = new ColorMatrix {Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1};
+                var cm = new ColorMatrix { Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1 };
 
                 using (var ia = new ImageAttributes())
                 {
