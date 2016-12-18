@@ -1,34 +1,150 @@
-# Welcome to Jekyll!
-#
-# This config file is meant for settings that affect your whole blog, values
-# which you are expected to set up once and rarely edit after that. If you find
-# yourself editing this file very often, consider using Jekyll's data files
-# feature for the data you need to update frequently.
-#
-# For technical reasons, this file is *NOT* reloaded automatically when you use
-# 'bundle exec jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-# These are used to personalize your new site. If you look in the HTML files,
-# you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
-# You can create any custom variable you would like, and they will be accessible
-# in the templates via {{ site.myvariable }}.
-title: Your awesome title
-email: your-email@domain.com
-description: > # this means to ignore newlines until "baseurl:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
-baseurl: "" # the subpath of your site, e.g. /blog
-url: "" # the base hostname & protocol for your site, e.g. http://example.com
-twitter_username: jekyllrb
-github_username:  jekyll
 
-# Build settings
-markdown: kramdown
-theme: minima
+# NB! Set your site's url, otherwise stuff will break :)
+
+url: "https://flokuep.github.io"
+
+# If you're hosting your site at a Project repository on GitHub pages
+# (https://yourusername.github.io/repository-name)
+# and NOT your user repository (https://yourusername.github.io)
+# then add in the baseurl here, like this: "/repository-name"
+#
+# NB! Without this *nothing* will work, because it's used in every path :)
+
+baseurl: /VocaluxeWebsite
+
+# Google tracking id to track your visitors
+
+google-tracking-id: ""
+
+# Forces https everywhere in your website, except when you serve it locally
+# If you are not hosted on Github Pages, and your host doesn't support https
+# then you should disable it
+
+force-https: True
+
+#############
+# HTML Head #
+#############
+
+lang: "en"
+author: "Vocaluxe"
+title: "Vocaluxe"
+description: "Vocaluxe is a free and open source singing game, inspired by the original UltraStar (developed by corvus5) and the great Ultrastar Deluxe project. It allows up to six players to sing along with music using microphones in order to score points, depending on the pitch of the voice and the rhythm of singing."
+keywords: "Vocaluxe, sing, game, karaoke"
+favicon: "/img/vocaluxe_icon.png"
+
+################
+# Header layout #
+################
+
+black-favicon: "/img/vocaluxe_icon.png"
+
+#background-img: "../img/Vocaluxe.png"
+
+##############################
+# Color the browser elements #
+##############################
+color-browser: "#000000"
+apple-status-bar-style: "black"
+
+################
+# Web app mode #
+################
+
+web-app-mode: True
+
+########
+# Blog #
+########
+
+post-preview-words: 250
+
+paginate: 5
+
+email-share: True
+fb-share: True
+twitter-share: True
+linkedin-share: True
+reddit-share: True
+google-plus-share: True
+tumblr-share: True
+pinterest-share: True
+pocket-share: True
+vkontakte-share: True
+
+disqus-shortname: ""
+
+syntax-highlight: False
+
+
+################
+# Author Blurb #
+################
+
+# The author blurb goes underneath blog posts.
+# This works best when your author blurb image has a transparent background, or matches your site background color.
+
+# if the author_blurb is not set, then this feature is skipped
+author_blurb: |
+    Vocaluxe is a free and open source singing game inspired by Ultrastar Deluxe and SingStar™.    
+    It allows up to six players to sing along with music using microphones in order to score points.
+author_blurb_image: "/img/Vocaluxe_Icon.png"
+
+##################
+# Social Buttons #
+##################
+
+enableSocial: True
+socialLikeOptions: >
+    {
+        "uri"      : "http://vocaluxe.org/",
+        "services" : {
+            "facebook": {
+                action      : 'like',
+                colorscheme : 'dark'
+            }
+        },
+        "order"    : ["facebook"],
+        "info_link_target": "_blank",
+        perma_option: false
+    }
+
+############
+# 404 page #
+############
+
+404-img: "/img/labtocat.png"
+
+################################################################################
+
+# NB! Tread carefully if you want to change the variables below this point!
+
+# Sections shown in the index page
+
+pages_list:
+  Home: 'hero-area'
+  News: 'news'
+  Download: 'download'
+  About: 'about'  
+  Songs: 'songs'
+  Help: 'help'
+  Contribute: 'contribute'
+
+# Exclusion list from the generated _site
+
+exclude: ["LICENSE", "README.md", "CONTRIBUTING", "CONTRIBUTORS", "scripts"]
+
+# Pagination path
+
+paginate_path: "blog/page:num/"
+
+# Enable minification SASS
+
+sass:
+  style: compressed
+
 gems:
-  - jekyll-feed
-exclude:
-  - Gemfile
-  - Gemfile.lock
+  #- jekyll-paginate
+  #- jemoji

@@ -1,0 +1,28 @@
+
+<!-- Index Layout Start -->
+
+<!DOCTYPE html>
+<html lang="{{ site.lang }}">
+
+  {% include head.html %}
+  
+  <body data-spy="scroll" data-offset="20" data-target="#navbar">
+	  
+	  {% include navigation.html %}
+	  
+	  {% include hero_area.html %}
+	  
+		{% for p in site.pages_list %}
+		  {% for page in site.pages %}
+			{% if p[1] == page.section-type %}
+			  {% include {{ page.path }} %}
+			{% endif %}
+		  {% endfor %}
+		{% endfor %}
+	  
+	  {% include js.html %}
+
+  </body>  
+</html>
+
+<!-- Index Layout End -->

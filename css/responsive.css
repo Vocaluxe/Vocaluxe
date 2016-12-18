@@ -1,0 +1,18 @@
+@media (min-width: 768px) and (max-width: 1024px) {
+
+#hero-area .btn{margin-top: 15px;}
+
+  .nav > li > a {
+    padding: 12px 8px;
+    line-height: 21px;
+  }
+  .social-links{padding-top: 15px;}
+}
+
+@media (min-width: 320px) and (max-width: 480px) {
+  #hero-area .btn{margin-top: 15px;}
+  .navbar-default{background: rgba(0, 0, 0, 0.8);}
+  .social-links{padding-top: 15px;}
+  .row {padding: 40px 0px;}
+
+}
