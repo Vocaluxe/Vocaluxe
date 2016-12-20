@@ -283,7 +283,7 @@ namespace Vocaluxe.Base
             compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
             compilerParams.ReferencedAssemblies.Add("System.dll");
             compilerParams.ReferencedAssemblies.Add("System.Core.dll");
-            compilerParams.ReferencedAssemblies.Add("libs\\managed\\VocaluxeLib.dll");
+            compilerParams.ReferencedAssemblies.Add(Path.Combine("libs","managed","VocaluxeLib.dll"));
             compilerParams.GenerateInMemory = true;
 #if DEBUG
             compilerParams.IncludeDebugInformation = true;

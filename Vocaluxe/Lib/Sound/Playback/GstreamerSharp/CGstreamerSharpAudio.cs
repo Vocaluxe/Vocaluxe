@@ -35,26 +35,29 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 #if ARCH_X64
             const string varName = "GSTREAMER_1_0_ROOT_X86_64";
 #endif
-            string gstreamerEnvVar = Environment.GetEnvironmentVariable(varName, EnvironmentVariableTarget.User);
             string dllDirectory;
-            if (gstreamerEnvVar == null || !Directory.Exists(gstreamerEnvVar))
-            {
+
 #if ARCH_X86
-                dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\gstreamer86\\bin\\");
+            dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\gstreamer86\\bin\\");
 #endif
 #if ARCH_X64
-                dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\gstreamer64\\bin\\");
+            dllDirectory = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\gstreamer64\\bin\\");
 #endif
-                if (!Directory.Exists(dllDirectory))
+            if (!Directory.Exists(dllDirectory))
+            {
+                string gstreamerEnvVar = Environment.GetEnvironmentVariable(varName, EnvironmentVariableTarget.User);
+
+                if (gstreamerEnvVar == null || !Directory.Exists(gstreamerEnvVar))
                 {
                     CLog.LogError("Gstreamer not found! Make sure you installed it correctly and if it set the environment variable '" + varName + "'!", true);
                     return false;
                 }
+                else
+                {
+                    dllDirectory = gstreamerEnvVar + "bin\\";
+                }
             }
-            else
-            {
-                dllDirectory = gstreamerEnvVar + "bin\\";
-            }
+           
             
             COSFunctions.AddEnvironmentPath(dllDirectory);
             #endif
@@ -72,9 +75,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             Application.Deinit();
         }
 
-        protected override IAudioStream _CreateStream(int id, string media, bool loop)
+        protected override IAudioStream _CreateStream(int id, string media, bool loop, EAudioEffect effect = EAudioEffect.None)
         {
-            return new CGstreamerSharpAudioStream(id, media, loop);
+            return new CGstreamerSharpAudioStream(id, media, loop, effect);
         }
     }
 }
