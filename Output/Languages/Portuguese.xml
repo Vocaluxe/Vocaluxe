@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Inglês</string>
+  <string name="language">Português</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
   <string name="TR_GENERAL_AND">e</string>
   <string name="TR_BUTTON_EXIT">Sair</string>

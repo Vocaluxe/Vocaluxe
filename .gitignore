@@ -1,6 +1,8 @@
 obj
 PitchTracker.dll
 Thumbs.db
+.transifexrc
+tx.exe
 *.mp4
 *.pdb
 *.csproj.user
@@ -26,6 +28,8 @@ Thumbs.db
 *.vshost.*
 *.userprefs
 *.user
+*.VC.db
+*.VC.opendb
 /*.vsp
 /*.ctl
 /Output/Config.xml
@@ -63,3 +67,5 @@ Thumbs.db
 /packages
 /Output/x64
 /Output/x86
+/PitchTracker/bin
+/PitchTracker/obj

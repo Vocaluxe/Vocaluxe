@@ -85,9 +85,9 @@ namespace Vocaluxe.Base
             return _HighscoreDB.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreID);
         }
 
-        public static List<SDBScoreEntry> LoadScore(int songID, EGameMode gameMode)
+        public static List<SDBScoreEntry> LoadScore(int songID, EGameMode gameMode, EHighscoreStyle style)
         {
-            return _HighscoreDB == null ? null : _HighscoreDB.LoadScore(songID, gameMode);
+            return _HighscoreDB == null ? null : _HighscoreDB.LoadScore(songID, gameMode, style);
         }
 
         public static int AddScore(SPlayer player)

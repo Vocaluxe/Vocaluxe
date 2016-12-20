@@ -88,7 +88,7 @@ namespace VocaluxeLib.Menu
             _Line = new CSongLine();
             _Text = new CText(_PartyModeID);
 
-            LyricStyle = ELyricStyle.Fill;
+            LyricStyle = ELyricStyle.TR_CONFIG_LYRICSTYLE_FILL;
         }
 
         public CLyric(SThemeLyrics theme, int partyModeID)
@@ -100,7 +100,7 @@ namespace VocaluxeLib.Menu
             _Text = new CText(_PartyModeID);
             _Width = 1f;
 
-            LyricStyle = ELyricStyle.Fill;
+            LyricStyle = ELyricStyle.TR_CONFIG_LYRICSTYLE_FILL;
 
             ThemeLoaded = true;
         }
@@ -185,14 +185,14 @@ namespace VocaluxeLib.Menu
             {
                 switch (LyricStyle)
                 {
-                    case ELyricStyle.Fill:
+                    case ELyricStyle.TR_CONFIG_LYRICSTYLE_FILL:
                         _DrawFill();
                         break;
-                    case ELyricStyle.Slide:
+                    case ELyricStyle.TR_CONFIG_LYRICSTYLE_SLIDE:
                         _DrawSlide();
                         break;
-                    case ELyricStyle.Zoom:
-                    case ELyricStyle.Jump:
+                    case ELyricStyle.TR_CONFIG_LYRICSTYLE_ZOOM:
+                    case ELyricStyle.TR_CONFIG_LYRICSTYLE_JUMP:
                         _DrawZoomOrJump();
                         break;
                     default:
@@ -368,7 +368,7 @@ namespace VocaluxeLib.Menu
                 return;
             _SetText(highlightNote);
             _Text.X = hX;
-            if (LyricStyle == ELyricStyle.Jump)
+            if (LyricStyle == ELyricStyle.TR_CONFIG_LYRICSTYLE_JUMP)
                 _DrawJumpingNode(highlightNote);
             else
                 _DrawZoomedNote(highlightNote, hEndBeat);

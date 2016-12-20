@@ -27,19 +27,15 @@ namespace Vocaluxe.Lib.Sound.Record
         public readonly string Driver;
 
         public readonly int Channels;
-        public int PlayerChannel1;
-        public int PlayerChannel2;
+        public int[] PlayerChannel;
 
         public CRecordDevice(int id, string name, string driver, int channels)
         {
             ID = id;
             Name = name;
             Driver = driver;
-
-            if (channels > 2)
-                channels = 2; //more are not supported in vocaluxe
-
             Channels = channels;
+            PlayerChannel = new int[channels];
         }
     }
 

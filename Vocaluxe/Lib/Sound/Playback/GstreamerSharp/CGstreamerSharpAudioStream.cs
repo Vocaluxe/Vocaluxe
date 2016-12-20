@@ -19,6 +19,7 @@ using System;
 using GLib;
 using Gst;
 using Vocaluxe.Base;
+using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
@@ -101,7 +102,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             }
         }
 
-        public CGstreamerSharpAudioStream(int id, string medium, bool loop) : base(id, medium, loop) {}
+        public CGstreamerSharpAudioStream(int id, string medium, bool loop, EAudioEffect effect = EAudioEffect.None) : base(id, medium, loop, effect) {}
 
         public override bool Open(bool prescan)
         {
@@ -123,9 +124,29 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             }
 
             var audioSinkBin = new Bin("Audiosink");
-            audioSinkBin.Add(convert);
-            audioSinkBin.Add(audiosink);
-            convert.Link(audiosink);
+            Element audiokaraoke = null;
+            if (_Effect.HasFlag(EAudioEffect.Karaoke))
+            {
+                audiokaraoke = ElementFactory.Make("audiokaraoke", "karaoke");
+                audioSinkBin.Add(audiokaraoke);
+                audioSinkBin.Add(convert); 
+                audioSinkBin.Add(audiosink); 
+                
+                audiokaraoke.Link(audiosink);
+                audiokaraoke["level"] = CConfig.Config.Sound.KaraokeEffectLevel;
+                audiokaraoke["mono-level"] = CConfig.Config.Sound.KaraokeEffectLevel;
+               
+                convert.Link(audiokaraoke);
+            }
+            else
+            {
+                audioSinkBin.Add(convert);
+                audioSinkBin.Add(audiosink);
+                convert.Link(audiosink);
+            }
+
+            
+            
             Pad pad = convert.GetStaticPad("sink");
             GhostPad ghostpad = new GhostPad("sink", pad);
 
@@ -135,6 +156,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 convert.Dispose();
                 audiosink.Dispose();
                 audioSinkBin.Dispose();
+                if (audiokaraoke != null)
+                {
+                    audiokaraoke.Dispose();
+                }
                 return false;
             }
 
@@ -145,6 +170,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 audiosink.Dispose();
                 audioSinkBin.Dispose();
                 ghostpad.Dispose();
+                if (audiokaraoke != null)
+                {
+                    audiokaraoke.Dispose();
+                }
                 return false;
             }
             if (!audioSinkBin.AddPad(ghostpad))
@@ -154,6 +183,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 audiosink.Dispose();
                 audioSinkBin.Dispose();
                 ghostpad.Dispose();
+                if (audiokaraoke != null)
+                {
+                    audiokaraoke.Dispose();
+                }
                 return false;
             }
 
@@ -165,6 +198,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 audiosink.Dispose();
                 audioSinkBin.Dispose();
                 ghostpad.Dispose();
+                if (audiokaraoke != null)
+                {
+                    audiokaraoke.Dispose();
+                }
                 return false;
             }
             _Element["audio-sink"] = audioSinkBin;

@@ -91,6 +91,11 @@ namespace Vocaluxe.Base
             return CConfig.SongMenu;
         }
 
+        public EHighscoreStyle GetHighscoreStyle()
+        {
+            return CConfig.Config.Game.HighscoreStyle;
+        }
+
         public EOffOn GetVideosToBackground()
         {
             return CConfig.Config.Video.VideosToBackground;
