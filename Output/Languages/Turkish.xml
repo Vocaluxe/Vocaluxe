@@ -67,7 +67,7 @@
   <string name="TR_CONFIG_TIMERLOOK_NORMAL">Normal</string>
   <string name="TR_CONFIG_TIMERLOOK_EXPANDED">Genişletilmiş</string>
   <string name="TR_CONFIG_OWN_MUSIC">Kendi Müziğiniz ve Arkaplan Müziği</string>
-  <string name="TR_CONFIG_NO_OWN_MUSIC">Hiç kendi müziğiniz yok&lt;</string>
+  <string name="TR_CONFIG_NO_OWN_MUSIC">Hiç kendi müziğiniz yok</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Sadece kendi Müziğim</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Hepsi</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Sadece isimler ve fotoğrafları</string>
