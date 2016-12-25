@@ -15,14 +15,14 @@
   </Backgrounds>
   <Statics>
     <Static Name="Static1">
-      <Skin>Menu</Skin>
-      <Color Name="StaticColor" />
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
       <Rect>
-        <X>40</X>
+        <X>0</X>
         <Y>40</Y>
-        <W>1200</W>
-        <H>50</H>
-        <Z>0</Z>
+        <W>1280</W>
+        <H>45</H>
+        <Z>1</Z>
       </Rect>
     </Static>
     <Static Name="StaticPopupBG">
@@ -51,7 +51,7 @@
   <Texts>
     <Text Name="Text1">
       <X>640</X>
-      <Y>48</Y>
+      <Y>50</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
@@ -163,7 +163,7 @@
     </Text>
     <Text Name="TextPopupReallyExit">
       <X>640</X>
-      <Y>265</Y>
+      <Y>270</Y>
       <Z>-1.01</Z>
       <H>27</H>
       <MaxW>380</MaxW>
