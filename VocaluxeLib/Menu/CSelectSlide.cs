@@ -436,6 +436,22 @@ namespace VocaluxeLib.Menu
                 AddValue(value);
         }
 
+        public void AddValues(IEnumerable<string> values, IEnumerable<int> tags)
+        {
+            using (var e1 = values.GetEnumerator())
+            using (var e2 = tags.GetEnumerator())
+            {
+                while (e1.MoveNext() && e2.MoveNext())
+                {
+                    AddValue(e1.Current, tag: e2.Current);
+                }
+                if (e1.MoveNext() || e2.MoveNext())
+                {
+                    throw new ArgumentException("the lists must have the same length");
+                }
+            }
+        }
+
         public void AddValues(string[] values, CTextureRef[] textures)
         {
             Debug.Assert(values.Length == textures.Length);
@@ -566,10 +582,10 @@ namespace VocaluxeLib.Menu
                 for (int i = 0; i < numvis; i++)
                 {
                     var el = new CElement
-                        {
-                            Text = new CText(0, 0, 0, _TextH, _MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, _TextColor, "T", _PartyModeID),
-                            Img = new CStatic(_PartyModeID)
-                        };
+                    {
+                        Text = new CText(0, 0, 0, _TextH, _MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, _TextColor, "T", _PartyModeID),
+                        Img = new CStatic(_PartyModeID)
+                    };
                     _VisibleElements.Add(el);
                 }
             }

@@ -27,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _SelectSlideBackgroundMusic = "SelectSlideBackgroundMusic";
@@ -35,6 +35,7 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideBackgroundMusicSource = "SelectSlideBackgroundMusicSource";
         private const string _SelectSlidePreviewMusicVolume = "SelectSlidePreviewMusicVolume";
         private const string _SelectSlideGameMusicVolume = "SelectSlideGameMusicVolume";
+        private const string _SelectSlideKaraokeEffect = "SelectSlideKaraokeEffect";
 
         private const string _ButtonExit = "ButtonExit";
 
@@ -46,7 +47,7 @@ namespace Vocaluxe.Screens
 
             _ThemeButtons = new string[] {_ButtonExit};
             _ThemeSelectSlides = new string[]
-                {_SelectSlideBackgroundMusic, _SelectSlideBackgroundMusicVolume, _SelectSlideBackgroundMusicSource, _SelectSlidePreviewMusicVolume, _SelectSlideGameMusicVolume};
+                {_SelectSlideBackgroundMusic, _SelectSlideBackgroundMusicVolume, _SelectSlideBackgroundMusicSource, _SelectSlidePreviewMusicVolume, _SelectSlideGameMusicVolume, _SelectSlideKaraokeEffect};
         }
 
         public override void LoadTheme(string xmlPath)
@@ -64,6 +65,11 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideGameMusicVolume].AddValues(new string[]
                 {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
             _SelectSlides[_SelectSlideGameMusicVolume].Selection = CConfig.GameMusicVolume / 5;
+            if (CConfig.Config.Sound.PlayBackLib == EPlaybackLib.GstreamerSharp)
+            {
+                _SelectSlides[_SelectSlideKaraokeEffect].SetValues<EOffOn>((int)CConfig.Config.Sound.KaraokeEffect);
+                _SelectSlides[_SelectSlideBackgroundMusicSource].Selection = (int)CConfig.Config.Sound.KaraokeEffect;
+            }
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -147,6 +153,10 @@ namespace Vocaluxe.Screens
             CConfig.Config.Sound.BackgroundMusic = (EBackgroundMusicOffOn)_SelectSlides[_SelectSlideBackgroundMusic].Selection;
             CConfig.Config.Sound.BackgroundMusicSource = (EBackgroundMusicSource)_SelectSlides[_SelectSlideBackgroundMusicSource].Selection;
             CConfig.BackgroundMusicVolume = _SelectSlides[_SelectSlideBackgroundMusicVolume].Selection * 5;
+            if (CConfig.Config.Sound.PlayBackLib == EPlaybackLib.GstreamerSharp)
+            {
+                CConfig.Config.Sound.KaraokeEffect = (EOffOn)_SelectSlides[_SelectSlideKaraokeEffect].Selection;
+            }
             CConfig.SaveConfig();
 
             CBackgroundMusic.SetMusicSource(CConfig.Config.Sound.BackgroundMusicSource);

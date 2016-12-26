@@ -27,7 +27,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Vocaluxe")]
-[assembly: AssemblyCopyright("Copyright ©  2013")]
+[assembly: AssemblyCopyright("Copyright © 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -49,6 +49,6 @@ using System.Runtime.InteropServices;
 //      Revision
 //
 
-[assembly: AssemblyVersion("0.3.0.83")]
-[assembly: AssemblyFileVersion("0.3.0.83")]
+[assembly: AssemblyVersion("SHORTVERSION")]
+[assembly: AssemblyFileVersion("SHORTVERSION")]
 [assembly: AssemblyInformationalVersion("GITVERSION")]

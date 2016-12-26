@@ -369,6 +369,12 @@ namespace VocaluxeLib
         Game
     }
 
+    public enum EHighscoreStyle
+    {
+        TR_CONFIG_HIGHSCORE_LIST_ALL,
+        TR_CONFIG_HIGHSCORE_LIST_BEST
+    }
+
     /// <summary>
     ///     Base screens
     /// </summary>

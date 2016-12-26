@@ -27,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         private const string _SelectSlideLanguage = "SelectSlideLanguage";
@@ -36,6 +36,7 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideSongSorting = "SelectSlideSongSorting";
         private const string _SelectSlideTabs = "SelectSlideTabs";
         private const string _SelectSlideTimerMode = "SelectSlideTimerMode";
+        private const string _SelectSlideHighscoreStyle = "SelectSlideHighscoreStyle";
 
         private const string _ButtonExit = "ButtonExit";
         private const string _ButtonServer = "ButtonServer";
@@ -45,7 +46,7 @@ namespace Vocaluxe.Screens
             base.Init();
 
             _ThemeButtons = new string[] {_ButtonExit, _ButtonServer};
-            _ThemeSelectSlides = new string[] {_SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideTimerMode};
+            _ThemeSelectSlides = new string[] {_SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideTimerMode, _SelectSlideHighscoreStyle};
         }
 
         public override void LoadTheme(string xmlPath)
@@ -60,6 +61,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideSongSorting].SetValues<ESongSorting>((int)CConfig.Config.Game.SongSorting);
             _SelectSlides[_SelectSlideTabs].SetValues<EOffOn>((int)CConfig.Config.Game.Tabs);
             _SelectSlides[_SelectSlideTimerMode].SetValues<ETimerMode>((int)CConfig.Config.Game.TimerMode);
+            _SelectSlides[_SelectSlideHighscoreStyle].SetValues<EHighscoreStyle>((int)CConfig.Config.Game.HighscoreStyle);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -140,6 +142,7 @@ namespace Vocaluxe.Screens
             CConfig.Config.Game.SongSorting = (ESongSorting)_SelectSlides[_SelectSlideSongSorting].Selection;
             CConfig.Config.Game.Tabs = (EOffOn)_SelectSlides[_SelectSlideTabs].Selection;
             CConfig.Config.Game.TimerMode = (ETimerMode)_SelectSlides[_SelectSlideTimerMode].Selection;
+            CConfig.Config.Game.HighscoreStyle = (EHighscoreStyle)_SelectSlides[_SelectSlideHighscoreStyle].Selection;
 
             CConfig.SaveConfig();
 

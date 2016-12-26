@@ -73,6 +73,8 @@
   <string name="TR_CONFIG_TIMERMODE_TOTAL">Total</string>
   <string name="TR_CONFIG_TIMERLOOK_NORMAL">Normal</string>
   <string name="TR_CONFIG_TIMERLOOK_EXPANDED">Expanded</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_ALL">List all</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_BEST">List best</string>
   <string name="TR_CONFIG_OWN_MUSIC">Own music and background-music</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">No own music</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Only own music</string>
@@ -183,6 +185,7 @@
   <string name="TR_SCREENOGAME_TABS">Tabs</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Game difficulty</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Timer mode</string>
+  <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Highscore style</string>
   <string name="TR_SCREENORECORD_OPTIONS">Record Options</string>
   <string name="TR_SCREENORECORD_DEVICE">Device</string>
   <string name="TR_SCREENORECORD_INPUT">Input</string>
@@ -201,6 +204,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Background-music source</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Preview-music volume</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Game-music volume</string>
+  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Karaoke effect</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Theme Options</string>
   <string name="TR_SCREENOTHEME_THEME">Theme</string>
   <string name="TR_SCREENOTHEME_SKIN">Skin</string>
