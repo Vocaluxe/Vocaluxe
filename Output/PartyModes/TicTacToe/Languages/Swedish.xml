@@ -20,15 +20,16 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Antal spelare i lag 1</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Antal spelare i lag 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Antal fält</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Sång källa</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Spel Läge</string>
-  <string name="TR_SCREENNAMES_TITLE">Tripp-Trapp-Trull: Välj Spelare</string>
+  <string name="TR_SCREENCONFIG_SONGSOURCE">Låtkälla</string>
+  <string name="TR_SCREENCONFIG_GAMEMODE">Spelläge</string>
+  <string name="TR_SCREENNAMES_TITLE">Tripp-Trapp-Trull: Välj spelare</string>
   <string name="TR_SCREENNAMES_TEAM1">Lag 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Lag 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Välj slumpmässiga</string>
   <string name="TR_SCREENMAIN_TITLE">Tripp-Trapp-Trull</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Välj ett fält.</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Nästa spelare</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Avsluta Tripp-Trapp-Trull?</string>
   <string name="TR_SCREENMAIN_WINNER">Och vinnare är...</string>
-  <string name="TR_SCREENMAIN_NOWINNER">Det finns ingen vinnare denna omgång...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Det blev ingen vinnare denna omgång...</string>
 </resources>
