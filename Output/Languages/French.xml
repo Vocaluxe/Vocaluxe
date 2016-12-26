@@ -56,7 +56,7 @@
   <string name="TR_CONFIG_RANDOM">Aléatoire</string>
   <string name="TR_CONFIG_FOLDER">Dossier</string>
   <string name="TR_CONFIG_ARTIST">Artiste</string>
-  <string name="TR_CONFIG_ARTIST_LETTER">Initiale d'Artiste</string>
+  <string name="TR_CONFIG_ARTIST_LETTER">Initiale d'Artist</string>
   <string name="TR_CONFIG_TITLE_LETTER">Initiale de Titre</string>
   <string name="TR_CONFIG_EDITION">Edition</string>
   <string name="TR_CONFIG_GENRE">Genre</string>
@@ -181,6 +181,12 @@
   <string name="TR_SCREENORECORD_OPTIONS">Options d'Enregistrement</string>
   <string name="TR_SCREENORECORD_DEVICE">Appareil</string>
   <string name="TR_SCREENORECORD_INPUT">Entrée</string>
+  <string name="TR_SCREENORECORD_PLAYER_1">Joueur 1</string>
+  <string name="TR_SCREENORECORD_PLAYER_2">Joueur 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_3">Joueur 3</string>
+  <string name="TR_SCREENORECORD_PLAYER_4">Joueur 4</string>
+  <string name="TR_SCREENORECORD_PLAYER_5">Joueur 5</string>
+  <string name="TR_SCREENORECORD_PLAYER_6">Joueur 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Retard du Micro</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Attention: Au moins un des joueurs est assigné à 2 micros.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Test du Retard</string>
@@ -209,7 +215,7 @@
   <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Afficher la vidéo de la musique de fond</string>
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Résolution de la Webcam</string>
-  <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustements de l'écran</string>
+  <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustements de l'écra</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Appuyer sur CTRL + ALT (+ Maj) + Flèches|"+" pour ajuster l'écran</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + 0 pour annuler</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Haut gauche</string>
