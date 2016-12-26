@@ -58,6 +58,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private readonly AutoResetEvent _EvNoMoreFrames = new AutoResetEvent(false);
         private bool _IsSleeping;
         private int _WaitCount;
+        private bool _DropSeekEnabled = true; // Used to fallback to frame skipping if seek is failing once on this file
 
         public float Length { get; private set; }
         public bool Loop { get; set; }
@@ -80,6 +81,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 var instance = (SACInstance)Marshal.PtrToStructure(_Instance, typeof(SACInstance));
                 Length = instance.Info.Duration / 1000f;
                 bool ok = instance.Opened && Length > 0.001f;
+                _DropSeekEnabled = true;
                 if (ok)
                     return true;
                 _Free();
@@ -333,6 +335,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private void _Decode()
         {
             const int minFrameDropCount = 4;
+            // With => seekThreshold frames to drop use seek instead of skip
+            const int seekThreshold = 25; // 25 frames = 0.5 second with _FrameDuration = 0.02f
 
             if (_NoMoreFrames)
                 return;
@@ -345,17 +349,16 @@ namespace Vocaluxe.Lib.Video.Acinerella
             bool hasFrameDecoded = false;
             if (dropFrame)
             {
-                try
-                {
+                
                     var frameDropCount = (int)Math.Ceiling(timeDifference / _FrameDuration);
-                    // Add 1 dropped frame per 16 frames (Power of 2 -> Div is fast) as skipping takes time too and we don't want to skip again
-                    frameDropCount += frameDropCount / 16;
-                    hasFrameDecoded = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, frameDropCount);
-                }
-                catch (Exception)
-                {
-                    CLog.LogError("Error AcSkipFrame " + _FileName);
-                }
+                    if (!_DropSeekEnabled || frameDropCount < seekThreshold)
+                    {
+                        hasFrameDecoded = _DropWithSkip(frameDropCount);
+                    }
+                    else
+                    {
+                        hasFrameDecoded = _DropWithSeek(videoTime, frameDropCount);
+                    }
             }
 
             if (!hasFrameDecoded)
@@ -381,6 +384,44 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 else
                     _NoMoreFrames = true;
             }
+        }
+
+        private bool _DropWithSeek(float videoTime, int frameDropCount)
+        {
+            bool hasFrameDecoded = false;
+            try
+            {
+                hasFrameDecoded = CAcinerella.AcSeek(_Videodecoder, 0, (long)videoTime * 1000L);
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Error AcSeek " + _FileName);
+            }
+
+            if (!hasFrameDecoded)
+            {
+                // Fallback to frame skipping
+                _DropSeekEnabled = false;
+                hasFrameDecoded = _DropWithSkip(frameDropCount);
+            }
+
+            return hasFrameDecoded;
+        }
+
+        private bool _DropWithSkip(int frameDropCount)
+        {
+            bool hasFrameDecoded = false;
+            // Add 1 dropped frame per 16 frames (Power of 2 -> Div is fast) as skipping takes time too and we don't want to skip again
+            frameDropCount += frameDropCount / 16;
+            try
+            {
+                hasFrameDecoded = CAcinerella.AcSkipFrames(_Instance, _Videodecoder, frameDropCount);
+            }
+            catch (Exception)
+            {
+                CLog.LogError("Error AcSkipFrame " + _FileName);
+            }
+            return hasFrameDecoded;
         }
 
         //Copies a frame to the buffer but does not set it as 'written'
