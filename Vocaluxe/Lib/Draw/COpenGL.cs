@@ -291,7 +291,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void MakeScreenShot()
         {
-            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.bmp");
+            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.png");
 
             int width = GetScreenWidth();
             int height = GetScreenHeight();
@@ -304,7 +304,7 @@ namespace Vocaluxe.Lib.Draw
                 screen.UnlockBits(bmpData);
 
                 screen.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                screen.Save(file, ImageFormat.Bmp);
+                screen.Save(file, ImageFormat.Png);
             }
         }
 
