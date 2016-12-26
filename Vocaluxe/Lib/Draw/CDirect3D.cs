@@ -556,13 +556,13 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public void MakeScreenShot()
         {
-            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.bmp");
+            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.png");
 
             //create a surface of the frame
             using (Surface surface = _Device.GetBackBuffer(0, 0))
             {
-                var screen = new Bitmap(Surface.ToStream(surface, ImageFileFormat.Bmp));
-                screen.Save(file, ImageFormat.Bmp);
+                var screen = new Bitmap(Surface.ToStream(surface, ImageFileFormat.Png));
+                screen.Save(file, ImageFormat.Png);
                 screen.Dispose();
             }
         }
