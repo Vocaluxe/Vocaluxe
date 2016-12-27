@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language"> čeština</string>
+  <string name="language">Čeština</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
   <string name="TR_GENERAL_AND">a</string>
   <string name="TR_BUTTON_EXIT">Ukončit</string>
@@ -11,7 +11,7 @@
   <string name="TR_DEBUG_VIDEO_STREAMS">Obrazové proudy</string>
   <string name="TR_DEBUG_TEXTURES">Textury</string>
   <string name="TR_DEBUG_TONE_ABS">ToneAbs</string>
-  <string name="TR_DEBUG_MAX_VOLUME">Nevětší hlasitost</string>
+  <string name="TR_DEBUG_MAX_VOLUME">Největší hlasitost</string>
   <string name="TR_DEBUG_SONGS">Nahrané písně</string>
   <string name="TR_DEBUG_MOUSE">Myš</string>
   <string name="TR_DEBUG_MEMORY">Využití paměti</string>
@@ -28,7 +28,7 @@
   <string name="TR_RATING_AMATEUR">Amatér</string>
   <string name="TR_RATING_TONE_DEAF">Neumětel - nemající hudební sluch</string>
   <string name="TR_USERROLE_GUEST">Host</string>
-  <string name="TR_USERROLE_NORMAL">Obyčejný uživatel</string>
+  <string name="TR_USERROLE_NORMAL">Normální uživatel</string>
   <string name="TR_USERROLE_ADMIN">Správce</string>
   <string name="TR_USERROLE_KEYBOARDUSER">Uživatel klávesnice</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
@@ -46,6 +46,7 @@
   <string name="TR_CONFIG_LEVEL2">Úroveň 2</string>
   <string name="TR_CONFIG_LEVEL3">Úroveň 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Nejvíce</string>
+  <string name="TR_CONFIG_LIST">Seznam</string>
   <string name="TR_CONFIG_DREIDEL">Drejdl (čtyřboká kostka)</string>
   <string name="TR_CONFIG_TILE_BOARD">Herní deska</string>
   <string name="TR_CONFIG_BOOK">Kniha</string>
@@ -79,6 +80,10 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Vše</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Pouze jména a zastupující obrázky</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Nic</string>
+  <string name="TR_CONFIG_LYRICSTYLE_FILL">Vyplnit</string>
+  <string name="TR_CONFIG_LYRICSTYLE_JUMP">Skočit</string>
+  <string name="TR_CONFIG_LYRICSTYLE_SLIDE">Sklouznout</string>
+  <string name="TR_CONFIG_LYRICSTYLE_ZOOM">Zvětšení</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Dole</string>
   <string name="TR_CONFIG_LYRICSPOSITION_TOP">Nahoře</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Nahoře a dole</string>
@@ -107,12 +112,12 @@
   <string name="TR_SCREENPARTY_NUMPLAYERS">Počet hráčů</string>
   <string name="TR_SCREENNAMES_MENU">Výběr hráče</string>
   <string name="TR_SCREENNAMES_PLAYER">Hráč</string>
-  <string name="TR_SCREENNAMES_1PLAYER">Hráč 1</string>
-  <string name="TR_SCREENNAMES_2PLAYER">Hráč 2</string>
-  <string name="TR_SCREENNAMES_3PLAYER">Hráč 3</string>
-  <string name="TR_SCREENNAMES_4PLAYER">Hráč 4</string>
-  <string name="TR_SCREENNAMES_5PLAYER">Hráč 5</string>
-  <string name="TR_SCREENNAMES_6PLAYER">Hráč 6</string>
+  <string name="TR_SCREENNAMES_1PLAYER">1 hráč</string>
+  <string name="TR_SCREENNAMES_2PLAYER">2 hráči</string>
+  <string name="TR_SCREENNAMES_3PLAYER">3 hráči</string>
+  <string name="TR_SCREENNAMES_4PLAYER">4 hráči</string>
+  <string name="TR_SCREENNAMES_5PLAYER">5 hráčů</string>
+  <string name="TR_SCREENNAMES_6PLAYER">6 hráčů</string>
   <string name="TR_SCREENNAMES_WARNING_MICS_SG">Varování: Hráči %v není přiřazen žádný mikrofon!</string>
   <string name="TR_SCREENNAMES_WARNING_MICS_PL">Varování: Hráčům %v nejsou přiřazeny žádné mikrofony!</string>
   <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Varování: Hráči %v není přiřazen žádný profil!</string>
@@ -162,7 +167,7 @@
   <string name="TR_SCREENPROFILES_BUTTON_SAVESNAPSHOT">Uložit snímek obrazovky</string>
   <string name="TR_SCREENPROFILES_BUTTON_DISCARDSNAPSHOT">Smazat snímek obrazovky</string>
   <string name="TR_SCREENPROFILES_BUTTON_WEBCAM">Kamera</string>
-  <string name="TR_SCREENO_OPTIONS">Nastavení nabídky</string>
+  <string name="TR_SCREENO_OPTIONS">Nastavení</string>
   <string name="TR_SCREENO_BUTTON_GAME">Hra</string>
   <string name="TR_SCREENO_BUTTON_SOUND">Zvuk</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Nahrávání</string>
@@ -181,6 +186,12 @@
   <string name="TR_SCREENORECORD_OPTIONS">Nastavení nahrávání</string>
   <string name="TR_SCREENORECORD_DEVICE">Zařízení</string>
   <string name="TR_SCREENORECORD_INPUT">Vstup</string>
+  <string name="TR_SCREENORECORD_PLAYER_1">Hráč 1</string>
+  <string name="TR_SCREENORECORD_PLAYER_2">Hráč 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_3">Hráč 3</string>
+  <string name="TR_SCREENORECORD_PLAYER_4">Hráč 4</string>
+  <string name="TR_SCREENORECORD_PLAYER_5">Hráč 5</string>
+  <string name="TR_SCREENORECORD_PLAYER_6">Hráč 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Zpoždění mikrofonu</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Varování: Alespoň jeden hráčům je přiřazen ke dvěma mikrofonům.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Zkouška zpoždění</string>
@@ -196,11 +207,11 @@
   <string name="TR_SCREENOTHEME_COVERTHEME">Téma obalu</string>
   <string name="TR_SCREENOTHEME_NOTELINES">Ukázat notové linky</string>
   <string name="TR_SCREENOTHEME_TONEHELPER">Ukázat pomocníka s tónem</string>
-  <string name="TR_SCREENOTHEME_TIMERLOOK">Vzhled časomíry</string>
-  <string name="TR_SCREENOTHEME_FADEINFO">Zesílit/Zeslabit informace přehrávače</string>
+  <string name="TR_SCREENOTHEME_TIMERLOOK">Režim časomíry</string>
+  <string name="TR_SCREENOTHEME_FADEINFO">Prolínat informace přehrávače</string>
   <string name="TR_SCREENOTHEME_COVERLOADING">Chování nahrávání obalu</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Nastavení textu písně</string>
-  <string name="TR_SCREENOLYRICS_STYLE">Styl</string>
+  <string name="TR_SCREENOLYRICS_STYLE">Styl animace</string>
   <string name="TR_SCREENOLYRICS_POSITION">Poloha textu písně</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Nastavení obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Pozadí obrazu</string>
@@ -210,7 +221,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Kamery</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Rozlišení kamery</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Přizpůsobení obrazovky</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Stiskněte Ctrl + Alt (+ Shift) + šipky|\"+\" pro upravení obrazovky</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Stiskněte Ctrl + Alt (+ Shift) + šipky pro upravení obrazovky</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">Ctrl + Alt + 0 pro vrácení úprav zpět na výchozí hodnoty</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Nahoře vlevo</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Nahoře vpravo</string>
