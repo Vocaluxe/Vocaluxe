@@ -31,5 +31,5 @@
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Prossimo giocatore</string>
   <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Vuoi veramente uscire dal Tris?</string>
   <string name="TR_SCREENMAIN_WINNER">E il vincitore è...</string>
-  <string name="TR_SCREENMAIN_NOWINNER">Non c\'è nessun vincitore in questo turno...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Non c'è nessun vincitore in questo turno...</string>
 </resources>
