@@ -33,6 +33,7 @@ repository: Vocaluxe/Vocaluxe
 lang: "en"
 author: "Vocaluxe"
 title: "Vocaluxe"
+subtitle: "Insert nice subtitle here"
 description: "Vocaluxe is a free and open source singing game, inspired by the original UltraStar (developed by corvus5) and the great Ultrastar Deluxe project. It allows up to six players to sing along with music using microphones in order to score points, depending on the pitch of the voice and the rhythm of singing."
 keywords: "Vocaluxe, sing, game, karaoke"
 favicon: "/img/vocaluxe_icon.png"
