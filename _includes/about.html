@@ -5,11 +5,20 @@
 			<h1 class="title">{{ page.title }}</h1>
 			<h2 class="subtitle">{{ page.subtitle }}</h2>
 
-			<div class="col-md-8 col-sm-12">
-				<p>
-					{{ page.content | markdownify }}
-				</p>
+			{% for feature in site.data.features %}
+			<div class="col-md-3 col-sm-6">
+				<div class="feature">
+					<img src="{{site.baseurl}}/img/features/{{ feature.image }}" class="img-responsive" alt="">
+					<div class="caption">
+						<div class="blur"></div>
+						<div class="caption-text">
+							<h4>{{ feature.title }}</h4>
+							<p>{{ feature.description }}</p>
+						</div>
+					</div>
+				</div>
 			</div>
+			{% endfor %}
 		</div>
 	</div>
 </section>
