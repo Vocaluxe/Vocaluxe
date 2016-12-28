@@ -1,12 +1,66 @@
 <!-- Download Section -->
+{% assign release_nightly = nil %}
+{% assign release_pre = nil %}
+{% assign release_stable = nil %}
+
+{% for release in site.github.releases %}
+	{% if release.tag_name == "Nightly" %}
+		{% assign release_nightly = release %}
+	{% elsif release.prerelease == true and (release_pre == nil or release.created_at > release_pre.created_at) %}
+		{% assign release_pre = release %}
+	{% elsif release_stable == nil or release.created_at > release_stable.created_at %}
+	{% endif %}
+{% endfor %}
     <section id="{{ page.section-type }}">
 		<div class="container">
 			<div class="row">
 			<h1 class="title">{{ page.title }}</h1>
-			<h2 class="subtitle">{{ page.subtitle }}</h2>
-				<p>
-					{{ page.content | markdownify }}
-				</p>
+			<p>We provide portable versions of vocaluxe for every release. If you want to try our stable release, you could also use our installer. Linux user need to compile vocaluxe themself. It should work somehow but is a lot of work. You could read more about it in <a href="https://github.com/Vocaluxe/Vocaluxe/blob/develop/HowToBuildLinux.md">this HowTo</a>. If you're looking for some older versions, check out our releases on <a href="">GitHub</a> and <a href="">Sourceforge</a>.</p>
+			<div class="col-md-4">
+				<h2>Nightly</h2>
+				<p>A version with all the newest development changes. Bugs will most likly occur.</p>
+				{% if release_nightly != nil %}
+				<p>Latest update: {{ release_nightly.created_at | date: "%Y-%m-%d" }}</p>
+				<p>Read our release notes on <a href="{{ release_nightly.html_url }}">GitHub</a>.</p>
+					{% for asset in release_nightly.assets %}
+						<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
+					{% endfor %}
+					<a class="btn" href="{{ release_nightly.zipball_url }}">Source code (zip)</a>
+					<a class="btn" href="{{ release_nightly.tarball_url }}">Source code (tar.gz)</a>
+				{% else %}
+					<p>There isn't any nightly release yet.</p>
+				{% endif %}
+			</div>
+			<div class="col-md-4">
+				<h2>Pre Release</h2>
+				<p>Should be almost stable, but you might experience some bugs here.</p>
+				{% if release_pre != nil %}
+					<p>Latest version: {{release_pre.name}} ({{ release_pre.created_at | date: "%Y-%m-%d" }})</p>
+					<p>Read our release notes on <a href="{{ release_pre.html_url }}">GitHub</a>.</p>
+					{% for asset in release_pre.assets %}
+						<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
+					{% endfor %}
+					<a class="btn" href="{{ release_pre.zipball_url }}">Source code (zip)</a>
+					<a class="btn" href="{{ release_pre.tarball_url }}">Source code (tar.gz)</a>
+				{% else %}
+					<p>There isn't any pre release yet.</p>
+				{% endif %}
+			</div>
+			<div class="col-md-4">
+				<h2>Stable Release</h2>
+				<p>The latest release.</p>
+				{% if release_stable != nil %}
+					<p>Latest version: {{release_stable.name}} ({{ release_stable.created_at | date: "%Y-%m-%d" }})</p>
+					<p>Read our release notes on <a href="{{ release_stable.html_url }}">GitHub</a>.</p>
+					{% for asset in release_stable.assets %}
+						<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
+					{% endfor %}
+					<a class="btn" href="{{ release_stable.zipball_url }}">Source code (zip)</a>
+					<a class="btn" href="{{ release_stable.tarball_url }}">Source code (tar.gz)</a>
+				{% else %}
+					<p>There isn't any stable release yet.</p>
+				{% endif %}
+			</div>
 			</div>
 		</div>
     </section>

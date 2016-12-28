@@ -24,6 +24,8 @@ google-tracking-id: ""
 
 force-https: True
 
+repository: Vocaluxe/Vocaluxe
+
 #############
 # HTML Head #
 #############
@@ -146,5 +148,6 @@ sass:
   style: compressed
 
 gems:
+  - github-pages
   #- jekyll-paginate
   #- jemoji
