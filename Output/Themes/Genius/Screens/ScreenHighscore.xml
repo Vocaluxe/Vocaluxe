@@ -14,7 +14,7 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="Static1">
+    <Static Name="StaticMenuBar">
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
@@ -27,14 +27,14 @@
     </Static>
   </Statics>
   <Texts>
-    <Text Name="Text1">
+    <Text Name="TextTitle">
       <X>60</X>
       <Y>50</Y>
       <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
-      <SelColor Name="StaticColor" />
+      <Color Name="TextColor" />
+      <SelColor Name="TextColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -47,8 +47,8 @@
       <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
-      <SelColor Name="StaticColor" />
+      <Color Name="TextColor" />
+      <SelColor Name="TextColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -61,8 +61,8 @@
       <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
-      <SelColor Name="StaticColor" />
+      <Color Name="TextColor" />
+      <SelColor Name="TextColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -75,7 +75,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -89,7 +89,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -103,7 +103,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -117,7 +117,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -131,7 +131,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -145,7 +145,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -159,7 +159,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -173,7 +173,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -187,7 +187,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -201,7 +201,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -215,7 +215,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -229,7 +229,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -243,7 +243,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -257,7 +257,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -271,7 +271,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -285,7 +285,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -299,7 +299,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -313,7 +313,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -327,7 +327,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -341,7 +341,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -355,7 +355,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -369,7 +369,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -383,7 +383,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -397,7 +397,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -411,7 +411,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -425,7 +425,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -439,7 +439,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -453,7 +453,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -467,7 +467,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -481,7 +481,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -495,7 +495,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -509,7 +509,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -523,7 +523,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -537,7 +537,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -551,7 +551,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -565,7 +565,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -579,7 +579,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -593,7 +593,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -607,7 +607,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -621,7 +621,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>

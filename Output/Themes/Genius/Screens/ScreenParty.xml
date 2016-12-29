@@ -14,11 +14,11 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="Static1">
+    <Static Name="StaticMenuBar">
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
-        <X>00</X>
+        <X>0</X>
         <Y>40</Y>
         <W>1280</W>
         <H>45</H>
@@ -27,13 +27,13 @@
     </Static>
   </Statics>
   <Texts>
-    <Text Name="Text1">
+    <Text Name="TextTitle">
       <X>640</X>
       <Y>50</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -41,13 +41,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_TITLE</Text>
     </Text>
-    <Text Name="Text2">
+    <Text Name="TextPartyModes">
       <X>75</X>
       <Y>107</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -55,13 +55,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_MODES</Text>
     </Text>
-    <Text Name="Text3">
+    <Text Name="TextPartyDescription">
       <X>75</X>
       <Y>167</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -69,13 +69,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_DESCRIPTION</Text>
     </Text>
-    <Text Name="Text4">
+    <Text Name="TextPartyTargetaudience">
       <X>75</X>
       <Y>227</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -83,13 +83,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_TARGETAUDIENCE</Text>
     </Text>
-    <Text Name="Text5">
+    <Text Name="TextPartyNumTeams">
       <X>75</X>
       <Y>287</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -97,13 +97,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_NUMTEAMS</Text>
     </Text>
-    <Text Name="Text6">
+    <Text Name="TextPartyNumPlayers">
       <X>75</X>
       <Y>347</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -111,13 +111,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_NUMPLAYERS</Text>
     </Text>
-    <Text Name="Text7">
+    <Text Name="TextPartyAuthor">
       <X>75</X>
       <Y>407</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -125,13 +125,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPARTY_AUTHOR</Text>
     </Text>
-    <Text Name="Text8">
+    <Text Name="TextPartyVersion">
       <X>75</X>
       <Y>467</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -145,7 +145,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -159,7 +159,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -173,7 +173,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -187,7 +187,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -201,7 +201,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -215,7 +215,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -346,7 +346,7 @@
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColor" />
-      <TextSelColor Name="TextSelColor" />
+      <TextSelColor Name="TextColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>

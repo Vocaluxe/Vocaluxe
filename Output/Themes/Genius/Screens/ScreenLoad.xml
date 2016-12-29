@@ -15,13 +15,13 @@
   </Backgrounds>
   <Statics />
   <Texts>
-    <Text Name="Text1">
+    <Text Name="TextLoading">
       <X>640</X>
       <Y>375</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -35,7 +35,7 @@
       <Z>0</Z>
       <H>20</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>

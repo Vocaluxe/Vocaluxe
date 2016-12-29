@@ -18,15 +18,27 @@
       </Color>
     </Background>
   </Backgrounds>
-  <Statics />
+  <Statics>
+    <Static Name="CalibrationBG">
+      <Skin>CalibrationBG</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>1280</W>
+        <H>720</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+  </Statics>
   <Texts>
-    <Text Name="Text1">
-      <X>0</X>
-      <Y>0</Y>
-      <Z>0</Z>
+    <Text Name="TextTopLeft">
+      <X>10</X>
+      <Y>5</Y>
+      <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -34,13 +46,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT</Text>
     </Text>
-    <Text Name="Text2">
-      <X>1280</X>
-      <Y>0</Y>
-      <Z>0</Z>
+    <Text Name="TextTopRight">
+      <X>1270</X>
+      <Y>5</Y>
+      <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -48,13 +60,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT</Text>
     </Text>
-    <Text Name="Text3">
-      <X>0</X>
-      <Y>693</Y>
-      <Z>0</Z>
+    <Text Name="TextBottomLeft">
+      <X>10</X>
+      <Y>688</Y>
+      <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -62,13 +74,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT</Text>
     </Text>
-    <Text Name="Text4">
-      <X>1280</X>
-      <Y>693</Y>
-      <Z>0</Z>
+    <Text Name="TextBottomRight">
+      <X>1270</X>
+      <Y>688</Y>
+      <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -76,13 +88,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT</Text>
     </Text>
-    <Text Name="Text5">
+    <Text Name="TextAdjustmentNotes">
       <X>640</X>
-      <Y>320</Y>
-      <Z>0</Z>
-      <H>35</H>
+      <Y>110</Y>
+      <Z>-1</Z>
+      <H>30</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -90,13 +102,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEOADJUSTMENTS_NOTES</Text>
     </Text>
-    <Text Name="Text6">
+    <Text Name="TextAdjustmentsNotesReset">
       <X>640</X>
-      <Y>360</Y>
-      <Z>0</Z>
-      <H>35</H>
+      <Y>580</Y>
+      <Z>-1</Z>
+      <H>30</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -121,7 +133,7 @@
       <Text Name="Text">
         <X>75</X>
         <Y>12</Y>
-        <Z>0</Z>
+        <Z>-1</Z>
         <H>27</H>
         <MaxW>142</MaxW>
         <Color Name="ButtonTextColor" />

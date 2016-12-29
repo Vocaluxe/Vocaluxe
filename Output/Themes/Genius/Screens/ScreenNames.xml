@@ -191,7 +191,7 @@
       <Z>-3</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -237,8 +237,8 @@
       <Z>-4</Z>
       <H>20</H>
       <MaxW>205</MaxW>
-      <Color Name="TextSelColor" />
-      <SelColor Name="TextSelColor" />
+      <Color Name="TextColor" />
+      <SelColor Name="TextColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -251,8 +251,8 @@
       <Z>-4</Z>
       <H>20</H>
       <MaxW>205</MaxW>
-      <Color Name="TextSelColor" />
-      <SelColor Name="TextSelColor" />
+      <Color Name="TextColor" />
+      <SelColor Name="TextColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -265,8 +265,8 @@
       <Z>-4</Z>
       <H>20</H>
       <MaxW>205</MaxW>
-      <Color Name="TextSelColor" />
-      <SelColor Name="TextSelColor" />
+      <Color Name="TextColor" />
+      <SelColor Name="TextColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -279,8 +279,8 @@
       <Z>-4</Z>
       <H>20</H>
       <MaxW>205</MaxW>
-      <Color Name="TextSelColor" />
-      <SelColor Name="TextSelColor" />
+      <Color Name="TextColor" />
+      <SelColor Name="TextColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -293,8 +293,8 @@
       <Z>-4</Z>
       <H>20</H>
       <MaxW>205</MaxW>
-      <Color Name="TextSelColor" />
-      <SelColor Name="TextSelColor" />
+      <Color Name="TextColor" />
+      <SelColor Name="TextColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -307,8 +307,8 @@
       <Z>-4</Z>
       <H>20</H>
       <MaxW>205</MaxW>
-      <Color Name="TextSelColor" />
-      <SelColor Name="TextSelColor" />
+      <Color Name="TextColor" />
+      <SelColor Name="TextColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
@@ -424,9 +424,9 @@
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColor" />
-      <TextSelColor Name="TextSelColor" />
+      <TextSelColor Name="TextColor" />
       <TextH>20</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>30</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>186</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -468,7 +468,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>20</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>30</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>145</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -510,7 +510,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>20</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>30</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>145</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -552,7 +552,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>20</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>30</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>145</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -594,7 +594,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>20</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>30</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>145</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -636,7 +636,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>20</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>30</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>145</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -678,7 +678,7 @@
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextSelColor" />
       <TextH>20</TextH>
-      <TextRelativeX>0</TextRelativeX>
+      <TextRelativeX>30</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>145</TextMaxW>
       <TextFont>Outline</TextFont>
@@ -697,12 +697,7 @@
         <Z>0</Z>
       </Rect>
       <SkinEmptyTile>CoverTile</SkinEmptyTile>
-      <ColorEmptyTile>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.2</A>
-      </ColorEmptyTile>
+      <ColorEmptyTile Name="EmptyTileColor" />
       <SkinTileSelected>PlayerSelector</SkinTileSelected>
       <Tiles>
         <W>100</W>
@@ -716,7 +711,7 @@
           <H>17</H>
           <Font>Outline</Font>
           <Style>Bold</Style>
-          <Color Name="TextSelColor" />
+          <Color Name="TextColor" />
         </Name>
       </Tiles>
     </NameSelection>
@@ -735,8 +730,12 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player1"><A>0.2</A></Color>
-      <MaxColor Name="Player1"><A>0.4</A></MaxColor>
+      <Color Name="Player1">
+        <A>0.2</A>
+      </Color>
+      <MaxColor Name="Player1">
+        <A>0.4</A>
+      </MaxColor>
     </Equalizer>
     <Equalizer Name="EqualizerPlayer2">
       <Skin/>
@@ -751,8 +750,12 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player2"><A>0.2</A></Color>
-      <MaxColor Name="Player2"><A>0.4</A></MaxColor>
+      <Color Name="Player2">
+        <A>0.2</A>
+      </Color>
+      <MaxColor Name="Player2">
+        <A>0.4</A>
+      </MaxColor>
     </Equalizer>
     <Equalizer Name="EqualizerPlayer3">
       <Skin/>
@@ -767,8 +770,12 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player3"><A>0.2</A></Color>
-      <MaxColor Name="Player3"><A>0.4</A></MaxColor>
+      <Color Name="Player3">
+        <A>0.2</A>
+      </Color>
+      <MaxColor Name="Player3">
+        <A>0.4</A>
+      </MaxColor>
     </Equalizer>
     <Equalizer Name="EqualizerPlayer4">
       <Skin/>
@@ -783,8 +790,12 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player4"><A>0.2</A></Color>
-      <MaxColor Name="Player4"><A>0.4</A></MaxColor>
+      <Color Name="Player4">
+        <A>0.2</A>
+      </Color>
+      <MaxColor Name="Player4">
+        <A>0.4</A>
+      </MaxColor>
     </Equalizer>
     <Equalizer Name="EqualizerPlayer5">
       <Skin/>
@@ -799,8 +810,12 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player5"><A>0.2</A></Color>
-      <MaxColor Name="Player5"><A>0.4</A></MaxColor>
+      <Color Name="Player5">
+        <A>0.2</A>
+      </Color>
+      <MaxColor Name="Player5">
+        <A>0.4</A>
+      </MaxColor>
     </Equalizer>
     <Equalizer Name="EqualizerPlayer6">
       <Skin/>
@@ -815,8 +830,12 @@
       <Space>2</Space>
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
-      <Color Name="Player6"><A>0.2</A></Color>
-      <MaxColor Name="Player6"><A>0.4</A></MaxColor>
+      <Color Name="Player6">
+        <A>0.2</A>
+      </Color>
+      <MaxColor Name="Player6">
+        <A>0.4</A>
+      </MaxColor>
     </Equalizer>
   </Equalizers>
   <Playlists />

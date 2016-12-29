@@ -14,7 +14,7 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="Static1">
+    <Static Name="StaticMenuBar">
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
@@ -23,39 +23,6 @@
         <W>1280</W>
         <H>45</H>
         <Z>1</Z>
-      </Rect>
-    </Static>
-    <Static Name="Static2">
-      <Skin/>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>50</X>
-        <Y>100</Y>
-        <W>460</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="Static3">
-      <Skin/>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>50</X>
-        <Y>160</Y>
-        <W>460</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="Static4">
-      <Skin/>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>50</X>
-        <Y>220</Y>
-        <W>460</W>
-        <H>50</H>
-        <Z>0</Z>
       </Rect>
     </Static>
     <Static Name="StaticWebcamOutput">
@@ -71,13 +38,13 @@
     </Static>
   </Statics>
   <Texts>
-    <Text Name="Text1">
+    <Text Name="TextTitle">
       <X>640</X>
       <Y>50</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -85,13 +52,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_OPTIONS</Text>
     </Text>
-    <Text Name="Text2">
+    <Text Name="TextVideoBackgrounds">
       <X>75</X>
       <Y>107</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -99,13 +66,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_VIDEOBACKGROUNDS</Text>
     </Text>
-    <Text Name="Text3">
+    <Text Name="TextVideoPreview">
       <X>75</X>
       <Y>167</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -113,13 +80,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_VIDEOPREVIEW</Text>
     </Text>
-    <Text Name="Text4">
+    <Text Name="TextVideoInSongs">
       <X>75</X>
       <Y>227</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -127,13 +94,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOVIDEO_VIDEOINSONGS</Text>
     </Text>
-    <Text Name="Text5">
+    <Text Name="TextVideosToBackground">
       <X>75</X>
       <Y>287</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -147,7 +114,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -161,7 +128,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -277,12 +244,12 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>205.33</TextMaxW>
+      <TextMaxW>200</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
@@ -319,12 +286,12 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>205.33</TextMaxW>
+      <TextMaxW>200</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
@@ -361,12 +328,12 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>205.33</TextMaxW>
+      <TextMaxW>200</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
@@ -403,12 +370,12 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>205.33</TextMaxW>
+      <TextMaxW>200</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
@@ -445,12 +412,12 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>205.33</TextMaxW>
+      <TextMaxW>200</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
@@ -487,7 +454,7 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>

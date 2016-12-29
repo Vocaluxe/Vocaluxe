@@ -36,7 +36,7 @@
       <Z>-2</Z>
       <H>27</H>
       <MaxW>769</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -165,7 +165,7 @@
         <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="Player1" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>405</X>
         <Y>25</Y>
@@ -246,7 +246,7 @@
         <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
-      <SelColor Name="Player1" />
+      <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>315</X>
         <Y>0</Y>

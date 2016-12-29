@@ -14,7 +14,7 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="Static1">
+    <Static Name="StaticSongMenu">
       <Skin>SongMenu</Skin>
       <Color Name="StaticColorAlpha" />
       <Rect>
@@ -29,7 +29,7 @@
         <Space>10</Space>
       </Reflection>
     </Static>
-	<Static Name="Static2">
+    <Static Name="StaticVocaluxeLogo">
       <Skin>VocaluxeLogo</Skin>
       <Color Name="White" />
       <Rect>
@@ -162,7 +162,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>340</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -180,7 +180,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>805</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -212,14 +212,14 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>300</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Bottom</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-	  <Reflection>
+      <Reflection>
         <Height>14</Height>
         <Space>32</Space>
       </Reflection>
@@ -230,7 +230,7 @@
       <Z>-2.11</Z>
       <H>34</H>
       <MaxW>350</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -250,7 +250,9 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player1" ><A>0.5</A></Color>
+      <Color Name="Player1">
+        <A>0.5</A>
+      </Color>
       <SelColor Name="Player1" />
       <Text Name="Text">
         <X>40</X>
@@ -277,7 +279,9 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player2" ><A>0.5</A></Color>
+      <Color Name="Player2">
+        <A>0.5</A>
+      </Color>
       <SelColor Name="Player2" />
       <Text Name="Text">
         <X>40</X>
@@ -304,7 +308,9 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player3" ><A>0.5</A></Color>
+      <Color Name="Player3">
+        <A>0.5</A>
+      </Color>
       <SelColor Name="Player3" />
       <Text Name="Text">
         <X>40</X>
@@ -331,7 +337,9 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player4" ><A>0.5</A></Color>
+      <Color Name="Player4">
+        <A>0.5</A>
+      </Color>
       <SelColor Name="Player4" />
       <Text Name="Text">
         <X>40</X>
@@ -358,7 +366,9 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player5" ><A>0.5</A></Color>
+      <Color Name="Player5">
+        <A>0.5</A>
+      </Color>
       <SelColor Name="Player5" />
       <Text Name="Text">
         <X>40</X>
@@ -385,7 +395,9 @@
         <H>80</H>
         <Z>-1.01</Z>
       </Rect>
-      <Color Name="Player6" ><A>0.5</A></Color>
+      <Color Name="Player6">
+        <A>0.5</A>
+      </Color>
       <SelColor Name="Player6" />
       <Text Name="Text">
         <X>40</X>
@@ -776,7 +788,7 @@
           <Z>-1.01</Z>
           <H>39</H>
           <MaxW>340</MaxW>
-          <Color Name="StaticColor" />
+          <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
           <Align>Center</Align>
           <ResizeAlign>Top</ResizeAlign>
@@ -790,7 +802,7 @@
           <Z>-1.01</Z>
           <H>32</H>
           <MaxW>340</MaxW>
-          <Color Name="StaticColor" />
+          <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
           <Align>Center</Align>
           <ResizeAlign>Top</ResizeAlign>
@@ -804,7 +816,7 @@
           <Z>-1.01</Z>
           <H>28</H>
           <MaxW>340</MaxW>
-          <Color Name="StaticColor" />
+          <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
           <Align>Center</Align>
           <ResizeAlign>Top</ResizeAlign>
@@ -836,7 +848,7 @@
         </StaticTextBG>
         <StaticDuetIcon Name="StaticDuetIcon">
           <Skin>DuetIcon</Skin>
-          <Color Name="StaticColor" />
+          <Color Name="TextColor" />
           <Rect>
             <X>200</X>
             <Y>530</Y>
@@ -847,7 +859,7 @@
         </StaticDuetIcon>
         <StaticVideoIcon Name="StaticVideoIcon">
           <Skin>VideoIcon</Skin>
-          <Color Name="StaticColor" />
+          <Color Name="TextColor" />
           <Rect>
             <X>120</X>
             <Y>530</Y>
@@ -855,7 +867,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-            </StaticVideoIcon>
+        </StaticVideoIcon>
         <StaticMedleyCalcIcon Name="StaticMedleyCalcIcon">
           <Skin>MedleyCalcIcon</Skin>
           <Color Name="StaticColor" />
@@ -866,7 +878,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-            </StaticMedleyCalcIcon>
+        </StaticMedleyCalcIcon>
         <StaticMedleyTagIcon Name="StaticMedleyTagIcon">
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
@@ -931,7 +943,7 @@
           <Z>-1.01</Z>
           <H>28</H>
           <MaxW>340</MaxW>
-          <Color Name="StaticColor" />
+          <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
           <Align>Center</Align>
           <ResizeAlign>Top</ResizeAlign>
@@ -974,7 +986,7 @@
         </StaticDuetIcon>
         <StaticVideoIcon Name="StaticVideoIcon">
           <Skin>VideoIcon</Skin>
-          <Color Name="StaticColor" />
+          <Color Name="TextColor" />
           <Rect>
             <X>120</X>
             <Y>530</Y>
@@ -985,7 +997,7 @@
         </StaticVideoIcon>
         <StaticMedleyCalcIcon Name="StaticMedleyCalcIcon">
           <Skin>MedleyCalcIcon</Skin>
-          <Color Name="StaticColor" />
+          <Color Name="TextColor" />
           <Rect>
             <X>280</X>
             <Y>530</Y>
@@ -1022,28 +1034,28 @@
         <Y>135</Y>
         <W>360</W>
         <H>40</H>
-        <Z>-1.11</Z>
+        <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
         <X>45</X>
         <Y>140</Y>
         <W>30</W>
         <H>30</H>
-        <Z>-1.12</Z>
+        <Z>-2.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>365</X>
         <Y>140</Y>
         <W>30</W>
         <H>30</H>
-        <Z>-1.12</Z>
+        <Z>-2.12</Z>
       </RectArrowRight>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
-      <TextSelColor Name="TextSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextColorAlpha" />
       <TextH>25</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -1084,8 +1096,8 @@
       <SelColor Name="ButtonSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
-      <TextSelColor Name="TextSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextColorAlpha" />
       <TextH>25</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -1126,8 +1138,8 @@
       <SelColor Name="ButtonSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
-      <TextSelColor Name="TextSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextColorAlpha" />
       <TextH>25</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
@@ -1168,7 +1180,7 @@
       <SelColor Name="ButtonSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>25</TextH>
       <TextRelativeX>50</TextRelativeX>
@@ -1204,14 +1216,14 @@
         <Z>-1.01</Z>
         <H>22</H>
         <MaxW>351</MaxW>
-        <Color Name="StaticColor" />
+        <Color Name="TextColor" />
         <SelColor Name="TextSelColor" />
         <Align>Left</Align>
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_ARTIST_TITLE</Text>
-        </Text1>
+      </Text1>
       <StaticCover Name="StaticCover">
         <Skin />
         <Color Name="Visible" />
@@ -1222,7 +1234,7 @@
           <H>46</H>
           <Z>-1</Z>
         </Rect>
-        </StaticCover>
+      </StaticCover>
       <StaticPlaylistHeader Name="StaticPlaylistHeader">
         <Skin>PlaylistBG</Skin>
         <Color Name="StaticColorAlpha" />
@@ -1233,7 +1245,7 @@
           <H>50</H>
           <Z>-1</Z>
         </Rect>
-        </StaticPlaylistHeader>
+      </StaticPlaylistHeader>
       <StaticPlaylistFooter Name="StaticPlaylistFooter">
         <Skin>PlaylistBG</Skin>
         <Color Name="StaticColorAlpha" />
@@ -1244,7 +1256,7 @@
           <H>50</H>
           <Z>-1</Z>
         </Rect>
-        </StaticPlaylistFooter>
+      </StaticPlaylistFooter>
       <ButtonPlaylistName Name="ButtonPlaylistName">
         <Skin/>
         <SkinSelected />
@@ -1270,7 +1282,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          </Text>
+        </Text>
       </ButtonPlaylistName>
       <ButtonPlaylistClose Name="ButtonPlaylistClose">
         <Skin>CloseIcon</Skin>
@@ -1297,7 +1309,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          </Text>
+        </Text>
       </ButtonPlaylistClose>
       <ButtonPlaylistSave Name="ButtonPlaylistSave">
         <Skin>SaveIcon</Skin>
@@ -1324,7 +1336,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          </Text>
+        </Text>
       </ButtonPlaylistSave>
       <ButtonPlaylistDelete Name="ButtonPlaylistDelete">
         <Skin>DeleteIcon</Skin>
@@ -1351,7 +1363,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          </Text>
+        </Text>
       </ButtonPlaylistDelete>
       <ButtonPlaylistSing Name="ButtonPlaylistSing">
         <Skin>SingIcon</Skin>
@@ -1378,7 +1390,7 @@
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
-          </Text>
+        </Text>
       </ButtonPlaylistSing>
       <SelectSlideGameMode Name="SelectSlideGameMode">
         <Skin />
@@ -1414,9 +1426,9 @@
         <ArrowSelColor Name="ArrowSelColor" />
         <TextColor Name="TextColor" />
         <TextSelColor Name="TextSelColor" />
-        <TextH>22.00</TextH>
-        <TextRelativeX>25.00</TextRelativeX>
-        <TextMaxW>370.00</TextMaxW>
+        <TextH>22</TextH>
+        <TextRelativeX>25</TextRelativeX>
+        <TextMaxW>370</TextMaxW>
         <TextFont>Outline</TextFont>
         <TextStyle>Bold</TextStyle>
         <NumVisible>1</NumVisible>

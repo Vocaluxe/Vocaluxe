@@ -14,17 +14,6 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="StaticMenuBar">
-      <Skin>Menu</Skin>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>49</X>
-        <Y>32</Y>
-        <W>1181</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticWarningProfiles">
       <Skin>Warning</Skin>
       <Color Name="StaticWarningColor" />

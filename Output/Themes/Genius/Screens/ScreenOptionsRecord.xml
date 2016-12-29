@@ -14,7 +14,7 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="Static1">
+    <Static Name="StaticMenuBar">
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
@@ -25,7 +25,7 @@
         <Z>1</Z>
       </Rect>
     </Static>
-    <Static Name="Static2">
+    <Static Name="StaticPlayer1">
       <Skin>SingIcon</Skin>
       <Color Name="Player1" />
       <Rect>
@@ -36,7 +36,7 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="Static3">
+    <Static Name="StaticPlayer2">
       <Skin>SingIcon</Skin>
       <Color Name="Player2" />
       <Rect>
@@ -47,7 +47,7 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="Static4">
+    <Static Name="StaticPlayer3">
       <Skin>SingIcon</Skin>
       <Color Name="Player3" />
       <Rect>
@@ -58,7 +58,7 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="Static5">
+    <Static Name="StaticPlayer4">
       <Skin>SingIcon</Skin>
       <Color Name="Player4" />
       <Rect>
@@ -69,7 +69,7 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="Static6">
+    <Static Name="StaticPlayer5">
       <Skin>SingIcon</Skin>
       <Color Name="Player5" />
       <Rect>
@@ -80,7 +80,7 @@
         <Z>0</Z>
       </Rect>
     </Static>
-	<Static Name="Static7">
+    <Static Name="StaticPlayer6">
       <Skin>SingIcon</Skin>
       <Color Name="Player6" />
       <Rect>
@@ -128,7 +128,7 @@
         <Z>0</Z>
       </Rect>
     </Static>
-	<Static Name="StaticEnergyPlayer3">
+    <Static Name="StaticEnergyPlayer3">
       <Skin>EnergyBeam</Skin>
       <Color Name="Visible" />
       <Rect>
@@ -150,7 +150,7 @@
         <Z>0</Z>
       </Rect>
     </Static>
-	<Static Name="StaticEnergyPlayer5">
+    <Static Name="StaticEnergyPlayer5">
       <Skin>EnergyBeam</Skin>
       <Color Name="Visible" />
       <Rect>
@@ -180,7 +180,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -194,7 +194,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -208,7 +208,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -240,7 +240,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -254,21 +254,21 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_PLAYER_2</Text>
-	</Text>
-	<Text Name="TextPlayer3">
+    </Text>
+    <Text Name="TextPlayer3">
       <X>125</X>
       <Y>347</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -276,132 +276,126 @@
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_PLAYER_3</Text>
     </Text>
-	<Text Name="TextPlayer4">
+    <Text Name="TextPlayer4">
       <X>125</X>
       <Y>407</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_PLAYER_4</Text>
-	</Text>
-	<Text Name="TextPlayer5">
+    </Text>
+    <Text Name="TextPlayer5">
       <X>125</X>
       <Y>467</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_PLAYER_5</Text>
-	</Text>
-	<Text Name="TextPlayer6">
+    </Text>
+    <Text Name="TextPlayer6">
       <X>125</X>
       <Y>527</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENORECORD_PLAYER_6</Text>
-	</Text>
+    </Text>
     <Text Name="TextDelayPlayer1">
       <X>320</X>
       <Y>227</Y>
       <Z>-1</Z>
       <H>27</H>
       <MaxW>100</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextDelayPlayer2">
       <X>320</X>
       <Y>287</Y>
       <Z>-1</Z>
       <H>27</H>
       <MaxW>100</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
-	<Text Name="TextDelayPlayer3">
+      <Text /></Text>
+    <Text Name="TextDelayPlayer3">
       <X>320</X>
       <Y>347</Y>
       <Z>-1</Z>
       <H>27</H>
       <MaxW>100</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextDelayPlayer4">
       <X>320</X>
       <Y>407</Y>
       <Z>-1</Z>
       <H>27</H>
       <MaxW>100</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
-	<Text Name="TextDelayPlayer5">
+      <Text /></Text>
+    <Text Name="TextDelayPlayer5">
       <X>320</X>
       <Y>467</Y>
       <Z>-1</Z>
       <H>27</H>
       <MaxW>100</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextDelayPlayer6">
       <X>320</X>
       <Y>527</Y>
       <Z>-1</Z>
       <H>27</H>
       <MaxW>100</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
   </Texts>
   <Buttons>
     <Button Name="ButtonExit">
@@ -604,7 +598,7 @@
       <TextStyle>Bold</TextStyle>
       <NumVisible>7</NumVisible>
     </SelectSlide>
-	<SelectSlide Name="SelectSlideRecordPlayer3">
+    <SelectSlide Name="SelectSlideRecordPlayer3">
       <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -688,7 +682,7 @@
       <TextStyle>Bold</TextStyle>
       <NumVisible>7</NumVisible>
     </SelectSlide>
-	<SelectSlide Name="SelectSlideRecordPlayer5">
+    <SelectSlide Name="SelectSlideRecordPlayer5">
       <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -809,7 +803,7 @@
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>123.2</TextMaxW>
+      <TextMaxW>120</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>5</NumVisible>
@@ -832,8 +826,8 @@
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player1">
-		<A>0.6</A>
-	  </Color>
+        <A>0.6</A>
+      </Color>
       <MaxColor Name="Player1" />
       <Reflection />
     </Equalizer>
@@ -851,12 +845,12 @@
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player2">
-		<A>0.6</A>
-	  </Color>
+        <A>0.6</A>
+      </Color>
       <MaxColor Name="Player2" />
       <Reflection />
     </Equalizer>
-	<Equalizer Name="EqualizerPlayer3">
+    <Equalizer Name="EqualizerPlayer3">
       <Skin/>
       <Rect>
         <X>270</X>
@@ -870,12 +864,12 @@
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player3">
-		<A>0.6</A>
-	  </Color>
+        <A>0.6</A>
+      </Color>
       <MaxColor Name="Player3" />
       <Reflection />
     </Equalizer>
-	<Equalizer Name="EqualizerPlayer4">
+    <Equalizer Name="EqualizerPlayer4">
       <Skin/>
       <Rect>
         <X>270</X>
@@ -889,12 +883,12 @@
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player4">
-		<A>0.6</A>
-	  </Color>
+        <A>0.6</A>
+      </Color>
       <MaxColor Name="Player4" />
       <Reflection />
     </Equalizer>
-	<Equalizer Name="EqualizerPlayer5">
+    <Equalizer Name="EqualizerPlayer5">
       <Skin/>
       <Rect>
         <X>270</X>
@@ -908,12 +902,12 @@
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player5">
-		<A>0.6</A>
-	  </Color>
+        <A>0.6</A>
+      </Color>
       <MaxColor Name="Player5" />
       <Reflection />
     </Equalizer>
-	<Equalizer Name="EqualizerPlayer6">
+    <Equalizer Name="EqualizerPlayer6">
       <Skin/>
       <Rect>
         <X>270</X>
@@ -927,8 +921,8 @@
       <Style>Columns</Style>
       <DrawNegative>TR_CONFIG_OFF</DrawNegative>
       <Color Name="Player6">
-		<A>0.6</A>
-	  </Color>
+        <A>0.6</A>
+      </Color>
       <MaxColor Name="Player6" />
       <Reflection/>
     </Equalizer>

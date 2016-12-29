@@ -77,8 +77,8 @@
     <Static Name="StaticTimeLine">
       <Skin>TimeLine</Skin>
       <Color Name="TimeBar">
-		<A>0.2</A>
-	  </Color>
+        <A>0.2</A>
+      </Color>
       <Rect>
         <X>11</X>
         <Y>707</Y>
@@ -111,7 +111,7 @@
     </Static>
     <Static Name="StaticTimePointer">
       <Skin>Pointer</Skin>
-      <Color Name="White" />
+      <Color Name="TimePointerColor" />
       <Rect>
         <X>44</X>
         <Y>706</Y>
@@ -133,11 +133,7 @@
     </Static>
     <Static Name="StaticLyricHelperDuet">
       <Skin>LyricHelper</Skin>
-      <Color Name="LyricHelper">
-	  <R>0.882</R>
-      <G>0.149</G>
-      <B>0.110</B>
-	  </Color>
+      <Color Name="LyricHelperDuet" />
       <Rect>
         <X>40</X>
         <Y>10</Y>
@@ -181,12 +177,7 @@
     </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>40</X>
         <Y>352</Y>
@@ -208,12 +199,7 @@
     </Static>
     <Static Name="StaticAvatarP1N2">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>40</X>
         <Y>112</Y>
@@ -235,12 +221,7 @@
     </Static>
     <Static Name="StaticAvatarP2N2">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>40</X>
         <Y>372</Y>
@@ -262,12 +243,7 @@
     </Static>
     <Static Name="StaticAvatarP1N3">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>40</X>
         <Y>102</Y>
@@ -289,12 +265,7 @@
     </Static>
     <Static Name="StaticAvatarP2N3">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>40</X>
         <Y>272</Y>
@@ -316,12 +287,7 @@
     </Static>
     <Static Name="StaticAvatarP3N3">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>40</X>
         <Y>442</Y>
@@ -343,12 +309,7 @@
     </Static>
     <Static Name="StaticAvatarP1N4">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>20</X>
         <Y>112</Y>
@@ -370,12 +331,7 @@
     </Static>
     <Static Name="StaticAvatarP2N4">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>20</X>
         <Y>372</Y>
@@ -397,12 +353,7 @@
     </Static>
     <Static Name="StaticAvatarP3N4">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>660</X>
         <Y>112</Y>
@@ -424,12 +375,7 @@
     </Static>
     <Static Name="StaticAvatarP4N4">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>660</X>
         <Y>372</Y>
@@ -451,12 +397,7 @@
     </Static>
     <Static Name="StaticAvatarP1N5">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>20</X>
         <Y>102</Y>
@@ -478,12 +419,7 @@
     </Static>
     <Static Name="StaticAvatarP2N5">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>20</X>
         <Y>272</Y>
@@ -505,12 +441,7 @@
     </Static>
     <Static Name="StaticAvatarP3N5">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>20</X>
         <Y>442</Y>
@@ -532,12 +463,7 @@
     </Static>
     <Static Name="StaticAvatarP4N5">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>655</X>
         <Y>102</Y>
@@ -559,12 +485,7 @@
     </Static>
     <Static Name="StaticAvatarP5N5">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>655</X>
         <Y>272</Y>
@@ -586,12 +507,7 @@
     </Static>
     <Static Name="StaticAvatarP1N6">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>20</X>
         <Y>102</Y>
@@ -613,12 +529,7 @@
     </Static>
     <Static Name="StaticAvatarP2N6">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>20</X>
         <Y>272</Y>
@@ -640,12 +551,7 @@
     </Static>
     <Static Name="StaticAvatarP3N6">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>20</X>
         <Y>442</Y>
@@ -667,12 +573,7 @@
     </Static>
     <Static Name="StaticAvatarP4N6">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>655</X>
         <Y>102</Y>
@@ -694,12 +595,7 @@
     </Static>
     <Static Name="StaticAvatarP5N6">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>655</X>
         <Y>272</Y>
@@ -721,12 +617,7 @@
     </Static>
     <Static Name="StaticAvatarP6N6">
       <Skin/>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="StaticAvatarColor" />
       <Rect>
         <X>655</X>
         <Y>442</Y>
@@ -749,8 +640,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextTime">
       <X>1245</X>
       <Y>700</Y>
@@ -763,20 +653,19 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextPause">
       <X>640</X>
       <Y>350</Y>
       <Z>-2.11</Z>
       <H>40</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
-      <Font>Normal</Font>
+      <Font>Outline</Font>
       <Text>TR_SCREENSING_PAUSE</Text>
     </Text>
     <Text Name="TextDuetName1">
@@ -785,28 +674,26 @@
       <Z>-1</Z>
       <H>30</H>
       <MaxW>0</MaxW>
-      <Color Name="TextSelColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextDuetName2">
       <X>10</X>
       <Y>665</Y>
       <Z>-1</Z>
       <H>30</H>
       <MaxW>0</MaxW>
-      <Color Name="TextSelColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextMedleyCountdown">
       <X>640</X>
       <Y>10</Y>
@@ -819,701 +706,595 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP1N1">
       <X>1240</X>
       <Y>332</Y>
       <Z>-1</Z>
       <H>90</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1"><A>0.6</A></Color>
+      <Color Name="Player1">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP1N1">
       <X>105</X>
       <Y>360</Y>
       <Z>-1</Z>
       <H>38</H>
       <MaxW>950</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP1N2">
       <X>1240</X>
       <Y>92</Y>
       <Z>-1</Z>
       <H>90</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1"><A>0.6</A></Color>
+      <Color Name="Player1">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP1N2">
       <X>105</X>
       <Y>120</Y>
       <Z>-1</Z>
       <H>38</H>
       <MaxW>950</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP2N2">
       <X>1240</X>
       <Y>352</Y>
       <Z>-1</Z>
       <H>90</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2"><A>0.6</A></Color>
+      <Color Name="Player2">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP2N2">
       <X>105</X>
       <Y>380</Y>
       <Z>-1</Z>
       <H>38</H>
       <MaxW>950</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP1N3">
       <X>1240</X>
       <Y>92</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1"><A>0.6</A></Color>
+      <Color Name="Player1">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP1N3">
       <X>80</X>
       <Y>105</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>950</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP2N3">
       <X>1240</X>
       <Y>262</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2"><A>0.6</A></Color>
+      <Color Name="Player2">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP2N3">
       <X>80</X>
       <Y>275</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>950</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP3N3">
       <X>1240</X>
       <Y>432</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player3"><A>0.4</A></Color>
+      <Color Name="Player3">
+        <A>0.4</A>
+      </Color>
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP3N3">
       <X>80</X>
       <Y>445</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>950</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player3" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP1N4">
       <X>626</X>
       <Y>92</Y>
       <Z>-1</Z>
       <H>90</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1"><A>0.6</A></Color>
+      <Color Name="Player1">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP1N4">
       <X>85</X>
       <Y>120</Y>
       <Z>-1</Z>
       <H>38</H>
       <MaxW>350</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP2N4">
       <X>626</X>
       <Y>352</Y>
       <Z>-1</Z>
       <H>90</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2"><A>0.6</A></Color>
+      <Color Name="Player2">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP2N4">
       <X>85</X>
       <Y>380</Y>
       <Z>-1</Z>
       <H>38</H>
       <MaxW>350</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP3N4">
       <X>1260</X>
       <Y>92</Y>
       <Z>-1</Z>
       <H>90</H>
       <MaxW>0</MaxW>
-      <Color Name="Player3"><A>0.6</A></Color>
+      <Color Name="Player3">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP3N4">
       <X>725</X>
       <Y>120</Y>
       <Z>-1</Z>
       <H>38</H>
       <MaxW>350</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player3" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP4N4">
       <X>1260</X>
       <Y>352</Y>
       <Z>-1</Z>
       <H>90</H>
       <MaxW>0</MaxW>
-      <Color Name="Player4"><A>0.6</A></Color>
+      <Color Name="Player4">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player4" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP4N4">
       <X>725</X>
       <Y>380</Y>
       <Z>-1</Z>
       <H>38</H>
       <MaxW>350</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player4" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP1N5">
       <X>625</X>
       <Y>92</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1"><A>0.6</A></Color>
+      <Color Name="Player1">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP1N5">
       <X>60</X>
       <Y>105</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP2N5">
       <X>625</X>
       <Y>262</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2"><A>0.6</A></Color>
+      <Color Name="Player2">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP2N5">
       <X>60</X>
       <Y>275</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP3N5">
       <X>625</X>
       <Y>432</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player3"><A>0.4</A></Color>
+      <Color Name="Player3">
+        <A>0.4</A>
+      </Color>
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP3N5">
       <X>60</X>
       <Y>445</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player3" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP4N5">
       <X>1260</X>
       <Y>92</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player4"><A>0.6</A></Color>
+      <Color Name="Player4">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player4" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP4N5">
       <X>695</X>
       <Y>105</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player4" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP5N5">
       <X>1260</X>
       <Y>262</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player5"><A>0.6</A></Color>
+      <Color Name="Player5">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player5" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP5N5">
       <X>695</X>
       <Y>275</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player5" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP1N6">
       <X>625</X>
       <Y>92</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player1"><A>0.6</A></Color>
+      <Color Name="Player1">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP1N6">
       <X>60</X>
       <Y>105</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP2N6">
       <X>625</X>
       <Y>262</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player2"><A>0.6</A></Color>
+      <Color Name="Player2">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP2N6">
       <X>60</X>
       <Y>275</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP3N6">
       <X>625</X>
       <Y>432</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player3"><A>0.4</A></Color>
+      <Color Name="Player3">
+        <A>0.4</A>
+      </Color>
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP3N6">
       <X>60</X>
       <Y>445</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player3" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP4N6">
       <X>1260</X>
       <Y>92</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player4"><A>0.6</A></Color>
+      <Color Name="Player4">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player4" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP4N6">
       <X>695</X>
       <Y>105</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player4" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP5N6">
       <X>1260</X>
       <Y>262</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player5"><A>0.6</A></Color>
+      <Color Name="Player5">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player5" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP5N6">
       <X>695</X>
       <Y>275</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player5" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextScoreP6N6">
       <X>1260</X>
       <Y>432</Y>
       <Z>-1</Z>
       <H>50</H>
       <MaxW>0</MaxW>
-      <Color Name="Player6"><A>0.6</A></Color>
+      <Color Name="Player6">
+        <A>0.6</A>
+      </Color>
       <SelColor Name="Player6" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
     <Text Name="TextNameP6N6">
       <X>695</X>
       <Y>445</Y>
       <Z>-1</Z>
       <H>28</H>
       <MaxW>450</MaxW>
-      <Color>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.4</A>
-      </Color>
+      <Color Name="TextNameColor" />
       <SelColor Name="Player6" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text />
-    </Text>
+      <Text /></Text>
   </Texts>
   <Buttons>
     <Button Name="ButtonCancel">
@@ -1655,7 +1436,7 @@
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor"/>
-      <ProcessedColor Name="Player2"/>
+      <ProcessedColor Name="LyricProcessedColorDuet"/>
     </Lyric>
     <Lyric Name="LyricSubDuet">
       <Rect>

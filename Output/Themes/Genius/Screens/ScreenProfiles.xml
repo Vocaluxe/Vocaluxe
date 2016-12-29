@@ -14,7 +14,7 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="Static1">
+    <Static Name="StaticMenuBar">
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
@@ -38,13 +38,13 @@
     </Static>
   </Statics>
   <Texts>
-    <Text Name="Text1">
+    <Text Name="TextTitle">
       <X>640</X>
       <Y>50</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -52,13 +52,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPROFILES_PROFILES</Text>
     </Text>
-    <Text Name="Text2">
+    <Text Name="TextPlayerName">
       <X>75</X>
       <Y>287</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -66,13 +66,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPROFILES_PLAYERNAME</Text>
     </Text>
-    <Text Name="Text3">
+    <Text Name="TextGameDifficulty">
       <X>75</X>
       <Y>347</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -80,13 +80,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPROFILES_GAMEDIFFICULTY</Text>
     </Text>
-    <Text Name="Text4">
+    <Text Name="TextAvatar">
       <X>75</X>
       <Y>407</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -94,13 +94,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPROFILES_AVATAR</Text>
     </Text>
-    <Text Name="Text5">
+    <Text Name="TextUserrole">
       <X>75</X>
       <Y>467</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -108,13 +108,13 @@
       <Font>Outline</Font>
       <Text>TR_SCREENPROFILES_USERROLE</Text>
     </Text>
-    <Text Name="Text6">
+    <Text Name="TextActive">
       <X>75</X>
       <Y>527</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColorAlpha" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -134,8 +134,8 @@
         <H>50</H>
         <Z>0</Z>
       </Rect>
-      <Color Name="ButtonColor" />
-      <SelColor Name="ButtonSelColor" />
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
       <Text Name="Text">
         <X>355</X>
         <Y>10</Y>
@@ -451,7 +451,7 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
@@ -493,7 +493,7 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
@@ -535,7 +535,7 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>

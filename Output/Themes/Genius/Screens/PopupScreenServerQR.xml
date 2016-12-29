@@ -6,7 +6,7 @@
   </Informations>
   <Backgrounds />
   <Statics>
-    <Static Name="Static1">
+    <Static Name="StaticBG">
       <Skin />
       <Color >
         <R>0</R>
@@ -41,7 +41,7 @@
       <Z>-2</Z>
       <H>35</H>
       <MaxW>300</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -55,7 +55,7 @@
       <Z>-2</Z>
       <H>35</H>
       <MaxW>300</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -69,7 +69,7 @@
       <Z>-2</Z>
       <H>45</H>
       <MaxW>600</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>

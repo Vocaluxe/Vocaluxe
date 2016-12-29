@@ -2,10 +2,10 @@
 <root>
   <SkinSystemVersion>4</SkinSystemVersion>
   <Info>
-    <Name>Standard</Name>
+    <Name>Crimson Red</Name>
     <Author>Jiiniasu</Author>
     <VersionMajor>0</VersionMajor>
-    <VersionMinor>6</VersionMinor>
+    <VersionMinor>7</VersionMinor>
   </Info>
   <Colors>
     <Player1>
@@ -50,22 +50,22 @@
       <B>0.000</B>
       <A>1.000</A>
     </BackgroundColor>
-	<BackgroundColorAlpha>
+    <BackgroundColorAlpha>
       <R>0.000</R>
       <G>0.000</G>
       <B>0.000</B>
       <A>0.500</A>
     </BackgroundColorAlpha>
     <StaticColor>
-      <R>0.980</R>
-      <G>0.980</G>
-      <B>0.980</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>1.000</A>
     </StaticColor>
     <StaticColorAlpha>
-      <R>0.980</R>
-      <G>0.980</G>
-      <B>0.980</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>0.500</A>
     </StaticColorAlpha>
     <StaticWarningColor>
@@ -75,69 +75,75 @@
       <A>0.600</A>
     </StaticWarningColor>
     <ButtonColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>0.300</A>
     </ButtonColor>
     <ButtonSelColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>1.000</A>
     </ButtonSelColor>
     <ButtonTextColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
-      <A>0.500</A>
+      <R>0.988</R>
+      <G>0.682</G>
+      <B>0.733</B>
+      <A>0.600</A>
     </ButtonTextColor>
     <ButtonTextSelColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.988</R>
+      <G>0.682</G>
+      <B>0.733</B>
       <A>1.000</A>
     </ButtonTextSelColor>
     <SelectSlideColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>0.500</A>
     </SelectSlideColor>
     <SelectSlideColorAlpha>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>0.500</A>
     </SelectSlideColorAlpha>
     <SelectSlideSelColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>1.000</A>
     </SelectSlideSelColor>
     <ArrowColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>0.300</A>
     </ArrowColor>
     <ArrowSelColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>1.000</A>
     </ArrowSelColor>
     <TextColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
-      <A>0.500</A>
+      <R>0.988</R>
+      <G>0.682</G>
+      <B>0.733</B>
+      <A>1.000</A>
     </TextColor>
+    <TextColorAlpha>
+      <R>0.988</R>
+      <G>0.682</G>
+      <B>0.733</B>
+      <A>0.600</A>
+    </TextColorAlpha>
     <TextSelColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
+      <R>0.988</R>
+      <G>0.682</G>
+      <B>0.733</B>
       <A>1.000</A>
     </TextSelColor>
     <TextWarningColor>
@@ -171,11 +177,17 @@
       <A>0.000</A>
     </Invisible>
     <LyricProcessedColor>
+      <R>0.882</R>
+      <G>0.149</G>
+      <B>0.110</B>
+      <A>1.000</A>
+    </LyricProcessedColor>
+    <LyricProcessedColorDuet>
       <R>0.000</R>
       <G>0.580</G>
       <B>0.792</B>
       <A>1.000</A>
-    </LyricProcessedColor>
+    </LyricProcessedColorDuet>
     <LyricMainColor>
       <R>1.000</R>
       <G>1.000</G>
@@ -186,14 +198,20 @@
       <R>0.600</R>
       <G>0.600</G>
       <B>0.600</B>
-      <A>0.400</A>
+      <A>0.500</A>
     </LyricSubColor>
     <LyricHelper>
+      <R>0.882</R>
+      <G>0.149</G>
+      <B>0.110</B>
+      <A>0.500</A>
+    </LyricHelper>
+    <LyricHelperDuet>
       <R>0.000</R>
       <G>0.580</G>
       <B>0.792</B>
       <A>0.500</A>
-    </LyricHelper>
+    </LyricHelperDuet>
     <TimeBar>
       <R>0.950</R>
       <G>0.950</G>
@@ -201,11 +219,35 @@
       <A>0.500</A>
     </TimeBar>
     <TimeBarSentence>
-      <R>0.950</R>
-      <G>0.950</G>
-      <B>0.950</B>
+      <R>0.690</R>
+      <G>0.203</G>
+      <B>0.302</B>
       <A>0.850</A>
     </TimeBarSentence>
+    <TimePointerColor>
+      <R>0.988</R>
+      <G>0.682</G>
+      <B>0.733</B>
+      <A>0.850</A>
+    </TimePointerColor>
+    <EmptyTileColor>
+      <R>0.678</R>
+      <G>0.110</G>
+      <B>0.259</B>
+      <A>0.200</A>
+    </EmptyTileColor>
+    <StaticAvatarColor>
+      <R>1.000</R>
+      <G>1.000</G>
+      <B>1.000</B>
+      <A>0.500</A>
+    </StaticAvatarColor>
+    <TextNameColor>
+      <R>0.988</R>
+      <G>0.682</G>
+      <B>0.733</B>
+      <A>0.500</A>
+    </TextNameColor>
   </Colors>
   <Skins>
     <BG_Default>BG_Default.png</BG_Default>
@@ -266,6 +308,7 @@
     <SongSelectButton>SongSelectButton.png</SongSelectButton>
     <Warning>Warning.png</Warning>
     <PlayerSelBG>PlayerSelBG.png</PlayerSelBG>
+    <CalibrationBG>CalibrationBG.png</CalibrationBG>
   </Skins>
   <Videos>
     <BG_Video>BG_Video.mp4</BG_Video>

@@ -11,10 +11,10 @@
       <Video />
       <Skin />
       <Color>
-		<R>0</R>
-		<G>0</G>
-		<B>0</B>
-		<A>1</A>
+        <R>0</R>
+        <G>0</G>
+        <B>0</B>
+        <A>1</A>
       </Color>
     </Background>
   </Backgrounds>
