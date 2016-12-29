@@ -1,4 +1,4 @@
-<!-- Download Section -->
+<!-- Contribute Section -->
     <section id="{{ page.section-type }}">
 		<div class="container">
 			<div class="row">
@@ -7,7 +7,7 @@
 			{% for contribute in site.data.contribute %}
 				<div class="col-md-4" style="text-align:center">
 					<h2>{{ contribute.title }}</h2>
-					<span class="contribute-icon glyphicon glyphicon-{{ contribute.icon }}" aria-hidden="true" style="font-size:50px"></span>
+					<span class="contribute-icon fa fa-{{ contribute.icon }}" aria-hidden="true"></span>
 					<p>{{ contribute.description }}</p>
 					<p><a class="btn" href="{{ contribute.url }}">{{ contribute.url_text }}</a></p>
 				</div>
@@ -15,4 +15,4 @@
 			</div>
 		</div>
     </section>
-<!-- Download Section End -->
+<!-- Contribute Section End -->

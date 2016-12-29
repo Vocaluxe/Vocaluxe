@@ -1,0 +1,21 @@
+[{
+	"title": "Forum",
+	"icon": "question-circle",
+	"description": "A big german community with a section about vocaluxe. The devs are acitve there and could help with (nearly) every problem.",
+	"url_text": "Ask your questions!",
+	"url": "http://forum.ultra-star.de"
+},
+{
+	"title": "Wiki",
+	"icon": "book",
+	"description": "You can find some nice and helpful articles in our GitHub-wiki. Feel free to improve it, if something is missing.",
+	"url_text": "Start some reading...",
+	"url": "https://github.com/Vocaluxe/Vocaluxe/wiki"
+},
+{
+	"title": "Facebook",
+	"icon": "facebook-square",
+	"description": "Follow us on facebook to get all news about vocaluxe - And if there are questions, just ask!",
+	"url_text": "Give us a like!",
+	"url": "https://www.facebook.com/Vocaluxe"
+}]

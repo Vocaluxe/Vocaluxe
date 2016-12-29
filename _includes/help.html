@@ -3,10 +3,15 @@
 		<div class="container">
 			<div class="row">
 			<h1 class="title">{{ page.title }}</h1>
-			<h2 class="subtitle">{{ page.subtitle }}</h2>
-				<p>
-					{{ page.content | markdownify }}
-				</p>
+			<p style="text-align:center">{{ page.content | markdonify }}</p>
+			{% for help in site.data.help %}
+				<div class="col-md-4" style="text-align:center">
+					<h2>{{ help.title }}</h2>
+					<span class="contribute-icon fa fa-{{ help.icon }}" aria-hidden="true"></span>
+					<p>{{ help.description }}</p>
+					<p><a class="btn" href="{{ help.url }}">{{ help.url_text }}</a></p>
+				</div>
+			{% endfor %}
 			</div>
 		</div>
     </section>

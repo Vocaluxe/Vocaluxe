@@ -1,20 +1,20 @@
 [{
 	"title": "Fork and code",
-	"icon": "random",
+	"icon": "code-fork",
 	"description": "We're happy about every new feature that someone brings to vocaluxe. So why don't you just start coding?",
 	"url_text": "HowTo build on windows",
 	"url": "https://github.com/Vocaluxe/Vocaluxe/wiki/HowTo:-Build-Vocaluxe-(Windows)"
 },
 {
 	"title": "Translate",
-	"icon": "pencil",
+	"icon": "globe",
 	"description": "Want to help by translating vocaluxe into you native language? Or want to improve an existing one?",
 	"url_text": "Start here",
 	"url": "https://www.transifex.com/darkice/vocaluxe/"
 },
 {
 	"title": "Find bugs",
-	"icon": "flash",
+	"icon": "bug",
 	"description": "Help us to keep vocaluxe stable. If you find a bug, just open an issue in our GitHub issue tracker.",
 	"url_text": "Open an issue",
 	"url": "https://github.com/Vocaluxe/Vocaluxe/issues"
