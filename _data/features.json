@@ -1,36 +1,41 @@
 [{
-	"title": "Multi language support",
-	"image": "translations.png",
-	"description": "Vocaluxe supports many different languages - If your language isn't avaialable just start translating it!"
-},
-{
 	"title": "Party modes",
 	"image": "partymode.png",
-	"description": "Singing some challenging rounds against your friends or in teams on a big party - Vocaluxe offers several party modes"
+	"description": "Find the best singer by going head to head in challenge mode, or battle for control of the board in Tic-Tac-Toe - Vocaluxe offers several party modes"
 },
 {
-	"title": "Medleys and duets",
+	"title": "Medleys",
 	"image": "medley.png",
-	"description": ""
+	"description": "Tired of stumbling through the verse when all you know is the chorus? Try medley mode! Ideal for large groups of players and those songs that you only know from the radio."
+},
+{
+	"title": "Duets",
+	"image": "",
+	"description": "Sing real duets, with different notes for each player. Players can select which part they want to sing, independent of the microphone they are assigned to."
 },
 {
 	"title": "Profiles",
 	"image": "player.png",
-	"description": ""
+	"description": "Tired of re-entering the same names again and again? Create player profiles with pictures, so you'll always know at a glance who's supposed to be singing, and your high-score lists will always be correct."
 },
 {
-	"title": "Webcam and WiiMote",
+	"title": "Webcam and Wiimote",
 	"image": "",
-	"description": ""
+	"description": "Use your webcam to take pictures for the player profiles. Control Vocaluxe from the couch with your Wiimote."
 },
 {
 	"title": "Smartphone control",
 	"image": "smartphone.png",
-	"description": ""
+	"description": "Control Vocaluxe from the web browser on your smart phone or tablet. Add new player profiles for late arrivals or browse the song list to find out what you want to sing next."
 },
 {
 	"title": "Songs",
 	"image": "songs.png",
-	"description": ""
+	"description": "Vocaluxe can play any song in the widely used UltraStar format. Choose from thousands of songs available online."
+},
+{
+	"title": "Multi-language support",
+	"image": "translations.png",
+	"description": "Vocaluxe supports many different languages - If your language isn't available just start translating it!"
 }
 ]
