@@ -15,10 +15,10 @@
 		<div class="container">
 			<div class="row">
 			<h1 class="title">{{ page.title }}</h1>
-			<p>We provide portable versions of Vocaluxe for every release. If you want to try our stable release, you could also use our installer. Linux user need to compile Vocaluxe themself. It should work somehow but is a lot of work. You could read more about it in <a href="https://github.com/Vocaluxe/Vocaluxe/blob/develop/HowToBuildLinux.md">this HowTo</a>. If you're looking for some older versions, check out our releases on <a href="">GitHub</a> and <a href="">Sourceforge</a>.</p>
+			<p>We provide portable versions of Vocaluxe for every release. If you want to try our stable release, you could also use our installer. If you're on Linux, you need to <a href="https://github.com/Vocaluxe/Vocaluxe/blob/develop/HowToBuildLinux.md">compile Vocaluxe yourself</a> (for advanced users). If you're looking for some older versions, check out our releases on <a href="">GitHub</a> and <a href="">Sourceforge</a>.</p>
 			<div class="col-md-4">
 				<h2>Nightly</h2>
-				<p>A version with all the newest development changes. Bugs will most likly occur.</p>
+				<p>A version with all the newest development changes. Likely to contain bugs, so use with caution.</p>
 				{% if release_nightly != nil %}
 				<p>Latest update: {{ release_nightly.created_at | date: "%Y-%m-%d" }}</p>
 				<p>Read our release notes on <a href="{{ release_nightly.html_url }}">GitHub</a>.</p>
