@@ -62,7 +62,8 @@ web-app-mode: True
 # Blog #
 ########
 
-post-preview-words: 250
+post-preview-words: 80
+big-post-preview-words: 200
 
 paginate: 5
 
@@ -131,9 +132,9 @@ pages_list:
   News: 'news'
   Download: 'download'
   About: 'about'  
-  Songs: 'songs'
   Help: 'help'
   Contribute: 'contribute'
+  Songs: 'songs'
 
 # Exclusion list from the generated _site
 

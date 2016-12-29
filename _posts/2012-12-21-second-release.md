@@ -2,9 +2,9 @@
 layout: post
 section-type: post
 title: Second version released!
-category: release
 tags: [ 'release', '0.2' ]
 author: "flokuep"
+image: release-02.png
 ---
 Dear Vocaluxe fans,
  

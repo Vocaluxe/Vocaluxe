@@ -2,9 +2,9 @@
 layout: post
 section-type: post
 title: First final release!
-category: release
 tags: [ 'release', '0.1' ]
 author: "flokuep"
+image: release-01.png
 ---
 
 Dear Vocaluxe fans,

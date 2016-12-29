@@ -10,7 +10,8 @@
 				<div class="col-md-8">
 					<h2><a href="{{site.baseurl}}{{ post_1.url }}">{{post_1.title}} </a></h2>
 					<p>Published on {{ post_1.date | date: "%Y-%m-%d"}} by {{ post_1.author }}</p>
-					{{ post_1.content | truncatewords: site.post-preview-words | markdownify }}
+					<img src="{{site.baseurl}}/img/posts/{{ post_1.image }}" class="img-responsive" />
+					{{ post_1.content | truncatewords: site.big-post-preview-words | markdownify }}
 				</div>
 				{% endif %}
 				<div class="col-md-4">

@@ -15,6 +15,7 @@
 			<div class="row">
 			<h1 class="title">{{page.title}}</h1>
 			<h4>Published on {{ page.date | date: "%Y-%m-%d"}} by {{ page.author }}</h4>
+			<img src="{{site.baseurl}}/img/posts/{{ page.image }}" class="img-responsive" />
 			{{ page.content | markdownify }}
 			</div>
 		</div>
