@@ -3,7 +3,7 @@
 		<div class="container">
 			<div class="row">
 			<h1 class="title">{{ page.title }}</h1>
-			<p style="text-align:center">{{ page.content | markdonify }}</p>
+			<p style="text-align:center">{{ page.content | markdownify }}</p>
 			{% for contribute in site.data.contribute %}
 				<div class="col-md-4" style="text-align:center">
 					<h2>{{ contribute.title }}</h2>
