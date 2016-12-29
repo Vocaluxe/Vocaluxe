@@ -1,0 +1,14 @@
+[{
+	"title": "Download",
+	"icon": "music",
+	"description": "More than 18.000 songs: From real classics to brand-new.",
+	"url_text": "usdb.animux.de",
+	"url": "http://usdb.animux.de"
+},
+{
+	"title": "Create your own",
+	"icon": "file-text-o",
+	"description": "Your favourite song isn't available? Just try to make your own songs for vocaluxe.",
+	"url_text": "Tutorial",
+	"url": "http://www.ultraguide.net/songcreation.php"
+}]
