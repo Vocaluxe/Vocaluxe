@@ -121,25 +121,20 @@ namespace VocaluxeLib.Menu.SingNotes
             ThemeLoaded &= xmlReader.GetValue(item + "/SkinToneHelper", out _Theme.SkinToneHelper, String.Empty);
             ThemeLoaded &= xmlReader.GetValue(item + "/SkinPerfectNoteStar", out _Theme.SkinPerfectNoteStart, String.Empty);
 
-            int i = 0;
             _BarPos = new SRectF[CBase.Settings.GetMaxNumScreens(), CBase.Settings.GetMaxNumPlayer(), CBase.Settings.GetMaxNumPlayer()];
             for (int numplayer = 0; numplayer < CBase.Settings.GetMaxNumPlayer(); numplayer++)
             {
-                for (int screen = 0; screen < CBase.Settings.GetMaxNumScreens(); screen++)
+                for (int player = 0; player <= numplayer; player++)
                 {
-                    for (int player = 0; player <= numplayer; player++)
-                    {
-                        _BarPos[screen, player, numplayer] = new SRectF();
-                        string target = "/BarPositions/S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
-                        ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "X", ref _BarPos[screen, player, numplayer].X);
-                        ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Y", ref _BarPos[screen, player, numplayer].Y);
-                        ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref _BarPos[screen, player, numplayer].Z);
-                        ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref _BarPos[screen, player, numplayer].W);
-                        ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref _BarPos[screen, player, numplayer].H);
-                        _Theme.BarPos[i].Name = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
-                        _Theme.BarPos[i].Rect = _BarPos[screen, player, numplayer];
-                        i++;
-                    }
+                    _BarPos[0, player, numplayer] = new SRectF();
+                    string target = "/BarPositions/P" + (player + 1) + "N" + (numplayer + 1);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "X", ref _BarPos[0, player, numplayer].X);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Y", ref _BarPos[0, player, numplayer].Y);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "Z", ref _BarPos[0, player, numplayer].Z);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "W", ref _BarPos[0, player, numplayer].W);
+                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + target + "H", ref _BarPos[0, player, numplayer].H);
+                    _Theme.BarPos[player].Name = "P" + (player + 1) + "N" + (numplayer + 1);
+                    _Theme.BarPos[player].Rect = _BarPos[0, player, numplayer];
                 }
             }
 
@@ -221,11 +216,13 @@ namespace VocaluxeLib.Menu.SingNotes
             Z = _Theme.BarPos.Select(bp => bp.Rect.Z).Average();
             foreach (SBarPosition bp in _Theme.BarPos)
             {
-                int p = Int32.Parse(bp.Name.Substring(3, 1)) - 1;
-                int s = Int32.Parse(bp.Name.Substring(1, 1)) - 1;
-                int n = Int32.Parse(bp.Name.Substring(5, 1)) - 1;
-
-                _BarPos[s, p, n] = bp.Rect;
+                int n = Int32.Parse(bp.Name.Substring(3, 1)) - 1;
+                int p = Int32.Parse(bp.Name.Substring(1, 1)) - 1;
+                for (int s = 0; s < CBase.Settings.GetMaxNumScreens(); s++)
+                {
+                    _BarPos[s, p, n] = bp.Rect;
+                    _BarPos[s, p, n].X += s * CBase.Settings.GetRenderW();
+                }
             }
         }
 

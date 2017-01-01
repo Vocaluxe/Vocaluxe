@@ -38,7 +38,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 8; }
+            get { return 7; }
         }
 
         private struct STimeRect
@@ -155,6 +155,8 @@ namespace Vocaluxe.Screens
                     _StaticPauseBG
                 };
             _BuildStaticStrings(ref statics);
+            _CreatePlayerStatics();
+            _CreatePlayerStrings();
             _AssignPlayerElements();
             _ThemeStatics = statics.ToArray();
 
@@ -387,6 +389,9 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
+
+            _InitiatePlayerStatics();
+            _InitiatePlayerStrings();
 
             _FadeOut = false;
 
@@ -817,6 +822,29 @@ namespace Vocaluxe.Screens
         {
             _TextScores = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
             _TextNames = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+
+            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            {
+                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                {
+                    if (player <= numplayer)
+                    {
+                        string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                        for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+                        {
+                            _TextScores[screen, player, numplayer] = "TextScoreS" + (screen + 1) + target;
+                            _TextNames[screen, player, numplayer] = "TextNameS" + (screen + 1) + target;
+                        }
+                        texts.Add("TextScore" + target);
+                        texts.Add("TextName" + target);
+
+                    }
+                }
+            }
+        }
+
+        private void _CreatePlayerStrings()
+        {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
                 for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
@@ -825,12 +853,33 @@ namespace Vocaluxe.Screens
                     {
                         if (player <= numplayer)
                         {
-                            string target = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
-                            _TextScores[screen, player, numplayer] = "TextScore" + target;
-                            _TextNames[screen, player, numplayer] = "TextName" + target;
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddText(GetNewText(), "TextScoreS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
+                            _AddText(GetNewText(), "TextNameS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
+                        }
+                    }
+                }
+            }
+        }
 
-                            texts.Add(_TextScores[screen, player, numplayer]);
-                            texts.Add(_TextNames[screen, player, numplayer]);
+        private void _InitiatePlayerStrings()
+        {
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                {
+                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    {
+                        if (player <= numplayer)
+                        {
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _Texts["TextNameS" + (screen + 1) + target] = GetNewText(_Texts["TextName" + target]);
+                            _Texts["TextNameS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+                            _Texts["TextName" + target].Visible = false;
+
+                            _Texts["TextScoreS" + (screen + 1) + target] = GetNewText(_Texts["TextScore" + target]);
+                            _Texts["TextScoreS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+                            _Texts["TextScore" + target].Visible = false;
                         }
                     }
                 }
@@ -842,6 +891,29 @@ namespace Vocaluxe.Screens
             _StaticScores = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
             _StaticAvatars = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
 
+
+            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            {
+                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                {
+                    if (player <= numplayer)
+                    {
+                        string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                        for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+                        {
+                            _StaticScores[screen, player, numplayer] = "StaticScoreS" + (screen + 1) + target;
+                            _StaticAvatars[screen, player, numplayer] = "StaticAvatarS" + (screen + 1) + target;
+                        }
+                        statics.Add("StaticScore" + target);
+                        statics.Add("StaticAvatar" + target);
+
+                    }
+                }
+            }
+        }
+
+        private void _CreatePlayerStatics()
+        {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
                 for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
@@ -850,12 +922,33 @@ namespace Vocaluxe.Screens
                     {
                         if (player <= numplayer)
                         {
-                            string target = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
-                            _StaticScores[screen, player, numplayer] = "StaticScore" + target;
-                            _StaticAvatars[screen, player, numplayer] = "StaticAvatar" + target;
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddStatic(GetNewStatic(), "StaticScoreS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
+                            _AddStatic(GetNewStatic(), "StaticAvatarS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
+                        }
+                    }
+                }
+            }
+        }
 
-                            statics.Add(_StaticScores[screen, player, numplayer]);
-                            statics.Add(_StaticAvatars[screen, player, numplayer]);
+        private void _InitiatePlayerStatics()
+        {
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                {
+                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    {
+                        if (player <= numplayer)
+                        {
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _Statics["StaticAvatarS" + (screen + 1) + target] = GetNewStatic(_Statics["StaticAvatar" + target]);
+                            _Statics["StaticAvatarS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+                            _Statics["StaticAvatar" + target].Visible = false;
+
+                            _Statics["StaticScoreS" + (screen + 1) + target] = GetNewStatic(_Statics["StaticScore" + target]);
+                            _Statics["StaticScoreS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+                            _Statics["StaticScore" + target].Visible = false;
                         }
                     }
                 }
@@ -882,11 +975,11 @@ namespace Vocaluxe.Screens
             //Everything Static or Text with Extra should be only visible
             //If Player-Number matches CGame.NumPlayers
             foreach (CStatic st in _Statics)
-                if (st.GetThemeName().StartsWith("StaticExtra"))
+                if (st.GetThemeName() != null && st.GetThemeName().StartsWith("StaticExtra"))
                     staticsExtra.Add(st.GetThemeName());
 
             foreach (CText tx in _Texts)
-                if (tx.GetThemeName().StartsWith("TextExtra"))
+                if (tx.GetThemeName() != null && tx.GetThemeName().StartsWith("TextExtra"))
                     textsExtra.Add(tx.GetThemeName());
 
             string curN = "N" + (CGame.NumPlayers);
