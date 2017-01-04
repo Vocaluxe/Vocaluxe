@@ -26,8 +26,6 @@
 					{% for asset in release_nightly.assets %}
 					<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
 					{% endfor %}
-					<a class="btn" href="{{ release_nightly.zipball_url }}">Source code (zip)</a>
-					<a class="btn" href="{{ release_nightly.tarball_url }}">Source code (tar.gz)</a>
 				</span>
 				{% else %}
 					<p>There isn't any nightly release yet.</p>
@@ -43,8 +41,6 @@
 					{% for asset in release_pre.assets %}
 					<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
 					{% endfor %}
-					<a class="btn" href="{{ release_pre.zipball_url }}">Source code (zip)</a>
-					<a class="btn" href="{{ release_pre.tarball_url }}">Source code (tar.gz)</a>
 				</span>
 				{% else %}
 					<p>There isn't any pre release yet.</p>
@@ -60,8 +56,6 @@
 					{% for asset in release_stable.assets %}
 						<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
 					{% endfor %}
-					<a class="btn" href="{{ release_stable.zipball_url }}">Source code (zip)</a>
-					<a class="btn" href="{{ release_stable.tarball_url }}">Source code (tar.gz)</a>
 				</span>	
 				{% else %}
 					<p>There isn't any stable release yet.</p>
