@@ -1,11 +1,11 @@
 <!-- Contribute Section -->
-    <section id="{{ page.section-type }}">
+    <section id="{{ page.section-type }}" class="content-section">
 		<div class="container">
 			<div class="row">
 			<h1 class="title">{{ page.title }}</h1>
-			<p style="text-align:center">{{ page.content | markdownify }}</p>
+			{{ page.content | markdownify }}
 			{% for contribute in site.data.contribute %}
-				<div class="col-md-4" style="text-align:center">
+				<div class="col-md-4">
 					<h2>{{ contribute.title }}</h2>
 					<span class="contribute-icon fa fa-{{ contribute.icon }}" aria-hidden="true"></span>
 					<p>{{ contribute.description }}</p>

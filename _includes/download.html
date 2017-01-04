@@ -11,7 +11,7 @@
 	{% elsif release_stable == nil or release.created_at > release_stable.created_at %}
 	{% endif %}
 {% endfor %}
-    <section id="{{ page.section-type }}">
+    <section id="{{ page.section-type }}" class="content-section">
 		<div class="container">
 			<div class="row">
 			<h1 class="title">{{ page.title }}</h1>
@@ -20,13 +20,15 @@
 				<h2>Nightly</h2>
 				<p>A version with all the newest development changes. Likely to contain bugs, so use with caution.</p>
 				{% if release_nightly != nil %}
-				<p>Latest update: {{ release_nightly.created_at | date: "%Y-%m-%d" }}</p>
-				<p>Read our release notes on <a href="{{ release_nightly.html_url }}">GitHub</a>.</p>
+				<span class="release-details">
+					<p>Latest update: {{ release_nightly.created_at | date: "%Y-%m-%d" }}</p>
+					<p>Read our release notes on <a href="{{ release_nightly.html_url }}">GitHub</a>.</p>
 					{% for asset in release_nightly.assets %}
-						<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
+					<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
 					{% endfor %}
 					<a class="btn" href="{{ release_nightly.zipball_url }}">Source code (zip)</a>
 					<a class="btn" href="{{ release_nightly.tarball_url }}">Source code (tar.gz)</a>
+				</span>
 				{% else %}
 					<p>There isn't any nightly release yet.</p>
 				{% endif %}
@@ -35,13 +37,15 @@
 				<h2>Pre Release</h2>
 				<p>Should be almost stable, but you might experience some bugs here.</p>
 				{% if release_pre != nil %}
+				<span class="release-details">
 					<p>Latest version: {{release_pre.name}} ({{ release_pre.created_at | date: "%Y-%m-%d" }})</p>
 					<p>Read our release notes on <a href="{{ release_pre.html_url }}">GitHub</a>.</p>
 					{% for asset in release_pre.assets %}
-						<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
+					<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
 					{% endfor %}
 					<a class="btn" href="{{ release_pre.zipball_url }}">Source code (zip)</a>
 					<a class="btn" href="{{ release_pre.tarball_url }}">Source code (tar.gz)</a>
+				</span>
 				{% else %}
 					<p>There isn't any pre release yet.</p>
 				{% endif %}
@@ -50,6 +54,7 @@
 				<h2>Stable Release</h2>
 				<p>The latest release.</p>
 				{% if release_stable != nil %}
+				<span class="release-details">
 					<p>Latest version: {{release_stable.name}} ({{ release_stable.created_at | date: "%Y-%m-%d" }})</p>
 					<p>Read our release notes on <a href="{{ release_stable.html_url }}">GitHub</a>.</p>
 					{% for asset in release_stable.assets %}
@@ -57,6 +62,7 @@
 					{% endfor %}
 					<a class="btn" href="{{ release_stable.zipball_url }}">Source code (zip)</a>
 					<a class="btn" href="{{ release_stable.tarball_url }}">Source code (tar.gz)</a>
+				</span>	
 				{% else %}
 					<p>There isn't any stable release yet.</p>
 				{% endif %}

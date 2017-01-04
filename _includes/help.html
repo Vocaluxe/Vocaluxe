@@ -1,11 +1,11 @@
 <!-- Help Section -->
-    <section id="{{ page.section-type }}">
+    <section id="{{ page.section-type }}" class="content-section">
 		<div class="container">
 			<div class="row">
 			<h1 class="title">{{ page.title }}</h1>
 			<p style="text-align:center">{{ page.content | markdownify }}</p>
 			{% for help in site.data.help %}
-				<div class="col-md-4" style="text-align:center">
+				<div class="col-md-4">
 					<h2>{{ help.title }}</h2>
 					<span class="contribute-icon fa fa-{{ help.icon }}" aria-hidden="true"></span>
 					<p>{{ help.description }}</p>

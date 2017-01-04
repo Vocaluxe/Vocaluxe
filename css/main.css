@@ -333,3 +333,11 @@ a:hover {
 	margin-top: 15px;
 	margin-bottom: 15px;
 }
+
+.content-section {
+	text-align:center;
+}
+
+.release-details {
+	text-align:left;
+}

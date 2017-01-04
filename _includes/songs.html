@@ -1,11 +1,11 @@
 <!-- Songs Section -->
-    <section id="{{ page.section-type }}">
+    <section id="{{ page.section-type }}" class="content-section">
 		<div class="container">
 			<div class="row">
 			<h1 class="title">{{ page.title }}</h1>
-			<p style="text-align:center">{{ page.content | markdownify }}</p>
+			{{ page.content | markdownify }}
 			{% for song in site.data.songs %}
-				<div class="col-md-6" style="text-align:center">
+				<div class="col-md-6">
 					<h2>{{ song.title }}</h2>
 					<span class="contribute-icon fa fa-{{ song.icon }}" aria-hidden="true"></span>
 					<p>{{ song.description }}</p>
