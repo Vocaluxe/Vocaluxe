@@ -19,14 +19,19 @@
 	"description": "Tired of re-entering the same names again and again? Create player profiles with pictures, so you'll always know at a glance who's supposed to be singing, and your high-score lists will always be correct."
 },
 {
-	"title": "Webcam and Wiimote",
-	"image": "",
-	"description": "Use your webcam to take pictures for the player profiles. Control Vocaluxe from the couch with your Wiimote."
+	"title": "Webcam",
+	"image": "webcam.png",
+	"description": "See yourself singing is even more funny - Vocaluxe supports webcams. Use it also to take pictures for the player profiles."
+},
+{
+	"title": "GamePad and WiiMote",
+	"image": "controller.png",
+	"description": "Besides keyboard and mouse Vocaluxe has build-in support for GamePads and WiiMote"
 },
 {
 	"title": "Smartphone control",
 	"image": "smartphone.png",
-	"description": "Control Vocaluxe from the web browser on your smart phone or tablet. Add new player profiles for late arrivals or browse the song list to find out what you want to sing next."
+	"description": "With the optional smartphone control you can remote control Vocaluxe or just take funny pictures of your singing friends. Add new player profiles for late arrivals or browse the song list to find out what you want to sing next."
 },
 {
 	"title": "Songs",
