@@ -8,7 +8,7 @@ For easier working this website and don't mess around with all other branches, w
 2. Rename remote: `git remote rename origin upstream`
 3. Add your forked Vocaluxe repository as remote: `git remote add origin https://github.com/USERNAME/Vocaluxe.git`
 4. Push `gh-pages` to your repository: `git push origin gh-pages`
-5. Checkout your `gh-pages` branch: `git checkout origin/gh-pages`
+5. Checkout your `gh-pages` branch: `git checkout origin/gh-pages -B gh-pages`
 
 Your now able to make some changes, create commits and open pull-request. When pulling or pushing some changes, we recommend to specify your branch. Otherwise you would download the whole Vocaluxe project and waste some space. `git pull origin gh-pages` for pulling your own changes.
 
