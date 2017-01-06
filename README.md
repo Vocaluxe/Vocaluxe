@@ -1,5 +1,5 @@
 # VocaluxeWebsite
-This branch contains our GitHub-Page. It's accessible via https://vocaluxe.github.io and based on Jekyll, a popular static site generator.
+This branch contains our GitHub-Page. It's accessible via https://vocaluxe.github.io/Vocaluxe/ and based on Jekyll, a popular static site generator.
 
 ##Working on this website
 For easier working this website and don't mess around with all other branches, we suggest to clone this as a single-branch. Just follow these steps:
