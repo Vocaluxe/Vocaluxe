@@ -10,7 +10,7 @@ For easier working this website and don't mess around with all other branches, w
 4. Push `gh-pages` to your repository: `git push origin gh-pages`
 5. Checkout your `gh-pages` branch: `git checkout origin/gh-pages`
 
-Your now able to make some changes, create commits and open pull-request. When pulling or pushing some changes, we recommend to specify your pull. Otherwise you would download the whole Vocaluxe project and waste some space. `git pull origin gh-pages` for pulling your own changes.
+Your now able to make some changes, create commits and open pull-request. When pulling or pushing some changes, we recommend to specify your branch. Otherwise you would download the whole Vocaluxe project and waste some space. `git pull origin gh-pages` for pulling your own changes.
 
 ##Opening issues and pull requests
 We're happy when you have some ideas or find bugs on our website. Please add the `website`-label when opening a new issue or pull request.
