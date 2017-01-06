@@ -4,9 +4,9 @@ This branch contains our GitHub-Page. It's accessible via https://vocaluxe.githu
 ##Working on this website
 For easier working this website and don't mess around with all other branches, we suggest to clone this as a single-branch. Just follow these steps:
 
-1. Clone only `gh-pages` branch: `git clone git@github.com:Vocaluxe/Vocaluxe.git -b gh-pages --single-branch VocaluxeWeb`
+1. Clone only `gh-pages` branch: `git clone https://github.com/Vocaluxe/Vocaluxe.git -b gh-pages --single-branch VocaluxeWeb`
 2. Rename remote: `git remote rename origin upstream`
-3. Add your forked Vocaluxe repository as remote: `git remote add origin git@github.com:USERNAME/Vocaluxe.git`
+3. Add your forked Vocaluxe repository as remote: `git remote add origin https://github.com/USERNAME/Vocaluxe.git`
 4. Push `gh-pages` to your repository: `git push origin gh-pages`
 5. Checkout your `gh-pages` branch: `git checkout origin/gh-pages`
 
