@@ -234,22 +234,26 @@ namespace VocaluxeLib.Menu.SingNotes
             if (factor <= 0)
                 return;
 
-            float dh = (1f - factor) * rect.H / 2;
-            float dw = Math.Min(dh, rect.W / 2);
+            //Width-related variables rounded and then floored to prevent 1px gaps in notes
+            rect.X = (float)Math.Round(rect.X);
+            rect.W = (float)Math.Round(rect.W);
+
+            int dh = (int)((1f - factor) * rect.H / 2);
+            int dw = (int)Math.Min(dh, rect.W / 2);
 
             var noteRect = new SRectF(rect.X + dw, rect.Y + dh, rect.W - 2 * dw, rect.H - 2 * dh, rect.Z);
 
             //Width of each of the ends (round parts)
             //Need 2 of them so use minimum
-            float endsW = Math.Min(noteRect.H * noteBegin.OrigAspect, noteRect.W / 2);
+            int endsW = (int)Math.Min(noteRect.H * noteBegin.OrigAspect, noteRect.W / 2);
 
             CBase.Drawing.DrawTexture(noteBegin, new SRectF(noteRect.X, noteRect.Y, endsW, noteRect.H, noteRect.Z), color);
 
-            var middleRect = new SRectF(noteRect.X + endsW, noteRect.Y, noteRect.W - 2 * endsW, noteRect.H, noteRect.Z);
+            SRectF middleRect = new SRectF(noteRect.X + endsW, noteRect.Y, noteRect.W - 2 * endsW, noteRect.H, noteRect.Z);
 
-            float midW = (float)Math.Round(noteRect.H * noteMiddle.OrigAspect);
+            int midW = (int)Math.Round(noteRect.H * noteMiddle.OrigAspect);
 
-            int midCount = (int)Math.Floor(middleRect.W / midW);
+            int midCount = (int)middleRect.W / midW;
 
             for (int i = 0; i < midCount; ++i)
             {
@@ -258,14 +262,9 @@ namespace VocaluxeLib.Menu.SingNotes
 
             SRectF lastMidRect = new SRectF(middleRect.X + midCount * midW, noteRect.Y, middleRect.W - (midCount * midW), noteRect.H, noteRect.Z);
 
-            //gapAdjust fixes 1px empty gap appearing with certain note lengths.
-            float gapAdjust = 0f;
-            if (lastMidRect.W < 1)
-                gapAdjust = lastMidRect.W;
-
             CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X + (midCount * midW), middleRect.Y, midW, middleRect.H, middleRect.Z), color, lastMidRect);
 
-            CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW - gapAdjust, noteRect.Y, endsW, noteRect.H, noteRect.Z), color);
+            CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW, noteRect.Y, endsW, noteRect.H, noteRect.Z), color);
         }
 
         private void _DrawNoteBase(SRectF rect, SColorF color, float factor)
