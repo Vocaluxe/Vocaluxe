@@ -91,6 +91,8 @@ namespace Vocaluxe.Screens
         private string[] _PlayerTextName;
         private string[] _PlayerStaticScore;
         private string[] _PlayerStaticAvatar;
+        private List<string>[] _StaticsExtra;
+        private List<string>[] _TextsExtra;
 
         private bool _DynamicLyricsTop;
         private bool _DynamicLyricsBottom;
@@ -392,6 +394,10 @@ namespace Vocaluxe.Screens
 
             _InitiatePlayerStatics();
             _InitiatePlayerStrings();
+            if (_StaticsExtra == null)
+                _CreateExtraStatics();
+            if (_TextsExtra == null)
+                _CreateExtraTexts();
 
             _FadeOut = false;
 
@@ -873,13 +879,13 @@ namespace Vocaluxe.Screens
                         if (player <= numplayer)
                         {
                             string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _Texts["TextName" + target].Visible = false;
                             _Texts["TextNameS" + (screen + 1) + target] = GetNewText(_Texts["TextName" + target]);
                             _Texts["TextNameS" + (screen + 1) + target].X += screen * CSettings.RenderW;
-                            _Texts["TextName" + target].Visible = false;
 
+                            _Texts["TextScore" + target].Visible = false;
                             _Texts["TextScoreS" + (screen + 1) + target] = GetNewText(_Texts["TextScore" + target]);
                             _Texts["TextScoreS" + (screen + 1) + target].X += screen * CSettings.RenderW;
-                            _Texts["TextScore" + target].Visible = false;
                         }
                     }
                 }
@@ -890,7 +896,6 @@ namespace Vocaluxe.Screens
         {
             _StaticScores = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
             _StaticAvatars = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
-
 
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
@@ -942,16 +947,78 @@ namespace Vocaluxe.Screens
                         if (player <= numplayer)
                         {
                             string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _Statics["StaticAvatar" + target].Visible = false;
                             _Statics["StaticAvatarS" + (screen + 1) + target] = GetNewStatic(_Statics["StaticAvatar" + target]);
                             _Statics["StaticAvatarS" + (screen + 1) + target].X += screen * CSettings.RenderW;
-                            _Statics["StaticAvatar" + target].Visible = false;
 
+                            _Statics["StaticScore" + target].Visible = false;
                             _Statics["StaticScoreS" + (screen + 1) + target] = GetNewStatic(_Statics["StaticScore" + target]);
                             _Statics["StaticScoreS" + (screen + 1) + target].X += screen * CSettings.RenderW;
-                            _Statics["StaticScore" + target].Visible = false;
                         }
                     }
                 }
+            }
+        }
+
+        private void _CreateExtraStatics()
+        {
+            _StaticsExtra = new List<string>[CSettings.MaxNumScreens];
+
+            List<string> extraStatics = new List<string>();
+
+            foreach (CStatic se in _Statics)
+            {
+                if (se.GetThemeName() != null && se.GetThemeName().StartsWith("StaticExtra"))
+                {
+                    extraStatics.Add(se.GetThemeName());
+                    _Statics[se.GetThemeName()].Visible = false;
+                }
+            }
+
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                _StaticsExtra[screen] = new List<string>();
+                foreach (string es in extraStatics)
+                {
+                    string name = "S" + (screen + 1) + es;
+                    _AddStatic(GetNewStatic(), name);
+                    _Statics[name] = GetNewStatic(_Statics[es]);
+                    _Statics[name].X += screen * CSettings.RenderW;
+                    _Statics[name].AllMonitors = false;
+                    _StaticsExtra[screen].Add(name);
+                }
+
+            }
+        }
+
+        private void _CreateExtraTexts()
+        {
+            _TextsExtra = new List<string>[CSettings.MaxNumScreens];
+
+            List<string> extraTexts = new List<string>();
+
+            foreach (CText te in _Texts)
+            {
+                if (te.GetThemeName() != null && te.GetThemeName().StartsWith("TextExtra"))
+                {
+                    extraTexts.Add(te.GetThemeName());
+                    _Texts[te.GetThemeName()].Visible = false;
+                }
+            }
+
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                _TextsExtra[screen] = new List<string>();
+                foreach (string et in extraTexts)
+                {
+                    string name = "S" + (screen + 1) + et;
+                    _AddText(GetNewText(), name);
+                    _Texts[name] = GetNewText(_Texts[et]);
+                    _Texts[name].X += screen * CSettings.RenderW;
+                    _Texts[name].AllMonitors = false;
+                    _TextsExtra[screen].Add(name);
+                }
+
             }
         }
 
@@ -969,34 +1036,44 @@ namespace Vocaluxe.Screens
             _Texts[_TextDuetName1].Visible = false;
             _Texts[_TextDuetName2].Visible = false;
 
-            List<string> staticsExtra = new List<string>();
-            List<string> textsExtra = new List<string>();
-
-            //Everything Static or Text with Extra should be only visible
-            //If Player-Number matches CGame.NumPlayers
-            foreach (CStatic st in _Statics)
-                if (st.GetThemeName() != null && st.GetThemeName().StartsWith("StaticExtra"))
-                    staticsExtra.Add(st.GetThemeName());
-
-            foreach (CText tx in _Texts)
-                if (tx.GetThemeName() != null && tx.GetThemeName().StartsWith("TextExtra"))
-                    textsExtra.Add(tx.GetThemeName());
-
-            string curN = "N" + (CGame.NumPlayers);
-            foreach (string st in staticsExtra)
-            {
-                string n = st.Substring(st.Length - 2);
-                _Statics[st].Visible = n == curN;
-            }
-
-            foreach (string tx in textsExtra)
-            {
-                string n = tx.Substring(tx.Length - 2);
-                _Texts[tx].Visible = n == curN;
-            }
+            int screenPlayers = CGame.NumPlayers / CConfig.GetNumScreens();
+            int remainingScreenPlayers = CGame.NumPlayers - (screenPlayers * CConfig.GetNumScreens());
 
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
+                int currentScreenPlayers = screenPlayers;
+
+                if (remainingScreenPlayers > 0)
+                {
+                    currentScreenPlayers++;
+                    remainingScreenPlayers--;
+                }
+
+                string curN = "N" + currentScreenPlayers;
+                string curS = "S" + (screen + 1);
+
+                foreach (string se in _StaticsExtra[screen])
+                {
+                    string n = se.Substring(se.Length - 2);
+                    string s = se.Substring(0, 2);
+                    //Make StaticExtra elements with matching player number and active screen visible 
+                    if (n == curN && s == curS && screen < CConfig.GetNumScreens())
+                        _Statics[se].Visible = true;
+                    else
+                        _Statics[se].Visible = false;
+                }
+
+                foreach (string te in _TextsExtra[screen])
+                {
+                    string n = te.Substring(te.Length - 2);
+                    string s = te.Substring(0, 2);
+                    //Make TextExtra elements with matching player number and active screen visible 
+                    if (n == curN && s == curS && screen < CConfig.GetNumScreens())
+                        _Texts[te].Visible = true;
+                    else
+                        _Texts[te].Visible = false;
+                }
+
                 for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
                 {
                     for (int player = 0; player < CSettings.MaxNumPlayer && player <= numplayer; player++)
