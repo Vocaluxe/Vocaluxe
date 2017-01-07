@@ -748,7 +748,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextTime">
       <X>1214</X>
       <Y>697</Y>
@@ -761,7 +762,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextPause">
       <X>640</X>
       <Y>170</Y>
@@ -788,7 +790,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextDuetName2">
       <X>40</X>
       <Y>585</Y>
@@ -801,7 +804,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextMedleyCountdown">
       <X>640</X>
       <Y>20</Y>
@@ -814,7 +818,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP1N1">
       <X>1240</X>
       <Y>355</Y>
@@ -829,7 +834,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP1N1">
       <X>110</X>
       <Y>513</Y>
@@ -847,7 +853,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP1N2">
       <X>1240</X>
       <Y>155</Y>
@@ -862,7 +869,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP1N2">
       <X>110</X>
       <Y>288</Y>
@@ -880,7 +888,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP2N2">
       <X>1240</X>
       <Y>355</Y>
@@ -895,7 +904,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP2N2">
       <X>110</X>
       <Y>488</Y>
@@ -913,7 +923,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP1N3">
       <X>1240</X>
       <Y>106</Y>
@@ -928,7 +939,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP1N3">
       <X>110</X>
       <Y>219</Y>
@@ -946,7 +958,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP2N3">
       <X>1240</X>
       <Y>269</Y>
@@ -961,7 +974,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP2N3">
       <X>110</X>
       <Y>382</Y>
@@ -979,7 +993,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP3N3">
       <X>1240</X>
       <Y>437</Y>
@@ -994,7 +1009,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP3N3">
       <X>110</X>
       <Y>550</Y>
@@ -1012,7 +1028,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP1N4">
       <X>324</X>
       <Y>155</Y>
@@ -1027,7 +1044,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP1N4">
       <X>110</X>
       <Y>288</Y>
@@ -1045,7 +1063,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP2N4">
       <X>324</X>
       <Y>355</Y>
@@ -1060,7 +1079,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP2N4">
       <X>110</X>
       <Y>488</Y>
@@ -1078,7 +1098,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP3N4">
       <X>967</X>
       <Y>155</Y>
@@ -1093,7 +1114,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP3N4">
       <X>1173</X>
       <Y>288</Y>
@@ -1111,7 +1133,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP4N4">
       <X>967</X>
       <Y>355</Y>
@@ -1126,7 +1149,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP4N4">
       <X>1173</X>
       <Y>488</Y>
@@ -1144,7 +1168,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP1N5">
       <X>324</X>
       <Y>106</Y>
@@ -1159,7 +1184,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP1N5">
       <X>110</X>
       <Y>219</Y>
@@ -1177,7 +1203,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP2N5">
       <X>324</X>
       <Y>269</Y>
@@ -1192,7 +1219,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP2N5">
       <X>110</X>
       <Y>382</Y>
@@ -1210,7 +1238,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP3N5">
       <X>324</X>
       <Y>437</Y>
@@ -1225,7 +1254,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP3N5">
       <X>110</X>
       <Y>550</Y>
@@ -1243,7 +1273,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP4N5">
       <X>967</X>
       <Y>155</Y>
@@ -1258,7 +1289,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP4N5">
       <X>1173</X>
       <Y>288</Y>
@@ -1276,7 +1308,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP5N5">
       <X>967</X>
       <Y>355</Y>
@@ -1291,7 +1324,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP5N5">
       <X>1173</X>
       <Y>488</Y>
@@ -1309,7 +1343,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP1N6">
       <X>324</X>
       <Y>106</Y>
@@ -1324,7 +1359,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP1N6">
       <X>110</X>
       <Y>219</Y>
@@ -1342,7 +1378,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP2N6">
       <X>324</X>
       <Y>269</Y>
@@ -1357,7 +1394,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP2N6">
       <X>110</X>
       <Y>382</Y>
@@ -1375,7 +1413,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP3N6">
       <X>324</X>
       <Y>437</Y>
@@ -1390,7 +1429,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP3N6">
       <X>110</X>
       <Y>550</Y>
@@ -1408,7 +1448,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP4N6">
       <X>967</X>
       <Y>106</Y>
@@ -1423,7 +1464,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP4N6">
       <X>1173</X>
       <Y>219</Y>
@@ -1441,7 +1483,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP5N6">
       <X>967</X>
       <Y>269</Y>
@@ -1456,7 +1499,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP5N6">
       <X>1173</X>
       <Y>382</Y>
@@ -1474,7 +1518,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextScoreP6N6">
       <X>967</X>
       <Y>437</Y>
@@ -1489,7 +1534,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Normal</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
     <Text Name="TextNameP6N6">
       <X>1173</X>
       <Y>550</Y>
@@ -1507,7 +1553,8 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text /></Text>
+      <Text />
+    </Text>
   </Texts>
   <Buttons>
     <Button Name="ButtonCancel">
