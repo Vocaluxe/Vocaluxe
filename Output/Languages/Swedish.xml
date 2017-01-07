@@ -11,7 +11,7 @@
   <string name="TR_DEBUG_VIDEO_STREAMS">Videoströmmar</string>
   <string name="TR_DEBUG_TEXTURES">Texturer</string>
   <string name="TR_DEBUG_TONE_ABS">ToneAbs</string>
-  <string name="TR_DEBUG_MAX_VOLUME">Max Volym</string>
+  <string name="TR_DEBUG_MAX_VOLUME">Maxvolym</string>
   <string name="TR_DEBUG_SONGS">Laddade låtar</string>
   <string name="TR_DEBUG_MOUSE">Mus</string>
   <string name="TR_DEBUG_MEMORY">Minnesanvändning</string>
@@ -79,8 +79,8 @@
   <string name="TR_CONFIG_NO_OWN_MUSIC">Ingen egen musik</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Endast egen musik</string>
   <string name="TR_CONFIG_ONLY_SONG">Endast vald låt</string>
-  <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Alla</string>
-  <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Endast namn och avatarer</string>
+  <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Allt</string>
+  <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Endast namn och profilbilder</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Ingenting</string>
   <string name="TR_CONFIG_LYRICSTYLE_FILL">Fyll</string>
   <string name="TR_CONFIG_LYRICSTYLE_JUMP">Hoppa</string>
@@ -165,9 +165,9 @@
   <string name="TR_SCREENPROFILES_ACTIVE">Aktiv</string>
   <string name="TR_SCREENPROFILES_BUTTON_NEW">Ny</string>
   <string name="TR_SCREENPROFILES_BUTTON_DELETE">Radera</string>
-  <string name="TR_SCREENPROFILES_BUTTON_TAKESNAPSHOT">Ta ögonblicksbild</string>
-  <string name="TR_SCREENPROFILES_BUTTON_SAVESNAPSHOT">Spara ögonblicksbild</string>
-  <string name="TR_SCREENPROFILES_BUTTON_DISCARDSNAPSHOT">Radera ögonblicksbild</string>
+  <string name="TR_SCREENPROFILES_BUTTON_TAKESNAPSHOT">Ta bild</string>
+  <string name="TR_SCREENPROFILES_BUTTON_SAVESNAPSHOT">Spara bild</string>
+  <string name="TR_SCREENPROFILES_BUTTON_DISCARDSNAPSHOT">Radera bild</string>
   <string name="TR_SCREENPROFILES_BUTTON_WEBCAM">Webbkamera</string>
   <string name="TR_SCREENO_OPTIONS">Alternativ</string>
   <string name="TR_SCREENO_BUTTON_GAME">Spel</string>
@@ -185,7 +185,7 @@
   <string name="TR_SCREENOGAME_TABS">Flikar</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Spelets svårighetsgrad</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Timerläge</string>
-  <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Topplistestil</string>
+  <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Topplistsvy</string>
   <string name="TR_SCREENORECORD_OPTIONS">Inspelningsalternativ</string>
   <string name="TR_SCREENORECORD_DEVICE">Enhet</string>
   <string name="TR_SCREENORECORD_INPUT">Ingång</string>
@@ -204,6 +204,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Källa för bakgrundsmusik</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Volym på förhandsvisning</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Volym på musik under spel</string>
+  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Karaokeeffekt</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Temaalternativ</string>
   <string name="TR_SCREENOTHEME_THEME">Tema</string>
   <string name="TR_SCREENOTHEME_SKIN">Skal</string>

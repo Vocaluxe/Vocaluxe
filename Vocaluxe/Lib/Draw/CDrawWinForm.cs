@@ -303,7 +303,7 @@ namespace Vocaluxe.Lib.Draw
 
         public void MakeScreenShot()
         {
-            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.bmp");
+            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.png");
 
             _Backbuffer.Save(file, ImageFormat.Png);
         }
