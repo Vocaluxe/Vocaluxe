@@ -73,11 +73,11 @@
   </Statics>
   <Texts>
     <Text Name="TextPlayer1">
-      <X>1070</X>
+      <X>950</X>
       <Y>65</Y>
       <Z>-2.11</Z>
       <H>42</H>
-      <MaxW>350</MaxW>
+      <MaxW>280</MaxW>
       <Color Name="Player1" />
       <SelColor Name="Player1" />
       <Align>Left</Align>
@@ -87,11 +87,11 @@
       <Text />
     </Text>
     <Text Name="TextPlayer2">
-      <X>1070</X>
+      <X>950</X>
       <Y>135</Y>
       <Z>-2.11</Z>
       <H>42</H>
-      <MaxW>350</MaxW>
+      <MaxW>280</MaxW>
       <Color Name="Player2" />
       <SelColor Name="Player2" />
       <Align>Left</Align>
@@ -101,11 +101,11 @@
       <Text />
     </Text>
     <Text Name="TextPlayer3">
-      <X>1070</X>
+      <X>950</X>
       <Y>205</Y>
       <Z>-2.11</Z>
       <H>42</H>
-      <MaxW>350</MaxW>
+      <MaxW>280</MaxW>
       <Color Name="Player3" />
       <SelColor Name="Player3" />
       <Align>Left</Align>
@@ -115,11 +115,11 @@
       <Text />
     </Text>
     <Text Name="TextPlayer4">
-      <X>1070</X>
+      <X>950</X>
       <Y>275</Y>
       <Z>-2.11</Z>
       <H>42</H>
-      <MaxW>350</MaxW>
+      <MaxW>280</MaxW>
       <Color Name="Player4" />
       <SelColor Name="Player4" />
       <Align>Left</Align>
@@ -129,11 +129,11 @@
       <Text />
     </Text>
     <Text Name="TextPlayer5">
-      <X>1070</X>
+      <X>950</X>
       <Y>345</Y>
       <Z>-2.11</Z>
       <H>42</H>
-      <MaxW>350</MaxW>
+      <MaxW>280</MaxW>
       <Color Name="Player5" />
       <SelColor Name="Player5" />
       <Align>Left</Align>
@@ -143,11 +143,11 @@
       <Text />
     </Text>
     <Text Name="TextPlayer6">
-      <X>1070</X>
+      <X>950</X>
       <Y>415</Y>
       <Z>-2.11</Z>
       <H>42</H>
-      <MaxW>350</MaxW>
+      <MaxW>280</MaxW>
       <Color Name="Player6" />
       <SelColor Name="Player6" />
       <Align>Left</Align>
@@ -244,7 +244,7 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>850</X>
         <Y>50</Y>
         <W>80</W>
         <H>80</H>
@@ -273,7 +273,7 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>850</X>
         <Y>120</Y>
         <W>80</W>
         <H>80</H>
@@ -302,7 +302,7 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>850</X>
         <Y>190</Y>
         <W>80</W>
         <H>80</H>
@@ -331,7 +331,7 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>850</X>
         <Y>260</Y>
         <W>80</W>
         <H>80</H>
@@ -360,7 +360,7 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>850</X>
         <Y>330</Y>
         <W>80</W>
         <H>80</H>
@@ -389,7 +389,7 @@
       <Skin>Random</Skin>
       <SkinSelected>Random</SkinSelected>
       <Rect>
-        <X>980</X>
+        <X>850</X>
         <Y>400</Y>
         <W>80</W>
         <H>80</H>
@@ -661,7 +661,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>985</X>
+        <X>960</X>
         <Y>500</Y>
         <W>150</W>
         <H>50</H>
@@ -848,7 +848,7 @@
         </StaticTextBG>
         <StaticDuetIcon Name="StaticDuetIcon">
           <Skin>DuetIcon</Skin>
-          <Color Name="TextColor" />
+          <Color Name="StaticColor" />
           <Rect>
             <X>200</X>
             <Y>530</Y>
@@ -859,7 +859,7 @@
         </StaticDuetIcon>
         <StaticVideoIcon Name="StaticVideoIcon">
           <Skin>VideoIcon</Skin>
-          <Color Name="TextColor" />
+          <Color Name="StaticColor" />
           <Rect>
             <X>120</X>
             <Y>530</Y>
