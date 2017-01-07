@@ -15,21 +15,21 @@
   </Backgrounds>
   <Statics>
     <Static Name="Static1">
-      <Skin />
-      <Color Name="BackgroundColorAlpha" />
+      <Skin>Menu</Skin>
+      <Color Name="StaticColor" />
       <Rect>
-        <X>0</X>
+        <X>40</X>
         <Y>40</Y>
-        <W>1280</W>
-        <H>45</H>
-        <Z>1</Z>
+        <W>1200</W>
+        <H>50</H>
+        <Z>0</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="Text1">
       <X>640</X>
-      <Y>50</Y>
+      <Y>48</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
@@ -206,7 +206,7 @@
       <Skin>Plus</Skin>
       <SkinSelected>Plus</SkinSelected>
       <Rect>
-        <X>1180</X>
+        <X>1210</X>
         <Y>210</Y>
         <W>40</W>
         <H>40</H>
@@ -233,7 +233,7 @@
       <Skin>Minus</Skin>
       <SkinSelected>Minus</SkinSelected>
       <Rect>
-        <X>1130</X>
+        <X>1160</X>
         <Y>210</Y>
         <W>40</W>
         <H>40</H>
@@ -270,7 +270,7 @@
       <Rect>
         <X>40</X>
         <Y>100</Y>
-        <W>1055</W>
+        <W>1100</W>
         <H>50</H>
         <Z>0</Z>
       </Rect>
@@ -312,7 +312,7 @@
       <Rect>
         <X>40</X>
         <Y>160</Y>
-        <W>1055</W>
+        <W>1100</W>
         <H>150</H>
         <Z>0</Z>
       </Rect>
@@ -349,7 +349,7 @@
   <NameSelections>
     <NameSelection Name="NameSelection">
       <Rect>
-        <X>41</X>
+        <X>42</X>
         <Y>327</Y>
         <W>1200</W>
         <H>393</H>
@@ -368,7 +368,7 @@
         <H>100</H>
         <NumW>10</NumW>
         <NumH>2</NumH>
-        <SpaceW>22</SpaceW>
+        <SpaceW>20.71</SpaceW>
         <SpaceH>30</SpaceH>
         <Name>
           <Space>2</Space>

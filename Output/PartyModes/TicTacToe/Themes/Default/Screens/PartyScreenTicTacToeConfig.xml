@@ -15,21 +15,21 @@
   </Backgrounds>
   <Statics>
     <Static Name="Static1">
-      <Skin />
-      <Color Name="BackgroundColorAlpha" />
+      <Skin>Menu</Skin>
+      <Color Name="StaticColor" />
       <Rect>
-        <X>0</X>
+        <X>40</X>
         <Y>40</Y>
-        <W>1280</W>
-        <H>45</H>
-        <Z>1</Z>
+        <W>1200</W>
+        <H>50</H>
+        <Z>0</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="Text1">
       <X>640</X>
-      <Y>50</Y>
+      <Y>48</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
@@ -181,7 +181,7 @@
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1155</X>
+        <X>1170</X>
         <Y>105</Y>
         <W>40</W>
         <H>40</H>
@@ -223,7 +223,7 @@
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1155</X>
+        <X>1170</X>
         <Y>165</Y>
         <W>40</W>
         <H>40</H>
@@ -265,7 +265,7 @@
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1155</X>
+        <X>1170</X>
         <Y>225</Y>
         <W>40</W>
         <H>40</H>
@@ -307,7 +307,7 @@
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1155</X>
+        <X>1170</X>
         <Y>225</Y>
         <W>40</W>
         <H>40</H>
@@ -349,7 +349,7 @@
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1155</X>
+        <X>1170</X>
         <Y>285</Y>
         <W>40</W>
         <H>40</H>
