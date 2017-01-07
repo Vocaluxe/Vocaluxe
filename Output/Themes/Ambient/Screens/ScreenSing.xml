@@ -1696,7 +1696,7 @@
       <SkinLeft>NoteLeft</SkinLeft>
       <SkinMiddle>NoteMiddle</SkinMiddle>
       <SkinRight>NoteRight</SkinRight>
-	  <SkinFillLeft>NoteFillLeft</SkinFillLeft>
+      <SkinFillLeft>NoteFillLeft</SkinFillLeft>
       <SkinFillMiddle>NoteFillMiddle</SkinFillMiddle>
       <SkinFillRight>NoteFillRight</SkinFillRight>
       <SkinBackgroundLeft>NoteBackgroundLeft</SkinBackgroundLeft>
