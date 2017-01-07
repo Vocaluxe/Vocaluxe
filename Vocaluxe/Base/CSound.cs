@@ -22,6 +22,7 @@ using Vocaluxe.Lib.Sound.Playback.OpenAL;
 using Vocaluxe.Lib.Sound.Playback.PortAudio;
 using VocaluxeLib;
 using System.Threading;
+using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Base
 {
@@ -88,9 +89,9 @@ namespace Vocaluxe.Base
         }
 
         #region Stream Handling
-        public static int Load(string media, bool loop = false, bool prescan = false)
+        public static int Load(string media, bool loop = false, bool prescan = false, EAudioEffect effekt = EAudioEffect.None)
         {
-            return _Playback.Load(media, loop, prescan);
+            return _Playback.Load(media, loop, prescan, effekt);
         }
 
         public static void Close(int stream)

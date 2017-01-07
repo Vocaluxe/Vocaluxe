@@ -44,9 +44,9 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             _Context = null;
         }
 
-        protected override IAudioStream _CreateStream(int id, string media, bool loop)
+        protected override IAudioStream _CreateStream(int id, string media, bool loop, EAudioEffect effect = EAudioEffect.None)
         {
-            return new COpenAlStream(id, media, loop);
+            return new COpenAlStream(id, media, loop, effect);
         }
     }
 }

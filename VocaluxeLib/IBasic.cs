@@ -46,6 +46,8 @@ namespace VocaluxeLib
 
         ESongMenu GetSongMenuType();
 
+        EHighscoreStyle GetHighscoreStyle();
+
         EOffOn GetDrawNoteLines();
         EOffOn GetDrawToneHelper();
 

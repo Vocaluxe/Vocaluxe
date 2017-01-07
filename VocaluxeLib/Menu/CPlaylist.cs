@@ -1087,6 +1087,7 @@ namespace VocaluxeLib.Menu
                     };
                 _PlaylistElementContents.Add(pec);
             }
+            _SetSelectionToFirstEntry();
             _Update();
             return true;
         }

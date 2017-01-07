@@ -161,7 +161,7 @@ namespace Vocaluxe.Lib.Input
                 key = Keys.Space;
             else if (buttonStates.Buttons.A == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.A == OpenTK.Input.ButtonState.Released)
                 key = Keys.Enter;
-            else if (buttonStates.Buttons.X == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.X == OpenTK.Input.ButtonState.Released)
+            else if (buttonStates.Buttons.B == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.B == OpenTK.Input.ButtonState.Released)
                 key = Keys.Escape;
             else if (buttonStates.Buttons.Back == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.Back == OpenTK.Input.ButtonState.Released)
                 key = Keys.Back;

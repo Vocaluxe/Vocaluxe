@@ -618,6 +618,7 @@ namespace VocaluxeLib.Menu
                 _UpdatePlayerSlide();
             }
             _UpdateButtonState();
+            _UpdateNextButtonVisibility();
         }
 
         public void DecreasePlayerNum(int team)
@@ -633,6 +634,7 @@ namespace VocaluxeLib.Menu
                 _UpdatePlayerSlide();
             }
             _UpdateButtonState();
+            _UpdateNextButtonVisibility();
         }
 
         #region private methods
@@ -725,7 +727,7 @@ namespace VocaluxeLib.Menu
         {
             if (_NumPlayerTeams[team] == _TeamList[team].Count && !_ChangePlayerNumDynamic)
                 return;
-            if (_NumPlayerTeams[team] == _PartyMode.MaxPlayersPerTeam)
+            if (_NumPlayerTeams[team] > _PartyMode.MaxPlayersPerTeam)
                 return;
 
             _NameSelections[_NameSelection].UseProfile(profileID);
@@ -774,7 +776,8 @@ namespace VocaluxeLib.Menu
                 for (int p = 0; p < _NumPlayerTeams[t]; p++)
                 {
                     int profileID = _NameSelections[_NameSelection].GetRandomUnusedProfile();
-                    _AddPlayer(t, profileID);
+                    if(profileID >= 0) //only add valid profiles
+                        _AddPlayer(t, profileID);
                 }
             }
         }
