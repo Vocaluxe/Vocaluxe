@@ -194,7 +194,7 @@ namespace VocaluxeLib.Menu.SingNotes
             lineRect.H = 1.5f;
             for (int i = 0; i < CBase.Settings.GetNumNoteLines(); i++)
             {
-                lineRect.Y = Rect.Y + Rect.H / CBase.Settings.GetNumNoteLines() * (i + 1);
+                lineRect.Y = (Rect.Y + Rect.H / CBase.Settings.GetNumNoteLines() * (i + 1)) - (lineRect.H / 2);
                 CBase.Drawing.DrawRect(color, lineRect);
             }
         }
