@@ -30,7 +30,7 @@
                                 {% assign currentReleaseTitle = 'Vocaluxe ' | append: currentReleaseData[1] %}
                                 {% assign currentReleaseOs = currentReleaseData[2] %}
                                 {% assign currentReleaseArch = currentReleaseData[3] %}
-                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
+                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
                             {% endfor %}
                         </span>
                         {% else %}
@@ -50,7 +50,7 @@
                                 {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_pre.name %}
                                 {% assign currentReleaseOs = currentReleaseData[2] %}
                                 {% assign currentReleaseArch = currentReleaseData[3] %}
-                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
+                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
                             {% endfor %}
                         </span>
                         {% else %}
@@ -70,7 +70,7 @@
                                 {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_stable.name %}
                                 {% assign currentReleaseOs = currentReleaseData[2] | downcase %}
                                 {% assign currentReleaseArch = currentReleaseData[3] %}
-                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
+                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
                             {% endfor %}
                         </span>	
                         {% else %}
