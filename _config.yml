@@ -42,9 +42,7 @@ favicon: "/img/vocaluxe_icon.png"
 # Header layout #
 ################
 
-black-favicon: "/img/vocaluxe_icon.png"
-
-#background-img: "../img/Vocaluxe.png"
+faviconPng: "/img/vocaluxe_icon.png"
 
 ##############################
 # Color the browser elements #
@@ -65,61 +63,7 @@ web-app-mode: True
 post-preview-words: 80
 big-post-preview-words: 200
 
-paginate: 5
-
-email-share: True
-fb-share: True
-twitter-share: True
-linkedin-share: True
-reddit-share: True
-google-plus-share: True
-tumblr-share: True
-pinterest-share: True
-pocket-share: True
-vkontakte-share: True
-
-disqus-shortname: ""
-
-syntax-highlight: False
-
-
-################
-# Author Blurb #
-################
-
-# The author blurb goes underneath blog posts.
-# This works best when your author blurb image has a transparent background, or matches your site background color.
-
-# if the author_blurb is not set, then this feature is skipped
-author_blurb: |
-    Vocaluxe is a free and open source singing game inspired by Ultrastar Deluxe and SingStar™.    
-    It allows up to six players to sing along with music using microphones in order to score points.
-author_blurb_image: "/img/Vocaluxe_Icon.png"
-
-##################
-# Social Buttons #
-##################
-
-enableSocial: True
-socialLikeOptions: >
-    {
-        "uri"      : "http://vocaluxe.org/",
-        "services" : {
-            "facebook": {
-                action      : 'like',
-                colorscheme : 'dark'
-            }
-        },
-        "order"    : ["facebook"],
-        "info_link_target": "_blank",
-        perma_option: false
-    }
-
-############
-# 404 page #
-############
-
-404-img: "/img/labtocat.png"
+#paginate: 5
 
 ################################################################################
 
