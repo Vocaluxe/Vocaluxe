@@ -14,65 +14,67 @@
     <section id="{{ page.section-type }}" class="content-section">
 		<div class="container">
 			<div class="row">
-			<h1 class="title">{{ page.title }}</h1>
-			<p>We provide portable versions of Vocaluxe for every release. If you want to try our stable release, you could also use our installer. If you're on Linux, you need to <a href="https://github.com/Vocaluxe/Vocaluxe/blob/develop/HowToBuildLinux.md">compile Vocaluxe yourself</a> (for advanced users). If you're looking for some older versions, check out our releases on <a href="https://github.com/Vocaluxe/Vocaluxe/releases">GitHub</a> and <a href="https://sourceforge.net/projects/vocaluxe/files/?source=directory">Sourceforge</a>.</p>
-			<div class="col-md-4">
-				<h2>Nightly</h2>
-				<p>A version with all the newest development changes. Likely to contain bugs, so use with caution.</p>
-				{% if release_nightly != nil %}
-				<span class="release-details">
-					<p>Latest update: {{ release_nightly.created_at | date: "%Y-%m-%d" }}</p>
-					<p>Read our release notes on <a href="{{ release_nightly.html_url }}">GitHub</a>.</p>
-					{% for asset in release_nightly.assets %}
-                        {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
-                        {% assign currentReleaseTitle = 'Vocaluxe ' | append: currentReleaseData[1] %}
-                        {% assign currentReleaseOs = currentReleaseData[2] %}
-                        {% assign currentReleaseArch = currentReleaseData[3] %}
-                        {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
-					{% endfor %}
-				</span>
-				{% else %}
-					<p>There isn't any nightly release yet.</p>
-				{% endif %}
-			</div>
-			<div class="col-md-4">
-				<h2>Pre Release</h2>
-				<p>Should be almost stable, but you might experience some bugs here.</p>
-				{% if release_pre != nil %}
-				<span class="release-details">
-					<p>Latest version: {{release_pre.name}} ({{ release_pre.created_at | date: "%Y-%m-%d" }})</p>
-					<p>Read our release notes on <a href="{{ release_pre.html_url }}">GitHub</a>.</p>
-					{% for asset in release_pre.assets %}
-                        {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
-                        {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_pre.name %}
-                        {% assign currentReleaseOs = currentReleaseData[2] %}
-                        {% assign currentReleaseArch = currentReleaseData[3] %}
-                        {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
-					{% endfor %}
-				</span>
-				{% else %}
-					<p>There isn't any pre release yet.</p>
-				{% endif %}
-			</div>
-			<div class="col-md-4">
-				<h2>Stable Release</h2>
-				<p>The latest release.</p>
-				{% if release_stable != nil %}
-				<span class="release-details">
-					<p>Latest version: {{release_stable.name}} ({{ release_stable.created_at | date: "%Y-%m-%d" }})</p>
-					<p>Read our release notes on <a href="{{ release_stable.html_url }}">GitHub</a>.</p>
-					{% for asset in release_stable.assets %}
-						{% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
-                        {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_stable.name %}
-                        {% assign currentReleaseOs = currentReleaseData[2] | downcase %}
-                        {% assign currentReleaseArch = currentReleaseData[3] %}
-                        {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
-					{% endfor %}
-				</span>	
-				{% else %}
-					<p>There isn't any stable release yet.</p>
-				{% endif %}
-			</div>
+                <h1 class="title">{{ page.title }}</h1>
+                <p>We provide portable versions of Vocaluxe for every release. If you want to try our stable release, you could also use our installer. If you're on Linux, you need to <a href="https://github.com/Vocaluxe/Vocaluxe/blob/develop/HowToBuildLinux.md">compile Vocaluxe yourself</a> (for advanced users). If you're looking for some older versions, check out our releases on <a href="https://github.com/Vocaluxe/Vocaluxe/releases">GitHub</a> and <a href="https://sourceforge.net/projects/vocaluxe/files/?source=directory">Sourceforge</a>.</p>
+                <div class="release-section">
+                    <div class="col-md-4 flex-box-col">
+                        <h2 class="flex00a">Nightly</h2>
+                        <p class="flex11a">A version with all the newest development changes. Likely to contain bugs, so use with caution.</p>
+                        {% if release_nightly != nil %}
+                        <span class="release-details flex00a">
+                            <p>Latest update: {{ release_nightly.created_at | date: "%Y-%m-%d" }}</p>
+                            <p>Read our release notes on <a href="{{ release_nightly.html_url }}">GitHub</a>.</p>
+                            {% for asset in release_nightly.assets %}
+                                {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                                {% assign currentReleaseTitle = 'Vocaluxe ' | append: currentReleaseData[1] %}
+                                {% assign currentReleaseOs = currentReleaseData[2] %}
+                                {% assign currentReleaseArch = currentReleaseData[3] %}
+                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
+                            {% endfor %}
+                        </span>
+                        {% else %}
+                            <p class="flex11100 no-release-text">There isn't any nightly release yet.</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 flex-box-col">
+                        <h2 class="flex00a">Pre Release</h2>
+                        <p class="flex11a">Should be almost stable, but you might experience some bugs here.</p>
+                        {% if release_pre != nil %}
+                        <span class="release-details flex00a">
+                            <p>Latest version: {{release_pre.name}} ({{ release_pre.created_at | date: "%Y-%m-%d" }})</p>
+                            <p>Read our release notes on <a href="{{ release_pre.html_url }}">GitHub</a>.</p>
+                            {% for asset in release_pre.assets %}
+                                {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                                {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_pre.name %}
+                                {% assign currentReleaseOs = currentReleaseData[2] %}
+                                {% assign currentReleaseArch = currentReleaseData[3] %}
+                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
+                            {% endfor %}
+                        </span>
+                        {% else %}
+                            <p class="flex11100 no-release-text">There isn't any pre release yet.</p>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4 flex-box-col">
+                        <h2 class="flex00a">Stable Release</h2>
+                        <p class="flex11a">The latest release.</p>
+                        {% if release_stable != nil %}
+                        <span class="release-details flex00a">
+                            <p>Latest version: {{release_stable.name}} ({{ release_stable.created_at | date: "%Y-%m-%d" }})</p>
+                            <p>Read our release notes on <a href="{{ release_stable.html_url }}">GitHub</a>.</p>
+                            {% for asset in release_stable.assets %}
+                                {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                                {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_stable.name %}
+                                {% assign currentReleaseOs = currentReleaseData[2] | downcase %}
+                                {% assign currentReleaseArch = currentReleaseData[3] %}
+                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
+                            {% endfor %}
+                        </span>	
+                        {% else %}
+                            <p class="flex11100 no-release-text">There isn't any stable release yet.</p>
+                        {% endif %}
+                    </div>
+                </div>
 			</div>
 		</div>
     </section>
