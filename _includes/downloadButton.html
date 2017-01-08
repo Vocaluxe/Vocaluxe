@@ -1,0 +1,8 @@
+<a href="#" class="btn btn-primary btn-lg btnDownload">
+    {% if include.os == "linux" %}
+    <span class="fa fa-linux btnDownloadIcon" aria-hidden="true"></span>
+    {% else %}
+    <span class="fa fa-windows btnDownloadIcon" aria-hidden="true"></span>
+    {% endif %}
+    <span>{{include.title}} ({{include.arch}})</span>
+</a>    

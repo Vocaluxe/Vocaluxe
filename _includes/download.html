@@ -24,7 +24,11 @@
 					<p>Latest update: {{ release_nightly.created_at | date: "%Y-%m-%d" }}</p>
 					<p>Read our release notes on <a href="{{ release_nightly.html_url }}">GitHub</a>.</p>
 					{% for asset in release_nightly.assets %}
-					<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
+                        {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                        {% assign currentReleaseTitle = 'Vocaluxe ' | append: currentReleaseData[1] %}
+                        {% assign currentReleaseOs = currentReleaseData[2] %}
+                        {% assign currentReleaseArch = currentReleaseData[3] %}
+                        {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
 					{% endfor %}
 				</span>
 				{% else %}
@@ -39,7 +43,11 @@
 					<p>Latest version: {{release_pre.name}} ({{ release_pre.created_at | date: "%Y-%m-%d" }})</p>
 					<p>Read our release notes on <a href="{{ release_pre.html_url }}">GitHub</a>.</p>
 					{% for asset in release_pre.assets %}
-					<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
+                        {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                        {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_pre.name %}
+                        {% assign currentReleaseOs = currentReleaseData[2] %}
+                        {% assign currentReleaseArch = currentReleaseData[3] %}
+                        {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
 					{% endfor %}
 				</span>
 				{% else %}
@@ -54,7 +62,11 @@
 					<p>Latest version: {{release_stable.name}} ({{ release_stable.created_at | date: "%Y-%m-%d" }})</p>
 					<p>Read our release notes on <a href="{{ release_stable.html_url }}">GitHub</a>.</p>
 					{% for asset in release_stable.assets %}
-						<a class="btn" href="{{ asset.browser_download_url }}">{{ asset.name }}</a>
+						{% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                        {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_stable.name %}
+                        {% assign currentReleaseOs = currentReleaseData[2] | downcase %}
+                        {% assign currentReleaseArch = currentReleaseData[3] %}
+                        {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch %}
 					{% endfor %}
 				</span>	
 				{% else %}
