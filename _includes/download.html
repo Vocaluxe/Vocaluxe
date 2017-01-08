@@ -22,8 +22,9 @@
                         <p class="flex11a">A version with all the newest development changes. Likely to contain bugs, so use with caution.</p>
                         {% if release_nightly != nil %}
                         <span class="release-details flex00a">
-                            <p>Latest update: {{ release_nightly.created_at | date: "%Y-%m-%d" }}</p>
-                            <p>Read our release notes on <a href="{{ release_nightly.html_url }}">GitHub</a>.</p>
+                            <p>Latest update: {{ release_nightly.created_at | date: "%Y-%m-%d" }}
+                            <br/>
+                            Read our release notes on <a href="{{ release_nightly.html_url }}">GitHub</a>.</p>
                             {% for asset in release_nightly.assets %}
                                 {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
                                 {% assign currentReleaseTitle = 'Vocaluxe ' | append: currentReleaseData[1] %}
@@ -33,7 +34,7 @@
                             {% endfor %}
                         </span>
                         {% else %}
-                            <p class="flex11100 no-release-text">There isn't any nightly release yet.</p>
+                            <p class="flex11100 no-release-text ">There isn't any nightly release yet.</p>
                         {% endif %}
                     </div>
                     <div class="col-md-4 flex-box-col">
@@ -41,8 +42,9 @@
                         <p class="flex11a">Should be almost stable, but you might experience some bugs here.</p>
                         {% if release_pre != nil %}
                         <span class="release-details flex00a">
-                            <p>Latest version: {{release_pre.name}} ({{ release_pre.created_at | date: "%Y-%m-%d" }})</p>
-                            <p>Read our release notes on <a href="{{ release_pre.html_url }}">GitHub</a>.</p>
+                            <p>Latest version: {{release_pre.name}} ({{ release_pre.created_at | date: "%Y-%m-%d" }})
+                            <br/>
+                            Read our release notes on <a href="{{ release_pre.html_url }}">GitHub</a>.</p>
                             {% for asset in release_pre.assets %}
                                 {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
                                 {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_pre.name %}
@@ -60,8 +62,9 @@
                         <p class="flex11a">The latest release.</p>
                         {% if release_stable != nil %}
                         <span class="release-details flex00a">
-                            <p>Latest version: {{release_stable.name}} ({{ release_stable.created_at | date: "%Y-%m-%d" }})</p>
-                            <p>Read our release notes on <a href="{{ release_stable.html_url }}">GitHub</a>.</p>
+                            <p>Latest version: {{release_stable.name}} ({{ release_stable.created_at | date: "%Y-%m-%d" }})
+                            <br/>
+                            Read our release notes on <a href="{{ release_stable.html_url }}">GitHub</a>.</p>
                             {% for asset in release_stable.assets %}
                                 {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
                                 {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_stable.name %}
