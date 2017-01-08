@@ -1,8 +1,12 @@
 <a href="#" class="btn btn-primary btn-lg btnDownload">
     {% if include.os == "linux" %}
-    <span class="fa fa-linux btnDownloadIcon" aria-hidden="true"></span>
+        <span class="fa fa-linux btnDownloadIcon" aria-hidden="true"></span>
     {% else %}
-    <span class="fa fa-windows btnDownloadIcon" aria-hidden="true"></span>
+        <span class="fa fa-windows btnDownloadIcon" aria-hidden="true"></span>
     {% endif %}
-    <span>{{include.title}} ({{include.arch}})</span>
+    {% if include.arch == "x86" %}
+        <span>{{include.title}} <i class="arch-x86" aria-hidden="true"></i> </span>
+    {% else %}
+        <span>{{include.title}} <i class="arch-x64" aria-hidden="true"></i> </span>
+    {% endif %}    
 </a>    
