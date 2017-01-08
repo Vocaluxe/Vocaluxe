@@ -3,7 +3,7 @@
 
 # NB! Set your site's url, otherwise stuff will break :)
 
-url: "https://flokuep.github.io"
+url: "https://vocaluxe.github.io"
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (https://yourusername.github.io/repository-name)
@@ -12,7 +12,7 @@ url: "https://flokuep.github.io"
 #
 # NB! Without this *nothing* will work, because it's used in every path :)
 
-baseurl: /VocaluxeWebsite
+baseurl: /Vocaluxe
 
 # Google tracking id to track your visitors
 
