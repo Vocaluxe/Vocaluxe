@@ -107,9 +107,17 @@ namespace VocaluxeLib.Menu
         private float _TextH;
         private float _MaxW;
 
+        private bool _Selectable = true;
+
         public bool Selectable
         {
-            get { return Visible; }
+            get { return _Selectable && Visible; }
+            set
+            {
+                _Selectable = value;
+                if (!_Selectable)
+                    Selected = false;
+            }
         }
         public override float X
         {
@@ -257,6 +265,8 @@ namespace VocaluxeLib.Menu
             _Values.AddRange(slide._Values);
             _Selection = slide._Selection;
             _NumVisible = slide._NumVisible;
+
+            _Selectable = slide.Selectable;
 
             DrawTextures = slide.DrawTextures;
             Visible = slide.Visible;
