@@ -176,7 +176,8 @@ namespace Vocaluxe.Base
         public const int MouseMoveDiffMinActive = 3;
         public const int MouseMoveDiffMinInactive = 15;
 
-        public const int MaxNumPlayer = 6;
+        public const int MaxScreenPlayer = 6;
+        public const int MaxNumPlayer = MaxScreenPlayer * MaxNumScreens;
         public const int MaxScore = 10000;
         public const int LinebonusScore = 1000;
         public const int MinScoreForDB = 100;

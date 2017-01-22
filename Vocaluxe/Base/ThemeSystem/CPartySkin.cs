@@ -31,7 +31,7 @@ namespace Vocaluxe.Base.ThemeSystem
             _BaseSkin = CThemes.CurrentThemes[-1].CurrentSkin;
             if (!base.Load())
                 return false;
-            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+            for (int i = 1; i <= CSettings.MaxScreenPlayer; i++)
             {
                 if (!_Data.Colors.ContainsKey("Player" + i))
                     continue;

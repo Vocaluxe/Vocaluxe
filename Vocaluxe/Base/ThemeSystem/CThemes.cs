@@ -211,7 +211,11 @@ namespace Vocaluxe.Base.ThemeSystem
         public static SColorF GetPlayerColor(int playerNr)
         {
             SColorF color;
-            if (!GetColor("Player" + playerNr, -1, out color))
+            while(playerNr > CSettings.MaxScreenPlayer)
+            {
+                playerNr -= CSettings.MaxScreenPlayer;
+            }
+            if (!GetColor("Player" + (playerNr), -1, out color))
                 CLog.LogError("Invalid color requested: Color for player " + playerNr + ". Expect visual problems!", true);
             return color;
         }

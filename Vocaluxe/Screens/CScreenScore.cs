@@ -45,17 +45,25 @@ namespace Vocaluxe.Screens
 
         private CBackground _SlideShowBG;
 
-        private string[,] _TextNames;
-        private string[,] _TextScores;
-        private string[,] _TextRatings;
-        private string[,] _TextDifficulty;
-        private string[,] _StaticPointsBarBG;
-        private string[,] _StaticPointsBar;
-        private string[,] _StaticAvatar;
+        private string[,,] _TextNames;
+        private string[,,] _TextScores;
+        private string[,,] _TextRatings;
+        private string[,,] _TextDifficulty;
+        private string[,,] _StaticPointsBarBG;
+        private string[,,] _StaticPointsBar;
+        private string[,,] _StaticAvatar;
         private double[] _StaticPointsBarDrawnPoints;
         private int _Round;
         private CPoints _Points;
         private Stopwatch _Timer;
+
+        private string[] _PlayerTextName;
+        private string[] _PlayerTextScore;
+        private string[] _PlayerTextRating;
+        private string[] _PlayerTextDifficulty;
+        private string[] _PlayerStaticPointsBarBG;
+        private string[] _PlayerStaticPointsBar;
+        private string[] _PlayerStaticAvatar;
 
         public override EMusicType CurrentMusicType
         {
@@ -66,18 +74,24 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            var texts = new List<string> {_TextSong};
+            var texts = new List<string> { _TextSong };
 
             _BuildTextStrings(ref texts);
+
+            _CreatePlayerStrings();
 
             _ThemeTexts = texts.ToArray();
 
             var statics = new List<string>();
             _BuildStaticStrings(ref statics);
 
+            _CreatePlayerStatics();
+            
+            _AssignPlayerElements();
+
             _ThemeStatics = statics.ToArray();
 
-            _ThemeScreenSettings = new string[] {_ScreenSettingShortScore, _ScreenSettingShortRating, _ScreenSettingShortDifficulty, _ScreenSettingAnimationDirection};
+            _ThemeScreenSettings = new string[] { _ScreenSettingShortScore, _ScreenSettingShortRating, _ScreenSettingShortDifficulty, _ScreenSettingAnimationDirection };
 
             _StaticPointsBarDrawnPoints = new double[CSettings.MaxNumPlayer];
 
@@ -88,7 +102,7 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -130,6 +144,11 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
+
+            _InitiatePlayerStatics();
+            _InitiatePlayerStrings();
+            _AssignPlayerElements();
+
             //-1 --> Show average
             _Round = CGame.NumRounds > 1 ? -1 : 0;
             _Points = CGame.GetPoints();
@@ -171,16 +190,16 @@ namespace Vocaluxe.Screens
                         var direction = (string)_ScreenSettings[_ScreenSettingAnimationDirection].GetValue();
                         if (direction.ToLower() == "vertical")
                         {
-                            _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].W = ((float)_StaticPointsBarDrawnPoints[p]) *
-                                                                                    (_Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].W / CSettings.MaxScore);
+                            _Statics[_PlayerStaticPointsBar[p]].W = ((float)_StaticPointsBarDrawnPoints[p]) *
+                                                                                    (_Statics[_PlayerStaticPointsBarBG[p]].W / CSettings.MaxScore);
                         }
                         else
                         {
-                            _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H = ((float)_StaticPointsBarDrawnPoints[p]) *
-                                                                                    (_Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H / CSettings.MaxScore);
-                            _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].Y = _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H +
-                                                                                    _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].Y -
-                                                                                    _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H;
+                            _Statics[_PlayerStaticPointsBar[p]].H = ((float)_StaticPointsBarDrawnPoints[p]) *
+                                                                                    (_Statics[_PlayerStaticPointsBarBG[p]].H / CSettings.MaxScore);
+                            _Statics[_PlayerStaticPointsBar[p]].Y = _Statics[_PlayerStaticPointsBarBG[p]].H +
+                                                                                    _Statics[_PlayerStaticPointsBarBG[p]].Y -
+                                                                                    _Statics[_PlayerStaticPointsBar[p]].H;
                         }
                     }
                 }
@@ -214,27 +233,83 @@ namespace Vocaluxe.Screens
 
         private void _BuildTextStrings(ref List<string> texts)
         {
-            _TextNames = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _TextScores = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _TextRatings = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _TextDifficulty = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
+            _TextNames = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
+            _TextScores = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
+            _TextRatings = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
+            _TextDifficulty = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
 
-            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
             {
-                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                 {
                     if (player <= numplayer)
                     {
                         string target = "P" + (player + 1) + "N" + (numplayer + 1);
-                        _TextNames[player, numplayer] = "TextName" + target;
-                        _TextScores[player, numplayer] = "TextScore" + target;
-                        _TextRatings[player, numplayer] = "TextRating" + target;
-                        _TextDifficulty[player, numplayer] = "TextDifficulty" + target;
+                        for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+                        {
+                            _TextNames[screen, player, numplayer] = "TextNameS" + (screen + 1) + target;
+                            _TextScores[screen, player, numplayer] = "TextScoreS" + (screen + 1) + target;
+                            _TextRatings[screen, player, numplayer] = "TextRatingS" + (screen + 1) + target;
+                            _TextDifficulty[screen, player, numplayer] = "TextDifficultyS" + (screen + 1) + target;
+                        }
 
-                        texts.Add(_TextNames[player, numplayer]);
-                        texts.Add(_TextScores[player, numplayer]);
-                        texts.Add(_TextRatings[player, numplayer]);
-                        texts.Add(_TextDifficulty[player, numplayer]);
+                        texts.Add("TextNames" + target);
+                        texts.Add("TextScores" + target);
+                        texts.Add("TextRatings" + target);
+                        texts.Add("TextDifficulty" + target);
+                    }
+                }
+            }
+        }
+
+        private void _CreatePlayerStrings()
+        {
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
+                {
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
+                    {
+                        if (player <= numplayer)
+                        {
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddText(GetNewText(), "TextNameS" + (screen + 1) + target);
+                            _AddText(GetNewText(), "TextScoreS" + (screen + 1) + target);
+                            _AddText(GetNewText(), "TextRatingS" + (screen + 1) + target);
+                            _AddText(GetNewText(), "TextDifficultyS" + (screen + 1) + target);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void _InitiatePlayerStrings()
+        {
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
+                {
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
+                    {
+                        if (player <= numplayer)
+                        {
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _Texts["TextName" + target].Visible = false;
+                            _Texts["TextNameS" + (screen + 1) + target] = GetNewText(_Texts["TextName" + target]);
+                            _Texts["TextNameS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+
+                            _Texts["TextScore" + target].Visible = false;
+                            _Texts["TextScoreS" + (screen + 1) + target] = GetNewText(_Texts["TextScore" + target]);
+                            _Texts["TextScoreS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+
+                            _Texts["TextRating" + target].Visible = false;
+                            _Texts["TextRatingS" + (screen + 1) + target] = GetNewText(_Texts["TextRating" + target]);
+                            _Texts["TextRatingS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+
+                            _Texts["TextDifficulty" + target].Visible = false;
+                            _Texts["TextDifficultyS" + (screen + 1) + target] = GetNewText(_Texts["TextDifficulty" + target]);
+                            _Texts["TextDifficultyS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+                        }
                     }
                 }
             }
@@ -242,24 +317,74 @@ namespace Vocaluxe.Screens
 
         private void _BuildStaticStrings(ref List<string> statics)
         {
-            _StaticPointsBar = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _StaticPointsBarBG = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _StaticAvatar = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
+            _StaticPointsBar = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
+            _StaticPointsBarBG = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
+            _StaticAvatar = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
 
-            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
             {
-                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                 {
                     if (player > numplayer)
                         continue;
                     string target = "P" + (player + 1) + "N" + (numplayer + 1);
-                    _StaticPointsBarBG[player, numplayer] = "StaticPointsBarBG" + target;
-                    _StaticPointsBar[player, numplayer] = "StaticPointsBar" + target;
-                    _StaticAvatar[player, numplayer] = "StaticAvatar" + target;
+                    for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+                    {
+                        _StaticPointsBarBG[screen, player, numplayer] = "StaticPointsBarBGS" + (screen + 1) + target;
+                        _StaticPointsBar[screen, player, numplayer] = "StaticPointsBarS" + (screen + 1) + target;
+                        _StaticAvatar[screen, player, numplayer] = "StaticAvatarS" + (screen + 1) + target;
+                    }
+                    statics.Add("StaticPointsBarBG" + target);
+                    statics.Add("StaticPointsBar" + target);
+                    statics.Add("StaticAvatar" + target);
+                }
+            }
+        }
 
-                    statics.Add(_StaticPointsBarBG[player, numplayer]);
-                    statics.Add(_StaticPointsBar[player, numplayer]);
-                    statics.Add(_StaticAvatar[player, numplayer]);
+        private void _CreatePlayerStatics()
+        {
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
+                {
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
+                    {
+                        if (player <= numplayer)
+                        {
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddStatic(GetNewStatic(), "StaticPointsBarBGS" + (screen + 1) + target);
+                            _AddStatic(GetNewStatic(), "StaticPointsBarS" + (screen + 1) + target);
+                            _AddStatic(GetNewStatic(), "StaticAvatarS" + (screen + 1) + target);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void _InitiatePlayerStatics()
+        {
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
+                {
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
+                    {
+                        if (player <= numplayer)
+                        {
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _Statics["StaticPointsBarBG" + target].Visible = false;
+                            _Statics["StaticPointsBarBGS" + (screen + 1) + target] = GetNewStatic(_Statics["StaticPointsBarBG" + target]);
+                            _Statics["StaticPointsBarBGS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+
+                            _Statics["StaticPointsBar" + target].Visible = false;
+                            _Statics["StaticPointsBarS" + (screen + 1) + target] = GetNewStatic(_Statics["StaticPointsBar" + target]);
+                            _Statics["StaticPointsBarS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+
+                            _Statics["StaticAvatar" + target].Visible = false;
+                            _Statics["StaticAvatarS" + (screen + 1) + target] = GetNewStatic(_Statics["StaticAvatar" + target]);
+                            _Statics["StaticAvatarS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+                        }
+                    }
                 }
             }
         }
@@ -305,39 +430,39 @@ namespace Vocaluxe.Screens
                     if (song.Notes.VoiceNames.IsSet(players[p].VoiceNr))
                         name += " (" + song.Notes.VoiceNames[players[p].VoiceNr] + ")";
                 }
-                _Texts[_TextNames[p, CGame.NumPlayers - 1]].Text = name;
+                _Texts[_PlayerTextName[p]].Text = name;
 
                 if (CGame.NumPlayers < (int)_ScreenSettings[_ScreenSettingShortScore].GetValue())
-                    _Texts[_TextScores[p, CGame.NumPlayers - 1]].Text = ((int)Math.Round(players[p].Points)).ToString("0000") + " " + CLanguage.Translate("TR_SCREENSCORE_POINTS");
+                    _Texts[_PlayerTextScore[p]].Text = ((int)Math.Round(players[p].Points)).ToString("0000") + " " + CLanguage.Translate("TR_SCREENSCORE_POINTS");
                 else
-                    _Texts[_TextScores[p, CGame.NumPlayers - 1]].Text = ((int)Math.Round(players[p].Points)).ToString("0000");
+                    _Texts[_PlayerTextScore[p]].Text = ((int)Math.Round(players[p].Points)).ToString("0000");
                 if (CGame.NumPlayers < (int)_ScreenSettings[_ScreenSettingShortDifficulty].GetValue())
                 {
-                    _Texts[_TextDifficulty[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_GAMEDIFFICULTY") + ": " +
+                    _Texts[_PlayerTextDifficulty[p]].Text = CLanguage.Translate("TR_SCREENSCORE_GAMEDIFFICULTY") + ": " +
                                                                             CLanguage.Translate(CProfiles.GetDifficulty(players[p].ProfileID).ToString());
                 }
                 else
-                    _Texts[_TextDifficulty[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate(CProfiles.GetDifficulty(players[p].ProfileID).ToString());
+                    _Texts[_PlayerTextDifficulty[p]].Text = CLanguage.Translate(CProfiles.GetDifficulty(players[p].ProfileID).ToString());
                 if (CGame.NumPlayers < (int)_ScreenSettings[_ScreenSettingShortRating].GetValue())
                 {
-                    _Texts[_TextRatings[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_RATING") + ": " +
+                    _Texts[_PlayerTextRating[p]].Text = CLanguage.Translate("TR_SCREENSCORE_RATING") + ": " +
                                                                          CLanguage.Translate(_GetRating((int)Math.Round(players[p].Points)));
                 }
                 else
-                    _Texts[_TextRatings[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate(_GetRating((int)Math.Round(players[p].Points)));
+                    _Texts[_PlayerTextRating[p]].Text = CLanguage.Translate(_GetRating((int)Math.Round(players[p].Points)));
 
                 _StaticPointsBarDrawnPoints[p] = 0.0;
                 if (pointAnimDirection.ToLower() == "vertical")
-                    _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].W = 0;
+                    _Statics[_PlayerStaticPointsBar[p]].W = 0;
                 else
                 {
-                    _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H = 0;
-                    _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].Y = _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H +
-                                                                            _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].Y -
-                                                                            _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H;
+                    _Statics[_PlayerStaticPointsBar[p]].H = 0;
+                    _Statics[_PlayerStaticPointsBar[p]].Y = _Statics[_PlayerStaticPointsBarBG[p]].H +
+                                                                            _Statics[_PlayerStaticPointsBarBG[p]].Y -
+                                                                            _Statics[_PlayerStaticPointsBar[p]].H;
                 }
                 if (CProfiles.IsProfileIDValid(players[p].ProfileID))
-                    _Statics[_StaticAvatar[p, CGame.NumPlayers - 1]].Texture = CProfiles.GetAvatarTextureFromProfile(players[p].ProfileID);
+                    _Statics[_PlayerStaticAvatar[p]].Texture = CProfiles.GetAvatarTextureFromProfile(players[p].ProfileID);
             }
 
             if (CConfig.Config.Game.ScoreAnimationTime < 1)
@@ -346,16 +471,16 @@ namespace Vocaluxe.Screens
                 {
                     if (pointAnimDirection.ToLower() == "vertical")
                     {
-                        _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].W = ((float)players[p].Points) *
-                                                                                (_Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].W / CSettings.MaxScore);
+                        _Statics[_PlayerStaticPointsBar[p]].W = ((float)players[p].Points) *
+                                                                                (_Statics[_PlayerStaticPointsBarBG[p]].W / CSettings.MaxScore);
                     }
                     else
                     {
-                        _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H = ((float)players[p].Points) *
-                                                                                (_Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H / CSettings.MaxScore);
-                        _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].Y = _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H +
-                                                                                _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].Y -
-                                                                                _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H;
+                        _Statics[_PlayerStaticPointsBar[p]].H = ((float)players[p].Points) *
+                                                                                (_Statics[_PlayerStaticPointsBarBG[p]].H / CSettings.MaxScore);
+                        _Statics[_PlayerStaticPointsBar[p]].Y = _Statics[_PlayerStaticPointsBarBG[p]].H +
+                                                                                _Statics[_PlayerStaticPointsBarBG[p]].Y -
+                                                                                _Statics[_PlayerStaticPointsBar[p]].H;
                     }
                     _StaticPointsBarDrawnPoints[p] = players[p].Points;
                 }
@@ -365,25 +490,116 @@ namespace Vocaluxe.Screens
             _Timer.Start();
         }
 
+        private void _AssignPlayerElements()
+        {
+            _PlayerTextName = new String[CGame.NumPlayers];
+            _PlayerTextScore = new String[CGame.NumPlayers];
+            _PlayerTextRating = new String[CGame.NumPlayers];
+            _PlayerTextDifficulty = new String[CGame.NumPlayers];
+            _PlayerStaticPointsBarBG = new String[CGame.NumPlayers];
+            _PlayerStaticPointsBar = new String[CGame.NumPlayers];
+            _PlayerStaticAvatar = new String[CGame.NumPlayers];
+
+            int screenPlayers = CGame.NumPlayers / CConfig.GetNumScreens();
+            int remainingPlayers = CGame.NumPlayers - (screenPlayers * CConfig.GetNumScreens());
+            int player = 0;
+
+            for (int s = 0; s < CConfig.GetNumScreens(); s++)
+            {
+                for (int p = 0; p < screenPlayers; p++)
+                {
+                    if (remainingPlayers > 0)
+                    {
+                        _PlayerTextName[player] = _TextNames[s, p, screenPlayers];
+                        _PlayerTextScore[player] = _TextScores[s, p, screenPlayers];
+                        _PlayerTextRating[player] = _TextRatings[s, p, screenPlayers];
+                        _PlayerTextDifficulty[player] = _TextDifficulty[s, p, screenPlayers];
+                        _PlayerStaticPointsBarBG[player] = _StaticPointsBarBG[s, p, screenPlayers];
+                        _PlayerStaticPointsBar[player] = _StaticPointsBar[s, p, screenPlayers];
+                        _PlayerStaticAvatar[player++] = _StaticAvatar[s, p, screenPlayers];
+                        if (p == screenPlayers - 1)
+                        {
+                            _PlayerTextName[player] = _TextNames[s, p + 1, screenPlayers];
+                            _PlayerTextScore[player] = _TextScores[s, p + 1, screenPlayers];
+                            _PlayerTextRating[player] = _TextRatings[s, p + 1, screenPlayers];
+                            _PlayerTextDifficulty[player] = _TextDifficulty[s, p + 1, screenPlayers];
+                            _PlayerStaticPointsBarBG[player] = _StaticPointsBarBG[s, p + 1, screenPlayers];
+                            _PlayerStaticPointsBar[player] = _StaticPointsBar[s, p + 1, screenPlayers];
+                            _PlayerStaticAvatar[player++] = _StaticAvatar[s, p + 1, screenPlayers];
+                            remainingPlayers--;
+                        }
+                    }
+                    else
+                    {
+                        _PlayerTextName[player] = _TextNames[s, p, screenPlayers - 1];
+                        _PlayerTextScore[player] = _TextScores[s, p, screenPlayers - 1];
+                        _PlayerTextRating[player] = _TextRatings[s, p, screenPlayers - 1];
+                        _PlayerTextDifficulty[player] = _TextDifficulty[s, p, screenPlayers - 1];
+                        _PlayerStaticPointsBarBG[player] = _StaticPointsBarBG[s, p, screenPlayers - 1];
+                        _PlayerStaticPointsBar[player] = _StaticPointsBar[s, p, screenPlayers - 1];
+                        _PlayerStaticAvatar[player++] = _StaticAvatar[s, p, screenPlayers - 1];
+                    }
+
+                }
+                //Handle when players < screens
+                if (screenPlayers == 0 && remainingPlayers > 0)
+                {
+                    _PlayerTextName[player] = _TextNames[s, 0, 0];
+                    _PlayerTextScore[player] = _TextScores[s, 0, 0];
+                    _PlayerTextRating[player] = _TextRatings[s, 0, 0];
+                    _PlayerTextDifficulty[player] = _TextDifficulty[s, 0, 0];
+                    _PlayerStaticPointsBarBG[player] = _StaticPointsBarBG[s, 0, 0];
+                    _PlayerStaticPointsBar[player] = _StaticPointsBar[s, 0, 0];
+                    _PlayerStaticAvatar[player++] = _StaticAvatar[s, 0, 0];
+                    remainingPlayers--;
+                }
+            }
+        }
+
         private void _SetVisibility()
         {
-            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    if (player <= numplayer)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
-                        _Texts[_TextNames[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Texts[_TextScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Texts[_TextRatings[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Texts[_TextDifficulty[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Statics[_StaticPointsBar[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Statics[_StaticPointsBarBG[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Statics[_StaticAvatar[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
+                        if (player <= numplayer)
+                        {
+                            _Texts[_TextNames[screen, player, numplayer]].AllMonitors = false;
+                            _Texts[_TextScores[screen, player, numplayer]].AllMonitors = false;
+                            _Texts[_TextRatings[screen, player, numplayer]].AllMonitors = false;
+                            _Texts[_TextDifficulty[screen, player, numplayer]].AllMonitors = false;
+                            _Statics[_StaticPointsBar[screen, player, numplayer]].AllMonitors = false;
+                            _Statics[_StaticPointsBarBG[screen, player, numplayer]].AllMonitors = false;
+                            _Statics[_StaticAvatar[screen, player, numplayer]].AllMonitors = false;
 
-                        _Statics[_StaticAvatar[player, numplayer]].Texture = null;
+                            _Texts[_TextNames[screen, player, numplayer]].Visible = false;
+                            _Texts[_TextScores[screen, player, numplayer]].Visible = false;
+                            _Texts[_TextRatings[screen, player, numplayer]].Visible = false;
+                            _Texts[_TextDifficulty[screen, player, numplayer]].Visible = false;
+                            _Statics[_StaticPointsBar[screen, player, numplayer]].Visible = false;
+                            _Statics[_StaticPointsBarBG[screen, player, numplayer]].Visible = false;
+                            _Statics[_StaticAvatar[screen, player, numplayer]].Visible = false;
+
+                            _Statics[_StaticAvatar[screen, player, numplayer]].Texture = null;
+                        }
                     }
                 }
+            }
+            for (int p = 0; p < CGame.NumPlayers; p++)
+            {
+                _Texts[_PlayerTextName[p]].Visible = true;
+                _Texts[_PlayerTextScore[p]].Visible = true;
+                _Texts[_PlayerTextRating[p]].Visible = true;
+                _Texts[_PlayerTextDifficulty[p]].Visible = true;
+                _Statics[_PlayerStaticPointsBarBG[p]].Visible = true;
+                _Statics[_PlayerStaticPointsBar[p]].Visible = true;
+                _Statics[_PlayerStaticAvatar[p]].Visible = true;
+
+                SColorF color = CBase.Themes.GetPlayerColor(p + 1);
+                _Statics[_PlayerStaticPointsBarBG[p]].Color = new SColorF(color.R, color.G, color.B, _Statics[_PlayerStaticPointsBarBG[p]].Color.A);
+                _Statics[_PlayerStaticPointsBar[p]].Color = new SColorF(color.R, color.G, color.B, _Statics[_PlayerStaticPointsBarBG[p]].Color.A);
             }
         }
 

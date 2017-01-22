@@ -415,7 +415,7 @@ namespace Vocaluxe.Base
             if (Config.Game.MinLineBreakTime < 0)
                 Config.Game.MinLineBreakTime = 0.1f;
 
-            if (!Config.Game.NumPlayers.IsInRange(1, CSettings.MaxNumPlayer))
+            if (!Config.Game.NumPlayers.IsInRange(1, (CSettings.MaxScreenPlayer*CConfig.GetNumScreens())))
                 Config.Game.NumPlayers = 2;
             Array.Resize(ref Config.Game.Players, CSettings.MaxNumPlayer);
 
@@ -544,7 +544,7 @@ namespace Vocaluxe.Base
                 case "TimerMode":
                     return "TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode)));
                 case "NumPlayers":
-                    return "NumPlayers: 1.." + CSettings.MaxNumPlayer;
+                    return "NumPlayers: 1 - "+CSettings.MaxNumPlayer+" (Limited by " + CSettings.MaxScreenPlayer + " * NumScreens)";
                 case "Tabs":
                     return "Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 case "LyricsPosition":
@@ -552,7 +552,7 @@ namespace Vocaluxe.Base
                 case "MinLineBreakTime":
                     return "MinLineBreakTime: Value >= 0 in s. Minimum time the text is shown before it is to be sung";
                 case "Players":
-                    return "Default profile for players 1..." + CSettings.MaxNumPlayer + ":";
+                    return "Default profile for players 1 - " + CSettings.MaxNumPlayer + ":";
                 case "VideoDecoder":
                     return "VideoDecoder: " + CHelper.ListStrings(Enum.GetNames(typeof(EVideoDecoder)));
                 case "VideoBackgrounds":
