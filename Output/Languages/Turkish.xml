@@ -124,6 +124,7 @@
   <string name="TR_SCREENSONG_ALLSONGS">Tüm Şarkılar</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v Şarkıları)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Şarkısı)</string>
+  <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSING_PAUSE">Duraklat</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Şarkı söylemeyi durdur</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Devam et</string>
@@ -163,7 +164,12 @@
   <string name="TR_SCREENORECORD_OPTIONS">Kaydetme Seçenekleri</string>
   <string name="TR_SCREENORECORD_DEVICE">Aygıt</string>
   <string name="TR_SCREENORECORD_INPUT">Giriş</string>
-  <string name="TR_SCREENORECORD_MIC_DELAY">Mikrofon Gecikmesi</string>
+  <string name="TR_SCREENORECORD_PLAYER_1">Oyuncu 1</string>
+  <string name="TR_SCREENORECORD_PLAYER_2">Oyuncu 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_3">Oyuncu 3</string>
+  <string name="TR_SCREENORECORD_PLAYER_4">Oyuncu 4</string>
+  <string name="TR_SCREENORECORD_PLAYER_5">Oyuncu 5</string>
+  <string name="TR_SCREENORECORD_PLAYER_6">Oyuncu 6</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Uyarı: Tek oyuncuya iki mikrofon atandı.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Gecikme Testi</string>
   <string name="TR_SCREENOSOUND_OPTIONS">Ses Seçenekleri</string>
@@ -187,5 +193,6 @@
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video Arka Planları</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video Önizleme</string>
   <string name="TR_SCREENOVIDEO_VIDEOINSONGS">Şarkı Söylerken Videoları Gösterme</string>
+  <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Şarkı Söylerken Videoları Gösterme</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Ses</string>
 </resources>

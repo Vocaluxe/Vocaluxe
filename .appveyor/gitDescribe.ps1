@@ -1,6 +1,6 @@
 if($Env:APPVEYOR_PULL_REQUEST_NUMBER)
 {
-	$Env:VersionTag = "PR_$Env:APPVEYOR_PULL_REQUEST_NUMBER"
+	$Env:VersionTag = "0.0.0-na-PR_$Env:APPVEYOR_PULL_REQUEST_NUMBER"
 	Return $Env:VersionTag
 }
 

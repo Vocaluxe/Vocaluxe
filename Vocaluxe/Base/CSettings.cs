@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using VocaluxeLib;
@@ -53,10 +54,44 @@ namespace Vocaluxe.Base
         public static EProgramState ProgramState = EProgramState.Start;
 
         //Adjusting of programName and version now in the assembly config.
-        //I'd use the major and minor for Main releases, build number for every public release and revision for every bugfix version without any features
-        private const string _ProgramCodeName = "Shining Heaven";
+        private static readonly Dictionary<string,string> _CodeNames = new Dictionary<string, string>()
+        {
+            {"0.3.", "Shining Heaven"},
+            {"0.4.", "Blue Sunrise"}
+        }; 
 
-        public const ERevision VersionRevision = ERevision.Beta;
+        private static string _ProgramCodeName
+        {
+            get
+            {
+                var versionParts = Application.ProductVersion.Split('.');
+                string name;
+                _CodeNames.TryGetValue($"{versionParts[0]}.{versionParts[1]}.", out name);
+                if (name != null)
+                    return name;
+                return "Unnamed Version";
+            }
+        }
+
+        public static ERevision VersionRevision
+        {
+            get
+            {
+                if (_Version.ToLower().Contains("alpha"))
+                {
+                    return ERevision.Alpha;
+                }
+                if (_Version.ToLower().Contains("beta"))
+                {
+                    return ERevision.Beta;
+                }
+                if (_Version.ToLower().Contains("rc"))
+                {
+                    return ERevision.RC;
+                }
+                return ERevision.Release;
+            }
+        }
 
         public const int DatabaseHighscoreVersion = 3;
         public const int DatabaseCoverVersion = 1;
@@ -177,8 +212,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                Version v = _Assembly.Version;
-                return "v" + v.Major + "." + v.Minor + "." + v.Build;
+                return Application.ProductVersion.Split('-').First();
             }
         }
 
@@ -186,11 +220,10 @@ namespace Vocaluxe.Base
         {
             string version = _Version + " (" + _Arch + ")";
 
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            if (VersionRevision != ERevision.Release)
+            string gitversion = Application.ProductVersion;
+
+            if (VersionRevision != ERevision.Release || gitversion.Split('-')[1] != "0")
             {
-                // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                string gitversion = Application.ProductVersion;
                 version += " " + _GetVersionStatus() + String.Format(" ({0})", gitversion);
             }
 
@@ -200,10 +233,8 @@ namespace Vocaluxe.Base
         public static string GetFullVersionText()
         {
             string version = ProgramName;
-
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
+            
             if (_ProgramCodeName != "")
-                // ReSharper restore ConditionIsAlwaysTrueOrFalse
                 version += " \"" + _ProgramCodeName + "\"";
 
             return version + " " + _GetVersionText();
@@ -211,11 +242,9 @@ namespace Vocaluxe.Base
 
         private static string _GetVersionStatus()
         {
-            string result;
+            string result = "";
 
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
             if (VersionRevision != ERevision.Release)
-                // ReSharper restore ConditionIsAlwaysTrueOrFalse
                 result = Enum.GetName(typeof(ERevision), VersionRevision);
 
             return result;

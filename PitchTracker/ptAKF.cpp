@@ -24,6 +24,12 @@
 static constexpr double BaseToneFrequency = 65.4064; // lowest (half-)tone to analyze (C2 = 65.4064 Hz)
 static constexpr double HalftoneBase = 1.05946309436; // 2^(1/12) -> HalftoneBase^12 = 2 (one octave)
 
+template<typename T>
+T abs_template(T t)
+{
+	return t>0 ? t : -t;
+}
+
 int PtAKF::_InitCount = 0;
 float* restrict PtAKF::_SamplesPerPeriodPerTone = NULL;
 float* restrict PtAKF::_SamplesPerPeriodPerToneFine = NULL;
@@ -360,7 +366,7 @@ float PtAKF::_AMDFBySampleCt(float samples[_SampleCt], float samplesPerPeriodD){
 		// calc distance to corresponding sample in next period
 		float xn = samples[sampleIndex];
 		float xnt = samples[correlatingSampleIndex] * fLow + samples[correlatingSampleIndex + 1] * fHigh;
-		accumDist += abs(xn - xnt);
+		accumDist += abs_template(xn - xnt);
 	}
 
 	return accumDist / sampleIndex;

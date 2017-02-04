@@ -106,7 +106,7 @@
   <string name="TR_SCREENPARTY_DESCRIPTION">Description</string>
   <string name="TR_SCREENPARTY_AUTHOR">Author</string>
   <string name="TR_SCREENPARTY_VERSION">Version</string>
-  <string name="TR_SCREENPARTY_ERROR">Can\'t load this party-mode.</string>
+  <string name="TR_SCREENPARTY_ERROR">Can't load this party-mode.</string>
   <string name="TR_SCREENPARTY_ERROR_MICS">There are no mics configured!</string>
   <string name="TR_SCREENPARTY_ERROR_MIC_NUM">%d mics are required for this party-mode!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Target audience</string>
