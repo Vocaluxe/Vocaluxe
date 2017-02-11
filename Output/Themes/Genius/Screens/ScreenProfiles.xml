@@ -18,7 +18,7 @@
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
-        <X>00</X>
+        <X>0</X>
         <Y>40</Y>
         <W>1280</W>
         <H>45</H>
@@ -58,7 +58,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="TextColorAlpha" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -72,7 +72,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="TextColorAlpha" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -86,7 +86,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="TextColorAlpha" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -100,7 +100,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="TextColorAlpha" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -114,7 +114,7 @@
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="TextColorAlpha" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -577,7 +577,7 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
@@ -619,7 +619,7 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
