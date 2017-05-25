@@ -138,11 +138,11 @@ namespace Vocaluxe.Screens
                     case Keys.Back:
                         if (_PlayerEditActive)
                         {
-                            _PlayerEditActive = false;
+                            _ExitPlayerEdit();
                             break;
                         }
                         _SaveMicConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        _ExitScreen();
                         break;
 
                     case Keys.S:
@@ -157,18 +157,18 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_EditButtonApply].Selected)
                         {
                             _SetMicConfig();
-                            _PlayerEditActive = false;
+                            _ExitPlayerEdit();
                         }
 
                         if (_Buttons[_EditButtonCancel].Selected)
                         {
-                            _PlayerEditActive = false;
+                            _ExitPlayerEdit();
                         }
 
                         if (_Buttons[_ButtonExit].Selected)
                         {
                             _SaveMicConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            _ExitScreen();
                         }
 
                         if (_Buttons[_ButtonDelayTest].Selected)
@@ -200,12 +200,12 @@ namespace Vocaluxe.Screens
             {
                 if (_PlayerEditActive)
                 {
-                    _PlayerEditActive = false;
+                    _ExitPlayerEdit();
                 }
                 else
                 {
                     _SaveMicConfig();
-                    CGraphics.FadeTo(EScreen.Options);
+                    _ExitScreen();
                 }
             }
 
@@ -218,18 +218,18 @@ namespace Vocaluxe.Screens
                 if (_Buttons[_EditButtonApply].Selected)
                 {
                     _SetMicConfig();
-                    _PlayerEditActive = false;
+                    _ExitPlayerEdit();
                 }
 
                 if (_Buttons[_EditButtonCancel].Selected)
                 {
-                    _PlayerEditActive = false;
+                    _ExitPlayerEdit();
                 }
 
                 if (_Buttons[_ButtonExit].Selected)
                 {
                     _SaveMicConfig();
-                    CGraphics.FadeTo(EScreen.Options);
+                    _ExitScreen();
                 }
 
                 if (_Buttons[_ButtonDelayTest].Selected)
@@ -436,10 +436,23 @@ namespace Vocaluxe.Screens
                     _SelectedPlayer = p;
                     _GetPlayerConfig(_SelectedPlayer);
                     _PlayerEditActive = true;
+                    _SetEditVisibility(_PlayerEditActive);
+                    _SelectElement(_SelectSlides[_EditSelectSlideRecordDevices]);
                     return true;
                 }
             }
             return false;
+        }
+
+        private void _ExitPlayerEdit()
+        {
+            _PlayerEditActive = false;
+            _SelectElement(_Buttons[_ButtonsPlayer[_SelectedPlayer]]);
+        }
+
+        private void _ExitScreen()
+        {
+            CGraphics.FadeTo(EScreen.Options);
         }
 
         private void _GetPlayerConfig(int player)
@@ -571,7 +584,9 @@ namespace Vocaluxe.Screens
                 _DeviceNr = 0;
 
                 foreach (CRecordDevice device in _Devices)
+                {
                     _SelectSlides[_EditSelectSlideRecordDevices].AddValue(device.Name);
+                }
                 _SelectSlides[_EditSelectSlideRecordDevices].Selection = _DeviceNr;
 
                 _UpdateChannels();
