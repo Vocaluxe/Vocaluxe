@@ -188,6 +188,7 @@
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Highscore style</string>
   <string name="TR_SCREENORECORD_OPTIONS">Record Options</string>
   <string name="TR_SCREENORECORD_DEVICE">Device</string>
+  <string name="TR_SCREENORECORD_CHANNEL">Channel</string>
   <string name="TR_SCREENORECORD_INPUT">Input</string>
   <string name="TR_SCREENORECORD_PLAYER_N">Player %n</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Mic delay</string>
