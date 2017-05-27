@@ -6,15 +6,17 @@ tags: [ 'release', '0.2' ]
 author: "flokuep"
 image: release-02.png
 ---
-Dear Vocaluxe fans,
+#### Dear Vocaluxe fans,
  
-we've finished Vocaluxe v0.2 after 8 months of development.  
+#### we've finished Vocaluxe v0.2 after 8 months of development.  
 The new version has the following new features:
+<!--more-->
 
 * Support for up to 6 microphones.
 * Medley mode
 * Short Song mode (short version of a song)
 * Playlists: Create, Save, Edit by keyboard or mouse (drag&drop). You can adjust the sing mode for each song of the playlist individually (normal, medley, duet, short song).
+<!--more-big-->
 * Introduced popup controls. You can control the background music by a control panel that appears at the top border of the screen if you press "TAB" or reaches it by mouse. You can even start singing of the currently played background song.
 * Webcam support:  
     * Activating/deactivating with "W" in the sing screen.
