@@ -399,17 +399,17 @@ a:hover {
 }
 
 .stamp {
-    position: relative;
+    position: absolute;
     display: inline-block;
     color: red;
     padding: 15px;
     background-color: white;
-    box-shadow:inset 0px 0px 0px 10px red;
+    box-shadow: inset 0px 0px 0px 10px red;
     transform: rotate(30deg);
-    margin-top: -150px;
-    margin-left: 18%;
+    margin-top: 20%;
+    margin-left: 20%;
     font-size: 25px;
-    width: 350px;
+    width: 65%;
 }
 
 .stamp:after {
