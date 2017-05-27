@@ -3,14 +3,14 @@
 {% assign post_2 = site.posts[1] %}
 {% assign post_3 = site.posts[2] %}
     <section id="{{ page.section-type }}">
-		<div class="container">
-			<div class="row">
-			<h1 class="title">{{ page.title }}</h1>
-				{% if post_1 != nil %}
-				<div class="col-md-8">
-					<h2><a href="{{site.baseurl}}{{ post_1.url }}">{{post_1.title}} </a></h2>
-					<p>Published on {{ post_1.date | date: "%Y-%m-%d"}} by {{ post_1.author }}</p>
-					<img src="{{site.baseurl}}/img/posts/{{ post_1.image }}" class="img-responsive" />
+        <div class="container">
+            <div class="row">
+            <h1 class="title">{{ page.title }}</h1>
+                {% if post_1 != nil %}
+                <div class="col-md-8">
+                    <h2><a href="{{site.baseurl}}{{ post_1.url }}">{{post_1.title}} </a></h2>
+                    <p>Published on {{ post_1.date | date: "%Y-%m-%d"}} by {{ post_1.author }}</p>
+                    <img src="{{site.baseurl}}/img/posts/{{ post_1.image }}" class="img-responsive" />
                     {% if post_1.content contains '<!--more-big-->' %}
                         {{ post_1.content | split:'<!--more-big-->' | first | markdownify}}
                         <a href="{{site.baseurl}}{{ post_1.url }}">read more</a>
@@ -20,14 +20,14 @@
                             <a href="{{site.baseurl}}{{ post_1.url }}">read more</a>
                         {% endif %}
                     {% endif %}
-				</div>
-				{% endif %}
-				<div class="col-md-4">
-				{% if post_2 != nil %}
-				<div class="col-lg-12">
-					<h3><a href="{{site.baseurl}}{{ post_2.url }}">{{ post_2.title }}</a></h3>
-					<p>Published on {{ post_2.date | date: "%Y-%m-%d"}} by {{ post_2.author }}</p>
-					{% if post_2.content contains '<!--more-->' %}
+                </div>
+                {% endif %}
+                <div class="col-md-4">
+                {% if post_2 != nil %}
+                <div class="col-lg-12">
+                    <h3><a href="{{site.baseurl}}{{ post_2.url }}">{{ post_2.title }}</a></h3>
+                    <p>Published on {{ post_2.date | date: "%Y-%m-%d"}} by {{ post_2.author }}</p>
+                    {% if post_2.content contains '<!--more-->' %}
                         {{ post_2.content | split:'<!--more-->' | first | markdownify}}
                         <a href="{{site.baseurl}}{{ post_2.url }}">read more</a>
                     {% else %}
@@ -36,13 +36,13 @@
                             <a href="{{site.baseurl}}{{ post_2.url }}">read more</a>
                         {% endif %}
                     {% endif %}
-				</div>
-				{% endif %}
-				{% if post_3 != nil %}
-				<div class="col-lg-12">
-					<h3><a href="{{site.baseurl}}{{ post_3.url }}">{{ post_3.title }}</a></h3>
-					<p>Published on {{ post_3.date | date: "%Y-%m-%d"}} by {{ post_3.author }}</p>
-					{% if post_3.content contains '<!--more-->' %}
+                </div>
+                {% endif %}
+                {% if post_3 != nil %}
+                <div class="col-lg-12">
+                    <h3><a href="{{site.baseurl}}{{ post_3.url }}">{{ post_3.title }}</a></h3>
+                    <p>Published on {{ post_3.date | date: "%Y-%m-%d"}} by {{ post_3.author }}</p>
+                    {% if post_3.content contains '<!--more-->' %}
                         {{ post_3.content | split:'<!--more-->' | first | markdownify}}
                         <a href="{{site.baseurl}}{{ post_3.url }}">read more</a>
                     {% else %}
@@ -51,10 +51,10 @@
                             <a href="{{site.baseurl}}{{ post_3.url }}">read more</a>
                         {% endif %}
                     {% endif %}
-				</div>
-				{% endif %}
-				</div>
-			</div>
-		</div>
+                </div>
+                {% endif %}
+                </div>
+            </div>
+        </div>
     </section>
 <!-- Help Section End -->

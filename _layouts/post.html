@@ -6,22 +6,22 @@
   {% include head.html %}
   
   <body data-spy="scroll" data-offset="20" data-target="#navbar">
-	  
-	  {% include navigation.html %}
-	  
-	  {% include hero_area_small.html %}
-	   <section id="{{ page.section-type }}">
-		<div class="container">
-			<div class="row">
-			<h1 class="title">{{page.title}}</h1>
-			<h4>Published on {{ page.date | date: "%Y-%m-%d"}} by {{ page.author }}</h4>
-			<img src="{{site.baseurl}}/img/posts/{{ page.image }}" class="img-responsive" />
-			{{ page.content | markdownify }}
-			</div>
-		</div>
+      
+      {% include navigation.html %}
+      
+      {% include hero_area_small.html %}
+       <section id="{{ page.section-type }}">
+        <div class="container">
+            <div class="row">
+            <h1 class="title">{{page.title}}</h1>
+            <h4>Published on {{ page.date | date: "%Y-%m-%d"}} by {{ page.author }}</h4>
+            <img src="{{site.baseurl}}/img/posts/{{ page.image }}" class="img-responsive" />
+            {{ page.content | markdownify }}
+            </div>
+        </div>
      </section>
   
-	  {% include js.html %}
+      {% include js.html %}
 
   </body>  
 </html>

@@ -1,18 +1,20 @@
 <!-- Help Section -->
     <section id="{{ page.section-type }}" class="content-section">
-		<div class="container">
-			<div class="row">
-			<h1 class="title">{{ page.title }}</h1>
-			<p style="text-align:center">{{ page.content | markdownify }}</p>
-			{% for help in site.data.help %}
-				<div class="col-md-4">
-					<h2>{{ help.title }}</h2>
-					<span class="contribute-icon fa fa-{{ help.icon }}" aria-hidden="true"></span>
-					<p>{{ help.description }}</p>
-					<p><a class="btn" href="{{ help.url }}">{{ help.url_text }}</a></p>
-				</div>
-			{% endfor %}
-			</div>
-		</div>
+        <div class="container">
+            <div class="row">
+                <h1 class="title">{{ page.title }}</h1>
+                <p style="text-align:center">{{ page.content | markdownify }}</p>
+                <div class="flex-box-row">
+                    {% for help in site.data.help %}
+                        <div class="col-md-4 flex-box-col">
+                            <h2 class="flex00a">{{ help.title }}</h2>
+                            <span class="contribute-icon fa fa-{{ help.icon }} flex00a" aria-hidden="true"></span>
+                            <p class="flex11100">{{ help.description }}</p>
+                            <p><a class="btn flex00a" href="{{ help.url }}">{{ help.url_text }}</a></p>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
     </section>
 <!-- Help Section End -->

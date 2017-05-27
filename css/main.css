@@ -377,6 +377,11 @@ a:hover {
     flex-direction: column;
 }
 
+.flex-box-row {
+    display:flex;
+    flex-direction: row;
+}
+
 .flex00a {
     flex: 0 0 auto;
 }
