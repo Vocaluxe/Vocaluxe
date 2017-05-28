@@ -377,6 +377,11 @@ a:hover {
     flex-direction: column;
 }
 
+.flex-box-row {
+    display:flex;
+    flex-direction: row;
+}
+
 .flex00a {
     flex: 0 0 auto;
 }
@@ -391,4 +396,29 @@ a:hover {
 
 .no-release-text {
     margin-top: 40px;
+}
+
+.stamp {
+    position: absolute;
+    display: inline-block;
+    color: red;
+    padding: 15px;
+    background-color: white;
+    box-shadow: inset 0px 0px 0px 10px red;
+    transform: rotate(30deg);
+    margin-top: 20%;
+    margin-left: 20%;
+    font-size: 25px;
+    width: 65%;
+}
+
+.stamp:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("../img/stamp.jpg");
+    mix-blend-mode: lighten;
 }
