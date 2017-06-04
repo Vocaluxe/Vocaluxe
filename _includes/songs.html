@@ -11,9 +11,6 @@
                             <span class="contribute-icon fa fa-{{ song.icon }} flex00a" aria-hidden="true"></span>
                             <p class="flex11100">{{ song.description }}</p>
                             <p><a class="btn flex00a" href="{{ song.url }}">{{ song.url_text }}</a></p>
-                            {% if song.title=='Download' %}
-                                <h1 class="stamp">CURRENTLY OFFLINE</h1>
-                            {% endif %}
                         </div>
                     {% endfor %}
                 </div>
