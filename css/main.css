@@ -422,3 +422,9 @@ a:hover {
     background-image: url("../img/stamp.jpg");
     mix-blend-mode: lighten;
 }
+
+.articleBox {
+    border-radius: 25px;
+    background: rgba(48, 113, 169, 0.16);
+    padding: 25px;    
+}
