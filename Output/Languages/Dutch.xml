@@ -46,6 +46,7 @@
   <string name="TR_CONFIG_LEVEL2">Niveau 2</string>
   <string name="TR_CONFIG_LEVEL3">Niveau 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
+  <string name="TR_CONFIG_LIST">Liste</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
   <string name="TR_CONFIG_TILE_BOARD">Tegels</string>
   <string name="TR_CONFIG_BOOK">Boek</string>
@@ -181,6 +182,12 @@
   <string name="TR_SCREENORECORD_OPTIONS">Opname-opties</string>
   <string name="TR_SCREENORECORD_DEVICE">Apparaat</string>
   <string name="TR_SCREENORECORD_INPUT">Input</string>
+  <string name="TR_SCREENORECORD_PLAYER_1">Speler 1</string>
+  <string name="TR_SCREENORECORD_PLAYER_2">Speler 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_3">Speler 3</string>
+  <string name="TR_SCREENORECORD_PLAYER_4">Speler 4</string>
+  <string name="TR_SCREENORECORD_PLAYER_5">Speler 5</string>
+  <string name="TR_SCREENORECORD_PLAYER_6">Speler 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Microfoonvertraging</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Waarschuwing: Ten minste één speler is toegewezen aan twee microfoons.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Vertragingstest</string>
@@ -210,7 +217,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcam resolutie</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Beeldscherm aanpassingen</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Druk Ctrl+ Alt (+ Shift) + pijltjestoetsen|\"+\" om het scherm aan te passen.</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Druk Ctrl+ Alt (+ Shift) + pijltjestoetsen|"+" om het scherm aan te passen.</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">Ctrl + Alt + 0 om te herstellen</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Top links</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Top rechts</string>
