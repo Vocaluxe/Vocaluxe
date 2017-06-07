@@ -65,7 +65,7 @@ a:hover {
 .navbar-default {
   border: none;
   border-radius: 0;
-  background: #2C3E50;
+  background: #2C3E50 !important;
 }
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
@@ -460,6 +460,8 @@ a:hover {
 .flex-box-row {
     display:flex;
     flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
 }
 
 .flex00a {
