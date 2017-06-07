@@ -5,16 +5,17 @@
     <meta name="description" content="{{site.description}}">
     <meta name="author" content="{{site.author}}">
     <meta name="keywords" content="{{site.keywords}}">
+    <meta name="theme-color" content="#2C3E50">
     <link rel="canonical" href="{{page.url | replace:'index.html','' | prepend: site.baseurl}}">
     <title>{{site.title}}{% if page.title %} | {{page.title}}{% endif %}</title>
-    
+
     {% if site.favicon %}
         <link rel="shortcut icon" type="image/x-icon" href="{{site.baseurl}}{{site.favicon}}">
     {% endif %}
 
     <!-- Bootstrap -->
     <link rel="stylesheet" type="text/css" href="{{site.baseurl}}/css/bootstrap.min.css">
-    
+
     <!-- Main Style -->
     <link rel="stylesheet" type="text/css" href="{{site.baseurl}}/css/main.css">
 
@@ -23,7 +24,7 @@
 
     <!--Icon Fonts-->
     <link rel="stylesheet" media="screen" href="{{site.baseurl}}/fonts/font-awesome/font-awesome.min.css" />
-    
+
     <!--Arch Icon Fonts-->
     <link rel="stylesheet" media="screen" href="{{site.baseurl}}/fonts/font-arch/arch.min.css" />
 
@@ -35,12 +36,12 @@
     <!-- jQuery Load -->
     <script src="{{site.baseurl}}/js/jquery-min.js"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    
+
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-    
+
     {% include color-browser.html %}
 </head>
 <!-- HEAD End -->
