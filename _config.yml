@@ -24,7 +24,7 @@ google-tracking-id: ""
 
 force-https: True
 
-repository: Vocaluxe/Vocaluxe
+repository: hendrikbl/Vocaluxe
 
 #############
 # HTML Head #
