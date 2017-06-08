@@ -75,7 +75,7 @@ pages_list:
   Home: 'hero-area'
   News: 'news'
   Download: 'download'
-  About: 'about'
+  Features: 'about'
   Help: 'help'
   Contribute: 'contribute'
   Songs: 'songs'

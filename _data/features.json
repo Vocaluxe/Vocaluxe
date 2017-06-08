@@ -24,7 +24,7 @@
 	"description": "Singing is even more fun when you can see yourself - Vocaluxe supports webcams. You can also use it to take pictures for the player profiles."
 },
 {
-	"title": "GamePad and WiiMote",
+	"title": "GamePad & WiiMote",
 	"image": "controller.png",
 	"description": "Besides keyboard and mouse Vocaluxe has build-in support for GamePads and WiiMote"
 },
@@ -39,7 +39,7 @@
 	"description": "Vocaluxe can play any song in the widely used UltraStar format. Choose from thousands of songs available online."
 },
 {
-	"title": "Multi-language support",
+	"title": "Multi-Language",
 	"image": "translations.png",
 	"description": "Vocaluxe supports many different languages - If your language isn't available just start translating it!"
 }

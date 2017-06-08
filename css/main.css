@@ -1,7 +1,13 @@
-@import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
+/******COLORS******/
+/* Blue * #428bca */
+/* Red  * #E74C3C */
+/* Dark * #2C3E50 */
+/******************/
+
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 body {
   font-family: 'Lato', sans-serif;
-  font-size: 14px;
+  font-size: 14pt;
   font-weight: 400;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
@@ -10,6 +16,7 @@ body {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 }
+
 a {
   color: #2576E5;
   -webkit-transition: all 0.2s linear;
@@ -56,17 +63,27 @@ a:hover {
   position: relative;
   color: white;
 }
+
+/**Navigation**/
 .navbar {
   margin-bottom: 0;
+  color: white;
 }
+
 .navbar li {
   color: white;
 }
+
 .navbar-default {
   border: none;
   border-radius: 0;
   background: #2C3E50 !important;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
 }
+
 .navbar-default .navbar-nav > .active > a,
 .navbar-default .navbar-nav > .active > a:hover,
 .navbar-default .navbar-nav > .active > a:focus {
@@ -76,16 +93,32 @@ a:hover {
 .navbar-default .navbar-nav li a,
 .navbar-default .navbar-nav li a:hover {
   color: #fff;
+  font-weight: 100;
 }
 .navbar-default .navbar-nav > .active,
 .navbar-default .navbar-nav li:hover {
   border-bottom: 3px solid #428bca;
   color: #fff;
 }
+
 .navbar-default .navbar-brand {
-  font-size: 25px;
   color: #fff;
+  font-size: 16pt;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
 }
+
+.navbar-default .faviconPng{
+  height: 16pt;
+  width: 16pt;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
 .navbar-default .navbar-brand:hover {
   color: #eee;
 }
@@ -99,6 +132,48 @@ a:hover {
 .affix.navbar-default {
   background: #2C3E50;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  padding-top: 0;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+.affix.navbar-default .navbar-brand {
+  font-size: 16pt !important;
+  color: #fff;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+.affix.navbar-default .navbar-brand .faviconPng{
+  height: 16pt;
+  width: 16pt;
+  -webkit-transition: all 0.2s linear;
+  -moz-transition: all 0.2s linear;
+  -o-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+}
+
+@media (min-width: 767px){
+  .navbar-default {
+    padding-top: 30px;
+  }
+
+  .navbar-default .navbar-brand {
+    font-size: 25px;
+  }
+
+  .navbar-default .faviconPng{
+    height: 25pt;
+    width: 25pt;
+    -webkit-transition: all 0.2s linear;
+    -moz-transition: all 0.2s linear;
+    -o-transition: all 0.2s linear;
+    transition: all 0.2s linear;
+  }
 }
 
 /**Hero area**/
@@ -115,8 +190,19 @@ a:hover {
 }
 
 #hero-area .row {
-  padding-top: 100px;
-  padding-bottom: 50px;
+  padding-top: 150px;
+  padding-bottom: 100px;
+}
+
+@media (max-width: 992px){
+  #hero-area img {
+    display: none;
+  }
+
+  #hero-area .row {
+    padding-top: 75px;
+    padding-bottom: 50px;
+  }
 }
 
 #hero-area .btn {
@@ -291,41 +377,48 @@ a:hover {
   color: #333;
 }
 
+/*Feature Section*/
+
 .feature {
 	padding: 0px;
 	position: relative;
 	overflow: hidden;
-	height: 200px;
-	background-color: #000000;
+	height: 250px;
+	background-color: white;
 	margin-bottom: 30px;
+  border-radius: 7px;
 }
 
 .feature:hover .caption {
 	opacity: 1;
-	transform: translateY(-150px);
-	-webkit-transform: translateY(-150px);
-	-moz-transform: translateY(-150px);
-	-ms-transform: translateY(-150px);
-	-o-transform: translateY(-150px);
+	transform: translateY(-250px);
+	-webkit-transform: translateY(-250px);
+	-moz-transform: translateY(-250px);
+	-ms-transform: translateY(-250px);
+	-o-transform: translateY(-250px);
 }
 
 .feature img{
 	z-index: 4;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
 }
 
 .feature .caption{
 	position: absolute;
-	top:150px;
-	-webkit-transition:all 0.3s ease-in-out;
-	-moz-transition:all 0.3s ease-in-out;
-	-o-transition:all 0.3s ease-in-out;
-	-ms-transition:all 0.3s ease-in-out;
-	transition:all 0.3s ease-in-out;
+	top: 242px;
+	-webkit-transition:all 0.4s ease-in-out;
+	-moz-transition:all 0.4s ease-in-out;
+	-o-transition:all 0.4s ease-in-out;
+	-ms-transition:all 0.4s ease-in-out;
+	transition:all 0.4s ease-in-out;
 	width: 100%;
 }
 
 .feature .blur{
-	background-color: rgba(0,0,0,0.7);
+	background-color: #428bca;
 	height: 300px;
 	z-index: 5;
 	position: absolute;
@@ -334,17 +427,50 @@ a:hover {
 
 .feature .caption-text{
 	z-index: 10;
-	color: #fff;
+  color: white;
 	position: absolute;
 	height: 300px;
 	text-align: center;
 	top:-20px;
 	width: 100%;
+  font-size: 12pt;
+}
+
+.feature .caption-text p {
+  padding: 25px 15px;
+  font-weight: 100;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+
+.feature:hover .caption-text p {
+  padding-top: 10px;
+  -webkit-transition: all 0.3s linear;
+  -moz-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
 }
 
 .feature .caption-text h4 {
-	padding:15px;
-	margin-top:15px;
+  font-size: 20pt;
+  color: #2C3E50;
+	padding: 0px;
+	margin-top: -40px;
+  -webkit-transition: all 0.27s ease-in-out;
+  -moz-transition: all 0.27s ease-in-out;
+  -o-transition: all 0.27s ease-in-out;
+  transition: all 0.27s ease-in-out;
+}
+
+.feature:hover .caption-text h4 {
+	margin-top: 40px;
+  color: white;
+  -webkit-transition: all 0.27s ease-in-out;
+  -moz-transition: all 0.27s ease-in-out;
+  -o-transition: all 0.27s ease-in-out;
+  transition: all 0.27s ease-in-out;
 }
 
 .contribute-icon {
@@ -362,10 +488,6 @@ a:hover {
   background: #EEEEEE;
 }
 
-#download p {
-  font-size: 16pt;
-}
-
 .card {
   padding: 25px;
   margin: 25px;
@@ -379,9 +501,9 @@ a:hover {
 }
 
 .card p {
-  font-size: 13pt;
+  font-size: 14pt;
   margin-bottom: 10px;
-  font-weight: 400;
+  font-weight: 100;
 }
 
 .nightly {
