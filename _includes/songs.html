@@ -2,15 +2,28 @@
     <section id="{{ page.section-type }}" class="content-section">
         <div class="container">
             <div class="row">
-                <h1 class="title">{{ page.title }}</h1>                
+                <h1 class="title">{{ page.title }}</h1>
                 {{ page.content | markdownify }}
                 <div class="flex-box-row">
-                    {% for song in site.data.songs %}                        
-                        <div class="col-md-6 flex-box-col" >
-                            <h2 class="flex00a">{{ song.title }}</h2>
-                            <span class="contribute-icon fa fa-{{ song.icon }} flex00a" aria-hidden="true"></span>
-                            <p class="flex11100">{{ song.description }}</p>
-                            <p><a class="btn flex00a" href="{{ song.url }}">{{ song.url_text }}</a></p>
+                    {% for song in site.data.songs %}
+                        <div class="col-md-6 flex-box-col card hover-card dark-text">
+                          <div class="flex-box-row">
+                            <div class="col-md-3 flex-box-col">
+                              <span class="song-icon fa fa-{{ song.icon }} flex00a" aria-hidden="true"></span>
+                            </div>
+                            <div class="col-md-9 flex-box-col song-text">
+                              <h2 class="flex00a">{{ song.title }}</h2>
+                              <p class="flex11100">{{ song.description }}</p>
+                            </div>
+                          </div>
+                          <div class="hover-overlay red-bg">
+                            <div class="overlay-background">
+                              <div class="overlay-content">
+                                <p><span class="song-icon fa fa-{{ song.icon }} flex00a" aria-hidden="true"></span></p>
+                                <p><a href="{{ song.url }}" class="btn btn-primary btn-lg">{{ song.url_text }}</a></p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                     {% endfor %}
                 </div>

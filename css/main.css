@@ -1,14 +1,87 @@
-/******COLORS******/
-/* Blue * #428bca */
-/* Red  * #E74C3C */
-/* Dark * #2C3E50 */
-/******************/
+/****COLORS****/
+.blue-text {
+  color: #428bca;
+}
+
+.blue-bg {
+  background-color: #428bca !important;
+}
+
+.red-text {
+  color: #E74C3C;
+}
+
+.red-bg {
+  background-color: #E74C3C;
+}
+
+.dark-text {
+  color: #2C3E50 !important;
+}
+
+.dark-bg {
+  background-color: #2C3E50;
+}
+
+/**************/
+
+/****Cards****/
+
+.card {
+  padding: 25px;
+  margin: 25px;
+  border-radius: 10px;
+}
+
+.hover-card {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hover-card .hover-overlay {
+  position: absolute;
+  top: calc(100% - 8px);
+  -webkit-transition: all 0.4s ease-in-out;
+  -moz-transition: all 0.4s ease-in-out;
+  -o-transition: all 0.4s ease-in-out;
+  -ms-transition: all 0.4s ease-in-out;
+  transition: all 0.4s ease-in-out;
+  left: -5px;
+  height: calc(100% + 10px);
+  width: calc(100% + 10px);
+}
+
+.hover-card:hover .hover-overlay {
+  opacity: 1;
+  top: 0;
+}
+
+.hover-card .overlay-background {
+  z-index: 5;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+
+.hover-card .overlay-content {
+  color: #fff;
+  font-size: 12pt;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  padding: 10px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+/*************/
 
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 body {
   font-family: 'Lato', sans-serif;
   font-size: 14pt;
   font-weight: 400;
+  color: #2C3E50
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -34,10 +107,17 @@ a:hover {
 }
 
 .btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
+}
+
+.btn:hover {
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
 }
 
 .btn-lg {
@@ -48,11 +128,6 @@ a:hover {
   background: transparent;
   color: #fff;
   border: 1px solid #fff;
-}
-
-.btn-common:hover {
-  border-color: #428bca;
-  color: #428bca;
 }
 
 .title {
@@ -70,6 +145,11 @@ a:hover {
   color: #fff;
 }
 
+#about,
+#songs {
+  background: #2C3E50;
+  color: #fff;
+}
 
 /**Navigation**/
 
@@ -100,13 +180,15 @@ a:hover {
 }
 
 .navbar-default .navbar-nav li a,
-.navbar-default .navbar-nav li a:hover {
+.navbar-default .navbar-nav li a:hover,
+.navbar-default .navbar-nav li a:focus {
   color: #fff;
   font-weight: 100;
 }
 
 .navbar-default .navbar-nav>.active,
-.navbar-default .navbar-nav li:hover {
+.navbar-default .navbar-nav li:hover,
+.navbar-default .navbar-nav li:focus {
   border-bottom: 3px solid #428bca;
   color: #fff;
 }
@@ -242,158 +324,6 @@ a:hover {
   padding: 25px 0;
 }
 
-#services h3 {
-  margin-top: 0;
-  font-size: 28px;
-  color: #2576E5;
-}
-
-
-/*Portfolio*/
-
-#portfolio {
-  background: #EEEEEE;
-}
-
-
-/*Portfolio Overlay */
-
-.portfolio-item {
-  position: relative;
-  margin-bottom: 15px;
-}
-
-.portfolio-item img {
-  width: 100%;
-}
-
-.portfolio-item .overlay {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: none;
-}
-
-.portfolio-item:hover .overlay {
-  position: absolute;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  background-color: rgba(0, 0, 0, 0.8);
-  display: block;
-}
-
-.portfolio-item .icons .preview {
-  position: absolute;
-  left: 40%;
-  top: 40%;
-  color: #fff;
-  -webkit-animation-name: fadeInLeft;
-  animation-name: fadeInLeft;
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-.portfolio-item .icons .preview i {
-  color: #2576E5;
-}
-
-#clients {
-  background: #fff;
-}
-
-#about {
-  background: #2C3E50;
-  color: #fff;
-}
-
-#contact {
-  background: #f1f1f1;
-}
-
-#contact ::-webkit-input-placeholder {
-  color: #ecf0f1;
-}
-
-#contact :-moz-placeholder {
-  color: #ecf0f1;
-}
-
-#contact ::-moz-placeholder {
-  color: #ecf0f1;
-}
-
-#contact :-ms-input-placeholder {
-  color: #ecf0f1;
-}
-
-#contact .social i {
-  color: #fff;
-  padding: 10px;
-  margin-right: 5px;
-  width: 50px;
-  height: 50px;
-  vertical-align: middle;
-  background: #34495e;
-}
-
-#contact .social .social-links a:hover {
-  color: #fff;
-}
-
-#contact .social .fa-facebook:hover {
-  background: #3b5998;
-  color: #fff;
-}
-
-#contact .social .fa-twitter:hover {
-  background: #00CAFB;
-  color: #fff;
-}
-
-#contact .social .fa-google-plus:hover {
-  background: #D23A1D;
-  color: #fff;
-}
-
-#contact .social .fa-linkedin:hover {
-  background: #007bb6;
-  color: #fff;
-}
-
-#contact .social .fa-dribbble:hover {
-  background: #ea4c89;
-  color: #fff;
-}
-
-#contact .social .fa-github:hover {
-  background: #171515;
-  color: #fff;
-}
-
-#contact .contact-info {
-  margin: 40px 0;
-}
-
-#contact .contact-info p {
-  font-size: 20px;
-}
-
-#contact .contact-form .form-control {
-  box-shadow: none;
-  font-size: 17px;
-  margin-bottom: 20px;
-  border-radius: 0;
-  border: none;
-}
-
-
 /*Scroll Top*/
 
 .to-top i {
@@ -411,6 +341,11 @@ a:hover {
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
   transition: all 0.2s linear;
+}
+
+#download,
+#help {
+  background: #EEEEEE;
 }
 
 #copyright {
@@ -519,12 +454,6 @@ a:hover {
   transition: all 0.27s ease-in-out;
 }
 
-.contribute-icon {
-  font-size: 65px;
-  margin-top: 15px;
-  margin-bottom: 15px;
-}
-
 .content-section {
   text-align: center;
 }
@@ -532,50 +461,30 @@ a:hover {
 
 /*Download Section*/
 
-#download,
-#help {
-  background: #EEEEEE;
-}
-
-.card {
-  padding: 25px;
-  margin: 25px;
-  border-radius: 10px;
+#download .card {
   color: #fff;
 }
 
-.card h2 {
+#download .card h2 {
   margin-top: 0px;
   margin-bottom: 20px;
 }
 
-.card p {
+#download .card p {
   font-size: 14pt;
   margin-bottom: 10px;
-  font-weight: 100;
+  font-weight: 400;
 }
 
-.nightly {
-  background-color: #2C3E50;
-}
-
-.nightly .release-date a {
+.dark-bg .release-date a {
   color: #428bca;
 }
 
-.pre-release {
-  background-color: #E74C3C;
-}
-
-.pre-release .release-date a {
+.red-bg .release-date a {
   color: #2C3E50;
 }
 
-.stable {
-  background-color: #428bca;
-}
-
-.stable .release-date a {
+.blue-bg .release-date a {
   color: #E74C3C;
 }
 
@@ -591,18 +500,10 @@ a:hover {
 
 .btnDownload {
   margin: 5px;
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-}
-
-.btnDownload:hover {
-  background: rgba(0, 0, 0, 0.2);
 }
 
 .btnDownloadIcon {
-  /*flex: 0 0 auto;*/
   padding-right: 5px;
-  /*font-size: 1em;*/
 }
 
 .release-section {
@@ -616,7 +517,7 @@ a:hover {
   .release-section {
     flex-direction: row;
   }
-  .card {
+  #download .card {
     max-width: 27%;
     min-width: 27%;
   }
@@ -631,7 +532,7 @@ a:hover {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-around;
 }
 
 .flex00a {
@@ -650,6 +551,63 @@ a:hover {
   margin-top: 40px;
 }
 
+/*****Help*****/
+
+#help .card,
+#contribute .card,
+#songs .card {
+  border: 1px solid #2C3E50;
+  background-color: #fff;
+  margin: 15px;
+  padding: 15px 5px 15px 5px;
+  min-height: 175px;
+}
+
+@media (min-width: 992px) {
+  #help .card,
+  #contribute .card,
+  #songs .card {
+    width: 29%;
+    text-align: left;
+  }
+}
+
+.help-text p,
+.contribute-text p,
+.song-text p {
+  font-size: 12pt;
+  padding-right: 10px;
+}
+
+.help-text h2,
+.contribute-text h2,
+.song-text h2 {
+  margin-top: 0pt;
+  margin-bottom: 15pt;
+  font-size: 24pt;
+  vertical-align: middle;
+}
+
+.help-icon,
+.contribute-icon,
+.song-icon {
+  font-size: 26pt;
+  text-align: center;
+}
+
+.hover-overlay .help-icon,
+.hover-overlay .contribute-icon,
+.hover-overlay .song-icon {
+  font-size: 45pt;
+  margin: 15px;
+}
+
+/**************/
+
+/*****Songs****/
+
+
+/**************/
 .stamp {
   position: absolute;
   display: inline-block;

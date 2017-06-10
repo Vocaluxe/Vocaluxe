@@ -15,7 +15,7 @@
                         {{ post_1.content | split:'<!--more-big-->' | first | markdownify}}
                         <a href="{{site.baseurl}}{{ post_1.url }}">read more</a>
                     {% else %}
-                        {{ post_1.content | truncatewords: site.big-post-preview-words, "" | markdownify }}                   
+                        {{ post_1.content | truncatewords: site.big-post-preview-words, "" | markdownify }}
                         {% if (post_1.content | number_of_words) > site.big-post-preview-words %}
                             <a href="{{site.baseurl}}{{ post_1.url }}">read more</a>
                         {% endif %}
@@ -31,7 +31,7 @@
                         {{ post_2.content | split:'<!--more-->' | first | markdownify}}
                         <a href="{{site.baseurl}}{{ post_2.url }}">read more</a>
                     {% else %}
-                        {{ post_2.content | truncatewords: site.post-preview-words, "" | markdownify }}                   
+                        {{ post_2.content | truncatewords: site.post-preview-words, "" | markdownify }}
                         {% if (post_2.content | number_of_words) > site.post-preview-words %}
                             <a href="{{site.baseurl}}{{ post_2.url }}">read more</a>
                         {% endif %}
@@ -46,7 +46,7 @@
                         {{ post_3.content | split:'<!--more-->' | first | markdownify}}
                         <a href="{{site.baseurl}}{{ post_3.url }}">read more</a>
                     {% else %}
-                        {{ post_3.content | truncatewords: site.post-preview-words, "" | markdownify }}                   
+                        {{ post_3.content | truncatewords: site.post-preview-words, "" | markdownify }}
                         {% if (post_3.content | number_of_words) > site.post-preview-words %}
                             <a href="{{site.baseurl}}{{ post_3.url }}">read more</a>
                         {% endif %}
