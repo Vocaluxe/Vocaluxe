@@ -1,4 +1,6 @@
-/****COLORS****/
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+
+/****Colors****/
 .blue-text {
   color: #428bca;
 }
@@ -76,12 +78,13 @@
 }
 /*************/
 
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
+/***General***/
+
 body {
   font-family: 'Lato', sans-serif;
   font-size: 14pt;
   font-weight: 400;
-  color: #2C3E50
+  color: #2C3E50;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
@@ -145,13 +148,24 @@ a:hover {
   color: #fff;
 }
 
+.content-section {
+  text-align: center;
+}
+
 #about,
 #songs {
   background: #2C3E50;
   color: #fff;
 }
 
-/**Navigation**/
+#download,
+#help {
+  background: #EEEEEE;
+}
+
+/*************/
+
+/****Navbar***/
 
 .navbar {
   margin-bottom: 0;
@@ -183,7 +197,6 @@ a:hover {
 .navbar-default .navbar-nav li a:hover,
 .navbar-default .navbar-nav li a:focus {
   color: #fff;
-  font-weight: 100;
 }
 
 .navbar-default .navbar-nav>.active,
@@ -269,6 +282,7 @@ a:hover {
   }
 }
 
+/*************/
 
 /**Hero area**/
 
@@ -324,145 +338,13 @@ a:hover {
   padding: 25px 0;
 }
 
-/*Scroll Top*/
+/**************/
 
-.to-top i {
-  padding: 10px 15px;
-  margin: 10px;
-  background: transparent;
-  color: #34495e;
-  border: 2px solid #34495e;
-}
-
-.to-top i:hover {
-  background: #34495e;
-  color: #fff;
-  -webkit-transition: all 0.2s linear;
-  -moz-transition: all 0.2s linear;
-  -o-transition: all 0.2s linear;
-  transition: all 0.2s linear;
-}
-
-#download,
-#help {
-  background: #EEEEEE;
-}
-
-#copyright {
-  background: #F1F1F1;
-  color: #333;
-}
-
-#copyright a {
-  color: #333;
-}
-
-
-/*Feature Section*/
-
-.feature {
-  padding: 0px;
-  position: relative;
-  overflow: hidden;
-  height: 250px;
-  background-color: #fff;
-  margin-bottom: 30px;
-  border-radius: 7px;
-}
-
-.feature:hover .caption {
-  opacity: 1;
-  transform: translateY(-250px);
-  -webkit-transform: translateY(-250px);
-  -moz-transform: translateY(-250px);
-  -ms-transform: translateY(-250px);
-  -o-transform: translateY(-250px);
-}
-
-.feature img {
-  z-index: 4;
-  height: 100px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 50px;
-}
-
-.feature .caption {
-  position: absolute;
-  top: 242px;
-  -webkit-transition: all 0.4s ease-in-out;
-  -moz-transition: all 0.4s ease-in-out;
-  -o-transition: all 0.4s ease-in-out;
-  -ms-transition: all 0.4s ease-in-out;
-  transition: all 0.4s ease-in-out;
-  width: 100%;
-}
-
-.feature .blur {
-  background-color: #428bca;
-  height: 300px;
-  z-index: 5;
-  position: absolute;
-  width: 100%;
-}
-
-.feature .caption-text {
-  z-index: 10;
-  color: #fff;
-  position: absolute;
-  height: 300px;
-  text-align: center;
-  top: -20px;
-  width: 100%;
-  font-size: 12pt;
-}
-
-.feature .caption-text p {
-  padding: 25px 15px;
-  font-weight: 100;
-  -webkit-transition: all 0.3s linear;
-  -moz-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  transition: all 0.3s linear;
-}
-
-.feature:hover .caption-text p {
-  padding-top: 10px;
-  -webkit-transition: all 0.3s linear;
-  -moz-transition: all 0.3s linear;
-  -o-transition: all 0.3s linear;
-  transition: all 0.3s linear;
-}
-
-.feature .caption-text h4 {
-  font-size: 20pt;
-  color: #2C3E50;
-  padding: 0px;
-  margin-top: -40px;
-  -webkit-transition: all 0.27s ease-in-out;
-  -moz-transition: all 0.27s ease-in-out;
-  -o-transition: all 0.27s ease-in-out;
-  transition: all 0.27s ease-in-out;
-}
-
-.feature:hover .caption-text h4 {
-  margin-top: 40px;
-  color: #fff;
-  -webkit-transition: all 0.27s ease-in-out;
-  -moz-transition: all 0.27s ease-in-out;
-  -o-transition: all 0.27s ease-in-out;
-  transition: all 0.27s ease-in-out;
-}
-
-.content-section {
-  text-align: center;
-}
-
-
-/*Download Section*/
+/***Download***/
 
 #download .card {
   color: #fff;
+  text-align: center;
 }
 
 #download .card h2 {
@@ -473,7 +355,12 @@ a:hover {
 #download .card p {
   font-size: 14pt;
   margin-bottom: 10px;
-  font-weight: 400;
+}
+
+#download .card .release-date {
+  font-size: 11pt;
+  margin-top: 10px;
+  margin-bottom: 0px;
 }
 
 .dark-bg .release-date a {
@@ -490,12 +377,6 @@ a:hover {
 
 .release-details {
   text-align: center;
-}
-
-.card .release-date {
-  font-size: 11pt;
-  margin-top: 10px;
-  margin-bottom: 0px;
 }
 
 .btnDownload {
@@ -551,6 +432,53 @@ a:hover {
   margin-top: 40px;
 }
 
+/**************/
+
+/***Features***/
+
+#about .card {
+  height: 250px;
+  background-color: #fff;
+  margin: 0 0 30px 0;
+  padding: 0;
+}
+
+#about .card img {
+  z-index: 4;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+}
+
+#about .card .overlay-content p {
+  padding: 0 15px;
+}
+
+#about .card .overlay-content h4 {
+  font-size: 20pt;
+  color: #2C3E50;
+  padding: 0px;
+  margin-top: -70px;
+  margin-bottom: 70px;
+  -webkit-transition: all 0.27s ease-in-out;
+  -moz-transition: all 0.27s ease-in-out;
+  -o-transition: all 0.27s ease-in-out;
+  transition: all 0.27s ease-in-out;
+}
+
+#about .card:hover .overlay-content h4 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  color: #fff;
+  -webkit-transition: all 0.27s ease-in-out;
+  -moz-transition: all 0.27s ease-in-out;
+  -o-transition: all 0.27s ease-in-out;
+  transition: all 0.27s ease-in-out;
+}
+
+/**************/
+
 /*****Help*****/
 
 #help .card,
@@ -603,32 +531,3 @@ a:hover {
 }
 
 /**************/
-
-/*****Songs****/
-
-
-/**************/
-.stamp {
-  position: absolute;
-  display: inline-block;
-  color: red;
-  padding: 15px;
-  background-color: #fff;
-  box-shadow: inset 0px 0px 0px 10px red;
-  transform: rotate(30deg);
-  margin-top: 20%;
-  margin-left: 20%;
-  font-size: 25px;
-  width: 65%;
-}
-
-.stamp:after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url("../img/stamp.jpg");
-  mix-blend-mode: lighten;
-}
