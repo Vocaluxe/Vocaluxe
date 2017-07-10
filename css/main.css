@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
 
 /****Colors****/
+
 .blue-text {
   color: #428bca;
 }
@@ -25,7 +26,9 @@
   background-color: #2C3E50;
 }
 
+
 /**************/
+
 
 /****Cards****/
 
@@ -76,7 +79,10 @@
   margin-top: auto;
   margin-bottom: auto;
 }
+
+
 /*************/
+
 
 /***General***/
 
@@ -163,7 +169,9 @@ a:hover {
   background: #EEEEEE;
 }
 
+
 /*************/
+
 
 /****Navbar***/
 
@@ -282,7 +290,9 @@ a:hover {
   }
 }
 
+
 /*************/
+
 
 /**Hero area**/
 
@@ -338,7 +348,9 @@ a:hover {
   padding: 25px 0;
 }
 
+
 /**************/
+
 
 /***Download***/
 
@@ -432,7 +444,9 @@ a:hover {
   margin-top: 40px;
 }
 
+
 /**************/
+
 
 /***Features***/
 
@@ -477,7 +491,9 @@ a:hover {
   transition: all 0.27s ease-in-out;
 }
 
+
 /**************/
+
 
 /*****Help*****/
 
@@ -529,5 +545,43 @@ a:hover {
   font-size: 45pt;
   margin: 15px;
 }
+
+
+/**************/
+
+
+/*****Post*****/
+
+.post-info {
+  display: inline-block;
+  margin-bottom: 15px;
+}
+
+.avatar {
+  border-radius: 50%;
+  position: relative;
+  top: 3px;
+  height: 18px;
+  width: 18px;
+  vertical-align: baseline;
+}
+
+.author-link {
+  margin-left: 12px;
+  margin-right: 20px;
+}
+
+.author-link:hover {
+  text-decoration: none;
+}
+
+.chip {
+  display: inline-block;
+  padding: 0 10px;
+  height: 28px;
+  color: white;
+  border-radius: 14px;
+}
+
 
 /**************/
