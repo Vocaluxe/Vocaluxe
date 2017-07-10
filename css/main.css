@@ -549,7 +549,6 @@ a:hover {
 
 /**************/
 
-
 /*****Post*****/
 
 .post-info {
@@ -584,4 +583,52 @@ a:hover {
 }
 
 
+/**************/
+
+/****Footer****/
+
+.footer {
+  background-color: #243342;
+  color: white;
+  /*border-top: 1px solid rgba(255,255,255,0.1);*/
+  padding-top: 20px;
+  padding-bottom: 10px;
+}
+
+.footer-left {
+  float: left;
+}
+
+.footer-right {
+  float: right;
+}
+
+.footer li {
+  display: inline-block;
+  list-style-type: none;
+  margin-right: 10px;
+}
+
+.footer li i {
+  font-size: 20pt;
+}
+
+.footer a {
+  color: white;
+}
+
+.footer a:hover {
+  color: #E74C3C;
+  text-decoration: none;
+}
+
+.footer h3 {
+  margin: 0;
+  padding: 0;
+}
+
+.footer hr {
+  border-color: rgba(255, 255, 255, 0.2);
+  border-width: 1px;
+}
 /**************/
