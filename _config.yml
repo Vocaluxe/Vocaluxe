@@ -47,7 +47,7 @@ faviconPng: "/img/vocaluxe_icon.png"
 ##############################
 # Color the browser elements #
 ##############################
-color-browser: "#000000"
+color-browser: "#2C3E50"
 apple-status-bar-style: "black"
 
 ################
@@ -75,7 +75,7 @@ pages_list:
   Home: 'hero-area'
   News: 'news'
   Download: 'download'
-  About: 'about'  
+  Features: 'about'
   Help: 'help'
   Contribute: 'contribute'
   Songs: 'songs'

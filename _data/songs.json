@@ -1,14 +1,14 @@
 [{
 	"title": "Download",
 	"icon": "music",
-	"description": "Find more than 18.000 songs on USDB, from real classics to the latest hits.",
-	"url_text": "usdb.animux.de",
+	"description": "Find more than 18.000 songs on USDB, from real classics to the latest hits on usdb.animux.de.",
+	"url_text": "Get Songs",
 	"url": "http://usdb.animux.de"
 },
 {
-	"title": "Create your own",
+	"title": "Create",
 	"icon": "file-text-o",
-	"description": "Your favourite song isn't available? Just try to make your own songs for Vocaluxe.",
+	"description": "Your favourite song isn't available? Just try to make your own songs for Vocaluxe by following this tutorial.",
 	"url_text": "Tutorial",
 	"url": "http://www.ultraguide.net/songcreation.php"
 }]

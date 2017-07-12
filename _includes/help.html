@@ -6,11 +6,24 @@
                 <p style="text-align:center">{{ page.content | markdownify }}</p>
                 <div class="flex-box-row">
                     {% for help in site.data.help %}
-                        <div class="col-md-4 flex-box-col">
-                            <h2 class="flex00a">{{ help.title }}</h2>
-                            <span class="contribute-icon fa fa-{{ help.icon }} flex00a" aria-hidden="true"></span>
-                            <p class="flex11100">{{ help.description }}</p>
-                            <p><a class="btn flex00a" href="{{ help.url }}">{{ help.url_text }}</a></p>
+                        <div class="col-md-4 flex-box-col card hover-card dark-text">
+                          <div class="flex-box-row">
+                            <div class="col-md-3 flex-box-col">
+                              <span class="help-icon fa fa-{{ help.icon }} flex00a" aria-hidden="true"></span>
+                            </div>
+                            <div class="col-md-9 flex-box-col help-text">
+                              <h2 class="flex00a">{{ help.title }}</h2>
+                              <p class="flex11100">{{ help.description }}</p>
+                            </div>
+                          </div>
+                          <div class="hover-overlay">
+                            <div class="overlay-background blue-bg">
+                              <div class="overlay-content">
+                                <p><span class="contribute-icon fa fa-{{ help.icon }} flex00a" aria-hidden="true"></span></p>
+                                <p><a href="{{ help.url }}" class="btn btn-primary btn-lg">{{ help.url_text }}</a></p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                     {% endfor %}
                 </div>

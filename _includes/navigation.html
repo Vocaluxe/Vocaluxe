@@ -1,6 +1,6 @@
 <!-- Nav Menu Section -->
    <div class="logo-menu">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation" data-spy="affix" data-offset-top="50">
+    <nav class="navbar navbar-default navbar-fixed-top affix" role="navigation" {% if page.section-type == "index" %} data-spy="affix" {% endif %} data-offset-top="50">
       <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header col-md-3">
@@ -17,7 +17,7 @@
           {% endif %}
           <div>
             {% if site.faviconPng %}
-              <img class="faviconPng" width="25" height=25" src="{{site.baseurl}}{{ site.faviconPng }}" alt="">
+              <img class="faviconPng" src="{{site.baseurl}}{{ site.faviconPng }}" alt="">
             {% endif %}
               {{ site.title }}
           </div>
@@ -25,7 +25,7 @@
         </div>
 
         <div class="collapse navbar-collapse" id="navbar">
-          <ul class="nav navbar-nav">
+          <ul class="nav navbar-nav navbar-right">
             {% if page.section-type == "index" %}
 
               <!-- Scroll to section for each page in index -->

@@ -5,8 +5,9 @@
         <span class="fa fa-windows btnDownloadIcon" aria-hidden="true"></span>
     {% endif %}
     {% if include.arch == "x86" %}
-        <span>{{include.title}} <i class="arch-x86" aria-hidden="true"></i> </span>
+        <span>{{include.title}} (x86)</span>
     {% else %}
-        <span>{{include.title}} <i class="arch-x64" aria-hidden="true"></i> </span>
-    {% endif %}    
-</a>    
+        <span>{{include.title}} (x64)</span>
+    {% endif %}
+</a>
+</br>
