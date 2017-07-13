@@ -113,6 +113,7 @@ a:hover {
 
 .row {
   padding: 50px 0px;
+  margin: 0;
 }
 
 .btn {
@@ -351,6 +352,47 @@ a:hover {
 
 /**************/
 
+/*****News*****/
+
+
+#news img {
+  width: 100%;
+}
+
+#news .col-md-8,
+#news .col-lg-12 {
+  border: 1px solid black;
+  border-radius: 5px;
+}
+
+#news h2,
+#news h3 {
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+#news .post-info {
+  font-size: 12pt;
+}
+
+#news .btn {
+  align-items:
+}
+
+.news-card {
+  padding: 0;
+}
+
+.news-card-text {
+  padding: 10px;
+  color: white  ;
+}
+
+.news-card-text a {
+  color: white;
+}
+
+/**************/
 
 /***Download***/
 
@@ -551,17 +593,32 @@ a:hover {
 
 /*****Post*****/
 
+.post .post-banner {
+  width: 100%;
+}
+
+.post-gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.post-gallery a {
+  max-width: 220px;
+  margin: 4px;
+}
+
 .post-info {
   display: inline-block;
   margin-bottom: 15px;
+  font-size: 13pt;
 }
 
 .avatar {
   border-radius: 50%;
   position: relative;
   top: 3px;
-  height: 18px;
-  width: 18px;
+  height: 18px !important;
+  width: 18px !important;
   vertical-align: baseline;
 }
 
@@ -577,9 +634,9 @@ a:hover {
 .chip {
   display: inline-block;
   padding: 0 10px;
-  height: 28px;
+  height: 26px;
   color: white;
-  border-radius: 14px;
+  border-radius: 13px;
 }
 
 

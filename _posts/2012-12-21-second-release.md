@@ -4,13 +4,16 @@ section-type: post
 title: Second version released!
 tags: [ 'release', '0.2' ]
 author: "flokuep"
-image: release-02.png
+image: "release-02.png"
 ---
-#### Dear Vocaluxe fans,
+![Release 2]({{site.baseurl}}/img/posts/release-02.png){:.post-banner}
 
-#### we've finished Vocaluxe v0.2 after 8 months of development.  
-The new version has the following new features:
+Dear Vocaluxe fans,
+
+we've finished Vocaluxe v0.2 after 8 months of development.  
 <!--more-->
+
+The new version has the following new features:
 
 * Support for up to 6 microphones.
 * Medley mode

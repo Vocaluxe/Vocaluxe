@@ -9,12 +9,12 @@
 
   {% include navigation.html %}
 
-  <section id="{{ page.section-type }}">
+  <section class="{{ page.section-type }}">
     <div class="container">
       <div class="row">
         <br />
         <h1 class="">{{page.title}}</h1>
-        <p class="post-info">
+        <div class="post-info">
           <i class="fa fa-calendar" aria-hidden="true"></i> {{ page.date | date_to_long_string }}
           <a href="https://github.com/{{ page.author }}" class="author-link">
             <img class="avatar" src="https://github.com/{{ page.author }}.png?size=18" alt="{{ page.author }}">
@@ -25,15 +25,14 @@
             {{ tag }}
           </div>
           {% endfor %}
-        </p>
-        <img src="{{site.baseurl}}/img/posts/{{ page.image }}" class="img-responsive" />
+        </div>
         {{ page.content | markdownify }}
       </div>
     </div>
   </section>
 
   {% include footer.html %}
-  
+
   {% include js.html %}
 
 </body>
