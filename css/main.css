@@ -361,8 +361,9 @@ a:hover {
 
 #news .col-md-8,
 #news .col-lg-12 {
-  border: 1px solid black;
-  border-radius: 5px;
+  border: 1px solid #2C3E50;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 #news h2,
