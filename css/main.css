@@ -97,6 +97,9 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -359,13 +362,6 @@ a:hover {
   width: 100%;
 }
 
-#news .col-md-8,
-#news .col-lg-12 {
-  border: 1px solid #2C3E50;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
 #news h2,
 #news h3 {
   margin-top: 0;
@@ -376,12 +372,12 @@ a:hover {
   font-size: 12pt;
 }
 
-#news .btn {
-  align-items:
-}
-
 .news-card {
   padding: 0;
+  margin: 10px 0px;
+  border: 1px solid #2C3E50;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .news-card-text {
@@ -594,6 +590,10 @@ a:hover {
 
 /*****Post*****/
 
+.post {
+  flex: 1;
+}
+
 .post .post-banner {
   width: 100%;
 }
@@ -649,8 +649,8 @@ a:hover {
   background-color: #243342;
   color: white;
   /*border-top: 1px solid rgba(255,255,255,0.1);*/
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 5px;
 }
 
 .footer-left {
@@ -664,11 +664,11 @@ a:hover {
 .footer li {
   display: inline-block;
   list-style-type: none;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .footer li i {
-  font-size: 20pt;
+  font-size: 18pt;
 }
 
 .footer a {
