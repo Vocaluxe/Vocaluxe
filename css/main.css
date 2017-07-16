@@ -192,7 +192,7 @@ a:hover {
 .navbar-default {
   border: none;
   border-radius: 0;
-  background: #2C3E50 !important;
+  background: transparent;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -231,6 +231,7 @@ a:hover {
 .navbar-default .faviconPng {
   height: 16pt;
   width: 16pt;
+  vertical-align: text-bottom;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -283,11 +284,12 @@ a:hover {
     padding-top: 30px;
   }
   .navbar-default .navbar-brand {
-    font-size: 25px;
+    font-size: 24pt;
   }
   .navbar-default .faviconPng {
     height: 25pt;
     width: 25pt;
+    vertical-align: sub;
     -webkit-transition: all 0.2s linear;
     -moz-transition: all 0.2s linear;
     -o-transition: all 0.2s linear;
@@ -306,11 +308,14 @@ a:hover {
   color: #fff;
   padding-top: 50px;
   padding-bottom: 25px;
+  background-image: url(http://www.publicdomainpictures.net/pictures/220000/velka/rock-concert-1494235506Xle.jpg);
+  background-size: 115%;
+  background-blend-mode: soft-light;
 }
 
 #hero-area img {
   max-width: 100%;
-  margin-top: 25px;
+  margin-top: 125px;
 }
 
 #hero-area .row {
@@ -318,7 +323,7 @@ a:hover {
   padding-bottom: 100px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   #hero-area img {
     display: none;
   }
@@ -356,8 +361,8 @@ a:hover {
 
 /**************/
 
-/*****News*****/
 
+/*****News*****/
 
 #news img {
   width: 100%;
@@ -383,14 +388,16 @@ a:hover {
 
 .news-card-text {
   padding: 10px;
-  color: white  ;
+  color: white;
 }
 
 .news-card-text a {
   color: white;
 }
 
+
 /**************/
+
 
 /***Download***/
 
@@ -532,6 +539,7 @@ a:hover {
   transition: all 0.27s ease-in-out;
 }
 
+
 /**************/
 
 
@@ -557,6 +565,7 @@ a:hover {
   /*box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);*/
   /*box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);*/
 }
+
 
 /**************/
 
@@ -615,6 +624,7 @@ a:hover {
 
 /**************/
 
+
 /*****Post*****/
 
 .post {
@@ -623,6 +633,11 @@ a:hover {
 
 .post .post-banner {
   width: 100%;
+}
+
+.post #gallery {
+  background-color: transparent;
+  color: #2C3E50;
 }
 
 .post-gallery {
@@ -670,6 +685,7 @@ a:hover {
 
 /**************/
 
+
 /****Footer****/
 
 .footer {
@@ -716,4 +732,6 @@ a:hover {
   border-color: rgba(255, 255, 255, 0.2);
   border-width: 1px;
 }
+
+
 /**************/

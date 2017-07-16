@@ -20,4 +20,5 @@ You don't want to wait for the next final release and want to follow the latest 
 
 {:class="post-gallery"}
 
-[![Song Selection]({{site.baseurl}}/img/posts/release-01_Screenshot_SongSelection.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-01_Screenshot_SongSelection.png){:class="img-responsive" data-lightbox="screenshots" data-title="Song Selection"}
+<!-- [![Song Selection]({{site.baseurl}}/img/posts/release-01_Screenshot_SongSelection.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-01_Screenshot_SongSelection.png){:class="img-responsive" data-lightbox="screenshots" data-title="Song Selection"} -->
+[![Song Selection]({{site.baseurl}}/img/posts/release-01_Screenshot_SongSelection.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-01_Screenshot_SongSelection.png){:class="swipebox" title="Song Selection"}
