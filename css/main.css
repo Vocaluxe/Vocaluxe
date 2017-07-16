@@ -309,7 +309,9 @@ a:hover {
   padding-top: 50px;
   padding-bottom: 25px;
   background-image: url(http://www.publicdomainpictures.net/pictures/220000/velka/rock-concert-1494235506Xle.jpg);
-  background-size: 115%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   background-blend-mode: soft-light;
 }
 
