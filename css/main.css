@@ -308,7 +308,7 @@ a:hover {
   color: #fff;
   padding-top: 50px;
   padding-bottom: 25px;
-  background-image: url(http://www.publicdomainpictures.net/pictures/220000/velka/rock-concert-1494235506Xle.jpg);
+  background-image: url(../img/hero-image.jpg);
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -684,6 +684,22 @@ a:hover {
   border-radius: 13px;
 }
 
+.post-nav {
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.post-nav a {
+  display: block;
+  float: left;
+  margin: 1em 0;
+}
+
+.post-nav .post-next {
+  text-align: right;
+  float: right;
+}
 
 /**************/
 
