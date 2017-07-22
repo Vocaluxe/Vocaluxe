@@ -84,7 +84,7 @@ namespace Vocaluxe.Lib.Draw
         protected override void _EnterFullScreen()
         {
             Debug.Assert(!_Fullscreen);
-            _Fullscreen = true;
+            
 
             _Restore.Location = _Form.Location;
             _Restore.Width = _Form.Width;
@@ -103,6 +103,8 @@ namespace Vocaluxe.Lib.Draw
             }
             else
                 _DoResize();
+
+            _Fullscreen = true;
         }
 
         protected override void _LeaveFullScreen()

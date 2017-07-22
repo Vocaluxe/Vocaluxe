@@ -196,6 +196,11 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         protected override void _DoResize()
         {
+            if (_Fullscreen)
+            {
+                return;
+            }
+
             // The window was minimized, so restore it to the last known size
             if (_Form.ClientSize.Width == 0 || _Form.ClientSize.Height == 0)
                 _Form.ClientSize = _SizeBeforeMinimize;
@@ -235,10 +240,18 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         protected override void _EnterFullScreen()
         {
-            //This currently not using real fullscreen mode but a borderless window
-            //Real fullscreen could be gained setting _PresentParameters.Windowed = true
-            //And calling Reset() and Init() after
             base._EnterFullScreen();
+            _PresentParameters.Windowed = false;
+            _Reset();
+            Init();
+        }
+
+        protected override void _LeaveFullScreen()
+        {
+            _PresentParameters.Windowed = true;
+            _Reset();
+            Init();
+            base._LeaveFullScreen();
         }
 
         // ReSharper restore RedundantOverridenMember
