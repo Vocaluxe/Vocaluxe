@@ -3,7 +3,7 @@
 /****Colors****/
 
 .blue-text {
-  color: #428bca;
+  color: #428bca !important;
 }
 
 .blue-bg {
@@ -11,11 +11,11 @@
 }
 
 .red-text {
-  color: #E74C3C;
+  color: #E74C3C !important;
 }
 
 .red-bg {
-  background-color: #E74C3C;
+  background-color: #E74C3C !important;
 }
 
 .dark-text {
@@ -23,7 +23,7 @@
 }
 
 .dark-bg {
-  background-color: #2C3E50;
+  background-color: #2C3E50 !important;
 }
 
 
@@ -150,13 +150,13 @@ a:hover {
   margin-top: 0px;
 }
 
-.subtitle {
+/*.subtitle {
   text-align: center;
   font-weight: 100;
   padding-bottom: 25px;
   position: relative;
   color: #fff;
-}
+}*/
 
 .content-section {
   text-align: center;
@@ -169,8 +169,8 @@ a:hover {
 }
 
 #news,
-#help,
-#about {
+#about,
+#contribute {
   background: #EEEEEE;
 }
 
@@ -193,6 +193,7 @@ a:hover {
   border: none;
   border-radius: 0;
   background: transparent;
+  padding-top: 30px;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -221,7 +222,7 @@ a:hover {
 
 .navbar-default .navbar-brand {
   color: #fff;
-  font-size: 16pt;
+  font-size: 24pt;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -229,9 +230,9 @@ a:hover {
 }
 
 .navbar-default .faviconPng {
-  height: 16pt;
-  width: 16pt;
-  vertical-align: text-bottom;
+  height: 25pt;
+  width: 25pt;
+  vertical-align: sub;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -279,21 +280,28 @@ a:hover {
   transition: all 0.2s linear;
 }
 
-@media (min-width: 767px) {
+@media (max-width: 767px) {
   .navbar-default {
-    padding-top: 30px;
+    background: #2C3E50;
+    padding-top: 0px;
   }
+
+  .navbar-default .navbar-nav>.active,
+  .navbar-default .navbar-nav li:hover,
+  .navbar-default .navbar-nav li:focus {
+    border-bottom: none;
+    border-left: 4px solid #428bca;
+    font-weight: bold;
+  }
+
   .navbar-default .navbar-brand {
-    font-size: 24pt;
+    font-size: 16pt;
   }
+
   .navbar-default .faviconPng {
-    height: 25pt;
-    width: 25pt;
-    vertical-align: sub;
-    -webkit-transition: all 0.2s linear;
-    -moz-transition: all 0.2s linear;
-    -o-transition: all 0.2s linear;
-    transition: all 0.2s linear;
+    height: 16pt;
+    width: 16pt;
+    vertical-align: text-bottom;
   }
 }
 
@@ -380,12 +388,28 @@ a:hover {
   font-size: 12pt;
 }
 
+#news .more {
+  margin: 24px 0 0 0;
+}
+
+#news .more .btn {
+  border: 1px solid #428bca;
+  color: #428bca;
+}
+
+#news .more .btn:hover {
+  background: transparent;
+  color: #E74C3C;
+  border: 1px solid #E74C3C;
+}
+
 .news-card {
   padding: 0;
   margin: 10px 0px;
   border: 1px solid #2C3E50;
   border-radius: 8px;
   overflow: hidden;
+  text-align: left;
 }
 
 .news-card-text {
@@ -545,33 +569,6 @@ a:hover {
 /**************/
 
 
-/***Gallery****/
-
-.gallery {
-  height: 550px;
-  /*margin: 0 100px !important;*/
-}
-
-.control-button {
-  font-size: 1.7em !important;
-}
-
-.item {
-  /*max-height: 500px !important;*/
-  height: 500px !important;
-  background-color: transparent !important;
-}
-
-.item img {
-  display: inline !important;
-  /*box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);*/
-  /*box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);*/
-}
-
-
-/**************/
-
-
 /*****Help*****/
 
 #help .card,
@@ -696,7 +693,7 @@ a:hover {
   margin: 1em 0;
 }
 
-.post-nav .post-next {
+.post-nav .post-prev {
   text-align: right;
   float: right;
 }
@@ -744,11 +741,6 @@ a:hover {
 .footer h3 {
   margin: 0;
   padding: 0;
-}
-
-.footer hr {
-  border-color: rgba(255, 255, 255, 0.2);
-  border-width: 1px;
 }
 
 

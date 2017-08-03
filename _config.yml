@@ -77,7 +77,6 @@ pages_list:
   News: 'news'
   Download: 'download'
   Features: 'about'
-  Gallery: 'gallery'
   Help: 'help'
   Contribute: 'contribute'
   Songs: 'songs'

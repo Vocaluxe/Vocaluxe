@@ -2,54 +2,58 @@
 {% assign post_1 = site.posts[0] %}
 {% assign post_2 = site.posts[1] %}
 {% assign post_3 = site.posts[2] %}
-<section id="{{ page.section-type }}">
+<section id="{{ page.section-type }}" class="content-section">
   <div class="container">
     <div class="row">
       <div class="col-md-12">
-
-
-      <h1 class="title">{{ page.title }}</h1>
-      {% if post_1 != nil %}
-      <div class="col-md-8">
-        <div class="col-lg-12 news-card">
-          <img src="{{site.baseurl}}/img/posts/{{ post_1.image }}" class="img-responsive" />
-          <div class="news-card-text dark-bg">
-            <div class="post-info red-text">
-              <i class="fa fa-calendar" aria-hidden="true"></i>
-              {{ post_1.date | date_to_long_string }}
+        <h1 class="title">{{ page.title }}</h1>
+        {% if post_1 != nil %}
+        <div class="col-md-8">
+          <div class="col-lg-12 news-card">
+            <img src="{{site.baseurl}}/img/posts/{{ post_1.image }}" class="img-responsive" />
+            <div class="news-card-text dark-bg">
+              <div class="post-info red-text">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                {{ post_1.date | date_to_long_string }}
+              </div>
+              <h3><a href="{{site.baseurl}}{{ post_1.url }}">{{post_1.title}} </a></h3>
             </div>
-            <h2><a href="{{site.baseurl}}{{ post_1.url }}">{{post_1.title}} </a></h2>
-          </div>
-        </div>
-      </div>
-      {% endif %}
-      <div class="col-md-4">
-        {% if post_2 != nil %}
-        <div class="col-lg-12 news-card">
-          <img src="{{site.baseurl}}/img/posts/{{ post_2.image }}" class="img-responsive" />
-          <div class="news-card-text dark-bg">
-            <div class="post-info red-text">
-              <i class="fa fa-calendar" aria-hidden="true"></i>
-              {{ post_2.date | date_to_long_string }}
-            </div>
-            <h3><a href="{{site.baseurl}}{{ post_2.url }}">{{post_2.title}} </a></h3>
           </div>
         </div>
         {% endif %}
-        {% if post_3 != nil %}
-        <div class="col-lg-12 news-card">
-          <img src="{{site.baseurl}}/img/posts/{{ post_3.image }}" class="img-responsive" />
-          <div class="news-card-text dark-bg">
-            <div class="post-info red-text">
-              <i class="fa fa-calendar" aria-hidden="true"></i>
-              {{ post_3.date | date_to_long_string }}
+        <div class="col-md-4">
+          {% if post_2 != nil %}
+          <div class="col-lg-12 news-card">
+            <img src="{{site.baseurl}}/img/posts/{{ post_2.image }}" class="img-responsive" />
+            <div class="news-card-text dark-bg">
+              <div class="post-info red-text">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                {{ post_2.date | date_to_long_string }}
+              </div>
+              <h3><a href="{{site.baseurl}}{{ post_2.url }}">{{post_2.title}} </a></h3>
             </div>
-            <h3><a href="{{site.baseurl}}{{ post_3.url }}">{{post_3.title}} </a></h3>
           </div>
+          {% endif %}
+          {% if post_3 != nil %}
+          <div class="col-lg-12 news-card">
+            <img src="{{site.baseurl}}/img/posts/{{ post_3.image }}" class="img-responsive" />
+            <div class="news-card-text dark-bg">
+              <div class="post-info red-text">
+                <i class="fa fa-calendar" aria-hidden="true"></i>
+                {{ post_3.date | date_to_long_string }}
+              </div>
+              <h3><a href="{{site.baseurl}}{{ post_3.url }}">{{post_3.title}} </a></h3>
+            </div>
+          </div>
+          {% endif %}
         </div>
-        {% endif %}
       </div>
-    </div>
+      <p class="col-md-12 more">
+        <a href="#" class="btn btn-lg">
+          <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+          More News
+        </a>
+      </p>
     </div>
   </div>
 </section>
