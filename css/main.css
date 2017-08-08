@@ -701,6 +701,21 @@ a:hover {
 /**************/
 
 
+/***Postlist***/
+
+.post-list {
+  margin-bottom: 40px;
+}
+
+.pagination {
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+/**************/
+
+
 /****Footer****/
 
 .footer {
