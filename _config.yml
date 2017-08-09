@@ -62,8 +62,9 @@ web-app-mode: True
 
 post-preview-words: 80
 big-post-preview-words: 200
+excerpt_separator: <!--more-->
 
-#paginate: 5
+paginate: 5
 
 ################################################################################
 
@@ -86,7 +87,7 @@ exclude: ["LICENSE", "README.md", "CONTRIBUTING", "CONTRIBUTORS", "scripts"]
 
 # Pagination path
 
-paginate_path: "blog/page:num/"
+paginate_path: "/blog/page:num/"
 
 # Enable minification SASS
 
@@ -95,5 +96,6 @@ sass:
 
 gems:
   - github-pages
-  #- jekyll-paginate
+  - jekyll-feed
+  - jekyll-paginate
   #- jemoji

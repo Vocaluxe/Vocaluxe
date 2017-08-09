@@ -1,10 +1,7 @@
-//Contact Form
+//Swipebox
+//Use .swipebox class
+(function($) {
 
-$('#submit').click(function(){
+  $('.swipebox').swipebox();
 
-$.post("assets/php/send.php", $(".contact-form").serialize(),  function(response) {   
- $('#success').html(response);
-});
-return false;
-
-});
+})(jQuery);

@@ -1,9 +1,7 @@
-@import url('https://fonts.googleapis.com/css?family=Lato:300,400,700');
-
 /****Colors****/
 
 .blue-text {
-  color: #428bca;
+  color: #428bca !important;
 }
 
 .blue-bg {
@@ -11,11 +9,11 @@
 }
 
 .red-text {
-  color: #E74C3C;
+  color: #E74C3C !important;
 }
 
 .red-bg {
-  background-color: #E74C3C;
+  background-color: #E74C3C !important;
 }
 
 .dark-text {
@@ -23,7 +21,7 @@
 }
 
 .dark-bg {
-  background-color: #2C3E50;
+  background-color: #2C3E50 !important;
 }
 
 
@@ -97,6 +95,9 @@ body {
   -webkit-font-smoothing: subpixel-antialiased;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 a {
@@ -113,6 +114,7 @@ a:hover {
 
 .row {
   padding: 50px 0px;
+  margin: 0;
 }
 
 .btn {
@@ -146,26 +148,27 @@ a:hover {
   margin-top: 0px;
 }
 
-.subtitle {
+/*.subtitle {
   text-align: center;
   font-weight: 100;
   padding-bottom: 25px;
   position: relative;
   color: #fff;
-}
+}*/
 
 .content-section {
   text-align: center;
 }
 
-#about,
-#songs {
+#songs,
+#gallery {
   background: #2C3E50;
   color: #fff;
 }
 
-#download,
-#help {
+#news,
+#about,
+#contribute {
   background: #EEEEEE;
 }
 
@@ -187,7 +190,8 @@ a:hover {
 .navbar-default {
   border: none;
   border-radius: 0;
-  background: #2C3E50 !important;
+  background: transparent;
+  padding-top: 30px;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -216,7 +220,7 @@ a:hover {
 
 .navbar-default .navbar-brand {
   color: #fff;
-  font-size: 16pt;
+  font-size: 24pt;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -224,8 +228,9 @@ a:hover {
 }
 
 .navbar-default .faviconPng {
-  height: 16pt;
-  width: 16pt;
+  height: 25pt;
+  width: 25pt;
+  vertical-align: sub;
   -webkit-transition: all 0.2s linear;
   -moz-transition: all 0.2s linear;
   -o-transition: all 0.2s linear;
@@ -273,20 +278,28 @@ a:hover {
   transition: all 0.2s linear;
 }
 
-@media (min-width: 767px) {
+@media (max-width: 767px) {
   .navbar-default {
-    padding-top: 30px;
+    background: #2C3E50;
+    padding-top: 0px;
   }
+
+  .navbar-default .navbar-nav>.active,
+  .navbar-default .navbar-nav li:hover,
+  .navbar-default .navbar-nav li:focus {
+    border-bottom: none;
+    border-left: 4px solid #428bca;
+    font-weight: bold;
+  }
+
   .navbar-default .navbar-brand {
-    font-size: 25px;
+    font-size: 16pt;
   }
+
   .navbar-default .faviconPng {
-    height: 25pt;
-    width: 25pt;
-    -webkit-transition: all 0.2s linear;
-    -moz-transition: all 0.2s linear;
-    -o-transition: all 0.2s linear;
-    transition: all 0.2s linear;
+    height: 16pt;
+    width: 16pt;
+    vertical-align: text-bottom;
   }
 }
 
@@ -301,11 +314,16 @@ a:hover {
   color: #fff;
   padding-top: 50px;
   padding-bottom: 25px;
+  background-image: url(../img/hero-image.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-blend-mode: soft-light;
 }
 
 #hero-area img {
   max-width: 100%;
-  margin-top: 25px;
+  margin-top: 125px;
 }
 
 #hero-area .row {
@@ -313,7 +331,7 @@ a:hover {
   padding-bottom: 100px;
 }
 
-@media (max-width: 992px) {
+@media (max-width: 991px) {
   #hero-area img {
     display: none;
   }
@@ -346,6 +364,59 @@ a:hover {
   font-size: 14pt;
   font-weight: 100;
   padding: 25px 0;
+}
+
+
+/**************/
+
+
+/*****News*****/
+
+#news img {
+  width: 100%;
+}
+
+#news h2,
+#news h3 {
+  margin-top: 0;
+  margin-bottom: 25px;
+}
+
+#news .post-info {
+  font-size: 12pt;
+}
+
+#news .more {
+  margin: 24px 0 0 0;
+}
+
+#news .more .btn {
+  border: 1px solid #428bca;
+  color: #428bca;
+}
+
+#news .more .btn:hover {
+  background: transparent;
+  color: #E74C3C;
+  border: 1px solid #E74C3C;
+}
+
+.news-card {
+  padding: 0;
+  margin: 10px 0px;
+  border: 1px solid #2C3E50;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.news-card-text {
+  padding: 10px;
+  color: white;
+}
+
+.news-card-text a {
+  color: white;
 }
 
 
@@ -455,6 +526,7 @@ a:hover {
   background-color: #fff;
   margin: 0 0 30px 0;
   padding: 0;
+  border: 1px solid #2C3E50;
 }
 
 #about .card img {
@@ -532,9 +604,9 @@ a:hover {
   vertical-align: middle;
 }
 
-.help-icon,
-.contribute-icon,
-.song-icon {
+.hover-card .help-icon,
+.hover-card .contribute-icon,
+.hover-card .song-icon {
   font-size: 26pt;
   text-align: center;
 }
@@ -549,19 +621,45 @@ a:hover {
 
 /**************/
 
+
 /*****Post*****/
+
+.post {
+  flex: 1;
+}
+
+.post .post-banner {
+  width: 100%;
+}
+
+.post #gallery {
+  background-color: transparent;
+  color: #2C3E50;
+}
+
+.post-gallery {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.post-gallery a {
+  width: 100%;
+  max-width: 220px;
+  margin: 4px;
+}
 
 .post-info {
   display: inline-block;
   margin-bottom: 15px;
+  font-size: 13pt;
 }
 
 .avatar {
   border-radius: 50%;
   position: relative;
   top: 3px;
-  height: 18px;
-  width: 18px;
+  height: 18px !important;
+  width: 18px !important;
   vertical-align: baseline;
 }
 
@@ -577,13 +675,45 @@ a:hover {
 .chip {
   display: inline-block;
   padding: 0 10px;
-  height: 28px;
+  height: 26px;
   color: white;
-  border-radius: 14px;
+  border-radius: 13px;
 }
 
+.post-nav {
+  display: block;
+  width: auto;
+  overflow: hidden;
+}
+
+.post-nav a {
+  display: block;
+  float: left;
+  margin: 1em 0;
+}
+
+.post-nav .post-prev {
+  text-align: right;
+  float: right;
+}
 
 /**************/
+
+
+/***Postlist***/
+
+.post-list {
+  margin-bottom: 40px;
+}
+
+.pagination {
+  text-align: center;
+  display: flex;
+  justify-content: space-between;
+}
+
+/**************/
+
 
 /****Footer****/
 
@@ -591,8 +721,8 @@ a:hover {
   background-color: #243342;
   color: white;
   /*border-top: 1px solid rgba(255,255,255,0.1);*/
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding-top: 15px;
+  padding-bottom: 5px;
 }
 
 .footer-left {
@@ -606,11 +736,11 @@ a:hover {
 .footer li {
   display: inline-block;
   list-style-type: none;
-  margin-right: 10px;
+  margin-left: 10px;
 }
 
 .footer li i {
-  font-size: 20pt;
+  font-size: 18pt;
 }
 
 .footer a {
@@ -627,8 +757,5 @@ a:hover {
   padding: 0;
 }
 
-.footer hr {
-  border-color: rgba(255, 255, 255, 0.2);
-  border-width: 1px;
-}
+
 /**************/
