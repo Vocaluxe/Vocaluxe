@@ -643,6 +643,7 @@ a:hover {
 }
 
 .post-gallery a {
+  width: 100%;
   max-width: 220px;
   margin: 4px;
 }
