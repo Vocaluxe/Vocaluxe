@@ -80,6 +80,8 @@ after_build:
 test: off
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1
+after_deploy:
+- ps: ./.appveyor/afterDeploy.ps1
 deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
