@@ -15,6 +15,8 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Nombre de joueurs</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Nombre de micros</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Nombre de tours</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Nombre de jokers</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Remplir de nouveau les jokers à tour</string>
   <string name="TR_SCREENNAMES_TITLE">Mode Challenge: Choix des joueurs</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Sélectionner au hasard</string>
   <string name="TR_SCREENMAIN_TITLE">Mode Challenge: Résumé</string>
