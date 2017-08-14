@@ -90,7 +90,7 @@ deploy:
   auth_token:
     secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
   artifact: ReleaseZip
-  prerelease: true
+  prerelease: $(IS_BETA_RELEASE)
   on:
     APPVEYOR_REPO_TAG: true
     NIGHTLY_BUILD: false
@@ -102,6 +102,7 @@ deploy:
   auth_token:
     secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
   artifact: ReleaseZip
+  prerelease: true
   on:
     APPVEYOR_REPO_TAG: true
     NIGHTLY_BUILD: true

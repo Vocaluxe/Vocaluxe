@@ -7,6 +7,8 @@ else{
 	Return;
 }
 
+$Env:IS_BETA_RELEASE = ($Env:APPVEYOR_REPO_TAG_NAME -match "beta")
+
 $getRelaseInfoParams = @{
 	Uri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/releases/tags/$targetTag";
 	Method = 'GET';
