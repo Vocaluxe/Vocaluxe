@@ -23,20 +23,20 @@ catch [System.Net.WebException]
 	# No Release found for this tag
     $statusCode = [int]$_.Exception.Response.StatusCode
     $html = $_.Exception.Response.StatusDescription
-	Write-Host "No Release found for this tag ($html): $($Env:APPVEYOR_REPO_TAG_NAME)"
+	Write-Host "No Release found for this tag ($html): $targetTag"
 	Return;
 }
 
-$assetId = ($result.assets | where {$_.name -EQ "Vocaluxe_$($Env:APPVEYOR_REPO_TAG_NAME)_Windows_$($Env:PLATFORM).zip" }  | Select-Object -first 1 ).id
+$releaseId = $result.id
 
-if(!$assetId){
-	# No matching asset found in this release
-	Write-Host "No matching asset found in this release: Vocaluxe_$($Env:APPVEYOR_REPO_TAG_NAME)_Windows_$($Env:PLATFORM).zip"
+if(!$releaseId){
+	# No matching release found in this release
+	Write-Host "No matching release found"
 	Return;
 }
 
 $deleteAssetParams = @{
-	Uri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/releases/assets/$assetId";
+	Uri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/releases/$releaseId";
 	Method = 'DELETE';
 	Headers = @{
 		Authorization = 'Basic ' + [Convert]::ToBase64String(
@@ -45,14 +45,14 @@ $deleteAssetParams = @{
 }
 try{
 	$result = Invoke-RestMethod @deleteAssetParams 
-	Write-Host "Successfully deleted asset: Vocaluxe_$($Env:APPVEYOR_REPO_TAG_NAME)_Windows_$($Env:PLATFORM).zip"
+	Write-Host "Successfully deleted release for: $targetTag"
 }
 catch [System.Net.WebException] 
 {
-	# Could not delete asset
+	# Could not delete release
     $statusCode = [int]$_.Exception.Response.StatusCode
     $html = $_.Exception.Response.StatusDescription
-	Write-Host "Could not delete asset ($html): Vocaluxe_$($Env:APPVEYOR_REPO_TAG_NAME)_Windows_$($Env:PLATFORM).zip"
+	Write-Host "Could not delete release ($html) for: $targetTag"
 	Return;
 }
  
