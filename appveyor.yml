@@ -80,6 +80,8 @@ after_build:
 test: off
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1
+after_deploy:
+- ps: ./.appveyor/afterDeploy.ps1
 deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
@@ -88,7 +90,7 @@ deploy:
   auth_token:
     secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
   artifact: ReleaseZip
-  prerelease: true
+  prerelease: $(IS_BETA_RELEASE)
   on:
     APPVEYOR_REPO_TAG: true
     NIGHTLY_BUILD: false
@@ -96,10 +98,11 @@ deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
   release: Latest Nightly build
-  description: 
+  description: $(APPVEYOR_REPO_COMMIT)
   auth_token:
     secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
   artifact: ReleaseZip
+  prerelease: true
   on:
     APPVEYOR_REPO_TAG: true
     NIGHTLY_BUILD: true
