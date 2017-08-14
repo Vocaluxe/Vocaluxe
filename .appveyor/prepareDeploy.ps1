@@ -35,7 +35,7 @@ if(!$releaseId){
 	Return;
 }
 
-if($result.body -contains $Env:APPVEYOR_REPO_COMMIT){
+if($result.body -match $Env:APPVEYOR_REPO_COMMIT){
     # An other build already recreated the release
 	Write-Host "An other build already recreated the release"
 	Return;
