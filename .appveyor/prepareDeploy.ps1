@@ -35,6 +35,12 @@ if(!$releaseId){
 	Return;
 }
 
+if($result.assets.length <= 1){
+    # The other build already recreated the release
+	Write-Host "The other build already recreated the release"
+	Return;
+}
+
 $deleteAssetParams = @{
 	Uri = "https://api.github.com/repos/Vocaluxe/Vocaluxe/releases/$releaseId";
 	Method = 'DELETE';
