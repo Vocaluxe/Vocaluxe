@@ -60,7 +60,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
     // ReSharper disable ClassNeverInstantiated.Global
     public sealed class CPartyModeTicTacToe : CPartyMode
-        // ReSharper restore ClassNeverInstantiated.Global
+    // ReSharper restore ClassNeverInstantiated.Global
     {
         public override int MinMics
         {
@@ -96,7 +96,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             get { return 10; }
         }
 
-        private enum EStage
+        public readonly EGameMode[] AvailableGameModes = { EGameMode.TR_GAMEMODE_NORMAL, EGameMode.TR_GAMEMODE_SHORTSONG, EGameMode.TR_GAMEMODE_DUET };
+
+    private enum EStage
         {
             Config,
             Names,
@@ -119,7 +121,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             public int CategoryIndex;
             public int PlaylistID;
 
-            public EGameMode GameMode;
+            public int GameMode;
 
             public List<CRound> Rounds;
             public List<int> Songs;
@@ -160,7 +162,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     SongSource = ESongSource.TR_ALLSONGS,
                     PlaylistID = 0,
                     CategoryIndex = 0,
-                    GameMode = EGameMode.TR_GAMEMODE_NORMAL,
+                    GameMode = 0,
                     Rounds = new List<CRound>(),
                     Songs = new List<int>(),
                     NumJokerRandom = new int[2],
@@ -432,20 +434,20 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
                     {
                         int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
-                        if (CBase.Songs.GetSongByID(id).AvailableGameModes.Contains(GameData.GameMode))
+                        if (CBase.Songs.GetSongByID(id).AvailableGameModes.Contains(AvailableGameModes[GameData.GameMode]))
                             GameData.Songs.Add(id);
                     }
                     break;
 
                 case ESongSource.TR_ALLSONGS:
                     ReadOnlyCollection<CSong> avSongs = CBase.Songs.GetSongs();
-                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(GameData.GameMode)).Select(song => song.ID));
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(AvailableGameModes[GameData.GameMode])).Select(song => song.ID));
                     break;
 
                 case ESongSource.TR_CATEGORY:
                     CBase.Songs.SetCategory(GameData.CategoryIndex);
                     avSongs = CBase.Songs.GetVisibleSongs();
-                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(GameData.GameMode)).Select(song => song.ID));
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(AvailableGameModes[GameData.GameMode])).Select(song => song.ID));
 
                     CBase.Songs.SetCategory(-1);
                     break;
@@ -493,7 +495,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (isDuet)
                 players[1].VoiceNr = 1;
 
-            CBase.Game.AddSong(round.SongID, GameData.GameMode);
+            CBase.Game.AddSong(round.SongID, AvailableGameModes[GameData.GameMode]);
         }
 
         private void _SetNumJokers()
