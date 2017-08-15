@@ -52,12 +52,10 @@ tx.exe
 /PartyModes/*/*/*.dll
 /VocaluxeLib/bin
 /ServerLib/bin/ClientServerLib.dll
-/Installer/setup-cache
-/Installer/setup-SetupFiles
-/Installer/vocaluxe-*-setup.exe
-/Installer/Vocaluxe*.rar
 /Installer/Prerequisites/GStreamer x64/gstreamer-1.0-x86_64-1.4.1.msi
 /Installer/Prerequisites/GStreamer x86/gstreamer-1.0-x86-1.4.1.msi
+/Installer/Setup Files
+/Installer/Vocaluxe-cache
 /WebserverInitalConfig/bin
 /PhoneGap/
 /TestResults
