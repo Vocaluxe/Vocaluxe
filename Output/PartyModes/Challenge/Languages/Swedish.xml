@@ -2,7 +2,7 @@
 <resources>
   <string name="language">Svenska</string>
   <string name="TR_PARTYMODE_NAME">Utmanarläge</string>
-  <string name="TR_PARTYMODE_DESCRIPTION">Spela några utmanar-omgångar.</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Spela några utmanaromgångar.</string>
   <string name="TR_PARTYMODE_AUDIENCE">För alla som är intresserade av dueller.</string>
   <string name="TR_BUTTON_NEXT">Nästa</string>
   <string name="TR_BUTTON_BACK">Tillbaka</string>
@@ -10,23 +10,23 @@
   <string name="TR_BUTTON_EXIT">Avsluta</string>
   <string name="TR_BUTTON_YES">Ja</string>
   <string name="TR_BUTTON_NO">Nej</string>
-  <string name="TR_BUTTON_NEXT_ROUND">Nästa Omgång</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Nästa omgång</string>
   <string name="TR_SCREENCONFIG_TITLE">Utmanarläge: Konfiguration</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Antal spelare</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Antal mikrofoner</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Antal omgångar</string>
-  <string name="TR_SCREENCONFIG_NUMJOKERS">Antal joker</string>
-  <string name="TR_SCREENCONFIG_REFILLJOKERS">Fyll på jokers varje runda</string>
-  <string name="TR_SCREENNAMES_TITLE">Utmanarläge: Välj Spelare</string>
-  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Välj slumpmässig</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Antal jokrar</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Fyll på jokrar varje runda</string>
+  <string name="TR_SCREENNAMES_TITLE">Utmanarläge: Välj spelare</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Välj slumpmässiga</string>
   <string name="TR_SCREENMAIN_TITLE">Utmanarläge: Översikt</string>
-  <string name="TR_SCREENMAIN_TABLE_POS">Position</string>
+  <string name="TR_SCREENMAIN_TABLE_POS">Pos</string>
   <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Namn</string>
   <string name="TR_SCREENMAIN_TABLE_NUMPLAYED">Omgångar</string>
   <string name="TR_SCREENMAIN_TABLE_WON">Vunna</string>
-  <string name="TR_SCREENMAIN_TABLE_SINGPOINTS">Sång Poäng</string>
-  <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Resultat</string>
-  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Vill Du verkligen avsluta?</string>
+  <string name="TR_SCREENMAIN_TABLE_SINGPOINTS">Sångpoäng</string>
+  <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Poäng</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Vill du verkligen avsluta?</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Spelare i nästa omgång:</string>
   <string name="TR_SCREENMAIN_FINISH">Alla omgånga sjungna! Och vinnaren är...</string>
 </resources>

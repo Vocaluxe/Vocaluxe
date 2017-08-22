@@ -54,11 +54,10 @@ namespace Vocaluxe.Screens
             base.LoadTheme(xmlPath);
 
             _Texts[_TextRelease].Text = CSettings.GetFullVersionText();
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            _Texts[_TextRelease].Visible = CSettings.VersionRevision != ERevision.Release;
-            // ReSharper restore ConditionIsAlwaysTrueOrFalse
+            _Texts[_TextRelease].Visible = true;
             _Statics[_StaticWarningProfiles].Visible = false;
             _Texts[_TextWarningProfiles].Visible = false;
+            _SelectElement(_Buttons[_ButtonSing]);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -106,6 +105,10 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonExit].Selected)
                             return false;
 
+                        break;
+
+                    case Keys.Escape:
+                        _SelectElement(_Buttons[_ButtonExit]);
                         break;
                 }
             }

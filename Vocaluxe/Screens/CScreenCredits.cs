@@ -428,12 +428,12 @@ namespace Vocaluxe.Screens
             CCreditTranslation asturian = _AddNewTranslation("Asturian", new List<string> { "Puxarra" });
             CCreditTranslation czech = _AddNewTranslation("Czech", new List<string> { "fri" });
             CCreditTranslation dutch = _AddNewTranslation("Dutch", new List<string> { "thijsblaauw", "DeMarin" });
-            CCreditTranslation french = _AddNewTranslation("French", new List<string> { "pinky007" });
-            CCreditTranslation hungarian = _AddNewTranslation("Hungarian", new List<string> { "warez" });
-            CCreditTranslation italian = _AddNewTranslation("Italian", new List<string> { "giuseppep", "LFactory" });
+            CCreditTranslation french = _AddNewTranslation("French", new List<string> { "pinky007", "javafrog" });
+            CCreditTranslation hungarian = _AddNewTranslation("Hungarian", new List<string> { "warez", "skyli" });
+            CCreditTranslation italian = _AddNewTranslation("Italian", new List<string> { "giuseppep", "LFactory", "yogotosleepnow" });
             CCreditTranslation portugese = _AddNewTranslation("Portuguese", new List<string> { "2borG", "xventil" });
             CCreditTranslation spanish = _AddNewTranslation("Spanish", new List<string> { "Pantero03", "RubenDjOn", "TeLiX", "karv" });
-            CCreditTranslation swedish = _AddNewTranslation("Swedish", new List<string> { "u28151" });
+            CCreditTranslation swedish = _AddNewTranslation("Swedish", new List<string> { "u28151", "Jiiniasu" });
             CCreditTranslation turkish = _AddNewTranslation("Turkish", new List<string> { "spirax", "Swertyy" });
 
             _Translations = new List<CCreditTranslation> { intro, asturian, czech, dutch, french, hungarian, italian, spanish, swedish, turkish };
