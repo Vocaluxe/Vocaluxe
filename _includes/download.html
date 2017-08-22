@@ -8,9 +8,15 @@
         {% assign release_nightly = release %}
     {% elsif release.prerelease == true and (release_pre == nil or release.created_at > release_pre.created_at) %}
         {% assign release_pre = release %}
-    {% elsif release_stable == nil or release.created_at > release_stable.created_at %}
+    {% elsif release.prerelease == false and (release_stable == nil or release.created_at > release_stable.created_at) %}
+        {% assign release_stable = release %}
     {% endif %}
 {% endfor %}
+
+{% if release_pre != nil and release_stable != nil and release_stable.created_at > release_pre.created_at %}
+        {% assign release_pre = nil %}   
+{% endif %}
+
     <section id="{{ page.section-type }}" class="content-section">
         <div class="container">
             <div class="row">
