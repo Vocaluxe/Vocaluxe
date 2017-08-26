@@ -20,7 +20,7 @@ Vocaluxe offers diversified party modes and can optionally be controlled via a b
 
 Supported Operating Systems / Requirements:
 - Windows Vista, Windows 7, Windows 8, Windows 8.1 and Windows 10 with .NET 4.0
-- Linux (tested on Arch Linux)
+- *Linux* (no official support)
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
 
 
