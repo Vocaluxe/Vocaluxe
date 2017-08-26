@@ -111,6 +111,10 @@ namespace Vocaluxe
 
                 Application.DoEvents();
 
+                // Create folders
+                // Do this before starting benchmarks so data folder could be created properly
+                CSettings.CreateFolders();
+
                 // load config
                 CLog.StartBenchmark("Init Config");
                 CConfig.LoadCommandLineParams(args);
@@ -118,9 +122,6 @@ namespace Vocaluxe
                 CConfig.Init();
                 CConfig.UseCommandLineParamsAfter();
                 CLog.StopBenchmark("Init Config");
-
-                // Create folders
-                CSettings.CreateFolders();
 
                 _SplashScreen = new CSplashScreen();
                 Application.DoEvents();
