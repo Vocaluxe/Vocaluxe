@@ -92,9 +92,8 @@ namespace Vocaluxe
 
             try
             {
-                // Create folders
-                // Do this before init logs so data folder could be created properly
-                CSettings.CreateFolders();
+                // Create data folder
+                Directory.CreateDirectory(CSettings.DataFolder);
 
                 // Init Log
                 CLog.Init();
@@ -122,6 +121,9 @@ namespace Vocaluxe
                 CConfig.Init();
                 CConfig.UseCommandLineParamsAfter();
                 CLog.StopBenchmark("Init Config");
+
+                // Create folders
+                CSettings.CreateFolders();
 
                 _SplashScreen = new CSplashScreen();
                 Application.DoEvents();
