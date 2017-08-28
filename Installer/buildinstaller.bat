@@ -9,8 +9,17 @@
 
 @ECHO OFF
 echo Cloning vocaluxe from github and checkout master
-git clone -q https://github.com/Vocaluxe/Vocaluxe.git Files > log.txt
-git checkout -q develop >> log.txt
+if exist "Files" (
+	cd Files
+	git checkout -q develop >> log.txt
+	git pull -q >> log.txt
+	cd ../
+) else (
+	git clone -q https://github.com/Vocaluxe/Vocaluxe.git Files > log.txt
+	cd Files
+	git checkout -q develop >> log.txt
+	cd ../
+)
 echo - Done
 echo.
 
