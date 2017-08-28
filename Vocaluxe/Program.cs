@@ -92,6 +92,10 @@ namespace Vocaluxe
 
             try
             {
+                // Create folders
+                // Do this before init logs so data folder could be created properly
+                CSettings.CreateFolders();
+
                 // Init Log
                 CLog.Init();
 
@@ -110,10 +114,6 @@ namespace Vocaluxe
                 CLog.StopBenchmark("Init Language");
 
                 Application.DoEvents();
-
-                // Create folders
-                // Do this before starting benchmarks so data folder could be created properly
-                CSettings.CreateFolders();
 
                 // load config
                 CLog.StartBenchmark("Init Config");
