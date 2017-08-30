@@ -44,8 +44,8 @@ Supported Operating Systems / Requirements:
 
 	<Game>
 		<!--SongFolder: Add each song folder in a seperate SongFolder entry-->
-		<SongFolder>C:\Vocaluxe\Songs</SongFolder1>
-		<SongFolder>D:\EvenMore\Songs</SongFolder2>
+		<SongFolder>C:\Vocaluxe\Songs</SongFolder>
+		<SongFolder>D:\EvenMore\Songs</SongFolder>
 
 - To use your highscore database from UltraStar deluxe 1.0.1, UltraStar deluxe CMD Mod or 
   UltraStar deluxe 1.1, simply copy your Ultrastar.db (rename if necessary) into the main
