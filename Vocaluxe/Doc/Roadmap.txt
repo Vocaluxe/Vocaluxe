@@ -88,18 +88,24 @@
 	- Spectrum Analyzer (Record Screen and Player Selection Screen)
 	- WiiMote Support
  
- + v0.3.0 Shining Heaven (reached: ??.0?.2013):
+ + v0.3.0 Shining Heaven (release skipped):
 	- Party Mode Support
 	- Party Mode: Challenge Mode (with more than 2 player at once)
 	- Party Mode: Challenge Medley Mode
 	- Party Mode: Tic, Tac, Toe
 	- GStreamer Audio Support
+	- Smartphone control (webserver)
+	- Dynamic cover generation
+	- New Song View: List
 
- + v0.4.0 (reached: ??.??.201?):
+ + v0.4.0 Blue Sunrise (reached: ??.??.201?):
+ 	- A lot of restructered and rewritten lines of code
+	- Some minor and bigger improvements and additions
+	- Updated audio and video libs
+	- New infrastructure: CI with nightly builds, new homepage, updated installer
 
 -----------------
 just some ideas:
-	- Installer
 	- More Song List Views
 	- Tile Board: Show title and artist under each tile
 	- OnScreen Keyboard?
