@@ -1,4 +1,4 @@
-Vocaluxe 0.3 README
+Vocaluxe 0.4 README
 ----------------------------
 
 =================================
@@ -23,7 +23,8 @@ Vocaluxe is an entirely new development in C#, inspired by the original UltraSta
 and the great Ultrastar Deluxe project.
 
 Supported Operating Systems / Requirements:
-- WinXP, Vista, Windows 7 or Windows 8 with .NET 4.0
+- Vista, Windows 7, Windows 8 or Windows 10 with .NET 4.0
+- Linux (no official support)
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
 - Visual C++ Redistributable Packages 2008 and 2012
 
@@ -32,16 +33,19 @@ Supported Operating Systems / Requirements:
 = 2. Release Notes              =
 =================================
 
-- The program supports 32bit and 64bit (Vocaluxe_x64.exe) operating systems.
+- The program supports 32bit and 64bit (appropriate download package) operating systems.
 
-- To add your existing song collection to Vocaluxe, put your songs into the 'Songs' subfolder.
+- When using installer, you can find all mentioned folder in 'Documents/Vocaluxe', otherwise 
+  they should be created just next to 'Vocaluxe.exe'
+
+- To add your existing song collection to Vocaluxe, put your songs into the 'Songs' subfolder. 
 
   Alternatively, you can add multiple song paths to Vocaluxe by editing your Config.xml:
 
 	<Game>
-		<!--SongFolder: SongFolder1, SongFolder2, SongFolder3, ...-->
-		<SongFolder1>C:\Vocaluxe\Songs</SongFolder1>
-		<SongFolder2>D:\EvenMore\Songs</SongFolder2>
+		<!--SongFolder: Add each song folder in a seperate SongFolder entry-->
+		<SongFolder>C:\Vocaluxe\Songs</SongFolder1>
+		<SongFolder>D:\EvenMore\Songs</SongFolder2>
 
 - To use your highscore database from UltraStar deluxe 1.0.1, UltraStar deluxe CMD Mod or 
   UltraStar deluxe 1.1, simply copy your Ultrastar.db (rename if necessary) into the main
@@ -101,6 +105,8 @@ or from the console:
 						 load playlist from this path.
 						 Example:
 						 Vocaluxe.exe -PlaylistFolder D:\MyPlaylists
+						 
+-OldTheme yes	   : Try to load theme that is created for vocaluxe 0.2 or older (or some pre-release version of 0.3). Enter theme editor and save your theme to convert every file to new syntax. This will be removed in a future version.
 
 
 Complete example:
@@ -150,7 +156,7 @@ Sing screen
 =================================
 = 5. Help & Suppport            =
 =================================
-Bug Tracker:			http://84.200.73.138/redmine/projects/vocaluxe
+Bug Tracker:			https://github.com/Vocaluxe/Vocaluxe/issues
 Translations:			https://www.transifex.com/projects/p/vocaluxe/
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
 Support Forum (German):	http://www.ultra-star.de
