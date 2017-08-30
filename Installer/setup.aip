@@ -5,6 +5,10 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiPropsComponent">
     <ROW Property="AI_BITMAP_DISPLAY_MODE" Value="0"/>
+    <ROW Property="AI_CLEAN_RESOURCES_DISABLE_UPGRADE" Value="0"/>
+    <ROW Property="AI_CLEAN_RESOURCES_UNINSTALL" Value="1"/>
+    <ROW Property="AI_CLEAN_RESOURCES_USER_PROMPT_BASIC_UI" Value="1"/>
+    <ROW Property="AI_CLEAN_RESOURCES_USER_PROMPT_FULL_UI" Value="1"/>
     <ROW Property="AI_FINDEXE_TITLE" Value="Select the installation package for [|ProductName]" ValueLocId="AI.Property.FindExeTitle"/>
     <ROW Property="AI_PREDEF_LCONDS_PROPS" Value="AI_DETECTED_DOTNET_VERSION;AI_DETECTED_PHYSICAL_MEMORY"/>
     <ROW Property="AI_REQUIRED_DOTNET_DISPLAY" MultiBuildValue="DefaultBuild:4.0#x64_1:4.0" ValueLocId="-"/>
@@ -304,9 +308,10 @@
     <ROW Directory="NewFolder_Dir" Directory_Parent="APPDIR" DefaultDir="Songs"/>
     <ROW Directory="Newtonsoft.Json_Dir" Directory_Parent="Licenses_Dir" DefaultDir="NEWTON~1.JSO|Newtonsoft.Json"/>
     <ROW Directory="PartyModes_Dir" Directory_Parent="APPDIR" DefaultDir="PARTYM~1|PartyModes"/>
+    <ROW Directory="PersonalFolder" Directory_Parent="TARGETDIR" DefaultDir="PERSON~1|PersonalFolder" IsPseudoRoot="1"/>
     <ROW Directory="PortAudioSharp_Dir" Directory_Parent="Licenses_Dir" DefaultDir="PORTAU~2|PortAudio-Sharp"/>
     <ROW Directory="PortAudio_Dir" Directory_Parent="Licenses_Dir" DefaultDir="PORTAU~1|PortAudio"/>
-    <ROW Directory="Profiles_Dir" Directory_Parent="APPDIR" DefaultDir="Profiles"/>
+    <ROW Directory="Profiles_Dir" Directory_Parent="Vocaluxe_Dir" DefaultDir="Profiles"/>
     <ROW Directory="QRCoder_Dir" Directory_Parent="Licenses_Dir" DefaultDir="QRCODE~1|QR Coder"/>
     <ROW Directory="Resources_1_Dir" Directory_Parent="AmbientGreen_Dir" DefaultDir="RESOUR~1|Resources"/>
     <ROW Directory="Resources_2_Dir" Directory_Parent="AmbientRed_Dir" DefaultDir="RESOUR~1|Resources"/>
@@ -325,6 +330,7 @@
     <ROW Directory="Themes_3_Dir" Directory_Parent="APPDIR" DefaultDir="Themes"/>
     <ROW Directory="Themes_Dir" Directory_Parent="Challenge_Dir" DefaultDir="Themes"/>
     <ROW Directory="TicTacToe_Dir" Directory_Parent="PartyModes_Dir" DefaultDir="TICTAC~1|TicTacToe"/>
+    <ROW Directory="Vocaluxe_Dir" Directory_Parent="PersonalFolder" DefaultDir="Vocaluxe"/>
     <ROW Directory="Website_Dir" Directory_Parent="APPDIR" DefaultDir="Website"/>
     <ROW Directory="af_1_Dir" Directory_Parent="locale_1_Dir" DefaultDir="af"/>
     <ROW Directory="af_Dir" Directory_Parent="locale_Dir" DefaultDir="af"/>
@@ -3749,6 +3755,9 @@
     <ROW File="yesbitmaps.conf_1" Component_="autohint.conf_1" FileName="70-YES~1.CON|70-yes-bitmaps.conf" Attributes="0" SourcePath="Files\Output\libs\unmanaged\gstreamer86\share\fontconfig\conf.avail\70-yes-bitmaps.conf" SelfReg="false" NextFile="delicious.conf_3"/>
     <ROW File="youtube.png" Component_="addPlaylist.png" FileName="youtube.png" Attributes="0" SourcePath="Files\Output\Website\img\youtube.png" SelfReg="false" NextFile="index.html"/>
   </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.AiRemoveFileComponent">
+    <ROW RemoveFile="_" Condition="(AI_CLEAN_RESOURCES_UNINSTALL = &quot;1&quot;)" Options="3"/>
+  </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BootstrOptComponent">
     <ROW BootstrOptKey="GlobalOptions" GeneralOptions="q" DownloadFolder="[AppDataFolder][|Manufacturer]\[|ProductName]\prerequisites" Options="4" UpdatesUrl="https://raw.githubusercontent.com/Vocaluxe/Vocaluxe/master/Installer/update.txt"/>
   </COMPONENT>
@@ -3807,6 +3816,11 @@
     <ROW XmlFile="Vocaluxe.VisualElementsManifest.xml" FileName="Vocaluxe.VisualElementsManifest.xml" RootElement="Application" Flags="89" Version="1.0" Encoding="UTF-8" IndentUnits="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiActionTextComponent">
+    <ROW Action="AI_AiRemoveFilesCommit" Description="Executing file removal operations" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesCommit" Template="Executing file removal: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesCommit"/>
+    <ROW Action="AI_AiRemoveFilesDeferred_Permanent" Description="Preparing files for removal" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesDeferred_Permanent" Template="Preparing file: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesDeferred_Permanent"/>
+    <ROW Action="AI_AiRemoveFilesDeferred_Undoable" Description="Preparing files for removal" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesDeferred_Undoable" Template="Preparing file: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesDeferred_Undoable"/>
+    <ROW Action="AI_AiRemoveFilesImmediate" Description="Preparing files for removal" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesImmediate" Template="Preparing file: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesImmediate"/>
+    <ROW Action="AI_AiRemoveFilesRollback" Description="Restoring removed files" DescriptionLocId="ActionText.Description.AI_AiRemoveFilesRollback" Template="Restoring file: [1]" TemplateLocId="ActionText.Template.AI_AiRemoveFilesRollback"/>
     <ROW Action="AI_DeleteLzma" Description="Deleting files extracted from archive" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
     <ROW Action="AI_DeleteRLzma" Description="Deleting files extracted from archive" DescriptionLocId="ActionText.Description.AI_DeleteLzma" TemplateLocId="-"/>
     <ROW Action="AI_DownloadPrereq" Description="Downloading prerequisite software" DescriptionLocId="ActionText.Description.AI_DownloadPrereq" Template="Downloading [1]{[2] completed}" TemplateLocId="ActionText.Template.AI_DownloadPrereq"/>
@@ -3825,11 +3839,15 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiBinaryComponent">
     <ROW Name="Prereq.dll" SourcePath="&lt;AI_CUSTACTS&gt;Prereq.dll"/>
+    <ROW Name="ResourceCleaner.dll" SourcePath="&lt;AI_CUSTACTS&gt;ResourceCleaner.dll"/>
     <ROW Name="SoftwareDetector.dll" SourcePath="&lt;AI_CUSTACTS&gt;SoftwareDetector.dll"/>
     <ROW Name="aicustact.dll" SourcePath="&lt;AI_CUSTACTS&gt;aicustact.dll"/>
     <ROW Name="banner.jpg" SourcePath="Graphics\banner.jpg"/>
     <ROW Name="dialog.jpg" SourcePath="Graphics\dialog.jpg"/>
     <ROW Name="lzmaextractor.dll" SourcePath="&lt;AI_CUSTACTS&gt;lzmaextractor.dll"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiCheckBoxComponent">
+    <ROW Property="AI_CLEAN_RESOURCES_UNINSTALL" Value="1"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiConditionComponent">
     <ROW Feature_="TileAssets_DefaultBuild" Level="4" Condition="VersionNT &lt; 603"/>
@@ -3837,6 +3855,7 @@
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlComponent">
     <ROW Dialog_="LicenseAgreementDlg" Control="AgreementText" Type="ScrollableText" X="20" Y="60" Width="330" Height="120" Attributes="7" Text="License.rtf" Order="400" TextLocId="-" MsiKey="LicenseAgreementDlg#AgreementText"/>
+    <ROW Dialog_="VerifyRemoveDlg" Control="UnistallCleanupCheckBox" Type="CheckBox" X="25" Y="150" Width="320" Height="11" Attributes="3" Property="AI_CLEAN_RESOURCES_UNINSTALL" Text="Remove [ProductName] settings and temporary files." Order="1100"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiControlConditionComponent">
     <ROW Dialog_="ShortcutsDlg" Control_="StartupShorcutsCheckBox" Action="Hide" Condition="(Not Installed)"/>
@@ -3879,6 +3898,11 @@
     <ROW Directory_="NewFolder_Dir" Component_="NewFolder" ManualDelete="false"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiCustActComponent">
+    <ROW Action="AI_AiRemoveFilesCommit" Type="11777" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesCommit" WithoutSeq="true"/>
+    <ROW Action="AI_AiRemoveFilesDeferred_Permanent" Type="11265" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesPermanent" WithoutSeq="true"/>
+    <ROW Action="AI_AiRemoveFilesDeferred_Undoable" Type="11265" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesUndoable" WithoutSeq="true"/>
+    <ROW Action="AI_AiRemoveFilesImmediate" Type="1" Source="ResourceCleaner.dll" Target="OnAiRemoveFilesImmediate"/>
+    <ROW Action="AI_AiRemoveFilesRollback" Type="11521" Source="ResourceCleaner.dll" Target="OnAiUndoRemoveFiles"/>
     <ROW Action="AI_AppSearchEx" Type="1" Source="Prereq.dll" Target="DoAppSearchEx"/>
     <ROW Action="AI_BACKUP_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH_ORIGINAL" Target="[AI_SETUPEXEPATH]"/>
     <ROW Action="AI_CleanPrereq" Type="65" Source="Prereq.dll" Target="CleanPrereq" WithoutSeq="true"/>
@@ -3906,6 +3930,7 @@
     <ROW Action="AI_InstallPrerequisite" Type="65" Source="Prereq.dll" Target="InstallPrereq"/>
     <ROW Action="AI_LaunchApp" Type="1" Source="aicustact.dll" Target="[#Vocaluxe.exe]"/>
     <ROW Action="AI_PREPARE_UPGRADE" Type="65" Source="aicustact.dll" Target="PrepareUpgrade"/>
+    <ROW Action="AI_PromptUserBasicUI" Type="1" Source="ResourceCleaner.dll" Target="OnPromptUserBasicUI"/>
     <ROW Action="AI_RESTORE_AI_SETUPEXEPATH" Type="51" Source="AI_SETUPEXEPATH" Target="[AI_SETUPEXEPATH_ORIGINAL]"/>
     <ROW Action="AI_ResolveKnownFolders" Type="1" Source="aicustact.dll" Target="AI_ResolveKnownFolders"/>
     <ROW Action="AI_SHOW_LOG" Type="65" Source="aicustact.dll" Target="LaunchLogFile" WithoutSeq="true"/>
@@ -3943,6 +3968,9 @@
     <ROW Action="AI_DATA_SETTER_1" Condition="NOT (REMOVE=&quot;ALL&quot;)" Sequence="6401"/>
     <ROW Action="AI_VerifyPrereq" Sequence="1101"/>
     <ROW Action="AI_DOWNGRADE" Condition="AI_NEWERPRODUCTFOUND AND (UILevel &lt;&gt; 5)" Sequence="201"/>
+    <ROW Action="AI_AiRemoveFilesImmediate" Sequence="3499"/>
+    <ROW Action="AI_AiRemoveFilesRollback" Sequence="3099"/>
+    <ROW Action="AI_PromptUserBasicUI" Condition="(REMOVE = &quot;ALL&quot;)" Sequence="2501"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiInstallUISequenceComponent">
     <ROW Action="AI_ResolveKnownFolders" Sequence="53"/>
@@ -3982,6 +4010,9 @@
     <ROW Registry="CB585686_DAA3_4384_BDDF_08ABA631E9F3_" Root="-1" Key="Software\Caphyon\Advanced Installer\Prereqs\[ProductCode]\[ProductVersion]" Name="CB585686_DAA3_4384_BDDF_08ABA631E9F3_" Value="1" Component_="CB585686_DAA3_4384_BDDF_08ABA631E9F3_"/>
     <ROW Registry="Path" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Path" Value="[APPDIR]" Component_="ProductInformation"/>
     <ROW Registry="Version" Root="-1" Key="Software\[Manufacturer]\[ProductName]" Name="Version" Value="[ProductVersion]" Component_="ProductInformation"/>
+  </COMPONENT>
+  <COMPONENT cid="caphyon.advinst.msicomp.MsiRemoveFileComponent">
+    <ROW FileKey="_" Component_="libgstgoom2k1.dll_1" DirProperty="Vocaluxe_Dir" InstallMode="2"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.MsiShortsComponent">
     <ROW Shortcut="Vocaluxe.exe" Directory_="SHORTCUTDIR" Name="Vocaluxe" Component_="Vocaluxe.exe" Target="[#Vocaluxe.exe]" Description="Vocaluxe.exe" Hotkey="0" IconIndex="0" ShowCmd="1" WkDir="APPDIR"/>
