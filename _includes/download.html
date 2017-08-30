@@ -75,6 +75,11 @@
                                 {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_stable.name %}
                                 {% assign currentReleaseOs = currentReleaseData[2] | downcase %}
                                 {% assign currentReleaseArch = currentReleaseData[3] %}
+                                {% if currentReleaseType == "zip" %}
+                                    {% assign currentReleaseType = "Portable" %}
+                                {% else if currentReleaseType == "exe" %}
+                                    {% assign currentReleaseType  = "Installer %}
+                                {% endif %}
                                 {% include downloadButton.html title=currentReleaseTitle type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
                             {% endfor %}
                         </span>
