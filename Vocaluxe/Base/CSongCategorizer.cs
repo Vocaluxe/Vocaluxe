@@ -126,10 +126,10 @@ namespace Vocaluxe.Base
             string noCategoryName;
             switch (CSongs.Sorter.SongSorting)
             {
+                case ESongSorting.TR_CONFIG_FOLDER:
                 case ESongSorting.TR_CONFIG_NONE:
                     noCategoryName = CLanguage.Translate("TR_SCREENSONG_ALLSONGS");
                     break;
-                case ESongSorting.TR_CONFIG_FOLDER:
                 case ESongSorting.TR_CONFIG_ARTIST:
                 case ESongSorting.TR_CONFIG_ARTIST_LETTER:
                 case ESongSorting.TR_CONFIG_TITLE_LETTER:
