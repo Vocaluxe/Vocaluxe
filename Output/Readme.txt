@@ -134,8 +134,10 @@ Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighsc
 Song screen
 [F3]				to open/close the song search menu
 [SPACE]				to open/close the song menu
+[TAB]				to switch selection of song menu and playlist (if opened)
 [CTRL] + [R]			to select a random song
 [CTRL] + [A]			to sing all songs
+[CTRL] + [S]			to sing current song in medley version
 [CTRL] + [V]			to sing all songs from a category
 [NUM_1]..[NUM_6]		to use a Joker for team 1..6
 [A]..[Z]			to jump to category/song title starting with that letter
@@ -154,6 +156,9 @@ Sing screen
 [I]				to change view of player information.
 [W]				to activate the configured webcam.
 [V]				to change video aspect ratio
+
+Score and highscore screen
+[LEFT] or [RIGHT]		to show (high)scores of another round (if there is more than one)
 
 
 =================================
