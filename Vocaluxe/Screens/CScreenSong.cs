@@ -362,7 +362,10 @@ namespace Vocaluxe.Screens
                         {
                             if (CSongs.IsInCategory)
                                 _SongMenu.SetSelectedSong(CSongs.GetRandomSong());
-                            else
+                        }
+                        else if (_Buttons[_ButtonOptionsRandomCategory].Selected)
+                        {
+                            if (!CSongs.IsInCategory)
                                 _SongMenu.SetSelectedCategory(CSongs.GetRandomCategory());
                         }
                         else if (_Buttons[_ButtonOptionsSingAll].Selected)
