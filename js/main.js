@@ -6,7 +6,7 @@
 
 })(jQuery);
 
-//Download Button
+//Download Cards
 
 function showCard(card) {
   card.addClass("animated flipInY").removeClass("flipOutY hidden");
@@ -32,4 +32,13 @@ $(".red-bg .btnDownload").click(function() {
 
 $(".red-bg .card-overlay .close-icon").click(function () {
   hideCard($(".red-bg .card-overlay"));
+});
+
+// Stable
+$(".blue-bg .btnDownload").click(function() {
+  showCard($(".blue-bg .card-overlay"));
+});
+
+$(".blue-bg .card-overlay .close-icon").click(function () {
+  hideCard($(".blue-bg .card-overlay"));
 });

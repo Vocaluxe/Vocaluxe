@@ -3,21 +3,24 @@
   <div class="container">
     <div class="row">
       <h1 class="title">{{ page.title }}</h1>
-      <h2 class="subtitle">{{ page.subtitle }}</h2> {% for feature in site.data.features %}
-      <div class="col-md-3 flex-box-col">
-        <div class="card hover-card dark-text">
-          <img src="{{site.baseurl}}/img/features/{{ feature.image }}" class="img-responsive" alt="">
-          <div class="hover-overlay blue-bg">
-            <div class="overlay-background">
-              <div class="overlay-content">
-                <h4>{{ feature.title }}</h4>
-                <p>{{ feature.description }}</p>
+      <h2 class="subtitle">{{ page.subtitle }}</h2>
+      <div class="flex-box-row">
+        {% for feature in site.data.features %}
+        <div class="col-md-4 col-sm-6 flex-box-col">
+          <div class="card hover-card dark-text">
+            <img src="{{site.baseurl}}/img/features/{{ feature.image }}" class="img-responsive" alt="">
+            <div class="hover-overlay blue-bg">
+              <div class="overlay-background">
+                <div class="overlay-content">
+                  <h4>{{ feature.title }}</h4>
+                  <p>{{ feature.description }}</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+        {% endfor %}
       </div>
-      {% endfor %}
     </div>
   </div>
 </section>
