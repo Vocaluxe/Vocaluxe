@@ -8,15 +8,21 @@
         {% assign release_nightly = release %}
     {% elsif release.prerelease == true and (release_pre == nil or release.created_at > release_pre.created_at) %}
         {% assign release_pre = release %}
-    {% elsif release_stable == nil or release.created_at > release_stable.created_at %}
+    {% elsif release.prerelease == false and (release_stable == nil or release.created_at > release_stable.created_at) %}
+        {% assign release_stable = release %}
     {% endif %}
 {% endfor %}
+
+{% if release_pre != nil and release_stable != nil and release_stable.created_at > release_pre.created_at %}
+        {% assign release_pre = nil %}   
+{% endif %}
+
     <section id="{{ page.section-type }}" class="content-section">
         <div class="container">
             <div class="row">
                 <h1 class="title">{{ page.title }}</h1>
                 <p>
-                  We provide portable versions of Vocaluxe for every release. If you want to try our stable release, you could also use our installer. If you're on Linux, you need to <a href="https://github.com/Vocaluxe/Vocaluxe/blob/develop/HowToBuildLinux.md">compile Vocaluxe yourself</a> (for advanced users).
+                  We provide portable versions of Vocaluxe for every release. If you want to try our stable release, you could also use our installer. If you're on Linux, you need to <a href="https://github.com/Vocaluxe/Vocaluxe/blob/develop/HowToBuildLinux.md">compile Vocaluxe yourself</a> (for advanced users, no official support).
                   <br />
                   If you're looking for some older versions, check out our releases on <a href="https://github.com/Vocaluxe/Vocaluxe/releases">GitHub</a> and <a href="https://sourceforge.net/projects/vocaluxe/files/?source=directory">Sourceforge</a>.
                 </p>
@@ -28,10 +34,16 @@
                         <span class="release-details flex00a">
                             {% for asset in release_nightly.assets %}
                                 {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                                {% assign currentReleaseFileEnding = asset.name | split:"." | last %}
                                 {% assign currentReleaseTitle = release_nightly.created_at | date: "%b %d, %Y"" %}
                                 {% assign currentReleaseOs = currentReleaseData[2] %}
                                 {% assign currentReleaseArch = currentReleaseData[3] %}
-                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
+                                {% if currentReleaseFileEnding == "zip" %}
+                                    {% assign currentReleaseType = "portable" %}
+                                {% else if currentReleaseFileEnding == "exe" %}
+                                    {% assign currentReleaseType  = "installer" %}
+                                {% endif %}
+                                {% include downloadButton.html title=currentReleaseTitle type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
                             {% endfor %}
                         </span>
                         <p class="release-date">{{ release_nightly.created_at | date: "%Y-%m-%d" }} | <a href="{{ release_nightly.html_url }}">GitHub</a></p>
@@ -45,11 +57,17 @@
                         {% if release_pre != nil %}
                         <span class="release-details flex00a">
                             {% for asset in release_pre.assets %}
-                                {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                                {% assign currentReleaseData = asset.name | remove:".zip" | remove:".exe" | split:"_" %}
+                                {% assign currentReleaseFileEnding = asset.name | split:"." | last %}
                                 {% assign currentReleaseTitle = release_pre.name %}
                                 {% assign currentReleaseOs = currentReleaseData[2] %}
                                 {% assign currentReleaseArch = currentReleaseData[3] %}
-                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
+                                {% if currentReleaseFileEnding == "zip" %}
+                                    {% assign currentReleaseType = "portable" %}
+                                {% else if currentReleaseFileEnding == "exe" %}
+                                    {% assign currentReleaseType  = "installer" %}
+                                {% endif %}
+                                {% include downloadButton.html title=currentReleaseTitle type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
                             {% endfor %}
                         </span>
                         <p class="release-date">{{ release_pre.created_at | date: "%Y-%m-%d" }} | <a href="{{ release_pre.html_url }}">GitHub</a></p>
@@ -63,11 +81,17 @@
                         {% if release_stable != nil %}
                         <span class="release-details flex00a">
                             {% for asset in release_stable.assets %}
-                                {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                                {% assign currentReleaseData = asset.name | remove:".zip" | remove:".exe" | split:"_" %}
+                                {% assign currentReleaseFileEnding = asset.name | split:"." | last %}
                                 {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_stable.name %}
                                 {% assign currentReleaseOs = currentReleaseData[2] | downcase %}
                                 {% assign currentReleaseArch = currentReleaseData[3] %}
-                                {% include downloadButton.html title=currentReleaseTitle os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
+                                {% if currentReleaseFileEnding == "zip" %}
+                                    {% assign currentReleaseType = "portable" %}
+                                {% else if currentReleaseFileEnding == "exe" %}
+                                    {% assign currentReleaseType  = "installer" %}
+                                {% endif %}
+                                {% include downloadButton.html title=currentReleaseTitle type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
                             {% endfor %}
                         </span>
                         <p class="release-date">{{ release_stable.created_at | date: "%Y-%m-%d" }} | <a href="{{ release_stable.html_url }}">GitHub</a></p>
