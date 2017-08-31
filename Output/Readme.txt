@@ -23,7 +23,7 @@ Vocaluxe is an entirely new development in C#, inspired by the original UltraSta
 and the great Ultrastar Deluxe project.
 
 Supported Operating Systems / Requirements:
-- Vista, Windows 7, Windows 8 or Windows 10 with .NET 4.0
+- Windows Vista, Windows 7, Windows 8 or Windows 10 with .NET 4.0
 - Linux (no official support)
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
 - Visual C++ Redistributable Packages 2008 and 2012
@@ -156,15 +156,16 @@ Sing screen
 =================================
 = 5. Help & Suppport            =
 =================================
+Vocaluxe Homepage:		https://vocaluxe.org
 Bug Tracker:			https://github.com/Vocaluxe/Vocaluxe/issues
 Translations:			https://www.transifex.com/projects/p/vocaluxe/
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
-Support Forum (German):	http://www.ultra-star.de
-Song-DataBase (USDB):	http://usdb.animux.de/
+Support Forum (German):		http://www.ultra-star.de
+Song-DataBase (USDB):		http://usdb.animux.de/
 
 
 =================================
 = 6. Source Code                =
 =================================
-Source Code (GitHub):	https://github.com/Vocaluxe/Vocaluxe
-SF.Net Page:			http://sourceforge.net/projects/vocaluxe/
+Source Code (GitHub):		https://github.com/Vocaluxe/Vocaluxe
+SF.Net Page (outdated):		http://sourceforge.net/projects/vocaluxe/
