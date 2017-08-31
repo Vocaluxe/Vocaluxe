@@ -142,6 +142,8 @@ Song screen
 
 Name selection screen
 [1]..[6]			to activate player selection.
+[P]				to activate fast player selection
+[+] or [-]			to increase/decrease number of player
 [Cursor]			to select a profile.
 [Enter]				to confirm a selection.
 
@@ -151,6 +153,7 @@ Sing screen
 [T]				to change the time format of the timer.
 [I]				to change view of player information.
 [W]				to activate the configured webcam.
+[V]				to change video aspect ratio
 
 
 =================================
