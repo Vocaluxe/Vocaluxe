@@ -14,7 +14,7 @@
 {% endfor %}
 
 {% if release_pre != nil and release_stable != nil and release_stable.created_at > release_pre.created_at %}
-        {% assign release_pre = nil %}   
+        {% assign release_pre = nil %}
 {% endif %}
 
     <section id="{{ page.section-type }}" class="content-section">
@@ -26,73 +26,96 @@
                   <br />
                   If you're looking for some older versions, check out our releases on <a href="https://github.com/Vocaluxe/Vocaluxe/releases">GitHub</a> and <a href="https://sourceforge.net/projects/vocaluxe/files/?source=directory">Sourceforge</a>.
                 </p>
-                <div class="release-section">
-                    <div class="col-md-4 flex-box-col card dark-bg">
-                        <h2 class="flex00a">Nightly</h2>
-                        <p class="flex11a">A version with all the newest development changes. Likely to contain bugs, so use with caution.</p>
-                        {% if release_nightly != nil %}
-                        <span class="release-details flex00a">
-                            {% for asset in release_nightly.assets %}
-                                {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
-                                {% assign currentReleaseFileEnding = asset.name | split:"." | last %}
-                                {% assign currentReleaseTitle = release_nightly.created_at | date: "%b %d, %Y"" %}
-                                {% assign currentReleaseOs = currentReleaseData[2] %}
-                                {% assign currentReleaseArch = currentReleaseData[3] %}
-                                {% if currentReleaseFileEnding == "zip" %}
-                                    {% assign currentReleaseType = "portable" %}
-                                {% else if currentReleaseFileEnding == "exe" %}
-                                    {% assign currentReleaseType  = "installer" %}
-                                {% endif %}
-                                {% include downloadButton.html title=currentReleaseTitle type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
-                            {% endfor %}
-                        </span>
-                        <p class="release-date">{{ release_nightly.created_at | date: "%Y-%m-%d" }} | <a href="{{ release_nightly.html_url }}">GitHub</a></p>
-                        {% else %}
-                            <p class="flex11100 no-release-text ">There isn't any nightly release yet.</p>
-                        {% endif %}
+                <div class="flex-box-row release-section">
+                    <div class="col-md-4 col-sm-5 flex-box-col card dark-bg">
+                      <h2 class="flex00a">Nightly</h2>
+                      <p class="flex11a">A version with all the newest development changes. Likely to contain bugs, so use with caution.</p>
+                      {% if release_nightly != nil %}
+                      {% assign currentReleaseTitle = release_nightly.created_at | date: "%b %d, %Y" %}
+                      <div class="hidden card-overlay">
+                        <span class="fa fa-times close-icon" aria-hidden="true"></span>
+                        <h3>{{currentReleaseTitle}}</h3>
+                        {% for asset in release_nightly.assets %}
+                            {% assign currentReleaseData = asset.name | split:".zip" | first | split:"_" %}
+                            {% assign currentReleaseFileEnding = asset.name | split:"." | last %}
+                            {% assign currentReleaseOs = currentReleaseData[2] %}
+                            {% assign currentReleaseArch = currentReleaseData[3] %}
+                            {% if currentReleaseFileEnding == "zip" %}
+                                {% assign currentReleaseType = "Portable" %}
+                            {% else if currentReleaseFileEnding == "exe" %}
+                                {% assign currentReleaseType  = "Installer" %}
+                            {% endif %}
+                            {% include downloadButton.html type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
+                        {% endfor %}
+                      </div>
+                      <span class="release-details flex00a">
+                        <a class="btn btn-primary btn-lg btnDownload">
+                          <span>{{currentReleaseTitle}}</span>
+                        </a>
+                      </span>
+                      <p class="release-date">{{ release_nightly.created_at | date: "%Y-%m-%d" }} | <a href="{{ release_nightly.html_url }}">GitHub</a></p>
+                      {% else %}
+                        <p class="flex11100 no-release-text ">There isn't any nightly release yet.</p>
+                      {% endif %}
                     </div>
-                    <div class="col-md-4 flex-box-col card red-bg">
+                    <div class="col-md-4 col-sm-5 flex-box-col card red-bg">
                         <h2 class="flex00a">Pre Release</h2>
                         <p class="flex11a">Should be almost stable, but you might experience some bugs here.</p>
                         {% if release_pre != nil %}
+                        {% assign currentReleaseTitle = release_pre.name %}
+                        <div class="hidden card-overlay">
+                          <span class="fa fa-times close-icon" aria-hidden="true"></span>
+                          <h3>{{currentReleaseTitle}}</h3>
+                          {% for asset in release_pre.assets %}
+                              {% assign currentReleaseData = asset.name | remove:".zip" | remove:".exe" | split:"_" %}
+                              {% assign currentReleaseFileEnding = asset.name | split:"." | last %}
+                              {% assign currentReleaseOs = currentReleaseData[2] %}
+                              {% assign currentReleaseArch = currentReleaseData[3] %}
+                              {% if currentReleaseFileEnding == "zip" %}
+                                  {% assign currentReleaseType = "Portable" %}
+                              {% else if currentReleaseFileEnding == "exe" %}
+                                  {% assign currentReleaseType  = "Installer" %}
+                              {% endif %}
+                              {% include downloadButton.html type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
+                          {% endfor %}
+                        </div>
                         <span class="release-details flex00a">
-                            {% for asset in release_pre.assets %}
-                                {% assign currentReleaseData = asset.name | remove:".zip" | remove:".exe" | split:"_" %}
-                                {% assign currentReleaseFileEnding = asset.name | split:"." | last %}
-                                {% assign currentReleaseTitle = release_pre.name %}
-                                {% assign currentReleaseOs = currentReleaseData[2] %}
-                                {% assign currentReleaseArch = currentReleaseData[3] %}
-                                {% if currentReleaseFileEnding == "zip" %}
-                                    {% assign currentReleaseType = "portable" %}
-                                {% else if currentReleaseFileEnding == "exe" %}
-                                    {% assign currentReleaseType  = "installer" %}
-                                {% endif %}
-                                {% include downloadButton.html title=currentReleaseTitle type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
-                            {% endfor %}
+                          <a class="btn btn-primary btn-lg btnDownload">
+                            <span>{{currentReleaseTitle}}</span>
+                          </a>
                         </span>
                         <p class="release-date">{{ release_pre.created_at | date: "%Y-%m-%d" }} | <a href="{{ release_pre.html_url }}">GitHub</a></p>
                         {% else %}
                             <p class="flex11100 no-release-text">There isn't any pre release yet.</p>
                         {% endif %}
                     </div>
-                    <div class="col-md-4 flex-box-col card blue-bg">
+                    <div class="col-md-4 col-sm-5 flex-box-col card blue-bg">
                         <h2 class="flex00a">Stable Release</h2>
                         <p class="flex11a">The latest release.</p>
                         {% if release_stable != nil %}
+                        {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_stable.name %}
                         <span class="release-details flex00a">
+                          <div class="hidden card-overlay">
+                            <span class="fa fa-times close-icon" aria-hidden="true"></span>
+                            <h3>{{currentReleaseTitle}}</h3>
                             {% for asset in release_stable.assets %}
                                 {% assign currentReleaseData = asset.name | remove:".zip" | remove:".exe" | split:"_" %}
                                 {% assign currentReleaseFileEnding = asset.name | split:"." | last %}
-                                {% assign currentReleaseTitle = 'Vocaluxe ' | append: release_stable.name %}
                                 {% assign currentReleaseOs = currentReleaseData[2] | downcase %}
                                 {% assign currentReleaseArch = currentReleaseData[3] %}
                                 {% if currentReleaseFileEnding == "zip" %}
-                                    {% assign currentReleaseType = "portable" %}
+                                    {% assign currentReleaseType = "Portable" %}
                                 {% else if currentReleaseFileEnding == "exe" %}
-                                    {% assign currentReleaseType  = "installer" %}
+                                    {% assign currentReleaseType  = "Installer" %}
                                 {% endif %}
-                                {% include downloadButton.html title=currentReleaseTitle type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
+                                {% include downloadButton.html type=currentReleaseType os=currentReleaseOs arch=currentReleaseArch url=asset.browser_download_url %}
                             {% endfor %}
+                          </div>
+                        </span>
+                        <span class="release-details flex00a">
+                          <a class="btn btn-primary btn-lg btnDownload">
+                            <span>{{currentReleaseTitle}}</span>
+                          </a>
                         </span>
                         <p class="release-date">{{ release_stable.created_at | date: "%Y-%m-%d" }} | <a href="{{ release_stable.html_url }}">GitHub</a></p>
                         {% else %}
