@@ -319,6 +319,8 @@ namespace Vocaluxe.Screens
                 _Buttons[_ButtonDiscardSnapshot].Visible = false;
                 _Buttons[_ButtonTakeSnapshot].Visible = false;
                 _Buttons[_ButtonWebcam].Visible = false;
+
+                _SelectElement(_Buttons[_ButtonSave]);
             }
             else
             {
@@ -330,6 +332,8 @@ namespace Vocaluxe.Screens
                 _Buttons[_ButtonDiscardSnapshot].Visible = true;
                 _Buttons[_ButtonTakeSnapshot].Visible = false;
                 _Buttons[_ButtonWebcam].Visible = false;
+
+                _SelectElement(_Buttons[_ButtonSaveSnapshot]);
             }
         }
 
@@ -341,6 +345,8 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonDiscardSnapshot].Visible = false;
             _Buttons[_ButtonTakeSnapshot].Visible = false;
             _Buttons[_ButtonWebcam].Visible = CWebcam.IsDeviceAvailable();
+
+            _SelectElement(_Buttons[_ButtonWebcam]);
         }
 
         private void _OnSaveSnapshot()
@@ -359,6 +365,8 @@ namespace Vocaluxe.Screens
             int id = CProfiles.NewAvatar(file);
             CProfiles.SetAvatar(_SelectSlides[_SelectSlideProfiles].SelectedTag, id);
             _LoadAvatars(false);
+
+            _SelectElement(_Buttons[_ButtonSave]);
         }
 
         private void _OnWebcam()
@@ -374,6 +382,8 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonDiscardSnapshot].Visible = false;
             _Buttons[_ButtonTakeSnapshot].Visible = true;
             _Buttons[_ButtonWebcam].Visible = false;
+
+            _SelectElement(_Buttons[_ButtonTakeSnapshot]);
         }
 
         private void _NewProfile()

@@ -2,6 +2,7 @@ obj
 PitchTracker.dll
 Thumbs.db
 .transifexrc
+.vs
 tx.exe
 *.mp4
 *.pdb
@@ -30,6 +31,7 @@ tx.exe
 *.user
 *.VC.db
 *.VC.opendb
+*.dll.config
 /*.vsp
 /*.ctl
 /Output/Config.xml
@@ -48,6 +50,7 @@ tx.exe
 /Output/Songs
 /Output/Playlists/*.xml
 /Output/Profiles/*.xml
+/Output/Profiles/*.png
 /Output/PartyModes/*/Code/*
 /PartyModes/*/*/*.dll
 /VocaluxeLib/bin

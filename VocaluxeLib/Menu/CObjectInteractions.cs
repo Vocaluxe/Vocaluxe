@@ -119,18 +119,24 @@ namespace VocaluxeLib.Menu
                         keyEvent.Handled = PrevValue();
                     else
                         keyEvent.Handled = _NextElement(keyEvent);
-                }
 
-                if (keyEvent.Key == Keys.Right)
+                    return true;
+                }
+                else if (keyEvent.Key == Keys.Right)
                 {
                     if (_IsSelectionValid() && _Elements[_Selection].Type == EType.SelectSlide && keyEvent.Mod != EModifier.Shift)
                         keyEvent.Handled = NextValue();
                     else
                         keyEvent.Handled = _NextElement(keyEvent);
-                }
 
-                if (keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down)
+                    return true;
+                }
+                else if (keyEvent.Key == Keys.Up || keyEvent.Key == Keys.Down)
+                {
                     keyEvent.Handled = _NextElement(keyEvent);
+
+                    return true;
+                }
             }
             else
             {
@@ -140,16 +146,25 @@ namespace VocaluxeLib.Menu
                         PrevElement();
                     else
                         NextElement();
+
+                    return true;
                 }
 
                 if (keyEvent.Key == Keys.Left)
+                {
                     PrevValue();
 
-                if (keyEvent.Key == Keys.Right)
+                    return true;
+                }
+                else if (keyEvent.Key == Keys.Right)
+                {
                     NextValue();
+
+                    return true;
+                }
             }
 
-            return true;
+            return false;
         }
 
         public virtual bool HandleMouse(SMouseEvent mouseEvent)
