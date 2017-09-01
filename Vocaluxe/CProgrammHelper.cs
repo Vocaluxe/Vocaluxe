@@ -116,13 +116,20 @@ namespace Vocaluxe
         public static bool CheckRequirements()
         {
 #if WIN
-            if (!_IsVC2012Installed())
+            if (!_IsVC2010Installed())
+            {
+                CLog.LogError(
+                    "VC++ 2010 Redistributables are missing. Please install them first. \r\nDownload(x86): https://www.microsoft.com/de-de/download/details.aspx?id=5555 \r\nDownload(x64): https://www.microsoft.com/de-de/download/details.aspx?id=14632",
+                    true, true);
+                return false;
+            }
+            /*if (!_IsVC2012Installed())
             {
                 CLog.LogError(
                     "VC++ 2012 Redistributables are missing. Please install them first.\r\nDownload: http://www.microsoft.com/de-de/download/details.aspx?id=30679",
                     true, true);
                 return false;
-            }
+            }*/
             /*
             bool vc2008Installed = _IsVC2008Installed();
             if (!vc2008Installed)
