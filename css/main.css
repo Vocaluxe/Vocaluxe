@@ -241,13 +241,17 @@ a:hover {
   color: #eee;
 }
 
+.navbar-default .navbar-toggle {
+  border: none;
+}
+
 .navbar-default .navbar-toggle .icon-bar {
   background: #fff;
 }
 
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .affix.navbar-default {
@@ -410,6 +414,13 @@ a:hover {
   text-align: left;
 }
 
+@media (max-width: 767px) {
+  #news .col-md-12 {
+    padding: 0;
+    margin-left: 0;
+  }
+}
+
 .news-card-text {
   padding: 10px;
   color: white;
@@ -521,6 +532,14 @@ a:hover {
   #download .card {
     max-width: 27%;
     min-width: 27%;
+  }
+}
+
+@media (max-width: 767px) {
+  #download .card {
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+    width: calc(100% - 30px);
   }
 }
 
@@ -757,7 +776,6 @@ a:hover {
 .footer {
   background-color: #243342;
   color: white;
-  /*border-top: 1px solid rgba(255,255,255,0.1);*/
   padding-top: 15px;
   padding-bottom: 5px;
 }
