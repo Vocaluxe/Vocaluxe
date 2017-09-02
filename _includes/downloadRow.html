@@ -1,0 +1,21 @@
+<p class="download-table-row">
+  <span>
+    {% if include.os == "Linux" %}
+        <span class="fa fa-linux btnDownloadIcon" aria-hidden="true"></span>
+    {% else %}
+        <span class="fa fa-windows btnDownloadIcon" aria-hidden="true"></span>
+    {% endif %}
+    <span>{{include.type}}</span>
+  </span>
+  <span class="right">
+    {% if include.x86 != nil %}
+      <a href={{include.x86}}>x86</a>
+      {% if include.x64 != nil %}
+        <span> | </span>
+      {% endif %}
+    {% endif %}
+    {% if include.x64 != nil %}
+      <a href={{include.x64}}>x64</a>
+    {% endif %}
+  </span>
+</p>

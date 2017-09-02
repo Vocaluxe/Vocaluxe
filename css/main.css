@@ -474,7 +474,27 @@ a:hover {
 }
 
 .card-overlay h3 {
-  margin: 10px 0;
+  margin-top: 10px;
+  margin-bottom: 30px;
+}
+
+.card-overlay .download-table-row {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 15px auto;
+  max-width: 200px;
+  text-align: center;
+}
+
+.card-overlay .download-table-row a {
+  text-decoration: underline;
+  color: white;
+}
+
+.card-overlay .download-table-row a:hover {
+  color: #428bca;
 }
 
 .dark-bg .release-date a {
@@ -494,7 +514,7 @@ a:hover {
 }
 
 .blue-bg .release-date a {
-  color: #E74C3C;
+  color: #2C3E50;
 }
 
 .blue-bg .card-overlay {
