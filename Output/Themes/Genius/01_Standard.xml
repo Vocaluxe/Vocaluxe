@@ -99,10 +99,10 @@
       <A>1.000</A>
     </ButtonSelColor>
     <ButtonTextColor>
-      <R>0.890</R>
-      <G>0.890</G>
-      <B>0.890</B>
-      <A>0.500</A>
+      <R>0.690</R>
+      <G>0.690</G>
+      <B>0.690</B>
+      <A>0.700</A>
     </ButtonTextColor>
     <ButtonTextSelColor>
       <R>0.890</R>
@@ -147,9 +147,9 @@
       <A>1.000</A>
     </TextColor>
     <TextColorAlpha>
-      <R>0.980</R>
-      <G>0.980</G>
-      <B>0.980</B>
+      <R>0.580</R>
+      <G>0.580</G>
+      <B>0.580</B>
       <A>0.700</A>
     </TextColorAlpha>
     <TextSelColor>
