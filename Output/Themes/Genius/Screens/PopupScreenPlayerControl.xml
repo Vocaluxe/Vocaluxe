@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>PopupScreenPlayerControl</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
+  </Informations>
+  <Backgrounds />
+  <Statics>
+    <Static Name="StaticBG">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
+      <Rect>
+        <X>0</X>
+        <Y>0</Y>
+        <W>1280</W>
+        <H>40</H>
+        <Z>-1</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticCover">
+      <Skin>CoverBackground</Skin>
+      <Color Name="Invisible" />
+      <Rect>
+        <X>55</X>
+        <Y>2</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>-2</Z>
+      </Rect>
+    </Static>
+  </Statics>
+  <Texts>
+    <Text Name="TextCurrentSong">
+      <X>640</X>
+      <Y>8</Y>
+      <Z>-2</Z>
+      <H>27</H>
+      <MaxW>769</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+  </Texts>
+  <Buttons>
+    <Button Name="ButtonPlay">
+      <Skin>PlayIcon</Skin>
+      <SkinSelected>PlayIcon</SkinSelected>
+      <Rect>
+        <X>41</X>
+        <Y>5</Y>
+        <W>30</W>
+        <H>30</H>
+        <Z>-2</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>2</Y>
+        <Z>-2</Z>
+        <H>32</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Normal</Font>
+        <Text />
+      </Text>
+    </Button>
+    <Button Name="ButtonPause">
+      <Skin>PauseIcon</Skin>
+      <SkinSelected>PauseIcon</SkinSelected>
+      <Rect>
+        <X>41</X>
+        <Y>5</Y>
+        <W>30</W>
+        <H>30</H>
+        <Z>-2</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>2</Y>
+        <Z>-2</Z>
+        <H>32</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Normal</Font>
+        <Text />
+      </Text>
+    </Button>
+    <Button Name="ButtonPrevious">
+      <Skin>PreviousIcon</Skin>
+      <SkinSelected>PreviousIcon</SkinSelected>
+      <Rect>
+        <X>10</X>
+        <Y>7</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>-2</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>2</Y>
+        <Z>-2</Z>
+        <H>32</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Normal</Font>
+        <Text />
+      </Text>
+    </Button>
+    <Button Name="ButtonNext">
+      <Skin>NextIcon</Skin>
+      <SkinSelected>NextIcon</SkinSelected>
+      <Rect>
+        <X>76</X>
+        <Y>7</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>-2</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>190</X>
+        <Y>25</Y>
+        <Z>-2</Z>
+        <H>32</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Normal</Font>
+        <Text />
+      </Text>
+    </Button>
+    <Button Name="ButtonRepeat">
+      <Skin>RepeatIcon</Skin>
+      <SkinSelected>RepeatIcon</SkinSelected>
+      <Rect>
+        <X>112</X>
+        <Y>10</Y>
+        <W>20</W>
+        <H>20</H>
+        <Z>-2</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>405</X>
+        <Y>25</Y>
+        <Z>-2</Z>
+        <H>32</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Normal</Font>
+        <Text />
+      </Text>
+    </Button>
+    <Button Name="ButtonShowVideo">
+      <Skin>VideoIcon</Skin>
+      <SkinSelected>VideoIcon</SkinSelected>
+      <Rect>
+        <X>0</X>
+        <Y>720</Y>
+        <W>38</W>
+        <H>38</H>
+        <Z>-2</Z>
+      </Rect>
+      <Color Name="Invisible" />
+      <SelColor Name="Invisible" />
+      <Text Name="Text">
+        <X>315</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>32</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Normal</Font>
+        <Text />
+      </Text>
+    </Button>
+    <Button Name="ButtonSing">
+      <Skin>SingIcon</Skin>
+      <SkinSelected>SingIcon</SkinSelected>
+      <Rect>
+        <X>162</X>
+        <Y>7</Y>
+        <W>26</W>
+        <H>26</H>
+        <Z>-2</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>380</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>32</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Normal</Font>
+        <Text />
+      </Text>
+    </Button>
+    <Button Name="ButtonToBackgroundVideo">
+      <Skin>VideoIcon</Skin>
+      <SkinSelected>VideoIcon</SkinSelected>
+      <Rect>
+        <X>137</X>
+        <Y>10</Y>
+        <W>20</W>
+        <H>20</H>
+        <Z>-2</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>315</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>32</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Normal</Font>
+        <Text />
+      </Text>
+    </Button>
+  </Buttons>
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides />
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>
