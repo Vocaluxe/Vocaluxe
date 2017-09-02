@@ -367,9 +367,9 @@ namespace Vocaluxe.Base
                         Players[p].SungLines[line].BonusPoints += points;
 
                         //Calculate rating
-                        double stretchFactor = 0.2;
+                        //Shift fraction of correct sung notes to [-0.1, 0.1], player needs to sing five lines fully correctly to get highest ranking
                         double current = Players[p].SungLines[line].Points / (double)lines[line].Points;
-                        Players[p].Rating = (Players[p].Rating + (current * stretchFactor - 0.1)).Clamp(0, 1);
+                        Players[p].Rating = (Players[p].Rating + (current * 0.2 - 0.1)).Clamp(0, 1);
                     }
                 }
             }

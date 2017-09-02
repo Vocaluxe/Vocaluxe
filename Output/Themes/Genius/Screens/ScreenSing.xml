@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>8</ScreenVersion>
+    <ScreenVersion>9</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -174,6 +174,17 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
+    </Static>    
+	<Static Name="StaticRatingBarP1N1">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1085</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
     </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin/>
@@ -196,6 +207,17 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
+    </Static>    
+	<Static Name="StaticRatingBarP1N2">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1085</X>
+        <Y>170</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
     </Static>
     <Static Name="StaticAvatarP1N2">
       <Skin/>
@@ -216,6 +238,17 @@
         <Y>350</Y>
         <W>100</W>
         <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>    
+	<Static Name="StaticRatingBarP2N2">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1085</X>
+        <Y>430</Y>
+        <W>160</W>
+        <H>10</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -241,6 +274,17 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticRatingBarP1N3">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1155</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP1N3">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -260,6 +304,17 @@
         <Y>210</Y>
         <W>100</W>
         <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRatingBarP2N3">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1155</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -285,6 +340,17 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticRatingBarP3N3">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1155</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP3N3">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -304,6 +370,17 @@
         <Y>150</Y>
         <W>100</W>
         <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRatingBarP1N4">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>471</X>
+        <Y>170</Y>
+        <W>160</W>
+        <H>10</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -329,6 +406,17 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticRatingBarP2N4">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>471</X>
+        <Y>430</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP2N4">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -344,10 +432,21 @@
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
-        <X>1150</X>
+        <X>1085</X>
         <Y>150</Y>
         <W>100</W>
         <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRatingBarP3N4">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1105</X>
+        <Y>170</Y>
+        <W>160</W>
+        <H>10</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -373,6 +472,17 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticRatingBarP4N4">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1105</X>
+        <Y>430</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP4N4">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -392,6 +502,17 @@
         <Y>10</Y>
         <W>100</W>
         <H>30</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRatingBarP1N5">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>540</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -417,6 +538,17 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticRatingBarP2N5">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>540</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP2N5">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -436,6 +568,17 @@
         <Y>410</Y>
         <W>100</W>
         <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRatingBarP3N5">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>540</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -461,6 +604,17 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticRatingBarP4N5">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1175</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP4N5">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -480,6 +634,17 @@
         <Y>210</Y>
         <W>100</W>
         <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRatingBarP5N5">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1175</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -505,6 +670,17 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticRatingBarP1N6">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>540</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP1N6">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -524,6 +700,17 @@
         <Y>210</Y>
         <W>100</W>
         <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRatingBarP2N6">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>540</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -549,6 +736,17 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticRatingBarP3N6">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>540</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP3N6">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -568,6 +766,17 @@
         <Y>10</Y>
         <W>100</W>
         <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRatingBarP4N6">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1175</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -593,6 +802,17 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticRatingBarP5N6">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1175</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
     <Static Name="StaticAvatarP5N6">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -612,6 +832,17 @@
         <Y>410</Y>
         <W>100</W>
         <H>50</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticRatingBarP6N6">
+      <Skin>RatingBar</Skin>
+      <Color Name="Visible" />
+      <Rect>
+        <X>1175</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>

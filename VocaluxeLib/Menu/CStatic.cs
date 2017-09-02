@@ -69,6 +69,15 @@ namespace VocaluxeLib.Menu
 
         public EAspect Aspect = EAspect.Stretch;
 
+        /// <summary>
+        /// Adjust this value if you want to draw only a part of your texture, width
+        /// </summary>
+        public float ModW = -1f;
+        /// <summary>
+        /// Adjust this value if you want to draw only a part of your texture, height
+        /// </summary>
+        public float ModH = -1f;
+
         public CStatic(int partyModeID)
         {
             _PartyModeID = partyModeID;
@@ -168,8 +177,21 @@ namespace VocaluxeLib.Menu
         {
             CTextureRef texture = Texture;
             SRectF bounds = Rect.Scale(scale);
+
+            //Change bounds if rect size should be modified without adjusting texture
+            if (ModH != -1)
+                bounds.H = ModH * scale;
+            if (ModW != -1)
+                bounds.W = ModW * scale;
+
             bounds.Z += zModify;
+
             SRectF rect = texture == null ? bounds : CHelper.FitInBounds(bounds, texture.OrigAspect, aspect);
+
+            //Use original rect
+            if (ModH != -1 || ModW != -1)
+                rect = Rect.Scale(scale);
+
             var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
             if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
             {

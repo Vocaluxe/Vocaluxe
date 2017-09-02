@@ -38,7 +38,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 8; }
+            get { return 9; }
         }
 
         private struct STimeRect
@@ -73,6 +73,7 @@ namespace Vocaluxe.Screens
 
         private string[,] _StaticScores;
         private string[,] _StaticAvatars;
+        private string[,] _StaticRatingBars;
 
         private const string _ButtonCancel = "ButtonCancel";
         private const string _ButtonContinue = "ButtonContinue";
@@ -303,12 +304,14 @@ namespace Vocaluxe.Screens
 
             _UpdateSongText();
             _UpdateDuetNames();
+
             if (_FadeOut)
                 return true;
 
             _UpdateTimeLine();
 
             CGame.UpdatePoints(_CurrentTime);
+            _UpdateRatingBars();
             _UpdateLyrics();
             if (CGame.GameMode == EGameMode.TR_GAMEMODE_MEDLEY)
                 _UpdateMedleyCountdown();
@@ -783,6 +786,7 @@ namespace Vocaluxe.Screens
             }
         }
 
+
         private void _TogglePause()
         {
             _SetPause(!_Pause);
@@ -826,8 +830,9 @@ namespace Vocaluxe.Screens
 
         private void _BuildStaticStrings(ref List<string> statics)
         {
-            _StaticScores = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _StaticAvatars = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
+            _StaticScores = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _StaticAvatars = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _StaticRatingBars = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
 
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
@@ -838,9 +843,11 @@ namespace Vocaluxe.Screens
                         string target = "P" + (player + 1) + "N" + (numplayer + 1);
                         _StaticScores[player, numplayer] = "StaticScore" + target;
                         _StaticAvatars[player, numplayer] = "StaticAvatar" + target;
+                        _StaticRatingBars[player, numplayer] = "StaticRatingBar" + target;
 
                         statics.Add(_StaticScores[player, numplayer]);
                         statics.Add(_StaticAvatars[player, numplayer]);
+                        statics.Add(_StaticRatingBars[player, numplayer]);
                     }
                 }
             }
@@ -890,15 +897,16 @@ namespace Vocaluxe.Screens
             {
                 for (int player = 0; player < CSettings.MaxNumPlayer && player <= numplayer; player++)
                 {
-                    bool isIvisible = numplayer + 1 == CGame.NumPlayers && player <= CGame.NumPlayers;
-                    _Texts[_TextScores[player, numplayer]].Visible = isIvisible;
-                    _Texts[_TextNames[player, numplayer]].Visible = isIvisible &&
+                    bool isVisible = numplayer + 1 == CGame.NumPlayers && player <= CGame.NumPlayers;
+                    _Texts[_TextScores[player, numplayer]].Visible = isVisible;
+                    _Texts[_TextNames[player, numplayer]].Visible = isVisible &&
                                                                     (CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
                                                                      CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME);
-                    _Statics[_StaticScores[player, numplayer]].Visible = isIvisible;
-                    _Statics[_StaticAvatars[player, numplayer]].Visible = isIvisible &&
+                    _Statics[_StaticScores[player, numplayer]].Visible = isVisible;
+                    _Statics[_StaticAvatars[player, numplayer]].Visible = isVisible &&
                                                                           (CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
                                                                            CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR);
+                    _Statics[_StaticRatingBars[player, numplayer]].Visible = isVisible;
                 }
             }
 
@@ -1369,6 +1377,14 @@ namespace Vocaluxe.Screens
                     _Texts[_TextNames[i, CGame.NumPlayers - 1]].Text = CProfiles.GetPlayerName(CGame.Players[i].ProfileID);
                 else
                     _Texts[_TextNames[i, CGame.NumPlayers - 1]].Visible = false;
+            }
+        }
+
+        private void _UpdateRatingBars()
+        {
+            for (int i = 0; i < CGame.NumPlayers; i++)
+            {
+                _Statics[_StaticRatingBars[i, CGame.NumPlayers - 1]].ModW = _Statics[_StaticRatingBars[i, CGame.NumPlayers - 1]].Rect.W * (float)CGame.Players[i].Rating;
             }
         }
     }
