@@ -42,3 +42,10 @@ $(".blue-bg .btnDownload").click(function() {
 $(".blue-bg .card-overlay .close-icon").click(function () {
   hideCard($(".blue-bg .card-overlay"));
 });
+
+// Close menu after click (on mobile)
+$(document).on('click','.navbar-collapse.in',function(e) {
+    if( $(e.target).is('a') && $(e.target).attr('class') != 'dropdown-toggle' ) {
+        $(this).collapse('hide');
+    }
+});
