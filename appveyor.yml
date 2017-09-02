@@ -86,7 +86,7 @@ deploy:
 - provider: GitHub
   tag: $(APPVEYOR_REPO_TAG_NAME)
   release: $(APPVEYOR_REPO_TAG_NAME)
-  description: 
+  description: $(APPVEYOR_REPO_COMMIT)
   auth_token:
     secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
   artifact: ReleaseZip
