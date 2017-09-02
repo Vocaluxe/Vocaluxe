@@ -6,7 +6,7 @@
                 <p>{{ page.content | markdownify }}</p>
                 <div class="flex-box-row">
                     {% for song in site.data.songs %}
-                        <div class="col-md-6 flex-box-col card hover-card dark-text">
+                        <div class="col-md-6 col-sm-5 flex-box-col card hover-card dark-text">
                           <div class="flex-box-row">
                             <div class="col-md-3 flex-box-col">
                               <span class="song-icon fa fa-{{ song.icon }} flex00a" aria-hidden="true"></span>

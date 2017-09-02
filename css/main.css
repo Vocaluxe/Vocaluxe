@@ -241,13 +241,17 @@ a:hover {
   color: #eee;
 }
 
+.navbar-default .navbar-toggle {
+  border: none;
+}
+
 .navbar-default .navbar-toggle .icon-bar {
   background: #fff;
 }
 
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 .affix.navbar-default {
@@ -410,6 +414,13 @@ a:hover {
   text-align: left;
 }
 
+@media (max-width: 767px) {
+  #news .col-md-12 {
+    padding: 0;
+    margin-left: 0;
+  }
+}
+
 .news-card-text {
   padding: 10px;
   color: white;
@@ -442,28 +453,65 @@ a:hover {
 
 #download .card .release-date {
   font-size: 11pt;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 0px;
+}
+
+#download .card-overlay {
+  z-index: 100;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  border-radius: 10px;
+}
+
+.card-overlay .close-icon {
+  cursor: pointer;
+  font-size: 20pt;
+  margin-top: 8px;
+}
+
+.card-overlay h3 {
+  margin: 10px 0;
 }
 
 .dark-bg .release-date a {
   color: #428bca;
 }
 
+.dark-bg .card-overlay {
+  background-color: #233240;
+}
+
 .red-bg .release-date a {
   color: #2C3E50;
+}
+
+.red-bg .card-overlay {
+  background-color: #b93d30;
 }
 
 .blue-bg .release-date a {
   color: #E74C3C;
 }
 
+.blue-bg .card-overlay {
+  background-color: #356fa2;
+}
+
 .release-details {
   text-align: center;
+  margin-top: 10px;
 }
 
 .btnDownload {
   margin: 5px;
+}
+
+.release-details .btnDownload {
+  min-width: 50%;
 }
 
 .btnDownloadIcon {
@@ -484,6 +532,14 @@ a:hover {
   #download .card {
     max-width: 27%;
     min-width: 27%;
+  }
+}
+
+@media (max-width: 767px) {
+  #download .card {
+    margin-left: 15px !important;
+    margin-right: 15px !important;
+    width: calc(100% - 30px);
   }
 }
 
@@ -720,7 +776,6 @@ a:hover {
 .footer {
   background-color: #243342;
   color: white;
-  /*border-top: 1px solid rgba(255,255,255,0.1);*/
   padding-top: 15px;
   padding-bottom: 5px;
 }
@@ -759,3 +814,9 @@ a:hover {
 
 
 /**************/
+
+/**Animations**/
+
+.animated {
+  animation-duration: 0.7s !important;
+}
