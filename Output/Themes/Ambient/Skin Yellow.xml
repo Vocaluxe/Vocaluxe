@@ -44,6 +44,18 @@
       <B>0.500</B>
       <A>1.000</A>
     </Player6>
+    <NoteLinesColor>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>0.500</A>
+    </NoteLinesColor>
+    <NoteNotesColor>
+      <R>0.968</R>
+      <G>0.956</G>
+      <B>0.674</B>
+      <A>1.000</A>
+    </NoteNotesColor>
     <BackgroundColor>
       <R>0.750</R>
       <G>0.750</G>
@@ -213,6 +225,9 @@
     <NoteLeft>notes_left.png</NoteLeft>
     <NoteMiddle>notes_mid.png</NoteMiddle>
     <NoteRight>notes_right.png</NoteRight>
+    <NoteFillLeft>notes_fill_left.png</NoteFillLeft>
+    <NoteFillMiddle>notes_fill_mid.png</NoteFillMiddle>
+    <NoteFillRight>notes_fill_right.png</NoteFillRight>
     <NoteBackgroundLeft>notes_bg_left.png</NoteBackgroundLeft>
     <NoteBackgroundMiddle>notes_bg_mid.png</NoteBackgroundMiddle>
     <NoteBackgroundRight>notes_bg_right.png</NoteBackgroundRight>
