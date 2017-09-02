@@ -1,6 +1,16 @@
 ScreenSing
 
 +++++++++
+Version 8
+
+Add:
+<SkinFillLeft>
+<SkinFillMiddle>
+<SkinFillRight>
+
+Skins for separated note fill graphics
+
++++++++++
 Version 7
 
 Add:

@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>7</ScreenVersion>
+    <ScreenVersion>8</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -1478,6 +1478,9 @@
       <SkinLeft>NoteLeft</SkinLeft>
       <SkinMiddle>NoteMiddle</SkinMiddle>
       <SkinRight>NoteRight</SkinRight>
+      <SkinFillLeft>NoteFillLeft</SkinFillLeft>
+      <SkinFillMiddle>NoteFillMiddle</SkinFillMiddle>
+      <SkinFillRight>NoteFillRight</SkinFillRight>
       <SkinBackgroundLeft>NoteBackgroundLeft</SkinBackgroundLeft>
       <SkinBackgroundMiddle>NoteBackgroundMiddle</SkinBackgroundMiddle>
       <SkinBackgroundRight>NoteBackgroundRight</SkinBackgroundRight>

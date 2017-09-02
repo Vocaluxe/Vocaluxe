@@ -1,4 +1,11 @@
-![Vocaluxe Logo](https://raw.githubusercontent.com/Vocaluxe/Vocaluxe/develop/Output/Graphics/Logo.png)
+![Vocaluxe Logo](https://raw.githubusercontent.com/Vocaluxe/Vocaluxe/develop/Output/Graphics/Logo.png)  
+
+[![Build status](https://ci.appveyor.com/api/projects/status/y9ylgebv14i7usxx/branch/develop?svg=true)](https://ci.appveyor.com/project/VocaluxeBuildBot/vocaluxe/branch/develop)
+[![Nightly build](https://img.shields.io/badge/nightly%20build-latest-blue.svg)](https://vocaluxe.org/#download)
+[![Latest stable release](https://img.shields.io/github/release/vocaluxe/Vocaluxe.svg?label=stable%20release)](https://vocaluxe.org/#download)
+[![Known bugs](https://img.shields.io/github/issues-raw/vocaluxe/vocaluxe/bug.svg?label=known%20bugs)](https://github.com/Vocaluxe/Vocaluxe/labels/bug)
+[![Feature requests](https://img.shields.io/github/issues-raw/vocaluxe/vocaluxe/feature%20request.svg?label=feature%20requests&colorB=007ec6)](https://github.com/Vocaluxe/Vocaluxe/labels/feature%20request)
+[![License](https://img.shields.io/badge/licence-GPLv3-blue.svg)](https://github.com/Vocaluxe/Vocaluxe/blob/develop/LICENSE.txt)  
 
 [1. About](#1-about)                     
 [2. Download](#2-download)                     
@@ -12,17 +19,15 @@ It features mouse, keyboard, gamepad and Wiimote navigation, a multi-language in
 Vocaluxe offers diversified party modes and can optionally be controlled via a browser (desktop and mobile supported).
 
 Supported Operating Systems / Requirements:
-- WinXP, Vista, Windows 7, Windows 8, Windows 8.1 and Windows 10 with .NET 4.0
-- Linux (tested on Arch Linux)
+- Windows Vista, Windows 7, Windows 8, Windows 8.1 and Windows 10 with .NET 4.0
+- *Linux* (no official support)
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
+- Visual C++ Redistributable Package 2010
 
 
 ## 2. Download                
 You can download precompiled Windows binaries at here:
-http://vocaluxe.sourceforge.net/index.php?p=download
-
-Nightly builds are available here:
-https://github.com/Vocaluxe/Vocaluxe/releases
+https://vocaluxe.org/#download
 
 ## 3. Contributing
 You want to fix a bug or add a cool new feature to Vocaluxe? Awesome!
@@ -43,6 +48,7 @@ You have a problem or a question implementing your change?
 Just [open an issue](https://github.com/Vocaluxe/Vocaluxe/issues/new) or mention `@Vocaluxe` in a comment on GitHub.
 
 ## 4. Help & Support
+Vocaluxe Homepage: https://vocaluxe.org/  
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki   
 GitHub Issues Tracker:	https://github.com/Vocaluxe/Vocaluxe/issues   
 Translations:			https://www.transifex.com/projects/p/vocaluxe/   

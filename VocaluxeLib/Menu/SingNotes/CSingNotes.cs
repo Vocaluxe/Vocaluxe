@@ -40,6 +40,10 @@ namespace VocaluxeLib.Menu.SingNotes
         public string SkinMiddle;
         public string SkinRight;
 
+        public string SkinFillLeft;
+        public string SkinFillMiddle;
+        public string SkinFillRight;
+
         public string SkinBackgroundLeft;
         public string SkinBackgroundMiddle;
         public string SkinBackgroundRight;
@@ -109,6 +113,10 @@ namespace VocaluxeLib.Menu.SingNotes
             ThemeLoaded &= xmlReader.GetValue(item + "/SkinLeft", out _Theme.SkinLeft, String.Empty);
             ThemeLoaded &= xmlReader.GetValue(item + "/SkinMiddle", out _Theme.SkinMiddle, String.Empty);
             ThemeLoaded &= xmlReader.GetValue(item + "/SkinRight", out _Theme.SkinRight, String.Empty);
+
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinFillLeft", out _Theme.SkinLeft, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinFillMiddle", out _Theme.SkinMiddle, String.Empty);
+            ThemeLoaded &= xmlReader.GetValue(item + "/SkinFillRight", out _Theme.SkinRight, String.Empty);
 
             ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundLeft", out _Theme.SkinBackgroundLeft, String.Empty);
             ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundMiddle", out _Theme.SkinBackgroundMiddle, String.Empty);
