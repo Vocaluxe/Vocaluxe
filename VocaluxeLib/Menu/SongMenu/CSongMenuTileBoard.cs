@@ -22,7 +22,6 @@ using System.Windows.Forms;
 using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
