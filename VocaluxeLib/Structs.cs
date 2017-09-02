@@ -362,6 +362,7 @@ namespace VocaluxeLib
         public double Points;
         public double PointsLineBonus;
         public double PointsGoldenNotes;
+        public double Rating;
         public int NoteDiff;
         public int VoiceNr;
         public List<CSungLine> SungLines;
