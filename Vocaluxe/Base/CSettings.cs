@@ -20,8 +20,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 using VocaluxeLib;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
@@ -34,6 +36,8 @@ namespace Vocaluxe.Base
         Release
         // ReSharper restore UnusedMember.Global
     }
+
+    
 
     /// <summary>
     ///     This class contains settings for the program
@@ -52,26 +56,7 @@ namespace Vocaluxe.Base
         //TODO: This should not be here as it can change
         //State of the program
         public static EProgramState ProgramState = EProgramState.Start;
-
-        //Adjusting of programName and version now in the assembly config.
-        private static readonly Dictionary<string,string> _CodeNames = new Dictionary<string, string>()
-        {
-            {"0.3.", "Shining Heaven"},
-            {"0.4.", "Blue Sunrise"}
-        }; 
-
-        private static string _ProgramCodeName
-        {
-            get
-            {
-                var versionParts = Application.ProductVersion.Split('.');
-                string name;
-                _CodeNames.TryGetValue($"{versionParts[0]}.{versionParts[1]}.", out name);
-                if (name != null)
-                    return name;
-                return "Unnamed Version";
-            }
-        }
+        
 
         public static ERevision VersionRevision
         {
@@ -208,6 +193,7 @@ namespace Vocaluxe.Base
         {
             get { return _Assembly.Name; }
         }
+
         private static string _Version
         {
             get
@@ -215,39 +201,10 @@ namespace Vocaluxe.Base
                 return Application.ProductVersion.Split('-').First();
             }
         }
-
-        private static string _GetVersionText()
-        {
-            string version = _Version + " (" + _Arch + ")";
-
-            string gitversion = Application.ProductVersion;
-
-            if (VersionRevision != ERevision.Release || gitversion.Split('-')[1] != "0")
-            {
-                version += " " + _GetVersionStatus() + String.Format(" ({0})", gitversion);
-            }
-
-            return version;
-        }
-
+        
         public static string GetFullVersionText()
         {
-            string version = ProgramName;
-            
-            if (_ProgramCodeName != "")
-                version += " \"" + _ProgramCodeName + "\"";
-
-            return version + " " + _GetVersionText();
-        }
-
-        private static string _GetVersionStatus()
-        {
-            string result = "";
-
-            if (VersionRevision != ERevision.Release)
-                result = Enum.GetName(typeof(ERevision), VersionRevision);
-
-            return result;
+            return ((AssemblyTitleAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false).First()).Title;
         }
 
         public static float GetRenderAspect()

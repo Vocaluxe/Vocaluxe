@@ -1,4 +1,4 @@
-Vocaluxe 0.3 README
+Vocaluxe 0.4 README
 ----------------------------
 
 =================================
@@ -23,25 +23,29 @@ Vocaluxe is an entirely new development in C#, inspired by the original UltraSta
 and the great Ultrastar Deluxe project.
 
 Supported Operating Systems / Requirements:
-- WinXP, Vista, Windows 7 or Windows 8 with .NET 4.0
+- Windows Vista, Windows 7, Windows 8 or Windows 10 with .NET 4.0
+- Linux (no official support)
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
-- Visual C++ Redistributable Packages 2008 and 2012
+- Visual C++ Redistributable Package 2010
 
 
 =================================
 = 2. Release Notes              =
 =================================
 
-- The program supports 32bit and 64bit (Vocaluxe_x64.exe) operating systems.
+- The program supports 32bit and 64bit (appropriate download package) operating systems.
 
-- To add your existing song collection to Vocaluxe, put your songs into the 'Songs' subfolder.
+- When using installer, you can find all mentioned folder in 'Documents/Vocaluxe', otherwise 
+  they should be created just next to 'Vocaluxe.exe'
+
+- To add your existing song collection to Vocaluxe, put your songs into the 'Songs' subfolder. 
 
   Alternatively, you can add multiple song paths to Vocaluxe by editing your Config.xml:
 
 	<Game>
-		<!--SongFolder: SongFolder1, SongFolder2, SongFolder3, ...-->
-		<SongFolder1>C:\Vocaluxe\Songs</SongFolder1>
-		<SongFolder2>D:\EvenMore\Songs</SongFolder2>
+		<!--SongFolder: Add each song folder in a seperate SongFolder entry-->
+		<SongFolder>C:\Vocaluxe\Songs</SongFolder>
+		<SongFolder>D:\EvenMore\Songs</SongFolder>
 
 - To use your highscore database from UltraStar deluxe 1.0.1, UltraStar deluxe CMD Mod or 
   UltraStar deluxe 1.1, simply copy your Ultrastar.db (rename if necessary) into the main
@@ -101,6 +105,8 @@ or from the console:
 						 load playlist from this path.
 						 Example:
 						 Vocaluxe.exe -PlaylistFolder D:\MyPlaylists
+						 
+-OldTheme yes	   : Try to load theme that is created for vocaluxe 0.2 or older (or some pre-release version of 0.3). Enter theme editor and save your theme to convert every file to new syntax. This will be removed in a future version.
 
 
 Complete example:
@@ -128,14 +134,18 @@ Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighsc
 Song screen
 [F3]				to open/close the song search menu
 [SPACE]				to open/close the song menu
+[TAB]				to switch selection of song menu and playlist (if opened)
 [CTRL] + [R]			to select a random song
 [CTRL] + [A]			to sing all songs
+[CTRL] + [S]			to sing current song in medley version
 [CTRL] + [V]			to sing all songs from a category
 [NUM_1]..[NUM_6]		to use a Joker for team 1..6
 [A]..[Z]			to jump to category/song title starting with that letter
 
 Name selection screen
 [1]..[6]			to activate player selection.
+[P]				to activate fast player selection
+[+] or [-]			to increase/decrease number of player
 [Cursor]			to select a profile.
 [Enter]				to confirm a selection.
 
@@ -145,20 +155,25 @@ Sing screen
 [T]				to change the time format of the timer.
 [I]				to change view of player information.
 [W]				to activate the configured webcam.
+[V]				to change video aspect ratio
+
+Score and highscore screen
+[LEFT] or [RIGHT]		to show (high)scores of another round (if there is more than one)
 
 
 =================================
 = 5. Help & Suppport            =
 =================================
-Bug Tracker:			http://84.200.73.138/redmine/projects/vocaluxe
+Vocaluxe Homepage:		https://vocaluxe.org
+Bug Tracker:			https://github.com/Vocaluxe/Vocaluxe/issues
 Translations:			https://www.transifex.com/projects/p/vocaluxe/
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
-Support Forum (German):	http://www.ultra-star.de
-Song-DataBase (USDB):	http://usdb.animux.de/
+Support Forum (German):		http://www.ultra-star.de
+Song-DataBase (USDB):		http://usdb.animux.de/
 
 
 =================================
 = 6. Source Code                =
 =================================
-Source Code (GitHub):	https://github.com/Vocaluxe/Vocaluxe
-SF.Net Page:			http://sourceforge.net/projects/vocaluxe/
+Source Code (GitHub):		https://github.com/Vocaluxe/Vocaluxe
+SF.Net Page (outdated):		http://sourceforge.net/projects/vocaluxe/
