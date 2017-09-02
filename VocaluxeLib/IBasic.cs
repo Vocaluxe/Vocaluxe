@@ -61,7 +61,6 @@ namespace VocaluxeLib
         bool IsMicConfigured(int playerNr);
         int GetMaxNumMics();
 
-        bool GetLoadOldThemeFiles();
         void AddSongMenuListener(OnSongMenuChanged onSongMenuChanged);
         void RemoveSongMenuListener(OnSongMenuChanged onSongMenuChanged);
     }

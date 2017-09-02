@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -268,122 +267,6 @@ namespace VocaluxeLib.Menu
             _Theme = theme;
 
             ThemeLoaded = true;
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeft", out _Theme.SkinArrowLeft, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRight", out _Theme.SkinArrowRight, String.Empty);
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", out _Theme.SkinSelected, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowLeftSelected", out _Theme.SkinArrowLeftSelected, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinArrowRightSelected", out _Theme.SkinArrowRightSelected, String.Empty);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
-
-            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out _Color);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _Color.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref _Color.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref _Color.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _Color.A);
-            }
-
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
-                ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out _SelColor);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref _SelColor.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref _SelColor.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref _SelColor.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref _SelColor.A);
-            }
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftX", ref RectArrowLeft.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftY", ref RectArrowLeft.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftZ", ref RectArrowLeft.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftW", ref RectArrowLeft.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowLeftH", ref RectArrowLeft.H);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightX", ref RectArrowRight.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightY", ref RectArrowRight.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightZ", ref RectArrowRight.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightW", ref RectArrowRight.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowRightH", ref RectArrowRight.H);
-
-            if (xmlReader.GetValue(item + "/ArrowColor", out _Theme.ArrowColor.Name, String.Empty))
-                ThemeLoaded &= _Theme.ArrowColor.Get(_PartyModeID, out _ColorArrow);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowR", ref _ColorArrow.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowG", ref _ColorArrow.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowB", ref _ColorArrow.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowA", ref _ColorArrow.A);
-            }
-
-            if (xmlReader.GetValue(item + "/ArrowSColor", out _Theme.ArrowSelColor.Name, String.Empty))
-                ThemeLoaded &= _Theme.ArrowSelColor.Get(_PartyModeID, out _SelColorArrow);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSR", ref _SelColorArrow.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSG", ref _SelColorArrow.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSB", ref _SelColorArrow.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/ArrowSA", ref _SelColorArrow.A);
-            }
-
-            if (xmlReader.GetValue(item + "/TextColor", out _Theme.TextColor.Name, String.Empty))
-                ThemeLoaded &= _Theme.TextColor.Get(_PartyModeID, out _TextColor);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextR", ref _TextColor.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextG", ref _TextColor.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextB", ref _TextColor.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextA", ref _TextColor.A);
-            }
-
-            if (xmlReader.GetValue(item + "/TextSColor", out _Theme.TextSelColor.Name, String.Empty))
-                ThemeLoaded &= _Theme.TextSelColor.Get(_PartyModeID, out _SelTextColor);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSR", ref _SelTextColor.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSG", ref _SelTextColor.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSB", ref _SelTextColor.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextSA", ref _SelTextColor.A);
-            }
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextH", ref _Theme.TextH);
-            xmlReader.TryGetFloatValue(item + "/TextRelativeX", ref _Theme.TextRelativeX);
-            xmlReader.TryGetFloatValue(item + "/TextRelativeY", ref _Theme.TextRelativeY);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/TextMaxW", ref _Theme.TextMaxW);
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/TextFont", out _Theme.TextFont, "Normal");
-            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/TextStyle", ref _Theme.TextStyle);
-
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/NumVisible", ref _Theme.NumVisible);
-
-            if (ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-                _Theme.ArrowColor.Color = _ColorArrow;
-                _Theme.ArrowSelColor.Color = _SelColorArrow;
-                _Theme.Color.Color = _Color;
-                _Theme.RectArrowLeft = RectArrowLeft;
-                _Theme.RectArrowRight = RectArrowRight;
-                _Theme.SelColor.Color = _SelColor;
-                _Theme.TextColor.Color = _TextColor;
-                _Theme.TextSelColor.Color = _SelTextColor;
-                LoadSkin();
-            }
-            return ThemeLoaded;
         }
 
         private void _Invalidate()

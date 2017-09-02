@@ -156,11 +156,6 @@ namespace Vocaluxe.Base
             return CConfig.GetMaxNumMics();
         }
 
-        public bool GetLoadOldThemeFiles()
-        {
-            return CConfig.LoadOldThemeFiles;
-        }
-
         public void AddSongMenuListener(OnSongMenuChanged onSongMenuChanged)
         {
             CConfig.SongMenuChanged += onSongMenuChanged;

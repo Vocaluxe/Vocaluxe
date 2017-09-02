@@ -18,7 +18,6 @@
 using System;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -103,47 +102,6 @@ namespace VocaluxeLib.Menu
             LyricStyle = ELyricStyle.TR_CONFIG_LYRICSTYLE_FILL;
 
             ThemeLoaded = true;
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
-
-            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out _Color);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _Color.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref _Color.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref _Color.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _Color.A);
-            }
-
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.ProcessedColor.Name, String.Empty))
-                ThemeLoaded &= _Theme.ProcessedColor.Get(_PartyModeID, out _ColorProcessed);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref _ColorProcessed.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref _ColorProcessed.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref _ColorProcessed.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref _ColorProcessed.A);
-            }
-
-            if (ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-                _Theme.Color.Color = _Color;
-                _Theme.ProcessedColor.Color = _ColorProcessed;
-                LoadSkin();
-            }
-            return ThemeLoaded;
         }
 
         public void SetLine(CSongLine line)
