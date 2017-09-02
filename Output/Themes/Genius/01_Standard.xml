@@ -45,15 +45,15 @@
       <A>1.000</A>
     </Player6>
     <NoteLinesColor>
-      <R>0.675</R>
-      <G>0.890</G>
-      <B>0.969</B>
-      <A>0.500</A>
+      <R>0.980</R>
+      <G>0.980</G>
+      <B>0.980</B>
+      <A>0.200</A>
     </NoteLinesColor>
     <NoteBaseColor>
-      <R>0.675</R>
-      <G>0.890</G>
-      <B>0.969</B>
+      <R>1.000</R>
+      <G>1.000</G>
+      <B>1.000</B>
       <A>1.000</A>
     </NoteBaseColor>
     <BackgroundColor>
