@@ -175,17 +175,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>    
-	<Static Name="StaticRatingBarP1N1">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1085</X>
-        <Y>410</Y>
-        <W>160</W>
-        <H>10</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -208,17 +197,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>    
-	<Static Name="StaticRatingBarP1N2">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1085</X>
-        <Y>170</Y>
-        <W>160</W>
-        <H>10</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP1N2">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -241,17 +219,7 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>    
-	<Static Name="StaticRatingBarP2N2">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1085</X>
-        <Y>430</Y>
-        <W>160</W>
-        <H>10</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
+	
     <Static Name="StaticAvatarP2N2">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -271,17 +239,6 @@
         <Y>10</Y>
         <W>100</W>
         <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticRatingBarP1N3">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1155</X>
-        <Y>135</Y>
-        <W>85</W>
-        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -307,17 +264,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticRatingBarP2N3">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1155</X>
-        <Y>305</Y>
-        <W>85</W>
-        <H>7</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP2N3">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -337,17 +283,6 @@
         <Y>410</Y>
         <W>100</W>
         <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticRatingBarP3N3">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1155</X>
-        <Y>475</Y>
-        <W>85</W>
-        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -373,17 +308,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticRatingBarP1N4">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>471</X>
-        <Y>170</Y>
-        <W>160</W>
-        <H>10</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP1N4">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -403,17 +327,6 @@
         <Y>210</Y>
         <W>100</W>
         <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticRatingBarP2N4">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>471</X>
-        <Y>430</Y>
-        <W>160</W>
-        <H>10</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -439,17 +352,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticRatingBarP3N4">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1105</X>
-        <Y>170</Y>
-        <W>160</W>
-        <H>10</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP3N4">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -469,17 +371,6 @@
         <Y>350</Y>
         <W>100</W>
         <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticRatingBarP4N4">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1105</X>
-        <Y>430</Y>
-        <W>160</W>
-        <H>10</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -505,17 +396,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticRatingBarP1N5">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>540</X>
-        <Y>135</Y>
-        <W>85</W>
-        <H>7</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP1N5">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -535,17 +415,6 @@
         <Y>210</Y>
         <W>100</W>
         <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticRatingBarP2N5">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>540</X>
-        <Y>305</Y>
-        <W>85</W>
-        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -571,17 +440,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticRatingBarP3N5">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>540</X>
-        <Y>475</Y>
-        <W>85</W>
-        <H>7</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP3N5">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -601,17 +459,6 @@
         <Y>10</Y>
         <W>100</W>
         <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticRatingBarP4N5">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1175</X>
-        <Y>135</Y>
-        <W>85</W>
-        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -637,17 +484,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticRatingBarP5N5">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1175</X>
-        <Y>305</Y>
-        <W>85</W>
-        <H>7</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP5N5">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -667,17 +503,6 @@
         <Y>10</Y>
         <W>100</W>
         <H>30</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticRatingBarP1N6">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>540</X>
-        <Y>135</Y>
-        <W>85</W>
-        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -703,17 +528,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticRatingBarP2N6">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>540</X>
-        <Y>305</Y>
-        <W>85</W>
-        <H>7</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP2N6">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -733,17 +547,6 @@
         <Y>410</Y>
         <W>100</W>
         <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticRatingBarP3N6">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>540</X>
-        <Y>475</Y>
-        <W>85</W>
-        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -769,17 +572,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticRatingBarP4N6">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1175</X>
-        <Y>135</Y>
-        <W>85</W>
-        <H>7</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP4N6">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -802,17 +594,6 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
-    <Static Name="StaticRatingBarP5N6">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1175</X>
-        <Y>305</Y>
-        <W>85</W>
-        <H>7</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP5N6">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -832,17 +613,6 @@
         <Y>410</Y>
         <W>100</W>
         <H>50</H>
-        <Z>-0.75</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticRatingBarP6N6">
-      <Skin>RatingBar</Skin>
-      <Color Name="Visible" />
-      <Rect>
-        <X>1175</X>
-        <Y>475</Y>
-        <W>85</W>
-        <H>7</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -1915,5 +1685,406 @@
   <Equalizers />
   <Playlists />
   <ParticleEffects />
+  <ProgressBars>
+	<ProgressBar Name="ProgressBarRatingP1N1">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1085</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>	
+    <ProgressBar Name="ProgressBarRatingP1N2">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1085</X>
+        <Y>170</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N2">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1085</X>
+        <Y>430</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP1N3">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1155</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N3">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1155</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP3N3">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1155</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP1N4">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>471</X>
+        <Y>170</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N4">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>471</X>
+        <Y>430</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP3N4">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1105</X>
+        <Y>170</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP4N4">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1105</X>
+        <Y>430</Y>
+        <W>160</W>
+        <H>10</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP1N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP3N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP4N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP5N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP1N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP3N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP4N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP5N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP6N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Visible" />
+      <Direction>Left</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </ProgressBar>	  
+  </ProgressBars>
   <ScreenSettings />
 </Screen>

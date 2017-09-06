@@ -317,6 +317,11 @@
     <VolDown>VolDown.png</VolDown>
     <Random>RandomIcon.png</Random>
     <RatingBar>RatingBar.png</RatingBar>
+    <RatingBarBackground>RatingBar.png</RatingBarBackground>
+    <RatingBarForeground>RatingBar.png</RatingBarForeground>
+    <RatingBarProgressLeft>NotesFillLeft.png</RatingBarProgressLeft>
+    <RatingBarProgressMid>NotesFillMid.png</RatingBarProgressMid>
+    <RatingBarProgressRight>NotesFillRight.png</RatingBarProgressRight>
     <PopupBG>PopupBG.png</PopupBG>
     <ScrollUp>ScrollUp.png</ScrollUp>
     <ScrollDown>ScrollDown.png</ScrollDown>
