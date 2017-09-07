@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Informations>
+    <ScreenName>ScreenLoad</ScreenName>
+    <ScreenVersion>2</ScreenVersion>
+  </Informations>
+  <Backgrounds>
+    <Background Name="Background1">
+      <Type>Texture</Type>
+      <SlideShowTextures />
+      <Video>BG_Video</Video>
+      <Skin>BG_Loading</Skin>
+      <Color Name="BackgroundColor" />
+    </Background>
+  </Backgrounds>
+  <Statics />
+  <Texts>
+    <Text Name="TextLoading">
+      <X>640</X>
+      <Y>375</Y>
+      <Z>0</Z>
+      <H>40</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENLOAD_LOADING</Text>
+    </Text>
+    <Text Name="TextStatus">
+      <X>640</X>
+      <Y>420</Y>
+      <Z>0</Z>
+      <H>20</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextProgramName">
+      <X>640</X>
+      <Y>305</Y>
+      <Z>0</Z>
+      <H>101</H>
+      <MaxW>0</MaxW>
+      <Color Name="Invisible" />
+      <SelColor Name="Invisible" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_PROGRAM_NAME</Text>
+    </Text>
+  </Texts>
+  <Buttons />
+  <SongMenus />
+  <Lyrics />
+  <SelectSlides />
+  <SingNotes />
+  <NameSelections />
+  <Equalizers />
+  <Playlists />
+  <ParticleEffects />
+  <ScreenSettings />
+</Screen>

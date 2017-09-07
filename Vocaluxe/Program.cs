@@ -92,6 +92,9 @@ namespace Vocaluxe
 
             try
             {
+                // Create data folder
+                Directory.CreateDirectory(CSettings.DataFolder);
+
                 // Init Log
                 CLog.Init();
 

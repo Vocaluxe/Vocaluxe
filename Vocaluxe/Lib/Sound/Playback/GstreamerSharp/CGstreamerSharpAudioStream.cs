@@ -235,6 +235,11 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                 element = _Element;
                 _Element = null; //Now everything "seems" closed
             }
+
+            // Should not be needed but we had an error report (#226) - so we double check here to prevent a crash
+            if (element == null)
+                return;
+            
             if (element.TargetState == State.Playing)
                 element.SetState(State.Paused); //Stop output
             if (_CloseStreamListener != null)

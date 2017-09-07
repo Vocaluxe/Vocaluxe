@@ -37,6 +37,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             base.Init();
             _PartyMode = (CPartyModeChallenge)base._PartyMode;
             _AllowChangePlayerNum = false;
+            _Teams = false;
         }
 
         public override void OnShow()
