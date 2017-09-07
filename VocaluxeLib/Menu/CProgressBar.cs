@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
@@ -23,6 +24,13 @@ using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
+    [XmlType("ProgressColor")]
+    public struct SThemeProgressBarColor
+    {
+        public float From;
+        public SThemeColor Color;
+    }
+
     [XmlType("ProgressBar")]
     public struct SThemeProgressBar
     {
@@ -38,6 +46,7 @@ namespace VocaluxeLib.Menu
         public EOffOn AnimateMovement;
         public EOffOn AnimateColoring;
         public SRectF Rect;
+        [XmlArrayItem("ProgressColor"), XmlArray] public List<SThemeProgressBarColor> ProgressColors;
         public SReflection? Reflection;
     }
 
@@ -115,9 +124,10 @@ namespace VocaluxeLib.Menu
             set
             {
                 if (value != _ProgressTarget)
+                {
+                    _ProgressTarget = value;
                     _UpdateProgress();
-
-                _ProgressTarget = value;
+                }
             }
         }
         private float _ProgressCurrent;
@@ -163,6 +173,7 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _Theme = theme;
+            _Theme.ProgressColors.Sort((x, y) => x.From.CompareTo(y.From));
             _UpdateProgress();
             ThemeLoaded = true;
         }
@@ -185,7 +196,7 @@ namespace VocaluxeLib.Menu
 
             if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
             {
-                /**
+
                 //Draw background
                 SColorF color = new SColorF(ColorBackground.R, ColorBackground.G, ColorBackground.B, ColorBackground.A * Alpha);
                 if (_TextureBackground != null)
@@ -196,7 +207,7 @@ namespace VocaluxeLib.Menu
                 }
                 else
                     CBase.Drawing.DrawRect(ColorBackground, Rect);
-                **/
+
                 //Draw progress
                 if (_TextureProgressBegin != null)
                 {
@@ -224,40 +235,8 @@ namespace VocaluxeLib.Menu
                 }
                 else
                     CBase.Drawing.DrawRect(_ColorProgressCurrent, _RectProgressEnd);
-                /*
-                                //Width-related variables rounded and then floored to prevent 1px gaps in progress bar
-                                SRectF rect = new SRectF(Rect.X, Rect.Y, (float)Math.Round(Rect.W), (float)Math.Round(Rect.H), Rect.Z);
 
-                                int dh = (int)((1f - scale) * rect.H / 2);
-                                int dw = (int)Math.Min(dh, rect.W / 2);
-
-                                var progressRect = new SRectF(rect.X + dw, rect.Y + dh, rect.W - 2 * dw, rect.H - 2 * dh, rect.Z);
-
-                                //Width of each of the ends (round parts)
-                                //Need 2 of them so use minimum
-                                int endsW = (int)Math.Min(progressRect.H * _TextureProgressLeft.OrigAspect, progressRect.W / 2);
-
-                                CBase.Drawing.DrawTexture(_TextureProgressLeft, new SRectF(progressRect.X, progressRect.Y, endsW, progressRect.H, progressRect.Z), color);
-
-                                SRectF middleRect = new SRectF(progressRect.X + endsW, progressRect.Y, progressRect.W - 2 * endsW, progressRect.H, progressRect.Z);
-
-                                int midW = (int)Math.Round(progressRect.H * _TextureProgressMid.OrigAspect);
-
-                                int midCount = (int)middleRect.W / midW;
-
-                                for (int i = 0; i < midCount; ++i)
-                                {
-                                    CBase.Drawing.DrawTexture(_TextureProgressMid, new SRectF(middleRect.X + (i * midW), progressRect.Y, midW, progressRect.H, progressRect.Z), color);
-                                }
-
-                                SRectF lastMidRect = new SRectF(middleRect.X + midCount * midW, progressRect.Y, middleRect.W - (midCount * midW), progressRect.H, progressRect.Z);
-
-                                CBase.Drawing.DrawTexture(_TextureProgressMid, new SRectF(middleRect.X + (midCount * midW), middleRect.Y, midW, middleRect.H, middleRect.Z), color, lastMidRect);
-
-                                CBase.Drawing.DrawTexture(_TextureProgressRight, new SRectF(progressRect.X + progressRect.W - endsW, progressRect.Y, endsW, progressRect.H, progressRect.Z), color);
-                                */
                 //Draw foreground
-                /**
                 color = new SColorF(ColorForeground.R, ColorForeground.G, ColorForeground.B, ColorForeground.A * Alpha);
                 if (_TextureForeground != null)
                 {
@@ -267,22 +246,7 @@ namespace VocaluxeLib.Menu
                 }
                 else
                     CBase.Drawing.DrawRect(ColorForeground, Rect);
-                */
             }
-
-            /*
-                        var color = new SColorF(Color.R, Color.G, Color.B, Color.A * Alpha);
-                        if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
-                        {
-                            if (texture != null)
-                            {
-                                CBase.Drawing.DrawTexture(texture, rect, color, bounds);
-                                if (Reflection)
-                                    CBase.Drawing.DrawTextureReflection(texture, rect, color, bounds, ReflectionSpace, ReflectionHeight);
-                            }
-                            else
-                                CBase.Drawing.DrawRect(color, rect);
-                        }*/
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
                 CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), Rect);
@@ -326,7 +290,11 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateProgress()
         {
-            _ColorProgressCurrent = new SColorF(1, 1, 1, 1);
+            foreach (SThemeProgressBarColor col in _Theme.ProgressColors)
+                if (col.From < _ProgressTarget)
+                    col.Color.Get(_PartyModeID, out _ColorProgressTarget);
+
+            _ColorProgressCurrent = _ColorProgressTarget;
             _UpdateProgressLeft();
             _UpdateProgressMid();
             _UpdateProgressRight();

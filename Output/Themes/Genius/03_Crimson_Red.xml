@@ -260,6 +260,42 @@
       <B>0.733</B>
       <A>0.700</A>
     </TextNameColor>
+    <RatingAwful>
+      <R>0.878</R>
+      <G>0.274</G>
+      <B>0.254</B>
+      <A>1.000</A>		
+    </RatingAwful>
+    <RatingPoor>
+      <R>0.988</R>
+      <G>0.494</G>
+      <B>0.207</B>
+      <A>1.000</A>		
+    </RatingPoor>
+    <RatingNotBad>
+      <R>0.988</R>
+      <G>0.843</G>
+      <B>0.207</B>
+      <A>1.000</A>		
+    </RatingNotBad>
+    <RatingGood>
+      <R>0.921</R>
+      <G>0.988</G>
+      <B>0.207</B>
+      <A>1.000</A>		
+    </RatingGood>
+    <RatingGreat>
+      <R>0.807</R>
+      <G>0.968</G>
+      <B>0.278</B>
+      <A>1.000</A>		
+    </RatingGreat>
+    <RatingPerfect>
+      <R>0.482</R>
+      <G>0.937</G>
+      <B>0.027</B>
+      <A>1.000</A>		
+    </RatingPerfect>
   </Colors>
   <Skins>
     <BG_Default>BG_Default.png</BG_Default>
