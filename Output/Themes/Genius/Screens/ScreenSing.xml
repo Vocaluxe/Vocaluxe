@@ -1694,7 +1694,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1713,7 +1713,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1732,7 +1732,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1751,7 +1751,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1770,7 +1770,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1789,7 +1789,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1808,7 +1808,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1827,7 +1827,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1846,7 +1846,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1865,7 +1865,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1884,7 +1884,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1903,7 +1903,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1922,7 +1922,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1941,7 +1941,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1960,7 +1960,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1979,7 +1979,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -1998,7 +1998,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -2017,7 +2017,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -2036,7 +2036,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -2055,7 +2055,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
@@ -2074,7 +2074,7 @@
       <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
       <ColorBackground Name="Visible" />
       <ColorForeground Name="Visible" />
-      <Direction>Left</Direction>
+      <Direction>Right</Direction>
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>

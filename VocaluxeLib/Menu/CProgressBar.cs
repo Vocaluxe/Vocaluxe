@@ -337,23 +337,23 @@ namespace VocaluxeLib.Menu
             switch (_Theme.Direction)
             {
                 case EDirection.Right:
-                    _RectProgressBegin = new SRectF(Rect.X, Rect.Y, Rect.H, Rect.H, Rect.Z);
-                    _TextureProgressBegin = _TextureProgressLeft;
+                    _TextureProgressBegin = TextureProgressLeft;
+                    _RectProgressBegin = new SRectF(Rect.X, Rect.Y, Rect.H * _TextureProgressBegin.OrigAspect, Rect.H, Rect.Z);
                     break;
 
                 case EDirection.Up:
-                    _RectProgressBegin = new SRectF(Rect.X, Rect.Y + Rect.H - Rect.W, Rect.W, Rect.W, Rect.Z);
-                    _TextureProgressBegin = _TextureProgressRight;
+                    _TextureProgressBegin = TextureProgressRight;
+                    _RectProgressBegin = new SRectF(Rect.X, Rect.Y + Rect.H - Rect.W * _TextureProgressBegin.OrigAspect, Rect.W, Rect.W * _TextureProgressBegin.OrigAspect, Rect.Z);
                     break;
 
                 case EDirection.Left:
-                    _RectProgressBegin = new SRectF(Rect.X + Rect.W - Rect.H, Rect.Y, Rect.H, Rect.H, Rect.Z);
-                    _TextureProgressBegin = _TextureProgressRight;
+                    _TextureProgressBegin = TextureProgressRight;
+                    _RectProgressBegin = new SRectF(Rect.X + Rect.W - Rect.H * _TextureProgressBegin.OrigAspect, Rect.Y, Rect.H *_TextureProgressBegin.OrigAspect, Rect.H, Rect.Z);
                     break;
 
                 case EDirection.Down:
-                    _RectProgressBegin = new SRectF(Rect.X, Rect.Y, Rect.W, Rect.W, Rect.Z);
-                    _TextureProgressBegin = _TextureProgressLeft;
+                    _TextureProgressBegin = TextureProgressLeft;
+                    _RectProgressBegin = new SRectF(Rect.X, Rect.Y, Rect.W, Rect.W * _TextureProgressBegin.OrigAspect, Rect.Z);
                     break;
             }
         }
@@ -364,21 +364,21 @@ namespace VocaluxeLib.Menu
             switch (_Theme.Direction)
             {
                 case EDirection.Right:
-                    _RectProgressMid = new SRectF(Rect.X + Rect.H, Rect.Y, (Rect.W - 2 * Rect.H) * _ProgressCurrent, Rect.H, Rect.Z);
+                    _RectProgressMid = new SRectF(_RectProgressBegin.X + _RectProgressBegin.W, Rect.Y, (Rect.W - 2 * Rect.H) * _ProgressCurrent, Rect.H, Rect.Z);
                     break;
 
                 case EDirection.Up:
                     float newHeight = (Rect.H - 2 * Rect.W) * _ProgressCurrent;
-                    _RectProgressMid = new SRectF(Rect.X, Rect.Y + (Rect.H - Rect.W) - newHeight, Rect.W, newHeight, Rect.Z);
+                    _RectProgressMid = new SRectF(Rect.X, _RectProgressBegin.Y - newHeight, Rect.W, newHeight, Rect.Z);
                     break;
 
                 case EDirection.Left:
                     float newWidth = (Rect.W - 2 * Rect.H) * _ProgressCurrent;
-                    _RectProgressMid = new SRectF(Rect.X + (Rect.W - Rect.H) - newWidth, Rect.Y, newWidth, Rect.H, Rect.Z);
+                    _RectProgressMid = new SRectF(_RectProgressBegin.X - newWidth, Rect.Y, newWidth, Rect.H, Rect.Z);
                     break;
 
                 case EDirection.Down:
-                    _RectProgressMid = new SRectF(Rect.X, Rect.Y, (Rect.H - 2 * Rect.W) * _ProgressCurrent, Rect.W, Rect.Z);
+                    _RectProgressMid = new SRectF(Rect.X, _RectProgressBegin.Y + _RectProgressBegin.H, (Rect.H - 2 * Rect.W) * _ProgressCurrent, Rect.W, Rect.Z);
                     break;
             }
         }
@@ -388,23 +388,23 @@ namespace VocaluxeLib.Menu
             switch (_Theme.Direction)
             {
                 case EDirection.Right:
-                    _RectProgressEnd = new SRectF(_RectProgressMid.X + _RectProgressMid.W, Rect.Y, Rect.H, Rect.H, Rect.Z);
                     _TextureProgressEnd = _TextureProgressRight;
+                    _RectProgressEnd = new SRectF(_RectProgressMid.X + _RectProgressMid.W, Rect.Y, Rect.H * _TextureProgressBegin.OrigAspect, Rect.H, Rect.Z);
                     break;
 
                 case EDirection.Up:
-                    _RectProgressEnd = new SRectF(Rect.X, _RectProgressMid.Y + Rect.W, Rect.W, Rect.W, Rect.Z);
                     _TextureProgressEnd = _TextureProgressLeft;
+                    _RectProgressEnd = new SRectF(Rect.X, _RectProgressMid.Y + Rect.W, Rect.W, Rect.W * _TextureProgressBegin.OrigAspect, Rect.Z);
                     break;
 
                 case EDirection.Left:
-                    _RectProgressEnd = new SRectF(_RectProgressMid.X - Rect.H, Rect.Y, Rect.H, Rect.H, Rect.Z);
                     _TextureProgressEnd = _TextureProgressLeft;
+                    _RectProgressEnd = new SRectF(_RectProgressMid.X - Rect.H, Rect.Y, Rect.H * _TextureProgressBegin.OrigAspect, Rect.H, Rect.Z);
                     break;
 
                 case EDirection.Down:
-                    _RectProgressEnd = new SRectF(Rect.X, _RectProgressMid.Y + _RectProgressMid.H, Rect.W, Rect.W, Rect.Z);
                     _TextureProgressEnd = _TextureProgressRight;
+                    _RectProgressEnd = new SRectF(Rect.X, _RectProgressMid.Y + _RectProgressMid.H, Rect.W, Rect.W * _TextureProgressBegin.OrigAspect, Rect.Z);
                     break;
             }
         }
