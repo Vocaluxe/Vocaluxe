@@ -332,21 +332,21 @@ namespace VocaluxeLib.Menu
             switch (_Theme.Direction)
             {
                 case EDirection.Right:
-                    _RectProgressMid = new SRectF(_RectProgressBegin.X + _RectProgressBegin.W, Rect.Y, (Rect.W - 2 * Rect.H) * _ProgressCurrent, Rect.H, Rect.Z);
+                    _RectProgressMid = new SRectF(_RectProgressBegin.X + _RectProgressBegin.W, Rect.Y, (Rect.W - 2 * _RectProgressBegin.W) * _ProgressCurrent, Rect.H, Rect.Z);
                     break;
 
                 case EDirection.Up:
-                    float newHeight = (Rect.H - 2 * Rect.W) * _ProgressCurrent;
+                    float newHeight = (Rect.H - 2 * _RectProgressBegin.H) * _ProgressCurrent;
                     _RectProgressMid = new SRectF(Rect.X, _RectProgressBegin.Y - newHeight, Rect.W, newHeight, Rect.Z);
                     break;
 
                 case EDirection.Left:
-                    float newWidth = (Rect.W - 2 * Rect.H) * _ProgressCurrent;
+                    float newWidth = (Rect.W - 2 * _RectProgressBegin.H) * _ProgressCurrent;
                     _RectProgressMid = new SRectF(_RectProgressBegin.X - newWidth, Rect.Y, newWidth, Rect.H, Rect.Z);
                     break;
 
                 case EDirection.Down:
-                    _RectProgressMid = new SRectF(Rect.X, _RectProgressBegin.Y + _RectProgressBegin.H, (Rect.H - 2 * Rect.W) * _ProgressCurrent, Rect.W, Rect.Z);
+                    _RectProgressMid = new SRectF(Rect.X, _RectProgressBegin.Y + _RectProgressBegin.H, (Rect.H - 2 * _RectProgressBegin.W) * _ProgressCurrent, Rect.W, Rect.Z);
                     break;
             }
         }
