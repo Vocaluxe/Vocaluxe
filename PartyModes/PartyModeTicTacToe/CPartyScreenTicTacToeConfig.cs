@@ -160,8 +160,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             _SelectSlides[_SelectSlideGameMode].Visible = true;
             _SelectSlides[_SelectSlideGameMode].Clear();
-            _SelectSlides[_SelectSlideGameMode].SetValues<EGameMode>((int)_PartyMode.GameData.GameMode);
-            _SelectSlides[_SelectSlideGameMode].RemoveValue(EGameMode.TR_GAMEMODE_MEDLEY.ToString());
+            _SelectSlides[_SelectSlideGameMode].AddValues(_PartyMode.AvailableGameModes.Select(gm => gm.ToString()));
+            _SelectSlides[_SelectSlideGameMode].Selection = _PartyMode.GameData.GameMode;
         }
 
         private void _UpdateSlides()
@@ -171,9 +171,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _PartyMode.GameData.SongSource = (ESongSource)_SelectSlides[_SelectSlideSongSource].Selection;
             _PartyMode.GameData.PlaylistID = _SelectSlides[_SelectSlidePlaylist].Selection;
             _PartyMode.GameData.CategoryIndex = _SelectSlides[_SelectSlideCategory].Selection;
-            _PartyMode.GameData.GameMode = (EGameMode)_SelectSlides[_SelectSlideGameMode].Selection;
+            _PartyMode.GameData.GameMode = _SelectSlides[_SelectSlideGameMode].Selection;
 
-            EGameMode gm = _PartyMode.GameData.GameMode;
+            EGameMode gm = _PartyMode.AvailableGameModes[_PartyMode.GameData.GameMode];
 
             if (_PartyMode.GameData.SongSource == ESongSource.TR_PLAYLIST)
             {

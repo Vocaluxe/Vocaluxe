@@ -37,7 +37,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private bool _Teams;
+        protected bool _Teams = true;
         protected int _NumTeams = -1;
         protected int _NumPlayer = -1;
         protected int[] _NumPlayerTeams;
@@ -105,8 +105,6 @@ namespace VocaluxeLib.Menu
 
             for (int i = 0; i < _TeamList.Length; i++)
                 _TeamList[i] = new List<int>();
-
-            _Teams = _NumTeams > 0;
 
             _UpdateSlides();
             _LoadProfiles();

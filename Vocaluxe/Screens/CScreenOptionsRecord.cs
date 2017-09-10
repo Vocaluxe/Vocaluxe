@@ -147,6 +147,7 @@ namespace Vocaluxe.Screens
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
+                        _SaveMicConfig();
                         CGraphics.FadeTo(EScreen.Song);
                         break;
 

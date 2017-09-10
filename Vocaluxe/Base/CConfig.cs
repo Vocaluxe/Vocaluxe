@@ -115,26 +115,16 @@ namespace Vocaluxe.Base
 
         public struct SConfigTheme
         {
-            [XmlElement("Name"), DefaultValue("Ambient")]
-            public string Theme;
-            [DefaultValue("Blue")]
-            public string Skin;
-            [XmlElement("Cover"), DefaultValue("Ambient Blue")]
-            public string CoverTheme;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)]
-            public EOffOn DrawNoteLines;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)]
-            public EOffOn DrawToneHelper;
-            [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)]
-            public ETimerLook TimerLook;
-            [DefaultValue(EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH)]
-            public EPlayerInfo PlayerInfo;
-            [DefaultValue(EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF)]
-            public EFadePlayerInfo FadePlayerInfo;
-            [DefaultValue(ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC)]
-            public ECoverLoading CoverLoading;
-            [DefaultValue(ELyricStyle.TR_CONFIG_LYRICSTYLE_SLIDE)]
-            public ELyricStyle LyricStyle;
+            [XmlElement("Name"), DefaultValue("Genius")] public string Theme;
+            [DefaultValue("Standard")] public string Skin;
+            [XmlElement("Cover"), DefaultValue("Genius Standard")] public string CoverTheme;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawNoteLines;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawToneHelper;
+            [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)] public ETimerLook TimerLook;
+            [DefaultValue(EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH)] public EPlayerInfo PlayerInfo;
+            [DefaultValue(EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF)] public EFadePlayerInfo FadePlayerInfo;
+            [DefaultValue(ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC)] public ECoverLoading CoverLoading;
+            [DefaultValue(ELyricStyle.TR_CONFIG_LYRICSTYLE_SLIDE)] public ELyricStyle LyricStyle;
         }
 
         public struct SConfigSound
@@ -258,11 +248,11 @@ namespace Vocaluxe.Base
         //Folders
         public static readonly List<string> SongFolders = new List<string>
             {
-#if WIN
+#if INSTALLER
+            Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs),
             CSettings.FolderNameSongs
-#elif INSTALLER
-            CSettings.FolderNameSongs,
-            Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)
+#elif WIN
+            CSettings.FolderNameSongs
 #elif LINUX
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)
 #endif
@@ -273,11 +263,11 @@ namespace Vocaluxe.Base
         /// </summary>
         public static readonly List<string> ProfileFolders = new List<string>
             {
-#if WIN
+#if INSTALLER
+            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles),
             CSettings.FolderNameProfiles
-#elif INSTALLER
-            CSettings.FolderNameProfiles,
-            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
+#elif WIN
+            CSettings.FolderNameProfiles
 #elif LINUX
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
 #endif
