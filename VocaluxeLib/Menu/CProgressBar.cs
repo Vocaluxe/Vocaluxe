@@ -200,6 +200,8 @@ namespace VocaluxeLib.Menu
         public void Reset(bool animateInit = false)
         {
             _Animate = animateInit;
+
+            _Theme.ProgressColors[0].Color.Get(_PartyModeID, out _ColorProgressLast);
         }
 
         public void Draw()
