@@ -228,27 +228,28 @@ namespace VocaluxeLib.Menu
                 }
 
                 //Draw progress
+                color = new SColorF(_ColorProgressCurrent.R, _ColorProgressCurrent.G, _ColorProgressCurrent.B, _ColorProgressCurrent.A * Alpha);
                 if (_TextureProgressBegin != null)
                 {
-                    CBase.Drawing.DrawTexture(_TextureProgressBegin, _RectProgressBegin, _ColorProgressCurrent);
+                    CBase.Drawing.DrawTexture(_TextureProgressBegin, _RectProgressBegin, color);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(_TextureProgressBegin, _RectProgressBegin, _ColorProgressCurrent, _RectProgressBegin, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(_TextureProgressBegin, _RectProgressBegin, color, _RectProgressBegin, ReflectionSpace, ReflectionHeight);
                 }
 
                 if (_TextureProgressMid != null)
                 {
-                    CBase.Drawing.DrawTexture(_TextureProgressMid, _RectProgressMid, _ColorProgressCurrent);
+                    CBase.Drawing.DrawTexture(_TextureProgressMid, _RectProgressMid, color);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(_TextureProgressMid, _RectProgressMid, _ColorProgressCurrent, _RectProgressMid, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(_TextureProgressMid, _RectProgressMid, color, _RectProgressMid, ReflectionSpace, ReflectionHeight);
                 }
                 else
                     CBase.Drawing.DrawRect(_ColorProgressCurrent, _RectProgressMid);
 
                 if (_TextureProgressEnd != null)
                 {
-                    CBase.Drawing.DrawTexture(_TextureProgressEnd, _RectProgressEnd, _ColorProgressCurrent);
+                    CBase.Drawing.DrawTexture(_TextureProgressEnd, _RectProgressEnd, color);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(_TextureProgressEnd, _RectProgressEnd, _ColorProgressCurrent, _RectProgressEnd, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(_TextureProgressEnd, _RectProgressEnd, color, _RectProgressEnd, ReflectionSpace, ReflectionHeight);
                 }
 
                 //Draw foreground
