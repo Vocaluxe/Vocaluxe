@@ -605,7 +605,7 @@ namespace Vocaluxe.Screens
             }
 
             for (int p = 0; p < CGame.NumPlayers; p++)
-                _ProgressBars[_ProgressBarsRating[p, CGame.NumPlayers]].Reset();
+                _ProgressBars[_ProgressBarsRating[p, CGame.NumPlayers - 1]].Reset();
 
             _SetDuetLyricsVisibility(song.IsDuet);
             _SetNormalLyricsVisibility();
