@@ -121,19 +121,14 @@ namespace VocaluxeLib.Menu
         public float Progress
         {
             get { return _ProgressTarget; }
-            set
-            {
-                if (value != _ProgressTarget)
-                {
-                    _ProgressTarget = value;
-                    _UpdateProgress();
-                }
-            }
+            set { _ProgressTarget = value; }
         }
         private float _ProgressCurrent;
+        private float _ProgressLast = -1f;
 
         private SColorF _ColorProgressCurrent;
         private SColorF _ColorProgressTarget;
+        private SColorF _ColorProgressLast;
 
         private SRectF _RectProgressBegin;
         private SRectF _RectProgressMid;
@@ -142,9 +137,13 @@ namespace VocaluxeLib.Menu
         private CTextureRef _TextureProgressBegin;
         private CTextureRef _TextureProgressEnd;
 
+        private Stopwatch _AnimTimer;
+        private float _AnimDuration;
+
         public CProgressBar(int partyModeID)
         {
             _PartyModeID = partyModeID;
+            _AnimTimer = new Stopwatch();
         }
 
         public CProgressBar(CProgressBar pb)
@@ -167,6 +166,8 @@ namespace VocaluxeLib.Menu
 
             Alpha = pb.Alpha;
             Visible = pb.Visible;
+
+            _AnimTimer = new Stopwatch();
         }
 
         public CProgressBar(SThemeProgressBar theme, int partyModeID)
@@ -176,12 +177,19 @@ namespace VocaluxeLib.Menu
             _Theme.ProgressColors.Sort((x, y) => x.From.CompareTo(y.From));
             _UpdateProgress();
             ThemeLoaded = true;
+
+            _AnimTimer = new Stopwatch();
         }
 
         public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
         {
             //Will be removed
             return false;
+        }
+
+        public void Reset()
+        {
+            _ProgressLast = -1;
         }
 
         public void Draw()
@@ -196,6 +204,7 @@ namespace VocaluxeLib.Menu
 
             if (Visible || forceDraw || (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
             {
+                _UpdateProgress();
 
                 //Draw background
                 SColorF color = new SColorF(ColorBackground.R, ColorBackground.G, ColorBackground.B, ColorBackground.A * Alpha);
@@ -290,14 +299,68 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateProgress()
         {
+            if (_ProgressCurrent == _ProgressTarget)
+                return;
+
+            if (_ProgressLast != -1)
+                _CheckAnimation();
+
+            _UpdateProgressColor();
+
+            if (_ProgressLast == -1)
+                _ProgressCurrent = _ProgressLast = _ProgressTarget;
+
+            _UpdateProgressLeft();
+            _UpdateProgressMid();
+            _UpdateProgressRight();
+        }
+
+        private void _CheckAnimation()
+        {
+            //Check if animation needs to be started
+            if (_Theme.AnimateColoring == EOffOn.TR_CONFIG_ON || _Theme.AnimateMovement == EOffOn.TR_CONFIG_ON)
+            {
+                if (!_AnimTimer.IsRunning)
+                {
+                    _AnimTimer.Restart();
+                    //Calc animation duration in ms based on rect size and progress change
+                    if (_Theme.Direction == EDirection.Left || _Theme.Direction == EDirection.Right)
+                        _AnimDuration = Math.Max(100f, (_Theme.Rect.W * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
+                    else
+                        _AnimDuration = Math.Max(100f, (_Theme.Rect.H * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
+                } 
+            }
+            //Movement animation
+            if (_Theme.AnimateMovement == EOffOn.TR_CONFIG_ON)
+                _ProgressCurrent = _ProgressLast + (_AnimTimer.ElapsedMilliseconds / _AnimDuration).Clamp(0, 1) * (_ProgressTarget - _ProgressLast);
+
+            //Check if animation needs to be stopped
+            if (_ProgressCurrent == _ProgressTarget)
+            {
+                _AnimTimer.Stop();
+
+                _ProgressLast = _ProgressCurrent = _ProgressTarget;
+                _ColorProgressLast = _ColorProgressCurrent = _ColorProgressTarget;
+            }
+        }
+
+        private void _UpdateProgressColor()
+        {
             foreach (SThemeProgressBarColor col in _Theme.ProgressColors)
                 if (col.From < _ProgressTarget)
                     col.Color.Get(_PartyModeID, out _ColorProgressTarget);
 
-            _ColorProgressCurrent = _ColorProgressTarget;
-            _UpdateProgressLeft();
-            _UpdateProgressMid();
-            _UpdateProgressRight();
+            if(_ProgressLast != -1 && _Theme.AnimateColoring == EOffOn.TR_CONFIG_ON)
+            {
+                float animFactor = (_AnimTimer.ElapsedMilliseconds / _AnimDuration).Clamp(0, 1);
+
+                _ColorProgressCurrent.R = _ColorProgressLast.R + animFactor * (_ColorProgressTarget.R - _ColorProgressLast.R);
+                _ColorProgressCurrent.G = _ColorProgressLast.G + animFactor * (_ColorProgressTarget.G - _ColorProgressLast.G);
+                _ColorProgressCurrent.B = _ColorProgressLast.B + animFactor * (_ColorProgressTarget.B - _ColorProgressLast.B);
+                _ColorProgressCurrent.A = _ColorProgressLast.A + animFactor * (_ColorProgressTarget.A - _ColorProgressLast.A);
+            }
+            else
+                _ColorProgressCurrent = _ColorProgressLast = _ColorProgressTarget;
         }
 
         private void _UpdateProgressLeft()
@@ -328,7 +391,6 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateProgressMid()
         {
-            _ProgressCurrent = _ProgressTarget;
             switch (_Theme.Direction)
             {
                 case EDirection.Right:

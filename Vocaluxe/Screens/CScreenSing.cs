@@ -603,6 +603,9 @@ namespace Vocaluxe.Screens
                     _DynamicLyricsTop = true;
             }
 
+            for (int p = 0; p < CGame.NumPlayers; p++)
+                _ProgressBars[_ProgressBarsRating[p, CGame.NumPlayers]].Reset();
+
             _SetDuetLyricsVisibility(song.IsDuet);
             _SetNormalLyricsVisibility();
 
