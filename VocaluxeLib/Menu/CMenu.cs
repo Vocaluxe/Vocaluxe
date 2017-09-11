@@ -51,6 +51,7 @@ namespace VocaluxeLib.Menu
         [XmlArray("Playlists")] public List<SThemePlaylist> Playlists;
         [XmlArray("ParticleEffects")] public List<SThemeParticleEffect> ParticleEffects;
         [XmlArray("ScreenSettings")] public List<SThemeScreenSetting> ScreenSettings;
+        [XmlArray("ProgressBars")] public List<SThemeProgressBar> ProgressBars;
     }
 
     struct SZSort
@@ -82,6 +83,7 @@ namespace VocaluxeLib.Menu
         protected string[] _ThemePlaylists;
         protected string[] _ThemeParticleEffects;
         protected string[] _ThemeScreenSettings;
+        protected string[] _ThemeProgressBars;
         protected readonly Dictionary<string, CScreenSetting> _ScreenSettings = new Dictionary<string, CScreenSetting>();
 
         // ReSharper restore MemberCanBePrivate.Global
@@ -117,6 +119,7 @@ namespace VocaluxeLib.Menu
             _ThemePlaylists = null;
             _ThemeParticleEffects = null;
             _ThemeScreenSettings = null;
+            _ThemeProgressBars = null;
         }
 
         protected virtual void _OnSongMenuChanged()
@@ -158,7 +161,7 @@ namespace VocaluxeLib.Menu
             private static readonly string[] _AllowedMissing = new string[]
                 {
                     "Backgrounds", "Statics", "Texts", "Buttons", "SongMenus", "Lyrics", "SelectSlides", "SingNotes",
-                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings"
+                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings", "ProgressBars"
                 };
 
             public override void HandleError(CXmlException e)
@@ -210,6 +213,9 @@ namespace VocaluxeLib.Menu
 
                 foreach (SThemePlaylist pl in Theme.Playlists)
                     _AddPlaylist(new CPlaylist(pl, PartyModeID), pl.Name);
+
+                foreach (SThemeProgressBar pb in Theme.ProgressBars)
+                    _AddProgressBar(new CProgressBar(pb, PartyModeID), pb.Name);
 
                 foreach (SThemeScreenSetting ss in Theme.ScreenSettings)
                     _AddScreenSetting(new CScreenSetting(ss, PartyModeID), ss.Name);
@@ -351,6 +357,7 @@ namespace VocaluxeLib.Menu
             _AddThemeablesToList(Theme.NameSelections, _NameSelections);
             _AddThemeablesToList(Theme.ParticleEffects, _ParticleEffects);
             _AddThemeablesToList(Theme.Playlists, _Playlists);
+            _AddThemeablesToList(Theme.ProgressBars, _ProgressBars);
             _AddThemeablesToList(Theme.ScreenSettings, _ScreenSettings.Values);
             _AddThemeablesToList(Theme.SelectSlides, _SelectSlides);
             _AddThemeablesToList(Theme.Statics, _Statics);
@@ -469,6 +476,16 @@ namespace VocaluxeLib.Menu
         public CParticleEffect GetNewParticleEffect(int maxNumber, SColorF color, SRectF area, CTextureRef texture, float size, EParticleType type)
         {
             return new CParticleEffect(PartyModeID, maxNumber, color, area, texture, size, type);
+        }
+
+        public CProgressBar GetNewProgressBar()
+        {
+            return new CProgressBar(PartyModeID);
+        }
+
+        public CProgressBar GetNewProgressBar(CProgressBar pb)
+        {
+            return new CProgressBar(pb);
         }
 
         // ReSharper restore MemberCanBeProtected.Global

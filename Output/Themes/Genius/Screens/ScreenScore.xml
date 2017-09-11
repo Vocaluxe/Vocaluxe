@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenScore</ScreenName>
-    <ScreenVersion>3</ScreenVersion>
+    <ScreenVersion>4</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -25,28 +25,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP1N1">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>520</X>
-        <Y>360</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP1N1">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player1" />
-      <Rect>
-        <X>520</X>
-        <Y>360</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin />
       <Color Name="Visible" />
@@ -55,28 +33,6 @@
         <Y>270</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP1N2">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>520</X>
-        <Y>290</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP1N2">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player1" />
-      <Rect>
-        <X>520</X>
-        <Y>290</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -91,28 +47,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP2N2">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>520</X>
-        <Y>535</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP2N2">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player2" />
-      <Rect>
-        <X>520</X>
-        <Y>535</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP2N2">
       <Skin />
       <Color Name="Visible" />
@@ -121,28 +55,6 @@
         <Y>445</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP1N3">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>520</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP1N3">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player1" />
-      <Rect>
-        <X>520</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -157,28 +69,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP2N3">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>520</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP2N3">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player2" />
-      <Rect>
-        <X>520</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP2N3">
       <Skin />
       <Color Name="Visible" />
@@ -187,28 +77,6 @@
         <Y>322</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP3N3">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>520</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP3N3">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player3" />
-      <Rect>
-        <X>520</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -223,28 +91,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP1N4">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>210</X>
-        <Y>290</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP1N4">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player1" />
-      <Rect>
-        <X>210</X>
-        <Y>290</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP1N4">
       <Skin />
       <Color Name="Visible" />
@@ -253,28 +99,6 @@
         <Y>200</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP2N4">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>210</X>
-        <Y>535</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP2N4">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player2" />
-      <Rect>
-        <X>210</X>
-        <Y>535</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -289,28 +113,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP3N4">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>820</X>
-        <Y>290</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP3N4">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player3" />
-      <Rect>
-        <X>820</X>
-        <Y>290</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP3N4">
       <Skin />
       <Color Name="Visible" />
@@ -319,28 +121,6 @@
         <Y>200</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP4N4">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>820</X>
-        <Y>535</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP4N4">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player4" />
-      <Rect>
-        <X>820</X>
-        <Y>535</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -355,28 +135,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP1N5">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>210</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP1N5">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player1" />
-      <Rect>
-        <X>210</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP1N5">
       <Skin />
       <Color Name="Visible" />
@@ -385,28 +143,6 @@
         <Y>131</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP2N5">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>210</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP2N5">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player2" />
-      <Rect>
-        <X>210</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -421,28 +157,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP3N5">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>210</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP3N5">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player3" />
-      <Rect>
-        <X>210</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP3N5">
       <Skin />
       <Color Name="Visible" />
@@ -451,28 +165,6 @@
         <Y>513</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP4N5">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>820</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP4N5">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player4" />
-      <Rect>
-        <X>820</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -487,28 +179,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP5N5">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>820</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP5N5">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player5" />
-      <Rect>
-        <X>820</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP5N5">
       <Skin />
       <Color Name="Visible" />
@@ -517,28 +187,6 @@
         <Y>322</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP1N6">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>210</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP1N6">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player1" />
-      <Rect>
-        <X>210</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -553,28 +201,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP2N6">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>210</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP2N6">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player2" />
-      <Rect>
-        <X>210</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP2N6">
       <Skin />
       <Color Name="Visible" />
@@ -583,28 +209,6 @@
         <Y>322</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP3N6">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>210</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP3N6">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player3" />
-      <Rect>
-        <X>210</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -619,28 +223,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP4N6">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>820</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP4N6">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player4" />
-      <Rect>
-        <X>820</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP4N6">
       <Skin />
       <Color Name="Visible" />
@@ -652,28 +234,6 @@
         <Z>0</Z>
       </Rect>
     </Static>
-    <Static Name="StaticPointsBarBGP5N6">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>820</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP5N6">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player5" />
-      <Rect>
-        <X>820</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticAvatarP5N6">
       <Skin />
       <Color Name="Visible" />
@@ -682,28 +242,6 @@
         <Y>322</Y>
         <W>130</W>
         <H>130</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarBGP6N6">
-      <Skin>PointsBarBG</Skin>
-      <Color Name="StaticColorAlpha" />
-      <Rect>
-        <X>820</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
-    <Static Name="StaticPointsBarP6N6">
-      <Skin>PointsBar</Skin>
-      <Color Name="Player6" />
-      <Rect>
-        <X>820</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -1952,4 +1490,531 @@
       <Type>String</Type>
     </ScreenSetting>
   </ScreenSettings>
+  <ProgressBars>
+    <ProgressBar Name="ProgressBarPointsP1N1">
+	  <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player1" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>520</X>
+        <Y>360</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP1N2">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player1" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>520</X>
+        <Y>290</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP2N2">
+	  <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player2" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>520</X>
+        <Y>535</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP1N3">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player1" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>520</X>
+        <Y>221</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP2N3">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player2" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>520</X>
+        <Y>412</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP3N3">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player3" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>520</X>
+        <Y>603</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP1N4">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player1" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>210</X>
+        <Y>290</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP2N4">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player2" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>210</X>
+        <Y>535</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP3N4">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player3" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>820</X>
+        <Y>290</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP4N4">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player4" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>820</X>
+        <Y>535</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP1N5">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player1" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>210</X>
+        <Y>221</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP2N5">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player2" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>210</X>
+        <Y>412</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP3N5">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player3" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>210</X>
+        <Y>603</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP4N5">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player4" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>820</X>
+        <Y>221</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP5N5">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player5" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>820</X>
+        <Y>412</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP1N6">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player1" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>210</X>
+        <Y>221</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP2N6">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player2" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>210</X>
+        <Y>412</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP3N6">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player3" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>210</X>
+        <Y>603</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP4N6">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player4" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>820</X>
+        <Y>221</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP5N6">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player5" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>820</X>
+        <Y>412</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarPointsP6N6">
+      <SkinBackground>PointsBarBG</SkinBackground>
+      <SkinForeground />
+      <SkinProgressLeft />
+      <SkinProgressMid />
+      <SkinProgressRight />
+      <ColorBackground Name="StaticColorAlpha" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="Player6" />
+		</ProgressColor>
+      </ProgressColors>
+      <Rect>
+        <X>820</X>
+        <Y>603</Y>
+        <W>390</W>
+        <H>10</H>
+        <Z>0</Z>
+      </Rect>
+    </ProgressBar>  
+  </ProgressBars>
 </Screen>

@@ -33,7 +33,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _TextSong = "TextSong";
@@ -41,7 +41,6 @@ namespace Vocaluxe.Screens
         private const string _ScreenSettingShortScore = "ScreenSettingShortScore";
         private const string _ScreenSettingShortRating = "ScreenSettingShortRating";
         private const string _ScreenSettingShortDifficulty = "ScreenSettingShortDifficulty";
-        private const string _ScreenSettingAnimationDirection = "ScreenSettingAnimationDirection";
 
         private CBackground _SlideShowBG;
 
@@ -49,13 +48,10 @@ namespace Vocaluxe.Screens
         private string[,] _TextScores;
         private string[,] _TextRatings;
         private string[,] _TextDifficulty;
-        private string[,] _StaticPointsBarBG;
-        private string[,] _StaticPointsBar;
+        private string[,] _ProgressBarPoints;
         private string[,] _StaticAvatar;
-        private double[] _StaticPointsBarDrawnPoints;
         private int _Round;
         private CPoints _Points;
-        private Stopwatch _Timer;
 
         public override EMusicType CurrentMusicType
         {
@@ -77,9 +73,12 @@ namespace Vocaluxe.Screens
 
             _ThemeStatics = statics.ToArray();
 
-            _ThemeScreenSettings = new string[] {_ScreenSettingShortScore, _ScreenSettingShortRating, _ScreenSettingShortDifficulty, _ScreenSettingAnimationDirection};
+            var progressBars = new List<string>();
+            _BuildProgressBarString(ref progressBars);
 
-            _StaticPointsBarDrawnPoints = new double[CSettings.MaxNumPlayer];
+            _ThemeProgressBars = progressBars.ToArray();
+
+            _ThemeScreenSettings = new string[] {_ScreenSettingShortScore, _ScreenSettingShortRating, _ScreenSettingShortDifficulty};
 
             _SlideShowBG = GetNewBackground();
             _AddBackground(_SlideShowBG);
@@ -157,34 +156,6 @@ namespace Vocaluxe.Screens
                 for (int p = 0; p < players.Length; p++)
                     players[p].Points = (int)(players[p].Points / CGame.NumRounds);
             }
-            for (int p = 0; p < players.Length; p++)
-            {
-                if (_StaticPointsBarDrawnPoints[p] < players[p].Points)
-                {
-                    if (CConfig.Config.Game.ScoreAnimationTime >= 1)
-                    {
-                        _StaticPointsBarDrawnPoints[p] = (_Timer.ElapsedMilliseconds / 1000f) / CConfig.Config.Game.ScoreAnimationTime * 10000;
-
-
-                        if (_StaticPointsBarDrawnPoints[p] > players[p].Points)
-                            _StaticPointsBarDrawnPoints[p] = players[p].Points;
-                        var direction = (string)_ScreenSettings[_ScreenSettingAnimationDirection].GetValue();
-                        if (direction.ToLower() == "vertical")
-                        {
-                            _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].W = ((float)_StaticPointsBarDrawnPoints[p]) *
-                                                                                    (_Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].W / CSettings.MaxScore);
-                        }
-                        else
-                        {
-                            _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H = ((float)_StaticPointsBarDrawnPoints[p]) *
-                                                                                    (_Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H / CSettings.MaxScore);
-                            _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].Y = _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H +
-                                                                                    _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].Y -
-                                                                                    _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H;
-                        }
-                    }
-                }
-            }
             return true;
         }
 
@@ -242,8 +213,6 @@ namespace Vocaluxe.Screens
 
         private void _BuildStaticStrings(ref List<string> statics)
         {
-            _StaticPointsBar = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _StaticPointsBarBG = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
             _StaticAvatar = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
 
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
@@ -253,13 +222,27 @@ namespace Vocaluxe.Screens
                     if (player > numplayer)
                         continue;
                     string target = "P" + (player + 1) + "N" + (numplayer + 1);
-                    _StaticPointsBarBG[player, numplayer] = "StaticPointsBarBG" + target;
-                    _StaticPointsBar[player, numplayer] = "StaticPointsBar" + target;
                     _StaticAvatar[player, numplayer] = "StaticAvatar" + target;
 
-                    statics.Add(_StaticPointsBarBG[player, numplayer]);
-                    statics.Add(_StaticPointsBar[player, numplayer]);
                     statics.Add(_StaticAvatar[player, numplayer]);
+                }
+            }
+        }
+
+        private void _BuildProgressBarString(ref List<string> progressBars)
+        {
+            _ProgressBarPoints = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+
+            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            {
+                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                {
+                    if (player > numplayer)
+                        continue;
+                    string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                    _ProgressBarPoints[player, numplayer] = "ProgressBarPoints" + target;
+
+                    progressBars.Add(_ProgressBarPoints[player, numplayer]);
                 }
             }
         }
@@ -296,7 +279,6 @@ namespace Vocaluxe.Screens
                     players[p].Points = (int)Math.Round(players[p].Points / CGame.NumRounds);
             }
 
-            var pointAnimDirection = (string)_ScreenSettings[_ScreenSettingAnimationDirection].GetValue();
             for (int p = 0; p < players.Length; p++)
             {
                 string name = CProfiles.GetPlayerName(players[p].ProfileID, p);
@@ -326,43 +308,11 @@ namespace Vocaluxe.Screens
                 else
                     _Texts[_TextRatings[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate(_GetRating((int)Math.Round(players[p].Points)));
 
-                _StaticPointsBarDrawnPoints[p] = 0.0;
-                if (pointAnimDirection.ToLower() == "vertical")
-                    _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].W = 0;
-                else
-                {
-                    _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H = 0;
-                    _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].Y = _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H +
-                                                                            _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].Y -
-                                                                            _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H;
-                }
+                _ProgressBars[_ProgressBarPoints[p, CGame.NumPlayers - 1]].Progress = (float)players[p].Points / CSettings.MaxScore;
+
                 if (CProfiles.IsProfileIDValid(players[p].ProfileID))
                     _Statics[_StaticAvatar[p, CGame.NumPlayers - 1]].Texture = CProfiles.GetAvatarTextureFromProfile(players[p].ProfileID);
             }
-
-            if (CConfig.Config.Game.ScoreAnimationTime < 1)
-            {
-                for (int p = 0; p < CGame.NumPlayers; p++)
-                {
-                    if (pointAnimDirection.ToLower() == "vertical")
-                    {
-                        _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].W = ((float)players[p].Points) *
-                                                                                (_Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].W / CSettings.MaxScore);
-                    }
-                    else
-                    {
-                        _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H = ((float)players[p].Points) *
-                                                                                (_Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H / CSettings.MaxScore);
-                        _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].Y = _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].H +
-                                                                                _Statics[_StaticPointsBarBG[p, CGame.NumPlayers - 1]].Y -
-                                                                                _Statics[_StaticPointsBar[p, CGame.NumPlayers - 1]].H;
-                    }
-                    _StaticPointsBarDrawnPoints[p] = players[p].Points;
-                }
-            }
-
-            _Timer = new Stopwatch();
-            _Timer.Start();
         }
 
         private void _SetVisibility()
@@ -377,8 +327,8 @@ namespace Vocaluxe.Screens
                         _Texts[_TextScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
                         _Texts[_TextRatings[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
                         _Texts[_TextDifficulty[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Statics[_StaticPointsBar[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Statics[_StaticPointsBarBG[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
+                        _ProgressBars[_ProgressBarPoints[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
+                        _ProgressBars[_ProgressBarPoints[player, numplayer]].Reset(true);
                         _Statics[_StaticAvatar[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
 
                         _Statics[_StaticAvatar[player, numplayer]].Texture = null;
