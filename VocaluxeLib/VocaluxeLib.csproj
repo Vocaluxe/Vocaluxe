@@ -96,6 +96,7 @@
     <Compile Include="Menu\CMenuElementBase.cs" />
     <Compile Include="Menu\CMenuParty.cs" />
     <Compile Include="Menu\CMenuPartyNameSelection.cs" />
+    <Compile Include="Menu\CMenuPartySongSelection.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CObjectInteractions.cs" />
     <Compile Include="Menu\COrderedDictionaryLite.cs" />
