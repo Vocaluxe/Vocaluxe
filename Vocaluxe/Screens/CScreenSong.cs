@@ -643,7 +643,7 @@ namespace Vocaluxe.Screens
             _SelectedCategoryIndex = -2;
 
             _Sso = CParty.GetSongSelectionOptions();
-            CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, _Sso.Sorting.SearchString, _Sso.Sorting.DuetOptions);
+            CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, _Sso.Sorting.SearchString, _Sso.Sorting.DuetOptions, _Sso.Sorting.FilterPlaylistID);
             _SearchActive = _Sso.Sorting.SearchActive;
             _SearchText = _Sso.Sorting.SearchString;
 
@@ -774,7 +774,7 @@ namespace Vocaluxe.Screens
 
             if (_Sso.Selection.PartyMode)
             {
-                CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, _Sso.Sorting.SearchString, _Sso.Sorting.DuetOptions);
+                CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, _Sso.Sorting.SearchString, _Sso.Sorting.DuetOptions, _Sso.Sorting.FilterPlaylistID);
                 _SearchActive = _Sso.Sorting.SearchActive;
                 _SearchText = _Sso.Sorting.SearchString;
 
@@ -1134,7 +1134,7 @@ namespace Vocaluxe.Screens
                 refresh = true;
             }
 
-            CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, newFilterString, _Sso.Sorting.DuetOptions);
+            CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, newFilterString, _Sso.Sorting.DuetOptions, _Sso.Sorting.FilterPlaylistID);
 
             if (songID == -1 || CSongs.NumSongsVisible <= songIndex || CSongs.GetVisibleSongByIndex(songIndex).ID != songID)
                 refresh = true;
