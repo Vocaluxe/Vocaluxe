@@ -106,6 +106,7 @@
     <Compile Include="Game\CPoints.cs" />
     <Compile Include="Menu\CScreenSetting.cs" />
     <Compile Include="Menu\CSelectSlide.cs" />
+    <Compile Include="Menu\CProgressBar.cs" />
     <Compile Include="Menu\CStatic.cs" />
     <Compile Include="Menu\CText.cs" />
     <Compile Include="Draw\CTextureRef.cs" />

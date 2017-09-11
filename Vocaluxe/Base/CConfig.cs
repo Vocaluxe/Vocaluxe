@@ -134,7 +134,6 @@ namespace Vocaluxe.Base
             // ReSharper restore MemberHidesStaticFromOuterClass
             [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)] public ESongSorting SongSorting;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn IgnoreArticles;
-            [DefaultValue(10)] public float ScoreAnimationTime;
             [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)] public ETimerMode TimerMode;
             [XmlAltName("NumPlayer"), DefaultValue(2)] public int NumPlayers;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn Tabs;
@@ -343,8 +342,6 @@ namespace Vocaluxe.Base
             {
                 Config.Game.SongFolder = SongFolders.ToArray();
             }
-            if ((Config.Game.ScoreAnimationTime > 0 && Config.Game.ScoreAnimationTime < 1) || Config.Game.ScoreAnimationTime < 0)
-                Config.Game.ScoreAnimationTime = 1;
 
             if (Config.Game.MinLineBreakTime < 0)
                 Config.Game.MinLineBreakTime = 0.1f;
@@ -468,8 +465,6 @@ namespace Vocaluxe.Base
                     return "SongSorting: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongSorting)));
                 case "IgnoreArticles":
                     return "Ignore articles on song-sorting: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
-                case "ScoreAnimationTime":
-                    return "ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.";
                 case "TimerMode":
                     return "TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode)));
                 case "NumPlayers":
