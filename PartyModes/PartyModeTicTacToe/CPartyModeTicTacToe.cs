@@ -27,18 +27,9 @@ using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
 {
-    public enum ESongSource
-    {
-        // ReSharper disable InconsistentNaming
-        TR_ALLSONGS,
-        TR_CATEGORY,
-        TR_PLAYLIST
-        // ReSharper restore InconsistentNaming
-    }
-
     public class CRound
     {
-        public int SongID;
+        public int[] SongIDs;
         public int SingerTeam1;
         public int SingerTeam2;
         public int PointsTeam1;
@@ -101,6 +92,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
     private enum EStage
         {
             Config,
+            Songs,
             Names,
             Main,
             Singing
@@ -118,10 +110,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             public List<int> PlayerTeam2;
 
             public ESongSource SongSource;
+            public ESongSorting Sorting;
             public int CategoryIndex;
             public int PlaylistID;
 
-            public int GameMode;
+            public EGameMode GameMode;
+            public int NumMedleySongs;
 
             public List<CRound> Rounds;
             public List<int> Songs;
@@ -159,10 +153,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     PlayerTeam2 = new List<int>(),
                     CurrentRoundNr = 0,
                     FieldNr = 0,
+                    Sorting = CBase.Config.GetSongSorting(),
                     SongSource = ESongSource.TR_ALLSONGS,
                     PlaylistID = 0,
                     CategoryIndex = 0,
-                    GameMode = 0,
+                    GameMode = EGameMode.TR_GAMEMODE_NORMAL,
+                    NumMedleySongs = 5,
                     Rounds = new List<CRound>(),
                     Songs = new List<int>(),
                     NumJokerRandom = new int[2],
@@ -212,6 +208,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             {
                 case EStage.Config:
                     return _Screens["CPartyScreenTicTacToeConfig"];
+                case EStage.Songs:
+                    return _Screens["CPartyScreenTicTacToeSongs"];
                 case EStage.Names:
                     return _Screens["CPartyScreenTicTacToeNames"];
                 case EStage.Main:
@@ -234,6 +232,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             switch (_Stage)
             {
                 case EStage.Config:
+                    _Stage = EStage.Songs;
+                    break;
+                case EStage.Songs:
                     _Stage = EStage.Names;
                     break;
                 case EStage.Names:
@@ -267,8 +268,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 case EStage.Config:
                     CBase.Graphics.FadeTo(EScreen.Party);
                     return;
-                case EStage.Names:
+                case EStage.Songs:
                     _Stage = EStage.Config;
+                    break;
+                case EStage.Names:
+                    _Stage = EStage.Songs;
                     break;
                 case EStage.Main:
                     _Stage = EStage.Names;
@@ -434,20 +438,21 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
                     {
                         int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
-                        if (CBase.Songs.GetSongByID(id).AvailableGameModes.Contains(AvailableGameModes[GameData.GameMode]))
+                        if (CBase.Songs.GetSongByID(id).AvailableGameModes.Contains(GameData.GameMode))
                             GameData.Songs.Add(id);
                     }
                     break;
 
                 case ESongSource.TR_ALLSONGS:
                     ReadOnlyCollection<CSong> avSongs = CBase.Songs.GetSongs();
-                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(AvailableGameModes[GameData.GameMode])).Select(song => song.ID));
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(GameData.GameMode)).Select(song => song.ID));
                     break;
 
                 case ESongSource.TR_CATEGORY:
+                    CBase.Songs.SortSongs(GameData.Sorting, EOffOn.TR_CONFIG_ON, CBase.Config.GetIgnoreArticles(), "", EDuetOptions.All, -1);
                     CBase.Songs.SetCategory(GameData.CategoryIndex);
                     avSongs = CBase.Songs.GetVisibleSongs();
-                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(AvailableGameModes[GameData.GameMode])).Select(song => song.ID));
+                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(GameData.GameMode)).Select(song => song.ID));
 
                     CBase.Songs.SetCategory(-1);
                     break;
@@ -478,7 +483,6 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 return;
 
             CRound round = GameData.Rounds[roundNr];
-            bool isDuet = CBase.Songs.GetSongByID(round.SongID).IsDuet;
 
             for (int i = 0; i < 2; i++)
             {
@@ -488,14 +492,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             //try to fill with the right data
             players[0].ProfileID = GameData.ProfileIDsTeam1[round.SingerTeam1];
-            if (isDuet)
-                players[0].VoiceNr = 0;
-
             players[1].ProfileID = GameData.ProfileIDsTeam2[round.SingerTeam2];
-            if (isDuet)
-                players[1].VoiceNr = 1;
 
-            CBase.Game.AddSong(round.SongID, AvailableGameModes[GameData.GameMode]);
+            foreach(int song in round.SongIDs)
+                CBase.Game.AddSong(song, GameData.GameMode);
         }
 
         private void _SetNumJokers()
