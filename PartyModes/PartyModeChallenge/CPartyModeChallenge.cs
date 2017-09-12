@@ -175,7 +175,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 CurrentRoundNr = 1,
                 ProfileIDs = new List<int>(),
                 Sorting = CBase.Config.GetSongSorting(),
-                SongSource = ESongSource.TR_ALLSONGS,
+                SongSource = ESongSource.TR_SONGSOURCE_ALLSONGS,
                 PlaylistID = 0,
                 CategoryIndex = 0,
                 GameMode = EGameMode.TR_GAMEMODE_NORMAL,
@@ -313,7 +313,7 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             switch(GameData.SongSource)
             {
-                case ESongSource.TR_ALLSONGS:
+                case ESongSource.TR_SONGSOURCE_ALLSONGS:
                     _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
                     _ScreenSongOptions.Sorting.Tabs = CBase.Config.GetTabs();
                     _ScreenSongOptions.Sorting.FilterPlaylistID = -1;
@@ -321,7 +321,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
                     break;
 
-                case ESongSource.TR_CATEGORY:
+                case ESongSource.TR_SONGSOURCE_CATEGORY:
                     _ScreenSongOptions.Sorting.SongSorting = GameData.Sorting;
                     _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
                     _ScreenSongOptions.Sorting.FilterPlaylistID = -1;
@@ -334,7 +334,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                     _ScreenSongOptions.Selection.CategoryChangeAllowed = false;
                     break;
 
-                case ESongSource.TR_PLAYLIST:
+                case ESongSource.TR_SONGSOURCE_PLAYLIST:
                     _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
                     _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_OFF;
                     _ScreenSongOptions.Sorting.FilterPlaylistID = GameData.PlaylistID;
@@ -541,7 +541,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
             switch (GameData.SongSource)
             {
-                case ESongSource.TR_PLAYLIST:
+                case ESongSource.TR_SONGSOURCE_PLAYLIST:
                     for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
                     {
                         int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
@@ -550,12 +550,12 @@ namespace VocaluxeLib.PartyModes.Challenge
                     }
                     break;
 
-                case ESongSource.TR_ALLSONGS:
+                case ESongSource.TR_SONGSOURCE_ALLSONGS:
                     ReadOnlyCollection<CSong> avSongs = CBase.Songs.GetSongs();
                     GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(EGameMode.TR_GAMEMODE_MEDLEY)).Select(song => song.ID));
                     break;
 
-                case ESongSource.TR_CATEGORY:
+                case ESongSource.TR_SONGSOURCE_CATEGORY:
                     CBase.Songs.SetCategory(GameData.CategoryIndex);
                     avSongs = CBase.Songs.GetVisibleSongs();
                     GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(EGameMode.TR_GAMEMODE_MEDLEY)).Select(song => song.ID));

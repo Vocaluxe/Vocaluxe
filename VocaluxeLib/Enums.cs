@@ -216,9 +216,9 @@ namespace VocaluxeLib
 
     public enum ESongSource
     {
-        TR_ALLSONGS,
-        TR_CATEGORY,
-        TR_PLAYLIST
+        TR_SONGSOURCE_ALLSONGS,
+        TR_SONGSOURCE_CATEGORY,
+        TR_SONGSOURCE_PLAYLIST
     }
 
     public enum ESongSorting

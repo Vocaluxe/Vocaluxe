@@ -245,9 +245,9 @@ namespace VocaluxeLib.Menu
         private void _UpdateSelectSlideVisibility()
         {
             _SelectSlides[_SelectSlideNumMedleySongs].Visible = SongMode == EGameMode.TR_GAMEMODE_MEDLEY;
-            _SelectSlides[_SelectSlidePlaylist].Visible = Source == ESongSource.TR_PLAYLIST;
-            _SelectSlides[_SelectSlideSorting].Visible = Source == ESongSource.TR_CATEGORY;
-            _SelectSlides[_SelectSlideCategory].Visible = Source == ESongSource.TR_CATEGORY;
+            _SelectSlides[_SelectSlidePlaylist].Visible = Source == ESongSource.TR_SONGSOURCE_PLAYLIST;
+            _SelectSlides[_SelectSlideSorting].Visible = Source == ESongSource.TR_SONGSOURCE_CATEGORY;
+            _SelectSlides[_SelectSlideCategory].Visible = Source == ESongSource.TR_SONGSOURCE_CATEGORY;
         }
 
         protected void _SetAllowedOptions()

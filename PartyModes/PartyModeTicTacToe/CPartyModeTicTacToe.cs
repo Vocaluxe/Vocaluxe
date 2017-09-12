@@ -155,7 +155,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     CurrentRoundNr = 0,
                     FieldNr = 0,
                     Sorting = CBase.Config.GetSongSorting(),
-                    SongSource = ESongSource.TR_ALLSONGS,
+                    SongSource = ESongSource.TR_SONGSOURCE_ALLSONGS,
                     PlaylistID = 0,
                     CategoryIndex = 0,
                     GameMode = EGameMode.TR_GAMEMODE_NORMAL,
@@ -438,7 +438,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             switch (GameData.SongSource)
             {
-                case ESongSource.TR_PLAYLIST:
+                case ESongSource.TR_SONGSOURCE_PLAYLIST:
                     for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
                     {
                         int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
@@ -447,12 +447,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     }
                     break;
 
-                case ESongSource.TR_ALLSONGS:
+                case ESongSource.TR_SONGSOURCE_ALLSONGS:
                     ReadOnlyCollection<CSong> avSongs = CBase.Songs.GetSongs();
                     GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(GameData.GameMode)).Select(song => song.ID));
                     break;
 
-                case ESongSource.TR_CATEGORY:
+                case ESongSource.TR_SONGSOURCE_CATEGORY:
                     CBase.Songs.SortSongs(GameData.Sorting, EOffOn.TR_CONFIG_ON, CBase.Config.GetIgnoreArticles(), "", EDuetOptions.All, -1);
                     CBase.Songs.SetCategory(GameData.CategoryIndex);
                     avSongs = CBase.Songs.GetVisibleSongs();

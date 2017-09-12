@@ -53,7 +53,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENCONFIG_SONGSOURCE</Text>
+      <Text>TR_SONGSOURCE</Text>
     </Text>
     <Text Name="TextSongMode">
       <X>75</X>
@@ -67,7 +67,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENCONFIG_GAMEMODE</Text>
+      <Text>TR_GAMEMODE</Text>
     </Text>
   </Texts>
   <Buttons>
