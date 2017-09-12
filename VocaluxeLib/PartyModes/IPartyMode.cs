@@ -49,6 +49,11 @@ namespace VocaluxeLib.PartyModes
         public int SongIndex;
 
         /// <summary>
+        ///     If != -1, the SongMenu should enter show category based on provided category index if possible
+        /// </summary>
+        public int CategoryIndex;
+
+        /// <summary>
         ///     If true, the SongMenu should perform the select random song method
         /// </summary>
         public bool SelectNextRandomSong;

@@ -71,6 +71,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="CChallengeRounds.cs" />
+    <Compile Include="CPartyScreenChallengeSongs.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="CPartyModeChallenge.cs" />
     <Compile Include="CPartyScreenChallengeConfig.cs" />
