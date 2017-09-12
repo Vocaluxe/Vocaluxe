@@ -250,7 +250,7 @@ namespace VocaluxeLib.Menu
             _SelectSlides[_SelectSlideCategory].Visible = Source == ESongSource.TR_SONGSOURCE_CATEGORY;
         }
 
-        protected void _SetAllowedOptions()
+        protected virtual void _SetAllowedOptions()
         {
             AllowedSongModes = (EGameMode[])Enum.GetValues(typeof(EGameMode));
             AllowedSongSources = (ESongSource[])Enum.GetValues(typeof(ESongSource));

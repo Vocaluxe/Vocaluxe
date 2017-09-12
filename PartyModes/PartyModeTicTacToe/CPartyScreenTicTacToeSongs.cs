@@ -64,6 +64,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return true;
         }
 
+        protected override void _SetAllowedOptions()
+        {
+            base._SetAllowedOptions();
+
+            AllowedSongModes = new EGameMode[] { EGameMode.TR_GAMEMODE_NORMAL, EGameMode.TR_GAMEMODE_SHORTSONG, EGameMode.TR_GAMEMODE_MEDLEY };
+        }
+
         private void _SaveConfig()
         {
             _PartyMode.GameData.SongSource = Source;
