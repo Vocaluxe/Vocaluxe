@@ -125,6 +125,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             public int[] NumJokerRandom;
             public int[] NumJokerRetry;
+            public EOffOn RefillJokers;
         }
 
         public SData GameData;
@@ -162,7 +163,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     Rounds = new List<CRound>(),
                     Songs = new List<int>(),
                     NumJokerRandom = new int[2],
-                    NumJokerRetry = new int[2]
+                    NumJokerRetry = new int[2],
+                    RefillJokers = EOffOn.TR_CONFIG_OFF
                 };
         }
 
@@ -254,6 +256,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Stage = EStage.Main;
                     GameData.Team = GameData.Team == 1 ? 0 : 1;
                     _UpdatePlayerList();
+                    if (GameData.RefillJokers == EOffOn.TR_CONFIG_ON)
+                        _SetNumJokers();
                     break;
                 default:
                     throw new ArgumentException("Invalid stage: " + _Stage);

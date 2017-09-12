@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -30,10 +31,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private const string _SelectSlideNumFields = "SelectSlideNumFields";
+        private const string _SelectSlideRefillJokers = "SelectSlideRefillJokers";
 
         private const string _ButtonNext = "ButtonNext";
         private const string _ButtonBack = "ButtonBack";
@@ -128,11 +130,15 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectSlides[_SelectSlideNumFields].AddValue(25);
 
             _SelectSlides[_SelectSlideNumFields].SelectedTag = _PartyMode.GameData.NumFields;
+
+            _SelectSlides[_SelectSlideRefillJokers].AddValues(Enum.GetNames(typeof(EOffOn)));
+            _SelectSlides[_SelectSlideRefillJokers].Selection = (int)_PartyMode.GameData.RefillJokers;
         }
 
         private void _UpdateSlides()
         {
             _PartyMode.GameData.NumFields = _SelectSlides[_SelectSlideNumFields].SelectedTag;
+            _PartyMode.GameData.RefillJokers = (EOffOn)_SelectSlides[_SelectSlideRefillJokers].Selection;
         }
     }
 }
