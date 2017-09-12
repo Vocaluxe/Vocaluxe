@@ -191,12 +191,6 @@ namespace VocaluxeLib.Menu
             _AnimTimer = new Stopwatch();
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            //Will be removed
-            return false;
-        }
-
         public void Reset(bool animateInit = false)
         {
             _Animate = animateInit;
