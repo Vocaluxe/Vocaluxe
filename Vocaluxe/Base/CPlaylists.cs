@@ -204,6 +204,12 @@ namespace Vocaluxe.Base
             return pl.Songs[songIndex];
         }
 
+        public static bool ContainsSong(int playlistID, int songID)
+        {
+            CPlaylistFile pl = Get(playlistID);
+            return pl != null && pl.Songs.Find((x) => x.SongID == songID) != null;
+        }
+
         #region private methods
         private static void _SortByName()
         {

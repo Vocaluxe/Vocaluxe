@@ -156,11 +156,6 @@ namespace Vocaluxe.Base
             return CConfig.GetMaxNumMics();
         }
 
-        public bool GetLoadOldThemeFiles()
-        {
-            return CConfig.LoadOldThemeFiles;
-        }
-
         public void AddSongMenuListener(OnSongMenuChanged onSongMenuChanged)
         {
             CConfig.SongMenuChanged += onSongMenuChanged;
@@ -782,9 +777,9 @@ namespace Vocaluxe.Base
             CSongs.ResetPartySongSung(catIndex);
         }
 
-        public void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions)
+        public void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistID)
         {
-            CSongs.Sort(sorting, tabs, ignoreArticles, searchString, duetOptions);
+            CSongs.Sort(sorting, tabs, ignoreArticles, searchString, duetOptions, playlistID);
         }
 
         public void NextCategory()
@@ -1013,6 +1008,11 @@ namespace Vocaluxe.Base
         public CPlaylistSong GetSong(int playlistID, int songIndex)
         {
             return CPlaylists.GetSong(playlistID, songIndex);
+        }
+
+        public bool ContainsSong(int playlistID, int songID)
+        {
+            return CPlaylists.ContainsSong(playlistID, songID);
         }
     }
 }

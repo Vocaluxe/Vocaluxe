@@ -15,11 +15,9 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -152,92 +150,6 @@ namespace VocaluxeLib.Menu
             _SelReflection = button._SelReflection;
             _SelReflectionHeight = button._SelReflectionHeight;
             _SelReflectionSpace = button._SelReflectionSpace;
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinSelected", out _Theme.SkinSelected, String.Empty);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
-
-            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
-            }
-
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
-                ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out SelColor);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref SelColor.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref SelColor.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SelColor.A);
-            }
-
-            ThemeLoaded &= Text.LoadTheme(item, "Text", xmlReader, true);
-            Text.Z = Rect.Z;
-            if (xmlReader.ItemExists(item + "/SText"))
-            {
-                ThemeLoaded &= _SelText.LoadTheme(item, "SText", xmlReader, true);
-                _SelText.Z = Rect.Z;
-            }
-            else
-                _SelText = null;
-
-
-            //Reflections
-            if (xmlReader.ItemExists(item + "/Reflection"))
-            {
-                _Reflection = true;
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref _ReflectionSpace);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref _ReflectionHeight);
-
-                _Theme.Reflection = new SReflection(_ReflectionHeight, _ReflectionSpace);
-            }
-            else
-            {
-                _Reflection = false;
-                _Theme.Reflection = null;
-            }
-
-            if (xmlReader.ItemExists(item + "/SReflection"))
-            {
-                _SelReflection = true;
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Space", ref _SelReflectionSpace);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SReflection/Height", ref _SelReflectionHeight);
-
-                _Theme.SelReflection = new SReflection(_SelReflectionHeight, _SelReflectionSpace);
-            }
-            else
-            {
-                _SelReflection = false;
-                _Theme.SelReflection = null;
-            }
-
-            if (ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-                _Theme.Color.Color = Color;
-                _Theme.SelColor.Color = SelColor;
-                _ReadSubThemeElements();
-
-                LoadSkin();
-            }
-            return ThemeLoaded;
         }
 
         private void _ReadSubThemeElements()

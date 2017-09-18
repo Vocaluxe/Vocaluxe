@@ -18,7 +18,6 @@
 using System;
 using System.Drawing;
 using System.Xml.Serialization;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -292,79 +291,6 @@ namespace VocaluxeLib.Menu
             _ButtonText = buttonText;
 
             ThemeLoaded = true;
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            return LoadTheme(xmlPath, elementName, xmlReader, false);
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader, bool buttonText)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Y);
-
-            if (!buttonText)
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Z);
-
-            xmlReader.TryGetFloatValue(item + "/MaxW", ref _Theme.MaxWidth);
-
-            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
-            }
-
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
-                ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out SelColor);
-            else
-            {
-                if (xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R))
-                {
-                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref SelColor.G);
-                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref SelColor.B);
-                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SelColor.A);
-                }
-            }
-
-            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Align", ref _Align);
-            xmlReader.TryGetEnumValue(item + "/ResizeAlign", ref _ResizeAlign);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.FontHeight);
-            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Style", ref _Theme.FontStyle);
-            ThemeLoaded &= xmlReader.GetValue(item + "/Font", out _Theme.FontFamily);
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/Text", out _Theme.Text);
-
-            if (xmlReader.ItemExists(item + "/Reflection") && !buttonText)
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref _ReflectionSpace);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref _ReflectionHeight);
-                _Theme.Reflection = new SReflection(_ReflectionHeight, _ReflectionSpace);
-            }
-            else
-                _Theme.Reflection = null;
-
-
-            // Set values
-            _Theme.Name = elementName;
-            _Theme.Align = _Align;
-            _Theme.Color.Color = Color;
-            _Theme.ResizeAlign = _ResizeAlign;
-            _Theme.SelColor.Color = SelColor;
-
-            _ButtonText = buttonText;
-            _PositionNeedsUpdate = true;
-
-            if (ThemeLoaded)
-                LoadSkin();
-            return ThemeLoaded;
         }
 
         public void Draw()

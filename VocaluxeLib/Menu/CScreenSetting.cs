@@ -18,7 +18,6 @@
 using System;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -69,19 +68,6 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
             _Theme = theme;
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            _ThemeLoaded = true;
-
-            _ThemeLoaded &= xmlReader.GetValue(item + "/Value", out _Theme.Value, String.Empty);
-            _ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
-
-            if (_ThemeLoaded)
-                _Theme.Name = elementName;
-            return _ThemeLoaded;
         }
 
         public object GetValue()

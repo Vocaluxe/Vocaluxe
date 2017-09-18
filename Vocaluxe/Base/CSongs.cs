@@ -324,9 +324,9 @@ namespace Vocaluxe.Base
             _CategoriesForRandom.Clear();
         }
 
-        public static void Sort(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions)
+        public static void Sort(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistID)
         {
-            Filter.SetOptions(searchString, duetOptions);
+            Filter.SetOptions(searchString, duetOptions, playlistID);
             Sorter.SetOptions(sorting, ignoreArticles);
             Categorizer.Tabs = tabs;
         }

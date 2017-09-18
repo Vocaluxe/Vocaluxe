@@ -186,7 +186,6 @@ namespace Vocaluxe.Base
         }
 
         public static SConfig Config;
-        public static bool LoadOldThemeFiles;
         public static event OnSongMenuChanged SongMenuChanged;
 
         //Folders
@@ -704,11 +703,6 @@ namespace Vocaluxe.Base
                     case "profilefolder":
                         ProfileFolders.Clear();
                         ProfileFolders.Add(value);
-                        break;
-
-                    case "oldtheme":
-                        if (value == "yes")
-                            LoadOldThemeFiles = true;
                         break;
                 }
             }
