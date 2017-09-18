@@ -145,7 +145,7 @@ namespace VocaluxeLib.Menu
             {
                 if (_Buttons[_ButtonBack].Selected)
                     Back();
-                else if (_Buttons[_ButtonBack].Selected)
+                else if (_Buttons[_ButtonNext].Selected)
                     Next();
                 else
                 {
