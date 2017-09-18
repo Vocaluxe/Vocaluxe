@@ -35,13 +35,13 @@ before_build:
 - ps: |
     Try
     {
-        Start-FileDownload 'https://github.com/lukeIam/VocaluxeDependencies/blob/master/zips/themes/vocaluxe.themes.ambient.video.zip?raw=true'
-        & 7z x '-aoa' '-oOutput/' './vocaluxe.themes.ambient.video.zip'
-        Remove-Item './vocaluxe.themes.ambient.video.zip'
+        Start-FileDownload 'https://github.com/lukeIam/VocaluxeDependencies/blob/master/zips/themes/vocaluxe.themes.genius.video.zip?raw=true'
+        & 7z x '-aoa' '-oOutput/' './vocaluxe.themes.genius.video.zip'
+        Remove-Item './vocaluxe.themes.genius.video.zip'
     }
     Catch
     {
-        Write-Warning "Ambient-Video download failed"
+        Write-Warning "Genius-Video download failed"
     }
     nuget restore -DisableParallelProcessing
 
