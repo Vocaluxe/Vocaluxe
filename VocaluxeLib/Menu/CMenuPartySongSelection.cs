@@ -141,7 +141,7 @@ namespace VocaluxeLib.Menu
         {
             base.HandleMouse(mouseEvent);
 
-            if(mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonBack].Selected)
                     Back();
@@ -153,6 +153,8 @@ namespace VocaluxeLib.Menu
                     _UpdateSelectSlideVisibility();
                 }
             }
+            else if (mouseEvent.RB)
+                Back();
 
             return true;
         }
