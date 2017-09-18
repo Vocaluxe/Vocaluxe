@@ -55,7 +55,7 @@
       <Font>Outline</Font>
       <Text>TR_SCREENCONFIG_NUMFIELDS</Text>
     </Text>
-    <Text Name="TextRefillJoker">
+    <Text Name="TextRefillJokers">
       <X>75</X>
       <Y>165</Y>
       <Z>0</Z>
@@ -67,7 +67,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENCONFIG_REFILLJOKER</Text>
+      <Text>TR_SCREENCONFIG_REFILLJOKERS</Text>
     </Text>
   </Texts>
   <Buttons>
