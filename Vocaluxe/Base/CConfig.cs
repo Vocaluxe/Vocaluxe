@@ -166,26 +166,15 @@ namespace Vocaluxe.Base
             [DefaultValue(ESongMenu.TR_CONFIG_TILE_BOARD)]
             public ESongMenu SongMenu;
             // ReSharper restore MemberHidesStaticFromOuterClass
-            [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)]
-            public ESongSorting SongSorting;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)]
-            public EOffOn IgnoreArticles;
-            [DefaultValue(10)]
-            public float ScoreAnimationTime;
-            [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)]
-            public ETimerMode TimerMode;
-            [XmlAltName("NumPlayer"), DefaultValue(2)]
-            public int NumPlayers;
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
-            public EOffOn Tabs;
-            [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)]
-            public ELyricsPosition LyricsPosition;
-            [DefaultValue(0.1f)]
-            public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
-            [XmlArrayItem("Player"), XmlArray]
-            public string[] Players;
-            [DefaultValue(EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST)]
-            public EHighscoreStyle HighscoreStyle;
+            [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)] public ESongSorting SongSorting;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn IgnoreArticles;
+            [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)] public ETimerMode TimerMode;
+            [XmlAltName("NumPlayer"), DefaultValue(2)] public int NumPlayers;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn Tabs;
+            [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)] public ELyricsPosition LyricsPosition;
+            [DefaultValue(0.1f)] public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
+            [XmlArrayItem("Player"), XmlArray] public string[] Players;
+            [DefaultValue(EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST)] public EHighscoreStyle HighscoreStyle;
         }
 
         public struct SConfigVideo
@@ -242,7 +231,6 @@ namespace Vocaluxe.Base
         }
 
         public static SConfig Config;
-        public static bool LoadOldThemeFiles;
         public static event OnSongMenuChanged SongMenuChanged;
 
         //Folders
@@ -399,8 +387,6 @@ namespace Vocaluxe.Base
             {
                 Config.Game.SongFolder = SongFolders.ToArray();
             }
-            if ((Config.Game.ScoreAnimationTime > 0 && Config.Game.ScoreAnimationTime < 1) || Config.Game.ScoreAnimationTime < 0)
-                Config.Game.ScoreAnimationTime = 1;
 
             if (Config.Game.MinLineBreakTime < 0)
                 Config.Game.MinLineBreakTime = 0.1f;
@@ -529,8 +515,6 @@ namespace Vocaluxe.Base
                     return "SongSorting: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongSorting)));
                 case "IgnoreArticles":
                     return "Ignore articles on song-sorting: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
-                case "ScoreAnimationTime":
-                    return "ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.";
                 case "TimerMode":
                     return "TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode)));
                 case "NumPlayers":
@@ -774,11 +758,6 @@ namespace Vocaluxe.Base
                     case "profilefolder":
                         ProfileFolders.Clear();
                         ProfileFolders.Add(value);
-                        break;
-
-                    case "oldtheme":
-                        if (value == "yes")
-                            LoadOldThemeFiles = true;
                         break;
                 }
             }

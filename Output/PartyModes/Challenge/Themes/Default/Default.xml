@@ -3,14 +3,11 @@
   <SkinSystemVersion>4</SkinSystemVersion>
   <Info>
     <Name>Default</Name>
-    <Author>brunzel</Author>
+    <Author>Jiiniasu</Author>
     <VersionMajor>0</VersionMajor>
     <VersionMinor>1</VersionMinor>
   </Info>
-  <Colors>
-  </Colors>
-  <Skins>
-  </Skins>
-  <Videos>
-  </Videos>
+  <Colors />
+  <Skins />
+  <Videos />
 </root>

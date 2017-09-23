@@ -105,9 +105,6 @@ or from the console:
 						 load playlist from this path.
 						 Example:
 						 Vocaluxe.exe -PlaylistFolder D:\MyPlaylists
-						 
--OldTheme yes	   : Try to load theme that is created for vocaluxe 0.2 or older (or some pre-release version of 0.3). Enter theme editor and save your theme to convert every file to new syntax. This will be removed in a future version.
-
 
 Complete example:
 Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighscoreDB.sqlite -SongFolder D:\MySongCollection -PlaylistFolder D:\MyPlaylists

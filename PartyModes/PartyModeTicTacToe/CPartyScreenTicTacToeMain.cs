@@ -394,13 +394,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 if (_PartyMode.GameData.Rounds[i].Finished)
                 {
                     _Fields[i].Selectable = false;
-                    _Fields[i].Texture = CBase.Songs.GetSongByID(_PartyMode.GameData.Rounds[i].SongID).CoverTextureBig;
+                    _Fields[i].Texture = CBase.Songs.GetSongByID(_PartyMode.GameData.Rounds[i].SongIDs[0]).CoverTextureBig;
                     _Fields[i].Color = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[i].Winner);
                     _Fields[i].SelColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[i].Winner);
                 }
                 if (_Status == EStatus.FieldSelected && _PartyMode.GameData.FieldNr == i)
                 {
-                    _Fields[i].Texture = CBase.Songs.GetSongByID(_PartyMode.GameData.Rounds[i].SongID).CoverTextureBig;
+                    _Fields[i].Texture = CBase.Songs.GetSongByID(_PartyMode.GameData.Rounds[i].SongIDs[0]).CoverTextureBig;
                     _Fields[i].Color = new SColorF(1, 1, 1, 1);
                     _Fields[i].SelColor = new SColorF(1, 1, 1, 1);
                     _Fields[i].Selectable = false;
@@ -441,12 +441,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _UpdatePlayerInformation();
             }
             _PartyMode.UpdateSongList();
-            int songID = _PartyMode.GameData.Songs[0];
-            _PartyMode.GameData.Songs.RemoveAt(0);
+            int[] songIDs = new int[_PartyMode.GameData.GameMode == EGameMode.TR_GAMEMODE_MEDLEY ? _PartyMode.GameData.NumMedleySongs : 1];
+            for(int i = 0; i < songIDs.Length; i++)
+            {
+                songIDs[i] = _PartyMode.GameData.Songs[0];
+                _PartyMode.GameData.Songs.RemoveAt(0);
+            }  
 
-            _StartPreview(songID);
+            _StartPreview(songIDs[0]);
             _Status = EStatus.FieldSelected;
-            _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongID = songID;
+            _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongIDs = songIDs;
             _UpdateFieldContents();
             _UpdateJokerButtons();
 
@@ -459,10 +463,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _FieldSelectedAgain()
         {
-            int songID = _PartyMode.GameData.Rounds[_OldSelectedField].SongID;
-            _StartPreview(songID);
+            int[] songIDs = _PartyMode.GameData.Rounds[_OldSelectedField].SongIDs;
+            _StartPreview(songIDs[0]);
             _Status = EStatus.FieldSelected;
-            _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongID = songID;
+            _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SongIDs = songIDs;
             _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1 = _PartyMode.GameData.Rounds[_OldSelectedField].SingerTeam1;
             _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2 = _PartyMode.GameData.Rounds[_OldSelectedField].SingerTeam2;
             _UpdateFieldContents();

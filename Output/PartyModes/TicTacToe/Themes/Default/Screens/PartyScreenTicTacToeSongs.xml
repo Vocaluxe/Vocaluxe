@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
-    <ScreenName>PartyScreenChallengeMedleyConfig</ScreenName>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenName>PartyScreenTicTacToeSongs</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -41,7 +41,7 @@
       <Font>Outline</Font>
       <Text>TR_SCREENCONFIG_TITLE</Text>
     </Text>
-    <Text Name="TextNumPlayers">
+    <Text Name="TextSource">
       <X>75</X>
       <Y>105</Y>
       <Z>0</Z>
@@ -53,11 +53,11 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENCONFIG_NUMPLAYERS</Text>
+      <Text>TR_SONGSOURCE</Text>
     </Text>
-    <Text Name="TextNumMics">
+    <Text Name="TextSongMode">
       <X>75</X>
-      <Y>165</Y>
+      <Y>290</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
@@ -67,49 +67,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENCONFIG_NUMMICS</Text>
-    </Text>
-    <Text Name="TextNumRounds">
-      <X>75</X>
-      <Y>225</Y>
-      <Z>0</Z>
-      <H>27</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENCONFIG_NUMROUNDS</Text>
-    </Text>
-	<Text Name="TextNumSongs">
-      <X>75</X>
-      <Y>285</Y>
-      <Z>0</Z>
-      <H>27</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENCONFIG_NUMSONGS</Text>
-    </Text>
-	<Text Name="TextSongSource">
-      <X>75</X>
-      <Y>345</Y>
-      <Z>0</Z>
-      <H>27</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENCONFIG_SONGSOURCE</Text>
+      <Text>TR_GAMEMODE</Text>
     </Text>
   </Texts>
   <Buttons>
@@ -187,7 +145,7 @@
   <SongMenus />
   <Lyrics />
   <SelectSlides>
-    <SelectSlide Name="SelectSlideNumPlayers">
+    <SelectSlide Name="SelectSlideSource">
       <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -224,12 +182,12 @@
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
+      <TextMaxW>205.33</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>9</NumVisible>
+      <NumVisible>3</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideNumMics">
+    <SelectSlide Name="SelectSlidePlaylist">
       <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -266,12 +224,54 @@
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
+      <TextMaxW>600</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>2</NumVisible>
+      <NumVisible>3</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideNumRounds">
+    <SelectSlide Name="SelectSlideSorting">
+      <Skin/>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>500</X>
+        <Y>160</Y>
+        <W>700</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>505</X>
+        <Y>165</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1155</X>
+        <Y>165</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>27</TextH>
+      <TextRelativeX>50</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>600</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>3</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideCategory">
       <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -308,138 +308,12 @@
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
-      <TextFont>Outline</TextFont>
-      <TextStyle>Bold</TextStyle>
-      <NumVisible>10</NumVisible>
-    </SelectSlide>
-	<SelectSlide Name="SelectSlideNumSongs">
-      <Skin/>
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <Rect>
-        <X>500</X>
-        <Y>280</Y>
-        <W>700</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-      <RectArrowLeft>
-        <X>505</X>
-        <Y>285</Y>
-        <W>40</W>
-        <H>40</H>
-        <Z>0</Z>
-      </RectArrowLeft>
-      <RectArrowRight>
-        <X>1155</X>
-        <Y>285</Y>
-        <W>40</W>
-        <H>40</H>
-        <Z>0</Z>
-      </RectArrowRight>
-      <Color Name="SelectSlideColor" />
-      <SelColor Name="SelectSlideSelColor" />
-      <ArrowColor Name="ArrowColor" />
-      <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColorAlpha" />
-      <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
-      <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
-      <TextFont>Outline</TextFont>
-      <TextStyle>Bold</TextStyle>
-      <NumVisible>10</NumVisible>
-    </SelectSlide>
-	<SelectSlide Name="SelectSlideSongSource">
-      <Skin/>
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <Rect>
-        <X>500</X>
-        <Y>340</Y>
-        <W>700</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-      <RectArrowLeft>
-        <X>505</X>
-        <Y>345</Y>
-        <W>40</W>
-        <H>40</H>
-        <Z>0</Z>
-      </RectArrowLeft>
-      <RectArrowRight>
-        <X>1155</X>
-        <Y>345</Y>
-        <W>40</W>
-        <H>40</H>
-        <Z>0</Z>
-      </RectArrowRight>
-      <Color Name="SelectSlideColor" />
-      <SelColor Name="SelectSlideSelColor" />
-      <ArrowColor Name="ArrowColor" />
-      <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColorAlpha" />
-      <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
-      <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
-      <TextFont>Outline</TextFont>
-      <TextStyle>Bold</TextStyle>
-      <NumVisible>3</NumVisible>
-    </SelectSlide>
-    <SelectSlide Name="SelectSlidePlaylist">
-      <Skin/>
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <Rect>
-        <X>500</X>
-        <Y>400</Y>
-        <W>700</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-      <RectArrowLeft>
-        <X>505</X>
-        <Y>405</Y>
-        <W>40</W>
-        <H>40</H>
-        <Z>0</Z>
-      </RectArrowLeft>
-      <RectArrowRight>
-        <X>1155</X>
-        <Y>405</Y>
-        <W>40</W>
-        <H>40</H>
-        <Z>0</Z>
-      </RectArrowRight>
-      <Color Name="SelectSlideColor" />
-      <SelColor Name="SelectSlideSelColor" />
-      <ArrowColor Name="ArrowColor" />
-      <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColorAlpha" />
-      <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
-      <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>700</TextMaxW>
+      <TextMaxW>600</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideCategory">
+    <SelectSlide Name="SelectSlideSongMode">
       <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -448,21 +322,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>500</X>
-        <Y>400</Y>
+        <Y>290</Y>
         <W>700</W>
         <H>50</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
         <X>505</X>
-        <Y>405</Y>
+        <Y>295</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>1155</X>
-        <Y>405</Y>
+        <Y>295</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
@@ -476,10 +350,52 @@
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>700</TextMaxW>
+      <TextMaxW>205.33</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>1</NumVisible>
+      <NumVisible>2</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideNumMedleySongs">
+      <Skin/>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>500</X>
+        <Y>360</Y>
+        <W>700</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>505</X>
+        <Y>365</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1155</X>
+        <Y>365</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>27</TextH>
+      <TextRelativeX>50</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>205.33</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>5</NumVisible>
     </SelectSlide>
   </SelectSlides>
   <SingNotes />

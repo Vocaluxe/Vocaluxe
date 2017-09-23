@@ -15,13 +15,11 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -150,64 +148,6 @@ namespace VocaluxeLib.Menu
             _UpdateVisibleProfiles();
 
             UpdateList(0);
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinEmptyTile", out _Theme.SkinEmptyTile, String.Empty);
-
-            if (xmlReader.GetValue(item + "/ColorEmptyTile", out _Theme.ColorEmptyTile.Name, String.Empty))
-                ThemeLoaded &= _Theme.ColorEmptyTile.Get(_PartyModeID, out _ColorEmptyTile);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _ColorEmptyTile.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref _ColorEmptyTile.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref _ColorEmptyTile.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _ColorEmptyTile.A);
-            }
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinTileSelected", out _Theme.SkinTileSelected, String.Empty);
-
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/W", ref _Theme.Tiles.W);
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/H", ref _Theme.Tiles.H);
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumW", ref _Theme.Tiles.NumW);
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/Tiles/NumH", ref _Theme.Tiles.NumH);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceW", ref _Theme.Tiles.SpaceW);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/SpaceH", ref _Theme.Tiles.SpaceH);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/Space", ref _Theme.Tiles.Name.Space);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/H", ref _Theme.Tiles.Name.Height);
-            ThemeLoaded &= xmlReader.GetValue(item + "/Tiles/Name/Font", out _Theme.Tiles.Name.Font, "Normal");
-            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Tiles/Name/Style", ref _Theme.Tiles.Name.Style);
-            if (xmlReader.GetValue(item + "/Tiles/Name/Color", out _Theme.Tiles.Name.Color.Name, String.Empty))
-                ThemeLoaded &= _Theme.Tiles.Name.Color.Get(_PartyModeID, out _ColorNameTile);
-            else
-            {
-                if (xmlReader.TryGetFloatValue(item + "/Tiles/Name/R", ref _ColorNameTile.R))
-                {
-                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/G", ref _ColorNameTile.G);
-                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/B", ref _ColorNameTile.B);
-                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Tiles/Name/A", ref _ColorNameTile.A);
-                }
-            }
-
-
-            if (ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-                _Theme.Tiles.Name.Color.Color = _ColorNameTile;
-                _Theme.ColorEmptyTile.Color = _ColorEmptyTile;
-                LoadSkin();
-            }
-            return ThemeLoaded;
         }
 
         public void Draw()

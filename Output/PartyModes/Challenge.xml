@@ -15,5 +15,6 @@
     <ScreenFile>CPartyScreenChallengeMain</ScreenFile>
 	<ScreenFile>CPartyScreenChallengeConfig</ScreenFile>
 	<ScreenFile>CPartyScreenChallengeNames</ScreenFile>
+	<ScreenFile>CPartyScreenChallengeSongs</ScreenFile>
   </PartyScreens>
 </root>

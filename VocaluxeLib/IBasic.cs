@@ -61,7 +61,6 @@ namespace VocaluxeLib
         bool IsMicConfigured(int playerNr);
         int GetMaxNumMics();
 
-        bool GetLoadOldThemeFiles();
         void AddSongMenuListener(OnSongMenuChanged onSongMenuChanged);
         void RemoveSongMenuListener(OnSongMenuChanged onSongMenuChanged);
     }
@@ -252,7 +251,7 @@ namespace VocaluxeLib
         void AddPartySongSung(int songID);
         void ResetSongSung(int catIndex = -1);
 
-        void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions);
+        void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistID);
 
         void NextCategory();
         void PrevCategory();
@@ -326,6 +325,7 @@ namespace VocaluxeLib
 
         int GetSongCount(int playlistID);
         CPlaylistSong GetSong(int playlistID, int songIndex);
+        bool ContainsSong(int playlistID, int songIndex);
     }
 
     public interface IPreviewPlayer

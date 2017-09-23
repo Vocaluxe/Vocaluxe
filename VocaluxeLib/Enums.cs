@@ -214,6 +214,13 @@ namespace VocaluxeLib
         NoDuets
     }
 
+    public enum ESongSource
+    {
+        TR_SONGSOURCE_ALLSONGS,
+        TR_SONGSOURCE_CATEGORY,
+        TR_SONGSOURCE_PLAYLIST
+    }
+
     public enum ESongSorting
     {
         // ReSharper disable InconsistentNaming

@@ -29,6 +29,7 @@ namespace Vocaluxe.Base
 
         private String _SearchString = String.Empty;
         private EDuetOptions _DuetOptions = EDuetOptions.All;
+        private int _PlaylistID = -1;
 
         public List<CSong> FilteredSongs
         {
@@ -67,10 +68,16 @@ namespace Vocaluxe.Base
 
         public void SetOptions(String searchString, EDuetOptions duetOptions)
         {
-            if (searchString != _SearchString || duetOptions != _DuetOptions)
+            SetOptions(searchString, duetOptions, -1);
+        }
+
+        public void SetOptions(String searchString, EDuetOptions duetOptions, int playlistID)
+        {
+            if (searchString != _SearchString || duetOptions != _DuetOptions || playlistID != _PlaylistID)
             {
                 _SearchString = searchString;
                 _DuetOptions = duetOptions;
+                _PlaylistID = playlistID;
                 _SetChanged();
             }
         }
@@ -88,6 +95,9 @@ namespace Vocaluxe.Base
 
             foreach (CSong song in CSongs.Songs)
             {
+                if (_PlaylistID != -1 && !CBase.Playlist.ContainsSong(_PlaylistID, song.ID))
+                    continue;
+				
                 if ((song.IsDuet && _DuetOptions != EDuetOptions.NoDuets) || (!song.IsDuet && _DuetOptions != EDuetOptions.Duets))
                 {
                     if (searchStrings == null)
