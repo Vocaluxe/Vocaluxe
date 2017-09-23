@@ -20,7 +20,6 @@ using System.Xml.Serialization;
 using System.Diagnostics;
 using System.Collections.Generic;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -88,51 +87,6 @@ namespace VocaluxeLib.Menu
         #endregion Constructors
 
         #region public
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
-
-            bool vid = xmlReader.GetValue(item + "/Video", out _Theme.VideoName, String.Empty);
-            bool tex = xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
-            ThemeLoaded &= vid || tex || _Theme.Type == EBackgroundTypes.None;
-
-            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
-            else
-            {
-                bool success = true;
-                success &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
-                success &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
-                success &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
-                success &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
-
-                if (_Theme.Type != EBackgroundTypes.None)
-                    ThemeLoaded &= success;
-            }
-
-            _Theme.Color.Color = Color;
-
-            int i = 1;
-
-            while (xmlReader.ItemExists(item + "/SlideShow" + i))
-            {
-                string slideShow;
-                xmlReader.GetValue(item + "/SlideShow" + i, out slideShow, String.Empty);
-                if (slideShow != "")
-                    _Theme.SlideShowTextures.Add(slideShow);
-                i++;
-            }
-
-            if (ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-                LoadSkin();
-            }
-            return ThemeLoaded;
-        }
 
         public void Resume()
         {

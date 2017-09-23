@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>8</ScreenVersion>
+    <ScreenVersion>9</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -174,7 +174,7 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-    </Static>
+    </Static>    
     <Static Name="StaticAvatarP1N1">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -196,7 +196,7 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-    </Static>
+    </Static>    
     <Static Name="StaticAvatarP1N2">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -218,7 +218,8 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-    </Static>
+    </Static>    
+	
     <Static Name="StaticAvatarP2N2">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -344,7 +345,7 @@
       <Skin/>
       <Color Name="Invisible" />
       <Rect>
-        <X>1150</X>
+        <X>1085</X>
         <Y>150</Y>
         <W>100</W>
         <H>50</H>
@@ -1684,5 +1685,952 @@
   <Equalizers />
   <Playlists />
   <ParticleEffects />
+  <ProgressBars>
+	<ProgressBar Name="ProgressBarRatingP1N1">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1085</X>
+        <Y>410</Y>
+        <W>160</W>
+        <H>13</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>  
+    </ProgressBar>	
+    <ProgressBar Name="ProgressBarRatingP1N2">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1085</X>
+        <Y>170</Y>
+        <W>160</W>
+        <H>13</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>       
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N2">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1085</X>
+        <Y>430</Y>
+        <W>160</W>
+        <H>13</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>  
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP1N3">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1155</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>   
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N3">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1155</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>    
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP3N3">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1155</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>   
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP1N4">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>471</X>
+        <Y>170</Y>
+        <W>160</W>
+        <H>13</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>    
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N4">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>471</X>
+        <Y>430</Y>
+        <W>160</W>
+        <H>13</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>    
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP3N4">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1105</X>
+        <Y>170</Y>
+        <W>160</W>
+        <H>13</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>    
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP4N4">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1105</X>
+        <Y>430</Y>
+        <W>160</W>
+        <H>13</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>   
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP1N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>    
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>    
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP3N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>  
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP4N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>   
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP5N5">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>  
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP1N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>     
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP2N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>   
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP3N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>540</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>  
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP4N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>135</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>  
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP5N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>305</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>   
+    </ProgressBar>
+    <ProgressBar Name="ProgressBarRatingP6N6">
+      <SkinBackground>RatingBarBackground</SkinBackground>
+      <SkinForeground>RatingBarForeground</SkinForeground>
+      <SkinProgressLeft>RatingBarProgressLeft</SkinProgressLeft>
+      <SkinProgressMid>RatingBarProgressMid</SkinProgressMid>
+      <SkinProgressRight>RatingBarProgressRight</SkinProgressRight>
+      <ColorBackground Name="Visible" />
+      <ColorForeground Name="Invisible" />
+      <Direction>Right</Direction>
+      <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
+      <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
+      <Rect>
+        <X>1175</X>
+        <Y>475</Y>
+        <W>85</W>
+        <H>7</H>
+        <Z>-0.75</Z>
+      </Rect>
+      <ProgressColors>
+		<ProgressColor>
+			<From>0</From>
+			<Color Name="RatingAwful" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.16</From>
+			<Color Name="RatingPoor" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.33</From>
+			<Color Name="RatingNotBad" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.5</From>
+			<Color Name="RatingGood" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.62</From>
+			<Color Name="RatingGreat" />
+		</ProgressColor>
+		<ProgressColor>
+			<From>0.8</From>
+			<Color Name="RatingPerfect" />
+		</ProgressColor>
+      </ProgressColors>   
+    </ProgressBar>	  
+  </ProgressBars>
   <ScreenSettings />
 </Screen>

@@ -1,10 +1,10 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.10
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vocaluxe", "Vocaluxe\Vocaluxe.csproj", "{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}"
 	ProjectSection(ProjectDependencies) = postProject
 		{55F89808-4E79-4FFE-BC13-48258913F5C9} = {55F89808-4E79-4FFE-BC13-48258913F5C9}
-		{6F3E1874-F28A-40E9-AFBD-31934D593678} = {6F3E1874-F28A-40E9-AFBD-31934D593678}
 		{6F3E1874-F28A-40E9-AFBD-31934D593679} = {6F3E1874-F28A-40E9-AFBD-31934D593679}
 		{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC} = {D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}
 		{5A4053F1-5AD5-441F-B254-D97A088127B6} = {5A4053F1-5AD5-441F-B254-D97A088127B6}
@@ -16,8 +16,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeTicTacToe", "PartyModes\PartyModeTicTacToe\PartyModeTicTacToe.csproj", "{6F3E1874-F28A-40E9-AFBD-31934D593679}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallenge", "PartyModes\PartyModeChallenge\PartyModeChallenge.csproj", "{5A4053F1-5AD5-441F-B254-D97A088127B6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PartyModeChallengeMedley", "PartyModes\PartyModeChallengeMedley\PartyModeChallengeMedley.csproj", "{6F3E1874-F28A-40E9-AFBD-31934D593678}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebserverInitalConfig", "WebserverInitalConfig\WebserverInitalConfig.csproj", "{55F89808-4E79-4FFE-BC13-48258913F5C9}"
 EndProject
@@ -124,26 +122,6 @@ Global
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.ReleaseWin|x64.Build.0 = ReleaseWin|Any CPU
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Any CPU
 		{5A4053F1-5AD5-441F-B254-D97A088127B6}.ReleaseWin|x86.Build.0 = ReleaseWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugLinux|x64.ActiveCfg = DebugLinux|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugLinux|x64.Build.0 = DebugLinux|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugLinux|x86.ActiveCfg = DebugLinux|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugLinux|x86.Build.0 = DebugLinux|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugWin|x64.ActiveCfg = DebugWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugWin|x64.Build.0 = DebugWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugWin|x86.ActiveCfg = DebugWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.DebugWin|x86.Build.0 = DebugWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x64.ActiveCfg = InstallerWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x64.Build.0 = InstallerWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x86.ActiveCfg = InstallerWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.InstallerWin|x86.Build.0 = InstallerWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x64.ActiveCfg = ReleaseLinux|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x64.Build.0 = ReleaseLinux|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x86.ActiveCfg = ReleaseLinux|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseLinux|x86.Build.0 = ReleaseLinux|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x64.ActiveCfg = ReleaseWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x64.Build.0 = ReleaseWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x86.ActiveCfg = ReleaseWin|Any CPU
-		{6F3E1874-F28A-40E9-AFBD-31934D593678}.ReleaseWin|x86.Build.0 = ReleaseWin|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x64.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugLinux|x86.ActiveCfg = Debug|Any CPU
 		{55F89808-4E79-4FFE-BC13-48258913F5C9}.DebugWin|x64.ActiveCfg = Debug|Any CPU
@@ -203,5 +181,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5545CBA7-F7A7-4E72-B230-F6A6C3AD0A09}
 	EndGlobalSection
 EndGlobal

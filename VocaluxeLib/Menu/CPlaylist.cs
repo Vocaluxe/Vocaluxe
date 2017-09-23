@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -268,67 +267,6 @@ namespace VocaluxeLib.Menu
             Visible = false;
             Selected = false;
             ThemeLoaded = true;
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", out _Theme.SkinBackground, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", out _Theme.SkinBackgroundSelected, String.Empty);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
-            if (xmlReader.GetValue(item + "/ColorBackground", out _Theme.ColorBackground.Name, String.Empty))
-                ThemeLoaded &= _Theme.ColorBackground.Get(_PartyModeID, out _BackgroundColor);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundR", ref _BackgroundColor.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundG", ref _BackgroundColor.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundB", ref _BackgroundColor.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundA", ref _BackgroundColor.A);
-            }
-            if (xmlReader.GetValue(item + "/SColorBackground", out _Theme.SelColorBackground.Name, String.Empty))
-                ThemeLoaded &= _Theme.SelColorBackground.Get(_PartyModeID, out _BackgroundSelColor);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundR", ref _BackgroundSelColor.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundG", ref _BackgroundSelColor.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundB", ref _BackgroundSelColor.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundA", ref _BackgroundSelColor.A);
-            }
-
-            ThemeLoaded &= _Text1.LoadTheme(item, "TextPart1", xmlReader);
-
-            CStatic tmpStatic = new CStatic(_PartyModeID);
-            ThemeLoaded &= tmpStatic.LoadTheme(item, "StaticCover", xmlReader);
-            ThemeLoaded &= _StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", xmlReader);
-            ThemeLoaded &= _StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", xmlReader);
-
-            ThemeLoaded &= _ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", xmlReader);
-            ThemeLoaded &= _ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", xmlReader);
-            ThemeLoaded &= _ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", xmlReader);
-            ThemeLoaded &= _ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", xmlReader);
-            ThemeLoaded &= _ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", xmlReader);
-
-            ThemeLoaded &= _SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", xmlReader);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/EntryHeight", ref _Theme.EntryHeight);
-            if (ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-                _Theme.ColorBackground.Color = _BackgroundColor;
-                _Theme.SelColorBackground.Color = _BackgroundSelColor;
-                _Theme.StaticCover = (SThemeStatic)tmpStatic.GetTheme();
-                _ReadSubThemeElements();
-
-                LoadSkin();
-            }
-            return ThemeLoaded;
         }
 
         private void _ReadSubThemeElements()

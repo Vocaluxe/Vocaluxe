@@ -51,6 +51,7 @@ namespace VocaluxeLib.Menu
         [XmlArray("Playlists")] public List<SThemePlaylist> Playlists;
         [XmlArray("ParticleEffects")] public List<SThemeParticleEffect> ParticleEffects;
         [XmlArray("ScreenSettings")] public List<SThemeScreenSetting> ScreenSettings;
+        [XmlArray("ProgressBars")] public List<SThemeProgressBar> ProgressBars;
     }
 
     struct SZSort
@@ -82,6 +83,7 @@ namespace VocaluxeLib.Menu
         protected string[] _ThemePlaylists;
         protected string[] _ThemeParticleEffects;
         protected string[] _ThemeScreenSettings;
+        protected string[] _ThemeProgressBars;
         protected readonly Dictionary<string, CScreenSetting> _ScreenSettings = new Dictionary<string, CScreenSetting>();
 
         // ReSharper restore MemberCanBePrivate.Global
@@ -117,6 +119,7 @@ namespace VocaluxeLib.Menu
             _ThemePlaylists = null;
             _ThemeParticleEffects = null;
             _ThemeScreenSettings = null;
+            _ThemeProgressBars = null;
         }
 
         protected virtual void _OnSongMenuChanged()
@@ -138,27 +141,13 @@ namespace VocaluxeLib.Menu
 
         private delegate void AddElementHandler<in T>(T element, String key);
 
-        private void _LoadThemeElement<T>(IEnumerable<string> elements, AddElementHandler<T> addElementHandler, CXmlReader xmlReader) where T : IThemeable
-        {
-            if (elements != null)
-            {
-                foreach (string elName in elements)
-                {
-                    var element = (T)Activator.CreateInstance(typeof(T), PartyModeID);
-                    if (element.LoadTheme("//root/" + ThemeName, elName, xmlReader))
-                        addElementHandler(element, elName);
-                    else
-                        CBase.Log.LogError("Can't load " + typeof(T).Name.Substring(1) + " \"" + elName + "\" in screen " + ThemeName);
-                }
-            }
-        }
 
         private class CLoadThemeErrorHandler : CXmlDeserializer.CXmlDefaultErrorHandler
         {
             private static readonly string[] _AllowedMissing = new string[]
                 {
                     "Backgrounds", "Statics", "Texts", "Buttons", "SongMenus", "Lyrics", "SelectSlides", "SingNotes",
-                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings"
+                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings", "ProgressBars"
                 };
 
             public override void HandleError(CXmlException e)
@@ -175,12 +164,6 @@ namespace VocaluxeLib.Menu
 
         public virtual void LoadTheme(string xmlPath)
         {
-            if (CBase.Config.GetLoadOldThemeFiles())
-            {
-                LoadThemeOld(xmlPath);
-                return;
-            }
-
             ThemePath = xmlPath;
 
             string file = Path.Combine(xmlPath, ThemeName + ".xml");
@@ -210,6 +193,9 @@ namespace VocaluxeLib.Menu
 
                 foreach (SThemePlaylist pl in Theme.Playlists)
                     _AddPlaylist(new CPlaylist(pl, PartyModeID), pl.Name);
+
+                foreach (SThemeProgressBar pb in Theme.ProgressBars)
+                    _AddProgressBar(new CProgressBar(pb, PartyModeID), pb.Name);
 
                 foreach (SThemeScreenSetting ss in Theme.ScreenSettings)
                     _AddScreenSetting(new CScreenSetting(ss, PartyModeID), ss.Name);
@@ -262,61 +248,6 @@ namespace VocaluxeLib.Menu
             _ScreenSettings.Add(name, screenSetting);
         }
 
-        public void LoadThemeOld(string xmlPath)
-        {
-            string file = Path.Combine(xmlPath, ThemeName + ".xml");
-
-            CXmlReader xmlReader = CXmlReader.OpenFile(file);
-            if (xmlReader == null)
-                return;
-
-            bool versionCheck = _CheckVersion(_ScreenVersion, xmlReader);
-
-            if (versionCheck)
-            {
-                ThemePath = xmlPath;
-                _LoadThemeBasics(xmlReader);
-
-                _LoadThemeElement<CBackground>(_ThemeBackgrounds, _AddBackground, xmlReader);
-                _LoadThemeElement<CStatic>(_ThemeStatics, _AddStatic, xmlReader);
-                _LoadThemeElement<CText>(_ThemeTexts, _AddText, xmlReader);
-                _LoadThemeElement<CButton>(_ThemeButtons, _AddButton, xmlReader);
-                _LoadThemeElement<CSelectSlide>(_ThemeSelectSlides, _AddSelectSlide, xmlReader);
-                foreach (string elName in _ThemeSongMenus)
-                {
-                    ISongMenu element = CSongMenuFactory.CreateSongMenu(PartyModeID);
-                    if (element.LoadTheme("//root/" + ThemeName, elName, xmlReader))
-                        _AddSongMenu(element, elName);
-                    else
-                        CBase.Log.LogError("Can't load songmenu \"" + elName + "\" in screen " + ThemeName);
-                }
-                _LoadThemeElement<CSongMenuFramework>(_ThemeSongMenus, _AddSongMenu, xmlReader);
-                _LoadThemeElement<CLyric>(_ThemeLyrics, _AddLyric, xmlReader);
-                _LoadThemeElement<CSingNotes>(_ThemeSingNotes, _AddSingNote, xmlReader);
-                _LoadThemeElement<CNameSelection>(_ThemeNameSelections, _AddNameSelection, xmlReader);
-                _LoadThemeElement<CEqualizer>(_ThemeEqualizers, _AddEqualizer, xmlReader);
-                _LoadThemeElement<CPlaylist>(_ThemePlaylists, _AddPlaylist, xmlReader);
-                _LoadThemeElement<CParticleEffect>(_ThemeParticleEffects, _AddParticleEffect, xmlReader);
-                _LoadThemeElement<CScreenSetting>(_ThemeScreenSettings, _AddScreenSetting, xmlReader);
-            }
-
-            Theme.Informations.ScreenName = ThemeName;
-            Theme.Informations.ScreenVersion = _ScreenVersion;
-            Theme.Backgrounds = new List<SThemeBackground>();
-            Theme.Statics = new List<SThemeStatic>();
-            Theme.Texts = new List<SThemeText>();
-            Theme.Buttons = new List<SThemeButton>();
-            Theme.SongMenus = new List<SThemeSongMenu>();
-            Theme.Lyrics = new List<SThemeLyrics>();
-            Theme.SelectSlides = new List<SThemeSelectSlide>();
-            Theme.SingNotes = new List<SThemeSingBar>();
-            Theme.NameSelections = new List<SThemeNameSelection>();
-            Theme.Equalizers = new List<SThemeEqualizer>();
-            Theme.Playlists = new List<SThemePlaylist>();
-            Theme.ParticleEffects = new List<SThemeParticleEffect>();
-            Theme.ScreenSettings = new List<SThemeScreenSetting>();
-        }
-
         private static void _AddThemeablesToList<T, TT>(ICollection<TT> themeList, IEnumerable<T> objects) where T : IThemeable
         {
             themeList.Clear();
@@ -351,6 +282,7 @@ namespace VocaluxeLib.Menu
             _AddThemeablesToList(Theme.NameSelections, _NameSelections);
             _AddThemeablesToList(Theme.ParticleEffects, _ParticleEffects);
             _AddThemeablesToList(Theme.Playlists, _Playlists);
+            _AddThemeablesToList(Theme.ProgressBars, _ProgressBars);
             _AddThemeablesToList(Theme.ScreenSettings, _ScreenSettings.Values);
             _AddThemeablesToList(Theme.SelectSlides, _SelectSlides);
             _AddThemeablesToList(Theme.Statics, _Statics);
@@ -471,6 +403,16 @@ namespace VocaluxeLib.Menu
             return new CParticleEffect(PartyModeID, maxNumber, color, area, texture, size, type);
         }
 
+        public CProgressBar GetNewProgressBar()
+        {
+            return new CProgressBar(PartyModeID);
+        }
+
+        public CProgressBar GetNewProgressBar(CProgressBar pb)
+        {
+            return new CProgressBar(pb);
+        }
+
         // ReSharper restore MemberCanBeProtected.Global
         // ReSharper restore UnusedMember.Global
         #endregion Create Elements
@@ -536,67 +478,6 @@ namespace VocaluxeLib.Menu
         }
 
         #region Theme Handling
-        private bool _CheckVersion(int reqVersion, CXmlReader xmlReader)
-        {
-            int actualVersion = 0;
-            xmlReader.TryGetIntValue("//root/" + ThemeName + "/ScreenVersion", ref actualVersion);
-
-            if (actualVersion == reqVersion)
-                return true;
-            string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
-            if (actualVersion < reqVersion)
-                msg += "the file ist outdated! ";
-            else
-                msg += "the file is for newer program versions! ";
-
-            msg += "Current screen version is " + reqVersion;
-            CBase.Log.LogError(msg);
-            return false;
-        }
-
-        private void _LoadThemeBasics(CXmlReader xmlReader)
-        {
-            // Backgrounds
-            var background = new CBackground(PartyModeID);
-            int i = 1;
-            while (background.LoadTheme("//root/" + ThemeName, "Background" + i, xmlReader))
-            {
-                _AddBackground(background);
-                background = new CBackground(PartyModeID);
-                i++;
-            }
-
-            // Statics
-            var stat = new CStatic(PartyModeID);
-            i = 1;
-            while (stat.LoadTheme("//root/" + ThemeName, "Static" + i, xmlReader))
-            {
-                _AddStatic(stat);
-                stat = new CStatic(PartyModeID);
-                i++;
-            }
-
-            // Texts
-            var text = new CText(PartyModeID);
-            i = 1;
-            while (text.LoadTheme("//root/" + ThemeName, "Text" + i, xmlReader))
-            {
-                _AddText(text);
-                text = new CText(PartyModeID);
-                i++;
-            }
-
-            // ParticleEffects
-            var partef = new CParticleEffect(PartyModeID);
-            i = 1;
-            while (partef.LoadTheme("//root/" + ThemeName, "ParticleEffect" + i, xmlReader))
-            {
-                _AddParticleEffect(partef);
-                partef = new CParticleEffect(PartyModeID);
-                i++;
-            }
-        }
-
         private void _ReloadThemeEditMode()
         {
             CBase.Themes.Reload();
