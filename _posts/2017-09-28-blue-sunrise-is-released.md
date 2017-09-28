@@ -27,7 +27,13 @@ And now: Grab your mics, start singing and have fun with our newest Vocaluxe. Yo
 
 {:class="post-gallery"}
 
+<!-- 
 [![Generated covers]({{site.baseurl}}/img/posts/release-04_generated_cover.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-04_generated_cover.png){:class="img-responsive" data-lightbox="screenshots" data-title="Generated covers for categories and songs"}
 [![Party Mode: Challenge]({{site.baseurl}}/img/posts/release-04_challenge_mode.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-04_challenge_mode.png){:class="img-responsive" data-lightbox="screenshots" data-title="Sing against your friends in challenge mode"}
 [![Party Mode: Tic-Tac-Toe]({{site.baseurl}}/img/posts/release-04_tic_tac_toe.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-04_tic_tac_toe.png){:class="img-responsive" data-lightbox="screenshots" data-title="Sing in two teams some funny rounds with Tic-Tac-Toe"}
-[![Remote control]({{site.baseurl}}/img/posts/release-0.4_webserver.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-0.4_webserver.png){:class="img-responsive" data-lightbox="screenshots" data-title="Control Vocaluxe with your smartphone or tablet"}
+[![Remote control]({{site.baseurl}}/img/posts/release-0.4_webserver.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-0.4_webserver.png){:class="img-responsive" data-lightbox="screenshots" data-title="Control Vocaluxe with your smartphone or tablet"} -->
+
+[![Generated covers]({{site.baseurl}}/img/posts/release-04_generated_cover.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-04_generated_cover.png){:class="swipebox" title="Generated covers for categories and songs"}
+[![Party Mode: Challenge]({{site.baseurl}}/img/posts/release-04_challenge_mode.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-04_challenge_mode.png){:class="swipebox" title="Sing against your friends in challenge mode"}
+[![Party Mode: Tic-Tac-Toe]({{site.baseurl}}/img/posts/release-04_tic_tac_toe.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-04_tic_tac_toe.png){:class="swipebox" title="Sing in two teams some funny rounds with Tic-Tac-Toe"}
+[![Remote control]({{site.baseurl}}/img/posts/release-0.4_webserver.png){:class="img-responsive"}]({{site.baseurl}}/img/posts/release-0.4_webserver.png){:class="swipebox" title="Control Vocaluxe with your smartphone or tablet"}
