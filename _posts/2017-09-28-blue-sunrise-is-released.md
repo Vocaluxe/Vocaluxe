@@ -21,7 +21,7 @@ This answer is quite simple: We've skipped it. There were too many changes, too 
 ### What will happens next?
 Development of new features just started: There will be a new theme, a rating bar and maybe more - Just try out nightly builds, follow our development on GitHub or give us a 'like' on facebook. Another thing might be proper linux support, if someone could help us: We would appreciate this. Our plan is to release new versions more often and more continously, but time is expensive and we will we see what the future brings...
 
-And now: Grab your mics, start singing and have fun with our newest Vocaluxe. You can find all downloads [here]({{site.baseurl}}#download).
+And now: Grab your mics, start singing and have fun with our newest Vocaluxe. You can find all downloads [here]({{site.baseurl}}/#download).
 
 ## Gallery
 
