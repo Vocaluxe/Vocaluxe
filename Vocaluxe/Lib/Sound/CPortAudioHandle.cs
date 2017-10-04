@@ -79,7 +79,16 @@ namespace Vocaluxe.Lib.Sound
                 Debug.Assert(_RefCount > 0);
                 _RefCount--;
                 if (_RefCount == 0)
-                    PortAudio.Pa_Terminate();
+                {
+                    try
+                    {
+                        PortAudio.Pa_Terminate();
+                    }
+                    catch (Exception ex)
+                    {
+                        CLog.LogError(errorText: $"Error disposing PortAudio: {ex.Message}", e: ex);
+                    }
+                }
                 _Disposed = true;
             }
         }
@@ -164,7 +173,14 @@ namespace Vocaluxe.Lib.Sound
                 if (_Disposed)
                     throw new ObjectDisposedException("PortAudioHandle already disposed");
 
-                PortAudio.Pa_CloseStream(stream);
+                try
+                {
+                    PortAudio.Pa_CloseStream(stream);
+                }
+                catch (Exception ex)
+                {
+                    CLog.LogError(errorText:$"Error closing stream: {ex.Message}", e:ex);
+                }
                 _Streams.Remove(stream);
             }
         }
