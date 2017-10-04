@@ -74,12 +74,14 @@ namespace Vocaluxe.Lib.Sound
             }
             lock (_Mutex)
             {
+                if (_Disposed)
+                    return;
                 Debug.Assert(_RefCount > 0);
                 _RefCount--;
                 if (_RefCount == 0)
                     PortAudio.Pa_Terminate();
+                _Disposed = true;
             }
-            _Disposed = true;
         }
 
         public void Dispose()
@@ -100,11 +102,11 @@ namespace Vocaluxe.Lib.Sound
                                             double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
                                             PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
         {
-            if (_Disposed)
-                throw new ObjectDisposedException("PortAudioHandle already disposed");
-
             lock (_Mutex)
             {
+                if (_Disposed)
+                    throw new ObjectDisposedException("PortAudioHandle already disposed");
+
                 PortAudio.PaError res = PortAudio.Pa_OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback,
                                                                 userData);
                 if (res == PortAudio.PaError.paNoError)
@@ -157,11 +159,11 @@ namespace Vocaluxe.Lib.Sound
 
         public void CloseStream(IntPtr stream)
         {
-            if (_Disposed)
-                throw new ObjectDisposedException("PortAudioHandle already disposed");
-
             lock (_Mutex)
             {
+                if (_Disposed)
+                    throw new ObjectDisposedException("PortAudioHandle already disposed");
+
                 PortAudio.Pa_CloseStream(stream);
                 _Streams.Remove(stream);
             }
