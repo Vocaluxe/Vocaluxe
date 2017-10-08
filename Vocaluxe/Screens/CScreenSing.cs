@@ -201,8 +201,6 @@ namespace Vocaluxe.Screens
                         CConfig.Config.Theme.PlayerInfo = (EPlayerInfo)mode;
                         CConfig.SaveConfig();
                         _SetVisibility();
-                        if (CGame.GetSong() != null)
-                            _SetDuetLyricsVisibility(CGame.GetSong().IsDuet); //make sure duet lyrics remain visible
                         break;
 
                     case Keys.S:
@@ -596,7 +594,6 @@ namespace Vocaluxe.Screens
                     _DynamicLyricsTop = true;
             }
 
-            _SetDuetLyricsVisibility(song.IsDuet);
             _SetNormalLyricsVisibility();
 
             _TimerSongText.Reset();
@@ -607,10 +604,6 @@ namespace Vocaluxe.Screens
                 _TimerSongText.Start();
 
             _StartSong();
-        }
-
-        private void _SetDuetLyricsVisibility(bool isDuet)
-        {
         }
 
         private void _SetNormalLyricsVisibility()
