@@ -206,8 +206,6 @@ namespace Vocaluxe.Screens
                         CConfig.Config.Theme.PlayerInfo = (EPlayerInfo)mode;
                         CConfig.SaveConfig();
                         _SetVisibility();
-                        if (CGame.GetSong() != null)
-                            _SetDuetLyricsVisibility(CGame.GetSong().IsDuet); //make sure duet lyrics remain visible
                         break;
 
                     case Keys.S:
@@ -607,7 +605,6 @@ namespace Vocaluxe.Screens
             for (int p = 0; p < CGame.NumPlayers; p++)
                 _ProgressBars[_ProgressBarsRating[p, CGame.NumPlayers - 1]].Reset();
 
-            _SetDuetLyricsVisibility(song.IsDuet);
             _SetNormalLyricsVisibility();
 
             _TimerSongText.Reset();
@@ -620,37 +617,36 @@ namespace Vocaluxe.Screens
             _StartSong();
         }
 
-        private void _SetDuetLyricsVisibility(bool isDuet)
-        {
-            _Statics[_StaticLyricsDuet].Visible = isDuet;
-            _Lyrics[_LyricMainDuet].Visible = isDuet;
-            _Lyrics[_LyricSubDuet].Visible = isDuet;
-
-            if (isDuet)
-            {
-                _Lyrics[_LyricMainTop].Visible = false;
-                _Lyrics[_LyricSubTop].Visible = false;
-                _Statics[_StaticLyricsTop].Visible = false;
-            }
-            else
-            {
-                bool lyricsOnTop = CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP
-                                   || CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
-                                   || (CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsTop);
-                _Lyrics[_LyricMainTop].Visible = lyricsOnTop;
-                _Lyrics[_LyricSubTop].Visible = lyricsOnTop;
-                _Statics[_StaticLyricsTop].Visible = lyricsOnTop;
-            }
-        }
-
         private void _SetNormalLyricsVisibility()
         {
-            bool visible = CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM
+            bool bottomLyricsVisible = CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM
                            || CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
                            || (CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsBottom);
-            _Lyrics[_LyricMain].Visible = visible;
-            _Lyrics[_LyricSub].Visible = visible;
-            _Statics[_StaticLyrics].Visible = visible;
+
+            bool topLyricsVisible = CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_TOP
+                                   || CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTH
+                                   || (CConfig.Config.Game.LyricsPosition == ELyricsPosition.TR_CONFIG_LYRICSPOSITION_DYNAMIC && _DynamicLyricsTop);
+
+            bool duetLyricsVisible = false;
+
+            if (CGame.GetSong() != null && CGame.GetSong().IsDuet)
+            {
+                bottomLyricsVisible = true;
+                topLyricsVisible = false;
+                duetLyricsVisible = true;
+            }
+
+            _Lyrics[_LyricMain].Visible = bottomLyricsVisible;
+            _Lyrics[_LyricSub].Visible = bottomLyricsVisible;
+            _Statics[_StaticLyrics].Visible = bottomLyricsVisible;
+
+            _Lyrics[_LyricMainTop].Visible = topLyricsVisible;
+            _Lyrics[_LyricSubTop].Visible = topLyricsVisible;
+            _Statics[_StaticLyricsTop].Visible = topLyricsVisible;
+
+            _Lyrics[_LyricMainDuet].Visible = duetLyricsVisible;
+            _Lyrics[_LyricSubDuet].Visible = duetLyricsVisible;
+            _Statics[_StaticLyricsDuet].Visible = duetLyricsVisible;
         }
 
         private void _StartSong()
