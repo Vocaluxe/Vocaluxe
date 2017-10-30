@@ -43,21 +43,28 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 _PaHandle = new CPortAudioHandle();
 
                 int hostAPI = _PaHandle.GetHostApi();
+                CLog.LogError("HostAPI: " + hostAPI);
                 int numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
+                CLog.LogError("NumDevices: " + numDevices);
                 for (int i = 0; i < numDevices; i++)
                 {
                     PortAudioSharp.PortAudio.PaDeviceInfo info = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(i);
+                    CLog.LogError("Device " + i + ": ");
                     if (info.hostApi == hostAPI && info.maxInputChannels > 0)
                     {
+                        CLog.LogError("HostAPI matches, device name: " + info.name);
                         var dev = new CRecordDevice(i, info.name, info.name + i, info.maxInputChannels);
 
                         _Devices.Add(dev);
                     }
                 }
+                CLog.LogError("Handled all devices, found " + _Devices.Count);
 
                 _RecHandle = new IntPtr[_Devices.Count];
                 _MyRecProc = _MyPaStreamCallback;
                 _Initialized = true;
+
+                CLog.LogError("Initialized!");
             }
             catch (Exception e)
             {
