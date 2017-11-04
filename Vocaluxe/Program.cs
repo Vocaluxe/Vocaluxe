@@ -285,23 +285,120 @@ namespace Vocaluxe
             try
             {
                 CController.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CController)", false, false, e);
+            }
+
+            try
+            {
                 CVocaluxeServer.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CVocaluxeServer)", false, false, e);
+            }
+
+            try
+            {
                 CGraphics.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CGraphics)", false, false, e);
+            }
+
+            try
+            {
                 CThemes.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CThemes)", false, false, e);
+            }
+
+            try
+            {
                 CCover.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CCover)", false, false, e);
+            }
+
+            try
+            {
                 CFonts.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CFonts)", false, false, e);
+            }
+
+            try
+            {
                 CBackgroundMusic.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CBackgroundMusic)", false, false, e);
+            }
+
+            try
+            {
                 CWebcam.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CWebcam)", false, false, e);
+            }
+
+            try
+            {
                 CDataBase.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CDataBase)", false, false, e);
+            }
+
+            try
+            {
                 CVideo.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CVideo)", false, false, e);
+            }
+
+            try
+            {
                 CRecord.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CRecord)", false, false, e);
+            }
+
+            try
+            {
                 CSound.Close();
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Error during shutdown! (CSound)", false, false, e);
+            }
+
+            try
+            {
                 CDraw.Close();
             }
             catch (Exception e)
             {
-                CLog.LogError("Error during shutdown!", false, false, e);
+                CLog.LogError("Error during shutdown! (CDraw)", false, false, e);
             }
+
             GC.Collect(); // Do a GC run here before we close logs to have finalizers run
             try
             {
