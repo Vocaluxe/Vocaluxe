@@ -26,17 +26,24 @@ force-https: True
 
 repository: Vocaluxe/Vocaluxe
 
-#############
-# HTML Head #
-#############
+#####################
+# HTML Head and SEO #
+#####################
 
-lang: "en"
-author: "Vocaluxe"
+lang: "en_US"
+author: "Vocaluxe Team"
 title: "Vocaluxe"
 subtitle: "Sing your favorite songs"
-description: "Vocaluxe is a free and open source singing game, inspired by the original UltraStar (developed by corvus5) and the great Ultrastar Deluxe project. It allows up to six players to sing along with music using microphones in order to score points, depending on the pitch of the voice and the rhythm of singing."
-keywords: "Vocaluxe, sing, game, karaoke"
+description: "Vocaluxe is a free and open source singing game, inspired by SingStar™ and the great Ultrastar Deluxe project. It allows up to six players to sing along with music using microphones in order to score points, depending on the pitch of the voice and the rhythm of singing."
+keywords: "Vocaluxe, SingStar, UltraStar, sing, singen, game, party, karaoke, song, Lied, singing, open source, free, gratis, multiplayer"
 favicon: "/img/vocaluxe_icon.png"
+logo: "/img/vocaluxe_icon.png"
+
+social:
+  name: Vocaluxe
+  links:
+    - https://www.facebook.com/Vocaluxe
+    - https://github.com/Vocaluxe/Vocaluxe
 
 ################
 # Header layout #
