@@ -979,12 +979,12 @@ namespace Vocaluxe.Screens
 
         private void _BuildProgressBarStrings(ref List<string> progressbars)
         {
-            _ProgressBarsRating = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _ProgressBarsRating = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {
@@ -1001,9 +1001,9 @@ namespace Vocaluxe.Screens
         {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {
@@ -1019,9 +1019,9 @@ namespace Vocaluxe.Screens
         {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {

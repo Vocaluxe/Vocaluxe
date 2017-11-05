@@ -255,7 +255,7 @@ namespace VocaluxeLib.Menu
                         CBase.Drawing.DrawTextureReflection(_TextureProgressMid, _RectProgressMid, color, _RectProgressMid, ReflectionSpace, ReflectionHeight, AllMonitors);
                 }
                 else
-                    CBase.Drawing.DrawRect(_ColorProgressCurrent, _RectProgressMid);
+                    CBase.Drawing.DrawRect(_ColorProgressCurrent, _RectProgressMid, AllMonitors);
 
                 if (_TextureProgressEnd != null)
                 {
@@ -275,7 +275,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
-                CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), Rect);
+                CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), Rect, AllMonitors);
         }
 
         public void UnloadSkin() {}
