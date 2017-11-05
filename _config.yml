@@ -98,4 +98,5 @@ gems:
   - github-pages
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-seo-tag
   #- jemoji
