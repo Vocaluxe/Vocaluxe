@@ -285,9 +285,10 @@ namespace Vocaluxe.Base
         /// </summary>
         /// <param name="color"></param>
         /// <param name="rect"></param>
-        public static void DrawRect(SColorF color, SRectF rect)
+        /// <param name="allMonitors">Render on all monitors</param>
+        public static void DrawRect(SColorF color, SRectF rect, bool allMonitors = true)
         {
-            _Draw.DrawRect(color, rect);
+            _Draw.DrawRect(color, rect, allMonitors);
         }
 
         /// <summary>
@@ -328,9 +329,10 @@ namespace Vocaluxe.Base
         /// <param name="rect"></param>
         /// <param name="color"></param>
         /// <param name="mirrored">True to mirror the texture on the y axis</param>
-        public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
+        /// <param name="allMonitors">Render on all monitors</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false, bool allMonitors = true)
         {
-            _Draw.DrawTexture(textureRef, rect, color, mirrored);
+            _Draw.DrawTexture(textureRef, rect, color, mirrored, allMonitors);
         }
 
         /// <summary>
@@ -341,9 +343,10 @@ namespace Vocaluxe.Base
         /// <param name="color"></param>
         /// <param name="bounds">Bounds to draw the texture in (rest gets cropped off)</param>
         /// <param name="mirrored">True to mirror the texture on the y axis</param>
-        public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        /// <param name="allMonitors">Render on all monitors</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false, bool allMonitors = true)
         {
-            _Draw.DrawTexture(textureRef, rect, color, bounds, mirrored);
+            _Draw.DrawTexture(textureRef, rect, color, bounds, mirrored, allMonitors);
         }
 
         /// <summary>
@@ -354,9 +357,10 @@ namespace Vocaluxe.Base
         /// <param name="color"></param>
         /// <param name="begin">Normalized start x-coordinate (0..1)</param>
         /// <param name="end">Normalized end x-coordinate (0..1)</param>
-        public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
+        /// <param name="allMonitors">Render on all monitors</param>
+        public static void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end, bool allMonitors = true)
         {
-            _Draw.DrawTexture(textureRef, rect, color, begin, end);
+            _Draw.DrawTexture(textureRef, rect, color, begin, end, allMonitors);
         }
 
         /// <summary>
@@ -383,7 +387,7 @@ namespace Vocaluxe.Base
                 return;
 
             SRectF rect = CHelper.FitInBounds(bounds, textureRef.OrigAspect, aspect);
-            DrawTexture(textureRef, rect, color);
+            DrawTexture(textureRef, rect, color, bounds);
         }
 
         /// <summary>
@@ -395,9 +399,9 @@ namespace Vocaluxe.Base
         /// <param name="bounds"></param>
         /// <param name="space">Spacing between the rect and the reflection</param>
         /// <param name="height">Height of the reflection</param>
-        public static void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        public static void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height, bool allMonitors = true)
         {
-            _Draw.DrawTextureReflection(textureRef, rect, color, bounds, space, height);
+            _Draw.DrawTextureReflection(textureRef, rect, color, bounds, space, height, allMonitors);
         }
     }
 }

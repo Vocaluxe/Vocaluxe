@@ -24,21 +24,27 @@ namespace VocaluxeLib.Menu
     [XmlType("Text")]
     public struct SThemeText
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public float X;
         public float Y;
         public float Z;
-        [XmlElement("H")] public float FontHeight;
-        [XmlElement("MaxW")] public float MaxWidth;
+        [XmlElement("H")]
+        public float FontHeight;
+        [XmlElement("MaxW")]
+        public float MaxWidth;
         public SThemeColor Color;
         public SThemeColor SelColor; //for Buttons
         public EAlignment Align;
         public EHAlignment ResizeAlign;
-        [XmlElement("Style")] public EStyle FontStyle;
-        [XmlElement("Font")] public string FontFamily;
+        [XmlElement("Style")]
+        public EStyle FontStyle;
+        [XmlElement("Font")]
+        public string FontFamily;
         public string Text;
         public SReflection? Reflection;
+        public bool? AllMonitors;
     }
 
     public sealed class CText : CMenuElementBase, IMenuElement, IThemeable, IFontObserver
@@ -161,6 +167,8 @@ namespace VocaluxeLib.Menu
         private float _ReflectionSpace;
         private float _ReflectionHeight;
 
+        public bool AllMonitors = true;
+
         private string _Text = String.Empty;
         public string Text
         {
@@ -248,6 +256,7 @@ namespace VocaluxeLib.Menu
             SelColor = text.SelColor;
             _ReflectionSpace = text._ReflectionSpace;
             _ReflectionHeight = text._ReflectionHeight;
+            AllMonitors = text.AllMonitors;
 
             Text = text.Text;
             Visible = text.Visible;
@@ -309,7 +318,7 @@ namespace VocaluxeLib.Menu
             SColorF currentColor = (Selected) ? SelColor : Color;
             var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color);
+            CBase.Fonts.DrawText(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color, AllMonitors);
 
             if (_ReflectionHeight > 0)
                 CBase.Fonts.DrawTextReflection(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color, _ReflectionSpace, _ReflectionHeight);
@@ -354,7 +363,7 @@ namespace VocaluxeLib.Menu
             Y -= ry;
         }
 
-        public void UnloadSkin() {}
+        public void UnloadSkin() { }
 
         public void LoadSkin()
         {

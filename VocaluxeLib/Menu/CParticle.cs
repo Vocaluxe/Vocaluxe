@@ -265,14 +265,14 @@ namespace VocaluxeLib.Menu
             _Timer.Start();
         }
 
-        public void Draw()
+        public void Draw(bool allMonitors = true)
         {
             // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
             if (!String.IsNullOrEmpty(_TextureName))
                 // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                CBase.Drawing.DrawTexture(CBase.Themes.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
+                CBase.Drawing.DrawTexture(CBase.Themes.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha), allMonitors);
             else
-                CBase.Drawing.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha));
+                CBase.Drawing.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha), allMonitors);
         }
     }
 }

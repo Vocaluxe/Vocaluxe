@@ -86,7 +86,7 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CDirect3D()
         {
-            _Form = new CRenderFormHook {ClientSize = new Size(CConfig.Config.Graphics.ScreenW, CConfig.Config.Graphics.ScreenH)};
+            _Form = new CRenderFormHook { ClientSize = new Size(CConfig.Config.Graphics.ScreenW * CConfig.Config.Graphics.NumScreens, CConfig.Config.Graphics.ScreenH) };
 
             try
             {
@@ -110,15 +110,15 @@ namespace Vocaluxe.Lib.Draw
             _Form.MouseEnter += _OnMouseEnter;
 
             _PresentParameters = new PresentParameters
-                {
-                    Windowed = true,
-                    SwapEffect = SwapEffect.Discard,
-                    BackBufferHeight = CConfig.Config.Graphics.ScreenH,
-                    BackBufferWidth = CConfig.Config.Graphics.ScreenW,
-                    BackBufferFormat = _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format,
-                    Multisample = MultisampleType.None,
-                    MultisampleQuality = 0
-                };
+            {
+                Windowed = true,
+                SwapEffect = SwapEffect.Discard,
+                BackBufferHeight = CConfig.Config.Graphics.ScreenH,
+                BackBufferWidth = CConfig.Config.Graphics.ScreenW * CConfig.Config.Graphics.NumScreens,
+                BackBufferFormat = _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format,
+                Multisample = MultisampleType.None,
+                MultisampleQuality = 0
+            };
 
             //Apply antialiasing and check if antialiasing mode is supported
 
@@ -379,7 +379,7 @@ namespace Vocaluxe.Lib.Draw
             const float dy = (float)CSettings.RenderH / 2;
             Matrix translate = Matrix.Translation(new Vector3(-dx, dy, 0));
             Matrix projection = Matrix.OrthoOffCenterLH(
-                -dx - _BorderLeft, dx + _BorderRight,
+                -dx - _BorderLeft, (CSettings.RenderW * CConfig.Config.Graphics.NumScreens) - dx + _BorderRight,
                 -dy - _BorderBottom, dy + _BorderTop,
                 CSettings.ZNear, CSettings.ZFar);
 
@@ -572,9 +572,9 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         /// <param name="color">The color in which the rectangle will be drawn in</param>
         /// <param name="rect">The coordinates in a SRectF struct</param>
-        public void DrawRect(SColorF color, SRectF rect)
+        public void DrawRect(SColorF color, SRectF rect, bool allMonitors = true)
         {
-            DrawTexture(_BlankTexture, rect, color);
+            DrawTexture(_BlankTexture, rect, color, false, allMonitors);
         }
 
         /// <summary>
