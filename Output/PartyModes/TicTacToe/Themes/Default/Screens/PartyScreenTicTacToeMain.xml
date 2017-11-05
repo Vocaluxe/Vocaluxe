@@ -14,15 +14,15 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="Static1">
-      <Skin>Menu</Skin>
-      <Color Name="StaticColor" />
+    <Static Name="StaticMenuBar">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
       <Rect>
-        <X>40</X>
+        <X>0</X>
         <Y>40</Y>
-        <W>1200</W>
-        <H>50</H>
-        <Z>0</Z>
+        <W>1280</W>
+        <H>45</H>
+        <Z>1</Z>
       </Rect>
     </Static>
     <Static Name="StaticPopupBG">
@@ -60,13 +60,13 @@
     </Static>
   </Statics>
   <Texts>
-    <Text Name="Text1">
+    <Text Name="TextTitle">
       <X>640</X>
-      <Y>48</Y>
+      <Y>50</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -76,11 +76,11 @@
     </Text>
     <Text Name="TextPopupReallyExit">
       <X>640</X>
-      <Y>265</Y>
+      <Y>270</Y>
       <Z>-2.01</Z>
       <H>27</H>
       <MaxW>380</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -94,7 +94,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -108,7 +108,7 @@
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -188,7 +188,7 @@
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
@@ -223,7 +223,7 @@
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
@@ -258,7 +258,7 @@
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
@@ -293,7 +293,7 @@
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
@@ -328,7 +328,7 @@
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
@@ -363,7 +363,7 @@
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>

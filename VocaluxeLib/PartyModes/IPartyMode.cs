@@ -34,6 +34,7 @@ namespace VocaluxeLib.PartyModes
         public EOffOn IgnoreArticles;
         public string SearchString;
         public bool SearchActive;
+        public int FilterPlaylistID; //show only songs that are in this playlist, -1 for all songs
         public EDuetOptions DuetOptions;
     }
 
@@ -46,6 +47,11 @@ namespace VocaluxeLib.PartyModes
         ///     If != -1, the SongMenu should set the song selection to the provided song index (visible index) if possible
         /// </summary>
         public int SongIndex;
+
+        /// <summary>
+        ///     If != -1, the SongMenu should enter show category based on provided category index if possible
+        /// </summary>
+        public int CategoryIndex;
 
         /// <summary>
         ///     If true, the SongMenu should perform the select random song method

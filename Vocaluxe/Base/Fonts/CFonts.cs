@@ -74,7 +74,7 @@ namespace Vocaluxe.Base.Fonts
         /// <param name="y">The texts y-position</param>
         /// <param name="z">The texts z-position</param>
         /// <param name="color">The text color</param>
-        public static void DrawText(string text, CFont font, float x, float y, float z, SColorF color)
+        public static void DrawText(string text, CFont font, float x, float y, float z, SColorF color, bool allMonitors = true)
         {
             if (font.Height <= 0f || text == "")
                 return;
@@ -84,7 +84,7 @@ namespace Vocaluxe.Base.Fonts
             float dx = x;
             foreach (char chr in text)
             {
-                fontStyle.DrawGlyph(chr, font.Height, dx, y, z, color);
+                fontStyle.DrawGlyph(chr, font.Height, dx, y, z, color, allMonitors);
                 dx += fontStyle.GetWidth(chr, font.Height);
             }
         }

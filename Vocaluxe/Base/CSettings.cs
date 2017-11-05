@@ -18,9 +18,12 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Text;
 using System.Windows.Forms;
 using VocaluxeLib;
+using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
@@ -33,6 +36,8 @@ namespace Vocaluxe.Base
         Release
         // ReSharper restore UnusedMember.Global
     }
+
+    
 
     /// <summary>
     ///     This class contains settings for the program
@@ -51,17 +56,33 @@ namespace Vocaluxe.Base
         //TODO: This should not be here as it can change
         //State of the program
         public static EProgramState ProgramState = EProgramState.Start;
+        
 
-        //Adjusting of programName and version now in the assembly config.
-        //I'd use the major and minor for Main releases, build number for every public release and revision for every bugfix version without any features
-        private const string _ProgramCodeName = "Shining Heaven";
-
-        public const ERevision VersionRevision = ERevision.Beta;
+        public static ERevision VersionRevision
+        {
+            get
+            {
+                if (_Version.ToLower().Contains("alpha"))
+                {
+                    return ERevision.Alpha;
+                }
+                if (_Version.ToLower().Contains("beta"))
+                {
+                    return ERevision.Beta;
+                }
+                if (_Version.ToLower().Contains("rc"))
+                {
+                    return ERevision.RC;
+                }
+                return ERevision.Release;
+            }
+        }
 
         public const int DatabaseHighscoreVersion = 3;
         public const int DatabaseCoverVersion = 1;
         public const int DatabaseCreditsRessourcesVersion = 1;
 
+        public const int MaxNumScreens = 6;
         public const int RenderW = 1280;
         public const int RenderH = 720;
         public static readonly SRectF RenderRect = new SRectF(0, 0, RenderW, RenderH, 0);
@@ -173,57 +194,23 @@ namespace Vocaluxe.Base
         {
             get { return _Assembly.Name; }
         }
+
         private static string _Version
         {
             get
             {
-                Version v = _Assembly.Version;
-                return "v" + v.Major + "." + v.Minor + "." + v.Build;
+                return Application.ProductVersion.Split('-').First();
             }
         }
-
-        private static string _GetVersionText()
-        {
-            string version = _Version + " (" + _Arch + ")";
-
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            if (VersionRevision != ERevision.Release)
-            {
-                // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                string gitversion = Application.ProductVersion;
-                version += " " + _GetVersionStatus() + String.Format(" ({0})", gitversion);
-            }
-
-            return version;
-        }
-
+        
         public static string GetFullVersionText()
         {
-            string version = ProgramName;
-
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            if (_ProgramCodeName != "")
-                // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                version += " \"" + _ProgramCodeName + "\"";
-
-            return version + " " + _GetVersionText();
-        }
-
-        private static string _GetVersionStatus()
-        {
-            string result;
-
-            // ReSharper disable ConditionIsAlwaysTrueOrFalse
-            if (VersionRevision != ERevision.Release)
-                // ReSharper restore ConditionIsAlwaysTrueOrFalse
-                result = Enum.GetName(typeof(ERevision), VersionRevision);
-
-            return result;
+            return ((AssemblyTitleAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false).First()).Title;
         }
 
         public static float GetRenderAspect()
         {
-            return RenderW / (float)RenderH;
+            return RenderW * CConfig.GetNumScreens() / (float)RenderH;
         }
 
         public static void CreateFolders()

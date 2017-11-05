@@ -13,15 +13,11 @@
   <string name="TR_BUTTON_NEXT_ROUND">Start</string>
   <string name="TR_SONGS">Songs</string>
   <string name="TR_TEAM">Team</string>
-  <string name="TR_PLAYLIST">Playlist</string>
-  <string name="TR_CATEGORY">Category</string>
-  <string name="TR_ALLSONGS">All songs</string>
   <string name="TR_SCREENCONFIG_TITLE">Tic-Tac-Toe: Configuration</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Number of players in team 1</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Number of players in team 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Number of fields</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Song-Source</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Game-Mode</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Refill jokers every round</string>  
   <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Choose Player</string>
   <string name="TR_SCREENNAMES_TEAM1">Team 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Team 2</string>

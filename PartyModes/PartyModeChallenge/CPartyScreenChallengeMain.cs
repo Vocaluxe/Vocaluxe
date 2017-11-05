@@ -125,6 +125,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 _AddText(_NextPlayerTexts[_NextPlayerTexts.Count - 1]);
                 _NextPlayerStatics.Add(GetNewStatic(_Statics[_StaticNextPlayer]));
                 _AddStatic(_NextPlayerStatics[_NextPlayerStatics.Count - 1]);
+                _NextPlayerStatics[_NextPlayerStatics.Count - 1].Aspect = EAspect.Crop;
             }
             _Statics[_StaticNextPlayer].Visible = false;
         }

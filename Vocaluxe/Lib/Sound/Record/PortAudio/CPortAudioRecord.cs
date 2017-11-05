@@ -16,6 +16,8 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
@@ -99,16 +101,21 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
             for (int dev = 0; dev < _Devices.Count; dev++)
             {
-                if (_Devices[dev].PlayerChannel1 > 0 || _Devices[dev].PlayerChannel2 > 0)
+                bool usingDevice = false;
+                for (int ch = 0; ch < _Devices[dev].Channels; ++ch) {
+                    if (_Devices[dev].PlayerChannel[ch] > 0)
+                        usingDevice = true;
+                }
+                if (usingDevice)
                 {
                     PortAudioSharp.PortAudio.PaStreamParameters? inputParams = new PortAudioSharp.PortAudio.PaStreamParameters
-                        {
-                            channelCount = _Devices[dev].Channels,
-                            device = _Devices[dev].ID,
-                            sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
-                            suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
-                            hostApiSpecificStreamInfo = IntPtr.Zero
-                        };
+                    {
+                        channelCount = _Devices[dev].Channels,
+                        device = _Devices[dev].ID,
+                        sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
+                        suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
+                        hostApiSpecificStreamInfo = IntPtr.Zero
+                    };
                     if (!_PaHandle.OpenInputStream(
                         out _RecHandle[dev],
                         ref inputParams,
@@ -137,9 +144,13 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
             foreach (IntPtr handle in _RecHandle)
             {
-                PortAudioSharp.PortAudio.Pa_StopStream(handle);
-                PortAudioSharp.PortAudio.Pa_CloseStream(handle);
+                if (handle != IntPtr.Zero)
+                {
+                    PortAudioSharp.PortAudio.Pa_StopStream(handle);
+                    PortAudioSharp.PortAudio.Pa_CloseStream(handle);
+                }
             }
+            _RecHandle = new IntPtr[_Devices.Count];
             return true;
         }
 
@@ -148,13 +159,17 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         /// </summary>
         public override void Close()
         {
-            if (_RecHandle != null)
+            if (_RecHandle != null && _RecHandle.Length > 0)
             {
                 foreach (IntPtr handle in _RecHandle)
                 {
                     if (handle != IntPtr.Zero)
+                    {
                         _PaHandle.CloseStream(handle);
+                    }
                 }
+
+                _RecHandle = new IntPtr[_Devices.Count];
             }
             if (_PaHandle != null)
             {
@@ -181,10 +196,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 {
                     CRecordDevice dev = _Devices[userData.ToInt32()];
                     uint numBytes;
-                    if (dev.Channels == 2)
-                        numBytes = frameCount * 4;
-                    else
-                        numBytes = frameCount * 2;
+                    numBytes = frameCount * (uint)dev.Channels * 2;
 
                     byte[] recbuffer = new byte[numBytes];
 

@@ -2,11 +2,9 @@
 /// <reference path="../index.html" />
 (function () {
     var imageLoader;
-    var externalServices;
     var translator;
     var pageHandler;
     var sessionHandler;
-    var matchingServerVersion = "";
 
     var initMain = function () {
         if (document.location.protocol == "file:") {
@@ -30,7 +28,6 @@
 
             sessionHandler = new SessionHandler();
             imageLoader = new ImageLoader();
-            externalServices = new ExternalServices();
             pageHandler = new PageHandler();
 
             pageHandler.init();
@@ -160,115 +157,6 @@
         };
     }
 
-    function ExternalServices() {
-        var popupVideoHeight = 390;
-        var popupVideoWidth = 640;
-
-        var init = function () {
-            initVideoPopup();
-        };
-
-        var initVideoPopup = function () {
-
-            function scale(width, height, padding, border) {
-                var scrWidth = $(window).width() - 30,
-                    scrHeight = $(window).height() - 30,
-                    ifrPadding = 2 * padding,
-                    ifrBorder = 2 * border,
-                    ifrWidth = width + ifrPadding + ifrBorder,
-                    ifrHeight = height + ifrPadding + ifrBorder,
-                    h, w;
-
-                if (ifrWidth < scrWidth && ifrHeight < scrHeight) {
-                    w = ifrWidth;
-                    h = ifrHeight;
-                } else if ((ifrWidth / scrWidth) > (ifrHeight / scrHeight)) {
-                    w = scrWidth;
-                    h = (scrWidth / ifrWidth) * ifrHeight;
-                } else {
-                    h = scrHeight;
-                    w = (scrHeight / ifrHeight) * ifrWidth;
-                }
-
-                return {
-                    'width': w - (ifrPadding + ifrBorder),
-                    'height': h - (ifrPadding + ifrBorder)
-                };
-            }
-
-            $("#popupVideo").find("a").click(function () {
-                $("#popupVideo").popup("close");
-                $("#popupVideo").popup("close"); //Sometimes twice??
-            });
-
-            $("#popupVideo iframe")
-                .attr("width", 0)
-                .attr("height", 0);
-
-            $("#popupVideo").on({
-                popupbeforeposition: function () {
-                    var size = scale(popupVideoWidth, popupVideoHeight, 15, 1),
-                        w = size.width,
-                        h = size.height;
-
-                    $("#popupVideo iframe")
-                        .attr("width", w)
-                        .attr("height", h);
-                },
-                popupafterclose: function () {
-                    $("#popupVideo iframe")
-                        .attr("width", 0)
-                        .attr("height", 0)
-                        .attr("src", "");
-                }
-            });
-        };
-
-        this.showYoutube = function (artist, title) {
-            request({
-                url: "http://gdata.youtube.com/feeds/api/videos/-/Music?max-results=1&alt=json&format=5&q=" + artist + " " + title,
-                dataType: "json",
-            }, "external")
-                .done(function (result) {
-                    if (result && result.feed && result.feed.entry && result.feed.entry.length > 0) {
-                        var vidId = result.feed.entry[0].id.$t.replace("http://gdata.youtube.com/feeds/api/videos/", "");
-                        popupVideoHeight = 390;
-                        popupVideoWidth = 640;
-
-                        $("#popupVideo iframe").attr("src", "http://www.youtube.com/embed/" + vidId + "?&autoplay=1&rel=0&showinfo=0&disablekb=1&autohide=1");
-                        $("#popupVideo").popup("open");
-                    }
-                });
-        };
-
-        this.showSpotify = function (artist, title) {
-            request({
-                url: "http://ws.spotify.com/search/1/track.json?q=" + title + "+artist:" + artist,
-                dataType: "json",
-            }, "external")
-                .done(function (result) {
-                    if (result && result.tracks && result.tracks.length > 0) {
-                        var spotId = result.tracks[0].href;
-                        popupVideoHeight = 80;
-                        popupVideoWidth = 300;
-
-                        $("#popupVideo iframe").attr("src", "https://embed.spotify.com/?uri=" + spotId);
-                        $("#popupVideo").popup("open");
-                    }
-                });
-        };
-
-        this.showWikipedia = function (artist) {
-            popupVideoHeight = 800;
-            popupVideoWidth = 600;
-
-            $("#popupVideo iframe").attr("src", "http://m.wikipedia.org/wiki/Special:Search/" + artist);
-            $("#popupVideo").popup("open");
-        };
-
-        init();
-    }
-
     function Translator() {
         this.translationLoaded = $.Deferred();
         var translationLoaded = this.translationLoaded;
@@ -286,19 +174,15 @@
         };
 
         this.translate = function () {
-            //repair broken buttons on the first page (get broken while translating)
-            var repairButtons = function () {
-                $($('#discoverConnect')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
-                $($('#discoverReadQr')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
-            };
             $('body').i18n();
-            repairButtons();
+            //repair broken buttons on the first page (got broken while translating)
+            $($('#loginButton')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
+            $($('#registerButton')[0].childNodes).wrap('<span class="ui-btn-inner"><span class="ui-btn-text"> </span></span>');
         };
     }
 
     function PageHandler() {
         var loginPageHandler;
-        var discoverPageHandler;
         var mainPageHandler;
         var keyboardPageHandler;
         var userPageHandler;
@@ -314,7 +198,6 @@
         this.init = function () {
             replaceTransitionHandler();
             loginPageHandler = new LoginPageHandler();
-            discoverPageHandler = new DiscoverPageHandler();
             mainPageHandler = new MainPageHandler();
             keyboardPageHandler = new KeyboardPageHandler();
             userPageHandler = new UserPageHandler();
@@ -349,124 +232,6 @@
                 }
                 return oldDefaultTransitionHandler(name, reverse, $to, $from);
             };
-        };
-
-        var DiscoverPageHandler = function () {
-            var init = function () {
-                //pageLoadHandler for discover
-                $(document).on('pagebeforeshow', '#discover', pagebeforeshowDiscover);
-
-                initDiscoverPageHandler();
-            };
-
-            var initDiscoverPageHandler = function () {
-                var keyPressed = function (e) {
-                    if (e.which == 13) {
-                        $('#discoverConnect').click();
-                    }
-                };
-
-                $('#discoverServerAddress').keypress(keyPressed);
-
-                function handleAddress(address) {
-                    if (address != null && address != "") {
-                        if (address.indexOf("http") != 0) {
-                            address = "http://" + address;
-                        }
-                        if (address.slice(-1) != '/') {
-                            address = address + '/';
-                        }
-                        sessionHandler.serverBaseAddress = "";
-                        request({
-                            url: address + "getServerVersion",
-                            timeout: 10000
-                        }, "Checking...")
-                            .done(function (serverVersion) {
-                                if(serverVersion === matchingServerVersion){
-                                    sessionHandler.serverBaseAddress = address;
-                                    window.localStorage.setItem("VocaluxeServerAddress", address);
-                                    $.mobile.changePage("#login", { transition: "none" });
-                                }
-                                else{
-                                    window.location.href = address;									
-                                    return;
-                                }
-                            })
-                            .fail(function () {
-                                $('#discoverServerAddress').prop("value", "");
-                                if (document.location.protocol == "file:"
-                                    && typeof window.BarcodeScanner != "undefined") {
-                                    $('#discoverReadQr').show();
-                                }
-                            });
-                    }
-                }
-
-                $('#discoverConnect').click(function () {
-                    handleAddress($('#discoverServerAddress').prop("value"));
-                });
-
-                try {
-                    window.BarcodeScanner = cordova.require("cordova/plugin/BarcodeScanner");
-                } catch (e) {
-                }
-
-                $('#discoverReadQr').hide().click(function () {
-                    window.BarcodeScanner.scan(
-                        function (result) {
-                            handleAddress(result.text);
-                        },
-                        function () {
-                            showError("Scan faild");
-                        }
-                    );
-                });
-
-                //Fire pageLoadHandler for discover (first page shown after start)
-                setTimeout(function () {
-                    pagebeforeshowDiscover();
-                    $(this).removeData('promise');
-                }, 1);
-            };
-
-            var pagebeforeshowDiscover = function () {
-                if (document.location.protocol == "file:") {
-                    if (window.localStorage) {
-                        var address = window.localStorage.getItem("VocaluxeServerAddress");
-                        if (address != null) {
-                            sessionHandler.serverBaseAddress = "";
-                            var prom = request({
-                                url: address + "getServerVersion",
-                                timeout: 10000
-                            }, "Checking...").done(function (serverVersion) {
-                                if (serverVersion === matchingServerVersion) {
-                                    sessionHandler.serverBaseAddress = address;
-                                    window.localStorage.setItem("VocaluxeServerAddress", address);
-                                    $.mobile.changePage("#login", { transition: "none" });
-                                }
-                                else {
-                                    window.location.href = address;
-                                    return;
-                                }
-                            }).fail(function () {
-                                if (typeof window.BarcodeScanner != "undefined") {
-                                    $('#discoverReadQr').show();
-                                }
-                            });
-                            $(this).data('promise', prom);
-                            return;
-                        }
-                        else if (typeof window.BarcodeScanner != "undefined") {
-                            $('#discoverReadQr').show();
-                        }
-                    }
-                } else {
-                    $('#discoverReadQr').hide();
-                    $.mobile.changePage("#login", { transition: "none" });
-                }
-            };
-
-            init();
         };
 
         var LoginPageHandler = function () {
@@ -1101,18 +866,7 @@
                         };
                         $.mobile.changePage("#selectPlaylist", { transition: "slidefade" });
                     });
-
-                    $('#displaySongLinkYoutube').unbind('click').click(function () {
-                        externalServices.showYoutube(result.Artist, result.Title);
-                    });
-
-                    $('#displaySongLinkSpotify').unbind('click').click(function () {
-                        externalServices.showSpotify(result.Artist, result.Title);
-                    });
-
-                    $('#displaySongLinkWikipedia').unbind('click').click(function () {
-                        externalServices.showWikipedia(result.Artist);
-                    });
+                    
                 } else {
                     $('#displaySongLinks').hide();
                 }
@@ -1143,9 +897,26 @@
                 }
 
                 for (var id in allSongsCache) {
-                    $('<li id="selectSongLine_' + allSongsCache[id].SongId + '"> <a href="#"> '/*+'<img src="' + ((data[profile].Avatar && data[profile].Avatar.base64Data) ? data[id].Avatar.base64Data : "img/profile.png") + '"> '*/ + ' <h2>' + allSongsCache[id].Artist + '</h2> <p>' + allSongsCache[id].Title + '</p> </a> </li>')
+                    var coverString = "";
+                    var currentCoverId = "";
+
+                    if (allSongsCache[id].Cover !== null) {
+                        if (allSongsCache[id].Cover.base64Data !== "") {
+                            coverString = '<img src="' + allSongsCache[id].Cover.base64Data + '">';
+                        }
+                        else if (allSongsCache[id].Cover.imageId !== "") {
+                            currentCoverId = "songListCoverId_" + id;
+                            coverString = '<img id="' + currentCoverId + '" src="">';
+                        }
+                    }
+
+                    $('<li id="selectSongLine_' + allSongsCache[id].SongId + '"> <a href="#"> ' + coverString + ' <h2>' + allSongsCache[id].Artist + '</h2> <p>' + allSongsCache[id].Title + '</p> </a> </li>')
                         .appendTo('#selectSongList')
                         .click(handleSelectSongLineClick);
+
+                    if (currentCoverId !== "") {
+                        imageLoader.delayedImageLoad($("#" + currentCoverId)[0], allSongsCache[id].Cover.imageId, "img/noCover.png");
+                    }
                 }
 
                 $('#selectSongList').listview('refresh');
@@ -1450,7 +1221,7 @@
         var checkSession = function () {
             if (t.ownProfileId == -1
                 && pageHandler.profileIdRequest == -1
-                && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login" || $.mobile.activePage.attr("id") == "discover")) {
+                && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login")) {
                 return;
             }
             request({

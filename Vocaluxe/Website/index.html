@@ -6,8 +6,6 @@
     <link rel="stylesheet" href="css/jquery.mobile-1.3.2.min.css" />
     <link rel="stylesheet" href="css/style.css" />
     <script src="js/jquery-1.9.1.min.js"></script>
-    <script src="phonegap.js"></script>
-    <script src="barcodescanner.js"></script>
     <script>
         if (document.location.protocol == "file:") {
             if (typeof (window.deviceAndJqmLoaded) == "undefined") {
@@ -38,24 +36,6 @@
     <script src="js/main.js"></script>
 </head>
 <body>
-    <div id="discover" data-content-theme="a" data-role="page" data-add-back-btn="false">
-        <div data-role="header">
-            <h1 data-i18n="discoverConnectHeader"></h1>
-        </div>
-        <!-- /header -->
-
-        <div id="discoverContent" data-role="content">
-            <label for="discoverServerAddress" class="input" data-i18n="discoverConnectServerAddress"></label>
-            <input type="text" id="discoverServerAddress" name="discoverServerAddress" data-mini="true">
-            <a data-role="button" id="discoverConnect" data-i18n="discoverConnectButton"></a>
-            <br />
-            <hr />
-            <br />
-            <a data-role="button" id="discoverReadQr" data-i18n="discoverReadQrButton"></a>
-        </div>
-        <!-- /content -->
-    </div>
-    <!-- /page -->
     <div id="login" data-content-theme="a" data-role="page" data-add-back-btn="false">
         <div data-role="header">
             <h1 data-i18n="">Login</h1>
@@ -232,10 +212,6 @@
                 <img class="cursorStyleClickable" id="displaySongAddPlaylist" src="img/addPlaylist.png" />
                 <br />
                 <audio controls id="displaySongPlayer" preload="none"></audio>
-                <br />
-                <img class="cursorStyleClickable" id="displaySongLinkYoutube" src="img/youtube.png" />
-                <img class="cursorStyleClickable" id="displaySongLinkSpotify" src="img/spotify.png" />
-                <img class="cursorStyleClickable" id="displaySongLinkWikipedia" src="img/wikipedia.png" />
             </div>
 
         </div>

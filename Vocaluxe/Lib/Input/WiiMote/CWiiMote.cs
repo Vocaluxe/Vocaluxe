@@ -31,9 +31,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private bool[] _ButtonStates;
         private Point _OldPosition;
         private bool _Connected;
-
-        private Thread _HandlerThread;
-        private AutoResetEvent _EvTerminate;
+        
         private Object _Sync;
         private bool _Active;
         private CRumbleTimer _RumbleTimer;
@@ -53,36 +51,34 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _RumbleTimer = new CRumbleTimer();
             _Gesture = new CGesture();
 
-            _HandlerThread = new Thread(_MainLoop) {Name = "WiiMote", Priority = ThreadPriority.BelowNormal};
-            _EvTerminate = new AutoResetEvent(false);
-
             _ButtonStates = new bool[11];
             _OldPosition = new Point();
+
+            _WiiMote = new CWiiMoteLib();
+            _WiiMote.WiiMoteChanged += _WmWiiMoteChanged;
+            _WiiMote.WiiMoteConnectionChanged += _WiiMote_WiiMoteConnectionChanged;
+
             return true;
         }
 
         public override void Close()
         {
             _Active = false;
-            if (_HandlerThread != null)
-            {
-                //Join before freeing stuff
-                //This also ensures, that no other thread is created till the current one is terminated
-                _EvTerminate.Set();
-                _HandlerThread.Join();
-                _HandlerThread = null;
-                _EvTerminate.Dispose();
-                _EvTerminate = null;
-            }
+            _WiiMote.SetRumble(false);
+            _WiiMote.Disconnect();
+            _Connected = false;
+
             base.Close();
         }
 
         public override void Connect()
         {
-            if (_Active || _HandlerThread == null)
+            if (_Active)
                 return;
             _Active = true;
-            _HandlerThread.Start();
+          
+
+            _WiiMote.Connect();
         }
 
         public override void Disconnect()
@@ -104,67 +100,41 @@ namespace Vocaluxe.Lib.Input.WiiMote
             }
         }
 
-        private void _MainLoop()
+        private void _WiiMote_WiiMoteConnectionChanged(object sender, CWiiMoteConnectionChangedEventArgs e)
         {
-            _WiiMote = new CWiiMoteLib();
-            _WiiMote.WiiMoteChanged += _WmWiiMoteChanged;
-
-            while (_Active)
+            if (!e.Connected)
             {
-                Thread.Sleep(5);
+                _Connected = false;
+            }
+            else
+            {
+                _WiiMote.SetReportType(EInputReport.IRAccel, EIRSensitivity.Max, false);
+                _WiiMote.SetLEDs(false, false, true, false);
 
-                if (!_WiiMote.Connected)
+                _WiiMote.SetRumble(true);
+                Thread.Sleep(250);
+                _WiiMote.SetRumble(false);
+                Thread.Sleep(250);
+                _WiiMote.SetRumble(true);
+                Thread.Sleep(250);
+                _WiiMote.SetRumble(false);
+                
+
+                bool startRumble;
+                bool stopRumble;
+                lock (_Sync)
                 {
-                    if (!_DoConnect())
-                        _EvTerminate.WaitOne(1000);
+                    startRumble = _RumbleTimer.ShouldStart;
+                    stopRumble = _RumbleTimer.ShouldStop;
                 }
-                else
-                {
-                    bool startRumble;
-                    bool stopRumble;
-                    lock (_Sync)
-                    {
-                        startRumble = _RumbleTimer.ShouldStart;
-                        stopRumble = _RumbleTimer.ShouldStop;
-                    }
 
-                    if (startRumble)
-                        _WiiMote.SetRumble(true);
-                    else if (stopRumble)
-                        _WiiMote.SetRumble(false);
-                }
+                if (startRumble)
+                    _WiiMote.SetRumble(true);
+                else if (stopRumble)
+                    _WiiMote.SetRumble(false);
+
+                _Connected = true;
             }
-
-            _WiiMote.SetRumble(false);
-            _WiiMote.Disconnect();
-            _Connected = false;
-        }
-
-        private bool _DoConnect()
-        {
-            try
-            {
-                if (!_WiiMote.Connect())
-                    return false;
-            }
-            catch
-            {
-                return false;
-            }
-
-            _WiiMote.SetReportType(EInputReport.IRAccel, EIRSensitivity.Max, false);
-            _WiiMote.SetLEDs(false, false, true, false);
-
-            _WiiMote.SetRumble(true);
-            Thread.Sleep(250);
-            _WiiMote.SetRumble(false);
-            Thread.Sleep(250);
-            _WiiMote.SetRumble(true);
-            Thread.Sleep(250);
-            _WiiMote.SetRumble(false);
-
-            _Connected = true;
-            return true;
         }
 
         private void _WmWiiMoteChanged(object sender, CWiiMoteChangedEventArgs args)

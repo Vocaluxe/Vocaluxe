@@ -11,6 +11,7 @@
   <string name="TR_BUTTON_YES">Yes</string>
   <string name="TR_BUTTON_NO">No</string>
   <string name="TR_BUTTON_NEXT_ROUND">Next Round</string>
+  <string name="TR_SONGS">Songs</string>
   <string name="TR_SCREENCONFIG_TITLE">Challenge Mode: Configuration</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Number of players</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Number of mics</string>

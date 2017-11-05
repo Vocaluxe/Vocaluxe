@@ -31,14 +31,14 @@ namespace Vocaluxe.Base
 
         // ReSharper disable MemberCanBePrivate.Global
         public static void Reset()
-            // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore MemberCanBePrivate.Global
         {
             _Stopwatch.Reset();
         }
 
         // ReSharper disable MemberCanBePrivate.Global
         public static void Start()
-            // ReSharper restore MemberCanBePrivate.Global
+        // ReSharper restore MemberCanBePrivate.Global
         {
             _Stopwatch.Start();
         }
@@ -127,7 +127,7 @@ namespace Vocaluxe.Base
                     {
                         _KeysPool.Add(pool);
                     }
-                    catch (Exception) {}
+                    catch (Exception) { }
                 }
 
                 _Timer.Reset();
@@ -173,7 +173,7 @@ namespace Vocaluxe.Base
 
         // ReSharper disable UnusedParameter.Global
         public void KeyUp(KeyEventArgs e)
-            // ReSharper restore UnusedParameter.Global
+        // ReSharper restore UnusedParameter.Global
         {
             _CheckModifiers();
             _KeyPressed = false;
@@ -225,7 +225,9 @@ namespace Vocaluxe.Base
         private void _Add(int x, int y, bool lb, bool ld, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
         {
             _CheckModifiers();
-            x = (int)(x * (float)CSettings.RenderW / CDraw.GetScreenWidth());
+            x = (int)(x * (float)CSettings.RenderW * CConfig.Config.Graphics.NumScreens / CDraw.GetScreenWidth());
+            while (x > CSettings.RenderW)
+                x -= CSettings.RenderW;
             y = (int)(y * (float)CSettings.RenderH / CDraw.GetScreenHeight());
 
             var pool = new SMouseEvent(ESender.Mouse, _Mod, x, y, lb, ld, rb, -wheel / 120, lbh, rbh, mb, mbh);
@@ -290,7 +292,7 @@ namespace Vocaluxe.Base
 
         // ReSharper disable UnusedParameter.Global
         public void MouseUp(MouseEventArgs e)
-            // ReSharper restore UnusedParameter.Global
+        // ReSharper restore UnusedParameter.Global
         {
             //CheckModifiers();
             //Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right, e.Delta);

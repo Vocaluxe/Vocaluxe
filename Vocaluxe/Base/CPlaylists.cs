@@ -42,6 +42,11 @@ namespace Vocaluxe.Base
             get { return _Playlists.Select(t => t.Name).ToList(); }
         }
 
+        public static List<int> Ids
+        {
+            get { return _Playlists.Select(t => t.Id).ToList(); }
+        }
+
         public static int NumPlaylists
         {
             get { return _Playlists.Count; }
@@ -197,6 +202,12 @@ namespace Vocaluxe.Base
                 return null;
 
             return pl.Songs[songIndex];
+        }
+
+        public static bool ContainsSong(int playlistID, int songID)
+        {
+            CPlaylistFile pl = Get(playlistID);
+            return pl != null && pl.Songs.Find((x) => x.SongID == songID) != null;
         }
 
         #region private methods

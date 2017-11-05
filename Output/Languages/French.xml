@@ -46,7 +46,7 @@
   <string name="TR_CONFIG_LEVEL2">Niveau 2</string>
   <string name="TR_CONFIG_LEVEL3">Niveau 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
-  <string name="TR_CONFIG_LIST">Liste</string>
+  <string name="TR_CONFIG_LIST">Afficher</string>
   <string name="TR_CONFIG_DREIDEL">Caroussel</string>
   <string name="TR_CONFIG_TILE_BOARD">Damier</string>
   <string name="TR_CONFIG_BOOK">Livre</string>
@@ -57,7 +57,7 @@
   <string name="TR_CONFIG_RANDOM">Aléatoire</string>
   <string name="TR_CONFIG_FOLDER">Dossier</string>
   <string name="TR_CONFIG_ARTIST">Artiste</string>
-  <string name="TR_CONFIG_ARTIST_LETTER">Initiale d'Artiste</string>
+  <string name="TR_CONFIG_ARTIST_LETTER">Initiale d'Artist</string>
   <string name="TR_CONFIG_TITLE_LETTER">Initiale de Titre</string>
   <string name="TR_CONFIG_EDITION">Edition</string>
   <string name="TR_CONFIG_GENRE">Genre</string>
@@ -73,6 +73,8 @@
   <string name="TR_CONFIG_TIMERMODE_TOTAL">Total</string>
   <string name="TR_CONFIG_TIMERLOOK_NORMAL">Normal</string>
   <string name="TR_CONFIG_TIMERLOOK_EXPANDED">Développé</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_ALL">Tout afficher</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_BEST">Afficher les meilleurs</string>
   <string name="TR_CONFIG_OWN_MUSIC">Musique personnelle et Musique de fond</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Pas de Musique personnelle</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Seulement la Musique personnelle</string>
@@ -80,6 +82,10 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Tout</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Seulement noms et avatars</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Rien</string>
+  <string name="TR_CONFIG_LYRICSTYLE_FILL">Remplir</string>
+  <string name="TR_CONFIG_LYRICSTYLE_JUMP">Sauter</string>
+  <string name="TR_CONFIG_LYRICSTYLE_SLIDE">Glisser</string>
+  <string name="TR_CONFIG_LYRICSTYLE_ZOOM">Zoomer</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">En bas</string>
   <string name="TR_CONFIG_LYRICSPOSITION_TOP">En haut</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTH">En haut et en bas</string>
@@ -179,11 +185,16 @@
   <string name="TR_SCREENOGAME_TABS">Dossiers</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Difficulté du Jeu</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Mode du Minuteur</string>
+  <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Style meilleur score</string>
   <string name="TR_SCREENORECORD_OPTIONS">Options d'Enregistrement</string>
   <string name="TR_SCREENORECORD_DEVICE">Appareil</string>
   <string name="TR_SCREENORECORD_INPUT">Entrée</string>
-  <string name="TR_SCREENORECORD_CHANNEL_1">Canal 1</string>
-  <string name="TR_SCREENORECORD_CHANNEL_2">Canal 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_1">Joueur 1</string>
+  <string name="TR_SCREENORECORD_PLAYER_2">Joueur 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_3">Joueur 3</string>
+  <string name="TR_SCREENORECORD_PLAYER_4">Joueur 4</string>
+  <string name="TR_SCREENORECORD_PLAYER_5">Joueur 5</string>
+  <string name="TR_SCREENORECORD_PLAYER_6">Joueur 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Retard du Micro</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Attention: Au moins un des joueurs est assigné à 2 micros.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Test du Retard</string>
@@ -193,6 +204,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Source de la Musique de fond</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Volume de la Musique de prévisualisation</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Volume de la Musique du jeu</string>
+  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Effet Karaoké</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Options du Thème</string>
   <string name="TR_SCREENOTHEME_THEME">Thème</string>
   <string name="TR_SCREENOTHEME_SKIN">Environnement graphique</string>
@@ -212,7 +224,7 @@
   <string name="TR_SCREENOVIDEO_VIDEOSTOBACKGROUND">Afficher la vidéo de la musique de fond</string>
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Résolution de la Webcam</string>
-  <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustements de l'écran</string>
+  <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustements de l'écra</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Appuyer sur CTRL + ALT (+ Maj) + Flèches|"+" pour ajuster l'écran</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + 0 pour annuler</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Haut gauche</string>

@@ -51,7 +51,7 @@
   <string name="TR_CONFIG_TILE_BOARD">Scacchiera</string>
   <string name="TR_CONFIG_BOOK">Libro</string>
   <string name="TR_CONFIG_COVERLOADING_ONDEMAND">Su richiesta</string>
-  <string name="TR_CONFIG_COVERLOADING_ATSTART">All\'avvio</string>
+  <string name="TR_CONFIG_COVERLOADING_ATSTART">All'avvio</string>
   <string name="TR_CONFIG_COVERLOADING_DYNAMIC">Dinamico</string>
   <string name="TR_CONFIG_NONE">Nessuno</string>
   <string name="TR_CONFIG_RANDOM">Casuale</string>
@@ -73,6 +73,8 @@
   <string name="TR_CONFIG_TIMERMODE_TOTAL">Totale</string>
   <string name="TR_CONFIG_TIMERLOOK_NORMAL">Normale</string>
   <string name="TR_CONFIG_TIMERLOOK_EXPANDED">Espanso</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_ALL">Elenco tutti</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_BEST">Elenco migliori</string>
   <string name="TR_CONFIG_OWN_MUSIC">Musica personale e musica di sfondo</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Nessuna musica personale</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Solo musica personale</string>
@@ -80,6 +82,9 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Tutto</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Solo nomi e avatar</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Niente</string>
+  <string name="TR_CONFIG_LYRICSTYLE_FILL">Riempi</string>
+  <string name="TR_CONFIG_LYRICSTYLE_JUMP">Salta</string>
+  <string name="TR_CONFIG_LYRICSTYLE_ZOOM">Zoom</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Sotto</string>
   <string name="TR_CONFIG_LYRICSPOSITION_TOP">Sopra</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Sopra e sotto</string>
@@ -93,6 +98,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">Festa</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Opzioni</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Profili</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">Nessun profilo trovato!</string>
   <string name="TR_SCREENPARTY_TITLE">Seleziona modalità festa</string>
   <string name="TR_SCREENPARTY_MODES">Modalità festa</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Descrizione</string>
@@ -100,6 +106,7 @@
   <string name="TR_SCREENPARTY_VERSION">Versione</string>
   <string name="TR_SCREENPARTY_ERROR">Impossibile caricare questa modalità festa.</string>
   <string name="TR_SCREENPARTY_ERROR_MICS">Nessun microfono configurato!</string>
+  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">%d microfoni richiesti per questa party-mode!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Target di riferimento</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Nessuna squadra</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Numero di squadre</string>
@@ -112,10 +119,10 @@
   <string name="TR_SCREENNAMES_4PLAYER">4 giocatori</string>
   <string name="TR_SCREENNAMES_5PLAYER">5 giocatori</string>
   <string name="TR_SCREENNAMES_6PLAYER">6 giocatori</string>
-  <string name="TR_SCREENNAMES_WARNING_MICS_SG">Attenzione: Non c\'è nessun microfono assegnato al giocatore %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_MICS_PL">Attenzione: Non c\'è nessun microfono assegnato ai giocatori %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Attenzione: Non c\'è nessun profilo assegnato al giocatore %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Attenzione: Non c\'è nessun profilo assegnato ai giocatori %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_SG">Attenzione: Non c'è nessun microfono assegnato al giocatore %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_PL">Attenzione: Non c'è nessun microfono assegnato ai giocatori %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Attenzione: Non c'è nessun profilo assegnato al giocatore %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Attenzione: Non c'è nessun profilo assegnato ai giocatori %v!</string>
   <string name="TR_SCREENSONG_MENU">Selezione canzone</string>
   <string name="TR_SCREENSONG_BUTTON_SING">Canta</string>
   <string name="TR_SCREENSONG_BUTTON_PLAYLIST">Aggiungi alla playlist</string>
@@ -180,8 +187,12 @@
   <string name="TR_SCREENORECORD_OPTIONS">Opzioni registrazione</string>
   <string name="TR_SCREENORECORD_DEVICE">Dispositivo</string>
   <string name="TR_SCREENORECORD_INPUT">Input</string>
-  <string name="TR_SCREENORECORD_CHANNEL_1">Canale 1</string>
-  <string name="TR_SCREENORECORD_CHANNEL_2">Canale 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_1">Giocatore 1</string>
+  <string name="TR_SCREENORECORD_PLAYER_2">Giocatore 2</string>
+  <string name="TR_SCREENORECORD_PLAYER_3">Giocatore 3</string>
+  <string name="TR_SCREENORECORD_PLAYER_4">Giocatore 4</string>
+  <string name="TR_SCREENORECORD_PLAYER_5">Giocatore 5</string>
+  <string name="TR_SCREENORECORD_PLAYER_6">Giocatore 6</string>
   <string name="TR_SCREENORECORD_MIC_DELAY">Ritardo microfono</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Attenzione: Ad un giocatore sono assegnati due microfoni.</string>
   <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Test ritardo</string>
@@ -191,6 +202,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Sorgente musica di sfondo</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Anteprima volume musica</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Volume musica di gioco</string>
+  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Effetto karaoke</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Opzioni tema</string>
   <string name="TR_SCREENOTHEME_THEME">Tema</string>
   <string name="TR_SCREENOTHEME_SKIN">Skin</string>
@@ -211,6 +223,8 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcam</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Risoluzione-Webcam</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Sistemazione schermo</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Premi CTR + ALT (+ SHIFT) + Freccia|"+ per sistemare lo schermo</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + 0 per ripristinare</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Sopra a sinistra</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Sopra a destra</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT">Sotto a sinistra</string>

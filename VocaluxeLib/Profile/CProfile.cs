@@ -67,7 +67,7 @@ namespace VocaluxeLib.Profile
             {
                 Avatar = CBase.Profiles.GetAvatarByFilename(value);
                 if (Avatar == null)
-                    throw new Exception("Avatar '" + value + "' not found");
+                    CBase.Log.LogError("Avatar '" + value + "' not found");
             }
         }
 

@@ -1,5 +1,14 @@
 Theme System
 
+++++++++++
+Version 6
+Added to <SingBar>:
+<SkinFillLeft>
+<SkinFillMiddle>
+<SkinFillRight>
+
+Changed:
+Graphics handling of notes - background, base and fill of notes will be layered on each other without any resizing differences between the textures.
 
 ++++++++++
 Version 5 (yes it's still 5!):

@@ -1,6 +1,9 @@
 obj
 PitchTracker.dll
 Thumbs.db
+.transifexrc
+.vs
+tx.exe
 *.mp4
 *.pdb
 *.csproj.user
@@ -26,6 +29,9 @@ Thumbs.db
 *.vshost.*
 *.userprefs
 *.user
+*.VC.db
+*.VC.opendb
+*.dll.config
 /*.vsp
 /*.ctl
 /Output/Config.xml
@@ -44,16 +50,16 @@ Thumbs.db
 /Output/Songs
 /Output/Playlists/*.xml
 /Output/Profiles/*.xml
+/Output/Profiles/*.png
 /Output/PartyModes/*/Code/*
 /PartyModes/*/*/*.dll
 /VocaluxeLib/bin
 /ServerLib/bin/ClientServerLib.dll
 /Installer/setup-cache
-/Installer/setup-SetupFiles
-/Installer/vocaluxe-*-setup.exe
-/Installer/Vocaluxe*.rar
-/Installer/Prerequisites/GStreamer x64/gstreamer-1.0-x86_64-1.4.1.msi
-/Installer/Prerequisites/GStreamer x86/gstreamer-1.0-x86-1.4.1.msi
+/Installer/Files
+/Installer/log.txt
+/Installer/setup-cache
+/Installer/Setup Files
 /WebserverInitalConfig/bin
 /PhoneGap/
 /TestResults
@@ -63,3 +69,5 @@ Thumbs.db
 /packages
 /Output/x64
 /Output/x86
+/PitchTracker/bin
+/PitchTracker/obj

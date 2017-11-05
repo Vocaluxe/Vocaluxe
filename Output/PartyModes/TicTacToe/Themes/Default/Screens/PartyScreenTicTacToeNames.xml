@@ -14,26 +14,26 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="Static1">
-      <Skin>Menu</Skin>
-      <Color Name="StaticColor" />
+    <Static Name="StaticMenuBar">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
       <Rect>
-        <X>40</X>
+        <X>0</X>
         <Y>40</Y>
-        <W>1200</W>
-        <H>50</H>
-        <Z>0</Z>
+        <W>1280</W>
+        <H>45</H>
+        <Z>1</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
-    <Text Name="Text1">
+    <Text Name="TextTitle">
       <X>640</X>
-      <Y>48</Y>
+      <Y>50</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
-      <Color Name="StaticColor" />
+      <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -57,7 +57,7 @@
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
@@ -92,7 +92,7 @@
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
@@ -127,7 +127,7 @@
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
-        <Y>10</Y>
+        <Y>12</Y>
         <Z>0</Z>
         <H>27</H>
         <MaxW>142</MaxW>
@@ -206,7 +206,7 @@
       <Skin>Plus</Skin>
       <SkinSelected>Plus</SkinSelected>
       <Rect>
-        <X>1210</X>
+        <X>1180</X>
         <Y>210</Y>
         <W>40</W>
         <H>40</H>
@@ -233,7 +233,7 @@
       <Skin>Minus</Skin>
       <SkinSelected>Minus</SkinSelected>
       <Rect>
-        <X>1160</X>
+        <X>1130</X>
         <Y>210</Y>
         <W>40</W>
         <H>40</H>
@@ -270,7 +270,7 @@
       <Rect>
         <X>40</X>
         <Y>100</Y>
-        <W>1100</W>
+        <W>1055</W>
         <H>50</H>
         <Z>0</Z>
       </Rect>
@@ -292,12 +292,12 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>205.33</TextMaxW>
+      <TextMaxW>200</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>2</NumVisible>
@@ -312,7 +312,7 @@
       <Rect>
         <X>40</X>
         <Y>160</Y>
-        <W>1100</W>
+        <W>1055</W>
         <H>150</H>
         <Z>0</Z>
       </Rect>
@@ -334,12 +334,12 @@
       <SelColor Name="SelectSlideSelColor" />
       <ArrowColor Name="ArrowColor" />
       <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColor" />
+      <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
       <TextH>27</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>5</TextRelativeY>
-      <TextMaxW>205.33</TextMaxW>
+      <TextMaxW>200</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>8</NumVisible>
@@ -349,29 +349,24 @@
   <NameSelections>
     <NameSelection Name="NameSelection">
       <Rect>
-        <X>42</X>
-        <Y>327</Y>
+        <X>95</X>
+        <Y>350</Y>
         <W>1200</W>
         <H>393</H>
         <Z>0</Z>
       </Rect>
       <SkinEmptyTile>CoverTile</SkinEmptyTile>
-      <ColorEmptyTile>
-        <R>1</R>
-        <G>1</G>
-        <B>1</B>
-        <A>0.2</A>
-      </ColorEmptyTile>
+      <ColorEmptyTile Name="EmptyTileColor" />
       <SkinTileSelected>PlayerSelector</SkinTileSelected>
       <Tiles>
         <W>100</W>
         <H>100</H>
         <NumW>10</NumW>
         <NumH>2</NumH>
-        <SpaceW>20.71</SpaceW>
-        <SpaceH>30</SpaceH>
+        <SpaceW>10</SpaceW>
+        <SpaceH>10</SpaceH>
         <Name>
-          <Space>2</Space>
+          <Space>-20</Space>
           <H>17</H>
           <Font>Outline</Font>
           <Style>Bold</Style>

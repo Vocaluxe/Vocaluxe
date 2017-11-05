@@ -135,6 +135,15 @@ namespace Vocaluxe.Lib.Input.WiiMote
             WiiMoteState = ws;
         }
     }
+    public class CWiiMoteConnectionChangedEventArgs : EventArgs
+    {
+        public readonly bool Connected;
+
+        public CWiiMoteConnectionChangedEventArgs(bool connected)
+        {
+            Connected = connected;
+        }
+    }
     #endregion Events
 
     public sealed class CWiiMoteLib
@@ -181,11 +190,23 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private Thread _Reader;
         private readonly bool _Error;
 
-        public bool Connected { get; private set; }
+        private bool _Connected;
+        public bool Connected
+        {
+            get { return _Connected; }
+            private set
+            {
+                _Connected = value;
+
+                if (WiiMoteConnectionChanged != null)
+                    WiiMoteConnectionChanged.Invoke(this, new CWiiMoteConnectionChangedEventArgs(value));
+            }
+        }
 
         private readonly CWiiMoteStatus _WiiMoteState = new CWiiMoteStatus();
         private readonly AutoResetEvent _ReadDone = new AutoResetEvent(false);
         public event EventHandler<CWiiMoteChangedEventArgs> WiiMoteChanged;
+        public event EventHandler<CWiiMoteConnectionChangedEventArgs> WiiMoteConnectionChanged;
 
         #region Interface
         public CWiiMoteLib()
@@ -326,6 +347,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                     if (bytesRead == -1)
                     {
                         Connected = false; //Disconnected
+                        Connect();
                         break;
                     }
                 }
@@ -339,7 +361,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 if (bytesRead > 0 && _ParseInputReport(buff))
                 {
                     if (WiiMoteChanged != null)
-                        WiiMoteChanged(this, new CWiiMoteChangedEventArgs(_WiiMoteState));
+                        WiiMoteChanged.Invoke(this, new CWiiMoteChangedEventArgs(_WiiMoteState));
                 }
                 Thread.Sleep(5);
             }

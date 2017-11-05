@@ -1,6 +1,16 @@
 ScreenOptionsSound
 
 ++++++++++
+Version 4:
+
+Add:
+
+<SelectSlideKaraokeEffect>
+
+and text for the description (Text7)
+"TR_SCREENOSOUND_KARAOKEEFFECT"
+
+++++++++++
 Version 3:
 
 Add:
