@@ -151,7 +151,7 @@ namespace VocaluxeLib.Menu.SingNotes
             else
             {
                 _Rect.X = PlayerNotes.Select(bp => bp.Rect.X).Min();
-                _Rect.Y = PlayerNotes.Select(bp => bp.Rect.X).Min();
+                _Rect.Y = PlayerNotes.Select(bp => bp.Rect.Y).Min();
                 _Rect.Right = PlayerNotes.Select(bp => bp.Rect.Right).Max();
                 _Rect.Bottom = PlayerNotes.Select(bp => bp.Rect.Bottom).Max();
                 _Rect.Z = PlayerNotes.Select(bp => bp.Rect.Z).Average();
