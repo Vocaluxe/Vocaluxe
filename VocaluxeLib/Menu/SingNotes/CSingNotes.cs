@@ -26,14 +26,16 @@ namespace VocaluxeLib.Menu.SingNotes
     [XmlType("Position")]
     public struct SBarPosition
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
         public SRectF Rect;
     }
 
     [XmlType("SingBar")]
     public struct SThemeSingBar
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public string SkinLeft;
         public string SkinMiddle;
@@ -51,7 +53,8 @@ namespace VocaluxeLib.Menu.SingNotes
         public string SkinToneHelper;
         public string SkinPerfectNoteStart;
 
-        [XmlArray("BarPositions")] public SBarPosition[] BarPos;
+        [XmlArray("BarPositions")]
+        public SBarPosition[] BarPos;
     }
 
     public class CSingNotes : CMenuElementBase, IMenuElement, IThemeable
@@ -78,12 +81,12 @@ namespace VocaluxeLib.Menu.SingNotes
         /// <remarks>
         ///     first index = player number; second index = num players seen on screen
         /// </remarks>
-        private SRectF[,] _BarPos { get; set; }
+        private SRectF[,,] _BarPos { get; set; }
 
         public CSingNotes(int partyModeID)
         {
             _PartyModeID = partyModeID;
-            _Theme = new SThemeSingBar {BarPos = new SBarPosition[CHelper.Sum(CBase.Settings.GetMaxNumPlayer())]};
+            _Theme = new SThemeSingBar { BarPos = new SBarPosition[CHelper.Sum(CBase.Settings.GetMaxNumPlayer() * CBase.Settings.GetMaxNumScreens())] };
             ThemeLoaded = false;
         }
 
@@ -92,7 +95,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _PartyModeID = partyModeID;
             _Theme = theme;
 
-            _BarPos = new SRectF[CBase.Settings.GetMaxNumPlayer(),CBase.Settings.GetMaxNumPlayer()];
+            _BarPos = new SRectF[CBase.Settings.GetMaxNumScreens(), CBase.Settings.GetMaxNumPlayer(), CBase.Settings.GetMaxNumPlayer()];
 
             ThemeLoaded = true;
         }
@@ -104,11 +107,45 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public bool ThemeLoaded { get; private set; }
 
-        public void Init(int numPlayers)
+        public void Init(int numPlayers, int numScreens = 0)
         {
+
             PlayerNotes.Clear();
-            for (int p = 0; p < numPlayers; p++)
-                PlayerNotes.Add(new CNoteBars(_PartyModeID, p, _BarPos[p, numPlayers - 1], _Theme));
+            if (numPlayers > 0 && numScreens > 0)
+            {
+                int[] screenAssignment = new int[numPlayers];
+                int screenPlayers = numPlayers / numScreens;
+                int remainingPlayers = numPlayers - (screenPlayers * numScreens);
+                int player = 0;
+
+                for (int s = 0; s < numScreens; s++)
+                {
+                    for (int p = 0; p < screenPlayers; p++)
+                    {
+                        if (remainingPlayers > 0)
+                        {
+                            PlayerNotes.Add(new CNoteBars(_PartyModeID, player++, _BarPos[s, p, screenPlayers], _Theme));
+                            if (p == screenPlayers - 1)
+                            {
+                                PlayerNotes.Add(new CNoteBars(_PartyModeID, player++, _BarPos[s, p + 1, screenPlayers], _Theme));
+                                remainingPlayers--;
+                            }
+                        }
+                        else
+                        {
+                            PlayerNotes.Add(new CNoteBars(_PartyModeID, player++, _BarPos[s, p, screenPlayers - 1], _Theme));
+                        }
+
+                    }
+                    //Handle when players < screens
+                    if (screenPlayers == 0 && remainingPlayers > 0)
+                    {
+                        PlayerNotes.Add(new CNoteBars(_PartyModeID, player++, _BarPos[s, 0, 0], _Theme));
+                        remainingPlayers--;
+                    }
+                }
+            }
+
             if (numPlayers == 0)
                 _Rect = new SRectF(0, 0, 0, 0, Rect.Z);
             else
@@ -127,7 +164,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 noteBars.Draw();
         }
 
-        public void UnloadSkin() {}
+        public void UnloadSkin() { }
 
         public void LoadSkin()
         {
@@ -141,8 +178,11 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 int n = Int32.Parse(bp.Name.Substring(3, 1)) - 1;
                 int p = Int32.Parse(bp.Name.Substring(1, 1)) - 1;
-
-                _BarPos[p, n] = bp.Rect;
+                for (int s = 0; s < CBase.Settings.GetMaxNumScreens(); s++)
+                {
+                    _BarPos[s, p, n] = bp.Rect;
+                    _BarPos[s, p, n].X += s * CBase.Settings.GetRenderW();
+                }
             }
         }
 
@@ -158,9 +198,9 @@ namespace VocaluxeLib.Menu.SingNotes
         }
 
         #region ThemeEdit
-        public void MoveElement(int stepX, int stepY) {}
+        public void MoveElement(int stepX, int stepY) { }
 
-        public void ResizeElement(int stepW, int stepH) {}
+        public void ResizeElement(int stepW, int stepH) { }
         #endregion ThemeEdit
     }
 }

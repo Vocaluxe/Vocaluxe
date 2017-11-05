@@ -48,6 +48,7 @@ namespace VocaluxeLib.Menu
         public SRectF Rect;
         [XmlArrayItem("ProgressColor"), XmlArray] public List<SThemeProgressBarColor> ProgressColors;
         public SReflection? Reflection;
+        public bool? AllMonitors;
     }
 
     public sealed class CProgressBar : CMenuElementBase, IMenuElement, IThemeable
@@ -108,12 +109,19 @@ namespace VocaluxeLib.Menu
             set { _TextureProgressRight = value; }
         }
 
+        private EDirection _Direction;
+        private EOffOn _AnimateMovement;
+        private EOffOn _AnimateColoring;
+        private List<SThemeProgressBarColor> _ProgressColors;
+
         public SColorF ColorBackground;
         public SColorF ColorForeground;
 
         public bool Reflection;
         public float ReflectionSpace;
         public float ReflectionHeight;
+
+        public bool AllMonitors = true;
 
         public float Alpha = 1;
 
@@ -165,6 +173,10 @@ namespace VocaluxeLib.Menu
             _TextureProgressLeft = pb.TextureProgressLeft;
             _TextureProgressMid = pb._TextureProgressMid;
             _TextureProgressRight = pb._TextureProgressRight;
+            _AnimateMovement = pb._AnimateMovement;
+            _AnimateColoring = pb._AnimateColoring;
+            _Direction = pb._Direction;
+            _ProgressColors = pb._ProgressColors;
 
             ColorBackground = pb.ColorBackground;
             ColorForeground = pb.ColorForeground;
@@ -173,6 +185,8 @@ namespace VocaluxeLib.Menu
             Reflection = pb.Reflection;
             ReflectionSpace = pb.ReflectionHeight;
             ReflectionHeight = pb.ReflectionSpace;
+
+            AllMonitors = pb.AllMonitors;
 
             Alpha = pb.Alpha;
             Visible = pb.Visible;
@@ -185,6 +199,10 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
             _Theme = theme;
             _Theme.ProgressColors.Sort((x, y) => x.From.CompareTo(y.From));
+            _ProgressColors = _Theme.ProgressColors;
+            _Direction = _Theme.Direction;
+            _AnimateMovement = _Theme.AnimateMovement;
+            _AnimateColoring = _Theme.AnimateColoring;
             _UpdateProgress();
             ThemeLoaded = true;
 
@@ -195,7 +213,7 @@ namespace VocaluxeLib.Menu
         {
             _Animate = animateInit;
 
-            _Theme.ProgressColors[0].Color.Get(_PartyModeID, out _ColorProgressLast);
+            _ProgressColors[0].Color.Get(_PartyModeID, out _ColorProgressLast);
         }
 
         public void Draw()
@@ -216,43 +234,43 @@ namespace VocaluxeLib.Menu
                 SColorF color = new SColorF(ColorBackground.R, ColorBackground.G, ColorBackground.B, ColorBackground.A * Alpha);
                 if (_TextureBackground != null)
                 {
-                    CBase.Drawing.DrawTexture(_TextureBackground, Rect, color);
+                    CBase.Drawing.DrawTexture(_TextureBackground, Rect, color, AllMonitors);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(_TextureBackground, Rect, color, Rect, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(_TextureBackground, Rect, color, Rect, ReflectionSpace, ReflectionHeight, AllMonitors);
                 }
 
                 //Draw progress
                 color = new SColorF(_ColorProgressCurrent.R, _ColorProgressCurrent.G, _ColorProgressCurrent.B, _ColorProgressCurrent.A * Alpha);
                 if (_TextureProgressBegin != null)
                 {
-                    CBase.Drawing.DrawTexture(_TextureProgressBegin, _RectProgressBegin, color);
+                    CBase.Drawing.DrawTexture(_TextureProgressBegin, _RectProgressBegin, color, AllMonitors);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(_TextureProgressBegin, _RectProgressBegin, color, _RectProgressBegin, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(_TextureProgressBegin, _RectProgressBegin, color, _RectProgressBegin, ReflectionSpace, ReflectionHeight, AllMonitors);
                 }
 
                 if (_TextureProgressMid != null)
                 {
-                    CBase.Drawing.DrawTexture(_TextureProgressMid, _RectProgressMid, color);
+                    CBase.Drawing.DrawTexture(_TextureProgressMid, _RectProgressMid, color, AllMonitors);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(_TextureProgressMid, _RectProgressMid, color, _RectProgressMid, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(_TextureProgressMid, _RectProgressMid, color, _RectProgressMid, ReflectionSpace, ReflectionHeight, AllMonitors);
                 }
                 else
                     CBase.Drawing.DrawRect(_ColorProgressCurrent, _RectProgressMid);
 
                 if (_TextureProgressEnd != null)
                 {
-                    CBase.Drawing.DrawTexture(_TextureProgressEnd, _RectProgressEnd, color);
+                    CBase.Drawing.DrawTexture(_TextureProgressEnd, _RectProgressEnd, color, AllMonitors);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(_TextureProgressEnd, _RectProgressEnd, color, _RectProgressEnd, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(_TextureProgressEnd, _RectProgressEnd, color, _RectProgressEnd, ReflectionSpace, ReflectionHeight, AllMonitors);
                 }
 
                 //Draw foreground
                 color = new SColorF(ColorForeground.R, ColorForeground.G, ColorForeground.B, ColorForeground.A * Alpha);
                 if (_TextureForeground != null)
                 {
-                    CBase.Drawing.DrawTexture(_TextureForeground, Rect, color);
+                    CBase.Drawing.DrawTexture(_TextureForeground, Rect, color, AllMonitors);
                     if (Reflection)
-                        CBase.Drawing.DrawTextureReflection(_TextureForeground, Rect, color, Rect, ReflectionSpace, ReflectionHeight);
+                        CBase.Drawing.DrawTextureReflection(_TextureForeground, Rect, color, Rect, ReflectionSpace, ReflectionHeight, AllMonitors);
                 }
             }
 
@@ -316,20 +334,20 @@ namespace VocaluxeLib.Menu
         private void _CheckAnimation()
         {
             //Check if animation needs to be started
-            if (_Theme.AnimateColoring == EOffOn.TR_CONFIG_ON || _Theme.AnimateMovement == EOffOn.TR_CONFIG_ON)
+            if (_AnimateColoring == EOffOn.TR_CONFIG_ON || _AnimateMovement == EOffOn.TR_CONFIG_ON)
             {
                 if (!_AnimTimer.IsRunning)
                 {
                     _AnimTimer.Restart();
                     //Calc animation duration in ms based on rect size and progress change
-                    if (_Theme.Direction == EDirection.Left || _Theme.Direction == EDirection.Right)
-                        _AnimDuration = Math.Max(100f, (_Theme.Rect.W * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
+                    if (_Direction == EDirection.Left || _Direction == EDirection.Right)
+                        _AnimDuration = Math.Max(100f, (Rect.W * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
                     else
-                        _AnimDuration = Math.Max(100f, (_Theme.Rect.H * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
+                        _AnimDuration = Math.Max(100f, (Rect.H * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
                 } 
             }
             //Movement animation
-            if (_Theme.AnimateMovement == EOffOn.TR_CONFIG_ON)
+            if (_AnimateMovement == EOffOn.TR_CONFIG_ON)
                 _ProgressCurrent = _ProgressLast + (_AnimTimer.ElapsedMilliseconds / _AnimDuration).Clamp(0, 1) * (_ProgressTarget - _ProgressLast);
 
             //Check if animation needs to be stopped
@@ -346,11 +364,11 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateProgressColor()
         {
-            foreach (SThemeProgressBarColor col in _Theme.ProgressColors)
+            foreach (SThemeProgressBarColor col in _ProgressColors)
                 if (col.From < _ProgressTarget)
                     col.Color.Get(_PartyModeID, out _ColorProgressTarget);
 
-            if(_Animate && _Theme.AnimateColoring == EOffOn.TR_CONFIG_ON)
+            if(_Animate && _AnimateColoring == EOffOn.TR_CONFIG_ON)
             {
                 float animFactor = (_AnimTimer.ElapsedMilliseconds / _AnimDuration).Clamp(0, 1);
 
@@ -365,7 +383,7 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateProgressLeft()
         {
-            switch (_Theme.Direction)
+            switch (_Direction)
             {
                 case EDirection.Right:
                     _TextureProgressBegin = TextureProgressLeft;
@@ -403,7 +421,7 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateProgressMid()
         {
-            switch (_Theme.Direction)
+            switch (_Direction)
             {
                 case EDirection.Right:
                     _RectProgressMid = new SRectF(_RectProgressBegin.X + _RectProgressBegin.W, Rect.Y, (Rect.W - 2 * _RectProgressBegin.W) * _ProgressCurrent, Rect.H, Rect.Z);
@@ -427,7 +445,7 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateProgressRight()
         {
-            switch (_Theme.Direction)
+            switch (_Direction)
             {
                 case EDirection.Right:
                     _TextureProgressEnd = _TextureProgressRight;

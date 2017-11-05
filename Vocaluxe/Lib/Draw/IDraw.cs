@@ -49,13 +49,13 @@ namespace Vocaluxe.Lib.Draw
         void RemoveTexture(ref CTextureRef texture);
 
         // Basic Draw Methods
-        void DrawRect(SColorF color, SRectF rect);
+        void DrawRect(SColorF color, SRectF rect, bool allMonitors = true);
         void DrawRectReflection(SColorF color, SRectF rect, float space, float height);
 
-        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false);
-        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
-        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end);
+        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false, bool allMonitors = true);
+        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false, bool allMonitors = true);
+        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end, bool allMonitors = true);
 
-        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height);
+        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height, bool allMonitors = true);
     }
 }
