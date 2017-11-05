@@ -67,6 +67,7 @@ namespace VocaluxeLib.PartyModes
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.All;
+            _ScreenSongOptions.Sorting.FilterPlaylistID = -1;
         }
 
         public override bool Init()

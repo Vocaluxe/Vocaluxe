@@ -22,12 +22,12 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 
-[assembly: AssemblyTitle("Vocaluxe")]
+[assembly: AssemblyTitle("FULLVERSION")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Vocaluxe")]
-[assembly: AssemblyCopyright("Copyright © 2016")]
+[assembly: AssemblyCopyright("Copyright © 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

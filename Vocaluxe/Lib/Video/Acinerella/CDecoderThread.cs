@@ -447,6 +447,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 _Free();
                 Stop();
+                return;
             }
 
             while (!_Terminated)

@@ -73,6 +73,8 @@
   <string name="TR_CONFIG_TIMERMODE_TOTAL">Celkem</string>
   <string name="TR_CONFIG_TIMERLOOK_NORMAL">Normální</string>
   <string name="TR_CONFIG_TIMERLOOK_EXPANDED">Rozšířené</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_ALL">Uvést vše</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_BEST">Uvést nejlepší</string>
   <string name="TR_CONFIG_OWN_MUSIC">Vlastní hudba a hudba na pozadí</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Žádná vlastní hudba</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Pouze vlastní hudba</string>
@@ -183,6 +185,7 @@
   <string name="TR_SCREENOGAME_TABS">Karty</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Obtížnost hry</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Režim časomíry</string>
+  <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Styl  pro nejlepší výsledky</string>
   <string name="TR_SCREENORECORD_OPTIONS">Nastavení nahrávání</string>
   <string name="TR_SCREENORECORD_DEVICE">Zařízení</string>
   <string name="TR_SCREENORECORD_INPUT">Vstup</string>
@@ -201,6 +204,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Zdroj hudby na pozadí</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Hlasitost ukázky</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Hlasitost hry</string>
+  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Efekt Karaoke</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Nastavení tématu</string>
   <string name="TR_SCREENOTHEME_THEME">Téma</string>
   <string name="TR_SCREENOTHEME_SKIN">Vzhled</string>

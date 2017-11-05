@@ -58,7 +58,22 @@ namespace Vocaluxe.Lib.Video.Acinerella
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi)]
     public struct SACFileInfo
     {
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
+        public readonly string title;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
+        public readonly string author;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
+        public readonly string copyright;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
+        public readonly string comment;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 512)]
+        public readonly string album;
+        public readonly int year;
+        public readonly int track;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 32)]
+        public readonly string genre;
         public readonly Int64 Duration;
+        public readonly int Bitrate;
     }
 
     // TAc_instance represents an Acinerella instance. Each instance can open and
@@ -105,14 +120,17 @@ namespace Vocaluxe.Lib.Video.Acinerella
     }
 
     // Contains information about an Acinerella stream.
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit)]
     public struct SACStreamInfo
     {
         //Contains the type of the stream.
+        [FieldOffset(0)]
         public readonly EACStreamType StreamType;
 
         //Additional info about the stream
+        [FieldOffset(8)]
         public SACAudioStreamInfo AudioInfo;
+        [FieldOffset(8)]
         public SACVideoStreamInfo VideoInfo;
     }
 
@@ -128,7 +146,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         //The timecode of the currently decoded picture in seconds.
         public readonly double Timecode;
 
-        public readonly double VideoClock;
+        //public readonly double VideoClock;
 
         //Contains information about the stream the decoder is attached to.
         public SACStreamInfo StreamInfo;
@@ -219,14 +237,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         // Initializes an Acinerella instance.
         //function ac_init(): PAc_instance; cdecl; external ac_dll;
-        [DllImport(_AcDll, EntryPoint = "ac_init", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern IntPtr _ac_init();
+        [DllImport(_AcDll, EntryPoint = "ac_init_of", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        private static extern IntPtr _ac_init(EACOutputFormat outputFormat);
 
         public static IntPtr AcInit()
         {
             lock (_Lock)
             {
-                return _ac_init();
+                return _ac_init(EACOutputFormat.ACOutputRGBA32);
             }
         }
 
@@ -243,52 +261,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
         }
 
-        // Opens a media file.
-        // @param(inst specifies the Acinerella Instance the stream should be opened for)
-        // @param(sender specifies a pointer that is sent to all callback functions to
-        // allow you to do object orientated programming. May be NULL.)
-        // @param(open_proc specifies the callback function that is called, when the
-        // media file is opened. May be NULL.)
-        // @param(close_proc specifies the callback function that is called when the media
-        // file is closed. May be NULL.)
-        /*function ac_open(
-            inst: PAc_instance;
-            sender: Pointer;
-            open_proc: TAc_openclose_callback;
-            read_proc: TAc_read_callback;
-            seek_proc: TAc_seek_callback;
-            close_proc: TAc_openclose_callback;
-            proberesult: PAc_proberesult): integer; cdecl; external ac_dll;
-        */
-        /*
-        [DllImport(AcDll, EntryPoint = "ac_open", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern Int32 _ac_open(
-            IntPtr PAc_instance,
-            IntPtr sender,
-            TAc_openclose_callback open_proc,
-            TAc_read_callback read_proc,
-            TAc_seek_callback seek_proc,
-            TAc_openclose_callback close_proc,
-            IntPtr proberesult
-            );
-
-        public static Int32 ac_open(
-            IntPtr PAc_instance,
-            IntPtr sender,
-            TAc_openclose_callback open_proc,
-            TAc_read_callback read_proc,
-            TAc_seek_callback seek_proc,
-            TAc_openclose_callback close_proc,
-            IntPtr proberesult
-            )
-        {
-            lock (_GetLockToken(pAcDecoder))
-            {
-                return _ac_open(PAc_instance, sender, open_proc, read_proc, seek_proc, close_proc, proberesult);
-            }
-        }*/
-
-        [DllImport(_AcDll, EntryPoint = "ac_open", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
+        [DllImport(_AcDll, EntryPoint = "ac_open_file", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)]
         private static extern Int32 _ac_open2(IntPtr pAcInstance, string filename);
 
         // ReSharper disable UnusedMethodReturnValue.Global
@@ -337,26 +310,53 @@ namespace Vocaluxe.Lib.Video.Acinerella
         [DllImport(_AcDll, EntryPoint = "ac_free_package", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         public static extern void ac_free_package(IntPtr pAcPackage);
 
-        [DllImport(_AcDll, EntryPoint = "ac_create_video_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern IntPtr _ac_create_video_decoder(IntPtr pAcInstance);
+        [DllImport(_AcDll, EntryPoint = "ac_create_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
+        private static extern IntPtr _ac_create_decoder(IntPtr pAcInstance, int i);
 
         public static IntPtr AcCreateVideoDecoder(IntPtr pAcInstance)
         {
             lock (_GetLockToken(pAcInstance))
             {
-                return _ac_create_video_decoder(pAcInstance);
+                var firstVideoStreamId = _GetFirstStreamByType(pAcInstance, EACStreamType.ACStreamTypeVideo);
+
+                if (firstVideoStreamId < 0)
+                {
+                    throw new ArgumentException("The instace does not contain a video stream.");
+                }
+
+                return _ac_create_decoder(pAcInstance, firstVideoStreamId);
             }
         }
-
-        [DllImport(_AcDll, EntryPoint = "ac_create_audio_decoder", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
-        private static extern IntPtr _ac_create_audio_decoder(IntPtr pAcInstance);
-
+        
         public static IntPtr AcCreateAudioDecoder(IntPtr pAcInstance)
         {
             lock (_GetLockToken(pAcInstance))
             {
-                return _ac_create_audio_decoder(pAcInstance);
+                var firstAudioStreamId = _GetFirstStreamByType(pAcInstance, EACStreamType.ACStreamTypeAudio);
+
+                if (firstAudioStreamId < 0)
+                {
+                    throw new ArgumentException("The instace does not contain a audio stream.");
+                }
+                return _ac_create_decoder(pAcInstance, firstAudioStreamId);
             }
+        }
+
+        private static int _GetFirstStreamByType(IntPtr pAcInstance, EACStreamType type)
+        {
+            var instance = (SACInstance)Marshal.PtrToStructure(pAcInstance, typeof(SACInstance));
+
+            int currentStream = 0;
+            SACStreamInfo currentStreamInfo;
+
+            while (currentStream < instance.StreamCount)
+            {
+                AcGetStreamInfo(pAcInstance, currentStream, out currentStreamInfo);
+                if (currentStreamInfo.StreamType == type)
+                    return currentStream;
+                currentStream++;
+            }
+            return -1;
         }
 
         // Frees an created decoder.

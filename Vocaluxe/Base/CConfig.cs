@@ -95,9 +95,9 @@ namespace Vocaluxe.Base
 
         public struct SConfigTheme
         {
-            [XmlElement("Name"), DefaultValue("Ambient")] public string Theme;
-            [DefaultValue("Blue")] public string Skin;
-            [XmlElement("Cover"), DefaultValue("Ambient Blue")] public string CoverTheme;
+            [XmlElement("Name"), DefaultValue("Genius")] public string Theme;
+            [DefaultValue("Standard")] public string Skin;
+            [XmlElement("Cover"), DefaultValue("Genius Standard")] public string CoverTheme;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawNoteLines;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawToneHelper;
             [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)] public ETimerLook TimerLook;
@@ -134,7 +134,6 @@ namespace Vocaluxe.Base
             // ReSharper restore MemberHidesStaticFromOuterClass
             [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)] public ESongSorting SongSorting;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn IgnoreArticles;
-            [DefaultValue(10)] public float ScoreAnimationTime;
             [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)] public ETimerMode TimerMode;
             [XmlAltName("NumPlayer"), DefaultValue(2)] public int NumPlayers;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn Tabs;
@@ -187,17 +186,16 @@ namespace Vocaluxe.Base
         }
 
         public static SConfig Config;
-        public static bool LoadOldThemeFiles;
         public static event OnSongMenuChanged SongMenuChanged;
 
         //Folders
         public static readonly List<string> SongFolders = new List<string>
             {
-#if WIN
+#if INSTALLER
+            Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs),
             CSettings.FolderNameSongs
-#elif INSTALLER
-            CSettings.FolderNameSongs,
-            Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)
+#elif WIN
+            CSettings.FolderNameSongs
 #elif LINUX
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)
 #endif
@@ -208,11 +206,11 @@ namespace Vocaluxe.Base
         /// </summary>
         public static readonly List<string> ProfileFolders = new List<string>
             {
-#if WIN
+#if INSTALLER
+            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles),
             CSettings.FolderNameProfiles
-#elif INSTALLER
-            CSettings.FolderNameProfiles,
-            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
+#elif WIN
+            CSettings.FolderNameProfiles
 #elif LINUX
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
 #endif
@@ -344,8 +342,6 @@ namespace Vocaluxe.Base
             {
                 Config.Game.SongFolder = SongFolders.ToArray();
             }
-            if ((Config.Game.ScoreAnimationTime > 0 && Config.Game.ScoreAnimationTime < 1) || Config.Game.ScoreAnimationTime < 0)
-                Config.Game.ScoreAnimationTime = 1;
 
             if (Config.Game.MinLineBreakTime < 0)
                 Config.Game.MinLineBreakTime = 0.1f;
@@ -469,8 +465,6 @@ namespace Vocaluxe.Base
                     return "SongSorting: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongSorting)));
                 case "IgnoreArticles":
                     return "Ignore articles on song-sorting: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
-                case "ScoreAnimationTime":
-                    return "ScoreAnimationTime: Values >= 1 or 0 for no animation. Time is in seconds.";
                 case "TimerMode":
                     return "TimerMode: " + CHelper.ListStrings(Enum.GetNames(typeof(ETimerMode)));
                 case "NumPlayers":
@@ -709,11 +703,6 @@ namespace Vocaluxe.Base
                     case "profilefolder":
                         ProfileFolders.Clear();
                         ProfileFolders.Add(value);
-                        break;
-
-                    case "oldtheme":
-                        if (value == "yes")
-                            LoadOldThemeFiles = true;
                         break;
                 }
             }

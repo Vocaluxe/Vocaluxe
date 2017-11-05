@@ -57,6 +57,7 @@ namespace Vocaluxe.Screens
             _Texts[_TextRelease].Visible = true;
             _Statics[_StaticWarningProfiles].Visible = false;
             _Texts[_TextWarningProfiles].Visible = false;
+            _SelectElement(_Buttons[_ButtonSing]);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -104,6 +105,10 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonExit].Selected)
                             return false;
 
+                        break;
+
+                    case Keys.Escape:
+                        _SelectElement(_Buttons[_ButtonExit]);
                         break;
                 }
             }
