@@ -70,6 +70,7 @@
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CPartyScreenTicTacToeSongs.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="CPartyModeTicTacToe.cs" />
     <Compile Include="CPartyScreenTicTacToeConfig.cs" />

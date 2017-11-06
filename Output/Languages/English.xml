@@ -15,6 +15,7 @@
   <string name="TR_DEBUG_SONGS">Loaded songs</string>
   <string name="TR_DEBUG_MOUSE">Mouse</string>
   <string name="TR_DEBUG_MEMORY">Memory usage</string>
+  <string name="TR_GAMEMODE">Game mode</string>
   <string name="TR_GAMEMODE_NORMAL">Normal</string>
   <string name="TR_GAMEMODE_DUET">Duet</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
@@ -31,6 +32,10 @@
   <string name="TR_USERROLE_NORMAL">Normal user</string>
   <string name="TR_USERROLE_ADMIN">Administrator</string>
   <string name="TR_USERROLE_KEYBOARDUSER">Keyboard user</string>
+  <string name="TR_SONGSOURCE">Song source</string>
+  <string name="TR_SONGSOURCE_PLAYLIST">Playlist</string>
+  <string name="TR_SONGSOURCE_CATEGORY">Category</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">All songs</string>  
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>

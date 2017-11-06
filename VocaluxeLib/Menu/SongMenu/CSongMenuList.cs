@@ -22,7 +22,6 @@ using System.Windows.Forms;
 using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
@@ -126,39 +125,6 @@ namespace VocaluxeLib.Menu.SongMenu
             _MedleyCalcIcon = new CStatic(_Theme.SongMenuList.StaticMedleyCalcIcon, _PartyModeID);
             _MedleyTagIcon = new CStatic(_Theme.SongMenuList.StaticMedleyTagIcon, _PartyModeID);
             _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
-        }
-
-        public override bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-
-            bool themeLoaded = true;
-            themeLoaded &= base.LoadTheme(xmlPath, elementName, xmlReader);
-
-
-            themeLoaded &= _Artist.LoadTheme(item + "/SongMenuList", "TextArtist", xmlReader);
-            themeLoaded &= _Title.LoadTheme(item + "/SongMenuList", "TextTitle", xmlReader);
-            themeLoaded &= _SongLength.LoadTheme(item + "/SongMenuList", "TextSongLength", xmlReader);
-
-            themeLoaded &= _CoverBig.LoadTheme(item + "/SongMenuList", "StaticCoverBig", xmlReader);
-            themeLoaded &= _TextBG.LoadTheme(item + "/SongMenuList", "StaticTextBG", xmlReader);
-            themeLoaded &= _DuetIcon.LoadTheme(item + "/SongMenuList", "StaticDuetIcon", xmlReader);
-            themeLoaded &= _VideoIcon.LoadTheme(item + "/SongMenuList", "StaticVideoIcon", xmlReader);
-            themeLoaded &= _MedleyCalcIcon.LoadTheme(item + "/SongMenuList", "StaticMedleyCalcIcon", xmlReader);
-            themeLoaded &= _MedleyTagIcon.LoadTheme(item + "/SongMenuList", "StaticMedleyTagIcon", xmlReader);
-
-            if (themeLoaded)
-            {
-                _Theme.Name = elementName;
-
-                _ReadSubTheme();
-                _SubElements.Clear();
-                _SubElements.AddRange(new IMenuElement[] { _Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon });
-                LoadSkin();
-                Init();
-            }
-
-            return themeLoaded;
         }
 
         private void _ReadSubTheme()

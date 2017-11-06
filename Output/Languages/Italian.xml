@@ -46,6 +46,7 @@
   <string name="TR_CONFIG_LEVEL2">Livello 2</string>
   <string name="TR_CONFIG_LEVEL3">Livello 3</string>
   <string name="TR_CONFIG_LEVEL_MAX">Max</string>
+  <string name="TR_CONFIG_LIST">Elenco</string>
   <string name="TR_CONFIG_DREIDEL">Dreidel</string>
   <string name="TR_CONFIG_TILE_BOARD">Scacchiera</string>
   <string name="TR_CONFIG_BOOK">Libro</string>
@@ -72,6 +73,8 @@
   <string name="TR_CONFIG_TIMERMODE_TOTAL">Totale</string>
   <string name="TR_CONFIG_TIMERLOOK_NORMAL">Normale</string>
   <string name="TR_CONFIG_TIMERLOOK_EXPANDED">Espanso</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_ALL">Elenco tutti</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_BEST">Elenco migliori</string>
   <string name="TR_CONFIG_OWN_MUSIC">Musica personale e musica di sfondo</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Nessuna musica personale</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Solo musica personale</string>
@@ -79,6 +82,9 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Tutto</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Solo nomi e avatar</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Niente</string>
+  <string name="TR_CONFIG_LYRICSTYLE_FILL">Riempi</string>
+  <string name="TR_CONFIG_LYRICSTYLE_JUMP">Salta</string>
+  <string name="TR_CONFIG_LYRICSTYLE_ZOOM">Zoom</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Sotto</string>
   <string name="TR_CONFIG_LYRICSPOSITION_TOP">Sopra</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Sopra e sotto</string>
@@ -196,6 +202,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Sorgente musica di sfondo</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Anteprima volume musica</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Volume musica di gioco</string>
+  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Effetto karaoke</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Opzioni tema</string>
   <string name="TR_SCREENOTHEME_THEME">Tema</string>
   <string name="TR_SCREENOTHEME_SKIN">Skin</string>

@@ -61,7 +61,6 @@ namespace VocaluxeLib
         bool IsMicConfigured(int playerNr);
         int GetMaxNumMics();
 
-        bool GetLoadOldThemeFiles();
         void AddSongMenuListener(OnSongMenuChanged onSongMenuChanged);
         void RemoveSongMenuListener(OnSongMenuChanged onSongMenuChanged);
     }
@@ -83,6 +82,7 @@ namespace VocaluxeLib
 
         int GetNumNoteLines();
         int GetMaxNumPlayer();
+        int GetMaxNumScreens();
 
         float GetDefaultMedleyFadeInTime();
         float GetDefaultMedleyFadeOutTime();
@@ -135,17 +135,17 @@ namespace VocaluxeLib
     public interface IDrawing
     {
         void DrawTexture(CTextureRef texture, SRectF rect);
-        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color);
-        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false);
+        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool allMonitors = true);
+        void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false, bool allMonitors = true);
         void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect);
         void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect, SColorF color);
-        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight);
+        void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float reflectionSpace, float reflectionHeight, bool allMonitors = true);
 
         CTextureRef AddTexture(string fileName);
         CTextureRef EnqueueTexture(string fileName);
         void RemoveTexture(ref CTextureRef texture);
 
-        void DrawRect(SColorF color, SRectF rect);
+        void DrawRect(SColorF color, SRectF rect, bool allMonitors = true);
         void DrawRectReflection(SColorF color, SRectF rect, float space, float height);
     }
 
@@ -174,7 +174,7 @@ namespace VocaluxeLib
     {
         RectangleF GetTextBounds(CText text);
 
-        void DrawText(string text, CFont font, float x, float y, float z, SColorF color);
+        void DrawText(string text, CFont font, float x, float y, float z, SColorF color, bool allMonitors = true);
         void DrawTextReflection(string text, CFont font, float x, float y, float z, SColorF color, float reflectionSpace, float reflectionHeight);
         void DrawText(string text, CFont font, float x, float y, float z, SColorF color, float begin, float end);
     }
@@ -251,7 +251,7 @@ namespace VocaluxeLib
         void AddPartySongSung(int songID);
         void ResetSongSung(int catIndex = -1);
 
-        void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions);
+        void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistID);
 
         void NextCategory();
         void PrevCategory();
@@ -325,6 +325,7 @@ namespace VocaluxeLib
 
         int GetSongCount(int playlistID);
         CPlaylistSong GetSong(int playlistID, int songIndex);
+        bool ContainsSong(int playlistID, int songIndex);
     }
 
     public interface IPreviewPlayer

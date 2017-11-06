@@ -96,6 +96,7 @@
     <Compile Include="Menu\CMenuElementBase.cs" />
     <Compile Include="Menu\CMenuParty.cs" />
     <Compile Include="Menu\CMenuPartyNameSelection.cs" />
+    <Compile Include="Menu\CMenuPartySongSelection.cs" />
     <Compile Include="Menu\CNameSelection.cs" />
     <Compile Include="Menu\CObjectInteractions.cs" />
     <Compile Include="Menu\COrderedDictionaryLite.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Game\CPoints.cs" />
     <Compile Include="Menu\CScreenSetting.cs" />
     <Compile Include="Menu\CSelectSlide.cs" />
+    <Compile Include="Menu\CProgressBar.cs" />
     <Compile Include="Menu\CStatic.cs" />
     <Compile Include="Menu\CText.cs" />
     <Compile Include="Draw\CTextureRef.cs" />
@@ -114,8 +116,6 @@
     <Compile Include="XmlStructs.cs" />
     <Compile Include="Xml\CTypeExtensions.cs" />
     <Compile Include="Xml\CXmlDeserializer.cs" />
-    <Compile Include="Xml\CXMLReader.cs" />
-    <Compile Include="Xml\CXmlReaderBase.cs" />
     <Compile Include="Xml\CXmlSerializer.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="Menu\IMenu.cs" />

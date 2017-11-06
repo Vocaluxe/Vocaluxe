@@ -25,8 +25,6 @@ namespace VocaluxeLib.Menu
         object GetTheme();
         bool ThemeLoaded { get; }
 
-        bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader);
-
         void UnloadSkin();
         void LoadSkin();
         void ReloadSkin();

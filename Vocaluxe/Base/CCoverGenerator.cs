@@ -84,7 +84,7 @@ namespace Vocaluxe.Base
                     if (_WidthTrimmed < 0f)
                     {
                         string text = Text.TrimEnd(null);
-                        _WidthTrimmed = text.Length == Text.Length ? Width : _Graphics.MeasureString(text, _Font, -1, StringFormat.GenericTypographic).Width;
+                        _WidthTrimmed = text.Length == Text.Length ? Width : _Graphics.MeasureString(text, _Font).Width;
                     }
                     return _WidthTrimmed;
                 }
@@ -94,7 +94,7 @@ namespace Vocaluxe.Base
             public CTextElement(string text, Graphics g, Font font)
             {
                 Text = text;
-                SizeF dimensions = g.MeasureString(text, font, -1, StringFormat.GenericTypographic);
+                SizeF dimensions = g.MeasureString(text, font);
                 Width = dimensions.Width;
                 Height = (dimensions.Height + font.Height) / 2;
                 _Graphics = g;

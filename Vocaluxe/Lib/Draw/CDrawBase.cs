@@ -220,7 +220,7 @@ namespace Vocaluxe.Lib.Draw
             return true;
         }
 
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false, bool allMonitors = true)
         {
             if (Math.Abs(color.A) < 0.01)
                 return;
@@ -228,10 +228,23 @@ namespace Vocaluxe.Lib.Draw
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture))
                 return;
-            if (!_CalcDrawCoords(texture, rect, out dc, mirrored))
-                return;
-
-            _DrawTexture(texture, dc, color);
+            if (allMonitors)
+            {
+                for (int i = 0; i < CConfig.Config.Graphics.NumScreens; i++)
+                {
+                    SRectF newrect = rect;
+                    newrect.X += CSettings.RenderW * i;
+                    if (!_CalcDrawCoords(texture, newrect, out dc, mirrored))
+                        return;
+                    _DrawTexture(texture, dc, color);
+                }
+            }
+            else
+            {
+                if (!_CalcDrawCoords(texture, rect, out dc, mirrored))
+                    return;
+                _DrawTexture(texture, dc, color);
+            }
         }
 
         /// <summary>
@@ -242,7 +255,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
         /// <param name="mirrored">True if the texture should be mirrored</param>
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false, bool allMonitors = true)
         {
             if (Math.Abs(color.A) < 0.01)
                 return;
@@ -250,10 +263,26 @@ namespace Vocaluxe.Lib.Draw
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture))
                 return;
-            if (!_CalcDrawCoords(texture, rect, bounds, out dc))
-                return;
 
-            _DrawTexture(texture, dc, color);
+            if (allMonitors)
+            {
+                for (int i = 0; i < CConfig.Config.Graphics.NumScreens; i++)
+                {
+                    SRectF newrect = rect;
+                    SRectF newbounds = bounds;
+                    newrect.X += CSettings.RenderW * i;
+                    newbounds.X += CSettings.RenderW * i;
+                    if (!_CalcDrawCoords(texture, newrect, newbounds, out dc, mirrored))
+                        return;
+                    _DrawTexture(texture, dc, color);
+                }
+            }
+            else
+            {
+                if (!_CalcDrawCoords(texture, rect, bounds, out dc, mirrored))
+                    return;
+                _DrawTexture(texture, dc, color);
+            }
         }
 
         /// <summary>
@@ -264,7 +293,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="color">A SColorF struct containing a color which the texture will be colored in</param>
         /// <param name="begin">A Value ranging from 0 to 1 containing the beginning of the texture</param>
         /// <param name="end">A Value ranging from 0 to 1 containing the ending of the texture</param>
-        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end)
+        public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end, bool allMonitors = true)
         {
             if (Math.Abs(color.A) < 0.01)
                 return;
@@ -272,10 +301,24 @@ namespace Vocaluxe.Lib.Draw
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture))
                 return;
-            if (!_CalcDrawCoords(texture, rect, out dc, false, begin, end))
-                return;
 
-            _DrawTexture(texture, dc, color);
+            if (allMonitors)
+            {
+                for (int i = 0; i < CConfig.Config.Graphics.NumScreens; i++)
+                {
+                    SRectF newrect = rect;
+                    newrect.X += CSettings.RenderW * i;
+                    if (!_CalcDrawCoords(texture, newrect, out dc, false, begin, end))
+                        return;
+                    _DrawTexture(texture, dc, color);
+                }
+            }
+            else
+            {
+                if (!_CalcDrawCoords(texture, rect, out dc, false, begin, end))
+                    return;
+                _DrawTexture(texture, dc, color);
+            }
         }
 
         /// <summary>
@@ -287,7 +330,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="bounds">A SRectF struct containing which part of the texture should be drawn</param>
         /// <param name="space">The space between the texture and the reflection</param>
         /// <param name="height">The height of the reflection</param>
-        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height)
+        public void DrawTextureReflection(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, float space, float height, bool allMonitors = true)
         {
             Debug.Assert(height >= 0);
 
@@ -297,17 +340,35 @@ namespace Vocaluxe.Lib.Draw
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture))
                 return;
-            if (!_CalcDrawCoords(texture, rect, bounds, out dc, true))
-                return;
 
-            if (height > rect.H)
-                height = rect.H;
+            int loops;
+            if (allMonitors)
+            {
+                loops = CConfig.Config.Graphics.NumScreens;
+            }
+            else
+            {
+                loops = 1;
+            }
 
-            dc.Wy1 += rect.H + space; // Move from start of rect to end of rect with spacing
-            dc.Wy2 += space + height; // Move from end of rect
-            dc.Ty2 += (rect.H - height) / rect.H; // Adjust so not all of the start of the texture is drawn (mirrored--> Ty1>Ty2)
-            if (dc.Ty2 < dc.Ty1) // Make sure we actually draw something
-                _DrawTexture(texture, dc, color, true);
+            for (int i = 0; i < loops; i++)
+            {
+                SRectF newrect = rect;
+                SRectF newbounds = bounds;
+                newrect.X += CSettings.RenderW * i;
+                newbounds.X += CSettings.RenderW * i;
+                if (!_CalcDrawCoords(texture, newrect, newbounds, out dc, true))
+                    return;
+
+                if (height > newrect.H)
+                    height = newrect.H;
+
+                dc.Wy1 += newrect.H + space; // Move from start of rect to end of rect with spacing
+                dc.Wy2 += space + height; // Move from end of rect
+                dc.Ty2 += (newrect.H - height) / newrect.H; // Adjust so not all of the start of the texture is drawn (mirrored--> Ty1>Ty2)
+                if (dc.Ty2 < dc.Ty1) // Make sure we actually draw something
+                    _DrawTexture(texture, dc, color, true);
+            }
         }
 
         // Resharper doesn't get that this is used -.-
