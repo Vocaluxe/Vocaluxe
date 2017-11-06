@@ -4,7 +4,7 @@ section-type: post
 title: First final release!
 tags: [ 'release', '0.1' ]
 author: "flokuep"
-image: "release-01.png"
+image: "/img/posts/release-01.png"
 ---
 ![Release 1]({{site.baseurl}}/img/posts/release-01.png){:.post-banner}
 

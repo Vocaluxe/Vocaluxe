@@ -4,7 +4,7 @@ section-type: post
 title: Second version released!
 tags: [ 'release', '0.2' ]
 author: "flokuep"
-image: "release-02.png"
+image: "/img/posts/release-02.png"
 ---
 ![Release 2]({{site.baseurl}}/img/posts/release-02.png){:.post-banner}
 

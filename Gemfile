@@ -23,4 +23,5 @@ group :jekyll_plugins do
    gem "jekyll-feed", "~> 0.6"
    gem "jekyll-paginate"
    gem "github-pages", "~> 111"
+   gem "jekyll-seo-tag"
 end

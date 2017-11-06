@@ -4,7 +4,7 @@ section-type: post
 title: Blue Sunrise is released!
 tags: [ 'release', '0.4' ]
 author: "flokuep"
-image: "release-0.4.png"
+image: "/img/posts/release-0.4.png"
 ---
 ![Release of Vocaluxe (Blue Sunrise)]({{site.baseurl}}/img/posts/release-0.4.png){:.post-banner}
 

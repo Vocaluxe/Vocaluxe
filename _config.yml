@@ -3,7 +3,7 @@
 
 # NB! Set your site's url, otherwise stuff will break :)
 
-url: "https://new.vocaluxe.org"
+url: "https://vocaluxe.org"
 
 # If you're hosting your site at a Project repository on GitHub pages
 # (https://yourusername.github.io/repository-name)
@@ -12,7 +12,7 @@ url: "https://new.vocaluxe.org"
 #
 # NB! Without this *nothing* will work, because it's used in every path :)
 
-baseurl: /
+baseurl: ""
 
 # Google tracking id to track your visitors
 
@@ -26,17 +26,25 @@ force-https: True
 
 repository: Vocaluxe/Vocaluxe
 
-#############
-# HTML Head #
-#############
+#####################
+# HTML Head and SEO #
+#####################
 
-lang: "en"
-author: "Vocaluxe"
+lang: "en_US"
+author: "Vocaluxe Team"
 title: "Vocaluxe"
 subtitle: "Sing your favorite songs"
-description: "Vocaluxe is a free and open source singing game, inspired by the original UltraStar (developed by corvus5) and the great Ultrastar Deluxe project. It allows up to six players to sing along with music using microphones in order to score points, depending on the pitch of the voice and the rhythm of singing."
-keywords: "Vocaluxe, sing, game, karaoke"
+description: "Vocaluxe is a free and open source singing game, inspired by SingStar™ and the great Ultrastar Deluxe project for up to six players."
+full-description: "Vocaluxe is a free and open source singing game, inspired by SingStar™ and the great Ultrastar Deluxe project. It allows up to six players to sing along with music using microphones in order to score points, depending on the pitch of the voice and the rhythm of singing."
+keywords: "Vocaluxe, SingStar, UltraStar, sing, singen, game, party, karaoke, song, Lied, singing, open source, free, gratis, multiplayer"
 favicon: "/img/vocaluxe_icon.png"
+logo: "/img/vocaluxe_icon.png"
+
+social:
+  name: Vocaluxe
+  links:
+    - https://www.facebook.com/Vocaluxe
+    - https://github.com/Vocaluxe/Vocaluxe
 
 ################
 # Header layout #
@@ -98,4 +106,5 @@ gems:
   - github-pages
   - jekyll-feed
   - jekyll-paginate
+  - jekyll-seo-tag
   #- jemoji
