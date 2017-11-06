@@ -141,6 +141,11 @@ namespace Vocaluxe.Base
             return CConfig.Config.Game.Tabs;
         }
 
+        public EOffOn GetAutoplayPreviews()
+        {
+            return CConfig.Config.Game.AutoplayPreviews;
+        }
+
         public EOffOn GetIgnoreArticles()
         {
             return CConfig.Config.Game.IgnoreArticles;
