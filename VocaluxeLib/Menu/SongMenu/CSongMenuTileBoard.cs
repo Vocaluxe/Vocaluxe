@@ -60,6 +60,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private readonly List<IMenuElement> _SubElements = new List<IMenuElement>();
 
+        private int _AutoplayDelay = 500;
+        private System.Timers.Timer _AutoplayTimer = new System.Timers.Timer();
+
         public override float SelectedTileZoomFactor
         {
             get { return 1.2f; }
@@ -195,7 +198,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public override void Update(SScreenSongOptions songOptions)
         {
             if (songOptions.Selection.RandomOnly)
-                _PreviewNr = _SelectionNr;
+                _PreviewSelectedSong();
 
             if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.BackgroundMusic.GetLength() > 0)
                 _UpdateLength(CBase.Songs.GetVisibleSong(_PreviewNr));
@@ -291,7 +294,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 SetSelectedSong(_SelectionNr < 0 ? 0 : _SelectionNr);
             else
                 SetSelectedCategory(_SelectionNr < 0 ? 0 : _SelectionNr);
-            _PreviewNr = _SelectionNr;
+            _PreviewSelectedSong();
             _UpdateListIfRequired();
         }
 
@@ -314,7 +317,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     {
                         if (_SelectionNr >= 0 && _PreviewNr != _SelectionNr)
                         {
-                            _PreviewNr = _SelectionNr;
+                            _PreviewSelectedSong();
                             keyEvent.Handled = true;
                         }
                     }
@@ -404,7 +407,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     break;
             }
             if (!CBase.Songs.IsInCategory())
-                _PreviewNr = _SelectionNr;
+                _PreviewSelectedSong();
             return keyEvent.Handled;
         }
 
@@ -460,7 +463,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     {
                         if (_PreviewNr == _SelectionNr)
                             return false;
-                        _PreviewNr = _SelectionNr;
+                        _PreviewSelectedSong();
                     }
                     else
                         EnterSelectedCategory();
@@ -523,14 +526,6 @@ namespace VocaluxeLib.Menu.SongMenu
             _UpdateListIfRequired();
         }
 
-        private void _AutoplayPreviewIfEnabled()
-        {
-            if (CBase.Config.GetAutoplayPreviews() == EOffOn.TR_CONFIG_ON)
-            {
-                _PreviewNr = _SelectionNr;
-            }
-        }
-
         private void _NextCategory()
         {
             if (CBase.Songs.IsInCategory())
@@ -546,6 +541,38 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 CBase.Songs.PrevCategory();
                 _EnterCategory(CBase.Songs.GetCurrentCategoryIndex());
+            }
+        }
+
+        private void _PreviewSelectedSong()
+        {
+            _PreviewNr = _SelectionNr;
+        }
+
+        private void _AutoplayPreviewIfEnabled()
+        {
+            if (CBase.Config.GetAutoplayPreviews() == EOffOn.TR_CONFIG_ON)
+            {
+                _PlayPreviewAfterDelay(_AutoplayDelay);
+            }
+        }
+
+        private void _PlayPreviewAfterDelay(double delay)
+        {
+            if (!_AutoplayTimer.Enabled)
+            {
+                _AutoplayTimer = new System.Timers.Timer(delay);
+                _AutoplayTimer.AutoReset = false;
+                _AutoplayTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+                {
+                    _PreviewSelectedSong();
+                };
+                _AutoplayTimer.Start();
+            }
+            else
+            {
+                _AutoplayTimer.Stop();
+                _AutoplayTimer.Start();
             }
         }
 
