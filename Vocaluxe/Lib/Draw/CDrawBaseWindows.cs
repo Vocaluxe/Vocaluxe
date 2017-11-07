@@ -114,6 +114,7 @@ namespace Vocaluxe.Lib.Draw
 
             _Form.FormBorderStyle = FormBorderStyle.Sizable;
             _Form.DesktopBounds = new Rectangle(_Restore.Location, new Size(_Restore.Width, _Restore.Height));
+            _DoResize();
         }
 
         #region form event handlers

@@ -241,16 +241,22 @@ namespace Vocaluxe.Lib.Draw
         protected override void _EnterFullScreen()
         {
             base._EnterFullScreen();
-            _PresentParameters.Windowed = false;
-            _Reset();
-            Init();
+            if (CConfig.Config.Graphics.NativeFullScreen == EOffOn.TR_CONFIG_ON)
+            {
+                _PresentParameters.Windowed = false;
+                _Reset();
+                Init();
+            }
         }
 
         protected override void _LeaveFullScreen()
         {
-            _PresentParameters.Windowed = true;
-            _Reset();
-            Init();
+            if (CConfig.Config.Graphics.NativeFullScreen == EOffOn.TR_CONFIG_ON)
+            {
+                _PresentParameters.Windowed = true;
+                _Reset();
+                Init();
+            }
             base._LeaveFullScreen();
         }
 
