@@ -64,9 +64,6 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private readonly List<IMenuElement> _SubElements = new List<IMenuElement>();
 
-        private int _AutoplayDelay = 500;
-        private System.Timers.Timer _AutoplayTimer = new System.Timers.Timer();
-
         public override float SelectedTileZoomFactor
         {
             get { return 1.2f; }
@@ -578,38 +575,6 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 CBase.Songs.PrevCategory();
                 _EnterCategory(CBase.Songs.GetCurrentCategoryIndex());
-            }
-        }
-
-        private void _PreviewSelectedSong()
-        {
-            _PreviewNr = _SelectionNr;
-        }
-
-        private void _AutoplayPreviewIfEnabled()
-        {
-            if (CBase.Config.GetAutoplayPreviews() == EOffOn.TR_CONFIG_ON)
-            {
-                _PlayPreviewAfterDelay(_AutoplayDelay);
-            }
-        }
-
-        private void _PlayPreviewAfterDelay(double delay)
-        {
-            if (!_AutoplayTimer.Enabled)
-            {
-                _AutoplayTimer = new System.Timers.Timer(delay);
-                _AutoplayTimer.AutoReset = false;
-                _AutoplayTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
-                {
-                    _PreviewSelectedSong();
-                };
-                _AutoplayTimer.Start();
-            }
-            else
-            {
-                _AutoplayTimer.Stop();
-                _AutoplayTimer.Start();
             }
         }
 

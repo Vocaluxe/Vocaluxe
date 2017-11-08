@@ -172,6 +172,7 @@ namespace Vocaluxe.Base
             [XmlAltName("NumPlayer"), DefaultValue(2)] public int NumPlayers;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn Tabs;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn AutoplayPreviews;
+            [XmlAltName("AutoplayPreviewDelay"), DefaultValue(500)] public int AutoplayPreviewDelay;
             [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)] public ELyricsPosition LyricsPosition;
             [DefaultValue(0.1f)] public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
             [XmlArrayItem("Player"), XmlArray] public string[] Players;
@@ -524,6 +525,8 @@ namespace Vocaluxe.Base
                     return "Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 case "AutoplayPreviews":
                     return "Automatically play song preview when selected: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "AutoplayPreviewDelay":
+                    return "Delay before playback of autoplay previews is started in milliseconds";
                 case "LyricsPosition":
                     return "Position if lyrics on screen: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricsPosition)));
                 case "MinLineBreakTime":

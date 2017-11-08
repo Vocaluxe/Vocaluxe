@@ -57,6 +57,7 @@ namespace VocaluxeLib
         ESongSorting GetSongSorting();
         EOffOn GetTabs();
         EOffOn GetAutoplayPreviews();
+        int GetAutoplayPreviewDelay();
         EOffOn GetIgnoreArticles();
 
         bool IsMicConfigured(int playerNr);
