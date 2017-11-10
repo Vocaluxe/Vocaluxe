@@ -27,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _SelectSlideLanguage = "SelectSlideLanguage";
@@ -35,6 +35,7 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideSongMenu = "SelectSlideSongMenu";
         private const string _SelectSlideSongSorting = "SelectSlideSongSorting";
         private const string _SelectSlideTabs = "SelectSlideTabs";
+        private const string _SelectSlideAutoplayPreviews = "SelectSlideAutoplayPreviews";
         private const string _SelectSlideTimerMode = "SelectSlideTimerMode";
         private const string _SelectSlideHighscoreStyle = "SelectSlideHighscoreStyle";
 
@@ -60,6 +61,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideSongMenu].SetValues<ESongMenu>((int)CConfig.SongMenu);
             _SelectSlides[_SelectSlideSongSorting].SetValues<ESongSorting>((int)CConfig.Config.Game.SongSorting);
             _SelectSlides[_SelectSlideTabs].SetValues<EOffOn>((int)CConfig.Config.Game.Tabs);
+            _SelectSlides[_SelectSlideAutoplayPreviews].SetValues<EOffOn>((int)CConfig.Config.Game.AutoplayPreviews);
             _SelectSlides[_SelectSlideTimerMode].SetValues<ETimerMode>((int)CConfig.Config.Game.TimerMode);
             _SelectSlides[_SelectSlideHighscoreStyle].SetValues<EHighscoreStyle>((int)CConfig.Config.Game.HighscoreStyle);
         }
@@ -142,6 +144,7 @@ namespace Vocaluxe.Screens
             CConfig.SongMenu = (ESongMenu)_SelectSlides[_SelectSlideSongMenu].Selection;
             CConfig.Config.Game.SongSorting = (ESongSorting)_SelectSlides[_SelectSlideSongSorting].Selection;
             CConfig.Config.Game.Tabs = (EOffOn)_SelectSlides[_SelectSlideTabs].Selection;
+            CConfig.Config.Game.AutoplayPreviews = (EOffOn)_SelectSlides[_SelectSlideAutoplayPreviews].Selection;
             CConfig.Config.Game.TimerMode = (ETimerMode)_SelectSlides[_SelectSlideTimerMode].Selection;
             CConfig.Config.Game.HighscoreStyle = (EHighscoreStyle)_SelectSlides[_SelectSlideHighscoreStyle].Selection;
 
