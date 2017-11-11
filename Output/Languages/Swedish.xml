@@ -183,6 +183,7 @@
   <string name="TR_SCREENOGAME_SONGMENU">Låtmeny</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Låtsortering</string>
   <string name="TR_SCREENOGAME_TABS">Flikar</string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Förhandsvisa låtar automatiskt</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Spelets svårighetsgrad</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Timerläge</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Topplistsvy</string>

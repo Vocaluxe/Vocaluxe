@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptionsGame</ScreenName>
-    <ScreenVersion>3</ScreenVersion>
+    <ScreenVersion>4</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -111,9 +111,23 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOGAME_TABS</Text>
     </Text>
-    <Text Name="TextTimerMode">
+    <Text Name="TextAutoplayPreviews">
       <X>75</X>
       <Y>407</Y>
+      <Z>0</Z>
+      <H>27</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENOGAME_AUTOPLAYPREVIEWS</Text>
+    </Text>
+    <Text Name="TextTimerMode">
+      <X>75</X>
+      <Y>467</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
@@ -127,7 +141,7 @@
     </Text>
     <Text Name="TextHighScoreStyle">
       <X>75</X>
-      <Y>467</Y>
+      <Y>527</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
@@ -425,7 +439,7 @@
       <TextStyle>Bold</TextStyle>
       <NumVisible>2</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideTimerMode">
+    <SelectSlide Name="SelectSlideAutoplayPreviews">
       <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -467,7 +481,7 @@
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideHighscoreStyle">
+    <SelectSlide Name="SelectSlideTimerMode">
       <Skin/>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -491,6 +505,48 @@
       <RectArrowRight>
         <X>1170</X>
         <Y>465</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>27</TextH>
+      <TextRelativeX>50</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>200</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>2</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideHighscoreStyle">
+      <Skin/>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>500</X>
+        <Y>520</Y>
+        <W>715</W>
+        <H>50</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>505</X>
+        <Y>525</Y>
+        <W>40</W>
+        <H>40</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1170</X>
+        <Y>525</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
