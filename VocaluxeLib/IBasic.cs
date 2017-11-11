@@ -56,6 +56,8 @@ namespace VocaluxeLib
         IEnumerable<string> GetSongFolders();
         ESongSorting GetSongSorting();
         EOffOn GetTabs();
+        EOffOn GetAutoplayPreviews();
+        int GetAutoplayPreviewDelay();
         EOffOn GetIgnoreArticles();
 
         bool IsMicConfigured(int playerNr);
