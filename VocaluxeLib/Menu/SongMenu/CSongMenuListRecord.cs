@@ -135,39 +135,6 @@ namespace VocaluxeLib.Menu.SongMenu
             _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
         }
 
-        public override bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-
-            bool themeLoaded = true;
-            themeLoaded &= base.LoadTheme(xmlPath, elementName, xmlReader);
-
-
-            themeLoaded &= _Artist.LoadTheme(item + "/SongMenuListRecord", "TextArtist", xmlReader);
-            themeLoaded &= _Title.LoadTheme(item + "/SongMenuListRecord", "TextTitle", xmlReader);
-            themeLoaded &= _SongLength.LoadTheme(item + "/SongMenuListRecord", "TextSongLength", xmlReader);
-
-            themeLoaded &= _CoverBig.LoadTheme(item + "/SongMenuListRecord", "StaticCoverBig", xmlReader);
-            themeLoaded &= _TextBG.LoadTheme(item + "/SongMenuListRecord", "StaticTextBG", xmlReader);
-            themeLoaded &= _DuetIcon.LoadTheme(item + "/SongMenuListRecord", "StaticDuetIcon", xmlReader);
-            themeLoaded &= _VideoIcon.LoadTheme(item + "/SongMenuListRecord", "StaticVideoIcon", xmlReader);
-            themeLoaded &= _MedleyCalcIcon.LoadTheme(item + "/SongMenuListRecord", "StaticMedleyCalcIcon", xmlReader);
-            themeLoaded &= _MedleyTagIcon.LoadTheme(item + "/SongMenuListRecord", "StaticMedleyTagIcon", xmlReader);
-
-            if (themeLoaded)
-            {
-                _Theme.Name = elementName;
-
-                _ReadSubTheme();
-                _SubElements.Clear();
-                _SubElements.AddRange(new IMenuElement[] { _Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon });
-                LoadSkin();
-                Init();
-            }
-
-            return themeLoaded;
-        }
-
         private void _ReadSubTheme()
         {
             _Theme.SongMenuListRecord.TextArtist = (SThemeText)_Artist.GetTheme();
