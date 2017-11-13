@@ -687,6 +687,7 @@ namespace Vocaluxe.Screens
                     _Texts["TextPlayer" + i].Visible = false;
                     _Equalizers["EqualizerPlayer" + i].Visible = false;
                     _SelectSlides["SelectSlideDuetPlayer" + i].Visible = false;
+                    _ResetPlayerSelection(i - 1);
                 }
             }
             CConfig.SaveConfig();
