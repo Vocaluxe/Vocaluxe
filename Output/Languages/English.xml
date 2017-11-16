@@ -188,6 +188,7 @@
   <string name="TR_SCREENOGAME_SONGMENU">Song-menu style</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Song sorting</string>
   <string name="TR_SCREENOGAME_TABS">Tabs</string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Autoplay song previews</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Game difficulty</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Timer mode</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Highscore style</string>

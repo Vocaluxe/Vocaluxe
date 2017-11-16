@@ -158,6 +158,9 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
+        protected int _AutoplayDelayinMs = CBase.Config.GetAutoplayPreviewDelay();
+        protected System.Timers.Timer _AutoplayTimer = new System.Timers.Timer();
+
         private SColorF _ColorInternal;
         protected SColorF _Color
         {
@@ -204,6 +207,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public virtual void Init()
         {
             _ResetPreview(false);
+            _InitializeAutoplayTimer();
             _Initialized = true;
         }
 
@@ -356,6 +360,42 @@ namespace VocaluxeLib.Menu.SongMenu
             //(e.g. leave a category with one song and set preview to 0 --> previewOld=previewNew=0 --> No change --> Old data shown
             //Use internal nr because this function gets called from withing setPreviewNr
             _PreviewNrInternal = -1;
+        }
+
+        protected void _PreviewSelectedSong()
+        {
+            _PreviewNr = _SelectionNr;
+        }
+
+        protected void _InitializeAutoplayTimer()
+        {
+            _AutoplayTimer.Interval = _AutoplayDelayinMs;
+            _AutoplayTimer.AutoReset = false;
+            _AutoplayTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+            {
+                _PreviewSelectedSong();
+            };
+        }
+
+        protected void _AutoplayPreviewIfEnabled()
+        {
+            if (CBase.Config.GetAutoplayPreviews() == EOffOn.TR_CONFIG_ON)
+            {
+                _PlayPreviewAfterDelay();
+            }
+        }        
+
+        protected void _PlayPreviewAfterDelay()
+        {
+            if (!_AutoplayTimer.Enabled)
+            {
+                _AutoplayTimer.Start();
+            }
+            else
+            {
+                _AutoplayTimer.Stop();
+                _AutoplayTimer.Start();
+            }
         }
 
         #region ThemeEdit

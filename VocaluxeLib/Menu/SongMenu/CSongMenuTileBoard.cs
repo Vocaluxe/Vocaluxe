@@ -195,7 +195,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public override void Update(SScreenSongOptions songOptions)
         {
             if (songOptions.Selection.RandomOnly)
-                _PreviewNr = _SelectionNr;
+                _PreviewSelectedSong();
 
             if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.BackgroundMusic.GetLength() > 0)
                 _UpdateLength(CBase.Songs.GetVisibleSong(_PreviewNr));
@@ -291,7 +291,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 SetSelectedSong(_SelectionNr < 0 ? 0 : _SelectionNr);
             else
                 SetSelectedCategory(_SelectionNr < 0 ? 0 : _SelectionNr);
-            _PreviewNr = _SelectionNr;
+            _PreviewSelectedSong();
             _UpdateListIfRequired();
         }
 
@@ -314,7 +314,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     {
                         if (_SelectionNr >= 0 && _PreviewNr != _SelectionNr)
                         {
-                            _PreviewNr = _SelectionNr;
+                            _PreviewSelectedSong();
                             keyEvent.Handled = true;
                         }
                     }
@@ -355,6 +355,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     if (_SelectionNr > 0 && moveAllowed)
                     {
                         _SelectionNr--;
+                        _AutoplayPreviewIfEnabled();
                         keyEvent.Handled = true;
                     }
                     break;
@@ -363,6 +364,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     if (moveAllowed)
                     {
                         _SelectionNr++;
+                        _AutoplayPreviewIfEnabled();
                         keyEvent.Handled = true;
                     }
                     break;
@@ -379,6 +381,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     else if (_SelectionNr >= _NumW && moveAllowed)
                     {
                         _SelectionNr -= _NumW;
+                        _AutoplayPreviewIfEnabled();
                         keyEvent.Handled = true;
                     }
                     break;
@@ -395,12 +398,13 @@ namespace VocaluxeLib.Menu.SongMenu
                     else if (moveAllowed)
                     {
                         _SelectionNr += _NumW;
+                        _AutoplayPreviewIfEnabled();
                         keyEvent.Handled = true;
                     }
                     break;
             }
             if (!CBase.Songs.IsInCategory())
-                _PreviewNr = _SelectionNr;
+                _PreviewSelectedSong();
             return keyEvent.Handled;
         }
 
@@ -456,7 +460,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     {
                         if (_PreviewNr == _SelectionNr)
                             return false;
-                        _PreviewNr = _SelectionNr;
+                        _PreviewSelectedSong();
                     }
                     else
                         EnterSelectedCategory();

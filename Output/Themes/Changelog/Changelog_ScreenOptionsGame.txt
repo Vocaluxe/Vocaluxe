@@ -1,6 +1,11 @@
 ScreenOptionsGame
 
 ++++++++++
+Version 4:
+
+Add:
+<SelectSlideAutoplayPreviews>
+++++++++++
 Version 3:
 
 Add:
