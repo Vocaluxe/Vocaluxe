@@ -315,7 +315,7 @@ namespace Vocaluxe.Base
             
 
             //Change song position only if song is changed or near to end
-            if (songChanged || _CurPlayer.Position + 30 < _CurPlayer.Length)
+            if (songChanged || _CurPlayer.Position + 30 < _CurPlayer.Length || _PreviewStartHelperTask == null)
             {
                 _PreviewStartHelperTask = new Task(() =>
                 {
