@@ -52,6 +52,7 @@ namespace VocaluxeLib.Menu
         [XmlArray("ParticleEffects")] public List<SThemeParticleEffect> ParticleEffects;
         [XmlArray("ScreenSettings")] public List<SThemeScreenSetting> ScreenSettings;
         [XmlArray("ProgressBars")] public List<SThemeProgressBar> ProgressBars;
+        [XmlArray("Metas")] public List<SThemeMeta> Metas;
     }
 
     struct SZSort
@@ -84,6 +85,7 @@ namespace VocaluxeLib.Menu
         protected string[] _ThemeParticleEffects;
         protected string[] _ThemeScreenSettings;
         protected string[] _ThemeProgressBars;
+        protected string[] _ThemeMetas;
         protected readonly Dictionary<string, CScreenSetting> _ScreenSettings = new Dictionary<string, CScreenSetting>();
 
         // ReSharper restore MemberCanBePrivate.Global
@@ -120,6 +122,7 @@ namespace VocaluxeLib.Menu
             _ThemeParticleEffects = null;
             _ThemeScreenSettings = null;
             _ThemeProgressBars = null;
+            _ThemeMetas = null;
         }
 
         protected virtual void _OnSongMenuChanged()
@@ -147,7 +150,7 @@ namespace VocaluxeLib.Menu
             private static readonly string[] _AllowedMissing = new string[]
                 {
                     "Backgrounds", "Statics", "Texts", "Buttons", "SongMenus", "Lyrics", "SelectSlides", "SingNotes",
-                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings", "ProgressBars"
+                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings", "ProgressBars", "Metas"
                 };
 
             public override void HandleError(CXmlException e)
@@ -184,6 +187,9 @@ namespace VocaluxeLib.Menu
 
                 foreach (SThemeLyrics ly in Theme.Lyrics)
                     _AddLyric(new CLyric(ly, PartyModeID), ly.Name);
+
+                foreach (SThemeMeta me in Theme.Metas)
+                    _AddMeta (new CMeta(me, PartyModeID), me.Name);
 
                 foreach (SThemeNameSelection ns in Theme.NameSelections)
                     _AddNameSelection(new CNameSelection(ns, PartyModeID), ns.Name);
@@ -411,6 +417,16 @@ namespace VocaluxeLib.Menu
         public CProgressBar GetNewProgressBar(CProgressBar pb)
         {
             return new CProgressBar(pb);
+        }
+
+        public CMeta GetNewMeta()
+        {
+            return new CMeta(PartyModeID);
+        }
+
+        public CMeta GetNewMeta(CMeta meta)
+        {
+            return new CMeta(meta);
         }
 
         // ReSharper restore MemberCanBeProtected.Global

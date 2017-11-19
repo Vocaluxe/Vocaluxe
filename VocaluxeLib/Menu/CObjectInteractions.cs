@@ -47,6 +47,7 @@ namespace VocaluxeLib.Menu
         protected readonly COrderedDictionaryLite<CPlaylist> _Playlists;
         protected readonly COrderedDictionaryLite<CParticleEffect> _ParticleEffects;
         protected readonly COrderedDictionaryLite<CProgressBar> _ProgressBars;
+        protected readonly COrderedDictionaryLite<CMeta> _Metas;
         private readonly SColorF _HighlightColor = new SColorF(1, 0, 0, 0);
 
         protected CObjectInteractions()
@@ -64,6 +65,7 @@ namespace VocaluxeLib.Menu
             _Playlists = new COrderedDictionaryLite<CPlaylist>(this);
             _ParticleEffects = new COrderedDictionaryLite<CParticleEffect>(this);
             _ProgressBars = new COrderedDictionaryLite<CProgressBar>(this);
+            _Metas = new COrderedDictionaryLite<CMeta>(this);
         }
 
         public virtual void Init()
@@ -89,6 +91,7 @@ namespace VocaluxeLib.Menu
             _Playlists.Clear();
             _ParticleEffects.Clear();
             _ProgressBars.Clear();
+            _Metas.Clear();
         }
 
         private void _SetSelected(int newSelection)
@@ -302,6 +305,8 @@ namespace VocaluxeLib.Menu
                     return _ParticleEffects[element.Num];
                 case EType.ProgressBar:
                     return _ProgressBars[element.Num];
+                case EType.Meta:
+                    return _Metas[element.Num];
             }
             throw new ArgumentException("Invalid element type: " + element.Type);
         }
@@ -410,6 +415,11 @@ namespace VocaluxeLib.Menu
         protected void _AddProgressBar(CProgressBar pb, String key = null)
         {
             _AddElement(_ProgressBars.Add(pb, key), EType.ProgressBar);
+        }
+
+        protected void _AddMeta(CMeta meta, String key = null)
+        {
+            _AddElement(_Metas.Add(meta, key), EType.Meta);
         }
         #endregion Element-Adding
 
