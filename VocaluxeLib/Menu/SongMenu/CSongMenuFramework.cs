@@ -38,43 +38,11 @@ namespace VocaluxeLib.Menu.SongMenu
         //public SThemeSongMenuBook songMenuBook;
         //public SThemeSongMenuDreidel songMenuDreidel;
         public SThemeSongMenuList SongMenuList;
-        public SThemeSongMenuListRecord SongMenuListRecord;
         public SThemeSongMenuTileBoard SongMenuTileBoard;
         
     }
+
     public struct SThemeSongMenuList
-    {
-        /// <summary>
-        ///     Number of visible songs in list
-        /// </summary>
-        public int ListLength;
-
-        /// <summary>
-        ///     Space between tiles horizontal
-        /// </summary>
-        public float SpaceW;
-
-        /// <summary>
-        ///     Space between tiles vertical
-        /// </summary>
-        public float SpaceH;
-
-        public SRectF TileRect;
-        public SRectF TileRectSmall;
-
-        public SThemeText TextArtist;
-        public SThemeText TextTitle;
-        public SThemeText TextSongLength;
-
-        public SThemeStatic StaticCoverBig;
-        public SThemeStatic StaticTextBG;
-        public SThemeStatic StaticDuetIcon;
-        public SThemeStatic StaticVideoIcon;
-        public SThemeStatic StaticMedleyCalcIcon;
-        public SThemeStatic StaticMedleyTagIcon;
-    }
-
-    public struct SThemeSongMenuListRecord
     {
         /// <summary>
         ///     Number of visible songs in list
