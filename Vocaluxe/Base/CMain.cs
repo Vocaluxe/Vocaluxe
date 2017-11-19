@@ -837,7 +837,14 @@ namespace Vocaluxe.Base
 
         public void Close(ref CVideoStream stream)
         {
-            CVideo.Close(ref stream);
+            try
+            {
+                CVideo.Close(ref stream);
+            }
+            catch (NotSupportedException e)
+            {
+                CLog.LogError($"Clould not close the background video: {e.Message}");
+            }
         }
 
         public void SetLoop(CVideoStream stream, bool loop = true)
@@ -847,12 +854,26 @@ namespace Vocaluxe.Base
 
         public void Pause(CVideoStream stream)
         {
-            CVideo.Pause(stream);
+            try
+            {
+                CVideo.Pause(stream);
+            }
+            catch (NotSupportedException e)
+            {
+                CLog.LogError($"Clould not pause the background video: {e.Message}");
+            }
         }
 
         public void Resume(CVideoStream stream)
         {
-            CVideo.Resume(stream);
+            try
+            {
+                CVideo.Resume(stream);
+            }
+            catch (NotSupportedException e)
+            {
+                CLog.LogError($"Clould not resume the background video: {e.Message}");
+            }
         }
     }
 

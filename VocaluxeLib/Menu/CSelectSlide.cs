@@ -469,6 +469,7 @@ namespace VocaluxeLib.Menu
                         Text = new CText(0, 0, 0, _TextH, _MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, _TextColor, "T", _PartyModeID),
                         Img = new CStatic(_PartyModeID)
                     };
+                    el.Img.Aspect = EAspect.Crop;
                     _VisibleElements.Add(el);
                 }
             }
