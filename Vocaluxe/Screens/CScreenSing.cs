@@ -50,12 +50,12 @@ namespace Vocaluxe.Screens
 
         private const string _TextSongName = "TextSongName";
         private const string _TextTime = "TextTime";
-        private const string _TextPause = "TextPause";
         private const string _TextDuetName1 = "TextDuetName1";
         private const string _TextDuetName2 = "TextDuetName2";
         private const string _TextMedleyCountdown = "TextMedleyCountdown";
         private string[,,] _TextScores;
         private string[,,] _TextNames;
+        private List<string> _TextsPause;
 
         private const string _StaticSongText = "StaticSongText";
         private const string _StaticLyrics = "StaticLyrics";
@@ -69,7 +69,7 @@ namespace Vocaluxe.Screens
         private const string _StaticLyricHelper = "StaticLyricHelper";
         private const string _StaticLyricHelperDuet = "StaticLyricHelperDuet";
         private const string _StaticLyricHelperTop = "StaticLyricHelperTop";
-        private const string _StaticPauseBG = "StaticPauseBG";
+        private List<string> _StaticsPause;
 
         private string[,,] _StaticScores;
         private string[,,] _StaticAvatars;
@@ -139,7 +139,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            var texts = new List<string> { _TextSongName, _TextTime, _TextPause, _TextDuetName1, _TextDuetName2, _TextMedleyCountdown };
+            var texts = new List<string> { _TextSongName, _TextTime, _TextDuetName1, _TextDuetName2, _TextMedleyCountdown };
             _BuildTextStrings(texts);
             _ThemeTexts = texts.ToArray();
 
@@ -156,9 +156,8 @@ namespace Vocaluxe.Screens
                     _StaticTimePointer,
                     _StaticLyricHelper,
                     _StaticLyricHelperDuet,
-                    _StaticLyricHelperTop,
-                    _StaticPauseBG
-                };
+                    _StaticLyricHelperTop
+            };
             _BuildStaticStrings(ref statics);
             _ThemeStatics = statics.ToArray();
 
@@ -179,6 +178,21 @@ namespace Vocaluxe.Screens
             _TimerSongText = new Stopwatch();
             _TimerDuetText1 = new Stopwatch();
             _TimerDuetText2 = new Stopwatch();
+        }
+
+        public override void LoadTheme(string xmlPath)
+        {
+            base.LoadTheme(xmlPath);
+
+            _StaticsPause = new List<string>();
+            _TextsPause = new List<string>();
+
+            //Automatically find statics and texts with pause prefix
+            foreach (CStatic s in _Statics.Where(s => s.ThemeLoaded && s.GetThemeName().StartsWith("StaticPause")))
+                _StaticsPause.Add(s.GetThemeName());
+
+            foreach (CText t in _Texts.Where(s => s.ThemeLoaded && s.GetThemeName().StartsWith("TextPause")))
+                _TextsPause.Add(t.GetThemeName());
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -826,11 +840,17 @@ namespace Vocaluxe.Screens
         private void _SetPause(bool paused)
         {
             _Pause = paused;
-            _Statics[_StaticPauseBG].Visible = _Pause;
-            _Texts[_TextPause].Visible = _Pause;
+
+            foreach(String s in _StaticsPause)
+                _Statics[s].Visible = _Pause;
+
+            foreach(String s in _TextsPause)
+                _Texts[s].Visible = _Pause;
+
             _Buttons[_ButtonCancel].Visible = _Pause;
             _Buttons[_ButtonContinue].Visible = _Pause;
             _Buttons[_ButtonSkip].Visible = _Pause && CGame.NumRounds > CGame.RoundNr && CGame.NumRounds > 1;
+
             if (_Pause)
                 CSound.Pause(_CurrentStream);
             else
