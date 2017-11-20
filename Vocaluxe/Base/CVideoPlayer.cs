@@ -53,6 +53,10 @@ namespace Vocaluxe.Base
         {
             _VideoTimer.Reset();
             _Finished = false;
+            if (_VideoStream == null)
+            {
+                return;
+            }
             //CVideo.VdSkip(_VideoStream, 0f, 0f);
             _VideoTimer.Start();
             CVideo.Resume(_VideoStream);
@@ -60,12 +64,19 @@ namespace Vocaluxe.Base
 
         public void Pause()
         {
-            CVideo.Pause(_VideoStream);
+            if (_VideoStream != null)
+            {
+                CVideo.Pause(_VideoStream);
+            }
             _VideoTimer.Stop();
         }
 
         public void Resume()
         {
+            if (_VideoStream == null)
+            {
+                return;
+            }
             CVideo.Resume(_VideoStream);
             _VideoTimer.Start();
         }
@@ -92,7 +103,7 @@ namespace Vocaluxe.Base
 
         public void PreLoad()
         {
-            if (!_Loaded)
+            if (!_Loaded || _VideoStream == null)
             {
                 return;
             }
@@ -111,7 +122,10 @@ namespace Vocaluxe.Base
 
         public void Close()
         {
-            CVideo.Close(ref _VideoStream);
+            if (_VideoStream != null)
+            {
+                CVideo.Close(ref _VideoStream);
+            }
             _Loaded = false;
             _Finished = false;
             _VideoTimer.Reset();
