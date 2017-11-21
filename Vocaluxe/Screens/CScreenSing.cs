@@ -240,7 +240,7 @@ namespace Vocaluxe.Screens
                         if (CGame.NumRounds > CGame.RoundNr)
                         {
                             if (keyEvent.ModCtrl)
-                                _LoadNextSong();
+                                _NextSong();
                         }
                         break;
                     case Keys.W:
@@ -262,7 +262,7 @@ namespace Vocaluxe.Screens
                                 _Stop();
                             if (_Buttons[_ButtonSkip].Selected)
                             {
-                                _LoadNextSong();
+                                _NextSong();
                                 _SetPause(false);
                             }
                         }
@@ -307,7 +307,7 @@ namespace Vocaluxe.Screens
 
                 if (_Buttons[_ButtonSkip].Selected)
                 {
-                    _LoadNextSong();
+                    _NextSong();
                     _SetPause(false);
                 }
             }
@@ -330,7 +330,7 @@ namespace Vocaluxe.Screens
                 finish = true;
 
             if (finish && !_FadeOut)
-                _LoadNextSong();
+                _NextSong();
 
             _UpdateSongText();
             _UpdateDuetNames();
@@ -463,7 +463,7 @@ namespace Vocaluxe.Screens
             base.OnShowFinish();
 
             CGame.Start();
-            _LoadNextSong();
+            _NextSong();
         }
 
         public override void Draw()
@@ -547,12 +547,40 @@ namespace Vocaluxe.Screens
             _Texts[_TextMedleyCountdown].Text = String.Empty;
         }
 
-        private void _LoadNextSong()
+        private void _RestartRound()
+        {
+            _CloseSong();
+
+            CGame.ResetPlayer();
+            _LoadCurrentSong();
+
+            _StartSong();
+        }
+
+        private void _RestartGame()
+        {
+            _CloseSong();
+
+            CGame.Reset();
+            CGame.ResetPlayer();
+            CGame.NextRound();
+            _LoadCurrentSong();
+
+            _StartSong();
+        }
+
+        private void _NextSong()
         {
             _CloseSong();
 
             CGame.NextRound();
+            _LoadCurrentSong();
 
+            _StartSong();
+        }
+
+        private void _LoadCurrentSong()
+        {
             if (CGame.IsFinished())
             {
                 _FinishedSinging();
@@ -654,8 +682,6 @@ namespace Vocaluxe.Screens
 
             if (!song.IsDuet)
                 _TimerSongText.Start();
-
-            _StartSong();
         }
 
         private void _SetNormalLyricsVisibility()
