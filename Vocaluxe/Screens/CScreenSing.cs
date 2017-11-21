@@ -651,7 +651,10 @@ namespace Vocaluxe.Screens
         {
             //Need this to set other songs to points-var
             while (!CGame.IsFinished())
+            {
                 CGame.NextRound();
+                CGame.ResetPlayer();
+            }
 
             _FinishedSinging();
         }
