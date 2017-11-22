@@ -463,10 +463,19 @@ namespace Vocaluxe.Lib.Database
                     if (reader != null && reader.HasRows)
                     {
                         reader.Read();
-                        artist = reader.GetString(0);
-                        title = reader.GetString(1);
-                        numPlayed = reader.GetInt32(2);
-                        dateAdded = new DateTime(reader.GetInt64(3));
+
+                        if (!reader.IsDBNull(0))
+                            artist = reader.GetString(0);
+
+                        if (!reader.IsDBNull(1))
+                            title = reader.GetString(1); 
+
+                        if (!reader.IsDBNull(2))
+                            numPlayed = reader.GetInt32(2);
+
+                        if (!reader.IsDBNull(3))
+                            dateAdded = new DateTime(reader.GetInt64(3));
+
                         reader.Dispose();
                         return true;
                     }
