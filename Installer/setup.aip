@@ -3765,8 +3765,8 @@
     <ROW Action="AI_DetectSoftware" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="x64" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" Languages="en;cs;pt;fr;de;es;sv;hu;it;nl;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="Files\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" ExeName="[|ProductName]-[|ProductVersion]-x64" MsiPackageType="x64"/>
-    <ROW BuildKey="x64_1" BuildName="x86" BuildOrder="2" BuildType="0" PackageFolder="Setup Files" Languages="en;cs;pt;fr;de;es;sv;hu;it;nl;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="Files\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" ExeName="[|ProductName]-[|ProductVersion]-x86"/>
+    <ROW BuildKey="DefaultBuild" BuildName="x64" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" Languages="en;cs;pt;fr;de;es;sv;hu;it;nl;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="Files\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" ExeName="[|ProductName]_[|ProductVersion]_Windows_x64" MsiPackageType="x64"/>
+    <ROW BuildKey="x64_1" BuildName="x86" BuildOrder="2" BuildType="0" PackageFolder="Setup Files" Languages="en;cs;pt;fr;de;es;sv;hu;it;nl;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="Files\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" ExeName="[|ProductName]_[|ProductVersion]_Windows_x86"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
