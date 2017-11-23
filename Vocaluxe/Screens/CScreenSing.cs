@@ -78,6 +78,8 @@ namespace Vocaluxe.Screens
 
         private const string _ButtonCancel = "ButtonCancel";
         private const string _ButtonContinue = "ButtonContinue";
+        private const string _ButtonRestartRound = "ButtonRestartRound";
+        private const string _ButtonRestartGame = "ButtonRestartGame";
         private const string _ButtonSkip = "ButtonSkip";
 
         private const string _LyricMain = "LyricMain";
@@ -170,7 +172,7 @@ namespace Vocaluxe.Screens
             _CreateProgressBars();
             _AssignPlayerElements();
 
-            _ThemeButtons = new string[] { _ButtonCancel, _ButtonContinue, _ButtonSkip };
+            _ThemeButtons = new string[] { _ButtonCancel, _ButtonContinue, _ButtonRestartGame, _ButtonRestartRound, _ButtonSkip };
             _ThemeLyrics = new string[] { _LyricMain, _LyricSub, _LyricMainDuet, _LyricSubDuet, _LyricMainTop, _LyricSubTop };
             _ThemeSingNotes = new string[] { _SingBars };
 
@@ -260,6 +262,10 @@ namespace Vocaluxe.Screens
                                 _SetPause(false);
                             if (_Buttons[_ButtonCancel].Selected)
                                 _Stop();
+                            if (_Buttons[_ButtonRestartGame].Selected)
+                                _RestartGame();
+                            if (_Buttons[_ButtonRestartRound].Selected)
+                                _RestartRound();
                             if (_Buttons[_ButtonSkip].Selected)
                             {
                                 _NextSong();
@@ -301,17 +307,24 @@ namespace Vocaluxe.Screens
             {
                 if (_Buttons[_ButtonContinue].Selected)
                     _SetPause(false);
-
                 if (_Buttons[_ButtonCancel].Selected)
                     _Stop();
-
+                if (_Buttons[_ButtonRestartGame].Selected)
+                {
+                    _RestartGame();
+                    _SetPause(false);
+                }
+                if (_Buttons[_ButtonRestartRound].Selected)
+                {
+                    _RestartRound();
+                    _SetPause(false);
+                }  
                 if (_Buttons[_ButtonSkip].Selected)
                 {
                     _NextSong();
                     _SetPause(false);
                 }
             }
-
 
             return true;
         }
@@ -1004,6 +1017,8 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonCancel].Visible = _Pause;
             _Buttons[_ButtonContinue].Visible = _Pause;
             _Buttons[_ButtonSkip].Visible = _Pause && CGame.NumRounds > CGame.RoundNr && CGame.NumRounds > 1;
+            _Buttons[_ButtonRestartGame].Visible = _Pause;
+            _Buttons[_ButtonRestartRound].Visible = _Pause && CGame.NumRounds > 1;
 
             if (_Pause)
                 CSound.Pause(_CurrentStream);
