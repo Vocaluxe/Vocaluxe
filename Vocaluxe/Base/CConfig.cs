@@ -171,6 +171,8 @@ namespace Vocaluxe.Base
             [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)] public ETimerMode TimerMode;
             [XmlAltName("NumPlayer"), DefaultValue(2)] public int NumPlayers;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn Tabs;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn AutoplayPreviews;
+            [XmlAltName("AutoplayPreviewDelay"), DefaultValue(500)] public int AutoplayPreviewDelay;
             [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)] public ELyricsPosition LyricsPosition;
             [DefaultValue(0.1f)] public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
             [XmlArrayItem("Player"), XmlArray] public string[] Players;
@@ -234,13 +236,14 @@ namespace Vocaluxe.Base
         public static event OnSongMenuChanged SongMenuChanged;
 
         //Folders
+        //We need full path for folders for matching folder path with textfile path when loading
         public static readonly List<string> SongFolders = new List<string>
             {
 #if INSTALLER
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs),
-            CSettings.FolderNameSongs
+            Path.Combine(CSettings.ProgramFolder, FolderNameSongs)
 #elif WIN
-            CSettings.FolderNameSongs
+            Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 #elif LINUX
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)
 #endif
@@ -378,15 +381,7 @@ namespace Vocaluxe.Base
             else
                 Config = xml.DeserializeString<SConfig>("<root />");
 
-            if (Config.Game.SongFolder.Length > 0 && Config.Game.SongFolder[0] != "")
-            {
-                SongFolders.Clear();
-                SongFolders.AddRange(Config.Game.SongFolder);
-            }
-            else
-            {
-                Config.Game.SongFolder = SongFolders.ToArray();
-            }
+            NormalizeSongPaths();
 
             if (Config.Game.MinLineBreakTime < 0)
                 Config.Game.MinLineBreakTime = 0.1f;
@@ -521,6 +516,10 @@ namespace Vocaluxe.Base
                     return "NumPlayers: 1.." + CSettings.MaxNumPlayer;
                 case "Tabs":
                     return "Order songs in tabs: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "AutoplayPreviews":
+                    return "Automatically play song preview when selected: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "AutoplayPreviewDelay":
+                    return "Delay before playback of autoplay previews is started in milliseconds";
                 case "LyricsPosition":
                     return "Position if lyrics on screen: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricsPosition)));
                 case "MinLineBreakTime":
@@ -672,6 +671,29 @@ namespace Vocaluxe.Base
             }
 
             return false;
+        }
+
+        /// <summary>
+        ///     Set song path if none is find in config and check if every path exists
+        /// </summary>
+        public static void NormalizeSongPaths()
+        {
+            //Check if there are configured songfolders
+            if (Config.Game.SongFolder.Length > 0 && Config.Game.SongFolder[0] != "")
+            {
+                SongFolders.Clear();
+
+                foreach (string folder in Config.Game.SongFolder)
+                {
+                    //Check if folder exists
+                    if (Directory.Exists(folder))
+                        SongFolders.Add(folder);
+                }
+            }
+            
+            //Test if songfolders are still empty or now empty
+            if(Config.Game.SongFolder.Length == 0)
+                Config.Game.SongFolder = SongFolders.ToArray();
         }
 
         /// <summary>

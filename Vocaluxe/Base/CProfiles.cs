@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.IO;
+using System.Text.RegularExpressions;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
@@ -296,7 +297,7 @@ namespace Vocaluxe.Base
                 return new CProfile[0];
 
             var list = new List<CProfile>(_Profiles.Values);
-            list.Sort(_CompareByPlayerName);
+            list.Sort(_AlphaNumericCompareByPlayerName);
             return list.ToArray();
         }
 
@@ -638,9 +639,14 @@ namespace Vocaluxe.Base
             _ProfilesChanged = true;
         }
 
-        private static int _CompareByPlayerName(CProfile a, CProfile b)
+        private static int _AlphaNumericCompareByPlayerName(CProfile a, CProfile b)
         {
-            return String.CompareOrdinal(a.PlayerName, b.PlayerName);
+            return _PadNumbersInString(a.PlayerName).CompareTo(_PadNumbersInString(b.PlayerName));
+        }
+
+        private static string _PadNumbersInString(string text)
+        {
+            return Regex.Replace(text, "[0-9]+", match => match.Value.PadLeft(4, '0'));
         }
 
         public static CAvatar GetAvatarByFilename(string fileName)
