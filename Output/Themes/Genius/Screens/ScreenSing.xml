@@ -657,11 +657,11 @@
       <Text /></Text>
     <Text Name="TextPause">
       <X>640</X>
-      <Y>350</Y>
+      <Y>450</Y>
       <Z>-2.11</Z>
-      <H>40</H>
+      <H>100</H>
       <MaxW>0</MaxW>
-      <Color Name="TextColor" />
+      <Color Name="TextPauseColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
