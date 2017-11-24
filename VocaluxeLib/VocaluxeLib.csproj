@@ -112,7 +112,6 @@
     <Compile Include="Draw\CTextureRef.cs" />
     <Compile Include="Menu\IThemeable.cs" />
     <Compile Include="Menu\SingNotes\CNoteBars.cs" />
-    <Compile Include="Menu\SongMenu\CSongMenuListRecord.cs" />
     <Compile Include="Utils\Combinatorics\CCombinations.cs" />
     <Compile Include="XmlStructs.cs" />
     <Compile Include="Xml\CTypeExtensions.cs" />
