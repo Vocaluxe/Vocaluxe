@@ -225,7 +225,7 @@
       </Reflection>
     </Text>
     <Text Name="TextOptionsTitle">
-      <X>220</X>
+      <X>400</X>
       <Y>47</Y>
       <Z>-2.11</Z>
       <H>34</H>
@@ -418,7 +418,7 @@
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>360</Y>
         <W>360</W>
         <H>40</H>
@@ -445,7 +445,7 @@
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>235</Y>
         <W>360</W>
         <H>40</H>
@@ -472,7 +472,7 @@
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>90</Y>
         <W>360</W>
         <H>40</H>
@@ -499,7 +499,7 @@
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>90</Y>
         <W>360</W>
         <H>40</H>
@@ -526,7 +526,7 @@
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>90</Y>
         <W>360</W>
         <H>40</H>
@@ -553,7 +553,7 @@
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>225</Y>
         <W>360</W>
         <H>40</H>
@@ -580,7 +580,7 @@
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>270</Y>
         <W>360</W>
         <H>40</H>
@@ -607,7 +607,7 @@
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>135</Y>
         <W>360</W>
         <H>40</H>
@@ -636,7 +636,7 @@
       <Rect>
         <X>40</X>
         <Y>40</Y>
-        <W>360</W>
+        <W>640</W>
         <H>360</H>
         <Z>-1.01</Z>
       </Rect>
@@ -696,7 +696,7 @@
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>315</Y>
         <W>360</W>
         <H>40</H>
@@ -723,7 +723,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>135</Y>
         <W>360</W>
         <H>40</H>
@@ -1042,21 +1042,21 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>135</Y>
         <W>360</W>
         <H>40</H>
         <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
-        <X>45</X>
+        <X>185</X>
         <Y>140</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>365</X>
+        <X>505</X>
         <Y>140</Y>
         <W>30</W>
         <H>30</H>
@@ -1084,21 +1084,21 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>190</Y>
         <W>360</W>
         <H>40</H>
         <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
-        <X>45</X>
+        <X>185</X>
         <Y>195</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>365</X>
+        <X>505</X>
         <Y>195</Y>
         <W>30</W>
         <H>30</H>
@@ -1126,21 +1126,21 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>180</Y>
         <W>360</W>
         <H>40</H>
         <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
-        <X>45</X>
+        <X>185</X>
         <Y>185</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>365</X>
+        <X>505</X>
         <Y>185</Y>
         <W>30</W>
         <H>30</H>
@@ -1168,21 +1168,21 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>40</X>
+        <X>180</X>
         <Y>90</Y>
         <W>360</W>
         <H>40</H>
         <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
-        <X>45</X>
+        <X>185</X>
         <Y>95</Y>
         <W>30</W>
         <H>30</H>
         <Z>-2.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>365</X>
+        <X>505</X>
         <Y>95</Y>
         <W>30</W>
         <H>30</H>
