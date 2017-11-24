@@ -628,20 +628,6 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
             }
 
-            //highlight the text of the selected song
-            //int i = 0;
-            //foreach (CText text in _Texts)
-            //{
-            //    if (i < _Tiles.Count && _Tiles[i].Selected)
-            //        text.Font.Style = EStyle.BoldItalic;
-            //    else if (i < _Tiles.Count)
-            //        text.Font.Style = EStyle.Normal;
-            //    else
-            //        text.Text = "";
-            //    text.Draw();
-            //    i++;
-            //}
-
             for (int k = 0; k < _Tiles.Count; k++)
             {
                 CText artist = _Texts[k * 2];
