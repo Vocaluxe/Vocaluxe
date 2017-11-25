@@ -27,8 +27,8 @@ namespace Vocaluxe.Base.Server
             get { return _ID; }
         }
 
-        private readonly int _ProfileId;
-        public int ProfileId
+        private readonly Guid _ProfileId;
+        public Guid ProfileId
         {
             get { return _ProfileId; }
         }
@@ -46,7 +46,7 @@ namespace Vocaluxe.Base.Server
             internal set { _LastSeen = value; }
         }
 
-        public CSession(Guid id, int profileId, EUserRoles roles)
+        public CSession(Guid id, Guid profileId, EUserRoles roles)
         {
             _ID = id;
             _ProfileId = profileId;

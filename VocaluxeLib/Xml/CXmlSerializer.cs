@@ -96,6 +96,10 @@ namespace VocaluxeLib.Xml
                     writer.WriteEndElement();
                 }
             }
+            else if (type == typeof(Guid))
+            {
+                writer.WriteElementString(name, value.ToString());
+            }
             else if (type.IsNullable())
                 _WriteValue(writer, name, type.GetGenericArguments()[0], value, isAttribute, arrayItemName, nameAttribute);
             else if (type.IsList() || type.IsArray)
