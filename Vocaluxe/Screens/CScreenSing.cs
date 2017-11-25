@@ -1440,9 +1440,9 @@ namespace Vocaluxe.Screens
                     {
                         if (player <= numplayer)
                         {
-                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
-                            _AddText(GetNewText(), "TextScoreS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
-                            _AddText(GetNewText(), "TextNameS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
+                            string target = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddText(GetNewText(), "TextScore" + target);
+                            _AddText(GetNewText(), "TextName" + target);
                         }
                     }
                 }
@@ -1508,9 +1508,9 @@ namespace Vocaluxe.Screens
                     {
                         if (player <= numplayer)
                         {
-                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
-                            _AddStatic(GetNewStatic(), "StaticScoreS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
-                            _AddStatic(GetNewStatic(), "StaticAvatarS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
+                            string target = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddStatic(GetNewStatic(), "StaticScore" + target);
+                            _AddStatic(GetNewStatic(), "StaticAvatar" + target);
                         }
                     }
                 }
@@ -1571,8 +1571,8 @@ namespace Vocaluxe.Screens
                     {
                         if (player <= numplayer)
                         {
-                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
-                            _AddProgressBar(GetNewProgressBar(), "ProgressBarRatingS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
+                            string target = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddProgressBar(GetNewProgressBar(), "ProgressBarRating" + target);
                         }
                     }
                 }
