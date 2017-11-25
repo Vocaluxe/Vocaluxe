@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vocaluxe</RootNamespace>
     <AssemblyName>Vocaluxe</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>Vocaluxe.CMainProgram</StartupObject>
@@ -43,6 +43,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -54,6 +55,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>WIN;ARCH_X86</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWin|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -66,6 +68,7 @@
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>..\CheckingRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -77,6 +80,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>WIN;ARCH_X64</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugLinux|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -88,6 +92,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseLinux|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -99,6 +104,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>LINUX;ARCH_X86</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugLinux|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -110,6 +116,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseLinux|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -121,6 +128,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>LINUX;ARCH_X64</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -132,6 +140,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>WIN;ARCH_X86;INSTALLER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -143,6 +152,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>WIN;ARCH_X64;INSTALLER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
