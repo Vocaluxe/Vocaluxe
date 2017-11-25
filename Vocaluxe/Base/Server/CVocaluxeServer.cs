@@ -388,7 +388,7 @@ namespace Vocaluxe.Base.Server
         }
 
         #region profile
-        public static SProfileData GetProfileData(int profileId, bool isReadonly)
+        public static SProfileData GetProfileData(Guid profileId, bool isReadonly)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -807,7 +807,7 @@ namespace Vocaluxe.Base.Server
         #endregion
 
         #region user management
-        public static bool ValidatePassword(int profileId, string password)
+        public static bool ValidatePassword(Guid profileId, string password)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -824,7 +824,7 @@ namespace Vocaluxe.Base.Server
             return _Hash((new UTF8Encoding()).GetBytes(password), salt).SequenceEqual(profile.PasswordHash);
         }
 
-        public static bool ValidatePassword(int profileId, byte[] hashedPassword)
+        public static bool ValidatePassword(Guid profileId, byte[] hashedPassword)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -841,7 +841,7 @@ namespace Vocaluxe.Base.Server
             return hashedPassword.SequenceEqual(profile.PasswordHash);
         }
 
-        private static byte[] _GetPasswordSalt(int profileId)
+        private static byte[] _GetPasswordSalt(Guid profileId)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -853,7 +853,7 @@ namespace Vocaluxe.Base.Server
             return profile.PasswordSalt;
         }
 
-        public static int GetUserRole(int profileId)
+        public static int GetUserRole(Guid profileId)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -865,7 +865,7 @@ namespace Vocaluxe.Base.Server
             return (int)(profile.UserRole);
         }
 
-        public static void SetUserRole(int profileId, int userRole)
+        public static void SetUserRole(Guid profileId, int userRole)
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
@@ -884,9 +884,9 @@ namespace Vocaluxe.Base.Server
             CProfiles.SaveProfiles();
         }
 
-        public static int GetUserIdFromUsername(string username)
+        public static Guid GetUserIdFromUsername(string username)
         {
-            IEnumerable<int> playerIds = (from p in CProfiles.GetProfiles()
+            IEnumerable<Guid> playerIds = (from p in CProfiles.GetProfiles()
                                           where String.Equals(p.PlayerName, username, StringComparison.OrdinalIgnoreCase)
                                           select p.ID);
             try
