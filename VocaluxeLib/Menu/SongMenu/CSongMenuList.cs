@@ -58,6 +58,8 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private int _NumRecords;
         private ERecordStyle _RecordStyle;
+        private EAspect _VideoAspect;
+
 
         // Offset is the song or categoryNr of the tile in the left upper corner
         private int _Offset;
@@ -88,6 +90,20 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
+        public override SRectF VideoRect
+        {
+            get
+            {
+                if (SmallView)
+                {
+                    return _Theme.SongMenuList.VideoRectSmall;
+                }
+                else{
+                    return _Theme.SongMenuList.VideoRect;
+                }
+            }
+        }
+
         public override bool SmallView
         {
             set
@@ -95,9 +111,26 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (SmallView == value)
                     return;
                 base.SmallView = value;
+
+                if (value)
+                {
+                    _CoverBig.MaxRect = _Theme.SongMenuList.VideoRectSmall;
+                    _TextBG.MaxRect = _Theme.SongMenuList.VideoRectSmall;
+                    _VideoAspect = EAspect.Crop;
+                    _RecordStyle = ERecordStyle.RECORDSTYLE_NONE;
+                }
+                else
+                {
+                    _CoverBig.MaxRect = _Theme.SongMenuList.VideoRect;
+                    _TextBG.MaxRect = _Theme.SongMenuList.VideoRect;
+                    _VideoAspect = EAspect.LetterBox;
+                    _RecordStyle = _Theme.SongMenuList.RecordStyle;
+                }
+
                 _InitTiles();
                 _UpdateList(true);
                 _UpdateTileSelection();
+                _UpdatePreview();
             }
         }
 
@@ -331,7 +364,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _UpdateRecords(CSong song)
         {
-            if (!CBase.Songs.IsInCategory())
+            if (!CBase.Songs.IsInCategory() || _RecordStyle == ERecordStyle.RECORDSTYLE_NONE)
             {
                 _ResetRecords();
                 return;
@@ -660,13 +693,14 @@ namespace VocaluxeLib.Menu.SongMenu
             if (vidtex != null)
             {
                 if (vidtex.Color.A < 1)
-                    _CoverBig.Draw(EAspect.LetterBox);
-                SRectF rect = CHelper.FitInBounds(_CoverBig.Rect, vidtex.OrigAspect, EAspect.LetterBox);
+                    _CoverBig.Draw(_VideoAspect);
+                
+                SRectF rect = CHelper.FitInBounds(_CoverBig.Rect, vidtex.OrigAspect, _VideoAspect);
                 CBase.Drawing.DrawTexture(vidtex, rect, vidtex.Color, _CoverBig.Rect);
                 CBase.Drawing.DrawTextureReflection(vidtex, rect, vidtex.Color, _CoverBig.Rect, _CoverBig.ReflectionSpace, _CoverBig.ReflectionHeight);
             }
             else
-                _CoverBig.Draw(EAspect.LetterBox);
+                _CoverBig.Draw(_VideoAspect);
 
             foreach (IMenuElement element in _SubElements)
                 element.Draw();

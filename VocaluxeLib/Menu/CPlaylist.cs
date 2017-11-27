@@ -70,7 +70,8 @@ namespace VocaluxeLib.Menu
         public SThemeColor ColorBackground;
         public SThemeColor SelColorBackground;
 
-        public SThemeText Text1;
+        public SThemeText Artist;
+        public SThemeText Title;
 
         public SThemeStatic StaticCover;
         public SThemeStatic StaticPlaylistHeader;
@@ -99,7 +100,8 @@ namespace VocaluxeLib.Menu
         {
             public CStatic Cover;
             public CStatic Background;
-            public CText Text1;
+            public CText Artist;
+            public CText Title;
             public CSelectSlide SelectSlide;
             public int Content;
 
@@ -109,7 +111,8 @@ namespace VocaluxeLib.Menu
             {
                 Cover = new CStatic(pe.Cover);
                 Background = new CStatic(pe.Background);
-                Text1 = new CText(pe.Text1);
+                Artist = new CText(pe.Artist);
+                Title = new CText(pe.Title);
                 SelectSlide = new CSelectSlide(pe.SelectSlide);
                 Content = pe.Content;
             }
@@ -119,7 +122,8 @@ namespace VocaluxeLib.Menu
                 Background.Draw();
                 SelectSlide.Draw();
                 Cover.Draw();
-                Text1.Draw();
+                Artist.Draw();
+                Title.Draw();
             }
 
             public void MouseMove(int posX, int posY, int oldPosX, int oldPosY)
@@ -136,8 +140,11 @@ namespace VocaluxeLib.Menu
                 SelectSlide.X += diffX;
                 SelectSlide.Y += diffY;
 
-                Text1.X += diffX;
-                Text1.Y += diffY;
+                Artist.X += diffX;
+                Artist.Y += diffY;
+
+                Title.X += diffX;
+                Title.Y += diffY;
             }
         }
 
@@ -163,7 +170,8 @@ namespace VocaluxeLib.Menu
         private readonly CButton _ButtonPlaylistSave;
         private readonly CButton _ButtonPlaylistDelete;
         private readonly CButton _ButtonPlaylistSing;
-        private readonly CText _Text1;
+        private readonly CText _Artist;
+        private readonly CText _Title;
         private readonly CSelectSlide _SelectSlideGameMode;
         private readonly CStatic _StaticPlaylistHeader;
         private readonly CStatic _StaticPlaylistFooter;
@@ -227,7 +235,8 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = partyModeID;
 
-            _Text1 = new CText(_PartyModeID);
+            _Artist = new CText(_PartyModeID);
+            _Title = new CText(_PartyModeID);
             _StaticPlaylistFooter = new CStatic(_PartyModeID);
             _StaticPlaylistHeader = new CStatic(_PartyModeID);
             _ButtonPlaylistName = new CButton(_PartyModeID);
@@ -246,7 +255,8 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
             _Theme = theme;
 
-            _Text1 = new CText(_Theme.Text1, _PartyModeID);
+            _Artist = new CText(_Theme.Artist, _PartyModeID);
+            _Title = new CText(_Theme.Title, _PartyModeID);
             _StaticPlaylistFooter = new CStatic(_Theme.StaticPlaylistFooter, _PartyModeID);
             _StaticPlaylistHeader = new CStatic(_Theme.StaticPlaylistHeader, _PartyModeID);
             _ButtonPlaylistName = new CButton(_Theme.ButtonPlaylistName, _PartyModeID);
@@ -271,7 +281,8 @@ namespace VocaluxeLib.Menu
 
         private void _ReadSubThemeElements()
         {
-            _Theme.Text1 = (SThemeText)_Text1.GetTheme();
+            _Theme.Artist = (SThemeText)_Artist.GetTheme();
+            _Theme.Title = (SThemeText)_Title.GetTheme();
             _Theme.StaticPlaylistFooter = (SThemeStatic)_StaticPlaylistFooter.GetTheme();
             _Theme.StaticPlaylistHeader = (SThemeStatic)_StaticPlaylistHeader.GetTheme();
             _Theme.ButtonPlaylistName = (SThemeButton)_ButtonPlaylistName.GetTheme();
@@ -315,7 +326,8 @@ namespace VocaluxeLib.Menu
 
         public void UnloadSkin()
         {
-            _Text1.UnloadSkin();
+            _Artist.UnloadSkin();
+            _Title.UnloadSkin();
             _ButtonPlaylistClose.UnloadSkin();
             _ButtonPlaylistDelete.UnloadSkin();
             _ButtonPlaylistName.UnloadSkin();
@@ -336,7 +348,8 @@ namespace VocaluxeLib.Menu
 
             MaxRect = _Theme.Rect;
 
-            _Text1.LoadSkin();
+            _Artist.LoadSkin();
+            _Title.LoadSkin();
             _ButtonPlaylistClose.LoadSkin();
             _ButtonPlaylistDelete.LoadSkin();
             _ButtonPlaylistName.LoadSkin();
@@ -834,7 +847,7 @@ namespace VocaluxeLib.Menu
                                     Background = {Z = CBase.Settings.GetZNear()},
                                     Cover = {Z = CBase.Settings.GetZNear()},
                                     SelectSlide = {Z = CBase.Settings.GetZNear()},
-                                    Text1 = {Z = CBase.Settings.GetZNear()}
+                                    Artist = {Z = CBase.Settings.GetZNear()}
                                 };
 
                             _ChangeOrderElement.Background.Texture = CBase.Themes.GetSkinTexture(_Theme.SkinBackground, _PartyModeID);
@@ -989,9 +1002,13 @@ namespace VocaluxeLib.Menu
                 en.Cover.Y += _Theme.Rect.Y + (i * _Theme.EntryHeight);
                 en.Cover.X += _Theme.Rect.X;
 
-                en.Text1 = new CText(_Text1);
-                en.Text1.X += _Theme.Rect.X;
-                en.Text1.Y += _Theme.Rect.Y + (i * _Theme.EntryHeight);
+                en.Artist = new CText(_Artist);
+                en.Artist.X += _Theme.Rect.X;
+                en.Artist.Y += _Theme.Rect.Y + (i * _Theme.EntryHeight);
+
+                en.Title = new CText(_Title);
+                en.Title.X += _Theme.Rect.X;
+                en.Title.Y += _Theme.Rect.Y + (i * _Theme.EntryHeight);
 
                 en.SelectSlide = new CSelectSlide(_SelectSlideGameMode);
                 en.SelectSlide.LoadSkin();
@@ -1002,7 +1019,8 @@ namespace VocaluxeLib.Menu
 
                 _PlaylistElements.Add(en);
                 _AddSelectSlide(en.SelectSlide);
-                _AddText(en.Text1);
+                _AddText(en.Artist);
+                _AddText(en.Title);
                 _AddStatic(en.Background);
                 _AddStatic(en.Cover);
             }
@@ -1089,12 +1107,15 @@ namespace VocaluxeLib.Menu
                     _PlaylistElements[i].Background.Visible = true;
                     _PlaylistElements[i].Cover.Visible = true;
                     _PlaylistElements[i].SelectSlide.Visible = true;
-                    _PlaylistElements[i].Text1.Visible = true;
+                    _PlaylistElements[i].Artist.Visible = true;
+                    _PlaylistElements[i].Title.Visible = true;
                     CPlaylistElementContent pec = _PlaylistElementContents[_Offset + i];
                     CSong song = CBase.Songs.GetSongByID(pec.SongID);
                     _PlaylistElements[i].Cover.Texture = song.CoverTextureSmall;
-                    string t1 = CBase.Language.Translate(_Text1.Text).Replace("%a", song.Artist).Replace("%t", song.Title);
-                    _PlaylistElements[i].Text1.Text = /*(Offset + i + 1) + ") " + */ t1; //TODO: Add text field for the number
+                    //string t1 = CBase.Language.Translate(_Artist.Text).Replace("%a", song.Artist);
+                    //string t2 = CBase.Language.Translate(_Title.Text).Replace("%t", song.Title);
+                    _PlaylistElements[i].Artist.Text = /*(Offset + i + 1) + ") " + */ song.Artist; //TODO: Add text field for the number
+                    _PlaylistElements[i].Title.Text = /*(Offset + i + 1) + ") " + */ song.Title; //TODO: Add text field for the number
                     _PlaylistElements[i].SelectSlide.Clear();
                     foreach (EGameMode gm in pec.Modes)
                         _PlaylistElements[i].SelectSlide.AddValue(Enum.GetName(typeof(EGameMode), gm), null, (int)gm);
@@ -1105,7 +1126,8 @@ namespace VocaluxeLib.Menu
                     _PlaylistElements[i].Background.Visible = false;
                     _PlaylistElements[i].Cover.Visible = false;
                     _PlaylistElements[i].SelectSlide.Visible = false;
-                    _PlaylistElements[i].Text1.Visible = false;
+                    _PlaylistElements[i].Artist.Visible = false;
+                    _PlaylistElements[i].Title.Visible = false;
                     _PlaylistElements[i].Content = -1;
                 }
             }

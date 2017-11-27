@@ -45,5 +45,7 @@ namespace VocaluxeLib.Menu.SongMenu
         int GetPreviewSong();
 
         bool SmallView { get; set; }
+
+        SRectF VideoRect { get; }
     }
 }

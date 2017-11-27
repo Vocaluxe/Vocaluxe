@@ -452,6 +452,11 @@ namespace VocaluxeLib
         /// <summary
         /// Show the best Records independent from Players
         /// </summary>
-        RECORDSTYLE_ALL
+        RECORDSTYLE_ALL,
+
+        /// <summary
+        /// Show no Records
+        /// </summary>
+        RECORDSTYLE_NONE
     }
 }

@@ -73,6 +73,8 @@ namespace VocaluxeLib.Menu.SongMenu
         public SRectF TileRectSmall;
 
         public SRectF TileRectRecord;
+        public SRectF VideoRect;
+        public SRectF VideoRectSmall;
 
         public SThemeText TextArtist;
         public SThemeText TextTitle;
@@ -183,6 +185,7 @@ namespace VocaluxeLib.Menu.SongMenu
             return _PreviewNr;
         }
 
+        public virtual SRectF VideoRect { get; }
         public virtual bool SmallView { get; set; }
         public abstract float SelectedTileZoomFactor { get; }
         // This is the nr of the current selection (song or category)
