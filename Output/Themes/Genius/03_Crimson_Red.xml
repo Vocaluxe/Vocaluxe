@@ -296,6 +296,12 @@
       <B>0.027</B>
       <A>1.000</A>		
     </RatingPerfect>
+    <TextPauseColor>
+      <R>1.000</R>
+      <G>1.000</G>
+      <B>1.000</B>
+      <A>0.900</A>
+    </TextPauseColor>		
   </Colors>
   <Skins>
     <BG_Default>BG_Default.png</BG_Default>
@@ -329,7 +335,7 @@
     <Score>Score.png</Score>
     <Star>Star.png</Star>
     <SongMenu>SongMenu.png</SongMenu>
-    <PauseBG>Pause.png</PauseBG>
+    <PauseBG>PauseBG.png</PauseBG>
     <EnergyBeam>EnergyBeam.png</EnergyBeam>
     <SearchBar>SearchBar.png</SearchBar>
     <PlaylistBG>PlaylistBG.png</PlaylistBG>
