@@ -213,6 +213,8 @@ namespace VocaluxeLib.Xml
                     return value;
                 }
             }
+            if (type == typeof(Guid))
+                return Guid.Parse(node.InnerText);
             if (type == typeof(string))
                 return node == null ? null : node.InnerText;
             if (type.IsPrimitive)

@@ -42,7 +42,7 @@ namespace VocaluxeLib.Profile
 #pragma warning restore 649
         }
 
-        [XmlIgnore] public int ID;
+        [DefaultValue(null)] public Guid ID;
 
         public string PlayerName;
         [XmlIgnore] public string FilePath;
@@ -67,12 +67,13 @@ namespace VocaluxeLib.Profile
             {
                 Avatar = CBase.Profiles.GetAvatarByFilename(value);
                 if (Avatar == null)
-                    throw new Exception("Avatar '" + value + "' not found");
+                    CBase.Log.LogError("Avatar '" + value + "' not found");
             }
         }
 
         public CProfile()
         {
+            ID = Guid.NewGuid();
             PlayerName = String.Empty;
             Difficulty = EGameDifficulty.TR_CONFIG_EASY;
             UserRole = EUserRole.TR_USERROLE_NORMAL;
@@ -92,6 +93,12 @@ namespace VocaluxeLib.Profile
             try
             {
                 xml.Deserialize(FilePath, this);
+                //If ID couldn't be loaded, generate a new one and save it
+                if (ID == Guid.Empty)
+                {
+                    ID = Guid.NewGuid();
+                    SaveProfile();
+                }
             }
             catch (Exception e)
             {
@@ -112,7 +119,10 @@ namespace VocaluxeLib.Profile
                 var old = xml.Deserialize<SOldXmlProfile>(FilePath);
                 string newXml = ser.Serialize(old.Info);
                 xml.DeserializeString(newXml, this);
+                if (ID == null)
+                    ID = Guid.NewGuid();
                 ser.Serialize(FilePath, this);
+
             }
             catch (Exception e2)
             {

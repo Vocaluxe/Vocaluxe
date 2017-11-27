@@ -219,12 +219,13 @@ namespace VocaluxeLib
     public interface IProfiles
     {
         CProfile[] GetProfiles();
-        EGameDifficulty GetDifficulty(int profileID);
-        string GetPlayerName(int profileID, int playerNum = 0);
-        CTextureRef GetAvatar(int profileID);
+        int GetNum();
+        EGameDifficulty GetDifficulty(Guid profileID);
+        string GetPlayerName(Guid profileID, int playerNum = 0);
+        CTextureRef GetAvatar(Guid profileID);
         CAvatar GetAvatarByFilename(string fileName);
-        bool IsProfileIDValid(int profileID);
-        bool IsGuest(int profileID);
+        bool IsProfileIDValid(Guid profileID);
+        bool IsGuest(Guid profileID);
         void AddProfileChangedCallback(ProfileChangedCallback notification);
     }
 

@@ -39,7 +39,7 @@ namespace Vocaluxe.Base.Server
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getOwnProfileId")]
-        int GetOwnProfileId();
+        Guid GetOwnProfileId();
 
         [OperationContract, WebInvoke(Method = "POST",
             ResponseFormat = WebMessageFormat.Json,
@@ -49,7 +49,7 @@ namespace Vocaluxe.Base.Server
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getProfile?profileId={profileId}")]
-        SProfileData GetProfile(int profileId);
+        SProfileData GetProfile(Guid profileId);
 
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
@@ -195,12 +195,12 @@ namespace Vocaluxe.Base.Server
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/getUserRole?profileId={profileId}")]
-        int GetUserRole(int profileId);
+        int GetUserRole(Guid profileId);
 
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,
             UriTemplate = "/setUserRole?profileId={profileId}&userRole={userRole}")]
-        void SetUserRole(int profileId, int userRole);
+        void SetUserRole(Guid profileId, int userRole);
 
         [OperationContract, WebInvoke(Method = "GET",
             ResponseFormat = WebMessageFormat.Json,

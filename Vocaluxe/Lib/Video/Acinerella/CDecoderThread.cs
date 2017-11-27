@@ -429,7 +429,18 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private bool _CopyDecodedFrameToBuffer()
         {
             bool result;
-            var decoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
+            SACDecoder decoder;
+
+            try
+            {
+                decoder = (SACDecoder)Marshal.PtrToStructure(_Videodecoder, typeof(SACDecoder));
+            }
+            catch (Exception e)
+            {
+                CLog.LogError("Couldn't copy the frame to the managed environment.", false, false, e);
+                return false;
+            }
+            
             if (decoder.Buffer != IntPtr.Zero)
             {
                 _LastDecodedTime = (float)decoder.Timecode;

@@ -236,13 +236,14 @@ namespace Vocaluxe.Base
         public static event OnSongMenuChanged SongMenuChanged;
 
         //Folders
+        //We need full path for folders for matching folder path with textfile path when loading
         public static readonly List<string> SongFolders = new List<string>
             {
 #if INSTALLER
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs),
-            CSettings.FolderNameSongs
+            Path.Combine(CSettings.ProgramFolder, FolderNameSongs)
 #elif WIN
-            CSettings.FolderNameSongs
+            Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 #elif LINUX
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)
 #endif
@@ -380,15 +381,7 @@ namespace Vocaluxe.Base
             else
                 Config = xml.DeserializeString<SConfig>("<root />");
 
-            if (Config.Game.SongFolder.Length > 0 && Config.Game.SongFolder[0] != "")
-            {
-                SongFolders.Clear();
-                SongFolders.AddRange(Config.Game.SongFolder);
-            }
-            else
-            {
-                Config.Game.SongFolder = SongFolders.ToArray();
-            }
+            NormalizeSongPaths();
 
             if (Config.Game.MinLineBreakTime < 0)
                 Config.Game.MinLineBreakTime = 0.1f;
@@ -681,6 +674,29 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
+        ///     Set song path if none is find in config and check if every path exists
+        /// </summary>
+        public static void NormalizeSongPaths()
+        {
+            //Check if there are configured songfolders
+            if (Config.Game.SongFolder.Length > 0 && Config.Game.SongFolder[0] != "")
+            {
+                SongFolders.Clear();
+
+                foreach (string folder in Config.Game.SongFolder)
+                {
+                    //Check if folder exists
+                    if (Directory.Exists(folder))
+                        SongFolders.Add(folder);
+                }
+            }
+            
+            //Test if songfolders are still empty or now empty
+            if(Config.Game.SongFolder.Length == 0)
+                Config.Game.SongFolder = SongFolders.ToArray();
+        }
+
+        /// <summary>
         ///     Load command-line-parameters and their values to lists.
         /// </summary>
         /// <param name="args">Parameters</param>
@@ -821,7 +837,7 @@ namespace Vocaluxe.Base
 
             for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
-                CGame.Players[j].ProfileID = -1;
+                CGame.Players[j].ProfileID = Guid.Empty;
                 if (string.IsNullOrEmpty(Config.Game.Players[j]))
                     continue;
 

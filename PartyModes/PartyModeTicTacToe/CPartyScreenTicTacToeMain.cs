@@ -98,6 +98,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             _CreateFields();
             _Buttons[_ButtonField].Visible = false;
+
+            _Statics[_StaticAvatarT1].Aspect = EAspect.Crop;
+            _Statics[_StaticAvatarT2].Aspect = EAspect.Crop;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)

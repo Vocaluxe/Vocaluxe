@@ -656,17 +656,22 @@ namespace Vocaluxe.Base
             return CProfiles.GetProfiles();
         }
 
-        public EGameDifficulty GetDifficulty(int profileID)
+        public int GetNum()
+        {
+            return CProfiles.NumProfiles;
+        }
+
+        public EGameDifficulty GetDifficulty(Guid profileID)
         {
             return CProfiles.GetDifficulty(profileID);
         }
 
-        public string GetPlayerName(int profileID, int playerNum = 0)
+        public string GetPlayerName(Guid profileID, int playerNum = 0)
         {
             return CProfiles.GetPlayerName(profileID, playerNum);
         }
 
-        public CTextureRef GetAvatar(int profileID)
+        public CTextureRef GetAvatar(Guid profileID)
         {
             return CProfiles.GetAvatarTextureFromProfile(profileID);
         }
@@ -676,12 +681,12 @@ namespace Vocaluxe.Base
             return CProfiles.GetAvatarByFilename(fileName);
         }
 
-        public bool IsProfileIDValid(int profileID)
+        public bool IsProfileIDValid(Guid profileID)
         {
             return CProfiles.IsProfileIDValid(profileID);
         }
 
-        public bool IsGuest(int profileID)
+        public bool IsGuest(Guid profileID)
         {
             return CProfiles.IsGuestProfile(profileID);
         }
@@ -837,7 +842,14 @@ namespace Vocaluxe.Base
 
         public void Close(ref CVideoStream stream)
         {
-            CVideo.Close(ref stream);
+            try
+            {
+                CVideo.Close(ref stream);
+            }
+            catch (NotSupportedException e)
+            {
+                CLog.LogError($"Clould not close the background video: {e.Message}");
+            }
         }
 
         public void SetLoop(CVideoStream stream, bool loop = true)
@@ -847,12 +859,26 @@ namespace Vocaluxe.Base
 
         public void Pause(CVideoStream stream)
         {
-            CVideo.Pause(stream);
+            try
+            {
+                CVideo.Pause(stream);
+            }
+            catch (NotSupportedException e)
+            {
+                CLog.LogError($"Clould not pause the background video: {e.Message}");
+            }
         }
 
         public void Resume(CVideoStream stream)
         {
-            CVideo.Resume(stream);
+            try
+            {
+                CVideo.Resume(stream);
+            }
+            catch (NotSupportedException e)
+            {
+                CLog.LogError($"Clould not resume the background video: {e.Message}");
+            }
         }
     }
 

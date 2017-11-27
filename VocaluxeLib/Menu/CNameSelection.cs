@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
@@ -59,11 +60,11 @@ namespace VocaluxeLib.Menu
     {
         private class CTile
         {
-            public int ProfileID;
+            public Guid ProfileID;
             public readonly CStatic Avatar;
             public readonly CText Name;
 
-            public CTile(CStatic av, CText tex, int pID)
+            public CTile(CStatic av, CText tex, Guid pID)
             {
                 Avatar = av;
                 Name = tex;
@@ -95,12 +96,12 @@ namespace VocaluxeLib.Menu
 
         public int Offset;
         private int _ActualSelection = -1;
-        public int Selection = -1;
+        public Guid SelectedID = Guid.Empty;
 
         private int _Player = -1;
 
-        private readonly List<int> _VisibleProfiles;
-        private readonly List<int> _UsedProfiles;
+        private readonly List<Guid> _VisibleProfiles;
+        private readonly List<Guid> _UsedProfiles;
 
         private CStatic _PlayerSelector;
 
@@ -121,8 +122,8 @@ namespace VocaluxeLib.Menu
             _Theme = new SThemeNameSelection {Tiles = new SThemeNameSelectionTiles {Name = new SThemeNameSelectionName()}};
 
             _Tiles = new List<CTile>();
-            _VisibleProfiles = new List<int>();
-            _UsedProfiles = new List<int>();
+            _VisibleProfiles = new List<Guid>();
+            _UsedProfiles = new List<Guid>();
         }
 
         public CNameSelection(SThemeNameSelection theme, int partyModeID)
@@ -131,8 +132,8 @@ namespace VocaluxeLib.Menu
             _Theme = theme;
 
             _Tiles = new List<CTile>();
-            _VisibleProfiles = new List<int>();
-            _UsedProfiles = new List<int>();
+            _VisibleProfiles = new List<Guid>();
+            _UsedProfiles = new List<Guid>();
 
             ThemeLoaded = true;
         }
@@ -185,7 +186,7 @@ namespace VocaluxeLib.Menu
                 case Keys.Right:
                     if (_ActualSelection + 1 < _Tiles.Count)
                     {
-                        if (_Tiles[_ActualSelection + 1].ProfileID != -1)
+                        if (_Tiles[_ActualSelection + 1].ProfileID != Guid.Empty)
                             _ActualSelection++;
                     }
                     else
@@ -219,7 +220,7 @@ namespace VocaluxeLib.Menu
                 case Keys.Down:
                     if (_ActualSelection + _Theme.Tiles.NumW < _Tiles.Count)
                     {
-                        if (_Tiles[_ActualSelection + _Theme.Tiles.NumW].ProfileID != -1)
+                        if (_Tiles[_ActualSelection + _Theme.Tiles.NumW].ProfileID != Guid.Empty)
                             _ActualSelection += _Theme.Tiles.NumW;
                     }
                     else
@@ -227,10 +228,10 @@ namespace VocaluxeLib.Menu
                         int offset = Offset;
                         UpdateList(Offset + 1);
                     }
-                    if (_Tiles[_ActualSelection].ProfileID == -1)
+                    if (_Tiles[_ActualSelection].ProfileID == Guid.Empty)
                     {
                         _ActualSelection = _Tiles.Count - _Theme.Tiles.NumW;
-                        while(_Tiles[_ActualSelection + 1].ProfileID != -1)
+                        while(_Tiles[_ActualSelection + 1].ProfileID != Guid.Empty)
                         {
                             _ActualSelection++;
                         }
@@ -239,23 +240,23 @@ namespace VocaluxeLib.Menu
             }
 
             if (Offset * _Theme.Tiles.NumW + _ActualSelection < _VisibleProfiles.Count)
-                Selection = _VisibleProfiles[Offset * _Theme.Tiles.NumW + _ActualSelection];
+                SelectedID = _VisibleProfiles.ElementAt(Offset * _Theme.Tiles.NumW + _ActualSelection);
             else
-                Selection = -1;
+                SelectedID = Guid.Empty;
         }
 
         public void HandleMouse(SMouseEvent mevent)
         {
             for (int i = 0; i < _Tiles.Count; i++)
             {
-                if (CHelper.IsInBounds(_Tiles[i].Avatar.Rect, mevent) && _Tiles[i].ProfileID != -1)
+                if (CHelper.IsInBounds(_Tiles[i].Avatar.Rect, mevent) && _Tiles[i].ProfileID != Guid.Empty)
                 {
                     _ActualSelection = i;
 
                     if (Offset * _Theme.Tiles.NumW + _ActualSelection < _VisibleProfiles.Count)
-                        Selection = _VisibleProfiles[Offset * _Theme.Tiles.NumW + _ActualSelection];
+                        SelectedID = _VisibleProfiles.ElementAt(Offset * _Theme.Tiles.NumW + _ActualSelection);
                     else
-                        Selection = -1;
+                        SelectedID = Guid.Empty;
                 }
             }
         }
@@ -263,7 +264,7 @@ namespace VocaluxeLib.Menu
         public void FastSelection(bool active, int player)
         {
             //Overwrite player-selection; Same profile, but other player
-            if (active && Selection != -1)
+            if (active && SelectedID != Guid.Empty)
             {
                 _Player = player;
                 _PlayerSelector.Color = CBase.Themes.GetPlayerColor(player);
@@ -271,7 +272,7 @@ namespace VocaluxeLib.Menu
                 //Normal activation
             else if (active)
             {
-                Selection = 0;
+                SelectedID = _VisibleProfiles.ElementAt(0);
                 _ActualSelection = 0;
                 _Player = player;
                 _PlayerSelector.Color = CBase.Themes.GetPlayerColor(player);
@@ -280,7 +281,7 @@ namespace VocaluxeLib.Menu
                 //Deactivate
             else
             {
-                Selection = -1;
+                SelectedID = Guid.Empty;
                 _ActualSelection = -1;
                 _Player = -1;
                 _PlayerSelector.Visible = false;
@@ -307,14 +308,14 @@ namespace VocaluxeLib.Menu
                     _Tiles[i].Avatar.Texture = CBase.Profiles.GetAvatar(_VisibleProfiles[i + offset * _Theme.Tiles.NumW]);
                     _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
                     _Tiles[i].Name.Text = CBase.Profiles.GetPlayerName(_VisibleProfiles[i + offset * _Theme.Tiles.NumW]);
-                    _Tiles[i].ProfileID = _VisibleProfiles[i + offset * _Theme.Tiles.NumW];
+                    _Tiles[i].ProfileID = _VisibleProfiles.ElementAt(i + offset * _Theme.Tiles.NumW);
                 }
                 else
                 {
                     _Tiles[i].Avatar.Texture = _TextureEmptyTile;
                     _Tiles[i].Avatar.Color = _ColorEmptyTile;
                     _Tiles[i].Name.Text = "";
-                    _Tiles[i].ProfileID = -1;
+                    _Tiles[i].ProfileID = Guid.Empty;
                 }
             }
             Offset = offset;
@@ -331,7 +332,7 @@ namespace VocaluxeLib.Menu
             return isOver;
         }
 
-        public int TilePlayerNr(SMouseEvent mevent)
+        public Guid TilePlayerID(SMouseEvent mevent)
         {
             foreach (CTile tile in _Tiles)
             {
@@ -339,7 +340,7 @@ namespace VocaluxeLib.Menu
                     return tile.ProfileID;
             }
 
-            return -1;
+            return Guid.Empty;
         }
 
         public CStatic TilePlayerAvatar(SMouseEvent mevent)
@@ -374,9 +375,9 @@ namespace VocaluxeLib.Menu
             _PrepareTiles();
         }
 
-        public void UseProfile(int id)
+        public void UseProfile(Guid id)
         {
-            if (id > -1)
+            if (id != Guid.Empty)
             {
                 if (!_UsedProfiles.Contains(id) && CBase.Profiles.IsProfileIDValid(id) && !CBase.Profiles.IsGuest(id))
                 {
@@ -386,22 +387,34 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public void RemoveUsedProfile(int id)
+        public void RemoveUsedProfile(Guid id)
         {
-            if (id > -1)
+            if (id != Guid.Empty)
             {
                 _UsedProfiles.Remove(id);
                 UpdateList();
             }
         }
 
-        public int GetRandomUnusedProfile()
+        public Guid GetRandomUnusedProfile()
         {
-            if (_VisibleProfiles.Count == 0)
-                return -1;
+            Guid id = Guid.Empty;
 
-            int rand = CBase.Game.GetRandom(_VisibleProfiles.Count);
-            return _VisibleProfiles[rand];
+            if (_VisibleProfiles.Count == 0)
+                return id;
+
+            if (_VisibleProfiles.Count == _UsedProfiles.Count)
+                return id;
+
+            while (id == Guid.Empty)
+            {
+                int rand = CBase.Game.GetRandom(_VisibleProfiles.Count);
+                if (_UsedProfiles.Contains(_VisibleProfiles[rand]))
+                    continue;
+                id = _VisibleProfiles.ElementAt(rand);
+            }
+
+            return id;
         }
 
         private void _PrepareTiles()
@@ -416,7 +429,7 @@ namespace VocaluxeLib.Menu
                     var tileStatic = new CStatic(_PartyModeID, _TextureEmptyTile, _ColorEmptyTile, rect) {Aspect = EAspect.Crop};
                     var tileText = new CText(rect.X + rect.W / 2, rect.Y + rect.H + _Theme.Tiles.Name.Space, rect.Z, _Theme.Tiles.Name.Height, rect.W, EAlignment.Center,
                                              _Theme.Tiles.Name.Style, _Theme.Tiles.Name.Font, _ColorNameTile, "");
-                    _Tiles.Add(new CTile(tileStatic, tileText, -1));
+                    _Tiles.Add(new CTile(tileStatic, tileText, Guid.Empty));
                 }
             }
             _Rect.X = MaxRect.X;
