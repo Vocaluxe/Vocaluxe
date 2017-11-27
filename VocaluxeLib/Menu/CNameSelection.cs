@@ -299,7 +299,7 @@ namespace VocaluxeLib.Menu
 
         public void UpdateList(int offset)
         {
-            offset = offset.Clamp(0, (int)Math.Ceiling((decimal)(_VisibleProfiles.Count - _Tiles.Count) / _Theme.Tiles.NumW));
+            offset = offset.Clamp(0, _GetMaxOffset());
 
             for (int i = 0; i < _Tiles.Count; i++)
             {
@@ -455,6 +455,16 @@ namespace VocaluxeLib.Menu
                 if (visible)
                     _VisibleProfiles.Add(profile.ID);
             }
+        }
+
+        private int _GetMaxOffset()
+        {
+            int maxOffset = (int)Math.Ceiling((decimal)(_VisibleProfiles.Count - _Tiles.Count) / _Theme.Tiles.NumW);
+            if (maxOffset < 0)
+            {
+                return 0;
+            }
+            return maxOffset;
         }
 
         public object GetTheme()
