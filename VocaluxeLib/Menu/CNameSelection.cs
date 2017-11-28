@@ -194,7 +194,7 @@ namespace VocaluxeLib.Menu
                         int offset = Offset;
                         UpdateList(Offset + 1);
                         if (offset != Offset)
-                            _ActualSelection = 0;
+                            _ActualSelection -= _Theme.Tiles.NumW - 1;
                     }
                     break;
 
@@ -204,7 +204,7 @@ namespace VocaluxeLib.Menu
                     else if (Offset > 0)
                     {
                         UpdateList(Offset - 1);
-                        _ActualSelection = _Tiles.Count - 1;
+                        _ActualSelection += _Theme.Tiles.NumW - 1;
                     }
                     break;
 
@@ -214,7 +214,6 @@ namespace VocaluxeLib.Menu
                     else if (Offset > 0)
                     {
                         UpdateList(Offset - 1);
-                        _ActualSelection += _Tiles.Count - _Theme.Tiles.NumW;
                     }
                     break;
 
@@ -228,27 +227,20 @@ namespace VocaluxeLib.Menu
                     {
                         int offset = Offset;
                         UpdateList(Offset + 1);
-                        if (offset != Offset)
+                    }
+                    if (_Tiles[_ActualSelection].ProfileID == Guid.Empty)
+                    {
+                        _ActualSelection = _Tiles.Count - _Theme.Tiles.NumW;
+                        while(_Tiles[_ActualSelection + 1].ProfileID != Guid.Empty)
                         {
-                            _ActualSelection = _ActualSelection - _Tiles.Count + _Theme.Tiles.NumW;
-                            if (_Tiles[_ActualSelection].ProfileID == Guid.Empty)
-                            {
-                                for (int i = _Tiles.Count - 1; i >= 0; i--)
-                                {
-                                    if (_Tiles[i].ProfileID != Guid.Empty)
-                                    {
-                                        _ActualSelection = i;
-                                        break;
-                                    }
-                                }
-                            }
+                            _ActualSelection++;
                         }
                     }
                     break;
             }
 
-            if (Offset * _Tiles.Count + _ActualSelection < _VisibleProfiles.Count)
-                SelectedID = _VisibleProfiles.ElementAt(Offset * _Tiles.Count + _ActualSelection);
+            if (Offset * _Theme.Tiles.NumW + _ActualSelection < _VisibleProfiles.Count)
+                SelectedID = _VisibleProfiles.ElementAt(Offset * _Theme.Tiles.NumW + _ActualSelection);
             else
                 SelectedID = Guid.Empty;
         }
@@ -257,12 +249,12 @@ namespace VocaluxeLib.Menu
         {
             for (int i = 0; i < _Tiles.Count; i++)
             {
-                if (CHelper.IsInBounds(_Tiles[i].Avatar.Rect, mevent))
+                if (CHelper.IsInBounds(_Tiles[i].Avatar.Rect, mevent) && _Tiles[i].ProfileID != Guid.Empty)
                 {
                     _ActualSelection = i;
 
-                    if (Offset * _Tiles.Count + _ActualSelection < _VisibleProfiles.Count)
-                        SelectedID = _VisibleProfiles.ElementAt(Offset * _Tiles.Count + _ActualSelection);
+                    if (Offset * _Theme.Tiles.NumW + _ActualSelection < _VisibleProfiles.Count)
+                        SelectedID = _VisibleProfiles.ElementAt(Offset * _Theme.Tiles.NumW + _ActualSelection);
                     else
                         SelectedID = Guid.Empty;
                 }
@@ -299,7 +291,7 @@ namespace VocaluxeLib.Menu
         public void UpdateList()
         {
             _UpdateVisibleProfiles();
-            if (_Tiles.Count * (Offset + 1) - _VisibleProfiles.Count >= _Tiles.Count * Offset)
+            if (_Theme.Tiles.NumW * (Offset + 1) - _VisibleProfiles.Count >= _Theme.Tiles.NumW * Offset)
                 UpdateList(Offset - 1);
             else
                 UpdateList(Offset);
@@ -307,17 +299,16 @@ namespace VocaluxeLib.Menu
 
         public void UpdateList(int offset)
         {
-            if (offset < 0)
-                offset = 0;
+            offset = offset.Clamp(0, _GetMaxOffset());
 
             for (int i = 0; i < _Tiles.Count; i++)
             {
-                if ((i + offset * _Tiles.Count) < _VisibleProfiles.Count)
+                if ((i + offset * _Theme.Tiles.NumW) < _VisibleProfiles.Count)
                 {
-                    _Tiles[i].Avatar.Texture = CBase.Profiles.GetAvatar(_VisibleProfiles[i + offset * _Tiles.Count]);
+                    _Tiles[i].Avatar.Texture = CBase.Profiles.GetAvatar(_VisibleProfiles[i + offset * _Theme.Tiles.NumW]);
                     _Tiles[i].Avatar.Color = new SColorF(1, 1, 1, 1);
-                    _Tiles[i].Name.Text = CBase.Profiles.GetPlayerName(_VisibleProfiles[i + offset * _Tiles.Count]);
-                    _Tiles[i].ProfileID = _VisibleProfiles.ElementAt(i + offset * _Tiles.Count);
+                    _Tiles[i].Name.Text = CBase.Profiles.GetPlayerName(_VisibleProfiles[i + offset * _Theme.Tiles.NumW]);
+                    _Tiles[i].ProfileID = _VisibleProfiles.ElementAt(i + offset * _Theme.Tiles.NumW);
                 }
                 else
                 {
@@ -464,6 +455,16 @@ namespace VocaluxeLib.Menu
                 if (visible)
                     _VisibleProfiles.Add(profile.ID);
             }
+        }
+
+        private int _GetMaxOffset()
+        {
+            int maxOffset = (int)Math.Ceiling((decimal)(_VisibleProfiles.Count - _Tiles.Count) / _Theme.Tiles.NumW);
+            if (maxOffset < 0)
+            {
+                return 0;
+            }
+            return maxOffset;
         }
 
         public object GetTheme()
