@@ -248,8 +248,15 @@ namespace VocaluxeLib.Menu
             RectArrowLeft = slide.RectArrowLeft;
             RectArrowRight = slide.RectArrowRight;
 
+            _SelTexture = slide._SelTexture;
+
             _Color = slide._Color;
             _SelColor = slide._SelColor;
+
+            _TextureArrowLeft = slide._TextureArrowLeft;
+            _TextureArrowRight = slide._TextureArrowRight;
+            _SelTextureArrowLeft = slide._SelTextureArrowLeft;
+            _SelTextureArrowRight = slide._SelTextureArrowRight;
 
             _ColorArrow = slide._ColorArrow;
             _SelColorArrow = slide._SelColorArrow;
