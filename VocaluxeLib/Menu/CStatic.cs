@@ -99,6 +99,8 @@ namespace VocaluxeLib.Menu
 
             Alpha = s.Alpha;
             Visible = s.Visible;
+
+            Aspect = s.Aspect;
         }
 
         public CStatic(int partyModeID, CTextureRef texture, SColorF color, SRectF rect)
