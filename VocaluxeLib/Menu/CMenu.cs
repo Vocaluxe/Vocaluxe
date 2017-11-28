@@ -399,6 +399,11 @@ namespace VocaluxeLib.Menu
             return new CEqualizer(PartyModeID);
         }
 
+        public CEqualizer GetNewEqualizer(CEqualizer equalizer)
+        {
+            return new CEqualizer(equalizer);
+        }
+
         public CPlaylist GetNewPlaylist()
         {
             return new CPlaylist(PartyModeID);
