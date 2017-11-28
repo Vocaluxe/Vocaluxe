@@ -4,7 +4,9 @@ ScreenSing
 Version 9
 
 Add:
-<StaticRatingBar$P$N$>
+<ProgressBarRatingP$N$>
+<ButtonRestartRound>
+<ButtonRestartGame>
 
 +++++++++
 Version 8

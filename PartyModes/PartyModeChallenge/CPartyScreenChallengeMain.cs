@@ -341,7 +341,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 _Texts[_TextNextPlayerMessage].Visible = true;
                 for (int i = 0; i < _PartyMode.GameData.NumPlayerAtOnce; i++)
                 {
-                    int id = _PartyMode.GameData.ProfileIDs[_PartyMode.GameData.Rounds[_PartyMode.GameData.CurrentRoundNr - 1].Players[i]];
+                    Guid id = _PartyMode.GameData.ProfileIDs[_PartyMode.GameData.Rounds[_PartyMode.GameData.CurrentRoundNr - 1].Players[i]];
                     _NextPlayerStatics[i].Texture = CBase.Profiles.GetAvatar(id);
                     _NextPlayerTexts[i].Text = CBase.Profiles.GetPlayerName(id);
                     _NextPlayerTexts[i].Color = CBase.Themes.GetPlayerColor(i + 1);

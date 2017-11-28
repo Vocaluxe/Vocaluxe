@@ -186,6 +186,8 @@
   <string name="TR_SCREENSING_BUTTON_CANCEL">Stop singing</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Continue</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Skip this song</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Restart round</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Restart game</string>
   <string name="TR_SCREENSCORE_SCORES">Scores</string>
   <string name="TR_SCREENSCORE_RATING">Rating</string>
   <string name="TR_SCREENSCORE_POINTS">Points</string>

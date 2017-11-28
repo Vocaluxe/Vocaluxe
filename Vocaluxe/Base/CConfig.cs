@@ -837,7 +837,7 @@ namespace Vocaluxe.Base
 
             for (int j = 0; j < CSettings.MaxNumPlayer; j++)
             {
-                CGame.Players[j].ProfileID = -1;
+                CGame.Players[j].ProfileID = Guid.Empty;
                 if (string.IsNullOrEmpty(Config.Game.Players[j]))
                     continue;
 

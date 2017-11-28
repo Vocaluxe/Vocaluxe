@@ -30,7 +30,7 @@ namespace VocaluxeLib.PartyModes.Challenge
     public class CResultTableRow : IComparable
     {
         public int Position;
-        public int PlayerID;
+        public Guid PlayerID;
         public int NumPlayed;
         public int NumWon;
         public int NumSingPoints;
@@ -121,7 +121,7 @@ namespace VocaluxeLib.PartyModes.Challenge
             public int NumJokers;
             public bool RefillJokers;
             public int[] Jokers;
-            public List<int> ProfileIDs;
+            public List<Guid> ProfileIDs;
 
             public ESongSource SongSource;
             public ESongSorting Sorting;
@@ -143,7 +143,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private struct SStats
         {
-            public int ProfileID;
+            public Guid ProfileID;
             public int SingPoints;
             public int GamePoints;
             public int Won;
@@ -173,7 +173,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 NumJokers = 5,
                 RefillJokers = true,
                 CurrentRoundNr = 1,
-                ProfileIDs = new List<int>(),
+                ProfileIDs = new List<Guid>(),
                 Sorting = CBase.Config.GetSongSorting(),
                 SongSource = ESongSource.TR_SONGSOURCE_ALLSONGS,
                 PlaylistID = 0,
@@ -479,7 +479,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                 if (c != null)
                     players[i].ProfileID = GameData.ProfileIDs[c.Players[i]];
                 else
-                    players[i].ProfileID = -1;
+                    players[i].ProfileID = Guid.Empty;
             }
             #endregion PlayerNames
 
