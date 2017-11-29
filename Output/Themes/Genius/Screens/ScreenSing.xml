@@ -657,11 +657,11 @@
       <Text /></Text>
     <Text Name="TextPause">
       <X>640</X>
-      <Y>350</Y>
+      <Y>450</Y>
       <Z>-2.11</Z>
-      <H>40</H>
+      <H>100</H>
       <MaxW>0</MaxW>
-      <Color Name="TextColor" />
+      <Color Name="TextPauseColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
@@ -1302,8 +1302,8 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>775</X>
-        <Y>450</Y>
+        <X>985</X>
+        <Y>600</Y>
         <W>150</W>
         <H>50</H>
         <Z>-2.11</Z>
@@ -1337,8 +1337,8 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>355</X>
-        <Y>450</Y>
+        <X>145</X>
+        <Y>600</Y>
         <W>150</W>
         <H>50</H>
         <Z>-2.11</Z>
@@ -1372,8 +1372,8 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>565</X>
-        <Y>450</Y>
+        <X>355</X>
+        <Y>600</Y>
         <W>150</W>
         <H>50</H>
         <Z>-2.11</Z>
@@ -1393,6 +1393,76 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSING_BUTTON_SKIP</Text>
+      </Text>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonRestartRound">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>775</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>-2.11</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>12</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENSING_BUTTON_RESTART_ROUND</Text>
+      </Text>
+      <Reflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>26</Height>
+        <Space>10</Space>
+      </SelReflection>
+    </Button>
+    <Button Name="ButtonRestartGame">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>565</X>
+        <Y>600</Y>
+        <W>150</W>
+        <H>50</H>
+        <Z>-2.11</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>12</Y>
+        <Z>0</Z>
+        <H>27</H>
+        <MaxW>142</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENSING_BUTTON_RESTART_GAME</Text>
       </Text>
       <Reflection>
         <Height>26</Height>
