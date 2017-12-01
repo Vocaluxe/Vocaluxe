@@ -699,8 +699,8 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateButtonVisibility()
         {
-            _Buttons[_ButtonIncreaseTeams].Visible = _AllowChangePlayerNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
-            _Buttons[_ButtonDecreaseTeams].Visible = _AllowChangePlayerNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
+            _Buttons[_ButtonIncreaseTeams].Visible = _AllowChangeTeamNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
+            _Buttons[_ButtonDecreaseTeams].Visible = _AllowChangeTeamNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
             _Buttons[_ButtonIncreasePlayer].Visible = _AllowChangePlayerNum;
             _Buttons[_ButtonDecreasePlayer].Visible = _AllowChangePlayerNum;
         }
