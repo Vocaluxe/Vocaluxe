@@ -742,13 +742,22 @@ namespace Vocaluxe.Lib.Database
                     transaction.Commit();
 
                     //Delete old tables after conversion
-                    command.CommandText = "DROP TABLE US_Scores;";
+                    command.CommandText = "DROP TABLE IF EXISTS us_scores;";
                     command.ExecuteNonQuery();
 
-                    command.CommandText = "DROP TABLE US_Songs;";
+                    command.CommandText = "DROP TABLE IF EXISTS us_songs;";
                     command.ExecuteNonQuery();
 
-                    command.CommandText = "DROP TABLE us_statistics_info;";
+                    command.CommandText = "DROP TABLE IF EXISTS us_statistics_info;";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DROP TABLE IF EXISTS us_users_info;";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DROP TABLE IF EXISTS us_webs;";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DROP TABLE IF EXISTS us_webs_stats;";
                     command.ExecuteNonQuery();
 
                     //This versioning is not used in Vocaluxe so reset it to 0
