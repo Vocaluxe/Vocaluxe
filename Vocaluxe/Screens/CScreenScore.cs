@@ -576,7 +576,13 @@ namespace Vocaluxe.Screens
                 _Statics[_PlayerStaticAvatar[p]].Visible = true;
 
                 SColorF color = CBase.Themes.GetPlayerColor(p + 1);
-                _ProgressBars[_PlayerProgressBarPoints[p]].ColorForeground = new SColorF(color.R, color.G, color.B, _ProgressBars[_PlayerProgressBarPoints[p]].ColorForeground.A);
+
+                List<SProgressBarColor> progressBarColors = new List<SProgressBarColor> {
+                    new SProgressBarColor(0, new SColorF(color.R, color.G, color.B, _ProgressBars[_PlayerProgressBarPoints[p]].ProgressColors[0].Color.A))
+                };
+
+                _ProgressBars[_PlayerProgressBarPoints[p]].ProgressColors = progressBarColors;
+
             }
         }
 
