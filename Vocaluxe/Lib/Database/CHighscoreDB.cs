@@ -613,7 +613,7 @@ namespace Vocaluxe.Lib.Database
                         {
                             //Check for USDX 1.1 DB
                             _CreateHighscoreDBV1(filePath);
-                            result &= !_ConvertFrom110(filePath);
+                            result &= _ConvertFrom110(filePath);
                             result &= _UpdateDatabase(1, connection);
                             result &= _UpdateDatabase(2, connection);
                         }
@@ -927,7 +927,7 @@ namespace Vocaluxe.Lib.Database
 
             if (currentVersion < 2)
                 updated &= _ConvertV1toV2(connection);
-            if (currentVersion < 3)
+            else if (currentVersion < 3)
                 updated &= _ConvertV2toV3(connection);
 
             return updated;
