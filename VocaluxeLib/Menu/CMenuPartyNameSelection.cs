@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using VocaluxeLib.Draw;
@@ -587,7 +588,9 @@ namespace VocaluxeLib.Menu
                     }
                     else
                     {
-                        _NumPlayerTeams[i] = _NumPlayer;
+                        //Get average num players per teams as default player number
+                        _NumPlayerTeams[i] = _NumPlayer/(_NumTeams - 1);
+                        _NumPlayer += _NumPlayerTeams[i];
                         _TeamList[i] = new List<int>();
                     }
                 }
@@ -693,10 +696,14 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateTeamSlide()
         {
+            int sel = _SelectSlides[_SelectSlideTeams].Selection;
+
             _SelectSlides[_SelectSlideTeams].Visible = _Teams;
             _SelectSlides[_SelectSlideTeams].Clear();
             for (int i = 1; i <= _NumTeams; i++)
                 _SelectSlides[_SelectSlideTeams].AddValue("Team " + i, null, i);
+
+            _SelectSlides[_SelectSlideTeams].Selection = Math.Min(sel, _SelectSlides[_SelectSlideTeams].NumValues - 1);
         }
 
         private void _UpdateButtonVisibility()
