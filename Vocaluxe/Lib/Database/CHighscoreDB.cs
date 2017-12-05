@@ -613,7 +613,7 @@ namespace Vocaluxe.Lib.Database
                         {
                             //Check for USDX 1.1 DB
                             _CreateHighscoreDBV1(filePath);
-                            result &= !_ConvertFrom110(filePath);
+                            result &= _ConvertFrom110(filePath);
                             result &= _UpdateDatabase(1, connection);
                             result &= _UpdateDatabase(2, connection);
                         }
@@ -742,13 +742,22 @@ namespace Vocaluxe.Lib.Database
                     transaction.Commit();
 
                     //Delete old tables after conversion
-                    command.CommandText = "DROP TABLE US_Scores;";
+                    command.CommandText = "DROP TABLE IF EXISTS us_scores;";
                     command.ExecuteNonQuery();
 
-                    command.CommandText = "DROP TABLE US_Songs;";
+                    command.CommandText = "DROP TABLE IF EXISTS us_songs;";
                     command.ExecuteNonQuery();
 
-                    command.CommandText = "DROP TABLE us_statistics_info;";
+                    command.CommandText = "DROP TABLE IF EXISTS us_statistics_info;";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DROP TABLE IF EXISTS us_users_info;";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DROP TABLE IF EXISTS us_webs;";
+                    command.ExecuteNonQuery();
+
+                    command.CommandText = "DROP TABLE IF EXISTS us_webs_stats;";
                     command.ExecuteNonQuery();
 
                     //This versioning is not used in Vocaluxe so reset it to 0
@@ -927,7 +936,7 @@ namespace Vocaluxe.Lib.Database
 
             if (currentVersion < 2)
                 updated &= _ConvertV1toV2(connection);
-            if (currentVersion < 3)
+            else if (currentVersion < 3)
                 updated &= _ConvertV2toV3(connection);
 
             return updated;
