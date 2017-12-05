@@ -133,7 +133,7 @@ namespace VocaluxeLib.Menu
 
             MaxRect = button.MaxRect;
             Color = button.Color;
-            SelColor = button.Color;
+            SelColor = button.SelColor;
             Texture = button.Texture;
             SelTexture = button.SelTexture;
 
