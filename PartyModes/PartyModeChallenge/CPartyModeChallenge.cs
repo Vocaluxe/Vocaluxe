@@ -690,8 +690,8 @@ namespace VocaluxeLib.PartyModes.Challenge
             if (GameData.CatSongIndices == null && CBase.Songs.GetNumCategories() > 0 && _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
             {
                 GameData.CatSongIndices = new int[CBase.Songs.GetNumCategories()];
-                for (int i = 0; i < GameData.CatSongIndices.Length; i++)
-                    GameData.CatSongIndices[i] = -1;
+                for (int i = 1; i < GameData.CatSongIndices.Length; i++)
+                    GameData.CatSongIndices[i] = CBase.Songs.GetNumSongsInCategory(i) + GameData.CatSongIndices[i - 1];
             }
 
             if (CBase.Songs.GetNumCategories() == 0 || _ScreenSongOptions.Sorting.Tabs == EOffOn.TR_CONFIG_OFF)
