@@ -205,7 +205,6 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             if (!base.Init())
                 return false;
-            _Stage = EStage.Config;
 
             SetDefaults();
             return true;
@@ -556,11 +555,15 @@ namespace VocaluxeLib.PartyModes.Challenge
                     break;
 
                 case ESongSource.TR_SONGSOURCE_CATEGORY:
+                    ESongSorting oldSorting = CBase.Config.GetSongSorting();
+                    CBase.Songs.SortSongs(GameData.Sorting, EOffOn.TR_CONFIG_ON, CBase.Config.GetIgnoreArticles() ,String.Empty, EDuetOptions.NoDuets, -1);
+
                     CBase.Songs.SetCategory(GameData.CategoryIndex);
                     avSongs = CBase.Songs.GetVisibleSongs();
                     GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(EGameMode.TR_GAMEMODE_MEDLEY)).Select(song => song.ID));
 
                     CBase.Songs.SetCategory(-1);
+                    CBase.Songs.SortSongs(oldSorting, CBase.Config.GetTabs(), CBase.Config.GetIgnoreArticles(), String.Empty, EDuetOptions.NoDuets, -1);
                     break;
             }
             GameData.Songs.Shuffle();
