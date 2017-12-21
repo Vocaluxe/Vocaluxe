@@ -116,7 +116,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\libs\unmanaged\x64\" /I /Y</Command>
+      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\libs\unmanaged\x64\" /I /Y
+xcopy "$(OutDir)*.pdb" "$(SolutionDir)Output\libs\unmanaged\x64\" /I /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -135,7 +136,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\libs\unmanaged\x86\" /I /Y</Command>
+      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\libs\unmanaged\x86\" /I /Y
+xcopy "$(OutDir)*.pdb" "$(SolutionDir)Output\libs\unmanaged\x86\" /I /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -159,7 +161,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\libs\unmanaged\x64\" /I /Y</Command>
+      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\libs\unmanaged\x64\" /I /Y
+xcopy "$(OutDir)*.pdb" "$(SolutionDir)Output\libs\unmanaged\x64\" /I /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -182,7 +185,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\libs\unmanaged\x86\" /I /Y</Command>
+      <Command>xcopy "$(OutDir)*.dll" "$(SolutionDir)Output\libs\unmanaged\x86\" /I /Y
+xcopy "$(OutDir)*.pdb" "$(SolutionDir)Output\libs\unmanaged\x86\" /I /Y</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
