@@ -72,7 +72,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -81,6 +81,7 @@
     <DefineConstants>WIN;ARCH_X64</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugLinux|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -120,7 +121,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseLinux|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -129,6 +130,7 @@
     <DefineConstants>LINUX;ARCH_X64</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -144,7 +146,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -153,6 +155,7 @@
     <DefineConstants>WIN;ARCH_X64;INSTALLER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
