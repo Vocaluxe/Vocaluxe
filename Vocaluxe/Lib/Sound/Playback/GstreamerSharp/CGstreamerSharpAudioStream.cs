@@ -70,14 +70,20 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         {
             get
             {
-                if (_Element != null)
+                
+                if (_Element == null || (_Element.CurrentState == State.Paused && _Element.PendingState != State.VoidPending))
                 {
-                    long position;
-                    if (!_Element.QueryPosition(Format.Time, out position))
-                        CLog.LogError("Could not query position");
-                    else
-                        _Position = ((float)position / Constants.SECOND);
+                    return _Position;
                 }
+                    
+                    
+                long position;
+                if (!_Element.QueryPosition(Format.Time, out position))
+                    CLog.LogError("Could not query position");
+                else
+                    _Position = ((float)position / Constants.SECOND);
+                    
+                    
                 return _Position;
             }
             set
