@@ -1,4 +1,4 @@
-choco install gitlink --version 3.2.0-unstable0014 --pre --no-progress --limit-output
+choco install gitlink --version 3.1.0-unstable0017 --pre --no-progress --limit-output
 
 Get-ChildItem -Recurse "*.pdb" | %{
     If ($_.Fullname -contains 'PitchTracker.pdb'){
