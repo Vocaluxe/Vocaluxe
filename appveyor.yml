@@ -50,9 +50,9 @@ build:
   verbosity: normal
 after_build:
 - ps: |
-    ./.appveyor/runGitLink.ps1
-    
     cd Output
+    
+    ./.appveyor/runGitLink.ps1
 
     $Env:MAIN_REPO = $False
 
