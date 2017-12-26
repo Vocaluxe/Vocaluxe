@@ -15,6 +15,7 @@
   <string name="TR_DEBUG_SONGS">Chansons chargées</string>
   <string name="TR_DEBUG_MOUSE">Souris</string>
   <string name="TR_DEBUG_MEMORY">Usage de la mémoire</string>
+  <string name="TR_GAMEMODE">Mode</string>
   <string name="TR_GAMEMODE_NORMAL">Normal</string>
   <string name="TR_GAMEMODE_DUET">Duo</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
@@ -31,6 +32,10 @@
   <string name="TR_USERROLE_NORMAL">Utilisateur normal</string>
   <string name="TR_USERROLE_ADMIN">Administrateur</string>
   <string name="TR_USERROLE_KEYBOARDUSER">Clavier d'Utilisateur</string>
+  <string name="TR_SONGSOURCE">Source des chansons</string>
+  <string name="TR_SONGSOURCE_PLAYLIST">Playlist</string>
+  <string name="TR_SONGSOURCE_CATEGORY">Catégorie</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Toutes les chansons</string>
   <string name="TR_CONFIG_SOFTWARE">Logiciel</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -151,6 +156,8 @@
   <string name="TR_SCREENSING_BUTTON_CANCEL">Arrêter de chanter</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Continuer</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Passer cette chanson</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Redémarer le tour</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Redémarer le jeu</string>
   <string name="TR_SCREENSCORE_SCORES">Scores</string>
   <string name="TR_SCREENSCORE_RATING">Note</string>
   <string name="TR_SCREENSCORE_POINTS">Points</string>
@@ -183,6 +190,7 @@
   <string name="TR_SCREENOGAME_SONGMENU">Menu des Chansons</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Classement des Chansons</string>
   <string name="TR_SCREENOGAME_TABS">Dossiers</string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Démarrage automatique des aperçus</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Difficulté du Jeu</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Mode du Minuteur</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Style meilleur score</string>

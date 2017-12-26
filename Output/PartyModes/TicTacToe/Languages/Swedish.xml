@@ -13,15 +13,11 @@
   <string name="TR_BUTTON_NEXT_ROUND">Starta</string>
   <string name="TR_SONGS">Låtar</string>
   <string name="TR_TEAM">Lag</string>
-  <string name="TR_PLAYLIST">Spellista</string>
-  <string name="TR_CATEGORY">Kategori</string>
-  <string name="TR_ALLSONGS">Alla låtar</string>
   <string name="TR_SCREENCONFIG_TITLE">Tripp-Trapp-Trull: Konfiguration</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Antal spelare i lag 1</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Antal spelare i lag 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Antal fält</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Låtkälla</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Spelläge</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Fyll på jokrar varje runda</string>
   <string name="TR_SCREENNAMES_TITLE">Tripp-Trapp-Trull: Välj spelare</string>
   <string name="TR_SCREENNAMES_TEAM1">Lag 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Lag 2</string>

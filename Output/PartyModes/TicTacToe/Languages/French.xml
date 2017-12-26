@@ -2,7 +2,7 @@
 <resources>
   <string name="language">Français</string>
   <string name="TR_PARTYMODE_NAME">Tic-Tac-Toe</string>
-  <string name="TR_PARTYMODE_DESCRIPTION">Jouez au Tic-Tac-Toe d'une nouvelle façon</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Jouez au Tic-Tac-Toe d\'une nouvelle façon</string>
   <string name="TR_PARTYMODE_AUDIENCE">Des matchs amusants alliant stratégie, gains et compétences</string>
   <string name="TR_BUTTON_NEXT">Suivant</string>
   <string name="TR_BUTTON_BACK">Retour</string>
@@ -13,22 +13,19 @@
   <string name="TR_BUTTON_NEXT_ROUND">Démarrer</string>
   <string name="TR_SONGS">Chansons</string>
   <string name="TR_TEAM">Equipe</string>
-  <string name="TR_PLAYLIST">Playlist</string>
-  <string name="TR_CATEGORY">Catégorie</string>
-  <string name="TR_ALLSONGS">Toutes les chansons</string>
   <string name="TR_SCREENCONFIG_TITLE">Tic-Tac-Toe: Configuration</string>
-  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Nombre de joueurs dans l'Equipe 1</string>
-  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Nombre de joueurs dans l'Equipe 2</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Nombre de joueurs dans l\'Equipe 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Nombre de joueurs dans l\'Equipe 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Nombre de champs</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Source des chansons</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Mode de jeu</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Recharger les jokers a chaque tour</string>
   <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Choix des joueurs</string>
   <string name="TR_SCREENNAMES_TEAM1">Equipe 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Equipe 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Sélectionner au hasard</string>
   <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Choisissez une case.</string>
-  <string name="TR_SCREENMAIN_NEXT_PLAYER">Prochains joueurs</string>
-  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez vous vraiment quitter Tic-Tac-Toe?</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Joueur suivant</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Voulez-vous vraiment quitter Tic-Tac-Toe?</string>
   <string name="TR_SCREENMAIN_WINNER">Et le gagnant est...</string>
-  <string name="TR_SCREENMAIN_NOWINNER">Il n'y a pas de gagnant sur ce tour...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Il n\'y a pas de gagnant sur ce tour...</string>
 </resources>

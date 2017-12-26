@@ -225,7 +225,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Cámaras web</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Cámaras web</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustes de pantalla</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Presione CTRL + ALT (+ SHIFT) + Flechas|"+" para ajustar la pantalla</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Presione CTRL + ALT (+ SHIFT) + Flechas|\"+\" para ajustar la pantalla</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + SHIFT + 0 para reiniciar</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Arriba izquierda</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Abajo derecha</string>

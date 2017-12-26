@@ -11,6 +11,7 @@
   <string name="TR_BUTTON_YES">Ja</string>
   <string name="TR_BUTTON_NO">Nej</string>
   <string name="TR_BUTTON_NEXT_ROUND">Nästa omgång</string>
+  <string name="TR_SONGS">Låtar</string>
   <string name="TR_SCREENCONFIG_TITLE">Utmanarläge: Konfiguration</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Antal spelare</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Antal mikrofoner</string>

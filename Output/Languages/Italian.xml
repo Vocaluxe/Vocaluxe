@@ -51,7 +51,7 @@
   <string name="TR_CONFIG_TILE_BOARD">Scacchiera</string>
   <string name="TR_CONFIG_BOOK">Libro</string>
   <string name="TR_CONFIG_COVERLOADING_ONDEMAND">Su richiesta</string>
-  <string name="TR_CONFIG_COVERLOADING_ATSTART">All'avvio</string>
+  <string name="TR_CONFIG_COVERLOADING_ATSTART">All\\'avvio</string>
   <string name="TR_CONFIG_COVERLOADING_DYNAMIC">Dinamico</string>
   <string name="TR_CONFIG_NONE">Nessuno</string>
   <string name="TR_CONFIG_RANDOM">Casuale</string>
@@ -119,10 +119,10 @@
   <string name="TR_SCREENNAMES_4PLAYER">4 giocatori</string>
   <string name="TR_SCREENNAMES_5PLAYER">5 giocatori</string>
   <string name="TR_SCREENNAMES_6PLAYER">6 giocatori</string>
-  <string name="TR_SCREENNAMES_WARNING_MICS_SG">Attenzione: Non c'è nessun microfono assegnato al giocatore %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_MICS_PL">Attenzione: Non c'è nessun microfono assegnato ai giocatori %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Attenzione: Non c'è nessun profilo assegnato al giocatore %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Attenzione: Non c'è nessun profilo assegnato ai giocatori %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_SG">Attenzione: Non c\'è nessun microfono assegnato al giocatore %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_PL">Attenzione: Non c\'è nessun microfono assegnato ai giocatori %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Attenzione: Non c\'è nessun profilo assegnato al giocatore %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Attenzione: Non c\'è nessun profilo assegnato ai giocatori %v!</string>
   <string name="TR_SCREENSONG_MENU">Selezione canzone</string>
   <string name="TR_SCREENSONG_BUTTON_SING">Canta</string>
   <string name="TR_SCREENSONG_BUTTON_PLAYLIST">Aggiungi alla playlist</string>
@@ -223,7 +223,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcam</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Risoluzione-Webcam</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Sistemazione schermo</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Premi CTR + ALT (+ SHIFT) + Freccia|"+ per sistemare lo schermo</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Premi CTR + ALT (+ SHIFT) + Freccia|\"+\ per sistemare lo schermo</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + 0 per ripristinare</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Sopra a sinistra</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Sopra a destra</string>

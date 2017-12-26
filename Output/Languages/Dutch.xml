@@ -217,7 +217,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcams</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Webcam resolutie</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Beeldscherm aanpassingen</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Druk Ctrl+ Alt (+ Shift) + pijltjestoetsen|"+" om het scherm aan te passen.</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Druk Ctrl+ Alt (+ Shift) + pijltjestoetsen|\"+\" om het scherm aan te passen.</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">Ctrl + Alt + 0 om te herstellen</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Top links</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Top rechts</string>
