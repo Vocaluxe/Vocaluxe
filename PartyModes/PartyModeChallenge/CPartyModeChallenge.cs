@@ -320,7 +320,11 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public override SScreenSongOptions GetScreenSongOptions()
         {
-            switch(GameData.SongSource)
+            _ScreenSongOptions.Selection.RandomOnly = true;
+            _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
+
+
+            switch (GameData.SongSource)
             {
                 case ESongSource.TR_SONGSOURCE_ALLSONGS:
                     _ScreenSongOptions.Sorting.SongSorting = CBase.Config.GetSongSorting();
@@ -351,9 +355,6 @@ namespace VocaluxeLib.PartyModes.Challenge
                     _ScreenSongOptions.Selection.CategoryChangeAllowed = false;
                     break;
             }
-
-            _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
-
             return _ScreenSongOptions;
         }
 
