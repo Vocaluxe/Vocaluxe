@@ -263,7 +263,6 @@ namespace Vocaluxe.Base
                     if (_PreviewStartHelperTask != null && (_PreviewPlayer.Length > 0 || _PreviewStartWaitCounter++ >= _PreviewStartWaitMaxTries))
                     {
                         _PreviewStartHelperTask.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
-                        _PreviewStartHelperTask.Dispose();
                         _PreviewStartHelperTask = null;
                         _PreviewStartWaitCounter = 0;
                     }
@@ -327,11 +326,6 @@ namespace Vocaluxe.Base
             {
                 lock (_PreviewStartHelperTaskLock)
                 {
-                    // Check if the old _PreviewStartHelperTask needs to disposed
-                    if (_PreviewStartHelperTask != null)
-                    {
-                        _PreviewStartHelperTask.Dispose();
-                    }
                     _PreviewStartHelperTask = new Task(() =>
                     {
                         float length = _PreviewPlayer.Length;
@@ -360,7 +354,6 @@ namespace Vocaluxe.Base
                         // Recheck the condition as it cloud have change before we got the lock
                         if (_PreviewStartHelperTask != null)
                         {
-                            _PreviewStartHelperTask.Dispose();
                             _PreviewStartHelperTask = null;
                         }
                     }
