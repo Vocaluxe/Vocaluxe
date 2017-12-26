@@ -588,12 +588,15 @@ namespace VocaluxeLib.Menu
                     }
                     else
                     {
-                        _NumPlayerTeams[i] = _NumPlayer;
+                        //Get average num players per teams as default player number
+                        _NumPlayerTeams[i] = _NumPlayer / (_NumTeams - 1);
+                        _NumPlayer += _NumPlayerTeams[i];
                         _TeamList[i] = new List<Guid>();
                     }
                 }
             }
             _UpdateButtonState();
+            _UpdateTeamSlide();
         }
 
         public void DecreaseTeamNum()
@@ -604,6 +607,7 @@ namespace VocaluxeLib.Menu
             if (_NumTeams - 1 >= _PartyMode.MinTeams)
                 _NumTeams--;
             _UpdateButtonState();
+            _UpdateTeamSlide();
         }
 
         public void IncreasePlayerNum(int team)
@@ -692,16 +696,20 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateTeamSlide()
         {
+            int sel = _SelectSlides[_SelectSlideTeams].Selection;
+
             _SelectSlides[_SelectSlideTeams].Visible = _Teams;
             _SelectSlides[_SelectSlideTeams].Clear();
             for (int i = 1; i <= _NumTeams; i++)
                 _SelectSlides[_SelectSlideTeams].AddValue("Team " + i, null, i);
+
+            _SelectSlides[_SelectSlideTeams].Selection = Math.Min(sel, _SelectSlides[_SelectSlideTeams].NumValues - 1);
         }
 
         private void _UpdateButtonVisibility()
         {
-            _Buttons[_ButtonIncreaseTeams].Visible = _AllowChangePlayerNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
-            _Buttons[_ButtonDecreaseTeams].Visible = _AllowChangePlayerNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
+            _Buttons[_ButtonIncreaseTeams].Visible = _AllowChangeTeamNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
+            _Buttons[_ButtonDecreaseTeams].Visible = _AllowChangeTeamNum && _Teams && _PartyMode.MinTeams != _PartyMode.MaxTeams;
             _Buttons[_ButtonIncreasePlayer].Visible = _AllowChangePlayerNum;
             _Buttons[_ButtonDecreasePlayer].Visible = _AllowChangePlayerNum;
         }

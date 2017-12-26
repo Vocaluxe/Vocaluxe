@@ -263,7 +263,6 @@ namespace Vocaluxe.Base
                     if (_PreviewStartHelperTask != null && (_PreviewPlayer.Length > 0 || _PreviewStartWaitCounter++ >= _PreviewStartWaitMaxTries))
                     {
                         _PreviewStartHelperTask.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
-                        _PreviewStartHelperTask.Dispose();
                         _PreviewStartHelperTask = null;
                         _PreviewStartWaitCounter = 0;
                     }
@@ -323,15 +322,10 @@ namespace Vocaluxe.Base
             
 
             //Change song position only if song is changed or near to end
-            if (songChanged || _CurPlayer.Position + 30 < _CurPlayer.Length)
+            if (songChanged || _CurPlayer.Position + 30 < _CurPlayer.Length || _PreviewStartHelperTask == null)
             {
                 lock (_PreviewStartHelperTaskLock)
                 {
-                    // Check if the old _PreviewStartHelperTask needs to disposed
-                    if (_PreviewStartHelperTask != null)
-                    {
-                        _PreviewStartHelperTask.Dispose();
-                    }
                     _PreviewStartHelperTask = new Task(() =>
                     {
                         float length = _PreviewPlayer.Length;
@@ -360,7 +354,6 @@ namespace Vocaluxe.Base
                         // Recheck the condition as it cloud have change before we got the lock
                         if (_PreviewStartHelperTask != null)
                         {
-                            _PreviewStartHelperTask.Dispose();
                             _PreviewStartHelperTask = null;
                         }
                     }

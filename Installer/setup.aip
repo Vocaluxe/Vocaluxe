@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DOCUMENT Type="Advanced Installer" CreateVersion="14.2.1" version="14.2.1" Modules="professional" RootPath="." Language="en" Id="{0664D363-F696-4E25-87C5-DE348E591191}">
+<DOCUMENT Type="Advanced Installer" CreateVersion="14.2.1" version="14.4.2" Modules="professional" RootPath="." Language="en" Id="{0664D363-F696-4E25-87C5-DE348E591191}">
   <COMPONENT cid="caphyon.advinst.msicomp.ProjectOptionsComponent">
     <ROW Name="HiddenItems" Value="AppXProductDetailsComponent;AppXDependenciesComponent;AppXAppDetailsComponent;AppXVisualAssetsComponent;AppXCapabilitiesComponent;AppXAppDeclarationsComponent;AppXUriRulesComponent;MsiJavaComponent;MsiDriverPackagesComponent;UserAccountsComponent;ScheduledTasksComponent;SqlConnectionComponent;AutorunComponent;FirewallExceptionComponent;GameUxComponent;MsiDirectEditorComponent;SharePointSlnComponent;SilverlightSlnComponent;MultipleInstancesComponent;SccmComponent;ActSyncAppComponent"/>
   </COMPONENT>
@@ -18,7 +18,7 @@
     <ROW Property="ALLUSERS" Value="1"/>
     <ROW Property="ARPCOMMENTS" Value="This installs Vocaluxe. Vocaluxe is an open source singing game inspired by SingStar™ and Ultrastar Deluxe." ValueLocId="*"/>
     <ROW Property="ARPNOMODIFY" MultiBuildValue="DefaultBuild:1#x64_1:1"/>
-    <ROW Property="ARPNOREPAIR" Value="1"/>
+    <ROW Property="ARPNOREPAIR" Value="1" MultiBuildValue="DefaultBuild:1#x64_1:1"/>
     <ROW Property="ARPPRODUCTICON" Value="Vocaluxe.exe" Type="8"/>
     <ROW Property="ARPURLINFOABOUT" Value="https://vocaluxe.org"/>
     <ROW Property="BannerBitmap" Value="banner" MultiBuildValue="DefaultBuild:banner.jpg#x64_1:banner.jpg" Type="1" MsiKey="BannerBitmap"/>
@@ -28,7 +28,7 @@
     <ROW Property="ProductCode" Value="1029:{DCDF3A8D-05B4-4CBF-8128-0BD10FDE4BDB} 1031:{3A3B2184-E965-4A08-8864-8B59990F963A} 1033:{756FABFA-4336-40AE-9245-60AB2D2C38F9} 1036:{ABCA971F-E153-4014-AC14-FF305678F6DE} 1038:{4345A445-5D72-4C8D-BB34-98C8B5D152E4} 1040:{D060F8C3-D29E-442F-B13C-B132B29C58BF} 1043:{5C0D700A-45AC-4616-94F6-2CAF8FA7E8AA} 1053:{0CAB03D2-183F-4680-970F-07F7EFAB0373} 1055:{307D49D0-9D47-409F-A3D1-92630CAE5C7E} 2070:{87BE9C14-3781-4EE9-871C-15E8F220A4E0} 3082:{F262F983-9F34-4201-B38B-0D45D2879E23} " Type="16"/>
     <ROW Property="ProductLanguage" Value="1055"/>
     <ROW Property="ProductName" Value="Vocaluxe"/>
-    <ROW Property="ProductVersion" Value="0.4.0.11" Type="32" TargetFile="Vocaluxe.exe"/>
+    <ROW Property="ProductVersion" Value="0.4.0.12" Type="32" TargetFile="Vocaluxe.exe"/>
     <ROW Property="SecureCustomProperties" Value="OLDPRODUCTS;AI_NEWERPRODUCTFOUND;AI_SETUPEXEPATH;SETUPEXEDIR"/>
     <ROW Property="UpgradeCode" Value="{4254D936-CC8F-4E52-B79B-A6C733ABEC96}"/>
     <ROW Property="WindowsType9X" MultiBuildValue="DefaultBuild:Windows 9x/ME#x64_1:Windows 9x/ME" ValueLocId="-"/>
@@ -3765,8 +3765,8 @@
     <ROW Action="AI_DetectSoftware" Sequence="101"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.BuildComponent">
-    <ROW BuildKey="DefaultBuild" BuildName="x64" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" Languages="en;cs;pt;fr;de;es;sv;hu;it;nl;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="Files\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" ExeName="[|ProductName]-[|ProductVersion]-x64" MsiPackageType="x64"/>
-    <ROW BuildKey="x64_1" BuildName="x86" BuildOrder="2" BuildType="0" PackageFolder="Setup Files" Languages="en;cs;pt;fr;de;es;sv;hu;it;nl;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="Files\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" ExeName="[|ProductName]-[|ProductVersion]-x86"/>
+    <ROW BuildKey="DefaultBuild" BuildName="x64" BuildOrder="1" BuildType="0" PackageFolder="Setup Files" Languages="en;cs;pt;fr;de;es;sv;hu;it;nl;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="Files\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" ExeName="[|ProductName]_[|ProductVersion]_Windows_x64" MsiPackageType="x64"/>
+    <ROW BuildKey="x64_1" BuildName="x86" BuildOrder="2" BuildType="0" PackageFolder="Setup Files" Languages="en;cs;pt;fr;de;es;sv;hu;it;nl;tr" LangOpt="1" InstallationType="4" CabsLocation="1" PackageType="1" FilesInsideExe="true" ExeIconPath="Files\Output\Vocaluxe.ico" ExtractionFolder="[AppDataFolder][|Manufacturer]\[|ProductName] [|ProductVersion]\install" UseLargeSchema="true" ExeName="[|ProductName]_[|ProductVersion]_Windows_x86"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.DictionaryComponent">
     <ROW Path="&lt;AI_DICTS&gt;ui.ail"/>
@@ -4032,8 +4032,8 @@
     <ATTRIBUTE name="PrereqsOrder" value="B63_41B8_9CB7_8C5E07C0FC18_ CB585686_DAA3_4384_BDDF_08ABA631E9F3_ C673FE9433B49AFAC9592AB26B8F8E4"/>
   </COMPONENT>
   <COMPONENT cid="caphyon.advinst.msicomp.PreReqSearchComponent">
-    <ROW SearchKey="B63_41B8_9CB7_8C5E07C0FC18_Version" Prereq="B63_41B8_9CB7_8C5E07C0FC18_" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\DevDiv\VC\Servicing\10.0\red\amd64\1033\Version" VerMin="40219.325" Order="1" Property="PreReqSearch_B63_41B8_9CB7_8C5E07C0FC18_"/>
-    <ROW SearchKey="C673FE9433B49AFAC9592AB26B8F8E4Install" Prereq="C673FE9433B49AFAC9592AB26B8F8E4" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Install" RefContent="M1" Order="1" Property="PreReqSearch_C673FE9433B49AFAC9592AB26B8F8E4"/>
-    <ROW SearchKey="CB585686_DAA3_4384_BDDF_08ABA631E9F3_Version" Prereq="CB585686_DAA3_4384_BDDF_08ABA631E9F3_" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\DevDiv\VC\Servicing\10.0\red\x86\1033\Version" VerMin="40219.325" Order="1" Property="PreReqSearch_CB585686_DAA3_4384_BDDF_08ABA631E9F3_"/>
+    <ROW SearchKey="B63_41B8_9CB7_8C5E07C0FC18_Version" Prereq="B63_41B8_9CB7_8C5E07C0FC18_" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\DevDiv\VC\Servicing\10.0\red\amd64\1033\Version" VerMin="40219.325" Order="1" Property="PreReqSearch_B63_41B8_9CB7_8C5E07C0"/>
+    <ROW SearchKey="C673FE9433B49AFAC9592AB26B8F8E4Install" Prereq="C673FE9433B49AFAC9592AB26B8F8E4" SearchType="9" SearchString="HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\Install" RefContent="M1" Order="1" Property="PreReqSearch_C673FE9433B49AFAC9592A"/>
+    <ROW SearchKey="CB585686_DAA3_4384_BDDF_08ABA631E9F3_Version" Prereq="CB585686_DAA3_4384_BDDF_08ABA631E9F3_" SearchType="2" SearchString="HKLM\SOFTWARE\Microsoft\DevDiv\VC\Servicing\10.0\red\x86\1033\Version" VerMin="40219.325" Order="1" Property="PreReqSearch_CB585686_DAA3_4384_BDD"/>
   </COMPONENT>
 </DOCUMENT>
