@@ -799,7 +799,9 @@ namespace Vocaluxe.Screens
 
             if (_Sso.Selection.RandomOnly && _Sso.Selection.NumJokers != null)
             {
+                //Show and select start button
                 _Buttons[_ButtonStart].Visible = true;
+                _SelectElement(_Buttons[_ButtonStart]);
 
                 _SongMenu.SmallView = true;
 
