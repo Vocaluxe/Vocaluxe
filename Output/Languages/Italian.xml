@@ -51,7 +51,7 @@
   <string name="TR_CONFIG_TILE_BOARD">Scacchiera</string>
   <string name="TR_CONFIG_BOOK">Libro</string>
   <string name="TR_CONFIG_COVERLOADING_ONDEMAND">Su richiesta</string>
-  <string name="TR_CONFIG_COVERLOADING_ATSTART">All\'avvio</string>
+  <string name="TR_CONFIG_COVERLOADING_ATSTART">All'avvio</string>
   <string name="TR_CONFIG_COVERLOADING_DYNAMIC">Dinamico</string>
   <string name="TR_CONFIG_NONE">Nessuno</string>
   <string name="TR_CONFIG_RANDOM">Casuale</string>
