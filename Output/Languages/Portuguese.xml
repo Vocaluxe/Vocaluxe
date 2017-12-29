@@ -217,7 +217,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Camaras Web</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Resolução da Câmara Web</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustes do Ecrã </string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Prima CTR + ALT (+ SHIFT) + Setas|\"+\" para ajustar o ecrã</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Prima CTR + ALT (+ SHIFT) + Setas|"+" para ajustar o ecrã</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + 0 para reiniciar</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Superior Esquerdo</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Superior Direito</string>
