@@ -331,10 +331,18 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions)
         {
-            if (categoryIndex != -1)
+            if (categoryIndex != -1 || CBase.Config.GetTabs() == EOffOn.TR_CONFIG_OFF)
+            {
+                //If category is selected or tabs off: only random song selection
                 _ScreenSongOptions.Selection.SelectNextRandomSong = true;
+                _ScreenSongOptions.Selection.RandomOnly = true;
+            }
             else
+            {
+                //If no category is selected: let user choose category
                 _ScreenSongOptions.Selection.SongIndex = -1;
+                _ScreenSongOptions.Selection.RandomOnly = false;
+            }
 
             _ScreenSongOptions.Selection.CategoryIndex = categoryIndex;
 
