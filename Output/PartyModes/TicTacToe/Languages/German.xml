@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Deutsch</string>
   <string name="TR_PARTYMODE_NAME">Tic-Tac-Toe</string>
@@ -13,15 +13,11 @@
   <string name="TR_BUTTON_NEXT_ROUND">Starten</string>
   <string name="TR_SONGS">Songs</string>
   <string name="TR_TEAM">Team</string>
-  <string name="TR_PLAYLIST">Playlist</string>
-  <string name="TR_CATEGORY">Kategorie</string>
-  <string name="TR_ALLSONGS">Alle Songs</string>
   <string name="TR_SCREENCONFIG_TITLE">Tic-Tac-Toe: Einstellungen</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Anzahl der Spieler in Team 1</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Anzahl der Spieler in Team 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Anzahl der Felder</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Song-Quelle</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Spiel-Modus</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Joker nach jeder Runde auffüllen</string>
   <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Spielerwahl</string>
   <string name="TR_SCREENNAMES_TEAM1">Team 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Team 2</string>
