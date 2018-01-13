@@ -437,7 +437,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
             catch (Exception e)
             {
-                CLog.LogError("Couldn't copy the frame to the managed environment.", false, false, e);
+                CLog.LogError(e, "Couldn't copy the frame to the managed environment.");
                 return false;
             }
             

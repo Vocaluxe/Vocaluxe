@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -167,9 +168,12 @@ namespace VocaluxeLib
 
     public interface ILog
     {
-        void LogError(string errorText, bool showMsg = false, bool exit = false);
-        void LogDebug(string text);
-        void LogSongInfo(string text);
+        void LogError(Exception exeption, string errorText, bool showMsg = false, bool exit = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1, params object[] propertyValues);
+        void LogError(string errorText, bool showMsg = false, bool exit = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1, params object[] propertyValues);
+        void LogDebug(string text, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1, params object[] propertyValues);
+        void LogSongWarning(string text, params object[] propertyValues);
+        void LogSongError(Exception exception, string text, params object[] propertyValues);
+        void LogSongError(string text, params object[] propertyValues);
     }
 
     public interface IFonts

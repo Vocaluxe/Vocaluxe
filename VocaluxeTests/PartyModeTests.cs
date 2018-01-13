@@ -46,7 +46,7 @@ namespace VocaluxeTests
         public void TestRoundGeneration()
         {
             CBase.Game = new CBGame();
-            CLog.Init();
+            CLog.Init(CSettings.FolderNameLogs);
             CBase.Log = new CBlog();
             for (int i = 0; i < 10; i++)
             {

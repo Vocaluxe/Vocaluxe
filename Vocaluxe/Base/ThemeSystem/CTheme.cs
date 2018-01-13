@@ -80,7 +80,7 @@ namespace Vocaluxe.Base.ThemeSystem
             }
             catch (Exception e)
             {
-                CLog.LogError("Can't load theme \"" + _FileName + "\". Invalid file!", false, false, e);
+                CLog.LogError(e, "Can't load theme \"" + _FileName + "\". Invalid file!");
                 return false;
             }
 

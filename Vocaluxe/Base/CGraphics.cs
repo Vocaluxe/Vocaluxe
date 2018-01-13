@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
+using Serilog.Events;
+using SerilogTimings;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.ThemeSystem;
 using Vocaluxe.Screens;
@@ -61,36 +63,35 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             // Add Screens, must be the same order as in EScreens!
-            CLog.StartBenchmark("Build Screen List");
+            CLog.LogInformation("Build Screen List");
+            using (Operation.At(LogEventLevel.Information).Time("Build Screen List"))
+            {
+                _Screens.Add(new CScreenTest());
+                _Screens.Add(new CScreenLoad());
+                _Screens.Add(new CScreenMain());
+                _Screens.Add(new CScreenSong());
+                _Screens.Add(new CScreenOptions());
+                _Screens.Add(new CScreenSing());
+                _Screens.Add(new CScreenProfiles());
+                _Screens.Add(new CScreenScore());
+                _Screens.Add(new CScreenHighscore());
+                _Screens.Add(new CScreenOptionsGame());
+                _Screens.Add(new CScreenOptionsSound());
+                _Screens.Add(new CScreenOptionsRecord());
+                _Screens.Add(new CScreenOptionsVideo());
+                _Screens.Add(new CScreenOptionsVideoAdjustments());
+                _Screens.Add(new CScreenOptionsLyrics());
+                _Screens.Add(new CScreenOptionsTheme());
+                _Screens.Add(new CScreenNames());
+                _Screens.Add(new CScreenCredits());
+                _Screens.Add(new CScreenParty());
 
-            _Screens.Add(new CScreenTest());
-            _Screens.Add(new CScreenLoad());
-            _Screens.Add(new CScreenMain());
-            _Screens.Add(new CScreenSong());
-            _Screens.Add(new CScreenOptions());
-            _Screens.Add(new CScreenSing());
-            _Screens.Add(new CScreenProfiles());
-            _Screens.Add(new CScreenScore());
-            _Screens.Add(new CScreenHighscore());
-            _Screens.Add(new CScreenOptionsGame());
-            _Screens.Add(new CScreenOptionsSound());
-            _Screens.Add(new CScreenOptionsRecord());
-            _Screens.Add(new CScreenOptionsVideo());
-            _Screens.Add(new CScreenOptionsVideoAdjustments());
-            _Screens.Add(new CScreenOptionsLyrics());
-            _Screens.Add(new CScreenOptionsTheme());
-            _Screens.Add(new CScreenNames());
-            _Screens.Add(new CScreenCredits());
-            _Screens.Add(new CScreenParty());
+                Debug.Assert(_Screens.Count == (int)EScreen.CountEntry, "Screen list and screens enum do not match");
 
-            Debug.Assert(_Screens.Count == (int)EScreen.CountEntry, "Screen list and screens enum do not match");
-
-            _PopupScreens.Add(new CPopupScreenPlayerControl());
-            _PopupScreens.Add(new CPopupScreenVolumeControl());
-            _PopupScreens.Add(new CPopupScreenServerQR());
-
-            CLog.StopBenchmark("Build Screen List");
-
+                _PopupScreens.Add(new CPopupScreenPlayerControl());
+                _PopupScreens.Add(new CPopupScreenVolumeControl());
+                _PopupScreens.Add(new CPopupScreenServerQR());
+            }
             CurrentScreen = _Screens[(int)EScreen.Load];
             NextScreen = null;
             _CurrentPopupScreen = EPopupScreens.NoPopup;
@@ -99,9 +100,11 @@ namespace Vocaluxe.Base
             GlobalAlpha = 1f;
             ZOffset = 0f;
 
-            CLog.StartBenchmark("Load Theme");
-            LoadTheme();
-            CLog.StopBenchmark("Load Theme");
+            CLog.LogInformation("Load Theme");
+            using (Operation.At(LogEventLevel.Information).Time("Load Theme"))
+            {
+                LoadTheme();
+            }
         }
 
         public static void Close()
@@ -118,10 +121,12 @@ namespace Vocaluxe.Base
 
             for (int i = 0; i < _Screens.Count; i++)
             {
-                CLog.StartBenchmark("Load Theme " + Enum.GetNames(typeof(EScreen))[i]);
-                _Screens[i].Init();
-                _Screens[i].LoadTheme(CThemes.GetThemeScreensPath(_Screens[i].PartyModeID));
-                CLog.StopBenchmark("Load Theme " + Enum.GetNames(typeof(EScreen))[i]);
+                CLog.LogInformation("Load Theme " + Enum.GetNames(typeof(EScreen))[i]);
+                using (Operation.At(LogEventLevel.Information).Time("Load Theme " + Enum.GetNames(typeof(EScreen))[i]))
+                {
+                    _Screens[i].Init();
+                    _Screens[i].LoadTheme(CThemes.GetThemeScreensPath(_Screens[i].PartyModeID));
+                }
             }
 
             foreach (IMenu popup in _PopupScreens)

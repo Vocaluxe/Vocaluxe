@@ -21,6 +21,8 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using Serilog.Events;
+using SerilogTimings;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Xml;
@@ -217,7 +219,7 @@ namespace Vocaluxe.Base.Fonts
                 }
             }
             else
-                CLog.LogError("Empty fontName requested", false, false, new Exception());
+                CLog.LogError("Empty fontName requested");
 
             if (_FontFamilies.Count == 0)
                 CLog.LogError("No fonts found!", true, true);
@@ -265,7 +267,7 @@ namespace Vocaluxe.Base.Fonts
             }
             catch (Exception e)
             {
-                CLog.LogError("Error loading default Fonts", false, false, e);
+                CLog.LogError(e, "Error loading default Fonts");
                 return false;
             }
 
@@ -287,9 +289,13 @@ namespace Vocaluxe.Base.Fonts
                     return false;
                 }
             }
-            CLog.StartBenchmark("BuildGlyphs");
-            _BuildGlyphs();
-            CLog.StopBenchmark("BuildGlyphs");
+
+            CLog.LogInformation("Build Glyphs");
+            using (Operation.At(LogEventLevel.Information).Time("Build Glyphs"))
+            {
+                _BuildGlyphs();
+            }
+
             return true;
         }
 

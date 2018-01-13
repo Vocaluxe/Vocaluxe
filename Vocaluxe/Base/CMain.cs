@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
@@ -507,21 +508,38 @@ namespace Vocaluxe.Base
         }
     }
 
+    // ReSharper disable ExplicitCallerInfoArgument
     class CBlog : ILog
     {
-        public void LogError(string errorText, bool showMsg = false, bool exit = false)
+        public void LogError(Exception exeption, string errorText, bool showMsg = false, bool exit = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1, params object[] propertyValues)
         {
-            CLog.LogError(errorText, showMsg, exit);
+            CLog.LogError(exeption, errorText, showMsg, exit, callerMethodeName, callerFilePath, callerLineNumer, propertyValues);
         }
 
-        public void LogDebug(string text)
+        public void LogError(string errorText, bool showMsg = false, bool exit = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1, params object[] propertyValues)
         {
-            CLog.LogDebug(text);
+            CLog.LogError(null, errorText, showMsg, exit, callerMethodeName, callerFilePath, callerLineNumer, propertyValues);
         }
 
-        public void LogSongInfo(string text)
+        public void LogDebug(string text, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1, params object[] propertyValues)
         {
-            CLog.LogSongInfo(text);
+            
+            CLog.LogDebug(text, callerMethodeName, callerFilePath, callerLineNumer, propertyValues);
+        }
+
+        public void LogSongWarning(string text, params object[] propertyValues)
+        {
+            CLog.LogSongWaring(text, propertyValues);
+        }
+
+        public void LogSongError(Exception exception, string text, params object[] propertyValues)
+        {
+            CLog.LogSongError(exception, text, propertyValues);
+        }
+
+        public void LogSongError(string text, params object[] propertyValues)
+        {
+            CLog.LogSongError(text, propertyValues);
         }
     }
 

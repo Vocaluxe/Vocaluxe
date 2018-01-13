@@ -111,11 +111,8 @@ namespace Vocaluxe.Base
         public const string FileNameOldHighscoreDB = "Ultrastar.db";
         public const string FileNameCoverDB = "CoverDB.sqlite";
         public const string FileNameCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
-
-        public const string FileNamePerformanceLog = "Performance.log";
-        public const string FileNameErrorLog = "Error.log";
-        public const string FileNameBenchmarkLog = "Benchmark.log";
-        public const string FileNameDebugLog = "Debug.log";
+        
+        public const string FileNameMainLog = "Vocaluxe.log";
         public const string FileNameSongInfoLog = "SongInformation.log";
 
         public const string FileNameRequiredSkinElements = "RequiredSkinElements.xml";
@@ -135,6 +132,7 @@ namespace Vocaluxe.Base
         public const string FolderNameLanguages = "Languages";
         public const string FolderNameScreenshots = "Screenshots";
         public const string FolderNameBackgroundMusic = "BackgroundMusic";
+        public const string FolderNameLogs = "Logs";
 
         public const string FolderNamePartyModes = "PartyModes";
         public const string FolderNamePartyModeCode = "Code";

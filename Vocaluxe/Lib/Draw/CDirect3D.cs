@@ -94,7 +94,7 @@ namespace Vocaluxe.Lib.Draw
             }
             catch (Direct3DX9NotFoundException e)
             {
-                CLog.LogError("No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109", true, true, e);
+                CLog.LogError(e, "No DirectX runtimes were found, please download and install them from http://www.microsoft.com/download/en/details.aspx?id=8109");
             }
 
             _Form.KeyDown += _OnKeyDown;
@@ -177,7 +177,7 @@ namespace Vocaluxe.Lib.Draw
             }
             catch (Exception e)
             {
-                CLog.LogError("Error during D3D device creation.", false, false, e);
+                CLog.LogError(e, "Error during D3D device creation.");
             }
             finally
             {

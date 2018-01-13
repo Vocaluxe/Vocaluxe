@@ -86,7 +86,7 @@ namespace Vocaluxe.Lib.Sound
                     }
                     catch (Exception ex)
                     {
-                        CLog.LogError(errorText: $"Error disposing PortAudio: {ex.Message}", e: ex);
+                        CLog.LogError(ex, "Error disposing PortAudio");
                     }
                 }
                 _Disposed = true;
@@ -179,7 +179,7 @@ namespace Vocaluxe.Lib.Sound
                 }
                 catch (Exception ex)
                 {
-                    CLog.LogError(errorText:$"Error closing stream: {ex.Message}", e:ex);
+                    CLog.LogError(ex, "Error closing stream:");
                 }
                 _Streams.Remove(stream);
             }
