@@ -21,8 +21,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using Serilog.Events;
-using SerilogTimings;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
@@ -292,7 +290,7 @@ namespace Vocaluxe.Base.Fonts
             }
 
             CLog.Information("Build Glyphs");
-            using (Operation.At(LogEventLevel.Information).Time("Build Glyphs"))
+            using (CBenchmark.Time("Build Glyphs"))
             {
                 _BuildGlyphs();
             }

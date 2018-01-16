@@ -21,7 +21,6 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 using Serilog.Events;
-using SerilogTimings;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.ThemeSystem;
 using Vocaluxe.Screens;
@@ -65,7 +64,7 @@ namespace Vocaluxe.Base
         {
             // Add Screens, must be the same order as in EScreens!
             CLog.Information("Build Screen List");
-            using (Operation.At(LogEventLevel.Information).Time("Build Screen List"))
+            using (CBenchmark.Time("Build Screen List"))
             {
                 _Screens.Add(new CScreenTest());
                 _Screens.Add(new CScreenLoad());
@@ -102,7 +101,7 @@ namespace Vocaluxe.Base
             ZOffset = 0f;
 
             CLog.Information("Load Theme");
-            using (Operation.At(LogEventLevel.Information).Time("Load Theme"))
+            using (CBenchmark.Time("Load Theme"))
             {
                 LoadTheme();
             }
@@ -123,7 +122,7 @@ namespace Vocaluxe.Base
             for (int i = 0; i < _Screens.Count; i++)
             {
                 CLog.Information("Load Theme " + Enum.GetNames(typeof(EScreen))[i]);
-                using (Operation.At(LogEventLevel.Information).Time("Load Theme " + Enum.GetNames(typeof(EScreen))[i]))
+                using (CBenchmark.Time("Load Theme " + Enum.GetNames(typeof(EScreen))[i]))
                 {
                     _Screens[i].Init();
                     _Screens[i].LoadTheme(CThemes.GetThemeScreensPath(_Screens[i].PartyModeID));

@@ -103,10 +103,6 @@
       <HintPath>..\packages\Serilog.Sinks.TextWriter.2.1.0\lib\net45\Serilog.Sinks.TextWriter.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="SerilogTimings, Version=2.2.0.0, Culture=neutral, PublicKeyToken=ea6fc7d88906f03a, processorArchitecture=MSIL">
-      <HintPath>..\packages\SerilogTimings.2.2.0\lib\net45\SerilogTimings.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -129,6 +125,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>CLogFunctions.tt</DependentUpon>
     </Compile>
+    <Compile Include="Log\CBenchmark.cs" />
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="CBasic.cs" />
     <Compile Include="Menu\CButton.cs" />
@@ -157,6 +154,7 @@
     <Compile Include="Menu\IThemeable.cs" />
     <Compile Include="Menu\SingNotes\CNoteBars.cs" />
     <Compile Include="Utils\Combinatorics\CCombinations.cs" />
+    <Compile Include="Utils\ObjectPool.cs" />
     <Compile Include="XmlStructs.cs" />
     <Compile Include="Xml\CTypeExtensions.cs" />
     <Compile Include="Xml\CXmlDeserializer.cs" />

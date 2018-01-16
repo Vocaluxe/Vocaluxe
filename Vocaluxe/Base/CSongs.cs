@@ -22,8 +22,6 @@ using System.Linq;
 using System.Threading;
 using System.IO;
 using System.Threading.Tasks;
-using Serilog.Events;
-using SerilogTimings;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 using VocaluxeLib.Songs;
@@ -337,7 +335,7 @@ namespace Vocaluxe.Base
         public static void LoadSongs()
         {
             CLog.Information("Load Songs");
-            using (Operation.At(LogEventLevel.Information).Time("Load Songs"))
+            using (CBenchmark.Time("Load Songs"))
             {
                 SongsLoaded = false;
                 _Songs.Clear();
@@ -345,7 +343,7 @@ namespace Vocaluxe.Base
                 var files = new List<string>();
 
                 CLog.Information("List Songs");
-                using (Operation.At(LogEventLevel.Information).Time("List Songs"))
+                using (CBenchmark.Time("List Songs"))
                 {
                     
                     foreach (string p in CConfig.SongFolders)
@@ -360,7 +358,7 @@ namespace Vocaluxe.Base
                 }
 
                 CLog.Information("Read TXTs");
-                using (Operation.At(LogEventLevel.Information).Time("Read TXTs"))
+                using (CBenchmark.Time("Read TXTs"))
                 {
                     foreach (string file in files)
                     {
@@ -374,7 +372,7 @@ namespace Vocaluxe.Base
                 }
 
                 CLog.Information("Sort Songs");
-                using (Operation.At(LogEventLevel.Information).Time("Sorted Songs"))
+                using (CBenchmark.Time("Sorted Songs"))
                 {
                     Sorter.SongSorting = CConfig.Config.Game.SongSorting;
                     Sorter.IgnoreArticles = CConfig.Config.Game.IgnoreArticles;
@@ -411,7 +409,7 @@ namespace Vocaluxe.Base
         private static void _LoadCovers()
         {
             CLog.Information("Load Covers");
-            using (Operation.At(LogEventLevel.Information).Time("Loaded Covers"))
+            using (CBenchmark.Time("Loaded Covers"))
             {
                 int songCount = _Songs.Count;
                 AutoResetEvent ev = new AutoResetEvent(songCount == 0);

@@ -24,8 +24,6 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Windows.Forms;
-using Serilog.Events;
-using SerilogTimings;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Server;
@@ -106,14 +104,14 @@ namespace Vocaluxe
                 CProgrammHelper.Init();
 
                 CLog.Information("Init Program");
-                using (Operation.At(LogEventLevel.Information).Time("Init Program"))
+                using (CBenchmark.Time("Init Program"))
                 {
                     CMain.Init();
                     Application.DoEvents();
 
                     // Init Language
                     CLog.Information("Init Language");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Language"))
+                    using (CBenchmark.Time("Init Language"))
                     {
                         if (!CLanguage.Init())
                             throw new CLoadingException("Language");
@@ -123,7 +121,7 @@ namespace Vocaluxe
 
                     // load config
                     CLog.Information("Init Config");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Config"))
+                    using (CBenchmark.Time("Init Config"))
                     {
                         CConfig.LoadCommandLineParams(args);
                         CConfig.UseCommandLineParamsBefore();
@@ -139,7 +137,7 @@ namespace Vocaluxe
 
                     // Init Draw
                     CLog.Information("Init Draw");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Draw"))
+                    using (CBenchmark.Time("Init Draw"))
                     {
                         if (!CDraw.Init())
                             throw new CLoadingException("drawing");
@@ -149,7 +147,7 @@ namespace Vocaluxe
 
                     // Init Playback
                     CLog.Information("Init Playback");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Playback"))
+                    using (CBenchmark.Time("Init Playback"))
                     {
                         if (!CSound.Init())
                             throw new CLoadingException("playback");
@@ -159,7 +157,7 @@ namespace Vocaluxe
 
                     // Init Record
                     CLog.Information("Init Record");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Record"))
+                    using (CBenchmark.Time("Init Record"))
                     {
                         if (!CRecord.Init())
                             throw new CLoadingException("record");
@@ -169,7 +167,7 @@ namespace Vocaluxe
 
                     // Init VideoDecoder
                     CLog.Information("Init Videodecoder");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Videodecoder"))
+                    using (CBenchmark.Time("Init Videodecoder"))
                     {
                         if (!CVideo.Init())
                             throw new CLoadingException("video");
@@ -179,7 +177,7 @@ namespace Vocaluxe
 
                     // Init Database
                     CLog.Information("Init Database");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Database"))
+                    using (CBenchmark.Time("Init Database"))
                     {
                         if (!CDataBase.Init())
                             throw new CLoadingException("database");
@@ -189,7 +187,7 @@ namespace Vocaluxe
 
                     //Init Webcam
                     CLog.Information("Init Webcam");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Webcam"))
+                    using (CBenchmark.Time("Init Webcam"))
                     {
                         if (!CWebcam.Init())
                             throw new CLoadingException("webcam");
@@ -199,7 +197,7 @@ namespace Vocaluxe
 
                     // Init Background Music
                     CLog.Information("Init Background Music");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Background Music"))
+                    using (CBenchmark.Time("Init Background Music"))
                     {
                         CBackgroundMusic.Init();
                     }
@@ -208,7 +206,7 @@ namespace Vocaluxe
 
                     // Init Profiles
                     CLog.Information("Init Profiles");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Profiles"))
+                    using (CBenchmark.Time("Init Profiles"))
                     {
                         CProfiles.Init();
                     }
@@ -217,7 +215,7 @@ namespace Vocaluxe
 
                     // Init Fonts
                     CLog.Information("Init Fonts");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Fonts"))
+                    using (CBenchmark.Time("Init Fonts"))
                     {
                         if (!CFonts.Init())
                             throw new CLoadingException("fonts");
@@ -227,14 +225,14 @@ namespace Vocaluxe
 
                     // Theme System
                     CLog.Information("Init Theme");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Theme"))
+                    using (CBenchmark.Time("Init Theme"))
                     {
                         if (!CThemes.Init())
                             throw new CLoadingException("theme");
                     }
 
                     CLog.Information("Load Theme");
-                    using (Operation.At(LogEventLevel.Information).Time("Load Theme"))
+                    using (CBenchmark.Time("Load Theme"))
                     {
                         CThemes.Load();
                     }
@@ -243,7 +241,7 @@ namespace Vocaluxe
 
                     // Load Cover
                     CLog.Information("Init Cover");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Cover"))
+                    using (CBenchmark.Time("Init Cover"))
                     {
                         if (!CCover.Init())
                             throw new CLoadingException("covertheme");
@@ -253,7 +251,7 @@ namespace Vocaluxe
 
                     // Init Screens
                     CLog.Information("Init Screens");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Screens"))
+                    using (CBenchmark.Time("Init Screens"))
                     {
                         CGraphics.Init();
                     }
@@ -262,7 +260,7 @@ namespace Vocaluxe
 
                     // Init Server
                     CLog.Information("Init Server");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Server"))
+                    using (CBenchmark.Time("Init Server"))
                     {
                         CVocaluxeServer.Init();
                     }
@@ -271,7 +269,7 @@ namespace Vocaluxe
 
                     // Init Input
                     CLog.Information("Init Input");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Input"))
+                    using (CBenchmark.Time("Init Input"))
                     {
                         CController.Init();
                         CController.Connect();
@@ -281,7 +279,7 @@ namespace Vocaluxe
 
                     // Init Game;
                     CLog.Information("Init Game");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Game"))
+                    using (CBenchmark.Time("Init Game"))
                     {
                         CGame.Init();
                         CProfiles.Update();
@@ -292,7 +290,7 @@ namespace Vocaluxe
 
                     // Init Party Modes;
                     CLog.Information("Init Party Modes");
-                    using (Operation.At(LogEventLevel.Information).Time("Init Party Modes"))
+                    using (CBenchmark.Time("Init Party Modes"))
                     {
                         if (!CParty.Init())
                             throw new CLoadingException("Party Modes");

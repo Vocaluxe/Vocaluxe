@@ -18,8 +18,6 @@
 using System;
 using System.Threading;
 using System.Windows.Forms;
-using Serilog.Events;
-using SerilogTimings;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Log;
@@ -130,7 +128,7 @@ namespace Vocaluxe.Screens
             }
 
             CLog.Information("Load Songs Full");
-            _TimerLoadSongsFull = Operation.At(LogEventLevel.Information).Time("Loaded Songs Full");
+            _TimerLoadSongsFull = CBenchmark.Time("Loaded Songs Full");
             
             _SongLoaderThread = new Thread(CSongs.LoadSongs) {Name = "SongLoader", IsBackground = true};
             _SongLoaderThread.Start();
@@ -189,7 +187,7 @@ namespace Vocaluxe.Screens
 
             //Init Playlists
             CLog.Information("Init Playlists");
-            using (Operation.At(LogEventLevel.Information).Time("Init Playlists"))
+            using (CBenchmark.Time("Init Playlists"))
             {
                 CPlaylists.Init();
             }
