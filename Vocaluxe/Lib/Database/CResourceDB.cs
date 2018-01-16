@@ -23,6 +23,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 #if WIN
 using System.Data.SQLite;
 
@@ -53,7 +54,7 @@ namespace Vocaluxe.Lib.Database
                 return false;
             if (_Version < 0)
             {
-                CLog.LogError("Can't find Ressource-DB!");
+                CLog.Error("Can't find Ressource-DB!");
                 return false;
             }
 
@@ -62,7 +63,7 @@ namespace Vocaluxe.Lib.Database
 #if DEBUG
                 return _CreateDB() && _UpdateV1();
 #else
-                CLog.LogError("Upgrading Ressource-DB not possible");
+                CLog.Error("Upgrading Ressource-DB not possible");
                 return false;
 #endif
             }
@@ -161,7 +162,7 @@ namespace Vocaluxe.Lib.Database
             }
             catch (Exception)
             {
-                CLog.LogError("Error loading image: " + imagePath);
+                CLog.Error("Error loading image: " + imagePath);
                 return false;
             }
             try
@@ -247,7 +248,7 @@ namespace Vocaluxe.Lib.Database
             }
             catch (Exception e)
             {
-                CLog.LogError("Error creating Ressource DB " + e);
+                CLog.Error("Error creating Ressource DB " + e);
                 return false;
             }
             return true;

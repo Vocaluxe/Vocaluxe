@@ -22,6 +22,7 @@ using System.Linq;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using System.Diagnostics;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
@@ -75,13 +76,13 @@ namespace Vocaluxe.Base.ThemeSystem
                 if (theme.Load())
                     break;
                 theme.Unload();
-                CLog.LogError("Failed to load theme " + theme + "! Removing...", true);
+                CLog.Error("Failed to load theme {ThemeName}! Removing...", CLog.Params(theme.Name, theme), true);
                 _Themes.Remove(theme);
                 theme = _Themes.FirstOrDefault(th => th is CBaseTheme);
             }
             CurrentThemes.Add(-1, theme);
             if (theme == null)
-                CLog.LogError("No themes found! Cannot continue!", true, true);
+                CLog.Fatal("No themes found! Cannot continue!");
             else
             {
                 CConfig.Config.Theme.Theme = theme.Name;
@@ -104,7 +105,7 @@ namespace Vocaluxe.Base.ThemeSystem
                     return true;
                 }
                 theme.Unload();
-                CLog.LogError("Failed to load theme " + theme + " for partymode! Removing...", true);
+                CLog.Error("Failed to load theme " + theme + " for partymode! Removing...", true);
                 _Themes.Remove(theme);
             }
             theme = _Themes.First(th => th.PartyModeID == partyModeID && th.Name == CSettings.DefaultName);
@@ -113,7 +114,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 CurrentThemes.Add(partyModeID, theme);
                 return true;
             }
-            CLog.LogError("Failed to load default theme for partymode! Unloading partymode!", true);
+            CLog.Error("Failed to load default theme for partymode! Unloading partymode!", true);
             foreach (CPartyTheme th in _Themes.Where(th => th.PartyModeID == partyModeID))
                 th.Unload();
             _Themes.RemoveAll(th => th.PartyModeID == partyModeID);
@@ -149,12 +150,12 @@ namespace Vocaluxe.Base.ThemeSystem
             }
             if (newThemes.Count == 0)
             {
-                CLog.LogError("No valid themes found in " + path);
+                CLog.Error("No valid themes found in " + path);
                 return false;
             }
             if (partyModeID >= 0 && newThemes.Count(th => th.Name == CSettings.DefaultName) == 0)
             {
-                CLog.LogError("Partymode misses default theme in " + path);
+                CLog.Error("Partymode misses default theme in " + path);
                 return false;
             }
 
@@ -170,7 +171,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         private static void _LogMissingElement(int partyModeID, string elType, string elName)
         {
-            CLog.LogError("Skin " + CurrentThemes[partyModeID].CurrentSkin + " is missing the " + elType + " \"" + elName + "\"! Expect visual problems!");
+            CLog.Error("Skin " + CurrentThemes[partyModeID].CurrentSkin + " is missing the " + elType + " \"" + elName + "\"! Expect visual problems!");
         }
 
         public static CTextureRef GetSkinTexture(string textureName, int partyModeID)
@@ -212,7 +213,7 @@ namespace Vocaluxe.Base.ThemeSystem
         {
             SColorF color;
             if (!GetColor("Player" + playerNr, -1, out color))
-                CLog.LogError("Invalid color requested: Color for player " + playerNr + ". Expect visual problems!", true);
+                CLog.Error("Invalid color requested: Color for player " + playerNr + ". Expect visual problems!", true);
             return color;
         }
     }

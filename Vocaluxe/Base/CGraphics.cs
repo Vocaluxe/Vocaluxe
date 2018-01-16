@@ -26,6 +26,7 @@ using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.ThemeSystem;
 using Vocaluxe.Screens;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Base
@@ -63,7 +64,7 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             // Add Screens, must be the same order as in EScreens!
-            CLog.LogInformation("Build Screen List");
+            CLog.Information("Build Screen List");
             using (Operation.At(LogEventLevel.Information).Time("Build Screen List"))
             {
                 _Screens.Add(new CScreenTest());
@@ -100,7 +101,7 @@ namespace Vocaluxe.Base
             GlobalAlpha = 1f;
             ZOffset = 0f;
 
-            CLog.LogInformation("Load Theme");
+            CLog.Information("Load Theme");
             using (Operation.At(LogEventLevel.Information).Time("Load Theme"))
             {
                 LoadTheme();
@@ -121,7 +122,7 @@ namespace Vocaluxe.Base
 
             for (int i = 0; i < _Screens.Count; i++)
             {
-                CLog.LogInformation("Load Theme " + Enum.GetNames(typeof(EScreen))[i]);
+                CLog.Information("Load Theme " + Enum.GetNames(typeof(EScreen))[i]);
                 using (Operation.At(LogEventLevel.Information).Time("Load Theme " + Enum.GetNames(typeof(EScreen))[i]))
                 {
                     _Screens[i].Init();

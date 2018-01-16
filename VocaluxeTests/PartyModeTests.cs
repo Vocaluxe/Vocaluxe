@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.PartyModes.Challenge;
 
 namespace VocaluxeTests
@@ -46,8 +47,7 @@ namespace VocaluxeTests
         public void TestRoundGeneration()
         {
             CBase.Game = new CBGame();
-            CLog.Init(CSettings.FolderNameLogs);
-            CBase.Log = new CBlog();
+            CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog);
             for (int i = 0; i < 10; i++)
             {
                 for (int numPlayer = 1; numPlayer <= 20; numPlayer++)
@@ -61,7 +61,7 @@ namespace VocaluxeTests
                             Assert.IsTrue(rounds.Count >= numRounds);
                             _CheckRounds(rounds, numPlayer);
                             if (rounds.Count != numRounds)
-                                CBase.Log.LogDebug("Number of rounds does not match. Expected: " + numRounds + ", Is: " + rounds.Count + " for " + numPlayer + "/" +
+                                CLog.Debug("Number of rounds does not match. Expected: " + numRounds + ", Is: " + rounds.Count + " for " + numPlayer + "/" +
                                                    ((numPlayer < numMic) ? numPlayer : numMic));
                         }
                     }

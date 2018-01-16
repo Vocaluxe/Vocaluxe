@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
@@ -113,7 +114,7 @@ namespace Vocaluxe.Base
         public const string FileNameCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
         
         public const string FileNameMainLog = "Vocaluxe.log";
-        public const string FileNameSongInfoLog = "SongInformation.log";
+        public const string FileNameSongLog = "Song.log";
 
         public const string FileNameRequiredSkinElements = "RequiredSkinElements.xml";
 
@@ -239,7 +240,7 @@ namespace Vocaluxe.Base
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Cannot create directory \"" + path + "\": " + e.Message);
+                    CLog.Error("Cannot create directory \"" + path + "\": " + e.Message);
                 }
             }
         }

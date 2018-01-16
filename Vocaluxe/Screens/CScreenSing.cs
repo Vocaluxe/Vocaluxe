@@ -27,6 +27,7 @@ using Vocaluxe.Base.Fonts;
 using Vocaluxe.Lib.Sound;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Songs;
@@ -1043,7 +1044,7 @@ namespace Vocaluxe.Screens
 
             if (song == null)
             {
-                CLog.LogError("Critical Error! ScreenSing.LoadNextSong() song is null!");
+                CLog.Error("Critical Error! ScreenSing.LoadNextSong() song is null!");
                 return;
             }
 

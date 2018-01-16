@@ -22,7 +22,6 @@ namespace VocaluxeLib
         public static IConfig Config;
         public static ISettings Settings;
         public static IThemes Themes;
-        public static ILog Log;
         public static IBackgroundMusic BackgroundMusic;
         public static IDrawing Drawing;
         public static IGraphics Graphics;
@@ -39,14 +38,13 @@ namespace VocaluxeLib
         public static IControllers Controller;
         public static IPlaylist Playlist;
 
-        public static void Assign(IConfig config, ISettings settings, IThemes themes, ILog log, IBackgroundMusic backgroundMusic,
+        public static void Assign(IConfig config, ISettings settings, IThemes themes, IBackgroundMusic backgroundMusic,
                                   IDrawing draw, IGraphics graphics, IFonts fonts, ILanguage language, IGame game, IProfiles profiles, IRecording record,
                                   ISongs songs, IVideo video, ISound sound, ICover cover, IDataBase dataBase, IControllers controller, IPlaylist playlist)
         {
             Config = config;
             Settings = settings;
             Themes = themes;
-            Log = log;
             BackgroundMusic = backgroundMusic;
             Drawing = draw;
             Graphics = graphics;

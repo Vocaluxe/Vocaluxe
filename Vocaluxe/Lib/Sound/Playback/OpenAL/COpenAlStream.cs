@@ -22,6 +22,7 @@ using System.Threading;
 using OpenTK.Audio;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Playback.Decoder;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.OpenAL
 {
@@ -178,7 +179,7 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             if (!ok)
             {
                 Dispose();
-                CLog.LogError("Error Init OpenAL Playback");
+                CLog.Error("Error Init OpenAL Playback");
                 return false;
             }
 
@@ -187,14 +188,14 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
             if (!_Decoder.Open(_Medium))
             {
                 Dispose();
-                CLog.LogError("Error opening audio file: " + _Medium);
+                CLog.Error("Error opening audio file: " + _Medium);
                 return false;
             }
             _Format = _Decoder.GetFormatInfo();
             if (_Format.SamplesPerSecond == 0)
             {
                 Dispose();
-                CLog.LogError("Error Init OpenAL Playback (samples=0)");
+                CLog.Error("Error Init OpenAL Playback (samples=0)");
                 return false;
             }
 

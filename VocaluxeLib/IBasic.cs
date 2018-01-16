@@ -166,16 +166,6 @@ namespace VocaluxeLib
         IMenu GetScreen(EScreen screen);
     }
 
-    public interface ILog
-    {
-        void LogError(Exception exeption, string errorText, bool showMsg = false, bool exit = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1, params object[] propertyValues);
-        void LogError(string errorText, bool showMsg = false, bool exit = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1, params object[] propertyValues);
-        void LogDebug(string text, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1, params object[] propertyValues);
-        void LogSongWarning(string text, params object[] propertyValues);
-        void LogSongError(Exception exception, string text, params object[] propertyValues);
-        void LogSongError(string text, params object[] propertyValues);
-    }
-
     public interface IFonts
     {
         RectangleF GetTextBounds(CText text);

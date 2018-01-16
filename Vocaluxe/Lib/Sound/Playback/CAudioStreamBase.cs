@@ -17,6 +17,7 @@
 
 using System;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback
 {
@@ -71,7 +72,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         protected virtual void _Dispose(bool disposing)
         {
             if (!disposing)
-                CBase.Log.LogDebug("Audio stream " + _Medium + " was not closed.");
+                CLog.Debug("Audio stream " + _Medium + " was not closed.");
         }
 
         public void Close()

@@ -24,6 +24,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib.Xml
 {
@@ -173,7 +174,7 @@ namespace VocaluxeLib.Xml
             {
                 if (e.IsError)
                     throw e;
-                CBase.Log.LogError(e.ToString());
+                CLog.Error(e.ToString());
             }
         }
 

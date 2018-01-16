@@ -24,6 +24,7 @@ using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 #if WIN
 using System.Data.SQLite;
 
@@ -74,7 +75,7 @@ namespace Vocaluxe.Lib.Database
                 return false;
             if (!File.Exists(coverPath))
             {
-                CLog.LogError("Can't find File: " + coverPath);
+                CLog.Error("Can't find File: " + coverPath);
                 return false;
             }
 
@@ -230,7 +231,7 @@ namespace Vocaluxe.Lib.Database
             }
             catch (Exception e)
             {
-                CLog.LogError("Error creating Cover DB " + e);
+                CLog.Error("Error creating Cover DB " + e);
                 return false;
             }
             return true;

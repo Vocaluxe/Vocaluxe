@@ -22,6 +22,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
@@ -625,7 +626,7 @@ namespace Vocaluxe.Base
             }
             catch (Exception)
             {
-                CLog.LogError("Can't delete Profile File " + _Profiles[profileID].FilePath);
+                CLog.Error("Can't delete Profile File " + _Profiles[profileID].FilePath);
             }
             _ProfilesChanged = true;
         }

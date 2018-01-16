@@ -30,6 +30,7 @@ using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Server;
 using Vocaluxe.Base.ThemeSystem;
+using VocaluxeLib.Log;
 
 [assembly: InternalsVisibleTo("VocaluxeTests")]
 
@@ -80,7 +81,7 @@ namespace Vocaluxe
                 }
                 catch {}
                 MessageBox.Show("Unhandled error: " + e.Message + stackTrace);
-                CLog.LogError("Unhandled error: " + e.Message + stackTrace);
+                CLog.Error("Unhandled error: " + e.Message + stackTrace);
             }
 #else
             _Run(args);
@@ -98,20 +99,20 @@ namespace Vocaluxe
                 Directory.CreateDirectory(CSettings.DataFolder);
 
                 // Init Log
-                CLog.Init(CSettings.FolderNameLogs);
+                CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog);
 
                 if (!CProgrammHelper.CheckRequirements())
                     return;
                 CProgrammHelper.Init();
 
-                CLog.LogInformation("Init Program");
+                CLog.Information("Init Program");
                 using (Operation.At(LogEventLevel.Information).Time("Init Program"))
                 {
                     CMain.Init();
                     Application.DoEvents();
 
                     // Init Language
-                    CLog.LogInformation("Init Language");
+                    CLog.Information("Init Language");
                     using (Operation.At(LogEventLevel.Information).Time("Init Language"))
                     {
                         if (!CLanguage.Init())
@@ -121,7 +122,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // load config
-                    CLog.LogInformation("Init Config");
+                    CLog.Information("Init Config");
                     using (Operation.At(LogEventLevel.Information).Time("Init Config"))
                     {
                         CConfig.LoadCommandLineParams(args);
@@ -137,7 +138,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Draw
-                    CLog.LogInformation("Init Draw");
+                    CLog.Information("Init Draw");
                     using (Operation.At(LogEventLevel.Information).Time("Init Draw"))
                     {
                         if (!CDraw.Init())
@@ -147,7 +148,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Playback
-                    CLog.LogInformation("Init Playback");
+                    CLog.Information("Init Playback");
                     using (Operation.At(LogEventLevel.Information).Time("Init Playback"))
                     {
                         if (!CSound.Init())
@@ -157,7 +158,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Record
-                    CLog.LogInformation("Init Record");
+                    CLog.Information("Init Record");
                     using (Operation.At(LogEventLevel.Information).Time("Init Record"))
                     {
                         if (!CRecord.Init())
@@ -167,7 +168,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init VideoDecoder
-                    CLog.LogInformation("Init Videodecoder");
+                    CLog.Information("Init Videodecoder");
                     using (Operation.At(LogEventLevel.Information).Time("Init Videodecoder"))
                     {
                         if (!CVideo.Init())
@@ -177,7 +178,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Database
-                    CLog.LogInformation("Init Database");
+                    CLog.Information("Init Database");
                     using (Operation.At(LogEventLevel.Information).Time("Init Database"))
                     {
                         if (!CDataBase.Init())
@@ -187,7 +188,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     //Init Webcam
-                    CLog.LogInformation("Init Webcam");
+                    CLog.Information("Init Webcam");
                     using (Operation.At(LogEventLevel.Information).Time("Init Webcam"))
                     {
                         if (!CWebcam.Init())
@@ -197,7 +198,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Background Music
-                    CLog.LogInformation("Init Background Music");
+                    CLog.Information("Init Background Music");
                     using (Operation.At(LogEventLevel.Information).Time("Init Background Music"))
                     {
                         CBackgroundMusic.Init();
@@ -206,7 +207,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Profiles
-                    CLog.LogInformation("Init Profiles");
+                    CLog.Information("Init Profiles");
                     using (Operation.At(LogEventLevel.Information).Time("Init Profiles"))
                     {
                         CProfiles.Init();
@@ -215,7 +216,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Fonts
-                    CLog.LogInformation("Init Fonts");
+                    CLog.Information("Init Fonts");
                     using (Operation.At(LogEventLevel.Information).Time("Init Fonts"))
                     {
                         if (!CFonts.Init())
@@ -225,14 +226,14 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Theme System
-                    CLog.LogInformation("Init Theme");
+                    CLog.Information("Init Theme");
                     using (Operation.At(LogEventLevel.Information).Time("Init Theme"))
                     {
                         if (!CThemes.Init())
                             throw new CLoadingException("theme");
                     }
 
-                    CLog.LogInformation("Load Theme");
+                    CLog.Information("Load Theme");
                     using (Operation.At(LogEventLevel.Information).Time("Load Theme"))
                     {
                         CThemes.Load();
@@ -241,7 +242,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Load Cover
-                    CLog.LogInformation("Init Cover");
+                    CLog.Information("Init Cover");
                     using (Operation.At(LogEventLevel.Information).Time("Init Cover"))
                     {
                         if (!CCover.Init())
@@ -251,7 +252,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Screens
-                    CLog.LogInformation("Init Screens");
+                    CLog.Information("Init Screens");
                     using (Operation.At(LogEventLevel.Information).Time("Init Screens"))
                     {
                         CGraphics.Init();
@@ -260,7 +261,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Server
-                    CLog.LogInformation("Init Server");
+                    CLog.Information("Init Server");
                     using (Operation.At(LogEventLevel.Information).Time("Init Server"))
                     {
                         CVocaluxeServer.Init();
@@ -269,7 +270,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Input
-                    CLog.LogInformation("Init Input");
+                    CLog.Information("Init Input");
                     using (Operation.At(LogEventLevel.Information).Time("Init Input"))
                     {
                         CController.Init();
@@ -279,7 +280,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Game;
-                    CLog.LogInformation("Init Game");
+                    CLog.Information("Init Game");
                     using (Operation.At(LogEventLevel.Information).Time("Init Game"))
                     {
                         CGame.Init();
@@ -290,7 +291,7 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Party Modes;
-                    CLog.LogInformation("Init Party Modes");
+                    CLog.Information("Init Party Modes");
                     using (Operation.At(LogEventLevel.Information).Time("Init Party Modes"))
                     {
                         if (!CParty.Init())
@@ -306,7 +307,7 @@ namespace Vocaluxe
             catch (Exception e)
             {
                 MessageBox.Show("Error on start up: " + e.Message);
-                CLog.LogError("Error on start up: " + e);
+                CLog.Error("Error on start up: " + e);
                 if (_SplashScreen != null)
                     _SplashScreen.Close();
                 _CloseProgram();
@@ -330,7 +331,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CController)");
+                CLog.Error(e, "Error during shutdown! (CController)");
             }
 
             try
@@ -339,7 +340,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CVocaluxeServer)");
+                CLog.Error(e, "Error during shutdown! (CVocaluxeServer)");
             }
 
             try
@@ -348,7 +349,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CGraphics)");
+                CLog.Error(e, "Error during shutdown! (CGraphics)");
             }
 
             try
@@ -357,7 +358,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CThemes)");
+                CLog.Error(e, "Error during shutdown! (CThemes)");
             }
 
             try
@@ -366,7 +367,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CCover)");
+                CLog.Error(e, "Error during shutdown! (CCover)");
             }
 
             try
@@ -375,7 +376,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CFonts)");
+                CLog.Error(e, "Error during shutdown! (CFonts)");
             }
 
             try
@@ -384,7 +385,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CBackgroundMusic)");
+                CLog.Error(e, "Error during shutdown! (CBackgroundMusic)");
             }
 
             try
@@ -393,7 +394,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CWebcam)");
+                CLog.Error(e, "Error during shutdown! (CWebcam)");
             }
 
             try
@@ -402,7 +403,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CDataBase)");
+                CLog.Error(e, "Error during shutdown! (CDataBase)");
             }
 
             try
@@ -411,7 +412,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CVideo)");
+                CLog.Error(e, "Error during shutdown! (CVideo)");
             }
 
             try
@@ -420,7 +421,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CRecord)");
+                CLog.Error(e, "Error during shutdown! (CRecord)");
             }
 
             try
@@ -429,7 +430,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CSound)");
+                CLog.Error(e, "Error during shutdown! (CSound)");
             }
 
             try
@@ -438,7 +439,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                CLog.LogError(e, "Error during shutdown! (CDraw)");
+                CLog.Error(e, "Error during shutdown! (CDraw)");
             }
 
             GC.Collect(); // Do a GC run here before we close logs to have finalizers run
@@ -462,7 +463,7 @@ namespace Vocaluxe
             }
             catch {}
             MessageBox.Show("Unhandled exception: " + e.Message + stackTrace);
-            CLog.LogError("Unhandled exception: " + e.Message + stackTrace);
+            CLog.Error("Unhandled exception: " + e.Message + stackTrace);
             _CloseProgram();
         }
 #endif
@@ -498,7 +499,7 @@ namespace Vocaluxe
                     }
                     catch (Exception e)
                     {
-                        CLog.LogError("Cannot load assembly " + args.Name + " from " + path + ": " + e + "\r\nOuter Error: " + e1);
+                        CLog.Error("Cannot load assembly " + args.Name + " from " + path + ": " + e + "\r\nOuter Error: " + e1);
                     }
                 }
                 #if LINUX

@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib
 {
@@ -297,7 +298,7 @@ namespace VocaluxeLib
         {
             if (!File.Exists(filePath))
             {
-                CBase.Log.LogError("Can't find File: " + filePath);
+                CLog.Error("Can't find File: " + filePath);
                 return null;
             }
             Bitmap bmp;
@@ -307,7 +308,7 @@ namespace VocaluxeLib
             }
             catch (Exception)
             {
-                CBase.Log.LogError("Error loading bitmap: " + filePath);
+                CLog.Error("Error loading bitmap: " + filePath);
                 return null;
             }
             return bmp;

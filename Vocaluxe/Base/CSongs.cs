@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using Serilog.Events;
 using SerilogTimings;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
@@ -335,7 +336,7 @@ namespace Vocaluxe.Base
 
         public static void LoadSongs()
         {
-            CLog.LogInformation("Load Songs");
+            CLog.Information("Load Songs");
             using (Operation.At(LogEventLevel.Information).Time("Load Songs"))
             {
                 SongsLoaded = false;
@@ -343,7 +344,7 @@ namespace Vocaluxe.Base
 
                 var files = new List<string>();
 
-                CLog.LogInformation("List Songs");
+                CLog.Information("List Songs");
                 using (Operation.At(LogEventLevel.Information).Time("List Songs"))
                 {
                     
@@ -358,7 +359,7 @@ namespace Vocaluxe.Base
                     }
                 }
 
-                CLog.LogInformation("Read TXTs");
+                CLog.Information("Read TXTs");
                 using (Operation.At(LogEventLevel.Information).Time("Read TXTs"))
                 {
                     foreach (string file in files)
@@ -372,7 +373,7 @@ namespace Vocaluxe.Base
                     }
                 }
 
-                CLog.LogInformation("Sort Songs");
+                CLog.Information("Sort Songs");
                 using (Operation.At(LogEventLevel.Information).Time("Sorted Songs"))
                 {
                     Sorter.SongSorting = CConfig.Config.Game.SongSorting;
@@ -409,7 +410,7 @@ namespace Vocaluxe.Base
 
         private static void _LoadCovers()
         {
-            CLog.LogInformation("Load Covers");
+            CLog.Information("Load Covers");
             using (Operation.At(LogEventLevel.Information).Time("Loaded Covers"))
             {
                 int songCount = _Songs.Count;

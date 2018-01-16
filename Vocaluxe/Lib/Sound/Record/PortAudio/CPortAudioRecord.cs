@@ -21,6 +21,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
 {
@@ -64,7 +65,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             catch (Exception e)
             {
                 _Initialized = false;
-                CLog.LogError("Error initializing PortAudio: " + e.Message);
+                CLog.Error("Error initializing PortAudio: " + e.Message);
                 Close();
                 return false;
             }
@@ -207,7 +208,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             }
             catch (Exception e)
             {
-                CLog.LogError("Error on Stream Callback (rec): " + e);
+                CLog.Error("Error on Stream Callback (rec): " + e);
             }
 
             return PortAudioSharp.PortAudio.PaStreamCallbackResult.paContinue;
