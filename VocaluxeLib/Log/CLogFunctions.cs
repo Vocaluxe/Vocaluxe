@@ -438,7 +438,7 @@ namespace VocaluxeLib.Log
         #region Fatal functions
 
         /// <summary>
-        /// Write an event with the Fatal level to the Fatal log.
+        /// Write an event with the Fatal level to the Fatal log and TERMINATES the appication.
         /// </summary>
         /// <param name="messageTemplate">Message template for this event.</param>
         /// <param name="show">True if an message should be shown to the user, false otherwise.</param>
@@ -454,10 +454,14 @@ namespace VocaluxeLib.Log
             }
             if(show)
                 _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
         }
 
         /// <summary>
-        /// Write an event with the Fatal level with additional propertyValues to the Fatal log.
+        /// Write an event with the Fatal level with additional propertyValues to the Fatal log and TERMINATES the appication.
         /// </summary>
         /// <param name="messageTemplate">Message template for this event.</param>
         /// <param name="propertyValues">Data inserted into the message template.</param>
@@ -474,10 +478,14 @@ namespace VocaluxeLib.Log
             }
             if(show)
                 _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
         }
 
         /// <summary>
-        /// Write an event with the Fatal level and associated exception to the Fatal log.
+        /// Write an event with the Fatal level and associated exception to the Fatal log and TERMINATES the appication.
         /// </summary>
         /// <param name="exception">Exception of this event.</param>
         /// <param name="messageTemplate">Message template for this event.</param>
@@ -494,10 +502,14 @@ namespace VocaluxeLib.Log
             }
             if(show)
                 _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
         }
         
         /// <summary>
-        /// Write an event with the Fatal level with additional propertyValues and associated exception to the Fatal log.
+        /// Write an event with the Fatal level with additional propertyValues and associated exception to the Fatal log and TERMINATES the appication.
         /// </summary>
         /// <param name="exception">Exception of this event.</param>
         /// <param name="messageTemplate">Message template for this event.</param>
@@ -515,6 +527,10 @@ namespace VocaluxeLib.Log
             }
             if(show)
                 _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
         }
 
         #endregion
@@ -878,78 +894,6 @@ namespace VocaluxeLib.Log
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
                     _SongLog.Error(exception, messageTemplate, propertyValues);
-                }
-            }
-    
-            #endregion
-    
-            #region Fatal functions
-    
-            /// <summary>
-            /// Write an event with the Fatal level to the Fatal log.
-            /// </summary>
-            /// <param name="messageTemplate">Message template for this event.</param>
-            /// <param name="callerMethodeName">Don't use! The methode name of the caller will be filled automatically by the compiler.</param>
-            /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
-            /// <param name="callerLineNumer">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
-            [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Fatal(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
-            {
-                using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-                {
-                    _SongLog.Fatal(messageTemplate);
-                }
-            }
-    
-            /// <summary>
-            /// Write an event with the Fatal level with additional propertyValues to the Fatal log.
-            /// </summary>
-            /// <param name="messageTemplate">Message template for this event.</param>
-            /// <param name="propertyValues">Data inserted into the message template.</param>
-            /// <param name="callerMethodeName">Don't use! The methode name of the caller will be filled automatically by the compiler.</param>
-            /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
-            /// <param name="callerLineNumer">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
-            [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Fatal(string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
-            {
-                using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-                {
-                    _SongLog.Fatal(messageTemplate, propertyValues);
-                }
-            }
-    
-            /// <summary>
-            /// Write an event with the Fatal level and associated exception to the Fatal log.
-            /// </summary>
-            /// <param name="exception">Exception of this event.</param>
-            /// <param name="messageTemplate">Message template for this event.</param>
-            /// <param name="callerMethodeName">Don't use! The methode name of the caller will be filled automatically by the compiler.</param>
-            /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
-            /// <param name="callerLineNumer">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
-            [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Fatal(Exception exception, string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
-            {
-                using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-                {
-                    _SongLog.Fatal( exception, messageTemplate);
-                }
-            }
-            
-            /// <summary>
-            /// Write an event with the Fatal level with additional propertyValues and associated exception to the Fatal log.
-            /// </summary>
-            /// <param name="exception">Exception of this event.</param>
-            /// <param name="messageTemplate">Message template for this event.</param>
-            /// <param name="propertyValues">Data inserted into the message template.</param>
-            /// <param name="callerMethodeName">Don't use! The methode name of the caller will be filled automatically by the compiler.</param>
-            /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
-            /// <param name="callerLineNumer">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
-            [MessageTemplateFormatMethod("messageTemplate")]
-            public static void Fatal(Exception exception, string messageTemplate, object[] propertyValues, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
-            {
-                using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-                {
-                    _SongLog.Fatal(exception, messageTemplate, propertyValues);
                 }
             }
     

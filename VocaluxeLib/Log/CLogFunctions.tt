@@ -29,11 +29,12 @@ namespace VocaluxeLib.Log
     {
 <#  } #>
 <#  foreach (var LogLevel in new[]{"Verbose","Debug", "Information", "Warning", "Error", "Fatal"}) { #>
+<#  if(LogLevel == "Fatal" && Log == "Song") continue; #>
 
         #region <#= LogLevel #> functions
 
         /// <summary>
-        /// Write an event with the <#= LogLevel #> level to the <#= LogLevel #> log.
+        /// Write an event with the <#= LogLevel #> level to the <#= LogLevel #> log<#= LogLevel == "Fatal"?" and TERMINATES the appication":"" #>.
         /// </summary>
         /// <param name="messageTemplate">Message template for this event.</param>
 <# if(Log == "Main") { #>
@@ -53,10 +54,16 @@ namespace VocaluxeLib.Log
             if(show)
                 _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
 <# } #>
+<# if(LogLevel == "Fatal") { #>
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
+<# } #>
         }
 
         /// <summary>
-        /// Write an event with the <#= LogLevel #> level with additional propertyValues to the <#= LogLevel #> log.
+        /// Write an event with the <#= LogLevel #> level with additional propertyValues to the <#= LogLevel #> log<#= LogLevel == "Fatal"?" and TERMINATES the appication":"" #>.
         /// </summary>
         /// <param name="messageTemplate">Message template for this event.</param>
         /// <param name="propertyValues">Data inserted into the message template.</param>
@@ -77,10 +84,16 @@ namespace VocaluxeLib.Log
             if(show)
                 _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
 <# } #>
+<# if(LogLevel == "Fatal") { #>
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
+<# } #>
         }
 
         /// <summary>
-        /// Write an event with the <#= LogLevel #> level and associated exception to the <#= LogLevel #> log.
+        /// Write an event with the <#= LogLevel #> level and associated exception to the <#= LogLevel #> log<#= LogLevel == "Fatal"?" and TERMINATES the appication":"" #>.
         /// </summary>
         /// <param name="exception">Exception of this event.</param>
         /// <param name="messageTemplate">Message template for this event.</param>
@@ -101,10 +114,16 @@ namespace VocaluxeLib.Log
             if(show)
                 _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
 <# } #>
+<# if(LogLevel == "Fatal") { #>
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
+<# } #>
         }
         
         /// <summary>
-        /// Write an event with the <#= LogLevel #> level with additional propertyValues and associated exception to the <#= LogLevel #> log.
+        /// Write an event with the <#= LogLevel #> level with additional propertyValues and associated exception to the <#= LogLevel #> log<#= LogLevel == "Fatal"?" and TERMINATES the appication":"" #>.
         /// </summary>
         /// <param name="exception">Exception of this event.</param>
         /// <param name="messageTemplate">Message template for this event.</param>
@@ -125,6 +144,12 @@ namespace VocaluxeLib.Log
 <# if(Log == "Main") { #>
             if(show)
                 _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+<# } #>
+<# if(LogLevel == "Fatal") { #>
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
 <# } #>
         }
 
