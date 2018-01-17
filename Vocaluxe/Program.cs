@@ -453,16 +453,7 @@ namespace Vocaluxe
         [HandleProcessCorruptedStateExceptions]
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
-            var e = (Exception)args.ExceptionObject;
-            string stackTrace = "";
-            try
-            {
-                stackTrace = e.StackTrace;
-            }
-            catch {}
-            MessageBox.Show("Unhandled exception: " + e.Message + stackTrace);
-            CLog.Error("Unhandled exception: " + e.Message + stackTrace);
-            _CloseProgram();
+            CLog.Fatal((Exception)args.ExceptionObject, "Unhandled exception: {ExceptionMessage}", CLog.Params(e.Message));
         }
 #endif
 
