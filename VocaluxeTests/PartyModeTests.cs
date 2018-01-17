@@ -47,7 +47,7 @@ namespace VocaluxeTests
         public void TestRoundGeneration()
         {
             CBase.Game = new CBGame();
-            CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog);
+            CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog, CSettings.FileNameCrashMarker, CSettings.FullVersion);
             for (int i = 0; i < 10; i++)
             {
                 for (int numPlayer = 1; numPlayer <= 20; numPlayer++)

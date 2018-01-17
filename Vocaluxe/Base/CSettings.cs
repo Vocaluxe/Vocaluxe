@@ -63,15 +63,15 @@ namespace Vocaluxe.Base
         {
             get
             {
-                if (_Version.ToLower().Contains("alpha"))
+                if (Version.ToLower().Contains("alpha"))
                 {
                     return ERevision.Alpha;
                 }
-                if (_Version.ToLower().Contains("beta"))
+                if (Version.ToLower().Contains("beta"))
                 {
                     return ERevision.Beta;
                 }
-                if (_Version.ToLower().Contains("rc"))
+                if (Version.ToLower().Contains("rc"))
                 {
                     return ERevision.RC;
                 }
@@ -115,6 +115,7 @@ namespace Vocaluxe.Base
         
         public const string FileNameMainLog = "Vocaluxe.log";
         public const string FileNameSongLog = "Song.log";
+        public const string FileNameCrashMarker = "Marker";
 
         public const string FileNameRequiredSkinElements = "RequiredSkinElements.xml";
 
@@ -194,11 +195,19 @@ namespace Vocaluxe.Base
             get { return _Assembly.Name; }
         }
 
-        private static string _Version
+        public static string Version
         {
             get
             {
                 return Application.ProductVersion.Split('-').First();
+            }
+        }
+
+        public static string FullVersion
+        {
+            get
+            {
+                return Application.ProductVersion;
             }
         }
         

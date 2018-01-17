@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Serilog;
 using VocaluxeLib.Log.Enricher;
@@ -16,15 +17,42 @@ namespace VocaluxeLib.Log
         private static ILogger _MainLog = new SilentLogger();
         private static ILogger _SongLog = new SilentLogger();
         private static string _LogFolder;
+        private static string _CrashMarkerFilePath;
 
         private const string _MainLogTemplate = "[{TimeStampFromStart}] [{Level}] {Message}{NewLine}{Properties}{NewLine}{Exception}";
         private const string _SongLogTemplate = "{Message}{NewLine}Additional info:{Properties}{NewLine}{Exception}";
 
-        public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog)
+        public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog, string fileNameCrashMarker, string currentVersion)
         {
             _LogFolder = logFolder;
+            _CrashMarkerFilePath = Path.Combine(_LogFolder, fileNameCrashMarker);
+
+
+            // Creates the log directory if it does not exist
             if (!Directory.Exists(_LogFolder))
                 Directory.CreateDirectory(_LogFolder);
+
+            // Check if crash marker file
+            if (File.Exists(_CrashMarkerFilePath))
+            {
+                // There was a crash in the last run -> check version tag of the crashed application instance
+                string versionTag;
+                using (StreamReader reader = new StreamReader(_CrashMarkerFilePath, Encoding.UTF8))
+                {
+                    versionTag = (reader.ReadLine() ?? "").Trim();
+                }
+
+                // Delete the old marker
+                File.Delete(_CrashMarkerFilePath);
+
+                if (currentVersion == versionTag)
+                {
+                    // TODO: Load log + Crashreport
+                }
+            }
+            
+            // Write new marker
+            File.WriteAllText(_CrashMarkerFilePath, currentVersion, Encoding.UTF8);
 
             LogFileRoller.RollLogs(Path.Combine(_LogFolder, fileNameMainLog), 2);
             LogFileRoller.RollLogs(Path.Combine(_LogFolder, fileNameSongInfoLog), 2);
@@ -66,6 +94,9 @@ namespace VocaluxeLib.Log
                 _SongLog = new SilentLogger();
                 (_SongLog as IDisposable)?.Dispose();
             }
+
+            // Delete the crash marker
+            File.Delete(_CrashMarkerFilePath);
 
         }
 
