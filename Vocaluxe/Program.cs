@@ -97,7 +97,7 @@ namespace Vocaluxe
                 Directory.CreateDirectory(CSettings.DataFolder);
 
                 // Init Log
-                CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog, CSettings.FileNameCrashMarker, CSettings.FullVersion);
+                CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog, CSettings.FileNameCrashMarker, CSettings.GetFullVersionText());
 
                 if (!CProgrammHelper.CheckRequirements())
                     return;
