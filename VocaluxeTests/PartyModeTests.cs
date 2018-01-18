@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Vocaluxe.Base;
+using Vocaluxe.Reporting;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 using VocaluxeLib.PartyModes.Challenge;
@@ -47,7 +48,7 @@ namespace VocaluxeTests
         public void TestRoundGeneration()
         {
             CBase.Game = new CBGame();
-            CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog, CSettings.FileNameCrashMarker, CSettings.GetFullVersionText());
+            CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog, CSettings.FileNameCrashMarker, CSettings.GetFullVersionText(), CReporter.ShowReporterFunc);
             for (int i = 0; i < 10; i++)
             {
                 for (int numPlayer = 1; numPlayer <= 20; numPlayer++)

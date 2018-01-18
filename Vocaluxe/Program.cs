@@ -28,6 +28,7 @@ using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Server;
 using Vocaluxe.Base.ThemeSystem;
+using Vocaluxe.Reporting;
 using VocaluxeLib.Log;
 
 [assembly: InternalsVisibleTo("VocaluxeTests")]
@@ -97,7 +98,7 @@ namespace Vocaluxe
                 Directory.CreateDirectory(CSettings.DataFolder);
 
                 // Init Log
-                CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog, CSettings.FileNameCrashMarker, CSettings.GetFullVersionText());
+                CLog.Init(CSettings.FolderNameLogs, CSettings.FileNameMainLog, CSettings.FileNameSongLog, CSettings.FileNameCrashMarker, CSettings.GetFullVersionText(), CReporter.ShowReporterFunc);
 
                 if (!CProgrammHelper.CheckRequirements())
                     return;

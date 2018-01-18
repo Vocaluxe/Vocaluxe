@@ -159,6 +159,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
       <HintPath>..\packages\Serilog.2.6.0\lib\net46\Serilog.dll</HintPath>
       <Private>True</Private>
@@ -186,6 +190,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -282,6 +287,12 @@
     <Compile Include="Lib\Video\Acinerella\CDecoderThread.cs" />
     <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
     <Compile Include="Lib\Sound\Record\CDelayTest.cs" />
+    <Compile Include="Reporting\Reporter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reporting\Reporter.Designer.cs">
+      <DependentUpon>Reporter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Screens\CPopupScreenServerQR.cs" />
     <Compile Include="Screens\CScreenOptionsVideoAdjustments.cs" />
     <Compile Include="SongQueue\CSongQueue.cs" />
@@ -511,6 +522,11 @@
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reporting\Reporter.resx">
+      <DependentUpon>Reporter.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

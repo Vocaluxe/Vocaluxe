@@ -18,19 +18,26 @@ namespace VocaluxeLib.Log
         private static ILogger _SongLog = new SilentLogger();
         private static string _LogFolder;
         private static string _CrashMarkerFilePath;
+        private static ShowReporterDelegate _ShowReporterFunc;
+        private static string _CurrentVersion;
 
         private const string _MainLogTemplate = "[{TimeStampFromStart}] [{Level}] {Message}{NewLine}{Properties}{NewLine}{Exception}";
         private const string _SongLogTemplate = "{Message}{NewLine}Additional info:{Properties}{NewLine}{Exception}";
 
-        public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog, string fileNameCrashMarker, string currentVersion)
+        public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog, string fileNameCrashMarker, string currentVersion, ShowReporterDelegate showReporterFunc)
         {
             _LogFolder = logFolder;
-            _CrashMarkerFilePath = Path.Combine(_LogFolder, fileNameCrashMarker);
+            _ShowReporterFunc = showReporterFunc;
+            _CurrentVersion = currentVersion;
 
+            _CrashMarkerFilePath = Path.Combine(_LogFolder, fileNameCrashMarker);
 
             // Creates the log directory if it does not exist
             if (!Directory.Exists(_LogFolder))
                 Directory.CreateDirectory(_LogFolder);
+
+            var mainLogFilePath = Path.Combine(_LogFolder, fileNameMainLog);
+            var songLogFilePath = Path.Combine(_LogFolder, fileNameSongInfoLog);
 
             // Check if crash marker file
             if (File.Exists(_CrashMarkerFilePath))
@@ -45,17 +52,18 @@ namespace VocaluxeLib.Log
                 // Delete the old marker
                 File.Delete(_CrashMarkerFilePath);
 
-                if (currentVersion == versionTag)
+                if (_CurrentVersion == versionTag && File.Exists(mainLogFilePath))
                 {
-                    // TODO: Load log + Crashreport
+                    string logContent = File.ReadAllText(mainLogFilePath, Encoding.UTF8);
+                    _ShowReporterFunc(crash:true, allowContinue:true, vocaluxeVersionTag:versionTag, log:logContent);
                 }
             }
             
             // Write new marker
-            File.WriteAllText(_CrashMarkerFilePath, currentVersion, Encoding.UTF8);
+            File.WriteAllText(_CrashMarkerFilePath, _CurrentVersion, Encoding.UTF8);
 
-            LogFileRoller.RollLogs(Path.Combine(_LogFolder, fileNameMainLog), 2);
-            LogFileRoller.RollLogs(Path.Combine(_LogFolder, fileNameSongInfoLog), 2);
+            LogFileRoller.RollLogs(mainLogFilePath, 2);
+            LogFileRoller.RollLogs(songLogFilePath, 2);
 
             _MainLog = new LoggerConfiguration()
                 .Enrich.WithThreadId()
@@ -63,14 +71,14 @@ namespace VocaluxeLib.Log
                 .Enrich.WithTimeStampFromStart()
                 .WriteTo.TextWriter(_MainLogStringWriter, outputTemplate: _MainLogTemplate)
                 // Json can be activated by adding "new CompactJsonFormatter()" as first argument
-                .WriteTo.File(Path.Combine(_LogFolder, fileNameMainLog), flushToDiskInterval: TimeSpan.FromSeconds(30), outputTemplate: _MainLogTemplate)
+                .WriteTo.File(mainLogFilePath, flushToDiskInterval: TimeSpan.FromSeconds(30), outputTemplate: _MainLogTemplate)
 #if DEBUG
                 .WriteTo.Console(outputTemplate: _MainLogTemplate)
 #endif
                 .CreateLogger();
 
             _SongLog = new LoggerConfiguration()
-                .WriteTo.File(Path.Combine(_LogFolder, fileNameSongInfoLog), flushToDiskInterval: TimeSpan.FromSeconds(60), outputTemplate: _SongLogTemplate)
+                .WriteTo.File(songLogFilePath, flushToDiskInterval: TimeSpan.FromSeconds(60), outputTemplate: _SongLogTemplate)
 #if DEBUG
                 .WriteTo.Console(outputTemplate: "[SongInfo] " + _SongLogTemplate)
 #endif
@@ -102,8 +110,10 @@ namespace VocaluxeLib.Log
 
         private static void _ShowLogAssistent(string messageTemplate, object[] propertyValues, string callerMethodeName = "", string callerFilePath = "", int callerLineNumer = -1)
         {
-            //Todo: Logsend assistent
-            //MessageBox.Show(messageTemplate, "Vocaluxe", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            // Flush the _MainLogStringWriter to get the latest entries to _MainLogStringBuilder
+            _MainLogStringWriter.Flush();
+            // Show the Reporter
+            _ShowReporterFunc(crash: true, allowContinue: true, vocaluxeVersionTag: _CurrentVersion, log: _MainLogStringBuilder.ToString());
         }
 
     }
