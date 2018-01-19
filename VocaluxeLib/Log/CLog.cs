@@ -100,6 +100,9 @@ namespace VocaluxeLib.Log
                 .WriteTo.Console(outputTemplate: "[SongInfo] " + _SongLogTemplate)
 #endif
                 .CreateLogger();
+
+            // Adding fist line to log with information about this run
+            Information("Starting to log", Params( new { Version = _CurrentVersion, StartDate = DateTime.Now, Id = Guid.NewGuid() } ) );
         }
 
         public static void Close()
