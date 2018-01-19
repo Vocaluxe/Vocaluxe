@@ -103,15 +103,13 @@ namespace Vocaluxe
                 if (!CProgrammHelper.CheckRequirements())
                     return;
                 CProgrammHelper.Init();
-
-                CLog.Information("Init Program");
+                
                 using (CBenchmark.Time("Init Program"))
                 {
                     CMain.Init();
                     Application.DoEvents();
 
                     // Init Language
-                    CLog.Information("Init Language");
                     using (CBenchmark.Time("Init Language"))
                     {
                         if (!CLanguage.Init())
@@ -121,7 +119,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // load config
-                    CLog.Information("Init Config");
                     using (CBenchmark.Time("Init Config"))
                     {
                         CConfig.LoadCommandLineParams(args);
@@ -137,7 +134,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Draw
-                    CLog.Information("Init Draw");
                     using (CBenchmark.Time("Init Draw"))
                     {
                         if (!CDraw.Init())
@@ -147,7 +143,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Playback
-                    CLog.Information("Init Playback");
                     using (CBenchmark.Time("Init Playback"))
                     {
                         if (!CSound.Init())
@@ -157,7 +152,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Record
-                    CLog.Information("Init Record");
                     using (CBenchmark.Time("Init Record"))
                     {
                         if (!CRecord.Init())
@@ -167,7 +161,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init VideoDecoder
-                    CLog.Information("Init Videodecoder");
                     using (CBenchmark.Time("Init Videodecoder"))
                     {
                         if (!CVideo.Init())
@@ -177,7 +170,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Database
-                    CLog.Information("Init Database");
                     using (CBenchmark.Time("Init Database"))
                     {
                         if (!CDataBase.Init())
@@ -187,7 +179,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     //Init Webcam
-                    CLog.Information("Init Webcam");
                     using (CBenchmark.Time("Init Webcam"))
                     {
                         if (!CWebcam.Init())
@@ -197,7 +188,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Background Music
-                    CLog.Information("Init Background Music");
                     using (CBenchmark.Time("Init Background Music"))
                     {
                         CBackgroundMusic.Init();
@@ -206,7 +196,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Profiles
-                    CLog.Information("Init Profiles");
                     using (CBenchmark.Time("Init Profiles"))
                     {
                         CProfiles.Init();
@@ -215,7 +204,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Fonts
-                    CLog.Information("Init Fonts");
                     using (CBenchmark.Time("Init Fonts"))
                     {
                         if (!CFonts.Init())
@@ -225,14 +213,12 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Theme System
-                    CLog.Information("Init Theme");
                     using (CBenchmark.Time("Init Theme"))
                     {
                         if (!CThemes.Init())
                             throw new CLoadingException("theme");
                     }
-
-                    CLog.Information("Load Theme");
+                    
                     using (CBenchmark.Time("Load Theme"))
                     {
                         CThemes.Load();
@@ -241,7 +227,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Load Cover
-                    CLog.Information("Init Cover");
                     using (CBenchmark.Time("Init Cover"))
                     {
                         if (!CCover.Init())
@@ -251,7 +236,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Screens
-                    CLog.Information("Init Screens");
                     using (CBenchmark.Time("Init Screens"))
                     {
                         CGraphics.Init();
@@ -260,7 +244,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Server
-                    CLog.Information("Init Server");
                     using (CBenchmark.Time("Init Server"))
                     {
                         CVocaluxeServer.Init();
@@ -269,7 +252,6 @@ namespace Vocaluxe
                     Application.DoEvents();
 
                     // Init Input
-                    CLog.Information("Init Input");
                     using (CBenchmark.Time("Init Input"))
                     {
                         CController.Init();
@@ -278,8 +260,7 @@ namespace Vocaluxe
 
                     Application.DoEvents();
 
-                    // Init Game;
-                    CLog.Information("Init Game");
+                    // Init Game
                     using (CBenchmark.Time("Init Game"))
                     {
                         CGame.Init();
@@ -289,8 +270,7 @@ namespace Vocaluxe
 
                     Application.DoEvents();
 
-                    // Init Party Modes;
-                    CLog.Information("Init Party Modes");
+                    // Init Party Modes
                     using (CBenchmark.Time("Init Party Modes"))
                     {
                         if (!CParty.Init())

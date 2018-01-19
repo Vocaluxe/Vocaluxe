@@ -63,7 +63,6 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             // Add Screens, must be the same order as in EScreens!
-            CLog.Information("Build Screen List");
             using (CBenchmark.Time("Build Screen List"))
             {
                 _Screens.Add(new CScreenTest());
@@ -100,7 +99,6 @@ namespace Vocaluxe.Base
             GlobalAlpha = 1f;
             ZOffset = 0f;
 
-            CLog.Information("Load Theme");
             using (CBenchmark.Time("Load Theme"))
             {
                 LoadTheme();
@@ -121,7 +119,6 @@ namespace Vocaluxe.Base
 
             for (int i = 0; i < _Screens.Count; i++)
             {
-                CLog.Information("Load Theme " + Enum.GetNames(typeof(EScreen))[i]);
                 using (CBenchmark.Time("Load Theme " + Enum.GetNames(typeof(EScreen))[i]))
                 {
                     _Screens[i].Init();

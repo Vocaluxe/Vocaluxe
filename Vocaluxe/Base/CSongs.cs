@@ -334,15 +334,13 @@ namespace Vocaluxe.Base
 
         public static void LoadSongs()
         {
-            CLog.Information("Load Songs");
             using (CBenchmark.Time("Load Songs"))
             {
                 SongsLoaded = false;
                 _Songs.Clear();
 
                 var files = new List<string>();
-
-                CLog.Information("List Songs");
+               
                 using (CBenchmark.Time("List Songs"))
                 {
                     
@@ -357,7 +355,6 @@ namespace Vocaluxe.Base
                     }
                 }
 
-                CLog.Information("Read TXTs");
                 using (CBenchmark.Time("Read TXTs"))
                 {
                     foreach (string file in files)
@@ -370,8 +367,7 @@ namespace Vocaluxe.Base
                             _Songs.Add(song);
                     }
                 }
-
-                CLog.Information("Sort Songs");
+                
                 using (CBenchmark.Time("Sorted Songs"))
                 {
                     Sorter.SongSorting = CConfig.Config.Game.SongSorting;
@@ -408,7 +404,6 @@ namespace Vocaluxe.Base
 
         private static void _LoadCovers()
         {
-            CLog.Information("Load Covers");
             using (CBenchmark.Time("Loaded Covers"))
             {
                 int songCount = _Songs.Count;

@@ -126,8 +126,7 @@ namespace Vocaluxe.Screens
                 foreach (CVideoPlayer videoPlayer in _Intros)
                     videoPlayer.PreLoad();
             }
-
-            CLog.Information("Load Songs Full");
+            
             _TimerLoadSongsFull = CBenchmark.Time("Loaded Songs Full");
             
             _SongLoaderThread = new Thread(CSongs.LoadSongs) {Name = "SongLoader", IsBackground = true};
@@ -186,7 +185,6 @@ namespace Vocaluxe.Screens
             _TimerLoadSongsFull.Dispose();
 
             //Init Playlists
-            CLog.Information("Init Playlists");
             using (CBenchmark.Time("Init Playlists"))
             {
                 CPlaylists.Init();
