@@ -52,7 +52,7 @@ namespace VocaluxeLib.Log
             }
 <# if(Log == "Main") { #>
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null<#= LogLevel == "Fatal"?", true, false":"" #>);
 <# } #>
 <# if(LogLevel == "Fatal") { #>
 
@@ -82,7 +82,7 @@ namespace VocaluxeLib.Log
             }
 <# if(Log == "Main") { #>
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues<#= LogLevel == "Fatal"?", true, false":"" #>);
 <# } #>
 <# if(LogLevel == "Fatal") { #>
 
@@ -112,7 +112,7 @@ namespace VocaluxeLib.Log
             }
 <# if(Log == "Main") { #>
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null<#= LogLevel == "Fatal"?", true, false":"" #>);
 <# } #>
 <# if(LogLevel == "Fatal") { #>
 
@@ -143,7 +143,7 @@ namespace VocaluxeLib.Log
             }
 <# if(Log == "Main") { #>
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues<#= LogLevel == "Fatal"?", true, false":"" #>);
 <# } #>
 <# if(LogLevel == "Fatal") { #>
 

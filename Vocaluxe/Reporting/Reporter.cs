@@ -20,10 +20,12 @@ namespace Vocaluxe.Reporting
         private string _GistOnlyText = "Upload and get a link to your report (publicly visible)";
         private string _SubmitStep0Text = "Submit";
         private string _SubmitStep1Text = "Uploading";
-        private string _SubmitStep2CrashText = "Exit";
-        private string _SubmitStep2NoCrashText = "Continue";
+        private string _SubmitStep2ExitText = "Exit";
+        private string _SubmitStep2ContinueText = "Continue";
         private string _SubmitedMessageText = "The link to your report:";
         private string _LogUploadErrorText = "Error uploading the log.";
+        private string _LastErrorTitleText = "Last error";
+        private string _LastErrorNA = "Not available";
 
 
         private string _IssueTemplate = "Describe your issue here.\n\n### Steps to reproduce\nTell us how to reproduce this issue.\n\n### Vocaluxe version and logfile\n{0}\n{1}";
@@ -34,7 +36,7 @@ namespace Vocaluxe.Reporting
         private readonly bool _ShowContinue;
 
         private static readonly HttpClient _Client = new HttpClient();
-        private static readonly Regex _GetGistUrlRegex = new Regex("\"raw_url\": *\"([^\"]+)\"");
+        private static readonly Regex _GetGistUrlRegex = new Regex("\"html_url\": *\"([^\"]+)\"");
         
 
         public static ShowReporterDelegate ShowReporterFunc
@@ -42,9 +44,17 @@ namespace Vocaluxe.Reporting
             get { return _ShowReporter; }
         }
 
-        private static void _ShowReporter(bool crash, bool showContinue, string vocaluxeVersionTag, string log)
+        /// <summary>
+        /// Shows a new instance of the log file reporter.
+        /// </summary>
+        /// <param name="crash">True if we are submitting a crash, false otherwise (e.g. error).</param>
+        /// <param name="showContinue">True if the reporter show show a continue message, false if it should show an exit message.</param>
+        /// <param name="vocaluxeVersionTag">The full version tag of this instance (like it is diplayed in the main menu).</param>
+        /// <param name="log">The log to submit.</param>
+        /// <param name="lastError">The last error message.</param>
+        private static void _ShowReporter(bool crash, bool showContinue, string vocaluxeVersionTag, string log, string lastError)
         {
-            using (var reporter = new CReporter(crash, showContinue, vocaluxeVersionTag, log))
+            using (var reporter = new CReporter(crash, showContinue, vocaluxeVersionTag, log, lastError))
             {
                 reporter.ShowDialog();
             }
@@ -57,33 +67,37 @@ namespace Vocaluxe.Reporting
         /// <param name="showContinue">True if the reporter show show a continue message, false if it should show an exit message.</param>
         /// <param name="vocaluxeVersionTag">The full version tag of this instance (like it is diplayed in the main menu).</param>
         /// <param name="log">The log to submit.</param>
-        public CReporter(bool crash, bool showContinue, string vocaluxeVersionTag, string log)
+        /// <param name="lastError">The last error message.</param>
+        public CReporter(bool crash, bool showContinue, string vocaluxeVersionTag, string log, string lastError)
         {
             InitializeComponent();
             _Crash = crash;
             _ShowContinue = showContinue;
             _VocaluxeVersionTag = vocaluxeVersionTag;
-            _Init(log);
+            _Init(log, lastError);
         }
 
         /// <summary>
         /// Initilaize the gui.
         /// </summary>
         /// <param name="log">The Log to submit.</param>
-        private void _Init(string log)
+        /// <param name="lastError">The last error message.</param>
+        private void _Init(string log, string lastError)
         {
             _Client.DefaultRequestHeaders.Add("accept", "application/json");
             _Client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)");
 
-            this.Title.Text = _TitleText;
-            this.Message.Text = _Crash ? _MessageCrashText : _MessageNoCrashText;
-            this.NoUpload.Text = _NoUploadText;
-            this.GistAndIssue.Text = _GistAndIssueText;
-            this.GistOnly.Text = _GistOnlyText;
-            this.Submit.Text = _SubmitStep0Text;
-            this.SubmitedMessage.Text = _SubmitedMessageText;
-            this.Log.Text = log.Replace("\n","\r\n");
-            this.Log.SelectionStart = 0;
+            this.TitleLabel.Text = _TitleText;
+            this.MessageText.Text = _Crash ? _MessageCrashText : _MessageNoCrashText;
+            this.NoUploadSelect.Text = _NoUploadText;
+            this.GistAndIssueSelect.Text = _GistAndIssueText;
+            this.GistOnlySelect.Text = _GistOnlyText;
+            this.SubmitButton.Text = _SubmitStep0Text;
+            this.SubmitedTitleLabel.Text = _SubmitedMessageText;
+            this.LastErrorTitleLabel.Text = _LastErrorTitleText;
+            this.LastErrorBox.Text = string.IsNullOrWhiteSpace(lastError) ? _LastErrorNA : lastError;
+            this.LogBox.Text = log.Replace("\n","\r\n");
+            this.LogBox.SelectionStart = 0;
         }
 
         private async void Submit_Click(object sender, EventArgs e)
@@ -91,38 +105,39 @@ namespace Vocaluxe.Reporting
             switch (_Step)
             {
                 case 0:
-                    if (this.NoUpload.Checked)
+                    if (this.NoUploadSelect.Checked)
                     {
                         this.Close();
                     }
                     else
                     {
                         _Step = 1;
-                        this.Submit.Text = _SubmitStep1Text;
-                        this.Submit.Enabled = false;
-                        this.NoUpload.Visible = false;
-                        this.GistAndIssue.Visible = false;
-                        this.GistOnly.Visible = false;
-                        this.Log.Enabled = false;
+                        this.SubmitButton.Text = _SubmitStep1Text;
+                        this.SubmitButton.Enabled = false;
+                        this.NoUploadSelect.Visible = false;
+                        this.GistAndIssueSelect.Visible = false;
+                        this.GistOnlySelect.Visible = false;
+                        this.LogBox.Enabled = false;
+                        this.LastErrorBox.Enabled = false;
 
-                        string url;
-                        if (this.GistOnly.Checked)
+                        if (this.GistOnlySelect.Checked)
                         {
-                            await Task.Run(() => _StartGistUpload(this.Log.Text));
+                            await Task.Run(() => _StartGistUpload(this.LogBox.Text, this.LastErrorBox.Text));
                         }
-                        else if (this.GistAndIssue.Checked)
+                        else if (this.GistAndIssueSelect.Checked)
                         {
-                            await Task.Run(() => _StartIssueUpload(this.Log.Text));
+                            await Task.Run(() => _StartIssueUpload(this.LogBox.Text, this.LastErrorBox.Text));
                         }
                         else
                         {
                             _Step = 0;
-                            this.Submit.Text = _SubmitStep0Text;
-                            this.Submit.Enabled = true;
-                            this.NoUpload.Visible = true;
-                            this.GistAndIssue.Visible = true;
-                            this.GistOnly.Visible = true;
-                            this.Log.Enabled = true;
+                            this.SubmitButton.Text = _SubmitStep0Text;
+                            this.SubmitButton.Enabled = true;
+                            this.NoUploadSelect.Visible = true;
+                            this.GistAndIssueSelect.Visible = true;
+                            this.GistOnlySelect.Visible = true;
+                            this.LogBox.Enabled = true;
+                            this.LastErrorBox.Enabled = false;
                         }
                             
                     }
@@ -136,7 +151,7 @@ namespace Vocaluxe.Reporting
 
         private void NoUpload_CheckedChanged(object sender, EventArgs e)
         {
-            this.Submit.Text = this.NoUpload.Checked ? (_ShowContinue ? _SubmitStep2CrashText : _SubmitStep2NoCrashText) : _SubmitStep0Text;
+            this.SubmitButton.Text = this.NoUploadSelect.Checked ? (_ShowContinue ? _SubmitStep2ContinueText : _SubmitStep2ExitText) : _SubmitStep0Text;
         }
 
         /// <summary>
@@ -152,12 +167,13 @@ namespace Vocaluxe.Reporting
             else
             {
                 _Step = 2;
-                this.Submit.Text = _ShowContinue ? _SubmitStep2CrashText : _SubmitStep2NoCrashText;
-                this.Submit.Enabled = true;
-                this.SubmitedMessage.Visible = true;
+                this.SubmitButton.Text = _ShowContinue ? _SubmitStep2ContinueText : _SubmitStep2ExitText;
+                this.SubmitButton.Enabled = true;
+                this.SubmitedTitleLabel.Visible = true;
                 this.Url.Text = string.IsNullOrWhiteSpace(url)?_LogUploadErrorText:url;
                 this.Url.Visible = true;
                 this.Url.SelectAll();
+                this.Url.Focus();
             }
         }
 
@@ -165,20 +181,22 @@ namespace Vocaluxe.Reporting
         /// Upload a log to gist and updates the gui.
         /// </summary>
         /// <param name="log">The log to upload.</param>
-        private async void _StartGistUpload(string log)
+        /// <param name="lastError">The error message displayed to the user (if available).</param>
+        private async void _StartGistUpload(string log, string lastError= "not available")
         {
             // Upload log to github gist and show the link
-            _UploadFinished(await _UploadLogToGist(log));
+            _UploadFinished(await _UploadLogToGist(log, lastError));
         }
 
         /// <summary>
         /// Upload a log to gist, opens an issue template on github and updates the gui.
         /// </summary>
         /// <param name="log">The log to upload.</param>
-        private async void _StartIssueUpload(string log)
+        /// <param name="lastError">The error message displayed to the user (if available).</param>
+        private async void _StartIssueUpload(string log, string lastError = "not available")
         {
             // Upload log to github gist
-            string gistUrl = await _UploadLogToGist(log);
+            string gistUrl = await _UploadLogToGist(log, lastError);
 
             // Build issue body
             string template = string.Format(_IssueTemplate, _VocaluxeVersionTag, gistUrl);
@@ -186,19 +204,20 @@ namespace Vocaluxe.Reporting
             // Build url for github issue template
             string issueUrl = $"https://github.com/Vocaluxe/Vocaluxe/issues/new?title=Give%20me%20a%20meaningful%20title&body={ Uri.EscapeDataString(template) }";
 
-            // Start the browser with the issue template url
-            System.Diagnostics.Process.Start(issueUrl);
-
             // Show the link
             _UploadFinished(issueUrl);
+
+            // Start the browser with the issue template url
+            System.Diagnostics.Process.Start(issueUrl);
         }
 
         /// <summary>
         /// Uploads a log to a new anonymous gist.
         /// </summary>
         /// <param name="log">The log that should be uploaded.</param>
+        /// <param name="lastError">The error message displayed to the user (if available).</param>
         /// <returns>The link to the uploaded file.</returns>
-        private async Task<string> _UploadLogToGist(string log)
+        private async Task<string> _UploadLogToGist(string log, string lastError= "not available")
         {
             string json = JsonConvert.SerializeObject(new CGistCreateData()
             {
@@ -211,6 +230,13 @@ namespace Vocaluxe.Reporting
                         new CGistFileData()
                         {
                             Content = log
+                        }
+                    },
+                    {
+                        "LastError.txt",
+                        new CGistFileData()
+                        {
+                            Content = lastError
                         }
                     }
                 }

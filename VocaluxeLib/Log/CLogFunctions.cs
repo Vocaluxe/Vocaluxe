@@ -33,7 +33,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Verbose(messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Verbose(messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Verbose( exception, messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
         
         /// <summary>
@@ -94,7 +94,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Verbose(exception, messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -117,7 +117,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Debug(messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
 
         /// <summary>
@@ -137,7 +137,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Debug(messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -157,7 +157,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Debug( exception, messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
         
         /// <summary>
@@ -178,7 +178,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Debug(exception, messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -201,7 +201,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Information(messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
 
         /// <summary>
@@ -221,7 +221,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Information(messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -241,7 +241,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Information( exception, messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
         
         /// <summary>
@@ -262,7 +262,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Information(exception, messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -285,7 +285,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Warning(messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
 
         /// <summary>
@@ -305,7 +305,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Warning(messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -325,7 +325,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Warning( exception, messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
         
         /// <summary>
@@ -346,7 +346,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Warning(exception, messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -369,7 +369,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Error(messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
 
         /// <summary>
@@ -389,7 +389,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Error(messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -409,7 +409,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Error( exception, messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null);
         }
         
         /// <summary>
@@ -430,7 +430,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Error(exception, messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -453,7 +453,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Fatal(messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null, true, false);
 
             // Close logs and exit
             Close();
@@ -477,7 +477,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Fatal(messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues, true, false);
 
             // Close logs and exit
             Close();
@@ -501,7 +501,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Fatal( exception, messageTemplate);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, null, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, null, true, false);
 
             // Close logs and exit
             Close();
@@ -526,7 +526,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Fatal(exception, messageTemplate, propertyValues);
             }
             if(show)
-                _ShowLogAssistent(messageTemplate, propertyValues, callerMethodeName, callerFilePath, callerLineNumer);
+                ShowLogAssistent(messageTemplate, propertyValues, true, false);
 
             // Close logs and exit
             Close();

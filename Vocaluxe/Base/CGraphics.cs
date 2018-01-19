@@ -443,6 +443,11 @@ namespace Vocaluxe.Base
                         HidePopup(EPopupScreens.PopupServerQR);
                 }
 
+                if (keyEvent.Key == Keys.F8)
+                {
+                    CLog.ShowLogAssistent("", null);
+                }
+
                 if (popupPlayerControlAllowed && keyEvent.Key == Keys.Tab)
                 {
                     if (_CurrentPopupScreen == EPopupScreens.NoPopup && CConfig.Config.Sound.BackgroundMusic == EBackgroundMusicOffOn.TR_CONFIG_ON)

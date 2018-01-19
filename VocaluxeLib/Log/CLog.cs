@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Serilog;
 using VocaluxeLib.Log.Enricher;
 using VocaluxeLib.Log.Rolling;
@@ -55,7 +56,7 @@ namespace VocaluxeLib.Log
                 if (_CurrentVersion == versionTag && File.Exists(mainLogFilePath))
                 {
                     string logContent = File.ReadAllText(mainLogFilePath, Encoding.UTF8);
-                    _ShowReporterFunc(crash:true, allowContinue:true, vocaluxeVersionTag:versionTag, log:logContent);
+                    _ShowReporterFunc(crash:true, showContinue:true, vocaluxeVersionTag:versionTag, log:logContent, lastError:"Vocaluxe crashed while the last execution.");
                 }
             }
             
@@ -108,12 +109,36 @@ namespace VocaluxeLib.Log
 
         }
 
-        private static void _ShowLogAssistent(string messageTemplate, object[] propertyValues, string callerMethodeName = "", string callerFilePath = "", int callerLineNumer = -1)
+        public static void ShowLogAssistent(string messageTemplate, object[] propertyValues, bool crash = false, bool showContinue = true)
         {
             // Flush the _MainLogStringWriter to get the latest entries to _MainLogStringBuilder
             _MainLogStringWriter.Flush();
             // Show the Reporter
-            _ShowReporterFunc(crash: true, allowContinue: true, vocaluxeVersionTag: _CurrentVersion, log: _MainLogStringBuilder.ToString());
+            _ShowReporterFunc(crash: crash, showContinue: showContinue, vocaluxeVersionTag: _CurrentVersion, log: _MainLogStringBuilder.ToString(), lastError: _FormatMessageTemplate(messageTemplate, propertyValues));
+        }
+
+        /// <summary>
+        /// Simple version of inserting values into a message template (have not the same result as the original)
+        /// </summary>
+        /// <param name="template">The template to fill in the data.</param>
+        /// <param name="propertyValues">The values to fill in.</param>
+        /// <returns>The filled template.</returns>
+        private static string _FormatMessageTemplate(string template, object[] propertyValues)
+        {
+            if (propertyValues == null)
+            {
+                return template;
+            }
+
+            Regex theRegex = new Regex(@"{[^}]+}");
+            
+            int i = 0;
+            return theRegex.Replace(template, delegate(Match match)
+            {
+                if (propertyValues.Length >= i)
+                    return match.Value;
+                return propertyValues[i++].ToString();
+            }); 
         }
 
     }
