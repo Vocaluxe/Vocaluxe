@@ -119,8 +119,8 @@
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IBasic.cs" />
     <Compile Include="Log\Enricher\CTimeStampFromStartEnricher.cs" />
-    <Compile Include="Log\Rolling\LogRoller.cs" />
-    <Compile Include="Log\Serilog\SilentLogger.cs" />
+    <Compile Include="Log\Rolling\CLogFileRoller.cs" />
+    <Compile Include="Log\Serilog\CSilentLogger.cs" />
     <Compile Include="Log\CLogFunctions.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

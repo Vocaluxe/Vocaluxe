@@ -1,6 +1,22 @@
-﻿using System;
+﻿#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Serilog;
@@ -15,8 +31,8 @@ namespace VocaluxeLib.Log
         private static readonly StringBuilder _MainLogStringBuilder = new StringBuilder();
         private static readonly StringWriter _MainLogStringWriter = new StringWriter(_MainLogStringBuilder);
 
-        private static ILogger _MainLog = new SilentLogger();
-        private static ILogger _SongLog = new SilentLogger();
+        private static ILogger _MainLog = new CSilentLogger();
+        private static ILogger _SongLog = new CSilentLogger();
         private static string _LogFolder;
         private static string _CrashMarkerFilePath;
         private static ShowReporterDelegate _ShowReporterFunc;
@@ -63,8 +79,8 @@ namespace VocaluxeLib.Log
             // Write new marker
             File.WriteAllText(_CrashMarkerFilePath, _CurrentVersion, Encoding.UTF8);
 
-            LogFileRoller.RollLogs(mainLogFilePath, 2);
-            LogFileRoller.RollLogs(songLogFilePath, 2);
+            CLogFileRoller.RollLogs(mainLogFilePath, 2);
+            CLogFileRoller.RollLogs(songLogFilePath, 2);
 
             _MainLog = new LoggerConfiguration()
                 .Enrich.WithThreadId()
@@ -88,19 +104,19 @@ namespace VocaluxeLib.Log
 
         public static void Close()
         {
-            if (!(_MainLog is SilentLogger))
+            if (!(_MainLog is CSilentLogger))
             {
                 ILogger loggerToDispose = _MainLog;
 
-                _MainLog = new SilentLogger();
+                _MainLog = new CSilentLogger();
                 (_MainLog as IDisposable)?.Dispose();
             }
 
-            if (!(_SongLog is SilentLogger))
+            if (!(_SongLog is CSilentLogger))
             {
                 ILogger loggerToDispose = _MainLog;
 
-                _SongLog = new SilentLogger();
+                _SongLog = new CSilentLogger();
                 (_SongLog as IDisposable)?.Dispose();
             }
 
