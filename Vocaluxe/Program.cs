@@ -434,7 +434,8 @@ namespace Vocaluxe
         [HandleProcessCorruptedStateExceptions]
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
-            CLog.Fatal((Exception)args.ExceptionObject, "Unhandled exception: {ExceptionMessage}", CLog.Params(e.Message));
+            var e = (Exception)args.ExceptionObject;
+            CLog.Fatal(e, "Unhandled exception: {ExceptionMessage}", CLog.Params(e.Message));
         }
 #endif
 
