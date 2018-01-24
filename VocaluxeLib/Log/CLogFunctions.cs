@@ -50,7 +50,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Verbose(messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
 
         /// <summary>
@@ -70,7 +70,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Verbose(messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Verbose( exception, messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
         
         /// <summary>
@@ -111,7 +111,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Verbose(exception, messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -134,7 +134,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Debug(messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
 
         /// <summary>
@@ -154,7 +154,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Debug(messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -174,7 +174,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Debug( exception, messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
         
         /// <summary>
@@ -195,7 +195,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Debug(exception, messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -218,7 +218,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Information(messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
 
         /// <summary>
@@ -238,7 +238,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Information(messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -258,7 +258,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Information( exception, messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
         
         /// <summary>
@@ -279,7 +279,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Information(exception, messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -302,7 +302,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Warning(messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
 
         /// <summary>
@@ -322,7 +322,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Warning(messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Warning( exception, messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
         
         /// <summary>
@@ -363,7 +363,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Warning(exception, messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -386,7 +386,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Error(messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
 
         /// <summary>
@@ -406,7 +406,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Error(messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         /// <summary>
@@ -426,7 +426,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Error( exception, messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null);
+                ShowLogAssistant(messageTemplate, null);
         }
         
         /// <summary>
@@ -447,7 +447,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Error(exception, messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues);
+                ShowLogAssistant(messageTemplate, propertyValues);
         }
 
         #endregion
@@ -470,7 +470,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Fatal(messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null, true, false);
+                ShowLogAssistant(messageTemplate, null, true, false);
 
             // Close logs and exit
             Close();
@@ -494,7 +494,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Fatal(messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues, true, false);
+                ShowLogAssistant(messageTemplate, propertyValues, true, false);
 
             // Close logs and exit
             Close();
@@ -518,7 +518,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Fatal( exception, messageTemplate);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, null, true, false);
+                ShowLogAssistant(messageTemplate, null, true, false);
 
             // Close logs and exit
             Close();
@@ -543,7 +543,7 @@ namespace VocaluxeLib.Log
                 _MainLog.Fatal(exception, messageTemplate, propertyValues);
             }
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues, true, false);
+                ShowLogAssistant(messageTemplate, propertyValues, true, false);
 
             // Close logs and exit
             Close();
