@@ -142,13 +142,13 @@ namespace VocaluxeLib.Log
         }
 
         /// <summary>
-        /// Show the report assistent.
+        /// Show the report assistant.
         /// </summary>
         /// <param name="messageTemplate">Last error message template.</param>
         /// <param name="propertyValues">Data to fill the last error message template.</param>
         /// <param name="crash">True if the crash version of the message should be shown.</param>
-        /// <param name="showContinue">True if the assistent should show a continue butoon, exit button otherwise.</param>
-        public static void ShowLogAssistent(string messageTemplate, object[] propertyValues, bool crash = false, bool showContinue = true)
+        /// <param name="showContinue">True if the assistant should show a continue butoon, exit button otherwise.</param>
+        public static void ShowLogAssistant(string messageTemplate, object[] propertyValues, bool crash = false, bool showContinue = true)
         {
             // Flush the _MainLogStringWriter to get the latest entries to _MainLogStringBuilder
             _MainLogStringWriter.Flush();
