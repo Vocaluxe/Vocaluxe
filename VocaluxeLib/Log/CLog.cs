@@ -41,6 +41,16 @@ namespace VocaluxeLib.Log
         private const string _MainLogTemplate = "[{TimeStampFromStart}] [{Level}] {Message}{NewLine}{Properties}{NewLine}{Exception}";
         private const string _SongLogTemplate = "{Message}{NewLine}Additional info:{Properties}{NewLine}{Exception}";
 
+
+        /// <summary>
+        /// Initialize the logging framework.
+        /// </summary>
+        /// <param name="logFolder">The folder where to write the log files.</param>
+        /// <param name="fileNameMainLog">The name of the main log.</param>
+        /// <param name="fileNameSongInfoLog">The name of the log for song problems.</param>
+        /// <param name="fileNameCrashMarker">The name of the file which is used as crash marker.</param>
+        /// <param name="currentVersion">The current version tag as it is displayed in the main menu.</param>
+        /// <param name="showReporterFunc">Delegate to the function wchih should be called if the reporter have to been shown.</param>
         public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog, string fileNameCrashMarker, string currentVersion, ShowReporterDelegate showReporterFunc)
         {
             _LogFolder = logFolder;
@@ -105,6 +115,9 @@ namespace VocaluxeLib.Log
             Information("Starting to log", Params( new { Version = _CurrentVersion, StartDate = DateTime.Now, Id = Guid.NewGuid() } ) );
         }
 
+        /// <summary>
+        /// Close all log files and the close the logging framework.
+        /// </summary>
         public static void Close()
         {
             if (!(_MainLog is CSilentLogger))
@@ -128,6 +141,13 @@ namespace VocaluxeLib.Log
 
         }
 
+        /// <summary>
+        /// Show the report assistent.
+        /// </summary>
+        /// <param name="messageTemplate">Last error message template.</param>
+        /// <param name="propertyValues">Data to fill the last error message template.</param>
+        /// <param name="crash">True if the crash version of the message should be shown.</param>
+        /// <param name="showContinue">True if the assistent should show a continue butoon, exit button otherwise.</param>
         public static void ShowLogAssistent(string messageTemplate, object[] propertyValues, bool crash = false, bool showContinue = true)
         {
             // Flush the _MainLogStringWriter to get the latest entries to _MainLogStringBuilder
