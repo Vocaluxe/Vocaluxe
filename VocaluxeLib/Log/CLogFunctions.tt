@@ -85,7 +85,7 @@ namespace VocaluxeLib.Log
             }
 <# if(Log == "Main") { #>
             if(show)
-                ShowLogAssistent(messageTemplate, null<#= LogLevel == "Fatal"?", true, false":"" #>);
+                ShowLogAssistant(messageTemplate, null<#= LogLevel == "Fatal"?", true, false":"" #>);
 <# } #>
 <# if(LogLevel == "Fatal") { #>
 
@@ -115,7 +115,7 @@ namespace VocaluxeLib.Log
             }
 <# if(Log == "Main") { #>
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues<#= LogLevel == "Fatal"?", true, false":"" #>);
+                ShowLogAssistant(messageTemplate, propertyValues<#= LogLevel == "Fatal"?", true, false":"" #>);
 <# } #>
 <# if(LogLevel == "Fatal") { #>
 
@@ -145,7 +145,7 @@ namespace VocaluxeLib.Log
             }
 <# if(Log == "Main") { #>
             if(show)
-                ShowLogAssistent(messageTemplate, null<#= LogLevel == "Fatal"?", true, false":"" #>);
+                ShowLogAssistant(messageTemplate, null<#= LogLevel == "Fatal"?", true, false":"" #>);
 <# } #>
 <# if(LogLevel == "Fatal") { #>
 
@@ -176,7 +176,7 @@ namespace VocaluxeLib.Log
             }
 <# if(Log == "Main") { #>
             if(show)
-                ShowLogAssistent(messageTemplate, propertyValues<#= LogLevel == "Fatal"?", true, false":"" #>);
+                ShowLogAssistant(messageTemplate, propertyValues<#= LogLevel == "Fatal"?", true, false":"" #>);
 <# } #>
 <# if(LogLevel == "Fatal") { #>
 

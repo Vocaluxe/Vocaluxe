@@ -442,7 +442,7 @@ namespace Vocaluxe.Base
 
                 if (keyEvent.Key == Keys.F8)
                 {
-                    CLog.ShowLogAssistent("", null);
+                    CLog.ShowLogAssistant("", null);
                 }
 
                 if (popupPlayerControlAllowed && keyEvent.Key == Keys.Tab)
