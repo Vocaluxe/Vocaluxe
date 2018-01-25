@@ -192,6 +192,7 @@
             this.Controls.Add(this.LogBox);
             this.Controls.Add(this.MessageText);
             this.Controls.Add(this.TitleLabel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CReporter";
             this.Text = "Vocaluxe Issue Reporter";
