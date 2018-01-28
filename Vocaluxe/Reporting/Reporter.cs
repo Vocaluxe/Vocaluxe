@@ -31,8 +31,8 @@ namespace Vocaluxe.Reporting
     public partial class CReporter : Form
     {
         private readonly string _TitleText = CLanguage.Translate("TR_REPORTER_TITLE_TEXT");
-        private readonly string _MessageCrashText = CLanguage.Translate("TR_REPORTER_MESSAGE_CRASH_TEXT");
-        private readonly string _MessageNoCrashText = CLanguage.Translate("TR_REPORTER_MESSAGE_NO_CRASH_TEXT");
+        private readonly string _MessageCrashText = CLanguage.Translate("TR_REPORTER_MESSAGE_CRASH_TEXT").Replace("\\n", "\n").Replace("\\r", "\r");
+        private readonly string _MessageNoCrashText = CLanguage.Translate("TR_REPORTER_MESSAGE_NO_CRASH_TEXT").Replace("\\n", "\n").Replace("\\r", "\r");
         private readonly string _NoUploadText = CLanguage.Translate("TR_REPORTER_NO_UPLOAD_TEXT");
         private readonly string _GistAndIssueText = CLanguage.Translate("TR_REPORTER_GIST_AND_ISSUE_TEXT");
         private readonly string _GistOnlyText = CLanguage.Translate("TR_REPORTER_GIST_ONLY_TEXT");
@@ -44,7 +44,7 @@ namespace Vocaluxe.Reporting
         private readonly string _LogUploadErrorText = CLanguage.Translate("TR_REPORTER_LOGUPLOAD_ERROR_TEXT");
         private readonly string _LastErrorTitleText = CLanguage.Translate("TR_REPORTER_LAST_ERROR_TITLE_TEXT");
         private readonly string _LastErrorNa = CLanguage.Translate("TR_REPORTER_LAST_ERROR_NA");
-        private readonly string _IssueTemplate = CLanguage.Translate("TR_REPORTER_ISSUE_TEMPLATE");
+        private readonly string _IssueTemplate = CLanguage.Translate("TR_REPORTER_ISSUE_TEMPLATE").Replace("\\n", "\n").Replace("\\r", "\r");
 
         //CLanguage.Translate("TR_DEBUG_AUDIO_STREAMS")
 

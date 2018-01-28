@@ -245,7 +245,7 @@
   <string name="TR_REPORTER_TITLE_TEXT">We are sorry</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">that Vocaluxe run into an error and crashed.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.</string>
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">that you experienced an error.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.</string>
-  <string name="TR_REPORTER_NO_UPLOAD_TEXT">Don\'t upload anything (you can still copy the error message above)</string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT">Do not upload anything (you can still copy the error message above)</string>
   <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Upload and open an issue (publicly visible + requires a github account)</string>
   <string name="TR_REPORTER_GIST_ONLY_TEXT">Upload and get a link to your report (publicly visible)</string>
   <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Submit</string>
