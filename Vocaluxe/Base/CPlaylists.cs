@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using Vocaluxe.Lib.Playlist;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
 
@@ -120,7 +121,7 @@ namespace Vocaluxe.Base
                 }
                 catch (Exception)
                 {
-                    CLog.LogError("Can't delete Playlist File " + _Playlists[playlistID].File + ".xml");
+                    CLog.Error("Can't delete Playlist File " + _Playlists[playlistID].File + ".xml");
                 }
             }
             _Playlists.Remove(pl);
@@ -256,7 +257,7 @@ namespace Vocaluxe.Base
                             if (plSong != null)
                                 pl.AddSong(plSong.ID);
                             else
-                                CLog.LogError("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + file);
+                                CLog.Error("Can't find song '" + title + "' from '" + artist + "' in playlist file: " + file);
                         }
                     }
                 }

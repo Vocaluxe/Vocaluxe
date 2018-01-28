@@ -242,4 +242,19 @@
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Server address</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server is not running. Please check config.xml!</string>
+  <string name="TR_REPORTER_TITLE_TEXT">We are sorry</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">that Vocaluxe run into an error and crashed.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">that you experienced an error.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.</string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT">Do not upload anything (you can still copy the error message above)</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Upload and open an issue (publicly visible + requires a github account)</string>
+  <string name="TR_REPORTER_GIST_ONLY_TEXT">Upload and get a link to your report (publicly visible)</string>
+  <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Submit</string>
+  <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Uploading</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Exit</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Continue</string>
+  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">The link to your report:</string>
+  <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Error uploading the log.</string>
+  <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Last error</string>
+  <string name="TR_REPORTER_LAST_ERROR_NA">Not available</string>
+  <string name="TR_REPORTER_ISSUE_TEMPLATE">Describe your issue here.\n\n### Steps to reproduce\nTell us how to reproduce this issue.\n\n### Vocaluxe version and logfile\n{0}\n{1}</string>
 </resources>

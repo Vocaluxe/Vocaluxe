@@ -23,6 +23,7 @@ using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
@@ -62,15 +63,15 @@ namespace Vocaluxe.Base
         {
             get
             {
-                if (_Version.ToLower().Contains("alpha"))
+                if (Version.ToLower().Contains("alpha"))
                 {
                     return ERevision.Alpha;
                 }
-                if (_Version.ToLower().Contains("beta"))
+                if (Version.ToLower().Contains("beta"))
                 {
                     return ERevision.Beta;
                 }
-                if (_Version.ToLower().Contains("rc"))
+                if (Version.ToLower().Contains("rc"))
                 {
                     return ERevision.RC;
                 }
@@ -111,12 +112,10 @@ namespace Vocaluxe.Base
         public const string FileNameOldHighscoreDB = "Ultrastar.db";
         public const string FileNameCoverDB = "CoverDB.sqlite";
         public const string FileNameCreditsRessourcesDB = "CreditsRessourcesDB.sqlite";
-
-        public const string FileNamePerformanceLog = "Performance.log";
-        public const string FileNameErrorLog = "Error.log";
-        public const string FileNameBenchmarkLog = "Benchmark.log";
-        public const string FileNameDebugLog = "Debug.log";
-        public const string FileNameSongInfoLog = "SongInformation.log";
+        
+        public const string FileNameMainLog = "Vocaluxe.log";
+        public const string FileNameSongLog = "Song.log";
+        public const string FileNameCrashMarker = "Marker";
 
         public const string FileNameRequiredSkinElements = "RequiredSkinElements.xml";
 
@@ -135,6 +134,7 @@ namespace Vocaluxe.Base
         public const string FolderNameLanguages = "Languages";
         public const string FolderNameScreenshots = "Screenshots";
         public const string FolderNameBackgroundMusic = "BackgroundMusic";
+        public const string FolderNameLogs = "Logs";
 
         public const string FolderNamePartyModes = "PartyModes";
         public const string FolderNamePartyModeCode = "Code";
@@ -195,11 +195,19 @@ namespace Vocaluxe.Base
             get { return _Assembly.Name; }
         }
 
-        private static string _Version
+        public static string Version
         {
             get
             {
                 return Application.ProductVersion.Split('-').First();
+            }
+        }
+
+        public static string FullVersion
+        {
+            get
+            {
+                return Application.ProductVersion;
             }
         }
         
@@ -241,7 +249,7 @@ namespace Vocaluxe.Base
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Cannot create directory \"" + path + "\": " + e.Message);
+                    CLog.Error("Cannot create directory \"" + path + "\": " + e.Message);
                 }
             }
         }

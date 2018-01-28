@@ -19,6 +19,7 @@ using System;
 using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
+using VocaluxeLib.Log;
 using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Profile
@@ -67,7 +68,7 @@ namespace VocaluxeLib.Profile
             {
                 Avatar = CBase.Profiles.GetAvatarByFilename(value);
                 if (Avatar == null)
-                    CBase.Log.LogError("Avatar '" + value + "' not found");
+                    CLog.Error("Avatar '" + value + "' not found");
             }
         }
 
@@ -104,7 +105,7 @@ namespace VocaluxeLib.Profile
             {
                 if (_ConvertProfile(ref e))
                     return true;
-                CBase.Log.LogError("Error loading profile file " + Path.GetFileName(FilePath) + ": " + e.Message);
+                CLog.Error("Error loading profile file " + Path.GetFileName(FilePath) + ": " + e.Message);
                 return false;
             }
             return true;

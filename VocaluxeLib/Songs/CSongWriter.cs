@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib.Songs
 {
@@ -207,12 +208,12 @@ namespace VocaluxeLib.Songs
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    CBase.Log.LogError("Cannot write " + filePath + ". Directory might be readonly or requires admin rights.");
+                    CLog.Error("Cannot write " + filePath + ". Directory might be readonly or requires admin rights.");
                     return false;
                 }
                 catch (Exception e)
                 {
-                    CBase.Log.LogError("Unhandled exception while writing " + filePath + ": " + e);
+                    CLog.Error("Unhandled exception while writing " + filePath + ": " + e);
                     return false;
                 }
                 finally

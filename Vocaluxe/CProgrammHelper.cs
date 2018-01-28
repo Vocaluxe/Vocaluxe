@@ -21,6 +21,7 @@ using System.Reflection;
 using System.Security;
 using Microsoft.Win32;
 using Vocaluxe.Base;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe
 {
@@ -118,30 +119,27 @@ namespace Vocaluxe
 #if WIN
             if (!_IsVC2010Installed())
             {
-                CLog.LogError(
-                    "VC++ 2010 Redistributables are missing. Please install them first. \r\nDownload(x86): https://www.microsoft.com/de-de/download/details.aspx?id=5555 \r\nDownload(x64): https://www.microsoft.com/de-de/download/details.aspx?id=14632",
-                    true, true);
+                CLog.Fatal(
+                    "VC++ 2010 Redistributables are missing. Please install them first. \r\nDownload(x86): https://www.microsoft.com/de-de/download/details.aspx?id=5555 \r\nDownload(x64): https://www.microsoft.com/de-de/download/details.aspx?id=14632");
                 return false;
             }
-            /*if (!_IsVC2012Installed())
-            {
-                CLog.LogError(
-                    "VC++ 2012 Redistributables are missing. Please install them first.\r\nDownload: http://www.microsoft.com/de-de/download/details.aspx?id=30679",
-                    true, true);
-                return false;
-            }*/
             /*
+            if (!_IsVC2012Installed())
+            {
+                CLog.Fatal(
+                    "VC++ 2012 Redistributables are missing. Please install them first.\r\nDownload: http://www.microsoft.com/de-de/download/details.aspx?id=30679");
+                return false;
+            }
             bool vc2008Installed = _IsVC2008Installed();
             if (!vc2008Installed)
             {
-                CLog.LogError(
+                CLog.Fatal(
                     "VC++ 2008 Redistributables are missing. Portaudio might not be working.\r\nDownload: http://www.microsoft.com/de-de/download/details.aspx?id=29");
             }
             if (!vc2008Installed && !_IsVC2010Installed())
             {
-                CLog.LogError(
-                    "VC++ 2010 and 2008 Redistributables are missing. Please install them first. VC++ 2008 is preferred as Portaudio doesn't work with VC++ 2010.\r\nDownload(2008): http://www.microsoft.com/de-de/download/details.aspx?id=29 \r\nDownload(2010): http://www.microsoft.com/de-de/download/details.aspx?id=5555",
-                    true, true);
+                CLog.Fatal(
+                    "VC++ 2010 and 2008 Redistributables are missing. Please install them first. VC++ 2008 is preferred as Portaudio doesn't work with VC++ 2010.\r\nDownload(2008): http://www.microsoft.com/de-de/download/details.aspx?id=29 \r\nDownload(2010): http://www.microsoft.com/de-de/download/details.aspx?id=5555");
                 return false;
             }
             */

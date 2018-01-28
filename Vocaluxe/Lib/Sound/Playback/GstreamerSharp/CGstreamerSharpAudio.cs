@@ -19,6 +19,7 @@ using Gst;
 using System;
 using Vocaluxe.Base;
 using System.IO;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
@@ -49,7 +50,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
                 if (gstreamerEnvVar == null || !Directory.Exists(gstreamerEnvVar))
                 {
-                    CLog.LogError("Gstreamer not found! Make sure you installed it correctly and if it set the environment variable '" + varName + "'!", true);
+                    CLog.Error("Gstreamer not found! Make sure you installed it correctly and if it set the environment variable '" + varName + "'!", true);
                     return false;
                 }
                 else

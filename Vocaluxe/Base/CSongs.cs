@@ -23,6 +23,7 @@ using System.Threading;
 using System.IO;
 using System.Threading.Tasks;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
@@ -333,54 +334,61 @@ namespace Vocaluxe.Base
 
         public static void LoadSongs()
         {
-            CLog.StartBenchmark("Load Songs");
-            SongsLoaded = false;
-            _Songs.Clear();
-
-            CLog.StartBenchmark("List Songs");
-            var files = new List<string>();
-            foreach (string p in CConfig.SongFolders)
+            using (CBenchmark.Time("Load Songs"))
             {
-                if (Directory.Exists(p))
+                SongsLoaded = false;
+                _Songs.Clear();
+
+                var files = new List<string>();
+               
+                using (CBenchmark.Time("List Songs"))
                 {
-                    string path = p;
-                    files.AddRange(CHelper.ListFiles(path, "*.txt", true, true));
-                    files.AddRange(CHelper.ListFiles(path, "*.txd", true, true));
+                    
+                    foreach (string p in CConfig.SongFolders)
+                    {
+                        if (Directory.Exists(p))
+                        {
+                            string path = p;
+                            files.AddRange(CHelper.ListFiles(path, "*.txt", true, true));
+                            files.AddRange(CHelper.ListFiles(path, "*.txd", true, true));
+                        }
+                    }
+                }
+
+                using (CBenchmark.Time("Read TXTs"))
+                {
+                    foreach (string file in files)
+                    {
+                        CSong song = CSong.LoadSong(file);
+                        if (song == null)
+                            continue;
+                        song.ID = _Songs.Count;
+                        if (song.LoadNotes())
+                            _Songs.Add(song);
+                    }
+                }
+                
+                using (CBenchmark.Time("Sorted Songs"))
+                {
+                    Sorter.SongSorting = CConfig.Config.Game.SongSorting;
+                    Sorter.IgnoreArticles = CConfig.Config.Game.IgnoreArticles;
+                    Categorizer.Tabs = CConfig.Config.Game.Tabs;
+                    Categorizer.ObjectChanged += _HandleCategoriesChanged;
+                }
+
+                Category = -1;
+                SongsLoaded = true;
+
+                switch (CConfig.Config.Theme.CoverLoading)
+                {
+                    case ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART:
+                        _LoadCovers();
+                        break;
+                    case ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC:
+                        _LoadCoversAsync();
+                        break;
                 }
             }
-            CLog.StopBenchmark("List Songs");
-
-            CLog.StartBenchmark("Read TXTs");
-            foreach (string file in files)
-            {
-                CSong song = CSong.LoadSong(file);
-                if (song == null)
-                    continue;
-                song.ID = _Songs.Count;
-                if (song.LoadNotes())
-                    _Songs.Add(song);
-            }
-            CLog.StopBenchmark("Read TXTs");
-
-            CLog.StartBenchmark("Sort Songs");
-            Sorter.SongSorting = CConfig.Config.Game.SongSorting;
-            Sorter.IgnoreArticles = CConfig.Config.Game.IgnoreArticles;
-            Categorizer.Tabs = CConfig.Config.Game.Tabs;
-            Categorizer.ObjectChanged += _HandleCategoriesChanged;
-            CLog.StopBenchmark("Sort Songs");
-            Category = -1;
-            SongsLoaded = true;
-
-            switch (CConfig.Config.Theme.CoverLoading)
-            {
-                case ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART:
-                    _LoadCovers();
-                    break;
-                case ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC:
-                    _LoadCoversAsync();
-                    break;
-            }
-            CLog.StopBenchmark("Load Songs");
         }
 
         private static void _LoadCoversAsync()
@@ -396,25 +404,27 @@ namespace Vocaluxe.Base
 
         private static void _LoadCovers()
         {
-            CLog.StartBenchmark("Load Covers");
-            int songCount = _Songs.Count;
-            AutoResetEvent ev = new AutoResetEvent(songCount == 0);
-
-            NumSongsWithCoverLoaded = 0;
-            foreach (CSong song in _Songs)
+            using (CBenchmark.Time("Loaded Covers"))
             {
-                CSong tmp = song;
-                Task.Factory.StartNew(() =>
+                int songCount = _Songs.Count;
+                AutoResetEvent ev = new AutoResetEvent(songCount == 0);
+
+                NumSongsWithCoverLoaded = 0;
+                foreach (CSong song in _Songs)
+                {
+                    CSong tmp = song;
+                    Task.Factory.StartNew(() =>
                     {
                         tmp.LoadSmallCover();
                         if (Interlocked.Increment(ref _NumSongsWithCoverLoaded) >= songCount)
                             ev.Set();
                     });
+                }
+
+                ev.WaitOne();
+                _CoverLoaded = true;
+                CDataBase.CommitCovers();
             }
-            ev.WaitOne();
-            _CoverLoaded = true;
-            CDataBase.CommitCovers();
-            CLog.StopBenchmark("Load Covers");
         }
     }
 }

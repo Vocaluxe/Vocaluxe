@@ -19,11 +19,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Profile;
@@ -38,7 +40,6 @@ namespace Vocaluxe.Base
         private static readonly IBackgroundMusic _BackgroundMusic = new CBbackgroundMusic();
         private static readonly IDrawing _Draw = new CBdraw();
         private static readonly IGraphics _Graphics = new CBGraphics();
-        private static readonly ILog _Log = new CBlog();
         private static readonly IFonts _Fonts = new CBfonts();
         private static readonly ILanguage _Language = new CBlanguage();
         private static readonly IGame _Game = new CBGame();
@@ -54,7 +55,7 @@ namespace Vocaluxe.Base
 
         public static void Init()
         {
-            CBase.Assign(_Config, _Settings, _Themes, _Log, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
+            CBase.Assign(_Config, _Settings, _Themes, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
                          _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist);
         }
     }
@@ -507,24 +508,6 @@ namespace Vocaluxe.Base
         }
     }
 
-    class CBlog : ILog
-    {
-        public void LogError(string errorText, bool showMsg = false, bool exit = false)
-        {
-            CLog.LogError(errorText, showMsg, exit);
-        }
-
-        public void LogDebug(string text)
-        {
-            CLog.LogDebug(text);
-        }
-
-        public void LogSongInfo(string text)
-        {
-            CLog.LogSongInfo(text);
-        }
-    }
-
     class CBfonts : IFonts
     {
         public RectangleF GetTextBounds(CText text)
@@ -848,7 +831,7 @@ namespace Vocaluxe.Base
             }
             catch (NotSupportedException e)
             {
-                CLog.LogError($"Clould not close the background video: {e.Message}");
+                CLog.Error($"Clould not close the background video: {e.Message}");
             }
         }
 
@@ -865,7 +848,7 @@ namespace Vocaluxe.Base
             }
             catch (NotSupportedException e)
             {
-                CLog.LogError($"Clould not pause the background video: {e.Message}");
+                CLog.Error($"Clould not pause the background video: {e.Message}");
             }
         }
 
@@ -877,7 +860,7 @@ namespace Vocaluxe.Base
             }
             catch (NotSupportedException e)
             {
-                CLog.LogError($"Clould not resume the background video: {e.Message}");
+                CLog.Error($"Clould not resume the background video: {e.Message}");
             }
         }
     }

@@ -23,6 +23,7 @@ using System.Text;
 using Community.CsharpSqlite;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Songs;
 #if WIN
 using System.Data.SQLite;
@@ -58,17 +59,17 @@ namespace Vocaluxe.Lib.Database
                 {
                     if (!_CreateOrConvert(oldDBFilePath))
                     {
-                        CLog.LogError("Cannot init Highscore DB: Error opening database: " + oldDBFilePath, true, true);
+                        CLog.Fatal("Cannot init Highscore DB: Error opening old database: {DBFile}" + CLog.Params(oldDBFilePath));
                         return false;
                     }
                     if (!_CreateOrConvert(_FilePath))
                     {
-                        CLog.LogError("Cannot init Highscore DB: Error opening database: " + _FilePath, true, true);
+                        CLog.Fatal("Cannot init Highscore DB: Error opening database: {DBFile}", CLog.Params(_FilePath));
                         return false;
                     }
                     if (!_ImportData(oldDBFilePath))
                     {
-                        CLog.LogError("Cannot init Highscore DB: Error importing data", true, true);
+                        CLog.Fatal("Cannot init Highscore DB: Error importing data");
                         return false;
                     }
                 }
@@ -77,7 +78,7 @@ namespace Vocaluxe.Lib.Database
                     File.Copy(oldDBFilePath, _FilePath);
                     if (!_CreateOrConvert(_FilePath))
                     {
-                        CLog.LogError("Cannot init Highscore DB: Error opening database: " + _FilePath, true, true);
+                        CLog.Fatal("Cannot init Highscore DB: Error opening database: {DBFile}" + CLog.Params(_FilePath));
                         return false;
                     }
                 }
@@ -85,7 +86,7 @@ namespace Vocaluxe.Lib.Database
             }
             else if (!_CreateOrConvert(_FilePath))
             {
-                CLog.LogError("Cannot init Highscore DB: Error opening database: " + _FilePath, true, true);
+                CLog.Fatal("Cannot init Highscore DB: Error opening database: {DBFile}", CLog.Params(_FilePath));
                 return false;
             }
             return true;
@@ -827,14 +828,14 @@ namespace Vocaluxe.Lib.Database
                     int res = Sqlite3.sqlite3_open(filePath, out oldDB);
 
                     if (res != Sqlite3.SQLITE_OK)
-                        CLog.LogError("Error opening Database: " + filePath + " (" + Sqlite3.sqlite3_errmsg(oldDB) + ")");
+                        CLog.Error("Error opening Database: " + filePath + " (" + Sqlite3.sqlite3_errmsg(oldDB) + ")");
                     else
                     {
                         var stmt = new Sqlite3.Vdbe();
                         res = Sqlite3.sqlite3_prepare_v2(oldDB, "SELECT id, Artist, Title FROM Songs", -1, ref stmt, 0);
 
                         if (res != Sqlite3.SQLITE_OK)
-                            CLog.LogError("Error query Database: " + filePath + " (" + Sqlite3.sqlite3_errmsg(oldDB) + ")");
+                            CLog.Error("Error query Database: " + filePath + " (" + Sqlite3.sqlite3_errmsg(oldDB) + ")");
                         else
                         {
                             //Sqlite3.sqlite3_step(Stmt);
@@ -866,7 +867,7 @@ namespace Vocaluxe.Lib.Database
                             res = Sqlite3.sqlite3_prepare_v2(oldDB, "SELECT id, PlayerName, Date FROM Scores", -1, ref stmt, 0);
 
                         if (res != Sqlite3.SQLITE_OK)
-                            CLog.LogError("Error query Database: " + filePath + " (" + Sqlite3.sqlite3_errmsg(oldDB) + ")");
+                            CLog.Error("Error query Database: " + filePath + " (" + Sqlite3.sqlite3_errmsg(oldDB) + ")");
                         else
                         {
                             //Sqlite3.sqlite3_step(Stmt);
@@ -1022,7 +1023,7 @@ namespace Vocaluxe.Lib.Database
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Error on import high score data. Can't open source database \"" + sourceDBPath + "\" (" + e.Message + ")");
+                    CLog.Error("Error on import high score data. Can't open source database \"" + sourceDBPath + "\" (" + e.Message + ")");
                     return false;
                 }
                 #endregion open db

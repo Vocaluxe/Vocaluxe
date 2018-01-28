@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.ThemeSystem
@@ -80,7 +81,7 @@ namespace Vocaluxe.Base.ThemeSystem
             }
             catch (Exception e)
             {
-                CLog.LogError("Can't load theme \"" + _FileName + "\". Invalid file!", false, false, e);
+                CLog.Error(e, "Can't load theme \"" + _FileName + "\". Invalid file!");
                 return false;
             }
 

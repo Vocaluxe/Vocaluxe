@@ -21,6 +21,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.Fonts
 {
@@ -93,7 +94,7 @@ namespace Vocaluxe.Base.Fonts
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Error opening font file " + _FilePath + ": " + e.Message);
+                    CLog.Error("Error opening font file " + _FilePath + ": " + e.Message);
                 }
             }
             return new Font(_Family, height, _GetSystemFontStyle(), GraphicsUnit.Pixel);

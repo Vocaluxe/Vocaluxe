@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -163,13 +164,6 @@ namespace VocaluxeLib
         IMenu GetNextScreen();
         EScreen GetNextScreenType();
         IMenu GetScreen(EScreen screen);
-    }
-
-    public interface ILog
-    {
-        void LogError(string errorText, bool showMsg = false, bool exit = false);
-        void LogDebug(string text);
-        void LogSongInfo(string text);
     }
 
     public interface IFonts

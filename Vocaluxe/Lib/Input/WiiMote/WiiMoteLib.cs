@@ -20,6 +20,7 @@ using System.Drawing;
 using System.Threading;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {
@@ -213,8 +214,8 @@ namespace Vocaluxe.Lib.Input.WiiMote
         {
             if (!CHIDApi.Init())
             {
-                CLog.LogError("WiiMoteLib: Can't initialize HID API");
-                CLog.LogError("Please install the Visual C++ Redistributable Packages 2008!");
+                CLog.Error("WiiMoteLib: Can't initialize HID API");
+                CLog.Error("Please install the Visual C++ Redistributable Packages 2008!");
 
                 _Error = true;
             }
@@ -353,7 +354,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("(WiiMoteLib) Error reading from device: " + e);
+                    CLog.Error("(WiiMoteLib) Error reading from device: " + e);
                     Connected = false;
                     break;
                 }
@@ -414,7 +415,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                     break;
 
                 default:
-                    //CLog.LogError("(WiiMoteLib) Unknown report type: " + type.ToString("x"));
+                    //CLog.Error("(WiiMoteLib) Unknown report type: " + type.ToString("x"));
                     return false;
             }
 
@@ -519,13 +520,13 @@ namespace Vocaluxe.Lib.Input.WiiMote
         {
             if ((buff[3] & 0x08) != 0)
             {
-                CLog.LogError("Error reading data from WiiMote: Bytes do not exist");
+                CLog.Error("Error reading data from WiiMote: Bytes do not exist");
                 Connected = false;
             }
 
             if ((buff[3] & 0x07) != 0)
             {
-                CLog.LogError("Error reading data from WiiMote: Attempt to read from write-only registers.");
+                CLog.Error("Error reading data from WiiMote: Attempt to read from write-only registers.");
                 Connected = false;
             }
 

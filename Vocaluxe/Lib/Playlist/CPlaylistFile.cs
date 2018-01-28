@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Xml;
@@ -77,7 +78,7 @@ namespace Vocaluxe.Lib.Playlist
             }
             catch (Exception e)
             {
-                CLog.LogError("Cannot load playlist from " + file + ": " + e.Message);
+                CLog.Error("Cannot load playlist from " + file + ": " + e.Message);
                 return false;
             }
             Name = data.Info.Name;
@@ -86,7 +87,7 @@ namespace Vocaluxe.Lib.Playlist
             {
                 CSong plSong = CSongs.AllSongs.FirstOrDefault(song => song.Artist == songEntry.Artist && song.Title == songEntry.Title);
                 if (plSong == null)
-                    CLog.LogError("Can't find song '" + songEntry.Title + "' from '" + songEntry.Artist + "' in playlist file: " + File);
+                    CLog.Error("Can't find song '" + songEntry.Title + "' from '" + songEntry.Artist + "' in playlist file: " + File);
                 else
                 {
                     var playlistSong = new CPlaylistSong(plSong.ID, songEntry.GameMode);
