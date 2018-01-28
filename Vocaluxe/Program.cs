@@ -285,8 +285,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                MessageBox.Show("Error on start up: " + e.Message);
-                CLog.Error("Error on start up: " + e);
+                CLog.Error(e, "Error on start up: {ExceptionMessage}", CLog.Params(e.Message), show:true);
                 if (_SplashScreen != null)
                     _SplashScreen.Close();
                 _CloseProgram();
