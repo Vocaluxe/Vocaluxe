@@ -30,23 +30,24 @@ namespace Vocaluxe.Reporting
 {
     public partial class CReporter : Form
     {
-        private readonly string _TitleText = CLanguage.Translate("TR_REPORTER_TITLE_TEXT");
-        private readonly string _MessageCrashText = CLanguage.Translate("TR_REPORTER_MESSAGE_CRASH_TEXT").Replace("\\n", "\n").Replace("\\r", "\r");
-        private readonly string _MessageNoCrashText = CLanguage.Translate("TR_REPORTER_MESSAGE_NO_CRASH_TEXT").Replace("\\n", "\n").Replace("\\r", "\r");
-        private readonly string _NoUploadText = CLanguage.Translate("TR_REPORTER_NO_UPLOAD_TEXT");
-        private readonly string _GistAndIssueText = CLanguage.Translate("TR_REPORTER_GIST_AND_ISSUE_TEXT");
-        private readonly string _GistOnlyText = CLanguage.Translate("TR_REPORTER_GIST_ONLY_TEXT");
-        private readonly string _SubmitStep0Text = CLanguage.Translate("TR_REPORTER_SUBMIT_STEP0_TEXT");
-        private readonly string _SubmitStep1Text = CLanguage.Translate("TR_REPORTER_SUBMIT_STEP1_TEXT");
-        private readonly string _SubmitStep2ExitText = CLanguage.Translate("TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT");
-        private readonly string _SubmitStep2ContinueText = CLanguage.Translate("TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT");
-        private readonly string _SubmitedMessageText = CLanguage.Translate("TR_REPORTER_SUBMITED_MESSAGE_TEXT");
-        private readonly string _LogUploadErrorText = CLanguage.Translate("TR_REPORTER_LOGUPLOAD_ERROR_TEXT");
-        private readonly string _LastErrorTitleText = CLanguage.Translate("TR_REPORTER_LAST_ERROR_TITLE_TEXT");
-        private readonly string _LastErrorNa = CLanguage.Translate("TR_REPORTER_LAST_ERROR_NA");
-        private readonly string _IssueTemplate = CLanguage.Translate("TR_REPORTER_ISSUE_TEMPLATE").Replace("\\n", "\n").Replace("\\r", "\r");
+        // Init string with defaults for the case that loading localizations caused the problem
+        private string _TitleText = "We are sorry";
+        private string _MessageCrashText = "that Vocaluxe run into an error and crashed.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.";
+        private string _MessageNoCrashText = "that you experienced an error.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.";
+        private string _NoUploadText = "Don\'t upload anything (you can still copy the error message above)";
+        private string _GistAndIssueText = "Upload and open an issue (publicly visible + requires a github account)";
+        private string _GistOnlyText = "Upload and get a link to your report (publicly visible)";
+        private string _SubmitStep0Text = "Submit";
+        private string _SubmitStep1Text = "Uploading";
+        private string _SubmitStep2ExitText = "Exit";
+        private string _SubmitStep2ContinueText = "Continue";
+        private string _SubmitedMessageText = "The link to your report:";
+        private string _LogUploadErrorText = "Error uploading the log.";
+        private string _LastErrorTitleText = "Last error";
+        private string _LastErrorNa = "Not available";
+        private string _IssueTemplate = "Describe your issue here.\n\n### Steps to reproduce\nTell us how to reproduce this issue.\n\n### Vocaluxe version and logfile\n{0}\n{1}";
 
-        //CLanguage.Translate("TR_DEBUG_AUDIO_STREAMS")
+
 
         private int _Step = 0;
         private readonly bool _Crash;
@@ -55,8 +56,8 @@ namespace Vocaluxe.Reporting
 
         private static readonly HttpClient _Client = new HttpClient();
         private static readonly Regex _GetGistUrlRegex = new Regex("\"html_url\": *\"([^\"]+)\"");
-        
 
+        
         public static ShowReporterDelegate ShowReporterFunc
         {
             get { return _ShowReporter; }
@@ -102,6 +103,32 @@ namespace Vocaluxe.Reporting
         /// <param name="lastError">The last error message.</param>
         private void _Init(string log, string lastError)
         {
+            // Try to load localized strings
+            try
+            {
+                _TitleText = CLanguage.Translate("TR_REPORTER_TITLE_TEXT");
+                _MessageCrashText = CLanguage.Translate("TR_REPORTER_MESSAGE_CRASH_TEXT").Replace("\\n", "\n").Replace("\\r", "\r");
+                _MessageNoCrashText = CLanguage.Translate("TR_REPORTER_MESSAGE_NO_CRASH_TEXT").Replace("\\n", "\n").Replace("\\r", "\r");
+                _NoUploadText = CLanguage.Translate("TR_REPORTER_NO_UPLOAD_TEXT");
+                _GistAndIssueText = CLanguage.Translate("TR_REPORTER_GIST_AND_ISSUE_TEXT");
+                _GistOnlyText = CLanguage.Translate("TR_REPORTER_GIST_ONLY_TEXT");
+                _SubmitStep0Text = CLanguage.Translate("TR_REPORTER_SUBMIT_STEP0_TEXT");
+                _SubmitStep1Text = CLanguage.Translate("TR_REPORTER_SUBMIT_STEP1_TEXT");
+                _SubmitStep2ExitText = CLanguage.Translate("TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT");
+                _SubmitStep2ContinueText = CLanguage.Translate("TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT");
+                _SubmitedMessageText = CLanguage.Translate("TR_REPORTER_SUBMITED_MESSAGE_TEXT");
+                _LogUploadErrorText = CLanguage.Translate("TR_REPORTER_LOGUPLOAD_ERROR_TEXT");
+                _LastErrorTitleText = CLanguage.Translate("TR_REPORTER_LAST_ERROR_TITLE_TEXT");
+                _LastErrorNa = CLanguage.Translate("TR_REPORTER_LAST_ERROR_NA");
+                _IssueTemplate = CLanguage.Translate("TR_REPORTER_ISSUE_TEMPLATE").Replace("\\n", "\n").Replace("\\r", "\r");
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Console.WriteLine($"Unable to load translation for report assistant: {e.Message}");
+#endif
+            }
+
             _Client.DefaultRequestHeaders.Add("accept", "application/json");
             _Client.DefaultRequestHeaders.Add("User-Agent", "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.1; Trident/6.0)");
 
