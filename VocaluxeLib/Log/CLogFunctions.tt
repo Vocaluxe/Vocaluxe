@@ -39,7 +39,9 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Serilog.Context;
 using Serilog.Core;
 
@@ -47,6 +49,7 @@ namespace VocaluxeLib.Log
 {
     public static partial class CLog
     {
+        private static Regex _PropertiesRegex = new Regex("{[^}]+}");
 
         public static object[] Params(params object[] propertyValues)
         {
@@ -80,8 +83,8 @@ namespace VocaluxeLib.Log
         public static void <#= LogLevel #>(string messageTemplate, <#= Log == "Main"?(LogLevel == "Fatal"?"bool show = true, ":"bool show = false, "):"" #>[CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-            {
-                <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(messageTemplate);
+            {                
+                <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(messageTemplate);                
             }
 <# if(Log == "Main") { #>
             if(show)
@@ -111,7 +114,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(messageTemplate, propertyValues);
+                }
             }
 <# if(Log == "Main") { #>
             if(show)
@@ -172,7 +187,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(exception, messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(exception, messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(exception, messageTemplate, propertyValues);
+                }
             }
 <# if(Log == "Main") { #>
             if(show)

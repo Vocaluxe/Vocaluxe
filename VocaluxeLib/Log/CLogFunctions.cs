@@ -17,7 +17,9 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using Serilog.Context;
 using Serilog.Core;
 
@@ -25,6 +27,7 @@ namespace VocaluxeLib.Log
 {
     public static partial class CLog
     {
+        private static Regex _PropertiesRegex = new Regex("{[^}]+}");
 
         public static object[] Params(params object[] propertyValues)
         {
@@ -46,8 +49,8 @@ namespace VocaluxeLib.Log
         public static void Verbose(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-            {
-                _MainLog.Verbose(messageTemplate);
+            {                
+                _MainLog.Verbose(messageTemplate);                
             }
             if(show)
                 ShowLogAssistant(messageTemplate, null);
@@ -67,7 +70,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Verbose(messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Verbose(messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Verbose(messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -108,7 +123,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Verbose(exception, messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Verbose(exception, messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Verbose(exception, messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -130,8 +157,8 @@ namespace VocaluxeLib.Log
         public static void Debug(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-            {
-                _MainLog.Debug(messageTemplate);
+            {                
+                _MainLog.Debug(messageTemplate);                
             }
             if(show)
                 ShowLogAssistant(messageTemplate, null);
@@ -151,7 +178,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Debug(messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Debug(messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Debug(messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -192,7 +231,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Debug(exception, messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Debug(exception, messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Debug(exception, messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -214,8 +265,8 @@ namespace VocaluxeLib.Log
         public static void Information(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-            {
-                _MainLog.Information(messageTemplate);
+            {                
+                _MainLog.Information(messageTemplate);                
             }
             if(show)
                 ShowLogAssistant(messageTemplate, null);
@@ -235,7 +286,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Information(messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Information(messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Information(messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -276,7 +339,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Information(exception, messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Information(exception, messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Information(exception, messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -298,8 +373,8 @@ namespace VocaluxeLib.Log
         public static void Warning(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-            {
-                _MainLog.Warning(messageTemplate);
+            {                
+                _MainLog.Warning(messageTemplate);                
             }
             if(show)
                 ShowLogAssistant(messageTemplate, null);
@@ -319,7 +394,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Warning(messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Warning(messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Warning(messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -360,7 +447,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Warning(exception, messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Warning(exception, messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Warning(exception, messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -382,8 +481,8 @@ namespace VocaluxeLib.Log
         public static void Error(string messageTemplate, bool show = false, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-            {
-                _MainLog.Error(messageTemplate);
+            {                
+                _MainLog.Error(messageTemplate);                
             }
             if(show)
                 ShowLogAssistant(messageTemplate, null);
@@ -403,7 +502,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Error(messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Error(messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Error(messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -444,7 +555,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Error(exception, messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Error(exception, messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Error(exception, messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues);
@@ -466,8 +589,8 @@ namespace VocaluxeLib.Log
         public static void Fatal(string messageTemplate, bool show = true, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-            {
-                _MainLog.Fatal(messageTemplate);
+            {                
+                _MainLog.Fatal(messageTemplate);                
             }
             if(show)
                 ShowLogAssistant(messageTemplate, null, true, false);
@@ -491,7 +614,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Fatal(messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Fatal(messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Fatal(messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues, true, false);
@@ -540,7 +675,19 @@ namespace VocaluxeLib.Log
         {
             using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
             {
-                _MainLog.Fatal(exception, messageTemplate, propertyValues);
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        _MainLog.Fatal(exception, messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    _MainLog.Fatal(exception, messageTemplate, propertyValues);
+                }
             }
             if(show)
                 ShowLogAssistant(messageTemplate, propertyValues, true, false);
@@ -569,8 +716,8 @@ namespace VocaluxeLib.Log
             public static void Verbose(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-                {
-                    _SongLog.Verbose(messageTemplate);
+                {                
+                    _SongLog.Verbose(messageTemplate);                
                 }
             }
     
@@ -587,7 +734,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Verbose(messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Verbose(messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Verbose(messageTemplate, propertyValues);
+                    }
                 }
             }
     
@@ -622,7 +781,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Verbose(exception, messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Verbose(exception, messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Verbose(exception, messageTemplate, propertyValues);
+                    }
                 }
             }
     
@@ -641,8 +812,8 @@ namespace VocaluxeLib.Log
             public static void Debug(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-                {
-                    _SongLog.Debug(messageTemplate);
+                {                
+                    _SongLog.Debug(messageTemplate);                
                 }
             }
     
@@ -659,7 +830,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Debug(messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Debug(messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Debug(messageTemplate, propertyValues);
+                    }
                 }
             }
     
@@ -694,7 +877,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Debug(exception, messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Debug(exception, messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Debug(exception, messageTemplate, propertyValues);
+                    }
                 }
             }
     
@@ -713,8 +908,8 @@ namespace VocaluxeLib.Log
             public static void Information(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-                {
-                    _SongLog.Information(messageTemplate);
+                {                
+                    _SongLog.Information(messageTemplate);                
                 }
             }
     
@@ -731,7 +926,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Information(messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Information(messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Information(messageTemplate, propertyValues);
+                    }
                 }
             }
     
@@ -766,7 +973,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Information(exception, messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Information(exception, messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Information(exception, messageTemplate, propertyValues);
+                    }
                 }
             }
     
@@ -785,8 +1004,8 @@ namespace VocaluxeLib.Log
             public static void Warning(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-                {
-                    _SongLog.Warning(messageTemplate);
+                {                
+                    _SongLog.Warning(messageTemplate);                
                 }
             }
     
@@ -803,7 +1022,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Warning(messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Warning(messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Warning(messageTemplate, propertyValues);
+                    }
                 }
             }
     
@@ -838,7 +1069,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Warning(exception, messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Warning(exception, messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Warning(exception, messageTemplate, propertyValues);
+                    }
                 }
             }
     
@@ -857,8 +1100,8 @@ namespace VocaluxeLib.Log
             public static void Error(string messageTemplate, [CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
-                {
-                    _SongLog.Error(messageTemplate);
+                {                
+                    _SongLog.Error(messageTemplate);                
                 }
             }
     
@@ -875,7 +1118,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Error(messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Error(messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Error(messageTemplate, propertyValues);
+                    }
                 }
             }
     
@@ -910,7 +1165,19 @@ namespace VocaluxeLib.Log
             {
                 using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
                 {
-                    _SongLog.Error(exception, messageTemplate, propertyValues);
+                    int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+    
+                    if (propertyValues.Length > usedPropertiesCount)
+                    {
+                        using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                        {
+                            _SongLog.Error(exception, messageTemplate, propertyValues);
+                        }
+                    }
+                    else
+                    {
+                        _SongLog.Error(exception, messageTemplate, propertyValues);
+                    }
                 }
             }
     

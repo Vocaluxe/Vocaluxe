@@ -111,8 +111,8 @@ namespace VocaluxeLib.Log
 #endif
                 .CreateLogger();
 
-            // Adding fist line to log with information about this run
-            Information("Starting to log", Params( new { Version = _CurrentVersion, StartDate = DateTime.Now, Id = Guid.NewGuid() } ) );
+            // Adding first line to log with information about this run
+            Information("Starting to log", Params( new { Version = _CurrentVersion}, new { StartDate = DateTime.Now}, new { Id = Guid.NewGuid() } ) );
         }
 
         /// <summary>
