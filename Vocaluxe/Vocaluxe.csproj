@@ -31,7 +31,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>3d91144f</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -542,11 +543,11 @@
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets'))" />
     <Error Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND !Exists('..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.2\build\vocaluxe.dependencies.portaudiosharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.portaudiosharp.1.0.2\build\vocaluxe.dependencies.portaudiosharp.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets'))" />
     <Error Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND !Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.2\build\vocaluxe.dependencies.gstreamer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamer.1.0.2\build\vocaluxe.dependencies.gstreamer.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets'))" />
   </Target>
   <Import Project="..\packages\vocaluxe.dependencies.acinerella.1.0.5\build\vocaluxe.dependencies.acinerella.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.acinerella.1.0.5\build\vocaluxe.dependencies.acinerella.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets" Condition="Exists('..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets')" />
@@ -555,9 +556,9 @@
   <Import Project="..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets" Condition="Exists('..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.portaudiosharp.1.0.2\build\vocaluxe.dependencies.portaudiosharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.2\build\vocaluxe.dependencies.portaudiosharp.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets" Condition="Exists('..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets" Condition="Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets" Condition="Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.gstreamer.1.0.2\build\vocaluxe.dependencies.gstreamer.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.2\build\vocaluxe.dependencies.gstreamer.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets')" />
 </Project>
