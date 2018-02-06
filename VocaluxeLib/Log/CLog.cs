@@ -79,11 +79,13 @@ namespace VocaluxeLib.Log
                 // Delete the old marker
                 File.Delete(_CrashMarkerFilePath);
 
+#if !DEBUG
                 if (_CurrentVersion == versionTag && File.Exists(mainLogFilePath))
                 {
                     string logContent = File.ReadAllText(mainLogFilePath, Encoding.UTF8);
                     _ShowReporterFunc(crash:true, showContinue:true, vocaluxeVersionTag:versionTag, log:logContent, lastError:"Vocaluxe crashed while the last execution.");
                 }
+#endif
             }
             
             // Write new marker
