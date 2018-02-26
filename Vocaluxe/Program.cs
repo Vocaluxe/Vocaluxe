@@ -73,14 +73,7 @@ namespace Vocaluxe
             }
             catch (Exception e)
             {
-                string stackTrace = "";
-                try
-                {
-                    stackTrace = e.StackTrace;
-                }
-                catch {}
-                MessageBox.Show("Unhandled error: " + e.Message + stackTrace);
-                CLog.Error("Unhandled error: " + e.Message + stackTrace);
+                CLog.Fatal(e, "Unhandled error: {ErrorMessage}", CLog.Params(e.Message));
             }
 #else
             _Run(args);
