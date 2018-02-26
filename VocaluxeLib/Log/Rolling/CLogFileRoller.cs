@@ -73,7 +73,7 @@ namespace VocaluxeLib.Log.Rolling
 
         private static void _DeleteOldLogs(string mainLogFile, int numLogsToKeep)
         {
-            Regex r = new Regex($"{Path.GetDirectoryName(mainLogFile)}\\\\{Path.GetFileNameWithoutExtension(mainLogFile)}_([0-9]+){Path.GetExtension(mainLogFile)}", RegexOptions.IgnoreCase);
+            Regex r = new Regex($"{Path.GetDirectoryName(mainLogFile)}\\{Path.DirectorySeparatorChar}{Path.GetFileNameWithoutExtension(mainLogFile)}_([0-9]+){Path.GetExtension(mainLogFile)}", RegexOptions.IgnoreCase);
             IEnumerable<string> logFiles = Directory.EnumerateFiles($"{Path.GetDirectoryName(mainLogFile)}", $"{Path.GetFileNameWithoutExtension(mainLogFile)}*{Path.GetExtension(mainLogFile)}");
             foreach (string file in logFiles)
             {
@@ -104,7 +104,7 @@ namespace VocaluxeLib.Log.Rolling
 
         private static string _GenerateRollLogFileName(string mainLogFile, int number)
         {
-            return $"{Path.GetDirectoryName(mainLogFile)}\\{Path.GetFileNameWithoutExtension(mainLogFile)}_{number}{Path.GetExtension(mainLogFile)}";
+            return $"{ Path.GetDirectoryName(mainLogFile) }{ Path.DirectorySeparatorChar }{ Path.GetFileNameWithoutExtension(mainLogFile) }_{ number }{ Path.GetExtension(mainLogFile) }";
         }
     }
 }
