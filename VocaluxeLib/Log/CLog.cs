@@ -50,7 +50,7 @@ namespace VocaluxeLib.Log
         /// <param name="fileNameSongInfoLog">The name of the log for song problems.</param>
         /// <param name="fileNameCrashMarker">The name of the file which is used as crash marker.</param>
         /// <param name="currentVersion">The current version tag as it is displayed in the main menu.</param>
-        /// <param name="showReporterFunc">Delegate to the function wchih should be called if the reporter have to been shown.</param>
+        /// <param name="showReporterFunc">Delegate to the function which should be called if the reporter have to been shown.</param>
         public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog, string fileNameCrashMarker, string currentVersion, ShowReporterDelegate showReporterFunc)
         {
             _LogFolder = logFolder;
@@ -156,6 +156,12 @@ namespace VocaluxeLib.Log
             _MainLogStringWriter.Flush();
             // Show the Reporter
             _ShowReporterFunc(crash: crash, showContinue: showContinue, vocaluxeVersionTag: _CurrentVersion, log: _MainLogStringBuilder.ToString(), lastError: _FormatMessageTemplate(messageTemplate, propertyValues));
+
+            // Delete the crash marker (we do not want to show this error again on the next restart)
+            if (!showContinue)
+            {
+                File.Delete(_CrashMarkerFilePath);
+            }
         }
 
         /// <summary>
