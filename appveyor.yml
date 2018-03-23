@@ -79,7 +79,6 @@ after_build:
         .\.appveyor\nightlyDetect.ps1
         .\.appveyor\moveTagForSpecialBranches.ps1
     }
-test: off
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1
 after_deploy:
