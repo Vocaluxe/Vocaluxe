@@ -502,7 +502,7 @@ namespace Tests.VocaluxeLib.XML
             // Typename will be uppercase but input is lowercase
             newXml = newXml.Replace("<String", "<string").Replace("</String", "</string");
             string oldXml = File.ReadAllText(xmlPath);
-            Assert.AreEqual(oldXml, newXml, "Error with " + type.Name);
+            Assert.AreEqual(oldXml, newXml, "Recontructed XML has differences.");
         }
 
     }
