@@ -137,7 +137,10 @@ namespace Tests.VocaluxeLib.XML
         private static void _AssertFail<T, T2>(String xmlString) where T2 : Exception where T : new()
         {
             var deserializer = new CXmlDeserializer();
-            Assert.Throws<T2>(() => deserializer.DeserializeString<T>(xmlString));
+
+            Exception exception =
+                Assert.Catch(() => deserializer.DeserializeString<T>(xmlString));
+            Assert.IsInstanceOf(typeof(T2), exception);
         }
 
         private static T _AssertSerDeserMatch<T>(string xmlString) where T : new()
