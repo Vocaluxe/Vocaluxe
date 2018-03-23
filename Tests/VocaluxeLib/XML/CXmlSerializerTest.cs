@@ -22,7 +22,6 @@ using System.IO;
 using System.Xml.Serialization;
 using NUnit.Framework;
 using VocaluxeLib;
-using VocaluxeLib.Menu;
 using VocaluxeLib.Xml;
 using Vocaluxe.Base;
 
@@ -490,7 +489,7 @@ namespace Tests.VocaluxeLib.XML
         }
 
         [Test]
-        public void TestRealFiles([Values(typeof(SThemeCover), typeof(CConfig.SConfig), typeof(SThemeScreen), typeof(SDefaultFonts), typeof(SSkin), typeof(STheme), typeof(Dictionary<string, string>))] Type type)
+        public void TestRealFiles([Values(typeof(SThemeCover), typeof(CConfig.SConfig), /*typeof(SThemeScreen),*/ typeof(SDefaultFonts), typeof(SSkin), typeof(STheme), typeof(Dictionary<string, string>))] Type type)
         {
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "VocaluxeLib", "XML", "TestFiles");
 
