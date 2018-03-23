@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="language">Deutsch</string>
+  <string name="TR_PROGRAM_NAME">Vocaluxe</string>
+  <string name="TR_GENERAL_AND">und</string>
+  <string name="TR_BUTTON_EXIT">Exit</string>
+  <string name="TR_BUTTON_SAVE">Speichern</string>
+  <string name="TR_BUTTON_BACK">Zurück</string>
+  <string name="TR_BUTTON_START">Start</string>
+  <string name="TR_DEBUG_AUDIO_STREAMS">Audio-Streams</string>
+  <string name="TR_DEBUG_VIDEO_STREAMS">Video-Streams</string>
+  <string name="TR_DEBUG_TEXTURES">Textures</string>
+  <string name="TR_DEBUG_TONE_ABS">ToneAbs</string>
+  <string name="TR_DEBUG_MAX_VOLUME">Max. Volume</string>
+  <string name="TR_DEBUG_SONGS">Geladene Songs</string>
+  <string name="TR_DEBUG_MOUSE">Maus</string>
+  <string name="TR_DEBUG_MEMORY">Speicherverbrauch</string>
+  <string name="TR_GAMEMODE_NORMAL">Normal</string>
+  <string name="TR_GAMEMODE_DUET">Duett</string>
+  <string name="TR_GAMEMODE_MEDLEY">Medley</string>
+  <string name="TR_GAMEMODE_SHORTSONG">Kurz-Version</string>
+  <string name="TR_RATING_VOCAL_HERO">Vocal Hero</string>
+  <string name="TR_RATING_SUPERSTAR">Superstar</string>
+  <string name="TR_RATING_LEAD_SINGER">Hit-Künstler</string>
+  <string name="TR_RATING_RISING_STAR">Sternchen</string>
+  <string name="TR_RATING_HOPEFUL">Fortgeschritten</string>
+  <string name="TR_RATING_WANNABE">Möchtegern</string>
+  <string name="TR_RATING_AMATEUR">Amateur</string>
+  <string name="TR_RATING_TONE_DEAF">Nichtskönner</string>
+  <string name="TR_USERROLE_GUEST">Gast</string>
+  <string name="TR_USERROLE_NORMAL">Normaler Benutzer</string>
+  <string name="TR_USERROLE_ADMIN">Administrator</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Tastatur</string>
+</resources>

@@ -40,10 +40,12 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="VocaluxeLib\Utils\Combinatorics\CCombinationsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VocaluxeLib\XML\CXmlSerializerTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
@@ -58,6 +60,19 @@
       <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
       <Name>VocaluxeLib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Vocaluxe\Vocaluxe.csproj">
+      <Project>{2a1e0f2d-5392-4bb7-b0a1-a9dfa13e79ff}</Project>
+      <Name>Vocaluxe</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="VocaluxeLib\XML\TestFiles\Dictionary`2.xml" />
+    <Content Include="VocaluxeLib\XML\TestFiles\SConfig.xml" />
+    <Content Include="VocaluxeLib\XML\TestFiles\SDefaultFonts.xml" />
+    <Content Include="VocaluxeLib\XML\TestFiles\SSkin.xml" />
+    <Content Include="VocaluxeLib\XML\TestFiles\STheme.xml" />
+    <Content Include="VocaluxeLib\XML\TestFiles\SThemeCover.xml" />
+    <Content Include="VocaluxeLib\XML\TestFiles\SThemeScreen.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
