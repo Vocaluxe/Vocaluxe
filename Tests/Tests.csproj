@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="VocaluxeLib\Log\Rolling\CLogFileRollerTest.cs" />
     <Compile Include="VocaluxeLib\Utils\Combinatorics\CCombinationsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VocaluxeLib\XML\CXmlSerializerTest.cs" />
