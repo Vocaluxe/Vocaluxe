@@ -33,124 +33,7 @@ namespace Tests.VocaluxeLib.XML
         private const string _Head = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n";
         private const string _Empty = _Head + @"<root />";
 
-#pragma warning disable 649
-#pragma warning disable 169
-        private struct SBasic
-        {
-            public int I;
-            public string S;
-            public float F;
-            public double D;
-        }
-
-        [XmlType("Entry")]
-        private struct SEntry
-        {
-            public int I;
-        }
-
-        private struct SList
-        {
-            [XmlArray]
-            public List<SEntry> Ints;
-        }
-
-        private struct SArray
-        {
-            [XmlArray]
-            public SEntry[] Ints;
-        }
-
-        private struct SListEmb
-        {
-            public int I;
-            [XmlElement("Entry")]
-            public List<SEntry> Ints;
-            public int J;
-        }
-
-        private struct SArrayEmb
-        {
-            public int I;
-            [XmlElement("Entry")]
-            public SEntry[] Ints;
-            public int J;
-        }
-
-        private struct SProperty
-        {
-            [XmlIgnore]
-            public int Private;
-            // ReSharper disable UnusedMember.Local
-            public int Public
-            {
-                get { return Private - 1; }
-                set { Private = value + 1; }
-            }
-            // ReSharper restore UnusedMember.Local
-            // ReSharper disable UnusedAutoPropertyAccessor.Local
-            public int Auto { get; set; }
-            // ReSharper restore UnusedAutoPropertyAccessor.Local
-        }
-
-        private struct SBytes
-        {
-            public byte[] B;
-        }
-
-        private struct SIgnore
-        {
-            [XmlIgnore]
-            public int I;
-            public int J;
-        }
-
-        private class CIgnore
-        {
-            [XmlIgnore]
-            public int I;
-            public int J;
-        }
-
-        private struct SDefaultSub
-        {
-            [DefaultValue(111)]
-            public int I;
-        }
-
-        private struct SDefault
-        {
-            [DefaultValue(1337)]
-            public int I;
-            [DefaultValue("Foo")]
-            public string S;
-            public float? F;
-            [DefaultValue(666.0)]
-            public double D;
-            public SDefaultSub Sub;
-        }
-
-#pragma warning restore 169
-#pragma warning restore 649
-
-        private static void _AssertFail<T, T2>(String xmlString) where T2 : Exception where T : new()
-        {
-            var deserializer = new CXmlDeserializer();
-
-            Exception exception =
-                Assert.Catch(() => deserializer.DeserializeString<T>(xmlString));
-            Assert.IsInstanceOf(typeof(T2), exception);
-        }
-
-        private static T _AssertSerDeserMatch<T>(string xmlString) where T : new()
-        {
-            var deserializer = new CXmlDeserializer();
-            var serializer = new CXmlSerializer();
-            T foo = deserializer.DeserializeString<T>(xmlString);
-            string xmlNew = serializer.Serialize(foo);
-            Assert.AreEqual(xmlString, xmlNew);
-            return foo;
-        }
+        #region Tests
 
         [Test]
         public void TestBasic()
@@ -507,5 +390,129 @@ namespace Tests.VocaluxeLib.XML
             Assert.AreEqual(oldXml, newXml, "Recontructed XML has differences.");
         }
 
+        #endregion
+
+        #region Helper
+
+#pragma warning disable 649
+#pragma warning disable 169
+        private struct SBasic
+        {
+            public int I;
+            public string S;
+            public float F;
+            public double D;
+        }
+
+        [XmlType("Entry")]
+        private struct SEntry
+        {
+            public int I;
+        }
+
+        private struct SList
+        {
+            [XmlArray]
+            public List<SEntry> Ints;
+        }
+
+        private struct SArray
+        {
+            [XmlArray]
+            public SEntry[] Ints;
+        }
+
+        private struct SListEmb
+        {
+            public int I;
+            [XmlElement("Entry")]
+            public List<SEntry> Ints;
+            public int J;
+        }
+
+        private struct SArrayEmb
+        {
+            public int I;
+            [XmlElement("Entry")]
+            public SEntry[] Ints;
+            public int J;
+        }
+
+        private struct SProperty
+        {
+            [XmlIgnore]
+            public int Private;
+            // ReSharper disable UnusedMember.Local
+            public int Public
+            {
+                get { return Private - 1; }
+                set { Private = value + 1; }
+            }
+            // ReSharper restore UnusedMember.Local
+            // ReSharper disable UnusedAutoPropertyAccessor.Local
+            public int Auto { get; set; }
+            // ReSharper restore UnusedAutoPropertyAccessor.Local
+        }
+
+        private struct SBytes
+        {
+            public byte[] B;
+        }
+
+        private struct SIgnore
+        {
+            [XmlIgnore]
+            public int I;
+            public int J;
+        }
+
+        private class CIgnore
+        {
+            [XmlIgnore]
+            public int I;
+            public int J;
+        }
+
+        private struct SDefaultSub
+        {
+            [DefaultValue(111)]
+            public int I;
+        }
+
+        private struct SDefault
+        {
+            [DefaultValue(1337)]
+            public int I;
+            [DefaultValue("Foo")]
+            public string S;
+            public float? F;
+            [DefaultValue(666.0)]
+            public double D;
+            public SDefaultSub Sub;
+        }
+
+#pragma warning restore 169
+#pragma warning restore 649
+
+        private static void _AssertFail<T, T2>(String xmlString) where T2 : Exception where T : new()
+        {
+            var deserializer = new CXmlDeserializer();
+
+            Exception exception =
+                Assert.Catch(() => deserializer.DeserializeString<T>(xmlString));
+            Assert.IsInstanceOf(typeof(T2), exception);
+        }
+
+        private static T _AssertSerDeserMatch<T>(string xmlString) where T : new()
+        {
+            var deserializer = new CXmlDeserializer();
+            var serializer = new CXmlSerializer();
+            T foo = deserializer.DeserializeString<T>(xmlString);
+            string xmlNew = serializer.Serialize(foo);
+            Assert.AreEqual(xmlString, xmlNew);
+            return foo;
+        }
+
+        #endregion
     }
 }

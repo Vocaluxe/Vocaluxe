@@ -26,6 +26,8 @@ namespace Tests.VocaluxeLib.Utils.Combinatorics
     [TestFixture]
     public class CCombinationsTest
     {
+        #region Tests
+
         [Test]
         public void TestCount()
         {
@@ -64,6 +66,10 @@ namespace Tests.VocaluxeLib.Utils.Combinatorics
             }
         }
 
+        #endregion
+
+        #region Helper methods
+
         // ReSharper disable UnusedParameter.Local
         private static void _CheckResults<T>(CCombinations<T> combs, List<T> input)
         // ReSharper restore UnusedParameter.Local
@@ -86,5 +92,7 @@ namespace Tests.VocaluxeLib.Utils.Combinatorics
             for (int i = 0; i < results2.Count; i++)
                 Assert.IsTrue(results[i].SequenceEqual(results2[i]));
         }
+
+        #endregion
     }
 }
