@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PartyModeChallenge\CPartyModeChallangeTest.cs" />
     <Compile Include="VocaluxeLib\Log\Rolling\CLogFileRollerTest.cs" />
     <Compile Include="VocaluxeLib\Utils\Combinatorics\CCombinationsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -57,6 +58,10 @@
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PartyModes\PartyModeChallenge\PartyModeChallenge.csproj">
+      <Project>{5a4053f1-5ad5-441f-b254-d97a088127b6}</Project>
+      <Name>PartyModeChallenge</Name>
+    </ProjectReference>
     <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
       <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
       <Name>VocaluxeLib</Name>
