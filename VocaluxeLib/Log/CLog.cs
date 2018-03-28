@@ -127,15 +127,15 @@ namespace VocaluxeLib.Log
                 ILogger loggerToDispose = _MainLog;
 
                 _MainLog = new CSilentLogger();
-                (_MainLog as IDisposable)?.Dispose();
+                (loggerToDispose as IDisposable)?.Dispose();
             }
 
             if (!(_SongLog is CSilentLogger))
             {
-                ILogger loggerToDispose = _MainLog;
+                ILogger loggerToDispose = _SongLog;
 
                 _SongLog = new CSilentLogger();
-                (_SongLog as IDisposable)?.Dispose();
+                (loggerToDispose as IDisposable)?.Dispose();
             }
 
             // Delete the crash marker
