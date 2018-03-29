@@ -65,6 +65,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="PartyModeChallenge\CPartyModeChallangeTest.cs" />
+    <Content Include="VocaluxeLib\Log\CLogTest.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CLogTest.cs</LastGenOutput>
+    </Content>
+    <Compile Include="VocaluxeLib\Log\CLogTest.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CLogTest.tt</DependentUpon>
+    </Compile>
     <Compile Include="VocaluxeLib\Log\Rolling\CLogFileRollerTest.cs" />
     <Compile Include="VocaluxeLib\Utils\Combinatorics\CCombinationsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -76,6 +85,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>

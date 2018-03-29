@@ -41,7 +41,6 @@ namespace VocaluxeLib.Log
         private const string _MainLogTemplate = "[{TimeStampFromStart}] [{Level}] {Message}{NewLine}{Properties}{NewLine}{Exception}";
         private const string _SongLogTemplate = "{Message}{NewLine}Additional info:{Properties}{NewLine}{Exception}";
 
-
         /// <summary>
         /// Initialize the logging framework.
         /// </summary>
@@ -51,7 +50,8 @@ namespace VocaluxeLib.Log
         /// <param name="fileNameCrashMarker">The name of the file which is used as crash marker.</param>
         /// <param name="currentVersion">The current version tag as it is displayed in the main menu.</param>
         /// <param name="showReporterFunc">Delegate to the function which should be called if the reporter have to been shown.</param>
-        public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog, string fileNameCrashMarker, string currentVersion, ShowReporterDelegate showReporterFunc)
+        /// <param name="logLevel">The log level for log messages.</param>
+        public static void Init(string logFolder, string fileNameMainLog, string fileNameSongInfoLog, string fileNameCrashMarker, string currentVersion, ShowReporterDelegate showReporterFunc, ELogLevel logLevel)
         {
             _LogFolder = logFolder;
             _ShowReporterFunc = showReporterFunc;
@@ -83,7 +83,11 @@ namespace VocaluxeLib.Log
                 if (_CurrentVersion == versionTag && File.Exists(mainLogFilePath))
                 {
                     string logContent = File.ReadAllText(mainLogFilePath, Encoding.UTF8);
-                    _ShowReporterFunc(crash:true, showContinue:true, vocaluxeVersionTag:versionTag, log:logContent, lastError:"Vocaluxe crashed while the last execution.");
+                    _ShowReporterFunc(crash:true,
+                        showContinue:true,
+                        vocaluxeVersionTag:versionTag,
+                        log:logContent,
+                        lastError:"Vocaluxe crashed while the last execution.");
                 }
 #endif
             }
@@ -95,26 +99,36 @@ namespace VocaluxeLib.Log
             CLogFileRoller.RollLogs(songLogFilePath, 2);
 
             _MainLog = new LoggerConfiguration()
+                .MinimumLevel.Is(logLevel.ToSerilogLogLevel())
                 .Enrich.WithThreadId()
                 .Enrich.FromLogContext()
                 .Enrich.WithTimeStampFromStart()
-                .WriteTo.TextWriter(_MainLogStringWriter, outputTemplate: _MainLogTemplate)
+                .WriteTo.TextWriter(_MainLogStringWriter,
+                    outputTemplate: _MainLogTemplate)
                 // Json can be activated by adding "new CompactJsonFormatter()" as first argument
-                .WriteTo.File(mainLogFilePath, flushToDiskInterval: TimeSpan.FromSeconds(30), outputTemplate: _MainLogTemplate)
+                .WriteTo.File(mainLogFilePath,
+                    flushToDiskInterval: TimeSpan.FromSeconds(30),
+                    outputTemplate: _MainLogTemplate)
 #if DEBUG
                 .WriteTo.Console(outputTemplate: _MainLogTemplate)
 #endif
                 .CreateLogger();
 
             _SongLog = new LoggerConfiguration()
-                .WriteTo.File(songLogFilePath, flushToDiskInterval: TimeSpan.FromSeconds(60), outputTemplate: _SongLogTemplate)
+                .MinimumLevel.Is(logLevel.ToSerilogLogLevel())
+                .WriteTo.File(songLogFilePath, 
+                    flushToDiskInterval: TimeSpan.FromSeconds(60),
+                    outputTemplate: _SongLogTemplate)
 #if DEBUG
                 .WriteTo.Console(outputTemplate: "[SongInfo] " + _SongLogTemplate)
 #endif
                 .CreateLogger();
 
             // Adding first line to log with information about this run
-            Information("Starting to log", Params( new { Version = _CurrentVersion}, new { StartDate = DateTime.Now}, new { Id = Guid.NewGuid() } ) );
+            Information("Starting to log", 
+                Params( new { Version = _CurrentVersion},
+                    new { StartDate = DateTime.Now},
+                    new { Id = Guid.NewGuid() } ) );
         }
 
         /// <summary>
