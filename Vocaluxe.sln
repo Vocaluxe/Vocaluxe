@@ -21,11 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebserverInitalConfig", "We
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PitchTracker", "PitchTracker\PitchTracker.vcxproj", "{54A48AF7-515C-4EDD-B395-2BFFA096050A}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2BDDF9CE-271F-49C6-A92E-9CB6185ACF58}"
-	ProjectSection(SolutionItems) = preProject
-		Vocaluxe.testsettings = Vocaluxe.testsettings
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{8EDF4429-251A-416D-BB68-93F227191BCF}"
 EndProject
 Global
