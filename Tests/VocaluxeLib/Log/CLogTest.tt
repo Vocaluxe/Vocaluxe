@@ -49,7 +49,10 @@ namespace Tests.VocaluxeLib.Log
     {
         private const string _TestMessage = "This is a test";
         private const string _TestMessageWithData = "This is a test with data: {Data1}";
+        private const string _FirstParam = "Test";
+        private const string _SecondParam = "Foo";
         private const string _TestMessageWithResolvedData = "This is a test with data: \"Test\"";
+        private const string _TestExceptionMessage = "TestExceptionMessage";
         private string _TestFolder;
 
         #region Setup methods
@@ -103,9 +106,9 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.<#= LogLevel #>(<#= WithException?"new Exception(\"TestExceptionMessage\"), ":"" #><#= WithData?"_TestMessageWithData":"_TestMessage" #><#= WithData?", CLog.Params(\"Test\", \"Foo\")":"" #>, show);
+            CLog.<#= LogLevel #>(<#= WithException?"new Exception(_TestExceptionMessage), ":"" #><#= WithData?"_TestMessageWithData":"_TestMessage" #><#= WithData?", CLog.Params(_FirstParam, _SecondParam)":"" #>, show);
 <# if(LogLevel!="Fatal") { #>
-            CLog.CSongLog.<#= LogLevel #>(<#= WithData?"_TestMessageWithData":"_TestMessage" #><#= WithData?", CLog.Params(\"Test\", \"Foo\")":"" #>);
+            CLog.CSongLog.<#= LogLevel #>(<#= WithData?"_TestMessageWithData":"_TestMessage" #><#= WithData?", CLog.Params(_FirstParam, _SecondParam)":"" #>);
 <# } #>
 
             // Close logfile
@@ -122,10 +125,10 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[<#= LogLevel #>] " +<#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>, mainLogContent, "Main log entry wrong");
 <# if(WithException) { #>
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
 <# } #>
 <# if(WithData) { #>
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
 <# } #>
 <# if(LogLevel!="Fatal") { #>
             StringAssert.Contains(<#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>, songLogContent, "Song log entry wrong");

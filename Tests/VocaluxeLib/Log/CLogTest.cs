@@ -27,7 +27,10 @@ namespace Tests.VocaluxeLib.Log
     {
         private const string _TestMessage = "This is a test";
         private const string _TestMessageWithData = "This is a test with data: {Data1}";
+        private const string _FirstParam = "Test";
+        private const string _SecondParam = "Foo";
         private const string _TestMessageWithResolvedData = "This is a test with data: \"Test\"";
+        private const string _TestExceptionMessage = "TestExceptionMessage";
         private string _TestFolder;
 
         #region Setup methods
@@ -78,8 +81,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Verbose(new Exception("TestExceptionMessage"), _TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Verbose(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Verbose(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Verbose(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -94,8 +97,8 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Verbose] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -131,8 +134,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Verbose(_TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Verbose(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Verbose(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Verbose(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -147,7 +150,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Verbose] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -183,7 +186,7 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Verbose(new Exception("TestExceptionMessage"), _TestMessage, show);
+            CLog.Verbose(new Exception(_TestExceptionMessage), _TestMessage, show);
             CLog.CSongLog.Verbose(_TestMessage);
 
             // Close logfile
@@ -199,7 +202,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Verbose] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
             StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -289,8 +292,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Debug(new Exception("TestExceptionMessage"), _TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Debug(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Debug(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Debug(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -305,8 +308,8 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Debug] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -342,8 +345,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Debug(_TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Debug(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Debug(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Debug(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -358,7 +361,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Debug] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -394,7 +397,7 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Debug(new Exception("TestExceptionMessage"), _TestMessage, show);
+            CLog.Debug(new Exception(_TestExceptionMessage), _TestMessage, show);
             CLog.CSongLog.Debug(_TestMessage);
 
             // Close logfile
@@ -410,7 +413,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Debug] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
             StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -500,8 +503,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Information(new Exception("TestExceptionMessage"), _TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Information(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Information(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Information(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -516,8 +519,8 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Information] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -553,8 +556,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Information(_TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Information(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Information(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Information(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -569,7 +572,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Information] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -605,7 +608,7 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Information(new Exception("TestExceptionMessage"), _TestMessage, show);
+            CLog.Information(new Exception(_TestExceptionMessage), _TestMessage, show);
             CLog.CSongLog.Information(_TestMessage);
 
             // Close logfile
@@ -621,7 +624,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Information] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
             StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -711,8 +714,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Warning(new Exception("TestExceptionMessage"), _TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Warning(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Warning(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Warning(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -727,8 +730,8 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Warning] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -764,8 +767,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Warning(_TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Warning(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Warning(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Warning(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -780,7 +783,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Warning] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -816,7 +819,7 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Warning(new Exception("TestExceptionMessage"), _TestMessage, show);
+            CLog.Warning(new Exception(_TestExceptionMessage), _TestMessage, show);
             CLog.CSongLog.Warning(_TestMessage);
 
             // Close logfile
@@ -832,7 +835,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Warning] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
             StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -922,8 +925,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Error(new Exception("TestExceptionMessage"), _TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Error(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Error(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Error(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -938,8 +941,8 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Error] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -975,8 +978,8 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Error(_TestMessageWithData, CLog.Params("Test", "Foo"), show);
-            CLog.CSongLog.Error(_TestMessageWithData, CLog.Params("Test", "Foo"));
+            CLog.Error(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
+            CLog.CSongLog.Error(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam));
 
             // Close logfile
             CLog.Close();
@@ -991,7 +994,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Error] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("Foo", mainLogContent, "Second data field is missing");
+            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
             StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
             if(!show)
             {
@@ -1027,7 +1030,7 @@ namespace Tests.VocaluxeLib.Log
             ELogLevel.Verbose);
 
             // Add log entry
-            CLog.Error(new Exception("TestExceptionMessage"), _TestMessage, show);
+            CLog.Error(new Exception(_TestExceptionMessage), _TestMessage, show);
             CLog.CSongLog.Error(_TestMessage);
 
             // Close logfile
@@ -1043,7 +1046,7 @@ namespace Tests.VocaluxeLib.Log
             StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
             StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
             StringAssert.Contains("[Error] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains("TestExceptionMessage", mainLogContent, "Exception is missing");
+            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
             StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
             if(!show)
             {
