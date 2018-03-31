@@ -69,6 +69,7 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>CLogTest.cs</LastGenOutput>
     </Content>
+    <Compile Include="VocaluxeLib\Log\CBenchmarkTest.cs" />
     <Compile Include="VocaluxeLib\Log\CLogTest.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
