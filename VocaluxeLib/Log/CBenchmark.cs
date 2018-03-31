@@ -61,10 +61,10 @@ namespace VocaluxeLib.Log
         /// Stops this benchmark.
         /// </summary>
         /// <param name="success">If true a success message will be added to the log otherwise a message for failure.</param>
-        public void Stop(bool success = true) 
+        public void Stop(bool success = true)
         {
             if (_Watch == null)
-                throw new InvalidOperationException("Timer is not running.");
+                return;
             _Watch.Stop();
             double duration = _GetElapsedTime(_Watch);
 
