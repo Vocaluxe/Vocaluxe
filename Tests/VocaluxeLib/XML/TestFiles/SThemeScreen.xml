@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Screen>
+<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenMain</ScreenName>
     <ScreenVersion>2</ScreenVersion>
@@ -14,25 +14,14 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="StaticMenuBar">
-      <Skin>Menu</Skin>
-      <Color Name="Invisible" />
-      <Rect>
-        <X>49</X>
-        <Y>32</Y>
-        <W>1181</W>
-        <H>50</H>
-        <Z>0</Z>
-      </Rect>
-    </Static>
     <Static Name="StaticWarningProfiles">
-      <Skin>TextBG</Skin>
+      <Skin>Warning</Skin>
       <Color Name="StaticWarningColor" />
       <Rect>
-        <X>150</X>
-        <Y>610</Y>
-        <W>355</W>
-        <H>30</H>
+        <X>260</X>
+        <Y>310</Y>
+        <W>760</W>
+        <H>50</H>
         <Z>-1.9</Z>
       </Rect>
     </Static>
@@ -40,7 +29,7 @@
   <Texts>
     <Text Name="TextRelease">
       <X>10</X>
-      <Y>690</Y>
+      <Y>700</Y>
       <Z>-1</Z>
       <H>15</H>
       <MaxW>0</MaxW>
@@ -53,11 +42,11 @@
       <Text>Vocaluxe "Shining Heaven" v0.3.0 (x64) Beta (0083)</Text>
     </Text>
     <Text Name="TextWarningProfiles">
-      <X>320</X>
-      <Y>612</Y>
+      <X>640</X>
+      <Y>322</Y>
       <Z>-2</Z>
-      <H>27</H>
-      <MaxW>355</MaxW>
+      <H>25</H>
+      <MaxW>640</MaxW>
       <Color Name="TextWarningColor" />
       <SelColor Name="TextWarningColor" />
       <Align>Center</Align>

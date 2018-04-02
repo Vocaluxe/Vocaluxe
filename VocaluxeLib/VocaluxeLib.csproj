@@ -112,6 +112,7 @@
     <Compile Include="CEncoding.cs" />
     <Compile Include="CFading.cs" />
     <Compile Include="CFont.cs" />
+    <Compile Include="Log\ELogLevel.cs" />
     <Compile Include="Log\ShowReporterDelegate.cs" />
     <Compile Include="Log\CLog.cs" />
     <Compile Include="CVideoStream.cs" />

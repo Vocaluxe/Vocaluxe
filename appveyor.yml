@@ -10,6 +10,8 @@ clone_depth: 15
 environment:
   GitHubKey:
     secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
+init:
+- git config --global core.autocrlf true
 install:
 - ps: |
     $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"
@@ -79,7 +81,6 @@ after_build:
         .\.appveyor\nightlyDetect.ps1
         .\.appveyor\moveTagForSpecialBranches.ps1
     }
-test: off
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1
 after_deploy:
