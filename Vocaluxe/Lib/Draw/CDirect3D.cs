@@ -243,6 +243,8 @@ namespace Vocaluxe.Lib.Draw
             base._EnterFullScreen();
             if (CConfig.Config.Graphics.NativeFullScreen == EOffOn.TR_CONFIG_ON)
             {
+                _PresentParameters.BackBufferWidth = _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Width;
+                _PresentParameters.BackBufferHeight = _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Height;
                 _PresentParameters.Windowed = false;
                 _Reset();
                 Init();
