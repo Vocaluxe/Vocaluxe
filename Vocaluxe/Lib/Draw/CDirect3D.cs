@@ -241,13 +241,18 @@ namespace Vocaluxe.Lib.Draw
         protected override void _EnterFullScreen()
         {
             base._EnterFullScreen();
+
             if (CConfig.Config.Graphics.NativeFullScreen == EOffOn.TR_CONFIG_ON)
             {
-                _PresentParameters.BackBufferWidth = _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Width;
-                _PresentParameters.BackBufferHeight = _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Height;
+                // Move the window to the primary screen before changing to native fullscreen
+                _Form.Top = 0;
+                _Form.Left = 0;
+                _Form.Size = new Size(Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height);
+
                 _PresentParameters.Windowed = false;
                 _Reset();
                 Init();
+                _DoResize();
             }
         }
 
