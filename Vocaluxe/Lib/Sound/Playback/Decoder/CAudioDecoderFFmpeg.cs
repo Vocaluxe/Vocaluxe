@@ -19,6 +19,7 @@ using System;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.Decoder
 {
@@ -46,7 +47,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             }
             catch (Exception)
             {
-                CLog.LogError("Error opening audio file: " + _FileName);
+                CLog.Error("Error opening audio file: " + _FileName);
                 Close();
                 return false;
             }
@@ -68,7 +69,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             }
             catch (Exception)
             {
-                CLog.LogError("Error opening audio file (can't find decoder): " + _FileName);
+                CLog.Error("Error opening audio file (can't find decoder): " + _FileName);
                 Close();
                 return false;
             }
@@ -90,7 +91,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
 
             if (_FormatInfo.BitDepth != 16)
             {
-                CLog.LogError("Unsupported BitDepth in file " + fileName);
+                CLog.Error("Unsupported BitDepth in file " + fileName);
                 Close();
                 return false;
             }
@@ -136,7 +137,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             }
             catch (Exception)
             {
-                CLog.LogError("Error seeking in file: " + _FileName);
+                CLog.Error("Error seeking in file: " + _FileName);
                 Close();
             }
         }

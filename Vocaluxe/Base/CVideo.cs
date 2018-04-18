@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using Vocaluxe.Lib.Video;
 using VocaluxeLib;
 
@@ -61,6 +62,10 @@ namespace Vocaluxe.Base
 
         public static CVideoStream Load(string videoFileName)
         {
+            if (_VideoDecoder == null)
+            {
+                throw new NotSupportedException("_VideoDecoder is null (already closed?)");
+            }
             return _VideoDecoder.Load(videoFileName);
         }
 
@@ -73,41 +78,109 @@ namespace Vocaluxe.Base
 
         public static float GetLength(CVideoStream stream)
         {
+            if (stream == null)
+            {
+                throw new ArgumentException("stream is null");
+            }
+            if (_VideoDecoder == null)
+            {
+                throw new NotSupportedException("_VideoDecoder is null (already closed?)");
+            }
+
             return _VideoDecoder.GetLength(stream);
         }
 
         public static bool GetFrame(CVideoStream stream, float time)
         {
+            if (stream == null)
+            {
+                throw new ArgumentException("stream is null");
+            }
+            if (_VideoDecoder == null)
+            {
+                throw new NotSupportedException("_VideoDecoder is null (already closed?)");
+            }
+
             return _VideoDecoder.GetFrame(stream, time);
         }
 
         public static bool Skip(CVideoStream stream, float start, float gap)
         {
+            if (stream == null)
+            {
+                throw new ArgumentException("stream is null");
+            }
+            if (_VideoDecoder == null)
+            {
+                throw new NotSupportedException("_VideoDecoder is null (already closed?)");
+            }
+
             return _VideoDecoder.Skip(stream, start, gap);
         }
 
         public static void SetLoop(CVideoStream stream, bool loop)
         {
+            if (stream == null)
+            {
+                throw new ArgumentException("stream is null");
+            }
+            if (_VideoDecoder == null)
+            {
+                throw new NotSupportedException("_VideoDecoder is null (already closed?)");
+            }
+
             _VideoDecoder.SetLoop(stream, loop);
         }
 
         public static void Pause(CVideoStream stream)
         {
+            if (stream == null)
+            {
+                throw new ArgumentException("stream is null");
+            }
+            if (_VideoDecoder == null)
+            {
+                throw new NotSupportedException("_VideoDecoder is null (already closed?)");
+            }
+
             _VideoDecoder.Pause(stream);
         }
 
         public static void Resume(CVideoStream stream)
         {
+            if (stream == null)
+            {
+                throw new ArgumentException("stream is null");
+            }
+            if (_VideoDecoder == null)
+            {
+                throw new NotSupportedException("_VideoDecoder is null (already closed?)");
+            }
+
             _VideoDecoder.Resume(stream);
         }
 
         public static bool Finished(CVideoStream stream)
         {
+            if (stream == null)
+            {
+                throw new ArgumentException("stream is null");
+            }
+            if (_VideoDecoder == null)
+            {
+                throw new NotSupportedException("_VideoDecoder is null (already closed?)");
+            }
+
             return _VideoDecoder.Finished(stream);
         }
 
         public static void Update()
         {
+            if (_VideoDecoder == null)
+            {
+                throw new NotSupportedException("_VideoDecoder is null (already closed?)");
+            }
+
             _VideoDecoder.Update();
         }
         #endregion Interface

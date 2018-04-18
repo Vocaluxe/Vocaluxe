@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
 
@@ -104,8 +105,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             public int NumPlayerTeam2;
             public int NumFields;
             public int Team;
-            public List<int> ProfileIDsTeam1;
-            public List<int> ProfileIDsTeam2;
+            public List<Guid> ProfileIDsTeam1;
+            public List<Guid> ProfileIDsTeam2;
             public List<int> PlayerTeam1;
             public List<int> PlayerTeam2;
 
@@ -148,8 +149,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     NumPlayerTeam1 = 2,
                     NumPlayerTeam2 = 2,
                     NumFields = 9,
-                    ProfileIDsTeam1 = new List<int>(),
-                    ProfileIDsTeam2 = new List<int>(),
+                    ProfileIDsTeam1 = new List<Guid>(),
+                    ProfileIDsTeam2 = new List<Guid>(),
                     PlayerTeam1 = new List<int>(),
                     PlayerTeam2 = new List<int>(),
                     CurrentRoundNr = 0,
@@ -491,7 +492,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             for (int i = 0; i < 2; i++)
             {
                 //default values
-                players[i].ProfileID = -1;
+                players[i].ProfileID = Guid.Empty;
             }
 
             //try to fill with the right data
@@ -534,13 +535,33 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             if (!GameData.Rounds[GameData.FieldNr].Finished)
                 GameData.CurrentRoundNr++;
 
+            CPoints points = CBase.Game.GetPoints();
             SPlayer[] results = CBase.Game.GetPlayers();
-            if (results == null)
+
+            if (results == null || results.Length < 2)
                 return;
 
-            if (results.Length < 2)
-                return;
+            //Sum up all points
+            for (int r = 0; r < points.NumRounds; r++)
+            {
+                SPlayer[] player = points.GetPlayer(r, 2);
+                for (int i = 0; i < 2; i++)
+                {
+                    results[i].Points += player[i].Points;
+                    results[i].PointsGoldenNotes += player[i].PointsGoldenNotes;
+                    results[i].PointsLineBonus += player[i].PointsLineBonus;
+                }
+            }
 
+            //Calc average of points
+            for (int i = 0; i < 2; i++)
+            {
+                results[i].Points /= points.NumRounds;
+                results[i].PointsGoldenNotes /= points.NumRounds;
+                results[i].PointsLineBonus /= points.NumRounds;
+            }
+
+            //Decide who has won
             GameData.Rounds[GameData.FieldNr].PointsTeam1 = (int)Math.Round(results[0].Points);
             GameData.Rounds[GameData.FieldNr].PointsTeam2 = (int)Math.Round(results[1].Points);
             GameData.Rounds[GameData.FieldNr].Finished = true;

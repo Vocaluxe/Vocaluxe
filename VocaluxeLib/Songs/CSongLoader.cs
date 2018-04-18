@@ -19,6 +19,7 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Text;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib.Songs
 {
@@ -69,30 +70,7 @@ namespace VocaluxeLib.Songs
                 _Song.FileName = Path.GetFileName(filePath);
                 return true;
             }
-
-            /// <summary>
-            ///     Logs a given message with file name and line#
-            /// </summary>
-            /// <param name="msg">Message</param>
-            /// <param name="error">True prepends "Error: "; False prepends "Warning: "</param>
-            /// <param name="withLineNr">Adds line#</param>
-            private void _LogMsg(string msg, bool error, bool withLineNr)
-            {
-                msg = (error ? "Error: " : "Warning: ") + msg;
-                if (withLineNr)
-                    msg += " in line #" + _LineNr;
-                CBase.Log.LogSongInfo(msg + " (" + Path.Combine(_Song.Folder, _Song.FileName) + ")");
-            }
-
-            private void _LogError(string msg, bool withLineNr = true)
-            {
-                _LogMsg(msg, true, withLineNr);
-            }
-
-            private void _LogWarning(string msg, bool withLineNr = true)
-            {
-                _LogMsg(msg, false, withLineNr);
-            }
+            
 
             public bool ReadHeader(bool useSetEncoding = false)
             {
@@ -144,7 +122,7 @@ namespace VocaluxeLib.Songs
                         if (value == "")
                         {
                             _Song.UnknownTags.Add(line);
-                            _LogWarning("Empty value skipped");
+                            CLog.CSongLog.Warning("[{SongFileName}] Empty value skipped",  CLog.Params(_Song.FileName));
                             continue;
                         }
 
@@ -157,7 +135,7 @@ namespace VocaluxeLib.Songs
                                 {
                                     if (useSetEncoding)
                                     {
-                                        _LogWarning("Duplicate encoding ignored");
+                                        CLog.CSongLog.Warning("[{SongFileName}] Duplicate encoding ignored",  CLog.Params(_Song.FileName));
                                         continue;
                                     }
                                     sr.Dispose();
@@ -203,7 +181,7 @@ namespace VocaluxeLib.Songs
                                 }
                                 else
                                 {
-                                    _LogError("Can't find audio file: " + Path.Combine(_Song.Folder, value));
+                                    CLog.CSongLog.Error("[{SongFileName}] Can't find audio file: {AudioFile}", CLog.Params(_Song.FileName, Path.Combine(_Song.Folder, value)));
                                     return false;
                                 }
                                 break;
@@ -214,19 +192,19 @@ namespace VocaluxeLib.Songs
                                     headerFlags |= EHeaderFlags.BPM;
                                 }
                                 else
-                                    _LogWarning("Invalid BPM value");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid BPM value: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "EDITION":
                                 if (value.Length > 1)
                                     _Song.Editions.Add(value);
                                 else
-                                    _LogWarning("Invalid edition");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid edition: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "GENRE":
                                 if (value.Length > 1)
                                     _Song.Genres.Add(value);
                                 else
-                                    _LogWarning("Invalid genre");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid genre: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "ALBUM":
                                 _Song.Album = value;
@@ -236,13 +214,13 @@ namespace VocaluxeLib.Songs
                                 if (value.Length == 4 && int.TryParse(value, out num) && num > 0)
                                     _Song.Year = value;
                                 else
-                                    _LogWarning("Invalid year");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid year: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "LANGUAGE":
                                 if (value.Length > 1)
                                     _Song.Languages.Add(_UnifyLanguage(value));
                                 else
-                                    _LogWarning("Invalid language");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid language: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "COMMENT":
                                 if (!String.IsNullOrEmpty(_Song._Comment))
@@ -253,49 +231,49 @@ namespace VocaluxeLib.Songs
                                 if (CHelper.TryParse(value, out _Song.Gap))
                                     _Song.Gap /= 1000f;
                                 else
-                                    _LogWarning("Invalid gap");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid gap: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "COVER":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                     _Song.CoverFileName = value;
                                 else
-                                    _LogWarning("Can't find cover file: " + Path.Combine(_Song.Folder, value));
+                                    CLog.CSongLog.Warning("[{SongFileName}] Can't find cover file: {MissingFile}", CLog.Params(_Song.FileName, Path.Combine(_Song.Folder, value)));
                                 break;
                             case "BACKGROUND":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                     _Song.BackgroundFileNames.Add(value);
                                 else
-                                    _LogWarning("Can't find background file: " + Path.Combine(_Song.Folder, value));
+                                    CLog.CSongLog.Warning("[{SongFileName}] Can't find background file: {MissingFile}", CLog.Params(_Song.FileName, Path.Combine(_Song.Folder, value)));
                                 break;
                             case "VIDEO":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                     _Song.VideoFileName = value;
                                 else
-                                    _LogWarning("Can't find video file: " + Path.Combine(_Song.Folder, value));
+                                    CLog.CSongLog.Warning("[{SongFileName}] Can't find video file: {MissingFile}", CLog.Params(_Song.FileName, Path.Combine(_Song.Folder, value)));
                                 break;
                             case "VIDEOGAP":
                                 if (!CHelper.TryParse(value, out _Song.VideoGap))
-                                    _LogWarning("Invalid videogap");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid videogap: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "VIDEOASPECT":
                                 if (!CHelper.TryParse(value, out _Song.VideoAspect, true))
-                                    _LogWarning("Invalid videoaspect");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid videoaspect: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "START":
                                 if (!CHelper.TryParse(value, out _Song.Start))
-                                    _LogWarning("Invalid start");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid start: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "END":
                                 if (CHelper.TryParse(value, out _Song.Finish))
                                     _Song.Finish /= 1000f;
                                 else
-                                    _LogWarning("Invalid end");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid end: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "PREVIEWSTART":
                                 if (CHelper.TryParse(value, out _Song.Preview.StartTime) && _Song.Preview.StartTime >= 0f)
                                     _Song.Preview.Source = EDataSource.Tag;
                                 else
-                                    _LogWarning("Invalid previewstart");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid previewstart: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "PREVIEW":
                                 if (CHelper.TryParse(value, out _Song.Preview.StartTime) && _Song.Preview.StartTime >= 0f)
@@ -305,19 +283,19 @@ namespace VocaluxeLib.Songs
                                     _Song.Preview.Source = EDataSource.Tag;
                                 }
                                 else
-                                    _LogWarning("Invalid previewstart");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid previewstart: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "MEDLEYSTARTBEAT":
                                 if (int.TryParse(value, out _Song.Medley.StartBeat))
                                     headerFlags |= EHeaderFlags.MedleyStartBeat;
                                 else
-                                    _LogWarning("Invalid medleystartbeat");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid medleystartbeat: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "MEDLEYENDBEAT":
                                 if (int.TryParse(value, out _Song.Medley.EndBeat))
                                     headerFlags |= EHeaderFlags.MedleyEndBeat;
                                 else
-                                    _LogWarning("Invalid medleyendbeat");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid medleyendbeat: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "ENDSHORT":
                                 if ((headerFlags & EHeaderFlags.BPM) != 0)
@@ -329,7 +307,7 @@ namespace VocaluxeLib.Songs
                                         _Song.ShortEnd.Source = EDataSource.Tag;
                                     }
                                     else
-                                        _LogWarning("Invalid shortendbeat");
+                                        CLog.CSongLog.Warning("[{SongFileName}] Invalid shortendbeat: {Value}", CLog.Params(_Song.FileName, value));
                                 }
                                 break;
                             case "CALCMEDLEY":
@@ -364,7 +342,7 @@ namespace VocaluxeLib.Songs
                                 else
                                 {
                                     _Song.UnknownTags.Add(line);
-                                    _LogWarning("Unknown tag: #" + identifier);
+                                    CLog.CSongLog.Warning("[{SongFileName}] Unknown tag: #{Identifier}", CLog.Params(_Song.FileName, identifier));
                                 }
 
                                 break;
@@ -374,31 +352,32 @@ namespace VocaluxeLib.Songs
                     if (sr.EndOfStream)
                     {
                         //No other data then header
-                        _LogError("Lyrics/Notes missing", false);
+                        CLog.CSongLog.Error("[{SongFileName}] Lyrics/Notes missing",  CLog.Params(_Song.FileName));
+
                         return false;
                     }
 
                     if ((headerFlags & EHeaderFlags.Title) == 0)
                     {
-                        _LogError("Title tag missing", false);
+                        CLog.CSongLog.Error("[{SongFileName}] Title tag missing",  CLog.Params(_Song.FileName));
                         return false;
                     }
 
                     if ((headerFlags & EHeaderFlags.Artist) == 0)
                     {
-                        _LogError("Artist tag missing", false);
+                        CLog.CSongLog.Error("[{SongFileName}] Artist tag missing",  CLog.Params(_Song.FileName));
                         return false;
                     }
 
                     if ((headerFlags & EHeaderFlags.MP3) == 0)
                     {
-                        _LogError("MP3 tag missing", false);
+                        CLog.CSongLog.Error("[{SongFileName}] MP3 tag missing",  CLog.Params(_Song.FileName));
                         return false;
                     }
 
                     if ((headerFlags & EHeaderFlags.BPM) == 0)
                     {
-                        _LogError("BPM tag missing", false);
+                        CLog.CSongLog.Error("[{SongFileName}] BPM tag missing",  CLog.Params(_Song.FileName));
                         return false;
                     }
 
@@ -407,7 +386,7 @@ namespace VocaluxeLib.Songs
                     {
                         if (_Song.Medley.StartBeat > _Song.Medley.EndBeat)
                         {
-                            _LogError("MedleyStartBeat is bigger than MedleyEndBeat in file", false);
+                            CLog.CSongLog.Error("[{SongFileName}] MedleyStartBeat is bigger than MedleyEndBeat in file: {StartBeat} > {EndBeat}", CLog.Params(_Song.FileName, _Song.Medley.StartBeat > _Song.Medley.EndBeat));
                             headerFlags = headerFlags - EHeaderFlags.MedleyStartBeat - EHeaderFlags.MedleyEndBeat;
                         }
                     }
@@ -433,7 +412,7 @@ namespace VocaluxeLib.Songs
                 {
                     if (sr != null)
                         sr.Dispose();
-                    _LogError("Error reading txt header" + e.Message, false);
+                    CLog.CSongLog.Error(e, "[{SongFileName}] Error reading txt header with Message: {ExceptionMessage}", CLog.Params(e.Message, _Song.FileName));
                     return false;
                 }
                 _Song.Encoding = sr.CurrentEncoding;
@@ -530,7 +509,7 @@ namespace VocaluxeLib.Songs
 
                 if (!File.Exists(filePath))
                 {
-                    _LogError("The file does not exist", false);
+                    CLog.CSongLog.Error("[{SongFileName}] The file songfile does not exist",  CLog.Params(_Song.FileName));
                     return false;
                 }
 
@@ -579,7 +558,7 @@ namespace VocaluxeLib.Songs
 
                                 if (!int.TryParse(line, out player))
                                 {
-                                    _LogError("Wrong or missing number after \"P\"");
+                                    CLog.CSongLog.Error("[{SongFileName}] Wrong or missing number after \"P\" (in line {LineNr})", CLog.Params(_Song.FileName, _LineNr));
                                     return false;
                                 }
                                 currentBeat = 0;
@@ -593,25 +572,25 @@ namespace VocaluxeLib.Songs
                                 {
                                     if (noteData.Length == 3)
                                     {
-                                        _LogWarning("Ignored note without text");
+                                        CLog.CSongLog.Warning("[{SongFileName}] Ignored note without text (in line {LineNr})", CLog.Params(_Song.FileName, _LineNr));
                                         changesMade.NoTextNoteCt++;
                                         continue;
                                     }
-                                    _LogError("Invalid note found");
+                                    CLog.CSongLog.Error("[{SongFileName}] Invalid note found (in line {LineNr}): {noteData}", CLog.Params(_Song.FileName, _LineNr, noteData));
                                     sr.Dispose();
                                     return false;
                                 }
                                 int tone;
                                 if (!int.TryParse(noteData[0], out beat) || !int.TryParse(noteData[1], out length) || !int.TryParse(noteData[2], out tone))
                                 {
-                                    _LogError("Invalid note found (non-numeric values)");
+                                    CLog.CSongLog.Error("[{SongFileName}] Invalid note found (non-numeric values) (in line {LineNr}): {noteData}", CLog.Params(_Song.FileName, _LineNr, noteData));
                                     sr.Dispose();
                                     return false;
                                 }
                                 string text = noteData[3].TrimMultipleWs();
                                 if (text == "")
                                 {
-                                    _LogWarning("Ignored note without text");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Ignored note without text (in line {LineNr})", CLog.Params(_Song.FileName, _LineNr));
                                     changesMade.NoTextNoteCt++;
                                     continue;
                                 }
@@ -622,12 +601,12 @@ namespace VocaluxeLib.Songs
                                     changesMade.ZeroLengthNoteCt++;
                                     if (_CurrentReadMode == ENoteReadMode.Normal && changesMade.ZeroLengthNoteCt > _MaxZeroNoteCt && changesMade.OverlapNoteCt <= _MaxOverlapNoteCt)
                                     {
-                                        _LogWarning("Found more than " + _MaxZeroNoteCt + " note with length < 1. Trying alternative read mode.");
+                                        CLog.CSongLog.Warning("[{SongFileName}] Found more than {MaxZeroNoteCt} notes with length < 1. Trying alternative read mode.", CLog.Params(_Song.FileName, _MaxZeroNoteCt));
                                         _CurrentReadMode = ENoteReadMode.ZeroBased;
                                         sr.Dispose();
                                         return ReadNotes(true);
                                     }
-                                    _LogWarning("Ignored note with length < 1");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Ignored note with length < 1 (in line {LineNr})", CLog.Params(_Song.FileName, _LineNr));
                                 }
                                 else
                                 {
@@ -656,13 +635,13 @@ namespace VocaluxeLib.Songs
                                                 changesMade.OverlapNoteCt++;
                                                 if (changesMade.OverlapNoteCt > _MaxOverlapNoteCt && _CurrentReadMode == ENoteReadMode.ZeroBased)
                                                 {
-                                                    _LogWarning("Found more than " + _MaxOverlapNoteCt + " overlapping notes. Using standard mode.");
+                                                    CLog.CSongLog.Warning("[{SongFileName}] Found more than {MaxOverlapNoteCt} overlapping notes. Using standard mode.", CLog.Params(_Song.FileName, _MaxOverlapNoteCt));
                                                     _CurrentReadMode = ENoteReadMode.OneBased;
                                                     sr.Dispose();
                                                     return ReadNotes(true);
                                                 }
                                             }
-                                            _LogWarning("Ignored note for player " + (curPlayer + 1) + " because it overlaps with other note");
+                                            CLog.CSongLog.Warning("[{SongFileName}] Ignored note for player {CurrentPlayerNumber} because it overlaps with other note (in line {LineNr})", CLog.Params(_Song.FileName, (curPlayer + 1), _LineNr));
                                         }
                                     }
                                 }
@@ -671,13 +650,13 @@ namespace VocaluxeLib.Songs
                                 string[] lineBreakData = line.Split(splitChars);
                                 if (lineBreakData.Length < 1)
                                 {
-                                    _LogError("Invalid line break found (No beat)");
+                                    CLog.CSongLog.Error("[{SongFileName}] Invalid line break found (No beat) (in line {LineNr}): {LineBreakData}", CLog.Params(_Song.FileName, _LineNr, lineBreakData));
                                     sr.Dispose();
                                     return false;
                                 }
                                 if (!int.TryParse(lineBreakData[0], out beat))
                                 {
-                                    _LogError("Invalid line break found (Non-numeric value)");
+                                    CLog.CSongLog.Error("[{SongFileName}] Invalid line break found (Non-numeric value) (in line {LineNr}): {LineBreakData}", CLog.Params(_Song.FileName, _LineNr, lineBreakData));
                                     sr.Dispose();
                                     return false;
                                 }
@@ -687,7 +666,7 @@ namespace VocaluxeLib.Songs
                                     beat += currentBeat;
                                     if (lineBreakData.Length < 2 || !int.TryParse(lineBreakData[1], out length))
                                     {
-                                        _LogWarning("Missing line break length");
+                                        CLog.CSongLog.Warning("[{SongFileName}] Missing line break length (in line {LineNr}):{LineBreakData}", CLog.Params(_Song.FileName, _LineNr, lineBreakData));
                                         changesMade.NoLengthBreakCt++;
                                         currentBeat = beat;
                                     }
@@ -697,7 +676,8 @@ namespace VocaluxeLib.Songs
 
                                 if (lastNote != null && beat <= lastNote.EndBeat)
                                 {
-                                    _LogWarning("Line break is before previous note end. Adjusted.");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Line break is before previous note end. Adjusted. (in line {LineNr})", CLog.Params(_Song.FileName, _LineNr));
+                                    
                                     changesMade.AjustedBreakCt++;
                                     if (_Song.Relative)
                                         currentBeat += lastNote.EndBeat - beat + 1;
@@ -706,7 +686,7 @@ namespace VocaluxeLib.Songs
 
                                 if (beat < 1)
                                 {
-                                    _LogWarning("Ignored line break because position is < 1");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Ignored line break because position is < 1 (in line {LineNr})", CLog.Params(_Song.FileName, _LineNr));
                                     changesMade.InvalidPosBreakCt++;
                                 }
                                 else
@@ -714,12 +694,12 @@ namespace VocaluxeLib.Songs
                                     foreach (int curPlayer in player.GetSetBits())
                                     {
                                         if (!_NewSentence(curPlayer, beat))
-                                            _LogWarning("Ignored line break for player " + (curPlayer + 1) + " (Overlapping or duplicate)");
+                                            CLog.CSongLog.Warning("[{SongFileName}] Ignored line break for player {CurPlayerNr} (Overlapping or duplicate) (in line {LineNr})", CLog.Params(_Song.FileName, (curPlayer + 1) , _LineNr));
                                     }
                                 }
                                 break;
                             default:
-                                _LogError("Unexpected or missing character (" + tag + ")");
+                                CLog.CSongLog.Error("[{SongFileName}] Unexpected or missing character ({Tag})", CLog.Params(_Song.FileName, tag));
                                 return false;
                         }
                     }
@@ -729,13 +709,13 @@ namespace VocaluxeLib.Songs
                         CVoice voice = _Song.Notes.GetVoice(i);
                         int emptyLines = voice.RemoveEmptyLines();
                         if (emptyLines > 0)
-                            _LogWarning("Removed " + emptyLines + " empty lines from P" + ". This often indicates a problem with the line breaks in the file", false);
+                            CLog.CSongLog.Warning("[{SongFileName}] Removed {NumEmptyLines} empty lines from P .This often indicates a problem with the line breaks in the file", CLog.Params(_Song.FileName, emptyLines));
                         voice.UpdateTimings();
                     }
                 }
                 catch (Exception e)
                 {
-                    _LogError("An unhandled exception occured (" + e.Message + ")");
+                    CLog.CSongLog.Error(e, "[{SongFileName}] An unhandled exception occured: {ExceptionMessage}", CLog.Params(_Song.FileName, e.Message));
                     if (sr != null)
                         sr.Dispose();
                     return false;
@@ -752,14 +732,13 @@ namespace VocaluxeLib.Songs
                 }
                 catch (Exception e)
                 {
-                    _LogError("An unhandled exception occured (" + e.Message + ")", false);
+                    CLog.CSongLog.Error(e, "[{SongFileName}] An unhandled exception occured: {ExceptionMessage}", CLog.Params(_Song.FileName, e.Message));
                     return false;
                 }
 
                 if (changesMade.IsModified)
                 {
-                    string msg = "Automatic changes have been made to " + filePath + " Please check result!\r\n" + changesMade;
-                    CBase.Log.LogError("Warning: " + msg);
+                    CLog.Warning("Automatic changes have been made to {FilePath} Please check result!\r\n{ChangesMade}" , CLog.Params(filePath, changesMade));
                     if (CBase.Config.GetSaveModifiedSongs() == EOffOn.TR_CONFIG_ON)
                     {
                         string name = Path.GetFileNameWithoutExtension(_Song.FileName);

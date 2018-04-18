@@ -1,4 +1,4 @@
-﻿<?xml version='1.0' encoding='UTF-8'?>
+<?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Deutsch</string>
   <string name="TR_PARTYMODE_NAME">Challenge Modus</string>
@@ -11,6 +11,7 @@
   <string name="TR_BUTTON_YES">Ja</string>
   <string name="TR_BUTTON_NO">Nein</string>
   <string name="TR_BUTTON_NEXT_ROUND">Nächste Runde</string>
+  <string name="TR_SONGS">Lieder</string>
   <string name="TR_SCREENCONFIG_TITLE">Challenge Modus: Einstellungen</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Anzahl der Spieler</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Anzahl der Mikrofone</string>

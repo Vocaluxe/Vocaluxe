@@ -22,6 +22,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.Xml;
@@ -224,22 +225,14 @@ namespace VocaluxeLib.Menu
                         msg += "the file is for newer program versions! ";
 
                     msg += "Current screen version is " + _ScreenVersion;
-                    CBase.Log.LogError(msg);
+                    CLog.Error(msg);
                 }
                 foreach (IThemeable el in _Elements.Select(_GetElement).OfType<IThemeable>())
                     el.LoadSkin();
             }
-            catch (InvalidOperationException)
-            {
-                CBase.Log.LogError("Error while reading " + ThemeName + ".xml", true, true);
-            }
-            catch (CXmlException e)
-            {
-                CBase.Log.LogError("Error while reading " + ThemeName + ".xml: " + e, true, true);
-            }
             catch (Exception e)
             {
-                CBase.Log.LogError(e.Message + e.StackTrace, true, true);
+                CLog.Fatal(e, "Error while reading {ThemeName}.xml", CLog.Params(ThemeName), true);
             }
         }
 
@@ -268,7 +261,7 @@ namespace VocaluxeLib.Menu
             }
             catch (Exception e)
             {
-                CBase.Log.LogError("Error while saving theme-file: " + ThemeName + " " + e.Message, true);
+                CLog.Error("Error while saving theme-file: " + ThemeName + " " + e.Message, true);
             }
         }
 

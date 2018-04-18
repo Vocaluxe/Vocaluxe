@@ -17,6 +17,7 @@
 
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
@@ -35,7 +36,7 @@ namespace Vocaluxe.Base.ThemeSystem
             {
                 if (!_Data.Colors.ContainsKey("Player" + i))
                     continue;
-                CLog.LogDebug("Party themes cannot contain player colors. They will be ignored!");
+                CLog.Debug("Party themes cannot contain player colors. They will be ignored!");
                 break;
             }
             return true;
@@ -44,21 +45,21 @@ namespace Vocaluxe.Base.ThemeSystem
         public override bool GetColor(string name, out SColorF color)
         {
             if (_Parent.Name == "Default" && !_Required.Colors.Contains(name))
-                CLog.LogDebug("Non-Default color: " + name);
+                CLog.Debug("Non-Default color: " + name);
             return base.GetColor(name, out color) || _BaseSkin.GetColor(name, out color);
         }
 
         public override CVideoStream GetVideo(string name, bool loop)
         {
             if (_Parent.Name == "Default" && !_Required.Videos.Contains(name))
-                CLog.LogDebug("Non-Default color: " + name);
+                CLog.Debug("Non-Default color: " + name);
             return base.GetVideo(name, loop) ?? _BaseSkin.GetVideo(name, loop);
         }
 
         public override CTextureRef GetTexture(string name)
         {
             if (_Parent.Name == "Default" && !_Required.Textures.Contains(name))
-                CLog.LogDebug("Non-Default color: " + name);
+                CLog.Debug("Non-Default color: " + name);
             return base.GetTexture(name) ?? _BaseSkin.GetTexture(name);
         }
     }

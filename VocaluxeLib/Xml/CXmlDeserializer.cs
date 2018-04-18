@@ -24,6 +24,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib.Xml
 {
@@ -173,7 +174,7 @@ namespace VocaluxeLib.Xml
             {
                 if (e.IsError)
                     throw e;
-                CBase.Log.LogError(e.ToString());
+                CLog.Error(e.ToString());
             }
         }
 
@@ -213,6 +214,8 @@ namespace VocaluxeLib.Xml
                     return value;
                 }
             }
+            if (type == typeof(Guid))
+                return Guid.Parse(node.InnerText);
             if (type == typeof(string))
                 return node == null ? null : node.InnerText;
             if (type.IsPrimitive)

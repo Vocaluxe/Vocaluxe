@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <Info>
+    <Version>Vocaluxe 'Blue Sunrise' 0.4.0 (x64) (0.4.0-261-gd0c81b4d9)</Version>
+    <Time>23.03.2018 14:17:29</Time>
+    <Platform>Win32NT</Platform>
+    <OSVersion>Microsoft Windows NT 6.2.9200.0</OSVersion>
+    <ProcessorCount>4</ProcessorCount>
+    <Screens>2</Screens>
+    <PrimaryScreenResolution>{Width=1920, Height=1080}</PrimaryScreenResolution>
+    <Directory>D:\Vocaluxe\</Directory>
+  </Info>
+  <Debug>
+    <DebugLevel>TR_CONFIG_OFF</DebugLevel>
+    <SaveModifiedSongs>TR_CONFIG_OFF</SaveModifiedSongs>
+  </Debug>
+  <Graphics>
+    <Renderer>TR_CONFIG_DIRECT3D</Renderer>
+    <TextureQuality>TR_CONFIG_TEXTURE_MEDIUM</TextureQuality>
+    <CoverSize>256</CoverSize>
+    <NumScreens>1</NumScreens>
+    <ScreenW>1024</ScreenW>
+    <ScreenH>576</ScreenH>
+    <ScreenAlignment>Middle</ScreenAlignment>
+    <BorderLeft>0</BorderLeft>
+    <BorderRight>0</BorderRight>
+    <BorderTop>0</BorderTop>
+    <BorderBottom>0</BorderBottom>
+    <AAMode>X0</AAMode>
+    <MaxFPS>60</MaxFPS>
+    <VSync>TR_CONFIG_ON</VSync>
+    <FullScreen>TR_CONFIG_ON</FullScreen>
+    <Stretch>TR_CONFIG_OFF</Stretch>
+    <FadeTime>0.4</FadeTime>
+  </Graphics>
+  <Theme>
+    <Name>Genius</Name>
+    <Skin>Standard</Skin>
+    <Cover>Genius Standard</Cover>
+    <DrawNoteLines>TR_CONFIG_ON</DrawNoteLines>
+    <DrawToneHelper>TR_CONFIG_ON</DrawToneHelper>
+    <TimerLook>TR_CONFIG_TIMERLOOK_EXPANDED</TimerLook>
+    <PlayerInfo>TR_CONFIG_PLAYERINFO_BOTH</PlayerInfo>
+    <FadePlayerInfo>TR_CONFIG_FADEPLAYERINFO_OFF</FadePlayerInfo>
+    <CoverLoading>TR_CONFIG_COVERLOADING_DYNAMIC</CoverLoading>
+    <LyricStyle>TR_CONFIG_LYRICSTYLE_SLIDE</LyricStyle>
+  </Theme>
+  <Sound>
+    <PlayBackLib>GstreamerSharp</PlayBackLib>
+    <RecordLib>PortAudio</RecordLib>
+    <AudioBufferSize>B2048</AudioBufferSize>
+    <AudioLatency>0</AudioLatency>
+    <BackgroundMusic>TR_CONFIG_ON</BackgroundMusic>
+    <BackgroundMusicVolume>30</BackgroundMusicVolume>
+    <BackgroundMusicSource>TR_CONFIG_NO_OWN_MUSIC</BackgroundMusicSource>
+    <BackgroundMusicUseStart>TR_CONFIG_ON</BackgroundMusicUseStart>
+    <PreviewMusicVolume>50</PreviewMusicVolume>
+    <GameMusicVolume>80</GameMusicVolume>
+    <KaraokeEffect>TR_CONFIG_OFF</KaraokeEffect>
+    <KaraokeEffectLevel>1</KaraokeEffectLevel>
+  </Sound>
+  <Game>
+    <Language>English</Language>
+    <SongFolder>D:\Vocaluxe\Songs</SongFolder>
+    <SongMenu>TR_CONFIG_TILE_BOARD</SongMenu>
+    <SongSorting>TR_CONFIG_ARTIST</SongSorting>
+    <IgnoreArticles>TR_CONFIG_ON</IgnoreArticles>
+    <TimerMode>TR_CONFIG_TIMERMODE_REMAINING</TimerMode>
+    <NumPlayers>2</NumPlayers>
+    <Tabs>TR_CONFIG_OFF</Tabs>
+    <AutoplayPreviews>TR_CONFIG_OFF</AutoplayPreviews>
+    <AutoplayPreviewDelay>500</AutoplayPreviewDelay>
+    <LyricsPosition>TR_CONFIG_LYRICSPOSITION_BOTTOM</LyricsPosition>
+    <MinLineBreakTime>0.1</MinLineBreakTime>
+    <Players>
+      <Player />
+      <Player />
+      <Player />
+      <Player />
+      <Player />
+      <Player />
+    </Players>
+    <HighscoreStyle>TR_CONFIG_HIGHSCORE_LIST_BEST</HighscoreStyle>
+  </Game>
+  <Video>
+    <VideoDecoder>FFmpeg</VideoDecoder>
+    <VideoBackgrounds>TR_CONFIG_ON</VideoBackgrounds>
+    <VideoPreview>TR_CONFIG_ON</VideoPreview>
+    <VideosInSongs>TR_CONFIG_ON</VideosInSongs>
+    <VideosToBackground>TR_CONFIG_OFF</VideosToBackground>
+    <WebcamLib>AForgeNet</WebcamLib>
+    <WebcamConfig />
+  </Video>
+  <Record>
+    <MicConfig>
+      <DeviceName />
+      <DeviceDriver />
+      <Channel>0</Channel>
+    </MicConfig>
+    <MicConfig>
+      <DeviceName />
+      <DeviceDriver />
+      <Channel>0</Channel>
+    </MicConfig>
+    <MicConfig>
+      <DeviceName />
+      <DeviceDriver />
+      <Channel>0</Channel>
+    </MicConfig>
+    <MicConfig>
+      <DeviceName />
+      <DeviceDriver />
+      <Channel>0</Channel>
+    </MicConfig>
+    <MicConfig>
+      <DeviceName />
+      <DeviceDriver />
+      <Channel>0</Channel>
+    </MicConfig>
+    <MicConfig>
+      <DeviceName />
+      <DeviceDriver />
+      <Channel>0</Channel>
+    </MicConfig>
+    <MicDelay>200</MicDelay>
+  </Record>
+  <Server>
+    <ServerActive>TR_CONFIG_OFF</ServerActive>
+    <ServerEncryption>TR_CONFIG_OFF</ServerEncryption>
+    <ServerPort>3000</ServerPort>
+    <SongCountCoverThreshold>70</SongCountCoverThreshold>
+  </Server>
+</root>

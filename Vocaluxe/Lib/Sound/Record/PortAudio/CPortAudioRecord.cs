@@ -16,9 +16,12 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
 {
@@ -62,7 +65,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             catch (Exception e)
             {
                 _Initialized = false;
-                CLog.LogError("Error initializing PortAudio: " + e.Message);
+                CLog.Error("Error initializing PortAudio: " + e.Message);
                 Close();
                 return false;
             }
@@ -142,9 +145,13 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
             foreach (IntPtr handle in _RecHandle)
             {
-                PortAudioSharp.PortAudio.Pa_StopStream(handle);
-                PortAudioSharp.PortAudio.Pa_CloseStream(handle);
+                if (handle != IntPtr.Zero)
+                {
+                    PortAudioSharp.PortAudio.Pa_StopStream(handle);
+                    PortAudioSharp.PortAudio.Pa_CloseStream(handle);
+                }
             }
+            _RecHandle = new IntPtr[_Devices.Count];
             return true;
         }
 
@@ -153,13 +160,17 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         /// </summary>
         public override void Close()
         {
-            if (_RecHandle != null)
+            if (_RecHandle != null && _RecHandle.Length > 0)
             {
                 foreach (IntPtr handle in _RecHandle)
                 {
                     if (handle != IntPtr.Zero)
+                    {
                         _PaHandle.CloseStream(handle);
+                    }
                 }
+
+                _RecHandle = new IntPtr[_Devices.Count];
             }
             if (_PaHandle != null)
             {
@@ -197,7 +208,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             }
             catch (Exception e)
             {
-                CLog.LogError("Error on Stream Callback (rec): " + e);
+                CLog.Error("Error on Stream Callback (rec): " + e);
             }
 
             return PortAudioSharp.PortAudio.PaStreamCallbackResult.paContinue;

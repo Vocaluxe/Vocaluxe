@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Vocaluxe</RootNamespace>
     <AssemblyName>Vocaluxe</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>Vocaluxe.CMainProgram</StartupObject>
@@ -31,7 +31,8 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>3d91144f</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -43,6 +44,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseWin|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -54,6 +56,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>WIN;ARCH_X86</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWin|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -66,10 +69,11 @@
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <CodeAnalysisRuleSet>..\CheckingRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -77,6 +81,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>WIN;ARCH_X64</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugLinux|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -88,6 +94,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseLinux|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -99,6 +106,7 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>LINUX;ARCH_X86</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugLinux|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -110,10 +118,11 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseLinux|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -121,6 +130,8 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>LINUX;ARCH_X64</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -132,10 +143,11 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>WIN;ARCH_X86;INSTALLER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x64'">
     <PlatformTarget>x64</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -143,11 +155,19 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <DefineConstants>WIN;ARCH_X64;INSTALLER</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.ServiceModel.Web" />
@@ -207,7 +227,6 @@
     <Compile Include="Base\CGame.cs" />
     <Compile Include="Base\CController.cs" />
     <Compile Include="Base\CLanguage.cs" />
-    <Compile Include="Base\CLog.cs" />
     <Compile Include="Base\CMain.cs" />
     <Compile Include="Base\CObservable.cs" />
     <Compile Include="Base\CParty.cs" />
@@ -245,6 +264,12 @@
     <Compile Include="Lib\Video\Acinerella\CDecoderThread.cs" />
     <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
     <Compile Include="Lib\Sound\Record\CDelayTest.cs" />
+    <Compile Include="Reporting\Reporter.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Reporting\Reporter.Designer.cs">
+      <DependentUpon>Reporter.cs</DependentUpon>
+    </Compile>
     <Compile Include="Screens\CPopupScreenServerQR.cs" />
     <Compile Include="Screens\CScreenOptionsVideoAdjustments.cs" />
     <Compile Include="SongQueue\CSongQueue.cs" />
@@ -475,6 +500,11 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Reporting\Reporter.resx">
+      <DependentUpon>Reporter.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"</PostBuildEvent>
@@ -542,12 +572,11 @@
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets'))" />
     <Error Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND !Exists('..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.2\build\vocaluxe.dependencies.portaudiosharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.portaudiosharp.1.0.2\build\vocaluxe.dependencies.portaudiosharp.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets'))" />
     <Error Condition="!Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets'))" />
-    <Error Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND !Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.2\build\vocaluxe.dependencies.gstreamer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamer.1.0.2\build\vocaluxe.dependencies.gstreamer.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.1.0.11\build\vocaluxe.dependencies.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.1.0.11\build\vocaluxe.dependencies.targets'))" />
+    <Error Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND !Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.3\build\vocaluxe.dependencies.gstreamer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamer.1.0.3\build\vocaluxe.dependencies.gstreamer.targets'))" />
+    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets'))" />
   </Target>
   <Import Project="..\packages\vocaluxe.dependencies.acinerella.1.0.5\build\vocaluxe.dependencies.acinerella.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.acinerella.1.0.5\build\vocaluxe.dependencies.acinerella.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets" Condition="Exists('..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets')" />
@@ -556,10 +585,9 @@
   <Import Project="..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets" Condition="Exists('..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.portaudiosharp.1.0.2\build\vocaluxe.dependencies.portaudiosharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.2\build\vocaluxe.dependencies.portaudiosharp.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets" Condition="Exists('..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets" Condition="Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" />
   <Import Project="..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets" Condition="Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.gstreamer.1.0.2\build\vocaluxe.dependencies.gstreamer.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.2\build\vocaluxe.dependencies.gstreamer.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.1.0.11\build\vocaluxe.dependencies.targets" Condition="Exists('..\packages\vocaluxe.dependencies.1.0.11\build\vocaluxe.dependencies.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.gstreamer.1.0.3\build\vocaluxe.dependencies.gstreamer.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.3\build\vocaluxe.dependencies.gstreamer.targets')" />
+  <Import Project="..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets')" />
 </Project>

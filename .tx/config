@@ -9,13 +9,6 @@ source_lang = English
 lang_map = en:English, cs:Czech, de:German, es:Spanish, fr:French, sv:Swedish, nl:Dutch, ast:Asturian, tr:Turkish, hu:Hungarian, it:Italian, ca:Catalan, pt:Portuguese, pl_PL:Polish, da_DK:Danish
 type = ANDROID
 
-[vocaluxe.challenge-medley]
-file_filter = Output/PartyModes/ChallengeMedley/Languages/<lang>.xml
-source_file = Output/PartyModes/ChallengeMedley/Languages/English.xml
-source_lang = English
-lang_map = en:English, cs:Czech, de:German, es:Spanish, fr:French, sv:Swedish, nl:Dutch, ast:Asturian, tr:Turkish, hu:Hungarian, it:Italian, ca:Catalan, pt:Portuguese, pl_PL:Polish, da_DK:Danish
-type = ANDROID
-
 [vocaluxe.game]
 file_filter = Output/Languages/<lang>.xml
 source_file = Output/Languages/English.xml

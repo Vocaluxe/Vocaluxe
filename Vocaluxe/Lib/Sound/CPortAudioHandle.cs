@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using PortAudioSharp;
 using Vocaluxe.Base;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound
 {
@@ -64,22 +65,33 @@ namespace Vocaluxe.Lib.Sound
             if (_Disposed)
                 return;
             if (!disposing)
-                CLog.LogDebug("Did not close CPortAudioHandle");
+                CLog.Debug("Did not close CPortAudioHandle");
             //Make sure we do not leek any streams as we may keep PA open
             if (_Streams.Count > 0)
             {
-                CLog.LogDebug("Did not close " + _Streams.Count + "PortAudio-Stream(s)");
+                CLog.Debug("Did not close " + _Streams.Count + "PortAudio-Stream(s)");
                 while (_Streams.Count > 0)
                     CloseStream(_Streams[0]);
             }
             lock (_Mutex)
             {
+                if (_Disposed)
+                    return;
                 Debug.Assert(_RefCount > 0);
                 _RefCount--;
                 if (_RefCount == 0)
-                    PortAudio.Pa_Terminate();
+                {
+                    try
+                    {
+                        PortAudio.Pa_Terminate();
+                    }
+                    catch (Exception ex)
+                    {
+                        CLog.Error(ex, "Error disposing PortAudio");
+                    }
+                }
+                _Disposed = true;
             }
-            _Disposed = true;
         }
 
         public void Dispose()
@@ -100,11 +112,11 @@ namespace Vocaluxe.Lib.Sound
                                             double sampleRate, uint framesPerBuffer, PortAudio.PaStreamFlags streamFlags,
                                             PortAudio.PaStreamCallbackDelegate streamCallback, IntPtr userData)
         {
-            if (_Disposed)
-                throw new ObjectDisposedException("PortAudioHandle already disposed");
-
             lock (_Mutex)
             {
+                if (_Disposed)
+                    throw new ObjectDisposedException("PortAudioHandle already disposed");
+
                 PortAudio.PaError res = PortAudio.Pa_OpenStream(out stream, ref inputParameters, ref outputParameters, sampleRate, framesPerBuffer, streamFlags, streamCallback,
                                                                 userData);
                 if (res == PortAudio.PaError.paNoError)
@@ -157,12 +169,19 @@ namespace Vocaluxe.Lib.Sound
 
         public void CloseStream(IntPtr stream)
         {
-            if (_Disposed)
-                throw new ObjectDisposedException("PortAudioHandle already disposed");
-
             lock (_Mutex)
             {
-                PortAudio.Pa_CloseStream(stream);
+                if (_Disposed)
+                    throw new ObjectDisposedException("PortAudioHandle already disposed");
+
+                try
+                {
+                    PortAudio.Pa_CloseStream(stream);
+                }
+                catch (Exception ex)
+                {
+                    CLog.Error(ex, "Error closing stream:");
+                }
                 _Streams.Remove(stream);
             }
         }
@@ -181,13 +200,13 @@ namespace Vocaluxe.Lib.Sound
 
             if (errorCode != PortAudio.PaError.paNoError)
             {
-                CLog.LogError(action + " error: " + PortAudio.Pa_GetErrorText(errorCode));
+                CLog.Error(action + " error: " + PortAudio.Pa_GetErrorText(errorCode));
                 if (errorCode == PortAudio.PaError.paUnanticipatedHostError)
                 {
                     PortAudio.PaHostErrorInfo errorInfo = PortAudio.Pa_GetLastHostErrorInfo();
-                    CLog.LogError("- Host error API type: " + errorInfo.hostApiType);
-                    CLog.LogError("- Host error code: " + errorInfo.errorCode);
-                    CLog.LogError("- Host error text: " + errorInfo.errorText);
+                    CLog.Error("- Host error API type: " + errorInfo.hostApiType);
+                    CLog.Error("- Host error code: " + errorInfo.errorCode);
+                    CLog.Error("- Host error text: " + errorInfo.errorText);
                 }
                 return true;
             }

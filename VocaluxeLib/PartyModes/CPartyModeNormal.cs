@@ -63,6 +63,7 @@ namespace VocaluxeLib.PartyModes
             _ScreenSongOptions.Selection.NumJokers = null;
             _ScreenSongOptions.Selection.TeamNames = null;
             _ScreenSongOptions.Selection.SongIndex = -1;
+            _ScreenSongOptions.Selection.CategoryIndex = -1;
 
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;

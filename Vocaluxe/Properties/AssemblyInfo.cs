@@ -16,6 +16,7 @@
 #endregion
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
@@ -27,7 +28,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Vocaluxe")]
-[assembly: AssemblyCopyright("Copyright © 2017")]
+[assembly: AssemblyCopyright("Copyright © 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -52,3 +53,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyVersion("SHORTVERSION")]
 [assembly: AssemblyFileVersion("SHORTVERSION")]
 [assembly: AssemblyInformationalVersion("GITVERSION")]
+
+
+// Allow internal access from the Tests project
+[assembly:InternalsVisibleTo("Tests")]

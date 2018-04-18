@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.Runtime.CompilerServices;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -165,13 +166,6 @@ namespace VocaluxeLib
         IMenu GetScreen(EScreen screen);
     }
 
-    public interface ILog
-    {
-        void LogError(string errorText, bool showMsg = false, bool exit = false);
-        void LogDebug(string text);
-        void LogSongInfo(string text);
-    }
-
     public interface IFonts
     {
         RectangleF GetTextBounds(CText text);
@@ -219,12 +213,13 @@ namespace VocaluxeLib
     public interface IProfiles
     {
         CProfile[] GetProfiles();
-        EGameDifficulty GetDifficulty(int profileID);
-        string GetPlayerName(int profileID, int playerNum = 0);
-        CTextureRef GetAvatar(int profileID);
+        int GetNum();
+        EGameDifficulty GetDifficulty(Guid profileID);
+        string GetPlayerName(Guid profileID, int playerNum = 0);
+        CTextureRef GetAvatar(Guid profileID);
         CAvatar GetAvatarByFilename(string fileName);
-        bool IsProfileIDValid(int profileID);
-        bool IsGuest(int profileID);
+        bool IsProfileIDValid(Guid profileID);
+        bool IsGuest(Guid profileID);
         void AddProfileChangedCallback(ProfileChangedCallback notification);
     }
 

@@ -22,6 +22,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
 using Vocaluxe.Lib.Sound.Playback.Decoder;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 {
@@ -160,7 +161,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             catch (Exception)
             {
                 Dispose();
-                CLog.LogError("Error Init PortAudio Playback");
+                CLog.Error("Error Init PortAudio Playback");
                 return false;
             }
 
@@ -168,7 +169,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             if (!_Decoder.Open(_Medium))
             {
                 Dispose();
-                CLog.LogError("Error opening audio file: " + _Medium);
+                CLog.Error("Error opening audio file: " + _Medium);
                 return false;
             }
 
@@ -176,7 +177,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             if (format.SamplesPerSecond == 0)
             {
                 Dispose();
-                CLog.LogError("Error Init PortAudio Playback (samples=0)");
+                CLog.Error("Error Init PortAudio Playback (samples=0)");
                 return false;
             }
 
@@ -413,7 +414,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             }
             catch (Exception e)
             {
-                CLog.LogError("Error PortAudio.StreamCallback: " + e.Message);
+                CLog.Error("Error PortAudio.StreamCallback: " + e.Message);
             }
 
             return PortAudioSharp.PortAudio.PaStreamCallbackResult.paContinue;

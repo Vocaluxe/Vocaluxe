@@ -19,6 +19,7 @@ using System;
 using System.IO;
 using System.Linq;
 using Vocaluxe.Base.Fonts;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
@@ -73,7 +74,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 if (skin.Load())
                     break;
                 skin.Unload();
-                CLog.LogError("Failed to load skin " + skin + "! Removing...", true);
+                CLog.Error("Failed to load skin " + skin + "! Removing...", true);
                 _Skins.Remove(skin.Name);
             }
             if (skin == null)

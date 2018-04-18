@@ -341,7 +341,7 @@ namespace VocaluxeLib
     #region Game
     public struct SPlayer
     {
-        public int ProfileID;
+        public Guid ProfileID;
         public double Points;
         public double PointsLineBonus;
         public double PointsGoldenNotes;

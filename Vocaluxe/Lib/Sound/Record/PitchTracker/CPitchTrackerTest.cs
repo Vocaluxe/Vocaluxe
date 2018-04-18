@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Utils;
 
 namespace Vocaluxe.Lib.Sound.Record.PitchTracker
@@ -71,7 +72,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
                 _CurPassedCount[i] = 0;
             }
             msg += "of " + _CurTestCount;
-            CBase.Log.LogDebug(msg);
+            CLog.Debug(msg);
             _TestCount += _CurTestCount;
             _CurTestCount = 0;
             //Do a reset first as we actually have an impossible situation (drop by multiple octaves)
@@ -107,7 +108,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
             _InitNext("Real song");
 
             _TestSpeed();
-            CBase.Log.LogDebug("Finished: ");
+            CLog.Debug("Finished: ");
             for (int i = 0; i < _Analyzers.Count; i++)
             {
                 string msg = _Analyzers[i].GetType().Name + ":";
@@ -115,7 +116,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
                 msg += " Passed=" + _PassedCount[i];
                 msg += " Total=" + _TestCount;
                 msg += " Speed=" + _SamplesPerSec[i] / 1000 + "kSamples/s (=" + (_SamplesPerSec[i] / 44100) + "rec.s/s)";
-                CBase.Log.LogDebug(msg);
+                CLog.Debug(msg);
             }
         }
 
@@ -208,7 +209,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
                         string msg = "Note " + _ToneToNote(tone) + "(" + distort + ") at buffer " + (i + 1) + "/" + (sampleCt / batchCt) + " detected as ";
                         for (int j = 0; j < valids.Length; j++)
                             msg += _ToneToNote(_Tones[j]) + (valids[j] ? "" : "(!)") + "; ";
-                        CBase.Log.LogDebug(msg);
+                        CLog.Debug(msg);
                         /*CWavFile w = new CWavFile();
                         w.Create(tone + "-" + distort + ".wav", 1, 44100, 16);
                         w.Write16BitSamples(data);
@@ -401,7 +402,7 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
                         string msg = "Note " + _ToneToNote(curNote) + " at " + time + "ms detected as ";
                         for (int i = 0; i < _Tones.Length; i++)
                             msg += _ToneToNote(_Tones[i]) + (valids[i] ? "" : "(!)") + "; ";
-                        CBase.Log.LogDebug(msg);
+                        CLog.Debug(msg);
                     }
                 }
             }

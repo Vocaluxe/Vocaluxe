@@ -223,7 +223,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcam</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Risoluzione-Webcam</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Sistemazione schermo</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Premi CTR + ALT (+ SHIFT) + Freccia|"+ per sistemare lo schermo</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Premi CTR + ALT (+ SHIFT) + Freccia|"+\ per sistemare lo schermo</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + 0 per ripristinare</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Sopra a sinistra</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Sopra a destra</string>

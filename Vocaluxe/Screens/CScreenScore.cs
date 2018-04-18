@@ -138,6 +138,9 @@ namespace Vocaluxe.Screens
             _SetVisibility();
             _UpdateRatings();
             _SlideShowBG.Visible = _UpdateBackground();
+
+            for (int p = 0; p < CGame.NumPlayers; p++)
+                _Statics[_StaticAvatar[p, CGame.NumPlayers - 1]].Aspect = EAspect.Crop;
         }
 
         public override bool UpdateGame()
