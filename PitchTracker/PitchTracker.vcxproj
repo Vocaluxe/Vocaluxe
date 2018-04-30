@@ -225,4 +225,8 @@ xcopy "$(OutDir)*.pdb" "$(SolutionDir)Output\libs\unmanaged\x86\" /I /Y</Command
   <Target Name="AfterBuild">
     <Message Text="VisualStudioVersion value is '$(VisualStudioVersion)'" Importance="normal" />
   </Target>
+  <PropertyGroup>
+    <!-- Exclude the project from SonarQube analysis -->
+    <SonarQubeExclude>true</SonarQubeExclude>
+  </PropertyGroup>
 </Project>
