@@ -53,11 +53,11 @@ before_build:
     {        
         if ($Env:APPVEYOR_PULL_REQUEST_NUMBER){
             choco install "msbuild-sonarqube-runner" -y
-            SonarQube.Scanner.MSBuild.exe begin /k:"lukeIam_Vocaluxe" /d:sonar.organization="lukeiam-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$Env:SonarQubeToken" /d:"sonar.analysis.mode=preview" /d:"sonar.pullrequest.provider=GitHub" /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.pullrequest.github.repository=lukeIam/Vocaluxe" /d:"sonar.pullrequest.base=$env:APPVEYOR_REPO_BRANCH" /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME/$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" 
+            SonarScanner.MSBuild.exe begin /k:"lukeIam_Vocaluxe" /d:sonar.organization="lukeiam-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$Env:SonarQubeToken" /d:"sonar.analysis.mode=preview" /d:"sonar.pullrequest.provider=GitHub" /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.pullrequest.github.repository=lukeIam/Vocaluxe" /d:"sonar.pullrequest.base=$env:APPVEYOR_REPO_BRANCH" /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME/$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" 
         }
         elseif($Env:APPVEYOR_REPO_BRANCH -eq 'develop'){
             choco install "msbuild-sonarqube-runner" -y
-            SonarQube.Scanner.MSBuild.exe begin /k:"lukeIam_Vocaluxe" /d:sonar.organization="lukeiam-github" /d:sonar.host.url="https://sonarcloud.io" /v:"$Env:GIT_VERSION_TAG" /d:sonar.login="$Env:SonarQubeToken" 
+            SonarScanner.MSBuild.exe begin /k:"lukeIam_Vocaluxe" /d:sonar.organization="lukeiam-github" /d:sonar.host.url="https://sonarcloud.io" /v:"$Env:GIT_VERSION_TAG" /d:sonar.login="$Env:SonarQubeToken" 
         }
     }    
 build:
@@ -66,7 +66,7 @@ build:
 after_build:
 - ps: |
     if ($Env:PLATFORM -eq 'x64' -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
-        SonarQube.Scanner.MSBuild.exe end /d:sonar.login="$Env:SonarQubeToken"
+        SonarScanner.MSBuild.exe end /d:sonar.login="$Env:SonarQubeToken"
     }
     
     ./.appveyor/runGitLink.ps1
