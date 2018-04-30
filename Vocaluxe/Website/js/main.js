@@ -192,8 +192,8 @@
         var t = this;
 
         this.customSelectPlaylistSongCallback = null;
-        this.profileIdRequest = -1;
-        this.songIdRequest = -1;
+        this.profileIdRequest = '00000000-0000-0000-0000-000000000000';
+        this.songIdRequest = '00000000-0000-0000-0000-000000000000';
 
         this.init = function () {
             replaceTransitionHandler();
@@ -207,8 +207,8 @@
 
         this.reset = function () {
             t.customSelectPlaylistSongCallback = null;
-            t.profileIdRequest = -1;
-            t.songIdRequest = -1;
+            t.profileIdRequest = '00000000-0000-0000-0000-000000000000';
+            t.songIdRequest = '00000000-0000-0000-0000-000000000000';
         };
 
         var replaceTransitionHandler = function () {
@@ -251,7 +251,7 @@
                 }
 
                 if (sessionHandler.sessionId != "") {
-                    if (sessionHandler.ownProfileId != -1) {
+                    if (sessionHandler.ownProfileId != '00000000-0000-0000-0000-000000000000') {
                         $.mobile.changePage("#main", { transition: "slidefade" });
                     } else {
                         request({
@@ -297,8 +297,8 @@
                 });
 
                 $('#registerButton').click(function () {
-                    sessionHandler.ownProfileId = -1;
-                    pageHandler.profileIdRequest = -1;
+                    sessionHandler.ownProfileId = '00000000-0000-0000-0000-000000000000';
+                    pageHandler.profileIdRequest = '00000000-0000-0000-0000-000000000000';
                     $.mobile.changePage("#displayProfile", { transition: "slidefade" });
                 });
             };
@@ -549,7 +549,7 @@
             };
 
             var pagebeforeshowDisplayProfile = function () {
-                if (pageHandler.profileIdRequest >= 0) {
+                if (pageHandler.profileIdRequest != '00000000-0000-0000-0000-000000000000') {
                     var promise = request({
                         url: "getProfile?profileId=" + pageHandler.profileIdRequest
                     }).done(function (result) {
@@ -596,7 +596,7 @@
                         "Difficulty": 0,
                         "IsEditable": true,
                         "PlayerName": i18n.t("YourName") || "YourName",
-                        "ProfileId": -1,
+                        "ProfileId": '00000000-0000-0000-0000-000000000000',
                         "Type": 1
                     });
                     $('#playerType').prop("value", 0);
@@ -605,7 +605,7 @@
                     $('#playerSaveButton').click(function () {
                         var dataToUpload = {};
 
-                        dataToUpload["ProfileId"] = -1;
+                        dataToUpload["ProfileId"] = '00000000-0000-0000-0000-000000000000';
                         dataToUpload["PlayerName"] = $('#playerName').prop("value");
                         dataToUpload["Type"] = $('#playerType').prop("value");
                         dataToUpload["Difficulty"] = $('#playerDifficulty').prop("value");
@@ -738,7 +738,7 @@
                     $('#selectUserAdminList').children().remove();
 
                     function handleSelectUserAdminLineClick(e) {
-                        pageHandler.profileIdRequest = parseInt(e.currentTarget.id.replace("SelectUserAdminLine_", ""));
+                        pageHandler.profileIdRequest = e.currentTarget.id.replace("SelectUserAdminLine_", "");
                         $.mobile.changePage("#displayUserAdmin", { transition: "slidefade" });
                     }
 
@@ -1190,7 +1190,7 @@
     }
 
     function SessionHandler() {
-        this.ownProfileId = -1;
+        this.ownProfileId = '00000000-0000-0000-0000-000000000000';
         this.sessionId = "";
         this.serverBaseAddress = "";
 
@@ -1204,7 +1204,7 @@
             request({
                 url: "logout"
             }, "noOverlay").always(function () {
-                t.ownProfileId = -1;
+                t.ownProfileId = '00000000-0000-0000-0000-000000000000';
 
                 t.sessionId = "";
 
@@ -1219,8 +1219,8 @@
 
 
         var checkSession = function () {
-            if (t.ownProfileId == -1
-                && pageHandler.profileIdRequest == -1
+            if (t.ownProfileId == '00000000-0000-0000-0000-000000000000'
+                && pageHandler.profileIdRequest == '00000000-0000-0000-0000-000000000000'
                 && ($.mobile.activePage.attr("id") == "displayProfile" || $.mobile.activePage.attr("id") == "login")) {
                 return;
             }
