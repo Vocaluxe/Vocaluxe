@@ -357,7 +357,7 @@ namespace Vocaluxe.Base
 
         public static bool IsProfileIDValid(Guid profileID)
         {
-            return _Profiles.ContainsKey(profileID);
+            return profileID != Guid.Empty && _Profiles.ContainsKey(profileID);
         }
 
         public static bool IsAvatarIDValid(int avatarID)

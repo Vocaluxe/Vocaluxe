@@ -90,7 +90,7 @@ namespace Vocaluxe.Base.Server
         {
             Guid sessionKey = _GetSession();
 
-            if (profile.ProfileId != Guid.Empty) //-1 is the id for a new profile
+            if (profile.ProfileId != Guid.Empty) //Guid.Empty is the id for a new profile
             {
                 if (CSessionControl.GetUserIdFromSession(sessionKey) != profile.ProfileId
                     && !(_CheckRight(EUserRights.EditAllProfiles)))
