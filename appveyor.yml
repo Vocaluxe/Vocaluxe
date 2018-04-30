@@ -14,6 +14,7 @@ init:
 - git config --global core.autocrlf true
 install:
 - ps: |
+    $Env:VOCALUXE_SKIP_POSTBUILD = $true
     $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"
 
     if((-not $Env:githubRepoApiUri) -or ($Env:APPVEYOR_ACCOUNT_NAME -eq "VocaluxeBuildBot")){
@@ -46,12 +47,16 @@ before_build:
         Write-Warning "Genius-Video download failed"
     }
     nuget restore -DisableParallelProcessing
+    choco install "msbuild-sonarqube-runner" -y
+    if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarQube.Scanner.MSBuild.exe begin /k:"lukeIam_Vocaluxe" /d:sonar.organization="lukeiam-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$Env:SonarQubeToken" /d:"sonar.analysis.mode=preview" /d:"sonar.pullrequest.provider=GitHub" /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.pullrequest.github.repository=lukeIam/Vocaluxe" /d:"sonar.pullrequest.base=$env:APPVEYOR_REPO_BRANCH" /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME/$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" }
+    if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarQube.Scanner.MSBuild.exe begin /k:"lukeIam_Vocaluxe" /d:sonar.organization="lukeiam-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$Env:SonarQubeToken" }
 
 build:
   project: Vocaluxe.sln
   verbosity: normal
 after_build:
 - ps: |
+    SonarQube.Scanner.MSBuild.exe end /d:sonar.login="$Env:SonarQubeToken"
     ./.appveyor/runGitLink.ps1
     
     cd Output
