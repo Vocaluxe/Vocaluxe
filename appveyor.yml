@@ -53,7 +53,7 @@ before_build:
     {
         choco install "msbuild-sonarqube-runner" -y
         if ($env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarQube.Scanner.MSBuild.exe begin /k:"lukeIam_Vocaluxe" /d:sonar.organization="lukeiam-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.login="$Env:SonarQubeToken" /d:"sonar.analysis.mode=preview" /d:"sonar.pullrequest.provider=GitHub" /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" /d:"sonar.pullrequest.github.repository=lukeIam/Vocaluxe" /d:"sonar.pullrequest.base=$env:APPVEYOR_REPO_BRANCH" /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_NAME/$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" }
-        if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarQube.Scanner.MSBuild.exe begin /k:"lukeIam_Vocaluxe" /d:sonar.organization="lukeiam-github" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.projectVersion="$Env:GIT_VERSION_TAG" /d:sonar.login="$Env:SonarQubeToken" }
+        if (-Not $env:APPVEYOR_PULL_REQUEST_NUMBER) { SonarQube.Scanner.MSBuild.exe begin /k:"lukeIam_Vocaluxe" /d:sonar.organization="lukeiam-github" /d:sonar.host.url="https://sonarcloud.io" /v:"$Env:GIT_VERSION_TAG" /d:sonar.login="$Env:SonarQubeToken" }
     }    
 build:
   project: Vocaluxe.sln
