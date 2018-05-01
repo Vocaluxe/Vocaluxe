@@ -69,7 +69,8 @@ before_build:
                 /d:sonar.organization="lukeiam-github" `
                 /d:sonar.host.url="https://sonarcloud.io" `
                 /v:"$Env:GIT_VERSION_TAG" `
-                /d:sonar.login="$Env:SonarQubeToken" 
+                /d:sonar.login="$Env:SonarQubeToken" `
+                /d:sonar.cs.nunit.reportsPaths="$env:APPVEYOR_BUILD_FOLDER\TestResult.xml"
         }
     }    
 build:
@@ -77,10 +78,6 @@ build:
   verbosity: normal
 after_build:
 - ps: |
-    if ($Env:PLATFORM -eq 'x64' -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
-        SonarScanner.MSBuild.exe end /d:sonar.login="$Env:SonarQubeToken"
-    }
-    
     ./.appveyor/runGitLink.ps1
     
     cd Output
@@ -109,6 +106,11 @@ after_build:
     if($Env:MAIN_REPO -eq $True){
         .\.appveyor\nightlyDetect.ps1
         .\.appveyor\moveTagForSpecialBranches.ps1
+    }
+after_test:
+- ps: |
+    if ($Env:PLATFORM -eq 'x64' -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
+        SonarScanner.MSBuild.exe end /d:sonar.login="$Env:SonarQubeToken"
     }
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1
