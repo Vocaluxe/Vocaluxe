@@ -63,7 +63,7 @@ before_build:
                 /d:"sonar.pullrequest.base=$env:APPVEYOR_REPO_BRANCH" `
                 /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" 
         }
-        elseif($Env:APPVEYOR_REPO_BRANCH -eq 'develop'){
+        elseif($Env:APPVEYOR_REPO_BRANCH -eq 'sonarcloud'){
             choco install "msbuild-sonarqube-runner" -y            
             SonarScanner.MSBuild.exe begin `
                 /k:"lukeIam_Vocaluxe" `
@@ -111,7 +111,7 @@ after_build:
     }
 test_script:
 - ps: |
-    if ($Env:PLATFORM -eq 'x64' -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
+    if ($Env:PLATFORM -eq 'x64' -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'sonarcloud')){
         OpenCover.Console.exe -register:user -target:"nunit3-console.exe" -targetargs:".\Tests\bin\Release\Tests.dll --result=.\TestResult.xml;format=AppVeyor" -output:".\CoverageResult.xml"
     }
     else{
@@ -122,7 +122,7 @@ test_script:
 
 after_test:
 - ps: |
-    if ($Env:PLATFORM -eq 'x64' -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
+    if ($Env:PLATFORM -eq 'x64' -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'sonarcloud')){
         SonarScanner.MSBuild.exe end /d:sonar.login="$Env:SonarQubeToken"
     }
 before_deploy:
