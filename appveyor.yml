@@ -33,7 +33,8 @@ install:
     }
     else{
         $Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK = $Env:APPVEYOR_REPO_BRANCH
-    }    
+    }
+    choco install "opencover.portable" -y
 before_build:
 - ps: |
     Try
@@ -63,14 +64,15 @@ before_build:
                 /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" 
         }
         elseif($Env:APPVEYOR_REPO_BRANCH -eq 'develop'){
-            choco install "msbuild-sonarqube-runner" -y
+            choco install "msbuild-sonarqube-runner" -y            
             SonarScanner.MSBuild.exe begin `
                 /k:"lukeIam_Vocaluxe" `
                 /d:sonar.organization="lukeiam-github" `
                 /d:sonar.host.url="https://sonarcloud.io" `
                 /v:"$Env:GIT_VERSION_TAG" `
                 /d:sonar.login="$Env:SonarQubeToken" `
-                /d:sonar.cs.nunit.reportsPaths="$env:APPVEYOR_BUILD_FOLDER\TestResult.xml"
+                /d:sonar.cs.nunit.reportsPaths=".\TestResult.xml" `
+                /d:sonar.cs.opencover.reportsPaths=".\CoverageResult.xml"
         }
     }    
 build:
@@ -107,6 +109,17 @@ after_build:
         .\.appveyor\nightlyDetect.ps1
         .\.appveyor\moveTagForSpecialBranches.ps1
     }
+test_script:
+- ps: |
+    if ($Env:PLATFORM -eq 'x64' -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
+        OpenCover.Console.exe -register:user -target:"nunit3-console.exe" -targetargs:".\Tests\bin\Release\Tests.dll --result=.\TestResult.xml;format=AppVeyor" -output:".\CoverageResult.xml"
+    }
+    else{
+        nunit3-console.exe ".\Tests\bin\Release\Tests.dll" --result=".\TestResult.xml;format=AppVeyor"
+    }    
+    $wc = New-Object 'System.Net.WebClient'
+    $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit3/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResult.xml))
+
 after_test:
 - ps: |
     if ($Env:PLATFORM -eq 'x64' -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
