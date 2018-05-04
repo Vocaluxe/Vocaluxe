@@ -3,18 +3,11 @@ param(
     [String]$ProjectDir
 )
 
-if($Env:GIT_VERSION_TAG)
+if($Env:VOCALUXE_SKIP_POSTBUILD)
 {
-    $version = $Env:GIT_VERSION_TAG;
+    Write-Host "Skipping post build script (as requested)"
+    exit
 }
-else
-{
-    $version = git describe --long;
-}
-
-(Get-Content -Encoding UTF8 "$($ProjectDir)..\Output\Website\js\main.js") `
-    | Foreach-Object {$_ -replace '(?<=var *matchingServerVersion * = *\")\w*(?=\" *;)', "$version"} `
-    | Set-Content -Encoding UTF8 "$($ProjectDir)..\Output\Website\js\main.js"
 
 (Get-Content -Encoding UTF8 "$($ProjectDir)Properties\AssemblyInfo.cs") `
     | Foreach-Object {$_ -replace '(?<=AssemblyInformationalVersion\(\").*(?=\")', '0.0.0-na-notversioned'} `
