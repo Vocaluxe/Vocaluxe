@@ -10,7 +10,7 @@ if($Env:VOCALUXE_SKIP_POSTBUILD)
 }
 
 (Get-Content -Encoding UTF8 "$($ProjectDir)Properties\AssemblyInfo.cs") `
-    | Foreach-Object {$_ -replace '(?<=AssemblyInformationalVersion\(\").*(?=\")', 'GITVERSION'} `
-    | Foreach-Object {$_ -replace '(?<=(AssemblyVersion|AssemblyFileVersion)\(\").*(?=\")', 'SHORTVERSION'} `
-    | Foreach-Object {$_ -replace '(?<=AssemblyTitle\(\").*(?=\")', 'FULLVERSION'} `
+    | Foreach-Object {$_ -replace '(?<=AssemblyInformationalVersion\(\").*(?=\")', '0.0.0-na-notversioned'} `
+    | Foreach-Object {$_ -replace '(?<=(AssemblyVersion|AssemblyFileVersion)\(\").*(?=\")', '0.0.0'} `
+    | Foreach-Object {$_ -replace '(?<=AssemblyTitle\(\").*(?=\")', "Vocaluxe 'Not Versioned' 0.0.0 (NA) (0.0.0-na-notversioned)"} `
     | Set-Content -Encoding UTF8 "$($ProjectDir)Properties\AssemblyInfo.cs"
