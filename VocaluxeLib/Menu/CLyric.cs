@@ -137,6 +137,7 @@ namespace VocaluxeLib.Menu
         {
             _Text.Text = note.Text;
             _Text.Font.Style = (note.Type == ENoteType.Freestyle) ? EStyle.BoldItalic : EStyle.Bold;
+            _Text.AllMonitors = AllMonitors;
         }
 
         public void Clear()
