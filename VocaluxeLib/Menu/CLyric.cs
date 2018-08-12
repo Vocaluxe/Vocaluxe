@@ -307,7 +307,7 @@ namespace VocaluxeLib.Menu
                     else
                     {
                         // already passed
-                        _Text.Color = lastNote == note ? _ColorProcessed : _Color;
+                        _Text.Color = _ColorProcessed;
                         _Text.Draw();
                     }
                 }
