@@ -62,7 +62,31 @@ namespace VocaluxeLib.Menu
         public bool ThemeLoaded { get; private set; }
 
         private SColorF _Color;
+        public SColorF Color
+        {
+            get { return _Color; }
+            set
+            {
+                if (!_Color.Equals(value))
+                {
+                    _Color = value;
+                }
+            }
+        }
         private SColorF _ColorProcessed;
+        public SColorF ColorProcessed
+        {
+            get { return _ColorProcessed; }
+            set
+            {
+                if (!_ColorProcessed.Equals(value))
+                {
+                    _ColorProcessed = value;
+                }
+            }
+        }
+
+        public bool AllMonitors = true;
 
         public float Alpha
         {
