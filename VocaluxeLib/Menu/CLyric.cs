@@ -47,6 +47,10 @@ namespace VocaluxeLib.Menu
 
         private float _Width;
 
+        public float Width
+        {
+            get { return _Width; }
+        }
         private float _Alpha = 1f;
 
         private float _CurrentBeat = -1;
