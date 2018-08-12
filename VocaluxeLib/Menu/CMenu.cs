@@ -371,6 +371,11 @@ namespace VocaluxeLib.Menu
             return new CLyric(PartyModeID);
         }
 
+        public CLyric GetNewLyric(CLyric lyric)
+        {
+            return new CLyric(lyric);
+        }
+
         public CSingNotes GetNewSingNotes()
         {
             return new CSingNotes(PartyModeID);

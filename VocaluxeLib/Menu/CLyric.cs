@@ -90,6 +90,24 @@ namespace VocaluxeLib.Menu
             LyricStyle = ELyricStyle.TR_CONFIG_LYRICSTYLE_FILL;
         }
 
+        public CLyric(CLyric l)
+        {
+            _PartyModeID = l._PartyModeID;
+            _Theme = l._Theme;
+
+            _Color = l._Color;
+            _ColorProcessed = l._ColorProcessed;
+            MaxRect = l.MaxRect;
+
+            _Line = l._Line;
+            _Text = l._Text;
+            _Width = l._Width;
+
+            _Align = l._Align;
+
+            LyricStyle = ELyricStyle.TR_CONFIG_LYRICSTYLE_FILL;
+        }
+
         public CLyric(SThemeLyrics theme, int partyModeID)
         {
             _PartyModeID = partyModeID;
@@ -337,6 +355,8 @@ namespace VocaluxeLib.Menu
 
         public void LoadSkin()
         {
+            if (!ThemeLoaded)
+                return;
             _Theme.Color.Get(_PartyModeID, out _Color);
             _Theme.ProcessedColor.Get(_PartyModeID, out _ColorProcessed);
 
