@@ -30,6 +30,8 @@ namespace VocaluxeLib.Menu
 
         public SThemeColor Color;
         public SThemeColor ProcessedColor;
+
+        public EAlignment? Align;
     }
 
     public class CLyric : CMenuElementBase, IMenuElement, IThemeable
@@ -57,6 +59,19 @@ namespace VocaluxeLib.Menu
         public string GetThemeName()
         {
             return _Theme.Name;
+        }
+
+        private EAlignment _Align = EAlignment.Center;
+        public EAlignment Align
+        {
+            get { return _Align; }
+            set
+            {
+                if (_Align != value)
+                {
+                    _Align = value;
+                }
+            }
         }
 
         public bool ThemeLoaded { get; private set; }
@@ -171,6 +186,10 @@ namespace VocaluxeLib.Menu
 
         public float GetCurrentLyricPosX()
         {
+            if (_Align == EAlignment.Right)
+                return X - _Width;
+            if (_Align == EAlignment.Left)
+                return X;
             return X - _Width / 2;
         }
 
@@ -206,6 +225,11 @@ namespace VocaluxeLib.Menu
         private void _DrawSlide()
         {
             float x = X - _Width / 2;
+
+            if (_Align == EAlignment.Right)
+                x = X - _Width;
+            if (_Align == EAlignment.Left)
+                x = X;
 
             foreach (CSongNote note in _Line.Notes)
             {
@@ -247,7 +271,12 @@ namespace VocaluxeLib.Menu
 
         private void _DrawFill()
         {
-            float x = X - _Width / 2; // most left position
+            float x = X - _Width / 2;
+
+            if (_Align == EAlignment.Right)
+                x = X - _Width;
+            if (_Align == EAlignment.Left)
+                x = X;
 
             foreach (CSongNote note in _Line.Notes)
             {
@@ -322,7 +351,12 @@ namespace VocaluxeLib.Menu
 
         private void _DrawZoomOrJump()
         {
-            float x = X - _Width / 2; // most left position
+            float x = X - _Width / 2;
+
+            if (_Align == EAlignment.Right)
+                x = X - _Width;
+            if (_Align == EAlignment.Left)
+                x = X;
 
             int lastNote = _Line.FindPreviousNote((int)_CurrentBeat);
             CSongNote highlightNote = null;
@@ -386,6 +420,10 @@ namespace VocaluxeLib.Menu
             _Theme.ProcessedColor.Get(_PartyModeID, out _ColorProcessed);
 
             MaxRect = _Theme.Rect;
+            if (_Theme.Align.HasValue)
+            {
+                Align = _Theme.Align.Value;
+            }
             _Text = new CText(X, Y, Z, H, W, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
         }
 
