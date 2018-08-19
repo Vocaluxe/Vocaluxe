@@ -4,20 +4,7 @@
     <ScreenName>ScreenSing</ScreenName>
     <ScreenVersion>9</ScreenVersion>
   </Informations>
-  <Backgrounds>
-    <Background Name="Background1">
-      <Type>None</Type>
-      <SlideShowTextures />
-      <Video />
-      <Skin />
-      <Color>
-        <R>0</R>
-        <G>0</G>
-        <B>0</B>
-        <A>1</A>
-      </Color>
-    </Background>
-  </Backgrounds>
+  <Backgrounds/>
   <Statics>
     <Static Name="StaticSongText">
       <Skin>Score</Skin>
