@@ -862,12 +862,6 @@ namespace Vocaluxe.Screens
 
             base.Draw();
 
-            /*for (int p = 0; p < CGame.NumPlayers; p++)
-            {
-                _Lyrics[_PlayerLyrics[p]].Draw();
-                _Lyrics[_PlayerLyricSubs[p]].Draw();
-            }*/
-
             switch (CConfig.Config.Theme.TimerLook)
             {
             case ETimerLook.TR_CONFIG_TIMERLOOK_NORMAL:
