@@ -148,7 +148,7 @@ namespace VocaluxeLib.Menu
 
             _Align = l._Align;
 
-            LyricStyle = ELyricStyle.TR_CONFIG_LYRICSTYLE_FILL;
+            LyricStyle = l.LyricStyle;
         }
 
         public CLyric(SThemeLyrics theme, int partyModeID)
