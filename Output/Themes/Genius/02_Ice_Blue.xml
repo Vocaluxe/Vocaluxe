@@ -207,10 +207,10 @@
       <A>0.800</A>
     </LyricMainColor>
     <LyricSubColor>
-      <R>0.600</R>
-      <G>0.600</G>
-      <B>0.600</B>
-      <A>0.700</A>
+      <R>0.800</R>
+      <G>0.800</G>
+      <B>0.800</B>
+      <A>0.600</A>
     </LyricSubColor>
     <LyricHelper>
       <R>0.000</R>
@@ -361,9 +361,9 @@
     <RatingBar>RatingBar.png</RatingBar>
     <RatingBarBackground>RatingBar.png</RatingBarBackground>
     <RatingBarForeground>RatingBar.png</RatingBarForeground>
-    <RatingBarProgressLeft>NotesFillLeft.png</RatingBarProgressLeft>
-    <RatingBarProgressMid>NotesFillMid.png</RatingBarProgressMid>
-    <RatingBarProgressRight>NotesFillRight.png</RatingBarProgressRight>
+    <RatingBarProgressLeft>RatingBarLeft.png</RatingBarProgressLeft>
+    <RatingBarProgressMid>RatingBarMid.png</RatingBarProgressMid>
+    <RatingBarProgressRight>RatingBarRight.png</RatingBarProgressRight>
     <PopupBG>PopupBG.png</PopupBG>
     <ScrollUp>ScrollUp.png</ScrollUp>
     <ScrollDown>ScrollDown.png</ScrollDown>
@@ -372,6 +372,8 @@
     <Warning>Warning.png</Warning>
     <PlayerSelBG>PlayerSelBG.png</PlayerSelBG>
     <CalibrationBG>CalibrationBG.png</CalibrationBG>
+    <NotePanel>NotePanel.png</NotePanel>
+    <NotePanelLarge>NotePanelLarge.png</NotePanelLarge>
   </Skins>
   <Videos>
     <BG_Video>BG_Video.mp4</BG_Video>
