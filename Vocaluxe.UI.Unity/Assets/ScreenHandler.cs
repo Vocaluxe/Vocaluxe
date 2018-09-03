@@ -38,6 +38,8 @@ public class ScreenHandler : MonoBehaviour
 
     private void ChangeScreen(EUiScreenType currentScreen, EUiScreenType targetScreen)
     {
+        if (currentScreen == targetScreen)
+            return;
         DeactivateScreen(currentScreen);
         ActivateScreen(targetScreen);
     }
@@ -47,6 +49,7 @@ public class ScreenHandler : MonoBehaviour
         if(screen == EUiScreenType.None)
             return;
         _screens[screen].SetActive(true);
+        _currentScreen = screen;
     }
 
     private void DeactivateScreen(EUiScreenType screen)
