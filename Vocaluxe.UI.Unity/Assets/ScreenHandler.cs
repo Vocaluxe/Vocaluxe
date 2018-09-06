@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Facebook.Yoga;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +15,11 @@ public class ScreenHandler : MonoBehaviour
     private CUiConnector _connector;
     private Dictionary<EUiScreenType, GameObject> _screens = new Dictionary<EUiScreenType, GameObject>();
     private EUiScreenType _currentScreen = EUiScreenType.None;
+
+    public GameObject ScreenPrefab;
+    public GameObject ButtonPrefab;
+    public GameObject TextPrefab;
+    
 
     // Use this for initialization
     void Start ()
@@ -70,21 +76,48 @@ public class ScreenHandler : MonoBehaviour
 
     private GameObject CreateElement(CUiScreen screenInfo, string screenName = "")
     {
-        return CreateElementBase(screenInfo, screenName);
+        GameObject screen = Instantiate(ScreenPrefab);
+        screen.name = screenName;
+        SetProperties(screenInfo, screen);
+        return screen;
+    }
+
+    private void SetProperties(CUiScreen screenInfo, GameObject screen)
+    {
+        PositionElement(screenInfo, screen);
+        AddChildren(screenInfo, screen);
     }
 
     private GameObject CreateElement(CUiElementButton buttonInfo)
     {
-        var button = CreateElementBase(buttonInfo);
-        button.AddComponent<Button>();
+        var button = Instantiate(ButtonPrefab);
+        SetProperties(buttonInfo, button);
+        return button;
+    }
+
+    private void SetProperties(CUiElementButton buttonInfo, GameObject button)
+    {
         Button btnComponent = button.GetComponent<Button>();
         btnComponent.onClick.AddListener(buttonInfo.Controller.RaiseClicked);
-        return button;
+        PositionElement(buttonInfo, button);
+
+        // TODO: Remove: making test buttons green
+        button.GetComponent<Image>().color = Color.green;
+
+        var buttonText = button.GetComponentInChildren<Text>().gameObject;
+        SetProperties((CUiElementText)buttonInfo.AsQueryable().FirstOrDefault(x => x is CUiElementText), buttonText);
     }
 
     private GameObject CreateElement(CUiElementText textInfo)
     {
-        return CreateElementBase(textInfo);
+        var text = Instantiate(TextPrefab);
+        SetProperties(textInfo, text);
+        return text;
+    }
+
+    private void SetProperties(CUiElementText textInfo, GameObject text)
+    {
+        PositionElement(textInfo, text);
     }
 
     private GameObject CreateElement(YogaNode node)
@@ -110,22 +143,20 @@ public class ScreenHandler : MonoBehaviour
         throw new NotSupportedException();
     }
 
-    private GameObject CreateElementBase(CUiElement element, string elementName = "")
+    private void AddChildren(CUiElement uiElement, GameObject gameObj)
     {
-        GameObject newGameObject = new GameObject(name: elementName);
-
-        newGameObject.AddComponent<RectTransform>();
-        RectTransform rectTransform = newGameObject.GetComponent<RectTransform>();
-        rectTransform.anchoredPosition.Set(0f,0f);
-        rectTransform.rect.position.Set(element.LayoutX, element.LayoutY);
-        rectTransform.rect.size.Set(element.LayoutWidth, element.LayoutHeight);
-
-        foreach (YogaNode child in element)
+        foreach (YogaNode child in uiElement)
         {
             var newObj = CreateElement(child);
-            newObj.GetComponent<RectTransform>().SetParent(newGameObject.transform);
+            newObj.GetComponent<RectTransform>().SetParent(gameObj.transform);
         }
+    }
 
-        return newGameObject;
+    private static void PositionElement(CUiElement element, GameObject newGameObject)
+    {
+        RectTransform rectTransform = newGameObject.GetComponent<RectTransform>();
+        rectTransform.anchoredPosition.Set(0f, 0f);
+        rectTransform.rect.position.Set(element.LayoutX, element.LayoutY);
+        rectTransform.rect.size.Set(element.LayoutWidth, element.LayoutHeight);
     }
 }

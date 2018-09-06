@@ -282,6 +282,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a5ac8535e59348478ff8674aae12300, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ScreenPrefab: {fileID: 1542340953995188, guid: eeb852befc56aaa45a6bb1b327fea10d,
+    type: 2}
+  ButtonPrefab: {fileID: 1966144771655286, guid: bc34731dd21939247b5c9254d4307b2c,
+    type: 2}
+  TextPrefab: {fileID: 1076347645928538, guid: e1487a0441a6d4048bd44d842a45fbad, type: 2}
 --- !u!114 &1432963079
 MonoBehaviour:
   m_ObjectHideFlags: 0
