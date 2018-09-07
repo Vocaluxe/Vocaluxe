@@ -119,4 +119,8 @@
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Facebook.Yoga.1.5.0-pre1\build\net45\Facebook.Yoga.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Facebook.Yoga.1.5.0-pre1\build\net45\Facebook.Yoga.targets'))" />
   </Target>
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetDir)$(ProjectName).dll" "$(SolutionDir)Vocaluxe.UI.Unity\Assets\$(ProjectName).dll"
+copy /Y "$(TargetDir)$(ProjectName).pdb" "$(SolutionDir)Vocaluxe.UI.Unity\Assets\$(ProjectName).pdb"</PostBuildEvent>
+  </PropertyGroup>
 </Project>

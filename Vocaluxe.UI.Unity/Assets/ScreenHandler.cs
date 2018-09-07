@@ -105,7 +105,7 @@ public class ScreenHandler : MonoBehaviour
         button.GetComponent<Image>().color = Color.green;
 
         var buttonText = button.GetComponentInChildren<Text>().gameObject;
-        SetProperties((CUiElementText)buttonInfo.AsQueryable().FirstOrDefault(x => x is CUiElementText), buttonText);
+        SetProperties((CUiElementText)buttonInfo.FirstOrDefault(x => x is CUiElementText), buttonText);
     }
 
     private GameObject CreateElement(CUiElementText textInfo)
@@ -117,6 +117,9 @@ public class ScreenHandler : MonoBehaviour
 
     private void SetProperties(CUiElementText textInfo, GameObject text)
     {
+        var textComponent = text.GetComponent<Text>();
+        // Add text to the text component
+        textComponent.text = textInfo.Controller.Text;
         PositionElement(textInfo, text);
     }
 

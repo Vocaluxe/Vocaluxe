@@ -10,7 +10,10 @@ namespace Vocaluxe.UI.BasicElements.Text
 
         public static CUiElementText CreateInstance(Dictionary<string, string> properties, IEnumerable<(CUiElement uiElement, string bindingId)> children)
         {
-            return CUiElement.CreateInstance<CUiElementText>(properties, children);
+            var instance = CUiElement.CreateInstance<CUiElementText>(properties, children);
+            properties.TryGetValue("value", out string value);
+            instance.Controller.Text = value;
+            return instance;
         }
     }
 }
