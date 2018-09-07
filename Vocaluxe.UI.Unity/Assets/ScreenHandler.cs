@@ -95,17 +95,19 @@ public class ScreenHandler : MonoBehaviour
         return button;
     }
 
-    private void SetProperties(CUiElementButton buttonInfo, GameObject button)
+    private void SetProperties(CUiElementButton buttonInfo, GameObject button, bool setPosition = true)
     {
         Button btnComponent = button.GetComponent<Button>();
         btnComponent.onClick.AddListener(buttonInfo.Controller.RaiseClicked);
-        PositionElement(buttonInfo, button);
+
+        if(setPosition)
+            PositionElement(buttonInfo, button);
 
         // TODO: Remove: making test buttons green
         button.GetComponent<Image>().color = Color.green;
 
         var buttonText = button.GetComponentInChildren<Text>().gameObject;
-        SetProperties((CUiElementText)buttonInfo.FirstOrDefault(x => x is CUiElementText), buttonText);
+        SetProperties((CUiElementText)buttonInfo.FirstOrDefault(x => x is CUiElementText), buttonText, setPosition:false);
     }
 
     private GameObject CreateElement(CUiElementText textInfo)
@@ -115,12 +117,13 @@ public class ScreenHandler : MonoBehaviour
         return text;
     }
 
-    private void SetProperties(CUiElementText textInfo, GameObject text)
+    private void SetProperties(CUiElementText textInfo, GameObject text, bool setPosition=true)
     {
         var textComponent = text.GetComponent<Text>();
         // Add text to the text component
         textComponent.text = textInfo.Controller.Text;
-        PositionElement(textInfo, text);
+        if(setPosition)
+            PositionElement(textInfo, text);
     }
 
     private GameObject CreateElement(YogaNode node)
@@ -159,7 +162,8 @@ public class ScreenHandler : MonoBehaviour
     {
         RectTransform rectTransform = newGameObject.GetComponent<RectTransform>();
         rectTransform.anchoredPosition.Set(0f, 0f);
-        rectTransform.rect.position.Set(element.LayoutX, element.LayoutY);
-        rectTransform.rect.size.Set(element.LayoutWidth, element.LayoutHeight);
+        rectTransform.position = new Vector2(element.LayoutX, element.LayoutY);
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, element.LayoutWidth);
+        rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, element.LayoutHeight);
     }
 }
