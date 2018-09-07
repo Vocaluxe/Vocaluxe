@@ -5,8 +5,13 @@ namespace Vocaluxe.UI.BasicElements.Text
 {
     public class CUiElementText:CUiElement
     {
-        public CControllerElementText Controller => new CControllerElementText();
+        public CControllerElementText Controller { get; private set; }
         public override CController BasicController => Controller;
+
+        public CUiElementText()
+        {
+            Controller = new CControllerElementText();
+        }
 
         public static CUiElementText CreateInstance(Dictionary<string, string> properties, IEnumerable<(CUiElement uiElement, string bindingId)> children)
         {
