@@ -41,7 +41,7 @@ namespace Vocaluxe.UI.Parser
             
             foreach (XmlAttribute attribute in node.Attributes)
             {
-                attributes.Add(attribute.Name, attribute.Value);
+                attributes.Add(attribute.Name.ToLower(), attribute.Value);
             }
 
             attributes.TryGetValue("bindingId", out string bindingId);
