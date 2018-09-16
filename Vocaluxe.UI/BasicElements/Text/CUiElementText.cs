@@ -17,7 +17,16 @@ namespace Vocaluxe.UI.BasicElements.Text
         {
             var instance = CUiElement.CreateInstance<CUiElementText>(properties, children);
             properties.TryGetValue("value", out string value);
-            instance.Controller.Text = value;
+
+            if (properties.ContainsKey("bindingid"))
+            {
+                instance.Controller.Text = DummyClass.RegisterBinding<string>(properties["bindingid"], (sender, s) => instance.Controller.Text = s);
+            }
+            else
+            {
+                instance.Controller.Text = value;
+            }
+            
             return instance;
         }
     }
