@@ -362,7 +362,6 @@ namespace VocaluxeLib.Menu
             if (_Align == EAlignment.Left)
                 x = X;
 
-            int lastNote = _Line.FindPreviousNote((int)_CurrentBeat);
             CSongNote highlightNote = null;
             int hEndBeat = 0;
             float hX = 0;
