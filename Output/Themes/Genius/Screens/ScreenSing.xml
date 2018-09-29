@@ -168,8 +168,8 @@
       <Rect>
         <X>191</X>
         <Y>415</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -190,8 +190,8 @@
       <Rect>
         <X>191</X>
         <Y>148</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -212,8 +212,8 @@
       <Rect>
         <X>191</X>
         <Y>415</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -234,8 +234,8 @@
       <Rect>
         <X>191</X>
         <Y>86</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -256,8 +256,8 @@
       <Rect>
         <X>191</X>
         <Y>282</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -278,8 +278,8 @@
       <Rect>
         <X>191</X>
         <Y>478</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -300,8 +300,8 @@
       <Rect>
         <X>73</X>
         <Y>148</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -322,8 +322,8 @@
       <Rect>
         <X>73</X>
         <Y>415</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -344,8 +344,8 @@
       <Rect>
         <X>659</X>
         <Y>148</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -366,8 +366,8 @@
       <Rect>
         <X>659</X>
         <Y>415</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -388,8 +388,8 @@
       <Rect>
         <X>73</X>
         <Y>86</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -410,8 +410,8 @@
       <Rect>
         <X>73</X>
         <Y>282</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -432,8 +432,8 @@
       <Rect>
         <X>73</X>
         <Y>478</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -454,8 +454,8 @@
       <Rect>
         <X>659</X>
         <Y>148</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -476,8 +476,8 @@
       <Rect>
         <X>659</X>
         <Y>415</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -498,8 +498,8 @@
       <Rect>
         <X>73</X>
         <Y>86</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -520,8 +520,8 @@
       <Rect>
         <X>73</X>
         <Y>282</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -542,8 +542,8 @@
       <Rect>
         <X>73</X>
         <Y>478</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -564,8 +564,8 @@
       <Rect>
         <X>659</X>
         <Y>86</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -586,8 +586,8 @@
       <Rect>
         <X>659</X>
         <Y>282</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -608,8 +608,8 @@
       <Rect>
         <X>659</X>
         <Y>478</Y>
-        <W>37</W>
-        <H>37</H>
+        <W>25</W>
+        <H>25</H>
         <Z>-0.75</Z>
       </Rect>
     </Static>
@@ -700,10 +700,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N1">
-      <X>1037</X>
+      <X>1047</X>
       <Y>410</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -716,10 +716,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N1">
-      <X>238</X>
-      <Y>421</Y>
+      <X>223</X>
+      <Y>417</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>950</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
@@ -730,10 +730,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N2">
-      <X>1037</X>
+      <X>1047</X>
       <Y>143</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -746,10 +746,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N2">
-      <X>238</X>
-      <Y>154</Y>
+      <X>223</X>
+      <Y>150</Y>
       <Z>-1</Z>
-      <H>28</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
@@ -760,10 +760,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N2">
-      <X>1037</X>
+      <X>1047</X>
       <Y>410</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player2">
         <A>0.7</A>
@@ -776,10 +776,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N2">
-      <X>238</X>
-      <Y>421</Y>
+      <X>223</X>
+      <Y>417</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
@@ -790,10 +790,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N3">
-      <X>1037</X>
-      <Y>81</Y>
+      <X>1047</X>
+      <Y>82</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -806,10 +806,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N3">
-      <X>238</X>
-      <Y>92</Y>
+      <X>223</X>
+      <Y>88</Y>
       <Z>-1</Z>
-      <H>28</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
@@ -820,10 +820,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N3">
-      <X>1037</X>
-      <Y>277</Y>
+      <X>1047</X>
+      <Y>278</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player2">
         <A>0.7</A>
@@ -836,10 +836,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N3">
-      <X>238</X>
-      <Y>288</Y>
+      <X>223</X>
+      <Y>284</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
@@ -850,10 +850,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N3">
-      <X>1037</X>
-      <Y>473</Y>
+      <X>1047</X>
+      <Y>474</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player3">
         <A>0.7</A>
@@ -866,10 +866,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N3">
-      <X>238</X>
-      <Y>484</Y>
+      <X>223</X>
+      <Y>480</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player3" />
@@ -880,10 +880,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N4">
-      <X>569</X>
+      <X>579</X>
       <Y>143</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -896,10 +896,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N4">
-      <X>120</X>
-      <Y>154</Y>
+      <X>105</X>
+      <Y>150</Y>
       <Z>-1</Z>
-      <H>28</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
@@ -910,10 +910,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N4">
-      <X>569</X>
+      <X>579</X>
       <Y>410</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player2">
         <A>0.7</A>
@@ -926,10 +926,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N4">
-      <X>120</X>
-      <Y>421</Y>
+      <X>105</X>
+      <Y>417</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
@@ -940,10 +940,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N4">
-      <X>1155</X>
+      <X>1165</X>
       <Y>143</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player3">
         <A>0.7</A>
@@ -956,10 +956,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N4">
-      <X>706</X>
-      <Y>154</Y>
+      <X>691</X>
+      <Y>150</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player3" />
@@ -970,10 +970,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP4N4">
-      <X>1155</X>
+      <X>1165</X>
       <Y>410</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player4">
         <A>0.7</A>
@@ -986,10 +986,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP4N4">
-      <X>706</X>
-      <Y>421</Y>
+      <X>691</X>
+      <Y>417</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player4" />
@@ -1000,10 +1000,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N5">
-      <X>569</X>
-      <Y>81</Y>
+      <X>579</X>
+      <Y>82</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -1016,10 +1016,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N5">
-      <X>120</X>
-      <Y>92</Y>
+      <X>105</X>
+      <Y>88</Y>
       <Z>-1</Z>
-      <H>28</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
@@ -1030,10 +1030,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N5">
-      <X>569</X>
-      <Y>277</Y>
+      <X>579</X>
+      <Y>278</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player2">
         <A>0.7</A>
@@ -1046,10 +1046,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N5">
-      <X>120</X>
-      <Y>288</Y>
+      <X>105</X>
+      <Y>284</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
@@ -1060,10 +1060,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N5">
-      <X>569</X>
-      <Y>473</Y>
+      <X>579</X>
+      <Y>474</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player3">
         <A>0.7</A>
@@ -1076,10 +1076,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N5">
-      <X>120</X>
-      <Y>484</Y>
+      <X>105</X>
+      <Y>480</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player3" />
@@ -1090,10 +1090,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP4N5">
-      <X>1155</X>
+      <X>1165</X>
       <Y>143</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player4">
         <A>0.7</A>
@@ -1106,10 +1106,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP4N5">
-      <X>706</X>
-      <Y>154</Y>
+      <X>691</X>
+      <Y>150</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player4" />
@@ -1120,10 +1120,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP5N5">
-      <X>1155</X>
+      <X>1165</X>
       <Y>410</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player5">
         <A>0.7</A>
@@ -1136,10 +1136,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP5N5">
-      <X>706</X>
-      <Y>421</Y>
+      <X>691</X>
+      <Y>417</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player5" />
@@ -1150,10 +1150,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N6">
-      <X>569</X>
-      <Y>81</Y>
+      <X>579</X>
+      <Y>82</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -1166,10 +1166,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N6">
-      <X>120</X>
-      <Y>92</Y>
+      <X>105</X>
+      <Y>88</Y>
       <Z>-1</Z>
-      <H>28</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player1" />
@@ -1180,10 +1180,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N6">
-      <X>569</X>
-      <Y>277</Y>
+      <X>579</X>
+      <Y>278</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player2">
         <A>0.7</A>
@@ -1196,10 +1196,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N6">
-      <X>120</X>
-      <Y>288</Y>
+      <X>105</X>
+      <Y>284</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player2" />
@@ -1210,10 +1210,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N6">
-      <X>569</X>
-      <Y>473</Y>
+      <X>579</X>
+      <Y>474</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player3">
         <A>0.7</A>
@@ -1226,10 +1226,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N6">
-      <X>120</X>
-      <Y>484</Y>
+      <X>105</X>
+      <Y>480</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player3" />
@@ -1240,10 +1240,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP4N6">
-      <X>1155</X>
-      <Y>81</Y>
+      <X>1165</X>
+      <Y>82</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player4">
         <A>0.7</A>
@@ -1256,10 +1256,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP4N6">
-      <X>706</X>
-      <Y>92</Y>
+      <X>691</X>
+      <Y>88</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player4" />
@@ -1270,10 +1270,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP5N6">
-      <X>1155</X>
-      <Y>277</Y>
+      <X>1165</X>
+      <Y>278</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player5">
         <A>0.7</A>
@@ -1286,10 +1286,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP5N6">
-      <X>706</X>
-      <Y>288</Y>
+      <X>691</X>
+      <Y>284</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player5" />
@@ -1300,10 +1300,10 @@
       <Text />
     </Text>
     <Text Name="TextScoreP6N6">
-      <X>1155</X>
-      <Y>473</Y>
+      <X>1165</X>
+      <Y>474</Y>
       <Z>-1</Z>
-      <H>41</H>
+      <H>28</H>
       <MaxW>0</MaxW>
       <Color Name="Player6">
         <A>0.7</A>
@@ -1316,10 +1316,10 @@
       <Text />
     </Text>
     <Text Name="TextNameP6N6">
-      <X>706</X>
-      <Y>484</Y>
+      <X>691</X>
+      <Y>480</Y>
       <Z>-1</Z>
-      <H>26</H>
+      <H>20</H>
       <MaxW>450</MaxW>
       <Color Name="TextNameColor" />
       <SelColor Name="Player6" />
@@ -1580,7 +1580,7 @@
         <X>198</X>
         <Y>554</Y>
         <W>880</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1592,7 +1592,7 @@
         <X>198</X>
         <Y>287</Y>
         <W>880</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1604,7 +1604,7 @@
         <X>198</X>
         <Y>554</Y>
         <W>880</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1616,7 +1616,7 @@
         <X>198</X>
         <Y>225</Y>
         <W>880</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1628,7 +1628,7 @@
         <X>198</X>
         <Y>421</Y>
         <W>880</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1640,7 +1640,7 @@
         <X>198</X>
         <Y>617</Y>
         <W>880</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1652,7 +1652,7 @@
         <X>80</X>
         <Y>287</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1664,7 +1664,7 @@
         <X>80</X>
         <Y>554</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1676,7 +1676,7 @@
         <X>666</X>
         <Y>287</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1688,7 +1688,7 @@
         <X>666</X>
         <Y>554</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1700,7 +1700,7 @@
         <X>80</X>
         <Y>225</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1712,7 +1712,7 @@
         <X>80</X>
         <Y>421</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1724,7 +1724,7 @@
         <X>80</X>
         <Y>617</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1736,7 +1736,7 @@
         <X>666</X>
         <Y>287</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1748,7 +1748,7 @@
         <X>666</X>
         <Y>554</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1760,7 +1760,7 @@
         <X>80</X>
         <Y>225</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1772,7 +1772,7 @@
         <X>80</X>
         <Y>421</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1784,7 +1784,7 @@
         <X>80</X>
         <Y>617</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1796,7 +1796,7 @@
         <X>666</X>
         <Y>225</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1808,7 +1808,7 @@
         <X>666</X>
         <Y>421</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1820,7 +1820,7 @@
         <X>666</X>
         <Y>617</Y>
         <W>530</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1</Z>
       </Rect>
       <Color Name="LyricMainColor" />
@@ -1832,7 +1832,7 @@
         <X>0</X>
         <Y>554</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1844,7 +1844,7 @@
         <X>0</X>
         <Y>287</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1856,7 +1856,7 @@
         <X>0</X>
         <Y>554</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1868,7 +1868,7 @@
         <X>0</X>
         <Y>225</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1880,7 +1880,7 @@
         <X>0</X>
         <Y>421</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1892,7 +1892,7 @@
         <X>0</X>
         <Y>617</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1904,7 +1904,7 @@
         <X>0</X>
         <Y>287</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1916,7 +1916,7 @@
         <X>0</X>
         <Y>554</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1928,7 +1928,7 @@
         <X>0</X>
         <Y>287</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1940,7 +1940,7 @@
         <X>0</X>
         <Y>554</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1952,7 +1952,7 @@
         <X>0</X>
         <Y>225</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1964,7 +1964,7 @@
         <X>0</X>
         <Y>421</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1976,7 +1976,7 @@
         <X>0</X>
         <Y>617</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -1988,7 +1988,7 @@
         <X>0</X>
         <Y>287</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -2000,7 +2000,7 @@
         <X>0</X>
         <Y>554</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -2012,7 +2012,7 @@
         <X>0</X>
         <Y>225</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -2024,7 +2024,7 @@
         <X>0</X>
         <Y>421</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -2036,7 +2036,7 @@
         <X>0</X>
         <Y>617</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -2048,7 +2048,7 @@
         <X>0</X>
         <Y>225</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -2060,7 +2060,7 @@
         <X>0</X>
         <Y>421</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -2072,7 +2072,7 @@
         <X>0</X>
         <Y>617</Y>
         <W>0</W>
-        <H>20</H>
+        <H>22</H>
         <Z>-1.35</Z>
       </Rect>
       <Color Name="LyricSubColor" />
@@ -2099,189 +2099,189 @@
         <Position Name="P1N1">
           <Rect>
             <X>189</X>
-            <Y>459</Y>
+            <Y>451</Y>
             <W>898</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P1N2">
           <Rect>
             <X>189</X>
-            <Y>192</Y>
+            <Y>184</Y>
             <W>898</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P2N2">
           <Rect>
             <X>189</X>
-            <Y>459</Y>
+            <Y>451</Y>
             <W>898</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P1N3">
           <Rect>
             <X>189</X>
-            <Y>130</Y>
+            <Y>122</Y>
             <W>898</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P2N3">
           <Rect>
             <X>189</X>
-            <Y>326</Y>
+            <Y>318</Y>
             <W>898</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P3N3">
           <Rect>
             <X>189</X>
-            <Y>522</Y>
+            <Y>514</Y>
             <W>898</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P1N4">
           <Rect>
             <X>70</X>
-            <Y>192</Y>
+            <Y>184</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P2N4">
           <Rect>
             <X>70</X>
-            <Y>459</Y>
+            <Y>451</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P3N4">
           <Rect>
             <X>656</X>
-            <Y>192</Y>
+            <Y>184</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P4N4">
           <Rect>
             <X>656</X>
-            <Y>459</Y>
+            <Y>451</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P1N5">
           <Rect>
             <X>70</X>
-            <Y>130</Y>
+            <Y>122</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P2N5">
           <Rect>
             <X>70</X>
-            <Y>326</Y>
+            <Y>318</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P3N5">
           <Rect>
             <X>70</X>
-            <Y>522</Y>
+            <Y>514</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P4N5">
           <Rect>
             <X>656</X>
-            <Y>192</Y>
+            <Y>184</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P5N5">
           <Rect>
             <X>656</X>
-            <Y>459</Y>
+            <Y>451</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P1N6">
           <Rect>
             <X>70</X>
-            <Y>130</Y>
+            <Y>122</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P2N6">
           <Rect>
             <X>70</X>
-            <Y>326</Y>
+            <Y>318</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P3N6">
           <Rect>
             <X>70</X>
-            <Y>522</Y>
+            <Y>514</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P4N6">
           <Rect>
             <X>656</X>
-            <Y>130</Y>
+            <Y>122</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P5N6">
           <Rect>
             <X>656</X>
-            <Y>326</Y>
+            <Y>318</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
         <Position Name="P6N6">
           <Rect>
             <X>656</X>
-            <Y>522</Y>
+            <Y>514</Y>
             <W>548</W>
-            <H>80</H>
+            <H>90</H>
             <Z>-1.5</Z>
           </Rect>
         </Position>
@@ -2305,10 +2305,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>978</X>
-        <Y>443</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1003</X>
+        <Y>434</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2350,10 +2350,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>978</X>
-        <Y>176</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1003</X>
+        <Y>167</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2395,10 +2395,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>978</X>
-        <Y>443</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1003</X>
+        <Y>434</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2440,10 +2440,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>978</X>
-        <Y>114</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1003</X>
+        <Y>105</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2485,10 +2485,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>978</X>
-        <Y>310</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1003</X>
+        <Y>301</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2530,10 +2530,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>978</X>
-        <Y>506</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1003</X>
+        <Y>497</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2575,10 +2575,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>510</X>
-        <Y>176</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>533</X>
+        <Y>167</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2620,10 +2620,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>510</X>
-        <Y>443</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>533</X>
+        <Y>434</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2665,10 +2665,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1096</X>
-        <Y>176</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1119</X>
+        <Y>167</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2710,10 +2710,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1096</X>
-        <Y>443</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1119</X>
+        <Y>434</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2755,10 +2755,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>510</X>
-        <Y>114</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>533</X>
+        <Y>105</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2800,10 +2800,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>510</X>
-        <Y>310</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>533</X>
+        <Y>301</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2845,10 +2845,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>510</X>
-        <Y>506</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>533</X>
+        <Y>497</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2890,10 +2890,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1096</X>
-        <Y>176</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1119</X>
+        <Y>167</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2935,10 +2935,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1096</X>
-        <Y>443</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1119</X>
+        <Y>434</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2980,10 +2980,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>510</X>
-        <Y>114</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>533</X>
+        <Y>105</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3025,10 +3025,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>510</X>
-        <Y>310</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>533</X>
+        <Y>301</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3070,10 +3070,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>510</X>
-        <Y>506</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>533</X>
+        <Y>497</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3115,10 +3115,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1096</X>
-        <Y>114</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1119</X>
+        <Y>105</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3160,10 +3160,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1096</X>
-        <Y>310</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1119</X>
+        <Y>301</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3205,10 +3205,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1096</X>
-        <Y>506</Y>
-        <W>120</W>
-        <H>18</H>
+        <X>1119</X>
+        <Y>497</Y>
+        <W>91</W>
+        <H>14</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
