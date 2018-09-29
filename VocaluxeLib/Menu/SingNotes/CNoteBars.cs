@@ -191,10 +191,11 @@ namespace VocaluxeLib.Menu.SingNotes
         private void _DrawNoteLines(SColorF color)
         {
             SRectF lineRect = Rect;
-            lineRect.H = 1.5f;
+            lineRect.H = 1f;
+            float linedistance = Rect.H / CBase.Settings.GetNumNoteLines();
             for (int i = 0; i < CBase.Settings.GetNumNoteLines(); i++)
             {
-                lineRect.Y = (Rect.Y + Rect.H / CBase.Settings.GetNumNoteLines() * (i + 1)) - (lineRect.H / 2);
+                lineRect.Y = Rect.Y + (linedistance * (i + 1)) - (lineRect.H / 2) - (linedistance / 2);
                 CBase.Drawing.DrawRect(color, lineRect, false);
             }
         }
