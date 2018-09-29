@@ -328,6 +328,7 @@
     <NoteBackgroundLeft>NotesBGLeft.png</NoteBackgroundLeft>
     <NoteBackgroundMiddle>NotesBGMid.png</NoteBackgroundMiddle>
     <NoteBackgroundRight>NotesBGRight.png</NoteBackgroundRight>
+    <NoteFreeStyle>NoteFreeStyle.png</NoteFreeStyle>
     <PointsBar>PointsBar.png</PointsBar>
     <PointsBarBG>PointsBarBG.png</PointsBarBG>
     <LyricHelper>LyricHelper.png</LyricHelper>

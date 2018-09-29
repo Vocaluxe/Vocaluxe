@@ -2092,6 +2092,7 @@
       <SkinBackgroundLeft>NoteBackgroundLeft</SkinBackgroundLeft>
       <SkinBackgroundMiddle>NoteBackgroundMiddle</SkinBackgroundMiddle>
       <SkinBackgroundRight>NoteBackgroundRight</SkinBackgroundRight>
+      <SkinFreeStyle>NoteFreeStyle</SkinFreeStyle>
       <SkinGoldenStar>Star</SkinGoldenStar>
       <SkinToneHelper>ToneHelper</SkinToneHelper>
       <SkinPerfectNoteStart>Star</SkinPerfectNoteStart>

@@ -48,6 +48,8 @@ namespace VocaluxeLib.Menu.SingNotes
 
         private int _CurrentLine = -1;
 
+        private int _JudgementLine = 100;
+
         private readonly Stopwatch _Timer = new Stopwatch();
         private readonly List<CParticleEffect> _GoldenStars = new List<CParticleEffect>();
         private readonly List<CParticleEffect> _Flares = new List<CParticleEffect>();
@@ -85,7 +87,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _PerfectNoteEffect.Clear();
 
             foreach (CSongNote note in _Lines[_CurrentLine].Notes.Where(note => note.Type == ENoteType.Golden))
-                _AddGoldenNote(_GetNoteRect(note));
+                _AddGoldenNote(_GetNoteRect(note, _Lines[_CurrentLine]));
         }
 
         public void Draw()
@@ -95,55 +97,63 @@ namespace VocaluxeLib.Menu.SingNotes
 
             CSongLine line = _Lines[_CurrentLine];
 
+            var color = new SColorF(_Color, _Color.A * Alpha);
+
             if (CBase.Config.GetDrawNoteLines() == EOffOn.TR_CONFIG_ON)
                 _DrawNoteLines(new SColorF(_NoteLinesColor, _NoteLinesColor.A * Alpha));
 
+            for (int i = 0; i < _Lines.Count(); i++)
+            {
+                foreach (CSongNote note in _Lines[i].Notes)
+                {
+                    SRectF rect = _GetNoteRect(note, _Lines[i]);
+                    if (note.Type != ENoteType.Freestyle)
+                    {
+                        _DrawNoteBG(rect, color);
+                        _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f);
+                    } else
+                    {
+                        _DrawFreeStyleNote(rect, color);
+                    }
+                }
+            }
+
+            List<CSungLine> sungLines = CBase.Game.GetPlayers()[_Player].SungLines;
+
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
 
-            var color = new SColorF(_Color, _Color.A * Alpha);
-
-            float baseLine = line.BaseLine;
-            foreach (CSongNote note in line.Notes)
+            for (int i = 0; i < sungLines.Count(); i++)
             {
-                if (note.Type != ENoteType.Freestyle)
+                foreach (CSungNote note in sungLines[i].Notes)
                 {
-                    SRectF rect = _GetNoteRect(note);
+                    SRectF rect = _GetNoteRect(note, _Lines[i]);
+                    if ((rect.X + rect.W > Rect.X && rect.X + rect.W < Rect.X + Rect.W))
+                    {
+                        if (note.EndBeat == CBase.Game.GetRecordedBeat())
+                            rect.W -= (1 - (CBase.Game.GetMidRecordedBeat() - CBase.Game.GetRecordedBeat())) * Rect.W / beats;
 
-                    _DrawNoteBG(rect, color);
-                    _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f);
+                        float factor = (note.Hit) ? 1f : 0.6f;
+
+                        _DrawNoteFill(rect, color, factor);
+
+                        if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.HitNote.Type == ENoteType.Golden)
+                        {
+                            SRectF re = rect;
+                            re.W = (CBase.Game.GetMidRecordedBeat() - note.StartBeat) / beats * Rect.W;
+                            _AddFlare(re);
+                        }
+
+                        if (note.Perfect && !note.PerfectDrawn && note.EndBeat < CBase.Game.GetRecordedBeat())
+                        {
+                            _AddPerfectNote(rect);
+                            note.PerfectDrawn = true;
+                        }
+                    }
                 }
             }
 
             if (CBase.Config.GetDrawToneHelper() == EOffOn.TR_CONFIG_ON)
-                _DrawToneHelper((int)baseLine, (CBase.Game.GetMidRecordedBeat() - line.FirstNoteBeat) / beats * Rect.W);
-
-            List<CSungLine> sungLines = CBase.Game.GetPlayers()[_Player].SungLines;
-            if (_CurrentLine >= 0 && _CurrentLine < sungLines.Count)
-            {
-                foreach (CSungNote note in sungLines[_CurrentLine].Notes)
-                {
-                    SRectF rect = _GetNoteRect(note);
-                    if (note.EndBeat == CBase.Game.GetRecordedBeat())
-                        rect.W -= (1 - (CBase.Game.GetMidRecordedBeat() - CBase.Game.GetRecordedBeat())) * Rect.W / beats;
-
-                    float factor = (note.Hit) ? 1f : 0.6f;
-
-                    _DrawNoteFill(rect, color, factor);
-
-                    if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.HitNote.Type == ENoteType.Golden)
-                    {
-                        SRectF re = rect;
-                        re.W = (CBase.Game.GetMidRecordedBeat() - note.StartBeat) / beats * Rect.W;
-                        _AddFlare(re);
-                    }
-
-                    if (note.Perfect && !note.PerfectDrawn && note.EndBeat < CBase.Game.GetRecordedBeat())
-                    {
-                        _AddPerfectNote(rect);
-                        note.PerfectDrawn = true;
-                    }
-                }
-            }
+                _DrawToneHelper((int)line.BaseLine, (CBase.Game.GetMidRecordedBeat() - line.FirstNoteBeat) / beats * Rect.W);
 
             if (_CurrentLine > 0 && sungLines.Count >= _CurrentLine && sungLines[_CurrentLine - 1].PerfectLine)
             {
@@ -171,15 +181,16 @@ namespace VocaluxeLib.Menu.SingNotes
                 perfnote.Draw();
         }
 
-        private SRectF _GetNoteRect(CBaseNote note)
+        private SRectF _GetNoteRect(CBaseNote note, CSongLine line)
         {
-            CSongLine line = _Lines[_CurrentLine];
+            float notewidth = _NoteLineHeight * 1.5f;
+            //CSongLine line = _Lines[_CurrentLine];
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
 
-            float width = note.Duration * Rect.W / beats;
+            float width = note.Duration * notewidth;
 
             var noteRect = new SRectF(
-                Rect.X + (note.StartBeat - line.FirstNoteBeat) * Rect.W / beats,
+                Rect.X + (note.StartBeat - line.FirstNoteBeat) * notewidth - ((CBase.Game.GetMidRecordedBeat() - line.FirstNoteBeat) * notewidth) + _JudgementLine,
                 Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2,
                 width,
                 _NoteLineHeight + _AddNoteHeight,
@@ -197,6 +208,21 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 lineRect.Y = Rect.Y + (linedistance * (i + 1)) - (lineRect.H / 2) - (linedistance / 2);
                 CBase.Drawing.DrawRect(color, lineRect, false);
+            }
+
+            SRectF judgeRect = Rect;
+            judgeRect.W = 2f;
+            judgeRect.X = Rect.X + _JudgementLine;
+            CBase.Drawing.DrawRect(color, judgeRect, false);
+
+            SRectF sepRect = judgeRect;
+            float notewidth = _NoteLineHeight * 1.5f;
+
+            for (int i = 0; i < _Lines.Count(); i++)
+            {
+                sepRect.X = Rect.X - ((CBase.Game.GetMidRecordedBeat() - _Lines[i].StartBeat) * notewidth) + _JudgementLine;
+                if (sepRect.X > Rect.X && sepRect.X < Rect.X + Rect.W)
+                    CBase.Drawing.DrawRect(color, sepRect, false);
             }
         }
 
@@ -217,7 +243,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 offsetX = Rect.W;
 
             var drawRect = new SRectF(
-                Rect.X - _NoteLineHeight + offsetX,
+                Rect.X + _JudgementLine - _NoteLineHeight,
                 Rect.Y + _NoteLineHeight * (CBase.Settings.GetNumNoteLines() - 1 - (tonePlayer - baseLine) / 2f),
                 _NoteLineHeight,
                 _NoteLineHeight,
@@ -232,7 +258,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         private void _DrawNote(SRectF rect, SColorF color, CTextureRef noteBegin, CTextureRef noteMiddle, CTextureRef noteEnd, float factor)
         {
-            if (factor <= 0)
+            if (factor <= 0 || rect.X > Rect.X + Rect.W || rect.X + rect.W < Rect.X)
                 return;
 
             //Width-related variables rounded and then floored to prevent 1px gaps in notes
@@ -243,12 +269,22 @@ namespace VocaluxeLib.Menu.SingNotes
             int dw = (int)Math.Min(dh, rect.W / 2);
 
             var noteRect = new SRectF(rect.X + dw, rect.Y + dh, rect.W - 2 * dw, rect.H - 2 * dh, rect.Z);
+            var noteBoundary = noteRect;
+            if(noteBoundary.X < Rect.X)
+            {
+                noteBoundary.X = Rect.X;
+                noteBoundary.W -= Rect.X - noteBoundary.X;
+            }
+            if (noteBoundary.X + noteBoundary.W > Rect.X + Rect.W)
+            {
+                noteBoundary.W -= (noteBoundary.X + noteBoundary.W) - (Rect.X + Rect.W);
+            }
 
             //Width of each of the ends (round parts)
             //Need 2 of them so use minimum
             int endsW = (int)Math.Min(noteRect.H * noteBegin.OrigAspect, noteRect.W / 2);
 
-            CBase.Drawing.DrawTexture(noteBegin, new SRectF(noteRect.X, noteRect.Y, endsW, noteRect.H, noteRect.Z), color, false);
+            CBase.Drawing.DrawTexture(noteBegin, new SRectF(noteRect.X, noteRect.Y, endsW, noteRect.H, noteRect.Z), color, noteBoundary, false, false);
 
             SRectF middleRect = new SRectF(noteRect.X + endsW, noteRect.Y, noteRect.W - 2 * endsW, noteRect.H, noteRect.Z);
 
@@ -258,14 +294,22 @@ namespace VocaluxeLib.Menu.SingNotes
 
             for (int i = 0; i < midCount; ++i)
             {
-                CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X + (i * midW), noteRect.Y, midW, noteRect.H, noteRect.Z), color, false);
+                CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X + (i * midW), noteRect.Y, midW, noteRect.H, noteRect.Z), color, noteBoundary, false, false);
             }
 
             SRectF lastMidRect = new SRectF(middleRect.X + midCount * midW, noteRect.Y, middleRect.W - (midCount * midW), noteRect.H, noteRect.Z);
+            if (lastMidRect.X + lastMidRect.W > Rect.X + Rect.W)
+            {
+                lastMidRect.W -= (lastMidRect.X + lastMidRect.W) - (Rect.X + Rect.W);
+            } else if(lastMidRect.X < Rect.X)
+            {
+                lastMidRect.X = Rect.X;
+                lastMidRect.W -= Rect.X - lastMidRect.X;
+            }
 
             CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X + (midCount * midW), middleRect.Y, midW, middleRect.H, middleRect.Z), color, lastMidRect, false, false);
 
-            CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW, noteRect.Y, endsW, noteRect.H, noteRect.Z), color, false);
+            CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW, noteRect.Y, endsW, noteRect.H, noteRect.Z), color, noteBoundary, false, false);
         }
 
         private void _DrawNoteBase(SRectF rect, SColorF color, float factor)
@@ -306,6 +350,25 @@ namespace VocaluxeLib.Menu.SingNotes
             CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundRight, _PartyModeID);
 
             _DrawNote(rect, col, noteBegin, noteMiddle, noteEnd, 1f);
+        }
+
+        private void _DrawFreeStyleNote(SRectF rect, SColorF color)
+        {
+            SRectF noteRect = rect;
+            noteRect.H = Rect.H;
+            noteRect.Y = Rect.Y;
+            var noteBoundary = noteRect;
+            if (noteBoundary.X < Rect.X)
+            {
+                noteBoundary.X = Rect.X;
+                noteBoundary.W -= Rect.X - noteBoundary.X;
+            }
+            if (noteBoundary.X + noteBoundary.W > Rect.X + Rect.W)
+            {
+                noteBoundary.W -= (noteBoundary.X + noteBoundary.W) - (Rect.X + Rect.W);
+            }
+            CTextureRef noteTexture = CBase.Themes.GetSkinTexture(_Theme.SkinFreeStyle, _PartyModeID);
+            CBase.Drawing.DrawTexture(noteTexture, noteRect, color, noteBoundary, false, false);
         }
 
         private void _AddGoldenNote(SRectF noteRect)
