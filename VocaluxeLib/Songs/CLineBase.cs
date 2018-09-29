@@ -17,6 +17,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace VocaluxeLib.Songs
 {
@@ -67,8 +68,9 @@ namespace VocaluxeLib.Songs
                     return 0;
                 int min = _Notes.Min(note => note.Tone);
                 int max = _Notes.Max(note => note.Tone);
-
-                return min - (max - min) / 4;
+                int range = max - min;
+                int maxrange = ((CBase.Settings.GetNumNoteLines()) * 2) - 1;
+                return min - (int)Math.Floor((double)(maxrange - range)/2);
             }
         }
         #endregion Properties
