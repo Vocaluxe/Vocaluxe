@@ -105,12 +105,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        private bool _AllMonitors = true;
-        public bool AllMonitors
-        {
-            get { return _AllMonitors; }
-            set { _AllMonitors = value; }
-        }
+        public bool AllMonitors { get; set; }
 
         public float Alpha
         {
