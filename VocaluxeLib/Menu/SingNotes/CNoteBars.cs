@@ -184,7 +184,6 @@ namespace VocaluxeLib.Menu.SingNotes
         private SRectF _GetNoteRect(CBaseNote note, CSongLine line)
         {
             float notewidth = _NoteLineHeight * 1.5f;
-            //CSongLine line = _Lines[_CurrentLine];
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
 
             float width = note.Duration * notewidth;
