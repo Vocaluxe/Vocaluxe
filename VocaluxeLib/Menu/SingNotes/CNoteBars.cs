@@ -153,7 +153,7 @@ namespace VocaluxeLib.Menu.SingNotes
             }
 
             if (CBase.Config.GetDrawToneHelper() == EOffOn.TR_CONFIG_ON)
-                _DrawToneHelper((int)line.BaseLine, (CBase.Game.GetMidRecordedBeat() - line.FirstNoteBeat) / beats * Rect.W);
+                _DrawToneHelper((int)line.BaseLine);
 
             if (_CurrentLine > 0 && sungLines.Count >= _CurrentLine && sungLines[_CurrentLine - 1].PerfectLine)
             {
@@ -226,7 +226,7 @@ namespace VocaluxeLib.Menu.SingNotes
             }
         }
 
-        private void _DrawToneHelper(int baseLine, float offsetX)
+        private void _DrawToneHelper(int baseLine)
         {
             int tonePlayer = CBase.Record.GetToneAbs(_Player);
 
@@ -236,23 +236,20 @@ namespace VocaluxeLib.Menu.SingNotes
             while (tonePlayer - baseLine > 12)
                 tonePlayer -= 12;
 
-            if (offsetX < 0f)
-                offsetX = 0f;
-
-            if (offsetX > Rect.W)
-                offsetX = Rect.W;
+            CTextureRef toneHelper = CBase.Themes.GetSkinTexture(_Theme.SkinToneHelper, _PartyModeID);
+            toneHelper.Rect.W = toneHelper.Rect.W * ((_NoteLineHeight * 2) / toneHelper.Rect.H);
+            toneHelper.Rect.H = _NoteLineHeight * 2;
 
             var drawRect = new SRectF(
-                Rect.X + _JudgementLine - _NoteLineHeight,
+                Rect.X + _JudgementLine - toneHelper.Rect.W,
                 Rect.Y + _NoteLineHeight * (CBase.Settings.GetNumNoteLines() - 1 - (tonePlayer - baseLine) / 2f),
-                _NoteLineHeight,
-                _NoteLineHeight,
+                toneHelper.Rect.W,
+                toneHelper.Rect.H,
                 Rect.Z
                 );
 
-            var color = new SColorF(_Color, _Color.A * Alpha);
+            var color = new SColorF(1, 1, 1, Alpha);
 
-            CTextureRef toneHelper = CBase.Themes.GetSkinTexture(_Theme.SkinToneHelper, _PartyModeID);
             CBase.Drawing.DrawTexture(toneHelper, drawRect, color, false);
         }
 
