@@ -48,7 +48,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
         private int _CurrentLine = -1;
 
-        private int _JudgementLine = 100;
+        private readonly int _JudgementLine = 100;
 
         private readonly Stopwatch _Timer = new Stopwatch();
         private readonly List<CParticleEffect> _GoldenStars = new List<CParticleEffect>();
