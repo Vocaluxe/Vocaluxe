@@ -2306,10 +2306,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1003</X>
-        <Y>434</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1000</X>
+        <Y>431</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2351,10 +2351,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1003</X>
-        <Y>167</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1000</X>
+        <Y>164</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2396,10 +2396,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1003</X>
-        <Y>434</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1000</X>
+        <Y>431</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2441,10 +2441,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1003</X>
-        <Y>105</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1000</X>
+        <Y>102</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2486,10 +2486,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1003</X>
-        <Y>301</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1000</X>
+        <Y>298</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2531,10 +2531,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1003</X>
-        <Y>497</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1000</X>
+        <Y>494</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2576,10 +2576,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>533</X>
-        <Y>167</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>530</X>
+        <Y>164</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2621,10 +2621,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>533</X>
-        <Y>434</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>530</X>
+        <Y>431</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2666,10 +2666,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1119</X>
-        <Y>167</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1116</X>
+        <Y>164</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2711,10 +2711,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1119</X>
-        <Y>434</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1116</X>
+        <Y>431</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2756,10 +2756,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>533</X>
-        <Y>105</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>530</X>
+        <Y>102</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2801,10 +2801,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>533</X>
-        <Y>301</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>530</X>
+        <Y>298</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2846,10 +2846,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>533</X>
-        <Y>497</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>530</X>
+        <Y>494</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2891,10 +2891,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1119</X>
-        <Y>167</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1116</X>
+        <Y>164</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2936,10 +2936,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1119</X>
-        <Y>434</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1116</X>
+        <Y>431</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -2981,10 +2981,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>533</X>
-        <Y>105</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>530</X>
+        <Y>102</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3026,10 +3026,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>533</X>
-        <Y>301</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>530</X>
+        <Y>298</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3071,10 +3071,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>533</X>
-        <Y>497</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>530</X>
+        <Y>494</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3116,10 +3116,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1119</X>
-        <Y>105</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1116</X>
+        <Y>102</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3161,10 +3161,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1119</X>
-        <Y>301</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1116</X>
+        <Y>298</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
@@ -3206,10 +3206,10 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1119</X>
-        <Y>497</Y>
-        <W>91</W>
-        <H>14</H>
+        <X>1116</X>
+        <Y>494</Y>
+        <W>97</W>
+        <H>20</H>
         <Z>-0.75</Z>
       </Rect>
       <ProgressColors>
