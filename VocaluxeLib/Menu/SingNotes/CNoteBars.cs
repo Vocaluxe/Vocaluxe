@@ -190,7 +190,7 @@ namespace VocaluxeLib.Menu.SingNotes
             float width = note.Duration * notewidth;
 
             var noteRect = new SRectF(
-                Rect.X + (note.StartBeat - line.FirstNoteBeat) * notewidth - ((CBase.Game.GetMidRecordedBeat() - line.FirstNoteBeat) * notewidth) + _JudgementLine,
+                Rect.X + (note.StartBeat - line.FirstNoteBeat) * notewidth - ((CBase.Game.GetCurrentBeatF() - line.FirstNoteBeat) * notewidth) + _JudgementLine,
                 Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2,
                 width,
                 _NoteLineHeight + _AddNoteHeight,
@@ -220,7 +220,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             for (int i = 0; i < _Lines.Count(); i++)
             {
-                sepRect.X = Rect.X - ((CBase.Game.GetMidRecordedBeat() - _Lines[i].StartBeat) * notewidth) + _JudgementLine;
+                sepRect.X = Rect.X - ((CBase.Game.GetCurrentBeatF() - _Lines[i].StartBeat) * notewidth) + _JudgementLine;
                 if (sepRect.X > Rect.X && sepRect.X < Rect.X + Rect.W)
                     CBase.Drawing.DrawRect(color, sepRect, false);
             }
