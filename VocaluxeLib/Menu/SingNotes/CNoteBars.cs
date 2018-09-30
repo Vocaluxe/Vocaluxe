@@ -122,7 +122,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
 
-            for (int i = 0; i < sungLines.Count(); i++)
+            for (int i = 0; i < sungLines.Count; i++)
             {
                 foreach (CSungNote note in sungLines[i].Notes)
                 {
@@ -153,7 +153,7 @@ namespace VocaluxeLib.Menu.SingNotes
             }
 
             if (CBase.Config.GetDrawToneHelper() == EOffOn.TR_CONFIG_ON)
-                _DrawToneHelper((int)line.BaseLine);
+                _DrawToneHelper(line.BaseLine);
 
             if (_CurrentLine > 0 && sungLines.Count >= _CurrentLine && sungLines[_CurrentLine - 1].PerfectLine)
             {
