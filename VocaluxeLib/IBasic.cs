@@ -188,6 +188,7 @@ namespace VocaluxeLib
         void SetNumPlayer(int numPlayer);
         SPlayer[] GetPlayers();
         CPoints GetPoints();
+        float GetCurrentBeatF();
         float GetMidRecordedBeat();
         int GetRecordedBeat();
 

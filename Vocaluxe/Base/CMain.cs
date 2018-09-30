@@ -571,6 +571,11 @@ namespace Vocaluxe.Base
             return CGame.GetPoints();
         }
 
+        public float GetCurrentBeatF()
+        {
+            return CGame.CurrentBeatF;
+        }
+
         public float GetMidRecordedBeat()
         {
             return CGame.MidRecordedBeat;
