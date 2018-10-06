@@ -46,6 +46,8 @@ namespace VocaluxeLib.Menu.SingNotes
         /// </summary>
         private readonly float _AddNoteHeight;
 
+        private readonly float _NoteWidth;
+
         private int _CurrentLine = -1;
 
         private readonly int _JudgementLine = 100;
@@ -75,6 +77,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _Lines = CBase.Game.GetSong().Notes.GetVoice(playerData.VoiceNr).Lines;
             _NoteLineHeight = Rect.H / CBase.Settings.GetNumNoteLines();
             _AddNoteHeight = _NoteLineHeight / 2f * (2f - (int)CBase.Profiles.GetDifficulty(playerData.ProfileID));
+            _NoteWidth = _NoteLineHeight * 2f;
         }
 
         public void SetLine(int line)
@@ -183,12 +186,10 @@ namespace VocaluxeLib.Menu.SingNotes
 
         private SRectF _GetNoteRect(CBaseNote note, CSongLine line)
         {
-            float notewidth = _NoteLineHeight * 2f;
-
-            float width = note.Duration * notewidth;
+            float width = note.Duration * _NoteWidth;
 
             var noteRect = new SRectF(
-                Rect.X + (note.StartBeat - line.FirstNoteBeat) * notewidth - ((CBase.Game.GetCurrentBeatF() - line.FirstNoteBeat) * notewidth) + _JudgementLine,
+                Rect.X + (note.StartBeat - CBase.Game.GetCurrentBeatF()) * _NoteWidth + _JudgementLine,
                 Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2,
                 width,
                 _NoteLineHeight + _AddNoteHeight,
@@ -214,11 +215,10 @@ namespace VocaluxeLib.Menu.SingNotes
             CBase.Drawing.DrawRect(color, judgeRect, false);
 
             SRectF sepRect = judgeRect;
-            float notewidth = _NoteLineHeight * 2f;
 
             for (int i = 0; i < _Lines.Count(); i++)
             {
-                sepRect.X = Rect.X - ((CBase.Game.GetCurrentBeatF() - _Lines[i].StartBeat) * notewidth) + _JudgementLine;
+                sepRect.X = Rect.X - ((CBase.Game.GetCurrentBeatF() - _Lines[i].StartBeat) * _NoteWidth) + _JudgementLine;
                 if (sepRect.X > Rect.X && sepRect.X < Rect.X + Rect.W)
                     CBase.Drawing.DrawRect(color, sepRect, false);
             }
