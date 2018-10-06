@@ -156,7 +156,7 @@ namespace VocaluxeLib.Menu.SingNotes
             }
 
             if (CBase.Config.GetDrawToneHelper() == EOffOn.TR_CONFIG_ON)
-                _DrawToneHelper(line.BaseLine);
+                _DrawToneHelper(line);
 
             if (_CurrentLine > 0 && sungLines.Count >= _CurrentLine && sungLines[_CurrentLine - 1].PerfectLine)
             {
@@ -224,14 +224,24 @@ namespace VocaluxeLib.Menu.SingNotes
             }
         }
 
-        private void _DrawToneHelper(int baseLine)
+        private void _DrawToneHelper(CSongLine line)
         {
             int tonePlayer = CBase.Record.GetToneAbs(_Player);
 
-            while (tonePlayer - baseLine < 0)
+            if (!CBase.Record.ToneValid(_Player))
+                return;
+
+            int note = line.FindPreviousNote(CBase.Game.GetCurrentBeat());
+
+            if(note < 0)
+                note = 0;
+
+            int tone = line.Notes[note].Tone;
+
+            while (tonePlayer - tone < -6)
                 tonePlayer += 12;
 
-            while (tonePlayer - baseLine > 12)
+            while (tonePlayer - tone > 6)
                 tonePlayer -= 12;
 
             CTextureRef toneHelper = CBase.Themes.GetSkinTexture(_Theme.SkinToneHelper, _PartyModeID);
@@ -240,7 +250,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             var drawRect = new SRectF(
                 Rect.X + _JudgementLine - toneHelper.Rect.W,
-                Rect.Y + _NoteLineHeight * (CBase.Settings.GetNumNoteLines() - 1 - (tonePlayer - baseLine) / 2f),
+                Rect.Y + (_NoteLineHeight * (CBase.Settings.GetNumNoteLines() - 1 - (tonePlayer - line.BaseLine) / 2f)) - _NoteLineHeight/2,
                 toneHelper.Rect.W,
                 toneHelper.Rect.H,
                 Rect.Z
