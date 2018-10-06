@@ -210,6 +210,7 @@ namespace VocaluxeLib
     public interface IRecording
     {
         int GetToneAbs(int player);
+        bool ToneValid(int player);
     }
 
     public interface IProfiles

@@ -695,6 +695,11 @@ namespace Vocaluxe.Base
         {
             return CRecord.GetToneAbs(player);
         }
+
+        public bool ToneValid(int player)
+        {
+            return CRecord.ToneValid(player);
+        }
     }
 
     class CBsongs : ISongs
