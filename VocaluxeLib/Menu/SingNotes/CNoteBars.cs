@@ -35,12 +35,17 @@ namespace VocaluxeLib.Menu.SingNotes
         private readonly SColorF _NoteLinesColor;
         private readonly SColorF _NoteBaseColor;
         public float Alpha = 1;
+        private float ToneHelperAlpha = 0;
         private readonly CSongLine[] _Lines;
 
         /// <summary>
-        ///     Height of one line (tone)
+        ///     Height of one tone
         /// </summary>
-        private readonly float _NoteLineHeight;
+        private readonly float _ToneHeight;
+        /// <summary>
+        ///     Height of one semi-tone
+        /// </summary>
+        private readonly float _SemiToneHeight;
         /// <summary>
         ///     Additional height of a note according to selected difficulty
         /// </summary>
@@ -48,11 +53,17 @@ namespace VocaluxeLib.Menu.SingNotes
 
         private readonly float _NoteWidth;
 
+        private readonly int _SongBaseLine;
+        private readonly int _NumNoteLines;
+        private int _SemiToneRange;
+
+
         private int _CurrentLine = -1;
 
         private readonly int _JudgementLine = 100;
 
         private readonly Stopwatch _Timer = new Stopwatch();
+        private readonly Stopwatch _ToneHelperTimer = new Stopwatch();
         private readonly List<CParticleEffect> _GoldenStars = new List<CParticleEffect>();
         private readonly List<CParticleEffect> _Flares = new List<CParticleEffect>();
         private readonly List<CParticleEffect> _PerfectNoteEffect = new List<CParticleEffect>();
@@ -75,9 +86,45 @@ namespace VocaluxeLib.Menu.SingNotes
 
             SPlayer playerData = CBase.Game.GetPlayers()[player];
             _Lines = CBase.Game.GetSong().Notes.GetVoice(playerData.VoiceNr).Lines;
-            _NoteLineHeight = Rect.H / CBase.Settings.GetNumNoteLines();
-            _AddNoteHeight = _NoteLineHeight / 2f * (2f - (int)CBase.Profiles.GetDifficulty(playerData.ProfileID));
-            _NoteWidth = _NoteLineHeight * 2f;
+
+            _SemiToneRange = ((CBase.Settings.GetNumNoteLines()) * 2) - 1;
+
+            _SongBaseLine = SetSongBaseLine();
+
+            _NumNoteLines = (_SemiToneRange + 1) / 2;
+            _ToneHeight = Rect.H / _NumNoteLines;
+            _SemiToneHeight = _ToneHeight / 2;
+            _NoteWidth = _ToneHeight * 2f;
+            _AddNoteHeight = _ToneHeight / 2f * (2f - (int)CBase.Profiles.GetDifficulty(playerData.ProfileID));
+        }
+
+        private int SetSongBaseLine()
+        {
+            int min = CBase.Settings.GetToneMax();
+            int max = CBase.Settings.GetToneMin();
+            int range;
+
+            for (int i = 0; i < _Lines.Count(); i++)
+            {
+                if (_Lines[i].Notes.Count() > 0)
+                {
+                    foreach (CSongNote note in _Lines[i].Notes.Where(note => note.Type != ENoteType.Freestyle))
+                    {
+                        min = (note.Tone < min) ? note.Tone : min;
+                        max = (note.Tone > max) ? note.Tone : max;
+                    }
+                }
+            }
+
+            range = max - min;
+
+            if (range > _SemiToneRange)
+            {
+                _SemiToneRange = range;
+                _SemiToneRange += (_SemiToneRange + 1) % 2;
+            }
+
+            return min - (int)Math.Floor((double)(_SemiToneRange - range) / 2);
         }
 
         public void SetLine(int line)
@@ -95,6 +142,8 @@ namespace VocaluxeLib.Menu.SingNotes
 
         public void Draw()
         {
+            _DrawJudgeLine(new SColorF(_NoteLinesColor, _NoteLinesColor.A));
+
             if (_CurrentLine == -1 || _CurrentLine >= _Lines.Length)
                 return;
 
@@ -103,7 +152,12 @@ namespace VocaluxeLib.Menu.SingNotes
             var color = new SColorF(_Color, _Color.A * Alpha);
 
             if (CBase.Config.GetDrawNoteLines() == EOffOn.TR_CONFIG_ON)
+            {
                 _DrawNoteLines(new SColorF(_NoteLinesColor, _NoteLinesColor.A * Alpha));
+                _DrawOctaveLines(new SColorF(0, 0, 0, 0.5f * Alpha));
+            }
+
+            _DrawLineSeparators(new SColorF(_NoteLinesColor, _NoteLinesColor.A));
 
             for (int i = 0; i < _Lines.Count(); i++)
             {
@@ -190,9 +244,9 @@ namespace VocaluxeLib.Menu.SingNotes
 
             var noteRect = new SRectF(
                 Rect.X + (note.StartBeat - CBase.Game.GetCurrentBeatF()) * _NoteWidth + _JudgementLine,
-                Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2,
+                Rect.Y + (_SemiToneRange - (note.Tone - _SongBaseLine)) * _SemiToneHeight - (_AddNoteHeight / 2),
                 width,
-                _NoteLineHeight + _AddNoteHeight,
+                _ToneHeight + _AddNoteHeight,
                 Rect.Z
                 );
             return noteRect;
@@ -202,34 +256,83 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             SRectF lineRect = Rect;
             lineRect.H = 1f;
-            float linedistance = Rect.H / CBase.Settings.GetNumNoteLines();
-            for (int i = 0; i < CBase.Settings.GetNumNoteLines(); i++)
+            for (int i = 0; i < _NumNoteLines; i++)
             {
-                lineRect.Y = Rect.Y + (linedistance * (i + 1)) - (lineRect.H / 2) - (linedistance / 2);
+                lineRect.Y = Rect.Y + (_ToneHeight * (i + 1)) - (lineRect.H / 2) - (_ToneHeight / 2);
                 CBase.Drawing.DrawRect(color, lineRect, false);
             }
+        }
 
+        private void _DrawJudgeLine(SColorF color)
+        {
             SRectF judgeRect = Rect;
             judgeRect.W = 2f;
             judgeRect.X = Rect.X + _JudgementLine;
             CBase.Drawing.DrawRect(color, judgeRect, false);
+        }
 
-            SRectF sepRect = judgeRect;
+        private void _DrawLineSeparators(SColorF color)
+        {
+            SRectF separatorRect = Rect;
+            separatorRect.W = 2f;
+            separatorRect.X = Rect.X + _JudgementLine;
 
             for (int i = 0; i < _Lines.Count(); i++)
             {
-                sepRect.X = Rect.X - ((CBase.Game.GetCurrentBeatF() - _Lines[i].StartBeat) * _NoteWidth) + _JudgementLine;
-                if (sepRect.X > Rect.X && sepRect.X < Rect.X + Rect.W)
-                    CBase.Drawing.DrawRect(color, sepRect, false);
+                separatorRect.X = Rect.X - ((CBase.Game.GetCurrentBeatF() - _Lines[i].StartBeat) * _NoteWidth) + _JudgementLine;
+                if (separatorRect.X > Rect.X && separatorRect.X < Rect.X + Rect.W)
+                    CBase.Drawing.DrawRect(color, separatorRect, false);
             }
+        }
+
+        private void _DrawOctaveLines(SColorF octaveColor)
+        {
+            int shift = 12 - (_SongBaseLine % 12);
+
+            if (shift >= 12)
+                shift -= 12;
+
+            SRectF octaveRect = Rect;
+            octaveRect.H = _SemiToneHeight * 12;
+            octaveRect.Y = Rect.Y + Rect.H - octaveRect.H - (_SemiToneHeight * shift);
+            
+            do
+            {
+                CTextureRef noteTexture = CBase.Themes.GetSkinTexture(_Theme.SkinFreeStyle, _PartyModeID);
+                CBase.Drawing.DrawTexture(noteTexture, octaveRect, octaveColor, Rect, false, false);
+                octaveRect.Y = octaveRect.Y - 2 * octaveRect.H;
+            }
+            while (octaveRect.Y + octaveRect.H > Rect.Y);
         }
 
         private void _DrawToneHelper(CSongLine line)
         {
+            float fadetime = 200;
             int tonePlayer = CBase.Record.GetToneAbs(_Player);
 
             if (!CBase.Record.ToneValid(_Player))
-                return;
+            {
+                if(ToneHelperAlpha == 0)
+                    return;
+
+                if (!_ToneHelperTimer.IsRunning)
+                    _ToneHelperTimer.Start();
+
+                if (_ToneHelperTimer.ElapsedMilliseconds > fadetime)
+                {
+                    ToneHelperAlpha = 0;
+                    _ToneHelperTimer.Reset();
+                }
+                else
+                {
+                    ToneHelperAlpha = 1 - (_ToneHelperTimer.ElapsedMilliseconds / fadetime);
+                }
+            }
+            else
+            {
+                ToneHelperAlpha = 1;
+                _ToneHelperTimer.Reset();
+            }
 
             int note = line.FindPreviousNote(CBase.Game.GetCurrentBeat());
 
@@ -244,19 +347,21 @@ namespace VocaluxeLib.Menu.SingNotes
             while (tonePlayer - tone > 6)
                 tonePlayer -= 12;
 
+            float h = (Rect.H / CBase.Settings.GetNumNoteLines()) * 2;
+
             CTextureRef toneHelper = CBase.Themes.GetSkinTexture(_Theme.SkinToneHelper, _PartyModeID);
-            toneHelper.Rect.W = toneHelper.Rect.W * ((_NoteLineHeight * 2) / toneHelper.Rect.H);
-            toneHelper.Rect.H = _NoteLineHeight * 2;
+            toneHelper.Rect.W = toneHelper.Rect.W * ((h) / toneHelper.Rect.H);
+            toneHelper.Rect.H = h;
 
             var drawRect = new SRectF(
                 Rect.X + _JudgementLine - toneHelper.Rect.W,
-                Rect.Y + (_NoteLineHeight * (CBase.Settings.GetNumNoteLines() - 1 - (tonePlayer - line.BaseLine) / 2f)) - _NoteLineHeight/2,
+                Rect.Y + (_SemiToneHeight * (_SemiToneRange - (tonePlayer - _SongBaseLine) + 1)) - (toneHelper.Rect.H / 2),
                 toneHelper.Rect.W,
                 toneHelper.Rect.H,
                 Rect.Z
                 );
 
-            var color = new SColorF(1, 1, 1, Alpha);
+            var color = new SColorF(1, 1, 1, ToneHelperAlpha);
 
             CBase.Drawing.DrawTexture(toneHelper, drawRect, color, false);
         }
