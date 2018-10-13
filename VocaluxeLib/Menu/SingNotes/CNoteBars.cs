@@ -106,7 +106,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             for (int i = 0; i < _Lines.Count(); i++)
             {
-                if (_Lines[i].Notes.Count() > 0)
+                if (_Lines[i].Notes.Any())
                 {
                     foreach (CSongNote note in _Lines[i].Notes.Where(note => note.Type != ENoteType.Freestyle))
                     {
