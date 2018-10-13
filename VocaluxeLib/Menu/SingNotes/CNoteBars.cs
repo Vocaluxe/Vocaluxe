@@ -163,7 +163,7 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 foreach (CSongNote note in _Lines[i].Notes)
                 {
-                    SRectF rect = _GetNoteRect(note, _Lines[i]);
+                    SRectF rect = _GetNoteRect(note);
                     if (note.Type != ENoteType.Freestyle)
                     {
                         _DrawNoteBG(rect, color);
@@ -183,7 +183,7 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 foreach (CSungNote note in sungLines[i].Notes)
                 {
-                    SRectF rect = _GetNoteRect(note, _Lines[i]);
+                    SRectF rect = _GetNoteRect(note);
                     if ((rect.X + rect.W > Rect.X && rect.X + rect.W < Rect.X + Rect.W))
                     {
                         if (note.EndBeat == CBase.Game.GetRecordedBeat())
@@ -238,7 +238,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 perfnote.Draw();
         }
 
-        private SRectF _GetNoteRect(CBaseNote note, CSongLine line)
+        private SRectF _GetNoteRect(CBaseNote note)
         {
             float width = note.Duration * _NoteWidth;
 
