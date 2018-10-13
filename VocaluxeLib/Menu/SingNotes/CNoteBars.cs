@@ -159,21 +159,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             _DrawLineSeparators(new SColorF(_NoteLinesColor, _NoteLinesColor.A));
 
-            for (int i = 0; i < _Lines.Count(); i++)
-            {
-                foreach (CSongNote note in _Lines[i].Notes)
-                {
-                    SRectF rect = _GetNoteRect(note);
-                    if (note.Type != ENoteType.Freestyle)
-                    {
-                        _DrawNoteBG(rect, color);
-                        _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f);
-                    } else
-                    {
-                        _DrawFreeStyleNote(rect, color);
-                    }
-                }
-            }
+            _DrawNotes(color);
 
             List<CSungLine> sungLines = CBase.Game.GetPlayers()[_Player].SungLines;
 
@@ -236,6 +222,31 @@ namespace VocaluxeLib.Menu.SingNotes
 
             foreach (CParticleEffect perfnote in _PerfectNoteEffect)
                 perfnote.Draw();
+        }
+
+        private void _DrawNotes(SColorF color)
+        {
+            for (int i = 0; i < _Lines.Count(); i++)
+            {
+                foreach (CSongNote note in _Lines[i].Notes)
+                {
+                    SRectF rect = _GetNoteRect(note);
+                    switch (note.Type)
+                    {
+                        case ENoteType.Normal:
+                            _DrawNormalNote(rect, color);
+                            break;
+                        case ENoteType.Golden:
+                            _DrawGoldenNote(rect, color);
+                            break;
+                        case ENoteType.Freestyle:
+                            _DrawFreeStyleNote(rect, color);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
         }
 
         private SRectF _GetNoteRect(CBaseNote note)
@@ -479,6 +490,20 @@ namespace VocaluxeLib.Menu.SingNotes
             }
             CTextureRef noteTexture = CBase.Themes.GetSkinTexture(_Theme.SkinFreeStyle, _PartyModeID);
             CBase.Drawing.DrawTexture(noteTexture, noteRect, color, noteBoundary, false, false);
+        }
+
+        private void _DrawNormalNote(SRectF rect, SColorF color)
+        {
+            _DrawNoteBG(rect, color);
+            _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f);
+        }
+
+        private void _DrawGoldenNote(SRectF rect, SColorF color)
+        {
+            SColorF goldColor = new SColorF(1, 0.84f, 0, color.A);
+            SColorF whiteColor = new SColorF(1, 1, 1, color.A);
+            _DrawNoteBG(rect, whiteColor);
+            _DrawNoteBase(rect, new SColorF(goldColor, _NoteBaseColor.A * Alpha), 1f);
         }
 
         private void _AddGoldenNote(SRectF noteRect)
