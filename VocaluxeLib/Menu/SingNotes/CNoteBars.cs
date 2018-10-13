@@ -230,17 +230,16 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 foreach (CSongNote note in _Lines[i].Notes)
                 {
-                    SRectF rect = _GetNoteRect(note);
                     switch (note.Type)
                     {
                         case ENoteType.Normal:
-                            _DrawNormalNote(rect, color);
+                            _DrawNormalNote(note, color);
                             break;
                         case ENoteType.Golden:
-                            _DrawGoldenNote(rect, color);
+                            _DrawGoldenNote(note, color);
                             break;
                         case ENoteType.Freestyle:
-                            _DrawFreeStyleNote(rect, color);
+                            _DrawFreeStyleNote(note, color);
                             break;
                         default:
                             break;
@@ -473,37 +472,45 @@ namespace VocaluxeLib.Menu.SingNotes
             _DrawNote(rect, col, noteBegin, noteMiddle, noteEnd, 1f);
         }
 
-        private void _DrawFreeStyleNote(SRectF rect, SColorF color)
+        private void _DrawFreeStyleNote(CSongNote note, SColorF color)
         {
-            SRectF noteRect = rect;
-            noteRect.H = Rect.H;
-            noteRect.Y = Rect.Y;
-            var noteBoundary = noteRect;
+            SRectF noteRect = _GetNoteRect(note);
+            SRectF noteBoundaryRect = _GetNoteBoundary(note);
+            noteRect.H = noteBoundaryRect.H = Rect.H;
+            noteRect.Y = noteBoundaryRect.Y = Rect.Y;
+            CTextureRef noteTexture = CBase.Themes.GetSkinTexture(_Theme.SkinFreeStyle, _PartyModeID);
+            CBase.Drawing.DrawTexture(noteTexture, noteRect, color, noteBoundaryRect, false, false);
+        }
+
+        private void _DrawNormalNote(CSongNote note, SColorF color)
+        {
+            SRectF rect = _GetNoteRect(note);
+            _DrawNoteBG(rect, color);
+            _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f);
+        }
+
+        private void _DrawGoldenNote(CSongNote note, SColorF color)
+        {
+            SRectF rect = _GetNoteRect(note);
+            SColorF goldColor = new SColorF(1, 0.84f, 0, color.A);
+            SColorF whiteColor = new SColorF(1, 1, 1, color.A);
+            _DrawNoteBG(rect, whiteColor);
+            _DrawNoteBase(rect, new SColorF(goldColor, _NoteBaseColor.A * Alpha), 1f);
+        }
+
+        private SRectF _GetNoteBoundary(CSongNote note)
+        {
+            SRectF noteBoundary = _GetNoteRect(note);
             if (noteBoundary.X < Rect.X)
             {
                 noteBoundary.X = Rect.X;
                 noteBoundary.W -= Rect.X - noteBoundary.X;
             }
-            if (noteBoundary.X + noteBoundary.W > Rect.X + Rect.W)
+            if (noteBoundary.Right > Rect.Right)
             {
-                noteBoundary.W -= (noteBoundary.X + noteBoundary.W) - (Rect.X + Rect.W);
+                noteBoundary.W -= noteBoundary.Right - Rect.Right;
             }
-            CTextureRef noteTexture = CBase.Themes.GetSkinTexture(_Theme.SkinFreeStyle, _PartyModeID);
-            CBase.Drawing.DrawTexture(noteTexture, noteRect, color, noteBoundary, false, false);
-        }
-
-        private void _DrawNormalNote(SRectF rect, SColorF color)
-        {
-            _DrawNoteBG(rect, color);
-            _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f);
-        }
-
-        private void _DrawGoldenNote(SRectF rect, SColorF color)
-        {
-            SColorF goldColor = new SColorF(1, 0.84f, 0, color.A);
-            SColorF whiteColor = new SColorF(1, 1, 1, color.A);
-            _DrawNoteBG(rect, whiteColor);
-            _DrawNoteBase(rect, new SColorF(goldColor, _NoteBaseColor.A * Alpha), 1f);
+            return noteBoundary;
         }
 
         private void _AddGoldenNote(SRectF noteRect)
