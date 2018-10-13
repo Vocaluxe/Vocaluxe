@@ -170,7 +170,7 @@ namespace VocaluxeLib.Menu.SingNotes
                 foreach (CSungNote note in sungLines[i].Notes)
                 {
                     SRectF rect = _GetNoteRect(note);
-                    if ((rect.X + rect.W > Rect.X && rect.X + rect.W < Rect.X + Rect.W))
+                    if ((rect.Right > Rect.X && rect.Right < Rect.Right))
                     {
                         if (note.EndBeat == CBase.Game.GetRecordedBeat())
                             rect.W -= (1 - (CBase.Game.GetMidRecordedBeat() - CBase.Game.GetRecordedBeat())) * Rect.W / beats;
