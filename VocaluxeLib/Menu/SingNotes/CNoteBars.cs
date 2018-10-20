@@ -137,7 +137,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _PerfectNoteEffect.Clear();
 
             foreach (CSongNote note in _Lines[_CurrentLine].Notes.Where(note => note.Type == ENoteType.Golden))
-                _AddGoldenNote(_GetNoteRect(note, _Lines[_CurrentLine]));
+                _AddGoldenNote(_GetNoteRect(note));
         }
 
         public void Draw()
