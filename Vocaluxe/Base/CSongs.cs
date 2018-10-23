@@ -348,8 +348,8 @@ namespace Vocaluxe.Base
                     {
                         if (Directory.Exists(path))
                         {
-                            files = files.Union(Directory.EnumerateFiles(path, "*.txt", SearchOption.AllDirectories));
-                            files = files.Union(Directory.EnumerateFiles(path, "*.txd", SearchOption.AllDirectories));
+                            files = files.Union(CHelper.ListFiles(path, "*.txt", true, true));
+                            files = files.Union(CHelper.ListFiles(path, "*.txd", true, true));
                         }
                     }
                 }
