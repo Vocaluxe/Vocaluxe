@@ -339,18 +339,17 @@ namespace Vocaluxe.Base
                 SongsLoaded = false;
                 _Songs.Clear();
 
-                var files = new List<string>();
+                var files = Enumerable.Empty<string>();
                
                 using (CBenchmark.Time("List Songs"))
                 {
                     
-                    foreach (string p in CConfig.SongFolders)
+                    foreach (string path in CConfig.SongFolders)
                     {
-                        if (Directory.Exists(p))
+                        if (Directory.Exists(path))
                         {
-                            string path = p;
-                            files.AddRange(CHelper.ListFiles(path, "*.txt", true, true));
-                            files.AddRange(CHelper.ListFiles(path, "*.txd", true, true));
+                            files = files.Union(CHelper.ListFiles(path, "*.txt", true, true));
+                            files = files.Union(CHelper.ListFiles(path, "*.txd", true, true));
                         }
                     }
                 }
