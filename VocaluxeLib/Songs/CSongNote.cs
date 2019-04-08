@@ -49,8 +49,10 @@ namespace VocaluxeLib.Songs
                 switch (Type)
                 {
                     case ENoteType.Normal:
+                    case ENoteType.Rap:
                         return 1;
                     case ENoteType.Golden:
+                    case ENoteType.RapGolden:
                         return 2;
                     case ENoteType.Freestyle:
                         return 0;

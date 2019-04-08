@@ -302,6 +302,9 @@ namespace Vocaluxe.Base
                             if(p == 0) tonePlayer = tone;
 #endif
 
+                        if (notes[note].Type == ENoteType.Rap || notes[note].Type == ENoteType.RapGolden)
+                            tonePlayer = tone;
+
                         Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
                         bool hit = Players[p].NoteDiff <= (2 - (int)CProfiles.GetDifficulty(Players[p].ProfileID));
 
@@ -311,7 +314,7 @@ namespace Vocaluxe.Base
                             //CRecord.RecordSetTone(p, Tone);
                             double points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
                                             song.Notes.GetVoice(Players[p].VoiceNr).Points;
-                            if (notes[note].Type == ENoteType.Golden)
+                            if (notes[note].Type == ENoteType.Golden || notes[note].Type == ENoteType.RapGolden)
                                 Players[p].PointsGoldenNotes += points;
 
                             Players[p].Points += points;
@@ -411,7 +414,7 @@ namespace Vocaluxe.Base
                     {
                         if (note.StartBeat < nextStart)
                         {
-                            if (note.Hit && note.HitNote.Type == ENoteType.Golden)
+                            if (note.Hit && (note.HitNote.Type == ENoteType.Golden || note.HitNote.Type == ENoteType.RapGolden))
                                 Players[p].PointsGoldenNotes += note.Points;
                             Players[p].Points += note.Points;
                         }
@@ -421,7 +424,7 @@ namespace Vocaluxe.Base
                     }
                     while (line.NoteCount > n && n >= 0)
                     {
-                        if (line.Notes[n].Hit && line.Notes[n].HitNote.Type == ENoteType.Golden)
+                        if (line.Notes[n].Hit && (line.Notes[n].HitNote.Type == ENoteType.Golden || line.Notes[n].HitNote.Type == ENoteType.RapGolden))
                             Players[p].PointsGoldenNotes -= line.Notes[n].Points;
                         Players[p].Points -= line.Notes[n].Points;
                         line.DeleteNote(n);
