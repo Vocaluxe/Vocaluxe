@@ -566,6 +566,8 @@ namespace VocaluxeLib.Songs
                                 break;
                             case ':':
                             case '*':
+                            case 'R':
+                            case 'G':
                             case 'F':
                                 string[] noteData = line.Split(splitChars, 4);
                                 if (noteData.Length < 4)
