@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <ThemeSystemVersion>5</ThemeSystemVersion>
+  <Info>
+    <Name>Genius</Name>
+    <Author>Jiiniasu</Author>
+    <VersionMajor>0</VersionMajor>
+    <VersionMinor>3</VersionMinor>
+  </Info>
+    <Cursor>
+    <Skin>Cursor</Skin>
+    <W>18</W>
+    <H>20</H>
+    <Color Name="StaticColor" />
+  </Cursor>
+</root>
