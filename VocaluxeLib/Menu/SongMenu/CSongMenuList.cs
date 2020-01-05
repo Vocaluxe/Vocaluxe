@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -622,13 +622,28 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _UpdateList(bool force = false)
         {
+            bool isInCategory = CBase.Songs.IsInCategory();
+            int itemCount = isInCategory ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
+            int halfListLength = _ListLength / 2;
             int offset;
+
             if (_SelectionNr < _Offset && _SelectionNr >= 0)
-                offset = _SelectionNr;
+            {
+                if (_SelectionNr - halfListLength >= 0)
+                    offset = _SelectionNr - halfListLength;
+                else
+                    offset = 0;
+            }
             else if (_SelectionNr >= _Offset + _ListLength)
-                offset = _SelectionNr - _ListLength + 1;
+            {
+                if (_SelectionNr + halfListLength > itemCount)
+                    offset = itemCount - _ListLength;
+                else
+                    offset = _SelectionNr - halfListLength;
+            }
             else
                 offset = _Offset;
+
             _UpdateList(offset, force);
         }
 
