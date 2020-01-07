@@ -287,6 +287,25 @@ namespace Vocaluxe.Screens
                         if (CConfig.Config.Debug.SaveModifiedSongs == EOffOn.TR_CONFIG_ON)
                             song.Save();
                         break;
+
+                    case Keys.R:
+                        if (keyEvent.Mod == EModifier.Ctrl)
+                        {
+                            if (_Pause)
+                            {
+                                _SetPause(false);
+                                _RestartRound();
+                            }
+                        }
+                        break;
+
+                    case Keys.F5:
+                        if (_Pause)
+                        {
+                            _SetPause(false);
+                            _RestartRound();
+                        }
+                        break;
                 }
             }
 
@@ -1054,6 +1073,7 @@ namespace Vocaluxe.Screens
             }
 
             CSong song = CGame.GetSong();
+            song.ReloadSong();
 
             if (song == null)
             {
