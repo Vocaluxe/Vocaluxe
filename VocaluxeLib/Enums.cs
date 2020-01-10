@@ -436,4 +436,27 @@ namespace VocaluxeLib
         TR_USERROLE_PROFILEEDITOR = 32
         // ReSharper restore InconsistentNaming
     }
+
+    public enum ERecordStyle
+    {   
+        /// <summary
+        /// Show only the best Record per Player
+        /// </summary>
+        RECORDSTYLE_SINGLE,
+
+        /// <summary
+        /// Show only the best Record per Player per Difficulty
+        /// </summary>
+        RECORDSTYLE_DIFFICULTY,
+
+        /// <summary
+        /// Show the best Records independent from Players
+        /// </summary>
+        RECORDSTYLE_ALL,
+
+        /// <summary
+        /// Show no Records
+        /// </summary>
+        RECORDSTYLE_NONE
+    }
 }

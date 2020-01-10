@@ -28,9 +28,9 @@ namespace VocaluxeLib.Menu.SongMenu
                 case ESongMenu.TR_CONFIG_LIST:
                     return new CSongMenuList(theme, partyModeID);
 
-                    //case ESongMenu.TR_CONFIG_DREIDEL:
-                    //    _SongMenu = new CSongMenuDreidel();
-                    //    break;
+                //case ESongMenu.TR_CONFIG_DREIDEL:
+                //    _SongMenu = new CSongMenuDreidel();
+                //    break;
                 case ESongMenu.TR_CONFIG_TILE_BOARD:
                     return new CSongMenuTileBoard(theme, partyModeID);
 

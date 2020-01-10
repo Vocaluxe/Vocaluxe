@@ -39,7 +39,9 @@ namespace VocaluxeLib.Menu.SongMenu
         //public SThemeSongMenuDreidel songMenuDreidel;
         public SThemeSongMenuList SongMenuList;
         public SThemeSongMenuTileBoard SongMenuTileBoard;
+        
     }
+
     public struct SThemeSongMenuList
     {
         /// <summary>
@@ -57,8 +59,22 @@ namespace VocaluxeLib.Menu.SongMenu
         /// </summary>
         public float SpaceH;
 
+        /// <summary>
+        ///     Number of visible Records
+        /// </summary>
+        public int NumRecords;
+
+        /// <summary>
+        ///     Defines which Records are shown
+        /// </summary>
+        public ERecordStyle RecordStyle;
+
         public SRectF TileRect;
         public SRectF TileRectSmall;
+
+        public SRectF TileRectRecord;
+        public SRectF VideoRect;
+        public SRectF VideoRectSmall;
 
         public SThemeText TextArtist;
         public SThemeText TextTitle;
@@ -172,6 +188,7 @@ namespace VocaluxeLib.Menu.SongMenu
             return _PreviewNr;
         }
 
+        public virtual SRectF VideoRect { get; }
         public virtual bool SmallView { get; set; }
         public abstract float SelectedTileZoomFactor { get; }
         // This is the nr of the current selection (song or category)

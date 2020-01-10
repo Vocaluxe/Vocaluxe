@@ -293,6 +293,7 @@ namespace VocaluxeLib
     {
         bool GetCover(string fileName, ref CTextureRef texture, int coverSize);
         bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID);
+        List<SDBScoreEntry> LoadScore(int songID, EGameMode gameMode, EHighscoreStyle style);
     }
 
     public interface IControllers

@@ -117,8 +117,13 @@ namespace VocaluxeLib.PartyModes.Challenge
         private void _BuildRounds(int numRounds, int numPlayer, int playersPerRound)
         {
             // What we want is that every player sung the same amount of songs
+            // and alternate the Players so everyone is Player1 the same amount
             // So we keep track how many songs each palyer sung
             List<int> numSung = new List<int>(numPlayer);
+
+            //and which Player had which Position the last time this combination of Players sung
+            SortedDictionary<String, List<int>> lastRounds = new SortedDictionary<String, List<int>>();
+
             for (int i = 0; i < numPlayer; i++)
                 numSung.Add(0);
             List<CRound> combinations = new List<CRound>();
@@ -129,6 +134,44 @@ namespace VocaluxeLib.PartyModes.Challenge
                     _AddCombinations(numPlayer, playersPerRound, combinations);
                 List<int> playersInRound = _GetPlayersForRound(numSung);
                 CRound curRound = _GetMatchingCombination(playersInRound, numSung, combinations);
+
+                List<int> sortedPlayers = curRound.Players;
+                sortedPlayers.Sort((x, y) => y.CompareTo(x));
+
+                String key = "";
+
+                foreach (int player in sortedPlayers)
+                {
+                    key += player;
+                }
+
+                List<int> lastRound = new List<int>();
+
+                if (lastRounds.ContainsKey(key))
+                {
+                    lastRound = lastRounds[key];
+
+                    int first = lastRound.First();
+                    lastRound.RemoveAt(0);
+                    lastRound.Add(first);
+
+                    lastRounds[key] = lastRound;
+
+                    for (int k = 0; k < lastRound.Count; k++)
+                    {
+                        curRound.Players[k] = lastRound[k];
+                    }
+                }
+                else
+                {
+                    foreach (int player in curRound.Players)
+                    {
+                        lastRound.Add(player);
+                    }
+
+                    lastRounds.Add(key, lastRound);
+                }
+
                 foreach (int player in curRound.Players)
                     numSung[player]++;
                 _Rounds.Add(curRound);

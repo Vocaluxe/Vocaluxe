@@ -738,6 +738,9 @@ namespace Vocaluxe.Screens
 
             _UpdatePartyModeOptions();
 
+            _Statics[_StaticOptionsBG].MaxRect = _SongMenu.VideoRect;
+            _Buttons[_ButtonOpenOptions].MaxRect = _SongMenu.VideoRect;
+
             return true;
         }
 
