@@ -288,7 +288,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public void LeaveSelectedCategory()
         {
-            _LeaveCategory();
+            // Stefan1200: This was implemented with the pull request #359 and is the reason for the bug described in issue #390.
+            //             Currently disabled until we know if this is still needed or we find a better solution!
+            // _LeaveCategory();
         }
 
         public virtual void UnloadSkin() {}
