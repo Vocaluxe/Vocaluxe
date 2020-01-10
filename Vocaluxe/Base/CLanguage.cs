@@ -20,6 +20,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
@@ -170,7 +171,7 @@ namespace Vocaluxe.Base
             }
             catch (Exception e)
             {
-                CLog.LogError("Error reading language file " + filePath + ": " + e.Message);
+                CLog.Error("Error reading language file " + filePath + ": " + e.Message);
                 texts = null;
                 return false;
             }

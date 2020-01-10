@@ -27,6 +27,7 @@ using Vocaluxe.Base.Fonts;
 using Vocaluxe.Lib.Sound;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.Songs;
@@ -993,7 +994,20 @@ namespace Vocaluxe.Screens
             _CloseSong();
 
             CGame.NextRound();
-            CGame.ResetPlayer();
+            var voiceAssignments = new int[CGame.NumPlayers];
+            if (CGame.GetSong() != null && CGame.GetSong().IsDuet)
+            {
+                //Save duet-assignment before resetting
+                for (int i = 0; i < voiceAssignments.Length; i++)
+                    voiceAssignments[i] = CGame.Players[i].VoiceNr;
+                CGame.ResetPlayer();
+                for (int i = 0; i < voiceAssignments.Length; i++)
+                    CGame.Players[i].VoiceNr = voiceAssignments[i];
+            } else
+            {
+                CGame.ResetPlayer();
+            }            
+
 
             _LoadCurrentSong();
 
@@ -1043,7 +1057,7 @@ namespace Vocaluxe.Screens
 
             if (song == null)
             {
-                CLog.LogError("Critical Error! ScreenSing.LoadNextSong() song is null!");
+                CLog.Error("Critical Error! ScreenSing.LoadNextSong() song is null!");
                 return;
             }
 

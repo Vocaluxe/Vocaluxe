@@ -261,7 +261,7 @@
     <Text Name="TextTitle">
       <X>60</X>
       <Y>50</Y>
-      <Z>0</Z>
+      <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -275,7 +275,7 @@
     <Text Name="TextSong">
       <X>640</X>
       <Y>50</Y>
-      <Z>0</Z>
+      <Z>-1</Z>
       <H>27</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />

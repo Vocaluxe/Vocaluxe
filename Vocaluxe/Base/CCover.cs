@@ -25,6 +25,7 @@ using System.Threading.Tasks;
 using System.Linq;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Xml;
 
@@ -173,7 +174,7 @@ namespace Vocaluxe.Base
             _CoverThemes.Clear();
 
             string folderPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover);
-            List<string> files = CHelper.ListFiles(folderPath, "*.xml");
+            IEnumerable<string> files = CHelper.ListFiles(folderPath, "*.xml");
 
             var xml = new CXmlDeserializer();
             foreach (string file in files)
@@ -185,7 +186,7 @@ namespace Vocaluxe.Base
                 }
                 catch (CXmlException e)
                 {
-                    CLog.LogError("Error loading cover theme " + file + ": " + e);
+                    CLog.Error("Error loading cover theme " + file + ": " + e);
                     continue;
                 }
 
@@ -206,7 +207,7 @@ namespace Vocaluxe.Base
 
             Debug.Assert(!String.IsNullOrEmpty(coverTheme.Info.Name));
 
-            List<string> files = CHelper.ListImageFiles(coverTheme.FolderPath, true, true);
+            IEnumerable<string> files = CHelper.ListImageFiles(coverTheme.FolderPath, true, true);
 
             lock (_Covers)
             {
@@ -218,7 +219,7 @@ namespace Vocaluxe.Base
                     NoCover = _Covers[_NoCoverNameAlt];
                 else
                 {
-                    CBase.Log.LogError("Covertheme \"" + coverTheme.Info.Name + "\" does not include a cover file named \"" + _NoCoverName + "\" and cannot be used!", true, true);
+                    CLog.Fatal("Covertheme \"{ThemeName}\" does not include a cover file named \"{MissingFileName}\" and cannot be used!", CLog.Params(coverTheme.Info.Name, _NoCoverName));
                     _UnloadCovers();
                     // Remove current theme and recursively try the other themes
                     _CoverThemes.Remove(coverTheme);

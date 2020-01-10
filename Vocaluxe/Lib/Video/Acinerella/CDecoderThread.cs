@@ -21,6 +21,7 @@ using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Video.Acinerella
 {
@@ -87,7 +88,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 _Free();
             }
             catch (Exception) {}
-            CLog.LogError("Error opening video file: " + _FileName);
+            CLog.Error("Error opening video file: " + _FileName);
             _Instance = IntPtr.Zero;
             return false;
         }
@@ -96,12 +97,12 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             if (_Instance == IntPtr.Zero)
             {
-                CLog.LogError("Tried to start a video file that is not open: " + _FileName);
+                CLog.Error("Tried to start a video file that is not open: " + _FileName);
                 return false;
             }
             if (_Thread != null)
             {
-                CLog.LogError("Tried to start a video file that is already started: " + _FileName);
+                CLog.Error("Tried to start a video file that is already started: " + _FileName);
                 return false;
             }
             RequestTime = 0f;
@@ -281,7 +282,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
             catch (Exception)
             {
-                CLog.LogError("Error opening video file (can't find decoder): " + _FileName);
+                CLog.Error("Error opening video file (can't find decoder): " + _FileName);
                 return false;
             }
 
@@ -325,7 +326,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
             catch (Exception e)
             {
-                CLog.LogError("Error seeking video file \"" + _FileName + "\": " + e.Message);
+                CLog.Error("Error seeking video file \"" + _FileName + "\": " + e.Message);
             }
             _LastDecodedTime = skipTime;
 
@@ -369,7 +370,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 }
                 catch (Exception)
                 {
-                    CLog.LogError("Error AcGetFrame " + _FileName);
+                    CLog.Error("Error AcGetFrame " + _FileName);
                 }
             }
             if (hasFrameDecoded)
@@ -395,7 +396,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
             catch (Exception)
             {
-                CLog.LogError("Error AcSeek " + _FileName);
+                CLog.Error("Error AcSeek " + _FileName);
             }
 
             if (!hasFrameDecoded)
@@ -419,7 +420,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
             catch (Exception)
             {
-                CLog.LogError("Error AcSkipFrame " + _FileName);
+                CLog.Error("Error AcSkipFrame " + _FileName);
             }
             return hasFrameDecoded;
         }
@@ -437,7 +438,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
             catch (Exception e)
             {
-                CLog.LogError("Couldn't copy the frame to the managed environment.", false, false, e);
+                CLog.Error(e, "Couldn't copy the frame to the managed environment.");
                 return false;
             }
             

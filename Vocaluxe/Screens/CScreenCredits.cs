@@ -23,6 +23,7 @@ using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
@@ -284,7 +285,7 @@ namespace Vocaluxe.Screens
             ressourceOK &= CDataBase.GetCreditsRessource("babene03.png", ref _TexNameBabene03);
 
             if (!ressourceOK)
-                CLog.LogError("Could not load all ressources!", true, true);
+                CLog.Fatal("Could not load all ressources!");
 
             //Prepare Text
             int lastY = 280;

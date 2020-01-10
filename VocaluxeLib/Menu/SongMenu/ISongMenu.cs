@@ -40,6 +40,7 @@ namespace VocaluxeLib.Menu.SongMenu
         int GetSelectedCategory();
         void SetSelectedCategory(int categoryNr);
         bool EnterSelectedCategory();
+        void LeaveSelectedCategory();
 
         // The song that is currently playing (set e.g. by clicking on a song)
         int GetPreviewSong();

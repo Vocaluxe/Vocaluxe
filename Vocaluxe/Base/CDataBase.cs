@@ -21,6 +21,7 @@ using System.IO;
 using Vocaluxe.Lib.Database;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base
 {
@@ -38,17 +39,17 @@ namespace Vocaluxe.Base
 
             if (!_HighscoreDB.Init())
             {
-                CLog.LogError("Error initializing Highscore-DB", true, true);
+                CLog.Fatal("Error initializing Highscore-DB");
                 return false;
             }
             if (!_CoverDB.Init())
             {
-                CLog.LogError("Error initializing Cover-DB", true, true);
+                CLog.Fatal("Error initializing Cover-DB");
                 return false;
             }
             if (!_ResourceDB.Init())
             {
-                CLog.LogError("Error initializing Credits-DB", true, true);
+                CLog.Fatal("Error initializing Credits-DB");
                 return false;
             }
             return true;

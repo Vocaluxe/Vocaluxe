@@ -20,6 +20,7 @@ using System.Drawing;
 using Vocaluxe.Lib.Draw;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base
 {
@@ -48,8 +49,7 @@ namespace Vocaluxe.Base
                     }
                     catch (Exception e)
                     {
-                        CLog.LogError(e.Message + " - Error in initializing of OpenGL. Please check whether" +
-                                      " your graphic card drivers are up to date.", true, true);
+                        CLog.Fatal(e, "Error in initializing of OpenGL. Please check whether your graphic card drivers are up to date.");
                         return false;
                     }
                     break;
@@ -62,9 +62,8 @@ namespace Vocaluxe.Base
                     }
                     catch (Exception e)
                     {
-                        CLog.LogError(e.Message + " - Error in initializing of Direct3D. Please check if " +
-                                      "your DirectX redistributables and graphic card drivers are up to date. You can " +
-                                      "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109", true, true);
+                        CLog.Fatal(e, "Error in initializing of Direct3D. Please check if your DirectX redistributables and graphic card drivers are up to date. You can " +
+                                      "download the DirectX runtimes at http://www.microsoft.com/download/en/details.aspx?id=8109");
                         return false;
                     }
                     break;

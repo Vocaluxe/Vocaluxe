@@ -23,6 +23,7 @@ using System.IO;
 using System.Reflection;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Xml;
@@ -74,7 +75,7 @@ namespace Vocaluxe.Base
                     _CurrentPartyMode = pm;
                 else
                 {
-                    CLog.LogError("Could not init PartyMode \"" + _PartyModes[value].Info.Name + "\"! Removing...", true);
+                    CLog.Error("Could not init PartyMode \"" + _PartyModes[value].Info.Name + "\"! Removing...", true);
                     _PartyModes.Remove(value);
                 }
             }
@@ -212,7 +213,7 @@ namespace Vocaluxe.Base
             catch (Exception e)
             {
                 pm = new SPartyMode();
-                CLog.LogError("Error loading PartyMode file " + filePath + ": " + e.Message);
+                CLog.Error("Error loading PartyMode file " + filePath + ": " + e.Message);
                 return false;
             }
 
@@ -230,7 +231,7 @@ namespace Vocaluxe.Base
                                                     BindingFlags.Public | BindingFlags.Instance, null, new object[] {_NextID++}, null, null);
             if (instance == null)
             {
-                CLog.LogError("Error creating Instance of PartyMode file: " + filePath);
+                CLog.Error("Error creating Instance of PartyMode file: " + filePath);
                 return false;
             }
 
@@ -240,13 +241,13 @@ namespace Vocaluxe.Base
             }
             catch (Exception e)
             {
-                CLog.LogError("Error casting PartyMode file: " + filePath + "; " + e.Message);
+                CLog.Error("Error casting PartyMode file: " + filePath + "; " + e.Message);
                 return false;
             }
 
             if (!CLanguage.LoadPartyLanguageFiles(pm.PartyMode.ID, Path.Combine(pathToPm, CSettings.FolderNamePartyModeLanguages)))
             {
-                CLog.LogError("Error loading language files for PartyMode: " + filePath);
+                CLog.Error("Error loading language files for PartyMode: " + filePath);
                 return false;
             }
 
@@ -299,14 +300,14 @@ namespace Vocaluxe.Base
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.Message);
+                    CLog.Error("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.Message);
                     return null;
                 }
 
                 if (compileResult.Errors.Count > 0)
                 {
                     foreach (CompilerError e in compileResult.Errors)
-                        CLog.LogError("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.ErrorText + " in '" + e.FileName + "' (" + e.Line + ")");
+                        CLog.Error("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.ErrorText + " in '" + e.FileName + "' (" + e.Line + ")");
                     return null;
                 }
                 return compileResult.CompiledAssembly;
@@ -321,7 +322,7 @@ namespace Vocaluxe.Base
             object instance = assembly.CreateInstance(typeof(IPartyMode).Namespace + "." + partyModeName + "." + screenName);
             if (instance == null)
             {
-                CLog.LogError("Error creating Instance of PartyScreen: " + screenName);
+                CLog.Error("Error creating Instance of PartyScreen: " + screenName);
                 return null;
             }
 
@@ -332,7 +333,7 @@ namespace Vocaluxe.Base
             }
             catch (Exception e)
             {
-                CLog.LogError("Error casting PartyScreen: " + screenName + "; " + e.Message);
+                CLog.Error("Error casting PartyScreen: " + screenName + "; " + e.Message);
                 return null;
             }
             return screen;

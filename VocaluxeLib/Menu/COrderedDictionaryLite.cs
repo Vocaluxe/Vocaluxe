@@ -18,6 +18,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib.Menu
 {
@@ -57,7 +58,7 @@ namespace VocaluxeLib.Menu
                 }
                 catch (Exception)
                 {
-                    CBase.Log.LogError("Can't find " + typeof(T).Name.Substring(1) + " Element \"" + key + "\" in " + _ParentName);
+                    CLog.Error("Can't find " + typeof(T).Name.Substring(1) + " Element \"" + key + "\" in " + _ParentName);
                     throw;
                 }
             }

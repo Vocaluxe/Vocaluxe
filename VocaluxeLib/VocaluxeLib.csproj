@@ -32,7 +32,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\libs\managed</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -41,6 +41,7 @@
     <DefineConstants>WIN</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugLinux|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -56,7 +57,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseLinux|AnyCPU'">
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <DebugType>none</DebugType>
+    <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\Output\libs\managed</OutputPath>
     <ErrorReport>prompt</ErrorReport>
@@ -65,6 +66,7 @@
     <DefineConstants>LINUX</DefineConstants>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|AnyCPU'">
     <OutputPath>..\Output\libs\managed</OutputPath>
@@ -76,8 +78,31 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>ManagedMinimumRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Serilog, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.2.6.0\lib\net46\Serilog.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Enrichers.Thread, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Enrichers.Thread.3.0.0\lib\net45\Serilog.Enrichers.Thread.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.Console, Version=3.1.1.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.Console.3.1.1\lib\net45\Serilog.Sinks.Console.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.File, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.File.4.0.0\lib\net45\Serilog.Sinks.File.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Serilog.Sinks.TextWriter, Version=2.0.0.0, Culture=neutral, PublicKeyToken=24c2f752a8e58a10, processorArchitecture=MSIL">
+      <HintPath>..\packages\Serilog.Sinks.TextWriter.2.1.0\lib\net45\Serilog.Sinks.TextWriter.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
@@ -87,10 +112,22 @@
     <Compile Include="CEncoding.cs" />
     <Compile Include="CFading.cs" />
     <Compile Include="CFont.cs" />
+    <Compile Include="Log\ELogLevel.cs" />
+    <Compile Include="Log\ShowReporterDelegate.cs" />
+    <Compile Include="Log\CLog.cs" />
     <Compile Include="CVideoStream.cs" />
     <Compile Include="Extensions.cs" />
     <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="IBasic.cs" />
+    <Compile Include="Log\Enricher\CTimeStampFromStartEnricher.cs" />
+    <Compile Include="Log\Rolling\CLogFileRoller.cs" />
+    <Compile Include="Log\Serilog\CSilentLogger.cs" />
+    <Compile Include="Log\CLogFunctions.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CLogFunctions.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Log\CBenchmark.cs" />
     <Compile Include="Menu\CBackground.cs" />
     <Compile Include="CBasic.cs" />
     <Compile Include="Menu\CButton.cs" />
@@ -120,6 +157,7 @@
     <Compile Include="Menu\IThemeable.cs" />
     <Compile Include="Menu\SingNotes\CNoteBars.cs" />
     <Compile Include="Utils\Combinatorics\CCombinations.cs" />
+    <Compile Include="Utils\ObjectPool.cs" />
     <Compile Include="XmlStructs.cs" />
     <Compile Include="Xml\CTypeExtensions.cs" />
     <Compile Include="Xml\CXmlDeserializer.cs" />
@@ -156,6 +194,18 @@
     <Compile Include="Utils\Player\CSongPlayer.cs" />
     <Compile Include="Utils\Player\CSoundPlayer.cs" />
     <Compile Include="Xml\SFieldInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Log\CLogFunctions.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CLogFunctions.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -20,6 +20,7 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using Vocaluxe.Base;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe
 {
@@ -39,11 +40,11 @@ namespace Vocaluxe
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Error loading logo: " + e.Message);
+                    CLog.Error("Error loading logo: " + e.Message);
                 }
             }
             else
-                CLog.LogError("Can't find " + path);
+                CLog.Error("Can't find " + path);
 
             path = Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon);
             if (File.Exists(path))
@@ -54,11 +55,11 @@ namespace Vocaluxe
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Error loading icon: " + e.Message);
+                    CLog.Error("Error loading icon: " + e.Message);
                 }
             }
             else
-                CLog.LogError("Can't find " + path);
+                CLog.Error("Can't find " + path);
 
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             BackColor = Color.Transparent;

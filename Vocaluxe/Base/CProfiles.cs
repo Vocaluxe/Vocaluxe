@@ -22,6 +22,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 using VocaluxeLib.Profile;
 
 namespace Vocaluxe.Base
@@ -356,7 +357,7 @@ namespace Vocaluxe.Base
 
         public static bool IsProfileIDValid(Guid profileID)
         {
-            return _Profiles.ContainsKey(profileID);
+            return profileID != Guid.Empty && _Profiles.ContainsKey(profileID);
         }
 
         public static bool IsAvatarIDValid(int avatarID)
@@ -625,7 +626,7 @@ namespace Vocaluxe.Base
             }
             catch (Exception)
             {
-                CLog.LogError("Can't delete Profile File " + _Profiles[profileID].FilePath);
+                CLog.Error("Can't delete Profile File " + _Profiles[profileID].FilePath);
             }
             _ProfilesChanged = true;
         }

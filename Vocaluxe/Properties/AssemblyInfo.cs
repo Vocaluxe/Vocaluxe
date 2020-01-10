@@ -16,20 +16,25 @@
 #endregion
 
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // Allgemeine Informationen über eine Assembly werden über die folgenden 
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 
-[assembly: AssemblyTitle("FULLVERSION")]
+[assembly: AssemblyTitle("Vocaluxe 'Not Versioned' 0.0.0 (NA) (0.0.0-na-notversioned)")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Vocaluxe")]
-[assembly: AssemblyCopyright("Copyright © 2017")]
+[assembly: AssemblyCopyright("Copyright © 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+
+[assembly: AssemblyVersion("0.0.0")]
+[assembly: AssemblyFileVersion("0.0.0")]
+[assembly: AssemblyInformationalVersion("0.0.0-na-notversioned")]
 
 // Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
 // für COM-Komponenten. Wenn Sie auf einen Typ in dieser Assembly von 
@@ -41,14 +46,5 @@ using System.Runtime.InteropServices;
 
 [assembly: Guid("da631594-f891-4994-9869-c37e626e44f9")]
 
-// Versionsinformationen für eine Assembly bestehen aus den folgenden vier Werten:
-//
-//      Hauptversion
-//      Nebenversion 
-//      Buildnummer
-//      Revision
-//
-
-[assembly: AssemblyVersion("SHORTVERSION")]
-[assembly: AssemblyFileVersion("SHORTVERSION")]
-[assembly: AssemblyInformationalVersion("GITVERSION")]
+// Allow internal access from the Tests project
+[assembly:InternalsVisibleTo("Tests")]

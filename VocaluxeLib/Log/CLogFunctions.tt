@@ -1,0 +1,224 @@
+﻿<#
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#>
+<#@ template debug="false" hostspecific="false" language="C#" #>
+<#@ assembly name="System.Core" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Text" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ output extension=".cs" #>
+#region license
+// This file is part of Vocaluxe.
+// 
+// Vocaluxe is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+// 
+// Vocaluxe is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+// 
+// You should have received a copy of the GNU General Public License
+// along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
+#endregion
+
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using Serilog.Context;
+using Serilog.Core;
+
+namespace VocaluxeLib.Log
+{
+    public static partial class CLog
+    {
+        private static Regex _PropertiesRegex = new Regex("{[^}]+}");
+
+        public static object[] Params(params object[] propertyValues)
+        {
+            return propertyValues;
+        }
+
+<#  foreach (var Log in new[]{"Main","Song"}) { #>
+<#  if(Log == "Song") { #>
+<# PushIndent("    "); #>
+
+    [SuppressMessage("ReSharper", "MemberHidesStaticFromOuterClass")]
+    public static class CSongLog 
+    {
+<#  } #>
+<#  foreach (var LogLevel in new[]{"Verbose","Debug", "Information", "Warning", "Error", "Fatal"}) { #>
+<#  if(LogLevel == "Fatal" && Log == "Song") continue; #>
+
+        #region <#= LogLevel #> functions
+
+        /// <summary>
+        /// Write an event with the <#= LogLevel #> level to the <#= LogLevel #> log<#= LogLevel == "Fatal"?" and TERMINATES the appication":"" #>.
+        /// </summary>
+        /// <param name="messageTemplate">Message template for this event.</param>
+<# if(Log == "Main") { #>
+        /// <param name="show">True if an message should be shown to the user, false otherwise.</param>
+<# } #>
+        /// <param name="callerMethodeName">Don't use! The methode name of the caller will be filled automatically by the compiler.</param>
+        /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
+        /// <param name="callerLineNumer">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
+        [MessageTemplateFormatMethod("messageTemplate")]
+        public static void <#= LogLevel #>(string messageTemplate, <#= Log == "Main"?(LogLevel == "Fatal"?"bool show = true, ":"bool show = false, "):"" #>[CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
+        {
+            using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
+            {                
+                <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(messageTemplate);                
+            }
+<# if(Log == "Main") { #>
+            if(show)
+                ShowLogAssistant(messageTemplate, null<#= LogLevel == "Fatal"?", true, false":"" #>);
+<# } #>
+<# if(LogLevel == "Fatal") { #>
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
+<# } #>
+        }
+
+        /// <summary>
+        /// Write an event with the <#= LogLevel #> level with additional propertyValues to the <#= LogLevel #> log<#= LogLevel == "Fatal"?" and TERMINATES the appication":"" #>.
+        /// </summary>
+        /// <param name="messageTemplate">Message template for this event.</param>
+        /// <param name="propertyValues">Data inserted into the message template.</param>
+<# if(Log == "Main") { #>
+        /// <param name="show">True if an message should be shown to the user, false otherwise.</param>
+<# } #>
+        /// <param name="callerMethodeName">Don't use! The methode name of the caller will be filled automatically by the compiler.</param>
+        /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
+        /// <param name="callerLineNumer">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
+        [MessageTemplateFormatMethod("messageTemplate")]
+        public static void <#= LogLevel #>(string messageTemplate, object[] propertyValues, <#= Log == "Main"?(LogLevel == "Fatal"?"bool show = true, ":"bool show = false, "):"" #>[CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
+        {
+            using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
+            {
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(messageTemplate, propertyValues);
+                }
+            }
+<# if(Log == "Main") { #>
+            if(show)
+                ShowLogAssistant(messageTemplate, propertyValues<#= LogLevel == "Fatal"?", true, false":"" #>);
+<# } #>
+<# if(LogLevel == "Fatal") { #>
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
+<# } #>
+        }
+
+        /// <summary>
+        /// Write an event with the <#= LogLevel #> level and associated exception to the <#= LogLevel #> log<#= LogLevel == "Fatal"?" and TERMINATES the appication":"" #>.
+        /// </summary>
+        /// <param name="exception">Exception of this event.</param>
+        /// <param name="messageTemplate">Message template for this event.</param>
+<# if(Log == "Main") { #>
+        /// <param name="show">True if an message should be shown to the user, false otherwise.</param>
+<# } #>
+        /// <param name="callerMethodeName">Don't use! The methode name of the caller will be filled automatically by the compiler.</param>
+        /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
+        /// <param name="callerLineNumer">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
+        [MessageTemplateFormatMethod("messageTemplate")]
+        public static void <#= LogLevel #>(Exception exception, string messageTemplate, <#= Log == "Main"?(LogLevel == "Fatal"?"bool show = true, ":"bool show = false, "):"" #>[CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
+        {
+            using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
+            {
+                <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>( exception, messageTemplate);
+            }
+<# if(Log == "Main") { #>
+            if(show)
+                ShowLogAssistant(messageTemplate, null<#= LogLevel == "Fatal"?", true, false":"" #>);
+<# } #>
+<# if(LogLevel == "Fatal") { #>
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
+<# } #>
+        }
+        
+        /// <summary>
+        /// Write an event with the <#= LogLevel #> level with additional propertyValues and associated exception to the <#= LogLevel #> log<#= LogLevel == "Fatal"?" and TERMINATES the appication":"" #>.
+        /// </summary>
+        /// <param name="exception">Exception of this event.</param>
+        /// <param name="messageTemplate">Message template for this event.</param>
+        /// <param name="propertyValues">Data inserted into the message template.</param>
+<# if(Log == "Main") { #>
+        /// <param name="show">True if an message should be shown to the user, false otherwise.</param>
+<# } #>
+        /// <param name="callerMethodeName">Don't use! The methode name of the caller will be filled automatically by the compiler.</param>
+        /// <param name="callerFilePath">Don't use! The filepath of the caller will be filled automatically by the compiler.</param>
+        /// <param name="callerLineNumer">Don't use! The line number of the caller will be filled automatically by the compiler.</param>
+        [MessageTemplateFormatMethod("messageTemplate")]
+        public static void <#= LogLevel #>(Exception exception, string messageTemplate, object[] propertyValues, <#= Log == "Main"?(LogLevel == "Fatal"?"bool show = true, ":"bool show = false, "):"" #>[CallerMemberName] string callerMethodeName = "", [CallerFilePath] string callerFilePath = "", [CallerLineNumber] int callerLineNumer = -1)
+        {
+            using (LogContext.PushProperty("CallingContext", new { callerMethodeName, callerFilePath, callerLineNumer}))
+            {
+                int usedPropertiesCount = _PropertiesRegex.Matches(messageTemplate).Cast<Match>().Select(m => m.Value).Distinct().Count();
+
+                if (propertyValues.Length > usedPropertiesCount)
+                {
+                    using (LogContext.PushProperty("AdditionalData", propertyValues.Skip(usedPropertiesCount)))
+                    {
+                        <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(exception, messageTemplate, propertyValues);
+                    }
+                }
+                else
+                {
+                    <#= Log == "Main"?"_MainLog":"_SongLog" #>.<#= LogLevel #>(exception, messageTemplate, propertyValues);
+                }
+            }
+<# if(Log == "Main") { #>
+            if(show)
+                ShowLogAssistant(messageTemplate, propertyValues<#= LogLevel == "Fatal"?", true, false":"" #>);
+<# } #>
+<# if(LogLevel == "Fatal") { #>
+
+            // Close logs and exit
+            Close();
+            Environment.Exit(Environment.ExitCode);
+<# } #>
+        }
+
+        #endregion
+<#      } #>
+<#      if(Log == "Song") { #>
+<# PopIndent(); #>
+        }
+<#      } #>
+<#      } #>
+    }
+}

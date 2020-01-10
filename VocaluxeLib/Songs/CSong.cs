@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib.Songs
 {
@@ -324,7 +325,7 @@ namespace VocaluxeLib.Songs
         {
             if (CoverFileName == "")
             {
-                List<string> files = CHelper.ListImageFiles(Folder);
+                IEnumerable<string> files = CHelper.ListImageFiles(Folder);
                 foreach (String file in files)
                 {
                     if (file.ContainsIgnoreCase("[CO]") &&
@@ -335,7 +336,7 @@ namespace VocaluxeLib.Songs
 
             if (BackgroundFileNames.Count == 0)
             {
-                List<string> files = CHelper.ListImageFiles(Folder);
+                IEnumerable<string> files = CHelper.ListImageFiles(Folder);
                 foreach (String file in files)
                 {
                     if (file.ContainsIgnoreCase("[BG]") &&
@@ -350,7 +351,7 @@ namespace VocaluxeLib.Songs
             for (int i = 0; i < Notes.VoiceCount; i++)
             {
                 if (!Notes.VoiceNames.IsSet(i))
-                    CBase.Log.LogError("Warning: Can't find #P" + (i + 1) + "-tag for duets in \"" + Artist + " - " + Title + "\".");
+                    CLog.Error("Warning: Can't find #P" + (i + 1) + "-tag for duets in \"" + Artist + " - " + Title + "\".");
             }
         }
 

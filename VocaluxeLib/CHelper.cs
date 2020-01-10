@@ -20,6 +20,8 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Globalization;
 using System.IO;
+using System.Linq;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib
 {
@@ -164,25 +166,20 @@ namespace VocaluxeLib
         /// <param name="recursive">Search directories recursively</param>
         /// <param name="fullpath">False for just file names, True for full path</param>
         /// <returns>List of file names</returns>
-        public static List<string> ListFiles(string path, string searchPattern, bool recursive = false, bool fullpath = false)
+        public static IEnumerable<string> ListFiles(string path, string searchPattern, bool recursive = false, bool fullpath = false)
         {
-            var files = new List<string>();
+            IEnumerable<string> files = Enumerable.Empty<string>();
             var dir = new DirectoryInfo(path);
             if (!dir.Exists)
                 return files;
 
+            if (recursive && !fullpath)
+                throw new NotSupportedException("recursive file listing with relative path names is not supported");
+
             try
             {
-                // ReSharper disable LoopCanBeConvertedToQuery
-                foreach (FileInfo file in dir.GetFiles(searchPattern))
-                    // ReSharper restore LoopCanBeConvertedToQuery
-                    files.Add(!fullpath ? file.Name : file.FullName);
-
-                if (recursive)
-                {
-                    foreach (DirectoryInfo di in dir.GetDirectories())
-                        files.AddRange(ListFiles(di.FullName, searchPattern, true, fullpath));
-                }
+                files = Directory.EnumerateFiles(dir.FullName, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
+                files = files.Select(fullpath ? (Func<string, string>)Path.GetFullPath : Path.GetFileName);
             }
             catch (Exception) {}
 
@@ -197,13 +194,9 @@ namespace VocaluxeLib
         /// <param name="recursive">Search directories recursively</param>
         /// <param name="fullpath">False for just file names, True for full path</param>
         /// <returns>List of file names</returns>
-        public static List<string> ListFiles(string path, IEnumerable<string> searchPatterns, bool recursive = false, bool fullpath = false)
+        public static IEnumerable<string> ListFiles(string path, IEnumerable<string> searchPatterns, bool recursive = false, bool fullpath = false)
         {
-            var files = new List<string>();
-            foreach (string pattern in searchPatterns)
-                files.AddRange(ListFiles(path, pattern, recursive, fullpath));
-
-            return files;
+            return searchPatterns.SelectMany(pattern => ListFiles(path, pattern, recursive, fullpath));
         }
 
         /// <summary>
@@ -213,7 +206,7 @@ namespace VocaluxeLib
         /// <param name="recursive">Search directories recursively</param>
         /// <param name="fullpath">False for just file names, True for full path</param>
         /// <returns>List of image file names</returns>
-        public static List<string> ListImageFiles(string path, bool recursive = false, bool fullpath = false)
+        public static IEnumerable<string> ListImageFiles(string path, bool recursive = false, bool fullpath = false)
         {
             return ListFiles(path, _ImageFileTypes, recursive, fullpath);
         }
@@ -225,7 +218,7 @@ namespace VocaluxeLib
         /// <param name="recursive">Search directories recursively</param>
         /// <param name="fullpath">False for just file names, True for full path</param>
         /// <returns>List of image file names</returns>
-        public static List<string> ListSoundFiles(string path, bool recursive = false, bool fullpath = false)
+        public static IEnumerable<string> ListSoundFiles(string path, bool recursive = false, bool fullpath = false)
         {
             return ListFiles(path, _SoundFileTypes, recursive, fullpath);
         }
@@ -297,7 +290,7 @@ namespace VocaluxeLib
         {
             if (!File.Exists(filePath))
             {
-                CBase.Log.LogError("Can't find File: " + filePath);
+                CLog.Error("Can't find File: " + filePath);
                 return null;
             }
             Bitmap bmp;
@@ -307,7 +300,7 @@ namespace VocaluxeLib
             }
             catch (Exception)
             {
-                CBase.Log.LogError("Error loading bitmap: " + filePath);
+                CLog.Error("Error loading bitmap: " + filePath);
                 return null;
             }
             return bmp;

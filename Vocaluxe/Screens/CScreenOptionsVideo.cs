@@ -22,6 +22,7 @@ using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Screens
 {
@@ -205,7 +206,7 @@ namespace Vocaluxe.Screens
             }
             catch (Exception e)
             {
-                CLog.LogError("Error on listing webcam capabilities: " + e.Message);
+                CLog.Error("Error on listing webcam capabilities: " + e.Message);
             }
 
             _SelectSlides[_SelectSlideWebcamDevices].Visible = ssVisible;

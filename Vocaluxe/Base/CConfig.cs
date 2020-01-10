@@ -27,6 +27,7 @@ using System.Xml.Serialization;
 using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Profile;
 using VocaluxeLib.Xml;
 
@@ -376,7 +377,7 @@ namespace Vocaluxe.Base
             {
                 Config = xml.Deserialize<SConfig>(_FileConfig);
                 if (_XmlErrorsOccured)
-                    CLog.LogError("There were some warnings or errors loading the config file. Some values might have been reset to their defaults.");
+                    CLog.Error("There were some warnings or errors loading the config file. Some values might have been reset to their defaults.");
             }
             else
                 Config = xml.DeserializeString<SConfig>("<root />");

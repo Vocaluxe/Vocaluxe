@@ -10,8 +10,11 @@ clone_depth: 15
 environment:
   GitHubKey:
     secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
+init:
+- git config --global core.autocrlf true
 install:
 - ps: |
+    $Env:VOCALUXE_SKIP_POSTBUILD = $true
     $Env:CurrentCommitSha = "$(git rev-parse --verify HEAD)"
 
     if((-not $Env:githubRepoApiUri) -or ($Env:APPVEYOR_ACCOUNT_NAME -eq "VocaluxeBuildBot")){
@@ -30,9 +33,17 @@ install:
     }
     else{
         $Env:TAG_NAME_WITH_BRANCH_NAME_FALLBACK = $Env:APPVEYOR_REPO_BRANCH
-    }    
+    }
+    choco install "opencover.portable" -y
 before_build:
 - ps: |
+    $Env:MAIN_REPO = $False
+
+    if($Env:APPVEYOR_REPO_NAME -eq "Vocaluxe/Vocaluxe"){
+        $Env:MAIN_REPO = $True
+        Write-Host "Main repo Vocaluxe/Vocaluxe detected"
+    }
+    
     Try
     {
         Start-FileDownload 'https://github.com/lukeIam/VocaluxeDependencies/blob/master/zips/themes/vocaluxe.themes.genius.video.zip?raw=true'
@@ -43,21 +54,42 @@ before_build:
     {
         Write-Warning "Genius-Video download failed"
     }
+    
     nuget restore -DisableParallelProcessing
-
+    
+    if($Env:MAIN_REPO -and ($Env:PLATFORM -eq 'x64'))
+    {        
+        if ($Env:APPVEYOR_PULL_REQUEST_NUMBER){
+            choco install "msbuild-sonarqube-runner" -y
+            SonarScanner.MSBuild.exe begin `
+                /k:"Vocaluxe" `
+                /o:"vocaluxe" `
+                /d:sonar.host.url="https://sonarcloud.io" `
+                /d:sonar.login="$Env:SonarQubeToken" `
+                /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" `
+                /d:"sonar.pullrequest.base=$env:APPVEYOR_REPO_BRANCH" `
+                /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" 
+        }
+        elseif($Env:APPVEYOR_REPO_BRANCH -eq 'develop'){
+            choco install "msbuild-sonarqube-runner" -y            
+            SonarScanner.MSBuild.exe begin `
+                /k:"Vocaluxe" `
+                /o:"vocaluxe" `
+                /d:sonar.host.url="https://sonarcloud.io" `
+                /v:"$Env:GIT_VERSION_TAG" `
+                /d:sonar.login="$Env:SonarQubeToken" `
+                /d:sonar.cs.nunit.reportsPaths=".\TestResult.xml" `
+                /d:sonar.cs.opencover.reportsPaths=".\CoverageResult.xml"
+        }
+    }    
 build:
   project: Vocaluxe.sln
   verbosity: normal
 after_build:
 - ps: |
-    cd Output
-
-    $Env:MAIN_REPO = $False
-
-    if($Env:APPVEYOR_REPO_NAME -eq "Vocaluxe/Vocaluxe"){
-        $Env:MAIN_REPO = $True
-        Write-Host "Main repo Vocaluxe/Vocaluxe detected"
-    }
+    ./.appveyor/runGitLink.ps1
+    
+    cd Output   
 
     $forkBuildTag = ""
     if(($Env:MAIN_REPO -ne $True) -or ($Env:APPVEYOR_ACCOUNT_NAME -ne "VocaluxeBuildBot")){
@@ -77,7 +109,22 @@ after_build:
         .\.appveyor\nightlyDetect.ps1
         .\.appveyor\moveTagForSpecialBranches.ps1
     }
-test: off
+test_script:
+- ps: |
+    if (($Env:MAIN_REPO) -and ($Env:PLATFORM -eq 'x64') -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
+        OpenCover.Console.exe -register:user -target:"nunit3-console.exe" -targetargs:".\Tests\bin\Release\Tests.dll --result=.\TestResult.xml;format=AppVeyor" -output:".\CoverageResult.xml"
+    }
+    else{
+        nunit3-console.exe ".\Tests\bin\Release\Tests.dll" --result=".\TestResult.xml;format=AppVeyor"
+    }    
+    $wc = New-Object 'System.Net.WebClient'
+    $wc.UploadFile("https://ci.appveyor.com/api/testresults/nunit3/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\TestResult.xml))
+
+after_test:
+- ps: |
+    if (($Env:MAIN_REPO) -and ($Env:PLATFORM -eq 'x64') -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
+        SonarScanner.MSBuild.exe end /d:sonar.login="$Env:SonarQubeToken"
+    }
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1
 after_deploy:

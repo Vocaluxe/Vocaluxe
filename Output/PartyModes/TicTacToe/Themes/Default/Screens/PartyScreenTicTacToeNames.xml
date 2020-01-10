@@ -148,12 +148,12 @@
         <Space>10</Space>
       </SelReflection>
     </Button>
-    <Button Name="ButtonIncreaseTeams">
+	<Button Name="ButtonIncreaseTeams">
       <Skin>Plus</Skin>
       <SkinSelected>Plus</SkinSelected>
       <Rect>
-        <X>145</X>
-        <Y>1200</Y>
+        <X>1180</X>
+        <Y>105</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
@@ -179,8 +179,8 @@
       <Skin>Minus</Skin>
       <SkinSelected>Minus</SkinSelected>
       <Rect>
-        <X>145</X>
-        <Y>1200</Y>
+        <X>1130</X>
+        <Y>105</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
