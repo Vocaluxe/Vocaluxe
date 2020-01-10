@@ -196,10 +196,10 @@ namespace VocaluxeLib.Log
             int i = 0;
             return theRegex.Replace(template, delegate(Match match)
             {
-                if (propertyValues.Length >= i)
+                if (i >= propertyValues.Length)
                     return match.Value;
                 return propertyValues[i++].ToString();
-            }); 
+            });
         }
 
     }
