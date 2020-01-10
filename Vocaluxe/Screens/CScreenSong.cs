@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -42,13 +42,15 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 6; }
+            get { return 7; }
         }
 
         private const string _TextCategory = "TextCategory";
         private const string _TextSelection = "TextSelection";
         private const string _TextSearchBarTitle = "TextSearchBarTitle";
         private const string _TextSearchBar = "TextSearchBar";
+        private const string _TextHelpBar = "TextHelpBar";
+        private const string _TextHelpBarSearch = "TextHelpBarSearch";
         private const string _TextOptionsTitle = "TextOptionsTitle";
 
         private const string _ButtonOpenOptions = "ButtonOpenOptions";
@@ -76,6 +78,9 @@ namespace Vocaluxe.Screens
 
         private string _SearchText = String.Empty;
         private bool _SearchActive;
+
+        private int _JumpTo_lastCharTime = 0;
+        private String _JumpTo_lastSearchString = "";
 
         private readonly List<string> _ButtonsJoker = new List<string>();
         private readonly List<string> _TextsPlayer = new List<string>();
@@ -134,6 +139,8 @@ namespace Vocaluxe.Screens
             tlist.Add(_TextSelection);
             tlist.Add(_TextSearchBarTitle);
             tlist.Add(_TextSearchBar);
+            tlist.Add(_TextHelpBar);
+            tlist.Add(_TextHelpBarSearch);
             tlist.Add(_TextOptionsTitle);
 
             _ThemeStatics = new string[] {_StaticSearchBar, _StaticOptionsBG};
@@ -727,12 +734,16 @@ namespace Vocaluxe.Screens
 
                 _Texts[_TextSearchBar].Visible = true;
                 _Texts[_TextSearchBarTitle].Visible = true;
+                _Texts[_TextHelpBar].Visible = false;
+                _Texts[_TextHelpBarSearch].Visible = true;
                 _Statics[_StaticSearchBar].Visible = true;
             }
             else
             {
                 _Texts[_TextSearchBar].Visible = false;
                 _Texts[_TextSearchBarTitle].Visible = false;
+                _Texts[_TextHelpBar].Visible = true;
+                _Texts[_TextHelpBarSearch].Visible = false;
                 _Statics[_StaticSearchBar].Visible = false;
             }
 
@@ -1042,6 +1053,13 @@ namespace Vocaluxe.Screens
 
         private void _JumpTo(char letter)
         {
+            // Stefan1200: Add all letters from a key press within one second to a search string. Clear search string, if last key press is older than one second.
+            String searchString;
+            if (Environment.TickCount - _JumpTo_lastCharTime < 1000)
+                searchString = _JumpTo_lastSearchString + letter.ToString();
+            else
+                searchString = letter.ToString();
+
             int start = 0;
             int curSelected = CSongs.IsInCategory ? _SongMenu.GetSelectedSongNr() : _SongMenu.GetSelectedCategory();
             bool firstLevel = CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
@@ -1061,28 +1079,20 @@ namespace Vocaluxe.Screens
                 {
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_YEAR:
                     case ESongSorting.TR_CONFIG_DECADE:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Year.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_FOLDER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Folder.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
                 }
                 if (visibleID > -1)
@@ -1097,16 +1107,12 @@ namespace Vocaluxe.Screens
                 {
                     case ESongSorting.TR_CONFIG_FOLDER:
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
                 }
                 if (visibleID > -1)
@@ -1116,12 +1122,14 @@ namespace Vocaluxe.Screens
             {
                 ReadOnlyCollection<CCategory> categories = CSongs.Categories;
                 int ct = categories.Count;
-                if (curSelected >= 0 && curSelected < ct - 1 && categories[curSelected].Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                    start = curSelected + 1;
-                int visibleID = _FindIndex(categories, start, element => element.Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                int visibleID = _FindIndex(categories, start, element => element.Name.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                 if (visibleID > -1)
                     _SongMenu.SetSelectedCategory(visibleID);
             }
+
+            // Stefan1200: Remember search string and current TickCount in class variables.
+            _JumpTo_lastCharTime = Environment.TickCount;
+            _JumpTo_lastSearchString = searchString;
         }
 
         private void _ApplyNewSearchFilter(string newFilterString)
