@@ -63,7 +63,7 @@ before_build:
             choco install "msbuild-sonarqube-runner" -y
             SonarScanner.MSBuild.exe begin `
                 /k:"Vocaluxe" `
-                /d:sonar.organization="vocaluxe" `
+                /o:"vocaluxe" `
                 /d:sonar.host.url="https://sonarcloud.io" `
                 /d:sonar.login="$Env:SonarQubeToken" `
                 /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" `
@@ -74,7 +74,7 @@ before_build:
             choco install "msbuild-sonarqube-runner" -y            
             SonarScanner.MSBuild.exe begin `
                 /k:"Vocaluxe" `
-                /d:sonar.organization="vocaluxe" `
+                /o:"vocaluxe" `
                 /d:sonar.host.url="https://sonarcloud.io" `
                 /v:"$Env:GIT_VERSION_TAG" `
                 /d:sonar.login="$Env:SonarQubeToken" `
