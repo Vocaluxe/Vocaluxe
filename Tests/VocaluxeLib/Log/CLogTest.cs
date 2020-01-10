@@ -76,7 +76,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Verbose] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -129,7 +129,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Verbose] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -287,7 +287,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Debug] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -340,7 +340,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Debug] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -498,7 +498,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Information] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -551,7 +551,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Information] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -709,7 +709,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Warning] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -762,7 +762,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Warning] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -920,7 +920,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Error] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -973,7 +973,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[Error] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithData, error, "Error message wrong");
+                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 
