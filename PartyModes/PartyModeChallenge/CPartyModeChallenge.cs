@@ -428,7 +428,6 @@ namespace VocaluxeLib.PartyModes.Challenge
                     _ScreenSongOptions.Sorting.FilterPlaylistID = -1;
 
                     _ScreenSongOptions.Selection.SongIndex = -1;
-                    _ScreenSongOptions.Selection.CategoryIndex = -1;
                     _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
                     break;
 
