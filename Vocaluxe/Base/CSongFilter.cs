@@ -171,8 +171,8 @@ namespace Vocaluxe.Base
                             break;
                     }
 
-                    if (foundIt)
-                        if (!expertSearch) expertSearch = true;
+                    if (foundIt && !expertSearch)
+                        expertSearch = true;
                 }
             }
 
