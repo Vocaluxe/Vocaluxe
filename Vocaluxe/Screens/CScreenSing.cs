@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -112,7 +112,7 @@ namespace Vocaluxe.Screens
         private float _Length = -1f;
 
         private CVideoStream _CurrentVideo;
-        private EAspect _VideoAspect = EAspect.Crop;
+        private EAspect _VideoAspect = EAspect.Automatic;
         private CTextureRef _CurrentWebcamFrameTexture;
         private CTextureRef _Background;
 
@@ -794,18 +794,21 @@ namespace Vocaluxe.Screens
                 if (_CurrentVideo != null && CConfig.Config.Video.VideosInSongs == EOffOn.TR_CONFIG_ON && !_Webcam)
                 {
                     background = _CurrentVideo.Texture;
-                    aspect = _VideoAspect;
                 }
                 else if (_Webcam)
                 {
                     background = _CurrentWebcamFrameTexture;
-                    aspect = _VideoAspect;
                 }
                 else
                     background = _Background;
                 if (background != null)
                 {
                     SRectF bounds = CSettings.RenderRect;
+					
+					if (_VideoAspect == EAspect.Automatic)
+                        _VideoAspect = (background.OrigAspect <= 1.5 ? EAspect.LetterBox : EAspect.Crop);
+                    aspect = _VideoAspect;
+					
                     SRectF rect = CHelper.FitInBounds(bounds, background.OrigAspect, aspect);
                     CDraw.DrawTexture(background, rect, background.Color, bounds);
                 }
@@ -1087,7 +1090,7 @@ namespace Vocaluxe.Screens
             {
                 _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.VideoFileName));
                 CVideo.Skip(_CurrentVideo, song.Start, song.VideoGap);
-                _VideoAspect = song.VideoAspect;
+                _VideoAspect = EAspect.Automatic;
             }
 
             CDraw.RemoveTexture(ref _Background);
