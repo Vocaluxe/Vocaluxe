@@ -804,11 +804,11 @@ namespace Vocaluxe.Screens
                 if (background != null)
                 {
                     SRectF bounds = CSettings.RenderRect;
-					
-					if (_VideoAspect == EAspect.Automatic)
+                    
+                    if (_VideoAspect == EAspect.Automatic)
                         _VideoAspect = (background.OrigAspect <= 1.5 ? EAspect.LetterBox : EAspect.Crop);
                     aspect = _VideoAspect;
-					
+                    
                     SRectF rect = CHelper.FitInBounds(bounds, background.OrigAspect, aspect);
                     CDraw.DrawTexture(background, rect, background.Color, bounds);
                 }
