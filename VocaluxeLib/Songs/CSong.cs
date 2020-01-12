@@ -101,7 +101,7 @@ namespace VocaluxeLib.Songs
         public readonly List<string> BackgroundFileNames = new List<string>();
         public string VideoFileName = String.Empty;
 
-        public EAspect VideoAspect = EAspect.Crop;
+        public EAspect VideoAspect = EAspect.Automatic;
 
         public bool NotesLoaded { get; private set; }
 
