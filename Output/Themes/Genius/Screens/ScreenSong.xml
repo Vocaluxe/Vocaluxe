@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>6</ScreenVersion>
+    <ScreenVersion>7</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -237,6 +237,48 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENSONG_SONGOPTIONS</Text>
+    </Text>
+    <Text Name="TextHelpBar">
+      <X>40</X>
+      <Y>700</Y>
+      <Z>0</Z>
+      <H>16</H>
+      <MaxW>1200</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSONG_HELPMESSAGE</Text>
+    </Text>
+    <Text Name="TextHelpBarSearch">
+      <X>40</X>
+      <Y>700</Y>
+      <Z>0</Z>
+      <H>16</H>
+      <MaxW>1200</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSONG_HELPMESSAGESEARCH</Text>
+    </Text>
+    <Text Name="TextHelpBarParty">
+      <X>40</X>
+      <Y>700</Y>
+      <Z>0</Z>
+      <H>16</H>
+      <MaxW>1200</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSONG_HELPMESSAGEPARTY</Text>
     </Text>
   </Texts>
   <Buttons>

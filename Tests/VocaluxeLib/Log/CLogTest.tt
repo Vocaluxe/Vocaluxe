@@ -101,7 +101,7 @@ namespace Tests.VocaluxeLib.Log
                 StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
                 StringAssert.Contains("[<#= LogLevel #>] " + <#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>, log, "Main log entry wrong");
 
-                StringAssert.Contains(<#= WithData?"_TestMessageWithData":"_TestMessage" #>, error, "Error message wrong");
+                StringAssert.Contains(<#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>, error, "Error message wrong");
             },
             ELogLevel.Verbose);
 

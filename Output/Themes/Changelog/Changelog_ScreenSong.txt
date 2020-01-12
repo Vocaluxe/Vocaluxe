@@ -1,6 +1,15 @@
 ScreenSong
 
 ++++++++++
+Version 7:
+
+Add:
+<TextHelpBar>
+<TextHelpBarSearch>
+<TextHelpBarParty>
+Shows key shortcut and search usage as small text line at the bottom of the screen.
+
+++++++++++
 Version 6:
 
 Add:

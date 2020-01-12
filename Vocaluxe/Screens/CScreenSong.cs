@@ -42,13 +42,16 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 6; }
+            get { return 7; }
         }
 
         private const string _TextCategory = "TextCategory";
         private const string _TextSelection = "TextSelection";
         private const string _TextSearchBarTitle = "TextSearchBarTitle";
         private const string _TextSearchBar = "TextSearchBar";
+        private const string _TextHelpBar = "TextHelpBar";
+        private const string _TextHelpBarSearch = "TextHelpBarSearch";
+        private const string _TextHelpBarParty = "TextHelpBarParty";
         private const string _TextOptionsTitle = "TextOptionsTitle";
 
         private const string _ButtonOpenOptions = "ButtonOpenOptions";
@@ -137,6 +140,9 @@ namespace Vocaluxe.Screens
             tlist.Add(_TextSelection);
             tlist.Add(_TextSearchBarTitle);
             tlist.Add(_TextSearchBar);
+            tlist.Add(_TextHelpBar);
+            tlist.Add(_TextHelpBarSearch);
+            tlist.Add(_TextHelpBarParty);
             tlist.Add(_TextOptionsTitle);
 
             _ThemeStatics = new string[] {_StaticSearchBar, _StaticOptionsBG};
@@ -282,6 +288,21 @@ namespace Vocaluxe.Screens
                             else if (!_Sso.Selection.PartyMode)
                                 _SearchActive = true;
                             break;
+
+                        case Keys.V:
+                            if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
+                                _StartRandomVisibleSongs();
+                            break;
+
+                        case Keys.R:
+                            if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.RandomOnly)
+                                _SelectNextRandom(-1);
+                            break;
+
+                        case Keys.S:
+                            if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
+                                _StartMedleySong(_SongMenu.GetPreviewSongNr());
+                            break;
                     }
                     if (!_SearchActive)
                     {
@@ -296,23 +317,9 @@ namespace Vocaluxe.Screens
                                 if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
                                     _StartRandomAllSongs();
                                 break;
-                            case Keys.V:
-                                if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
-                                    _StartRandomVisibleSongs();
-                                break;
-
-                            case Keys.R:
-                                if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.RandomOnly)
-                                    _SelectNextRandom(-1);
-                                break;
-
-                            case Keys.S:
-                                if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
-                                    _StartMedleySong(_SongMenu.GetPreviewSongNr());
-                                break;
 
                             case Keys.F:
-                                if (keyEvent.Mod == EModifier.Ctrl)
+                                if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
                                     _SearchActive = true;
                                 break;
 
@@ -730,12 +737,18 @@ namespace Vocaluxe.Screens
 
                 _Texts[_TextSearchBar].Visible = true;
                 _Texts[_TextSearchBarTitle].Visible = true;
+                _Texts[_TextHelpBar].Visible = false;
+                _Texts[_TextHelpBarSearch].Visible = true;
+                _Texts[_TextHelpBarParty].Visible = false;
                 _Statics[_StaticSearchBar].Visible = true;
             }
             else
             {
                 _Texts[_TextSearchBar].Visible = false;
                 _Texts[_TextSearchBarTitle].Visible = false;
+                _Texts[_TextHelpBar].Visible = !_Sso.Selection.PartyMode;
+                _Texts[_TextHelpBarSearch].Visible = false;
+                _Texts[_TextHelpBarParty].Visible = _Sso.Selection.PartyMode;
                 _Statics[_StaticSearchBar].Visible = false;
             }
 
