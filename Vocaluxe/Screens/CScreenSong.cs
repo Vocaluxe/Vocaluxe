@@ -1065,7 +1065,7 @@ namespace Vocaluxe.Screens
                 searchString = letter.ToString();
 
             int start = 0;
-            int curSelected = CSongs.IsInCategory ? _SongMenu.GetSelectedSongNr() : _SongMenu.GetSelectedCategory();
+            //int curSelected = CSongs.IsInCategory ? _SongMenu.GetSelectedSongNr() : _SongMenu.GetSelectedCategory();
             bool firstLevel = CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
             bool secondSort = CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_ON &&
                               (CConfig.Config.Game.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
@@ -1077,7 +1077,7 @@ namespace Vocaluxe.Screens
                 //TODO: What's to do with multiple tags?
                 //Flamefire: What? We only sorted by one tag, sorting by multiple tags (e.g. Album) will be by e.g. the first entry. That can be used here too as otherwhise it will confuse users because it jumps randomly
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
-                int ct = songs.Count;
+                //int ct = songs.Count;
                 int visibleID = -1;
                 switch (CConfig.Config.Game.SongSorting)
                 {
@@ -1105,7 +1105,7 @@ namespace Vocaluxe.Screens
             else if (secondSort && CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
-                int ct = songs.Count;
+                //int ct = songs.Count;
                 int visibleID = -1;
                 switch (CConfig.Config.Game.SongSorting)
                 {
@@ -1125,7 +1125,7 @@ namespace Vocaluxe.Screens
             else if (!CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CCategory> categories = CSongs.Categories;
-                int ct = categories.Count;
+                //int ct = categories.Count;
                 int visibleID = _FindIndex(categories, start, element => element.Name.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                 if (visibleID > -1)
                     _SongMenu.SetSelectedCategory(visibleID);
