@@ -80,6 +80,9 @@ namespace Vocaluxe.Screens
         private string _SearchText = String.Empty;
         private bool _SearchActive;
 
+        private int _JumpTo_lastCharTime = 0;
+        private String _JumpTo_lastSearchString = "";
+
         private readonly List<string> _ButtonsJoker = new List<string>();
         private readonly List<string> _TextsPlayer = new List<string>();
         private ESongOptionsView _CurSongOptionsView;
@@ -1055,8 +1058,14 @@ namespace Vocaluxe.Screens
 
         private void _JumpTo(char letter)
         {
+            // Stefan1200: Add all letters from a key press within one second to a search string. Clear search string, if last key press is older than one second.
+            String searchString;
+            if (Environment.TickCount - _JumpTo_lastCharTime < 1000)
+                searchString = _JumpTo_lastSearchString + letter.ToString();
+            else
+                searchString = letter.ToString();
+
             int start = 0;
-            int curSelected = CSongs.IsInCategory ? _SongMenu.GetSelectedSongNr() : _SongMenu.GetSelectedCategory();
             bool firstLevel = CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
             bool secondSort = CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_ON &&
                               (CConfig.Config.Game.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
@@ -1068,34 +1077,25 @@ namespace Vocaluxe.Screens
                 //TODO: What's to do with multiple tags?
                 //Flamefire: What? We only sorted by one tag, sorting by multiple tags (e.g. Album) will be by e.g. the first entry. That can be used here too as otherwhise it will confuse users because it jumps randomly
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
-                int ct = songs.Count;
                 int visibleID = -1;
                 switch (CConfig.Config.Game.SongSorting)
                 {
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_YEAR:
                     case ESongSorting.TR_CONFIG_DECADE:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Year.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_FOLDER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Folder.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
                 }
                 if (visibleID > -1)
@@ -1104,22 +1104,17 @@ namespace Vocaluxe.Screens
             else if (secondSort && CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
-                int ct = songs.Count;
                 int visibleID = -1;
                 switch (CConfig.Config.Game.SongSorting)
                 {
                     case ESongSorting.TR_CONFIG_FOLDER:
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
                 }
                 if (visibleID > -1)
@@ -1128,13 +1123,14 @@ namespace Vocaluxe.Screens
             else if (!CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CCategory> categories = CSongs.Categories;
-                int ct = categories.Count;
-                if (curSelected >= 0 && curSelected < ct - 1 && categories[curSelected].Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                    start = curSelected + 1;
-                int visibleID = _FindIndex(categories, start, element => element.Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                int visibleID = _FindIndex(categories, start, element => element.Name.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                 if (visibleID > -1)
                     _SongMenu.SetSelectedCategory(visibleID);
             }
+
+            // Stefan1200: Remember search string and current TickCount in class variables.
+            _JumpTo_lastCharTime = Environment.TickCount;
+            _JumpTo_lastSearchString = searchString;
         }
 
         private void _ApplyNewSearchFilter(string newFilterString)
