@@ -64,6 +64,7 @@ namespace VocaluxeLib
     #region Fonts
     public enum EAspect
     {
+        Automatic,
         Crop,
         LetterBox,
         Stretch,
