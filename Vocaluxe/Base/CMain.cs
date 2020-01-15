@@ -571,6 +571,15 @@ namespace Vocaluxe.Base
             return CGame.GetPoints();
         }
 
+        public int GetCurrentBeat()
+        {
+            return CGame.CurrentBeat;
+        }
+        public float GetCurrentBeatF()
+        {
+            return CGame.CurrentBeatF;
+        }
+
         public float GetMidRecordedBeat()
         {
             return CGame.MidRecordedBeat;
@@ -685,6 +694,11 @@ namespace Vocaluxe.Base
         public int GetToneAbs(int player)
         {
             return CRecord.GetToneAbs(player);
+        }
+
+        public bool ToneValid(int player)
+        {
+            return CRecord.ToneValid(player);
         }
     }
 

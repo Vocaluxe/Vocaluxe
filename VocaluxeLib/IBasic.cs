@@ -188,6 +188,8 @@ namespace VocaluxeLib
         void SetNumPlayer(int numPlayer);
         SPlayer[] GetPlayers();
         CPoints GetPoints();
+        int GetCurrentBeat();
+        float GetCurrentBeatF();
         float GetMidRecordedBeat();
         int GetRecordedBeat();
 
@@ -208,6 +210,7 @@ namespace VocaluxeLib
     public interface IRecording
     {
         int GetToneAbs(int player);
+        bool ToneValid(int player);
     }
 
     public interface IProfiles
