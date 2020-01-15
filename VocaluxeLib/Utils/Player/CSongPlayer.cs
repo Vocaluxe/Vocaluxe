@@ -111,9 +111,6 @@ namespace VocaluxeLib.Utils.Player
             if (_Video != null || !SongHasVideo)
                 return;
 
-            if (CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_OFF)
-                return;
-
             string videoFilePath = Path.Combine(_Song.Folder, _Song.VideoFileName);
             _Video = CBase.Video.Load(videoFilePath);
             if (_Video == null)
