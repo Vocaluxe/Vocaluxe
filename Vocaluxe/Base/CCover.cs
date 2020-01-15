@@ -174,7 +174,7 @@ namespace Vocaluxe.Base
             _CoverThemes.Clear();
 
             string folderPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameCover);
-            List<string> files = CHelper.ListFiles(folderPath, "*.xml");
+            IEnumerable<string> files = CHelper.ListFiles(folderPath, "*.xml");
 
             var xml = new CXmlDeserializer();
             foreach (string file in files)
@@ -207,7 +207,7 @@ namespace Vocaluxe.Base
 
             Debug.Assert(!String.IsNullOrEmpty(coverTheme.Info.Name));
 
-            List<string> files = CHelper.ListImageFiles(coverTheme.FolderPath, true, true);
+            IEnumerable<string> files = CHelper.ListImageFiles(coverTheme.FolderPath, true, true);
 
             lock (_Covers)
             {

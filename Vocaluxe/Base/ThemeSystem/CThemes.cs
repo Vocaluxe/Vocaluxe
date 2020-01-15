@@ -135,7 +135,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static bool ReadThemesFromFolder(string path, int partyModeID)
         {
-            List<string> files = CHelper.ListFiles(path, "*.xml", false, true);
+            IEnumerable<string> files = CHelper.ListFiles(path, "*.xml", false, true);
 
             List<CTheme> newThemes = new List<CTheme>();
             foreach (string file in files)
