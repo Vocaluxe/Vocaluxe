@@ -879,7 +879,7 @@ namespace Vocaluxe.Screens
                         _Statics[_StaticLyricHelperTop].Color.R,
                         _Statics[_StaticLyricHelperTop].Color.G,
                         _Statics[_StaticLyricHelperTop].Color.B,
-                        _Statics[_StaticLyricHelperTop].Color.A * _Statics[_StaticLyricHelper].Alpha * alpha);
+                        _Statics[_StaticLyricHelperTop].Color.A * _Statics[_StaticLyricHelperTop].Alpha * alpha);
 
                     float distance = _Lyrics[_LyricMainTop].GetCurrentLyricPosX() - rect.X - rect.W;
                     CDraw.DrawTexture(_Statics[_StaticLyricHelperTop].Texture,
