@@ -1067,7 +1067,7 @@ namespace Vocaluxe.Screens
                     case ESongSorting.TR_CONFIG_FOLDER:
                         if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
                             start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.FolderName.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
                         break;
                 }
                 if (visibleID > -1)
