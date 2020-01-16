@@ -133,6 +133,11 @@ namespace Vocaluxe.Base
         {
             _UnloadCovers();
             _LoadCovers();
+
+            // Stefan1200: Added a workaround to fix issue #446, because switching the cover theme gets bugged on the song screen and needed a game restart.
+            //             Toggle the tabs view fixes this bug somehow.
+            CSongs.Categorizer.Tabs = (CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_ON ? EOffOn.TR_CONFIG_OFF : EOffOn.TR_CONFIG_ON);
+            CSongs.Categorizer.Tabs = CConfig.Config.Game.Tabs;
         }
 
         private static void _UnloadCovers()
