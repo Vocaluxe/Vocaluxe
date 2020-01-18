@@ -463,17 +463,11 @@ namespace Vocaluxe.Screens
 
                 if (alpha.Length > 2)
                 {
-                    _Lyrics[_LyricMainDuet].Alpha = alpha[0];
-                    _Lyrics[_LyricSubDuet].Alpha = alpha[1];
+                    _Lyrics[_LyricMainDuet].Alpha = alpha[2];
+                    _Lyrics[_LyricSubDuet].Alpha = alpha[3];
 
-                    _Statics[_StaticLyricsDuet].Alpha = alpha[0];
-                    _Statics[_StaticLyricHelperDuet].Alpha = alpha[0];
-
-                    _Lyrics[_LyricMain].Alpha = alpha[2];
-                    _Lyrics[_LyricSub].Alpha = alpha[3];
-
-                    _Statics[_StaticLyrics].Alpha = alpha[2];
-                    _Statics[_StaticLyricHelper].Alpha = alpha[2];
+                    _Statics[_StaticLyricsDuet].Alpha = alpha[2];
+                    _Statics[_StaticLyricHelperDuet].Alpha = alpha[2];
                 }
             }
 
@@ -665,7 +659,7 @@ namespace Vocaluxe.Screens
                     timer.Stop();
                 }
             }
-            else if (!timer.IsRunning && timer.ElapsedMilliseconds == 0 && _Lyrics[_LyricMainDuet].Alpha > 0 && CGame.GetSong().IsDuet)
+            else if (!timer.IsRunning && timer.ElapsedMilliseconds == 0 && _Lyrics[_LyricMainTop].Alpha > 0 && CGame.GetSong().IsDuet)
                 timer.Start();
             else
                 textName.Visible = false;
@@ -698,7 +692,7 @@ namespace Vocaluxe.Screens
                     _TimerDuetText2.Stop();
                 }
             }
-            else if (!_TimerDuetText2.IsRunning && _TimerDuetText2.ElapsedMilliseconds == 0 && _Lyrics[_LyricMain].Alpha > 0 && CGame.GetSong().IsDuet)
+            else if (!_TimerDuetText2.IsRunning && _TimerDuetText2.ElapsedMilliseconds == 0 && _Lyrics[_LyricMainDuet].Alpha > 0 && CGame.GetSong().IsDuet)
                 _TimerDuetText2.Start();
             else
                 _Texts[_TextDuetName2].Visible = false;
