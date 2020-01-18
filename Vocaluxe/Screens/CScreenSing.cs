@@ -532,7 +532,7 @@ namespace Vocaluxe.Screens
                             _SingNotes[_SingBars].PlayerNotes[j].SetLine(nr);
                     }
 
-                    if (i == 0 && !song.IsDuet || i == 1 && song.IsDuet)
+                    if (i == 0)
                     {
                         _Lyrics[_LyricMain].SetLine(lines[nr]);
                         _Lyrics[_LyricMainTop].SetLine(lines[nr]);
@@ -550,7 +550,7 @@ namespace Vocaluxe.Screens
                             _Lyrics[_LyricSubTop].Clear();
                         }
                     }
-                    if (i == 0 && song.IsDuet)
+                    if (i == 1 && song.IsDuet)
                     {
                         _Lyrics[_LyricMainDuet].SetLine(lines[nr]);
                         _TimeToFirstNoteDuet = CGame.GetTimeFromBeats(lines[nr].FirstNoteBeat - lines[nr].StartBeat, song.BPM);
@@ -564,7 +564,7 @@ namespace Vocaluxe.Screens
                 }
                 else
                 {
-                    if (i == 0 && !song.IsDuet || i == 1 && song.IsDuet)
+                    if (i == 0)
                     {
                         _Lyrics[_LyricMain].Clear();
                         _Lyrics[_LyricSub].Clear();
@@ -573,7 +573,7 @@ namespace Vocaluxe.Screens
                         _TimeToFirstNote = 0f;
                     }
 
-                    if (i == 0 && song.IsDuet)
+                    if (i == 1 && song.IsDuet)
                     {
                         _Lyrics[_LyricMainDuet].Clear();
                         _Lyrics[_LyricSubDuet].Clear();
@@ -879,7 +879,7 @@ namespace Vocaluxe.Screens
                         _Statics[_StaticLyricHelperTop].Color.R,
                         _Statics[_StaticLyricHelperTop].Color.G,
                         _Statics[_StaticLyricHelperTop].Color.B,
-                        _Statics[_StaticLyricHelperTop].Color.A * _Statics[_StaticLyricHelper].Alpha * alpha);
+                        _Statics[_StaticLyricHelperTop].Color.A * _Statics[_StaticLyricHelperTop].Alpha * alpha);
 
                     float distance = _Lyrics[_LyricMainTop].GetCurrentLyricPosX() - rect.X - rect.W;
                     CDraw.DrawTexture(_Statics[_StaticLyricHelperTop].Texture,
@@ -1199,8 +1199,8 @@ namespace Vocaluxe.Screens
 
             if (CGame.GetSong() != null && CGame.GetSong().IsDuet)
             {
-                bottomLyricsVisible = true;
-                topLyricsVisible = false;
+                bottomLyricsVisible = false;
+                topLyricsVisible = true;
                 duetLyricsVisible = true;
             }
 
