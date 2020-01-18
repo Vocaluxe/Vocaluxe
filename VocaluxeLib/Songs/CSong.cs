@@ -288,11 +288,11 @@ namespace VocaluxeLib.Songs
             return loader.ReadNotes();
         }
 
-        public bool ReloadSong()
+        public bool ReloadSong(bool reloadNotes)
         {
             var loader = new CSongLoader(this);
             bool retValue = loader.ReadHeader();
-            retValue = loader.ReadNotes(true);
+            retValue = loader.ReadNotes(reloadNotes);
             return retValue;
         }
 
