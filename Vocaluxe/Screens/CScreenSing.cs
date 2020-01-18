@@ -289,6 +289,7 @@ namespace Vocaluxe.Screens
                             song.Save();
                         break;
 
+                    // Restart Round and reload song file header
                     case Keys.R:
                         if (keyEvent.Mod == EModifier.Ctrl)
                         {
@@ -300,11 +301,29 @@ namespace Vocaluxe.Screens
                         }
                         break;
 
+                    // Restart Round and reload song file header
                     case Keys.F5:
                         if (_Pause)
                         {
                             _SetPause(false);
                             _RestartRound();
+                        }
+                        break;
+
+                    // Skip 30 seconds
+                    case Keys.Right:
+                        if (keyEvent.Mod == EModifier.Ctrl)
+                        {
+                            if (!_Pause)
+                            {
+                                if (_TimerSongText.IsRunning)
+                                    _TimerSongText.Stop();
+
+                                float newTime = _CurrentTime + 30f;
+                                if (CSound.GetLength(_CurrentStream) < (_CurrentTime + 30f))
+                                    newTime = CSound.GetLength(_CurrentStream) - 1f;
+                                CSound.SetPosition(_CurrentStream, newTime);
+                            }
                         }
                         break;
                 }
@@ -982,7 +1001,7 @@ namespace Vocaluxe.Screens
             _CloseSong();
 
             CGame.ResetPlayer();
-            _LoadCurrentSong();
+            _LoadCurrentSong(true);
 
             _StartSong();
         }
@@ -1062,7 +1081,7 @@ namespace Vocaluxe.Screens
         /// <summary>
         /// Prepare streams and screen for current song.
         /// </summary>
-        private void _LoadCurrentSong()
+        private void _LoadCurrentSong(bool restartRound = false)
         {
             if (CGame.IsFinished())
             {
@@ -1071,7 +1090,7 @@ namespace Vocaluxe.Screens
             }
 
             CSong song = CGame.GetSong();
-            song.ReloadSong();
+            song.ReloadSong(!restartRound);
 
             if (song == null)
             {
