@@ -1090,7 +1090,6 @@ namespace Vocaluxe.Screens
             }
 
             CSong song = CGame.GetSong();
-            song.ReloadSong(reloadNotes);
 
             if (song == null)
             {
@@ -1098,6 +1097,7 @@ namespace Vocaluxe.Screens
                 return;
             }
 
+            song.ReloadSong(reloadNotes);
             string songname = song.Artist + " - " + song.Title;
             int rounds = CGame.GetNumSongs();
             if (rounds > 1)
