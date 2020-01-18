@@ -123,6 +123,7 @@ namespace Vocaluxe.Screens
         private float _RemainingTimeToFirstNote;
         private float _TimeToFirstNoteDuet;
         private float _RemainingTimeToFirstNoteDuet;
+        private float _TimeShowSongTextTotal;
 
         private Stopwatch _TimerSongText;
         private Stopwatch _TimerDuetText1;
@@ -604,23 +605,23 @@ namespace Vocaluxe.Screens
 
         private void _UpdateSongText()
         {
-            if (_TimerSongText.IsRunning && !_Lyrics[_LyricMainDuet].Visible && !_Lyrics[_LyricMainTop].Visible)
+            if (_TimerSongText.IsRunning)
             {
                 float t = _TimerSongText.ElapsedMilliseconds / 1000f;
-                if (t < 10f)
+                if (t < _TimeShowSongTextTotal)
                 {
                     _Statics[_StaticSongText].Visible = true;
                     _Texts[_TextSongName].Visible = true;
 
-                    if (t < 7f)
+                    if (t < (_TimeShowSongTextTotal - 3f))
                     {
                         _Statics[_StaticSongText].Color.A = 1f;
                         _Texts[_TextSongName].Color.A = 1f;
                     }
                     else
                     {
-                        _Statics[_StaticSongText].Color.A = (10f - t) / 3f;
-                        _Texts[_TextSongName].Color.A = (10f - t) / 3f;
+                        _Statics[_StaticSongText].Color.A = (_TimeShowSongTextTotal - t) / 3f;
+                        _Texts[_TextSongName].Color.A = (_TimeShowSongTextTotal - t) / 3f;
                     }
                 }
                 else
@@ -1142,7 +1143,21 @@ namespace Vocaluxe.Screens
             _TimerDuetText1.Reset();
             _TimerDuetText2.Reset();
 
-            if (!song.IsDuet)
+            float realGap = song.Gap - song.Start;
+            _TimeShowSongTextTotal = 10f;
+            if (_Lyrics[_LyricMainDuet].Visible || _Lyrics[_LyricMainTop].Visible)
+            {
+                if (realGap < 11f)
+                {
+                    _TimeShowSongTextTotal = 0;
+                }
+                else if (realGap < 17f)
+                {
+                    _TimeShowSongTextTotal = realGap - 7f;
+                }
+            }
+            
+            if (_TimeShowSongTextTotal > 0)
                 _TimerSongText.Start();
         }
 
