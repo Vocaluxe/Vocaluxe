@@ -1001,7 +1001,7 @@ namespace Vocaluxe.Screens
             _CloseSong();
 
             CGame.ResetPlayer();
-            _LoadCurrentSong(true);
+            _LoadCurrentSong(false);
 
             _StartSong();
         }
@@ -1081,7 +1081,7 @@ namespace Vocaluxe.Screens
         /// <summary>
         /// Prepare streams and screen for current song.
         /// </summary>
-        private void _LoadCurrentSong(bool restartRound = false)
+        private void _LoadCurrentSong(bool reloadNotes = true)
         {
             if (CGame.IsFinished())
             {
@@ -1090,7 +1090,7 @@ namespace Vocaluxe.Screens
             }
 
             CSong song = CGame.GetSong();
-            song.ReloadSong(!restartRound);
+            song.ReloadSong(reloadNotes);
 
             if (song == null)
             {
