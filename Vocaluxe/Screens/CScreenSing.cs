@@ -1094,7 +1094,7 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            if (!_Sso.Selection.PartyMode)
+            if (!_Sso.Selection.PartyMode && CGame.GameMode == EGameMode.TR_GAMEMODE_NORMAL)
                 song.ReloadSong(reloadNotes);
             
             string songname = song.Artist + " - " + song.Title;
