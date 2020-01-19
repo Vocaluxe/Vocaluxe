@@ -82,6 +82,7 @@ namespace VocaluxeLib.Songs
                 _Song.Languages.Clear();
                 _Song.Genres.Clear();
                 _Song.UnknownTags.Clear();
+                _Song.BackgroundFileNames.Clear();
                 _Song._Comment = "";
                 _Song.ManualEncoding = false;
                 _Song.Medley.Source = EDataSource.None;
