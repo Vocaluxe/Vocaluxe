@@ -292,6 +292,9 @@ namespace VocaluxeLib.Songs
         {
             var loader = new CSongLoader(this);
             bool retValue = loader.ReadHeader();
+            if (!retValue)
+                return false;
+
             retValue = loader.ReadNotes(reloadNotes);
             return retValue;
         }
