@@ -1119,11 +1119,11 @@ namespace Vocaluxe.Screens
                     voiceAssignments[i] = CGame.Players[i].VoiceNr;
             }
 
+            _VideoAspect = EAspect.Automatic;
             if (!String.IsNullOrEmpty(song.VideoFileName))
             {
                 _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.VideoFileName));
                 CVideo.Skip(_CurrentVideo, song.Start, song.VideoGap);
-                _VideoAspect = EAspect.Automatic;
             }
 
             CDraw.RemoveTexture(ref _Background);
