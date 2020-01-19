@@ -30,6 +30,7 @@ using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
+using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
@@ -133,6 +134,7 @@ namespace Vocaluxe.Screens
         private bool _Webcam;
 
         private CBackground _SlideShow;
+        private SScreenSongOptions _Sso;
 
         public override EMusicType CurrentMusicType
         {
@@ -309,8 +311,7 @@ namespace Vocaluxe.Screens
 
                     // Skip 30 seconds
                     case Keys.Right:
-                        SScreenSongOptions Sso = CParty.GetSongSelectionOptions();
-                        if (keyEvent.Mod == EModifier.Ctrl && !_Pause && !Sso.Selection.PartyMode)
+                        if (keyEvent.Mod == EModifier.Ctrl && !_Pause && !_Sso.Selection.PartyMode)
                         {
                             if (_TimerSongText.IsRunning)
                                 _TimerSongText.Stop();
@@ -390,6 +391,7 @@ namespace Vocaluxe.Screens
             _SetPause(false);
 
             _TimeRects.Clear();
+            _Sso = CParty.GetSongSelectionOptions();
 
             _SingNotes[_SingBars].Init(0);
             _AssignPlayerElements();
@@ -1092,7 +1094,9 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            song.ReloadSong(reloadNotes);
+            if (!_Sso.Selection.PartyMode)
+                song.ReloadSong(reloadNotes);
+            
             string songname = song.Artist + " - " + song.Title;
             int rounds = CGame.GetNumSongs();
             if (rounds > 1)
