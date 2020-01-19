@@ -309,7 +309,8 @@ namespace Vocaluxe.Screens
 
                     // Skip 30 seconds
                     case Keys.Right:
-                        if (keyEvent.Mod == EModifier.Ctrl && !_Pause)
+                        SScreenSongOptions Sso = CParty.GetSongSelectionOptions();
+                        if (keyEvent.Mod == EModifier.Ctrl && !_Pause && !Sso.Selection.PartyMode)
                         {
                             if (_TimerSongText.IsRunning)
                                 _TimerSongText.Stop();
