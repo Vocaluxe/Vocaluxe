@@ -291,13 +291,10 @@ namespace Vocaluxe.Screens
 
                     // Restart Round and reload song file header
                     case Keys.R:
-                        if (keyEvent.Mod == EModifier.Ctrl)
+                        if (keyEvent.Mod == EModifier.Ctrl && _Pause)
                         {
-                            if (_Pause)
-                            {
-                                _SetPause(false);
-                                _RestartRound();
-                            }
+                            _SetPause(false);
+                            _RestartRound();
                         }
                         break;
 
@@ -312,18 +309,15 @@ namespace Vocaluxe.Screens
 
                     // Skip 30 seconds
                     case Keys.Right:
-                        if (keyEvent.Mod == EModifier.Ctrl)
+                        if (keyEvent.Mod == EModifier.Ctrl && !_Pause)
                         {
-                            if (!_Pause)
-                            {
-                                if (_TimerSongText.IsRunning)
-                                    _TimerSongText.Stop();
+                            if (_TimerSongText.IsRunning)
+                                _TimerSongText.Stop();
 
-                                float newTime = _CurrentTime + 30f;
-                                if (CSound.GetLength(_CurrentStream) < (_CurrentTime + 30f))
-                                    newTime = CSound.GetLength(_CurrentStream) - 1f;
-                                CSound.SetPosition(_CurrentStream, newTime);
-                            }
+                            float newTime = _CurrentTime + 30f;
+                            if (CSound.GetLength(_CurrentStream) < (_CurrentTime + 30f))
+                                newTime = CSound.GetLength(_CurrentStream) - 1f;
+                            CSound.SetPosition(_CurrentStream, newTime);
                         }
                         break;
                 }
