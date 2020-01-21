@@ -99,6 +99,18 @@ namespace Vocaluxe.Screens
         private ISongMenu _SongMenu;
         private CPlaylist _Playlist;
 
+        private static int _StaticSelectedSongID;
+
+        private static void setStaticSelectedSongID(int songID)
+        {
+            _StaticSelectedSongID = songID;
+        }
+
+        public static int getSelectedSongID()
+        {
+            return _StaticSelectedSongID;
+        }
+
         public override EMusicType CurrentMusicType
         {
             get { return CSongs.IsInCategory ? EMusicType.Preview : EMusicType.Background; }
@@ -302,6 +314,14 @@ namespace Vocaluxe.Screens
                         case Keys.S:
                             if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
                                 _StartMedleySong(_SongMenu.GetPreviewSongNr());
+                            break;
+
+                        case Keys.H:
+                            if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
+                            {
+                                CScreenSong.setStaticSelectedSongID(_SongMenu.GetPreviewSongNr());
+                                CBase.Graphics.FadeTo(EScreen.Highscore);
+                            }
                             break;
                     }
                     if (!_SearchActive)
