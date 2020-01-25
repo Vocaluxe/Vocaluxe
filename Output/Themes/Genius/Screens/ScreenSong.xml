@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>7</ScreenVersion>
+    <ScreenVersion>8</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -786,6 +786,33 @@
         <Style>Bold</Style>
         <Font>Outline</Font>
         <Text>TR_SCREENSONG_BUTTON_STARTMEDLEY</Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonOptionsHighscore">
+      <Skin>SongSelectButton</Skin>
+      <SkinSelected>SongSelectButton</SkinSelected>
+      <Rect>
+        <X>40</X>
+        <Y>290</Y>
+        <W>360</W>
+        <H>40</H>
+        <Z>-2.11</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>180</X>
+        <Y>7</Y>
+        <Z>0</Z>
+        <H>25</H>
+        <MaxW>350</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENHIGHSCORE_HIGHSCORE</Text>
       </Text>
     </Button>
   </Buttons>
