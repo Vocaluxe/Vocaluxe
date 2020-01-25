@@ -245,10 +245,16 @@ namespace Vocaluxe.Screens
                 _Scores = new List<SDBScoreEntry>[4];
                 int songID = CScreenSong.getSelectedSongID();
                 EHighscoreStyle style = CBase.Config.GetHighscoreStyle();
+                bool foundHighscoreEntries = false;
 
                 for (int gameModeNum = 0; gameModeNum < 4; gameModeNum++)
                 {
                     _Scores[gameModeNum] = CDataBase.LoadScore(songID, (EGameMode)gameModeNum, style);
+                    if (!foundHighscoreEntries && _Scores[gameModeNum].Count > 0)
+                    {
+                        _Round = gameModeNum;
+                        foundHighscoreEntries = true;
+                    }
                 }
             }
             else
