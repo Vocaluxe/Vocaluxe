@@ -243,7 +243,7 @@ namespace Vocaluxe.Screens
                 _FromScreenSong = true;
                 _Round = (int)EGameMode.TR_GAMEMODE_NORMAL;
                 _Scores = new List<SDBScoreEntry>[4];
-                int songID = CSongs.VisibleSongs[CScreenSong.getSelectedSongID()].ID;
+                int songID = CScreenSong.getSelectedSongID();
                 EHighscoreStyle style = CBase.Config.GetHighscoreStyle();
 
                 for (int gameModeNum = 0; gameModeNum < 4; gameModeNum++)
@@ -272,7 +272,7 @@ namespace Vocaluxe.Screens
             
             CSong song;
             if (_FromScreenSong)
-                song = CSongs.GetSong(CSongs.VisibleSongs[CScreenSong.getSelectedSongID()].ID);
+                song = CSongs.GetSong(CScreenSong.getSelectedSongID());
             else
                 song = CGame.GetSong(_Round);
 
@@ -280,7 +280,7 @@ namespace Vocaluxe.Screens
                 return;
 
             _Texts[_TextSongName].Text = song.Artist + " - " + song.Title;
-            if (points != null && points.NumRounds > 1)
+            if (points != null && !_FromScreenSong && points.NumRounds > 1)
                 _Texts[_TextSongName].Text += " (" + (_Round + 1) + "/" + points.NumRounds + ")";
 
             switch ((_FromScreenSong ? (EGameMode)_Round : CGame.GetGameMode(_Round)))
