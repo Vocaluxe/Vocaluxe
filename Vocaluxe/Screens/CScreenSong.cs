@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Timers;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
@@ -42,7 +43,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 7; }
+            get { return 8; }
         }
 
         private const string _TextCategory = "TextCategory";
@@ -53,6 +54,7 @@ namespace Vocaluxe.Screens
         private const string _TextHelpBarSearch = "TextHelpBarSearch";
         private const string _TextHelpBarParty = "TextHelpBarParty";
         private const string _TextOptionsTitle = "TextOptionsTitle";
+        private const string _TextShortInfoTop = "TextShortInfoTop";
 
         private const string _ButtonOpenOptions = "ButtonOpenOptions";
         private const string _ButtonOptionsSing = "ButtonOptionsSing";
@@ -74,6 +76,7 @@ namespace Vocaluxe.Screens
 
         private const string _StaticSearchBar = "StaticSearchBar";
         private const string _StaticOptionsBG = "StaticOptionsBG";
+        private const string _StaticShortInfoTop = "StaticShortInfoTop";
         private const string _SongMenuName = "SongMenu";
         private const string _PlaylistName = "Playlist";
 
@@ -98,6 +101,8 @@ namespace Vocaluxe.Screens
 
         private ISongMenu _SongMenu;
         private CPlaylist _Playlist;
+
+        private System.Timers.Timer _TimerShortInfoText;
 
         public override EMusicType CurrentMusicType
         {
@@ -144,8 +149,9 @@ namespace Vocaluxe.Screens
             tlist.Add(_TextHelpBarSearch);
             tlist.Add(_TextHelpBarParty);
             tlist.Add(_TextOptionsTitle);
+            tlist.Add(_TextShortInfoTop);
 
-            _ThemeStatics = new string[] {_StaticSearchBar, _StaticOptionsBG};
+            _ThemeStatics = new string[] {_StaticSearchBar, _StaticOptionsBG, _StaticShortInfoTop};
             _ThemeTexts = tlist.ToArray();
             _ThemeButtons = blist.ToArray();
             _ThemeSelectSlides = new string[] {_SelectSlideOptionsMode, _SelectSlideOptionsPlaylistAdd, _SelectSlideOptionsPlaylistOpen, _SelectSlideOptionsNumMedleySongs};
@@ -153,6 +159,10 @@ namespace Vocaluxe.Screens
             _ThemePlaylists = new string[] {_PlaylistName};
 
             _DragAndDropCover = GetNewStatic();
+
+            _TimerShortInfoText = new System.Timers.Timer(5000);
+            _TimerShortInfoText.AutoReset = false;
+            _TimerShortInfoText.Elapsed += OnTimedEventShortInfoText;
         }
 
         protected override void _OnSongMenuChanged()
@@ -302,6 +312,35 @@ namespace Vocaluxe.Screens
                         case Keys.S:
                             if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
                                 _StartMedleySong(_SongMenu.GetPreviewSongNr());
+                            break;
+
+                        case Keys.T:
+                            if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
+                            {
+                                _ToggleTabs();
+                            }
+                            break;
+
+                        case Keys.D0:
+                        case Keys.D1:
+                        case Keys.D2:
+                        case Keys.D3:
+                        case Keys.D4:
+                        case Keys.D5:
+                        case Keys.D6:
+                        case Keys.D7:
+                        case Keys.D8:
+                        case Keys.D9:
+                            if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
+                            {
+                                int tempSortNr = -1;
+                                int.TryParse(keyEvent.Key.ToString().Substring(1), out tempSortNr);
+                                
+                                if (tempSortNr == 0)
+                                    tempSortNr = 10;
+
+                                _ToggleSort(tempSortNr);
+                            }
                             break;
                     }
                     if (!_SearchActive)
@@ -689,6 +728,9 @@ namespace Vocaluxe.Screens
             _DragAndDropCover.Visible = false;
             _Playlist.DragAndDropSongID = -1;
 
+            _Statics[_StaticShortInfoTop].Visible = false;
+            _Texts[_TextShortInfoTop].Visible = false;
+
             UpdateGame();
         }
 
@@ -862,6 +904,42 @@ namespace Vocaluxe.Screens
 
                 _Buttons[_ButtonStart].Visible = false;
             }
+        }
+
+        private void _ToggleSort(int sortNr)
+        {
+            CSongs.Sorter.SongSorting = (ESongSorting)sortNr;
+            CConfig.Config.Game.SongSorting = CSongs.Sorter.SongSorting;
+            _Sso.Sorting.SongSorting = CSongs.Sorter.SongSorting;
+            _SongMenu.Update(_Sso);
+            _SongMenu.OnShow();
+
+            _Texts[_TextShortInfoTop].Text = CBase.Language.Translate("TR_SCREENSONG_SORTING").Replace("%s", CBase.Language.Translate(_Sso.Sorting.SongSorting.ToString()));
+            _Statics[_StaticShortInfoTop].Visible = true;
+            _Texts[_TextShortInfoTop].Visible = true;
+            _TimerShortInfoText.Stop();
+            _TimerShortInfoText.Enabled = true;
+        }
+
+        private void OnTimedEventShortInfoText(Object source, ElapsedEventArgs e)
+        {
+            _Statics[_StaticShortInfoTop].Visible = false;
+            _Texts[_TextShortInfoTop].Visible = false;
+        }
+
+        private void _ToggleTabs()
+        {
+            EOffOn tmpStatus = CSongs.Categorizer.Tabs;
+
+            if (tmpStatus == EOffOn.TR_CONFIG_ON)
+                CSongs.Categorizer.Tabs = EOffOn.TR_CONFIG_OFF;
+            else
+                CSongs.Categorizer.Tabs = EOffOn.TR_CONFIG_ON;
+
+            CConfig.Config.Game.Tabs = CSongs.Categorizer.Tabs;
+            _Sso.Sorting.Tabs = CSongs.Categorizer.Tabs;
+            _SongMenu.Update(_Sso);
+            _SongMenu.OnShow();
         }
 
         private void _StartSong(int songNr)
