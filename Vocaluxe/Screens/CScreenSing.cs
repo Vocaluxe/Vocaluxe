@@ -30,6 +30,7 @@ using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
+using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
@@ -133,6 +134,7 @@ namespace Vocaluxe.Screens
         private bool _Webcam;
 
         private CBackground _SlideShow;
+        private SScreenSongOptions _Sso;
 
         public override EMusicType CurrentMusicType
         {
@@ -288,6 +290,38 @@ namespace Vocaluxe.Screens
                         if (CConfig.Config.Debug.SaveModifiedSongs == EOffOn.TR_CONFIG_ON)
                             song.Save();
                         break;
+
+                    // Restart Round and reload song file header
+                    case Keys.R:
+                        if (keyEvent.Mod == EModifier.Ctrl && _Pause)
+                        {
+                            _SetPause(false);
+                            _RestartRound();
+                        }
+                        break;
+
+                    // Restart Round and reload song file header
+                    case Keys.F5:
+                        if (_Pause)
+                        {
+                            _SetPause(false);
+                            _RestartRound();
+                        }
+                        break;
+
+                    // Skip 30 seconds
+                    case Keys.Right:
+                        if (keyEvent.Mod == EModifier.Ctrl && !_Pause && !_Sso.Selection.PartyMode)
+                        {
+                            if (_TimerSongText.IsRunning)
+                                _TimerSongText.Stop();
+
+                            float newTime = _CurrentTime + 30f;
+                            if (CSound.GetLength(_CurrentStream) < (_CurrentTime + 30f))
+                                newTime = CSound.GetLength(_CurrentStream) - 1f;
+                            CSound.SetPosition(_CurrentStream, newTime);
+                        }
+                        break;
                 }
             }
 
@@ -357,6 +391,7 @@ namespace Vocaluxe.Screens
             _SetPause(false);
 
             _TimeRects.Clear();
+            _Sso = CParty.GetSongSelectionOptions();
 
             _SingNotes[_SingBars].Init(0);
             _AssignPlayerElements();
@@ -963,7 +998,7 @@ namespace Vocaluxe.Screens
             _CloseSong();
 
             CGame.ResetPlayer();
-            _LoadCurrentSong();
+            _LoadCurrentSong(false);
 
             _StartSong();
         }
@@ -1043,7 +1078,7 @@ namespace Vocaluxe.Screens
         /// <summary>
         /// Prepare streams and screen for current song.
         /// </summary>
-        private void _LoadCurrentSong()
+        private void _LoadCurrentSong(bool reloadNotes = true)
         {
             if (CGame.IsFinished())
             {
@@ -1059,6 +1094,9 @@ namespace Vocaluxe.Screens
                 return;
             }
 
+            if (!_Sso.Selection.PartyMode && (CGame.GameMode == EGameMode.TR_GAMEMODE_NORMAL || CGame.GameMode == EGameMode.TR_GAMEMODE_DUET))
+                song.ReloadSong(reloadNotes);
+            
             string songname = song.Artist + " - " + song.Title;
             int rounds = CGame.GetNumSongs();
             if (rounds > 1)
