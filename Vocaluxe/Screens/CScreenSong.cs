@@ -937,9 +937,15 @@ namespace Vocaluxe.Screens
 
         private void _ToggleSort(int sortNr)
         {
+            if (CBase.Songs.IsInCategory() && _Sso.Selection.CategoryChangeAllowed)
+            {
+                CBase.Songs.SetCategory(-1);
+            }
+            
             CSongs.Sorter.SongSorting = (ESongSorting)sortNr;
             CConfig.Config.Game.SongSorting = CSongs.Sorter.SongSorting;
             _Sso.Sorting.SongSorting = CSongs.Sorter.SongSorting;
+            
             _SongMenu.Update(_Sso);
             _SongMenu.OnShow();
 
