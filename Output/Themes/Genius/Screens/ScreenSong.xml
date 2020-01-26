@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>7</ScreenVersion>
+    <ScreenVersion>8</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -70,8 +70,33 @@
         <Z>-2.1</Z>
       </Rect>
     </Static>
+    <Static Name="StaticShortInfoTop">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
+      <Rect>
+        <X>490</X>
+        <Y>0</Y>
+        <W>300</W>
+        <H>30</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
   </Statics>
   <Texts>
+    <Text Name="TextShortInfoTop">
+      <X>640</X>
+      <Y>2</Y>
+      <Z>-1</Z>
+      <H>25</H>
+      <MaxW>280</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSONG_SORTING</Text>
+    </Text>
     <Text Name="TextPlayer1">
       <X>950</X>
       <Y>65</Y>
