@@ -1094,7 +1094,7 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            if (!_Sso.Selection.PartyMode && CGame.GameMode == EGameMode.TR_GAMEMODE_NORMAL)
+            if (!_Sso.Selection.PartyMode && (CGame.GameMode == EGameMode.TR_GAMEMODE_NORMAL || CGame.GameMode == EGameMode.TR_GAMEMODE_DUET))
                 song.ReloadSong(reloadNotes);
             
             string songname = song.Artist + " - " + song.Title;
