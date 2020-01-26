@@ -49,6 +49,7 @@ namespace Vocaluxe.Screens
         private int _Round;
         private int _Pos;
         private bool _IsDuet;
+        private bool _FromScreenSong = false;
 
         public override EMusicType CurrentMusicType
         {
@@ -113,11 +114,13 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Down:
-                        _ChangePos(1);
+                        if (!_FromScreenSong)
+                            _ChangePos(1);
                         break;
 
                     case Keys.Up:
-                        _ChangePos(-1);
+                        if (!_FromScreenSong)
+                            _ChangePos(-1);
                         break;
 
                     case Keys.Left:
@@ -234,13 +237,37 @@ namespace Vocaluxe.Screens
         {
             _Pos = 0;
             int rounds = CGame.NumRounds;
-            _Scores = new List<SDBScoreEntry>[rounds];
-            for (int round = 0; round < rounds; round++)
+
+            if (rounds == 0)
             {
-                int songID = CGame.GetSong(round).ID;
-                EGameMode gameMode = CGame.GetGameMode(round);
+                _FromScreenSong = true;
+                _Round = (int)EGameMode.TR_GAMEMODE_NORMAL;
+                _Scores = new List<SDBScoreEntry>[4];
+                int songID = CScreenSong.getSelectedSongID();
                 EHighscoreStyle style = CBase.Config.GetHighscoreStyle();
-                _Scores[round] = CDataBase.LoadScore(songID, gameMode, style);
+                bool foundHighscoreEntries = false;
+
+                for (int gameModeNum = 0; gameModeNum < 4; gameModeNum++)
+                {
+                    _Scores[gameModeNum] = CDataBase.LoadScore(songID, (EGameMode)gameModeNum, style);
+                    if (!foundHighscoreEntries && _Scores[gameModeNum].Count > 0)
+                    {
+                        _Round = gameModeNum;
+                        foundHighscoreEntries = true;
+                    }
+                }
+            }
+            else
+            {
+                _FromScreenSong = false;
+                _Scores = new List<SDBScoreEntry>[rounds];
+                for (int round = 0; round < rounds; round++)
+                {
+                    int songID = CGame.GetSong(round).ID;
+                    EGameMode gameMode = CGame.GetGameMode(round);
+                    EHighscoreStyle style = CBase.Config.GetHighscoreStyle();
+                    _Scores[round] = CDataBase.LoadScore(songID, gameMode, style);
+                }
             }
         }
 
@@ -248,15 +275,21 @@ namespace Vocaluxe.Screens
         {
             _IsDuet = false;
             CPoints points = CGame.GetPoints();
-            CSong song = CGame.GetSong(_Round);
+            
+            CSong song;
+            if (_FromScreenSong)
+                song = CSongs.GetSong(CScreenSong.getSelectedSongID());
+            else
+                song = CGame.GetSong(_Round);
+
             if (song == null)
                 return;
 
             _Texts[_TextSongName].Text = song.Artist + " - " + song.Title;
-            if (points.NumRounds > 1)
+            if (points != null && !_FromScreenSong && points.NumRounds > 1)
                 _Texts[_TextSongName].Text += " (" + (_Round + 1) + "/" + points.NumRounds + ")";
 
-            switch (CGame.GetGameMode(_Round))
+            switch ((_FromScreenSong ? (EGameMode)_Round : CGame.GetGameMode(_Round)))
             {
                 case EGameMode.TR_GAMEMODE_NORMAL:
                     _Texts[_TextSongMode].Text = "TR_GAMEMODE_NORMAL";
@@ -296,9 +329,20 @@ namespace Vocaluxe.Screens
 
         private void _ChangeRound(int num)
         {
-            CPoints points = CGame.GetPoints();
-            _Round += num;
-            _Round = _Round.Clamp(0, points.NumRounds - 1);
+            if (_FromScreenSong)
+            {
+                if (_Round == (int)EGameMode.TR_GAMEMODE_SHORTSONG)
+                    _Round = (int)EGameMode.TR_GAMEMODE_NORMAL;
+                else
+                    ++_Round;
+            }
+            else
+            {
+                CPoints points = CGame.GetPoints();
+                _Round += num;
+                _Round = _Round.Clamp(0, points.NumRounds - 1);
+            }
+
             _UpdateRound();
         }
 

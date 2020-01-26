@@ -68,6 +68,7 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptionsRandomMedley = "ButtonOptionsRandomMedley";
         private const string _ButtonOptionsStartMedley = "ButtonOptionsStartMedley";
         private const string _ButtonStart = "ButtonStart";
+        private const string _ButtonOptionsHighscore = "ButtonOptionsHighscore";
 
         private const string _SelectSlideOptionsMode = "SelectSlideOptionsMode";
         private const string _SelectSlideOptionsPlaylistAdd = "SelectSlideOptionsPlaylistAdd";
@@ -104,6 +105,18 @@ namespace Vocaluxe.Screens
 
         private System.Timers.Timer _TimerShortInfoText;
 
+        private static int _StaticSelectedSongID;
+
+        private static void setStaticSelectedSongID(int songID)
+        {
+            _StaticSelectedSongID = songID;
+        }
+
+        public static int getSelectedSongID()
+        {
+            return _StaticSelectedSongID;
+        }
+
         public override EMusicType CurrentMusicType
         {
             get { return CSongs.IsInCategory ? EMusicType.Preview : EMusicType.Background; }
@@ -135,6 +148,7 @@ namespace Vocaluxe.Screens
             blist.Add(_ButtonStart);
             blist.Add(_ButtonOptionsRandomMedley);
             blist.Add(_ButtonOptionsStartMedley);
+            blist.Add(_ButtonOptionsHighscore);
 
             _TextsPlayer.Clear();
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
@@ -342,6 +356,13 @@ namespace Vocaluxe.Screens
                                 _ToggleSort(tempSortNr);
                             }
                             break;
+
+                        case Keys.H:
+                            if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
+                            {
+                                _ShowHighscore();
+                            }
+                            break;
                     }
                     if (!_SearchActive)
                     {
@@ -438,6 +459,10 @@ namespace Vocaluxe.Screens
                         {
                             _ToggleSongOptions(ESongOptionsView.None);
                             _StartRandomMedley(_SelectSlides[_SelectSlideOptionsNumMedleySongs].Selection + 1, !CSongs.IsInCategory);
+                        }
+                        else if (_Buttons[_ButtonOptionsHighscore].Selected)
+                        {
+                            _ShowHighscore();
                         }
                         break;
 
@@ -613,6 +638,10 @@ namespace Vocaluxe.Screens
                         _ToggleSongOptions(ESongOptionsView.None);
                         _StartRandomMedley(_SelectSlides[_SelectSlideOptionsNumMedleySongs].Selection + 1, !CSongs.IsInCategory);
                         return true;
+                    }
+                    else if (_Buttons[_ButtonOptionsHighscore].Selected)
+                    {
+                        _ShowHighscore();
                     }
                     else if (_Sso.Selection.RandomOnly && _Sso.Selection.NumJokers != null)
                     {
@@ -942,6 +971,13 @@ namespace Vocaluxe.Screens
             _SongMenu.OnShow();
         }
 
+        private void _ShowHighscore()
+        {
+            CGame.ClearSongs();
+            CScreenSong.setStaticSelectedSongID(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID);
+            CBase.Graphics.FadeTo(EScreen.Highscore);
+        }
+
         private void _StartSong(int songNr)
         {
             if (CSongs.IsInCategory && (songNr >= 0))
@@ -1263,6 +1299,7 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOptionsOpenSelectedItem].Visible = false;
             _Buttons[_ButtonOptionsRandomMedley].Visible = false;
             _Buttons[_ButtonOptionsStartMedley].Visible = false;
+            _Buttons[_ButtonOptionsHighscore].Visible = false;
             _Texts[_TextOptionsTitle].Visible = false;
             _Statics[_StaticOptionsBG].Visible = false;
             _Buttons[_ButtonOpenOptions].Visible = true;
@@ -1319,6 +1356,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = true;
             _Buttons[_ButtonOptionsSing].Visible = true;
             _Buttons[_ButtonOptionsPlaylist].Visible = true;
+            _Buttons[_ButtonOptionsHighscore].Visible = true;
             _SelectElement(_Buttons[_ButtonOptionsSing]);
             _SetSelectSlidePlaylistToCurrentPlaylist();
         }
