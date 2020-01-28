@@ -46,7 +46,7 @@
       <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
-        <Y>0</Y>
+        <Y>610</Y>
         <W>1280</W>
         <H>90</H>
         <Z>-0.75</Z>
@@ -136,7 +136,7 @@
       <Color Name="LyricHelperDuet" />
       <Rect>
         <X>40</X>
-        <Y>10</Y>
+        <Y>623</Y>
         <W>45</W>
         <H>36</H>
         <Z>-1</Z>
@@ -1501,7 +1501,7 @@
     <Lyric Name="LyricMainDuet">
       <Rect>
         <X>637</X>
-        <Y>7</Y>
+        <Y>620</Y>
         <W>1200</W>
         <H>42</H>
         <Z>-1</Z>
@@ -1512,7 +1512,7 @@
     <Lyric Name="LyricSubDuet">
       <Rect>
         <X>637</X>
-        <Y>48</Y>
+        <Y>662</Y>
         <W>1200</W>
         <H>35</H>
         <Z>-1</Z>
