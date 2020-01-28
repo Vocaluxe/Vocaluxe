@@ -132,12 +132,17 @@ Song screen
 [F3]				to open/close the song search menu
 [SPACE]				to open/close the song menu
 [TAB]				to switch selection of song menu and playlist (if opened)
+[CTRL] + [H]			to show the highscore of the selected song
+[CTRL] + [T]			to toggle category / tabs view
+[CTRL] + [#]			to change the song sorting (just changed for runtime, not saved!), in order from keys 1 to 0:
+				folder, artist, artist by letter, title by letter, edition, genre, language, year, decade, date added
 [CTRL] + [R]			to select a random song
 [CTRL] + [A]			to sing all songs
 [CTRL] + [S]			to sing current song in medley version
 [CTRL] + [V]			to sing all songs from a category
 [NUM_1]..[NUM_6]		to use a Joker for team 1..6
-[A]..[Z]			to jump to category/song title starting with that letter
+[A]..[Z]			to jump to category/song title starting with that letters (multiple letters possible)
+[PAGE UP] or [PAGE DOWN]	if inside a category: Go up/down one category / if category view is disabled: Scroll one page up/down
 
 Name selection screen
 [1]..[6]			to activate player selection.
@@ -149,6 +154,7 @@ Name selection screen
 Sing screen
 [P]				to toggle pause.
 [CTRL] + [S]			to skip a song if there is another one in the playlist.
+[CTRL] + [RIGHT]		to skip 30 seconds within the playing song (not in party modes).
 [T]				to change the time format of the timer.
 [I]				to change view of player information.
 [W]				to activate the configured webcam.
@@ -156,6 +162,7 @@ Sing screen
 
 Score and highscore screen
 [LEFT] or [RIGHT]		to show (high)scores of another round (if there is more than one)
+				if opened from song list screen: Switch between game modes (Normal, Medley, Duet, Short)
 
 
 =================================
