@@ -134,7 +134,7 @@ Song screen
 [TAB]				to switch selection of song menu and playlist (if opened)
 [CTRL] + [H]			to show the highscore of the selected song
 [CTRL] + [T]			to toggle category / tabs view
-[CTRL] + [1..0]			to change the song sorting (just changed for runtime, not saved!), in order from keys 1 to 0:
+[CTRL] + [1]..[0]		to change the song sorting (just changed for runtime, not saved!), in order from keys 1 to 0:
 				folder, artist, artist by letter, title by letter, edition, genre, language, year, decade, date added
 [CTRL] + [R]			to select a random song
 [CTRL] + [A]			to sing all songs
