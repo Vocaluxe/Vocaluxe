@@ -142,7 +142,9 @@ Song screen
 [CTRL] + [V]			to sing all songs from a category
 [NUM_1]..[NUM_6]		to use a Joker for team 1..6
 [A]..[Z]			to jump to category/song title starting with that letters (multiple letters possible)
-[PAGE UP] or [PAGE DOWN]	if inside a category: Go up/down one category / if category view is disabled: Scroll one page up/down
+[PAGE UP] or [PAGE DOWN]	to scroll one page up/down
+[CTRL] + [PAGE UP or DOWN]	to go inside next or previous category while being in a category
+[HOME] or [END]			to scroll up to first song or down to last song
 
 Name selection screen
 [1]..[6]			to activate player selection.

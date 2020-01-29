@@ -363,38 +363,6 @@ namespace Vocaluxe.Screens
                                 _ShowHighscore();
                             }
                             break;
-
-                        case Keys.PageUp:
-                            if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF)
-                            {
-                                int numSongsPerPage = (CConfig.SongMenu == ESongMenu.TR_CONFIG_TILE_BOARD ? 24 : 15);
-                                if (keyEvent.Mod == EModifier.Ctrl)
-                                    _SongMenu.SetSelectedSong(0);
-                                else
-                                {
-                                    if ((_SongMenu.GetSelectedSongNr() - numSongsPerPage) <= 0)
-                                        _SongMenu.SetSelectedSong(0);
-                                    else
-                                        _SongMenu.SetSelectedSong(_SongMenu.GetSelectedSongNr() - numSongsPerPage);
-                                }
-                            }
-                            break;
-
-                        case Keys.PageDown:
-                            if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF)
-                            {
-                                int numSongsPerPage = (CConfig.SongMenu == ESongMenu.TR_CONFIG_TILE_BOARD ? 24 : 15);
-                                if (keyEvent.Mod == EModifier.Ctrl)
-                                    _SongMenu.SetSelectedSong(CSongs.NumSongsVisible - 1);
-                                else
-                                {
-                                    if ((_SongMenu.GetSelectedSongNr() + numSongsPerPage) >= CSongs.NumSongsVisible)
-                                        _SongMenu.SetSelectedSong(CSongs.NumSongsVisible - 1);
-                                    else
-                                        _SongMenu.SetSelectedSong(_SongMenu.GetSelectedSongNr() + numSongsPerPage);
-                                }
-                            }
-                            break;
                     }
                     if (!_SearchActive)
                     {
