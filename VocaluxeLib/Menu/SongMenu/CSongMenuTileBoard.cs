@@ -335,17 +335,53 @@ namespace VocaluxeLib.Menu.SongMenu
                     break;
 
                 case Keys.PageUp:
-                    if (catChangePossible)
+                    if (catChangePossible && CBase.Songs.IsInCategory() && (keyEvent.Mod == EModifier.Ctrl || keyEvent.Mod == EModifier.Alt))
                     {
                         _PrevCategory();
+                        keyEvent.Handled = true;
+                    }
+                    else if (moveAllowed)
+                    {
+                        int numSongsPerPage = _NumH * _NumW;
+                        if ((_SelectionNr - numSongsPerPage) <= 0)
+                            _SelectionNr = 0;
+                        else
+                            _SelectionNr = _SelectionNr - numSongsPerPage;
                         keyEvent.Handled = true;
                     }
                     break;
 
                 case Keys.PageDown:
-                    if (catChangePossible)
+                    if (catChangePossible && CBase.Songs.IsInCategory() && (keyEvent.Mod == EModifier.Ctrl || keyEvent.Mod == EModifier.Alt))
                     {
                         _NextCategory();
+                        keyEvent.Handled = true;
+                    }
+                    else if (moveAllowed)
+                    {
+                        int numSongsPerPage = _NumH * _NumW;
+                        int maxCount_PageDown = (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && !CBase.Songs.IsInCategory() ? CBase.Songs.GetNumCategories() : CBase.Songs.GetNumSongsVisible());
+                        if ((_SelectionNr + numSongsPerPage) >= maxCount_PageDown)
+                            _SelectionNr = maxCount_PageDown - 1;
+                        else
+                            _SelectionNr = _SelectionNr + numSongsPerPage;
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.Home:
+                    if (moveAllowed)
+                    {
+                        _SelectionNr = 0;
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.End:
+                    int maxCount_End = (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && !CBase.Songs.IsInCategory() ? CBase.Songs.GetNumCategories() : CBase.Songs.GetNumSongsVisible());
+                    if (moveAllowed)
+                    {
+                        _SelectionNr = maxCount_End - 1;
                         keyEvent.Handled = true;
                     }
                     break;
