@@ -43,7 +43,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 8; }
+            get { return 9; }
         }
 
         private const string _TextCategory = "TextCategory";
