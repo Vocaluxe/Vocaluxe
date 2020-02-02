@@ -369,7 +369,7 @@ namespace Vocaluxe.Screens
                         switch (keyEvent.Key)
                         {
                             case Keys.Space:
-                                if (!_Sso.Selection.PartyMode)
+                                if (!_Sso.Selection.PartyMode && !_Playlist.isPlaylistNameEditMode())
                                     _ToggleSongOptions(ESongOptionsView.General);
                                 break;
 
