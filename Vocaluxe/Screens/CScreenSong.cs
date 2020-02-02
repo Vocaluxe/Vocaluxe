@@ -363,6 +363,13 @@ namespace Vocaluxe.Screens
                                 _ShowHighscore();
                             }
                             break;
+
+                        case Keys.L:
+                            if (keyEvent.Mod == EModifier.Ctrl)
+                            {
+                                _TogglePlaylistFilter();
+                            }
+                            break;
                     }
                     if (!_SearchActive)
                     {
@@ -869,9 +876,6 @@ namespace Vocaluxe.Screens
                 CParty.OnSongChange(_SelectedSongID, ref _Sso);
             }
 
-            _Sso = CParty.GetSongSelectionOptions();
-
-
             if (_Sso.Selection.PartyMode)
             {
                 CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, _Sso.Sorting.SearchString, _Sso.Sorting.DuetOptions, _Sso.Sorting.FilterPlaylistID);
@@ -1251,6 +1255,22 @@ namespace Vocaluxe.Screens
             // Stefan1200: Remember search string and current TickCount in class variables.
             _JumpTo_lastCharTime = Environment.TickCount;
             _JumpTo_lastSearchString = searchString;
+        }
+
+        public void _TogglePlaylistFilter()
+        {
+            if (_Sso.Sorting.FilterPlaylistID == _Playlist.ActivePlaylistID)
+            {
+                if (_Playlist.ActivePlaylistID == -1)
+                    return;
+
+                _Sso.Sorting.FilterPlaylistID = -1;
+            }
+            else
+                _Sso.Sorting.FilterPlaylistID = _Playlist.ActivePlaylistID;
+            
+            CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, _Sso.Sorting.SearchString, _Sso.Sorting.DuetOptions, _Sso.Sorting.FilterPlaylistID);
+            _SongMenu.OnShow();
         }
 
         private void _ApplyNewSearchFilter(string newFilterString)
