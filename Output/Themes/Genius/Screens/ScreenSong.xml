@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>8</ScreenVersion>
+    <ScreenVersion>9</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -905,19 +905,33 @@
           <Text />
         </TextTitle>
         <TextSongLength Name="TextSongLength">
-          <X>222</X>
+          <X>391</X>
           <Y>490</Y>
           <Z>-1.01</Z>
           <H>28</H>
-          <MaxW>340</MaxW>
+          <MaxW>100</MaxW>
           <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
-          <Align>Center</Align>
+          <Align>Right</Align>
           <ResizeAlign>Top</ResizeAlign>
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
         </TextSongLength>
+        <TextSongYear Name="TextSongYear">
+          <X>52</X>
+          <Y>490</Y>
+          <Z>-1.01</Z>
+          <H>28</H>
+          <MaxW>100</MaxW>
+          <Color Name="TextColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Left</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextSongYear>
         <StaticCoverBig Name="StaticCoverBig">
           <Skin />
           <Color Name="Visible" />
@@ -1032,19 +1046,33 @@
           <Text />
         </TextTitle>
         <TextSongLength Name="TextSongLength">
-          <X>222</X>
+          <X>391</X>
           <Y>490</Y>
           <Z>-1.01</Z>
           <H>28</H>
-          <MaxW>340</MaxW>
+          <MaxW>100</MaxW>
           <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
-          <Align>Center</Align>
+          <Align>Right</Align>
           <ResizeAlign>Top</ResizeAlign>
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
         </TextSongLength>
+        <TextSongYear Name="TextSongYear">
+          <X>52</X>
+          <Y>490</Y>
+          <Z>-1.01</Z>
+          <H>28</H>
+          <MaxW>100</MaxW>
+          <Color Name="TextColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Left</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextSongYear>
         <StaticCoverBig Name="StaticCoverBig">
           <Skin />
           <Color Name="Visible" />
