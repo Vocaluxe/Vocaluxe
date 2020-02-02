@@ -376,7 +376,7 @@ namespace Vocaluxe.Screens
                         switch (keyEvent.Key)
                         {
                             case Keys.Space:
-                                if (!_Sso.Selection.PartyMode)
+                                if (!_Sso.Selection.PartyMode && !_Playlist.isPlaylistNameEditMode())
                                     _ToggleSongOptions(ESongOptionsView.General);
                                 break;
 
@@ -1206,7 +1206,7 @@ namespace Vocaluxe.Screens
                 {
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => (_Sso.Sorting.IgnoreArticles == EOffOn.TR_CONFIG_ON ? element.ArtistSorting.StartsWith(searchString, StringComparison.OrdinalIgnoreCase) : element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)));
                         break;
 
                     case ESongSorting.TR_CONFIG_YEAR:
@@ -1215,7 +1215,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => (_Sso.Sorting.IgnoreArticles == EOffOn.TR_CONFIG_ON ? element.TitleSorting.StartsWith(searchString, StringComparison.OrdinalIgnoreCase) : element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)));
                         break;
 
                     case ESongSorting.TR_CONFIG_FOLDER:
@@ -1233,12 +1233,12 @@ namespace Vocaluxe.Screens
                 {
                     case ESongSorting.TR_CONFIG_FOLDER:
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => (_Sso.Sorting.IgnoreArticles == EOffOn.TR_CONFIG_ON ? element.ArtistSorting.StartsWith(searchString, StringComparison.OrdinalIgnoreCase) : element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)));
                         break;
 
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => (_Sso.Sorting.IgnoreArticles == EOffOn.TR_CONFIG_ON ? element.TitleSorting.StartsWith(searchString, StringComparison.OrdinalIgnoreCase) : element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)));
                         break;
                 }
                 if (visibleID > -1)
