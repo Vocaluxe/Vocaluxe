@@ -267,9 +267,15 @@ namespace Vocaluxe.Screens
                             if (_Buttons[_ButtonCancel].Selected)
                                 _Stop();
                             if (_Buttons[_ButtonRestartGame].Selected)
+                            {
                                 _RestartGame();
+                                _SetPause(false);
+                            }
                             if (_Buttons[_ButtonRestartRound].Selected)
+                            {
                                 _RestartRound();
+                                _SetPause(false);
+                            }
                             if (_Buttons[_ButtonSkip].Selected)
                             {
                                 _NextSong();
