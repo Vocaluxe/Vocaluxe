@@ -972,6 +972,11 @@ namespace VocaluxeLib.Menu
             return false;
         }
 
+        public bool isPlaylistNameEditMode()
+        {
+            return _EditMode == EEditMode.PlaylistName;
+        }
+
         private void _PrepareList()
         {
             _PlaylistElements.Clear();

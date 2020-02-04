@@ -181,6 +181,10 @@ namespace Vocaluxe.Base
                     sortList.Sort(_SortByFieldArtistTitle);
                     break;
             }
+
+            if (_SongSorting == ESongSorting.TR_CONFIG_DATEADDED)
+                sortList.Reverse();
+
             _SortedSongs = sortList.ToArray();
             _Changed = false;
         }

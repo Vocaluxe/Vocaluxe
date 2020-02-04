@@ -82,12 +82,16 @@ namespace VocaluxeLib.Songs
                 _Song.Languages.Clear();
                 _Song.Genres.Clear();
                 _Song.UnknownTags.Clear();
+                _Song.BackgroundFileNames.Clear();
                 _Song._Comment = "";
                 _Song.ManualEncoding = false;
                 _Song.Medley.Source = EDataSource.None;
                 _Song._CalculateMedley = true;
                 _Song.Preview.Source = EDataSource.None;
                 _Song.ShortEnd.Source = EDataSource.None;
+                _Song.Start = 0;
+                _Song.VideoGap = 0;
+                _Song.Preview.StartTime = 0;
 
                 var headerFlags = new EHeaderFlags();
                 StreamReader sr = null;
