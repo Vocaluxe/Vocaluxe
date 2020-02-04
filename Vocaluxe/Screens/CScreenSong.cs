@@ -43,7 +43,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 9; }
+            get { return 10; }
         }
 
         private const string _TextCategory = "TextCategory";
@@ -215,6 +215,11 @@ namespace Vocaluxe.Screens
                 {
                     _ClosePlaylist();
                     keyEvent.Handled = true;
+                    return true;
+                }
+                if (keyEvent.Key == Keys.Enter && _Playlist.isButtonPlaylistListSelected())
+                {
+                    _TogglePlaylistFilter();
                     return true;
                 }
             }
@@ -504,6 +509,11 @@ namespace Vocaluxe.Screens
                     //Check if playlist was closed and song menu needed to be resized
                     if (!_Playlist.Visible)
                         _SongMenu.SmallView = false;
+                    return true;
+                }
+                if (mouseEvent.LB && _Playlist.isButtonPlaylistListSelected())
+                {
+                    _TogglePlaylistFilter();
                     return true;
                 }
             }
