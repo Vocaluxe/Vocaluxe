@@ -687,7 +687,8 @@ namespace Vocaluxe.Base
                 foreach (string folder in Config.Game.SongFolder)
                 {
                     //Check if folder exists
-                    if (Directory.Exists(folder)) {
+                    if (Directory.Exists(folder))
+                    {
                         SongFolders.Add(Path.GetFullPath(folder));
                     }
                 }
