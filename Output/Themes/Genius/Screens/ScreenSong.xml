@@ -1004,16 +1004,16 @@
         <SpaceW>10</SpaceW>
         <SpaceH>10</SpaceH>
         <TileRect>
-          <X>375</X>
+          <X>410</X>
           <Y>42</Y>
-          <W>850</W>
+          <W>830</W>
           <H>555</H>
           <Z>-1</Z>
         </TileRect>
         <TileRectSmall>
-          <X>375</X>
+          <X>410</X>
           <Y>42</Y>
-          <W>450</W>
+          <W>410</W>
           <H>550</H>
           <Z>-1</Z>
         </TileRectSmall>
