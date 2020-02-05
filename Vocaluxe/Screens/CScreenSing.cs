@@ -1187,7 +1187,11 @@ namespace Vocaluxe.Screens
             _TimerDuetText1.Reset();
             _TimerDuetText2.Reset();
 
-            float realGap = song.Gap - song.Start;
+            // Getting the real start of the first line from the first voice, no other voices are on top since #454.
+            // Needed for displaying song name on duet game mode or lyric on top settings (implemented with #455).
+            CVoice voice = song.Notes.GetVoice(0);      // As long as only voice 0 is on top (no matter if duet or other modes).
+            CSongLine[] lines = voice.Lines;
+            float realGap = CGame.GetTimeFromBeats(lines[0].FirstNoteBeat, song.BPM) + (song.Gap - song.Start);
             _TimeShowSongTextTotal = 10f;
             if (_Lyrics[_LyricMainDuet].Visible || _Lyrics[_LyricMainTop].Visible)
             {
