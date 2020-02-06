@@ -842,7 +842,7 @@ namespace Vocaluxe.Screens
                     SRectF bounds = CSettings.RenderRect;
                     
                     if (_VideoAspect == EAspect.Automatic)
-                        _VideoAspect = ((background.OrigAspect <= 1.5 || background.OrigAspect >= 2.0) ? EAspect.LetterBox : EAspect.Crop);
+                        _VideoAspect = ((background.OrigAspect <= 1.5 || background.OrigAspect >= 1.9) ? EAspect.LetterBox : EAspect.Crop);
                     aspect = _VideoAspect;
                     
                     SRectF rect = CHelper.FitInBounds(bounds, background.OrigAspect, aspect);
@@ -1125,7 +1125,7 @@ namespace Vocaluxe.Screens
                     voiceAssignments[i] = CGame.Players[i].VoiceNr;
             }
 
-            _VideoAspect = EAspect.Automatic;
+            _VideoAspect = song.VideoAspect;
             if (!String.IsNullOrEmpty(song.VideoFileName))
             {
                 _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.VideoFileName));
