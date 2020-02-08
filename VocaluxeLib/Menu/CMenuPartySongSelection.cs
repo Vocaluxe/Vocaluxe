@@ -224,7 +224,12 @@ namespace VocaluxeLib.Menu
             _SongMode = _SelectSlides[_SelectSlideSongMode].Selection;
             _Source = _SelectSlides[_SelectSlideSource].Selection;
             NumMedleySongs = NumMinMedleySongs + _SelectSlides[_SelectSlideNumMedleySongs].Selection;
-            Playlist = _PlaylistIDs[_SelectSlides[_SelectSlidePlaylist].Selection];
+
+            int playlistSelection = _SelectSlides[_SelectSlidePlaylist].Selection;
+            if (playlistSelection >= 0 && playlistSelection < _PlaylistIDs.Count)
+                Playlist = _PlaylistIDs[playlistSelection];
+            else
+                Playlist = -1;
 
             if (_SelectSlides[_SelectSlideSorting].Selection != _Sorting)
             {
