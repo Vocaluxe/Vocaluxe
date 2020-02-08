@@ -554,7 +554,7 @@ namespace VocaluxeLib.Menu
                         break;
 
                     case Keys.Enter:
-                        _StartPlaylistSong(_CurrentPlaylistElement);
+                        _StartPlaylistSong(_CurrentPlaylistElement + _Offset);
                         break;
 
                     case Keys.Add: //move the selected song up
@@ -880,7 +880,7 @@ namespace VocaluxeLib.Menu
 
                         //Start selected song with double click
                         if (mouseEvent.LD && _CurrentPlaylistElement != -1)
-                            _StartPlaylistSong(_CurrentPlaylistElement);
+                            _StartPlaylistSong(_CurrentPlaylistElement + _Offset);
 
                         //Change order with holding LB
                         if (mouseEvent.LBH && _CurrentPlaylistElement != -1 && _PlaylistElementContents.Count > 0 && DragAndDropSongID == -1)
