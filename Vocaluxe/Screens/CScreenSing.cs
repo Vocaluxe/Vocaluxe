@@ -267,9 +267,15 @@ namespace Vocaluxe.Screens
                             if (_Buttons[_ButtonCancel].Selected)
                                 _Stop();
                             if (_Buttons[_ButtonRestartGame].Selected)
+                            {
                                 _RestartGame();
+                                _SetPause(false);
+                            }
                             if (_Buttons[_ButtonRestartRound].Selected)
+                            {
                                 _RestartRound();
+                                _SetPause(false);
+                            }
                             if (_Buttons[_ButtonSkip].Selected)
                             {
                                 _NextSong();
@@ -836,7 +842,7 @@ namespace Vocaluxe.Screens
                     SRectF bounds = CSettings.RenderRect;
                     
                     if (_VideoAspect == EAspect.Automatic)
-                        _VideoAspect = (background.OrigAspect <= 1.5 ? EAspect.LetterBox : EAspect.Crop);
+                        _VideoAspect = ((background.OrigAspect <= 1.5 || background.OrigAspect >= 1.9) ? EAspect.LetterBox : EAspect.Crop);
                     aspect = _VideoAspect;
                     
                     SRectF rect = CHelper.FitInBounds(bounds, background.OrigAspect, aspect);
@@ -1119,7 +1125,7 @@ namespace Vocaluxe.Screens
                     voiceAssignments[i] = CGame.Players[i].VoiceNr;
             }
 
-            _VideoAspect = EAspect.Automatic;
+            _VideoAspect = song.VideoAspect;
             if (!String.IsNullOrEmpty(song.VideoFileName))
             {
                 _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.VideoFileName));
@@ -1181,7 +1187,11 @@ namespace Vocaluxe.Screens
             _TimerDuetText1.Reset();
             _TimerDuetText2.Reset();
 
-            float realGap = song.Gap - song.Start;
+            // Getting the real start of the first line from the first voice, no other voices are on top since #454.
+            // Needed for displaying song name on duet game mode or lyric on top settings (implemented with #455).
+            CVoice voice = song.Notes.GetVoice(0);      // As long as only voice 0 is on top (no matter if duet or other modes).
+            CSongLine[] lines = voice.Lines;
+            float realGap = CGame.GetTimeFromBeats(lines[0].FirstNoteBeat, song.BPM) + (song.Gap - song.Start);
             _TimeShowSongTextTotal = 10f;
             if (_Lyrics[_LyricMainDuet].Visible || _Lyrics[_LyricMainTop].Visible)
             {

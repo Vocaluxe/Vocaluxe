@@ -688,7 +688,7 @@ namespace Vocaluxe.Base
                 {
                     //Check if folder exists
                     if (Directory.Exists(folder))
-                        SongFolders.Add(folder);
+                        SongFolders.Add(Path.GetFullPath(folder));
                 }
             }
             
