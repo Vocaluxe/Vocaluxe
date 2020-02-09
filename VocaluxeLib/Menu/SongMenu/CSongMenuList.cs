@@ -344,17 +344,51 @@ namespace VocaluxeLib.Menu.SongMenu
                     break;
 
                 case Keys.PageUp:
-                    if (catChangePossible)
+                    if (catChangePossible && CBase.Songs.IsInCategory() && (keyEvent.Mod == EModifier.Ctrl || keyEvent.Mod == EModifier.Alt))
                     {
                         _PrevCategory();
+                        keyEvent.Handled = true;
+                    }
+                    else if (moveAllowed)
+                    {
+                        if ((_SelectionNr - _ListLength) <= 0)
+                            _SelectionNr = 0;
+                        else
+                            _SelectionNr = _SelectionNr - _ListLength;
                         keyEvent.Handled = true;
                     }
                     break;
 
                 case Keys.PageDown:
-                    if (catChangePossible)
+                    if (catChangePossible && CBase.Songs.IsInCategory() && (keyEvent.Mod == EModifier.Ctrl || keyEvent.Mod == EModifier.Alt))
                     {
                         _NextCategory();
+                        keyEvent.Handled = true;
+                    }
+                    else if (moveAllowed)
+                    {
+                        int maxCount_PageDown = (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && !CBase.Songs.IsInCategory() ? CBase.Songs.GetNumCategories() : CBase.Songs.GetNumSongsVisible());
+                        if ((_SelectionNr + _ListLength) >= maxCount_PageDown)
+                            _SelectionNr = maxCount_PageDown - 1;
+                        else
+                            _SelectionNr = _SelectionNr + _ListLength;
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.Home:
+                    if (moveAllowed)
+                    {
+                        _SelectionNr = 0;
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.End:
+                    int maxCount_End = (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && !CBase.Songs.IsInCategory() ? CBase.Songs.GetNumCategories() : CBase.Songs.GetNumSongsVisible());
+                    if (moveAllowed)
+                    {
+                        _SelectionNr = maxCount_End - 1;
                         keyEvent.Handled = true;
                     }
                     break;
@@ -511,7 +545,9 @@ namespace VocaluxeLib.Menu.SongMenu
             }
             _TextBG.Draw();
 
-            CTextureRef vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
+            CTextureRef vidtex = null;
+            if (CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
+                vidtex = (CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null);
 
             if (vidtex != null)
             {
@@ -592,13 +628,28 @@ namespace VocaluxeLib.Menu.SongMenu
 
         private void _UpdateList(bool force = false)
         {
+            bool isInCategory = CBase.Songs.IsInCategory();
+            int itemCount = isInCategory ? CBase.Songs.GetNumSongsVisible() : CBase.Songs.GetNumCategories();
+            int halfListLength = _ListLength / 2;
             int offset;
+
             if (_SelectionNr < _Offset && _SelectionNr >= 0)
-                offset = _SelectionNr;
+            {
+                if (_SelectionNr - halfListLength >= 0)
+                    offset = _SelectionNr - halfListLength;
+                else
+                    offset = 0;
+            }
             else if (_SelectionNr >= _Offset + _ListLength)
-                offset = _SelectionNr - _ListLength + 1;
+            {
+                if (_SelectionNr + halfListLength > itemCount)
+                    offset = itemCount - _ListLength;
+                else
+                    offset = _SelectionNr - halfListLength;
+            }
             else
                 offset = _Offset;
+
             _UpdateList(offset, force);
         }
 

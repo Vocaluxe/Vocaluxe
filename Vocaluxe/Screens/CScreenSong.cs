@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Timers;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
@@ -42,14 +43,18 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 6; }
+            get { return 8; }
         }
 
         private const string _TextCategory = "TextCategory";
         private const string _TextSelection = "TextSelection";
         private const string _TextSearchBarTitle = "TextSearchBarTitle";
         private const string _TextSearchBar = "TextSearchBar";
+        private const string _TextHelpBar = "TextHelpBar";
+        private const string _TextHelpBarSearch = "TextHelpBarSearch";
+        private const string _TextHelpBarParty = "TextHelpBarParty";
         private const string _TextOptionsTitle = "TextOptionsTitle";
+        private const string _TextShortInfoTop = "TextShortInfoTop";
 
         private const string _ButtonOpenOptions = "ButtonOpenOptions";
         private const string _ButtonOptionsSing = "ButtonOptionsSing";
@@ -63,6 +68,7 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptionsRandomMedley = "ButtonOptionsRandomMedley";
         private const string _ButtonOptionsStartMedley = "ButtonOptionsStartMedley";
         private const string _ButtonStart = "ButtonStart";
+        private const string _ButtonOptionsHighscore = "ButtonOptionsHighscore";
 
         private const string _SelectSlideOptionsMode = "SelectSlideOptionsMode";
         private const string _SelectSlideOptionsPlaylistAdd = "SelectSlideOptionsPlaylistAdd";
@@ -71,11 +77,15 @@ namespace Vocaluxe.Screens
 
         private const string _StaticSearchBar = "StaticSearchBar";
         private const string _StaticOptionsBG = "StaticOptionsBG";
+        private const string _StaticShortInfoTop = "StaticShortInfoTop";
         private const string _SongMenuName = "SongMenu";
         private const string _PlaylistName = "Playlist";
 
         private string _SearchText = String.Empty;
         private bool _SearchActive;
+
+        private int _JumpTo_lastCharTime = 0;
+        private String _JumpTo_lastSearchString = "";
 
         private readonly List<string> _ButtonsJoker = new List<string>();
         private readonly List<string> _TextsPlayer = new List<string>();
@@ -92,6 +102,20 @@ namespace Vocaluxe.Screens
 
         private ISongMenu _SongMenu;
         private CPlaylist _Playlist;
+
+        private System.Timers.Timer _TimerShortInfoText;
+
+        private static int _StaticSelectedSongID;
+
+        private static void setStaticSelectedSongID(int songID)
+        {
+            _StaticSelectedSongID = songID;
+        }
+
+        public static int getSelectedSongID()
+        {
+            return _StaticSelectedSongID;
+        }
 
         public override EMusicType CurrentMusicType
         {
@@ -124,6 +148,7 @@ namespace Vocaluxe.Screens
             blist.Add(_ButtonStart);
             blist.Add(_ButtonOptionsRandomMedley);
             blist.Add(_ButtonOptionsStartMedley);
+            blist.Add(_ButtonOptionsHighscore);
 
             _TextsPlayer.Clear();
             for (int i = 0; i < CSettings.MaxNumPlayer; i++)
@@ -134,9 +159,13 @@ namespace Vocaluxe.Screens
             tlist.Add(_TextSelection);
             tlist.Add(_TextSearchBarTitle);
             tlist.Add(_TextSearchBar);
+            tlist.Add(_TextHelpBar);
+            tlist.Add(_TextHelpBarSearch);
+            tlist.Add(_TextHelpBarParty);
             tlist.Add(_TextOptionsTitle);
+            tlist.Add(_TextShortInfoTop);
 
-            _ThemeStatics = new string[] {_StaticSearchBar, _StaticOptionsBG};
+            _ThemeStatics = new string[] {_StaticSearchBar, _StaticOptionsBG, _StaticShortInfoTop};
             _ThemeTexts = tlist.ToArray();
             _ThemeButtons = blist.ToArray();
             _ThemeSelectSlides = new string[] {_SelectSlideOptionsMode, _SelectSlideOptionsPlaylistAdd, _SelectSlideOptionsPlaylistOpen, _SelectSlideOptionsNumMedleySongs};
@@ -144,6 +173,10 @@ namespace Vocaluxe.Screens
             _ThemePlaylists = new string[] {_PlaylistName};
 
             _DragAndDropCover = GetNewStatic();
+
+            _TimerShortInfoText = new System.Timers.Timer(5000);
+            _TimerShortInfoText.AutoReset = false;
+            _TimerShortInfoText.Elapsed += OnTimedEventShortInfoText;
         }
 
         protected override void _OnSongMenuChanged()
@@ -279,6 +312,57 @@ namespace Vocaluxe.Screens
                             else if (!_Sso.Selection.PartyMode)
                                 _SearchActive = true;
                             break;
+
+                        case Keys.V:
+                            if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
+                                _StartRandomVisibleSongs();
+                            break;
+
+                        case Keys.R:
+                            if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.RandomOnly)
+                                _SelectNextRandom(-1);
+                            break;
+
+                        case Keys.S:
+                            if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
+                                _StartMedleySong(_SongMenu.GetPreviewSongNr());
+                            break;
+
+                        case Keys.T:
+                            if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
+                            {
+                                _ToggleTabs();
+                            }
+                            break;
+
+                        case Keys.D0:
+                        case Keys.D1:
+                        case Keys.D2:
+                        case Keys.D3:
+                        case Keys.D4:
+                        case Keys.D5:
+                        case Keys.D6:
+                        case Keys.D7:
+                        case Keys.D8:
+                        case Keys.D9:
+                            if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
+                            {
+                                int tempSortNr = -1;
+                                int.TryParse(keyEvent.Key.ToString().Substring(1), out tempSortNr);
+                                
+                                if (tempSortNr == 0)
+                                    tempSortNr = 10;
+
+                                _ToggleSort(tempSortNr);
+                            }
+                            break;
+
+                        case Keys.H:
+                            if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
+                            {
+                                _ShowHighscore();
+                            }
+                            break;
                     }
                     if (!_SearchActive)
                     {
@@ -293,23 +377,9 @@ namespace Vocaluxe.Screens
                                 if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
                                     _StartRandomAllSongs();
                                 break;
-                            case Keys.V:
-                                if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
-                                    _StartRandomVisibleSongs();
-                                break;
-
-                            case Keys.R:
-                                if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.RandomOnly)
-                                    _SelectNextRandom(-1);
-                                break;
-
-                            case Keys.S:
-                                if (keyEvent.Mod == EModifier.Ctrl && CSongs.NumSongsVisible > 0 && !_Sso.Selection.PartyMode)
-                                    _StartMedleySong(_SongMenu.GetPreviewSongNr());
-                                break;
 
                             case Keys.F:
-                                if (keyEvent.Mod == EModifier.Ctrl)
+                                if (keyEvent.Mod == EModifier.Ctrl && !_Sso.Selection.PartyMode)
                                     _SearchActive = true;
                                 break;
 
@@ -389,6 +459,10 @@ namespace Vocaluxe.Screens
                         {
                             _ToggleSongOptions(ESongOptionsView.None);
                             _StartRandomMedley(_SelectSlides[_SelectSlideOptionsNumMedleySongs].Selection + 1, !CSongs.IsInCategory);
+                        }
+                        else if (_Buttons[_ButtonOptionsHighscore].Selected)
+                        {
+                            _ShowHighscore();
                         }
                         break;
 
@@ -565,6 +639,10 @@ namespace Vocaluxe.Screens
                         _StartRandomMedley(_SelectSlides[_SelectSlideOptionsNumMedleySongs].Selection + 1, !CSongs.IsInCategory);
                         return true;
                     }
+                    else if (_Buttons[_ButtonOptionsHighscore].Selected)
+                    {
+                        _ShowHighscore();
+                    }
                     else if (_Sso.Selection.RandomOnly && _Sso.Selection.NumJokers != null)
                     {
                         if (_Buttons[_ButtonStart].Selected)
@@ -679,6 +757,9 @@ namespace Vocaluxe.Screens
             _DragAndDropCover.Visible = false;
             _Playlist.DragAndDropSongID = -1;
 
+            _Statics[_StaticShortInfoTop].Visible = false;
+            _Texts[_TextShortInfoTop].Visible = false;
+
             UpdateGame();
         }
 
@@ -727,12 +808,18 @@ namespace Vocaluxe.Screens
 
                 _Texts[_TextSearchBar].Visible = true;
                 _Texts[_TextSearchBarTitle].Visible = true;
+                _Texts[_TextHelpBar].Visible = false;
+                _Texts[_TextHelpBarSearch].Visible = true;
+                _Texts[_TextHelpBarParty].Visible = false;
                 _Statics[_StaticSearchBar].Visible = true;
             }
             else
             {
                 _Texts[_TextSearchBar].Visible = false;
                 _Texts[_TextSearchBarTitle].Visible = false;
+                _Texts[_TextHelpBar].Visible = !_Sso.Selection.PartyMode;
+                _Texts[_TextHelpBarSearch].Visible = false;
+                _Texts[_TextHelpBarParty].Visible = _Sso.Selection.PartyMode;
                 _Statics[_StaticSearchBar].Visible = false;
             }
 
@@ -846,6 +933,55 @@ namespace Vocaluxe.Screens
 
                 _Buttons[_ButtonStart].Visible = false;
             }
+        }
+
+        private void _ToggleSort(int sortNr)
+        {
+            if (CBase.Songs.IsInCategory() && _Sso.Selection.CategoryChangeAllowed)
+            {
+                CBase.Songs.SetCategory(-1);
+            }
+            
+            CSongs.Sorter.SongSorting = (ESongSorting)sortNr;
+            CConfig.Config.Game.SongSorting = CSongs.Sorter.SongSorting;
+            _Sso.Sorting.SongSorting = CSongs.Sorter.SongSorting;
+            
+            _SongMenu.Update(_Sso);
+            _SongMenu.OnShow();
+
+            _Texts[_TextShortInfoTop].Text = CBase.Language.Translate("TR_SCREENSONG_SORTING").Replace("%s", CBase.Language.Translate(_Sso.Sorting.SongSorting.ToString()));
+            _Statics[_StaticShortInfoTop].Visible = true;
+            _Texts[_TextShortInfoTop].Visible = true;
+            _TimerShortInfoText.Stop();
+            _TimerShortInfoText.Enabled = true;
+        }
+
+        private void OnTimedEventShortInfoText(Object source, ElapsedEventArgs e)
+        {
+            _Statics[_StaticShortInfoTop].Visible = false;
+            _Texts[_TextShortInfoTop].Visible = false;
+        }
+
+        private void _ToggleTabs()
+        {
+            EOffOn tmpStatus = CSongs.Categorizer.Tabs;
+
+            if (tmpStatus == EOffOn.TR_CONFIG_ON)
+                CSongs.Categorizer.Tabs = EOffOn.TR_CONFIG_OFF;
+            else
+                CSongs.Categorizer.Tabs = EOffOn.TR_CONFIG_ON;
+
+            CConfig.Config.Game.Tabs = CSongs.Categorizer.Tabs;
+            _Sso.Sorting.Tabs = CSongs.Categorizer.Tabs;
+            _SongMenu.Update(_Sso);
+            _SongMenu.OnShow();
+        }
+
+        private void _ShowHighscore()
+        {
+            CGame.ClearSongs();
+            CScreenSong.setStaticSelectedSongID(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID);
+            CBase.Graphics.FadeTo(EScreen.Highscore);
         }
 
         private void _StartSong(int songNr)
@@ -1042,8 +1178,14 @@ namespace Vocaluxe.Screens
 
         private void _JumpTo(char letter)
         {
+            // Stefan1200: Add all letters from a key press within one second to a search string. Clear search string, if last key press is older than one second.
+            String searchString;
+            if (Environment.TickCount - _JumpTo_lastCharTime < 1000)
+                searchString = _JumpTo_lastSearchString + letter.ToString();
+            else
+                searchString = letter.ToString();
+
             int start = 0;
-            int curSelected = CSongs.IsInCategory ? _SongMenu.GetSelectedSongNr() : _SongMenu.GetSelectedCategory();
             bool firstLevel = CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_OFF && CSongs.IsInCategory;
             bool secondSort = CConfig.Config.Game.Tabs == EOffOn.TR_CONFIG_ON &&
                               (CConfig.Config.Game.SongSorting == ESongSorting.TR_CONFIG_ARTIST ||
@@ -1055,34 +1197,25 @@ namespace Vocaluxe.Screens
                 //TODO: What's to do with multiple tags?
                 //Flamefire: What? We only sorted by one tag, sorting by multiple tags (e.g. Album) will be by e.g. the first entry. That can be used here too as otherwhise it will confuse users because it jumps randomly
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
-                int ct = songs.Count;
                 int visibleID = -1;
                 switch (CConfig.Config.Game.SongSorting)
                 {
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_YEAR:
                     case ESongSorting.TR_CONFIG_DECADE:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Year.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Year.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_FOLDER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Folder.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.FolderName.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
                 }
                 if (visibleID > -1)
@@ -1091,22 +1224,17 @@ namespace Vocaluxe.Screens
             else if (secondSort && CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CSong> songs = CSongs.VisibleSongs;
-                int ct = songs.Count;
                 int visibleID = -1;
                 switch (CConfig.Config.Game.SongSorting)
                 {
                     case ESongSorting.TR_CONFIG_FOLDER:
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
 
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        if (curSelected >= 0 && curSelected < ct - 1 && songs[curSelected].Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                            start = curSelected + 1;
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                         break;
                 }
                 if (visibleID > -1)
@@ -1115,13 +1243,14 @@ namespace Vocaluxe.Screens
             else if (!CSongs.IsInCategory)
             {
                 ReadOnlyCollection<CCategory> categories = CSongs.Categories;
-                int ct = categories.Count;
-                if (curSelected >= 0 && curSelected < ct - 1 && categories[curSelected].Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase))
-                    start = curSelected + 1;
-                int visibleID = _FindIndex(categories, start, element => element.Name.StartsWith(letter.ToString(), StringComparison.OrdinalIgnoreCase));
+                int visibleID = _FindIndex(categories, start, element => element.Name.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
                 if (visibleID > -1)
                     _SongMenu.SetSelectedCategory(visibleID);
             }
+
+            // Stefan1200: Remember search string and current TickCount in class variables.
+            _JumpTo_lastCharTime = Environment.TickCount;
+            _JumpTo_lastSearchString = searchString;
         }
 
         private void _ApplyNewSearchFilter(string newFilterString)
@@ -1176,6 +1305,7 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOptionsOpenSelectedItem].Visible = false;
             _Buttons[_ButtonOptionsRandomMedley].Visible = false;
             _Buttons[_ButtonOptionsStartMedley].Visible = false;
+            _Buttons[_ButtonOptionsHighscore].Visible = false;
             _Texts[_TextOptionsTitle].Visible = false;
             _Statics[_StaticOptionsBG].Visible = false;
             _Buttons[_ButtonOpenOptions].Visible = true;
@@ -1232,6 +1362,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = true;
             _Buttons[_ButtonOptionsSing].Visible = true;
             _Buttons[_ButtonOptionsPlaylist].Visible = true;
+            _Buttons[_ButtonOptionsHighscore].Visible = true;
             _SelectElement(_Buttons[_ButtonOptionsSing]);
             _SetSelectSlidePlaylistToCurrentPlaylist();
         }
