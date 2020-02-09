@@ -1459,7 +1459,7 @@ namespace Vocaluxe.Screens
                 }
 
                 // sub
-                if (currentLineSub < lines.Length - 2)
+                if ((currentLineSub + 1) < lines.Length)
                 {
                     float diff = CGame.GetTimeFromBeats(lines[currentLineSub + 1].FirstNoteBeat, song.BPM) - currentTime;
 
