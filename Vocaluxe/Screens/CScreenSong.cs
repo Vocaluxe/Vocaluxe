@@ -43,7 +43,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 8; }
+            get { return 10; }
         }
 
         private const string _TextCategory = "TextCategory";
@@ -217,6 +217,11 @@ namespace Vocaluxe.Screens
                     keyEvent.Handled = true;
                     return true;
                 }
+                if (keyEvent.Key == Keys.Enter && _Playlist.isButtonPlaylistListSelected())
+                {
+                    _TogglePlaylistFilter();
+                    return true;
+                }
             }
 
             // Playlist selection is handled below not in base!
@@ -363,13 +368,20 @@ namespace Vocaluxe.Screens
                                 _ShowHighscore();
                             }
                             break;
+
+                        case Keys.L:
+                            if (keyEvent.Mod == EModifier.Ctrl)
+                            {
+                                _TogglePlaylistFilter();
+                            }
+                            break;
                     }
                     if (!_SearchActive)
                     {
                         switch (keyEvent.Key)
                         {
                             case Keys.Space:
-                                if (!_Sso.Selection.PartyMode)
+                                if (!_Sso.Selection.PartyMode && !_Playlist.isPlaylistNameEditMode())
                                     _ToggleSongOptions(ESongOptionsView.General);
                                 break;
 
@@ -497,6 +509,11 @@ namespace Vocaluxe.Screens
                     //Check if playlist was closed and song menu needed to be resized
                     if (!_Playlist.Visible)
                         _SongMenu.SmallView = false;
+                    return true;
+                }
+                if (mouseEvent.LB && _Playlist.isButtonPlaylistListSelected())
+                {
+                    _TogglePlaylistFilter();
                     return true;
                 }
             }
@@ -869,9 +886,6 @@ namespace Vocaluxe.Screens
                 CParty.OnSongChange(_SelectedSongID, ref _Sso);
             }
 
-            _Sso = CParty.GetSongSelectionOptions();
-
-
             if (_Sso.Selection.PartyMode)
             {
                 CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, _Sso.Sorting.SearchString, _Sso.Sorting.DuetOptions, _Sso.Sorting.FilterPlaylistID);
@@ -1202,7 +1216,7 @@ namespace Vocaluxe.Screens
                 {
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => (_Sso.Sorting.IgnoreArticles == EOffOn.TR_CONFIG_ON ? element.ArtistSorting.StartsWith(searchString, StringComparison.OrdinalIgnoreCase) : element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)));
                         break;
 
                     case ESongSorting.TR_CONFIG_YEAR:
@@ -1211,7 +1225,7 @@ namespace Vocaluxe.Screens
                         break;
 
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => (_Sso.Sorting.IgnoreArticles == EOffOn.TR_CONFIG_ON ? element.TitleSorting.StartsWith(searchString, StringComparison.OrdinalIgnoreCase) : element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)));
                         break;
 
                     case ESongSorting.TR_CONFIG_FOLDER:
@@ -1229,12 +1243,12 @@ namespace Vocaluxe.Screens
                 {
                     case ESongSorting.TR_CONFIG_FOLDER:
                     case ESongSorting.TR_CONFIG_TITLE_LETTER:
-                        visibleID = _FindIndex(songs, start, element => element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => (_Sso.Sorting.IgnoreArticles == EOffOn.TR_CONFIG_ON ? element.ArtistSorting.StartsWith(searchString, StringComparison.OrdinalIgnoreCase) : element.Artist.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)));
                         break;
 
                     case ESongSorting.TR_CONFIG_ARTIST:
                     case ESongSorting.TR_CONFIG_ARTIST_LETTER:
-                        visibleID = _FindIndex(songs, start, element => element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase));
+                        visibleID = _FindIndex(songs, start, element => (_Sso.Sorting.IgnoreArticles == EOffOn.TR_CONFIG_ON ? element.TitleSorting.StartsWith(searchString, StringComparison.OrdinalIgnoreCase) : element.Title.StartsWith(searchString, StringComparison.OrdinalIgnoreCase)));
                         break;
                 }
                 if (visibleID > -1)
@@ -1251,6 +1265,22 @@ namespace Vocaluxe.Screens
             // Stefan1200: Remember search string and current TickCount in class variables.
             _JumpTo_lastCharTime = Environment.TickCount;
             _JumpTo_lastSearchString = searchString;
+        }
+
+        public void _TogglePlaylistFilter()
+        {
+            if (_Sso.Sorting.FilterPlaylistID == _Playlist.ActivePlaylistID)
+            {
+                if (_Playlist.ActivePlaylistID == -1)
+                    return;
+
+                _Sso.Sorting.FilterPlaylistID = -1;
+            }
+            else
+                _Sso.Sorting.FilterPlaylistID = _Playlist.ActivePlaylistID;
+            
+            CSongs.Sort(_Sso.Sorting.SongSorting, _Sso.Sorting.Tabs, _Sso.Sorting.IgnoreArticles, _Sso.Sorting.SearchString, _Sso.Sorting.DuetOptions, _Sso.Sorting.FilterPlaylistID);
+            _SongMenu.OnShow();
         }
 
         private void _ApplyNewSearchFilter(string newFilterString)

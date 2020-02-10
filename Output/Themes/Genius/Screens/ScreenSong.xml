@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>8</ScreenVersion>
+    <ScreenVersion>10</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -905,19 +905,33 @@
           <Text />
         </TextTitle>
         <TextSongLength Name="TextSongLength">
-          <X>222</X>
+          <X>391</X>
           <Y>490</Y>
           <Z>-1.01</Z>
           <H>28</H>
-          <MaxW>340</MaxW>
+          <MaxW>100</MaxW>
           <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
-          <Align>Center</Align>
+          <Align>Right</Align>
           <ResizeAlign>Top</ResizeAlign>
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
         </TextSongLength>
+        <TextSongYear Name="TextSongYear">
+          <X>52</X>
+          <Y>490</Y>
+          <Z>-1.01</Z>
+          <H>28</H>
+          <MaxW>100</MaxW>
+          <Color Name="TextColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Left</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextSongYear>
         <StaticCoverBig Name="StaticCoverBig">
           <Skin />
           <Color Name="Visible" />
@@ -990,16 +1004,16 @@
         <SpaceW>10</SpaceW>
         <SpaceH>10</SpaceH>
         <TileRect>
-          <X>375</X>
+          <X>410</X>
           <Y>42</Y>
-          <W>850</W>
+          <W>830</W>
           <H>555</H>
           <Z>-1</Z>
         </TileRect>
         <TileRectSmall>
-          <X>375</X>
+          <X>410</X>
           <Y>42</Y>
-          <W>450</W>
+          <W>410</W>
           <H>550</H>
           <Z>-1</Z>
         </TileRectSmall>
@@ -1032,19 +1046,33 @@
           <Text />
         </TextTitle>
         <TextSongLength Name="TextSongLength">
-          <X>222</X>
+          <X>391</X>
           <Y>490</Y>
           <Z>-1.01</Z>
           <H>28</H>
-          <MaxW>340</MaxW>
+          <MaxW>100</MaxW>
           <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
-          <Align>Center</Align>
+          <Align>Right</Align>
           <ResizeAlign>Top</ResizeAlign>
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
         </TextSongLength>
+        <TextSongYear Name="TextSongYear">
+          <X>52</X>
+          <Y>490</Y>
+          <Z>-1.01</Z>
+          <H>28</H>
+          <MaxW>100</MaxW>
+          <Color Name="TextColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Left</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextSongYear>
         <StaticCoverBig Name="StaticCoverBig">
           <Skin />
           <Color Name="Visible" />
@@ -1432,6 +1460,33 @@
           <Text />
         </Text>
       </ButtonPlaylistSave>
+      <ButtonPlaylistList Name="ButtonPlaylistList">
+        <Skin>ListIcon</Skin>
+        <SkinSelected>ListIcon</SkinSelected>
+        <Rect>
+          <X>1120</X>
+          <Y>548</Y>
+          <W>35</W>
+          <H>35</H>
+          <Z>-1.01</Z>
+        </Rect>
+        <Color Name="ButtonColor" />
+        <SelColor Name="ButtonSelColor" />
+        <Text Name="Text">
+          <X>180</X>
+          <Y>5</Y>
+          <Z>0</Z>
+          <H>25</H>
+          <MaxW>350</MaxW>
+          <Color Name="ButtonTextColor" />
+          <SelColor Name="ButtonTextSelColor" />
+          <Align>Center</Align>
+          <ResizeAlign>Center</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </Text>
+      </ButtonPlaylistList>
       <ButtonPlaylistDelete Name="ButtonPlaylistDelete">
         <Skin>DeleteIcon</Skin>
         <SkinSelected>DeleteIcon</SkinSelected>

@@ -140,6 +140,7 @@ Song screen
 [CTRL] + [A]			to sing all songs
 [CTRL] + [S]			to sing current song in medley version
 [CTRL] + [V]			to sing all songs from a category
+[CTRL] + [L]			to filter the song list to the current displayed playlist. Press again to remove this filter.
 [NUM_1]..[NUM_6]		to use a Joker for team 1..6
 [A]..[Z]			to jump to category/song title starting with that letters (multiple letters possible)
 [PAGE UP] or [PAGE DOWN]	to scroll one page up/down
