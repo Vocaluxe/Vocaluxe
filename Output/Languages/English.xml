@@ -156,6 +156,7 @@
   <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Search artist and title, prefixes for the search → a: = artist • t: = title • c: = creator • e: = edition • g: = genre • y: = year (e.g. 1999 or 1980-1989) • l: = language • al: = album • fi: = file name • fo: = folder name</string>
   <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Press your team number to use a random song joker</string>
   <string name="TR_SCREENSONG_SORTING">Sorting: %s</string>
+  <string name="TR_SCREENSONG_NOMEDLEY">No Medley for this song!</string>
   <string name="TR_SCREENSING_PAUSE">Pause</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Stop singing</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Continue</string>
