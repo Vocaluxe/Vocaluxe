@@ -1,4 +1,4 @@
-Vocaluxe 0.4 README
+Vocaluxe 0.4.1 README
 ----------------------------
 
 =================================
@@ -168,7 +168,6 @@ Vocaluxe Homepage:		https://vocaluxe.org
 Bug Tracker:			https://github.com/Vocaluxe/Vocaluxe/issues
 Translations:			https://www.transifex.com/projects/p/vocaluxe/
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
-Support Forum (German):		http://www.ultra-star.de
 Song-DataBase (USDB):		http://usdb.animux.de/
 
 
