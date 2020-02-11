@@ -151,6 +151,7 @@
   <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Interpreten und Titel durchsuchen, Präfixe für die Suche → a: = Interpret • t: = Titel • c: = Ersteller • e: = Edition • g: = Genre • y: = Jahr (z.B. 1999 oder 1980-1989) • l: = Sprache • al: = Album • fi: = Dateiname • fo: = Ordnername</string>
   <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Drücke die Teamnummer um einen Zufallssong Joker zu verwenden</string>
   <string name="TR_SCREENSONG_SORTING">Sortierung: %s</string>
+  <string name="TR_SCREENSONG_NOMEDLEY">Kein Medley für diesen Song!</string>
   <string name="TR_SCREENSING_PAUSE">Pause</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Lied beenden</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Fortfahren</string>
