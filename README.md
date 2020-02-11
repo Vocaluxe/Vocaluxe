@@ -52,5 +52,4 @@ Vocaluxe Homepage: https://vocaluxe.org/
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki   
 GitHub Issues Tracker:	https://github.com/Vocaluxe/Vocaluxe/issues   
 Translations:			https://www.transifex.com/projects/p/vocaluxe/   
-Support Forum (German):	http://www.ultra-star.de   
 Song-Database (USDB):	http://usdb.animux.de/
