@@ -963,7 +963,12 @@ namespace Vocaluxe.Screens
             _SongMenu.Update(_Sso);
             _SongMenu.OnShow();
 
-            _Texts[_TextShortInfoTop].Text = CBase.Language.Translate("TR_SCREENSONG_SORTING").Replace("%s", CBase.Language.Translate(_Sso.Sorting.SongSorting.ToString()));
+            _ShowInfoText(CBase.Language.Translate("TR_SCREENSONG_SORTING").Replace("%s", CBase.Language.Translate(_Sso.Sorting.SongSorting.ToString())));
+        }
+
+        private void _ShowInfoText(String text)
+        {
+            _Texts[_TextShortInfoTop].Text = text;
             _Statics[_StaticShortInfoTop].Visible = true;
             _Texts[_TextShortInfoTop].Visible = true;
             _TimerShortInfoText.Stop();
@@ -1035,7 +1040,10 @@ namespace Vocaluxe.Screens
             if (CSongs.IsInCategory && (songNr >= 0))
             {
                 if (!CSongs.VisibleSongs[songNr].IsGameModeAvailable(EGameMode.TR_GAMEMODE_MEDLEY))
+                {
+                    _ShowInfoText(CBase.Language.Translate("TR_SCREENSONG_NOMEDLEY"));
                     return;
+                }
 
                 CGame.Reset();
                 CGame.ClearSongs();
