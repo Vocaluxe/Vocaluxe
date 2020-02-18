@@ -139,12 +139,7 @@ namespace VocaluxeLib
                     }
                     break;
                 case EAspect.LetterBox:
-                    if (boundsAspectRatio == aspectRatio)  // Pillarbox
-                    {
-                        scaledWidth = bounds.W * 0.77f;
-                        scaledHeight = bounds.W / aspectRatio;
-                    }
-                    else if (boundsAspectRatio < aspectRatio)
+                    if (boundsAspectRatio < aspectRatio)
                     {
                         scaledWidth = bounds.W;
                         scaledHeight = bounds.W / aspectRatio;
@@ -154,6 +149,10 @@ namespace VocaluxeLib
                         scaledHeight = bounds.H;
                         scaledWidth = bounds.H * aspectRatio;
                     }
+                    break;
+                case EAspect.PillarBox:
+                    scaledWidth = bounds.W * 0.77f;
+                    scaledHeight = bounds.W / aspectRatio;
                     break;
                 default:
                     return bounds;
