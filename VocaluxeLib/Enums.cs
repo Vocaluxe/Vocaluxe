@@ -67,6 +67,7 @@ namespace VocaluxeLib
         Automatic,
         Crop,
         LetterBox,
+        PillarBox,
         Stretch,
         Zoom1,
         Zoom2
