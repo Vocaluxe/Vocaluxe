@@ -163,6 +163,10 @@
   <string name="TR_SCREENSING_BUTTON_SKIP">Skip this song</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Restart round</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Restart game</string>
+  <string name="TR_SCREENSING_NOMORESONGS">No more songs in playlist!</string>
+  <string name="TR_SCREENSING_NOWEBCAM">No webcam available!</string>
+  <string name="TR_SCREENSING_ASPECTRATIO">Aspect Ratio: %a</string>
+  <string name="TR_SCREENSING_SKIPPEDSECONDS">Skipped %s seconds</string>
   <string name="TR_SCREENSCORE_SCORES">Scores</string>
   <string name="TR_SCREENSCORE_RATING">Rating</string>
   <string name="TR_SCREENSCORE_POINTS">Points</string>
