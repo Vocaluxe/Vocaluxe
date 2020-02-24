@@ -157,6 +157,7 @@ Name selection screen
 Sing screen
 [P]				to toggle pause.
 [CTRL] + [S]			to skip a song if there is another one in the playlist.
+[SHIFT] + [RIGHT]		to skip 10 seconds within the playing song (not in party modes).
 [CTRL] + [RIGHT]		to skip 30 seconds within the playing song (not in party modes).
 [T]				to change the time format of the timer.
 [I]				to change view of player information.
