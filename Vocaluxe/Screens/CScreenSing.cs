@@ -346,19 +346,19 @@ namespace Vocaluxe.Screens
                         }
                         break;
 
-                    // Skip 30 seconds
+                    // Skip 10/30 seconds
                     case Keys.Right:
-                        if (keyEvent.Mod == EModifier.Ctrl && !_Pause && !_Sso.Selection.PartyMode)
+                        if ((keyEvent.Mod == EModifier.Shift || keyEvent.Mod == EModifier.Ctrl) && !_Pause && !_Sso.Selection.PartyMode)
                         {
                             if (_TimerSongText.IsRunning)
                                 _TimerSongText.Stop();
 
-                            float newTime = _CurrentTime + 30f;
-                            if (CSound.GetLength(_CurrentStream) < (_CurrentTime + 30f))
+                            float newTime = _CurrentTime + (keyEvent.Mod == EModifier.Shift ? 10f : 30f);
+                            if (CSound.GetLength(_CurrentStream) < newTime)
                                 newTime = CSound.GetLength(_CurrentStream) - 1f;
                             CSound.SetPosition(_CurrentStream, newTime);
 
-                            _ShowInfoText(CBase.Language.Translate("TR_SCREENSING_SKIPPEDSECONDS").Replace("%s", "30"));
+                            _ShowInfoText(CBase.Language.Translate("TR_SCREENSING_SKIPPEDSECONDS").Replace("%s", (keyEvent.Mod == EModifier.Shift ? "10" : "30")));
                         }
                         break;
                 }
