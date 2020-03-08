@@ -16,6 +16,8 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using Vocaluxe.Base;
@@ -142,9 +144,13 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
             foreach (IntPtr handle in _RecHandle)
             {
-                PortAudioSharp.PortAudio.Pa_StopStream(handle);
-                PortAudioSharp.PortAudio.Pa_CloseStream(handle);
+                if (handle != IntPtr.Zero)
+                {
+                    PortAudioSharp.PortAudio.Pa_StopStream(handle);
+                    PortAudioSharp.PortAudio.Pa_CloseStream(handle);
+                }
             }
+            _RecHandle = new IntPtr[_Devices.Count];
             return true;
         }
 
@@ -153,13 +159,17 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         /// </summary>
         public override void Close()
         {
-            if (_RecHandle != null)
+            if (_RecHandle != null && _RecHandle.Length > 0)
             {
                 foreach (IntPtr handle in _RecHandle)
                 {
                     if (handle != IntPtr.Zero)
+                    {
                         _PaHandle.CloseStream(handle);
+                    }
                 }
+
+                _RecHandle = new IntPtr[_Devices.Count];
             }
             if (_PaHandle != null)
             {
