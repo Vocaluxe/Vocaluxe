@@ -1,7 +1,7 @@
 ---
 layout: post
 section-type: post
-title: Blue Sunrise is released!
+title: Bugfix for Blue Sunrise is released!
 tags: [ 'release', '0.4.1' ]
 author: "Stefan1200"
 image: "/img/posts/release-0.4.png"
