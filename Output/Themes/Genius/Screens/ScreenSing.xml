@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>9</ScreenVersion>
+    <ScreenVersion>10</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -46,7 +46,7 @@
       <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
-        <Y>0</Y>
+        <Y>610</Y>
         <W>1280</W>
         <H>90</H>
         <Z>-0.75</Z>
@@ -136,7 +136,7 @@
       <Color Name="LyricHelperDuet" />
       <Rect>
         <X>40</X>
-        <Y>10</Y>
+        <Y>623</Y>
         <W>45</W>
         <H>36</H>
         <Z>-1</Z>
@@ -627,8 +627,33 @@
         <Z>-0.75</Z>
       </Rect>
     </Static>
+    <Static Name="StaticShortInfoTop">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
+      <Rect>
+        <X>980</X>
+        <Y>0</Y>
+        <W>300</W>
+        <H>30</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
   </Statics>
   <Texts>
+    <Text Name="TextShortInfoTop">
+      <X>1130</X>
+      <Y>2</Y>
+      <Z>-3</Z>
+      <H>25</H>
+      <MaxW>280</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
     <Text Name="TextSongName">
       <X>640</X>
       <Y>10</Y>
@@ -1501,7 +1526,7 @@
     <Lyric Name="LyricMainDuet">
       <Rect>
         <X>637</X>
-        <Y>7</Y>
+        <Y>620</Y>
         <W>1200</W>
         <H>42</H>
         <Z>-1</Z>
@@ -1512,7 +1537,7 @@
     <Lyric Name="LyricSubDuet">
       <Rect>
         <X>637</X>
-        <Y>48</Y>
+        <Y>662</Y>
         <W>1200</W>
         <H>35</H>
         <Z>-1</Z>

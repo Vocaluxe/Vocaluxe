@@ -304,6 +304,7 @@ namespace VocaluxeLib
     {
         bool Exists(int playlistID);
         string GetName(int playlistID);
+        List<int> GetIds();
         List<string> GetNames();
 
         void SetName(int playlistID, string name);
