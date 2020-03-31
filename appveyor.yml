@@ -9,9 +9,7 @@ platform:
 clone_depth: 15
 environment:
   GitHubKey:
-    secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
-init:
-- git config --global core.autocrlf true
+    secure: sGetWh2XUYs95VBT+QYNPtDW9Rh2/JBuxNNYXytpn7mMudUMcjSKDGErkCTum+ZE
 install:
 - ps: |
     $Env:VOCALUXE_SKIP_POSTBUILD = $true
@@ -135,7 +133,7 @@ deploy:
   release: $(APPVEYOR_REPO_TAG_NAME)
   description: $(APPVEYOR_REPO_COMMIT)
   auth_token:
-    secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
+    secure: sGetWh2XUYs95VBT+QYNPtDW9Rh2/JBuxNNYXytpn7mMudUMcjSKDGErkCTum+ZE
   artifact: ReleaseZip
   prerelease: $(IS_BETA_RELEASE)
   on:
@@ -147,7 +145,7 @@ deploy:
   release: Latest Nightly build
   description: $(APPVEYOR_REPO_COMMIT)
   auth_token:
-    secure: JSlN/em0JdspVn8jwaQ4IjugY6OQi0au4Qq0rhctJmcfGMaEGnUAOmDFULI48REW
+    secure: sGetWh2XUYs95VBT+QYNPtDW9Rh2/JBuxNNYXytpn7mMudUMcjSKDGErkCTum+ZE
   artifact: ReleaseZip
   prerelease: true
   on:
