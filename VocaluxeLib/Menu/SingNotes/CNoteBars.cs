@@ -84,8 +84,8 @@ namespace VocaluxeLib.Menu.SingNotes
             _Flares.Clear();
             _PerfectNoteEffect.Clear();
 
-            foreach (CSongNote note in _Lines[_CurrentLine].Notes.Where(note => (note.Type == ENoteType.Golden || note.Type == ENoteType.RapGolden)))
-                _AddGoldenNote(_GetNoteRect(note, note.Type == ENoteType.Rap || note.Type == ENoteType.RapGolden));
+            foreach (CSongNote note in _Lines[_CurrentLine].Notes.Where(note => (note.IsGoldenNote)))
+                _AddGoldenNote(_GetNoteRect(note));
         }
 
         public void Draw()
@@ -107,7 +107,7 @@ namespace VocaluxeLib.Menu.SingNotes
             {
                 if (note.Type != ENoteType.Freestyle)
                 {
-                    SRectF rect = _GetNoteRect(note, note.Type == ENoteType.Rap || note.Type == ENoteType.RapGolden);
+                    SRectF rect = _GetNoteRect(note);
 
                     _DrawNoteBG(rect, color);
                     _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f);
@@ -130,7 +130,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
                     _DrawNoteFill(rect, color, factor);
 
-                    if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && (note.HitNote.Type == ENoteType.Golden || note.HitNote.Type == ENoteType.RapGolden))
+                    if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.IsGoldenNote)
                     {
                         SRectF re = rect;
                         re.W = (CBase.Game.GetMidRecordedBeat() - note.StartBeat) / beats * Rect.W;
@@ -171,10 +171,11 @@ namespace VocaluxeLib.Menu.SingNotes
                 perfnote.Draw();
         }
 
-        private SRectF _GetNoteRect(CBaseNote note, bool isRapNote = false)
+        private SRectF _GetNoteRect(CBaseNote note)
         {
             CSongLine line = _Lines[_CurrentLine];
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
+            bool isRapNote = note.IsRapNote;
 
             float width = note.Duration * Rect.W / beats;
             float y = Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2;
