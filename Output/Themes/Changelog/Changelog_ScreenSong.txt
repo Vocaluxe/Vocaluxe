@@ -1,6 +1,38 @@
 ScreenSong
 
 ++++++++++
+Version 10:
+
+Add:
+<ButtonPlaylistList>
+
+++++++++++
+Version 9:
+
+Add:
+<TextSongYear>
+
+Changed values at:
+<TextSongLength>
+
+++++++++++
+Version 8:
+
+Add:
+<ButtonOptionsHighscore> to SongMenu
+<TextShortInfoTop>
+<StaticShortInfoTop>
+
+++++++++++
+Version 7:
+
+Add:
+<TextHelpBar>
+<TextHelpBarSearch>
+<TextHelpBarParty>
+Shows key shortcut and search usage as small text line at the bottom of the screen.
+
+++++++++++
 Version 6:
 
 Add:

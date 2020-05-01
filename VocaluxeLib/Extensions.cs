@@ -171,10 +171,10 @@ namespace VocaluxeLib
         public static SRectF Scale(this SRectF rect, float scale)
         {
             return new SRectF(
-                rect.X - rect.W * (scale - 1f),
-                rect.Y - rect.H * (scale - 1f),
-                rect.W + 2 * rect.W * (scale - 1f),
-                rect.H + 2 * rect.H * (scale - 1f),
+                rect.X - rect.W * (scale - 1f) * 0.5f,
+                rect.Y - rect.H * (scale - 1f) * 0.5f,
+                rect.W * scale,
+                rect.H * scale,
                 rect.Z);
         }
 
