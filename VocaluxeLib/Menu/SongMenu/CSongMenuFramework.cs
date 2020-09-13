@@ -63,6 +63,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeText TextArtist;
         public SThemeText TextTitle;
         public SThemeText TextSongLength;
+        public SThemeText TextSongYear;
 
         public SThemeStatic StaticCoverBig;
         public SThemeStatic StaticTextBG;
@@ -111,6 +112,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeText TextArtist;
         public SThemeText TextTitle;
         public SThemeText TextSongLength;
+        public SThemeText TextSongYear;
 
         public SThemeStatic StaticCoverBig;
         public SThemeStatic StaticTextBG;
@@ -220,7 +222,7 @@ namespace VocaluxeLib.Menu.SongMenu
             EScreen check = CBase.Graphics.GetNextScreenType();
             if (CBase.Graphics.GetNextScreenType() == EScreen.Sing)
                 _ResetPreview(false);
-            else if (CBase.Graphics.GetNextScreenType() != EScreen.Names || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            else if ((CBase.Graphics.GetNextScreenType() != EScreen.Names && CBase.Graphics.GetNextScreenType() != EScreen.Highscore) || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 _ResetPreview();
         }
 

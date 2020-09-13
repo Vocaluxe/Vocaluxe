@@ -688,7 +688,7 @@ namespace Vocaluxe.Base
                 {
                     //Check if folder exists
                     if (Directory.Exists(folder))
-                        SongFolders.Add(folder);
+                        SongFolders.Add(Path.GetFullPath(folder));
                 }
             }
             
@@ -715,7 +715,7 @@ namespace Vocaluxe.Base
                 Regex spliterVal = new Regex(@"\s", RegexOptions.IgnoreCase);
 
                 //split arg with Spilter-Regex and save in parts
-                string[] parts = spliterVal.Split(text, 2);
+                string[] parts = spliterVal.Split(text.Trim(), 2);
 
                 switch (parts.Length)
                 {

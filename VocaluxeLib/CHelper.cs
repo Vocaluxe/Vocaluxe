@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -101,6 +101,7 @@ namespace VocaluxeLib
 
             switch (aspect)
             {
+                case EAspect.Automatic:
                 case EAspect.Crop:
                     if (boundsAspectRatio >= aspectRatio)
                     {
@@ -138,7 +139,7 @@ namespace VocaluxeLib
                     }
                     break;
                 case EAspect.LetterBox:
-                    if (boundsAspectRatio <= aspectRatio)
+                    if (boundsAspectRatio < aspectRatio)
                     {
                         scaledWidth = bounds.W;
                         scaledHeight = bounds.W / aspectRatio;
@@ -148,6 +149,10 @@ namespace VocaluxeLib
                         scaledHeight = bounds.H;
                         scaledWidth = bounds.H * aspectRatio;
                     }
+                    break;
+                case EAspect.PillarBox:
+                    scaledWidth = bounds.W * 0.77f;
+                    scaledHeight = bounds.W / aspectRatio;
                     break;
                 default:
                     return bounds;

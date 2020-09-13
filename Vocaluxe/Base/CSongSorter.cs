@@ -111,6 +111,24 @@ namespace Vocaluxe.Base
             return res;
         }
 
+        /// <summary>
+        /// Compares two songs by means of: first letter of sorting field, sorting field, title.
+        /// </summary>
+        private int _SortByLetterFieldTitle(CSongPointer s1, CSongPointer s2)
+        {
+            int res = String.Compare(s1.SortString[0].ToString(), s2.SortString[0].ToString(), StringComparison.CurrentCultureIgnoreCase);
+            return res != 0 ? res : _SortByFieldTitle(s1, s2);
+        }
+
+        /// <summary>
+        /// Compares two songs by means of: first letter of sorting field, sorting field, artist, title.
+        /// </summary>
+        private int _SortByLetterFieldArtistTitle(CSongPointer s1, CSongPointer s2)
+        {
+            int res = String.Compare(s1.SortString[0].ToString(), s2.SortString[0].ToString(), StringComparison.CurrentCultureIgnoreCase);
+            return res != 0 ? res : _SortByFieldArtistTitle(s1, s2);
+        }
+
         private void _AddSongToList(CSong song, List<CSongPointer> list)
         {
             string value = null;
@@ -172,15 +190,24 @@ namespace Vocaluxe.Base
                 _AddSongToList(song, sortList);
             switch (_SongSorting)
             {
-                case ESongSorting.TR_CONFIG_ARTIST_LETTER:
                 case ESongSorting.TR_CONFIG_ARTIST:
                 case ESongSorting.TR_CONFIG_NONE:
                     sortList.Sort(_SortByFieldTitle);
+                    break;
+                case ESongSorting.TR_CONFIG_ARTIST_LETTER:
+                    sortList.Sort(_SortByLetterFieldTitle);
+                    break;
+                case ESongSorting.TR_CONFIG_TITLE_LETTER:
+                    sortList.Sort(_SortByLetterFieldArtistTitle);
                     break;
                 default:
                     sortList.Sort(_SortByFieldArtistTitle);
                     break;
             }
+
+            if (_SongSorting == ESongSorting.TR_CONFIG_DATEADDED)
+                sortList.Reverse();
+
             _SortedSongs = sortList.ToArray();
             _Changed = false;
         }
