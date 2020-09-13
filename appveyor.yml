@@ -1,7 +1,7 @@
 version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
-os: Windows Server 2012 R2
+image: Visual Studio 2019
 configuration: ReleaseWin
 platform:
 - x64
@@ -58,7 +58,8 @@ before_build:
     nuget restore -DisableParallelProcessing
     
     if($Env:MAIN_REPO -and ($Env:PLATFORM -eq 'x64'))
-    {        
+    {
+        $env:JAVA_HOME="C:\Program Files\Java\jdk11"
         if ($Env:APPVEYOR_PULL_REQUEST_NUMBER){
             choco install "msbuild-sonarqube-runner" -y
             SonarScanner.MSBuild.exe begin `
