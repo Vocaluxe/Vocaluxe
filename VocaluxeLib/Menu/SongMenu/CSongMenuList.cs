@@ -678,7 +678,11 @@ namespace VocaluxeLib.Menu.SongMenu
                     {
                         CSong currentSong = CBase.Songs.GetVisibleSong(i + offset);
                         _Tiles[i].Texture = currentSong.CoverTextureSmall;
-                        _Texts[i].Text = currentSong.Artist + " - " + currentSong.Title;
+                        
+                        if (CBase.Config.GetSongSorting() == ESongSorting.TR_CONFIG_TITLE_LETTER)
+                            _Texts[i].Text = currentSong.Title + " - " + currentSong.Artist;
+                        else
+                            _Texts[i].Text = currentSong.Artist + " - " + currentSong.Title;
                     }
                     else
                     {
