@@ -1000,6 +1000,7 @@ namespace Vocaluxe.Screens
         {
             CGame.ClearSongs();
             CScreenSong.setStaticSelectedSongID(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID);
+            _SongMenu.SetSelectedSong(_SongMenu.GetPreviewSongNr());
             CBase.Graphics.FadeTo(EScreen.Highscore);
         }
 
