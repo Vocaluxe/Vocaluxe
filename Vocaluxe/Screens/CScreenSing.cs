@@ -1362,9 +1362,9 @@ namespace Vocaluxe.Screens
                         _Texts[te].Visible = false;
                 }
 
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer && player <= numplayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer && player <= numplayer; player++)
                     {
                         _Texts[_TextScores[screen, player, numplayer]].AllMonitors = false;
                         _Texts[_TextScores[screen, player, numplayer]].Visible = false;
@@ -1517,12 +1517,12 @@ namespace Vocaluxe.Screens
         #region theme loading
         private void _BuildTextStrings(List<string> texts)
         {
-            _TextScores = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
-            _TextNames = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _TextScores = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
+            _TextNames = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
 
-            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
             {
-                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                 {
                     if (player <= numplayer)
                     {
@@ -1544,15 +1544,15 @@ namespace Vocaluxe.Screens
         {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {
-                            string target = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
-                            _AddText(GetNewText(), "TextScore" + target);
-                            _AddText(GetNewText(), "TextName" + target);
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddText(GetNewText(), "TextScoreS" + (screen + 1) + target);
+                            _AddText(GetNewText(), "TextNameS" + (screen + 1) + target);
                         }
                     }
                 }
@@ -1563,9 +1563,9 @@ namespace Vocaluxe.Screens
         {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {
@@ -1585,12 +1585,12 @@ namespace Vocaluxe.Screens
 
         private void _BuildStaticStrings(ref List<string> statics)
         {
-            _StaticScores = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
-            _StaticAvatars = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _StaticScores = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
+            _StaticAvatars = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
 
-            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
             {
-                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                 {
                     if (player <= numplayer)
                     {
@@ -1612,15 +1612,15 @@ namespace Vocaluxe.Screens
         {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {
-                            string target = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
-                            _AddStatic(GetNewStatic(), "StaticScore" + target);
-                            _AddStatic(GetNewStatic(), "StaticAvatar" + target);
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddStatic(GetNewStatic(), "StaticScoreS" + (screen + 1) + target);
+                            _AddStatic(GetNewStatic(), "StaticAvatarS" + (screen + 1) + target);
                         }
                     }
                 }
@@ -1631,9 +1631,9 @@ namespace Vocaluxe.Screens
         {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {
@@ -1653,12 +1653,12 @@ namespace Vocaluxe.Screens
 
         private void _BuildProgressBarStrings(ref List<string> progressbars)
         {
-            _ProgressBarsRating = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _ProgressBarsRating = new string[CSettings.MaxNumScreens, CSettings.MaxScreenPlayer, CSettings.MaxScreenPlayer];
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {
@@ -1675,14 +1675,14 @@ namespace Vocaluxe.Screens
         {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {
-                            string target = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
-                            _AddProgressBar(GetNewProgressBar(), "ProgressBarRating" + target);
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddProgressBar(GetNewProgressBar(), "ProgressBarRatingS" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1));
                         }
                     }
                 }
@@ -1693,9 +1693,9 @@ namespace Vocaluxe.Screens
         {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
             {
-                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                for (int numplayer = 0; numplayer < CSettings.MaxScreenPlayer; numplayer++)
                 {
-                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    for (int player = 0; player < CSettings.MaxScreenPlayer; player++)
                     {
                         if (player <= numplayer)
                         {

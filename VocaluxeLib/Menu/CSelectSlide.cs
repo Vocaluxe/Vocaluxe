@@ -106,9 +106,17 @@ namespace VocaluxeLib.Menu
         private float _TextH;
         private float _MaxW;
 
+        private bool _Selectable = true;
+
         public bool Selectable
         {
-            get { return Visible; }
+            get { return _Selectable && Visible; }
+            set
+            {
+                _Selectable = value;
+                if (!_Selectable)
+                    Selected = false;
+            }
         }
         public override float X
         {
@@ -240,8 +248,15 @@ namespace VocaluxeLib.Menu
             RectArrowLeft = slide.RectArrowLeft;
             RectArrowRight = slide.RectArrowRight;
 
+            _SelTexture = slide._SelTexture;
+
             _Color = slide._Color;
             _SelColor = slide._SelColor;
+
+            _TextureArrowLeft = slide._TextureArrowLeft;
+            _TextureArrowRight = slide._TextureArrowRight;
+            _SelTextureArrowLeft = slide._SelTextureArrowLeft;
+            _SelTextureArrowRight = slide._SelTextureArrowRight;
 
             _ColorArrow = slide._ColorArrow;
             _SelColorArrow = slide._SelColorArrow;
@@ -256,6 +271,8 @@ namespace VocaluxeLib.Menu
             _Values.AddRange(slide._Values);
             _Selection = slide._Selection;
             _NumVisible = slide._NumVisible;
+
+            _Selectable = slide.Selectable;
 
             DrawTextures = slide.DrawTextures;
             Visible = slide.Visible;

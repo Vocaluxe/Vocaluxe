@@ -103,7 +103,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 CLog.Error("Error reading required elements: " + e);
                 return false;
             }
-            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+            for (int i = 1; i <= CSettings.MaxScreenPlayer; i++)
             {
                 string name = "Player" + i;
                 if (!_Required.Colors.Contains(name))

@@ -87,6 +87,35 @@ namespace VocaluxeLib.Menu
             ReflectionHeight = 0f;
         }
 
+        public CEqualizer(CEqualizer equalizer)
+        {
+            _PartyModeID = equalizer._PartyModeID;
+            _Theme = new SThemeEqualizer
+            {
+                Style = equalizer._Theme.Style,
+                DrawNegative = equalizer._Theme.DrawNegative,
+            };
+
+            _Bars = new float[equalizer._Theme.NumBars];
+            Space = equalizer._Theme.Space;
+            MaxRect = equalizer.MaxRect;
+
+            Reflection = equalizer._Theme.Reflection.HasValue;
+            if (Reflection)
+            {
+                Debug.Assert(equalizer._Theme.Reflection != null);
+                ReflectionHeight = equalizer._Theme.Reflection.Value.Height;
+                ReflectionSpace = equalizer._Theme.Reflection.Value.Space;
+            }
+
+            Color = equalizer.Color;
+            MaxColor = equalizer.MaxColor;
+
+            Reflection = equalizer.Reflection;
+            ReflectionSpace = equalizer.ReflectionSpace;
+            ReflectionHeight = equalizer.ReflectionHeight;
+        }
+
         public CEqualizer(SThemeEqualizer theme, int partyModeID)
         {
             _PartyModeID = partyModeID;

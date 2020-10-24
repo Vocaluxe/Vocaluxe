@@ -111,9 +111,17 @@ namespace VocaluxeLib.Menu
             get { return _Rect; }
         }
 
+        private bool _Selectable = false;
+
         public bool Selectable
         {
-            get { return Visible; }
+            get { return _Selectable && Visible; }
+            set
+            {
+                _Selectable = value;
+                if (!_Selectable)
+                    Selected = false;
+            }
         }
 
         public CNameSelection(int partyModeID)

@@ -51,6 +51,18 @@ namespace VocaluxeLib.Menu
         public bool? AllMonitors;
     }
 
+    public struct SProgressBarColor
+    {
+        public float From;
+        public SColorF Color;
+
+        public SProgressBarColor(float from, SColorF color)
+        {
+            From = from;
+            Color = color;
+        }
+    }
+
     public sealed class CProgressBar : CMenuElementBase, IMenuElement, IThemeable
     {
         private readonly int _PartyModeID;
@@ -112,7 +124,17 @@ namespace VocaluxeLib.Menu
         private EDirection _Direction;
         private EOffOn _AnimateMovement;
         private EOffOn _AnimateColoring;
-        private List<SThemeProgressBarColor> _ProgressColors;
+        private List<SProgressBarColor> _ProgressColors;
+        public List<SProgressBarColor> ProgressColors
+        {
+            get { return _ProgressColors; }
+
+            set
+            {
+                _ProgressColors = value;
+                _ColorProgressLast = _ProgressColors[0].Color;
+            }
+        }
 
         public SColorF ColorBackground;
         public SColorF ColorForeground;
@@ -199,7 +221,16 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
             _Theme = theme;
             _Theme.ProgressColors.Sort((x, y) => x.From.CompareTo(y.From));
-            _ProgressColors = _Theme.ProgressColors;
+
+
+            _ProgressColors = new List<SProgressBarColor>();
+            foreach (SThemeProgressBarColor col in _Theme.ProgressColors)
+            {
+                SColorF color;
+                col.Color.Get(_PartyModeID, out color);
+                _ProgressColors.Add(new SProgressBarColor(col.From, color));
+            }
+
             _Direction = _Theme.Direction;
             _AnimateMovement = _Theme.AnimateMovement;
             _AnimateColoring = _Theme.AnimateColoring;
@@ -213,7 +244,7 @@ namespace VocaluxeLib.Menu
         {
             _Animate = animateInit;
 
-            _ProgressColors[0].Color.Get(_PartyModeID, out _ColorProgressLast);
+            _ColorProgressLast = _ProgressColors[0].Color;
         }
 
         public void Draw()
@@ -255,7 +286,7 @@ namespace VocaluxeLib.Menu
                         CBase.Drawing.DrawTextureReflection(_TextureProgressMid, _RectProgressMid, color, _RectProgressMid, ReflectionSpace, ReflectionHeight, AllMonitors);
                 }
                 else
-                    CBase.Drawing.DrawRect(_ColorProgressCurrent, _RectProgressMid);
+                    CBase.Drawing.DrawRect(_ColorProgressCurrent, _RectProgressMid, AllMonitors);
 
                 if (_TextureProgressEnd != null)
                 {
@@ -275,7 +306,7 @@ namespace VocaluxeLib.Menu
             }
 
             if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
-                CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), Rect);
+                CBase.Drawing.DrawRect(new SColorF(1f, 1f, 1f, 0.5f), Rect, AllMonitors);
         }
 
         public void UnloadSkin() {}
@@ -364,9 +395,9 @@ namespace VocaluxeLib.Menu
 
         private void _UpdateProgressColor()
         {
-            foreach (SThemeProgressBarColor col in _ProgressColors)
+            foreach (SProgressBarColor col in _ProgressColors)
                 if (col.From < _ProgressTarget)
-                    col.Color.Get(_PartyModeID, out _ColorProgressTarget);
+                    _ColorProgressTarget = col.Color;
 
             if(_Animate && _AnimateColoring == EOffOn.TR_CONFIG_ON)
             {
