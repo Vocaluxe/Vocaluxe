@@ -858,8 +858,8 @@
             <Z>-1</Z>
           </Rect>
         </StaticDuetIcon>
-        <StaticDuetIcon Name="StaticDuetIcon">
-          <Skin>DuetIcon</Skin>
+        <StaticRapIcon Name="StaticRapIcon">
+          <Skin>RapIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
             <X>240</X>
@@ -868,7 +868,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-        </StaticDuetIcon>
+        </StaticRapIcon>
         <StaticVideoIcon Name="StaticVideoIcon">
           <Skin>VideoIcon</Skin>
           <Color Name="StaticColor" />
@@ -895,7 +895,7 @@
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>280</X>
+            <X>320</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
@@ -1033,7 +1033,7 @@
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>240</X>
+            <X>320</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
