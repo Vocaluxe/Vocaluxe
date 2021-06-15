@@ -32,6 +32,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private CStatic _CoverBig;
         private CStatic _TextBG;
         private CStatic _DuetIcon;
+        private CStatic _RapIcon;
         private CStatic _VideoIcon;
         private CStatic _MedleyCalcIcon;
         private CStatic _MedleyTagIcon;
@@ -116,10 +117,11 @@ namespace VocaluxeLib.Menu.SongMenu
             _CoverBig = new CStatic(_Theme.SongMenuTileBoard.StaticCoverBig, _PartyModeID);
             _TextBG = new CStatic(_Theme.SongMenuTileBoard.StaticTextBG, _PartyModeID);
             _DuetIcon = new CStatic(_Theme.SongMenuTileBoard.StaticDuetIcon, _PartyModeID);
+            _RapIcon = new CStatic(_Theme.SongMenuTileBoard.StaticRapIcon, _PartyModeID);
             _VideoIcon = new CStatic(_Theme.SongMenuTileBoard.StaticVideoIcon, _PartyModeID);
             _MedleyCalcIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyCalcIcon, _PartyModeID);
             _MedleyTagIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyTagIcon, _PartyModeID);
-            _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
+            _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _DuetIcon, _RapIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
         }
 
         private void _UpdateTileSelection()
@@ -138,6 +140,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _Theme.SongMenuTileBoard.TextTitle = (SThemeText)_Title.GetTheme();
             _Theme.SongMenuTileBoard.StaticCoverBig = (SThemeStatic)_CoverBig.GetTheme();
             _Theme.SongMenuTileBoard.StaticDuetIcon = (SThemeStatic)_DuetIcon.GetTheme();
+            _Theme.SongMenuTileBoard.StaticRapIcon = (SThemeStatic)_RapIcon.GetTheme();
             _Theme.SongMenuTileBoard.StaticMedleyCalcIcon = (SThemeStatic)_MedleyCalcIcon.GetTheme();
             _Theme.SongMenuTileBoard.StaticMedleyTagIcon = (SThemeStatic)_MedleyTagIcon.GetTheme();
             _Theme.SongMenuTileBoard.StaticTextBG = (SThemeStatic)_TextBG.GetTheme();
@@ -209,6 +212,7 @@ namespace VocaluxeLib.Menu.SongMenu
             _Title.Text = String.Empty;
             _SongLength.Text = String.Empty;
             _DuetIcon.Visible = false;
+            _RapIcon.Visible = false;
             _VideoIcon.Visible = false;
             _MedleyCalcIcon.Visible = false;
             _MedleyTagIcon.Visible = false;
@@ -237,6 +241,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _Artist.Text = song.Artist;
                 _Title.Text = song.Title;
                 _DuetIcon.Visible = song.IsDuet;
+                _RapIcon.Visible = song.IsRap;
                 _VideoIcon.Visible = song.VideoFileName != "";
                 _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
                 _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;

@@ -165,6 +165,7 @@ namespace VocaluxeLib.Songs
         {
             get { return Notes.VoiceCount > 1; }
         }
+        public bool IsRap = false;
 
         public readonly List<string> Editions = new List<string>();
         public readonly List<string> Genres = new List<string>();

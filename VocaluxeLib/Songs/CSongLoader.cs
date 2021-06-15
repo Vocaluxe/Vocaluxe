@@ -619,9 +619,15 @@ namespace VocaluxeLib.Songs
                                     else if (tag.Equals('F'))
                                         noteType = ENoteType.Freestyle;
                                     else if (tag.Equals('R'))
+                                    {
                                         noteType = ENoteType.Rap;
+                                        _Song.IsRap = true;
+                                    }
                                     else if (tag.Equals('G'))
+                                    {
                                         noteType = ENoteType.RapGolden;
+                                        _Song.IsRap = true;
+                                    }
                                     else
                                         noteType = ENoteType.Normal;
 
