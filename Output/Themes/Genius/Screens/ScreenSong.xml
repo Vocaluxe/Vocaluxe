@@ -752,7 +752,7 @@
       <CoverBackground>CoverTile</CoverBackground>
       <CoverBigBackground />
       <DuetIcon>DuetIcon</DuetIcon>
-      <DuetIcon>RapIcon</DuetIcon>
+      <RapIcon>RapIcon</RapIcon>
       <VideoIcon>VideoIcon</VideoIcon>
       <MedleyCalcIcon>MedleyCalcIcon</MedleyCalcIcon>
       <MedleyTagIcon>MedleyTagIcon</MedleyTagIcon>
@@ -1006,7 +1006,7 @@
             <H>40</H>
             <Z>-1</Z>
           </Rect>
-        </StaticDuetIcon>
+        </StaticRapIcon>
         <StaticVideoIcon Name="StaticVideoIcon">
           <Skin>VideoIcon</Skin>
           <Color Name="TextColor" />
