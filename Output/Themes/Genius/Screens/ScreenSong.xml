@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>6</ScreenVersion>
+    <ScreenVersion>10</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -70,8 +70,33 @@
         <Z>-2.1</Z>
       </Rect>
     </Static>
+    <Static Name="StaticShortInfoTop">
+      <Skin />
+      <Color Name="BackgroundColorAlpha" />
+      <Rect>
+        <X>490</X>
+        <Y>0</Y>
+        <W>300</W>
+        <H>30</H>
+        <Z>-0.75</Z>
+      </Rect>
+    </Static>
   </Statics>
   <Texts>
+    <Text Name="TextShortInfoTop">
+      <X>640</X>
+      <Y>2</Y>
+      <Z>-1</Z>
+      <H>25</H>
+      <MaxW>280</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSONG_SORTING</Text>
+    </Text>
     <Text Name="TextPlayer1">
       <X>950</X>
       <Y>65</Y>
@@ -237,6 +262,48 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENSONG_SONGOPTIONS</Text>
+    </Text>
+    <Text Name="TextHelpBar">
+      <X>40</X>
+      <Y>700</Y>
+      <Z>0</Z>
+      <H>16</H>
+      <MaxW>1200</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSONG_HELPMESSAGE</Text>
+    </Text>
+    <Text Name="TextHelpBarSearch">
+      <X>40</X>
+      <Y>700</Y>
+      <Z>0</Z>
+      <H>16</H>
+      <MaxW>1200</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSONG_HELPMESSAGESEARCH</Text>
+    </Text>
+    <Text Name="TextHelpBarParty">
+      <X>40</X>
+      <Y>700</Y>
+      <Z>0</Z>
+      <H>16</H>
+      <MaxW>1200</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Bottom</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSONG_HELPMESSAGEPARTY</Text>
     </Text>
   </Texts>
   <Buttons>
@@ -746,6 +813,33 @@
         <Text>TR_SCREENSONG_BUTTON_STARTMEDLEY</Text>
       </Text>
     </Button>
+    <Button Name="ButtonOptionsHighscore">
+      <Skin>SongSelectButton</Skin>
+      <SkinSelected>SongSelectButton</SkinSelected>
+      <Rect>
+        <X>40</X>
+        <Y>290</Y>
+        <W>360</W>
+        <H>40</H>
+        <Z>-2.11</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>180</X>
+        <Y>7</Y>
+        <Z>0</Z>
+        <H>25</H>
+        <MaxW>350</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENHIGHSCORE_HIGHSCORE</Text>
+      </Text>
+    </Button>
   </Buttons>
   <SongMenus>
     <SongMenu Name="SongMenu">
@@ -812,19 +906,33 @@
           <Text />
         </TextTitle>
         <TextSongLength Name="TextSongLength">
-          <X>222</X>
+          <X>391</X>
           <Y>490</Y>
           <Z>-1.01</Z>
           <H>28</H>
-          <MaxW>340</MaxW>
+          <MaxW>100</MaxW>
           <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
-          <Align>Center</Align>
+          <Align>Right</Align>
           <ResizeAlign>Top</ResizeAlign>
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
         </TextSongLength>
+        <TextSongYear Name="TextSongYear">
+          <X>52</X>
+          <Y>490</Y>
+          <Z>-1.01</Z>
+          <H>28</H>
+          <MaxW>100</MaxW>
+          <Color Name="TextColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Left</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextSongYear>
         <StaticCoverBig Name="StaticCoverBig">
           <Skin />
           <Color Name="Visible" />
@@ -908,16 +1016,16 @@
         <SpaceW>10</SpaceW>
         <SpaceH>10</SpaceH>
         <TileRect>
-          <X>375</X>
+          <X>410</X>
           <Y>42</Y>
-          <W>850</W>
+          <W>830</W>
           <H>555</H>
           <Z>-1</Z>
         </TileRect>
         <TileRectSmall>
-          <X>375</X>
+          <X>410</X>
           <Y>42</Y>
-          <W>450</W>
+          <W>410</W>
           <H>550</H>
           <Z>-1</Z>
         </TileRectSmall>
@@ -950,19 +1058,33 @@
           <Text />
         </TextTitle>
         <TextSongLength Name="TextSongLength">
-          <X>222</X>
+          <X>391</X>
           <Y>490</Y>
           <Z>-1.01</Z>
           <H>28</H>
-          <MaxW>340</MaxW>
+          <MaxW>100</MaxW>
           <Color Name="TextColor" />
           <SelColor Name="TextSelColor" />
-          <Align>Center</Align>
+          <Align>Right</Align>
           <ResizeAlign>Top</ResizeAlign>
           <Style>Bold</Style>
           <Font>Outline</Font>
           <Text />
         </TextSongLength>
+        <TextSongYear Name="TextSongYear">
+          <X>52</X>
+          <Y>490</Y>
+          <Z>-1.01</Z>
+          <H>28</H>
+          <MaxW>100</MaxW>
+          <Color Name="TextColor" />
+          <SelColor Name="TextSelColor" />
+          <Align>Left</Align>
+          <ResizeAlign>Top</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </TextSongYear>
         <StaticCoverBig Name="StaticCoverBig">
           <Skin />
           <Color Name="Visible" />
@@ -1361,6 +1483,33 @@
           <Text />
         </Text>
       </ButtonPlaylistSave>
+      <ButtonPlaylistList Name="ButtonPlaylistList">
+        <Skin>ListIcon</Skin>
+        <SkinSelected>ListIcon</SkinSelected>
+        <Rect>
+          <X>1120</X>
+          <Y>548</Y>
+          <W>35</W>
+          <H>35</H>
+          <Z>-1.01</Z>
+        </Rect>
+        <Color Name="ButtonColor" />
+        <SelColor Name="ButtonSelColor" />
+        <Text Name="Text">
+          <X>180</X>
+          <Y>5</Y>
+          <Z>0</Z>
+          <H>25</H>
+          <MaxW>350</MaxW>
+          <Color Name="ButtonTextColor" />
+          <SelColor Name="ButtonTextSelColor" />
+          <Align>Center</Align>
+          <ResizeAlign>Center</ResizeAlign>
+          <Style>Bold</Style>
+          <Font>Outline</Font>
+          <Text />
+        </Text>
+      </ButtonPlaylistList>
       <ButtonPlaylistDelete Name="ButtonPlaylistDelete">
         <Skin>DeleteIcon</Skin>
         <SkinSelected>DeleteIcon</SkinSelected>

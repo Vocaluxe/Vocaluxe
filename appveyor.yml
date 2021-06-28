@@ -1,7 +1,7 @@
 version: '{build}'
 pull_requests:
   do_not_increment_build_number: true
-os: Windows Server 2012 R2
+image: Visual Studio 2019
 configuration: ReleaseWin
 platform:
 - x64
@@ -10,6 +10,8 @@ clone_depth: 15
 environment:
   GitHubKey:
     secure: sGetWh2XUYs95VBT+QYNPtDW9Rh2/JBuxNNYXytpn7mMudUMcjSKDGErkCTum+ZE
+init:
+- git config --global core.autocrlf true
 install:
 - ps: |
     $Env:VOCALUXE_SKIP_POSTBUILD = $true
@@ -56,12 +58,13 @@ before_build:
     nuget restore -DisableParallelProcessing
     
     if($Env:MAIN_REPO -and ($Env:PLATFORM -eq 'x64'))
-    {        
+    {
+        $env:JAVA_HOME="C:\Program Files\Java\jdk11"
         if ($Env:APPVEYOR_PULL_REQUEST_NUMBER){
             choco install "msbuild-sonarqube-runner" -y
             SonarScanner.MSBuild.exe begin `
                 /k:"Vocaluxe" `
-                /d:sonar.organization="vocaluxe" `
+                /o:"vocaluxe" `
                 /d:sonar.host.url="https://sonarcloud.io" `
                 /d:sonar.login="$Env:SonarQubeToken" `
                 /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" `
@@ -72,7 +75,7 @@ before_build:
             choco install "msbuild-sonarqube-runner" -y            
             SonarScanner.MSBuild.exe begin `
                 /k:"Vocaluxe" `
-                /d:sonar.organization="vocaluxe" `
+                /o:"vocaluxe" `
                 /d:sonar.host.url="https://sonarcloud.io" `
                 /v:"$Env:GIT_VERSION_TAG" `
                 /d:sonar.login="$Env:SonarQubeToken" `

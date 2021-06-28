@@ -964,6 +964,11 @@ namespace Vocaluxe.Base
             CPlaylists.SetName(playlistID, name);
         }
 
+        public List<int> GetIds()
+        {
+            return CPlaylists.Ids;
+        }
+
         public List<string> GetNames()
         {
             return CPlaylists.Names;

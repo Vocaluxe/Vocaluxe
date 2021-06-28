@@ -198,7 +198,7 @@ namespace VocaluxeLib.Log
             {
                 if (i >= propertyValues.Length)
                     return match.Value;
-                return propertyValues[i++].ToString();
+                return "\"" + propertyValues[i++] + "\"";
             });
         }
 

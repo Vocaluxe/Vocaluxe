@@ -397,7 +397,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_GetLockToken(pAcDecoder))
             {
-                return _ac_get_audio_frame(pAcInstance, pAcDecoder) != 0;
+                return _ac_get_audio_frame(pAcInstance, pAcDecoder) == 0;
             }
         }
 
@@ -408,7 +408,8 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_GetLockToken(pAcDecoder))
             {
-                return _ac_get_frame(pAcInstance, pAcDecoder) != 0;
+                int asd = _ac_get_frame(pAcInstance, pAcDecoder);
+                return asd == 0;
             }
         }
 
@@ -419,14 +420,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_GetLockToken(pAcDecoder))
             {
-                return _ac_skip_frames(pAcInstance, pAcDecoder, num) != 0;
+                return _ac_skip_frames(pAcInstance, pAcDecoder, num) == 0;
             }
         }
 
         // Seeks to the given target position in the file. The seek funtion is not able to seek a single audio/video stream
         // but seeks the whole file forward. The deocder parameter is only used as an timecode reference.
         // The parameter "dir" specifies the seek direction: 0 for forward, -1 for backward.
-        // The target_pos paremeter is in milliseconds. Returns 1 if the functions succeded.}
+        // The target_pos paremeter is in milliseconds. Returns 0 if the functions succeded.}
         //function ac_seek(pDecoder: PAc_decoder; dir: integer; target_pos: int64): integer; cdecl; external ac_dll;
         [DllImport(_AcDll, EntryPoint = "ac_seek", ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Auto)]
         private static extern Int32 _ac_seek(IntPtr pAcDecoder, Int32 dir, Int64 targetPos);
@@ -435,7 +436,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_GetLockToken(pAcDecoder))
             {
-                return _ac_seek(pAcDecoder, dir, targetPos) != 0;
+                return _ac_seek(pAcDecoder, dir, targetPos) == 0;
             }
         }
 
