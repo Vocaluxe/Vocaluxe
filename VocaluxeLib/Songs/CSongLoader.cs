@@ -573,8 +573,6 @@ namespace VocaluxeLib.Songs
                             case 'R':
                             case 'G':
                             case 'F':
-                            case 'R':   // Read R (RAP) and G (Golden RAP) notes as Freestyle notes currently. Final implementation needed!
-                            case 'G':   // Read R (RAP) and G (Golden RAP) notes as Freestyle notes currently. Final implementation needed!
                                 string[] noteData = line.Split(splitChars, 4);
                                 if (noteData.Length < 4)
                                 {
