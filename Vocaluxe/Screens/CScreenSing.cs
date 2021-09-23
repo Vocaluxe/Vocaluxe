@@ -436,7 +436,7 @@ namespace Vocaluxe.Screens
             }
             catch (ArgumentException)
             {
-                // Workaround to assume party mode here (TicTacToe game mode throw the ArgumentException) / Stefan1200
+                // Workaround to assume party mode here (TicTacToe party mode throw the ArgumentException) / Stefan1200
                 _Sso.Selection.PartyMode = true;
             }
 
