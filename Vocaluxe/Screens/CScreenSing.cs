@@ -430,7 +430,13 @@ namespace Vocaluxe.Screens
             _SetPause(false);
 
             _TimeRects.Clear();
-            _Sso = CParty.GetSongSelectionOptions();
+            try
+            {
+                _Sso = CParty.GetSongSelectionOptions();
+            }
+            catch (ArgumentException)
+            {
+            }
 
             _SingNotes[_SingBars].Init(0);
             _AssignPlayerElements();
