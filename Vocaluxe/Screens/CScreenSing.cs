@@ -328,21 +328,21 @@ namespace Vocaluxe.Screens
                             song.Save();
                         break;
 
-                    // Restart Round and reload song file header
+                    // Restart Song and reload song from disk (not in party modes with multiple rounds)
                     case Keys.R:
-                        if (keyEvent.Mod == EModifier.Ctrl && _Pause)
+                        if (keyEvent.Mod == EModifier.Ctrl && _Pause && CGame.NumRounds == 1)
                         {
+                            _RestartGame();
                             _SetPause(false);
-                            _RestartRound();
                         }
                         break;
 
-                    // Restart Round and reload song file header
+                    // Restart Song and reload song from disk (not in party modes with multiple rounds)
                     case Keys.F5:
-                        if (_Pause)
+                        if (_Pause && CGame.NumRounds == 1)
                         {
+                            _RestartGame();
                             _SetPause(false);
-                            _RestartRound();
                         }
                         break;
 
