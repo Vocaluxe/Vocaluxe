@@ -38,7 +38,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private const string _TextPopupReallyExit = "TextPopupReallyExit";
@@ -64,6 +64,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private const string _StaticPopupBG = "StaticPopupBG";
         private const string _StaticAvatarT1 = "StaticAvatarT1";
         private const string _StaticAvatarT2 = "StaticAvatarT2";
+        private const string _StaticTeam1 = "StaticTeam1";
+        private const string _StaticTeam2 = "StaticTeam2";
+
+        private readonly string[] _EqualizerTeam = new string[]
+            {"EqualizerTeam1", "EqualizerTeam2"};
 
         private bool _ExitPopupVisible;
 
@@ -89,7 +94,11 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonField, _ButtonJokerRandomT1, _ButtonJokerRandomT2, _ButtonJokerRetryT1,
                     _ButtonJokerRetryT2
                 };
-            _ThemeStatics = new string[] {_StaticPopupBG, _StaticAvatarT1, _StaticAvatarT2};
+            _ThemeStatics = new string[] {_StaticPopupBG, _StaticAvatarT1, _StaticAvatarT2, _StaticTeam1, _StaticTeam2};
+
+            var texts = new List<string>();
+            texts.AddRange(_EqualizerTeam);
+            _ThemeEqualizers = texts.ToArray();
         }
 
         public override void LoadTheme(string xmlPath)
@@ -299,6 +308,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _Texts[_TextNextPlayerNameT2].Visible = false;
                 _Statics[_StaticAvatarT1].Visible = false;
                 _Statics[_StaticAvatarT2].Visible = false;
+                _Statics[_StaticTeam1].Visible = false;
+                _Statics[_StaticTeam2].Visible = false;
                 _Buttons[_ButtonJokerRandomT1].Visible = false;
                 _Buttons[_ButtonJokerRandomT2].Visible = false;
                 _Buttons[_ButtonJokerRetryT1].Visible = false;
@@ -504,6 +515,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Statics[_StaticAvatarT2].Visible = true;
             _Statics[_StaticAvatarT1].Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ProfileIDsTeam1[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1]);
             _Statics[_StaticAvatarT2].Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ProfileIDsTeam2[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2]);
+            _Statics[_StaticTeam1].Visible = true;
+            _Statics[_StaticTeam2].Visible = true;
         }
 
         private void _UseJoker(int teamNr, int jokerNum)
