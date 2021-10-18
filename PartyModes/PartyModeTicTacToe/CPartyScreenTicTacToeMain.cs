@@ -274,9 +274,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             return true;
         }
 
+        public override void OnClose()
+        {
+            base.OnClose();
+            CBase.Record.Stop();
+        }
+
         public override void OnShow()
         {
             base.OnShow();
+            CBase.Record.Start();
 
             if (_PartyMode.GameData.CurrentRoundNr == 1)
             {
@@ -310,6 +317,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _Statics[_StaticAvatarT2].Visible = false;
                 _Statics[_StaticTeam1].Visible = false;
                 _Statics[_StaticTeam2].Visible = false;
+                _Equalizers[_EqualizerTeam[0]].Visible = false;
+                _Equalizers[_EqualizerTeam[1]].Visible = false;
                 _Buttons[_ButtonJokerRandomT1].Visible = false;
                 _Buttons[_ButtonJokerRandomT2].Visible = false;
                 _Buttons[_ButtonJokerRetryT1].Visible = false;
@@ -342,6 +351,15 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public override bool UpdateGame()
         {
+            if (!_Equalizers[_EqualizerTeam[0]].Visible)
+                return true;
+
+            for (int i = 0; i < 2; i++)
+            {
+                CBase.Record.AnalyzeBuffer(i);
+                _Equalizers["EqualizerTeam" + (i+1)].Update(CBase.Record.ToneWeigth(i), CBase.Record.GetMaxVolume(i));
+            }
+        
             return true;
         }
 
@@ -517,6 +535,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _Statics[_StaticAvatarT2].Texture = CBase.Profiles.GetAvatar(_PartyMode.GameData.ProfileIDsTeam2[_PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2]);
             _Statics[_StaticTeam1].Visible = true;
             _Statics[_StaticTeam2].Visible = true;
+            _Equalizers[_EqualizerTeam[0]].Visible = true;
+            _Equalizers[_EqualizerTeam[1]].Visible = true;
         }
 
         private void _UseJoker(int teamNr, int jokerNum)
