@@ -19,7 +19,7 @@
   <string name="TR_GAMEMODE_NORMAL">Normal</string>
   <string name="TR_GAMEMODE_DUET">Duett</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
-  <string name="TR_GAMEMODE_SHORTSONG">Kurze Version</string>
+  <string name="TR_GAMEMODE_SHORTSONG">Kurz</string>
   <string name="TR_RATING_VOCAL_HERO">Superstar</string>
   <string name="TR_RATING_SUPERSTAR">Hit-Künstler</string>
   <string name="TR_RATING_LEAD_SINGER">Sänger</string>
@@ -31,7 +31,7 @@
   <string name="TR_USERROLE_GUEST">Gast</string>
   <string name="TR_USERROLE_NORMAL">Normaler Benutzer</string>
   <string name="TR_USERROLE_ADMIN">Administrator</string>
-  <string name="TR_USERROLE_KEYBOARDUSER">Keyboard-Benutzer</string>
+  <string name="TR_USERROLE_KEYBOARDUSER">Tastatur-Benutzer</string>
   <string name="TR_SONGSOURCE">Lied-Quelle</string>
   <string name="TR_SONGSOURCE_PLAYLIST">Wiedergabeliste</string>
   <string name="TR_SONGSOURCE_CATEGORY">Kategorie</string>
@@ -86,7 +86,7 @@
   <string name="TR_CONFIG_ONLY_SONG">Nur ausgewähltes Lied</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Alle Informationen</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Nur Namen und Avatare</string>
-  <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Nichts</string>
+  <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Keine</string>
   <string name="TR_CONFIG_LYRICSTYLE_FILL">Füllen</string>
   <string name="TR_CONFIG_LYRICSTYLE_JUMP">Springen</string>
   <string name="TR_CONFIG_LYRICSTYLE_SLIDE">Schieben</string>
