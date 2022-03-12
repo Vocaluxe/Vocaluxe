@@ -328,21 +328,21 @@ namespace Vocaluxe.Screens
                             song.Save();
                         break;
 
-                    // Restart Round and reload song file header
+                    // Restart Song and reload song from disk (not in party modes with multiple rounds)
                     case Keys.R:
-                        if (keyEvent.Mod == EModifier.Ctrl && _Pause)
+                        if (keyEvent.Mod == EModifier.Ctrl && _Pause && CGame.NumRounds == 1)
                         {
+                            _RestartGame();
                             _SetPause(false);
-                            _RestartRound();
                         }
                         break;
 
-                    // Restart Round and reload song file header
+                    // Restart Song and reload song from disk (not in party modes with multiple rounds)
                     case Keys.F5:
-                        if (_Pause)
+                        if (_Pause && CGame.NumRounds == 1)
                         {
+                            _RestartGame();
                             _SetPause(false);
-                            _RestartRound();
                         }
                         break;
 
@@ -430,7 +430,15 @@ namespace Vocaluxe.Screens
             _SetPause(false);
 
             _TimeRects.Clear();
-            _Sso = CParty.GetSongSelectionOptions();
+            try
+            {
+                _Sso = CParty.GetSongSelectionOptions();
+            }
+            catch (ArgumentException)
+            {
+                // Workaround to assume party mode here (TicTacToe party mode throw the ArgumentException) / Stefan1200
+                _Sso.Selection.PartyMode = true;
+            }
 
             _SingNotes[_SingBars].Init(0);
             _AssignPlayerElements();
