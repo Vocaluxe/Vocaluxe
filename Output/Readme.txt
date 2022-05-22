@@ -26,7 +26,7 @@ Supported Operating Systems / Requirements:
 - Windows Vista, Windows 7, Windows 8 or Windows 10 with .NET 4.0
 - Linux (no official support)
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
-- Visual C++ Redistributable Package 2010
+- Visual C++ Redistributable Package 2010 (2015-2022 is required for the nightly builds)
 
 
 =================================
@@ -176,7 +176,6 @@ Vocaluxe Homepage:		https://vocaluxe.org
 Bug Tracker:			https://github.com/Vocaluxe/Vocaluxe/issues
 Translations:			https://www.transifex.com/projects/p/vocaluxe/
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
-Support Forum (German):		http://www.ultra-star.de
 Song-DataBase (USDB):		http://usdb.animux.de/
 
 
