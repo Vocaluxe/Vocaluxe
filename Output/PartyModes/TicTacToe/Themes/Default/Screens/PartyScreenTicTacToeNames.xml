@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>PartyScreenTicTacToeNames</ScreenName>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -41,6 +41,34 @@
       <Font>Outline</Font>
       <Text>TR_SCREENNAMES_TITLE</Text>
     </Text>
+    <Text Name="TextSelPlayersTitle">
+      <X>640</X>
+      <Y>155</Y>
+      <Z>0</Z>
+      <H>20</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENNAMES_SELPLAYERSTITLE</Text>
+    </Text>
+    <Text Name="TextHelpBar">
+      <X>640</X>
+      <Y>703</Y>
+      <Z>0</Z>
+      <H>16</H>
+      <MaxW>1200</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENNAMES_HELPMESSAGE</Text>
+    </Text>
   </Texts>
   <Buttons>
     <Button Name="ButtonBack">
@@ -48,7 +76,7 @@
       <SkinSelected>Button</SkinSelected>
       <Rect>
         <X>145</X>
-        <Y>625</Y>
+        <Y>618</Y>
         <W>150</W>
         <H>50</H>
         <Z>0</Z>
@@ -83,7 +111,7 @@
       <SkinSelected>Button</SkinSelected>
       <Rect>
         <X>985</X>
-        <Y>625</Y>
+        <Y>618</Y>
         <W>150</W>
         <H>50</H>
         <Z>0</Z>
@@ -118,7 +146,7 @@
       <SkinSelected>Button</SkinSelected>
       <Rect>
         <X>565</X>
-        <Y>625</Y>
+        <Y>618</Y>
         <W>150</W>
         <H>50</H>
         <Z>0</Z>
@@ -207,7 +235,7 @@
       <SkinSelected>Plus</SkinSelected>
       <Rect>
         <X>1180</X>
-        <Y>210</Y>
+        <Y>230</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
@@ -234,7 +262,7 @@
       <SkinSelected>Minus</SkinSelected>
       <Rect>
         <X>1130</X>
-        <Y>210</Y>
+        <Y>230</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
@@ -311,21 +339,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>40</X>
-        <Y>160</Y>
+        <Y>180</Y>
         <W>1055</W>
         <H>150</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
         <X>45</X>
-        <Y>210</Y>
+        <Y>230</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>1050</X>
-        <Y>210</Y>
+        <Y>230</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>

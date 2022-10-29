@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>PartyScreenTicTacToeMain</ScreenName>
-    <ScreenVersion>1</ScreenVersion>
+    <ScreenVersion>2</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -44,7 +44,7 @@
         <Y>200</Y>
         <W>100</W>
         <H>100</H>
-        <Z>-1</Z>
+        <Z>-3</Z>
       </Rect>
     </Static>
     <Static Name="StaticAvatarT2">
@@ -55,7 +55,29 @@
         <Y>200</Y>
         <W>100</W>
         <H>100</H>
-        <Z>-1</Z>
+        <Z>-3</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTeam1">
+      <Skin>PlayerSelBG</Skin>
+      <Color Name="Player1" />
+      <Rect>
+        <X>5</X>
+        <Y>195</Y>
+        <W>325</W>
+        <H>110</H>
+        <Z>-2</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTeam2">
+      <Skin>PlayerSelBG</Skin>
+      <Color Name="Player2" />
+      <Rect>
+        <X>950</X>
+        <Y>195</Y>
+        <W>325</W>
+        <H>110</H>
+        <Z>-2</Z>
       </Rect>
     </Static>
   </Statics>
@@ -146,7 +168,7 @@
     </Text>
     <Text Name="TextNextPlayerNameT1">
       <X>120</X>
-      <Y>230</Y>
+      <Y>200</Y>
       <Z>0</Z>
       <H>35</H>
       <MaxW>0</MaxW>
@@ -160,7 +182,7 @@
     </Text>
     <Text Name="TextNextPlayerNameT2">
       <X>1160</X>
-      <Y>230</Y>
+      <Y>200</Y>
       <Z>0</Z>
       <H>40</H>
       <MaxW>0</MaxW>
@@ -490,7 +512,48 @@
   <SelectSlides />
   <SingNotes />
   <NameSelections />
-  <Equalizers />
+  <Equalizers>
+    <Equalizer Name="EqualizerTeam1">
+      <Skin/>
+      <Rect>
+        <X>120</X>
+        <Y>250</Y>
+        <W>205</W>
+        <H>37</H>
+        <Z>-3</Z>
+      </Rect>
+      <NumBars>16</NumBars>
+      <Space>2</Space>
+      <Style>Columns</Style>
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <Color Name="Player1">
+        <A>0.2</A>
+      </Color>
+      <MaxColor Name="Player1">
+        <A>0.4</A>
+      </MaxColor>
+    </Equalizer>
+    <Equalizer Name="EqualizerTeam2">
+      <Skin/>
+      <Rect>
+        <X>955</X>
+        <Y>250</Y>
+        <W>205</W>
+        <H>37</H>
+        <Z>-3</Z>
+      </Rect>
+      <NumBars>16</NumBars>
+      <Space>2</Space>
+      <Style>Columns</Style>
+      <DrawNegative>TR_CONFIG_OFF</DrawNegative>
+      <Color Name="Player2">
+        <A>0.2</A>
+      </Color>
+      <MaxColor Name="Player2">
+        <A>0.4</A>
+      </MaxColor>
+    </Equalizer>
+  </Equalizers>
   <Playlists />
   <ParticleEffects />
   <ScreenSettings />
