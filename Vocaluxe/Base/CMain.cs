@@ -686,6 +686,31 @@ namespace Vocaluxe.Base
         {
             return CRecord.GetToneAbs(player);
         }
+
+        public void AnalyzeBuffer(int player)
+        {
+            CRecord.AnalyzeBuffer(player);
+        }
+
+        public bool Start()
+        {
+            return CRecord.Start();
+        }
+
+        public bool Stop()
+        {
+            return CRecord.Stop();
+        }
+
+        public float GetMaxVolume(int player)
+        {
+            return CRecord.GetMaxVolume(player);
+        }
+
+        public float[] ToneWeigth(int player)
+        {
+            return CRecord.ToneWeigth(player);
+        }
     }
 
     class CBsongs : ISongs
