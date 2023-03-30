@@ -88,7 +88,7 @@ namespace VocaluxeLib.Songs
 
         public SShortEnd ShortEnd;
 
-        public Encoding Encoding = Encoding.Default;
+        public Encoding Encoding = UTF8Encoding.UTF8Encoding();
         public bool ManualEncoding;
         public string Folder = String.Empty;
         public string FolderName = String.Empty;
