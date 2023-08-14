@@ -1,9 +1,9 @@
 [{
 	"title": "Forum",
 	"icon": "question-circle",
-	"description": "A big german community with a section dedicated to Vocaluxe. The developers are active there and happy to help with any problems related to the game (also in English).",
+	"description": "The GitHub discussion section of Vocaluxe. The developers are active there and happy to help with any problems related to the game.",
 	"url_text": "Ask your questions!",
-	"url": "http://forum.ultra-star.de/viewforum.php?f=89"
+	"url": "https://github.com/Vocaluxe/Vocaluxe/discussions"
 },
 {
 	"title": "Wiki",
