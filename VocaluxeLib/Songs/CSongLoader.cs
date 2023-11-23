@@ -214,7 +214,7 @@ namespace VocaluxeLib.Songs
                                 if (value.Length > 1)
                                     _Song.Tags.AddRange(value.Split(','));
                                 else
-                                    _LogWarning("Invalid tags");
+                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid tags: {Value}", CLog.Params(_Song.FileName, value));
                                 break;
                             case "ALBUM":
                                 _Song.Album = value;
