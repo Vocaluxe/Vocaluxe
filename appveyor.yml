@@ -66,7 +66,7 @@ before_build:
                 /k:"Vocaluxe" `
                 /o:"vocaluxe" `
                 /d:sonar.host.url="https://sonarcloud.io" `
-                /d:sonar.login="$Env:SonarQubeToken" `
+                /d:sonar.token="$Env:SonarQubeToken" `
                 /d:"sonar.pullrequest.key=$env:APPVEYOR_PULL_REQUEST_NUMBER" `
                 /d:"sonar.pullrequest.base=$env:APPVEYOR_REPO_BRANCH" `
                 /d:"sonar.pullrequest.branch=$env:APPVEYOR_PULL_REQUEST_HEAD_REPO_BRANCH" 
@@ -78,7 +78,7 @@ before_build:
                 /o:"vocaluxe" `
                 /d:sonar.host.url="https://sonarcloud.io" `
                 /v:"$Env:GIT_VERSION_TAG" `
-                /d:sonar.login="$Env:SonarQubeToken" `
+                /d:sonar.token="$Env:SonarQubeToken" `
                 /d:sonar.cs.nunit.reportsPaths=".\TestResult.xml" `
                 /d:sonar.cs.opencover.reportsPaths=".\CoverageResult.xml"
         }
