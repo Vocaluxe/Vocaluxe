@@ -246,6 +246,8 @@ namespace Vocaluxe.Base
                     return ECoverGeneratorType.Edition;
                 case ESongSorting.TR_CONFIG_GENRE:
                     return ECoverGeneratorType.Genre;
+                case ESongSorting.TR_CONFIG_TAGS:
+                    return ECoverGeneratorType.Tags;
                 case ESongSorting.TR_CONFIG_LANGUAGE:
                     return ECoverGeneratorType.Language;
                 case ESongSorting.TR_CONFIG_YEAR:

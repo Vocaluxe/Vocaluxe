@@ -228,6 +228,12 @@ namespace VocaluxeLib.Songs
                                 else
                                     _LogWarning("Invalid genre");
                                 break;
+                            case "TAGS":
+                                if (value.Length > 1)
+                                    _Song.Tags.AddRange(value.Split(','));
+                                else
+                                    _LogWarning("Invalid tags");
+                                break;
                             case "ALBUM":
                                 _Song.Album = value;
                                 break;
