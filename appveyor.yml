@@ -125,7 +125,7 @@ test_script:
 after_test:
 - ps: |
     if (($Env:MAIN_REPO) -and ($Env:PLATFORM -eq 'x64') -and ($Env:APPVEYOR_PULL_REQUEST_NUMBER -or $Env:APPVEYOR_REPO_BRANCH -eq 'develop')){
-        SonarScanner.MSBuild.exe end /d:sonar.login="$Env:SonarQubeToken"
+        SonarScanner.MSBuild.exe end /d:sonar.token="$Env:SonarQubeToken"
     }
 before_deploy:
 - ps: ./.appveyor/prepareDeploy.ps1
