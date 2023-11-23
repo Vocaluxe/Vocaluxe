@@ -88,6 +88,7 @@ namespace VocaluxeLib.Songs
                     _WriteHeaderEntry("ARTIST-ON-SORTING", _Song.ArtistSorting);
                 _WriteHeaderEntrys("EDITION", _Song.Editions);
                 _WriteHeaderEntrys("GENRE", _Song.Genres);
+                _WriteHeaderEntry("TAGS", String.Join(",", _Song.Tags.ToArray()));
                 _WriteHeaderEntrys("LANGUAGE", _Song.Languages);
                 _WriteHeaderEntry("ALBUM", _Song.Album);
                 _WriteHeaderEntry("YEAR", _Song.Year);
