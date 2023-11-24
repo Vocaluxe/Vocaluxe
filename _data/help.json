@@ -1,9 +1,9 @@
 [{
-	"title": "Forum",
-	"icon": "question-circle",
-	"description": "The GitHub discussion section of Vocaluxe. The developers are active there and happy to help with any problems related to the game.",
-	"url_text": "Ask your questions!",
-	"url": "https://github.com/Vocaluxe/Vocaluxe/discussions"
+	"title": "Discord",
+	"icon": "comments",
+	"description": "The UltraStar/Vocaluxe/Performous Community on Discord. Many developer, song creators and users are active there and happy to help with any problems related to the game and all open source karaoke game related things.",
+	"url_text": "Get in contact!",
+	"url": "https://discord.gg/zdF49MYuN9"
 },
 {
 	"title": "Wiki",
@@ -13,9 +13,9 @@
 	"url": "https://github.com/Vocaluxe/Vocaluxe/wiki"
 },
 {
-	"title": "Facebook",
-	"icon": "facebook-square",
-	"description": "Follow us on Facebook to get all news about Vocaluxe - And if there are questions, just ask!",
-	"url_text": "Give us a like!",
-	"url": "https://www.facebook.com/Vocaluxe"
+	"title": "Open Music Games",
+	"icon": "question-circle",
+	"description": "Central hub of open music games, started in 2022. Many helpful links and information.",
+	"url_text": "Read more...",
+	"url": "https://www.open-music-games.org/"
 }]
