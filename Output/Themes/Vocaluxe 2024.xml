@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>
+  <ThemeSystemVersion>6</ThemeSystemVersion>
+  <Info>
+    <Name>Vocaluxe 2024</Name>
+    <Author>Vocaluxe</Author>
+    <VersionMajor>1</VersionMajor>
+    <VersionMinor>0</VersionMinor>
+  </Info>
+  <Cursor>
+    <Skin>Cursor</Skin>
+    <W>32</W>
+    <H>32</H>
+    <Color Name="StaticColor" />
+  </Cursor>
+</root>
