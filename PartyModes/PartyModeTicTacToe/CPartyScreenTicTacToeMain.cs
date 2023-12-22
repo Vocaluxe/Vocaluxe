@@ -187,6 +187,10 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                                     _UseJoker(0, 1);
                                 if (_Buttons[_ButtonJokerRetryT2].Selected)
                                     _UseJoker(1, 1);
+                                if (_Buttons[_ButtonSwitchPlayerT1].Selected)
+                                    _ChangePlayer(0, true);
+                                if (_Buttons[_ButtonSwitchPlayerT2].Selected)
+                                    _ChangePlayer(1, true);
                             }
                         }
                         else

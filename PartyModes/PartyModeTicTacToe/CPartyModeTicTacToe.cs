@@ -104,6 +104,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             public int NumPlayerTeam1;
             public int NumPlayerTeam2;
             public int NumFields;
+            public int NumJockers;
             public int Team;
             public List<Guid> ProfileIDsTeam1;
             public List<Guid> ProfileIDsTeam2;
@@ -148,6 +149,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     NumPlayerTeam1 = 2,
                     NumPlayerTeam2 = 2,
                     NumFields = 9,
+                    NumJockers = 1,
                     ProfileIDsTeam1 = new List<Guid>(),
                     ProfileIDsTeam2 = new List<Guid>(),
                     CurrentRoundNr = 0,
@@ -395,25 +397,23 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private void _SetNumJokers()
         {
+
+            GameData.NumJokerRandom[0] = GameData.NumJockers;
+            GameData.NumJokerRandom[1] = GameData.NumJockers;
+
             switch (GameData.NumFields)
             {
                 case 9:
-                    GameData.NumJokerRandom[0] = 1;
-                    GameData.NumJokerRandom[1] = 1;
                     GameData.NumJokerRetry[0] = 0;
                     GameData.NumJokerRetry[1] = 0;
                     break;
 
                 case 16:
-                    GameData.NumJokerRandom[0] = 2;
-                    GameData.NumJokerRandom[1] = 2;
                     GameData.NumJokerRetry[0] = 1;
                     GameData.NumJokerRetry[1] = 1;
                     break;
 
                 case 25:
-                    GameData.NumJokerRandom[0] = 3;
-                    GameData.NumJokerRandom[1] = 3;
                     GameData.NumJokerRetry[0] = 2;
                     GameData.NumJokerRetry[1] = 2;
                     break;

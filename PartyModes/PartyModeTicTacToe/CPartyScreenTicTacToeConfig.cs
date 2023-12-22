@@ -35,7 +35,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         }
 
         private const string _SelectSlideNumFields = "SelectSlideNumFields";
+        private const string _SelectSlideNumJockers = "SelectSlideNumJockers";
         private const string _SelectSlideRefillJokers = "SelectSlideRefillJokers";
+        private const string _SelectSlideNumJokers = "SelectSlideNumJokers";
         private const string _SelectSlideSwitchPlayer = "SelectSlideSwitchPlayer";
 
         private const string _ButtonNext = "ButtonNext";
@@ -47,7 +49,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             base.Init();
 
-            _ThemeSelectSlides = new string[] { _SelectSlideNumFields };
+            _ThemeSelectSlides = new string[] { _SelectSlideNumFields, _SelectSlideNumJokers, _SelectSlideRefillJokers, _SelectSlideSwitchPlayer };
             _ThemeButtons = new string[] {_ButtonNext, _ButtonBack};
         }
 
@@ -132,6 +134,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             _SelectSlides[_SelectSlideNumFields].SelectedTag = _PartyMode.GameData.NumFields;
 
+            _SelectSlides[_SelectSlideNumJockers].Clear();
+            _SelectSlides[_SelectSlideNumJockers].AddValue(0);
+            _SelectSlides[_SelectSlideNumJockers].AddValue(1);
+            _SelectSlides[_SelectSlideNumJockers].AddValue(2);
+            _SelectSlides[_SelectSlideNumJockers].AddValue(3);
+
+            _SelectSlides[_SelectSlideNumJockers].SelectedTag = _PartyMode.GameData.NumJockers;
+
             _SelectSlides[_SelectSlideRefillJokers].AddValues(Enum.GetNames(typeof(EOffOn)));
             _SelectSlides[_SelectSlideRefillJokers].Selection = (int)_PartyMode.GameData.RefillJokers;
 
@@ -142,6 +152,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _UpdateSlides()
         {
             _PartyMode.GameData.NumFields = _SelectSlides[_SelectSlideNumFields].SelectedTag;
+            _PartyMode.GameData.NumJockers = _SelectSlides[_SelectSlideNumJockers].Selection;
             _PartyMode.GameData.RefillJokers = (EOffOn)_SelectSlides[_SelectSlideRefillJokers].Selection;
             _PartyMode.GameData.SwitchPlayer = (EOffOn)_SelectSlides[_SelectSlideSwitchPlayer].Selection;
         }
