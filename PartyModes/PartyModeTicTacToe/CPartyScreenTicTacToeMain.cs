@@ -84,6 +84,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         int idPlayer1 = 0;
         int idPlayer2 = 0;
 
+        private static readonly Random random = new Random();
+        private static readonly object syncLock = new object();
+
         private int _OldSelectedField = -1;
 
         private int[,] _Possibilities;
@@ -98,7 +101,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ThemeButtons = new string[]
                 {
                     _ButtonNextRound, _ButtonBack, _ButtonExit, _ButtonPopupYes, _ButtonPopupNo, _ButtonField, _ButtonJokerRandomT1, _ButtonJokerRandomT2, _ButtonJokerRetryT1,
-                    _ButtonJokerRetryT2
+                    _ButtonJokerRetryT2, _ButtonSwitchPlayerT1, _ButtonSwitchPlayerT2
                 };
             _ThemeStatics = new string[] { _StaticPopupBG, _StaticAvatarT1, _StaticAvatarT2, _StaticTeam1, _StaticTeam2 };
 
@@ -517,53 +520,49 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         private int _GetRamdom(int max)
         {
-            var rnd = new Random();
-            return Enumerable
-                .Range(1, max)
-                .OrderBy(x => rnd.Next())
-                .ToArray()[0];
+            lock (syncLock)
+            { 
+                return random.Next(max+1);
+            }
         }
 
         private void _ChangePlayer(int teamNr = -1, bool next = false)
         {
-            int singerTeam1 = 0;
-            int singerTeam2 = 0;
 
-            if (_PartyMode.GameData.PlayerTeam1.Count > 0 && (teamNr == 0 || teamNr == -1))
+            if (_PartyMode.GameData.ProfileIDsTeam1.Count > 0 && (teamNr == 0 || teamNr == -1))
             {
                 if (next == true)
                 {
                     idPlayer1++;
-                    if (idPlayer1 >= _PartyMode.GameData.PlayerTeam1.Count)
+                    if (idPlayer1 >= _PartyMode.GameData.ProfileIDsTeam1.Count)
                     {
                         idPlayer1 = 0;
                     }
                 }
                 else
                 {
-                    idPlayer1 = _GetRamdom(_PartyMode.GameData.PlayerTeam1.Count - 1);
+                    idPlayer1 = _GetRamdom(_PartyMode.GameData.ProfileIDsTeam1.Count - 1);
                 }
 
-                singerTeam1 = _PartyMode.GameData.PlayerTeam1[idPlayer1];
-                _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1 = singerTeam1;
+                _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1 = idPlayer1;
             }
 
-            if (_PartyMode.GameData.PlayerTeam2.Count > 0 && (teamNr == 1 || teamNr == -1))
+            if (_PartyMode.GameData.ProfileIDsTeam2.Count > 0 && (teamNr == 1 || teamNr == -1))
             {
                 if (next == true)
                 {
                     idPlayer2++;
-                    if (idPlayer2 >= _PartyMode.GameData.PlayerTeam2.Count)
+                    if (idPlayer2 >= _PartyMode.GameData.ProfileIDsTeam2.Count)
                     {
                         idPlayer2 = 0;
                     }
                 }
                 else
                 {
-                    idPlayer2 = _GetRamdom(_PartyMode.GameData.PlayerTeam2.Count - 1);
+                    idPlayer2 = _GetRamdom(_PartyMode.GameData.ProfileIDsTeam2.Count - 1);
                 }
-                singerTeam2 = _PartyMode.GameData.PlayerTeam2[idPlayer2];
-                _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2 = singerTeam2;
+        
+                _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2 = idPlayer2;
             }
 
             _UpdatePlayerInformation();
