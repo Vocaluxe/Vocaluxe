@@ -31,11 +31,12 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         private const string _SelectSlideNumFields = "SelectSlideNumFields";
         private const string _SelectSlideRefillJokers = "SelectSlideRefillJokers";
+        private const string _SelectSlideSwitchPlayer = "SelectSlideSwitchPlayer";
 
         private const string _ButtonNext = "ButtonNext";
         private const string _ButtonBack = "ButtonBack";
@@ -133,12 +134,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             _SelectSlides[_SelectSlideRefillJokers].AddValues(Enum.GetNames(typeof(EOffOn)));
             _SelectSlides[_SelectSlideRefillJokers].Selection = (int)_PartyMode.GameData.RefillJokers;
+
+            _SelectSlides[_SelectSlideSwitchPlayer].AddValues(Enum.GetNames(typeof(EOffOn)));
+            _SelectSlides[_SelectSlideSwitchPlayer].Selection = (int)_PartyMode.GameData.SwitchPlayer;
         }
 
         private void _UpdateSlides()
         {
             _PartyMode.GameData.NumFields = _SelectSlides[_SelectSlideNumFields].SelectedTag;
             _PartyMode.GameData.RefillJokers = (EOffOn)_SelectSlides[_SelectSlideRefillJokers].Selection;
+            _PartyMode.GameData.SwitchPlayer = (EOffOn)_SelectSlides[_SelectSlideSwitchPlayer].Selection;
         }
     }
 }

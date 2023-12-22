@@ -127,6 +127,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             public int[] NumJokerRandom;
             public int[] NumJokerRetry;
             public EOffOn RefillJokers;
+            public EOffOn SwitchPlayer;
         }
 
         public SData GameData;

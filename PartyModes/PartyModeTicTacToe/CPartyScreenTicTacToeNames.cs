@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
@@ -76,11 +77,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _PartyMode.GameData.ProfileIDsTeam1 = _TeamList[0];
                 _PartyMode.GameData.ProfileIDsTeam2 = _TeamList[1];
             }
-            if (_NumPlayerTeams.Length == 2)
-            {
-                _PartyMode.GameData.NumPlayerTeam1 = _NumPlayerTeams[0];
-                _PartyMode.GameData.NumPlayerTeam2 = _NumPlayerTeams[1];
-            }
+            _PartyMode.GameData.NumPlayerTeam1 = _PartyMode.GameData.ProfileIDsTeam1.Count();
+            _PartyMode.GameData.NumPlayerTeam2 = _PartyMode.GameData.ProfileIDsTeam2.Count();
+
             _PartyMode.Next();
         }
     }
