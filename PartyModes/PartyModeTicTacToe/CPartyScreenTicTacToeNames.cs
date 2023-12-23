@@ -77,8 +77,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 _PartyMode.GameData.ProfileIDsTeam1 = _TeamList[0];
                 _PartyMode.GameData.ProfileIDsTeam2 = _TeamList[1];
             }
-            _PartyMode.GameData.NumPlayerTeam1 = _PartyMode.GameData.ProfileIDsTeam1.Count();
-            _PartyMode.GameData.NumPlayerTeam2 = _PartyMode.GameData.ProfileIDsTeam2.Count();
+            _PartyMode.GameData.NumPlayerTeam1 = _PartyMode.GameData.ProfileIDsTeam1.Count;
+            _PartyMode.GameData.NumPlayerTeam2 = _PartyMode.GameData.ProfileIDsTeam2.Count;
 
             _PartyMode.Next();
         }

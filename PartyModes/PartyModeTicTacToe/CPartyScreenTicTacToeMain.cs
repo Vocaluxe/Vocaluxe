@@ -81,8 +81,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private const int _FieldSpace = 10;
         private float _FieldSize = 100;
 
-        int idPlayer1 = 0;
-        int idPlayer2 = 0;
+        private int idPlayer1 = 0;
+        private int idPlayer2 = 0;
 
         private static readonly Random random = new Random();
         private static readonly object syncLock = new object();
@@ -535,41 +535,34 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             if (_PartyMode.GameData.ProfileIDsTeam1.Count > 0 && (teamNr == 0 || teamNr == -1))
             {
-                if (next == true)
-                {
-                    idPlayer1++;
-                    if (idPlayer1 >= _PartyMode.GameData.ProfileIDsTeam1.Count)
-                    {
-                        idPlayer1 = 0;
-                    }
-                }
-                else
-                {
-                    idPlayer1 = _GetRamdom(_PartyMode.GameData.ProfileIDsTeam1.Count - 1);
-                }
-
+                idPlayer1 = _GetTeamPlayer(idPlayer1, _PartyMode.GameData.ProfileIDsTeam1.Count, next);
                 _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam1 = idPlayer1;
             }
 
             if (_PartyMode.GameData.ProfileIDsTeam2.Count > 0 && (teamNr == 1 || teamNr == -1))
             {
-                if (next == true)
-                {
-                    idPlayer2++;
-                    if (idPlayer2 >= _PartyMode.GameData.ProfileIDsTeam2.Count)
-                    {
-                        idPlayer2 = 0;
-                    }
-                }
-                else
-                {
-                    idPlayer2 = _GetRamdom(_PartyMode.GameData.ProfileIDsTeam2.Count - 1);
-                }
-        
+                idPlayer2 = _GetTeamPlayer(idPlayer2, _PartyMode.GameData.ProfileIDsTeam2.Count, next);
                 _PartyMode.GameData.Rounds[_PartyMode.GameData.FieldNr].SingerTeam2 = idPlayer2;
             }
 
             _UpdatePlayerInformation();
+        }
+
+        private int _GetTeamPlayer(int idPlayer, int teamCount, bool next)
+        {
+            if (next)
+            {
+                idPlayer++;
+                if (idPlayer >= _PartyMode.GameData.ProfileIDsTeam1.Count)
+                {
+                    idPlayer = 0;
+                }
+            }
+            else
+            {
+                idPlayer = _GetRamdom(_PartyMode.GameData.ProfileIDsTeam1.Count - 1);
+            }
+            return idPlayer;
         }
 
         private void _UpdatePlayerInformation()

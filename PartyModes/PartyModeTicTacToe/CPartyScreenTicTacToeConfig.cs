@@ -26,7 +26,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 {
     // ReSharper disable UnusedMember.Global
     public class CPartyScreenTicTacToeConfig : CPartyScreenTicTacToe
-        // ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -50,14 +50,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             base.Init();
 
             _ThemeSelectSlides = new string[] { _SelectSlideNumFields, _SelectSlideNumJokers, _SelectSlideRefillJokers, _SelectSlideSwitchPlayer };
-            _ThemeButtons = new string[] {_ButtonNext, _ButtonBack};
+            _ThemeButtons = new string[] { _ButtonNext, _ButtonBack };
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -135,10 +135,8 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _SelectSlides[_SelectSlideNumFields].SelectedTag = _PartyMode.GameData.NumFields;
 
             _SelectSlides[_SelectSlideNumJockers].Clear();
-            _SelectSlides[_SelectSlideNumJockers].AddValue(0);
-            _SelectSlides[_SelectSlideNumJockers].AddValue(1);
-            _SelectSlides[_SelectSlideNumJockers].AddValue(2);
-            _SelectSlides[_SelectSlideNumJockers].AddValue(3);
+            for (int i = 0; i <= 3; i++)
+                _SelectSlides[_SelectSlideNumJockers].AddValue(i);
 
             _SelectSlides[_SelectSlideNumJockers].SelectedTag = _PartyMode.GameData.NumJockers;
 
