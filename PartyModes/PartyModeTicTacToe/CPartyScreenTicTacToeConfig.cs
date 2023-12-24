@@ -26,16 +26,19 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 {
     // ReSharper disable UnusedMember.Global
     public class CPartyScreenTicTacToeConfig : CPartyScreenTicTacToe
-        // ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         private const string _SelectSlideNumFields = "SelectSlideNumFields";
+        private const string _SelectSlideNumJockers = "SelectSlideNumJockers";
         private const string _SelectSlideRefillJokers = "SelectSlideRefillJokers";
+        private const string _SelectSlideNumJokers = "SelectSlideNumJokers";
+        private const string _SelectSlideSwitchPlayer = "SelectSlideSwitchPlayer";
 
         private const string _ButtonNext = "ButtonNext";
         private const string _ButtonBack = "ButtonBack";
@@ -46,15 +49,15 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         {
             base.Init();
 
-            _ThemeSelectSlides = new string[] { _SelectSlideNumFields };
-            _ThemeButtons = new string[] {_ButtonNext, _ButtonBack};
+            _ThemeSelectSlides = new string[] { _SelectSlideNumFields, _SelectSlideNumJokers, _SelectSlideRefillJokers, _SelectSlideSwitchPlayer };
+            _ThemeButtons = new string[] { _ButtonNext, _ButtonBack };
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -131,14 +134,25 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             _SelectSlides[_SelectSlideNumFields].SelectedTag = _PartyMode.GameData.NumFields;
 
+            _SelectSlides[_SelectSlideNumJockers].Clear();
+            for (int i = 0; i <= 3; i++)
+                _SelectSlides[_SelectSlideNumJockers].AddValue(i);
+
+            _SelectSlides[_SelectSlideNumJockers].SelectedTag = _PartyMode.GameData.NumJockers;
+
             _SelectSlides[_SelectSlideRefillJokers].AddValues(Enum.GetNames(typeof(EOffOn)));
             _SelectSlides[_SelectSlideRefillJokers].Selection = (int)_PartyMode.GameData.RefillJokers;
+
+            _SelectSlides[_SelectSlideSwitchPlayer].AddValues(Enum.GetNames(typeof(EOffOn)));
+            _SelectSlides[_SelectSlideSwitchPlayer].Selection = (int)_PartyMode.GameData.SwitchPlayer;
         }
 
         private void _UpdateSlides()
         {
             _PartyMode.GameData.NumFields = _SelectSlides[_SelectSlideNumFields].SelectedTag;
+            _PartyMode.GameData.NumJockers = _SelectSlides[_SelectSlideNumJockers].Selection;
             _PartyMode.GameData.RefillJokers = (EOffOn)_SelectSlides[_SelectSlideRefillJokers].Selection;
+            _PartyMode.GameData.SwitchPlayer = (EOffOn)_SelectSlides[_SelectSlideSwitchPlayer].Selection;
         }
     }
 }
