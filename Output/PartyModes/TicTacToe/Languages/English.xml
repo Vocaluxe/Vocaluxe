@@ -17,7 +17,9 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Number of players in team 1</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Number of players in team 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Number of fields</string>
-  <string name="TR_SCREENCONFIG_REFILLJOKERS">Refill jokers every round</string>  
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Refill jokers every round</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Number of jokers</string>
+  <string name="TR_SCREENCONFIG_SWITCH_PLAYER">Switch player</string>
   <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Choose Player</string>
   <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Selected players for this team:</string>
   <string name="TR_SCREENNAMES_TEAM1">Team 1</string>
