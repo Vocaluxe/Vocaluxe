@@ -180,14 +180,28 @@ namespace VocaluxeLib.Xml
         }
 
         private readonly IXmlErrorHandler _ErrorHandler;
+        private readonly bool _UnescapeStringValues;
+
+        /// <summary>
+        ///     Creates a new XmlDeserializer
+        /// </summary>
+        /// <param name="unescapeStringValues">Set to true if string values should be unescaped during reading</param>
+        public CXmlDeserializer(bool unescapeStringValues)
+        {
+            _ErrorHandler = new CXmlDefaultErrorHandler();
+            _UnescapeStringValues = unescapeStringValues;
+        }
+
 
         /// <summary>
         ///     Creates a new XmlDeserializer
         /// </summary>
         /// <param name="errorHandler">Class to be used for error callbacks, if not given a default handler will be used which throws errors and logs warnings</param>
-        public CXmlDeserializer(IXmlErrorHandler errorHandler = null)
+        /// <param name="unescapeStringValues">Set to true if string values should be unescaped during reading</param>
+        public CXmlDeserializer(IXmlErrorHandler errorHandler = null, bool unescapeStringValues = false)
         {
             _ErrorHandler = errorHandler ?? new CXmlDefaultErrorHandler();
+            _UnescapeStringValues = unescapeStringValues;
         }
 
         /// <summary>
@@ -217,8 +231,15 @@ namespace VocaluxeLib.Xml
             }
             if (type == typeof(Guid))
                 return Guid.Parse(node.InnerText);
-            if (type == typeof(string))
-                return node == null ? null : Regex.Unescape(node.InnerText);
+            if (type == typeof(string)) {
+                if(node == null) {
+                    return null;
+                } else if(_UnescapeStringValues) {
+                    return Regex.Unescape(node.InnerText);
+                } else {
+                    return node.InnerText;
+                }
+            }
             if (type.IsPrimitive)
                 return _GetPrimitiveValue(node, type) ?? value;
             if (type.IsNullable())
