@@ -112,7 +112,7 @@
   <string name="TR_SCREENPARTY_VERSION">Версия</string>
   <string name="TR_SCREENPARTY_ERROR">Не получилось загрузить этот режим вечеринки. </string>
   <string name="TR_SCREENPARTY_ERROR_MICS">Нет настроенных микрофонов!</string>
-  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">%d для этого режима вечеринки необходим микрофон!</string>
+  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">%d микрофон(ов) необходимо для этого режима вечеринки!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Целевая аудитория</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Нет команд</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Количество команд</string>
