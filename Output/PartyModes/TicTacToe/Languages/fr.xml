@@ -18,12 +18,12 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Nombre de joueurs dans l'Equipe 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Nombre de champs</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Recharger les jokers a chaque tour</string>
-  <string name="TR_SCREENCONFIG_NUMJOKERS">Nombre de jokers</string>
-  <string name="TR_SCREENCONFIG_SWITCH_PLAYER">Changement de joueur</string>
   <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Choix des joueurs</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Joueurs sélectionnés pour cette équipe :</string>
   <string name="TR_SCREENNAMES_TEAM1">Equipe 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Equipe 2</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Sélectionner au hasard</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Ajoutez au moins un joueur aux deux équipes ! / Tirez l'avatar d'un joueur vers la liste des joueurs sélectionnés ! / Faites un clic droit sur l'avatar d'un joueur pour le retirer !</string>
   <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Choisissez une case.</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Joueur suivant</string>

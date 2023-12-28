@@ -13,15 +13,10 @@
   <string name="TR_BUTTON_NEXT_ROUND">Start</string>
   <string name="TR_SONGS">Liedjes</string>
   <string name="TR_TEAM">Team</string>
-  <string name="TR_PLAYLIST">Afspeellijst</string>
-  <string name="TR_CATEGORY">Categorie</string>
-  <string name="TR_ALLSONGS">Alle liedjes</string>
   <string name="TR_SCREENCONFIG_TITLE">Drie-op-een-rij: configuratie</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Aantal spelers in team 1</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Aantal spelers in team 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Aantal vakjes</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Liedjesbron</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Spelmodus</string>
   <string name="TR_SCREENNAMES_TITLE">Drie-op-een-rij: Kies speler</string>
   <string name="TR_SCREENNAMES_TEAM1">Team 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Team 2</string>

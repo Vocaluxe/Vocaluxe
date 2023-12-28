@@ -13,15 +13,10 @@
   <string name="TR_BUTTON_NEXT_ROUND">Başla</string>
   <string name="TR_SONGS">Şarkılar</string>
   <string name="TR_TEAM">Takım</string>
-  <string name="TR_PLAYLIST">Çalma Listesi</string>
-  <string name="TR_CATEGORY">Kategori</string>
-  <string name="TR_ALLSONGS">Tüm Şarkılar</string>
   <string name="TR_SCREENCONFIG_TITLE">XOX: Yapılandırma</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">1. takımdaki oyuncu sayısı</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">2. takımdaki oyuncu sayısı</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Bölge sayısı</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Şarkı Kaynağı</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Oyun Modu</string>
   <string name="TR_SCREENNAMES_TITLE">XOX: Oyuncu Seç</string>
   <string name="TR_SCREENNAMES_TEAM1">1. Takım</string>
   <string name="TR_SCREENNAMES_TEAM2">2. Takım</string>

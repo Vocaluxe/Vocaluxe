@@ -372,6 +372,38 @@ namespace Tests.VocaluxeLib.XML
         }
 
         [Test]
+        public void TestEscapedValues()
+        {
+            const string s = _Head + @"<root>
+  <S>Foo\'Bar</S>
+  <Sub>
+    <S>Foo\'Bar</S>
+  </Sub>
+</root>";
+            _AssertSerDeserMatch<SUnescaping>(s);
+            var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }));
+            SUnescaping foo = xml.DeserializeString<SUnescaping>(@"<root />");
+            Assert.AreEqual(foo.S, "Foo\'Bar");
+            Assert.AreEqual(foo.Sub.S, "Foo\'Bar");
+        }
+
+        [Test]
+        public void TestUnescapedValues()
+        {
+            const string s = _Head + @"<root>
+  <S>Foo\'Bar</S>
+  <Sub>
+    <S>Foo\'Bar</S>
+  </Sub>
+</root>";
+            _AssertSerDeserMatch<SUnescaping>(s);
+            var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }), true);
+            SUnescaping foo = xml.DeserializeString<SUnescaping>(@"<root />");
+            Assert.AreEqual(foo.S, "Foo'Bar");
+            Assert.AreEqual(foo.Sub.S, "Foo'Bar");
+        }
+
+        [Test]
         public void TestRealFiles([Values(typeof(SThemeCover), typeof(CConfig.SConfig), /*typeof(SThemeScreen),*/ typeof(SDefaultFonts), typeof(SSkin), typeof(STheme), typeof(Dictionary<string, string>))] Type type)
         {
             string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "VocaluxeLib", "XML", "TestFiles");
@@ -490,6 +522,20 @@ namespace Tests.VocaluxeLib.XML
             public double D;
             public SDefaultSub Sub;
         }
+
+        private struct SUnescaping
+        {
+            [DefaultValue("Foo\'Bar")]
+            public string S;
+            public SUnescapingSub Sub;
+        }
+
+        private struct SUnescapingSub
+        {
+            [DefaultValue("Foo\'Bar")]
+            public string S;
+        }
+
 
 #pragma warning restore 169
 #pragma warning restore 649

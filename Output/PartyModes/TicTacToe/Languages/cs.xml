@@ -13,15 +13,11 @@
   <string name="TR_BUTTON_NEXT_ROUND">Spustit</string>
   <string name="TR_SONGS">Písně</string>
   <string name="TR_TEAM">Tým</string>
-  <string name="TR_PLAYLIST">Seznam skladeb</string>
-  <string name="TR_CATEGORY">Skupina</string>
-  <string name="TR_ALLSONGS">Všechny písně</string>
   <string name="TR_SCREENCONFIG_TITLE">Tic-Tac-Toe: Nastavení</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Počet hráčů v týmu 1</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Počet hráčů v týmu 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Počet polí</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Zdroj písně</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Herní režim</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Doplnit žolíky každé kolo</string>
   <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Výběr hráče</string>
   <string name="TR_SCREENNAMES_TEAM1">Tým 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Tým 2</string>

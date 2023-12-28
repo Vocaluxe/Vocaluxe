@@ -13,15 +13,10 @@
   <string name="TR_BUTTON_NEXT_ROUND">Iniciar</string>
   <string name="TR_SONGS">Canciones</string>
   <string name="TR_TEAM">Equipo</string>
-  <string name="TR_PLAYLIST">Lista de reproducción</string>
-  <string name="TR_CATEGORY">Categoría</string>
-  <string name="TR_ALLSONGS">Todas las canciones</string>
   <string name="TR_SCREENCONFIG_TITLE">Ta-Te-Ti: Configuración</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Nro. de cantantes equipo 1</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Nro. de cantantes equipo 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Nro. de campos</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Origen de la canción</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Modo de juego</string>
   <string name="TR_SCREENNAMES_TITLE">Ta-Te-Ti: Selección de cantante</string>
   <string name="TR_SCREENNAMES_TEAM1">Equipo 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Equiipo 2</string>

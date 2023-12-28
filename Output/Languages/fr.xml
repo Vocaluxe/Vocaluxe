@@ -35,7 +35,7 @@
   <string name="TR_SONGSOURCE">Source des chansons</string>
   <string name="TR_SONGSOURCE_PLAYLIST">Playlist</string>
   <string name="TR_SONGSOURCE_CATEGORY">Catégorie</string>
-  <string name="TR_SONGSOURCE_ALLSONGS">Toutes les chansons</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Toutes les chansons</string>  
   <string name="TR_CONFIG_SOFTWARE">Logiciel</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -145,19 +145,28 @@
   <string name="TR_SCREENSONG_SONGOPTIONS">Options de la chanson</string>
   <string name="TR_SCREENSONG_SEARCH">Rechercher:</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Pas de Langue</string>
-  <string name="TR_SCREENSONG_NOYEAR">Pas d'Année</string>
+  <string name="TR_SCREENSONG_NOYEAR">Pas d\'Année</string>
   <string name="TR_SCREENSONG_NOGENRE">Pas de Genre</string>
-  <string name="TR_SCREENSONG_NOEDITION">Pas d'Edition</string>
+  <string name="TR_SCREENSONG_NOEDITION">Pas d\'Edition</string>
   <string name="TR_SCREENSONG_ALLSONGS">Toutes les chansons</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v Chansons)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Chanson)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
+  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Sauter à la lettre • F3 = Chercher • CTRL+R = Sélectionner au hasard • CTRL+S = Lancer medley • CTRL+# = Changer le tri des chansons • CTRL+T = Activer/Désactiver la vue par catégorie • Espace = Ouvrir les options de chanson • Échap = Retouner au menu précédent</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Chercher artiste et titre, préfixes pour la recherche → a: = artiste • t: = titre • c: = créateurr • e: = édition • g: = genre • y: = année (ex: 1999 ou 1980-1989) • l: = langage • al: = album • fi: = nom du fichier • fo: = nom du dossier</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Pressez votre numéro d'équipe afin d'utiliser une chanson joker au hasard</string>
+  <string name="TR_SCREENSONG_SORTING">Classement en cours : %s</string>
+  <string name="TR_SCREENSONG_NOMEDLEY">Aucun Medley pour cette chanson !</string>
   <string name="TR_SCREENSING_PAUSE">Pause</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Arrêter de chanter</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Continuer</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Passer cette chanson</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Redémarer le tour</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Redémarer le jeu</string>
+  <string name="TR_SCREENSING_NOMORESONGS">Plus aucune chanson dans la playlist !</string>
+  <string name="TR_SCREENSING_NOWEBCAM">Pas de webcam disponible !</string>
+  <string name="TR_SCREENSING_ASPECTRATIO">Ratio d'aspect : %a</string>
+  <string name="TR_SCREENSING_SKIPPEDSECONDS">%s secondes passées</string>
   <string name="TR_SCREENSCORE_SCORES">Scores</string>
   <string name="TR_SCREENSCORE_RATING">Note</string>
   <string name="TR_SCREENSCORE_POINTS">Points</string>
@@ -242,4 +251,29 @@
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresse du serveur</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Le serveur ne fonctionne pas. Merci de vérifier config.xml !</string>
+  <string name="TR_REPORTER_TITLE_TEXT">Nous sommes désolés</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Vocaluxe a rencontré une erreur ou un bug.
+Pour nous aider à résoudre le problème, envoyez-nous un rapport.
+Avant de soumettre le bug, modifiez le journal pour supprimer des informations sensibles.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">Vous avez rencontré une erreur ou un bug.
+Pour nous aider à résoudre le problème, envoyez-nous un rapport.
+Avant de soumettre le bug, modifiez le journal suivant pour supprimer des informations sensibles.</string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT">N'envoi rien (vous pouvez toujours copier le message d'erreur ci-dessus)</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Envoyer et ouvrir un problème (visible publiquement + nécessite un compte github)</string>
+  <string name="TR_REPORTER_GIST_ONLY_TEXT">Envoyer et obtenir le lien de votre rapport (visible publiquement)</string>
+  <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Soumettre</string>
+  <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Envoyer</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Quitter</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Continuer</string>
+  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Lien de votre rapport:</string>
+  <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Erreur lors de l'envoi du journal.</string>
+  <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Dernière erreur</string>
+  <string name="TR_REPORTER_LAST_ERROR_NA">Indisponible</string>
+  <string name="TR_REPORTER_ISSUE_TEMPLATE">Décrivez votre problème ici.
+
+### Procédure de reproduction
+Dites-nous comment reproduire ce problème.
+### Version Vocaluxe et fichier journal
+{0}
+{1}</string>
 </resources>

@@ -15,6 +15,7 @@
   <string name="TR_DEBUG_SONGS">Nahrané písně</string>
   <string name="TR_DEBUG_MOUSE">Myš</string>
   <string name="TR_DEBUG_MEMORY">Využití paměti</string>
+  <string name="TR_GAMEMODE">Herní režim</string>
   <string name="TR_GAMEMODE_NORMAL">Normální</string>
   <string name="TR_GAMEMODE_DUET">Duet</string>
   <string name="TR_GAMEMODE_MEDLEY">Směska</string>
@@ -31,6 +32,10 @@
   <string name="TR_USERROLE_NORMAL">Normální uživatel</string>
   <string name="TR_USERROLE_ADMIN">Správce</string>
   <string name="TR_USERROLE_KEYBOARDUSER">Uživatel klávesnice</string>
+  <string name="TR_SONGSOURCE">Zdroj písně</string>
+  <string name="TR_SONGSOURCE_PLAYLIST">Seznam skladeb</string>
+  <string name="TR_SONGSOURCE_CATEGORY">Skupina</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Všechny písně</string>  
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -151,6 +156,8 @@
   <string name="TR_SCREENSING_BUTTON_CANCEL">Zastavit zpívání</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Pokračovat</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Přeskočit tuto píseň</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Začít kolo znovu</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Začít hru znovu</string>
   <string name="TR_SCREENSCORE_SCORES">Výsledky</string>
   <string name="TR_SCREENSCORE_RATING">Hodnocení</string>
   <string name="TR_SCREENSCORE_POINTS">Body</string>
@@ -183,6 +190,7 @@
   <string name="TR_SCREENOGAME_SONGMENU">Nabídka písně</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Třídění písně</string>
   <string name="TR_SCREENOGAME_TABS">Karty</string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Přehrávat automaticky náhledy písní</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Obtížnost hry</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Režim časomíry</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Styl  pro nejlepší výsledky</string>
@@ -234,4 +242,19 @@
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Hlasitost</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresa serveru</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server neběží. Prověřte, prosím, config.xml!</string>
+  <string name="TR_REPORTER_TITLE_TEXT">Promiňte</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Vocaluxe postihla chyba a spadl.\r\nPomožte nám opravit problém, pošlete hlášení.\r\nPro odstranění možná citlivých údajů před odesláním upravte následující zápis.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">, že jste zažili chybu.\r\nPomožte nám opravit problém, pošlete hlášení.\r\nPro odstranění možná citlivých údajů před odesláním upravte následující zápis.</string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT">Nenahrávejte nic (můžete pořád zkopírovat hlášení o chybě výše)</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Nahrajte a otevřete téma (veřejně viditelné + vyžaduje účet na Githubu)</string>
+  <string name="TR_REPORTER_GIST_ONLY_TEXT">Nahrajte a získejte odkaz na svoji zprávu (veřejně viditelné)</string>
+  <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Odeslat</string>
+  <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Nahrává se</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Ukončit</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Pokračovat</string>
+  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Odkaz na vaše hlášení:</string>
+  <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Chyba při nahrávání zápisu.</string>
+  <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Poslední chyba</string>
+  <string name="TR_REPORTER_LAST_ERROR_NA">Nedostupné</string>
+  <string name="TR_REPORTER_ISSUE_TEMPLATE">Zde popište potíže.\n\n### Kroky k zopakování situace\nŘekněte nám, jak zopakovat tento problém.\n\n### Verze Vocaluxe a soubor se záznamem\n{0}\n{1}</string>
 </resources>
