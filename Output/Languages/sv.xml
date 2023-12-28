@@ -35,7 +35,7 @@
   <string name="TR_SONGSOURCE">Låtkälla</string>
   <string name="TR_SONGSOURCE_PLAYLIST">Spellista</string>
   <string name="TR_SONGSOURCE_CATEGORY">Kategori</string>
-  <string name="TR_SONGSOURCE_ALLSONGS">Alla låtar</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Alla låtar</string>  
   <string name="TR_CONFIG_SOFTWARE">Mjukvara</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
