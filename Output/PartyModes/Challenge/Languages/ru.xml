@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Английский</string>
+  <string name="language">Русский</string>
   <string name="TR_PARTYMODE_NAME">Режим соревнования</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Сыграть несколько раундов соревнований.</string>
   <string name="TR_PARTYMODE_AUDIENCE">Для всех, кому интересны дуэльные бои.</string>
