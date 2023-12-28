@@ -23,6 +23,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Xml;
 using VocaluxeLib.Log;
 
@@ -217,7 +218,7 @@ namespace VocaluxeLib.Xml
             if (type == typeof(Guid))
                 return Guid.Parse(node.InnerText);
             if (type == typeof(string))
-                return node == null ? null : node.InnerText;
+                return node == null ? null : Regex.Unescape(node.InnerText);
             if (type.IsPrimitive)
                 return _GetPrimitiveValue(node, type) ?? value;
             if (type.IsNullable())
