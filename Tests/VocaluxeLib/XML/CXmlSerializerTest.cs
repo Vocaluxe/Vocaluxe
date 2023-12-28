@@ -380,9 +380,9 @@ namespace Tests.VocaluxeLib.XML
     <S>Foo\'Bar</S>
   </Sub>
 </root>";
-            _AssertSerDeserMatch<SDefault>(s);
+            _AssertSerDeserMatch<SUnescaping>(s);
             var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }));
-            SDefault foo = xml.DeserializeString<SDefault>(@"<root />");
+            SUnescaping foo = xml.DeserializeString<SUnescaping>(@"<root />");
             Assert.AreEqual(foo.S, "Foo\'Bar");
             Assert.AreEqual(foo.Sub.S, "Foo\'Bar");
         }
@@ -396,9 +396,9 @@ namespace Tests.VocaluxeLib.XML
     <S>Foo\'Bar</S>
   </Sub>
 </root>";
-            _AssertSerDeserMatch<SDefault>(s);
+            _AssertSerDeserMatch<SUnescaping>(s);
             var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }, true));
-            SDefault foo = xml.DeserializeString<SDefault>(@"<root />");
+            SUnescaping foo = xml.DeserializeString<SUnescaping>(@"<root />");
             Assert.AreEqual(foo.S, "Foo'Bar");
             Assert.AreEqual(foo.Sub.S, "Foo'Bar");
         }
