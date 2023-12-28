@@ -77,10 +77,10 @@
     "discoverConnectButton": "Kapcsolódás",
     "Checking...": "Ellenőrzés...",
     "timeout": "Időtúllépés",
-    "keyboardButtonShift": "Shift",
-    "keyboardButtonAlt": "Alt",
+    "keyboardButtonShift":  "Shift",
+    "keyboardButtonAlt":  "Alt",
     "keyboardButtonCtrl": "Ctrl",
     "keyboardButtonBackspace": "Backspace",
     "keyboardAutoSend": "Billentyűleütések automatikus küldése",
-    "keyboardButtonSend": "Küldés"
+    "keyboardButtonSend":  "Küldés"
 }
