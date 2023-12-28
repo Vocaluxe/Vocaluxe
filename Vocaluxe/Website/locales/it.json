@@ -81,6 +81,6 @@
     "keyboardButtonAlt": "Alt",
     "keyboardButtonCtrl": "Control",
     "keyboardButtonBackspace": "Backspace",
-    "keyboardAutoSend": "Auto send keys",
-    "keyboardButtonSend": "Send"
+    "keyboardAutoSend": "Tasti auto invio",
+    "keyboardButtonSend": "Invia"
 }
