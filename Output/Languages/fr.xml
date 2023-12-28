@@ -35,7 +35,7 @@
   <string name="TR_SONGSOURCE">Source des chansons</string>
   <string name="TR_SONGSOURCE_PLAYLIST">Playlist</string>
   <string name="TR_SONGSOURCE_CATEGORY">Catégorie</string>
-  <string name="TR_SONGSOURCE_ALLSONGS">Toutes les chansons</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Toutes les chansons</string>  
   <string name="TR_CONFIG_SOFTWARE">Logiciel</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
