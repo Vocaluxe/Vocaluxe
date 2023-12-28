@@ -77,10 +77,10 @@
     "discoverConnectButton": "Соединение",
     "Checking...": "Проверка...",
     "timeout": "Время ожидания",
-    "keyboardButtonShift": "Shift",
-    "keyboardButtonAlt": "Alt",
+    "keyboardButtonShift":  "Shift",
+    "keyboardButtonAlt":  "Alt",
     "keyboardButtonCtrl": "Control",
     "keyboardButtonBackspace": "Backspace",
     "keyboardAutoSend": "Автоматическая отправка ключей",
-    "keyboardButtonSend": "Отправить"
+    "keyboardButtonSend":  "Отправить"
 }
