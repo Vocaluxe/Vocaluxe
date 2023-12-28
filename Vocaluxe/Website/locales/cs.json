@@ -77,10 +77,10 @@
     "discoverConnectButton": "Připojit se",
     "Checking...": "Ověřuje se...",
     "timeout": "Překročení časového omezení",
-    "keyboardButtonShift": "Shift",
-    "keyboardButtonAlt": "Alt",
+    "keyboardButtonShift":  "Shift",
+    "keyboardButtonAlt":  "Alt",
     "keyboardButtonCtrl": "Ctrl",
     "keyboardButtonBackspace": "Backspace",
     "keyboardAutoSend": "Poslat klávesy automaticky",
-    "keyboardButtonSend": "Poslat"
+    "keyboardButtonSend":  "Poslat"
 }
