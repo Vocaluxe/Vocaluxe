@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Английский</string>
+  <string name="language">Русский</string>
   <string name="TR_PARTYMODE_NAME">Крестики-нолики</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Играйте в Крестики-нолики особым образом</string>
   <string name="TR_PARTYMODE_AUDIENCE">Веселые раунды со стратегией, удачей и навыками</string>
@@ -18,6 +18,7 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Номер игрока из команды 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Количество полей</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Пополняйте джокеры каждый раунд</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Количество джокеров</string>
   <string name="TR_SCREENNAMES_TITLE">Крестики-нолики: Выберите игрока</string>
   <string name="TR_SCREENNAMES_TEAM1">Команда 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Команда 2</string>
