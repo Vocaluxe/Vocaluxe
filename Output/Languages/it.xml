@@ -15,6 +15,7 @@
   <string name="TR_DEBUG_SONGS">Canzoni caricate</string>
   <string name="TR_DEBUG_MOUSE">Mouse</string>
   <string name="TR_DEBUG_MEMORY">Uso della Memoria</string>
+  <string name="TR_GAMEMODE">Modalità di gioco</string>
   <string name="TR_GAMEMODE_NORMAL">Normale</string>
   <string name="TR_GAMEMODE_DUET">Duetto</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
@@ -31,6 +32,10 @@
   <string name="TR_USERROLE_NORMAL">Utente normale</string>
   <string name="TR_USERROLE_ADMIN">Amministratore</string>
   <string name="TR_USERROLE_KEYBOARDUSER">Tasti Utente</string>
+  <string name="TR_SONGSOURCE">Sorgente della Canzone</string>
+  <string name="TR_SONGSOURCE_PLAYLIST">Playlist</string>
+  <string name="TR_SONGSOURCE_CATEGORY">Categoria</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Tutte le canzoni</string>
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -51,7 +56,7 @@
   <string name="TR_CONFIG_TILE_BOARD">Scacchiera</string>
   <string name="TR_CONFIG_BOOK">Libro</string>
   <string name="TR_CONFIG_COVERLOADING_ONDEMAND">Su richiesta</string>
-  <string name="TR_CONFIG_COVERLOADING_ATSTART">All'avvio</string>
+  <string name="TR_CONFIG_COVERLOADING_ATSTART">All\\'avvio</string>
   <string name="TR_CONFIG_COVERLOADING_DYNAMIC">Dinamico</string>
   <string name="TR_CONFIG_NONE">Nessuno</string>
   <string name="TR_CONFIG_RANDOM">Casuale</string>
@@ -84,6 +89,7 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Niente</string>
   <string name="TR_CONFIG_LYRICSTYLE_FILL">Riempi</string>
   <string name="TR_CONFIG_LYRICSTYLE_JUMP">Salta</string>
+  <string name="TR_CONFIG_LYRICSTYLE_SLIDE">Slide</string>
   <string name="TR_CONFIG_LYRICSTYLE_ZOOM">Zoom</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Sotto</string>
   <string name="TR_CONFIG_LYRICSPOSITION_TOP">Sopra</string>
@@ -119,10 +125,10 @@
   <string name="TR_SCREENNAMES_4PLAYER">4 giocatori</string>
   <string name="TR_SCREENNAMES_5PLAYER">5 giocatori</string>
   <string name="TR_SCREENNAMES_6PLAYER">6 giocatori</string>
-  <string name="TR_SCREENNAMES_WARNING_MICS_SG">Attenzione: Non c'è nessun microfono assegnato al giocatore %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_MICS_PL">Attenzione: Non c'è nessun microfono assegnato ai giocatori %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Attenzione: Non c'è nessun profilo assegnato al giocatore %v!</string>
-  <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Attenzione: Non c'è nessun profilo assegnato ai giocatori %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_SG">Attenzione: Non c\'è nessun microfono assegnato al giocatore %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_MICS_PL">Attenzione: Non c\'è nessun microfono assegnato ai giocatori %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Attenzione: Non c\'è nessun profilo assegnato al giocatore %v!</string>
+  <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Attenzione: Non c\'è nessun profilo assegnato ai giocatori %v!</string>
   <string name="TR_SCREENSONG_MENU">Selezione canzone</string>
   <string name="TR_SCREENSONG_BUTTON_SING">Canta</string>
   <string name="TR_SCREENSONG_BUTTON_PLAYLIST">Aggiungi alla playlist</string>
@@ -146,10 +152,21 @@
   <string name="TR_SCREENSONG_NUMSONGS">(%v Canzoni)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Canzone)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
+  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Salta alla lettera • F3 = Cerca • CTRL+R = Selezione casuale • CTRL+S = Inizia medley • CTRL+# = Cambia l\'ordinamento delle canzoni • CTRL+T = Attiva/Disattiva visualizzazione categoria • Space = Apri impostazioni canzone • ESC = Ritorna al menu principale</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Cerca artista e titolo, prefissi per la ricerca → a: = artista • t: = titolo • c: = creatore • e: = edizione • g: = genere • y: = anno (es. 1999 o 1980-1989) • l: = lingua • al: = album • fi: = nome file • fo: = nome cartella</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6: Premi il numero del tuo team per usare una canzone giullare casuale</string>
+  <string name="TR_SCREENSONG_SORTING">Ordinamento: %s</string>
+  <string name="TR_SCREENSONG_NOMEDLEY">Nessun Medley per questa canzone!</string>
   <string name="TR_SCREENSING_PAUSE">Pausa</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Smetti di cantare</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Continua</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Salta questa canzone</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Rinizia turno</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Rinizia il gioco</string>
+  <string name="TR_SCREENSING_NOMORESONGS">Nessun\'altra canzone nella playlist!</string>
+  <string name="TR_SCREENSING_NOWEBCAM">Nessuna webcam disponibile!</string>
+  <string name="TR_SCREENSING_ASPECTRATIO">Proporzioni: %a</string>
+  <string name="TR_SCREENSING_SKIPPEDSECONDS">Saltati %s secondi</string>
   <string name="TR_SCREENSCORE_SCORES">Punteggi</string>
   <string name="TR_SCREENSCORE_RATING">Voto</string>
   <string name="TR_SCREENSCORE_POINTS">Punti</string>
@@ -182,8 +199,10 @@
   <string name="TR_SCREENOGAME_SONGMENU">Menu canzone</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Ordine canzone</string>
   <string name="TR_SCREENOGAME_TABS">Schede</string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Riproduci automaticamente le anteprime delle canzoni</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Difficoltà gioco</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Modalità a tempo</string>
+  <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Stile del punteggio più alto</string>
   <string name="TR_SCREENORECORD_OPTIONS">Opzioni registrazione</string>
   <string name="TR_SCREENORECORD_DEVICE">Dispositivo</string>
   <string name="TR_SCREENORECORD_INPUT">Input</string>
@@ -223,7 +242,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Webcam</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Risoluzione-Webcam</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Sistemazione schermo</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Premi CTR + ALT (+ SHIFT) + Freccia|"+\ per sistemare lo schermo</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Premi CTR + ALT (+ SHIFT) + Freccia|+ per sistemare lo schermo</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTR + ALT + 0 per ripristinare</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Sopra a sinistra</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Sopra a destra</string>
@@ -232,4 +251,19 @@
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Indirizzo server</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Il server non sta funzionando. Per favore controlla il file config.xml!</string>
+  <string name="TR_REPORTER_TITLE_TEXT">Siamo spiacenti</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">che Vocaluxe si è imbattuto in un errore e si è arrestato.\r\nPer aiutarci a risolvere il problema, vi preghiamo di inviarci un rapporto.\r\nModifica il seguente log prima di inviare per rimuovere le informazioni eventualmente sensibili.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">che Vocaluxe si è imbattuto in un errore.\r\nPer aiutarci a risolvere il problema, vi preghiamo di inviarci un rapporto.\r\nModifica il seguente log prima di inviare per rimuovere le informazioni eventualmente sensibili.</string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT">Non caricare niente (puoi comunque copiare il messaggio di errore soprastante)</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Carica e apri una segnalazione (visibile pubblicamente + richiede un account github)</string>
+  <string name="TR_REPORTER_GIST_ONLY_TEXT">Carica e ottieni un link per il tuo rapporto (visibile pubblicamente)</string>
+  <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Invia</string>
+  <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Caricamento</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Esci</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Continua</string>
+  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Il link al tuo rapporto:</string>
+  <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Errore nel caricamento del registro</string>
+  <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Ultimo errore</string>
+  <string name="TR_REPORTER_LAST_ERROR_NA">Non disponibile</string>
+  <string name="TR_REPORTER_ISSUE_TEMPLATE">Descrivi qui il tuo problema.\n\n### Passaggi per riprodurre \nDiteci come riprodurre questo problema.\n\n### Versione di Vocaluxe e file di registro\n{0}\n{1}</string>
 </resources>

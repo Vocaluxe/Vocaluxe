@@ -13,15 +13,11 @@
   <string name="TR_BUTTON_NEXT_ROUND">Iniciar</string>
   <string name="TR_SONGS">Músicas</string>
   <string name="TR_TEAM">Equipa</string>
-  <string name="TR_PLAYLIST">Lista de Reprodução</string>
-  <string name="TR_CATEGORY">Categoria </string>
-  <string name="TR_ALLSONGS">Todas as Músicas</string>
   <string name="TR_SCREENCONFIG_TITLE">Jogo do Galo: Configuração</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Número de Jogadores na Equipa 1 </string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Número de Jogadores na Equipa 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Número de Campos</string>
-  <string name="TR_SCREENCONFIG_SONGSOURCE">Origem da Música</string>
-  <string name="TR_SCREENCONFIG_GAMEMODE">Modo do Jogo</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Recarregar os \"Jokers\" todas as rondas</string>
   <string name="TR_SCREENNAMES_TITLE">Jogo do Galo: Esolher Jogador</string>
   <string name="TR_SCREENNAMES_TEAM1">Equipa 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Equipa 2</string>

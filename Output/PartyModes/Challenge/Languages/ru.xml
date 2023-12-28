@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Английский</string>
+  <string name="TR_PARTYMODE_NAME">Режим соревнования</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Сыграть несколько раундов соревнований.</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Для всех, кому интересны дуэльные бои.</string>
+  <string name="TR_BUTTON_NEXT">Далее</string>
+  <string name="TR_BUTTON_BACK">Назад</string>
+  <string name="TR_BUTTON_START">Начать</string>
+  <string name="TR_BUTTON_EXIT">Выход</string>
+  <string name="TR_BUTTON_YES">Да</string>
+  <string name="TR_BUTTON_NO">Нет</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Следующий раунд</string>
+  <string name="TR_SONGS">Песни</string>
+  <string name="TR_SCREENCONFIG_TITLE">Режим испытания: Конфигурация</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Количество игроков</string>
+  <string name="TR_SCREENCONFIG_NUMMICS">Количество микрофонов</string>
+  <string name="TR_SCREENCONFIG_NUMROUNDS">Количество раундов</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Количество джокеров</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Пополняйте джокеры каждый раунд</string>
+  <string name="TR_SCREENNAMES_TITLE">Режим соревнования: Выбор игрока</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Случайный выбор</string>
+  <string name="TR_SCREENMAIN_TITLE">Режим соревнования: Обзор</string>
+  <string name="TR_SCREENMAIN_TABLE_POS">Позиция</string>
+  <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Имя</string>
+  <string name="TR_SCREENMAIN_TABLE_NUMPLAYED">Раундов</string>
+  <string name="TR_SCREENMAIN_TABLE_WON">Побед</string>
+  <string name="TR_SCREENMAIN_TABLE_SINGPOINTS">Очки пения</string>
+  <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Счёт</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Вы действительно хотите выйти?</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Игрок следующего раунда:</string>
+  <string name="TR_SCREENMAIN_FINISH">Спеты все раунды! И победителем становится...</string>
+</resources>

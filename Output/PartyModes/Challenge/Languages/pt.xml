@@ -11,10 +11,13 @@
   <string name="TR_BUTTON_YES">Sim</string>
   <string name="TR_BUTTON_NO">Não</string>
   <string name="TR_BUTTON_NEXT_ROUND">Ronda Seguinte</string>
+  <string name="TR_SONGS">Músicas</string>
   <string name="TR_SCREENCONFIG_TITLE">Modo Desafio: Configuração</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Número de Jogadores</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Número de microfones</string>
   <string name="TR_SCREENCONFIG_NUMROUNDS">Número de rondas</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Número de "Jokers"</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Recarregar os "Jokers" todas as rondas</string>
   <string name="TR_SCREENNAMES_TITLE">Modo Desafio: Escolher Jogador</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Escolha Aleatória</string>
   <string name="TR_SCREENMAIN_TITLE">Modo Desafio: Resumo</string>
