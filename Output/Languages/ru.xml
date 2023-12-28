@@ -35,7 +35,7 @@
   <string name="TR_SONGSOURCE">Источник песни</string>
   <string name="TR_SONGSOURCE_PLAYLIST">Плейлист</string>
   <string name="TR_SONGSOURCE_CATEGORY">Категория</string>
-  <string name="TR_SONGSOURCE_ALLSONGS">Все песни</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Все песни</string>  
   <string name="TR_CONFIG_SOFTWARE">Программное обеспечение</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
