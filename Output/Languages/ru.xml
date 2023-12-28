@@ -10,7 +10,7 @@
   <string name="TR_DEBUG_AUDIO_STREAMS">Аудиопотоки</string>
   <string name="TR_DEBUG_VIDEO_STREAMS">Видеопотоки</string>
   <string name="TR_DEBUG_TEXTURES">Текстуры</string>
-  <string name="TR_DEBUG_TONE_ABS">Тонус</string>
+  <string name="TR_DEBUG_TONE_ABS">ToneAbs</string>
   <string name="TR_DEBUG_MAX_VOLUME">Макс. громкость</string>
   <string name="TR_DEBUG_SONGS">Загруженные песни</string>
   <string name="TR_DEBUG_MOUSE">Мышь</string>
