@@ -19,6 +19,7 @@
   <string name="TR_SCREENCONFIG_NUMFIELDS">Количество полей</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Пополняйте джокеры каждый раунд</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Количество джокеров</string>
+  <string name="TR_SCREENCONFIG_SWITCH_PLAYER">Сменить игрока</string>
   <string name="TR_SCREENNAMES_TITLE">Крестики-нолики: Выберите игрока</string>
   <string name="TR_SCREENNAMES_TEAM1">Команда 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Команда 2</string>
