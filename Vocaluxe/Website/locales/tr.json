@@ -77,10 +77,10 @@
     "discoverConnectButton": "Bağlan",
     "Checking...": "Kontrol ediliyor...",
     "timeout": "Zaman aşımı",
-    "keyboardButtonShift": "Shift",
-    "keyboardButtonAlt": "Alt",
+    "keyboardButtonShift":  "Shift",
+    "keyboardButtonAlt":  "Alt",
     "keyboardButtonCtrl": "Control",
     "keyboardButtonBackspace": "Backspace",
     "keyboardAutoSend": "Auto send keys",
-    "keyboardButtonSend": "Send"
+    "keyboardButtonSend":  "Send"
 }
