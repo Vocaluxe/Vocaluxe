@@ -2,7 +2,7 @@
 <resources>
   <string name="language">Français</string>
   <string name="TR_PARTYMODE_NAME">Morpion</string>
-  <string name="TR_PARTYMODE_DESCRIPTION">Jouez au Tic-Tac-Toe d'une nouvelle façon</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Jouez au Morpion d\'une nouvelle façon</string>
   <string name="TR_PARTYMODE_AUDIENCE">Des matchs amusants alliant stratégie, gains et compétences</string>
   <string name="TR_BUTTON_NEXT">Suivant</string>
   <string name="TR_BUTTON_BACK">Retour</string>
