@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Français</string>
-  <string name="TR_PARTYMODE_NAME">Tic-Tac-Toe</string>
+  <string name="TR_PARTYMODE_NAME">Morpion</string>
   <string name="TR_PARTYMODE_DESCRIPTION">Jouez au Tic-Tac-Toe d'une nouvelle façon</string>
   <string name="TR_PARTYMODE_AUDIENCE">Des matchs amusants alliant stratégie, gains et compétences</string>
   <string name="TR_BUTTON_NEXT">Suivant</string>
