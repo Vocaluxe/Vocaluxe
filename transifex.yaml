@@ -1,0 +1,22 @@
+git:
+  filters:
+    - filter_type: file
+      file_format: ANDROID
+      source_file: Output/Languages/en.xml
+      source_language: en
+      translation_files_expression: 'Output/Languages/<lang>.xml'
+    - filter_type: file
+      file_format: ANDROID
+      source_file: Output/PartyModes/Challenge/Languages/en.xml
+      source_language: en
+      translation_files_expression: 'Output/PartyModes/Challenge/Languages/<lang>.xml'
+    - filter_type: file
+      file_format: ANDROID
+      source_file: Output/PartyModes/TicTacToe/Languages/en.xml
+      source_language: en
+      translation_files_expression: 'Output/PartyModes/TicTacToe/Languages/<lang>.xml'
+    - filter_type: file
+      file_format: KEYVALUEJSON
+      source_file: Vocaluxe/Website/locales/en.json
+      source_language: en
+      translation_files_expression: 'Vocaluxe/Website/locales/<lang>.json'
