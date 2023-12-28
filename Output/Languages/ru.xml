@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Английский</string>
+  <string name="language">Русский</string>
   <string name="TR_PROGRAM_NAME">Вокалюкс</string>
   <string name="TR_GENERAL_AND">и</string>
   <string name="TR_BUTTON_EXIT">Выход</string>
@@ -27,7 +27,7 @@
   <string name="TR_RATING_HOPEFUL">Многообещающий</string>
   <string name="TR_RATING_WANNABE">Подражатель</string>
   <string name="TR_RATING_AMATEUR">Любитель</string>
-  <string name="TR_RATING_TONE_DEAF">Глухой Тон</string>
+  <string name="TR_RATING_TONE_DEAF">Нету слуха</string>
   <string name="TR_USERROLE_GUEST">Гость</string>
   <string name="TR_USERROLE_NORMAL">Обычный пользователь</string>
   <string name="TR_USERROLE_ADMIN">Администратор</string>
@@ -112,7 +112,7 @@
   <string name="TR_SCREENPARTY_VERSION">Версия</string>
   <string name="TR_SCREENPARTY_ERROR">Не получилось загрузить этот режим вечеринки. </string>
   <string name="TR_SCREENPARTY_ERROR_MICS">Нет настроенных микрофонов!</string>
-  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">%d для этого режима вечеринки необходим микрофон!</string>
+  <string name="TR_SCREENPARTY_ERROR_MIC_NUM">%d микрофон(ов) необходимо для этого режима вечеринки!</string>
   <string name="TR_SCREENPARTY_TARGETAUDIENCE">Целевая аудитория</string>
   <string name="TR_SCREENPARTY_NOTEAMS">Нет команд</string>
   <string name="TR_SCREENPARTY_NUMTEAMS">Количество команд</string>
@@ -233,7 +233,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Обложка-поведение при загрузке</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Варианты песен</string>
   <string name="TR_SCREENOLYRICS_STYLE">Стиль анимации</string>
-  <string name="TR_SCREENOLYRICS_POSITION">Позиция Песни</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Позиция текста</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Опции видео</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Видео фоны</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Предпросмотр видео</string>
