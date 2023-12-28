@@ -27,7 +27,7 @@
   <string name="TR_RATING_HOPEFUL">Многообещающий</string>
   <string name="TR_RATING_WANNABE">Подражатель</string>
   <string name="TR_RATING_AMATEUR">Любитель</string>
-  <string name="TR_RATING_TONE_DEAF">Глухой Тон</string>
+  <string name="TR_RATING_TONE_DEAF">Нету слуха</string>
   <string name="TR_USERROLE_GUEST">Гость</string>
   <string name="TR_USERROLE_NORMAL">Обычный пользователь</string>
   <string name="TR_USERROLE_ADMIN">Администратор</string>
