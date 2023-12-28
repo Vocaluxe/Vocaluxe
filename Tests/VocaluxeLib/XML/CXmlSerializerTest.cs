@@ -375,7 +375,7 @@ namespace Tests.VocaluxeLib.XML
         public void TestEscapedValues()
         {
             const string s = _Head + @"<root>
-  <S>Foo\'Bar</s>
+  <S>Foo\'Bar</S>
   <Sub>
     <S>Foo\'Bar</S>
   </Sub>
@@ -391,13 +391,13 @@ namespace Tests.VocaluxeLib.XML
         public void TestUnescapedValues()
         {
             const string s = _Head + @"<root>
-  <S>Foo\'Bar</s>
+  <S>Foo\'Bar</S>
   <Sub>
     <S>Foo\'Bar</S>
   </Sub>
 </root>";
             _AssertSerDeserMatch<SUnescaping>(s);
-            var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }, true));
+            var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }), true);
             SUnescaping foo = xml.DeserializeString<SUnescaping>(@"<root />");
             Assert.AreEqual(foo.S, "Foo'Bar");
             Assert.AreEqual(foo.Sub.S, "Foo'Bar");
