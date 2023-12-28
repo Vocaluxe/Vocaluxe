@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
-  <string name="language">Английский</string>
+  <string name="language">Русский</string>
   <string name="TR_PROGRAM_NAME">Вокалюкс</string>
   <string name="TR_GENERAL_AND">и</string>
   <string name="TR_BUTTON_EXIT">Выход</string>
