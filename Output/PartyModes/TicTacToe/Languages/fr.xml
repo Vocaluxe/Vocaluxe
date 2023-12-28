@@ -14,8 +14,8 @@
   <string name="TR_SONGS">Chansons</string>
   <string name="TR_TEAM">Equipe</string>
   <string name="TR_SCREENCONFIG_TITLE">Tic-Tac-Toe: Configuration</string>
-  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Nombre de joueurs dans l'Equipe 1</string>
-  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Nombre de joueurs dans l'Equipe 2</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Nombre de joueurs dans l\'Équipe 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Nombre de joueurs dans l\'Équipe 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Nombre de champs</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Recharger les jokers a chaque tour</string>
   <string name="TR_SCREENCONFIG_NUMJOKERS">Nombre de jokers</string>
