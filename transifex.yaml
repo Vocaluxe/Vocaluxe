@@ -20,3 +20,5 @@ git:
       source_file: Vocaluxe/Website/locales/en.json
       source_language: en
       translation_files_expression: 'Vocaluxe/Website/locales/<lang>.json'
+  settings:
+    pr_branch_name: translations/<br_unique_id>
