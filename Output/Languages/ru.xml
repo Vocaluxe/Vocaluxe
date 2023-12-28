@@ -233,7 +233,7 @@
   <string name="TR_SCREENOTHEME_COVERLOADING">Обложка-поведение при загрузке</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Варианты песен</string>
   <string name="TR_SCREENOLYRICS_STYLE">Стиль анимации</string>
-  <string name="TR_SCREENOLYRICS_POSITION">Позиция Песни</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Позиция текста</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Опции видео</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Видео фоны</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Предпросмотр видео</string>
