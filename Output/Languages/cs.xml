@@ -152,12 +152,21 @@
   <string name="TR_SCREENSONG_NUMSONGS">(%v písní)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v píseň)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
+  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Skok na písmeno • F3 = Vyhledávat • CTRL+R = Náhodný výběr - CTRL+S = Spustit směsku • CTRL+# = Změnit řazení skladeb • CTRL+T = Zapnout/Vypnout zobrazení kategorií • Mezerník = Otevřít volby skladby • ESC = Zpět do hlavní nabídky</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Vyhledávání umělce a názvu, předpony pro vyhledávání → a: = umělec • t: = název • c: = tvůrce • e: = edice • g: = žánr • y: = rok (např. 1999 nebo 1980-1989) • l: = jazyk • al: = album • fi: = název souboru • fo: = název složky</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = stisknutím čísla týmu použijete náhodný žolík.</string>
+  <string name="TR_SCREENSONG_SORTING">Řazení: %s</string>
+  <string name="TR_SCREENSONG_NOMEDLEY">Žádnou směsku pro tuto píseň!</string>
   <string name="TR_SCREENSING_PAUSE">Pozastavit</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Zastavit zpívání</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Pokračovat</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Přeskočit tuto píseň</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Začít kolo znovu</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Začít hru znovu</string>
+  <string name="TR_SCREENSING_NOMORESONGS">Žádné další písně v seznamu skladeb!</string>
+  <string name="TR_SCREENSING_NOWEBCAM">Webová kamera není dostupná!</string>
+  <string name="TR_SCREENSING_ASPECTRATIO">Poměr stran: %a</string>
+  <string name="TR_SCREENSING_SKIPPEDSECONDS">Přeskočeno %s sekund</string>
   <string name="TR_SCREENSCORE_SCORES">Výsledky</string>
   <string name="TR_SCREENSCORE_RATING">Hodnocení</string>
   <string name="TR_SCREENSCORE_POINTS">Body</string>
