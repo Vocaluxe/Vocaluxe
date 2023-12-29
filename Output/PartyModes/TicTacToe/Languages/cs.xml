@@ -18,10 +18,14 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Počet hráčů v týmu 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Počet polí</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Doplnit žolíky každé kolo</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Počet žolíků</string>
+  <string name="TR_SCREENCONFIG_SWITCH_PLAYER">Přepnout hráče</string>
   <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Výběr hráče</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Vybraní hráči pro tento tým:</string>
   <string name="TR_SCREENNAMES_TEAM1">Tým 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Tým 2</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Přidejte alespoň jednoho hráče do obou týmů! / Přetáhněte avatary hráčů a přidejte je do seznamu vybraných hráčů! / Klepnutím pravým tlačítkem myši na avatar vybraného hráče jej odeberete!</string>
   <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Vybrat pole.</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Další hráč</string>
