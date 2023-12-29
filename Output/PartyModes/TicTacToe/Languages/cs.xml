@@ -25,7 +25,7 @@
   <string name="TR_SCREENNAMES_TEAM1">Tým 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Tým 2</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>
-  <string name="TR_SCREENNAMES_HELPMESSAGE">Přidejte alespoň jednoho hráče do obou týmů! / Přetáhněte avatary hráčů a přidejte je do seznamu vybraných hráčů! / Klepnutím pravým tlačítkem myši na jej zástupující obrázek vybraného hráče odeberete!</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Přidejte alespoň jednoho hráče do obou týmů! / Přetáhněte zástupné obrázky hráčů a přidejte je do seznamu vybraných hráčů! / Klepnutím pravým tlačítkem myši na jej zastupující obrázek vybraného hráče odeberete!</string>
   <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Vybrat pole.</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Další hráč</string>
