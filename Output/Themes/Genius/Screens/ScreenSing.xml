@@ -694,6 +694,20 @@
       <Font>Outline</Font>
       <Text>TR_SCREENSING_PAUSE</Text>
     </Text>
+    <Text Name="TextPauseSongName">
+      <X>640</X>
+      <Y>10</Y>
+      <Z>-2.11</Z>
+      <H>40</H>
+      <MaxW>0</MaxW>
+      <Color Name="White" />
+      <SelColor Name="White" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text></Text>
+    </Text>
     <Text Name="TextDuetName1">
       <X>10</X>
       <Y>55</Y>
