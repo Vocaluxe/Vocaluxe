@@ -163,6 +163,7 @@
   <string name="TR_SCREENSING_BUTTON_SKIP">Přeskočit tuto píseň</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Začít kolo znovu</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Začít hru znovu</string>
+  <string name="TR_SCREENSING_NOMORESONGS">Žádné další písně v seznamu skladeb!</string>
   <string name="TR_SCREENSCORE_SCORES">Výsledky</string>
   <string name="TR_SCREENSCORE_RATING">Hodnocení</string>
   <string name="TR_SCREENSCORE_POINTS">Body</string>
