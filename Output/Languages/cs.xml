@@ -152,6 +152,7 @@
   <string name="TR_SCREENSONG_NUMSONGS">(%v písní)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v píseň)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
+  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Skok na písmeno • F3 = Vyhledávat • CTRL+R = Náhodný výběr - CTRL+S = Spustit směsku • CTRL+# = Změnit řazení skladeb • CTRL+T = Zapnout/Vypnout zobrazení kategorií • Mezerník = Otevřít volby skladby • ESC = Zpět do hlavní nabídky</string>
   <string name="TR_SCREENSING_PAUSE">Pozastavit</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Zastavit zpívání</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Pokračovat</string>
