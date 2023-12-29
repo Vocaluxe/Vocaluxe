@@ -154,6 +154,7 @@
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Skok na písmeno • F3 = Vyhledávat • CTRL+R = Náhodný výběr - CTRL+S = Spustit směsku • CTRL+# = Změnit řazení skladeb • CTRL+T = Zapnout/Vypnout zobrazení kategorií • Mezerník = Otevřít volby skladby • ESC = Zpět do hlavní nabídky</string>
   <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Vyhledávání umělce a názvu, předpony pro vyhledávání → a: = umělec • t: = název • c: = tvůrce • e: = edice • g: = žánr • y: = rok (např. 1999 nebo 1980-1989) • l: = jazyk • al: = album • fi: = název souboru • fo: = název složky</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = stisknutím čísla týmu použijete náhodný žolík.</string>
   <string name="TR_SCREENSONG_SORTING">Řazení: %s</string>
   <string name="TR_SCREENSING_PAUSE">Pozastavit</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Zastavit zpívání</string>
