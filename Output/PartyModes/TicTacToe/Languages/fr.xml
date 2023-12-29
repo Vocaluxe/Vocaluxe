@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <resources>
   <string name="language">Français</string>
-  <string name="TR_PARTYMODE_NAME">Tic-Tac-Toe</string>
-  <string name="TR_PARTYMODE_DESCRIPTION">Jouez au Tic-Tac-Toe d'une nouvelle façon</string>
+  <string name="TR_PARTYMODE_NAME">Morpion</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Jouez au Morpion d\'une nouvelle façon</string>
   <string name="TR_PARTYMODE_AUDIENCE">Des matchs amusants alliant stratégie, gains et compétences</string>
   <string name="TR_BUTTON_NEXT">Suivant</string>
   <string name="TR_BUTTON_BACK">Retour</string>
@@ -14,10 +14,12 @@
   <string name="TR_SONGS">Chansons</string>
   <string name="TR_TEAM">Equipe</string>
   <string name="TR_SCREENCONFIG_TITLE">Tic-Tac-Toe: Configuration</string>
-  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Nombre de joueurs dans l'Equipe 1</string>
-  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Nombre de joueurs dans l'Equipe 2</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Nombre de joueurs dans l\'Équipe 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Nombre de joueurs dans l\'Équipe 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Nombre de champs</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Recharger les jokers a chaque tour</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Nombre de jokers</string>
+  <string name="TR_SCREENCONFIG_SWITCH_PLAYER">Changer de joueur</string>
   <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Choix des joueurs</string>
   <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Joueurs sélectionnés pour cette équipe :</string>
   <string name="TR_SCREENNAMES_TEAM1">Equipe 1</string>
