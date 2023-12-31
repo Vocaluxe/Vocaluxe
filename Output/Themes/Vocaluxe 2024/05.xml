@@ -337,6 +337,15 @@
     <NoteBackgroundLeft>NotesBGLeft.png</NoteBackgroundLeft>
     <NoteBackgroundMiddle>NotesBGMid.png</NoteBackgroundMiddle>
     <NoteBackgroundRight>NotesBGRight.png</NoteBackgroundRight>
+    <RapNoteLeft>RapNotesLeft.png</RapNoteLeft>
+    <RapNoteMiddle>RapNotesMid.png</RapNoteMiddle>
+    <RapNoteRight>RapNotesRight.png</RapNoteRight>
+    <RapNoteFillLeft>RapNotesFillLeft.png</RapNoteFillLeft>
+    <RapNoteFillMiddle>RapNotesFillMid.png</RapNoteFillMiddle>
+    <RapNoteFillRight>RapNotesFillRight.png</RapNoteFillRight>
+    <RapNoteBackgroundLeft>RapNotesBGLeft.png</RapNoteBackgroundLeft>
+    <RapNoteBackgroundMiddle>RapNotesBGMid.png</RapNoteBackgroundMiddle>
+    <RapNoteBackgroundRight>RapNotesBGRight.png</RapNoteBackgroundRight>
     <PointsBar>PointsBar.png</PointsBar>
     <PointsBarBG>PointsBarBG.png</PointsBarBG>
     <LyricHelper>LyricHelper.png</LyricHelper>
@@ -349,6 +358,7 @@
     <SearchBar>SearchBar.png</SearchBar>
     <PlaylistBG>PlaylistBG.png</PlaylistBG>
     <DuetIcon>DuetIcon.png</DuetIcon>
+    <RapIcon>RapIcon.png</RapIcon>
     <VideoIcon>VideoIcon.png</VideoIcon>
     <MedleyCalcIcon>MedleyCalcIcon.png</MedleyCalcIcon>
     <MedleyTagIcon>MedleyTagIcon.png</MedleyTagIcon>
