@@ -11,6 +11,7 @@
   <string name="TR_BUTTON_YES">Ano</string>
   <string name="TR_BUTTON_NO">Ne</string>
   <string name="TR_BUTTON_NEXT_ROUND">Další kolo</string>
+  <string name="TR_SONGS">Písně</string>
   <string name="TR_SCREENCONFIG_TITLE">Soutěžní režim: Nastavení</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Počet hráčů</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Počet mikrofonů</string>

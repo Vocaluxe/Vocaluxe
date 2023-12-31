@@ -15,6 +15,7 @@
   <string name="TR_DEBUG_SONGS">Geladene Songs</string>
   <string name="TR_DEBUG_MOUSE">Maus</string>
   <string name="TR_DEBUG_MEMORY">Speicherverbrauch</string>
+  <string name="TR_GAMEMODE">Spielmodus</string>
   <string name="TR_GAMEMODE_NORMAL">Normal</string>
   <string name="TR_GAMEMODE_DUET">Duett</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
@@ -31,6 +32,10 @@
   <string name="TR_USERROLE_NORMAL">Normaler Benutzer</string>
   <string name="TR_USERROLE_ADMIN">Administrator</string>
   <string name="TR_USERROLE_KEYBOARDUSER">Tastatur Benutzer</string>
+  <string name="TR_SONGSOURCE">Song-Quelle</string>
+  <string name="TR_SONGSOURCE_PLAYLIST">Playlist</string>
+  <string name="TR_SONGSOURCE_CATEGORY">Kategorie</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Alle Lieder</string>  
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -147,19 +152,21 @@
   <string name="TR_SCREENSONG_NUMSONGS">(%v Lieder)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Lied)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a -%t</string>
-  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Zum Buchstaben springen • F3 = Suchen • STRG+R = Zufällige Auswahl • STRG+S = Starte Medley • STRG+# = Song Sortierung ändern • STRG+T = Kategorieansicht ein-/ausschalten • Leertaste = Lied-Optionen öffnen • ESC = Zurück zum Hauptmenü</string>
-  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Interpreten und Titel durchsuchen, Präfixe für die Suche → a: = Interpret • t: = Titel • c: = Ersteller • e: = Edition • g: = Genre • y: = Jahr (z.B. 1999 oder 1980-1989) • l: = Sprache • al: = Album • fi: = Dateiname • fo: = Ordnername</string>
-  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Drücke die Teamnummer um einen Zufallssong Joker zu verwenden</string>
+  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Zum Buchstaben springen • F3 = Suchen • STRG+R = Zufällige Auswahl • STRG+S = Medley starten • STRG+# = Song-Reihenfolge ändern • STRG+T = Kategorieansicht an-/abschalten • Leertaste = Songoptionen öffnen • ESC = Zurück zum Hauptmenü</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Interpret und Titel suchen; Präfixe für die Suche → a: = Interpret • t: = Titel • c: = Autor • e: = Edition • g: = Genre • y: = Jahr (z.B. 1999 oder 1980-1989) • l: = Sprache • al: = Album • fi: = Dateiname • fo: = Ordnername</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Drücke die Nummer Deines Teams, um einen zufälligen Song-Joker einzusetzen</string>
   <string name="TR_SCREENSONG_SORTING">Sortierung: %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Kein Medley für diesen Song!</string>
   <string name="TR_SCREENSING_PAUSE">Pause</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Lied beenden</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Fortfahren</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Lied überspringen</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Runde neustarten</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Spiel neustarten</string>
   <string name="TR_SCREENSING_NOMORESONGS">Keine weiteren Songs in der Playlist!</string>
   <string name="TR_SCREENSING_NOWEBCAM">Keine Webcam verfügbar!</string>
-  <string name="TR_SCREENSING_ASPECTRATIO">Seitenverhältnis: %a</string>
-  <string name="TR_SCREENSING_SKIPPEDSECONDS">%s Sekunden gesprungen</string>
+  <string name="TR_SCREENSING_ASPECTRATIO">Bildverhältnis: %a</string>
+  <string name="TR_SCREENSING_SKIPPEDSECONDS">%s Sekunden übersprungen</string>
   <string name="TR_SCREENSCORE_SCORES">Auswertung</string>
   <string name="TR_SCREENSCORE_RATING">Bewertung</string>
   <string name="TR_SCREENSCORE_POINTS">Punkte</string>
@@ -192,6 +199,7 @@
   <string name="TR_SCREENOGAME_SONGMENU">Song-Menu-Stil</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Sortierung der Lieder</string>
   <string name="TR_SCREENOGAME_TABS">Kategorieren anzeigen</string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Autoplay für Songvorschau</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Schwierigkeit</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Zeit-Modus</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Highscore-Stil</string>
@@ -243,4 +251,19 @@
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Lautstärke</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Serveradresse</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server läuft derzeit nicht. Bitte überprüfe die config.xml!</string>
+  <string name="TR_REPORTER_TITLE_TEXT">Es tut uns leid</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">dass Vocaluxe abgestürzt ist.\r\nUm uns zu helfen, das Problem zu beheben, schicke uns bitte einen Absturzbericht.\r\nBitte bearbeite das folgende Protokoll, so dass keine eventuell persönlichen Daten enthalten sind.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">dass Du einen Fehler festgestellt hast.\r\nUm uns zu helfen, das Problem zu beheben, schicke uns bitte einen Absturzbericht.\r\nBitte bearbeite das folgende Protokoll, so dass keine eventuell persönlichen Daten enthalten sind.</string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT">Nichts hochladen (Du kannst immer noch die Fehlermeldung oben kopieren)</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Hochladen und ein Ticket eröffnen (öffentlich sichtbar und benötigt einen github-Account)</string>
+  <string name="TR_REPORTER_GIST_ONLY_TEXT">Hochladen und einen Link zum Bericht erhalten (öffentlich sichtbar)</string>
+  <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Senden</string>
+  <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Lade hoch</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Verlassen</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Fortfahren</string>
+  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Der Link zu Deinem Bericht:</string>
+  <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Fehler beim Hochladen des Protokolls.</string>
+  <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Letzter Fehler</string>
+  <string name="TR_REPORTER_LAST_ERROR_NA">Nicht verfügbar</string>
+  <string name="TR_REPORTER_ISSUE_TEMPLATE">Beschreibe Dein Problem hier.\n\n###Schritte zum Reproduzieren des Problems\nTeil uns mit wie man das Problem reproduzieren kann.\n\n###Vocaluxe-Version und -Protokoll\n{0}\n{1}</string>
 </resources>

@@ -846,6 +846,7 @@
       <CoverBackground>CoverTile</CoverBackground>
       <CoverBigBackground />
       <DuetIcon>DuetIcon</DuetIcon>
+      <RapIcon>RapIcon</RapIcon>
       <VideoIcon>VideoIcon</VideoIcon>
       <MedleyCalcIcon>MedleyCalcIcon</MedleyCalcIcon>
       <MedleyTagIcon>MedleyTagIcon</MedleyTagIcon>
@@ -958,18 +959,29 @@
           <Skin>DuetIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>200</X>
+            <X>160</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
             <Z>-1</Z>
           </Rect>
         </StaticDuetIcon>
+        <StaticRapIcon Name="StaticRapIcon">
+          <Skin>RapIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>240</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticRapIcon>
         <StaticVideoIcon Name="StaticVideoIcon">
           <Skin>VideoIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>120</X>
+            <X>80</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
@@ -980,7 +992,7 @@
           <Skin>MedleyCalcIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>280</X>
+            <X>320</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
@@ -991,7 +1003,7 @@
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>280</X>
+            <X>320</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
@@ -1099,18 +1111,29 @@
           <Skin>DuetIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>200</X>
+            <X>160</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
             <Z>-1</Z>
           </Rect>
         </StaticDuetIcon>
+        <StaticRapIcon Name="StaticRapIcon">
+          <Skin>RapIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>240</X>
+            <Y>530</Y>
+            <W>40</W>
+            <H>40</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticRapIcon>
         <StaticVideoIcon Name="StaticVideoIcon">
           <Skin>VideoIcon</Skin>
           <Color Name="TextColor" />
           <Rect>
-            <X>120</X>
+            <X>80</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
@@ -1121,7 +1144,7 @@
           <Skin>MedleyCalcIcon</Skin>
           <Color Name="TextColor" />
           <Rect>
-            <X>280</X>
+            <X>320</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
@@ -1132,7 +1155,7 @@
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>280</X>
+            <X>320</X>
             <Y>530</Y>
             <W>40</W>
             <H>40</H>
