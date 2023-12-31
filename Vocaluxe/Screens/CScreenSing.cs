@@ -41,7 +41,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 10; }
+            get { return 11; }
         }
 
         private struct STimeRect
@@ -57,6 +57,7 @@ namespace Vocaluxe.Screens
         private const string _TextDuetName1 = "TextDuetName1";
         private const string _TextDuetName2 = "TextDuetName2";
         private const string _TextMedleyCountdown = "TextMedleyCountdown";
+        private const string _TextPauseSongName = "TextPauseSongName";
         private string[,,] _TextScores;
         private string[,,] _TextNames;
         private List<string> _TextsPause;
@@ -1114,6 +1115,13 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonRestartGame].Visible = _Pause;
             _Buttons[_ButtonRestartRound].Visible = _Pause && CGame.NumRounds > 1;
 
+            if (_Pause && _TimerSongText.IsRunning)            
+                _TimerSongText.Stop();
+            else            
+                _TimerSongText.Start();
+
+            _Texts[_TextSongName].Visible = !_Pause;
+
             if (_Pause)
                 CSound.Pause(_CurrentStream);
             else
@@ -1149,6 +1157,7 @@ namespace Vocaluxe.Screens
             if (rounds > 1)
                 songname += " (" + CGame.RoundNr + "/" + rounds + ")";
             _Texts[_TextSongName].Text = songname;
+            _Texts[_TextPauseSongName].Text = songname;
 
             _CurrentStream = CSound.Load(song.GetMP3(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None);
             CSound.SetStreamVolume(_CurrentStream, 100);
