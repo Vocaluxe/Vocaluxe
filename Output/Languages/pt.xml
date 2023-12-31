@@ -15,6 +15,7 @@
   <string name="TR_DEBUG_SONGS">Músicas carregadas</string>
   <string name="TR_DEBUG_MOUSE">Rato</string>
   <string name="TR_DEBUG_MEMORY">Utilização da Memória</string>
+  <string name="TR_GAMEMODE">Modo de Jogo</string>
   <string name="TR_GAMEMODE_NORMAL">Normal</string>
   <string name="TR_GAMEMODE_DUET">Dueto</string>
   <string name="TR_GAMEMODE_MEDLEY">Miscelânea</string>
@@ -31,6 +32,10 @@
   <string name="TR_USERROLE_NORMAL">Utilizador Normal</string>
   <string name="TR_USERROLE_ADMIN">Administrador</string>
   <string name="TR_USERROLE_KEYBOARDUSER">Utilizador de Teclado</string>
+  <string name="TR_SONGSOURCE">Origem da Música</string>
+  <string name="TR_SONGSOURCE_PLAYLIST">Lista de Reprodução</string>
+  <string name="TR_SONGSOURCE_CATEGORY">Categoria</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Todas as Músicas</string>  
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -73,6 +78,8 @@
   <string name="TR_CONFIG_TIMERMODE_TOTAL">Total</string>
   <string name="TR_CONFIG_TIMERLOOK_NORMAL">Normal</string>
   <string name="TR_CONFIG_TIMERLOOK_EXPANDED">Expandida</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_ALL">Mostrar Todas</string>
+  <string name="TR_CONFIG_HIGHSCORE_LIST_BEST">Mostrar as Melhores</string>
   <string name="TR_CONFIG_OWN_MUSIC">Apenas musica e musica de fundo</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Não utilizar música própria</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Apenas música própria</string>
@@ -80,6 +87,10 @@
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Todas</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Apenas nomes e avatares</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Nada</string>
+  <string name="TR_CONFIG_LYRICSTYLE_FILL">Preencher</string>
+  <string name="TR_CONFIG_LYRICSTYLE_JUMP">Saltar</string>
+  <string name="TR_CONFIG_LYRICSTYLE_SLIDE">Deslizar</string>
+  <string name="TR_CONFIG_LYRICSTYLE_ZOOM">Aumentar</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTTOM">Fundo</string>
   <string name="TR_CONFIG_LYRICSPOSITION_TOP">Topo</string>
   <string name="TR_CONFIG_LYRICSPOSITION_BOTH">Topo e Fundo</string>
@@ -145,6 +156,10 @@
   <string name="TR_SCREENSING_BUTTON_CANCEL">Terminar de cantar</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Continuar</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Saltar esta música</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Recomeçar a Ronda</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Recomeçar o Jogo</string>
+  <string name="TR_SCREENSING_NOMORESONGS">Sem mais Músicas na sua lista de reprodução!</string>
+  <string name="TR_SCREENSING_NOWEBCAM">Nenhuma câmara web disponível!</string>
   <string name="TR_SCREENSCORE_SCORES">Pontuações</string>
   <string name="TR_SCREENSCORE_RATING">Classificação</string>
   <string name="TR_SCREENSCORE_POINTS">Pontos</string>
@@ -177,8 +192,10 @@
   <string name="TR_SCREENOGAME_SONGMENU">Menu das Músicas</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Ordenação das Musicas</string>
   <string name="TR_SCREENOGAME_TABS">Separadores </string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Autoplay das Amostras de Músicas</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Dificildade do Jogo</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Modo Temporizado</string>
+  <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Estilo da Melhor Pontuação</string>
   <string name="TR_SCREENORECORD_OPTIONS">Opções de Gravação</string>
   <string name="TR_SCREENORECORD_DEVICE">Dispositivo </string>
   <string name="TR_SCREENORECORD_INPUT">Entrada</string>
@@ -197,6 +214,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Origem da Música de Fundo</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Prévisualizar Volume da Música</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Volume da Música no Jogo</string>
+  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Efeito Karaoke</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Opções do Tema</string>
   <string name="TR_SCREENOTHEME_THEME">Tema</string>
   <string name="TR_SCREENOTHEME_SKIN">Skin</string>
@@ -226,4 +244,19 @@
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Endereço do Servidor</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Servidor não está em execução. Por favor verifique o config.xml!</string>
+  <string name="TR_REPORTER_TITLE_TEXT">Pedimos Desculpa</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">mas o Vocaluxe encontrou um erro e crashou.\r\nPara nos ajudares a resolver a questão envia-nos um relatório.\r\nSugerimos que edites o log seguinte antes de enviares para removeres alguma informação sigilosa.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">que tenhas sofrido um problema.\r\nPara nos ajudares a resolver a questão envia-nos um relatório.\r\nSugerimos que edites o log seguinte antes de enviares para removeres alguma informação sigilosa.</string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT">Não fazer upload de nada (ainda podes copiar o código de erro que está por cima)</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Fazer upload e abrir um problema (visível publicamente e requer uma conta github)</string>
+  <string name="TR_REPORTER_GIST_ONLY_TEXT">Fazer upload e obter um link para o teu relatório (visível publicamente)</string>
+  <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Submeter</string>
+  <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Uploading</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Sair</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Continuar</string>
+  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">O Link para o teu relatório:</string>
+  <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Erro a fazer upload do log.</string>
+  <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Último erro</string>
+  <string name="TR_REPORTER_LAST_ERROR_NA">Indisponível</string>
+  <string name="TR_REPORTER_ISSUE_TEMPLATE">Descreve o teu problema aqui.\n\n### Passos para o reproduzir novamente \nDiz-nos como reproduzir este problema.\n\n### Versão do Vocaluxe e ficheiro Log\n{0}\n{1}</string>
 </resources>

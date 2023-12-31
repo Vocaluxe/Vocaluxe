@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>10</ScreenVersion>
+    <ScreenVersion>11</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -693,6 +693,20 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENSING_PAUSE</Text>
+    </Text>
+    <Text Name="TextPauseSongName">
+      <X>640</X>
+      <Y>10</Y>
+      <Z>-2.11</Z>
+      <H>40</H>
+      <MaxW>0</MaxW>
+      <Color Name="White" />
+      <SelColor Name="White" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Normal</Font>
+      <Text></Text>
     </Text>
     <Text Name="TextDuetName1">
       <X>10</X>

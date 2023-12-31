@@ -161,7 +161,7 @@ namespace Vocaluxe.Base
 
         private static bool _LoadLanguageEntries(string filePath, out Dictionary<string, string> texts)
         {
-            var deser = new CXmlDeserializer();
+            var deser = new CXmlDeserializer(true);
             try
             {
                 texts = deser.Deserialize<Dictionary<string, string>>(filePath);
