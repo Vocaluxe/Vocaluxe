@@ -1594,6 +1594,15 @@
       <SkinBackgroundLeft>NoteBackgroundLeft</SkinBackgroundLeft>
       <SkinBackgroundMiddle>NoteBackgroundMiddle</SkinBackgroundMiddle>
       <SkinBackgroundRight>NoteBackgroundRight</SkinBackgroundRight>
+      <SkinRapLeft>RapNoteLeft</SkinRapLeft>
+      <SkinRapMiddle>RapNoteMiddle</SkinRapMiddle>
+      <SkinRapRight>RapNoteRight</SkinRapRight>
+      <SkinRapFillLeft>RapNoteFillLeft</SkinRapFillLeft>
+      <SkinRapFillMiddle>RapNoteFillMiddle</SkinRapFillMiddle>
+      <SkinRapFillRight>RapNoteFillRight</SkinRapFillRight>
+      <SkinRapBackgroundLeft>RapNoteBackgroundLeft</SkinRapBackgroundLeft>
+      <SkinRapBackgroundMiddle>RapNoteBackgroundMiddle</SkinRapBackgroundMiddle>
+      <SkinRapBackgroundRight>RapNoteBackgroundRight</SkinRapBackgroundRight>
       <SkinGoldenStar>Star</SkinGoldenStar>
       <SkinToneHelper>ToneHelper</SkinToneHelper>
       <SkinPerfectNoteStart>Star</SkinPerfectNoteStart>

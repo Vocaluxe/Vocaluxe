@@ -15,6 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Linq;
+
 namespace VocaluxeLib.Songs
 {
     /// <summary>
@@ -73,6 +75,10 @@ namespace VocaluxeLib.Songs
             }
 
             Perfect = result;
+        }
+        public override bool IsNoteType(params ENoteType[] noteTypes)
+        {
+            return HitNote != null && noteTypes.Contains(HitNote.Type);
         }
         #endregion Methods
 
