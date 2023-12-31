@@ -18,10 +18,10 @@
 		<Skin>LogoMain</Skin>
 		<Color Name="White" />
 		<Rect>
-			<X>268</X>
-			<Y>240</Y>
-			<W>780</W>
-			<H>108</H>
+			<X>290</X>
+			<Y>177</Y>
+			<W>740</W>
+			<H>135</H>
 			<Z>0</Z>
       </Rect>
 	</Static>
