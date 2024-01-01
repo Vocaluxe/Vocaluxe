@@ -49,6 +49,18 @@ namespace VocaluxeLib.Menu.SingNotes
         public string SkinBackgroundMiddle;
         public string SkinBackgroundRight;
 
+        public string SkinRapLeft;
+        public string SkinRapMiddle;
+        public string SkinRapRight;
+
+        public string SkinRapFillLeft;
+        public string SkinRapFillMiddle;
+        public string SkinRapFillRight;
+
+        public string SkinRapBackgroundLeft;
+        public string SkinRapBackgroundMiddle;
+        public string SkinRapBackgroundRight;
+
         public string SkinGoldenStar;
         public string SkinToneHelper;
         public string SkinPerfectNoteStart;

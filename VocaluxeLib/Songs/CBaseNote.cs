@@ -82,6 +82,20 @@ namespace VocaluxeLib.Songs
         }
 
         public abstract int PointsForBeat { get; }
+
+        public bool IsRapNote
+        {
+            get { return IsNoteType(ENoteType.Rap, ENoteType.RapGolden); }
+        }
+
+        public bool IsGoldenNote
+        {
+            get { return IsNoteType(ENoteType.Golden, ENoteType.RapGolden); }
+        }
         #endregion Properties
+
+        #region Methods
+        public abstract bool IsNoteType(params ENoteType[] noteTypes);
+        #endregion Methods
     }
 }

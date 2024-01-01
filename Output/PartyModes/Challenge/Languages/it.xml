@@ -11,6 +11,7 @@
   <string name="TR_BUTTON_YES">Si</string>
   <string name="TR_BUTTON_NO">No</string>
   <string name="TR_BUTTON_NEXT_ROUND">Prossimo Turno</string>
+  <string name="TR_SONGS">Canzoni</string>
   <string name="TR_SCREENCONFIG_TITLE">Modalità Sfida: Configurazione</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERS">Numero di giocatori</string>
   <string name="TR_SCREENCONFIG_NUMMICS">Numero di microfoni</string>

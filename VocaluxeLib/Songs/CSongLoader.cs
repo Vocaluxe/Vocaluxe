@@ -576,9 +576,9 @@ namespace VocaluxeLib.Songs
                                 break;
                             case ':':
                             case '*':
+                            case 'R':
+                            case 'G':
                             case 'F':
-                            case 'R':   // Read R (RAP) and G (Golden RAP) notes as Freestyle notes currently. Final implementation needed!
-                            case 'G':   // Read R (RAP) and G (Golden RAP) notes as Freestyle notes currently. Final implementation needed!
                                 string[] noteData = line.Split(splitChars, 4);
                                 if (noteData.Length < 4)
                                 {
@@ -628,6 +628,16 @@ namespace VocaluxeLib.Songs
                                         noteType = ENoteType.Golden;
                                     else if (tag.Equals('F') || tag.Equals('R') || tag.Equals('G'))  // Read R (RAP) and G (Golden RAP) notes as Freestyle notes currently. Final implementation needed!
                                         noteType = ENoteType.Freestyle;
+                                    else if (tag.Equals('R'))
+                                    {
+                                        noteType = ENoteType.Rap;
+                                        _Song.IsRap = true;
+                                    }
+                                    else if (tag.Equals('G'))
+                                    {
+                                        noteType = ENoteType.RapGolden;
+                                        _Song.IsRap = true;
+                                    }
                                     else
                                         noteType = ENoteType.Normal;
 

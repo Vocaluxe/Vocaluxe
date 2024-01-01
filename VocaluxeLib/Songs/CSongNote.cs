@@ -15,6 +15,8 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.Linq;
+
 namespace VocaluxeLib.Songs
 {
     /// <summary>
@@ -37,6 +39,13 @@ namespace VocaluxeLib.Songs
         }
         #endregion Constructors
 
+        #region Methods
+        public override bool IsNoteType(params ENoteType[] noteTypes)
+        {
+            return noteTypes.Contains(Type);
+        }
+        #endregion Method
+
         #region Properties
         public ENoteType Type { get; set; }
 
@@ -49,8 +58,10 @@ namespace VocaluxeLib.Songs
                 switch (Type)
                 {
                     case ENoteType.Normal:
+                    case ENoteType.Rap:
                         return 1;
                     case ENoteType.Golden:
+                    case ENoteType.RapGolden:
                         return 2;
                     case ENoteType.Freestyle:
                         return 0;

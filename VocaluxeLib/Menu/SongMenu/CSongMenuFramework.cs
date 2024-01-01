@@ -30,6 +30,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public string CoverBackground;
         public string CoverBigBackground;
         public string DuetIcon;
+        public string RapIcon;
         public string VideoIcon;
         public string MedleyCalcIcon;
         public string MedleyTagIcon;
@@ -68,6 +69,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeStatic StaticCoverBig;
         public SThemeStatic StaticTextBG;
         public SThemeStatic StaticDuetIcon;
+        public SThemeStatic StaticRapIcon;
         public SThemeStatic StaticVideoIcon;
         public SThemeStatic StaticMedleyCalcIcon;
         public SThemeStatic StaticMedleyTagIcon;
@@ -117,6 +119,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeStatic StaticCoverBig;
         public SThemeStatic StaticTextBG;
         public SThemeStatic StaticDuetIcon;
+        public SThemeStatic StaticRapIcon;
         public SThemeStatic StaticVideoIcon;
         public SThemeStatic StaticMedleyCalcIcon;
         public SThemeStatic StaticMedleyTagIcon;

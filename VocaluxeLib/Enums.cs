@@ -368,7 +368,9 @@ namespace VocaluxeLib
     {
         Normal,
         Golden,
-        Freestyle
+        Freestyle,
+        Rap,
+        RapGolden
     }
 
     public enum EMusicType

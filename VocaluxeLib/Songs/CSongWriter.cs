@@ -188,6 +188,12 @@ namespace VocaluxeLib.Songs
                                 case ENoteType.Freestyle:
                                     tag = "F";
                                     break;
+                                case ENoteType.Rap:
+                                    tag = "R";
+                                    break;
+                                case ENoteType.RapGolden:
+                                    tag = "G";
+                                    break;
                                 default:
                                     throw new NotImplementedException("Note type " + note.Type);
                             }

@@ -77,10 +77,10 @@
     "discoverConnectButton": "Verbinden",
     "Checking...": "Controleren...",
     "timeout": "Timeout",
-    "keyboardButtonShift": "Shift",
-    "keyboardButtonAlt": "Alt",
+    "keyboardButtonShift":  "Shift",
+    "keyboardButtonAlt":  "Alt",
     "keyboardButtonCtrl": "Control",
     "keyboardButtonBackspace": "Backspace",
     "keyboardAutoSend": "Stuur toetsen automatisch",
-    "keyboardButtonSend": "Verzenden"
+    "keyboardButtonSend":  "Verzenden"
 }

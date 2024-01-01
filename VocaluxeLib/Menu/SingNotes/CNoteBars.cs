@@ -84,7 +84,7 @@ namespace VocaluxeLib.Menu.SingNotes
             _Flares.Clear();
             _PerfectNoteEffect.Clear();
 
-            foreach (CSongNote note in _Lines[_CurrentLine].Notes.Where(note => note.Type == ENoteType.Golden))
+            foreach (CSongNote note in _Lines[_CurrentLine].Notes.Where(note => (note.IsGoldenNote)))
                 _AddGoldenNote(_GetNoteRect(note));
         }
 
@@ -109,8 +109,8 @@ namespace VocaluxeLib.Menu.SingNotes
                 {
                     SRectF rect = _GetNoteRect(note);
 
-                    _DrawNoteBG(rect, color);
-                    _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f);
+                    _DrawNoteBG(rect, color, note.IsRapNote);
+                    _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f, note.IsRapNote);
                 }
             }
 
@@ -128,9 +128,9 @@ namespace VocaluxeLib.Menu.SingNotes
 
                     float factor = (note.Hit) ? 1f : 0.6f;
 
-                    _DrawNoteFill(rect, color, factor);
+                    _DrawNoteFill(rect, color, factor, note.IsRapNote);
 
-                    if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.HitNote.Type == ENoteType.Golden)
+                    if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.IsGoldenNote)
                     {
                         SRectF re = rect;
                         re.W = (CBase.Game.GetMidRecordedBeat() - note.StartBeat) / beats * Rect.W;
@@ -175,14 +175,22 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             CSongLine line = _Lines[_CurrentLine];
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
+            bool isRapNote = note.IsRapNote;
 
             float width = note.Duration * Rect.W / beats;
+            float y = Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2;
+            float height = _NoteLineHeight + _AddNoteHeight;
+
+            if (isRapNote) {
+                y = Rect.Y;
+                height = Rect.H;
+            }
 
             var noteRect = new SRectF(
                 Rect.X + (note.StartBeat - line.FirstNoteBeat) * Rect.W / beats,
-                Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2,
+                y,
                 width,
-                _NoteLineHeight + _AddNoteHeight,
+                height,
                 Rect.Z
                 );
             return noteRect;
@@ -267,26 +275,26 @@ namespace VocaluxeLib.Menu.SingNotes
             CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW, noteRect.Y, endsW, noteRect.H, noteRect.Z), color, false);
         }
 
-        private void _DrawNoteBase(SRectF rect, SColorF color, float factor)
+        private void _DrawNoteBase(SRectF rect, SColorF color, float factor, bool isRapNote = false)
         {
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinLeft, _PartyModeID);
-            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinMiddle, _PartyModeID);
-            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinRight, _PartyModeID);
+            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapLeft : _Theme.SkinLeft, _PartyModeID);
+            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapMiddle : _Theme.SkinMiddle, _PartyModeID);
+            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapRight : _Theme.SkinRight, _PartyModeID);
 
             _DrawNote(rect, color, noteBegin, noteMiddle, noteEnd, factor);
         }
 
-        private void _DrawNoteFill(SRectF rect, SColorF color, float factor)
+        private void _DrawNoteFill(SRectF rect, SColorF color, float factor, bool isRapNote = false)
         {
 
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinFillLeft, _PartyModeID);
-            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinFillMiddle, _PartyModeID);
-            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinFillRight, _PartyModeID);
+            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapFillLeft : _Theme.SkinFillLeft, _PartyModeID);
+            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapFillMiddle : _Theme.SkinFillMiddle, _PartyModeID);
+            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapFillRight : _Theme.SkinFillRight, _PartyModeID);
 
             _DrawNote(rect, color, noteBegin, noteMiddle, noteEnd, factor);
         }
 
-        private void _DrawNoteBG(SRectF rect, SColorF color)
+        private void _DrawNoteBG(SRectF rect, SColorF color, bool isRapNote = false)
         {
             const float period = 1500; //[ms]
 
@@ -300,9 +308,9 @@ namespace VocaluxeLib.Menu.SingNotes
 
             var col = new SColorF(color, color.A * alpha);
 
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundLeft, _PartyModeID);
-            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundMiddle, _PartyModeID);
-            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(_Theme.SkinBackgroundRight, _PartyModeID);
+            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapBackgroundLeft : _Theme.SkinBackgroundLeft, _PartyModeID);
+            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapBackgroundMiddle : _Theme.SkinBackgroundMiddle, _PartyModeID);
+            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapBackgroundRight : _Theme.SkinBackgroundRight, _PartyModeID);
 
             _DrawNote(rect, col, noteBegin, noteMiddle, noteEnd, 1f);
         }
