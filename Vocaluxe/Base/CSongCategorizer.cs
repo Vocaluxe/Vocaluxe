@@ -143,7 +143,7 @@ namespace Vocaluxe.Base
                     noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOGENRE");
                     break;
                 case ESongSorting.TR_CONFIG_TAGS:
-                    noCategoryName = CLanguage.Translate("TR_SCEENSONG_NOTAGS");
+                    noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOTAGS");
                     break;
                 case ESongSorting.TR_CONFIG_LANGUAGE:
                     noCategoryName = CLanguage.Translate("TR_SCREENSONG_NOLANGUAGE");
