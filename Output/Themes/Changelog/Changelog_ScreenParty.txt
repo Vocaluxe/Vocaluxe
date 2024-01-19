@@ -1,0 +1,6 @@
+ScreenParty
++++++++++
+Version 2:
+Changed: centering many elements
+Changed: Hide Author label, Author text, Version label, Version text, Description label, Targetgroup label by setting height=0
+Changed: Increase text size of partymode slider text
