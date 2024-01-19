@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>12</ScreenVersion>
+    <ScreenVersion>11</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -749,9 +749,9 @@
       <Text /></Text>
     <Text Name="TextScoreP1N1">
       <X>1240</X>
-      <Y>332</Y>
+      <Y>337</Y>
       <Z>-1</Z>
-      <H>90</H>
+      <H>80</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -759,8 +759,8 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Normal</Font>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
       <Text /></Text>
     <Text Name="TextNameP1N1">
       <X>105</X>
@@ -777,9 +777,9 @@
       <Text /></Text>
     <Text Name="TextScoreP1N2">
       <X>1240</X>
-      <Y>92</Y>
+      <Y>97</Y>
       <Z>-1</Z>
-      <H>90</H>
+      <H>80</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -787,7 +787,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N2">
@@ -805,9 +805,9 @@
       <Text /></Text>
     <Text Name="TextScoreP2N2">
       <X>1240</X>
-      <Y>352</Y>
+      <Y>357</Y>
       <Z>-1</Z>
-      <H>90</H>
+      <H>80</H>
       <MaxW>0</MaxW>
       <Color Name="Player2">
         <A>0.7</A>
@@ -815,7 +815,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N2">
@@ -843,7 +843,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N3">
@@ -871,7 +871,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N3">
@@ -899,7 +899,7 @@
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP3N3">
@@ -927,7 +927,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N4">
@@ -955,7 +955,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N4">
@@ -983,7 +983,7 @@
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP3N4">
@@ -1011,7 +1011,7 @@
       <SelColor Name="Player4" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP4N4">
@@ -1039,7 +1039,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N5">
@@ -1067,7 +1067,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N5">
@@ -1095,7 +1095,7 @@
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP3N5">
@@ -1123,7 +1123,7 @@
       <SelColor Name="Player4" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP4N5">
@@ -1151,7 +1151,7 @@
       <SelColor Name="Player5" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP5N5">
@@ -1179,7 +1179,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N6">
@@ -1207,7 +1207,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N6">
@@ -1235,7 +1235,7 @@
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP3N6">
@@ -1263,7 +1263,7 @@
       <SelColor Name="Player4" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP4N6">
@@ -1291,7 +1291,7 @@
       <SelColor Name="Player5" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP5N6">
@@ -1319,7 +1319,7 @@
       <SelColor Name="Player6" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP6N6">
@@ -1816,9 +1816,9 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1085</X>
+        <X>1105</X>
         <Y>410</Y>
-        <W>160</W>
+        <W>140</W>
         <H>13</H>
         <Z>-0.75</Z>
       </Rect>
@@ -1861,9 +1861,9 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1085</X>
+        <X>1105</X>
         <Y>170</Y>
-        <W>160</W>
+        <W>140</W>
         <H>13</H>
         <Z>-0.75</Z>
       </Rect>
@@ -1906,9 +1906,9 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1085</X>
+        <X>1105</X>
         <Y>430</Y>
-        <W>160</W>
+        <W>140</W>
         <H>13</H>
         <Z>-0.75</Z>
       </Rect>

@@ -5,6 +5,8 @@ Version 12
 
 Change:
 <TimeLine>, <TimeBarExpanded>,<TimeLine ExpandedNormal>,<TimeLine ExpandedHighlighted> <TimePointer> are now smaller
+Change font style of Player scores from bold to normal
+Change font heigt of player score from 90 to 80 (in P1 view and P1+P2 view)
 
 +++++++++
 Version 11
