@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>11</ScreenVersion>
+    <ScreenVersion>12</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -83,7 +83,7 @@
         <X>11</X>
         <Y>707</Y>
         <W>1198</W>
-        <H>6</H>
+        <H>2</H>
         <Z>-1</Z>
       </Rect>
     </Static>
@@ -94,7 +94,7 @@
         <X>0</X>
         <Y>696</Y>
         <W>1090</W>
-        <H>5</H>
+        <H>3</H>
         <Z>-1</Z>
       </Rect>
     </Static>
@@ -105,7 +105,7 @@
         <X>50</X>
         <Y>696</Y>
         <W>1090</W>
-        <H>5</H>
+        <H>3</H>
         <Z>-1</Z>
       </Rect>
     </Static>
@@ -114,9 +114,9 @@
       <Color Name="TimePointerColor" />
       <Rect>
         <X>44</X>
-        <Y>706</Y>
+        <Y>705</Y>
         <W>2</W>
-        <H>8</H>
+        <H>6</H>
         <Z>-1.25</Z>
       </Rect>
     </Static>
@@ -174,7 +174,7 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-    </Static>    
+    </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -196,7 +196,7 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-    </Static>    
+    </Static>
     <Static Name="StaticAvatarP1N2">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -218,8 +218,8 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-    </Static>    
-	
+    </Static>
+
     <Static Name="StaticAvatarP2N2">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -669,7 +669,7 @@
       <Text /></Text>
     <Text Name="TextTime">
       <X>1245</X>
-      <Y>700</Y>
+      <Y>696</Y>
       <Z>-1</Z>
       <H>20</H>
       <MaxW>0</MaxW>
@@ -1847,8 +1847,8 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
-    </ProgressBar>	
+      </ProgressColors>
+    </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N2">
       <SkinBackground>RatingBarBackground</SkinBackground>
       <SkinForeground>RatingBarForeground</SkinForeground>
@@ -1892,7 +1892,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>       
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N2">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -1937,7 +1937,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N3">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -1982,7 +1982,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N3">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2027,7 +2027,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP3N3">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2072,7 +2072,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N4">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2117,7 +2117,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N4">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2162,7 +2162,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP3N4">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2207,7 +2207,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP4N4">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2252,7 +2252,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2297,7 +2297,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2342,7 +2342,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP3N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2387,7 +2387,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP4N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2432,7 +2432,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP5N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2477,7 +2477,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2522,7 +2522,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>     
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2567,7 +2567,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP3N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2612,7 +2612,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP4N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2657,7 +2657,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP5N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2702,7 +2702,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP6N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2747,8 +2747,8 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
-    </ProgressBar>	  
+      </ProgressColors>
+    </ProgressBar>
   </ProgressBars>
   <ScreenSettings />
 </Screen>

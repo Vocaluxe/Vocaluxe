@@ -1,6 +1,12 @@
 ScreenSing
 
 +++++++++
+Version 12
+
+Change:
+<TimeLine>, <TimeBarExpanded>,<TimeLine ExpandedNormal>,<TimeLine ExpandedHighlighted> <TimePointer> are now smaller
+
++++++++++
 Version 11
 
 Add:
