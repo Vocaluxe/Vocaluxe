@@ -89,7 +89,7 @@ namespace VocaluxeLib.Songs
 
         public SShortEnd ShortEnd;
 
-        public Encoding Encoding = Encoding.Default;
+        public Encoding Encoding = new UTF8Encoding();
         public bool ManualEncoding;
         public string Folder = String.Empty;
         public string FolderName = String.Empty;
@@ -169,6 +169,7 @@ namespace VocaluxeLib.Songs
 
         public readonly List<string> Editions = new List<string>();
         public readonly List<string> Genres = new List<string>();
+        public readonly List<string> Tags = new List<string>();
         public string Album = "";
         public string Year = "";
 
@@ -263,6 +264,7 @@ namespace VocaluxeLib.Songs
 
             Editions = new List<string>(song.Editions);
             Genres = new List<string>(song.Genres);
+            Tags = new List<string>(song.Tags);
             Album = song.Album;
             Year = song.Year;
 

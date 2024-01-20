@@ -154,6 +154,9 @@ namespace Vocaluxe.Base
                 case ESongSorting.TR_CONFIG_GENRE:
                     values = song.Genres;
                     break;
+                case ESongSorting.TR_CONFIG_TAGS:
+                    values = song.Tags;
+                    break;
                 case ESongSorting.TR_CONFIG_LANGUAGE:
                     values = song.Languages;
                     break;

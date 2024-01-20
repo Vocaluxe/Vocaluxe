@@ -65,6 +65,7 @@
   <string name="TR_CONFIG_ARTIST_LETTER">Artist by letter</string>
   <string name="TR_CONFIG_TITLE_LETTER">Title by letter</string>
   <string name="TR_CONFIG_EDITION">Edition</string>
+  <string name="TR_CONFIG_TAGS">Tags</string>
   <string name="TR_CONFIG_GENRE">Genre</string>
   <string name="TR_CONFIG_YEAR">Year</string>
   <string name="TR_CONFIG_DECADE">Decade</string>
@@ -148,6 +149,7 @@
   <string name="TR_SCREENSONG_NOYEAR">No Year</string>
   <string name="TR_SCREENSONG_NOGENRE">No Genre</string>
   <string name="TR_SCREENSONG_NOEDITION">No Edition</string>
+  <string name="TR_SCREENSONG_NOTAGS">No Tags</string>
   <string name="TR_SCREENSONG_ALLSONGS">All Songs</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v songs)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v song)</string>

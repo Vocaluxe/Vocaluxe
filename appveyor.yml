@@ -46,13 +46,16 @@ before_build:
     
     Try
     {
-        Start-FileDownload 'https://github.com/lukeIam/VocaluxeDependencies/blob/master/zips/themes/vocaluxe.themes.genius.video.zip?raw=true'
-        & 7z x '-aoa' '-oOutput/' './vocaluxe.themes.genius.video.zip'
-        Remove-Item './vocaluxe.themes.genius.video.zip'
+        Start-FileDownload 'https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part1.zip'
+        & 7z x '-aoa' '-oOutput/' './vocaluxe.themes.vocaluxe-2024.video-part1.zip'
+        Start-FileDownload 'https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part2.zip'
+        & 7z x '-aoa' '-oOutput/' './vocaluxe.themes.vocaluxe-2024.video-part2.zip'
+        Remove-Item './vocaluxe.themes.vocaluxe-2024.video-part1.zip'
+        Remove-Item './vocaluxe.themes.vocaluxe-2024.video-part2.zip'
     }
     Catch
     {
-        Write-Warning "Genius-Video download failed"
+        Write-Warning "Theme-Video download failed"
     }
     
     nuget restore -DisableParallelProcessing
