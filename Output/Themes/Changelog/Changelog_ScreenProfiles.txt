@@ -1,13 +1,5 @@
 ScreenProfiles
 ++++++++++
-Version 4:
-Change: all select sliders show 1 element
-Change: profile select slider show 0 elements
-Change: move avatar in center of profile select slider
-Change: Player name slider text set to height 40
-Change: re-grouped control buttons, back button aside from others
-
-++++++++++
 Version 3:
 Rename: <SelectSlideGuestProfile> to <SelectSlideUserRole>
 

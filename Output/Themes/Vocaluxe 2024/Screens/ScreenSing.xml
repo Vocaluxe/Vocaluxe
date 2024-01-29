@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>10</ScreenVersion>
+    <ScreenVersion>11</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
