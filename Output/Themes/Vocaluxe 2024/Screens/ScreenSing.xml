@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>11</ScreenVersion>
+    <ScreenVersion>10</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -80,9 +80,9 @@
         <A>0.2</A>
       </Color>
       <Rect>
-        <X>11</X>
+        <X>41</X>
         <Y>707</Y>
-        <W>1198</W>
+        <W>1138</W>
         <H>2</H>
         <Z>-1</Z>
       </Rect>
@@ -668,7 +668,7 @@
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextTime">
-      <X>1245</X>
+      <X>1205</X>
       <Y>696</Y>
       <Z>-1</Z>
       <H>20</H>
