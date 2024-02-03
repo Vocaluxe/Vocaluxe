@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="512"
+   height="256"
+   viewBox="0 0 135.46666 67.733335"
+   version="1.1"
+   id="svg1357"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="NoteTextures.svg"
+   inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\RapNotes.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs1351">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient940">
+      <stop
+         style="stop-color:#bebebe;stop-opacity:1;"
+         offset="0"
+         id="stop936" />
+      <stop
+         id="stop944"
+         offset="0.20112738"
+         style="stop-color:#dcdcdc;stop-opacity:0.49803922" />
+      <stop
+         style="stop-color:#969696;stop-opacity:0.24705882"
+         offset="0.85294461"
+         id="stop946" />
+      <stop
+         style="stop-color:#bebebe;stop-opacity:0;"
+         offset="1"
+         id="stop938" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1318"
+       id="linearGradient1306"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-93.449283,421.43578)"
+       x1="157.92033"
+       y1="292.80643"
+       x2="158.11163"
+       y2="334.52948" />
+    <linearGradient
+       id="linearGradient1318"
+       inkscape:collect="always">
+      <stop
+         id="stop1308"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:0.73333335" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.36334404"
+         offset="0.08716086"
+         id="stop1310" />
+      <stop
+         id="stop1312"
+         offset="0.16130272"
+         style="stop-color:#ffffff;stop-opacity:0.3137255" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.15686275"
+         offset="0.26208702"
+         id="stop1320" />
+      <stop
+         id="stop1324"
+         offset="0.74023253"
+         style="stop-color:#ffffff;stop-opacity:0.15686275" />
+      <stop
+         id="stop1322"
+         offset="0.84435809"
+         style="stop-color:#ffffff;stop-opacity:0.3137255" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.34726688"
+         offset="0.87326097"
+         id="stop1314" />
+      <stop
+         id="stop1316"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0.74509805" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1257"
+       id="radialGradient1274"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(-0.64062487,1.0688679e-7,1.0955891e-7,0.62499977,258.26764,223.13294)"
+       cx="352.80032"
+       cy="403.81262"
+       fx="352.80032"
+       fy="403.81262"
+       r="33.866669" />
+    <linearGradient
+       id="linearGradient1257"
+       inkscape:collect="always">
+      <stop
+         id="stop1247"
+         offset="0"
+         style="stop-color:#ffffff;stop-opacity:0.16862746" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.16862746"
+         offset="0.68519801"
+         id="stop1253" />
+      <stop
+         id="stop1255"
+         offset="1"
+         style="stop-color:#ffffff;stop-opacity:0.74509805" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#NoteBG-Linear"
+       id="linearGradient1215"
+       x1="425.58496"
+       y1="370.28632"
+       x2="425.63892"
+       y2="437.63824"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.99999992,0,0,0.62499996,-361.29095,223.13292)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="NoteBG-Linear">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.73333335"
+         offset="0"
+         id="stop1209" />
+      <stop
+         id="stop1222"
+         offset="0.15246648"
+         style="stop-color:#ffffff;stop-opacity:0.16862746" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.16862746"
+         offset="0.45721361"
+         id="stop1224" />
+      <stop
+         id="stop1226"
+         offset="0.84353685"
+         style="stop-color:#ffffff;stop-opacity:0.16862746" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.74509805"
+         offset="1"
+         id="stop1211" />
+    </linearGradient>
+    <radialGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient1294"
+       id="radialGradient1234"
+       cx="352.80032"
+       cy="403.81262"
+       fx="352.80032"
+       fy="403.81262"
+       r="33.866669"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.64062487,1.0688679e-7,-1.0955891e-7,0.62499977,-126.02423,223.13294)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient1294">
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.16862746"
+         offset="0"
+         id="stop1288" />
+      <stop
+         id="stop1290"
+         offset="0.68578529"
+         style="stop-color:#ffffff;stop-opacity:0.16862746" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:0.74509805"
+         offset="1"
+         id="stop1292" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5740"
+       id="linearGradient5776"
+       gradientUnits="userSpaceOnUse"
+       x1="157.72156"
+       y1="294.40253"
+       x2="158.28267"
+       y2="315.35645"
+       gradientTransform="translate(-92.912366,342.06074)" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient5740">
+      <stop
+         style="stop-color:#f8f8f8;stop-opacity:1;"
+         offset="0"
+         id="stop5736" />
+      <stop
+         style="stop-color:#f8f8f8;stop-opacity:0;"
+         offset="1"
+         id="stop5738" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter5706">
+      <feFlood
+         flood-opacity="0.584314"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood5696" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite5698" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="2"
+         result="blur"
+         id="feGaussianBlur5700" />
+      <feOffset
+         dx="-6.38378e-16"
+         dy="-6.38378e-16"
+         result="offset"
+         id="feOffset5702" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite5704" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4885"
+       id="linearGradient5762"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.93828046,0,0,1.0022449,-217.32445,336.27593)"
+       x1="302.94803"
+       y1="226.74792"
+       x2="302.94803"
+       y2="265.64166" />
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient4885">
+      <stop
+         style="stop-color:#f5f5f5;stop-opacity:0.20784314"
+         offset="0"
+         id="stop4881" />
+      <stop
+         style="stop-color:#cfcfcf;stop-opacity:0.20784314"
+         offset="1"
+         id="stop4883" />
+    </linearGradient>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter5680">
+      <feFlood
+         flood-opacity="0.584314"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood5670" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite5672" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="2"
+         result="blur"
+         id="feGaussianBlur5674" />
+      <feOffset
+         dx="-6.38378e-16"
+         dy="-6.38378e-16"
+         result="offset"
+         id="feOffset5676" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite5678" />
+    </filter>
+    <linearGradient
+       gradientTransform="translate(-92.912366,87.531409)"
+       inkscape:collect="always"
+       xlink:href="#linearGradient5740"
+       id="linearGradient5742"
+       x1="157.72156"
+       y1="294.40253"
+       x2="158.28267"
+       y2="315.35645"
+       gradientUnits="userSpaceOnUse" />
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter1974">
+      <feFlood
+         flood-opacity="0.584314"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood1964" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite1966" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="2"
+         result="blur"
+         id="feGaussianBlur1968" />
+      <feOffset
+         dx="-6.38378e-16"
+         dy="-6.38378e-16"
+         result="offset"
+         id="feOffset1970" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite1972" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4885"
+       id="linearGradient4887"
+       x1="302.94803"
+       y1="226.74792"
+       x2="302.94803"
+       y2="265.64166"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="matrix(0.93828046,0,0,1.0022449,-217.32445,87.038259)" />
+    <filter
+       style="color-interpolation-filters:sRGB"
+       inkscape:label="Drop Shadow"
+       id="filter1993">
+      <feFlood
+         flood-opacity="0.584314"
+         flood-color="rgb(0,0,0)"
+         result="flood"
+         id="feFlood1983" />
+      <feComposite
+         in="flood"
+         in2="SourceGraphic"
+         operator="in"
+         result="composite1"
+         id="feComposite1985" />
+      <feGaussianBlur
+         in="composite1"
+         stdDeviation="2"
+         result="blur"
+         id="feGaussianBlur1987" />
+      <feOffset
+         dx="-6.38378e-16"
+         dy="-6.38378e-16"
+         result="offset"
+         id="feOffset1989" />
+      <feComposite
+         in="SourceGraphic"
+         in2="offset"
+         operator="over"
+         result="composite2"
+         id="feComposite1991" />
+    </filter>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient940"
+       id="linearGradient942"
+       x1="69.101799"
+       y1="380.60233"
+       x2="69.328575"
+       y2="421.04578"
+       gradientUnits="userSpaceOnUse" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient940"
+       id="linearGradient954"
+       x1="63.810135"
+       y1="635.88763"
+       x2="64.414886"
+       y2="675.95306"
+       gradientUnits="userSpaceOnUse" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="-617.44523"
+     inkscape:cy="-526.18036"
+     inkscape:document-units="px"
+     inkscape:current-layer="g2311"
+     showgrid="false"
+     units="px"
+     inkscape:pagecheckerboard="true"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata1354">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-229.26666)">
+    <g
+       id="g2293"
+       transform="translate(-0.43353666)">
+      <rect
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\Notes.png"
+         ry="22.217909"
+         y="310.37445"
+         x="12.611455"
+         height="44.435818"
+         width="111.11082"
+         id="rect4879"
+         style="display:inline;opacity:1;fill:url(#linearGradient4887);fill-opacity:1;fill-rule:nonzero;stroke:#fefefe;stroke-width:3.18918586;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.70588237;filter:url(#filter5680)" />
+      <rect
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\Notes.png"
+         style="display:inline;opacity:1;fill:#e7e7e7;fill-opacity:0.03921569;fill-rule:nonzero;stroke:none;stroke-width:3.06822801;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.84313725;filter:url(#filter1167)"
+         id="rect4947"
+         width="107.94999"
+         height="42.333332"
+         x="14.295255"
+         y="311.43274"
+         ry="21.166666" />
+    </g>
+    <flowRoot
+       transform="matrix(0.26458333,0,0,0.26458333,-92.912366,87.531409)"
+       xml:space="preserve"
+       id="flowRoot5598"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:arciform;-inkscape-font-specification:arciform;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter1167)"><flowRegion
+         id="flowRegion5600"
+         style="fill:#ffffff"><rect
+           id="rect5602"
+           width="109"
+           height="61"
+           x="924"
+           y="874"
+           style="fill:#ffffff" /></flowRegion><flowPara
+         id="flowPara5604">Note</flowPara></flowRoot>    <flowRoot
+       transform="matrix(0.26458333,0,0,0.26458333,-92.912366,161.61477)"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:arciform;-inkscape-font-specification:arciform;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter1167)"
+       id="flowRoot5612"
+       xml:space="preserve"><flowRegion
+         id="flowRegion5608"
+         style="fill:#ffffff"><rect
+           y="874"
+           x="924"
+           height="61"
+           width="109"
+           id="rect5606"
+           style="fill:#ffffff" /></flowRegion><flowPara
+         id="flowPara5610">Fill</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5620"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:arciform;-inkscape-font-specification:arciform;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter1167)"
+       transform="matrix(0.26458333,0,0,0.26458333,-92.912366,235.69814)"><flowRegion
+         id="flowRegion5616"
+         style="fill:#ffffff"><rect
+           id="rect5614"
+           width="206"
+           height="70"
+           x="924"
+           y="874"
+           style="fill:#ffffff" /></flowRegion><flowPara
+         id="flowPara5618">Background</flowPara></flowRoot>    <g
+       id="g2307"
+       transform="translate(-0.5369264)">
+      <rect
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\NotesFill.png"
+         ry="21.166668"
+         y="380.22437"
+         x="14.295255"
+         height="42.333336"
+         width="107.95"
+         id="rect5682"
+         style="display:inline;opacity:1;fill:#dcdcdc;fill-opacity:0.79215686;fill-rule:nonzero;stroke:none;stroke-width:3.06822824;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.84313725;filter:url(#filter5706)" />
+      <rect
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\NotesFill.png"
+         ry="21.166666"
+         y="380.22437"
+         x="14.295255"
+         height="42.333332"
+         width="107.94999"
+         id="rect5708"
+         style="display:inline;opacity:1;fill:url(#linearGradient942);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.06822801;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.84313725;filter:url(#filter1167)" />
+      <rect
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\NotesFill.png"
+         style="display:inline;opacity:0.20100002;fill:url(#linearGradient5742);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.06822801;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.84313725;filter:url(#filter1167)"
+         id="rect5718"
+         width="107.94999"
+         height="42.333332"
+         x="14.295255"
+         y="380.22437"
+         ry="21.166666" />
+    </g>
+    <g
+       id="g2311"
+       transform="translate(-0.43353666)">
+      <rect
+         style="display:inline;opacity:1;fill:url(#linearGradient5762);fill-opacity:1;fill-rule:nonzero;stroke:#b4b4b4;stroke-width:3.18918586;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.70588237;filter:url(#filter5680)"
+         id="rect5758"
+         width="111.11082"
+         height="44.435818"
+         x="12.611455"
+         y="559.61188"
+         ry="7.665812"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\RapNotes.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <rect
+         ry="7.1437392"
+         y="560.67023"
+         x="14.295255"
+         height="42.333332"
+         width="107.94999"
+         id="rect5760"
+         style="display:inline;opacity:1;fill:#e7e7e7;fill-opacity:0.03921569;fill-rule:nonzero;stroke:none;stroke-width:3.06822801;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.84313725;filter:url(#filter1167)"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\RapNotes.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+    </g>
+    <g
+       id="g2321"
+       transform="translate(-0.5369264)">
+      <rect
+         style="display:inline;opacity:1;fill:#dcdcdc;fill-opacity:0.79215686;fill-rule:nonzero;stroke:none;stroke-width:3.06822824;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.84313725;filter:url(#filter5706)"
+         id="rect5770"
+         width="107.95"
+         height="42.333336"
+         x="14.295255"
+         y="634.75366"
+         ry="7.1437502"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\RapNotesFill.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <rect
+         style="display:inline;opacity:1;fill:url(#linearGradient954);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.06822801;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.84313725;filter:url(#filter1167)"
+         id="rect5772"
+         width="107.94999"
+         height="42.333332"
+         x="14.295255"
+         y="634.75366"
+         ry="7.1437497"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\RapNotesFill.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+      <rect
+         ry="7.1437497"
+         y="634.75366"
+         x="14.295255"
+         height="42.333332"
+         width="107.94999"
+         id="rect5774"
+         style="display:inline;opacity:0.20100002;fill:url(#linearGradient5776);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.06822801;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.84313725;filter:url(#filter1167)"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\RapNotesFill.png"
+         inkscape:export-xdpi="96"
+         inkscape:export-ydpi="96" />
+    </g>
+    <flowRoot
+       transform="matrix(0.26458333,0,0,0.26458333,-198.74569,294.43571)"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:arciform;-inkscape-font-specification:arciform;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter1167)"
+       id="flowRoot5784"
+       xml:space="preserve"><flowRegion
+         style="fill:#ffffff"
+         id="flowRegion5780"><rect
+           style="fill:#ffffff"
+           y="874"
+           x="924"
+           height="70"
+           width="206"
+           id="rect5778" /></flowRegion><flowPara
+         id="flowPara5782">Rap Notes</flowPara></flowRoot>    <flowRoot
+       transform="matrix(0.26458333,0,0,0.26458333,-92.912366,346.82321)"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:arciform;-inkscape-font-specification:arciform;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter1167)"
+       id="flowRoot5792"
+       xml:space="preserve"><flowRegion
+         style="fill:#ffffff"
+         id="flowRegion5788"><rect
+           style="fill:#ffffff"
+           y="874"
+           x="924"
+           height="61"
+           width="109"
+           id="rect5786" /></flowRegion><flowPara
+         id="flowPara5790">Note</flowPara></flowRoot>    <flowRoot
+       xml:space="preserve"
+       id="flowRoot5800"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:arciform;-inkscape-font-specification:arciform;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter1167)"
+       transform="matrix(0.26458333,0,0,0.26458333,-92.912366,420.90657)"><flowRegion
+         style="fill:#ffffff"
+         id="flowRegion5796"><rect
+           style="fill:#ffffff"
+           id="rect5794"
+           width="109"
+           height="61"
+           x="924"
+           y="874" /></flowRegion><flowPara
+         id="flowPara5798">Fill</flowPara></flowRoot>    <flowRoot
+       transform="matrix(0.26458333,0,0,0.26458333,-92.912366,494.98996)"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:1.25;font-family:arciform;-inkscape-font-specification:arciform;letter-spacing:0px;word-spacing:0px;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;filter:url(#filter1167)"
+       id="flowRoot5808"
+       xml:space="preserve"><flowRegion
+         style="fill:#ffffff"
+         id="flowRegion5804"><rect
+           style="fill:#ffffff"
+           y="874"
+           x="924"
+           height="70"
+           width="206"
+           id="rect5802" /></flowRegion><flowPara
+         id="flowPara5806">Background</flowPara></flowRoot>    <rect
+       ry="21.166666"
+       y="454.36667"
+       x="10.847911"
+       height="42.333332"
+       width="113.77084"
+       id="rect5744"
+       style="display:inline;opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.14986396;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter1167)"
+       inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\NoteBG.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+    <g
+       id="g2289"
+       inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\NotesBG.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"
+       transform="translate(1.611645)">
+      <path
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\NoteBGRight.png"
+         sodipodi:nodetypes="cscc"
+         inkscape:connector-curvature="0"
+         id="rect1141"
+         d="m 99.988373,454.34911 c 12.019487,0 21.695827,9.44033 21.695827,21.16666 0,11.72634 -9.67634,21.16667 -21.695827,21.16667 z"
+         style="display:inline;opacity:1;fill:url(#radialGradient1234);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.20838118;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter1167)" />
+      <rect
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\NoteBGMid.png"
+         style="display:inline;opacity:1;fill:url(#linearGradient1215);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5.25790977;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter1167)"
+         id="rect1207"
+         width="67.73333"
+         height="42.333332"
+         x="32.255028"
+         y="454.34897" />
+      <path
+         inkscape:export-ydpi="96"
+         inkscape:export-xdpi="96"
+         inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\NoteBGLeft.png"
+         style="display:inline;opacity:1;fill:url(#radialGradient1274);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:4.20838118;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;filter:url(#filter1167)"
+         d="m 32.255003,454.34911 c -12.019474,0 -21.695828,9.44033 -21.695828,21.16666 0,11.72634 9.676354,21.16667 21.695828,21.16667 z"
+         id="path1272"
+         inkscape:connector-curvature="0"
+         sodipodi:nodetypes="cscc" />
+    </g>
+    <rect
+       ry="7.1437497"
+       y="714.12897"
+       x="13.758338"
+       height="42.333332"
+       width="107.94999"
+       id="rect1304"
+       style="display:inline;opacity:1;fill:url(#linearGradient1306);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:3.06822801;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:0.84313725;filter:url(#filter1167)"
+       inkscape:export-filename="D:\Marwin\Interessen und Leben\Hobbydesign\Vocaluxe 2024 Design\Developement\Screens - Elements\Notes\Full\RapNotesBG.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96" />
+  </g>
+</svg>

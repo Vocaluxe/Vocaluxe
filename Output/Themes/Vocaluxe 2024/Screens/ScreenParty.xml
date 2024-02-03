@@ -45,7 +45,7 @@
       <X>75</X>
       <Y>107</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>0</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -59,7 +59,7 @@
       <X>75</X>
       <Y>167</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>0</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -73,7 +73,7 @@
       <X>75</X>
       <Y>227</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>0</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -84,8 +84,8 @@
       <Text>TR_SCREENPARTY_TARGETAUDIENCE</Text>
     </Text>
     <Text Name="TextPartyNumTeams">
-      <X>75</X>
-      <Y>287</Y>
+      <X>495</X>
+      <Y>387</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
@@ -98,8 +98,8 @@
       <Text>TR_SCREENPARTY_NUMTEAMS</Text>
     </Text>
     <Text Name="TextPartyNumPlayers">
-      <X>75</X>
-      <Y>347</Y>
+      <X>495</X>
+      <Y>447</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>0</MaxW>
@@ -115,7 +115,7 @@
       <X>75</X>
       <Y>407</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>0</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -129,7 +129,7 @@
       <X>75</X>
       <Y>467</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>0</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -140,8 +140,8 @@
       <Text>TR_SCREENPARTY_VERSION</Text>
     </Text>
     <Text Name="TextDescription">
-      <X>850</X>
-      <Y>167</Y>
+      <X>650</X>
+      <Y>267</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
@@ -154,8 +154,8 @@
       <Text />
     </Text>
     <Text Name="TextTargetAudience">
-      <X>850</X>
-      <Y>227</Y>
+      <X>650</X>
+      <Y>327</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
@@ -168,8 +168,8 @@
       <Text />
     </Text>
     <Text Name="TextNumTeams">
-      <X>850</X>
-      <Y>287</Y>
+      <X>770</X>
+      <Y>387</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
@@ -182,8 +182,8 @@
       <Text />
     </Text>
     <Text Name="TextNumPlayers">
-      <X>850</X>
-      <Y>347</Y>
+      <X>770</X>
+      <Y>447</Y>
       <Z>0</Z>
       <H>27</H>
       <MaxW>600</MaxW>
@@ -199,7 +199,7 @@
       <X>850</X>
       <Y>407</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>0</H>
       <MaxW>600</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -213,7 +213,7 @@
       <X>850</X>
       <Y>467</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>0</H>
       <MaxW>600</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -321,22 +321,22 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>500</X>
-        <Y>100</Y>
+        <X>300</X>
+        <Y>200</Y>
         <W>715</W>
         <H>50</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>505</X>
-        <Y>105</Y>
+        <X>305</X>
+        <Y>205</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1170</X>
-        <Y>105</Y>
+        <X>970</X>
+        <Y>205</Y>
         <W>40</W>
         <H>40</H>
         <Z>0</Z>
@@ -347,7 +347,7 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColor" />
       <TextSelColor Name="TextColor" />
-      <TextH>27</TextH>
+      <TextH>54</TextH>
       <TextRelativeX>50</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>600</TextMaxW>

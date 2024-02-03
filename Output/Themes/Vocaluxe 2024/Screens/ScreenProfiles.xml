@@ -29,11 +29,11 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>85</X>
-        <Y>110</Y>
+        <X>765</X>
+        <Y>100</Y>
         <W>160</W>
         <H>160</H>
-        <Z>0</Z>
+        <Z>-1</Z>
       </Rect>
     </Static>
   </Statics>
@@ -140,7 +140,7 @@
         <X>355</X>
         <Y>10</Y>
         <Z>0</Z>
-        <H>27</H>
+        <H>40</H>
         <MaxW>702</MaxW>
         <Color Name="ButtonTextSelColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -155,7 +155,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>145</X>
+        <X>75</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
@@ -190,7 +190,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>355</X>
+        <X>455</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
@@ -225,7 +225,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>565</X>
+        <X>665</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
@@ -260,7 +260,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>775</X>
+        <X>875</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
@@ -295,7 +295,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>985</X>
+        <X>1085</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
@@ -330,11 +330,11 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>300</X>
-        <Y>205</Y>
-        <W>150</W>
+        <X>765</X>
+        <Y>180</Y>
+        <W>160</W>
         <H>50</H>
-        <Z>0</Z>
+        <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
@@ -357,11 +357,11 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>300</X>
-        <Y>125</Y>
-        <W>150</W>
+        <X>765</X>
+        <Y>130</Y>
+        <W>160</W>
         <H>50</H>
-        <Z>0</Z>
+        <Z>-2</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
@@ -384,7 +384,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>985</X>
+        <X>1085</X>
         <Y>600</Y>
         <W>150</W>
         <H>50</H>
@@ -428,9 +428,9 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>500</X>
-        <Y>160</Y>
+        <Y>145</Y>
         <W>715</W>
-        <H>50</H>
+        <H>80</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
@@ -459,7 +459,7 @@
       <TextMaxW>219.2</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>3</NumVisible>
+      <NumVisible>0</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideDifficulty">
       <Skin/>
@@ -501,7 +501,7 @@
       <TextMaxW>208.67</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>3</NumVisible>
+      <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideAvatars">
       <Skin/>
@@ -543,7 +543,7 @@
       <TextMaxW>208.67</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>3</NumVisible>
+      <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideUserRole">
       <Skin/>
@@ -585,7 +585,7 @@
       <TextMaxW>313</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>2</NumVisible>
+      <NumVisible>1</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideActive">
       <Skin/>
@@ -627,7 +627,7 @@
       <TextMaxW>313</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>2</NumVisible>
+      <NumVisible>1</NumVisible>
     </SelectSlide>
   </SelectSlides>
   <SingNotes />

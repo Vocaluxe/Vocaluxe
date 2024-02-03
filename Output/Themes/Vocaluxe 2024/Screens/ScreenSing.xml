@@ -80,10 +80,10 @@
         <A>0.2</A>
       </Color>
       <Rect>
-        <X>11</X>
+        <X>41</X>
         <Y>707</Y>
-        <W>1198</W>
-        <H>6</H>
+        <W>1138</W>
+        <H>2</H>
         <Z>-1</Z>
       </Rect>
     </Static>
@@ -94,7 +94,7 @@
         <X>0</X>
         <Y>696</Y>
         <W>1090</W>
-        <H>5</H>
+        <H>3</H>
         <Z>-1</Z>
       </Rect>
     </Static>
@@ -105,7 +105,7 @@
         <X>50</X>
         <Y>696</Y>
         <W>1090</W>
-        <H>5</H>
+        <H>3</H>
         <Z>-1</Z>
       </Rect>
     </Static>
@@ -114,9 +114,9 @@
       <Color Name="TimePointerColor" />
       <Rect>
         <X>44</X>
-        <Y>706</Y>
+        <Y>705</Y>
         <W>2</W>
-        <H>8</H>
+        <H>6</H>
         <Z>-1.25</Z>
       </Rect>
     </Static>
@@ -174,7 +174,7 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-    </Static>    
+    </Static>
     <Static Name="StaticAvatarP1N1">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -196,7 +196,7 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-    </Static>    
+    </Static>
     <Static Name="StaticAvatarP1N2">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -218,8 +218,8 @@
         <H>50</H>
         <Z>-0.75</Z>
       </Rect>
-    </Static>    
-	
+    </Static>
+
     <Static Name="StaticAvatarP2N2">
       <Skin/>
       <Color Name="StaticAvatarColor" />
@@ -668,8 +668,8 @@
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextTime">
-      <X>1245</X>
-      <Y>700</Y>
+      <X>1205</X>
+      <Y>696</Y>
       <Z>-1</Z>
       <H>20</H>
       <MaxW>0</MaxW>
@@ -749,9 +749,9 @@
       <Text /></Text>
     <Text Name="TextScoreP1N1">
       <X>1240</X>
-      <Y>332</Y>
+      <Y>337</Y>
       <Z>-1</Z>
-      <H>90</H>
+      <H>80</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -759,8 +759,8 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Normal</Font>
+      <Style>Normal</Style>
+      <Font>Outline</Font>
       <Text /></Text>
     <Text Name="TextNameP1N1">
       <X>105</X>
@@ -777,9 +777,9 @@
       <Text /></Text>
     <Text Name="TextScoreP1N2">
       <X>1240</X>
-      <Y>92</Y>
+      <Y>97</Y>
       <Z>-1</Z>
-      <H>90</H>
+      <H>80</H>
       <MaxW>0</MaxW>
       <Color Name="Player1">
         <A>0.7</A>
@@ -787,7 +787,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N2">
@@ -805,9 +805,9 @@
       <Text /></Text>
     <Text Name="TextScoreP2N2">
       <X>1240</X>
-      <Y>352</Y>
+      <Y>357</Y>
       <Z>-1</Z>
-      <H>90</H>
+      <H>80</H>
       <MaxW>0</MaxW>
       <Color Name="Player2">
         <A>0.7</A>
@@ -815,7 +815,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N2">
@@ -843,7 +843,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N3">
@@ -871,7 +871,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N3">
@@ -899,7 +899,7 @@
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP3N3">
@@ -927,7 +927,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N4">
@@ -955,7 +955,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N4">
@@ -983,7 +983,7 @@
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP3N4">
@@ -1011,7 +1011,7 @@
       <SelColor Name="Player4" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP4N4">
@@ -1039,7 +1039,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N5">
@@ -1067,7 +1067,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N5">
@@ -1095,7 +1095,7 @@
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP3N5">
@@ -1123,7 +1123,7 @@
       <SelColor Name="Player4" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP4N5">
@@ -1151,7 +1151,7 @@
       <SelColor Name="Player5" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP5N5">
@@ -1179,7 +1179,7 @@
       <SelColor Name="Player1" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP1N6">
@@ -1207,7 +1207,7 @@
       <SelColor Name="Player2" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP2N6">
@@ -1235,7 +1235,7 @@
       <SelColor Name="Player3" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP3N6">
@@ -1263,7 +1263,7 @@
       <SelColor Name="Player4" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP4N6">
@@ -1291,7 +1291,7 @@
       <SelColor Name="Player5" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP5N6">
@@ -1319,7 +1319,7 @@
       <SelColor Name="Player6" />
       <Align>Right</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Normal</Font>
       <Text /></Text>
     <Text Name="TextNameP6N6">
@@ -1816,9 +1816,9 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1085</X>
+        <X>1105</X>
         <Y>410</Y>
-        <W>160</W>
+        <W>140</W>
         <H>13</H>
         <Z>-0.75</Z>
       </Rect>
@@ -1847,8 +1847,8 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
-    </ProgressBar>	
+      </ProgressColors>
+    </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N2">
       <SkinBackground>RatingBarBackground</SkinBackground>
       <SkinForeground>RatingBarForeground</SkinForeground>
@@ -1861,9 +1861,9 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1085</X>
+        <X>1105</X>
         <Y>170</Y>
-        <W>160</W>
+        <W>140</W>
         <H>13</H>
         <Z>-0.75</Z>
       </Rect>
@@ -1892,7 +1892,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>       
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N2">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -1906,9 +1906,9 @@
       <AnimateMovement>TR_CONFIG_ON</AnimateMovement>
       <AnimateColoring>TR_CONFIG_ON</AnimateColoring>
       <Rect>
-        <X>1085</X>
+        <X>1105</X>
         <Y>430</Y>
-        <W>160</W>
+        <W>140</W>
         <H>13</H>
         <Z>-0.75</Z>
       </Rect>
@@ -1937,7 +1937,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N3">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -1982,7 +1982,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N3">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2027,7 +2027,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP3N3">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2072,7 +2072,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N4">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2117,7 +2117,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N4">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2162,7 +2162,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP3N4">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2207,7 +2207,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP4N4">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2252,7 +2252,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2297,7 +2297,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2342,7 +2342,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>    
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP3N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2387,7 +2387,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP4N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2432,7 +2432,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP5N5">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2477,7 +2477,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP1N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2522,7 +2522,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>     
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP2N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2567,7 +2567,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP3N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2612,7 +2612,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP4N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2657,7 +2657,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>  
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP5N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2702,7 +2702,7 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
+      </ProgressColors>
     </ProgressBar>
     <ProgressBar Name="ProgressBarRatingP6N6">
       <SkinBackground>RatingBarBackground</SkinBackground>
@@ -2747,8 +2747,8 @@
 			<From>0.8</From>
 			<Color Name="RatingPerfect" />
 		</ProgressColor>
-      </ProgressColors>   
-    </ProgressBar>	  
+      </ProgressColors>
+    </ProgressBar>
   </ProgressBars>
   <ScreenSettings />
 </Screen>
