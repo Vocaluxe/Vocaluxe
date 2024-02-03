@@ -30,6 +30,7 @@
     <MaxFPS>60</MaxFPS>
     <VSync>TR_CONFIG_ON</VSync>
     <FullScreen>TR_CONFIG_ON</FullScreen>
+    <NativeFullScreen>TR_CONFIG_OFF</NativeFullScreen>
     <Stretch>TR_CONFIG_OFF</Stretch>
     <FadeTime>0.4</FadeTime>
   </Graphics>
