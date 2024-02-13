@@ -65,6 +65,7 @@
   <string name="TR_CONFIG_ARTIST_LETTER">Исполнитель по букве</string>
   <string name="TR_CONFIG_TITLE_LETTER">Название по букве</string>
   <string name="TR_CONFIG_EDITION">Версия</string>
+  <string name="TR_CONFIG_TAGS">Тэги</string>
   <string name="TR_CONFIG_GENRE">Жанр</string>
   <string name="TR_CONFIG_YEAR">Год</string>
   <string name="TR_CONFIG_DECADE">Десятилетие</string>
@@ -148,6 +149,7 @@
   <string name="TR_SCREENSONG_NOYEAR">Нет Года</string>
   <string name="TR_SCREENSONG_NOGENRE">Нет Жанра</string>
   <string name="TR_SCREENSONG_NOEDITION">Нет Версии</string>
+  <string name="TR_SCREENSONG_NOTAGS">Нет тэгов</string>
   <string name="TR_SCREENSONG_ALLSONGS">Все песни</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v песни)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v песня)</string>

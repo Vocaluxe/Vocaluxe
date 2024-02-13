@@ -25,6 +25,7 @@
   <string name="TR_SCREENNAMES_TEAM1">Команда 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Команда 2</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Случайный выбор</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Добавьте хотя бы по одному игроку в обе команды! / Перетащите аватары игроков, чтобы добавить их в список выбранных игроков! / Нажмите правой кнопкой мыши на аватарах выбранных игроков, чтобы убрать их.</string>
   <string name="TR_SCREENMAIN_TITLE">Крестики-нолики</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Выберите поле.</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Следующий игрок</string>
