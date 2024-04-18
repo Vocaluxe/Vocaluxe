@@ -100,6 +100,7 @@ namespace Vocaluxe.Base
             String searchForLanguage = null;    // l:
             String searchForCreator = null;     // c:
             String searchForEdition = null;     // e:
+            String searchForTags = null;        // #:
             String searchForAlbum = null;       // al:
             String searchForFileName = null;    // fi:
             String searchForFolderName = null;  // fo:
@@ -137,6 +138,9 @@ namespace Vocaluxe.Base
                             break;
                         case "E:":
                             searchForEdition = searchToken.Substring(2);
+                            break;
+                        case "#:":
+                            searchForTags = searchToken.Substring(2);
                             break;
                         default:
                             foundIt = false;
@@ -227,6 +231,15 @@ namespace Vocaluxe.Base
                             foreach (String edition in song.Editions)
                             {
                                 if (edition.ToUpper().Contains(searchForEdition))
+                                    _FilteredSongs.Add(song);
+                            }
+                        }
+
+                        if (searchForTags != null)
+                        {
+                            foreach (String tag in song.Tags)
+                            {
+                                if (tag.ToUpper().Contains(searchForTags))
                                     _FilteredSongs.Add(song);
                             }
                         }
