@@ -153,7 +153,6 @@
   <string name="TR_SCREENSONG_NUMSONG">(%v Chanson)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Sauter à la lettre • F3 = Chercher • CTRL+R = Sélectionner au hasard • CTRL+S = Lancer medley • CTRL+# = Changer le tri des chansons • CTRL+T = Activer/Désactiver la vue par catégorie • Espace = Ouvrir les options de chanson • Échap = Retouner au menu précédent</string>
-  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Chercher artiste et titre, préfixes pour la recherche → a: = artiste • t: = titre • c: = créateurr • e: = édition • g: = genre • y: = année (ex: 1999 ou 1980-1989) • l: = langage • al: = album • fi: = nom du fichier • fo: = nom du dossier</string>
   <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Pressez votre numéro d'équipe afin d'utiliser une chanson joker au hasard</string>
   <string name="TR_SCREENSONG_SORTING">Classement en cours : %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Aucun Medley pour cette chanson !</string>
