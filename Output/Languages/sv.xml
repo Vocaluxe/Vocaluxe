@@ -153,7 +153,6 @@
   <string name="TR_SCREENSONG_NUMSONG">(%v låt)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Hoppa till bokstaven • F3 = Sök • CTRL+R = Slumpa • CTRL+S = Starta medley • CTRL+# = Ändra sångsortering • CTRL+T = Aktivera/Inaktivera kategorivy • Mellanslag = Öppna sångalternativ • ESC = Tillbaka till huvudmenyn</string>
-  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Sök artist och titel, prefix för sökningen → a: = artist • t: = titel • c: = skapare • e: = utgåva • g: = genre • y: = år (t ex. 1999 eller 1980-1989) • l: = språk • al: = album • fi: = filnamn • fo: = mappnamn</string>
   <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Tryck ditt lagnummer för att använda en slumpad sångjoker</string>
   <string name="TR_SCREENSONG_SORTING">Sortering: %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Inget medley för denna sång!</string>
