@@ -21,6 +21,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base.ThemeSystem
@@ -28,7 +29,7 @@ namespace Vocaluxe.Base.ThemeSystem
     abstract class CTheme
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        private const int _ThemeSystemVersion = 5;
+        private const int _ThemeSystemVersion = 6;
 
         protected STheme _Data;
         public String Name
@@ -80,12 +81,12 @@ namespace Vocaluxe.Base.ThemeSystem
             }
             catch (Exception e)
             {
-                CLog.LogError("Can't load theme \"" + _FileName + "\". Invalid file!", false, false, e);
+                CLog.Error(e, "Can't load theme \"" + _FileName + "\". Invalid file!");
                 return false;
             }
 
             string path = Path.Combine(_Folder, Name);
-            List<string> files = CHelper.ListFiles(path, "*.xml");
+            IEnumerable<string> files = CHelper.ListFiles(path, "*.xml");
 
             // Load skins, succeed if at least 1 skin was loaded
             bool ok = false;

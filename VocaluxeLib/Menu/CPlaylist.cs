@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
@@ -82,6 +81,7 @@ namespace VocaluxeLib.Menu
         public SThemeButton ButtonPlaylistSave;
         public SThemeButton ButtonPlaylistDelete;
         public SThemeButton ButtonPlaylistSing;
+        public SThemeButton ButtonPlaylistList;
 
         public SThemeSelectSlide SelectSlideGameMode;
     }
@@ -164,6 +164,7 @@ namespace VocaluxeLib.Menu
         private readonly CButton _ButtonPlaylistSave;
         private readonly CButton _ButtonPlaylistDelete;
         private readonly CButton _ButtonPlaylistSing;
+        private readonly CButton _ButtonPlaylistList;
         private readonly CText _Text1;
         private readonly CSelectSlide _SelectSlideGameMode;
         private readonly CStatic _StaticPlaylistHeader;
@@ -236,6 +237,7 @@ namespace VocaluxeLib.Menu
             _ButtonPlaylistDelete = new CButton(_PartyModeID);
             _ButtonPlaylistSave = new CButton(_PartyModeID);
             _ButtonPlaylistSing = new CButton(_PartyModeID);
+            _ButtonPlaylistList = new CButton(_PartyModeID);
             _SelectSlideGameMode = new CSelectSlide(_PartyModeID);
 
             Visible = false;
@@ -255,6 +257,7 @@ namespace VocaluxeLib.Menu
             _ButtonPlaylistDelete = new CButton(_Theme.ButtonPlaylistDelete, _PartyModeID);
             _ButtonPlaylistSave = new CButton(_Theme.ButtonPlaylistSave, _PartyModeID);
             _ButtonPlaylistSing = new CButton(_Theme.ButtonPlaylistSing, _PartyModeID);
+            _ButtonPlaylistList = new CButton(_Theme.ButtonPlaylistList, _PartyModeID);
             _SelectSlideGameMode = new CSelectSlide(_Theme.SelectSlideGameMode, _PartyModeID);
 
             _AddStatic(_StaticPlaylistFooter);
@@ -264,71 +267,11 @@ namespace VocaluxeLib.Menu
             _AddButton(_ButtonPlaylistDelete);
             _AddButton(_ButtonPlaylistSave);
             _AddButton(_ButtonPlaylistSing);
+            _AddButton(_ButtonPlaylistList);
 
             Visible = false;
             Selected = false;
             ThemeLoaded = true;
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackground", out _Theme.SkinBackground, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/SkinBackgroundSelected", out _Theme.SkinBackgroundSelected, String.Empty);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
-            if (xmlReader.GetValue(item + "/ColorBackground", out _Theme.ColorBackground.Name, String.Empty))
-                ThemeLoaded &= _Theme.ColorBackground.Get(_PartyModeID, out _BackgroundColor);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundR", ref _BackgroundColor.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundG", ref _BackgroundColor.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundB", ref _BackgroundColor.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/BackgroundA", ref _BackgroundColor.A);
-            }
-            if (xmlReader.GetValue(item + "/SColorBackground", out _Theme.SelColorBackground.Name, String.Empty))
-                ThemeLoaded &= _Theme.SelColorBackground.Get(_PartyModeID, out _BackgroundSelColor);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundR", ref _BackgroundSelColor.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundG", ref _BackgroundSelColor.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundB", ref _BackgroundSelColor.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SBackgroundA", ref _BackgroundSelColor.A);
-            }
-
-            ThemeLoaded &= _Text1.LoadTheme(item, "TextPart1", xmlReader);
-
-            CStatic tmpStatic = new CStatic(_PartyModeID);
-            ThemeLoaded &= tmpStatic.LoadTheme(item, "StaticCover", xmlReader);
-            ThemeLoaded &= _StaticPlaylistHeader.LoadTheme(item, "StaticPlaylistHeader", xmlReader);
-            ThemeLoaded &= _StaticPlaylistFooter.LoadTheme(item, "StaticPlaylistFooter", xmlReader);
-
-            ThemeLoaded &= _ButtonPlaylistName.LoadTheme(item, "ButtonPlaylistName", xmlReader);
-            ThemeLoaded &= _ButtonPlaylistSing.LoadTheme(item, "ButtonPlaylistSing", xmlReader);
-            ThemeLoaded &= _ButtonPlaylistClose.LoadTheme(item, "ButtonPlaylistClose", xmlReader);
-            ThemeLoaded &= _ButtonPlaylistSave.LoadTheme(item, "ButtonPlaylistSave", xmlReader);
-            ThemeLoaded &= _ButtonPlaylistDelete.LoadTheme(item, "ButtonPlaylistDelete", xmlReader);
-
-            ThemeLoaded &= _SelectSlideGameMode.LoadTheme(item, "SelectSlideGameMode", xmlReader);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/EntryHeight", ref _Theme.EntryHeight);
-            if (ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-                _Theme.ColorBackground.Color = _BackgroundColor;
-                _Theme.SelColorBackground.Color = _BackgroundSelColor;
-                _Theme.StaticCover = (SThemeStatic)tmpStatic.GetTheme();
-                _ReadSubThemeElements();
-
-                LoadSkin();
-            }
-            return ThemeLoaded;
         }
 
         private void _ReadSubThemeElements()
@@ -341,6 +284,7 @@ namespace VocaluxeLib.Menu
             _Theme.ButtonPlaylistClose = (SThemeButton)_ButtonPlaylistClose.GetTheme();
             _Theme.ButtonPlaylistSave = (SThemeButton)_ButtonPlaylistSave.GetTheme();
             _Theme.ButtonPlaylistDelete = (SThemeButton)_ButtonPlaylistDelete.GetTheme();
+            _Theme.ButtonPlaylistList = (SThemeButton)_ButtonPlaylistList.GetTheme();
         }
 
         public void UpdateGame()
@@ -383,6 +327,7 @@ namespace VocaluxeLib.Menu
             _ButtonPlaylistName.UnloadSkin();
             _ButtonPlaylistSave.UnloadSkin();
             _ButtonPlaylistSing.UnloadSkin();
+            _ButtonPlaylistList.UnloadSkin();
 
             _StaticPlaylistFooter.UnloadSkin();
             _StaticPlaylistHeader.UnloadSkin();
@@ -404,6 +349,7 @@ namespace VocaluxeLib.Menu
             _ButtonPlaylistName.LoadSkin();
             _ButtonPlaylistSave.LoadSkin();
             _ButtonPlaylistSing.LoadSkin();
+            _ButtonPlaylistList.LoadSkin();
 
             _StaticPlaylistFooter.LoadSkin();
             _StaticPlaylistHeader.LoadSkin();
@@ -554,7 +500,7 @@ namespace VocaluxeLib.Menu
                         break;
 
                     case Keys.Enter:
-                        _StartPlaylistSong(_CurrentPlaylistElement);
+                        _StartPlaylistSong(_CurrentPlaylistElement + _Offset);
                         break;
 
                     case Keys.Add: //move the selected song up
@@ -702,6 +648,8 @@ namespace VocaluxeLib.Menu
                         _StartPlaylistSongs();
                     else if (_ButtonPlaylistSave.Selected)
                         CBase.Playlist.Save(ActivePlaylistID);
+                    else if (isButtonPlaylistListSelected())
+                        return false; // Currently CScreenSong do this event!
                     else if (_ButtonPlaylistDelete.Selected)
                     {
                         CBase.Playlist.Delete(ActivePlaylistID);
@@ -732,6 +680,11 @@ namespace VocaluxeLib.Menu
                     return false;
             }
             return true;
+        }
+
+        public bool isButtonPlaylistListSelected()
+        {
+            return _ButtonPlaylistList.Selected;
         }
 
         private void _SetSelectionToLastEntry()
@@ -843,6 +796,8 @@ namespace VocaluxeLib.Menu
                         //LB actions
                         if (mouseEvent.LB)
                         {
+                            if (isButtonPlaylistListSelected())
+                                return false; // Currently CScreenSong do this event!
                             if (_CurrentPlaylistElement != -1)
                             {
                                 CBase.Playlist.GetSong(ActivePlaylistID, _CurrentPlaylistElement + _Offset).GameMode =
@@ -880,7 +835,7 @@ namespace VocaluxeLib.Menu
 
                         //Start selected song with double click
                         if (mouseEvent.LD && _CurrentPlaylistElement != -1)
-                            _StartPlaylistSong(_CurrentPlaylistElement);
+                            _StartPlaylistSong(_CurrentPlaylistElement + _Offset);
 
                         //Change order with holding LB
                         if (mouseEvent.LBH && _CurrentPlaylistElement != -1 && _PlaylistElementContents.Count > 0 && DragAndDropSongID == -1)
@@ -1032,6 +987,11 @@ namespace VocaluxeLib.Menu
                 }
             }
             return false;
+        }
+
+        public bool isPlaylistNameEditMode()
+        {
+            return _EditMode == EEditMode.PlaylistName;
         }
 
         private void _PrepareList()
@@ -1228,6 +1188,15 @@ namespace VocaluxeLib.Menu
                 _CompleteRect.W = _ButtonPlaylistDelete.Rect.W + _ButtonPlaylistDelete.Rect.X - _CompleteRect.X;
             if (_ButtonPlaylistDelete.Rect.Y + _ButtonPlaylistDelete.Rect.H > _CompleteRect.Y + _CompleteRect.H)
                 _CompleteRect.H = _ButtonPlaylistDelete.Rect.H + _ButtonPlaylistDelete.Rect.Y - _CompleteRect.Y;
+            //ButtonPlaylistList
+            if (_ButtonPlaylistList.Rect.X < _CompleteRect.X)
+                _CompleteRect.X = _ButtonPlaylistList.Rect.X;
+            if (_ButtonPlaylistList.Rect.Y < _CompleteRect.Y)
+                _CompleteRect.Y = _ButtonPlaylistList.Rect.Y;
+            if (_ButtonPlaylistList.Rect.W + _ButtonPlaylistList.Rect.X > _CompleteRect.W + _CompleteRect.X)
+                _CompleteRect.W = _ButtonPlaylistList.Rect.W + _ButtonPlaylistList.Rect.X - _CompleteRect.X;
+            if (_ButtonPlaylistList.Rect.Y + _ButtonPlaylistList.Rect.H > _CompleteRect.Y + _CompleteRect.H)
+                _CompleteRect.H = _ButtonPlaylistList.Rect.H + _ButtonPlaylistList.Rect.Y - _CompleteRect.Y;
         }
 
         #region ThemeEdit

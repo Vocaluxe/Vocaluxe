@@ -137,23 +137,6 @@ namespace VocaluxeLib
             get { return A.HasValue; }
         }
 
-        /// <summary>
-        ///     Use only for old code! Remove when removing old LoadTheme()
-        /// </summary>
-        [XmlIgnore]
-        public SColorF Color
-        {
-            set
-            {
-                if (NameSpecified)
-                    return;
-                R = value.R;
-                G = value.G;
-                B = value.B;
-                A = value.A;
-            }
-        }
-
         public bool Get(int partyModeId, out SColorF color)
         {
             bool ok;
@@ -358,10 +341,11 @@ namespace VocaluxeLib
     #region Game
     public struct SPlayer
     {
-        public int ProfileID;
+        public Guid ProfileID;
         public double Points;
         public double PointsLineBonus;
         public double PointsGoldenNotes;
+        public double Rating;
         public int NoteDiff;
         public int VoiceNr;
         public List<CSungLine> SungLines;

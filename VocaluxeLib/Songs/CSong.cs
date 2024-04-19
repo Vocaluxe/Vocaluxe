@@ -21,6 +21,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib.Songs
 {
@@ -88,7 +89,7 @@ namespace VocaluxeLib.Songs
 
         public SShortEnd ShortEnd;
 
-        public Encoding Encoding = Encoding.Default;
+        public Encoding Encoding = new UTF8Encoding();
         public bool ManualEncoding;
         public string Folder = String.Empty;
         public string FolderName = String.Empty;
@@ -100,7 +101,7 @@ namespace VocaluxeLib.Songs
         public readonly List<string> BackgroundFileNames = new List<string>();
         public string VideoFileName = String.Empty;
 
-        public EAspect VideoAspect = EAspect.Crop;
+        public EAspect VideoAspect = EAspect.Automatic;
 
         public bool NotesLoaded { get; private set; }
 
@@ -164,9 +165,11 @@ namespace VocaluxeLib.Songs
         {
             get { return Notes.VoiceCount > 1; }
         }
+        public bool IsRap = false;
 
         public readonly List<string> Editions = new List<string>();
         public readonly List<string> Genres = new List<string>();
+        public readonly List<string> Tags = new List<string>();
         public string Album = "";
         public string Year = "";
 
@@ -261,6 +264,7 @@ namespace VocaluxeLib.Songs
 
             Editions = new List<string>(song.Editions);
             Genres = new List<string>(song.Genres);
+            Tags = new List<string>(song.Tags);
             Album = song.Album;
             Year = song.Year;
 
@@ -285,6 +289,17 @@ namespace VocaluxeLib.Songs
         {
             var loader = new CSongLoader(this);
             return loader.ReadNotes();
+        }
+
+        public bool ReloadSong(bool reloadNotes)
+        {
+            var loader = new CSongLoader(this);
+            bool retValue = loader.ReadHeader();
+            if (!retValue)
+                return false;
+
+            retValue = loader.ReadNotes(reloadNotes);
+            return retValue;
         }
 
         public bool Save()
@@ -324,7 +339,7 @@ namespace VocaluxeLib.Songs
         {
             if (CoverFileName == "")
             {
-                List<string> files = CHelper.ListImageFiles(Folder);
+                IEnumerable<string> files = CHelper.ListImageFiles(Folder);
                 foreach (String file in files)
                 {
                     if (file.ContainsIgnoreCase("[CO]") &&
@@ -335,7 +350,7 @@ namespace VocaluxeLib.Songs
 
             if (BackgroundFileNames.Count == 0)
             {
-                List<string> files = CHelper.ListImageFiles(Folder);
+                IEnumerable<string> files = CHelper.ListImageFiles(Folder);
                 foreach (String file in files)
                 {
                     if (file.ContainsIgnoreCase("[BG]") &&
@@ -350,7 +365,7 @@ namespace VocaluxeLib.Songs
             for (int i = 0; i < Notes.VoiceCount; i++)
             {
                 if (!Notes.VoiceNames.IsSet(i))
-                    CBase.Log.LogError("Warning: Can't find #P" + (i + 1) + "-tag for duets in \"" + Artist + " - " + Title + "\".");
+                    CLog.Error("Warning: Can't find #P" + (i + 1) + "-tag for duets in \"" + Artist + " - " + Title + "\".");
             }
         }
 

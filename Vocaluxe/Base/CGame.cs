@@ -17,6 +17,8 @@
 
 //Uncomment to make the engine hit every note
 //#define DEBUG_HIT
+//Uncomment to only hit notes for player one
+//#define DEBUG_HIT_1
 
 using System;
 using System.Collections.Generic;
@@ -199,6 +201,7 @@ namespace Vocaluxe.Base
                 Players[i].Points = 0f;
                 Players[i].PointsLineBonus = 0f;
                 Players[i].PointsGoldenNotes = 0f;
+                Players[i].Rating = 0.5f;
                 Players[i].VoiceNr = 0;
                 Players[i].NoteDiff = 0;
                 Players[i].SungLines = new List<CSungLine>();
@@ -279,6 +282,8 @@ namespace Vocaluxe.Base
                     if (notes[note].PointsForBeat > 0 && (CRecord.ToneValid(p)
 #if DEBUG_HIT
                         || true
+#elif DEBUG_HIT_1
+                        || (true && p == 0)
 #endif
                                                          ))
                     {
@@ -293,7 +298,12 @@ namespace Vocaluxe.Base
 
 #if DEBUG_HIT
                             tonePlayer = tone;
+#elif DEBUG_HIT_1
+                            if(p == 0) tonePlayer = tone;
 #endif
+
+                        if (notes[note].Type == ENoteType.Rap || notes[note].Type == ENoteType.RapGolden)
+                            tonePlayer = tone;
 
                         Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
                         bool hit = Players[p].NoteDiff <= (2 - (int)CProfiles.GetDifficulty(Players[p].ProfileID));
@@ -304,7 +314,7 @@ namespace Vocaluxe.Base
                             //CRecord.RecordSetTone(p, Tone);
                             double points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
                                             song.Notes.GetVoice(Players[p].VoiceNr).Points;
-                            if (notes[note].Type == ENoteType.Golden)
+                            if (notes[note].Type == ENoteType.Golden || notes[note].Type == ENoteType.RapGolden)
                                 Players[p].PointsGoldenNotes += points;
 
                             Players[p].Points += points;
@@ -343,10 +353,11 @@ namespace Vocaluxe.Base
                         }
                     }
 
-                    // Line Bonus
+                    // Check if line ended
                     int numLinesWithPoints = song.Notes.GetNumLinesWithPoints(Players[p].VoiceNr);
                     if (beat == lines[line].LastNoteBeat && lines[line].Points > 0 && numLinesWithPoints > 0)
                     {
+                        // Line Bonus
                         double factor = Players[p].SungLines[line].Points / (double)lines[line].Points;
                         if (factor <= 0.4)
                             factor = 0.0;
@@ -363,6 +374,11 @@ namespace Vocaluxe.Base
                         Players[p].Points += points;
                         Players[p].PointsLineBonus += points;
                         Players[p].SungLines[line].BonusPoints += points;
+
+                        //Calculate rating
+                        //Shift fraction of correct sung notes to [-0.1, 0.1], player needs to sing five lines fully correctly to get highest ranking
+                        double current = Players[p].SungLines[line].Points / (double)lines[line].Points;
+                        Players[p].Rating = (Players[p].Rating + (current * 0.2 - 0.1)).Clamp(0, 1);
                     }
                 }
             }
@@ -398,7 +414,7 @@ namespace Vocaluxe.Base
                     {
                         if (note.StartBeat < nextStart)
                         {
-                            if (note.Hit && note.HitNote.Type == ENoteType.Golden)
+                            if (note.Hit && (note.HitNote.Type == ENoteType.Golden || note.HitNote.Type == ENoteType.RapGolden))
                                 Players[p].PointsGoldenNotes += note.Points;
                             Players[p].Points += note.Points;
                         }
@@ -408,7 +424,7 @@ namespace Vocaluxe.Base
                     }
                     while (line.NoteCount > n && n >= 0)
                     {
-                        if (line.Notes[n].Hit && line.Notes[n].HitNote.Type == ENoteType.Golden)
+                        if (line.Notes[n].Hit && (line.Notes[n].HitNote.Type == ENoteType.Golden || line.Notes[n].HitNote.Type == ENoteType.RapGolden))
                             Players[p].PointsGoldenNotes -= line.Notes[n].Points;
                         Players[p].Points -= line.Notes[n].Points;
                         line.DeleteNote(n);

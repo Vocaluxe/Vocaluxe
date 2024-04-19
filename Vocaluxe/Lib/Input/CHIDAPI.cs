@@ -18,6 +18,7 @@
 using System;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Input
 {
@@ -73,7 +74,7 @@ namespace Vocaluxe.Lib.Input
             }
             catch (Exception e)
             {
-                CLog.LogError("Error CHIDAPI.Init(): " + e);
+                CLog.Error("Error CHIDAPI.Init(): " + e);
                 return false;
             }
 
@@ -92,7 +93,7 @@ namespace Vocaluxe.Lib.Input
             }
             catch (Exception e)
             {
-                CLog.LogError("Error CHIDAPI.Exit(): " + e);
+                CLog.Error("Error CHIDAPI.Exit(): " + e);
                 return false;
             }
 
@@ -129,7 +130,7 @@ namespace Vocaluxe.Lib.Input
             }
             catch (Exception e)
             {
-                CLog.LogError("Error CHIDAPI.Open(): " + e);
+                CLog.Error("Error CHIDAPI.Open(): " + e);
                 return false;
             }
 
@@ -169,7 +170,7 @@ namespace Vocaluxe.Lib.Input
             catch (Exception e)
             {
                 bytesRead = -1;
-                CLog.LogError("Error CHIDAPI.ReadTimeout(): " + e);
+                CLog.Error("Error CHIDAPI.ReadTimeout(): " + e);
             }
 
             if (bytesRead != -1)
@@ -198,7 +199,7 @@ namespace Vocaluxe.Lib.Input
             catch (Exception e)
             {
                 result = -1;
-                CLog.LogError("Error CHIDAPI.Read(): " + e);
+                CLog.Error("Error CHIDAPI.Read(): " + e);
             }
 
             if (result != -1)
@@ -245,7 +246,7 @@ namespace Vocaluxe.Lib.Input
             }
             catch (Exception e)
             {
-                CLog.LogError("Error CHIDAPI.Close(): " + e);
+                CLog.Error("Error CHIDAPI.Close(): " + e);
                 return false;
             }
             return true;

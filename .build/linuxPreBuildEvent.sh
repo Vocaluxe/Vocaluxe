@@ -24,6 +24,7 @@ esac
 versionName=$(grep -oP "\"${shortVersionClean%.*}.\" *: *\"\K([^\"]+)(?=\")" ../.build/versionNames.json)
 fullVersionName="Vocaluxe $([ "$versionName" == "" ] && echo "" || echo "'$versionName' ")$shortVersion ($arch) $([ "$releaseType" == "Release" ] && echo "" || echo "$releaseType ")($version)"
 
-sed -i -e s/GITVERSION/$(git describe --long)/ $PROJECT/Properties/AssemblyInfo.cs
-sed -i -e s/SHORTVERSION/"$shortVersionClean"/ $PROJECT/Properties/AssemblyInfo.cs
-sed -i -e s/FULLVERSION/"$fullVersionName"/ $PROJECT/Properties/AssemblyInfo.cs
+sed -i -r -e "s/AssemblyInformationalVersion\(\".*?\"\)/AssemblyInformationalVersion(\"$(git describe --long)\")/" $PROJECT/Properties/AssemblyInfo.cs
+sed -i -r -e "s/AssemblyVersion\(\".*?\"\)/AssemblyVersion(\"$shortVersionClean\")/" $PROJECT/Properties/AssemblyInfo.cs
+sed -i -r -e "s/AssemblyFileVersion\(\".*?\"\)/AssemblyFileVersion(\"$shortVersionClean\")/" $PROJECT/Properties/AssemblyInfo.cs
+sed -i -r -e "s/AssemblyTitle\(\".*?\"\)/AssemblyTitle(\"$fullVersionName\")/" $PROJECT/Properties/AssemblyInfo.cs

@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
@@ -52,7 +53,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 msg += Environment.NewLine + "Videos: " + String.Join(", ", missingVideos);
             if (missingColors.Count > 0)
                 msg += Environment.NewLine + "Colors: " + String.Join(", ", missingColors);
-            CLog.LogError(msg);
+            CLog.Error(msg);
             return false;
         }
     }

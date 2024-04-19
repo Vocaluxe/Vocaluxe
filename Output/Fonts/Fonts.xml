@@ -8,7 +8,7 @@
 				<R>0.00</R>
 				<G>0.00</G>
 				<B>0.00</B>
-				<A>1.00</A>
+				<A>0.70</A>
 			</OutlineColor>
 			<Folder>FreeSans</Folder>
 			<FileNormal>FreeSans.ttf</FileNormal>
@@ -18,18 +18,18 @@
 		</Font1>
 		<Font2>
 			<Name>Outline</Name>
-			<Outline>0.10</Outline>
+			<Outline>0.05</Outline>
 			<OutlineColor>
 				<R>0.00</R>
 				<G>0.00</G>
 				<B>0.00</B>
-				<A>1.00</A>
+				<A>0.70</A>
 			</OutlineColor>
 			<Folder>FreeSans</Folder>
 			<FileNormal>FreeSans.ttf</FileNormal>
 			<FileBold>FreeSansBold.ttf</FileBold>
 			<FileItalic>FreeSansOblique.ttf</FileItalic>
 			<FileBoldItalic>FreeSansBoldOblique.ttf</FileBoldItalic>
-		</Font2>	
+		</Font2>
 	</Fonts>
 </root>

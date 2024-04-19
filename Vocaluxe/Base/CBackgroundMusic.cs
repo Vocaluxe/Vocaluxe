@@ -157,7 +157,7 @@ namespace Vocaluxe.Base
             if (_Initialized)
                 return;
 
-            List<string> soundFiles = CHelper.ListSoundFiles(CSettings.FolderNameBackgroundMusic, true, true);
+            IEnumerable<string> soundFiles = CHelper.ListSoundFiles(CSettings.FolderNameBackgroundMusic, true, true);
 
             foreach (string path in soundFiles)
                 _BGMusicFiles.Add(new CPlaylistElement(path));
@@ -316,56 +316,33 @@ namespace Vocaluxe.Base
                 CSound.SetGlobalVolume(CConfig.PreviewMusicVolume);
             }
 
+            //Change song position only if song is changed or near to end
             bool songChanged = _CurPlayer.SongID != song.ID;
+            if (!songChanged && _CurPlayer.Position + 30 < _CurPlayer.Length)
+                return;
 
             _PreviewPlayer.Load(song);
-            
 
-            //Change song position only if song is changed or near to end
-            if (songChanged || _CurPlayer.Position + 30 < _CurPlayer.Length || _PreviewStartHelperTask == null)
+            lock (_PreviewStartHelperTaskLock)
             {
-                lock (_PreviewStartHelperTaskLock)
+                _PreviewStartHelperTask = new Task(() =>
                 {
-                    _PreviewStartHelperTask = new Task(() =>
-                    {
-                        float length = _PreviewPlayer.Length;
-                        if (length < 1)
-                            length = 30; // If length is unknow or invalid assume a length of 30s
+                    float length = _PreviewPlayer.Length;
+                    if (length < 1)
+                        length = 30; // If length is unknow or invalid assume a length of 30s
 
-                        if (start < 0)
-                            start = (song.Preview.Source == EDataSource.None) ? length / 4f : song.Preview.StartTime;
-                        if (start > length - 5f)
-                            start = Math.Max(0f, Math.Min(length / 4f, length - 5f));
-                        if (start >= 0.5f)
-                            start -= 0.5f;
+                    if (start < 0)
+                        start = (song.Preview.Source == EDataSource.None) ? length / 4f : song.Preview.StartTime;
+                    if (start > length - 5f)
+                        start = Math.Max(0f, Math.Min(length / 4f, length - 5f));
+                    if (start >= 0.5f)
+                        start -= 0.5f;
 
-                        _PreviewPlayer.Position = start;
-                        Play();
-                    });
-                }
-                _CurPlayer = _PreviewPlayer;
+                    _PreviewPlayer.Position = start;
+                    Play();
+                });
             }
-            else
-            {
-                if (_PreviewStartHelperTask != null)
-                {
-                    lock (_PreviewStartHelperTaskLock)
-                    {
-                        // Recheck the condition as it cloud have change before we got the lock
-                        if (_PreviewStartHelperTask != null)
-                        {
-                            _PreviewStartHelperTask = null;
-                        }
-                    }
-                }
-                _PreviewPlayer.Position = _CurPlayer.Position;
-                _CurPlayer = _PreviewPlayer;
-                Play();
-            }
-
-            
-
-            
+            _CurPlayer = _PreviewPlayer;
         }
 
         public static void StopPreview()

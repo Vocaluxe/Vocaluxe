@@ -1,4 +1,4 @@
-Vocaluxe 0.4 README
+Vocaluxe 0.4.1 README
 ----------------------------
 
 =================================
@@ -26,7 +26,7 @@ Supported Operating Systems / Requirements:
 - Windows Vista, Windows 7, Windows 8 or Windows 10 with .NET 4.0
 - Linux (no official support)
 - 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
-- Visual C++ Redistributable Package 2010
+- Visual C++ Redistributable Package 2010 (2015-2022 is required for the nightly builds)
 
 
 =================================
@@ -105,9 +105,6 @@ or from the console:
 						 load playlist from this path.
 						 Example:
 						 Vocaluxe.exe -PlaylistFolder D:\MyPlaylists
-						 
--OldTheme yes	   : Try to load theme that is created for vocaluxe 0.2 or older (or some pre-release version of 0.3). Enter theme editor and save your theme to convert every file to new syntax. This will be removed in a future version.
-
 
 Complete example:
 Vocaluxe.exe -ConfigFile MyConfig.xml -ScoreFile C:\Vocaluxe\Highscores\MyHighscoreDB.sqlite -SongFolder D:\MySongCollection -PlaylistFolder D:\MyPlaylists
@@ -135,12 +132,20 @@ Song screen
 [F3]				to open/close the song search menu
 [SPACE]				to open/close the song menu
 [TAB]				to switch selection of song menu and playlist (if opened)
+[CTRL] + [H]			to show the highscore of the selected song
+[CTRL] + [T]			to toggle category / tabs view
+[CTRL] + [1]..[0]		to change the song sorting (just changed for runtime, not saved!), in order from keys 1 to 0:
+				folder, artist, artist by letter, title by letter, edition, genre, language, year, decade, date added
 [CTRL] + [R]			to select a random song
 [CTRL] + [A]			to sing all songs
 [CTRL] + [S]			to sing current song in medley version
 [CTRL] + [V]			to sing all songs from a category
+[CTRL] + [L]			to filter the song list to the current displayed playlist. Press again to remove this filter.
 [NUM_1]..[NUM_6]		to use a Joker for team 1..6
-[A]..[Z]			to jump to category/song title starting with that letter
+[A]..[Z]			to jump to category/song title starting with that letters (multiple letters possible)
+[PAGE UP] or [PAGE DOWN]	to scroll one page up/down
+[CTRL] + [PAGE UP or DOWN]	to go inside next or previous category while being in a category
+[HOME] or [END]			to scroll up to first song or down to last song
 
 Name selection screen
 [1]..[6]			to activate player selection.
@@ -152,6 +157,8 @@ Name selection screen
 Sing screen
 [P]				to toggle pause.
 [CTRL] + [S]			to skip a song if there is another one in the playlist.
+[SHIFT] + [RIGHT]		to skip 10 seconds within the playing song (not in party modes).
+[CTRL] + [RIGHT]		to skip 30 seconds within the playing song (not in party modes).
 [T]				to change the time format of the timer.
 [I]				to change view of player information.
 [W]				to activate the configured webcam.
@@ -159,6 +166,7 @@ Sing screen
 
 Score and highscore screen
 [LEFT] or [RIGHT]		to show (high)scores of another round (if there is more than one)
+				if opened from song list screen: Switch between game modes (Normal, Medley, Duet, Short)
 
 
 =================================
@@ -168,7 +176,6 @@ Vocaluxe Homepage:		https://vocaluxe.org
 Bug Tracker:			https://github.com/Vocaluxe/Vocaluxe/issues
 Translations:			https://www.transifex.com/projects/p/vocaluxe/
 GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
-Support Forum (German):		http://www.ultra-star.de
 Song-DataBase (USDB):		http://usdb.animux.de/
 
 

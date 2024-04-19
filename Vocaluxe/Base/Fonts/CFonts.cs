@@ -22,6 +22,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Xml;
 
@@ -74,7 +75,7 @@ namespace Vocaluxe.Base.Fonts
         /// <param name="y">The texts y-position</param>
         /// <param name="z">The texts z-position</param>
         /// <param name="color">The text color</param>
-        public static void DrawText(string text, CFont font, float x, float y, float z, SColorF color)
+        public static void DrawText(string text, CFont font, float x, float y, float z, SColorF color, bool allMonitors = true)
         {
             if (font.Height <= 0f || text == "")
                 return;
@@ -84,7 +85,7 @@ namespace Vocaluxe.Base.Fonts
             float dx = x;
             foreach (char chr in text)
             {
-                fontStyle.DrawGlyph(chr, font.Height, dx, y, z, color);
+                fontStyle.DrawGlyph(chr, font.Height, dx, y, z, color, allMonitors);
                 dx += fontStyle.GetWidth(chr, font.Height);
             }
         }
@@ -213,14 +214,14 @@ namespace Vocaluxe.Base.Fonts
                 if (!_LoggedMissingFonts.Contains(fontName))
                 {
                     _LoggedMissingFonts.Add(fontName);
-                    CLog.LogError("Font \"" + fontName + "\" not found!");
+                    CLog.Error("Font \"" + fontName + "\" not found!");
                 }
             }
             else
-                CLog.LogError("Empty fontName requested", false, false, new Exception());
+                CLog.Error("Empty fontName requested");
 
             if (_FontFamilies.Count == 0)
-                CLog.LogError("No fonts found!", true, true);
+                CLog.Fatal("No fonts found!");
 
             return 0;
         }
@@ -265,7 +266,7 @@ namespace Vocaluxe.Base.Fonts
             }
             catch (Exception e)
             {
-                CLog.LogError("Error loading default Fonts", false, false, e);
+                CLog.Error(e, "Error loading default Fonts");
                 return false;
             }
 
@@ -283,13 +284,16 @@ namespace Vocaluxe.Base.Fonts
             {
                 if (!_LoadFont(fontFamily, fontFolder, themeName, partyModeId))
                 {
-                    CLog.LogError("Error loading fonts for Theme " + themeName + "(" + partyModeId + ")");
+                    CLog.Error("Error loading fonts for Theme " + themeName + "(" + partyModeId + ")");
                     return false;
                 }
             }
-            CLog.StartBenchmark("BuildGlyphs");
-            _BuildGlyphs();
-            CLog.StopBenchmark("BuildGlyphs");
+            
+            using (CBenchmark.Time("Build Glyphs"))
+            {
+                _BuildGlyphs();
+            }
+
             return true;
         }
 

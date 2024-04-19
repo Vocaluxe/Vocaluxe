@@ -22,7 +22,6 @@ using System.Windows.Forms;
 using VocaluxeLib.Draw;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
@@ -33,6 +32,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private CStatic _CoverBig;
         private CStatic _TextBG;
         private CStatic _DuetIcon;
+        private CStatic _RapIcon;
         private CStatic _VideoIcon;
         private CStatic _MedleyCalcIcon;
         private CStatic _MedleyTagIcon;
@@ -43,6 +43,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private CText _Artist;
         private CText _Title;
         private CText _SongLength;
+        private CText _SongYear;
 
         private int _NumW;
         private int _NumH;
@@ -114,13 +115,15 @@ namespace VocaluxeLib.Menu.SongMenu
             _Artist = new CText(_Theme.SongMenuTileBoard.TextArtist, _PartyModeID);
             _Title = new CText(_Theme.SongMenuTileBoard.TextTitle, _PartyModeID);
             _SongLength = new CText(_Theme.SongMenuTileBoard.TextSongLength, _PartyModeID);
+            _SongYear = new CText(_Theme.SongMenuTileBoard.TextSongYear, _PartyModeID);
             _CoverBig = new CStatic(_Theme.SongMenuTileBoard.StaticCoverBig, _PartyModeID);
             _TextBG = new CStatic(_Theme.SongMenuTileBoard.StaticTextBG, _PartyModeID);
             _DuetIcon = new CStatic(_Theme.SongMenuTileBoard.StaticDuetIcon, _PartyModeID);
+            _RapIcon = new CStatic(_Theme.SongMenuTileBoard.StaticRapIcon, _PartyModeID);
             _VideoIcon = new CStatic(_Theme.SongMenuTileBoard.StaticVideoIcon, _PartyModeID);
             _MedleyCalcIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyCalcIcon, _PartyModeID);
             _MedleyTagIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyTagIcon, _PartyModeID);
-            _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
+            _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _SongYear, _DuetIcon, _RapIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
         }
 
         private void _UpdateTileSelection()
@@ -132,46 +135,15 @@ namespace VocaluxeLib.Menu.SongMenu
                 _Tiles[tileNr].Selected = true;
         }
 
-        public override bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-
-            bool themeLoaded = true;
-            themeLoaded &= base.LoadTheme(xmlPath, elementName, xmlReader);
-
-
-            themeLoaded &= _Artist.LoadTheme(item + "/SongMenuTileBoard", "TextArtist", xmlReader);
-            themeLoaded &= _Title.LoadTheme(item + "/SongMenuTileBoard", "TextTitle", xmlReader);
-            themeLoaded &= _SongLength.LoadTheme(item + "/SongMenuTileBoard", "TextSongLength", xmlReader);
-
-            themeLoaded &= _CoverBig.LoadTheme(item + "/SongMenuTileBoard", "StaticCoverBig", xmlReader);
-            themeLoaded &= _TextBG.LoadTheme(item + "/SongMenuTileBoard", "StaticTextBG", xmlReader);
-            themeLoaded &= _DuetIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticDuetIcon", xmlReader);
-            themeLoaded &= _VideoIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticVideoIcon", xmlReader);
-            themeLoaded &= _MedleyCalcIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyCalcIcon", xmlReader);
-            themeLoaded &= _MedleyTagIcon.LoadTheme(item + "/SongMenuTileBoard", "StaticMedleyTagIcon", xmlReader);
-
-            if (themeLoaded)
-            {
-                _Theme.Name = elementName;
-
-                _ReadSubTheme();
-                _SubElements.Clear();
-                _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _DuetIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
-                LoadSkin();
-                Init();
-            }
-
-            return themeLoaded;
-        }
-
         private void _ReadSubTheme()
         {
             _Theme.SongMenuTileBoard.TextArtist = (SThemeText)_Artist.GetTheme();
             _Theme.SongMenuTileBoard.TextSongLength = (SThemeText)_SongLength.GetTheme();
+            _Theme.SongMenuTileBoard.TextSongYear = (SThemeText)_SongYear.GetTheme();
             _Theme.SongMenuTileBoard.TextTitle = (SThemeText)_Title.GetTheme();
             _Theme.SongMenuTileBoard.StaticCoverBig = (SThemeStatic)_CoverBig.GetTheme();
             _Theme.SongMenuTileBoard.StaticDuetIcon = (SThemeStatic)_DuetIcon.GetTheme();
+            _Theme.SongMenuTileBoard.StaticRapIcon = (SThemeStatic)_RapIcon.GetTheme();
             _Theme.SongMenuTileBoard.StaticMedleyCalcIcon = (SThemeStatic)_MedleyCalcIcon.GetTheme();
             _Theme.SongMenuTileBoard.StaticMedleyTagIcon = (SThemeStatic)_MedleyTagIcon.GetTheme();
             _Theme.SongMenuTileBoard.StaticTextBG = (SThemeStatic)_TextBG.GetTheme();
@@ -229,7 +201,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public override void Update(SScreenSongOptions songOptions)
         {
             if (songOptions.Selection.RandomOnly)
-                _PreviewNr = _SelectionNr;
+                _PreviewSelectedSong();
 
             if (_Length < 0 && CBase.Songs.IsInCategory() && CBase.BackgroundMusic.GetLength() > 0)
                 _UpdateLength(CBase.Songs.GetVisibleSong(_PreviewNr));
@@ -242,7 +214,9 @@ namespace VocaluxeLib.Menu.SongMenu
             _Artist.Text = String.Empty;
             _Title.Text = String.Empty;
             _SongLength.Text = String.Empty;
+            _SongYear.Text = String.Empty;
             _DuetIcon.Visible = false;
+            _RapIcon.Visible = false;
             _VideoIcon.Visible = false;
             _MedleyCalcIcon.Visible = false;
             _MedleyTagIcon.Visible = false;
@@ -270,7 +244,9 @@ namespace VocaluxeLib.Menu.SongMenu
                 _CoverBig.Texture = song.CoverTextureBig;
                 _Artist.Text = song.Artist;
                 _Title.Text = song.Title;
+                _SongYear.Text = song.Year;
                 _DuetIcon.Visible = song.IsDuet;
+                _RapIcon.Visible = song.IsRap;
                 _VideoIcon.Visible = song.VideoFileName != "";
                 _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
                 _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;
@@ -325,7 +301,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 SetSelectedSong(_SelectionNr < 0 ? 0 : _SelectionNr);
             else
                 SetSelectedCategory(_SelectionNr < 0 ? 0 : _SelectionNr);
-            _PreviewNr = _SelectionNr;
+            _PreviewSelectedSong();
             _UpdateListIfRequired();
         }
 
@@ -348,7 +324,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     {
                         if (_SelectionNr >= 0 && _PreviewNr != _SelectionNr)
                         {
-                            _PreviewNr = _SelectionNr;
+                            _PreviewSelectedSong();
                             keyEvent.Handled = true;
                         }
                     }
@@ -369,17 +345,53 @@ namespace VocaluxeLib.Menu.SongMenu
                     break;
 
                 case Keys.PageUp:
-                    if (catChangePossible)
+                    if (catChangePossible && CBase.Songs.IsInCategory() && (keyEvent.Mod == EModifier.Ctrl || keyEvent.Mod == EModifier.Alt))
                     {
                         _PrevCategory();
+                        keyEvent.Handled = true;
+                    }
+                    else if (moveAllowed)
+                    {
+                        int numSongsPerPage = _NumH * _NumW;
+                        if ((_SelectionNr - numSongsPerPage) <= 0)
+                            _SelectionNr = 0;
+                        else
+                            _SelectionNr = _SelectionNr - numSongsPerPage;
                         keyEvent.Handled = true;
                     }
                     break;
 
                 case Keys.PageDown:
-                    if (catChangePossible)
+                    if (catChangePossible && CBase.Songs.IsInCategory() && (keyEvent.Mod == EModifier.Ctrl || keyEvent.Mod == EModifier.Alt))
                     {
                         _NextCategory();
+                        keyEvent.Handled = true;
+                    }
+                    else if (moveAllowed)
+                    {
+                        int numSongsPerPage = _NumH * _NumW;
+                        int maxCount_PageDown = (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && !CBase.Songs.IsInCategory() ? CBase.Songs.GetNumCategories() : CBase.Songs.GetNumSongsVisible());
+                        if ((_SelectionNr + numSongsPerPage) >= maxCount_PageDown)
+                            _SelectionNr = maxCount_PageDown - 1;
+                        else
+                            _SelectionNr = _SelectionNr + numSongsPerPage;
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.Home:
+                    if (moveAllowed)
+                    {
+                        _SelectionNr = 0;
+                        keyEvent.Handled = true;
+                    }
+                    break;
+
+                case Keys.End:
+                    int maxCount_End = (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON && !CBase.Songs.IsInCategory() ? CBase.Songs.GetNumCategories() : CBase.Songs.GetNumSongsVisible());
+                    if (moveAllowed)
+                    {
+                        _SelectionNr = maxCount_End - 1;
                         keyEvent.Handled = true;
                     }
                     break;
@@ -389,6 +401,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     if (_SelectionNr > 0 && moveAllowed)
                     {
                         _SelectionNr--;
+                        _AutoplayPreviewIfEnabled();
                         keyEvent.Handled = true;
                     }
                     break;
@@ -397,6 +410,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     if (moveAllowed)
                     {
                         _SelectionNr++;
+                        _AutoplayPreviewIfEnabled();
                         keyEvent.Handled = true;
                     }
                     break;
@@ -413,6 +427,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     else if (_SelectionNr >= _NumW && moveAllowed)
                     {
                         _SelectionNr -= _NumW;
+                        _AutoplayPreviewIfEnabled();
                         keyEvent.Handled = true;
                     }
                     break;
@@ -429,12 +444,13 @@ namespace VocaluxeLib.Menu.SongMenu
                     else if (moveAllowed)
                     {
                         _SelectionNr += _NumW;
+                        _AutoplayPreviewIfEnabled();
                         keyEvent.Handled = true;
                     }
                     break;
             }
             if (!CBase.Songs.IsInCategory())
-                _PreviewNr = _SelectionNr;
+                _PreviewSelectedSong();
             return keyEvent.Handled;
         }
 
@@ -490,7 +506,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     {
                         if (_PreviewNr == _SelectionNr)
                             return false;
-                        _PreviewNr = _SelectionNr;
+                        _PreviewSelectedSong();
                     }
                     else
                         EnterSelectedCategory();
@@ -515,7 +531,9 @@ namespace VocaluxeLib.Menu.SongMenu
 
             _TextBG.Draw();
 
-            CTextureRef vidtex = CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null;
+            CTextureRef vidtex = null;
+            if (CBase.Config.GetVideoPreview() == EOffOn.TR_CONFIG_ON)
+                vidtex = (CBase.BackgroundMusic.IsPlayingPreview() ? CBase.BackgroundMusic.GetVideoTexture() : null);
 
             if (vidtex != null)
             {

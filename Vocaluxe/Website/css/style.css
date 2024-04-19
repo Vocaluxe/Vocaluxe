@@ -91,3 +91,31 @@
     cursor: pointer;
 }
 
+#logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 219px;
+    height:40px;
+}
+
+.ui-bar-b {
+  border: 1px solid #000;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+  background: #000;
+    background-image: none;
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 1px 0 #3e6790;
+  background-image: -webkit-gradient(linear,left top,left bottom,from(#000000),to(#000000));
+  background-image: -webkit-linear-gradient(#000000,#000000);
+  background-image: -moz-linear-gradient(#000000,#000000);
+  background-image: -ms-linear-gradient(#000000,#000000);
+  background-image: -o-linear-gradient(#000000,#000000);
+  background-image: linear-gradient(#000000,#000000);
+}

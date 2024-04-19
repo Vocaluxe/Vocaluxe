@@ -28,6 +28,7 @@ namespace VocaluxeLib
         Letter,
         Edition,
         Genre,
+        Tags,
         Language,
         Year,
         Decade,
@@ -64,8 +65,10 @@ namespace VocaluxeLib
     #region Fonts
     public enum EAspect
     {
+        Automatic,
         Crop,
         LetterBox,
+        PillarBox,
         Stretch,
         Zoom1,
         Zoom2
@@ -214,6 +217,13 @@ namespace VocaluxeLib
         NoDuets
     }
 
+    public enum ESongSource
+    {
+        TR_SONGSOURCE_ALLSONGS,
+        TR_SONGSOURCE_CATEGORY,
+        TR_SONGSOURCE_PLAYLIST
+    }
+
     public enum ESongSorting
     {
         // ReSharper disable InconsistentNaming
@@ -224,6 +234,7 @@ namespace VocaluxeLib
         TR_CONFIG_TITLE_LETTER,
         TR_CONFIG_EDITION,
         TR_CONFIG_GENRE,
+        TR_CONFIG_TAGS,
         TR_CONFIG_LANGUAGE,
         TR_CONFIG_YEAR,
         TR_CONFIG_DECADE,
@@ -357,7 +368,9 @@ namespace VocaluxeLib
     {
         Normal,
         Golden,
-        Freestyle
+        Freestyle,
+        Rap,
+        RapGolden
     }
 
     public enum EMusicType

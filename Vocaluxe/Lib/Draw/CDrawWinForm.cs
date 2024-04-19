@@ -259,7 +259,7 @@ namespace Vocaluxe.Lib.Draw
             {
                 base.Close();
             }
-            catch {}
+            catch { }
             Dispose();
         }
 
@@ -308,9 +308,9 @@ namespace Vocaluxe.Lib.Draw
             _Backbuffer.Save(file, ImageFormat.Png);
         }
 
-        public void DrawRect(SColorF color, SRectF rect) {}
+        public void DrawRect(SColorF color, SRectF rect, bool allMonitors = true) { }
 
-        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height) {}
+        public void DrawRectReflection(SColorF color, SRectF rect, float space, float height) { }
 
         public CTextureRef AddTexture(Bitmap bmp)
         {
@@ -418,13 +418,13 @@ namespace Vocaluxe.Lib.Draw
                 _Bitmaps[textureRef.ID] = bmp;
         }
 
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, bool mirrored = false, bool allMonitors = true)
         {
             if (texture != null)
                 DrawTexture(texture, rect, color, rect, mirrored);
         }
 
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false)
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false, bool allMonitors = true)
         {
             if (!_TextureExists(texture))
                 return;
@@ -433,9 +433,9 @@ namespace Vocaluxe.Lib.Draw
             coloredBitmap.Dispose();
         }
 
-        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end) {}
+        public void DrawTexture(CTextureRef texture, SRectF rect, SColorF color, float begin, float end, bool allMonitors = true) { }
 
-        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height) {}
+        public void DrawTextureReflection(CTextureRef texture, SRectF rect, SColorF color, SRectF bounds, float space, float height, bool allMonitors = true) { }
 
         public int GetTextureCount()
         {
@@ -448,7 +448,7 @@ namespace Vocaluxe.Lib.Draw
 
             using (Graphics g = Graphics.FromImage(newBitmap))
             {
-                var cm = new ColorMatrix {Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1};
+                var cm = new ColorMatrix { Matrix33 = color.A, Matrix00 = color.R, Matrix11 = color.G, Matrix22 = color.B, Matrix44 = 1 };
 
                 using (var ia = new ImageAttributes())
                 {

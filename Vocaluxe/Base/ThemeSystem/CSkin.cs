@@ -24,6 +24,7 @@ using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Xml;
 using System.Linq;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
 {
@@ -99,7 +100,7 @@ namespace Vocaluxe.Base.ThemeSystem
             }
             catch (CXmlException e)
             {
-                CLog.LogError("Error reading required elements: " + e);
+                CLog.Error("Error reading required elements: " + e);
                 return false;
             }
             for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
@@ -147,7 +148,7 @@ namespace Vocaluxe.Base.ThemeSystem
             }
             catch (Exception e)
             {
-                CLog.LogError("Can't load skin file \"" + Path.Combine(_Folder, _FileName) + "\". Invalid file!", false, false, e);
+                CLog.Error(e, "Can't load skin file \"" + Path.Combine(_Folder, _FileName) + "\". Invalid file!");
                 return false;
             }
 
@@ -166,7 +167,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 CTextureRef texture = CDraw.AddTexture(Path.Combine(_Folder, kvp.Value));
                 if (texture == null)
                 {
-                    CLog.LogError("Error on loading texture \"" + kvp.Key + "\": " + kvp.Value, true);
+                    CLog.Error("Error on loading texture \"" + kvp.Key + "\": " + kvp.Value, true);
                     return false;
                 }
                 _Textures.Add(kvp.Key, texture);
@@ -178,7 +179,7 @@ namespace Vocaluxe.Base.ThemeSystem
                 CVideoSkinElement sk = new CVideoSkinElement {FileName = kvp.Value};
                 if (!File.Exists(Path.Combine(_Folder, sk.FileName)))
                 {
-                    CLog.LogError("Video \"" + kvp.Key + "\": (" + sk.FileName + ") not found!");
+                    CLog.Error("Video \"" + kvp.Key + "\": (" + sk.FileName + ") not found!");
                     continue;
                 }
                 _Videos.Add(kvp.Key, sk);

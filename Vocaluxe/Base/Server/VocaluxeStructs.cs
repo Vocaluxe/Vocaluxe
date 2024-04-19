@@ -56,7 +56,7 @@ namespace Vocaluxe.Base.Server
         [DataMember]
         public int Difficulty;
         [DataMember]
-        public int ProfileId;
+        public Guid ProfileId;
         [DataMember]
         public bool IsEditable;
         [DataMember]

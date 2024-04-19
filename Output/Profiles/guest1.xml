@@ -1,8 +1,9 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
-  <PlayerName>Guest 1</PlayerName>
+  <ID>600352d6-d975-4945-9758-e6b379972a12</ID>
+  <PlayerName>Beginner</PlayerName>
   <Difficulty>TR_CONFIG_EASY</Difficulty>
   <UserRole>TR_USERROLE_GUEST</UserRole>
   <Active>TR_CONFIG_ON</Active>
-  <Avatar>Avatar_f.png</Avatar>
+  <Avatar>Guest01.png</Avatar>
 </root>

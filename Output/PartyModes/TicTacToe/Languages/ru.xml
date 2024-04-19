@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Русский</string>
+  <string name="TR_PARTYMODE_NAME">Крестики-нолики</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Играйте в Крестики-нолики особым образом</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Веселые раунды со стратегией, удачей и навыками</string>
+  <string name="TR_BUTTON_NEXT">Далее</string>
+  <string name="TR_BUTTON_BACK">Назад</string>
+  <string name="TR_BUTTON_START">Начать</string>
+  <string name="TR_BUTTON_EXIT">Выход</string>
+  <string name="TR_BUTTON_YES">Да</string>
+  <string name="TR_BUTTON_NO">Нет</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Старт</string>
+  <string name="TR_SONGS">Песни</string>
+  <string name="TR_TEAM">Команда</string>
+  <string name="TR_SCREENCONFIG_TITLE">Крестики-нолики: Конфигурация</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Номер игрока из команды 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Номер игрока из команды 2</string>
+  <string name="TR_SCREENCONFIG_NUMFIELDS">Количество полей</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Пополняйте джокеры каждый раунд</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Количество джокеров</string>
+  <string name="TR_SCREENCONFIG_SWITCH_PLAYER">Сменить игрока</string>
+  <string name="TR_SCREENNAMES_TITLE">Крестики-нолики: Выберите игрока</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Выбранные игроки для этой команды:</string>
+  <string name="TR_SCREENNAMES_TEAM1">Команда 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Команда 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Случайный выбор</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Добавьте хотя бы по одному игроку в обе команды! / Перетащите аватары игроков, чтобы добавить их в список выбранных игроков! / Нажмите правой кнопкой мыши на аватарах выбранных игроков, чтобы убрать их.</string>
+  <string name="TR_SCREENMAIN_TITLE">Крестики-нолики</string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Выберите поле.</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Следующий игрок</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Действительно выйти из Крестики-нолики?</string>
+  <string name="TR_SCREENMAIN_WINNER">И победителем становится...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">В этом раунде нет победителя...</string>
+</resources>

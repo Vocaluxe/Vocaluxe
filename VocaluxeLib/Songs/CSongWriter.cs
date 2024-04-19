@@ -18,6 +18,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using VocaluxeLib.Log;
 
 namespace VocaluxeLib.Songs
 {
@@ -87,6 +88,7 @@ namespace VocaluxeLib.Songs
                     _WriteHeaderEntry("ARTIST-ON-SORTING", _Song.ArtistSorting);
                 _WriteHeaderEntrys("EDITION", _Song.Editions);
                 _WriteHeaderEntrys("GENRE", _Song.Genres);
+                _WriteHeaderEntry("TAGS", String.Join(",", _Song.Tags.ToArray()));
                 _WriteHeaderEntrys("LANGUAGE", _Song.Languages);
                 _WriteHeaderEntry("ALBUM", _Song.Album);
                 _WriteHeaderEntry("YEAR", _Song.Year);
@@ -186,6 +188,12 @@ namespace VocaluxeLib.Songs
                                 case ENoteType.Freestyle:
                                     tag = "F";
                                     break;
+                                case ENoteType.Rap:
+                                    tag = "R";
+                                    break;
+                                case ENoteType.RapGolden:
+                                    tag = "G";
+                                    break;
                                 default:
                                     throw new NotImplementedException("Note type " + note.Type);
                             }
@@ -207,12 +215,12 @@ namespace VocaluxeLib.Songs
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    CBase.Log.LogError("Cannot write " + filePath + ". Directory might be readonly or requires admin rights.");
+                    CLog.Error("Cannot write " + filePath + ". Directory might be readonly or requires admin rights.");
                     return false;
                 }
                 catch (Exception e)
                 {
-                    CBase.Log.LogError("Unhandled exception while writing " + filePath + ": " + e);
+                    CLog.Error("Unhandled exception while writing " + filePath + ": " + e);
                     return false;
                 }
                 finally

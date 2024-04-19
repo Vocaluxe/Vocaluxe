@@ -20,14 +20,14 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("ParticleEffect")]
     public struct SThemeParticleEffect
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public string Skin;
         public SRectF Rect;
@@ -35,6 +35,7 @@ namespace VocaluxeLib.Menu
         public EParticleType Type;
         public float Size;
         public int MaxNumber;
+        public bool? AllMonitors;
     }
 
     public enum EParticleType
@@ -59,6 +60,8 @@ namespace VocaluxeLib.Menu
         private float _NextSpawnTime;
 
         public float Alpha = 1f;
+
+        public bool AllMonitors = true;
 
         public string GetThemeName()
         {
@@ -125,42 +128,6 @@ namespace VocaluxeLib.Menu
             Visible = true;
 
             ThemeLoaded = true;
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/Skin", out _Theme.Skin, String.Empty);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.Rect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Rect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Rect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/W", ref _Theme.Rect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.Rect.H);
-
-            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
-            }
-
-            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Type", ref _Theme.Type);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Size", ref _Theme.Size);
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/MaxNumber", ref _Theme.MaxNumber);
-
-            if (ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-                _Theme.Color.Color = Color;
-                LoadSkin();
-            }
-            return ThemeLoaded;
         }
 
         public void Update()
@@ -301,7 +268,7 @@ namespace VocaluxeLib.Menu
             foreach (CParticle star in _Stars)
             {
                 star.Alpha2 = Alpha;
-                star.Draw();
+                star.Draw(AllMonitors);
             }
         }
 

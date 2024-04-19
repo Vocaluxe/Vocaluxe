@@ -20,6 +20,7 @@ using GLib;
 using Gst;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
@@ -79,7 +80,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                     
                 long position;
                 if (!_Element.QueryPosition(Format.Time, out position))
-                    CLog.LogError("Could not query position");
+                    CLog.Error("Could not query position");
                 else
                     _Position = ((float)position / Constants.SECOND);
                     
@@ -121,7 +122,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
             if (convert == null || audiosink == null)
             {
-                CLog.LogError("Could not create pipeline");
+                CLog.Error("Could not create pipeline");
                 if (convert != null)
                     convert.Dispose();
                 if (audiosink != null)
@@ -158,7 +159,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
             if (pad == null)
             {
-                CLog.LogError("Could not create pads");
+                CLog.Error("Could not create pads");
                 convert.Dispose();
                 audiosink.Dispose();
                 audioSinkBin.Dispose();
@@ -171,7 +172,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 
             if (!ghostpad.SetActive(true))
             {
-                CLog.LogError("Could not link pads");
+                CLog.Error("Could not link pads");
                 convert.Dispose();
                 audiosink.Dispose();
                 audioSinkBin.Dispose();
@@ -184,7 +185,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             }
             if (!audioSinkBin.AddPad(ghostpad))
             {
-                CLog.LogError("Could not add pad");
+                CLog.Error("Could not add pad");
                 convert.Dispose();
                 audiosink.Dispose();
                 audioSinkBin.Dispose();
@@ -199,7 +200,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             _Element = ElementFactory.Make("playbin", "playbin");
             if (_Element == null)
             {
-                CLog.LogError("Could not create playbin");
+                CLog.Error("Could not create playbin");
                 convert.Dispose();
                 audiosink.Dispose();
                 audioSinkBin.Dispose();
@@ -299,7 +300,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
                     GException error;
                     string debug;
                     msg.ParseError(out error, out debug);
-                    CLog.LogError("Gstreamer error: message" + error.Message + ", code" + error.Code + " ,debug information" + debug);
+                    CLog.Error("Gstreamer error: message" + error.Message + ", code" + error.Code + " ,debug information" + debug);
                     return false;
                 case MessageType.DurationChanged:
                     _UpdateDuration();

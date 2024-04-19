@@ -44,7 +44,7 @@ namespace Vocaluxe.Base.Server
 
             foreach (var sessionToRemove in sessionIdsToRemove)
             {
-                InvalidateSessions(sessionToRemove);
+                InvalidateSessionByID(sessionToRemove);
             }
         }
 
@@ -54,7 +54,7 @@ namespace Vocaluxe.Base.Server
                 return Guid.Empty;
 
             Guid newId = Guid.NewGuid();
-            int id = _GetProfileIdFormUsername(userName);
+            Guid id = _GetProfileIdFormUsername(userName);
             EUserRoles roles = _GetUserRoles(id);
             CSession session = new CSession(newId, id, roles);
             //InvalidateSessions(id);
@@ -68,17 +68,17 @@ namespace Vocaluxe.Base.Server
             return CVocaluxeServer.ValidatePassword(_GetProfileIdFormUsername(userName), password);
         }
 
-        private static int _GetProfileIdFormUsername(string username)
+        private static Guid _GetProfileIdFormUsername(string username)
         {
             return CVocaluxeServer.GetUserIdFromUsername(username);
         }
 
-        private static EUserRoles _GetUserRoles(int profileId)
+        private static EUserRoles _GetUserRoles(Guid profileId)
         {
             return (EUserRoles)CVocaluxeServer.GetUserRole(profileId);
         }
 
-        internal static void InvalidateSessions(int profileId)
+        internal static void InvalidateSessionByProfile(Guid profileId)
         {
             foreach (KeyValuePair<Guid, CSession> s in (from kv in _ActiveSessions
                                                         where kv.Value.ProfileId == profileId
@@ -86,7 +86,7 @@ namespace Vocaluxe.Base.Server
                 _ActiveSessions.Remove(s.Key);
         }
 
-        internal static void InvalidateSessions(Guid sessionId)
+        internal static void InvalidateSessionByID(Guid sessionId)
         {
             if (_ActiveSessions.ContainsKey(sessionId))
             {
@@ -100,10 +100,10 @@ namespace Vocaluxe.Base.Server
                                      .HasFlag(requestedRight)));
         }
 
-        internal static int GetUserIdFromSession(Guid sessionId)
+        internal static Guid GetUserIdFromSession(Guid sessionId)
         {
             if (!_ActiveSessions.ContainsKey(sessionId))
-                return -1;
+                return Guid.Empty;
             return _ActiveSessions[sessionId].ProfileId;
         }
 

@@ -21,6 +21,7 @@ using System.Drawing;
 using System.Drawing.Text;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.Fonts
 {
@@ -93,18 +94,18 @@ namespace Vocaluxe.Base.Fonts
                 }
                 catch (Exception e)
                 {
-                    CLog.LogError("Error opening font file " + _FilePath + ": " + e.Message);
+                    CLog.Error("Error opening font file " + _FilePath + ": " + e.Message);
                 }
             }
             return new Font(_Family, height, _GetSystemFontStyle(), GraphicsUnit.Pixel);
         }
 
-        public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color)
+        public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color, bool allMonitors = true)
         {
             CTextureRef texture;
             SRectF rect;
             GetOrAddGlyph(chr, fontHeight).GetTextureAndRect(fontHeight, x, y, z, out texture, out rect);
-            CDraw.DrawTexture(texture, rect, color);
+            CDraw.DrawTexture(texture, rect, color, false, allMonitors);
         }
 
         public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color, float begin, float end)

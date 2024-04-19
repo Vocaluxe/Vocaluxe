@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Anglický</string>
+  <string name="TR_PARTYMODE_NAME">Tic-Tac-Toe</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Hrajte Tic-Tac-Toe zvláštním způsobem</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Zábavná kola se strategií, štěstím a dovednostmi</string>
+  <string name="TR_BUTTON_NEXT">Další</string>
+  <string name="TR_BUTTON_BACK">Zpět</string>
+  <string name="TR_BUTTON_START">Spustit</string>
+  <string name="TR_BUTTON_EXIT">Ukončit</string>
+  <string name="TR_BUTTON_YES">Ano</string>
+  <string name="TR_BUTTON_NO">Ne</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Spustit</string>
+  <string name="TR_SONGS">Písně</string>
+  <string name="TR_TEAM">Tým</string>
+  <string name="TR_SCREENCONFIG_TITLE">Tic-Tac-Toe: Nastavení</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Počet hráčů v týmu 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Počet hráčů v týmu 2</string>
+  <string name="TR_SCREENCONFIG_NUMFIELDS">Počet polí</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Doplnit žolíky každé kolo</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Počet žolíků</string>
+  <string name="TR_SCREENCONFIG_SWITCH_PLAYER">Přepnout hráče</string>
+  <string name="TR_SCREENNAMES_TITLE">Tic-Tac-Toe: Výběr hráče</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Vybraní hráči pro tento tým:</string>
+  <string name="TR_SCREENNAMES_TEAM1">Tým 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Tým 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Vybrat náhodně</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Přidejte alespoň jednoho hráče do obou týmů! / Přetáhněte zástupné obrázky hráčů a přidejte je do seznamu vybraných hráčů! / Klepnutím pravým tlačítkem myši na jej zastupující obrázek vybraného hráče odeberete!</string>
+  <string name="TR_SCREENMAIN_TITLE">Tic-Tac-Toe</string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Vybrat pole.</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Další hráč</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Opravdu opustit Tic-Tac-Toe?</string>
+  <string name="TR_SCREENMAIN_WINNER">A vítězem se stal...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">V tomto kole se nestal vítězem nikdo...</string>
+</resources>

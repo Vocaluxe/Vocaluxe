@@ -13,9 +13,6 @@ Added videos:
 <IntroOut>
 
 ++++++++++
-
-
-++++++++++
 Version 2:
 
 Changed:

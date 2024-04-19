@@ -77,10 +77,10 @@
     "discoverConnectButton": "Anslut",
     "Checking...": "Kontrollerar...",
     "timeout": "Timeout",
-    "keyboardButtonShift": "Skift",
-    "keyboardButtonAlt": "Alt",
+    "keyboardButtonShift":  "Skift",
+    "keyboardButtonAlt":  "Alt",
     "keyboardButtonCtrl": "Ctrl",
     "keyboardButtonBackspace": "Backsteg",
     "keyboardAutoSend": "Autoskicka knappar",
-    "keyboardButtonSend": "Skicka"
+    "keyboardButtonSend":  "Skicka"
 }

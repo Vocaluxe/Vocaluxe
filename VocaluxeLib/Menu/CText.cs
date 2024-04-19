@@ -18,28 +18,33 @@
 using System;
 using System.Drawing;
 using System.Xml.Serialization;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu
 {
     [XmlType("Text")]
     public struct SThemeText
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public float X;
         public float Y;
         public float Z;
-        [XmlElement("H")] public float FontHeight;
-        [XmlElement("MaxW")] public float MaxWidth;
+        [XmlElement("H")]
+        public float FontHeight;
+        [XmlElement("MaxW")]
+        public float MaxWidth;
         public SThemeColor Color;
         public SThemeColor SelColor; //for Buttons
         public EAlignment Align;
         public EHAlignment ResizeAlign;
-        [XmlElement("Style")] public EStyle FontStyle;
-        [XmlElement("Font")] public string FontFamily;
+        [XmlElement("Style")]
+        public EStyle FontStyle;
+        [XmlElement("Font")]
+        public string FontFamily;
         public string Text;
         public SReflection? Reflection;
+        public bool? AllMonitors;
     }
 
     public sealed class CText : CMenuElementBase, IMenuElement, IThemeable, IFontObserver
@@ -162,6 +167,8 @@ namespace VocaluxeLib.Menu
         private float _ReflectionSpace;
         private float _ReflectionHeight;
 
+        public bool AllMonitors = true;
+
         private string _Text = String.Empty;
         public string Text
         {
@@ -249,6 +256,7 @@ namespace VocaluxeLib.Menu
             SelColor = text.SelColor;
             _ReflectionSpace = text._ReflectionSpace;
             _ReflectionHeight = text._ReflectionHeight;
+            AllMonitors = text.AllMonitors;
 
             Text = text.Text;
             Visible = text.Visible;
@@ -294,79 +302,6 @@ namespace VocaluxeLib.Menu
             ThemeLoaded = true;
         }
 
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            return LoadTheme(xmlPath, elementName, xmlReader, false);
-        }
-
-        public bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader, bool buttonText)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/X", ref _Theme.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Y", ref _Theme.Y);
-
-            if (!buttonText)
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Z", ref _Theme.Z);
-
-            xmlReader.TryGetFloatValue(item + "/MaxW", ref _Theme.MaxWidth);
-
-            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out Color);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref Color.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref Color.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref Color.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref Color.A);
-            }
-
-            if (xmlReader.GetValue(item + "/SColor", out _Theme.SelColor.Name, String.Empty))
-                ThemeLoaded &= _Theme.SelColor.Get(_PartyModeID, out SelColor);
-            else
-            {
-                if (xmlReader.TryGetFloatValue(item + "/SR", ref SelColor.R))
-                {
-                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SG", ref SelColor.G);
-                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SB", ref SelColor.B);
-                    ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SA", ref SelColor.A);
-                }
-            }
-
-            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Align", ref _Align);
-            xmlReader.TryGetEnumValue(item + "/ResizeAlign", ref _ResizeAlign);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/H", ref _Theme.FontHeight);
-            ThemeLoaded &= xmlReader.TryGetEnumValue(item + "/Style", ref _Theme.FontStyle);
-            ThemeLoaded &= xmlReader.GetValue(item + "/Font", out _Theme.FontFamily);
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/Text", out _Theme.Text);
-
-            if (xmlReader.ItemExists(item + "/Reflection") && !buttonText)
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Space", ref _ReflectionSpace);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/Reflection/Height", ref _ReflectionHeight);
-                _Theme.Reflection = new SReflection(_ReflectionHeight, _ReflectionSpace);
-            }
-            else
-                _Theme.Reflection = null;
-
-
-            // Set values
-            _Theme.Name = elementName;
-            _Theme.Align = _Align;
-            _Theme.Color.Color = Color;
-            _Theme.ResizeAlign = _ResizeAlign;
-            _Theme.SelColor.Color = SelColor;
-
-            _ButtonText = buttonText;
-            _PositionNeedsUpdate = true;
-
-            if (ThemeLoaded)
-                LoadSkin();
-            return ThemeLoaded;
-        }
-
         public void Draw()
         {
             _Draw(false);
@@ -383,7 +318,7 @@ namespace VocaluxeLib.Menu
             SColorF currentColor = (Selected) ? SelColor : Color;
             var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color);
+            CBase.Fonts.DrawText(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color, AllMonitors);
 
             if (_ReflectionHeight > 0)
                 CBase.Fonts.DrawTextReflection(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color, _ReflectionSpace, _ReflectionHeight);
@@ -428,7 +363,7 @@ namespace VocaluxeLib.Menu
             Y -= ry;
         }
 
-        public void UnloadSkin() {}
+        public void UnloadSkin() { }
 
         public void LoadSkin()
         {

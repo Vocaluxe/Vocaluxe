@@ -77,10 +77,10 @@
     "discoverConnectButton": "Ligar",
     "Checking...": "A verificar...",
     "timeout": "Tempo de espera excedido",
-    "keyboardButtonShift": "Shift",
-    "keyboardButtonAlt": "Alt",
+    "keyboardButtonShift":  "Shift",
+    "keyboardButtonAlt":  "Alt",
     "keyboardButtonCtrl": "Control",
     "keyboardButtonBackspace": "Backspace",
     "keyboardAutoSend": "Enviar teclas automáticamente",
-    "keyboardButtonSend": "Enviar"
+    "keyboardButtonSend":  "Enviar"
 }

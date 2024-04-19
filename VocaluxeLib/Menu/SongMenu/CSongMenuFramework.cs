@@ -15,12 +15,10 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
-using VocaluxeLib.Xml;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
@@ -32,6 +30,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public string CoverBackground;
         public string CoverBigBackground;
         public string DuetIcon;
+        public string RapIcon;
         public string VideoIcon;
         public string MedleyCalcIcon;
         public string MedleyTagIcon;
@@ -65,10 +64,12 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeText TextArtist;
         public SThemeText TextTitle;
         public SThemeText TextSongLength;
+        public SThemeText TextSongYear;
 
         public SThemeStatic StaticCoverBig;
         public SThemeStatic StaticTextBG;
         public SThemeStatic StaticDuetIcon;
+        public SThemeStatic StaticRapIcon;
         public SThemeStatic StaticVideoIcon;
         public SThemeStatic StaticMedleyCalcIcon;
         public SThemeStatic StaticMedleyTagIcon;
@@ -113,10 +114,12 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeText TextArtist;
         public SThemeText TextTitle;
         public SThemeText TextSongLength;
+        public SThemeText TextSongYear;
 
         public SThemeStatic StaticCoverBig;
         public SThemeStatic StaticTextBG;
         public SThemeStatic StaticDuetIcon;
+        public SThemeStatic StaticRapIcon;
         public SThemeStatic StaticVideoIcon;
         public SThemeStatic StaticMedleyCalcIcon;
         public SThemeStatic StaticMedleyTagIcon;
@@ -160,6 +163,9 @@ namespace VocaluxeLib.Menu.SongMenu
             }
         }
 
+        protected int _AutoplayDelayinMs = CBase.Config.GetAutoplayPreviewDelay();
+        protected System.Timers.Timer _AutoplayTimer = new System.Timers.Timer();
+
         private SColorF _ColorInternal;
         protected SColorF _Color
         {
@@ -201,85 +207,12 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             return _Theme;
         }
-
-        public virtual bool LoadTheme(string xmlPath, string elementName, CXmlReader xmlReader)
-        {
-            string item = xmlPath + "/" + elementName;
-            ThemeLoaded = true;
-
-            ThemeLoaded &= xmlReader.GetValue(item + "/CoverBackground", out _Theme.CoverBackground, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/CoverBigBackground", out _Theme.CoverBigBackground, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/DuetIcon", out _Theme.DuetIcon, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/VideoIcon", out _Theme.VideoIcon, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/MedleyCalcIcon", out _Theme.MedleyCalcIcon, String.Empty);
-            ThemeLoaded &= xmlReader.GetValue(item + "/MedleyTagIcon", out _Theme.MedleyTagIcon, String.Empty);
-
-            if (xmlReader.GetValue(item + "/Color", out _Theme.Color.Name, String.Empty))
-                ThemeLoaded &= _Theme.Color.Get(_PartyModeID, out _ColorInternal);
-            else
-            {
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/R", ref _ColorInternal.R);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/G", ref _ColorInternal.G);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/B", ref _ColorInternal.B);
-                ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/A", ref _ColorInternal.A);
-            }
-            _Theme.Color.Color = _ColorInternal;
-
-            #region SongMenuTileBoard
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuTileBoard/NumW", ref _Theme.SongMenuTileBoard.NumW);
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuTileBoard/NumH", ref _Theme.SongMenuTileBoard.NumH);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/SpaceW", ref _Theme.SongMenuTileBoard.SpaceW);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/SpaceH", ref _Theme.SongMenuTileBoard.SpaceH);
-
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuTileBoard/NumWsmall", ref _Theme.SongMenuTileBoard.NumWsmall);
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuTileBoard/NumHsmall", ref _Theme.SongMenuTileBoard.NumHsmall);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectX", ref _Theme.SongMenuTileBoard.TileRect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectY", ref _Theme.SongMenuTileBoard.TileRect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectZ", ref _Theme.SongMenuTileBoard.TileRect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectW", ref _Theme.SongMenuTileBoard.TileRect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectH", ref _Theme.SongMenuTileBoard.TileRect.H);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallX", ref _Theme.SongMenuTileBoard.TileRectSmall.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallY", ref _Theme.SongMenuTileBoard.TileRectSmall.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallZ", ref _Theme.SongMenuTileBoard.TileRectSmall.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallW", ref _Theme.SongMenuTileBoard.TileRectSmall.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuTileBoard/TileRectSmallH", ref _Theme.SongMenuTileBoard.TileRectSmall.H);
-            #endregion SongMenuTileBoard
-
-            #region SongMenuList
-            ThemeLoaded &= xmlReader.TryGetIntValue(item + "/SongMenuList/ListLength", ref _Theme.SongMenuList.ListLength);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/SpaceW", ref _Theme.SongMenuList.SpaceW);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/SpaceH", ref _Theme.SongMenuList.SpaceH);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/X", ref _Theme.SongMenuList.TileRect.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/Y", ref _Theme.SongMenuList.TileRect.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/Z", ref _Theme.SongMenuList.TileRect.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/W", ref _Theme.SongMenuList.TileRect.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRect/H", ref _Theme.SongMenuList.TileRect.H);
-
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/X", ref _Theme.SongMenuList.TileRectSmall.X);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/Y", ref _Theme.SongMenuList.TileRectSmall.Y);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/Z", ref _Theme.SongMenuList.TileRectSmall.Z);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/W", ref _Theme.SongMenuList.TileRectSmall.W);
-            ThemeLoaded &= xmlReader.TryGetFloatValue(item + "/SongMenuList/TileRectSmall/H", ref _Theme.SongMenuList.TileRectSmall.H);
-            #endregion SongMenuList
-
-            if (ThemeLoaded)
-            {
-                _Theme.Name = elementName;
-
-                LoadSkin();
-                Init();
-            }
-
-            return ThemeLoaded;
-        }
         #endregion Theme
 
         public virtual void Init()
         {
             _ResetPreview(false);
+            _InitializeAutoplayTimer();
             _Initialized = true;
         }
 
@@ -292,7 +225,7 @@ namespace VocaluxeLib.Menu.SongMenu
             EScreen check = CBase.Graphics.GetNextScreenType();
             if (CBase.Graphics.GetNextScreenType() == EScreen.Sing)
                 _ResetPreview(false);
-            else if (CBase.Graphics.GetNextScreenType() != EScreen.Names || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            else if ((CBase.Graphics.GetNextScreenType() != EScreen.Names && CBase.Graphics.GetNextScreenType() != EScreen.Highscore) || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
                 _ResetPreview();
         }
 
@@ -356,6 +289,13 @@ namespace VocaluxeLib.Menu.SongMenu
             else
                 _SelectionNr = -1;
             _PreviewNr = _SelectionNr;
+        }
+
+        public void LeaveSelectedCategory()
+        {
+            // Stefan1200: This was implemented with the pull request #359 and is the reason for the bug described in issue #390.
+            //             Currently disabled until we know if this is still needed or we find a better solution!
+            // _LeaveCategory();
         }
 
         public virtual void UnloadSkin() {}
@@ -432,6 +372,42 @@ namespace VocaluxeLib.Menu.SongMenu
             //(e.g. leave a category with one song and set preview to 0 --> previewOld=previewNew=0 --> No change --> Old data shown
             //Use internal nr because this function gets called from withing setPreviewNr
             _PreviewNrInternal = -1;
+        }
+
+        protected void _PreviewSelectedSong()
+        {
+            _PreviewNr = _SelectionNr;
+        }
+
+        protected void _InitializeAutoplayTimer()
+        {
+            _AutoplayTimer.Interval = _AutoplayDelayinMs;
+            _AutoplayTimer.AutoReset = false;
+            _AutoplayTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
+            {
+                _PreviewSelectedSong();
+            };
+        }
+
+        protected void _AutoplayPreviewIfEnabled()
+        {
+            if (CBase.Config.GetAutoplayPreviews() == EOffOn.TR_CONFIG_ON)
+            {
+                _PlayPreviewAfterDelay();
+            }
+        }        
+
+        protected void _PlayPreviewAfterDelay()
+        {
+            if (!_AutoplayTimer.Enabled)
+            {
+                _AutoplayTimer.Start();
+            }
+            else
+            {
+                _AutoplayTimer.Stop();
+                _AutoplayTimer.Start();
+            }
         }
 
         #region ThemeEdit

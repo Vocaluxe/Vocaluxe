@@ -15,10 +15,12 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 
 namespace Vocaluxe.Screens
@@ -41,6 +43,8 @@ namespace Vocaluxe.Screens
         private int _CurrentIntroVideo;
         private bool _IntroOutPlayed;
         private CVideoPlayer[] _Intros;
+
+        private IDisposable _TimerLoadSongsFull;
 
         public override void Init()
         {
@@ -122,8 +126,9 @@ namespace Vocaluxe.Screens
                 foreach (CVideoPlayer videoPlayer in _Intros)
                     videoPlayer.PreLoad();
             }
-
-            CLog.StartBenchmark("Load Songs Full");
+            
+            _TimerLoadSongsFull = CBenchmark.Time("Loaded Songs Full");
+            
             _SongLoaderThread = new Thread(CSongs.LoadSongs) {Name = "SongLoader", IsBackground = true};
             _SongLoaderThread.Start();
             CBackgroundMusic.OwnSongsAvailable = false;
@@ -176,12 +181,14 @@ namespace Vocaluxe.Screens
             foreach (CVideoPlayer videoPlayer in _Intros)
                 videoPlayer.Close();
 
-            CLog.StopBenchmark("Load Songs Full");
+            // Stop the song full load timer
+            _TimerLoadSongsFull.Dispose();
 
             //Init Playlists
-            CLog.StartBenchmark("Init Playlists");
-            CPlaylists.Init();
-            CLog.StopBenchmark("Init Playlists");
+            using (CBenchmark.Time("Init Playlists"))
+            {
+                CPlaylists.Init();
+            }
         }
 
         private void _CheckStartIntroVideos()
