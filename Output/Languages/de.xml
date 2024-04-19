@@ -155,6 +155,7 @@
   <string name="TR_SCREENSONG_NUMSONG">(%v Lied)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a -%t</string>
   <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Zum Buchstaben springen • F3 = Suchen • STRG+R = Zufällige Auswahl • STRG+S = Medley starten • STRG+# = Song-Reihenfolge ändern • STRG+T = Kategorieansicht an-/abschalten • Leertaste = Songoptionen öffnen • ESC = Zurück zum Hauptmenü</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Interpret und Titel suchen; Präfixe für die Suche → a: = Interpret • t: = Titel • c: = Autor • e: = Edition • g: = Genre • y: = Jahr (z.B. 1999 oder 1980-1989) • l: = Sprache • al: = Album • fi: = Dateiname • fo: = Ordnername • #: = Tags</string>
   <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Drücke die Nummer Deines Teams, um einen zufälligen Song-Joker einzusetzen</string>
   <string name="TR_SCREENSONG_SORTING">Sortierung: %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Kein Medley für diesen Song!</string>
