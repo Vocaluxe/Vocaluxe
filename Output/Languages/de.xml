@@ -3,16 +3,16 @@
   <string name="language">Deutsch</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
   <string name="TR_GENERAL_AND">und</string>
-  <string name="TR_BUTTON_EXIT">Exit</string>
+  <string name="TR_BUTTON_EXIT">Beenden</string>
   <string name="TR_BUTTON_SAVE">Speichern</string>
   <string name="TR_BUTTON_BACK">Zurück</string>
   <string name="TR_BUTTON_START">Start</string>
   <string name="TR_DEBUG_AUDIO_STREAMS">Audio-Streams</string>
   <string name="TR_DEBUG_VIDEO_STREAMS">Video-Streams</string>
-  <string name="TR_DEBUG_TEXTURES">Textures</string>
+  <string name="TR_DEBUG_TEXTURES">Texturen</string>
   <string name="TR_DEBUG_TONE_ABS">ToneAbs</string>
   <string name="TR_DEBUG_MAX_VOLUME">Max Lautstärke</string>
-  <string name="TR_DEBUG_SONGS">Geladene Songs</string>
+  <string name="TR_DEBUG_SONGS">Geladene Lieder</string>
   <string name="TR_DEBUG_MOUSE">Maus</string>
   <string name="TR_DEBUG_MEMORY">Speicherverbrauch</string>
   <string name="TR_GAMEMODE">Spielmodus</string>
@@ -32,8 +32,8 @@
   <string name="TR_USERROLE_NORMAL">Normaler Benutzer</string>
   <string name="TR_USERROLE_ADMIN">Administrator</string>
   <string name="TR_USERROLE_KEYBOARDUSER">Tastatur Benutzer</string>
-  <string name="TR_SONGSOURCE">Song-Quelle</string>
-  <string name="TR_SONGSOURCE_PLAYLIST">Playlist</string>
+  <string name="TR_SONGSOURCE">Lied-Quelle</string>
+  <string name="TR_SONGSOURCE_PLAYLIST">Wiedergabeliste</string>
   <string name="TR_SONGSOURCE_CATEGORY">Kategorie</string>
   <string name="TR_SONGSOURCE_ALLSONGS">Alle Lieder</string>  
   <string name="TR_CONFIG_SOFTWARE">Software</string>
@@ -84,7 +84,7 @@
   <string name="TR_CONFIG_OWN_MUSIC">Eigene Musik und Hintergrundmusik</string>
   <string name="TR_CONFIG_NO_OWN_MUSIC">Keine eigene Musik</string>
   <string name="TR_CONFIG_ONLY_OWN_MUSIC">Nur eigene Musik</string>
-  <string name="TR_CONFIG_ONLY_SONG">Nur bei gewähltem Song</string>
+  <string name="TR_CONFIG_ONLY_SONG">Nur bei gewähltem Lied</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_ALL">Alle</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_INFO">Nur Namen und Avatar</string>
   <string name="TR_CONFIG_FADEPLAYERINFO_OFF">Keine</string>
@@ -130,18 +130,18 @@
   <string name="TR_SCREENNAMES_WARNING_MICS_PL">Warnung: Den Spielern %v sind keine Mikrofone zugeordnet!</string>
   <string name="TR_SCREENNAMES_WARNING_PROFILES_SG">Warnung: Dem Spieler %v ist kein Profil zugeordnet!</string>
   <string name="TR_SCREENNAMES_WARNING_PROFILES_PL">Warnung: Den Spielern %v sind keine Profile zugeordnet!</string>
-  <string name="TR_SCREENSONG_MENU">Songauswahl</string>
+  <string name="TR_SCREENSONG_MENU">Liedauswahl</string>
   <string name="TR_SCREENSONG_BUTTON_SING">Lied singen</string>
   <string name="TR_SCREENSONG_BUTTON_PLAYLIST">Zur Playlist hinzufügen</string>
   <string name="TR_SCREENSONG_BUTTON_CANCEL">Schließen</string>
-  <string name="TR_SCREENSONG_BUTTON_RANDOM">Zufälligen Song wählen</string>
+  <string name="TR_SCREENSONG_BUTTON_RANDOM">Zufälliges Lied wählen</string>
   <string name="TR_SCREENSONG_BUTTON_RANDOMCAT">Zufällige Kategorie wählen</string>
-  <string name="TR_SCREENSONG_BUTTON_SINGALL">Alle Songs singen</string>
-  <string name="TR_SCREENSONG_BUTTON_SINGALLVISIBLE">Alle sichtbaren Songs singen</string>
+  <string name="TR_SCREENSONG_BUTTON_SINGALL">Alle Lieder singen</string>
+  <string name="TR_SCREENSONG_BUTTON_SINGALLVISIBLE">Alle sichtbaren Lieder singen</string>
   <string name="TR_SCREENSONG_BUTTON_OPENPLAYLIST">Playlist öffnen</string>
   <string name="TR_SCREENSONG_BUTTON_OPEN_SELECTED_ITEM">Auswählen</string>
   <string name="TR_SCREENSONG_BUTTON_RANDOMMEDLEY">Zufälliges Medley singen</string>
-  <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Medley-Songs singen</string>
+  <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Medley-Lieder singen</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Neue Playlist</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Lied-Optionen</string>
   <string name="TR_SCREENSONG_SEARCH">Suche:</string>
@@ -150,22 +150,22 @@
   <string name="TR_SCREENSONG_NOGENRE">Ohne Genre</string>
   <string name="TR_SCREENSONG_NOEDITION">Ohne Edition</string>
   <string name="TR_SCREENSONG_NOTAGS">Ohne Tags</string>
-  <string name="TR_SCREENSONG_ALLSONGS">Alle Songs</string>
+  <string name="TR_SCREENSONG_ALLSONGS">Alle Lieder</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v Lieder)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Lied)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a -%t</string>
-  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Zum Buchstaben springen • F3 = Suchen • STRG+R = Zufällige Auswahl • STRG+S = Medley starten • STRG+# = Song-Reihenfolge ändern • STRG+T = Kategorieansicht an-/abschalten • Leertaste = Songoptionen öffnen • ESC = Zurück zum Hauptmenü</string>
+  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Zum Buchstaben springen • F3 = Suchen • STRG+R = Zufällige Auswahl • STRG+S = Medley starten • STRG+# = Song-Reihenfolge ändern • STRG+T = Kategorieansicht an-/abschalten • Leertaste = Liedoptionen öffnen • ESC = Zurück zum Hauptmenü</string>
   <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Interpret und Titel suchen; Präfixe für die Suche → a: = Interpret • t: = Titel • c: = Autor • e: = Edition • g: = Genre • y: = Jahr (z.B. 1999 oder 1980-1989) • l: = Sprache • al: = Album • fi: = Dateiname • fo: = Ordnername • #: = Tags</string>
-  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Drücke die Nummer Deines Teams, um einen zufälligen Song-Joker einzusetzen</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Drücke die Nummer Deines Teams, um einen zufälligen Lied-Joker einzusetzen</string>
   <string name="TR_SCREENSONG_SORTING">Sortierung: %s</string>
-  <string name="TR_SCREENSONG_NOMEDLEY">Kein Medley für diesen Song!</string>
+  <string name="TR_SCREENSONG_NOMEDLEY">Kein Medley für dieses Lied!</string>
   <string name="TR_SCREENSING_PAUSE">Pause</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Lied beenden</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Fortfahren</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Lied überspringen</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Runde neustarten</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Spiel neustarten</string>
-  <string name="TR_SCREENSING_NOMORESONGS">Keine weiteren Songs in der Playlist!</string>
+  <string name="TR_SCREENSING_NOMORESONGS">Keine weiteres Lied in der Playlist!</string>
   <string name="TR_SCREENSING_NOWEBCAM">Keine Webcam verfügbar!</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Bildverhältnis: %a</string>
   <string name="TR_SCREENSING_SKIPPEDSECONDS">%s Sekunden übersprungen</string>
@@ -192,16 +192,16 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Sound</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Aufnahme</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
-  <string name="TR_SCREENO_BUTTON_LYRICS">Songtext</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Liedtext</string>
   <string name="TR_SCREENO_BUTTON_THEME">Design</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Serveradresse</string>
   <string name="TR_SCREENOGAME_OPTIONS">Spieleinstellungen</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Sprache</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debug-Level</string>
-  <string name="TR_SCREENOGAME_SONGMENU">Song-Menu-Stil</string>
+  <string name="TR_SCREENOGAME_SONGMENU">Lied-Menü-Stil</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Sortierung der Lieder</string>
   <string name="TR_SCREENOGAME_TABS">Kategorieren anzeigen</string>
-  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Autoplay für Songvorschau</string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Autoplay für Liedvorschau</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Schwierigkeit</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Zeit-Modus</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Highscore-Stil</string>
@@ -233,9 +233,9 @@
   <string name="TR_SCREENOTHEME_TIMERLOOK">Zeitleisten-Modus</string>
   <string name="TR_SCREENOTHEME_FADEINFO">Spieler-Informationen einblenden</string>
   <string name="TR_SCREENOTHEME_COVERLOADING">Verhalten beim Laden der Cover</string>
-  <string name="TR_SCREENOLYRICS_OPTIONS">Songtexteinstellungen</string>
+  <string name="TR_SCREENOLYRICS_OPTIONS">Liedtexteinstellungen</string>
   <string name="TR_SCREENOLYRICS_STYLE">Lyrics-Animation</string>
-  <string name="TR_SCREENOLYRICS_POSITION">Lyrics Position</string>
+  <string name="TR_SCREENOLYRICS_POSITION">Liedtext Position</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Videoeinstellungen</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video-Hintergründe</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video-Vorschau</string>
@@ -261,7 +261,7 @@
   <string name="TR_REPORTER_GIST_ONLY_TEXT">Hochladen und einen Link zum Bericht erhalten (öffentlich sichtbar)</string>
   <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Senden</string>
   <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Lade hoch</string>
-  <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Verlassen</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Beenden</string>
   <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Fortfahren</string>
   <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">Der Link zu Deinem Bericht:</string>
   <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Fehler beim Hochladen des Protokolls.</string>
