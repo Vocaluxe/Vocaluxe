@@ -7,11 +7,11 @@
   <string name="TR_BUTTON_NEXT">Weiter</string>
   <string name="TR_BUTTON_BACK">Zurück</string>
   <string name="TR_BUTTON_START">Start</string>
-  <string name="TR_BUTTON_EXIT">Exit</string>
+  <string name="TR_BUTTON_EXIT">Beenden</string>
   <string name="TR_BUTTON_YES">Ja</string>
   <string name="TR_BUTTON_NO">Nein</string>
   <string name="TR_BUTTON_NEXT_ROUND">Starten</string>
-  <string name="TR_SONGS">Songs</string>
+  <string name="TR_SONGS">Lieder</string>
   <string name="TR_TEAM">Team</string>
   <string name="TR_SCREENCONFIG_TITLE">Tic-Tac-Toe: Einstellungen</string>
   <string name="TR_SCREENCONFIG_NUMPLAYERST1">Anzahl der Spieler in Team 1</string>
