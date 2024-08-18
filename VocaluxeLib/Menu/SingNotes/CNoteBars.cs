@@ -145,10 +145,10 @@ namespace VocaluxeLib.Menu.SingNotes
                 }
             }
 
-            if (_CurrentLine > 0 && sungLines.Count >= _CurrentLine && sungLines[_CurrentLine - 1].PerfectLine)
+            if (sungLines.Count > 0 && sungLines[sungLines.Count - 1].PerfectLine)
             {
                 _AddPerfectLine();
-                sungLines[_CurrentLine - 1].PerfectLine = false;
+                sungLines[sungLines.Count - 1].PerfectLine = false;
             }
 
             _Flares.RemoveAll(el => !el.IsAlive);
@@ -237,7 +237,7 @@ namespace VocaluxeLib.Menu.SingNotes
             CBase.Drawing.DrawTexture(toneHelper, drawRect, color, false);
         }
 
-        private void _DrawNote(SRectF rect, SColorF color, CTextureRef noteBegin, CTextureRef noteMiddle, CTextureRef noteEnd, float factor)
+        private static void _DrawNote(SRectF rect, SColorF color, CTextureRef noteBegin, CTextureRef noteMiddle, CTextureRef noteEnd, float factor)
         {
             if (factor <= 0)
                 return;
