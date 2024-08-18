@@ -145,10 +145,10 @@ namespace VocaluxeLib.Menu.SingNotes
                 }
             }
 
-            if (_CurrentLine > 0 && sungLines[sungLines.Count-1].PerfectLine)
+            if (sungLines.Count > 0 && sungLines[sungLines.Count - 1].PerfectLine)
             {
                 _AddPerfectLine();
-                sungLines[sungLines.Count-1].PerfectLine = false;
+                sungLines[sungLines.Count - 1].PerfectLine = false;
             }
 
             _Flares.RemoveAll(el => !el.IsAlive);
