@@ -155,6 +155,7 @@
   <string name="TR_SCREENSONG_NUMSONG">(%v песня)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
   <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Начать ввод • F3 = Поиск • CTRL+R = Случайный выбор • CTRL+S = Начать попурри • CTRL+# = Выбор сортировки песен • CTRL+T = Включить/Выключить просмотр категории • Space = Открыть параметры песни • ESC = Вернуться в главное меню</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Поиск исполнителя и названия, префиксы для поиска → a: = артист • t: = название • c: = автор • e: = издание • g: = жанр • y: = год (e.g. 1999 or 1980-1989) • l: = язык • al: = альбом • fi: = имя файла • fo: = имя каталога • #: = тэги</string>
   <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Нажмите номер вашей команды, чтобы использовать случайную песню джокер</string>
   <string name="TR_SCREENSONG_SORTING">Сортировать: %s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Нет Попурри для этой песни!</string>
