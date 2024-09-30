@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -140,12 +140,11 @@ namespace Vocaluxe.Lib.Input
             _GamePadIndex = -1;
         }
 
-        private void _HandleButtons(GamePadState buttonStates)
-        {
-            bool lb = (buttonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Released);
-            bool rb = (buttonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Released);
+private void _HandleButtons(GamePadState buttonStates)
+{
+            bool lb = (buttonStates.Buttons.A == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.A == OpenTK.Input.ButtonState.Released);
+            bool rb = (buttonStates.Buttons.B == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.B == OpenTK.Input.ButtonState.Released);
             lb |= (buttonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Released);
-
 
             var key = Keys.None;
 
@@ -157,7 +156,16 @@ namespace Vocaluxe.Lib.Input
                 key = Keys.Left;
             else if (buttonStates.DPad.IsRight && !_OldButtonStates.DPad.IsRight)
                 key = Keys.Right;
-            else if (buttonStates.Buttons.Start == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.Start == OpenTK.Input.ButtonState.Released)
+            float deadZone = 0.4f; // Adjust dead zone as needed
+            if (buttonStates.ThumbSticks.Left.Y > deadZone && _OldButtonStates.ThumbSticks.Left.Y <= deadZone)
+                key = Keys.Up;
+            else if (buttonStates.ThumbSticks.Left.Y < -deadZone && _OldButtonStates.ThumbSticks.Left.Y >= -deadZone)
+                key = Keys.Down;
+            else if (buttonStates.ThumbSticks.Left.X < -deadZone && _OldButtonStates.ThumbSticks.Left.X >= -deadZone)
+                key = Keys.Left;
+            else if (buttonStates.ThumbSticks.Left.X > deadZone && _OldButtonStates.ThumbSticks.Left.X <= deadZone)
+                key = Keys.Right;
+            if (buttonStates.Buttons.Start == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.Start == OpenTK.Input.ButtonState.Released)
                 key = Keys.Space;
             else if (buttonStates.Buttons.A == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.A == OpenTK.Input.ButtonState.Released)
                 key = Keys.Enter;
@@ -168,6 +176,10 @@ namespace Vocaluxe.Lib.Input
             else if (buttonStates.Triggers.Left >= 0.8 && _OldButtonStates.Triggers.Left < 0.8)
                 key = Keys.PageUp;
             else if (buttonStates.Triggers.Right >= 0.8 && _OldButtonStates.Triggers.Right < 0.8)
+                key = Keys.PageDown;   
+            else if (buttonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Released)
+                key = Keys.PageUp;
+            else if (buttonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Released)
                 key = Keys.PageDown;
 
             if (key != Keys.None)
