@@ -142,8 +142,8 @@ namespace Vocaluxe.Lib.Input
 
 private void _HandleButtons(GamePadState buttonStates)
 {
-            bool lb = (buttonStates.Buttons.A == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.A == OpenTK.Input.ButtonState.Released);
-            bool rb = (buttonStates.Buttons.B == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.B == OpenTK.Input.ButtonState.Released);
+            bool lb = (buttonStates.Buttons.X == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.X == OpenTK.Input.ButtonState.Released);
+            bool rb = (buttonStates.Buttons.Y == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.Y == OpenTK.Input.ButtonState.Released);
             lb |= (buttonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Released);
 
             var key = Keys.None;
