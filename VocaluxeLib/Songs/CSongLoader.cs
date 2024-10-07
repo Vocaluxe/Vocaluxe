@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -626,7 +626,7 @@ namespace VocaluxeLib.Songs
 
                                     if (tag.Equals('*'))
                                         noteType = ENoteType.Golden;
-                                    else if (tag.Equals('F') || tag.Equals('R') || tag.Equals('G'))  // Read R (RAP) and G (Golden RAP) notes as Freestyle notes currently. Final implementation needed!
+                                    else if (tag.Equals('F'))
                                         noteType = ENoteType.Freestyle;
                                     else if (tag.Equals('R'))
                                     {
