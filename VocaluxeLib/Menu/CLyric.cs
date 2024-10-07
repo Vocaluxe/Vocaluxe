@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -118,7 +118,22 @@ namespace VocaluxeLib.Menu
         private void _SetText(CSongNote note)
         {
             _Text.Text = note.Text;
-            _Text.Font.Style = (note.Type == ENoteType.Freestyle) ? EStyle.BoldItalic : EStyle.Bold;
+            if (note.Type == ENoteType.Freestyle)
+           {
+           _Text.Font.Style = EStyle.Italic;
+           }
+           else if (note.Type == ENoteType.Rap)
+           {
+           _Text.Font.Style = EStyle.BoldItalic;
+           }
+           else if (note.Type == ENoteType.RapGolden)
+           {
+           _Text.Font.Style = EStyle.BoldItalic;
+           }
+           else
+           {
+           _Text.Font.Style = EStyle.Bold;
+           }
         }
 
         public void Clear()
