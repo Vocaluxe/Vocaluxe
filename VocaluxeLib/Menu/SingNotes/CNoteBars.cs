@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -180,11 +180,6 @@ namespace VocaluxeLib.Menu.SingNotes
             float width = note.Duration * Rect.W / beats;
             float y = Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2;
             float height = _NoteLineHeight + _AddNoteHeight;
-
-            if (isRapNote) {
-                y = Rect.Y;
-                height = Rect.H;
-            }
 
             var noteRect = new SRectF(
                 Rect.X + (note.StartBeat - line.FirstNoteBeat) * Rect.W / beats,
