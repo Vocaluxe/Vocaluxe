@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -178,6 +178,7 @@ namespace VocaluxeLib.Songs
                                 _Song.Length = value;
                                 break;
                             case "MP3":
+                            case "AUDIO":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
                                     _Song.MP3FileName = value;
@@ -381,7 +382,7 @@ namespace VocaluxeLib.Songs
 
                     if ((headerFlags & EHeaderFlags.MP3) == 0)
                     {
-                        CLog.CSongLog.Error("[{SongFileName}] MP3 tag missing",  CLog.Params(_Song.FileName));
+                        CLog.CSongLog.Error("[{SongFileName}] MP3 or AUDIO tag missing",  CLog.Params(_Song.FileName));
                         return false;
                     }
 
