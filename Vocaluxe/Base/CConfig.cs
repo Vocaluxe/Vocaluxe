@@ -109,6 +109,8 @@ namespace Vocaluxe.Base
             [DefaultValue(EOffOn.TR_CONFIG_ON)]
             public EOffOn FullScreen;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn NativeFullScreen;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
             public EOffOn Stretch;
             [DefaultValue(0.4f), XmlRanged(0, 3)]
             public float FadeTime;
@@ -455,6 +457,8 @@ namespace Vocaluxe.Base
                     return "VSync: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 case "FullScreen":
                     return "FullScreen: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "NativeFullScreen":
+                    return "NativeFullScreen (DirectX only): " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 case "FadeTime":
                     return "FadeTime should be between 0..3 Seconds";
                 case "Theme":
