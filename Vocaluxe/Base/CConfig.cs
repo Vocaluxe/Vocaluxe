@@ -79,16 +79,16 @@ namespace Vocaluxe.Base
         [DefaultValue(ERenderer.TR_CONFIG_OPENGL)] public ERenderer Renderer;
 #endif
 
-            [DefaultValue(ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM)]
+            [DefaultValue(ETextureQuality.TR_CONFIG_TEXTURE_HIGH)]
             public ETextureQuality TextureQuality;
-            [XmlRanged(32, 1024), DefaultValue(256)]
+            [XmlRanged(32, 1024), DefaultValue(512)]
             public int CoverSize;
 
             [XmlRanged(1, 6), DefaultValue(1)]
             public int NumScreens;
-            [DefaultValue(1024)]
+            [DefaultValue(1920)]
             public int ScreenW;
-            [DefaultValue(576)]
+            [DefaultValue(1080)]
             public int ScreenH;
             [DefaultValue(EGeneralAlignment.Middle)]
             public EGeneralAlignment ScreenAlignment;
