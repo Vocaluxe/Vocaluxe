@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenScore</ScreenName>
@@ -19,9 +19,9 @@
       <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
-        <Y>40</Y>
-        <W>1280</W>
-        <H>45</H>
+        <Y>60</Y>
+        <W>1920</W>
+        <H>67.5</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -29,10 +29,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>375</X>
-        <Y>270</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>562.5</X>
+        <Y>405</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -40,10 +40,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>375</X>
-        <Y>200</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>562.5</X>
+        <Y>300</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -51,10 +51,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>375</X>
-        <Y>445</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>562.5</X>
+        <Y>667.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -62,10 +62,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>375</X>
-        <Y>131</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>562.5</X>
+        <Y>196.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -73,10 +73,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>375</X>
-        <Y>322</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>562.5</X>
+        <Y>483</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -84,10 +84,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>375</X>
-        <Y>513</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>562.5</X>
+        <Y>769.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -95,10 +95,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>65</X>
-        <Y>200</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>97.5</X>
+        <Y>300</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -106,10 +106,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>65</X>
-        <Y>445</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>97.5</X>
+        <Y>667.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -117,10 +117,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>675</X>
-        <Y>200</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>1012.5</X>
+        <Y>300</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -128,10 +128,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>675</X>
-        <Y>445</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>1012.5</X>
+        <Y>667.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -139,10 +139,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>65</X>
-        <Y>131</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>97.5</X>
+        <Y>196.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -150,10 +150,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>65</X>
-        <Y>322</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>97.5</X>
+        <Y>483</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -161,10 +161,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>65</X>
-        <Y>513</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>97.5</X>
+        <Y>769.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -172,10 +172,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>675</X>
-        <Y>131</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>1012.5</X>
+        <Y>196.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -183,10 +183,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>675</X>
-        <Y>322</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>1012.5</X>
+        <Y>483</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -194,10 +194,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>65</X>
-        <Y>131</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>97.5</X>
+        <Y>196.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -205,10 +205,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>65</X>
-        <Y>322</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>97.5</X>
+        <Y>483</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -216,10 +216,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>65</X>
-        <Y>513</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>97.5</X>
+        <Y>769.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -227,10 +227,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>675</X>
-        <Y>131</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>1012.5</X>
+        <Y>196.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -238,10 +238,10 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>675</X>
-        <Y>322</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>1012.5</X>
+        <Y>483</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -249,20 +249,20 @@
       <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>675</X>
-        <Y>513</Y>
-        <W>130</W>
-        <H>130</H>
+        <X>1012.5</X>
+        <Y>769.5</Y>
+        <W>195</W>
+        <H>195</H>
         <Z>0</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitle">
-      <X>60</X>
-      <Y>50</Y>
+      <X>90</X>
+      <Y>75</Y>
       <Z>-1</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -273,10 +273,10 @@
       <Text>TR_SCREENSCORE_SCORES</Text>
     </Text>
     <Text Name="TextSong">
-      <X>640</X>
-      <Y>50</Y>
+      <X>960</X>
+      <Y>75</Y>
       <Z>-1</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -287,11 +287,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N1">
-      <X>520</X>
-      <Y>275</Y>
+      <X>780</X>
+      <Y>412.5</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -301,11 +301,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N1">
-      <X>910</X>
-      <Y>370</Y>
+      <X>1365</X>
+      <Y>555</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -315,11 +315,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N1">
-      <X>520</X>
-      <Y>315</Y>
+      <X>780</X>
+      <Y>472.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -329,11 +329,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N1">
-      <X>520</X>
-      <Y>370</Y>
+      <X>780</X>
+      <Y>555</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -343,11 +343,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N2">
-      <X>520</X>
-      <Y>205</Y>
+      <X>780</X>
+      <Y>307.5</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -357,11 +357,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N2">
-      <X>910</X>
-      <Y>300</Y>
+      <X>1365</X>
+      <Y>450</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -371,11 +371,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N2">
-      <X>520</X>
-      <Y>245</Y>
+      <X>780</X>
+      <Y>367.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -385,11 +385,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N2">
-      <X>520</X>
-      <Y>300</Y>
+      <X>780</X>
+      <Y>450</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -399,11 +399,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N2">
-      <X>520</X>
-      <Y>450</Y>
+      <X>780</X>
+      <Y>675</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -413,11 +413,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N2">
-      <X>910</X>
-      <Y>545</Y>
+      <X>1365</X>
+      <Y>817.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -427,11 +427,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N2">
-      <X>520</X>
-      <Y>490</Y>
+      <X>780</X>
+      <Y>735</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -441,11 +441,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N2">
-      <X>520</X>
-      <Y>545</Y>
+      <X>780</X>
+      <Y>817.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -455,11 +455,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N3">
-      <X>520</X>
-      <Y>136</Y>
+      <X>780</X>
+      <Y>204</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -469,11 +469,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N3">
-      <X>910</X>
-      <Y>231</Y>
+      <X>1365</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -483,11 +483,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N3">
-      <X>520</X>
-      <Y>176</Y>
+      <X>780</X>
+      <Y>264</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -497,11 +497,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N3">
-      <X>520</X>
-      <Y>231</Y>
+      <X>780</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -511,11 +511,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N3">
-      <X>520</X>
-      <Y>327</Y>
+      <X>780</X>
+      <Y>490.5</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -525,11 +525,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N3">
-      <X>910</X>
-      <Y>422</Y>
+      <X>1365</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -539,11 +539,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N3">
-      <X>520</X>
-      <Y>367</Y>
+      <X>780</X>
+      <Y>550.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -553,11 +553,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N3">
-      <X>520</X>
-      <Y>422</Y>
+      <X>780</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -567,11 +567,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N3">
-      <X>520</X>
-      <Y>518</Y>
+      <X>780</X>
+      <Y>777</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -581,11 +581,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N3">
-      <X>910</X>
-      <Y>613</Y>
+      <X>1365</X>
+      <Y>919.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -595,11 +595,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP3N3">
-      <X>520</X>
-      <Y>558</Y>
+      <X>780</X>
+      <Y>837</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -609,11 +609,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N3">
-      <X>520</X>
-      <Y>613</Y>
+      <X>780</X>
+      <Y>919.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -623,11 +623,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N4">
-      <X>210</X>
-      <Y>205</Y>
+      <X>315</X>
+      <Y>307.5</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -637,11 +637,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N4">
-      <X>600</X>
-      <Y>300</Y>
+      <X>900</X>
+      <Y>450</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -651,11 +651,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N4">
-      <X>210</X>
-      <Y>245</Y>
+      <X>315</X>
+      <Y>367.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -665,11 +665,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N4">
-      <X>210</X>
-      <Y>300</Y>
+      <X>315</X>
+      <Y>450</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -679,11 +679,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N4">
-      <X>210</X>
-      <Y>450</Y>
+      <X>315</X>
+      <Y>675</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -693,11 +693,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N4">
-      <X>600</X>
-      <Y>545</Y>
+      <X>900</X>
+      <Y>817.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -707,11 +707,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N4">
-      <X>210</X>
-      <Y>490</Y>
+      <X>315</X>
+      <Y>735</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -721,11 +721,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N4">
-      <X>210</X>
-      <Y>545</Y>
+      <X>315</X>
+      <Y>817.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -735,11 +735,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N4">
-      <X>820</X>
-      <Y>205</Y>
+      <X>1230</X>
+      <Y>307.5</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -749,11 +749,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N4">
-      <X>1210</X>
-      <Y>300</Y>
+      <X>1815</X>
+      <Y>450</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -763,11 +763,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP3N4">
-      <X>820</X>
-      <Y>245</Y>
+      <X>1230</X>
+      <Y>367.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -777,11 +777,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N4">
-      <X>820</X>
-      <Y>300</Y>
+      <X>1230</X>
+      <Y>450</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -791,11 +791,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP4N4">
-      <X>820</X>
-      <Y>450</Y>
+      <X>1230</X>
+      <Y>675</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -805,11 +805,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP4N4">
-      <X>1210</X>
-      <Y>545</Y>
+      <X>1815</X>
+      <Y>817.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -819,11 +819,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP4N4">
-      <X>820</X>
-      <Y>490</Y>
+      <X>1230</X>
+      <Y>735</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -833,11 +833,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N4">
-      <X>820</X>
-      <Y>545</Y>
+      <X>1230</X>
+      <Y>817.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -847,11 +847,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N5">
-      <X>210</X>
-      <Y>136</Y>
+      <X>315</X>
+      <Y>204</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -861,11 +861,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N5">
-      <X>600</X>
-      <Y>231</Y>
+      <X>900</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -875,11 +875,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N5">
-      <X>210</X>
-      <Y>176</Y>
+      <X>315</X>
+      <Y>264</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -889,11 +889,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N5">
-      <X>210</X>
-      <Y>231</Y>
+      <X>315</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -903,11 +903,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N5">
-      <X>210</X>
-      <Y>327</Y>
+      <X>315</X>
+      <Y>490.5</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -917,11 +917,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N5">
-      <X>600</X>
-      <Y>422</Y>
+      <X>900</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -931,11 +931,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N5">
-      <X>210</X>
-      <Y>367</Y>
+      <X>315</X>
+      <Y>550.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -945,11 +945,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N5">
-      <X>210</X>
-      <Y>422</Y>
+      <X>315</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -959,11 +959,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N5">
-      <X>210</X>
-      <Y>518</Y>
+      <X>315</X>
+      <Y>777</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -973,11 +973,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N5">
-      <X>600</X>
-      <Y>613</Y>
+      <X>900</X>
+      <Y>919.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -987,11 +987,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP3N5">
-      <X>210</X>
-      <Y>558</Y>
+      <X>315</X>
+      <Y>837</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1001,11 +1001,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N5">
-      <X>210</X>
-      <Y>613</Y>
+      <X>315</X>
+      <Y>919.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1015,11 +1015,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP4N5">
-      <X>820</X>
-      <Y>136</Y>
+      <X>1230</X>
+      <Y>204</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1029,11 +1029,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP4N5">
-      <X>1210</X>
-      <Y>231</Y>
+      <X>1815</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -1043,11 +1043,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP4N5">
-      <X>820</X>
-      <Y>176</Y>
+      <X>1230</X>
+      <Y>264</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1057,11 +1057,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N5">
-      <X>820</X>
-      <Y>231</Y>
+      <X>1230</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1071,11 +1071,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP5N5">
-      <X>820</X>
-      <Y>327</Y>
+      <X>1230</X>
+      <Y>490.5</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1085,11 +1085,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP5N5">
-      <X>1210</X>
-      <Y>422</Y>
+      <X>1815</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -1099,11 +1099,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP5N5">
-      <X>820</X>
-      <Y>367</Y>
+      <X>1230</X>
+      <Y>550.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1113,11 +1113,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP5N5">
-      <X>820</X>
-      <Y>422</Y>
+      <X>1230</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1127,11 +1127,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP1N6">
-      <X>210</X>
-      <Y>136</Y>
+      <X>315</X>
+      <Y>204</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1141,11 +1141,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP1N6">
-      <X>600</X>
-      <Y>231</Y>
+      <X>900</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -1155,11 +1155,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP1N6">
-      <X>210</X>
-      <Y>176</Y>
+      <X>315</X>
+      <Y>264</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1169,11 +1169,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP1N6">
-      <X>210</X>
-      <Y>231</Y>
+      <X>315</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1183,11 +1183,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP2N6">
-      <X>210</X>
-      <Y>327</Y>
+      <X>315</X>
+      <Y>490.5</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1197,11 +1197,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP2N6">
-      <X>600</X>
-      <Y>422</Y>
+      <X>900</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -1211,11 +1211,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP2N6">
-      <X>210</X>
-      <Y>367</Y>
+      <X>315</X>
+      <Y>550.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1225,11 +1225,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP2N6">
-      <X>210</X>
-      <Y>422</Y>
+      <X>315</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1239,11 +1239,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP3N6">
-      <X>210</X>
-      <Y>518</Y>
+      <X>315</X>
+      <Y>777</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1253,11 +1253,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP3N6">
-      <X>600</X>
-      <Y>613</Y>
+      <X>900</X>
+      <Y>919.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -1267,11 +1267,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP3N6">
-      <X>210</X>
-      <Y>558</Y>
+      <X>315</X>
+      <Y>837</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1281,11 +1281,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP3N6">
-      <X>210</X>
-      <Y>613</Y>
+      <X>315</X>
+      <Y>919.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1295,11 +1295,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP4N6">
-      <X>820</X>
-      <Y>136</Y>
+      <X>1230</X>
+      <Y>204</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1309,11 +1309,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP4N6">
-      <X>1210</X>
-      <Y>231</Y>
+      <X>1815</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -1323,11 +1323,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP4N6">
-      <X>820</X>
-      <Y>176</Y>
+      <X>1230</X>
+      <Y>264</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1337,11 +1337,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP4N6">
-      <X>820</X>
-      <Y>231</Y>
+      <X>1230</X>
+      <Y>346.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1351,11 +1351,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP5N6">
-      <X>820</X>
-      <Y>327</Y>
+      <X>1230</X>
+      <Y>490.5</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1365,11 +1365,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP5N6">
-      <X>1210</X>
-      <Y>422</Y>
+      <X>1815</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -1379,11 +1379,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP5N6">
-      <X>820</X>
-      <Y>367</Y>
+      <X>1230</X>
+      <Y>550.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1393,11 +1393,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP5N6">
-      <X>820</X>
-      <Y>422</Y>
+      <X>1230</X>
+      <Y>633</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1407,11 +1407,11 @@
       <Text />
     </Text>
     <Text Name="TextNameP6N6">
-      <X>820</X>
-      <Y>518</Y>
+      <X>1230</X>
+      <Y>777</Y>
       <Z>0</Z>
-      <H>40</H>
-      <MaxW>390</MaxW>
+      <H>60</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1421,11 +1421,11 @@
       <Text />
     </Text>
     <Text Name="TextScoreP6N6">
-      <X>1210</X>
-      <Y>613</Y>
+      <X>1815</X>
+      <Y>919.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>220</MaxW>
+      <H>40.5</H>
+      <MaxW>330</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Right</Align>
@@ -1435,11 +1435,11 @@
       <Text />
     </Text>
     <Text Name="TextRatingP6N6">
-      <X>820</X>
-      <Y>558</Y>
+      <X>1230</X>
+      <Y>837</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>170</MaxW>
+      <H>40.5</H>
+      <MaxW>255</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1449,11 +1449,11 @@
       <Text />
     </Text>
     <Text Name="TextDifficultyP6N6">
-      <X>820</X>
-      <Y>613</Y>
+      <X>1230</X>
+      <Y>919.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>390</MaxW>
+      <H>40.5</H>
+      <MaxW>585</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1509,10 +1509,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>520</X>
-        <Y>360</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>780</X>
+        <Y>540</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1534,10 +1534,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>520</X>
-        <Y>290</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>780</X>
+        <Y>435</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1559,10 +1559,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>520</X>
-        <Y>535</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>780</X>
+        <Y>802.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1584,10 +1584,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>520</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>780</X>
+        <Y>331.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1609,10 +1609,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>520</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>780</X>
+        <Y>618</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1634,10 +1634,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>520</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>780</X>
+        <Y>904.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1659,10 +1659,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>210</X>
-        <Y>290</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>315</X>
+        <Y>435</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1684,10 +1684,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>210</X>
-        <Y>535</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>315</X>
+        <Y>802.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1709,10 +1709,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>820</X>
-        <Y>290</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>1230</X>
+        <Y>435</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1734,10 +1734,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>820</X>
-        <Y>535</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>1230</X>
+        <Y>802.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1759,10 +1759,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>210</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>315</X>
+        <Y>331.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1784,10 +1784,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>210</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>315</X>
+        <Y>618</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1809,10 +1809,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>210</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>315</X>
+        <Y>904.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1834,10 +1834,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>820</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>1230</X>
+        <Y>331.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1859,10 +1859,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>820</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>1230</X>
+        <Y>618</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1884,10 +1884,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>210</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>315</X>
+        <Y>331.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1909,10 +1909,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>210</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>315</X>
+        <Y>618</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1934,10 +1934,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>210</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>315</X>
+        <Y>904.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1959,10 +1959,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>820</X>
-        <Y>221</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>1230</X>
+        <Y>331.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -1984,10 +1984,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>820</X>
-        <Y>412</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>1230</X>
+        <Y>618</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>
@@ -2009,10 +2009,10 @@
 		</ProgressColor>
       </ProgressColors>
       <Rect>
-        <X>820</X>
-        <Y>603</Y>
-        <W>390</W>
-        <H>10</H>
+        <X>1230</X>
+        <Y>904.5</Y>
+        <W>585</W>
+        <H>15</H>
         <Z>0</Z>
       </Rect>
     </ProgressBar>  
