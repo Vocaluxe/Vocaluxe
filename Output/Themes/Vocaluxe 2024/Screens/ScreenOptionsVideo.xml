@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptionsVideo</ScreenName>
@@ -19,30 +19,30 @@
       <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
-        <Y>40</Y>
-        <W>1280</W>
-        <H>45</H>
+        <Y>60</Y>
+        <W>1920</W>
+        <H>67.5</H>
         <Z>1</Z>
       </Rect>
     </Static>
     <Static Name="StaticWebcamOutput">
-      <Skin/>
+      <Skin />
       <Color Name="Visible" />
       <Rect>
-        <X>550</X>
-        <Y>460</Y>
-        <W>320</W>
-        <H>240</H>
+        <X>825</X>
+        <Y>690</Y>
+        <W>480</W>
+        <H>360</H>
         <Z>0</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitle">
-      <X>640</X>
-      <Y>50</Y>
+      <X>960</X>
+      <Y>75</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -53,10 +53,10 @@
       <Text>TR_SCREENOVIDEO_OPTIONS</Text>
     </Text>
     <Text Name="TextVideoBackgrounds">
-      <X>75</X>
-      <Y>107</Y>
+      <X>112.5</X>
+      <Y>160.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -67,10 +67,10 @@
       <Text>TR_SCREENOVIDEO_VIDEOBACKGROUNDS</Text>
     </Text>
     <Text Name="TextVideoPreview">
-      <X>75</X>
-      <Y>167</Y>
+      <X>112.5</X>
+      <Y>250.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -81,10 +81,10 @@
       <Text>TR_SCREENOVIDEO_VIDEOPREVIEW</Text>
     </Text>
     <Text Name="TextVideoInSongs">
-      <X>75</X>
-      <Y>227</Y>
+      <X>112.5</X>
+      <Y>340.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -95,10 +95,10 @@
       <Text>TR_SCREENOVIDEO_VIDEOINSONGS</Text>
     </Text>
     <Text Name="TextVideosToBackground">
-      <X>75</X>
-      <Y>287</Y>
+      <X>112.5</X>
+      <Y>430.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -109,10 +109,10 @@
       <Text>TR_SCREENOVIDEO_VIDEOSTOBACKGROUND</Text>
     </Text>
     <Text Name="TextWebcams">
-      <X>75</X>
-      <Y>347</Y>
+      <X>112.5</X>
+      <Y>520.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -123,10 +123,10 @@
       <Text>TR_SCREENOVIDEO_WEBCAMDEVICES</Text>
     </Text>
     <Text Name="TextWebcamResolution">
-      <X>75</X>
-      <Y>407</Y>
+      <X>112.5</X>
+      <Y>610.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -142,20 +142,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>55</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>82.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -165,32 +165,32 @@
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonScreenAdjustments">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1075</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>1612.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -200,12 +200,12 @@
         <Text>TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
   </Buttons>
@@ -213,31 +213,31 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideVideoBackgrounds">
-      <Skin/>
+      <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>500</X>
-        <Y>100</Y>
-        <W>715</W>
-        <H>50</H>
+        <X>750</X>
+        <Y>150</Y>
+        <W>1072.5</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>505</X>
-        <Y>105</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>757.5</X>
+        <Y>157.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1170</X>
-        <Y>105</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>1755</X>
+        <Y>157.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -246,40 +246,40 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
+      <TextH>40.5</TextH>
+      <TextRelativeX>75</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
+      <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideVideoPreview">
-      <Skin/>
+      <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>500</X>
-        <Y>160</Y>
-        <W>715</W>
-        <H>50</H>
+        <X>750</X>
+        <Y>240</Y>
+        <W>1072.5</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>505</X>
-        <Y>165</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>757.5</X>
+        <Y>247.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1170</X>
-        <Y>165</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>1755</X>
+        <Y>247.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -288,40 +288,40 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
+      <TextH>40.5</TextH>
+      <TextRelativeX>75</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
+      <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideVideosInSongs">
-      <Skin/>
+      <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>500</X>
-        <Y>220</Y>
-        <W>715</W>
-        <H>50</H>
+        <X>750</X>
+        <Y>330</Y>
+        <W>1072.5</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>505</X>
-        <Y>225</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>757.5</X>
+        <Y>337.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1170</X>
-        <Y>225</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>1755</X>
+        <Y>337.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -330,40 +330,40 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
+      <TextH>40.5</TextH>
+      <TextRelativeX>75</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
+      <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideVideosToBackground">
-      <Skin/>
+      <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>500</X>
-        <Y>280</Y>
-        <W>715</W>
-        <H>50</H>
+        <X>750</X>
+        <Y>420</Y>
+        <W>1072.5</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>505</X>
-        <Y>285</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>757.5</X>
+        <Y>427.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1170</X>
-        <Y>285</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>1755</X>
+        <Y>427.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -372,40 +372,40 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
+      <TextH>40.5</TextH>
+      <TextRelativeX>75</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
+      <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideWebcamDevices">
-      <Skin/>
+      <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>500</X>
-        <Y>340</Y>
-        <W>715</W>
-        <H>50</H>
+        <X>750</X>
+        <Y>510</Y>
+        <W>1072.5</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>505</X>
-        <Y>345</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>757.5</X>
+        <Y>517.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1170</X>
-        <Y>345</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>1755</X>
+        <Y>517.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -414,40 +414,40 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
+      <TextH>40.5</TextH>
+      <TextRelativeX>75</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
+      <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideWebcamCapabilities">
-      <Skin/>
+      <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>500</X>
-        <Y>400</Y>
-        <W>715</W>
-        <H>50</H>
+        <X>750</X>
+        <Y>600</Y>
+        <W>1072.5</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>505</X>
-        <Y>405</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>757.5</X>
+        <Y>607.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1170</X>
-        <Y>405</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>1755</X>
+        <Y>607.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
