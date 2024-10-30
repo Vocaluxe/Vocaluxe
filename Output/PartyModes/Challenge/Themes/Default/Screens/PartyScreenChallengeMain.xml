@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<Screen>
   <Informations>
     <ScreenName>PartyScreenChallengeMain</ScreenName>
     <ScreenVersion>1</ScreenVersion>
@@ -19,9 +19,9 @@
       <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
-        <Y>40</Y>
-        <W>1280</W>
-        <H>45</H>
+        <Y>60</Y>
+        <W>1920</W>
+        <H>67.5</H>
         <Z>1</Z>
       </Rect>
     </Static>
@@ -31,29 +31,29 @@
       <Rect>
         <X>0</X>
         <Y>0</Y>
-        <W>1280</W>
-        <H>720</H>
+        <W>1920</W>
+        <H>1080</H>
         <Z>-1</Z>
       </Rect>
     </Static>
     <Static Name="StaticNextPlayer">
-      <Skin/>
+      <Skin />
       <Color Name="Visible" />
       <Rect>
         <X>0</X>
         <Y>0</Y>
-        <W>100</W>
-        <H>100</H>
+        <W>150</W>
+        <H>150</H>
         <Z>0</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitle">
-      <X>640</X>
-      <Y>50</Y>
+      <X>960</X>
+      <Y>75</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -64,10 +64,10 @@
       <Text>TR_SCREENMAIN_TITLE</Text>
     </Text>
     <Text Name="TextPosition">
-      <X>40</X>
-      <Y>135</Y>
+      <X>60</X>
+      <Y>202.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -78,11 +78,11 @@
       <Text>TR_SCREENMAIN_TABLE_POS</Text>
     </Text>
     <Text Name="TextPlayerName">
-      <X>50</X>
-      <Y>135</Y>
+      <X>75</X>
+      <Y>202.5</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>130</MaxW>
+      <H>40.5</H>
+      <MaxW>195</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -92,10 +92,10 @@
       <Text>TR_SCREENMAIN_TABLE_PLAYERNAME</Text>
     </Text>
     <Text Name="TextNumPlayed">
-      <X>260</X>
-      <Y>135</Y>
+      <X>390</X>
+      <Y>202.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -106,10 +106,10 @@
       <Text>TR_SCREENMAIN_TABLE_NUMPLAYED</Text>
     </Text>
     <Text Name="TextWon">
-      <X>340</X>
-      <Y>135</Y>
+      <X>510</X>
+      <Y>202.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -120,10 +120,10 @@
       <Text>TR_SCREENMAIN_TABLE_WON</Text>
     </Text>
     <Text Name="TextSingPoints">
-      <X>490</X>
-      <Y>135</Y>
+      <X>735</X>
+      <Y>202.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -134,10 +134,10 @@
       <Text>TR_SCREENMAIN_TABLE_SINGPOINTS</Text>
     </Text>
     <Text Name="TextGamePoints">
-      <X>590</X>
-      <Y>135</Y>
+      <X>885</X>
+      <Y>202.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -151,8 +151,8 @@
       <X>0</X>
       <Y>0</Y>
       <Z>0</Z>
-      <H>27</H>
-      <MaxW>100</MaxW>
+      <H>40.5</H>
+      <MaxW>150</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
@@ -162,11 +162,11 @@
       <Text />
     </Text>
     <Text Name="TextPopupReallyExit">
-      <X>640</X>
-      <Y>270</Y>
-      <Z>-1.01</Z>
-      <H>27</H>
-      <MaxW>380</MaxW>
+      <X>960</X>
+      <Y>405</Y>
+      <Z>-11</Z>
+      <H>40.5</H>
+      <MaxW>570</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
@@ -176,10 +176,10 @@
       <Text>TR_SCREENMAIN_POPUP_REALLYEXIT</Text>
     </Text>
     <Text Name="TextRoundNumber">
-      <X>660</X>
-      <Y>135</Y>
+      <X>990</X>
+      <Y>202.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -193,7 +193,7 @@
       <X>0</X>
       <Y>0</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -207,7 +207,7 @@
       <X>0</X>
       <Y>0</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -218,10 +218,10 @@
       <Text />
     </Text>
     <Text Name="TextFinishMessage">
-      <X>640</X>
-      <Y>520</Y>
+      <X>960</X>
+      <Y>780</Y>
       <Z>0</Z>
-      <H>44</H>
+      <H>66</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -232,11 +232,11 @@
       <Text>TR_SCREENMAIN_FINISH</Text>
     </Text>
     <Text Name="TextFinishPlayerWin">
-      <X>640</X>
-      <Y>575</Y>
+      <X>960</X>
+      <Y>862.5</Y>
       <Z>0</Z>
-      <H>31</H>
-      <MaxW>770</MaxW>
+      <H>46.5</H>
+      <MaxW>1155</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
@@ -246,10 +246,10 @@
       <Text />
     </Text>
     <Text Name="TextNextPlayerMessage">
-      <X>640</X>
-      <Y>515</Y>
+      <X>960</X>
+      <Y>772.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -265,20 +265,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1030</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>1545</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>10</Y>
+        <X>112.5</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -288,32 +288,32 @@
         <Text>TR_BUTTON_NEXT_ROUND</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonBack">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>100</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>150</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -323,32 +323,32 @@
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonExit">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>100</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>150</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -358,32 +358,32 @@
         <Text>TR_BUTTON_EXIT</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonPopupYes">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>665</X>
-        <Y>360</Y>
-        <W>150</W>
-        <H>50</H>
-        <Z>-1.01</Z>
+        <X>997.5</X>
+        <Y>540</Y>
+        <W>225</W>
+        <H>75</H>
+        <Z>-11</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -393,32 +393,32 @@
         <Text>TR_BUTTON_YES</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonPopupNo">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>465</X>
-        <Y>360</Y>
-        <W>150</W>
-        <H>50</H>
-        <Z>-1.01</Z>
+        <X>697.5</X>
+        <Y>540</Y>
+        <W>225</W>
+        <H>75</H>
+        <Z>-11</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -428,32 +428,32 @@
         <Text>TR_BUTTON_NO</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonPlayerScrollDown">
       <Skin>ScrollDown</Skin>
       <SkinSelected>ScrollDown</SkinSelected>
       <Rect>
-        <X>281</X>
-        <Y>495</Y>
-        <W>28</W>
-        <H>15</H>
-        <Z>-0.01</Z>
+        <X>421.5</X>
+        <Y>742.5</Y>
+        <W>42</W>
+        <H>22.5</H>
+        <Z>-01</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>10</Y>
+        <X>112.5</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -467,20 +467,20 @@
       <Skin>ScrollUp</Skin>
       <SkinSelected>ScrollUp</SkinSelected>
       <Rect>
-        <X>281</X>
-        <Y>110</Y>
-        <W>28</W>
-        <H>15</H>
-        <Z>-0.01</Z>
+        <X>421.5</X>
+        <Y>165</Y>
+        <W>42</W>
+        <H>22.5</H>
+        <Z>-01</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>10</Y>
+        <X>112.5</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -494,20 +494,20 @@
       <Skin>ScrollDown</Skin>
       <SkinSelected>ScrollDown</SkinSelected>
       <Rect>
-        <X>954</X>
-        <Y>470</Y>
-        <W>28</W>
-        <H>15</H>
-        <Z>-0.01</Z>
+        <X>1431</X>
+        <Y>705</Y>
+        <W>42</W>
+        <H>22.5</H>
+        <Z>-01</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>10</Y>
+        <X>112.5</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -521,20 +521,20 @@
       <Skin>ScrollUp</Skin>
       <SkinSelected>ScrollUp</SkinSelected>
       <Rect>
-        <X>954</X>
-        <Y>110</Y>
-        <W>28</W>
-        <H>15</H>
-        <Z>-0.01</Z>
+        <X>1431</X>
+        <Y>165</Y>
+        <W>42</W>
+        <H>22.5</H>
+        <Z>-01</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>10</Y>
+        <X>112.5</X>
+        <Y>15</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
