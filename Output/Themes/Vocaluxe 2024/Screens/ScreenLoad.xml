@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenLoad</ScreenName>
@@ -16,10 +16,10 @@
   <Statics />
   <Texts>
     <Text Name="TextLoading">
-      <X>640</X>
-      <Y>375</Y>
+      <X>960</X>
+      <Y>562.5</Y>
       <Z>0</Z>
-      <H>40</H>
+      <H>60</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -30,10 +30,10 @@
       <Text>TR_SCREENLOAD_LOADING</Text>
     </Text>
     <Text Name="TextStatus">
-      <X>640</X>
-      <Y>420</Y>
+      <X>960</X>
+      <Y>630</Y>
       <Z>0</Z>
-      <H>20</H>
+      <H>30</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -44,10 +44,10 @@
       <Text />
     </Text>
     <Text Name="TextProgramName">
-      <X>640</X>
-      <Y>305</Y>
+      <X>960</X>
+      <Y>457.5</Y>
       <Z>0</Z>
-      <H>101</H>
+      <H>151.5</H>
       <MaxW>0</MaxW>
       <Color Name="Invisible" />
       <SelColor Name="Invisible" />
