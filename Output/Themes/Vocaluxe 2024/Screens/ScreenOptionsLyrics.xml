@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptionsLyrics</ScreenName>
@@ -19,19 +19,19 @@
       <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
-        <Y>40</Y>
-        <W>1280</W>
-        <H>45</H>
+        <Y>60</Y>
+        <W>1920</W>
+        <H>67.5</H>
         <Z>1</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitle">
-      <X>640</X>
-      <Y>50</Y>
+      <X>960</X>
+      <Y>75</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -42,10 +42,10 @@
       <Text>TR_SCREENOLYRICS_OPTIONS</Text>
     </Text>
     <Text Name="TextLyricsStyle">
-      <X>75</X>
-      <Y>107</Y>
+      <X>112.5</X>
+      <Y>160.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -56,10 +56,10 @@
       <Text>TR_SCREENOLYRICS_STYLE</Text>
     </Text>
     <Text Name="TextLyricsPosition">
-      <X>75</X>
-      <Y>167</Y>
+      <X>112.5</X>
+      <Y>250.5</Y>
       <Z>0</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -75,20 +75,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>55</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>82.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -98,12 +98,12 @@
         <Text>TR_BUTTON_BACK</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
   </Buttons>
@@ -111,31 +111,31 @@
   <Lyrics />
   <SelectSlides>
     <SelectSlide Name="SelectSlideLyricStyle">
-      <Skin/>
+      <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>500</X>
-        <Y>100</Y>
-        <W>715</W>
-        <H>50</H>
+        <X>750</X>
+        <Y>150</Y>
+        <W>1072.5</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>505</X>
-        <Y>105</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>757.5</X>
+        <Y>157.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1170</X>
-        <Y>105</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>1755</X>
+        <Y>157.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -144,40 +144,40 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
+      <TextH>40.5</TextH>
+      <TextRelativeX>75</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
+      <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>4</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideLyricsPosition">
-      <Skin/>
+      <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
       <SkinSelected>SelectSlide</SkinSelected>
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>500</X>
-        <Y>160</Y>
-        <W>715</W>
-        <H>50</H>
+        <X>750</X>
+        <Y>240</Y>
+        <W>1072.5</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
-        <X>505</X>
-        <Y>165</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>757.5</X>
+        <Y>247.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1170</X>
-        <Y>165</Y>
-        <W>40</W>
-        <H>40</H>
+        <X>1755</X>
+        <Y>247.5</Y>
+        <W>60</W>
+        <H>60</H>
         <Z>0</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -186,10 +186,10 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>27</TextH>
-      <TextRelativeX>50</TextRelativeX>
+      <TextH>40.5</TextH>
+      <TextRelativeX>75</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>200</TextMaxW>
+      <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>2</NumVisible>
