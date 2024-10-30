@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptionsVideoAdjustments</ScreenName>
@@ -25,18 +25,18 @@
       <Rect>
         <X>0</X>
         <Y>0</Y>
-        <W>1280</W>
-        <H>720</H>
+        <W>1920</W>
+        <H>1080</H>
         <Z>0</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="TextTopLeft">
-      <X>10</X>
-      <Y>5</Y>
+      <X>15</X>
+      <Y>7.5</Y>
       <Z>-1</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -47,10 +47,10 @@
       <Text>TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT</Text>
     </Text>
     <Text Name="TextTopRight">
-      <X>1270</X>
-      <Y>5</Y>
+      <X>1905</X>
+      <Y>7.5</Y>
       <Z>-1</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -61,10 +61,10 @@
       <Text>TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT</Text>
     </Text>
     <Text Name="TextBottomLeft">
-      <X>10</X>
-      <Y>688</Y>
+      <X>15</X>
+      <Y>1032</Y>
       <Z>-1</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -75,10 +75,10 @@
       <Text>TR_SCREENOVIDEOADJUSTMENTS_BOTTOMLEFT</Text>
     </Text>
     <Text Name="TextBottomRight">
-      <X>1270</X>
-      <Y>688</Y>
+      <X>1905</X>
+      <Y>1032</Y>
       <Z>-1</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -89,10 +89,10 @@
       <Text>TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT</Text>
     </Text>
     <Text Name="TextAdjustmentNotes">
-      <X>640</X>
-      <Y>110</Y>
+      <X>960</X>
+      <Y>165</Y>
       <Z>-1</Z>
-      <H>30</H>
+      <H>45</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -103,10 +103,10 @@
       <Text>TR_SCREENOVIDEOADJUSTMENTS_NOTES</Text>
     </Text>
     <Text Name="TextAdjustmentsNotesReset">
-      <X>640</X>
-      <Y>580</Y>
+      <X>960</X>
+      <Y>870</Y>
       <Z>-1</Z>
-      <H>30</H>
+      <H>45</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -122,20 +122,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>145</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>217.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>-1</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
