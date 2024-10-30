@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenHighscore</ScreenName>
@@ -19,19 +19,19 @@
       <Color Name="BackgroundColorAlpha" />
       <Rect>
         <X>0</X>
-        <Y>40</Y>
-        <W>1280</W>
-        <H>45</H>
+        <Y>60</Y>
+        <W>1920</W>
+        <H>67.5</H>
         <Z>0</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitle">
-      <X>60</X>
-      <Y>50</Y>
+      <X>90</X>
+      <Y>75</Y>
       <Z>-1</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextColor" />
@@ -42,10 +42,10 @@
       <Text>TR_SCREENHIGHSCORE_HIGHSCORE</Text>
     </Text>
     <Text Name="TextSongName">
-      <X>640</X>
-      <Y>50</Y>
+      <X>960</X>
+      <Y>75</Y>
       <Z>-1</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextColor" />
@@ -56,10 +56,10 @@
       <Text />
     </Text>
     <Text Name="TextSongMode">
-      <X>1220</X>
-      <Y>50</Y>
+      <X>1830</X>
+      <Y>75</Y>
       <Z>-1</Z>
-      <H>27</H>
+      <H>40.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextColor" />
@@ -70,10 +70,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber1">
-      <X>120</X>
-      <Y>103</Y>
+      <X>180</X>
+      <Y>154.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -84,10 +84,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber2">
-      <X>120</X>
-      <Y>160</Y>
+      <X>180</X>
+      <Y>240</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -98,10 +98,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber3">
-      <X>120</X>
-      <Y>223</Y>
+      <X>180</X>
+      <Y>334.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -112,10 +112,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber4">
-      <X>120</X>
-      <Y>283</Y>
+      <X>180</X>
+      <Y>424.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -126,10 +126,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber5">
-      <X>120</X>
-      <Y>343</Y>
+      <X>180</X>
+      <Y>514.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -140,10 +140,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber6">
-      <X>120</X>
-      <Y>403</Y>
+      <X>180</X>
+      <Y>604.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -154,10 +154,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber7">
-      <X>120</X>
-      <Y>463</Y>
+      <X>180</X>
+      <Y>694.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -168,10 +168,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber8">
-      <X>120</X>
-      <Y>523</Y>
+      <X>180</X>
+      <Y>784.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -182,10 +182,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber9">
-      <X>120</X>
-      <Y>583</Y>
+      <X>180</X>
+      <Y>874.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -196,10 +196,10 @@
       <Text />
     </Text>
     <Text Name="TextNumber10">
-      <X>120</X>
-      <Y>643</Y>
+      <X>180</X>
+      <Y>964.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -210,10 +210,10 @@
       <Text />
     </Text>
     <Text Name="TextName1">
-      <X>200</X>
-      <Y>103</Y>
+      <X>300</X>
+      <Y>154.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -224,10 +224,10 @@
       <Text />
     </Text>
     <Text Name="TextName2">
-      <X>200</X>
-      <Y>163</Y>
+      <X>300</X>
+      <Y>244.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -238,10 +238,10 @@
       <Text />
     </Text>
     <Text Name="TextName3">
-      <X>200</X>
-      <Y>223</Y>
+      <X>300</X>
+      <Y>334.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -252,10 +252,10 @@
       <Text />
     </Text>
     <Text Name="TextName4">
-      <X>200</X>
-      <Y>283</Y>
+      <X>300</X>
+      <Y>424.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -266,10 +266,10 @@
       <Text />
     </Text>
     <Text Name="TextName5">
-      <X>200</X>
-      <Y>343</Y>
+      <X>300</X>
+      <Y>514.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -280,10 +280,10 @@
       <Text />
     </Text>
     <Text Name="TextName6">
-      <X>200</X>
-      <Y>403</Y>
+      <X>300</X>
+      <Y>604.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -294,10 +294,10 @@
       <Text />
     </Text>
     <Text Name="TextName7">
-      <X>200</X>
-      <Y>463</Y>
+      <X>300</X>
+      <Y>694.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -308,10 +308,10 @@
       <Text />
     </Text>
     <Text Name="TextName8">
-      <X>200</X>
-      <Y>523</Y>
+      <X>300</X>
+      <Y>784.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -322,10 +322,10 @@
       <Text />
     </Text>
     <Text Name="TextName9">
-      <X>200</X>
-      <Y>583</Y>
+      <X>300</X>
+      <Y>874.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -336,10 +336,10 @@
       <Text />
     </Text>
     <Text Name="TextName10">
-      <X>200</X>
-      <Y>643</Y>
+      <X>300</X>
+      <Y>964.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -350,10 +350,10 @@
       <Text />
     </Text>
     <Text Name="TextScore1">
-      <X>800</X>
-      <Y>103</Y>
+      <X>1200</X>
+      <Y>154.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -364,10 +364,10 @@
       <Text />
     </Text>
     <Text Name="TextScore2">
-      <X>800</X>
-      <Y>163</Y>
+      <X>1200</X>
+      <Y>244.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -378,10 +378,10 @@
       <Text />
     </Text>
     <Text Name="TextScore3">
-      <X>800</X>
-      <Y>223</Y>
+      <X>1200</X>
+      <Y>334.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -392,10 +392,10 @@
       <Text />
     </Text>
     <Text Name="TextScore4">
-      <X>800</X>
-      <Y>283</Y>
+      <X>1200</X>
+      <Y>424.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -406,10 +406,10 @@
       <Text />
     </Text>
     <Text Name="TextScore5">
-      <X>800</X>
-      <Y>343</Y>
+      <X>1200</X>
+      <Y>514.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -420,10 +420,10 @@
       <Text />
     </Text>
     <Text Name="TextScore6">
-      <X>800</X>
-      <Y>403</Y>
+      <X>1200</X>
+      <Y>604.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -434,10 +434,10 @@
       <Text />
     </Text>
     <Text Name="TextScore7">
-      <X>800</X>
-      <Y>463</Y>
+      <X>1200</X>
+      <Y>694.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -448,10 +448,10 @@
       <Text />
     </Text>
     <Text Name="TextScore8">
-      <X>800</X>
-      <Y>523</Y>
+      <X>1200</X>
+      <Y>784.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -462,10 +462,10 @@
       <Text />
     </Text>
     <Text Name="TextScore9">
-      <X>800</X>
-      <Y>583</Y>
+      <X>1200</X>
+      <Y>874.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -476,10 +476,10 @@
       <Text />
     </Text>
     <Text Name="TextScore10">
-      <X>800</X>
-      <Y>643</Y>
+      <X>1200</X>
+      <Y>964.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -490,10 +490,10 @@
       <Text />
     </Text>
     <Text Name="TextDate1">
-      <X>1000</X>
-      <Y>103</Y>
+      <X>1500</X>
+      <Y>154.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -504,10 +504,10 @@
       <Text />
     </Text>
     <Text Name="TextDate2">
-      <X>1000</X>
-      <Y>163</Y>
+      <X>1500</X>
+      <Y>244.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -518,10 +518,10 @@
       <Text />
     </Text>
     <Text Name="TextDate3">
-      <X>1000</X>
-      <Y>223</Y>
+      <X>1500</X>
+      <Y>334.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -532,10 +532,10 @@
       <Text />
     </Text>
     <Text Name="TextDate4">
-      <X>1000</X>
-      <Y>283</Y>
+      <X>1500</X>
+      <Y>424.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -546,10 +546,10 @@
       <Text />
     </Text>
     <Text Name="TextDate5">
-      <X>1000</X>
-      <Y>343</Y>
+      <X>1500</X>
+      <Y>514.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -560,10 +560,10 @@
       <Text />
     </Text>
     <Text Name="TextDate6">
-      <X>1000</X>
-      <Y>403</Y>
+      <X>1500</X>
+      <Y>604.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -574,10 +574,10 @@
       <Text />
     </Text>
     <Text Name="TextDate7">
-      <X>1000</X>
-      <Y>463</Y>
+      <X>1500</X>
+      <Y>694.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -588,10 +588,10 @@
       <Text />
     </Text>
     <Text Name="TextDate8">
-      <X>1000</X>
-      <Y>523</Y>
+      <X>1500</X>
+      <Y>784.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -602,10 +602,10 @@
       <Text />
     </Text>
     <Text Name="TextDate9">
-      <X>1000</X>
-      <Y>583</Y>
+      <X>1500</X>
+      <Y>874.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -616,10 +616,10 @@
       <Text />
     </Text>
     <Text Name="TextDate10">
-      <X>1000</X>
-      <Y>643</Y>
+      <X>1500</X>
+      <Y>964.5</Y>
       <Z>0</Z>
-      <H>35</H>
+      <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -642,10 +642,10 @@
     <ParticleEffect Name="ParticleEffectNew1">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>100</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>150</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
@@ -656,10 +656,10 @@
     <ParticleEffect Name="ParticleEffectNew2">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>160</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>240</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
@@ -670,10 +670,10 @@
     <ParticleEffect Name="ParticleEffectNew3">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>220</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>330</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
@@ -684,10 +684,10 @@
     <ParticleEffect Name="ParticleEffectNew4">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>280</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>420</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
@@ -698,10 +698,10 @@
     <ParticleEffect Name="ParticleEffectNew5">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>340</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>510</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
@@ -712,10 +712,10 @@
     <ParticleEffect Name="ParticleEffectNew6">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>400</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>600</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
@@ -726,10 +726,10 @@
     <ParticleEffect Name="ParticleEffectNew7">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>460</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>690</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
@@ -740,10 +740,10 @@
     <ParticleEffect Name="ParticleEffectNew8">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>520</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>780</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
@@ -754,10 +754,10 @@
     <ParticleEffect Name="ParticleEffectNew9">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>580</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>870</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
@@ -768,10 +768,10 @@
     <ParticleEffect Name="ParticleEffectNew10">
       <Skin>Star</Skin>
       <Rect>
-        <X>80</X>
-        <Y>640</Y>
-        <W>1080</W>
-        <H>35</H>
+        <X>120</X>
+        <Y>960</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>1</Z>
       </Rect>
       <Color Name="StaticColor" />
