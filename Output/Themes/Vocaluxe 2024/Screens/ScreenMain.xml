@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenMain</ScreenName>
@@ -18,10 +18,10 @@
 		<Skin>LogoMain</Skin>
 		<Color Name="White" />
 		<Rect>
-			<X>290</X>
-			<Y>177</Y>
-			<W>740</W>
-			<H>135</H>
+			<X>435</X>
+			<Y>265.5</Y>
+			<W>1110</W>
+			<H>202.5</H>
 			<Z>0</Z>
       </Rect>
 	</Static>
@@ -29,10 +29,10 @@
       <Skin>Menu</Skin>
       <Color Name="Invisible" />
       <Rect>
-        <X>49</X>
-        <Y>32</Y>
-        <W>1181</W>
-        <H>50</H>
+        <X>73.5</X>
+        <Y>48</Y>
+        <W>1771.5</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -40,18 +40,18 @@
       <Skin>TextBG</Skin>
       <Color Name="StaticWarningColor" />
       <Rect>
-        <X>150</X>
-        <Y>610</Y>
-        <W>355</W>
-        <H>30</H>
+        <X>225</X>
+        <Y>915</Y>
+        <W>532.5</W>
+        <H>45</H>
         <Z>-1.9</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="TextRelease">
-      <X>460</X>
-      <Y>420</Y>
+      <X>690</X>
+      <Y>630</Y>
       <Z>-1</Z>
       <H>0</H>
       <MaxW>0</MaxW>
@@ -61,14 +61,14 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Normal</Style>
       <Font>Normal</Font>
-      <Text>Vocaluxe "Shining Heaven" v0.3.0 (x64) Beta (0083)</Text>
+      <Text>Vocaluxe "Shining Heaven" v0.3 (x64) Beta (0083)</Text>
     </Text>
     <Text Name="TextWarningProfiles">
-      <X>320</X>
-      <Y>612</Y>
+      <X>480</X>
+      <Y>918</Y>
       <Z>-2</Z>
-      <H>27</H>
-      <MaxW>355</MaxW>
+      <H>40.5</H>
+      <MaxW>532.5</MaxW>
       <Color Name="TextWarningColor" />
       <SelColor Name="TextWarningColor" />
       <Align>Center</Align>
@@ -83,20 +83,20 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>145</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>217.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -106,32 +106,32 @@
         <Text>TR_SCREENMAIN_BUTTON_SING</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonParty">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>355</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>532.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -141,32 +141,32 @@
         <Text>TR_SCREENMAIN_BUTTON_PARTY</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonOptions">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>565</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>847.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -176,32 +176,32 @@
         <Text>TR_SCREENMAIN_BUTTON_OPTIONS</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonProfiles">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>775</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>1162.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -211,32 +211,32 @@
         <Text>TR_SCREENMAIN_BUTTON_PROFILES</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
     <Button Name="ButtonExit">
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>985</X>
-        <Y>600</Y>
-        <W>150</W>
-        <H>50</H>
+        <X>1477.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>75</X>
-        <Y>12</Y>
+        <X>112.5</X>
+        <Y>18</Y>
         <Z>0</Z>
-        <H>27</H>
-        <MaxW>142</MaxW>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -246,12 +246,12 @@
         <Text>TR_BUTTON_EXIT</Text>
       </Text>
       <Reflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </Reflection>
       <SelReflection>
-        <Height>26</Height>
-        <Space>10</Space>
+        <Height>39</Height>
+        <Space>15</Space>
       </SelReflection>
     </Button>
   </Buttons>
