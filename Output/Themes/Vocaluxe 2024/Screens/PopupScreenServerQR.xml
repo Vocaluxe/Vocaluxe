@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>PopupScreenServerQR</ScreenName>
@@ -8,7 +8,7 @@
   <Statics>
     <Static Name="StaticBG">
       <Skin />
-      <Color >
+      <Color>
         <R>0</R>
         <G>0</G>
         <B>0</B>
@@ -17,8 +17,8 @@
       <Rect>
         <X>0</X>
         <Y>0</Y>
-        <W>1280</W>
-        <H>720</H>
+        <W>1920</W>
+        <H>1080</H>
         <Z>-1.99</Z>
       </Rect>
     </Static>
@@ -26,21 +26,21 @@
       <Skin>Menu</Skin>
       <Color Name="Visible" />
       <Rect>
-        <X>465</X>
-        <Y>210</Y>
-        <W>350</W>
-        <H>350</H>
+        <X>697.5</X>
+        <Y>315</Y>
+        <W>525</W>
+        <H>525</H>
         <Z>-2</Z>
       </Rect>
     </Static>
   </Statics>
   <Texts>
     <Text Name="Text1">
-      <X>640</X>
-      <Y>170</Y>
+      <X>960</X>
+      <Y>255</Y>
       <Z>-2</Z>
-      <H>35</H>
-      <MaxW>300</MaxW>
+      <H>52.5</H>
+      <MaxW>450</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
@@ -50,11 +50,11 @@
       <Text>TR_SCREENPSERVERQR_ADDRESS</Text>
     </Text>
     <Text Name="TextServerAddress">
-      <X>640</X>
-      <Y>570</Y>
+      <X>960</X>
+      <Y>855</Y>
       <Z>-2</Z>
-      <H>35</H>
-      <MaxW>300</MaxW>
+      <H>52.5</H>
+      <MaxW>450</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
@@ -64,11 +64,11 @@
       <Text />
     </Text>
     <Text Name="TextServerNotRunning">
-      <X>640</X>
-      <Y>265</Y>
+      <X>960</X>
+      <Y>397.5</Y>
       <Z>-2</Z>
-      <H>45</H>
-      <MaxW>600</MaxW>
+      <H>67.5</H>
+      <MaxW>900</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
