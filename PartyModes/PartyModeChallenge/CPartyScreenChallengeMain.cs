@@ -312,8 +312,8 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             float x = (float)CBase.Settings.GetRenderW() / 2 -
                       ((_PartyMode.GameData.NumPlayerAtOnce * _Statics[_StaticNextPlayer].Rect.W) + ((_PartyMode.GameData.NumPlayerAtOnce - 1) * 15)) / 2;
-            const float staticY = 590;
-            const float textY = 550;
+            const float staticY = 885;
+            const float textY = 825;
             for (int i = 0; i < _PartyMode.GameData.NumPlayerAtOnce; i++)
             {
                 //static
