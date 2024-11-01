@@ -1,6 +1,12 @@
 Theme System
 
 ++++++++++
+Version 7
+
+Changed:
+Program now renders at 1920 x 1080, so screens had to be resized to the new resolution
+
+++++++++++
 Version 6
 Added to <SingBar>:
 <SkinFillLeft>
