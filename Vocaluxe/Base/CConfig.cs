@@ -116,9 +116,9 @@ namespace Vocaluxe.Base
 
         public struct SConfigTheme
         {
-            [XmlElement("Name"), DefaultValue("Genius")] public string Theme;
+            [XmlElement("Name"), DefaultValue("Vocaluxe 2024")] public string Theme;
             [DefaultValue("Standard")] public string Skin;
-            [XmlElement("Cover"), DefaultValue("Genius Standard")] public string CoverTheme;
+            [XmlElement("Cover"), DefaultValue("Vocaluxe 2024")] public string CoverTheme;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawNoteLines;
             [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawToneHelper;
             [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)] public ETimerLook TimerLook;
