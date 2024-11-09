@@ -35,17 +35,16 @@ namespace Vocaluxe.Lib.Input
         private GamePadState _OldButtonStates;
 
         // Variables to track key repeat timing
-
-        private Stopwatch _DownKeyPressTimer = new Stopwatch();
-        private Stopwatch _UpKeyPressTimer = new Stopwatch();
-        private Stopwatch _LeftKeyPressTimer = new Stopwatch();
-        private Stopwatch _RightKeyPressTimer = new Stopwatch();
-        private Stopwatch _LeftStickDownKeyPressTimer = new Stopwatch();
-        private Stopwatch _LeftStickUpKeyPressTimer = new Stopwatch();
-        private Stopwatch _LeftStickLeftKeyPressTimer = new Stopwatch();
-        private Stopwatch _LeftStickRightKeyPressTimer = new Stopwatch();
-        private Stopwatch _LeftTriggerPressTimer = new Stopwatch();
-        private Stopwatch _RightTriggerPressTimer = new Stopwatch();
+        private readonly Stopwatch _DownKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _UpKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _RightKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftStickDownKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftStickUpKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftStickLeftKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftStickRightKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftTriggerPressTimer = new Stopwatch();
+        private readonly Stopwatch _RightTriggerPressTimer = new Stopwatch();
 
         private bool _Connected
         {
