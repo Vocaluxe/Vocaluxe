@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -29,13 +29,11 @@ namespace Vocaluxe.Base
     {
         private static CHighscoreDB _HighscoreDB;
         private static CCoverDB _CoverDB;
-        private static CResourceDB _ResourceDB;
 
         public static bool Init()
         {
             _HighscoreDB = new CHighscoreDB(CConfig.FileHighscoreDB);
             _CoverDB = new CCoverDB(Path.Combine(CSettings.DataFolder, CSettings.FileNameCoverDB));
-            _ResourceDB = new CResourceDB(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameCreditsRessourcesDB));
 
             if (!_HighscoreDB.Init())
             {
@@ -46,12 +44,7 @@ namespace Vocaluxe.Base
             {
                 CLog.Fatal("Error initializing Cover-DB");
                 return false;
-            }
-            if (!_ResourceDB.Init())
-            {
-                CLog.Fatal("Error initializing Credits-DB");
-                return false;
-            }
+            }            
             return true;
         }
 
@@ -66,11 +59,6 @@ namespace Vocaluxe.Base
             {
                 _CoverDB.Close();
                 _CoverDB = null;
-            }
-            if (_ResourceDB != null)
-            {
-                _ResourceDB.Close();
-                _ResourceDB = null;
             }
         }
 
@@ -111,11 +99,6 @@ namespace Vocaluxe.Base
         {
             if (_CoverDB != null)
                 _CoverDB.CommitCovers();
-        }
-
-        public static bool GetCreditsRessource(string fileName, ref CTextureRef tex)
-        {
-            return _ResourceDB != null && _ResourceDB.GetCreditsRessource(fileName, ref tex);
         }
     }
 }

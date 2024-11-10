@@ -19,6 +19,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Windows.Forms;
+using System.Drawing;
+using System.IO;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
@@ -37,9 +39,7 @@ namespace Vocaluxe.Screens
         }
 
         private CStatic _Logo;
-        private CParticleEffect _StarsRed;
-        private CParticleEffect _StarsBlue;
-
+        
         private Stopwatch _ScrollTimer;
 
         private List<dynamic> _ScrollingElements;
@@ -47,10 +47,8 @@ namespace Vocaluxe.Screens
         private float _previousElapsedMilliseconds;
 
         private CTextureRef _TexLogo;
-        private CTextureRef _TexPerfectNoteStar;
 
-        private SThemeBackground _BGTheme;
-
+        
         public override EMusicType CurrentMusicType
         {
             get { return EMusicType.Background; }
@@ -67,18 +65,26 @@ namespace Vocaluxe.Screens
 
         public override void LoadTheme(string xmlPath)
         {
-            bool ressourceOK = true;
             // Vocaluxe-Logo
-            ressourceOK &= CDataBase.GetCreditsRessource("Logo_voc.png", ref _TexLogo);
+            bool ressourceOK = true;
+            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameCreditsLogo);
 
-            // Little stars for logo
-            ressourceOK &= CDataBase.GetCreditsRessource("PerfectNoteStar.png", ref _TexPerfectNoteStar);
-
+            if (File.Exists(path))
+            {
+                 _TexLogo = CDraw.AddTexture(path);
+                 ressourceOK &= _TexLogo != null;
+            }
+            else
+            {
+                ressourceOK = false;
+            }
             if (!ressourceOK)
-                CLog.Fatal("Could not load all resources!");
+            {
+                 CLog.Fatal("Could not load all resources!");
+            }
 
             // Initialize background theme
-            _BGTheme = new SThemeBackground
+            SThemeBackground _BGTheme = new SThemeBackground
             {
                 Type = EBackgroundTypes.Color,
                 Color = new SThemeColor { Name = null, R = 0, G = 0.18f, B = 0.474f, A = 1 }
@@ -99,14 +105,6 @@ namespace Vocaluxe.Screens
             _AddStatic(_Logo);
             _ScrollingElements.Add(_Logo);
             _ElementStartYPositions[_Logo] = scrollY;
-
-            // Little stars for logo
-            var numstars = (int)(_Logo.Rect.W * 0.25f / 2f);
-            var partRect = new SRectF(_Logo.Rect.X, _Logo.Rect.Y, _Logo.Rect.W, _Logo.Rect.H, -1);
-            _StarsRed = _GetStarParticles(numstars, true, partRect, true);
-            _StarsBlue = _GetStarParticles(numstars, false, partRect, true);
-            _AddParticleEffect(_StarsRed);
-            _AddParticleEffect(_StarsBlue);
 
             scrollY += _Logo.Rect.H + 20f; // Update scrollY after logo
 
@@ -284,13 +282,6 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        private CParticleEffect _GetStarParticles(int numStars, bool isRed, SRectF rect, bool bigParticles)
-        {
-            SColorF partColor = isRed ? new SColorF(1, 0, 0, 1) : new SColorF(0.149f, 0.415f, 0.819f, 1);
-            int partSize = bigParticles ? 35 : 25;
-            return GetNewParticleEffect(numStars, partColor, rect, _TexPerfectNoteStar, partSize, EParticleType.Star);
-        }
-
         public override void OnShow()
         {
             base.OnShow();
@@ -307,8 +298,6 @@ namespace Vocaluxe.Screens
                     else if (element == _Logo)
                     {
                         _Logo.Y = startY;
-                        _StarsRed.Y = _Logo.Y;
-                        _StarsBlue.Y = _Logo.Y;
                     }
                 }
             }
@@ -325,11 +314,7 @@ namespace Vocaluxe.Screens
             _previousElapsedMilliseconds = 0;
         }
 
-        public override void OnShowFinish()
-        {
-            base.OnShowFinish();
-        }
-
+        
         private bool _Animation()
         {
             if (!_ScrollTimer.IsRunning)
@@ -349,8 +334,6 @@ namespace Vocaluxe.Screens
                 else if (element == _Logo)
                 {
                     _Logo.Y -= scrollSpeed * deltaTime;
-                    _StarsRed.Y = _Logo.Y;
-                    _StarsBlue.Y = _Logo.Y;
                 }
             }
 

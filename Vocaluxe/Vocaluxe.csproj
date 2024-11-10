@@ -198,7 +198,6 @@
     <Compile Include="Lib\Database\CCoverDB.cs" />
     <Compile Include="Lib\Database\CDatabaseBase.cs" />
     <Compile Include="Lib\Database\CHighscoreDB.cs" />
-    <Compile Include="Lib\Database\CResourceDB.cs" />
     <Compile Include="Lib\Draw\CDrawBase.cs" />
     <Compile Include="Lib\Draw\CDrawBaseWindows.cs" />
     <Compile Include="Lib\Draw\CTextureBase.cs" />
