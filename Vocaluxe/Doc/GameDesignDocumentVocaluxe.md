@@ -1,4 +1,4 @@
-<img alt="Vocaluxe Logo" src="https://github.com/vocaluxe/vocaluxe/blob/main/Output/Themes/Vocaluxe-Logo-Main.png" width=500/>
+<img alt="Vocaluxe Logo" src="https://github.com/Vocaluxe/Vocaluxe/blob/develop/Output/Themes/Vocaluxe%202024/LogoMain.png" width=500/>
 
 ## Concept and Game Design Document
 

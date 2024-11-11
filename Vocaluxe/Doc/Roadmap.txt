@@ -108,17 +108,15 @@
 just some ideas:
 	- More Song List Views
 	- Tile Board: Show title and artist under each tile
-	- OnScreen Keyboard?
-	- Kinect Support?
+	- OnScreen Keyboard
 	- Help System
-	- Party Mode: Casting Show	
 	- Mark newly added songs	
 	- Theme Editor
 	- Jukebox
 	- Tournament Mode
 	- Party Mode: Team-Battle
-	- Party Mode: 4 in a row	
-	- Song Editor
+	- Party Mode: Casting Show
+	- Party Mode: 4 in a row
 
 -----------------
 some feature wishes:
