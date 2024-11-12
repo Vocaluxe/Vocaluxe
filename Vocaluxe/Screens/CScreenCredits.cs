@@ -87,7 +87,7 @@ namespace Vocaluxe.Screens
             SThemeBackground _BGTheme = new SThemeBackground
             {
                 Type = EBackgroundTypes.Color,
-                Color = new SThemeColor { Name = null, R = 0, G = 0.18f, B = 0.474f, A = 1 }
+                Color = new SThemeColor { Name = "Black", R = 0f, G = 0f, B = 0f, A = 1f }
             };
 
             // Create and add background
@@ -196,48 +196,9 @@ namespace Vocaluxe.Screens
             // Translation
             AddText("TRANSLATION", headlineSize, EStyle.Bold, 0);
             scrollY += paragraphSpacing;
-            AddText("Asturian", boldSize, EStyle.Bold, 0);
-            AddText("Puxarra", textSize, EStyle.Normal, 0);
-            scrollY += paragraphSpacing;
-            AddText("Czech", boldSize, EStyle.Bold, 0);
-            AddText("fri", textSize, EStyle.Normal, 0);
-            scrollY += paragraphSpacing;
-            AddText("Dutch", boldSize, EStyle.Bold, 0);
-            AddText("Thijsblaauw", textSize, EStyle.Normal, 0);
-            AddText("DeMarin", textSize, EStyle.Normal, 0);
-            scrollY += paragraphSpacing;
-            AddText("French", boldSize, EStyle.Bold, 0);
-            AddText("pinky007", textSize, EStyle.Normal, 0);
-            AddText("javafrog", textSize, EStyle.Normal, 0);
-            scrollY += paragraphSpacing;
-            AddText("Hungarian", boldSize, EStyle.Bold, 0);
-            AddText("Warez", textSize, EStyle.Normal, 0);
-            AddText("Skyli", textSize, EStyle.Normal, 0);
-            scrollY += paragraphSpacing;
-            AddText("Italian", boldSize, EStyle.Bold, 0);
-            AddText("Giuseppep", textSize, EStyle.Normal, 0);
-            AddText("LFactory", textSize, EStyle.Normal, 0);
-            AddText("Yogotosleepnow", textSize, EStyle.Normal, 0);
-            scrollY += paragraphSpacing;
-            AddText("Portuguese", boldSize, EStyle.Bold, 0);
-            AddText("2borG", textSize, EStyle.Normal, 0);
-            AddText("Xventil", textSize, EStyle.Normal, 0);
-            scrollY += paragraphSpacing;
-            AddText("Spanish", boldSize, EStyle.Bold, 0);
-            AddText("Pantero03", textSize, EStyle.Normal, 0);
-            AddText("RubenDjOn", textSize, EStyle.Normal, 0);
-            AddText("TeLiX", textSize, EStyle.Normal, 0);
-            AddText("Karv", textSize, EStyle.Normal, 0);
-            scrollY += paragraphSpacing;
-            AddText("Swedish", boldSize, EStyle.Bold, 0);
-            AddText("u28151", textSize, EStyle.Normal, 0);
-            AddText("Jiiniasu", textSize, EStyle.Normal, 0);
-            scrollY += paragraphSpacing;
-            AddText("Turkish", boldSize, EStyle.Bold, 0);
-            AddText("Spirax", textSize, EStyle.Normal, 0);
-            AddText("Swertyy", textSize, EStyle.Normal, 0);
+            AddText("Thanks to everyone translating Vocaluxe into different languages.", textSize, EStyle.Normal, 0);
             scrollY += paragraphSpacing * 4;
-
+            
             // Website
             AddText("www.vocaluxe.org", headlineSize, EStyle.Bold, 0);
             AddText("www.open-music-games.org", headlineSize, EStyle.Bold, 0);
