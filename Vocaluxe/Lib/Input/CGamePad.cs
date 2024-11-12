@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -17,6 +17,8 @@
 
 using System;
 using System.Threading;
+using System.Diagnostics;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenTK.Input;
 using Vocaluxe.Base;
@@ -28,8 +30,21 @@ namespace Vocaluxe.Lib.Input
     {
         private int _GamePadIndex;
         private const float _LimitFactor = 1.0f;
+        private const int _KeyRepeatDelay = 100; // Delay in milliseconds for key repeat
 
         private GamePadState _OldButtonStates;
+
+        // Variables to track key repeat timing
+        private readonly Stopwatch _DownKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _UpKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _RightKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftStickDownKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftStickUpKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftStickLeftKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftStickRightKeyPressTimer = new Stopwatch();
+        private readonly Stopwatch _LeftTriggerPressTimer = new Stopwatch();
+        private readonly Stopwatch _RightTriggerPressTimer = new Stopwatch();
         
         private bool _Connected
         {
@@ -147,30 +162,154 @@ namespace Vocaluxe.Lib.Input
             lb |= (buttonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Released);
 
 
-            var key = Keys.None;
+            var keys = new List<Keys>();
 
-            if (buttonStates.DPad.IsDown && !_OldButtonStates.DPad.IsDown)
-                key = Keys.Down;
-            else if (buttonStates.DPad.IsUp && !_OldButtonStates.DPad.IsUp)
-                key = Keys.Up;
-            else if (buttonStates.DPad.IsLeft && !_OldButtonStates.DPad.IsLeft)
-                key = Keys.Left;
-            else if (buttonStates.DPad.IsRight && !_OldButtonStates.DPad.IsRight)
-                key = Keys.Right;
-            else if (buttonStates.Buttons.Start == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.Start == OpenTK.Input.ButtonState.Released)
-                key = Keys.Space;
+            // Handle DPad
+            if (buttonStates.DPad.IsDown)
+            {
+                if (!_OldButtonStates.DPad.IsDown || _DownKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.Down);
+                    _DownKeyPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _DownKeyPressTimer.Reset(); // Reset timer when button is released
+            }
+
+            if (buttonStates.DPad.IsUp)
+            {
+                if (!_OldButtonStates.DPad.IsUp || _UpKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.Up);
+                    _UpKeyPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _UpKeyPressTimer.Reset();
+            }
+
+            if (buttonStates.DPad.IsLeft)
+            {
+                if (!_OldButtonStates.DPad.IsLeft || _LeftKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.Left);
+                    _LeftKeyPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _LeftKeyPressTimer.Reset();
+            }
+
+            if (buttonStates.DPad.IsRight)
+            {
+                if (!_OldButtonStates.DPad.IsRight || _RightKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.Right);
+                    _RightKeyPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _RightKeyPressTimer.Reset();
+            }
+
+            // Handle Left Stick
+            float deadZone = 0.8f; // Adjust dead zone as needed
+
+            if (buttonStates.ThumbSticks.Left.Y > deadZone)
+            {
+                if (_OldButtonStates.ThumbSticks.Left.Y <= deadZone || _LeftStickUpKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.Up);
+                    _LeftStickUpKeyPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _LeftStickUpKeyPressTimer.Reset();
+            }
+
+            if (buttonStates.ThumbSticks.Left.Y < -deadZone)
+            {
+                if (_OldButtonStates.ThumbSticks.Left.Y >= -deadZone || _LeftStickDownKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.Down);
+                    _LeftStickDownKeyPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _LeftStickDownKeyPressTimer.Reset();
+            }
+
+            if (buttonStates.ThumbSticks.Left.X < -deadZone)
+            {
+                if (_OldButtonStates.ThumbSticks.Left.X >= -deadZone || _LeftStickLeftKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.Left);
+                    _LeftStickLeftKeyPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _LeftStickLeftKeyPressTimer.Reset();
+            }
+
+            if (buttonStates.ThumbSticks.Left.X > deadZone)
+            {
+                if (_OldButtonStates.ThumbSticks.Left.X <= deadZone || _LeftStickRightKeyPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.Right);
+                    _LeftStickRightKeyPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _LeftStickRightKeyPressTimer.Reset();
+            }
+
+            // Handle Triggers
+            if (buttonStates.Triggers.Left >= 0.8f)
+            {
+                if (_OldButtonStates.Triggers.Left < 0.8f || _LeftTriggerPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.PageUp);
+                    _LeftTriggerPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _LeftTriggerPressTimer.Reset();
+            }
+
+            if (buttonStates.Triggers.Right >= 0.8f)
+            {
+                if (_OldButtonStates.Triggers.Right < 0.8f || _RightTriggerPressTimer.ElapsedMilliseconds >= _KeyRepeatDelay)
+                {
+                    keys.Add(Keys.PageDown);
+                    _RightTriggerPressTimer.Restart();
+                }
+            }
+            else
+            {
+                _RightTriggerPressTimer.Reset();
+            }
+
+            // Handle other buttons
+            if (buttonStates.Buttons.Start == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.Start == OpenTK.Input.ButtonState.Released)
+                keys.Add(Keys.Space);
             else if (buttonStates.Buttons.A == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.A == OpenTK.Input.ButtonState.Released)
-                key = Keys.Enter;
+                keys.Add(Keys.Enter);
             else if (buttonStates.Buttons.B == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.B == OpenTK.Input.ButtonState.Released)
-                key = Keys.Escape;
+                keys.Add(Keys.Escape);
             else if (buttonStates.Buttons.Back == OpenTK.Input.ButtonState.Pressed && _OldButtonStates.Buttons.Back == OpenTK.Input.ButtonState.Released)
-                key = Keys.Back;
-            else if (buttonStates.Triggers.Left >= 0.8 && _OldButtonStates.Triggers.Left < 0.8)
-                key = Keys.PageUp;
-            else if (buttonStates.Triggers.Right >= 0.8 && _OldButtonStates.Triggers.Right < 0.8)
-                key = Keys.PageDown;
+                keys.Add(Keys.Back);
 
-            if (key != Keys.None)
+            foreach (var key in keys)
                 AddKeyEvent(new SKeyEvent(ESender.Gamepad, false, false, false, false, char.MinValue, key));
 
             if (Math.Abs(buttonStates.ThumbSticks.Right.X - _OldButtonStates.ThumbSticks.Right.X) > 0.01
