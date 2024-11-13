@@ -49,8 +49,10 @@ You have a problem or a question implementing your change?
 Just [open an issue](https://github.com/Vocaluxe/Vocaluxe/issues/new) or mention `@Vocaluxe` in a comment on GitHub.
 
 ## 4. Help & Support
-Vocaluxe Homepage: https://vocaluxe.org/
-GitHub Wiki:			https://github.com/Vocaluxe/Vocaluxe/wiki
-GitHub Issues Tracker:	https://github.com/Vocaluxe/Vocaluxe/issues
-Translations:			https://www.transifex.com/projects/p/vocaluxe/
-Song-Database (USDB):	http://usdb.animux.de/
+Homepage:   https://vocaluxe.org/
+GitHub Wiki:    https://github.com/Vocaluxe/Vocaluxe/wiki
+GitHub Issues Tracker:  https://github.com/Vocaluxe/Vocaluxe/issues
+Discord Help Desk: https://discord.gg/tNEXZw2QJX
+General FAQ: https://www.open-music-games.org/help/frequently-asked-questions
+Translations:   https://www.transifex.com/projects/p/vocaluxe/
+Song-Database (USDB):   http://usdb.animux.de/
