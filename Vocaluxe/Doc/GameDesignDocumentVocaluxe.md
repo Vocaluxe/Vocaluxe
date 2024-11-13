@@ -1,6 +1,6 @@
 <img alt="Vocaluxe Logo" src="https://github.com/Vocaluxe/Vocaluxe/blob/develop/Output/Themes/Vocaluxe%202024/LogoMain.png" width=500/>
 
-## Concept and Game Design Document
+# Concept and Game Design Document
 
 Version: **1.0.1**
 
@@ -37,7 +37,7 @@ music game, rhythm game, karaoke, sing-along
 
 *The number of players that can play the game at once*
 
-* 1-4 Players
+* 1-6 Players
 
 ### Inspired by:
 
@@ -49,7 +49,7 @@ free (non-commercial & open source), yet music have to be buyed in trusted store
 
 ### Planned Release Date:
 
-1st February 2026 (if possible)
+Unknown, depends on developers, ideally in 2025-2027
 
 ### Developer:
 
@@ -63,10 +63,6 @@ Open Music Games Organization (Germany)
 
 ### Technical Form:
 
-*Basically there are 2D graphics (flat) and 3D graphics (form):*
-
-* 2D graphics (flat)
-
 ### View:
 
 *Camera view from which the player will experience the game:*
@@ -77,7 +73,7 @@ Open Music Games Organization (Germany)
 
 ### Platform:
 
-Windows, Mac, Linux
+Windows
 
 ### Language:
 
@@ -174,11 +170,11 @@ Vocaluxe has these following features:
 | **Highscore** | For each song, for each difficulty, for each player |
 | **Statistics** | most played songs, songs never played |
 | **In Built Store** | No |
-| **Files Stored** | Locally, optional: Youtube Stream Embed |
+| **Files Stored** | Locally |
 | **Translations (UI)**  | Czech, Dutch, English, French, German, Hungarian, Italian, Portuguese, Spanish, Swedish, Turkish, Chinese, Japanese |
 | **Difficulty levels** | easy, medium, difficult |
 | **Theme support** | yes, each game provides customization of look and feel. description below. |
-| **Playlist support** | yes (.m3u) |
+| **Playlist support** | yes (.xml) |
 | **Party modes** | yes: each game has at least 3 different party modes. description below. |
 | **Sing modes** | yes: Versus (Duell), Co-Op (Duet), Co-Op 2 (Pass the mic), Medley Duell |
 | **Freestyle notes support (F)** | yes |
