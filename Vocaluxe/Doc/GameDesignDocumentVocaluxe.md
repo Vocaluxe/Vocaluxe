@@ -164,53 +164,61 @@ player can use the game as a media player that plays random songs without scorin
 
 Vocaluxe has these following features:
 
-| **Song Collection** | Custom Songs. Limit is 10.000 songs. |
-| :---- | :---- |
-| **License** | Open Source, MIT-License |
-| **Highscore** | For each song, for each difficulty, for each player |
-| **Statistics** | most played songs, songs never played |
-| **In Built Store** | No |
-| **Files Stored** | Locally |
-| **Translations (UI)**  | Czech, Dutch, English, French, German, Hungarian, Italian, Portuguese, Spanish, Swedish, Turkish, Chinese, Japanese |
-| **Difficulty levels** | easy, medium, difficult |
-| **Theme support** | yes, each game provides customization of look and feel. description below. |
-| **Playlist support** | yes (.xml) |
-| **Party modes** | yes: each game has at least 3 different party modes. description below. |
-| **Sing modes** | yes: Versus (Duell), Co-Op (Duet), Co-Op 2 (Pass the mic), Medley Duell |
-| **Freestyle notes support (F)** | yes |
-| **Golden notes support (\*)** | yes |
-| **Jukebox mode** | yes, play Songs without scoring, lyrics, and player profiles |
-| **Player Profiles** | yes, Player has at least own avatar image, name and individual high score |
-| **Song Menu Style** | Grid View aka "Tile View". |
-| **Song Menu Search and Filter** | yes, filter by: year, genre, artist, favorites |
-| **Gamepad supported** | yes, xbox controller and similiar controller are supported |
-| **Smartphone supported** | yes, webbroswer app, AndroidApp, iOS App |
-| **Automatic Updates** | yes |
-| **Built-In Manual** | yes |
-| **Song formats** | UltraStar txt, official UltraStar Song format |
-| **Supported text file encodings** | UTF8 |
-| **Supported audio containers/formats (file suffix)** | .mp3 (CBR)  .ogg  .wav .opus .m4a .webm |
-| **Supported video containers/formats (file suffix)** | MPEG MP4 (.mp4, .m4v) MPEG-1/MPEG-2 (.mpg, .mpeg, .ps) Microsoft Audio Video Interleave (.avi) DivX Media Format (.divx) Google WebM (.webm) Xiph.org Ogg (.ogv) Apple Quicktime (.mov, .qt) Matroska (.mkv) |
-| **Supported cover/background filetypes** | JPEG (.jpg) Portable Network Graphics (.png) |
+| **Features** | Final Version v1.0.0 |  Current nightly build <v0.5.0 | Check |
+| -- | -- | -- | -- | 
+| **Song Collection** | Custom Songs. Limit is 10.000 songs. | Custom Songs. Limit is 10.000 songs. | ✔️ |
+| **License** | Open Source, MIT-License | GPL-3.0 license  | ❗ |
+| **Highscore** | For each song, for each difficulty, for each player | For each song, for each difficulty, for each player | ✔️ |
+| **Statistics** | most played songs, songs never played | most played songs, songs never played | ❗ |
+| **In Built Store** | No | No | ✔️ |
+| **Files Stored** | Locally, No Youtube Embed-Stream | Locally, No Youtube Embed-Stream | ✔️ |
+| **Translations (UI)**  | Czech, Dutch, English, French, German, Hungarian, Italian, Portuguese, Spanish, Swedish, Turkish, Chinese, Japanese | Czech, Dutch, English, French, German, Hungarian, Italian, Portuguese, Spanish, Swedish, Turkish, Chinese, Japanese | ✔️ |
+| **Difficulty levels** | easy, medium, difficult | easy, medium, difficult | ✔️ |
+| **Theme support** | yes, customization of look and feel. | yes, customization of look and feel. | ✔️ |
+| **Playlist support** | yes (.xml) | yes (.xml) | ✔️ |
+| **Party modes** | yes: at least 3 different party modes. description below. | yes: 2 party modes | ❗ |
+| **Sing modes** | yes: Versus (Duell), Co-Op (Duet), Co-Op 2 (Pass the mic), Medley | yes: Versus (Duell), Co-Op (Duet), Medley | ❗ |
+| **Freestyle notes support (F)** | yes | yes | ✔️ |
+| **Golden notes support (\*)** | yes | yes | ✔️ |
+| **Jukebox mode** | yes, play Songs without scoring, lyrics, and player profiles | no | ❗ |
+| **Player Profiles** | yes, Player has at least own avatar image, name and individual high score | yes, Player with avatar image, name and individual high score | ✔️ |
+| **Song Menu Style** | Only Grid View aka "Tile View". | Grid View aka "Tile View", List-View | ❗ |
+| **Song Menu Search and Filter** | yes, filter by: year, genre, artist, decades, favorites, tags | yes, filter by: year, genre, artist, tags | ❗ |
+| **Gamepad supported** | yes, xbox controller and similiar controller are supported | yes, xbox controller and similiar controller are supported, wii-mote | ❗ |
+| **Smartphone supported** | yes, webbroswer app | yes, webbroswer app | ✔️  | 
+| **Webcam Support** | yes, as optional video background | yes, as optional video background | ✔️  | 
+| **Kinect Support** | no | no | ✔️  | 
+| **Automatic Updates** | yes | no | ❗ |
+| **Built-In Manual** | yes | no | ❗ |
+| **Help System** | yes | no | ❗ |
+| **Song formats** | UltraStar txt, official UltraStar Song format at least v1.1.0 | no full support of v1.1.0 yet | ❗ |
+| **Supported text file encodings** | UTF8 Without BOM | UTF8 Without BOM | ✔️ |
+| **Supported audio containers/formats (file suffix)** | .mp3 (CBR)  .ogg  .wav .opus .m4a .webm | yes all | ✔️ |
+| **Supported video containers/formats (file suffix)** | MPEG MP4 (.mp4, .m4v) MPEG-1/MPEG-2 (.mpg, .mpeg, .ps) Microsoft Audio Video Interleave (.avi) DivX Media Format (.divx) Google WebM (.webm) Xiph.org Ogg (.ogv) Apple Quicktime (.mov, .qt) Matroska (.mkv) | yes all | ✔️ |
+| **Supported cover/background filetypes** | JPEG (.jpg) Portable Network Graphics (.png) | yes .jpg and .png | ✔️ |
 
-These features totally change the game experience for the players and make the Vocaluxe stand out from other open source singing games:
+These features totally change the game experience for the players and make the Vocaluxe **stand out from other** open source singing games:
 
-| Online-Multiplayer | No |
-| :---- | :---- |
-| **Song Editor** | No in-built song editor |
-| **Modification** | No Modification by users |
-| **Microphone types** | Classic Microphones |
-| **Controlling / UI** | Keyboard and gamepad |
-| **Party Modes** | Yes: Tic Tac Toe Mode Challenge mode |
-| **Song Grid** | 3x4 (=12 songs per page) |
-| **Theming** | choose from a predefined set of 6 themes |
-| **Animation of Notes** | static |
-| **Option for classic karaoke evening** | No \- only supports classic singstar experience |
-| **Max. number of simultaneous singers** | 1-4 Players |
-| **Look & Feel** | like singstar celebration (2017) |
-| **Rap mode** | Yes, Rap-O-Meter: ignore pitch of notes score only rhythm don’t display normal notes show a Rap-O-Meter  |
-| **Practice mode** | No |
-| **Collectables and score** | **collect fame, collect medals gold silver bronze**  |
+| **Features** | Final Version v1.0.0 |  Current nightly build <v0.5.0 | Check |
+| -- | -- | -- | -- | 
+| Online-Multiplayer | No | No | ✔️ |
+| **Song Editor** | No in-built song editor | No in-built song editor | ✔️ |
+| **Modification** | No Modification or Plugins by users | No Modification or Plugins by users | ✔️ |
+| **Microphone types** | Classic Microphones | Classic Microphones | ✔️ |
+| **Controlling / UI** | Keyboard and gamepad | To much Focus on Keyboard and mouse, game pad should be first in UI, Keyboard secondary | ❗ |
+| **Party Modes** | Yes: Tic Tac Toe Mode, Challenge mode, Tournament mode | Yes: Tic Tac Toe Mode, Challenge mode | ❗ |
+| **Song Grid** | 2x4 (=8 songs per page) | 4x6 (=24 songs per page) | ❗ |
+| **Themeing** | choose from a predefined set of 6 themes | choose from a predefined set of 6 themes | ✔️ |
+| **Animation of Notes** | static | static | ✔️ |
+| **Option for classic karaoke evening** | No \- only supports classic singstar experience | No \- only supports classic singstar experience | ✔️ |
+| **Max. number of simultaneous singers** | 1-6 Players | 1-6 Players | ✔️ |
+| **Look & Feel** | strongly inspired by singstar celebration (2017) | strongly inspired by singstar celebration (2017) but total different UI layouts and controlling | ❗ |
+| **Rap mode** | Yes, Rap-O-Meter: ignore pitch of notes score only rhythm don’t display normal notes show a Rap-O-Meter  | Only rap notes that ignore pitches | ❗ |
+| **Practice mode** | No | No | ✔️ |
+| **Collectables and score** | **collect fame, collect medals gold silver bronze**  | Nothing | ❗ |
+| **Player Level-Up** | **yes**  | Nothing yet | ❗ |
+| **Minimalistic Sound Design** | **yes, for UI and RatingScreens**  | Nothing yet | ❗ |
+| **Basic Music Design** | **yes, at least main menu background and ResultScreen Fanfare**  | Only Background Music for main menu | ❗ |
 
 ## GAME FLOWCHART
 
