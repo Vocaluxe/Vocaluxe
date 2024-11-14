@@ -31,7 +31,7 @@ https://vocaluxe.org/#download
 
 ## 3. Contributing
 You want to fix a bug or add a cool new feature to Vocaluxe? Awesome!
-Check out [milestones](https://github.com/Vocaluxe/Vocaluxe/milestones) or our [Game Design Document](https://docs.google.com/document/d/1mNn92ezVH63pVVJoIqN1hjmWTX0L_jLb6bPYtGTl8EQ/edit?tab=t.0#heading=h.5p8a2hpxbech)!
+Check out [milestones](https://github.com/Vocaluxe/Vocaluxe/milestones) or our [Game Design Document](https://github.com/Vocaluxe/Vocaluxe/blob/develop/Vocaluxe/Doc/GameDesignDocumentVocaluxe.md)!
 
 ### Build Vocaluxe
 Building Vocaluxe is easy:
@@ -49,10 +49,10 @@ You have a problem or a question implementing your change?
 Just [open an issue](https://github.com/Vocaluxe/Vocaluxe/issues/new) or mention `@Vocaluxe` in a comment on GitHub.
 
 ## 4. Help & Support
+General FAQ: https://www.open-music-games.org/help/frequently-asked-questions
+Discord Help Desk: https://discord.gg/tNEXZw2QJX
 Homepage:   https://vocaluxe.org/
 GitHub Wiki:    https://github.com/Vocaluxe/Vocaluxe/wiki
 GitHub Issues Tracker:  https://github.com/Vocaluxe/Vocaluxe/issues
-Discord Help Desk: https://discord.gg/tNEXZw2QJX
-General FAQ: https://www.open-music-games.org/help/frequently-asked-questions
 Translations:   https://www.transifex.com/projects/p/vocaluxe/
 Song-Database (USDB):   http://usdb.animux.de/
