@@ -173,6 +173,13 @@ namespace Vocaluxe.Screens
             return true;
         }
 
+        private static int Clamp(int value, int min, int max)
+        {
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+        }
+
         public override bool UpdateGame()
         {
             for (int p = 0; p < _NumEntrys; p++)
@@ -199,7 +206,7 @@ namespace Vocaluxe.Screens
 
                     if (_ParticleEffects[_ParticleEffectNew[p]].Visible && !_HasPlayedSound)
                     {
-                         _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Highscore, 80);
+                         _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Highscore, CConfig.GameMusicVolume);
                          _HasPlayedSound = true;
                     }
                   }

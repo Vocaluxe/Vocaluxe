@@ -255,27 +255,20 @@ namespace Vocaluxe.Screens
 
         private int _ApplauseStream = -1;
 
-        private async void _PlayApplauseSound(int maxPoints)
+        private void _PlayApplauseSound(int maxPoints)
         {
             // Play the appropriate applause sound based on maxPoints
-            if (maxPoints < 2000)
+            if (maxPoints >= 8000)
             {
-                // No sound is played
+                 _ApplauseStream = PlaySound(ESounds.ApplauseHigh, CConfig.GameMusicVolume);
             }
-            else if (maxPoints < 5000)
+            else if (maxPoints >= 5000)
             {
-                await Task.Delay(500);
-                _ApplauseStream = PlaySound(ESounds.ApplauseLow, 80);
+                _ApplauseStream = PlaySound(ESounds.ApplauseMid, CConfig.GameMusicVolume);
             }
-            else if (maxPoints < 8000)
+            else if (maxPoints >= 2000)
             {
-                await Task.Delay(500);
-                _ApplauseStream = PlaySound(ESounds.ApplauseMid, 80);
-            }
-            else
-            {
-                await Task.Delay(500);
-                _ApplauseStream = PlaySound(ESounds.ApplauseHigh, 80);
+            _ApplauseStream = PlaySound(ESounds.ApplauseLow, CConfig.GameMusicVolume);
             }
         }
 
