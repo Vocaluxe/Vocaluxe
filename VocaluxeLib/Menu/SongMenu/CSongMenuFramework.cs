@@ -239,7 +239,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 return;
 
             if (CBase.BackgroundMusic.IsPlaying())
-                CBase.Drawing.DrawTexture(CBase.BackgroundMusic.GetVideoTexture(), new SRectF(0, 0, 1280, 720, 0));
+                CBase.Drawing.DrawTexture(CBase.BackgroundMusic.GetVideoTexture(), new SRectF(0, 0, 1920, 1080, 0));
         }
 
         public virtual bool IsMouseOverSelectedSong(SMouseEvent mEvent)
