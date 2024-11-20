@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-//
+// 
 // You should have received a copy of the GNU General Public License
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
@@ -44,10 +44,13 @@ namespace Vocaluxe.Screens
 
         private List<dynamic> _ScrollingElements;
         private Dictionary<dynamic, float> _ElementStartYPositions;
-        private float _previousElapsedMilliseconds;
+        private float _previousVideoElapsedMilliseconds;
+        private float _previousAnimationElapsedMilliseconds;
 
         private CTextureRef _TexLogo;
 
+        private CVideoStream _BackgroundVideo;
+        private float _BackgroundVideoTime;
         
         public override EMusicType CurrentMusicType
         {
@@ -82,18 +85,6 @@ namespace Vocaluxe.Screens
             {
                  CLog.Fatal("Could not load all resources!");
             }
-
-            // Initialize background theme
-            SThemeBackground _BGTheme = new SThemeBackground
-            {
-                Type = EBackgroundTypes.Color,
-                Color = new SThemeColor { Name = "Black", R = 0f, G = 0f, B = 0f, A = 1f }
-            };
-
-            // Create and add background
-            CBackground bg = new CBackground(_BGTheme, -1);
-            bg.LoadSkin();
-            _AddBackground(bg);
 
             // Position Y for the first scrolling element
             float scrollY = CSettings.RenderH - 1f;
@@ -221,7 +212,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                     case Keys.Enter:
-                        CGraphics.FadeTo(EScreen.Main);
+                        _LeaveScreen();
                         break;
                 }
             }
@@ -232,15 +223,35 @@ namespace Vocaluxe.Screens
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             if (mouseEvent.LB || mouseEvent.RB)
-                CGraphics.FadeTo(EScreen.Main);
+                _LeaveScreen();
             return true;
         }
 
         public override bool UpdateGame()
         {
-            if (!_Animation() && CGraphics.NextScreen != CGraphics.GetScreen(EScreen.Main))
-                CGraphics.FadeTo(EScreen.Main);
-            return true;
+            if (_BackgroundVideo != null)
+               {
+                   float deltaTime = (_ScrollTimer.ElapsedMilliseconds - _previousVideoElapsedMilliseconds) / 1000f;
+                   _previousVideoElapsedMilliseconds = _ScrollTimer.ElapsedMilliseconds;
+
+                   _BackgroundVideoTime += deltaTime;
+
+                   float videoLength = CVideo.GetLength(_BackgroundVideo);
+
+                   // Keep time within video length to avoid seeking backward
+                   if (_BackgroundVideoTime >= videoLength)
+                   {
+                       _BackgroundVideoTime -= videoLength;
+                   }
+                   
+                   CVideo.GetFrame(_BackgroundVideo, _BackgroundVideoTime);
+               }
+
+               if (!_Animation() && CGraphics.NextScreen != CGraphics.GetScreen(EScreen.Main))
+                   _LeaveScreen();
+
+               return true;
+
         }
 
         public override void OnShow()
@@ -262,8 +273,25 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
+            
+            _previousVideoElapsedMilliseconds = 0f;
 
-            // Set all elements to visible immediately
+            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameCreditsVideo);
+            if (File.Exists(path))
+            {
+                // Load the video if not already loaded
+                if (_BackgroundVideo == null)
+                {
+                    _BackgroundVideo = CVideo.Load(path);
+                    CVideo.SetLoop(_BackgroundVideo, true); // Set the video to loop
+                }
+
+            }
+            else
+            {
+                CLog.Error("Background video not found: " + path);
+            }
+
             foreach (dynamic element in _ScrollingElements)
             {
                 element.Visible = true;
@@ -272,17 +300,52 @@ namespace Vocaluxe.Screens
             // Start the scroll timer immediately
             _ScrollTimer.Reset();
             _ScrollTimer.Start();
-            _previousElapsedMilliseconds = 0;
+            _previousAnimationElapsedMilliseconds = 0;
+            _BackgroundVideoTime = 0f;
+
+            foreach (dynamic element in _ScrollingElements)
+            {
+                element.Visible = true;
+            }
         }
 
+        public override void Draw()
+        {
+            if (_Active)
+                {
+                    if (_BackgroundVideo != null)
+                    {
+                        CTextureRef background = _BackgroundVideo.Texture;
+                        if (background != null)
+                        {
+                            SRectF bounds = CSettings.RenderRect;
+                            SRectF rect = CHelper.FitInBounds(bounds, background.OrigAspect, EAspect.Crop);
+                            CDraw.DrawTexture(background, rect, background.Color, bounds);
+                        }
+                    }
+                }
+
+                base.Draw();
+        }
+
+        private void _LeaveScreen()
+        {
+            CGraphics.FadeTo(EScreen.Main);
+
+            if (_BackgroundVideo != null)
+            {
+                CVideo.Close(ref _BackgroundVideo);
+                _BackgroundVideo = null;
+            }
+        }
         
         private bool _Animation()
         {
             if (!_ScrollTimer.IsRunning)
                 return false;
 
-            float deltaTime = (_ScrollTimer.ElapsedMilliseconds - _previousElapsedMilliseconds) / 1000f; // Convert milliseconds to seconds
-            _previousElapsedMilliseconds = _ScrollTimer.ElapsedMilliseconds;
+            float deltaTime = (_ScrollTimer.ElapsedMilliseconds - _previousAnimationElapsedMilliseconds) / 1000f; // Convert milliseconds to seconds
+            _previousAnimationElapsedMilliseconds = _ScrollTimer.ElapsedMilliseconds;
 
             float scrollSpeed = 60f;
 
