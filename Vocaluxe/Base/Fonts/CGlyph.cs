@@ -53,7 +53,7 @@ namespace Vocaluxe.Base.Fonts
                     //Gets exact height and width for drawing more than 1 char. But width is to small to draw char on bitmap as e.g. italic chars will get cropped
                     //See https://stackoverflow.com/questions/11708621/how-to-measure-width-of-a-string-precisely
                     StringFormat format = StringFormat.GenericTypographic;
-                    RectangleF rect = new RectangleF(0, 0, 1000, 1000);
+                    RectangleF rect = new RectangleF(0, 0, 2000, 2000);
                     CharacterRange[] ranges = { new CharacterRange(0, chrString.Length) };
                     format.SetMeasurableCharacterRanges(ranges);
                     _BoundingBox = g.MeasureCharacterRanges(chrString, fo, rect, format)[0].GetBounds(g).Size;
