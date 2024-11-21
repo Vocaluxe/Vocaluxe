@@ -174,6 +174,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Kép</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Dalszöveg</string>
   <string name="TR_SCREENO_BUTTON_THEME">Téma</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Szerver címe</string>
   <string name="TR_SCREENOGAME_OPTIONS">Játék Beállítások</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Nyelv</string>
