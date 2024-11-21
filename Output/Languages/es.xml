@@ -176,6 +176,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Letras</string>
   <string name="TR_SCREENO_BUTTON_THEME">Estilos</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Dirección del servidor</string>
   <string name="TR_SCREENOGAME_OPTIONS">Opciones del Juego</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Idioma</string>
