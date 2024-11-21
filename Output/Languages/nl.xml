@@ -170,6 +170,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Songteksten</string>
   <string name="TR_SCREENO_BUTTON_THEME">Thema</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Serveradres</string>
   <string name="TR_SCREENOGAME_OPTIONS">Spelinstellingen</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Taal</string>
