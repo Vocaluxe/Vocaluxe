@@ -153,6 +153,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Sözler</string>
   <string name="TR_SCREENO_BUTTON_THEME">Tema</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENOGAME_OPTIONS">Oyun Seçenekleri</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Dil</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Hata Ayıklama Seviyesi</string>
