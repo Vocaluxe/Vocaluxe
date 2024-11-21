@@ -15,14 +15,14 @@
   </Backgrounds>
   <Statics>
     <Static Name="LogoMain">
-		<Skin>LogoMain</Skin>
-		<Color Name="White" />
-		<Rect>
-			<X>435</X>
-			<Y>265.5</Y>
-			<W>1110</W>
-			<H>202.5</H>
-			<Z>0</Z>
+	<Skin>LogoMain</Skin>
+	<Color Name="White" />
+	<Rect>
+	<X>435</X>
+	<Y>265.5</Y>
+	<W>1110</W>
+	<H>202.5</H>
+	<Z>0</Z>
       </Rect>
 	</Static>
   </Statics>
