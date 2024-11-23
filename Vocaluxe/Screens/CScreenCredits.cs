@@ -74,8 +74,8 @@ namespace Vocaluxe.Screens
 
             if (File.Exists(path))
             {
-                 _TexLogo = CDraw.AddTexture(path);
-                 ressourceOK &= _TexLogo != null;
+                _TexLogo = CDraw.AddTexture(path);
+                ressourceOK &= _TexLogo != null;
             }
             else
             {
@@ -83,21 +83,26 @@ namespace Vocaluxe.Screens
             }
             if (!ressourceOK)
             {
-                 CLog.Fatal("Could not load all resources!");
+                CLog.Fatal("Could not load all resources!");
+                // Prevent further execution
+                return;
             }
 
             // Position Y for the first scrolling element
             float scrollY = CSettings.RenderH - 1f;
 
             // Create logo
-            _Logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1),
-                new SRectF((float)(CSettings.RenderW - _TexLogo.OrigSize.Width) / 2, scrollY, _TexLogo.OrigSize.Width, _TexLogo.OrigSize.Height, -2));
-            _Logo.Visible = false;
-            _AddStatic(_Logo);
-            _ScrollingElements.Add(_Logo);
-            _ElementStartYPositions[_Logo] = scrollY;
-
-            scrollY += _Logo.Rect.H + 20f; // Update scrollY after logo
+            if (_TexLogo != null)
+            {
+                _Logo = GetNewStatic(_TexLogo, new SColorF(1, 1, 1, 1),
+                    new SRectF((float)(CSettings.RenderW - _TexLogo.OrigSize.Width) / 2, scrollY, _TexLogo.OrigSize.Width, _TexLogo.OrigSize.Height, -2));
+                _Logo.Visible = false;
+                _AddStatic(_Logo);
+                _ScrollingElements.Add(_Logo);
+                _ElementStartYPositions[_Logo] = scrollY;
+        
+                scrollY += _Logo.Rect.H + 20f; // Update scrollY after logo
+            }
 
             // Helper variables for font sizes
             int bigHeadlineSize = 45;
@@ -311,21 +316,15 @@ namespace Vocaluxe.Screens
 
         public override void Draw()
         {
-            if (_Active)
-                {
-                    if (_BackgroundVideo != null)
-                    {
-                        CTextureRef background = _BackgroundVideo.Texture;
-                        if (background != null)
-                        {
-                            SRectF bounds = CSettings.RenderRect;
-                            SRectF rect = CHelper.FitInBounds(bounds, background.OrigAspect, EAspect.Crop);
-                            CDraw.DrawTexture(background, rect, background.Color, bounds);
-                        }
-                    }
-                }
+            if (_Active && _BackgroundVideo != null && _BackgroundVideo.Texture != null)
+            {
+                CTextureRef background = _BackgroundVideo.Texture;
+                SRectF bounds = CSettings.RenderRect;
+                SRectF rect = CHelper.FitInBounds(bounds, background.OrigAspect, EAspect.Crop);
+                CDraw.DrawTexture(background, rect, background.Color, bounds);
+            }
 
-                base.Draw();
+            base.Draw();
         }
 
         private void _LeaveScreen()
