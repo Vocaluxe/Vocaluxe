@@ -172,6 +172,7 @@ namespace VocaluxeLib.Songs
                                 break;
                             case "SOURCE":
                             case "YOUTUBE":
+                            case "PROVIDEDBY":
                                 _Song.Source = value;
                                 break;
                             case "LENGTH":
@@ -187,6 +188,30 @@ namespace VocaluxeLib.Songs
                                 else
                                 {
                                     CLog.CSongLog.Error("[{SongFileName}] Can't find audio file: {AudioFile}", CLog.Params(_Song.FileName, Path.Combine(_Song.Folder, value)));
+                                    return false;
+                                }
+                                break;
+                            case "INSTRUMENTAL":
+                                if (File.Exists(Path.Combine(_Song.Folder, value)))
+                                {
+                                    _Song.InstrumentalFileName = value;
+                                    headerFlags |= EHeaderFlags.Instrumental;
+                                }
+                                else
+                                {
+                                    CLog.CSongLog.Error("[{SongFileName}] Can't find instrumental audio file: {AudioFile}", CLog.Params(_Song.FileName, Path.Combine(_Song.Folder, value)));
+                                    return false;
+                                }
+                                break;
+                            case "VOCALS":
+                                if (File.Exists(Path.Combine(_Song.Folder, value)))
+                                {
+                                    _Song.VocalsFileName = value;
+                                    headerFlags |= EHeaderFlags.Vocals;
+                                }
+                                else
+                                {
+                                    CLog.CSongLog.Error("[{SongFileName}] Can't find vocal audio file: {AudioFile}", CLog.Params(_Song.FileName, Path.Combine(_Song.Folder, value)));
                                     return false;
                                 }
                                 break;

@@ -44,6 +44,8 @@ namespace VocaluxeLib.Songs
         Title = 1,
         Artist = 2,
         MP3 = 4,
+        Instrumental = 5,
+        Vocals = 6,
         BPM = 8,
         MedleyStartBeat = 16,
         MedleyEndBeat = 32
@@ -97,6 +99,8 @@ namespace VocaluxeLib.Songs
         public bool Relative;
 
         public string MP3FileName = String.Empty;
+        public string InstrumentalFileName = String.Empty;
+        public string VocalsFileName = String.Empty;
         public string CoverFileName = String.Empty;
         public readonly List<string> BackgroundFileNames = new List<string>();
         public string VideoFileName = String.Empty;
@@ -230,6 +234,8 @@ namespace VocaluxeLib.Songs
             Relative = song.Relative;
 
             MP3FileName = song.MP3FileName;
+            InstrumentalFileName = song.InstrumentalFileName;
+            VocalsFileName = song.VocalsFileName;
             CoverFileName = song.CoverFileName;
             BackgroundFileNames = song.BackgroundFileNames;
             VideoFileName = song.VideoFileName;
@@ -316,6 +322,16 @@ namespace VocaluxeLib.Songs
         public string GetMP3()
         {
             return Path.Combine(Folder, MP3FileName);
+        }
+
+        public string GetInstrumental()
+        {
+            return Path.Combine(Folder, InstrumentalFileName);
+        }
+
+        public string GetVocals()
+        {
+            return Path.Combine(Folder, VocalsFileName);
         }
 
         public string GetVideo()
