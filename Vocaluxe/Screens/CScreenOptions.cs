@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 1; }
+            get { return 2; }
         }
 
         private const string _ButtonOptionsGame = "ButtonOptionsGame";
@@ -36,6 +36,7 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptionsVideo = "ButtonOptionsVideo";
         private const string _ButtonOptionsLyrics = "ButtonOptionsLyrics";
         private const string _ButtonOptionsTheme = "ButtonOptionsTheme";
+	private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
 
         public override void Init()
         {
@@ -81,6 +82,9 @@ namespace Vocaluxe.Screens
 
                         if (_Buttons[_ButtonOptionsTheme].Selected)
                             CGraphics.FadeTo(EScreen.OptionsTheme);
+						
+			if (_Buttons[_ButtonOptionsCredits].Selected)
+                            CGraphics.FadeTo(EScreen.Credits);
 
                         break;
                 }
@@ -111,6 +115,9 @@ namespace Vocaluxe.Screens
 
                 if (_Buttons[_ButtonOptionsTheme].Selected)
                     CGraphics.FadeTo(EScreen.OptionsTheme);
+				
+		if (_Buttons[_ButtonOptionsCredits].Selected)
+                    CGraphics.FadeTo(EScreen.Credits);
             }
 
             if (mouseEvent.RB)

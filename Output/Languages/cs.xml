@@ -191,6 +191,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Obraz</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Text písně</string>
   <string name="TR_SCREENO_BUTTON_THEME">Téma</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Adresa serveru</string>
   <string name="TR_SCREENOGAME_OPTIONS">Nastavení hry</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Jazyk</string>

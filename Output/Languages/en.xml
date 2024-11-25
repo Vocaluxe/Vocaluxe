@@ -194,6 +194,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Lyrics</string>
   <string name="TR_SCREENO_BUTTON_THEME">Theme</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Server address</string>
   <string name="TR_SCREENOGAME_OPTIONS">Game Options</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Language</string>

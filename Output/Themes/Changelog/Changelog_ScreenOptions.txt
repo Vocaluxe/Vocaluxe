@@ -7,3 +7,8 @@ Version 2:
 
 Add:
 <LogoMain>
+
+(2024 Nov 24)
+
+Add:
+Credits Button
