@@ -109,6 +109,7 @@ namespace Vocaluxe.Base
         public const string FileNameLogo = "Logo.png";
         public const string FileNameFonts = "Fonts.xml";
         public const string FileNameCreditsLogo = "CreditsLogo.png";
+        public const string FileNameCreditsVideo = "Credits_BGVideo.mp4";
 
         public const string FileNameOldHighscoreDB = "Ultrastar.db";
         public const string FileNameCoverDB = "CoverDB.sqlite";
