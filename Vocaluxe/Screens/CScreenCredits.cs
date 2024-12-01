@@ -10,7 +10,7 @@
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
@@ -39,7 +39,7 @@ namespace Vocaluxe.Screens
         }
 
         private CStatic _Logo;
-        
+
         private Stopwatch _ScrollTimer;
 
         private List<dynamic> _ScrollingElements;
@@ -51,7 +51,7 @@ namespace Vocaluxe.Screens
 
         private CVideoStream _BackgroundVideo;
         private float _BackgroundVideoTime;
-        
+
         public override EMusicType CurrentMusicType
         {
             get { return EMusicType.Background; }
@@ -100,7 +100,7 @@ namespace Vocaluxe.Screens
                 _AddStatic(_Logo);
                 _ScrollingElements.Add(_Logo);
                 _ElementStartYPositions[_Logo] = scrollY;
-        
+
                 scrollY += _Logo.Rect.H + 20f; // Update scrollY after logo
             }
 
@@ -166,10 +166,15 @@ namespace Vocaluxe.Screens
             AddText("Darkice", textSize, EStyle.Normal, 0);
             scrollY += paragraphSpacing;
             AddText("Programmer", boldSize, EStyle.Bold, 0);
+            AddText("Rap-Voca (2024-today)", textSize, EStyle.Normal, 0);
+            AddText("GRaff844 (2024-today)", textSize, EStyle.Normal, 0);
             AddText("Stefan1200 (2020-2022)", textSize, EStyle.Normal, 0);
-            AddText("Stephan Sundermann (2012-2014)", textSize, EStyle.Normal, 0);
             AddText("GaryCXJk (2020-2021)", textSize, EStyle.Normal, 0);
-            AddText("Damien Laguerre (2024-today)", textSize, EStyle.Normal, 0);
+            AddText("Stephan Sundermann (2012-2014)", textSize, EStyle.Normal, 0);
+            AddText("Damien Laguerre (2024)", textSize, EStyle.Normal, 0);
+            AddText("Markus Bohning (2012)", textSize, EStyle.Normal, 0);
+            AddText("Mesand (2012)", textSize, EStyle.Normal, 0);
+            AddText("Babene03 (2012)", textSize, EStyle.Normal, 0);
             scrollY += paragraphSpacing * 3;
 
             // Art/Graphics
@@ -178,9 +183,6 @@ namespace Vocaluxe.Screens
             AddText("UI Artist/Graphics", boldSize, EStyle.Bold, 0);
             AddText("Marwin (2023-today)", textSize, EStyle.Normal, 0);
             AddText("Jiiniasu (2016-2020)", textSize, EStyle.Normal, 0);
-            AddText("Markus Bohning (2012)", textSize, EStyle.Normal, 0);
-            AddText("Mesand (2012)", textSize, EStyle.Normal, 0);
-            AddText("Babene03 (2012)", textSize, EStyle.Normal, 0);
             scrollY += paragraphSpacing;
             AddText("Sound/Audio/Music Design", boldSize, EStyle.Bold, 0);
             AddText("Marwin (2023-today)", textSize, EStyle.Normal, 0);
@@ -194,7 +196,7 @@ namespace Vocaluxe.Screens
             scrollY += paragraphSpacing;
             AddText("Thanks to everyone translating Vocaluxe into different languages.", textSize, EStyle.Normal, 0);
             scrollY += paragraphSpacing * 4;
-            
+
             // Website
             AddText("www.vocaluxe.org", headlineSize, EStyle.Bold, 0);
             AddText("www.open-music-games.org", headlineSize, EStyle.Bold, 0);
@@ -248,7 +250,7 @@ namespace Vocaluxe.Screens
                    {
                        _BackgroundVideoTime -= videoLength;
                    }
-                   
+
                    CVideo.GetFrame(_BackgroundVideo, _BackgroundVideoTime);
                }
 
@@ -278,7 +280,7 @@ namespace Vocaluxe.Screens
                     }
                 }
             }
-            
+
             _previousVideoElapsedMilliseconds = 0f;
 
             string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameCreditsVideo);
@@ -337,7 +339,7 @@ namespace Vocaluxe.Screens
                 _BackgroundVideo = null;
             }
         }
-        
+
         private bool _Animation()
         {
             if (!_ScrollTimer.IsRunning)
