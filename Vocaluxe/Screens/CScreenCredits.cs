@@ -172,6 +172,9 @@ namespace Vocaluxe.Screens
             AddText("GaryCXJk (2020-2021)", textSize, EStyle.Normal, 0);
             AddText("Stephan Sundermann (2012-2014)", textSize, EStyle.Normal, 0);
             AddText("Damien Laguerre (2024)", textSize, EStyle.Normal, 0);
+            AddText("Markus Bohning (2012)", textSize, EStyle.Normal, 0);
+            AddText("Mesand (2012)", textSize, EStyle.Normal, 0);
+            AddText("Babene03 (2012)", textSize, EStyle.Normal, 0);
             scrollY += paragraphSpacing * 3;
 
             // Art/Graphics
