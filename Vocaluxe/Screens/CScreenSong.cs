@@ -71,6 +71,7 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptionsHighscore = "ButtonOptionsHighscore";
 
         private const string _SelectSlideOptionsMode = "SelectSlideOptionsMode";
+        private const string _SelectSlideOptionsAudioMode = "SelectSlideOptionsAudioMode";
         private const string _SelectSlideOptionsPlaylistAdd = "SelectSlideOptionsPlaylistAdd";
         private const string _SelectSlideOptionsPlaylistOpen = "SelectSlideOptionsPlaylistOpen";
         private const string _SelectSlideOptionsNumMedleySongs = "SelectSlideOptionsNumMedleySongs";
@@ -104,6 +105,13 @@ namespace Vocaluxe.Screens
         private CPlaylist _Playlist;
 
         private System.Timers.Timer _TimerShortInfoText;
+
+        private static EAudioMode _AudioMode = EAudioMode.TR_AUDIOMODE_NORMAL;
+
+        public static EAudioMode GetAudioMode()
+        {
+            return _AudioMode;
+        }
 
         private static int _StaticSelectedSongID;
 
@@ -168,7 +176,7 @@ namespace Vocaluxe.Screens
             _ThemeStatics = new string[] {_StaticSearchBar, _StaticOptionsBG, _StaticShortInfoTop};
             _ThemeTexts = tlist.ToArray();
             _ThemeButtons = blist.ToArray();
-            _ThemeSelectSlides = new string[] {_SelectSlideOptionsMode, _SelectSlideOptionsPlaylistAdd, _SelectSlideOptionsPlaylistOpen, _SelectSlideOptionsNumMedleySongs};
+            _ThemeSelectSlides = new string[] {_SelectSlideOptionsMode, _SelectSlideOptionsAudioMode, _SelectSlideOptionsPlaylistAdd, _SelectSlideOptionsPlaylistOpen, _SelectSlideOptionsNumMedleySongs};
             _ThemeSongMenus = new string[] {_SongMenuName};
             _ThemePlaylists = new string[] {_PlaylistName};
 
@@ -1014,6 +1022,8 @@ namespace Vocaluxe.Screens
                 else
                     gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
 
+                _AudioMode = (EAudioMode)_SelectSlides[_SelectSlideOptionsAudioMode].Selection;
+
                 CGame.Reset();
                 CGame.ClearSongs();
 
@@ -1331,6 +1341,7 @@ namespace Vocaluxe.Screens
         private void _ToggleSongOptions(ESongOptionsView view)
         {
             _SelectSlides[_SelectSlideOptionsMode].Visible = false;
+            _SelectSlides[_SelectSlideOptionsAudioMode].Visible = false;
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = false;
             _SelectSlides[_SelectSlideOptionsPlaylistOpen].Visible = false;
             _SelectSlides[_SelectSlideOptionsNumMedleySongs].Visible = false;
@@ -1397,6 +1408,22 @@ namespace Vocaluxe.Screens
 
             //Set SelectSlide-Selection to last selected game-mode if possible
             _SelectSlides[_SelectSlideOptionsMode].SelectedTag = (int)lastMode;
+
+            _SelectSlides[_SelectSlideOptionsAudioMode].Clear();
+            CSong currentSong = CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()];
+            if (!string.IsNullOrEmpty(currentSong.InstrumentalFileName))
+            {
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL");
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL");
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE");
+                _SelectSlides[_SelectSlideOptionsAudioMode].Visible = true;
+            }
+            else
+            {
+                _SelectSlides[_SelectSlideOptionsAudioMode].Visible = false;
+            }
+            _SelectSlides[_SelectSlideOptionsAudioMode].Selection = (int)_AudioMode;
+            
             _SelectSlides[_SelectSlideOptionsMode].Visible = true;
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = true;
             _Buttons[_ButtonOptionsSing].Visible = true;
@@ -1404,6 +1431,7 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOptionsHighscore].Visible = true;
             _SelectElement(_Buttons[_ButtonOptionsSing]);
             _SetSelectSlidePlaylistToCurrentPlaylist();
+
         }
 
         private void _ShowSongOptionsGeneral()
