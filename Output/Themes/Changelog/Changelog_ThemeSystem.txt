@@ -1,6 +1,13 @@
 Theme System
 
 ++++++++++
+Version 8
+
+Changed:
+SelectSlide for AudioMode (SelectSlideOptionsAudioMode) on song select screen
+
+
+++++++++++
 Version 7
 
 Changed:
