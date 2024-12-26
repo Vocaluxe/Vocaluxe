@@ -1159,7 +1159,15 @@ namespace Vocaluxe.Screens
             _Texts[_TextSongName].Text = songname;
             _Texts[_TextPauseSongName].Text = songname;
 
-            _CurrentStream = CSound.Load(song.GetMP3(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None);
+            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_INSTRUMENTAL || CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE) 
+            {
+                _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None);
+            }
+            else
+            {
+                _CurrentStream = CSound.Load(song.GetMP3(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None); 
+            }
+ 
             CSound.SetStreamVolume(_CurrentStream, 100);
             CSound.SetPosition(_CurrentStream, song.Start);
             _CurrentTime = song.Start;
@@ -1399,13 +1407,26 @@ namespace Vocaluxe.Screens
 
             for (int player = 0; player < CGame.NumPlayers; player++)
             {
-                _Texts[_PlayerTextScore[player]].Visible = true;
+                if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+                {
+                    _Texts[_PlayerTextScore[player]].Visible = false;
+                    _Statics[_PlayerStaticScore[player]].Visible = false;
+                    _ProgressBars[_PlayerProgressBarRating[player]].Visible = false;
+                    _SingNotes[_SingBars].Visible = false;
+                    
+                }
+                else
+                {
+                    _Texts[_PlayerTextScore[player]].Visible = true;
+                    _Statics[_PlayerStaticScore[player]].Visible = true;
+                    _ProgressBars[_PlayerProgressBarRating[player]].Visible = true;
+                    _SingNotes[_SingBars].Visible = true;
+                }
+                
                 _Texts[_PlayerTextName[player]].Visible = (CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
                                                            CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_NAME);
-                _Statics[_PlayerStaticScore[player]].Visible = true;
                 _Statics[_PlayerStaticAvatar[player]].Visible = (CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH ||
                                                                 CConfig.Config.Theme.PlayerInfo == EPlayerInfo.TR_CONFIG_PLAYERINFO_AVATAR);
-                _ProgressBars[_PlayerProgressBarRating[player]].Visible = true;
             }
 
             _Lyrics[_LyricMain].Alpha = 0f;
