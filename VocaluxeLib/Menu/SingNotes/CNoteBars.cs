@@ -102,7 +102,6 @@ namespace VocaluxeLib.Menu.SingNotes
 
             var color = new SColorF(_Color, _Color.A * Alpha);
 
-            float baseLine = line.BaseLine;
             foreach (CSongNote note in line.Notes)
             {
                 if (note.Type != ENoteType.Freestyle)
@@ -115,7 +114,7 @@ namespace VocaluxeLib.Menu.SingNotes
             }
 
             if (CBase.Config.GetDrawToneHelper() == EOffOn.TR_CONFIG_ON)
-                _DrawToneHelper((int)baseLine, (CBase.Game.GetMidRecordedBeat() - line.FirstNoteBeat) / beats * Rect.W);
+                _DrawToneHelper(line, (CBase.Game.GetMidRecordedBeat() - line.FirstNoteBeat) / beats * Rect.W);
 
             List<CSungLine> sungLines = CBase.Game.GetPlayers()[_Player].SungLines;
             if (_CurrentLine >= 0 && _CurrentLine < sungLines.Count)
@@ -202,14 +201,16 @@ namespace VocaluxeLib.Menu.SingNotes
             }
         }
 
-        private void _DrawToneHelper(int baseLine, float offsetX)
+        private void _DrawToneHelper(CSongLine line, float offsetX)
         {
             int tonePlayer = CBase.Record.GetToneAbs(_Player);
+            int noteIndex = line.FindPreviousNote(CBase.Game.GetCurrentBeat()).Clamp(0,line.Notes.Count()-1);
+            int note = line.Notes[noteIndex].Tone;
 
-            while (tonePlayer - baseLine < 0)
+            while (tonePlayer - note < -6)
                 tonePlayer += 12;
 
-            while (tonePlayer - baseLine > 12)
+            while (tonePlayer - note > 6)
                 tonePlayer -= 12;
 
             if (offsetX < 0f)
@@ -220,7 +221,7 @@ namespace VocaluxeLib.Menu.SingNotes
 
             var drawRect = new SRectF(
                 Rect.X - _NoteLineHeight + offsetX,
-                Rect.Y + _NoteLineHeight * (CBase.Settings.GetNumNoteLines() - 1 - (tonePlayer - baseLine) / 2f),
+                Rect.Y + _NoteLineHeight * (CBase.Settings.GetNumNoteLines() - 1 - (tonePlayer - line.BaseLine) / 2f),
                 _NoteLineHeight,
                 _NoteLineHeight,
                 Rect.Z
