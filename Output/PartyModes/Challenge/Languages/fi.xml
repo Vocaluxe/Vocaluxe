@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Englanti</string>
+  <string name="TR_PARTYMODE_NAME">Haastetila</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Pelaa haastekierroksia</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Kaksintaisteluista kiinnostuneille</string>
+  <string name="TR_BUTTON_NEXT">Seuraava</string>
+  <string name="TR_BUTTON_BACK">Takaisin</string>
+  <string name="TR_BUTTON_START">Aloita</string>
+  <string name="TR_BUTTON_EXIT">Poistu</string>
+  <string name="TR_BUTTON_YES">Kyllä</string>
+  <string name="TR_BUTTON_NO">Ei</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Seuraava Kierros</string>
+  <string name="TR_SONGS">Laulut</string>
+  <string name="TR_SCREENCONFIG_TITLE">Haastetila: Asetukset</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERS">Pelaajien määrä</string>
+  <string name="TR_SCREENCONFIG_NUMMICS">Mikkien määrä</string>
+  <string name="TR_SCREENCONFIG_NUMROUNDS">Kierrosmäärä</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Jokerienmäärä</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Täytä jokerit joka kierroksen jälkeen</string>
+  <string name="TR_SCREENNAMES_TITLE">Haastetila: Valitse Pelaaja</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Satunnaisvalinta</string>
+  <string name="TR_SCREENMAIN_TITLE">Haastetila: Yleiskuva</string>
+  <string name="TR_SCREENMAIN_TABLE_POS">Sija</string>
+  <string name="TR_SCREENMAIN_TABLE_PLAYERNAME">Nimi</string>
+  <string name="TR_SCREENMAIN_TABLE_NUMPLAYED">Kierrosta</string>
+  <string name="TR_SCREENMAIN_TABLE_WON">Voitot</string>
+  <string name="TR_SCREENMAIN_TABLE_SINGPOINTS">Laulupisteet</string>
+  <string name="TR_SCREENMAIN_TABLE_GAMEPOINTS">Pisteet</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Haluatko varmasti poistua?</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Seuraavan kierroksen pelaaja:</string>
+  <string name="TR_SCREENMAIN_FINISH">Kierrokset on laulettu! Ja voittaja on...</string>
+</resources>
