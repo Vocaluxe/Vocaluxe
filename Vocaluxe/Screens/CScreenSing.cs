@@ -1161,7 +1161,7 @@ namespace Vocaluxe.Screens
 
             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_INSTRUMENTAL || CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE) 
             {
-                _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None);
+                _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, EAudioEffect.None);
             }
             else
             {
