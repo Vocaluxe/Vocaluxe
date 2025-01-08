@@ -1411,7 +1411,7 @@ namespace Vocaluxe.Screens
 
             _SelectSlides[_SelectSlideOptionsAudioMode].Clear();
             CSong currentSong = CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()];
-            if (!string.IsNullOrEmpty(currentSong.InstrumentalFileName))
+            if (currentSong.HasInstrumental())
             {
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL");
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL");
