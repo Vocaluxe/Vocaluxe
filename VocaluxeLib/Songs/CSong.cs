@@ -329,6 +329,11 @@ namespace VocaluxeLib.Songs
             return Path.Combine(Folder, InstrumentalFileName);
         }
 
+        public bool HasInstrumental()
+        {
+            return !string.IsNullOrEmpty(InstrumentalFileName);
+        }
+
         public string GetVocals()
         {
             return Path.Combine(Folder, VocalsFileName);
