@@ -3,7 +3,7 @@
   <string name="language">Suomi</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
   <string name="TR_GENERAL_AND">ja</string>
-  <string name="TR_BUTTON_EXIT">Poistu</string>
+  <string name="TR_BUTTON_EXIT">Lopeta</string>
   <string name="TR_BUTTON_SAVE">Tallenna</string>
   <string name="TR_BUTTON_BACK">Takaisin</string>
   <string name="TR_BUTTON_START">Aloita</string>
@@ -25,7 +25,7 @@
   <string name="TR_RATING_LEAD_SINGER">Kärkikaarti</string>
   <string name="TR_RATING_RISING_STAR">Nouseva Tähti</string>
   <string name="TR_RATING_HOPEFUL">Konkari</string>
-  <string name="TR_RATING_WANNABE">Havittelija</string>
+  <string name="TR_RATING_WANNABE">Toiveikas</string>
   <string name="TR_RATING_AMATEUR">Amatööri</string>
   <string name="TR_RATING_TONE_DEAF">Sävelkuuro</string>
   <string name="TR_USERROLE_GUEST">Vierailija</string>
