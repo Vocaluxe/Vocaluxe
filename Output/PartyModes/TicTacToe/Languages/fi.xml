@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<resources>
+  <string name="language">Englanti</string>
+  <string name="TR_PARTYMODE_NAME">Ristinolla</string>
+  <string name="TR_PARTYMODE_DESCRIPTION">Pelaa hieman erilaisempaa Ristinollaa</string>
+  <string name="TR_PARTYMODE_AUDIENCE">Hauskoja kierroksia täynnä strategiaa, tuuria ja taitoa</string>
+  <string name="TR_BUTTON_NEXT">Seuraava</string>
+  <string name="TR_BUTTON_BACK">Edellinen</string>
+  <string name="TR_BUTTON_START">Aloita</string>
+  <string name="TR_BUTTON_EXIT">Poistu</string>
+  <string name="TR_BUTTON_YES">Kyllä</string>
+  <string name="TR_BUTTON_NO">Ei</string>
+  <string name="TR_BUTTON_NEXT_ROUND">Aloita</string>
+  <string name="TR_SONGS">Laulut</string>
+  <string name="TR_TEAM">Joukkue</string>
+  <string name="TR_SCREENCONFIG_TITLE">Ristinolla: Asetukset</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST1">Pelaajia joukkueessa 1</string>
+  <string name="TR_SCREENCONFIG_NUMPLAYERST2">Pelaajia joukkueessa 2</string>
+  <string name="TR_SCREENCONFIG_NUMFIELDS">Kenttien määrä</string>
+  <string name="TR_SCREENCONFIG_REFILLJOKERS">Palauta jokerit kierroksen jälkeen</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Jokerien määrä</string>
+  <string name="TR_SCREENCONFIG_SWITCH_PLAYER">Vaihda pelaaja</string>
+  <string name="TR_SCREENNAMES_TITLE">Ristinolla: Valitse Pelaaja</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Joukkueeseen valitut pelaajat:</string>
+  <string name="TR_SCREENNAMES_TEAM1">Joukkue 1</string>
+  <string name="TR_SCREENNAMES_TEAM2">Joukkue 2</string>
+  <string name="TR_SCREENNAMES_BUTTON_RANDOM">Valitse sattumanvaraisesti</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Molemmissa joukkueissa pitää olla vähintään yksi pelaaja! / Uuden pelaajan saa lisättyä joukkueeseen raahaamalla tämän kuvakkeen! / Pelaajan saa poistettua oikealla hiirenpainikkeella!</string>
+  <string name="TR_SCREENMAIN_TITLE">Ristinolla</string>
+  <string name="TR_SCREENMAIN_TEAM_CHOOSE">Valitse kenttä.</string>
+  <string name="TR_SCREENMAIN_NEXT_PLAYER">Seuraava pelaaja</string>
+  <string name="TR_SCREENMAIN_POPUP_REALLYEXIT">Haluatko varmasti sulkea Ristinollan?</string>
+  <string name="TR_SCREENMAIN_WINNER">Ja voittaja on...</string>
+  <string name="TR_SCREENMAIN_NOWINNER">Tällä kierroksella ei ollut voittajaa...</string>
+</resources>
