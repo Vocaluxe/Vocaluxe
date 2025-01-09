@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -362,6 +362,13 @@ namespace VocaluxeLib
         TR_GAMEMODE_DUET,
         TR_GAMEMODE_SHORTSONG
         // ReSharper restore InconsistentNaming
+    }
+
+    public enum EAudioMode
+    {
+        TR_AUDIOMODE_NORMAL,
+        TR_AUDIOMODE_INSTRUMENTAL,
+        TR_AUDIOMODE_KARAOKE
     }
 
     public enum ENoteType
