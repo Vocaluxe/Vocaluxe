@@ -29,20 +29,21 @@ namespace Vocaluxe.Screens
         {
             get { return 2; }
         }
-
+           
+        private const string _ButtonOptionsBack = "ButtonOptionsBack";  
         private const string _ButtonOptionsGame = "ButtonOptionsGame";
         private const string _ButtonOptionsSound = "ButtonOptionsSound";
         private const string _ButtonOptionsRecord = "ButtonOptionsRecord";
         private const string _ButtonOptionsVideo = "ButtonOptionsVideo";
         private const string _ButtonOptionsLyrics = "ButtonOptionsLyrics";
         private const string _ButtonOptionsTheme = "ButtonOptionsTheme";
-	private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
+        private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme};
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -65,6 +66,9 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
+                        if (_Buttons[_ButtonOptionsBack].Selected)
+                            CGraphics.FadeTo(EScreen.Main);
+
                         if (_Buttons[_ButtonOptionsGame].Selected)
                             CGraphics.FadeTo(EScreen.OptionsGame);
 
@@ -82,8 +86,8 @@ namespace Vocaluxe.Screens
 
                         if (_Buttons[_ButtonOptionsTheme].Selected)
                             CGraphics.FadeTo(EScreen.OptionsTheme);
-						
-			if (_Buttons[_ButtonOptionsCredits].Selected)
+
+                        if (_Buttons[_ButtonOptionsCredits].Selected)
                             CGraphics.FadeTo(EScreen.Credits);
 
                         break;
@@ -98,6 +102,9 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
+                if (_Buttons[_ButtonOptionsBack].Selected)
+                    CGraphics.FadeTo(EScreen.Main);
+
                 if (_Buttons[_ButtonOptionsGame].Selected)
                     CGraphics.FadeTo(EScreen.OptionsGame);
 
@@ -115,8 +122,8 @@ namespace Vocaluxe.Screens
 
                 if (_Buttons[_ButtonOptionsTheme].Selected)
                     CGraphics.FadeTo(EScreen.OptionsTheme);
-				
-		if (_Buttons[_ButtonOptionsCredits].Selected)
+
+                if (_Buttons[_ButtonOptionsCredits].Selected)
                     CGraphics.FadeTo(EScreen.Credits);
             }
 
