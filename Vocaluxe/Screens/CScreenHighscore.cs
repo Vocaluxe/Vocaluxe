@@ -240,6 +240,10 @@ namespace Vocaluxe.Screens
             if (points == null)
                 return;
 
+            // No points in Karaoke Mode
+            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+                return;
+
             for (int round = 0; round < points.NumRounds; round++)
             {
                 SPlayer[] players = points.GetPlayer(round, CGame.NumPlayers);

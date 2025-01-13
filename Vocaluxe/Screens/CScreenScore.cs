@@ -169,7 +169,9 @@ namespace Vocaluxe.Screens
         {
             string rating;
 
-            if (points >= 9800)
+            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+                rating = "TR_RATING_KARAOKE";            
+            else if (points >= 9800)
                 rating = "TR_RATING_VOCAL_HERO";
             else if (points >= 8400)
                 rating = "TR_RATING_SUPERSTAR";
@@ -257,6 +259,12 @@ namespace Vocaluxe.Screens
 
         private void _PlayApplauseSound(int maxPoints)
         {
+             // Play no applause sound based on Karaoke Mode
+             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            {
+                 return;
+            }
+            
             // Play the appropriate applause sound based on maxPoints
             if (maxPoints >= 8000)
             {
@@ -356,19 +364,23 @@ namespace Vocaluxe.Screens
 
         private void _SetVisibility()
         {
+            bool isKaraokeMode = CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE;
+
             for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
                 for (int player = 0; player < CSettings.MaxNumPlayer; player++)
                 {
                     if (player <= numplayer)
                     {
-                        _Texts[_TextNames[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Texts[_TextScores[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Texts[_TextRatings[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _Texts[_TextDifficulty[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
-                        _ProgressBars[_ProgressBarPoints[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
+                        bool isVisible = numplayer + 1 == CGame.NumPlayers;
+                
+                        _Texts[_TextNames[player, numplayer]].Visible = isVisible;
+                        _Texts[_TextScores[player, numplayer]].Visible = isVisible && !isKaraokeMode;
+                        _Texts[_TextRatings[player, numplayer]].Visible = isVisible;
+                        _Texts[_TextDifficulty[player, numplayer]].Visible = isVisible;
+                        _ProgressBars[_ProgressBarPoints[player, numplayer]].Visible = isVisible && !isKaraokeMode;
                         _ProgressBars[_ProgressBarPoints[player, numplayer]].Reset(true);
-                        _Statics[_StaticAvatar[player, numplayer]].Visible = numplayer + 1 == CGame.NumPlayers;
+                        _Statics[_StaticAvatar[player, numplayer]].Visible = isVisible;
 
                         _Statics[_StaticAvatar[player, numplayer]].Texture = null;
                     }

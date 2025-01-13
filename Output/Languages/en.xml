@@ -20,6 +20,10 @@
   <string name="TR_GAMEMODE_DUET">Duet</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
   <string name="TR_GAMEMODE_SHORTSONG">Short version</string>
+  <string name="TR_AUDIOMODE_NORMAL">Normal</string>
+  <string name="TR_AUDIOMODE_INSTRUMENTAL">Instrumental</string>
+  <string name="TR_AUDIOMODE_KARAOKE">Karaoke</string>
+  <string name="TR_RATING_KARAOKE">Karaoke</string>
   <string name="TR_RATING_VOCAL_HERO">Vocal Hero</string>
   <string name="TR_RATING_SUPERSTAR">Superstar</string>
   <string name="TR_RATING_LEAD_SINGER">Lead Singer</string>
