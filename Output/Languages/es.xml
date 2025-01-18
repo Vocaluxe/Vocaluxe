@@ -11,7 +11,7 @@
   <string name="TR_DEBUG_VIDEO_STREAMS">Streams de video</string>
   <string name="TR_DEBUG_TEXTURES">Texturas</string>
   <string name="TR_DEBUG_TONE_ABS">ToneAbs</string>
-  <string name="TR_DEBUG_MAX_VOLUME">Volumen Máx</string>
+  <string name="TR_DEBUG_MAX_VOLUME">Volumen máximo</string>
   <string name="TR_DEBUG_SONGS">Canciones cargadas</string>
   <string name="TR_DEBUG_MOUSE">Mouse</string>
   <string name="TR_DEBUG_MEMORY">Uso de memoria</string>
@@ -109,7 +109,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">Fiesta</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Opciones</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Perfiles</string>
-  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">¡No se encuentra perfil!</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">¡No se ha encontrado ningún perfil!</string>
   <string name="TR_SCREENPARTY_TITLE">Selección del modo fiesta</string>
   <string name="TR_SCREENPARTY_MODES">Modo fiesta</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Descripción</string>
