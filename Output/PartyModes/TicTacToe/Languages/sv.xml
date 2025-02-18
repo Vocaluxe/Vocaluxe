@@ -18,10 +18,14 @@
   <string name="TR_SCREENCONFIG_NUMPLAYERST2">Antal spelare i lag 2</string>
   <string name="TR_SCREENCONFIG_NUMFIELDS">Antal fält</string>
   <string name="TR_SCREENCONFIG_REFILLJOKERS">Fyll på jokrar varje runda</string>
+  <string name="TR_SCREENCONFIG_NUMJOKERS">Antal jokrar</string>
+  <string name="TR_SCREENCONFIG_SWITCH_PLAYER">Byt spelare</string>
   <string name="TR_SCREENNAMES_TITLE">Tripp-Trapp-Trull: Välj spelare</string>
+  <string name="TR_SCREENNAMES_SELPLAYERSTITLE">Välj spelare för detta lag:</string>
   <string name="TR_SCREENNAMES_TEAM1">Lag 1</string>
   <string name="TR_SCREENNAMES_TEAM2">Lag 2</string>
   <string name="TR_SCREENNAMES_BUTTON_RANDOM">Välj slumpmässiga</string>
+  <string name="TR_SCREENNAMES_HELPMESSAGE">Lägg till minst en spelare till båda lagen! / Dra spelaravatarer för att lägga till dem till valda spelarlista! / Högerklicka på avatar för valda spelare för att ta bort dem!</string>
   <string name="TR_SCREENMAIN_TITLE">Tripp-Trapp-Trull</string>
   <string name="TR_SCREENMAIN_TEAM_CHOOSE">Välj ett fält.</string>
   <string name="TR_SCREENMAIN_NEXT_PLAYER">Nästa spelare</string>
