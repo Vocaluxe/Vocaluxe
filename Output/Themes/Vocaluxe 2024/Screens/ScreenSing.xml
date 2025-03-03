@@ -2751,4 +2751,511 @@
     </ProgressBar>
   </ProgressBars>
   <ScreenSettings />
+
+  <RatingPopups>
+    <RatingPopup Name="RatingPopupP1N1">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1425</X>
+        <Y>530.5</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP1N2">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1425</X>
+        <Y>170.5</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP2N2">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1425</X>
+        <Y>560.5</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP1N3">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1425</X>
+        <Y>163</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP2N3">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1425</X>
+        <Y>418</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP3N3">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1425</X>
+        <Y>673</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP1N4">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>504</X>
+        <Y>163</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP2N4">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>504</X>
+        <Y>553</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP3N4">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1455</X>
+        <Y>163</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP4N4">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1455</X>
+        <Y>553</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP1N5">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>502.5</X>
+        <Y>163</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP2N5">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>502.5</X>
+        <Y>418</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP3N5">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>502.5</X>
+        <Y>673</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP4N5">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1455</X>
+        <Y>163</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP5N5">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1455</X>
+        <Y>418</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP1N6">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>502.5</X>
+        <Y>163</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP2N6">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>502.5</X>
+        <Y>418</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP3N6">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>502.5</X>
+        <Y>673</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP4N6">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1455</X>
+        <Y>163</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP5N6">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1455</X>
+        <Y>418</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+    <RatingPopup Name="RatingPopupP6N6">
+      <SkinRatingPopup>RatingPopup</SkinRatingPopup>
+      <Rect>
+        <X>1455</X>
+        <Y>673</Y>
+        <W>210</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+      <Text Name="Text">
+        <X>100</X>
+        <Y>0</Y>
+        <Z>-2</Z>
+        <H>48</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>testing test</Text>
+      </Text>
+    </RatingPopup>
+  </RatingPopups>
 </Screen>
