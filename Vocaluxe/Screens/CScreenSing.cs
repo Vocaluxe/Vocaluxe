@@ -81,6 +81,9 @@ namespace Vocaluxe.Screens
         private string[,,] _StaticAvatars;
 
         private string[,,] _ProgressBarsRating;
+        private string[,,] _RatingPopupsRating;
+
+        // TODO: Copy everything from ProgressBars -> create the array with the elements for each screen
 
         private const string _ButtonCancel = "ButtonCancel";
         private const string _ButtonContinue = "ButtonContinue";
@@ -100,6 +103,7 @@ namespace Vocaluxe.Screens
         private string[] _PlayerTextScore;
         private string[] _PlayerTextName;
         private string[] _PlayerProgressBarRating;
+        private string[] _PlayerRatingPopup;
         private string[] _PlayerStaticScore;
         private string[] _PlayerStaticAvatar;
         private List<string>[] _StaticsExtra;
@@ -178,9 +182,14 @@ namespace Vocaluxe.Screens
             _BuildProgressBarStrings(ref progressbars);
             _ThemeProgressBars = progressbars.ToArray();
 
+            var ratingPopups = new List<string>();
+            _BuildRatingPopupStrings(ref ratingPopups);
+            _ThemeRatingPopups = ratingPopups.ToArray();
+
             _CreatePlayerStatics();
             _CreatePlayerStrings();
             _CreateProgressBars();
+            _CreateRatingPopups();
             _AssignPlayerElements();
 
             _ThemeButtons = new string[] { _ButtonCancel, _ButtonContinue, _ButtonRestartGame, _ButtonRestartRound, _ButtonSkip };
@@ -413,6 +422,7 @@ namespace Vocaluxe.Screens
             _InitiatePlayerStatics();
             _InitiatePlayerStrings();
             _InitiateProgressBars();
+            _InitiateRatingPopups();
             if (_StaticsExtra == null)
                 _CreateExtraStatics();
             if (_TextsExtra == null)
@@ -451,7 +461,11 @@ namespace Vocaluxe.Screens
             {
                 _Statics[_PlayerStaticAvatar[p]].Aspect = EAspect.Crop;
                 _Texts[_PlayerTextScore[p]].Color = new SColorF(CBase.Themes.GetPlayerColor(p + 1), _Texts[_PlayerTextScore[p]].Color.A);
+
+
             }
+
+            
 
             _SetVisibility();
 
@@ -542,6 +556,7 @@ namespace Vocaluxe.Screens
                         _Texts[_PlayerTextName[p]].Alpha = alpha[CGame.Players[p].VoiceNr * 2];
                         _Texts[_PlayerTextScore[p]].Alpha = alpha[CGame.Players[p].VoiceNr * 2];
                         _ProgressBars[_PlayerProgressBarRating[p]].Alpha = alpha[CGame.Players[p].VoiceNr * 2];
+                        _RatingPopups[_PlayerRatingPopup[p]].Alpha = alpha[CGame.Players[p].VoiceNr * 2];
                     }
                 }
 
@@ -857,6 +872,20 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < CGame.NumPlayers; i++)
             {
                 _ProgressBars[_PlayerProgressBarRating[i]].Progress = (float)CGame.Players[i].Rating;
+            }
+        }
+
+        private void _UpdateRatingPopups()
+        {
+            for (int i = 0; i < CGame.NumPlayers; i++)
+            {
+                if (CGame.Players[i].Rating > 0)
+                {
+                    _RatingPopups[_PlayerRatingPopup[i]].Visible = true;
+                    _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "XXX";
+                }
+                else
+                    _RatingPopups[_PlayerRatingPopup[i]].Visible = false;
             }
         }
 
@@ -1401,6 +1430,7 @@ namespace Vocaluxe.Screens
                         _Statics[_StaticAvatars[screen, player, numplayer]].Visible = false;
                         _ProgressBars[_ProgressBarsRating[screen, player, numplayer]].AllMonitors = false;
                         _ProgressBars[_ProgressBarsRating[screen, player, numplayer]].Visible = false;
+                        _RatingPopups[_RatingPopupsRating[screen, player, numplayer]].Visible = false;
                     }
                 }
             }
@@ -1412,6 +1442,7 @@ namespace Vocaluxe.Screens
                     _Texts[_PlayerTextScore[player]].Visible = false;
                     _Statics[_PlayerStaticScore[player]].Visible = false;
                     _ProgressBars[_PlayerProgressBarRating[player]].Visible = false;
+                    _RatingPopups[_PlayerRatingPopup[player]].Visible = false;
                     _SingNotes[_SingBars].Visible = false;
                     
                 }
@@ -1420,6 +1451,7 @@ namespace Vocaluxe.Screens
                     _Texts[_PlayerTextScore[player]].Visible = true;
                     _Statics[_PlayerStaticScore[player]].Visible = true;
                     _ProgressBars[_PlayerProgressBarRating[player]].Visible = true;
+                    _RatingPopups[_PlayerRatingPopup[player]].Visible = true;
                     _SingNotes[_SingBars].Visible = true;
                 }
                 
@@ -1709,6 +1741,26 @@ namespace Vocaluxe.Screens
             }
         }
 
+        private void _BuildRatingPopupStrings(ref List<string> ratingPopups)
+        {
+            _RatingPopupsRating = new string[CSettings.MaxNumScreens, CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                {
+                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    {
+                        if (player <= numplayer)
+                        {
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _RatingPopupsRating[screen, player, numplayer] = "RatingPopupS" + (screen + 1) + target;
+                            ratingPopups.Add("RatingPopup" + target);
+                        }
+                    }
+                }
+            }
+        }
+
         private void _CreateProgressBars()
         {
             for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
@@ -1726,6 +1778,25 @@ namespace Vocaluxe.Screens
                 }
             }
         }
+
+        private void _CreateRatingPopups()
+        {
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                {
+                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    {
+                        if (player <= numplayer)
+                        {
+                            string target = "S" + (screen + 1) + "P" + (player + 1) + "N" + (numplayer + 1);
+                            _AddRatingPopup(GetNewRatingPopup(), "RatingPopup" + target);
+                        }
+                    }
+                }
+            }
+        }
+
 
         private void _InitiateProgressBars()
         {
@@ -1746,6 +1817,28 @@ namespace Vocaluxe.Screens
                 }
             }
         }
+
+        private void _InitiateRatingPopups()
+        {
+            for (int screen = 0; screen < CSettings.MaxNumScreens; screen++)
+            {
+                for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+                {
+                    for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                    {
+                        if (player <= numplayer)
+                        {
+                            string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                            _RatingPopups["RatingPopup" + target].Visible = false;
+                            _RatingPopups["RatingPopupS" + (screen + 1) + target] = GetNewRatingPopup(_RatingPopups["RatingPopup" + target]);
+                            _RatingPopups["RatingPopupS" + (screen + 1) + target].X += screen * CSettings.RenderW;
+                        }
+                    }
+                }
+            }
+        }
+
+
 
         private void _CreateExtraStatics()
         {
@@ -1913,6 +2006,7 @@ namespace Vocaluxe.Screens
             _PlayerStaticAvatar = new String[CGame.NumPlayers];
             _PlayerStaticScore = new String[CGame.NumPlayers];
             _PlayerProgressBarRating = new String[CGame.NumPlayers];
+            _PlayerRatingPopup = new String[CGame.NumPlayers];
 
             int screenPlayers = CGame.NumPlayers / CConfig.GetNumScreens();
             int remainingPlayers = CGame.NumPlayers - (screenPlayers * CConfig.GetNumScreens());
@@ -1927,6 +2021,7 @@ namespace Vocaluxe.Screens
                         _PlayerTextScore[player] = _TextScores[s, p, screenPlayers];
                         _PlayerTextName[player] = _TextNames[s, p, screenPlayers];
                         _PlayerProgressBarRating[player] = _ProgressBarsRating[s, p, screenPlayers];
+                        _PlayerRatingPopup[player] = _RatingPopupsRating[s, p, screenPlayers];
                         _PlayerStaticAvatar[player] = _StaticAvatars[s, p, screenPlayers];
                         _PlayerStaticScore[player++] = _StaticScores[s, p, screenPlayers];
                         if (p == screenPlayers - 1)
@@ -1934,6 +2029,7 @@ namespace Vocaluxe.Screens
                             _PlayerTextScore[player] = _TextScores[s, p + 1, screenPlayers];
                             _PlayerTextName[player] = _TextNames[s, p + 1, screenPlayers];
                             _PlayerProgressBarRating[player] = _ProgressBarsRating[s, p + 1, screenPlayers];
+                            _PlayerRatingPopup[player] = _RatingPopupsRating[s, p + 1, screenPlayers];
                             _PlayerStaticAvatar[player] = _StaticAvatars[s, p + 1, screenPlayers];
                             _PlayerStaticScore[player++] = _StaticScores[s, p + 1, screenPlayers];
                             remainingPlayers--;
@@ -1944,6 +2040,7 @@ namespace Vocaluxe.Screens
                         _PlayerTextScore[player] = _TextScores[s, p, screenPlayers - 1];
                         _PlayerTextName[player] = _TextNames[s, p, screenPlayers - 1];
                         _PlayerProgressBarRating[player] = _ProgressBarsRating[s, p, screenPlayers - 1];
+                        _PlayerRatingPopup[player] = _RatingPopupsRating[s, p, screenPlayers - 1];
                         _PlayerStaticAvatar[player] = _StaticAvatars[s, p, screenPlayers - 1];
                         _PlayerStaticScore[player++] = _StaticScores[s, p, screenPlayers - 1];
                     }
@@ -1955,6 +2052,7 @@ namespace Vocaluxe.Screens
                     _PlayerTextScore[player] = _TextScores[s, 0, 0];
                     _PlayerTextName[player] = _TextNames[s, 0, 0];
                     _PlayerProgressBarRating[player] = _ProgressBarsRating[s, 0, 0];
+                    _PlayerRatingPopup[player] = _RatingPopupsRating[s, 0, 0];
                     _PlayerStaticAvatar[player] = _StaticAvatars[s, 0, 0];
                     _PlayerStaticScore[player++] = _StaticScores[s, 0, 0];
                     remainingPlayers--;
