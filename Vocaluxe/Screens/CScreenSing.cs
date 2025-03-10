@@ -26,6 +26,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Lib.Sound;
+using Vocaluxe.Lib.Sound.Playback.PortAudio;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
@@ -33,6 +34,7 @@ using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace Vocaluxe.Screens
 {
@@ -521,6 +523,7 @@ namespace Vocaluxe.Screens
 
             CGame.UpdatePoints(_CurrentTime);
             _UpdateRatingBars();
+            _UpdateRatingPopups();
             _UpdateLyrics();
             if (CGame.GameMode == EGameMode.TR_GAMEMODE_MEDLEY)
                 _UpdateMedleyCountdown();
@@ -877,15 +880,46 @@ namespace Vocaluxe.Screens
 
         private void _UpdateRatingPopups()
         {
+            
             for (int i = 0; i < CGame.NumPlayers; i++)
             {
-                if (CGame.Players[i].Rating > 0)
+                // TODO make it more readable, and make it work for fadeout time > 1
+                float fadeOutTime = 1f;
+                float showTime = 0.5f;
+                var TimeSinceLastLine = Math.Abs(_CurrentTime - CGame.Players[i].TimeLastLineChange);
+                _RatingPopups[_PlayerRatingPopup[i]].Alpha = Math.Min(1, Math.Max( fadeOutTime + showTime - TimeSinceLastLine,0));
+
+                switch(CGame.Players[i].RatingLastLine)
                 {
-                    _RatingPopups[_PlayerRatingPopup[i]].Visible = true;
-                    _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "XXX";
+                    case 1:
+                        _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "TR_SCREENSING_RATING_1";
+                        break;
+                    case double rating when rating > 0.875:
+                        _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "TR_SCREENSING_RATING_2";
+                        break;
+                    case double rating when rating > 0.75:
+                        _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "TR_SCREENSING_RATING_3";
+                        break;
+                    case double rating when rating > 0.625:
+                        _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "TR_SCREENSING_RATING_4";
+                        break;
+                    case double rating when rating > 0.5:
+                        _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "TR_SCREENSING_RATING_5";
+                        break;
+                    case double rating when rating > 0.375:
+                        _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "TR_SCREENSING_RATING_6";
+                        break;
+                    case double rating when rating > 0.25:
+                        _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "TR_SCREENSING_RATING_7";
+                        break;
+                    case double rating when rating < 0.25:
+                        _RatingPopups[_PlayerRatingPopup[i]].Text.Text = "TR_SCREENSING_RATING_8";
+                        break;
+
                 }
-                else
-                    _RatingPopups[_PlayerRatingPopup[i]].Visible = false;
+
+                _RatingPopups[_PlayerRatingPopup[i]].Color = new SColorF(CBase.Themes.GetPlayerColor(i + 1), 1);
+
             }
         }
 

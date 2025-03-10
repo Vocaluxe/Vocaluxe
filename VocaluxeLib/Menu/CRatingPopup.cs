@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ namespace VocaluxeLib.Menu
         public CText Text;
 
         public float Alpha = 1;
+        public SColorF Color;
 
 
 
@@ -47,6 +49,7 @@ namespace VocaluxeLib.Menu
             _PartyModeID = partyModeID;
             Text = new CText(partyModeID);
             Text.AllMonitors = false;
+            Visible = false;
         }
 
         public CRatingPopup(CRatingPopup rp)
@@ -56,6 +59,7 @@ namespace VocaluxeLib.Menu
 
             Text = new CText(rp.Text);
             Text.AllMonitors = false;
+            Visible = false;
 
             MaxRect = rp.MaxRect;
 
@@ -68,6 +72,7 @@ namespace VocaluxeLib.Menu
 
             Text = new CText(theme.Text, partyModeID);
             Text.AllMonitors = false;
+            Visible = false;
 
             ThemeLoaded = true;
         }
@@ -75,8 +80,10 @@ namespace VocaluxeLib.Menu
 
         public void Draw()
         {
-            // TODO player color and alpha from class properties
-            SColorF color = new SColorF(1, 0, 0, 1f);
+            SColorF color = Color;
+            color.A = Alpha;
+            Text.Color.A = Alpha;
+
             if (_TextureRatingPopup != null)
             {
                 CBase.Drawing.DrawTexture(_TextureRatingPopup  , Rect, color, false);

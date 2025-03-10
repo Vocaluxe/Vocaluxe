@@ -2774,7 +2774,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP1N2">
@@ -2798,7 +2798,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP2N2">
@@ -2822,7 +2822,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP1N3">
@@ -2846,7 +2846,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP2N3">
@@ -2870,7 +2870,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP3N3">
@@ -2894,7 +2894,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP1N4">
@@ -2918,7 +2918,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP2N4">
@@ -2942,7 +2942,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP3N4">
@@ -2966,7 +2966,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP4N4">
@@ -2990,7 +2990,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP1N5">
@@ -3014,7 +3014,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP2N5">
@@ -3038,7 +3038,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP3N5">
@@ -3062,7 +3062,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP4N5">
@@ -3086,7 +3086,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP5N5">
@@ -3110,7 +3110,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP1N6">
@@ -3134,7 +3134,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP2N6">
@@ -3158,7 +3158,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP3N6">
@@ -3182,7 +3182,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP4N6">
@@ -3206,7 +3206,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP5N6">
@@ -3230,7 +3230,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
     <RatingPopup Name="RatingPopupP6N6">
@@ -3254,7 +3254,7 @@
         <ResizeAlign>Center</ResizeAlign>
         <Style>Bold</Style>
         <Font>Outline</Font>
-        <Text>testing test</Text>
+        <Text></Text>
       </Text>
     </RatingPopup>
   </RatingPopups>

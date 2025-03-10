@@ -346,11 +346,14 @@ namespace VocaluxeLib
         public double PointsLineBonus;
         public double PointsGoldenNotes;
         public double Rating;
+        public double RatingLastLine;
         public int NoteDiff;
         public int VoiceNr;
         public List<CSungLine> SungLines;
         public int CurrentLine;
         public int CurrentNote;
+
+        public float TimeLastLineChange;
 
         public int SongID;
         public EGameMode GameMode;
