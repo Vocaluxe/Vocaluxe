@@ -253,7 +253,6 @@ namespace Vocaluxe.Base
                     if (line < 0 || lines[line].EndBeat < beat)
                         continue;
 
-                    // Calculate times of last line
                     if (Players[p].CurrentLine != line && line > 0)
                     {
                         Players[p].TimeLastLineChange = time;

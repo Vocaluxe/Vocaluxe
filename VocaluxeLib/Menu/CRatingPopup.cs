@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml.Serialization;
+﻿using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
@@ -22,12 +15,7 @@ namespace VocaluxeLib.Menu
     public sealed class CRatingPopup : CMenuElementBase, IMenuElement, IThemeable
     {
         private readonly int _PartyModeID;
-
         private SThemeRatingPopup _Theme;
-        public bool Selectable => false;
-
-        public bool ThemeLoaded { get; private set; }
-
         private CTextureRef _TextureRatingPopup;
         public CTextureRef TextureRatingPopup
         {
@@ -36,13 +24,11 @@ namespace VocaluxeLib.Menu
             set { _TextureRatingPopup = value; }
         }
 
-
+        public bool Selectable => false;
+        public bool ThemeLoaded { get; private set; }
         public CText Text;
-
         public float Alpha = 1;
         public SColorF Color;
-
-
 
         public CRatingPopup(int partyModeID)
         {
@@ -56,24 +42,19 @@ namespace VocaluxeLib.Menu
         {
             _PartyModeID = rp._PartyModeID;
             _TextureRatingPopup = rp._TextureRatingPopup;
-
             Text = new CText(rp.Text);
             Text.AllMonitors = false;
             Visible = false;
-
             MaxRect = rp.MaxRect;
-
         }
 
         public CRatingPopup(SThemeRatingPopup theme, int partyModeID)
         {
             _Theme = theme;
             _PartyModeID = partyModeID;
-
             Text = new CText(theme.Text, partyModeID);
             Text.AllMonitors = false;
             Visible = false;
-
             ThemeLoaded = true;
         }
 
@@ -89,12 +70,7 @@ namespace VocaluxeLib.Menu
                 CBase.Drawing.DrawTexture(_TextureRatingPopup  , Rect, color, false);
             }
 
-            //Text.Color = new SColorF(1, 1, 1, 1);
             Text.DrawRelative(Rect.X, Rect.Y);
-            //Text.X = 500;
-            //Text.Z = -100;
-            //Text.Draw();
-
         }
 
         public object GetTheme()
@@ -116,8 +92,17 @@ namespace VocaluxeLib.Menu
             TextureRatingPopup = CBase.Themes.GetSkinTexture(_Theme.SkinRatingPopup, _PartyModeID);
             Text = new CText(_Theme.Text, _PartyModeID);
             Text.LoadSkin();
-
             MaxRect = _Theme.Rect;
+        }
+
+        public void UnloadSkin()
+        {
+        }
+
+        public void ReloadSkin()
+        {
+            UnloadSkin();
+            LoadSkin();
         }
 
         public void MoveElement(int stepX, int stepY)
@@ -127,11 +112,6 @@ namespace VocaluxeLib.Menu
 
             _Theme.Rect.X += stepX;
             _Theme.Rect.Y += stepY;
-        }
-
-        public void ReloadSkin()
-        {
-            throw new NotImplementedException();
         }
 
         public void ResizeElement(int stepW, int stepH)
@@ -146,11 +126,6 @@ namespace VocaluxeLib.Menu
 
             _Theme.Rect.W = Rect.W;
             _Theme.Rect.H = Rect.H;
-        }
-
-        public void UnloadSkin()
-        {
-            throw new NotImplementedException();
         }
     }
 }
