@@ -20,6 +20,10 @@
   <string name="TR_GAMEMODE_DUET">Duett</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
   <string name="TR_GAMEMODE_SHORTSONG">Kort version</string>
+  <string name="TR_AUDIOMODE_NORMAL">Normal</string>
+  <string name="TR_AUDIOMODE_INSTRUMENTAL">Instrumental</string>
+  <string name="TR_AUDIOMODE_KARAOKE">Karaoke</string>
+  <string name="TR_RATING_KARAOKE">Karaoke</string>
   <string name="TR_RATING_VOCAL_HERO">Sånghjälte</string>
   <string name="TR_RATING_SUPERSTAR">Superstjärna</string>
   <string name="TR_RATING_LEAD_SINGER">Frontsångare</string>
@@ -194,6 +198,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Låttext</string>
   <string name="TR_SCREENO_BUTTON_THEME">Tema</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Tack till</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Serveradress</string>
   <string name="TR_SCREENOGAME_OPTIONS">Spelalternativ</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Språk</string>
