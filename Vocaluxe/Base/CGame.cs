@@ -22,7 +22,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Vocaluxe.SongQueue;
 using VocaluxeLib;
 using VocaluxeLib.Game;
@@ -251,8 +250,6 @@ namespace Vocaluxe.Base
 
                     CSongLine[] lines = song.Notes.GetVoice(Players[p].VoiceNr).Lines;
                     int line = song.Notes.GetVoice(Players[p].VoiceNr).FindPreviousLine(beat);
-                   
-
                     if (line < 0 || lines[line].EndBeat < beat)
                         continue;
 
@@ -276,7 +273,6 @@ namespace Vocaluxe.Base
                         Players[p].CurrentNote = -1;
 
                     Players[p].CurrentLine = line;
-                    // TODO - add time since line change to player
 
                     while (Players[p].SungLines.Count <= line)
                         Players[p].SungLines.Add(new CSungLine());

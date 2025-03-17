@@ -26,7 +26,6 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Lib.Sound;
-using Vocaluxe.Lib.Sound.Playback.PortAudio;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
@@ -34,7 +33,6 @@ using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SingNotes;
 using VocaluxeLib.PartyModes;
 using VocaluxeLib.Songs;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace Vocaluxe.Screens
 {
@@ -883,11 +881,22 @@ namespace Vocaluxe.Screens
             
             for (int i = 0; i < CGame.NumPlayers; i++)
             {
-                // TODO make it more readable, and make it work for fadeout time > 1
+
                 float fadeOutTime = 1f;
                 float showTime = 0.5f;
-                var TimeSinceLastLine = Math.Abs(_CurrentTime - CGame.Players[i].TimeLastLineChange);
-                _RatingPopups[_PlayerRatingPopup[i]].Alpha = Math.Min(1, Math.Max( fadeOutTime + showTime - TimeSinceLastLine,0));
+                var timeSinceLastLine = Math.Abs(_CurrentTime - CGame.Players[i].TimeLastLineChange);
+                if (timeSinceLastLine < showTime)
+                {
+                    _RatingPopups[_PlayerRatingPopup[i]].Alpha = 1;
+                }
+                else if (timeSinceLastLine < showTime + fadeOutTime)
+                {
+                    _RatingPopups[_PlayerRatingPopup[i]].Alpha = 1 - (timeSinceLastLine - showTime) / fadeOutTime;
+                }
+                else
+                {
+                    _RatingPopups[_PlayerRatingPopup[i]].Alpha = 0;
+                }
 
                 switch(CGame.Players[i].RatingLastLine)
                 {
