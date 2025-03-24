@@ -2764,9 +2764,9 @@
       </Rect>
       <Text Name="Text">
         <X>100</X>
-        <Y>0</Y>
+        <Y>13</Y>
         <Z>-2</Z>
-        <H>48</H>
+        <H>49</H>
         <MaxW>150</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -2788,9 +2788,9 @@
       </Rect>
       <Text Name="Text">
         <X>100</X>
-        <Y>0</Y>
+        <Y>13</Y>
         <Z>-2</Z>
-        <H>48</H>
+        <H>49</H>
         <MaxW>150</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -2812,9 +2812,9 @@
       </Rect>
       <Text Name="Text">
         <X>100</X>
-        <Y>0</Y>
+        <Y>13</Y>
         <Z>-2</Z>
-        <H>48</H>
+        <H>49</H>
         <MaxW>150</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -2828,18 +2828,18 @@
     <RatingPopup Name="RatingPopupP1N3">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1425</X>
-        <Y>163</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>1575</X>
+        <Y>152</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -2852,18 +2852,18 @@
     <RatingPopup Name="RatingPopupP2N3">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1425</X>
-        <Y>418</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>1575</X>
+        <Y>408</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -2876,18 +2876,18 @@
     <RatingPopup Name="RatingPopupP3N3">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1425</X>
-        <Y>673</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>1575</X>
+        <Y>663</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -2900,17 +2900,17 @@
     <RatingPopup Name="RatingPopupP1N4">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>504</X>
-        <Y>163</Y>
+        <X>470</X>
+        <Y>171</Y>
         <W>210</W>
         <H>75</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
         <X>100</X>
-        <Y>0</Y>
+        <Y>13</Y>
         <Z>-2</Z>
-        <H>48</H>
+        <H>49</H>
         <MaxW>150</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -2924,17 +2924,17 @@
     <RatingPopup Name="RatingPopupP2N4">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>504</X>
-        <Y>553</Y>
+        <X>470</X>
+        <Y>561</Y>
         <W>210</W>
         <H>75</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
         <X>100</X>
-        <Y>0</Y>
+        <Y>13</Y>
         <Z>-2</Z>
-        <H>48</H>
+        <H>49</H>
         <MaxW>150</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -2948,17 +2948,17 @@
     <RatingPopup Name="RatingPopupP3N4">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1455</X>
-        <Y>163</Y>
+        <X>1421</X>
+        <Y>171</Y>
         <W>210</W>
         <H>75</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
         <X>100</X>
-        <Y>0</Y>
+        <Y>13</Y>
         <Z>-2</Z>
-        <H>48</H>
+        <H>49</H>
         <MaxW>150</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -2972,17 +2972,17 @@
     <RatingPopup Name="RatingPopupP4N4">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1455</X>
-        <Y>553</Y>
+        <X>1421</X>
+        <Y>561</Y>
         <W>210</W>
         <H>75</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
         <X>100</X>
-        <Y>0</Y>
+        <Y>13</Y>
         <Z>-2</Z>
-        <H>48</H>
+        <H>49</H>
         <MaxW>150</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
@@ -2996,18 +2996,18 @@
     <RatingPopup Name="RatingPopupP1N5">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>502.5</X>
-        <Y>163</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>655.5</X>
+        <Y>153</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3020,18 +3020,18 @@
     <RatingPopup Name="RatingPopupP2N5">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>502.5</X>
-        <Y>418</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>655.5</X>
+        <Y>408</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3044,18 +3044,18 @@
     <RatingPopup Name="RatingPopupP3N5">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>502.5</X>
-        <Y>673</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>655.5</X>
+        <Y>663</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3068,18 +3068,18 @@
     <RatingPopup Name="RatingPopupP4N5">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1455</X>
-        <Y>163</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>1608</X>
+        <Y>153</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3092,18 +3092,18 @@
     <RatingPopup Name="RatingPopupP5N5">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1455</X>
-        <Y>418</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>1608</X>
+        <Y>408</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3116,18 +3116,18 @@
     <RatingPopup Name="RatingPopupP1N6">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>502.5</X>
-        <Y>163</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>655.5</X>
+        <Y>153</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3140,18 +3140,18 @@
     <RatingPopup Name="RatingPopupP2N6">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>502.5</X>
-        <Y>418</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>655.5</X>
+        <Y>408</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3164,18 +3164,18 @@
     <RatingPopup Name="RatingPopupP3N6">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>502.5</X>
-        <Y>673</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>655.5</X>
+        <Y>663</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3188,18 +3188,18 @@
     <RatingPopup Name="RatingPopupP4N6">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1455</X>
-        <Y>163</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>1608</X>
+        <Y>153</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3212,18 +3212,18 @@
     <RatingPopup Name="RatingPopupP5N6">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1455</X>
-        <Y>418</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>1608</X>
+        <Y>408</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -3236,18 +3236,18 @@
     <RatingPopup Name="RatingPopupP6N6">
       <SkinRatingPopup>RatingPopup</SkinRatingPopup>
       <Rect>
-        <X>1455</X>
-        <Y>673</Y>
-        <W>210</W>
-        <H>75</H>
+        <X>1608</X>
+        <Y>663</Y>
+        <W>140</W>
+        <H>47</H>
         <Z>-1</Z>
       </Rect>
       <Text Name="Text">
-        <X>100</X>
-        <Y>0</Y>
+        <X>62</X>
+        <Y>8</Y>
         <Z>-2</Z>
-        <H>48</H>
-        <MaxW>150</MaxW>
+        <H>30</H>
+        <MaxW>100</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
