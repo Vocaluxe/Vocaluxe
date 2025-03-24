@@ -11,14 +11,19 @@
   <string name="TR_DEBUG_VIDEO_STREAMS">Streams de video</string>
   <string name="TR_DEBUG_TEXTURES">Texturas</string>
   <string name="TR_DEBUG_TONE_ABS">ToneAbs</string>
-  <string name="TR_DEBUG_MAX_VOLUME">Volumen Máx</string>
+  <string name="TR_DEBUG_MAX_VOLUME">Volumen máximo</string>
   <string name="TR_DEBUG_SONGS">Canciones cargadas</string>
   <string name="TR_DEBUG_MOUSE">Mouse</string>
   <string name="TR_DEBUG_MEMORY">Uso de memoria</string>
+  <string name="TR_GAMEMODE">Modo de juego</string>
   <string name="TR_GAMEMODE_NORMAL">Normal</string>
   <string name="TR_GAMEMODE_DUET">Dueto</string>
   <string name="TR_GAMEMODE_MEDLEY">Medley</string>
   <string name="TR_GAMEMODE_SHORTSONG">Versión corta</string>
+  <string name="TR_AUDIOMODE_NORMAL">Normal</string>
+  <string name="TR_AUDIOMODE_INSTRUMENTAL">Instrumental</string>
+  <string name="TR_AUDIOMODE_KARAOKE">Karaoke</string>
+  <string name="TR_RATING_KARAOKE">Karaoke</string>
   <string name="TR_RATING_VOCAL_HERO">Héroe Vocal</string>
   <string name="TR_RATING_SUPERSTAR">Superestrella</string>
   <string name="TR_RATING_LEAD_SINGER">Vocalista Principal</string>
@@ -31,6 +36,10 @@
   <string name="TR_USERROLE_NORMAL">Usuario normal</string>
   <string name="TR_USERROLE_ADMIN">Administrador</string>
   <string name="TR_USERROLE_KEYBOARDUSER">Teclado de usuario</string>
+  <string name="TR_SONGSOURCE">Fuente de las canciones</string>
+  <string name="TR_SONGSOURCE_PLAYLIST">Playlist</string>
+  <string name="TR_SONGSOURCE_CATEGORY">Categoría</string>
+  <string name="TR_SONGSOURCE_ALLSONGS">Todas las canciones</string>  
   <string name="TR_CONFIG_SOFTWARE">Software</string>
   <string name="TR_CONFIG_OPENGL">OpenGL</string>
   <string name="TR_CONFIG_DIRECT3D">Direct3D</string>
@@ -60,6 +69,7 @@
   <string name="TR_CONFIG_ARTIST_LETTER">Letra del Artista</string>
   <string name="TR_CONFIG_TITLE_LETTER">Letra del Título</string>
   <string name="TR_CONFIG_EDITION">Edición</string>
+  <string name="TR_CONFIG_TAGS">Etiquetas</string>
   <string name="TR_CONFIG_GENRE">Género</string>
   <string name="TR_CONFIG_YEAR">Año</string>
   <string name="TR_CONFIG_DECADE">Década</string>
@@ -99,7 +109,7 @@
   <string name="TR_SCREENMAIN_BUTTON_PARTY">Fiesta</string>
   <string name="TR_SCREENMAIN_BUTTON_OPTIONS">Opciones</string>
   <string name="TR_SCREENMAIN_BUTTON_PROFILES">Perfiles</string>
-  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">¡No se encuentra perfil!</string>
+  <string name="TR_SCREENMAIN_TEXT_NOPROFILES">¡No se ha encontrado ningún perfil!</string>
   <string name="TR_SCREENPARTY_TITLE">Selección del modo fiesta</string>
   <string name="TR_SCREENPARTY_MODES">Modo fiesta</string>
   <string name="TR_SCREENPARTY_DESCRIPTION">Descripción</string>
@@ -143,14 +153,26 @@
   <string name="TR_SCREENSONG_NOYEAR">Sin Año</string>
   <string name="TR_SCREENSONG_NOGENRE">Sin Género</string>
   <string name="TR_SCREENSONG_NOEDITION">Sin Edición</string>
+  <string name="TR_SCREENSONG_NOTAGS">Sin etiquetas</string>
   <string name="TR_SCREENSONG_ALLSONGS">Todas las Canciones</string>
   <string name="TR_SCREENSONG_NUMSONGS">(%v Canciones)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v Canción)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
+  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Ir a la letra • F3 = Búsqueda • CTRL+R = Selección al azar • CTRL+S = Iniciar estribillo • CTRL+# = Cambiar la clasificación de música • CTRL+T = Activar/Desactivar vista por categoría • Tecla de espacio = Abrir opciones de canción • ESC = Ir atrás al menú principal</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Buscar artista y título, prefijos para la búsqueda → a: = artista • t: = título • c: = creador • e: = edición • g: = género • y: = año (ej. 1999 o 1980-1989) • L: = Idioma • Al: = album • fi: = nombre de archivo • fo = nombre de carpeta • #: = etiquetas</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Presiona el número de tu equipo para usar una canción al azar</string>
+  <string name="TR_SCREENSONG_SORTING">Clasificación: %s</string>
+  <string name="TR_SCREENSONG_NOMEDLEY">¡No hay estribillo para esta canción!</string>
   <string name="TR_SCREENSING_PAUSE">Pausa</string>
   <string name="TR_SCREENSING_BUTTON_CANCEL">Dejar de cantar</string>
   <string name="TR_SCREENSING_BUTTON_CONTINUE">Continuar</string>
   <string name="TR_SCREENSING_BUTTON_SKIP">Saltar esta canción</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Reiniciar ronda</string>
+  <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Reiniciar juego</string>
+  <string name="TR_SCREENSING_NOMORESONGS">¡No hay más canciones en la playlist!</string>
+  <string name="TR_SCREENSING_NOWEBCAM">¡No hay ninguna webcam disponible!</string>
+  <string name="TR_SCREENSING_ASPECTRATIO">Relación de aspecto: %a</string>
+  <string name="TR_SCREENSING_SKIPPEDSECONDS">Se han omitido %s segundos</string>
   <string name="TR_SCREENSCORE_SCORES">Resultados</string>
   <string name="TR_SCREENSCORE_RATING">Rating</string>
   <string name="TR_SCREENSCORE_POINTS">Puntuación</string>
@@ -176,7 +198,7 @@
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Letras</string>
   <string name="TR_SCREENO_BUTTON_THEME">Estilos</string>
-  <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Créditos</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Dirección del servidor</string>
   <string name="TR_SCREENOGAME_OPTIONS">Opciones del Juego</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Idioma</string>
@@ -184,6 +206,7 @@
   <string name="TR_SCREENOGAME_SONGMENU">Menú de Canciones</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Organización de Canciones</string>
   <string name="TR_SCREENOGAME_TABS">Etiquetas</string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Auto-reproducir previews de canciones</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Dificultad del Juego</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Modo del Timer</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Estilo de puntuación máxima</string>
@@ -196,9 +219,9 @@
   <string name="TR_SCREENORECORD_PLAYER_4">Jugador 4</string>
   <string name="TR_SCREENORECORD_PLAYER_5">Jugador 5</string>
   <string name="TR_SCREENORECORD_PLAYER_6">Jugador 6</string>
-  <string name="TR_SCREENORECORD_MIC_DELAY">Retraso del Micrófono</string>
+  <string name="TR_SCREENORECORD_MIC_DELAY">Latencia del Micrófono</string>
   <string name="TR_SCREENORECORD_MIC_WARNING">Advertencia: Al menos un jugador ha sido asignado a dos micrófonos.</string>
-  <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Prueba de Retraso</string>
+  <string name="TR_SCREENORECORD_BUTTON_DELAYTEST">Prueba de latencia</string>
   <string name="TR_SCREENOSOUND_OPTIONS">Opciones de Sonido</string>
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSIC">Música de Fondo</string>
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICVOLUME">Volumen de la Música de Fondo</string>
@@ -226,7 +249,7 @@
   <string name="TR_SCREENOVIDEO_WEBCAMDEVICES">Cámaras web</string>
   <string name="TR_SCREENOVIDEO_WEBCAMRESOLUTION">Cámaras web</string>
   <string name="TR_SCREENOVIDEO_BUTTON_ADJUSTMENTS">Ajustes de pantalla</string>
-  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Presione CTRL + ALT (+ SHIFT) + Flechas|"+" para ajustar la pantalla</string>
+  <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTES">Presione CTRL + ALT (+ SHIFT) + Flechas para ajustar la pantalla</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_NOTESRESET">CTRL + ALT + SHIFT + 0 para reiniciar</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPLEFT">Arriba izquierda</string>
   <string name="TR_SCREENOVIDEOADJUSTMENTS_TOPRIGHT">Abajo derecha</string>
@@ -235,4 +258,19 @@
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volúmen</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Dirección del servidor</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">El servidor no esta funcionando. ¡Por favor revisa el archivo config.xml!</string>
+  <string name="TR_REPORTER_TITLE_TEXT">Lo sentimos</string>
+  <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Ha ocurrido un error con Vocaluxe y ha crasheado. \r\Para ayudarnos a solucionar el problema por favor envía un reporte.\r\Edita el siguiente registro antes de subirlo para eliminar los posibles datos sensibles.</string>
+  <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">Ha ocurrido un error con Vocaluxe y ha crasheado. \r\Para ayudarnos a solucionar el problema por favor envía un reporte.\r\Edita el siguiente registro antes de subirlo para eliminar los posibles datos sensibles.</string>
+  <string name="TR_REPORTER_NO_UPLOAD_TEXT">No subas nada (aunque puedes copiar el mensaje de error)</string>
+  <string name="TR_REPORTER_GIST_AND_ISSUE_TEXT">Subir y abrir un issue (será públicamente visible y requiere una cuenta en GitHub)</string>
+  <string name="TR_REPORTER_GIST_ONLY_TEXT">Subir y obtener un enlace del reporte (públicamente visible)</string>
+  <string name="TR_REPORTER_SUBMIT_STEP0_TEXT">Enviar</string>
+  <string name="TR_REPORTER_SUBMIT_STEP1_TEXT">Subiendo</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_EXIT_TEXT">Salir</string>
+  <string name="TR_REPORTER_SUBMIT_STEP2_CONTINUE_TEXT">Continuar</string>
+  <string name="TR_REPORTER_SUBMITED_MESSAGE_TEXT">El enlace a tu reporte:</string>
+  <string name="TR_REPORTER_LOGUPLOAD_ERROR_TEXT">Ha ocurrido un error subiendo el reporte.</string>
+  <string name="TR_REPORTER_LAST_ERROR_TITLE_TEXT">Último error</string>
+  <string name="TR_REPORTER_LAST_ERROR_NA">No disponible</string>
+  <string name="TR_REPORTER_ISSUE_TEMPLATE">Describe tu problema aquí. \n\n### Pasos para reproducir\nDinos como reproducir este problema.\n\n### Versión de Vocaluxe y archivo de reporte\n{0}\n{1}</string>
 </resources>
