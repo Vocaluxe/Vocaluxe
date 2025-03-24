@@ -371,6 +371,12 @@ namespace VocaluxeLib
         TR_AUDIOMODE_KARAOKE
     }
 
+    public enum EPlayerSelect
+    {
+        TR_SCREENSONG_PLAYERSELECT_ON,
+        TR_SCREENSONG_PLAYERSELECT_OFF
+    }
+
     public enum ENoteType
     {
         Normal,
