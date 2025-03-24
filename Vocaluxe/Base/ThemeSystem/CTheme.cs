@@ -29,7 +29,7 @@ namespace Vocaluxe.Base.ThemeSystem
     abstract class CTheme
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
-        private const int _ThemeSystemVersion = 8;
+        private const int _ThemeSystemVersion = 9;
 
         protected STheme _Data;
         public String Name
