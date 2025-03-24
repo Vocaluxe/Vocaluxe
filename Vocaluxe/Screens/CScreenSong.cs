@@ -71,6 +71,7 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptionsHighscore = "ButtonOptionsHighscore";
 
         private const string _SelectSlideOptionsMode = "SelectSlideOptionsMode";
+        private const string _SelectSlideOptionsPlayerSelect = "SelectSlideOptionsPlayerSelect";
         private const string _SelectSlideOptionsAudioMode = "SelectSlideOptionsAudioMode";
         private const string _SelectSlideOptionsPlaylistAdd = "SelectSlideOptionsPlaylistAdd";
         private const string _SelectSlideOptionsPlaylistOpen = "SelectSlideOptionsPlaylistOpen";
@@ -111,6 +112,13 @@ namespace Vocaluxe.Screens
         public static EAudioMode GetAudioMode()
         {
             return _AudioMode;
+        }
+
+        private static EPlayerSelect _PlayerSelect = EPlayerSelect.TR_SCREENSONG_PLAYERSELECT_ON;
+
+        public static EPlayerSelect GetPlayerSelect()
+        {
+            return _PlayerSelect;
         }
 
         private static int _StaticSelectedSongID;
@@ -176,7 +184,7 @@ namespace Vocaluxe.Screens
             _ThemeStatics = new string[] {_StaticSearchBar, _StaticOptionsBG, _StaticShortInfoTop};
             _ThemeTexts = tlist.ToArray();
             _ThemeButtons = blist.ToArray();
-            _ThemeSelectSlides = new string[] {_SelectSlideOptionsMode, _SelectSlideOptionsAudioMode, _SelectSlideOptionsPlaylistAdd, _SelectSlideOptionsPlaylistOpen, _SelectSlideOptionsNumMedleySongs};
+            _ThemeSelectSlides = new string[] {_SelectSlideOptionsMode, _SelectSlideOptionsPlayerSelect, _SelectSlideOptionsAudioMode, _SelectSlideOptionsPlaylistAdd, _SelectSlideOptionsPlaylistOpen, _SelectSlideOptionsNumMedleySongs};
             _ThemeSongMenus = new string[] {_SongMenuName};
             _ThemePlaylists = new string[] {_PlaylistName};
 
@@ -1023,12 +1031,20 @@ namespace Vocaluxe.Screens
                     gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
 
                 _AudioMode = (EAudioMode)_SelectSlides[_SelectSlideOptionsAudioMode].Selection;
+                _PlayerSelect = (EPlayerSelect)_SelectSlides[_SelectSlideOptionsPlayerSelect].Selection;
 
                 CGame.Reset();
                 CGame.ClearSongs();
 
                 if (CGame.AddVisibleSong(songNr, gm))
-                    CGraphics.FadeTo(EScreen.Names);
+                    if (_PlayerSelect == EPlayerSelect.TR_SCREENSONG_PLAYERSELECT_OFF)
+                    {
+                        CGraphics.FadeTo(EScreen.Sing);
+                    }
+                    else
+                    {
+                        CGraphics.FadeTo(EScreen.Names);
+                    }
             }
         }
 
@@ -1042,7 +1058,14 @@ namespace Vocaluxe.Screens
                 CGame.ClearSongs();
 
                 if (CGame.AddVisibleSong(songNr, gm))
-                    CGraphics.FadeTo(EScreen.Names);
+                    if (_PlayerSelect == EPlayerSelect.TR_SCREENSONG_PLAYERSELECT_OFF)
+                    {
+                        CGraphics.FadeTo(EScreen.Sing);
+                    }
+                    else
+                    {
+                        CGraphics.FadeTo(EScreen.Names);
+                    }
             }
         }
 
@@ -1059,7 +1082,14 @@ namespace Vocaluxe.Screens
                 CGame.Reset();
                 CGame.ClearSongs();
                 if (CGame.AddVisibleSong(songNr, EGameMode.TR_GAMEMODE_MEDLEY))
-                    CGraphics.FadeTo(EScreen.Names);
+                    if (_PlayerSelect == EPlayerSelect.TR_SCREENSONG_PLAYERSELECT_OFF)
+                    {
+                        CGraphics.FadeTo(EScreen.Sing);
+                    }
+                    else
+                    {
+                        CGraphics.FadeTo(EScreen.Names);
+                    }
             }
         }
 
@@ -1086,7 +1116,14 @@ namespace Vocaluxe.Screens
             }
 
             if (CGame.GetNumSongs() > 0)
-                CGraphics.FadeTo(EScreen.Names);
+                if (_PlayerSelect == EPlayerSelect.TR_SCREENSONG_PLAYERSELECT_OFF)
+                    {
+                        CGraphics.FadeTo(EScreen.Sing);
+                    }
+                    else
+                    {
+                        CGraphics.FadeTo(EScreen.Names);
+                    }
         }
 
         private void _StartRandomVisibleSongs()
@@ -1110,7 +1147,14 @@ namespace Vocaluxe.Screens
             }
 
             if (CGame.GetNumSongs() > 0)
-                CGraphics.FadeTo(EScreen.Names);
+                if (_PlayerSelect == EPlayerSelect.TR_SCREENSONG_PLAYERSELECT_OFF)
+                    {
+                        CGraphics.FadeTo(EScreen.Sing);
+                    }
+                    else
+                    {
+                        CGraphics.FadeTo(EScreen.Names);
+                    }
         }
 
         private void _StartRandomMedley(int numSongs, bool allSongs)
@@ -1146,7 +1190,14 @@ namespace Vocaluxe.Screens
             }
 
             if (CGame.GetNumSongs() > 0)
-                CGraphics.FadeTo(EScreen.Names);
+                if (_PlayerSelect == EPlayerSelect.TR_SCREENSONG_PLAYERSELECT_OFF)
+                    {
+                        CGraphics.FadeTo(EScreen.Sing);
+                    }
+                    else
+                    {
+                        CGraphics.FadeTo(EScreen.Names);
+                    }
         }
 
         private bool _SelectNextRandom(int teamNr)
@@ -1341,6 +1392,7 @@ namespace Vocaluxe.Screens
         private void _ToggleSongOptions(ESongOptionsView view)
         {
             _SelectSlides[_SelectSlideOptionsMode].Visible = false;
+            _SelectSlides[_SelectSlideOptionsPlayerSelect].Visible = false;
             _SelectSlides[_SelectSlideOptionsAudioMode].Visible = false;
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = false;
             _SelectSlides[_SelectSlideOptionsPlaylistOpen].Visible = false;
@@ -1423,6 +1475,11 @@ namespace Vocaluxe.Screens
                 _SelectSlides[_SelectSlideOptionsAudioMode].Visible = false;
             }
             _SelectSlides[_SelectSlideOptionsAudioMode].Selection = (int)_AudioMode;
+            
+            _SelectSlides[_SelectSlideOptionsPlayerSelect].AddValue("TR_SCREENSONG_PLAYERSELECT_ON");
+            _SelectSlides[_SelectSlideOptionsPlayerSelect].AddValue("TR_SCREENSONG_PLAYERSELECT_OFF");
+            _SelectSlides[_SelectSlideOptionsPlayerSelect].Visible = true;
+            _SelectSlides[_SelectSlideOptionsPlayerSelect].Selection = (int)_PlayerSelect;
             
             _SelectSlides[_SelectSlideOptionsMode].Visible = true;
             _SelectSlides[_SelectSlideOptionsPlaylistAdd].Visible = true;

@@ -433,7 +433,14 @@ namespace Vocaluxe.Screens
                  _ApplauseStream = -1;
             }
             
-            CParty.LeavingScore();
+            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            {
+                 CGraphics.FadeTo(EScreen.Song);
+            }
+            else
+            {
+                 CParty.LeavingScore();
+            }
         }
     }
 }

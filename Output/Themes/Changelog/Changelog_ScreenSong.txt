@@ -1,12 +1,16 @@
 ScreenSong
 
 ++++++++++
+Version 12:
+
+Add:
+<SelectSlideOptionsPlayerSelect>
+
+++++++++++
 Version 11:
 
 Add:
 <SelectSlideOptionsAudioMode>
-
-++++++++++
 
 ++++++++++
 Version 10:
