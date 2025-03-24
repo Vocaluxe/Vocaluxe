@@ -1,6 +1,13 @@
 Theme System
 
 ++++++++++
+Version 9
+
+Changed:
+SelectSlide for Option to Skip Player Selection Screen (SelectSlideOptionsPlayerSelect) on song select screen
+
+
+++++++++++
 Version 8
 
 Changed:
