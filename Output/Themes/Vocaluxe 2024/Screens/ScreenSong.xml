@@ -253,7 +253,7 @@
       <X>330</X>
       <Y>60</Y>
       <Z>-2.11</Z>
-      <H>51</H>
+      <H>45</H>
       <MaxW>525</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
@@ -486,9 +486,9 @@
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>60</X>
-        <Y>540</Y>
+        <Y>546</Y>
         <W>540</W>
-        <H>60</H>
+        <H>53</H>
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
@@ -513,9 +513,9 @@
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>60</X>
-        <Y>395</Y>
+        <Y>415</Y>
         <W>540</W>
-        <H>60</H>
+        <H>53</H>
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
@@ -540,9 +540,9 @@
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>60</X>
-        <Y>110</Y>
+        <Y>104</Y>
         <W>540</W>
-        <H>60</H>
+        <H>57</H>
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
@@ -818,9 +818,9 @@
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
         <X>60</X>
-        <Y>472.5</Y>
+        <Y>486.5</Y>
         <W>540</W>
-        <H>60</H>
+        <H>53</H>
         <Z>-2.11</Z>
       </Rect>
       <Color Name="ButtonColor" />
@@ -1176,21 +1176,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>60</X>
-        <Y>177.5</Y>
+        <Y>167.5</Y>
         <W>540</W>
-        <H>60</H>
+        <H>53</H>
         <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
         <X>67.5</X>
-        <Y>185</Y>
+        <Y>172.5</Y>
         <W>45</W>
         <H>45</H>
         <Z>-2.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>547.5</X>
-        <Y>185</Y>
+        <Y>172.5</Y>
         <W>45</W>
         <H>45</H>
         <Z>-2.12</Z>
@@ -1209,6 +1209,48 @@
       <TextStyle>Bold</TextStyle>
       <NumVisible>1</NumVisible>
     </SelectSlide>
+    <SelectSlide Name="SelectSlideOptionsPlayerSelect">
+      <Skin>SongSelectButton</Skin>
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SongSelectButton</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>60</X>
+        <Y>286</Y>
+        <W>540</W>
+        <H>53</H>
+        <Z>-2.11</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>67.5</X>
+        <Y>291</Y>
+        <W>45</W>
+        <H>45</H>
+        <Z>-2.12</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>547.5</X>
+        <Y>291</Y>
+        <W>45</W>
+        <H>45</H>
+        <Z>-2.12</Z>
+      </RectArrowRight>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextColorAlpha" />
+      <TextH>37.5</TextH>
+      <TextRelativeX>175</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>420</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>1</NumVisible>
+    </SelectSlide>
     <SelectSlide Name="SelectSlideOptionsAudioMode">
       <Skin>SongSelectButton</Skin>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
@@ -1218,21 +1260,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>60</X>
-        <Y>245</Y>
+        <Y>227</Y>
         <W>540</W>
-        <H>60</H>
+        <H>53</H>
         <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
         <X>67.5</X>
-        <Y>252.5</Y>
+        <Y>232</Y>
         <W>45</W>
         <H>45</H>
         <Z>-2.12</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>547.5</X>
-        <Y>252.5</Y>
+        <Y>232</Y>
         <W>45</W>
         <H>45</H>
         <Z>-2.12</Z>
@@ -1260,9 +1302,9 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>60</X>
-        <Y>327.5</Y>
+        <Y>355.5</Y>
         <W>540</W>
-        <H>60</H>
+        <H>53</H>
         <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
