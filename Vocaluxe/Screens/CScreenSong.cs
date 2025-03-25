@@ -1475,7 +1475,8 @@ namespace Vocaluxe.Screens
                 _SelectSlides[_SelectSlideOptionsAudioMode].Visible = false;
             }
             _SelectSlides[_SelectSlideOptionsAudioMode].Selection = (int)_AudioMode;
-            
+
+            _SelectSlides[_SelectSlideOptionsPlayerSelect].Clear();
             _SelectSlides[_SelectSlideOptionsPlayerSelect].AddValue("TR_SCREENSONG_PLAYERSELECT_ON");
             _SelectSlides[_SelectSlideOptionsPlayerSelect].AddValue("TR_SCREENSONG_PLAYERSELECT_OFF");
             _SelectSlides[_SelectSlideOptionsPlayerSelect].Visible = true;
