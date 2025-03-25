@@ -148,6 +148,8 @@
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Medley-Lieder singen</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Neue Playlist</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Lied-Optionen</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT_ON">Spielerauswahl anzeigen</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Spielerauswahl überspringen</string>  
   <string name="TR_SCREENSONG_SEARCH">Suche:</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Keine Sprache</string>
   <string name="TR_SCREENSONG_NOYEAR">Ohne Jahr</string>
