@@ -53,6 +53,7 @@ namespace VocaluxeLib.Menu
         [XmlArray("ParticleEffects")] public List<SThemeParticleEffect> ParticleEffects;
         [XmlArray("ScreenSettings")] public List<SThemeScreenSetting> ScreenSettings;
         [XmlArray("ProgressBars")] public List<SThemeProgressBar> ProgressBars;
+        [XmlArray("RatingPopups")] public List<SThemeRatingPopup> RatingPopups;
     }
 
     struct SZSort
@@ -85,6 +86,7 @@ namespace VocaluxeLib.Menu
         protected string[] _ThemeParticleEffects;
         protected string[] _ThemeScreenSettings;
         protected string[] _ThemeProgressBars;
+        protected string[] _ThemeRatingPopups;
         protected readonly Dictionary<string, CScreenSetting> _ScreenSettings = new Dictionary<string, CScreenSetting>();
 
         // ReSharper restore MemberCanBePrivate.Global
@@ -121,6 +123,7 @@ namespace VocaluxeLib.Menu
             _ThemeParticleEffects = null;
             _ThemeScreenSettings = null;
             _ThemeProgressBars = null;
+            _ThemeRatingPopups = null;
         }
 
         protected virtual void _OnSongMenuChanged()
@@ -148,7 +151,8 @@ namespace VocaluxeLib.Menu
             private static readonly string[] _AllowedMissing = new string[]
                 {
                     "Backgrounds", "Statics", "Texts", "Buttons", "SongMenus", "Lyrics", "SelectSlides", "SingNotes",
-                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings", "ProgressBars"
+                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings", "ProgressBars",
+                    "RatingPopups"
                 };
 
             public override void HandleError(CXmlException e)
@@ -197,6 +201,9 @@ namespace VocaluxeLib.Menu
 
                 foreach (SThemeProgressBar pb in Theme.ProgressBars)
                     _AddProgressBar(new CProgressBar(pb, PartyModeID), pb.Name);
+
+                foreach (SThemeRatingPopup rp in Theme.RatingPopups)
+                    _AddRatingPopup(new CRatingPopup(rp, PartyModeID), rp.Name);
 
                 foreach (SThemeScreenSetting ss in Theme.ScreenSettings)
                     _AddScreenSetting(new CScreenSetting(ss, PartyModeID), ss.Name);
@@ -276,6 +283,7 @@ namespace VocaluxeLib.Menu
             _AddThemeablesToList(Theme.ParticleEffects, _ParticleEffects);
             _AddThemeablesToList(Theme.Playlists, _Playlists);
             _AddThemeablesToList(Theme.ProgressBars, _ProgressBars);
+            _AddThemeablesToList(Theme.RatingPopups, _RatingPopups);
             _AddThemeablesToList(Theme.ScreenSettings, _ScreenSettings.Values);
             _AddThemeablesToList(Theme.SelectSlides, _SelectSlides);
             _AddThemeablesToList(Theme.Statics, _Statics);
@@ -404,6 +412,16 @@ namespace VocaluxeLib.Menu
         public CProgressBar GetNewProgressBar(CProgressBar pb)
         {
             return new CProgressBar(pb);
+        }
+
+        public CRatingPopup GetNewRatingPopup()
+        {
+            return new CRatingPopup(PartyModeID);
+        }
+
+        public static CRatingPopup GetNewRatingPopup(CRatingPopup rp)
+        {
+            return new CRatingPopup(rp);
         }
 
         // ReSharper restore MemberCanBeProtected.Global

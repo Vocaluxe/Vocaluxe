@@ -211,6 +211,8 @@ namespace Vocaluxe.Base
                 Players[i].GameMode = EGameMode.TR_GAMEMODE_NORMAL;
                 Players[i].DateTicks = DateTime.Now.Ticks;
                 Players[i].SongFinished = false;
+                Players[i].RatingLastLine = 0f;
+                Players[i].TimeLastLineChange = float.MaxValue;
             }
             _LastEvalBeat = -100;
             CurrentBeatF = -100;
@@ -250,6 +252,11 @@ namespace Vocaluxe.Base
                     int line = song.Notes.GetVoice(Players[p].VoiceNr).FindPreviousLine(beat);
                     if (line < 0 || lines[line].EndBeat < beat)
                         continue;
+
+                    if (Players[p].CurrentLine != line && line > 0)
+                    {
+                        Players[p].TimeLastLineChange = time;
+                    }
 
                     //Check for already sung
                     if (line < Players[p].SungLines.Count - 1)
@@ -379,6 +386,7 @@ namespace Vocaluxe.Base
                         //Shift fraction of correct sung notes to [-0.1, 0.1], player needs to sing five lines fully correctly to get highest ranking
                         double current = Players[p].SungLines[line].Points / (double)lines[line].Points;
                         Players[p].Rating = (Players[p].Rating + (current * 0.2 - 0.1)).Clamp(0, 1);
+                        Players[p].RatingLastLine = current;
                     }
                 }
             }

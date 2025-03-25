@@ -31,7 +31,8 @@ namespace VocaluxeLib.Menu
         Equalizer,
         Playlist,
         ParticleEffect,
-        ProgressBar
+        ProgressBar,
+        RatingPopup,
     }
 
     public class CInteraction

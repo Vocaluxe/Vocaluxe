@@ -1,4 +1,9 @@
 ScreenSing
++++++++++
+Version 12
+
+Add:
+<RatingPopup>
 
 +++++++++
 Version 11

@@ -147,6 +147,7 @@
     <Compile Include="Menu\CParticleEffect.cs" />
     <Compile Include="Menu\CPlaylist.cs" />
     <Compile Include="Game\CPoints.cs" />
+    <Compile Include="Menu\CRatingPopup.cs" />
     <Compile Include="Menu\CScreenSetting.cs" />
     <Compile Include="Menu\CSelectSlide.cs" />
     <Compile Include="Menu\CProgressBar.cs" />
