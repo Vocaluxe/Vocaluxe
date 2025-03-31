@@ -148,6 +148,8 @@
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Sjung medleylåt</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Ny spellista</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Låtalternativ</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT_ON">Visa spelarval</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Hoppa över spelarval</string>  
   <string name="TR_SCREENSONG_SEARCH">Sök:</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Inget språk</string>
   <string name="TR_SCREENSONG_NOYEAR">Inget år</string>
@@ -172,6 +174,14 @@
   <string name="TR_SCREENSING_NOMORESONGS">Inga fler sånger i spellistan!</string>
   <string name="TR_SCREENSING_NOWEBCAM">Ingen webkamera tillgänglig!</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Bildformat: %a</string>
+  <string name="TR_SCREENSING_RATING_1">perfekt!</string>
+  <string name="TR_SCREENSING_RATING_2">fantastiskt!</string>
+  <string name="TR_SCREENSING_RATING_3">grymt!</string>
+  <string name="TR_SCREENSING_RATING_4">bra!</string>
+  <string name="TR_SCREENSING_RATING_5">inte illa!</string>
+  <string name="TR_SCREENSING_RATING_6">dåligt!</string>
+  <string name="TR_SCREENSING_RATING_7">uselt!</string>
+  <string name="TR_SCREENSING_RATING_8">fruktansvärt!</string>
   <string name="TR_SCREENSING_SKIPPEDSECONDS">Hoppade över %s sekunder</string>
   <string name="TR_SCREENSCORE_SCORES">Resultat</string>
   <string name="TR_SCREENSCORE_RATING">Rankning</string>
