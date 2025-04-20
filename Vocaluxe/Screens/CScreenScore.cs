@@ -270,8 +270,8 @@ namespace Vocaluxe.Screens
                 _ProgressBarSoundStream = -1;
             }
 
-            // Calculate duration: 10,000 points = 7 seconds
-            double duration = Math.Min(maxPoints / 10000.0, 1.0) * 7.0;
+            // Calculate duration: 10,000 points = 8.5 seconds
+            double duration = Math.Min(maxPoints / 10000.0, 1.0) * 8.5;
 
             // Play the sound
             _ProgressBarSoundStream = PlaySound(ESounds.ProgressBar, CConfig.GameMusicVolume);
