@@ -68,7 +68,13 @@ namespace VocaluxeLib.Songs
 
         public int Tone
         {
-            get { return _Tone; }
+            get
+            {
+                // Always return 0 for Rap notes
+                if (IsRapNote)
+                    return 0;
+                return _Tone;
+            }
             set
             {
                 if ((value >= CBase.Settings.GetToneMin()) && (value <= CBase.Settings.GetToneMax()))
