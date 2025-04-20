@@ -215,7 +215,15 @@ namespace VocaluxeLib.Menu
         {
             _Animate = animateInit;
 
+            // Reset progress values to the current target
+            _ProgressCurrent = 0f;
+            _ProgressLast = 0f;
+            _ProgressTarget = 0f;
+
             _ProgressColors[0].Color.Get(_PartyModeID, out _ColorProgressLast);
+
+            _AnimTimer.Reset();
+            _AnimDuration = 0f;
         }
 
         public void Draw()
