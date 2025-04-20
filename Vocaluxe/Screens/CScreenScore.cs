@@ -276,7 +276,7 @@ namespace Vocaluxe.Screens
             // Play the sound
             _ProgressBarSoundStream = PlaySound(ESounds.ProgressBar, CConfig.GameMusicVolume);
 
-            // Schedule stop after duration
+            // Schedule stop after duration and start Applause sound
             Task.Run(async () =>
             {
                 await Task.Delay((int)(duration * 1000));
