@@ -284,6 +284,7 @@ namespace Vocaluxe.Screens
                 {
                     CSound.Close(_ProgressBarSoundStream);
                     _ProgressBarSoundStream = -1;
+                    _PlayApplauseSound(maxPoints);
                 }
             });
             }
@@ -338,7 +339,6 @@ namespace Vocaluxe.Screens
 
                 int maxPoints = (int)Math.Round(players.Max(player => player.Points));
                 _PlayProgressBarSound(maxPoints);
-                _PlayApplauseSound(maxPoints);
                 
             }
             else
@@ -359,7 +359,6 @@ namespace Vocaluxe.Screens
 
                 int maxPoints = (int)Math.Round(players.Max(player => player.Points));
                 _PlayProgressBarSound(maxPoints);
-                _PlayApplauseSound(maxPoints);
             }
 
             for (int p = 0; p < players.Length; p++)
