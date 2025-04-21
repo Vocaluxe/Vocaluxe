@@ -215,7 +215,15 @@ namespace VocaluxeLib.Menu
         {
             _Animate = animateInit;
 
+            // Reset progress values to the current target
+            _ProgressCurrent = 0f;
+            _ProgressLast = 0f;
+            _ProgressTarget = 0f;
+
             _ProgressColors[0].Color.Get(_PartyModeID, out _ColorProgressLast);
+
+            _AnimTimer.Reset();
+            _AnimDuration = 0f;
         }
 
         public void Draw()
@@ -343,9 +351,9 @@ namespace VocaluxeLib.Menu
                     _AnimTimer.Restart();
                     //Calc animation duration in ms based on rect size and progress change
                     if (_Direction == EDirection.Left || _Direction == EDirection.Right)
-                        _AnimDuration = Math.Max(100f, (Rect.W * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
+                        _AnimDuration = Math.Max(100f, (Rect.W * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent) * 0.6f);
                     else
-                        _AnimDuration = Math.Max(100f, (Rect.H * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
+                        _AnimDuration = Math.Max(100f, (Rect.H * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent) * 0.6f);
                 } 
             }
             //Movement animation

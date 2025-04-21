@@ -32,7 +32,8 @@ namespace Vocaluxe.Base
         ApplauseLow,
         ApplauseMid,
         ApplauseHigh,
-        Highscore
+        Highscore,
+        ProgressBar
     }
 
     static class CSound
@@ -201,6 +202,9 @@ namespace Vocaluxe.Base
                     break;
                 case ESounds.Highscore:
                     file = Path.Combine(file, CSettings.FileNameSoundHighscore);
+                    break;
+                case ESounds.ProgressBar:
+                    file = Path.Combine(file, CSettings.FileNameSoundProgressBar);
                     break;
                 default:
                     return -1;
