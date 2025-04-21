@@ -351,9 +351,9 @@ namespace VocaluxeLib.Menu
                     _AnimTimer.Restart();
                     //Calc animation duration in ms based on rect size and progress change
                     if (_Direction == EDirection.Left || _Direction == EDirection.Right)
-                        _AnimDuration = Math.Max(100f, (Rect.W * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
+                        _AnimDuration = Math.Max(100f, (Rect.W * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent) * 0.6f);
                     else
-                        _AnimDuration = Math.Max(100f, (Rect.H * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent));
+                        _AnimDuration = Math.Max(100f, (Rect.H * 0.015f * 1000) * Math.Abs(_ProgressTarget - _ProgressCurrent) * 0.6f);
                 } 
             }
             //Movement animation
