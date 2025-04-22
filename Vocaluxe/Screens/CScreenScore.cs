@@ -274,7 +274,7 @@ namespace Vocaluxe.Screens
             double duration = Math.Min(maxPoints / 10000.0, 1.0) * 5;
 
             // Play the sound
-            _ProgressBarSoundStream = PlaySound(ESounds.ProgressBar, CConfig.GameMusicVolume);
+            _ProgressBarSoundStream = PlaySound(ESounds.ProgressBar, CConfig.SoundEffectVolume);
 
             // Schedule stop after duration and start Applause sound
             Task.Run(async () =>
@@ -302,15 +302,15 @@ namespace Vocaluxe.Screens
             // Play the appropriate applause sound based on maxPoints
             if (maxPoints >= 8000)
             {
-                 _ApplauseStream = PlaySound(ESounds.ApplauseHigh, CConfig.GameMusicVolume);
+                 _ApplauseStream = PlaySound(ESounds.ApplauseHigh, CConfig.SoundEffectVolume);
             }
             else if (maxPoints >= 5000)
             {
-                _ApplauseStream = PlaySound(ESounds.ApplauseMid, CConfig.GameMusicVolume);
+                _ApplauseStream = PlaySound(ESounds.ApplauseMid, CConfig.SoundEffectVolume);
             }
             else if (maxPoints >= 2000)
             {
-            _ApplauseStream = PlaySound(ESounds.ApplauseLow, CConfig.GameMusicVolume);
+            _ApplauseStream = PlaySound(ESounds.ApplauseLow, CConfig.SoundEffectVolume);
             }
         }
 
