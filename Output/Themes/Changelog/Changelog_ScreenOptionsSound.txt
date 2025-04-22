@@ -1,6 +1,16 @@
 ScreenOptionsSound
 
 ++++++++++
+Version 5:
+
+Add:
+
+<SelectSlideSoundEffectVolume>
+
+and text for the description
+"TR_SCREENOSOUND_SOUNDEFFECTVOLUME"
+
+++++++++++
 Version 4:
 
 Add:

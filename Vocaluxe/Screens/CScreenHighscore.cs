@@ -199,7 +199,7 @@ namespace Vocaluxe.Screens
 
                     if (_ParticleEffects[_ParticleEffectNew[p]].Visible && !_HasPlayedSound)
                     {
-                         _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Highscore, CConfig.GameMusicVolume);
+                         _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Highscore, CConfig.SoundEffectVolume);
                          _HasPlayedSound = true;
                     }
                   }
