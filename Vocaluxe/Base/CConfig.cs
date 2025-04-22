@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -328,7 +328,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static int SoundEffectVolume
+        public static int GameMusicVolume
         {
             get { return Config.Sound.SoundEffectVolume; }
             set
@@ -337,7 +337,7 @@ namespace Vocaluxe.Base
                 SaveConfig();
             }
         }
-
+       
         public static int PreviewMusicVolume
         {
             get { return Config.Sound.PreviewMusicVolume; }
