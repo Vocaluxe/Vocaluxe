@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptionsSound</ScreenName>
-    <ScreenVersion>4</ScreenVersion>
+    <ScreenVersion>5</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -110,10 +110,23 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOSOUND_GAMEMUSICVOLUME</Text>
+    <Text Name="TextSoundEffectVolume">
+      <X>112.5</X>
+      <Y>610.5</Y>
+      <Z>0</Z>
+      <H>40.5</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENOSOUND_SOUNDEFFECTVOLUME</Text>
     </Text>
     <Text Name="TextKaraokeEffect">
       <X>112.5</X>
-      <Y>610.5</Y>
+      <Y>700.5</Y>
       <Z>0</Z>
       <H>40.5</H>
       <MaxW>0</MaxW>
@@ -376,7 +389,7 @@
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideKaraokeEffect">
+    <SelectSlide Name="SelectSlideSoundEffectVolume">
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -400,6 +413,48 @@
       <RectArrowRight>
         <X>1755</X>
         <Y>607.5</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>0</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>40.5</TextH>
+      <TextRelativeX>75</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>750</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>3</NumVisible>
+    </SelectSlide>
+    <SelectSlide Name="SelectSlideKaraokeEffect">
+      <Skin />
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>750</X>
+        <Y>690</Y>
+        <W>1072.5</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>757.5</X>
+        <Y>697.5</Y>
+        <W>60</W>
+        <H>60</H>
+        <Z>0</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1755</X>
+        <Y>697.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
