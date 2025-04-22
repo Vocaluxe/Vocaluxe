@@ -328,7 +328,7 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static int GameMusicVolume
+        public static int SoundEffectVolume
         {
             get { return Config.Sound.SoundEffectVolume; }
             set
@@ -337,7 +337,7 @@ namespace Vocaluxe.Base
                 SaveConfig();
             }
         }
-       
+
         public static int PreviewMusicVolume
         {
             get { return Config.Sound.PreviewMusicVolume; }
