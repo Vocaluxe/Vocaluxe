@@ -110,6 +110,7 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOSOUND_GAMEMUSICVOLUME</Text>
+    </Text>
     <Text Name="TextSoundEffectVolume">
       <X>112.5</X>
       <Y>610.5</Y>
