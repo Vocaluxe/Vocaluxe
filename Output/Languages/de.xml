@@ -238,6 +238,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Quelle der Hintergrundmusik</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Lautstärke der Vorschau</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Lautstärke des Spiels</string>
+  <string name="TR_SCREENOSOUND_SOUNDEFFECTVOLUME">Lautstärke der Soundeffekte</string>
   <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Karaoke Effekt</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Designeinstellungen</string>
   <string name="TR_SCREENOTHEME_THEME">Design</string>
