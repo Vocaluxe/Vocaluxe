@@ -155,7 +155,7 @@ namespace Vocaluxe.Screens
         private void _SaveConfig()
         {
             CConfig.GameMusicVolume = _SelectSlides[_SelectSlideGameMusicVolume].Selection * 5;
-            CConfig.GameMusicVolume = _SelectSlides[_SelectSlideSoundEffectVolume].Selection * 5;
+            CConfig.SoundEffectVolume = _SelectSlides[_SelectSlideSoundEffectVolume].Selection * 5;
             CConfig.PreviewMusicVolume = _SelectSlides[_SelectSlidePreviewMusicVolume].Selection * 5;
             CConfig.Config.Sound.BackgroundMusic = (EBackgroundMusicOffOn)_SelectSlides[_SelectSlideBackgroundMusic].Selection;
             CConfig.Config.Sound.BackgroundMusicSource = (EBackgroundMusicSource)_SelectSlides[_SelectSlideBackgroundMusicSource].Selection;
