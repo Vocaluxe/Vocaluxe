@@ -16,6 +16,7 @@
 #endregion
 
 using System.Windows.Forms;
+using System.IO;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -68,9 +69,6 @@ namespace Vocaluxe.Screens
 
             _SelectSlides[_SelectSlideStretch].SetValues<EOffOn>((int)CConfig.Config.Graphics.Stretch);
             _SelectSlides[_SelectSlideStretch].Selection = (int)CConfig.Config.Graphics.Stretch;
-
-            _SelectSlides[_SelectSlideVSync].SetValues<EOffOn>((int)CConfig.Config.Graphics.VSync);
-            _SelectSlides[_SelectSlideVSync].Selection = (int)CConfig.Config.Graphics.VSync;
 
             _Texts[_TextWarningRestart].Visible = true;
         }
