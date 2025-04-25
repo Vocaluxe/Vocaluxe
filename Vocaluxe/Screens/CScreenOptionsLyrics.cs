@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Windows.Forms;
 using System.IO;
 using Vocaluxe.Base;
@@ -164,7 +165,6 @@ namespace Vocaluxe.Screens
                         
             CConfig.Config.Graphics.FullScreen = (EOffOn)_SelectSlides[_SelectSlideFullScreen].Selection;
             CConfig.Config.Graphics.Stretch = (EOffOn)_SelectSlides[_SelectSlideStretch].Selection;
-            CConfig.Config.Graphics.VSync = (EOffOn)_SelectSlides[_SelectSlideVSync].Selection;
             
             CConfig.SaveConfig();
         }
