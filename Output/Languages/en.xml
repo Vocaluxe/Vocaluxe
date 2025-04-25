@@ -206,7 +206,7 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Sound</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Record</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
-  <string name="TR_SCREENO_BUTTON_LYRICS">Lyrics</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Lyrics/Graphics</string>
   <string name="TR_SCREENO_BUTTON_THEME">Theme</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Server address</string>
@@ -252,6 +252,12 @@
   <string name="TR_SCREENOLYRICS_OPTIONS">Lyrics Options</string>
   <string name="TR_SCREENOLYRICS_STYLE">Animation style</string>
   <string name="TR_SCREENOLYRICS_POSITION">Lyrics position</string>
+  <string name="TR_SCREENOGRAPHICS_OPTIONS">Graphics Options</string>
+  <string name="TR_SCREENOGRAPHICS_WARNINGRESTART">Please restart the game for some graphical changes to take effect.</string>
+  <string name="TR_SCREENOGRAPHICS_TEXTUREQUALITY">Texture quality</string>
+  <string name="TR_SCREENOGRAPHICS_COVERSIZE">Cover size (pixels)</string>
+  <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Fullscreen</string>
+  <string name="TR_SCREENOGRAPHICS_STRETCH">Stretched</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video Options</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video backgrounds</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video preview</string>
