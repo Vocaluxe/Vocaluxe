@@ -301,7 +301,7 @@
       <TextStyle>Bold</TextStyle>
       <NumVisible>2</NumVisible>
     </SelectSlide>
-    <SelectSlide Name=" SelectSlideTextureQuality">
+    <SelectSlide Name="SelectSlideTextureQuality">
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
