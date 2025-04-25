@@ -40,7 +40,7 @@
       <Skin>Warning</Skin>
       <Color Name="StaticWarningColor" />
       <Rect>
-        <X>390</X>
+        <X>710</X>
         <Y>900</Y>
         <W>1140</W>
         <H>75</H>
@@ -163,7 +163,7 @@
       <Text>TR_SCREENOGRAPHICS_STRETCH</Text>
     </Text>
     <Text Name="TextWarningRestart">
-      <X>960</X>
+      <X>1280</X>
       <Y>920</Y>
       <Z>-1.1</Z>
       <H>37.5</H>
