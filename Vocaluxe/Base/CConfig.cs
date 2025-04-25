@@ -452,7 +452,7 @@ namespace Vocaluxe.Base
                 case "TextureQuality":
                     return "TextureQuality: " + CHelper.ListStrings(Enum.GetNames(typeof(ETextureQuality)));
                 case "CoverSize":
-                    return "CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 128)";
+                    return "CoverSize (pixels): 32, 64, 128, 256, 512, 1024 (default: 512)";
                 case "NumScreens":
                     return "Number of screens to use. 1 - 6 (default: 1)";
                 case "ScreenW":
