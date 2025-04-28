@@ -9,4 +9,12 @@ jobs:
         uses: actions/checkout@4.2.2
       - name: test
         run: powershell dir
-      
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@v2
+        with:
+          # Version of Visual Studio to search; defaults to latest if not specified
+          vs-version: latest # optional
+          # The preferred processor architecture of MSBuild. Can be either "x86", "x64", or "arm64". "x64" is only available from Visual Studio version 17.0 and later.
+          msbuild-architecture: x64 # optional, default is x86
+      - name: build
+        run: msbuild Vocaluxe.sln
