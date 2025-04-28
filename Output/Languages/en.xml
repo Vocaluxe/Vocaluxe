@@ -209,6 +209,7 @@
   <string name="TR_SCREENO_BUTTON_LYRICS">Lyrics/Graphics</string>
   <string name="TR_SCREENO_BUTTON_THEME">Theme</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
+  <string name="TR_SCREENO_WARNINGRESTART">Please restart the game for the changes to take effect.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Server address</string>
   <string name="TR_SCREENOGAME_OPTIONS">Game Options</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Language</string>
@@ -253,7 +254,6 @@
   <string name="TR_SCREENOLYRICS_STYLE">Animation style</string>
   <string name="TR_SCREENOLYRICS_POSITION">Lyrics position</string>
   <string name="TR_SCREENOGRAPHICS_OPTIONS">Graphics Options</string>
-  <string name="TR_SCREENOGRAPHICS_WARNINGRESTART">Please restart the game for some graphical changes to take effect.</string>
   <string name="TR_SCREENOGRAPHICS_TEXTUREQUALITY">Texture quality</string>
   <string name="TR_SCREENOGRAPHICS_COVERSIZE">Cover size (pixels)</string>
   <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Fullscreen</string>
