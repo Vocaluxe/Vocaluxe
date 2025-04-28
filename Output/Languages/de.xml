@@ -206,8 +206,10 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Sound</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Aufnahme</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Liedtext/Grafik</string>
   <string name="TR_SCREENO_BUTTON_THEME">Design</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
+  <string name="TR_SCREENO_WARNINGRESTART">Neustart erforderlich, damit die Änderungen wirksam werden.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Serveradresse</string>
   <string name="TR_SCREENOGAME_OPTIONS">Spieleinstellungen</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Sprache</string>
@@ -251,6 +253,11 @@
   <string name="TR_SCREENOLYRICS_OPTIONS">Liedtexteinstellungen</string>
   <string name="TR_SCREENOLYRICS_STYLE">Lyrics-Animation</string>
   <string name="TR_SCREENOLYRICS_POSITION">Liedtext Position</string>
+  <string name="TR_SCREENOGRAPHICS_OPTIONS">Grafikoptionen</string>
+  <string name="TR_SCREENOGRAPHICS_TEXTUREQUALITY">Textur-Qualität</string>
+  <string name="TR_SCREENOGRAPHICS_COVERSIZE">Covergröße (Pixel)</string>
+  <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Vollbild</string>
+  <string name="TR_SCREENOGRAPHICS_STRETCH">gestrecktes Bild</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Videoeinstellungen</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video-Hintergründe</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video-Vorschau</string>
