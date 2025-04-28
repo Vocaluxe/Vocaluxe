@@ -1,7 +1,19 @@
-ScreenOptionsSound
+ScreenOptionsLyrics
+
+++++++++++
+Version 3:
+
+Add Graphics Options:
+<SelectSlideTextureQuality>
+<SelectSlideCoverSize>
+<SelectSlideFullScreen>
+<SelectSlideStretch>
+<SelectSlideVSync>
+
 ++++++++++
 Version 2:
 Rename <SelectSlideLyricsOnTop> to <SelectSlideLyricsPosition>
+
 ++++++++++
 Version 1:
 
