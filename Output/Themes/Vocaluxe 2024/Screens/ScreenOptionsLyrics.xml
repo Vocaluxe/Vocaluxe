@@ -174,7 +174,7 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOGRAPHICS_WARNINGRESTART</Text>
+      <Text>TR_SCREENO_WARNINGRESTART</Text>
       </Text>
   </Texts>
   <Buttons>

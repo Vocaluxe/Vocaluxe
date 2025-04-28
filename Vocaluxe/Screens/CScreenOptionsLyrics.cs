@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -39,8 +39,9 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideFullScreen = "SelectSlideFullScreen";
         private const string _SelectSlideStretch = "SelectSlideStretch";
         private const string _TextWarningRestart = "TextWarningRestart";
-
+        private const string _StaticWarningRestart = "StaticWarningRestart";
         private const string _ButtonExit = "ButtonExit";
+        private static readonly string[] CoverSizes = { "32", "64", "128", "256", "512", "1024" };
 
         public override void Init()
         {
@@ -49,6 +50,7 @@ namespace Vocaluxe.Screens
             _ThemeButtons = new string[] {_ButtonExit};
             _ThemeSelectSlides = new string[] {_SelectSlideLyricStyle, _SelectSlideLyricsPosition, _SelectSlideTextureQuality, _SelectSlideCoverSize, _SelectSlideFullScreen, _SelectSlideStretch};
             _ThemeTexts = new string[] {_TextWarningRestart};
+            _ThemeStatics = new string[] {_StaticWarningRestart};
         }
 
         public override void LoadTheme(string xmlPath)
@@ -59,10 +61,9 @@ namespace Vocaluxe.Screens
 
             _SelectSlides[_SelectSlideTextureQuality].SetValues<ETextureQuality>((int)CConfig.Config.Graphics.TextureQuality);
             
-            _SelectSlides[_SelectSlideCoverSize].AddValues(new string[] { "32", "64", "128", "256", "512", "1024" });
+            _SelectSlides[_SelectSlideCoverSize].AddValues(CoverSizes);
             int currentCoverSize = CConfig.Config.Graphics.CoverSize;
-            string[] options = { "32", "64", "128", "256", "512", "1024" };
-            int index = Array.IndexOf(options, currentCoverSize.ToString());
+            int index = Array.IndexOf(CoverSizes, currentCoverSize.ToString());
             _SelectSlides[_SelectSlideCoverSize].Selection = index;
             
             _SelectSlides[_SelectSlideFullScreen].SetValues<EOffOn>((int)CConfig.Config.Graphics.FullScreen);
@@ -71,7 +72,8 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideStretch].SetValues<EOffOn>((int)CConfig.Config.Graphics.Stretch);
             _SelectSlides[_SelectSlideStretch].Selection = (int)CConfig.Config.Graphics.Stretch;
 
-            _Texts[_TextWarningRestart].Visible = true;
+            _Texts[_TextWarningRestart].Visible = false;
+            _Statics[_StaticWarningRestart].Visible = false;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -143,19 +145,30 @@ namespace Vocaluxe.Screens
             CConfig.Config.Game.LyricsPosition = (ELyricsPosition)_SelectSlides[_SelectSlideLyricsPosition].Selection;
             CConfig.Config.Theme.LyricStyle = (ELyricStyle)_SelectSlides[_SelectSlideLyricStyle].Selection;
 
-            CConfig.Config.Graphics.TextureQuality = (ETextureQuality)_SelectSlides[_SelectSlideTextureQuality].Selection;
-            
-            string[] options = { "32", "64", "128", "256", "512", "1024" };
-            string selectedValue = options[_SelectSlides[_SelectSlideCoverSize].Selection];
-            
-            // Detect cover size change
+            // Detect Texture quality change
+            ETextureQuality _currentTextureQuality = CConfig.Config.Graphics.TextureQuality;
+            ETextureQuality _newTextureQuality = (ETextureQuality)_SelectSlides[_SelectSlideTextureQuality].Selection;
+            if (_currentTextureQuality != _newTextureQuality)
+            {
+                _Texts[_TextWarningRestart].Visible = true;
+                _Statics[_StaticWarningRestart].Visible = true;    
+                CConfig.Config.Graphics.TextureQuality = _newTextureQuality;
+            }
+            else
+            {
+                CConfig.Config.Graphics.TextureQuality = _newTextureQuality;
+            }           
+
+            // Detect Cover size change
+            string selectedValue = CoverSizes[_SelectSlides[_SelectSlideCoverSize].Selection];
             int currentCoverSize = CConfig.Config.Graphics.CoverSize;
             int newCoverSize = int.Parse(selectedValue);
             if (currentCoverSize != newCoverSize)
             {
                 string flagPath = Path.Combine(CSettings.DataFolder, "DeleteCoverDB.flag");
                 File.Create(flagPath).Dispose();
-    
+                _Texts[_TextWarningRestart].Visible = true;
+               _Statics[_StaticWarningRestart].Visible = true;    
                 CConfig.Config.Graphics.CoverSize = newCoverSize;
             }
             else
