@@ -5,5 +5,8 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@4.2.2
       - name: test
         run: powershell dir
+      
