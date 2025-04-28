@@ -206,7 +206,6 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Sound</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Aufnahme</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
-  <string name="TR_SCREENO_BUTTON_LYRICS">Liedtext</string>
   <string name="TR_SCREENO_BUTTON_THEME">Design</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Serveradresse</string>
