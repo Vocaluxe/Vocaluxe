@@ -9,6 +9,12 @@ jobs:
         uses: actions/checkout@4.2.2
       - name: test
         run: powershell dir
+      - name: Setup .Net Core SDK
+        uses: actions/setup-dotnet@v3.4.2
+        with:
+          dotnet-version: 4.7.1
+      - name: Install dependencies
+        run: dotnet restore
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@v2
         with:
