@@ -1,0 +1,9 @@
+name: Vocaluxe Nightly Builds
+
+on: [push]
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: test
+        run: powershell dir
