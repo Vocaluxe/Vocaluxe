@@ -109,7 +109,7 @@ namespace Vocaluxe.Screens
                         }
                         else if (_Buttons[_ButtonSelectSongFolder].Selected)
                         {
-                            _OpenSongFolderDialog();
+                            CScreenOptionsGame._OpenSongFolderDialog();
                             _Texts[_TextWarningRestart].Visible = true;
                             _Statics[_StaticWarningRestart].Visible = true;  
                         }
@@ -150,7 +150,7 @@ namespace Vocaluxe.Screens
                 }   
                 else if (_Buttons[_ButtonSelectSongFolder].Selected)
                 {
-                    _OpenSongFolderDialog();
+                    CScreenOptionsGame._OpenSongFolderDialog();
                     _Texts[_TextWarningRestart].Visible = true;
                     _Statics[_StaticWarningRestart].Visible = true;  
                 }
@@ -163,7 +163,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        private void _OpenSongFolderDialog()
+        private static void _OpenSongFolderDialog()
         {
             using (var dialog = new FolderBrowserDialog())
             {
