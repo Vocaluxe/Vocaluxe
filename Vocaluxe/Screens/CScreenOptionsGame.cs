@@ -107,13 +107,10 @@ namespace Vocaluxe.Screens
                         {
                             CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
                         }
-                        else if (_Buttons[_ButtonSelectSongFolder].Selected)
+                        else if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptionsGame._OpenSongFolderDialog())
                         {
-                            if (CScreenOptionsGame._OpenSongFolderDialog())
-                            {
-                                _Texts[_TextWarningRestart].Visible = true;
-                                _Statics[_StaticWarningRestart].Visible = true;
-                            }
+                            _Texts[_TextWarningRestart].Visible = true;
+                            _Statics[_StaticWarningRestart].Visible = true;
                         }
                         break;
 
@@ -150,13 +147,10 @@ namespace Vocaluxe.Screens
                 {
                     CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
                 }   
-                else if (_Buttons[_ButtonSelectSongFolder].Selected)
+                else if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptionsGame._OpenSongFolderDialog())
                 {
-                    if (CScreenOptionsGame._OpenSongFolderDialog())
-                    {
-                         _Texts[_TextWarningRestart].Visible = true;
-                         _Statics[_StaticWarningRestart].Visible = true;
-                    } 
+                    _Texts[_TextWarningRestart].Visible = true;
+                    _Statics[_StaticWarningRestart].Visible = true;
                 }
             }
             return true;
