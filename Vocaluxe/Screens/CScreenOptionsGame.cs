@@ -109,9 +109,11 @@ namespace Vocaluxe.Screens
                         }
                         else if (_Buttons[_ButtonSelectSongFolder].Selected)
                         {
-                            CScreenOptionsGame._OpenSongFolderDialog();
-                            _Texts[_TextWarningRestart].Visible = true;
-                            _Statics[_StaticWarningRestart].Visible = true;  
+                            if (CScreenOptionsGame._OpenSongFolderDialog())
+                            {
+                                _Texts[_TextWarningRestart].Visible = true;
+                                _Statics[_StaticWarningRestart].Visible = true;
+                            }
                         }
                         break;
 
@@ -150,9 +152,11 @@ namespace Vocaluxe.Screens
                 }   
                 else if (_Buttons[_ButtonSelectSongFolder].Selected)
                 {
-                    CScreenOptionsGame._OpenSongFolderDialog();
-                    _Texts[_TextWarningRestart].Visible = true;
-                    _Statics[_StaticWarningRestart].Visible = true;  
+                    if (CScreenOptionsGame._OpenSongFolderDialog())
+                    {
+                         _Texts[_TextWarningRestart].Visible = true;
+                         _Statics[_StaticWarningRestart].Visible = true;
+                    } 
                 }
             }
             return true;
@@ -163,7 +167,7 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        private static void _OpenSongFolderDialog()
+        private static bool _OpenSongFolderDialog()
         {
             using (var dialog = new FolderBrowserDialog())
             {
@@ -176,11 +180,13 @@ namespace Vocaluxe.Screens
                     if (!folders.Contains(dialog.SelectedPath))
                     {
                         folders.Add(dialog.SelectedPath);
-                        CConfig.Config.Game.SongFolder = folders.ToArray();
-                        CConfig.SaveConfig();
+                       CConfig.Config.Game.SongFolder = folders.ToArray();
+                       CConfig.SaveConfig();
                     }
+                    return true; // Folder was selected
                 }
             }
+            return false; // Dialog was cancelled
         }
 
         private void _SaveConfig()
