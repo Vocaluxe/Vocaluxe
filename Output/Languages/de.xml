@@ -211,6 +211,7 @@
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENO_WARNINGRESTART">Neustart erforderlich, damit die Änderungen wirksam werden.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Serveradresse</string>
+  <string name="TR_SCREENOGAME_BUTTON_SONGFOLDER">Song Ordner hinzufügen</string>
   <string name="TR_SCREENOGAME_OPTIONS">Spieleinstellungen</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Sprache</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debug-Level</string>
@@ -221,6 +222,7 @@
   <string name="TR_SCREENOGAME_DIFFICULTY">Schwierigkeit</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Zeit-Modus</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Highscore-Stil</string>
+  <string name="TR_SCREENOGAME_SONGFOLDER">Wähle den Song Ordner aus, der hinzugefügt werden soll</string>
   <string name="TR_SCREENORECORD_OPTIONS">Aufnahmeeinstellungen</string>
   <string name="TR_SCREENORECORD_DEVICE">Soundkarte</string>
   <string name="TR_SCREENORECORD_INPUT">Eingang</string>
