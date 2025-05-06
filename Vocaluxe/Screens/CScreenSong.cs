@@ -1463,7 +1463,16 @@ namespace Vocaluxe.Screens
 
             _SelectSlides[_SelectSlideOptionsAudioMode].Clear();
             CSong currentSong = CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()];
-            if (currentSong.HasInstrumental())
+
+            if (currentSong.HasInstrumental() && currentSong.HasVocals())
+            {
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL");
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL");
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_VOCALS");
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE");
+                _SelectSlides[_SelectSlideOptionsAudioMode].Visible = true;
+            }
+            else if (currentSong.HasInstrumental())
             {
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL");
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL");
