@@ -1,5 +1,12 @@
 ScreenSing
 +++++++++
+Version 13
+
+Add:
+<SelectSlidePauseVocalsVolume>
+<TextPauseVocalsVolume>
+
++++++++++
 Version 12
 
 Add:
