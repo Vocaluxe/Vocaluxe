@@ -1030,7 +1030,7 @@ namespace Vocaluxe.Screens
                 else
                     gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
 
-                _AudioMode = (EAudioMode)_SelectSlides[_SelectSlideOptionsAudioMode].Selection;
+                _AudioMode = (EAudioMode)_SelectSlides[_SelectSlideOptionsAudioMode].SelectedTag;
                 _PlayerSelect = (EPlayerSelect)_SelectSlides[_SelectSlideOptionsPlayerSelect].Selection;
 
                 CGame.Reset();
@@ -1466,23 +1466,24 @@ namespace Vocaluxe.Screens
 
             if (currentSong.HasInstrumental() && currentSong.HasVocals())
             {
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL");
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL");
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_VOCALS");
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE");
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL", tag: (int)EAudioMode.TR_AUDIOMODE_NORMAL);
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL", tag: (int)EAudioMode.TR_AUDIOMODE_INSTRUMENTAL);
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_VOCALS", tag: (int)EAudioMode.TR_AUDIOMODE_VOCALS);
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE", tag: (int)EAudioMode.TR_AUDIOMODE_KARAOKE);
                 _SelectSlides[_SelectSlideOptionsAudioMode].Visible = true;
-            }
+            }    
             else if (currentSong.HasInstrumental())
             {
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL");
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL");
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE");
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL", tag: (int)EAudioMode.TR_AUDIOMODE_NORMAL);
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL", tag: (int)EAudioMode.TR_AUDIOMODE_INSTRUMENTAL);
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE", tag: (int)EAudioMode.TR_AUDIOMODE_KARAOKE);
                 _SelectSlides[_SelectSlideOptionsAudioMode].Visible = true;
             }
             else
             {
                 _SelectSlides[_SelectSlideOptionsAudioMode].Visible = false;
             }
+
             _SelectSlides[_SelectSlideOptionsAudioMode].Selection = (int)_AudioMode;
 
             _SelectSlides[_SelectSlideOptionsPlayerSelect].Clear();
