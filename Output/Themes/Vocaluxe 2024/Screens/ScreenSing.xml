@@ -709,11 +709,11 @@
       <Text />
     </Text>
     <Text Name="TextPauseVocalsVolume">
-      <X>112.5</X>
-      <Y>823</Y>
+      <X>217.5</X>
+      <Y>818</Y>
       <Z>-2.11</Z>
       <H>40.5</H>
-      <MaxW>600</MaxW>
+      <MaxW>520</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Left</Align>
@@ -1605,24 +1605,24 @@
       <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
-        <X>750</X>
-        <Y>808</Y>
-        <W>1072.5</W>
-        <H>75</H>
+        <X>752</X>
+        <Y>820</Y>
+        <W>958</W>
+        <H>40</H>
         <Z>-2.11</Z>
       </Rect>
       <RectArrowLeft>
         <X>757.5</X>
-        <Y>812.5</Y>
-        <W>60</W>
-        <H>60</H>
+        <Y>822.5</Y>
+        <W>35</W>
+        <H>35</H>
         <Z>-2.11</Z>
       </RectArrowLeft>
       <RectArrowRight>
-        <X>1755</X>
-        <Y>812.5</Y>
-        <W>60</W>
-        <H>60</H>
+        <X>1667.5</X>
+        <Y>822.5</Y>
+        <W>35</W>
+        <H>35</H>
         <Z>-2.11</Z>
       </RectArrowRight>
       <Color Name="SelectSlideColor" />
@@ -1637,7 +1637,7 @@
       <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>3</NumVisible>
+      <NumVisible>5</NumVisible>
     </SelectSlide>
   </SelectSlides>
   <SingNotes>
