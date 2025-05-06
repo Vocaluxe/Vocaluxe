@@ -22,6 +22,7 @@
   <string name="TR_GAMEMODE_SHORTSONG">Short version</string>
   <string name="TR_AUDIOMODE_NORMAL">Normal</string>
   <string name="TR_AUDIOMODE_INSTRUMENTAL">Instrumental</string>
+  <string name="TR_AUDIOMODE_VOCALS">Instrumental/Vocals</string>
   <string name="TR_AUDIOMODE_KARAOKE">Karaoke</string>
   <string name="TR_RATING_KARAOKE">Karaoke</string>
   <string name="TR_RATING_VOCAL_HERO">Vocal Hero</string>
@@ -171,6 +172,7 @@
   <string name="TR_SCREENSING_BUTTON_SKIP">Skip this song</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Restart round</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Restart game</string>
+  <string name="TR_SCREENSING_VOCALSVOLUME">Vocals track volume</string>
   <string name="TR_SCREENSING_NOMORESONGS">No more songs in playlist!</string>
   <string name="TR_SCREENSING_NOWEBCAM">No webcam available!</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Aspect Ratio: %a</string>
