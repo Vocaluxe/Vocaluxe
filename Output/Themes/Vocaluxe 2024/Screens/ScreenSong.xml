@@ -93,7 +93,7 @@
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
+      <Style>Normal</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENSONG_SORTING</Text>
     </Text>
