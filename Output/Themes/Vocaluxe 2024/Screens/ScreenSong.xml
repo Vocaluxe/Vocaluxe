@@ -869,7 +869,7 @@
         <Text>TR_SCREENSONG_BUTTON_STARTMEDLEY</Text>
       </Text>
     </Button>
-   <Button Name="ButtonOptionsHighscore">
+    <Button Name="ButtonOptionsHighscore">
       <Skin>SongSelectButton</Skin>
       <SkinSelected>SongSelectButton</SkinSelected>
       <Rect>
@@ -1223,7 +1223,7 @@
   </SongMenus>
   <Lyrics />
   <SelectSlides>
-   <SelectSlide Name="SelectSlideOptionsMode">
+    <SelectSlide Name="SelectSlideOptionsMode">
       <Skin>SongSelectButton</Skin>
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
