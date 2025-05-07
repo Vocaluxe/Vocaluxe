@@ -149,6 +149,10 @@
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Sing medley-songs</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">New playlist</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Song Options</string>
+  <string name="TR_SCREENSONG_LENGTH">Song length</string>
+  <string name="TR_SCREENSONG_AUDIOMODE">Audio mode</string>
+  <string name="TR_SCREENSONG_PLAYLIST">Playlist</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT">Player selection</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_ON">Show player selection</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Skip player selection</string>  
   <string name="TR_SCREENSONG_SEARCH">Search:</string>
