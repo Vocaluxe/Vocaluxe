@@ -379,8 +379,10 @@ namespace Vocaluxe.Screens
 
                             float newTime = _CurrentTime + (keyEvent.Mod == EModifier.Shift ? 10f : 30f);
                             if (CSound.GetLength(_CurrentStream) < newTime)
+                            {
                                 newTime = CSound.GetLength(_CurrentStream) - 1f;
                                 CSound.SetPosition(_CurrentStream, newTime);
+                            }
                                 
                             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
                             {
