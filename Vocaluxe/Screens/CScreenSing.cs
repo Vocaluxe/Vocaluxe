@@ -120,7 +120,7 @@ namespace Vocaluxe.Screens
 
         private int _CurrentBeat;
         private int _CurrentStream = -1;
-        private int _StreamVocals = -1;
+        private int _CurrentStreamVocals = -1;
         private float _Length = -1f;
 
         private CVideoStream _CurrentVideo;
@@ -384,7 +384,7 @@ namespace Vocaluxe.Screens
                             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
                             {
                                 CSound.SetPosition(_CurrentStream, newTime);
-                                CSound.SetPosition(_StreamVocals, newTime);
+                                CSound.SetPosition(_CurrentStreamVocals, newTime);
                             }
                             else
                             {
@@ -1098,7 +1098,7 @@ namespace Vocaluxe.Screens
             
             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
             {
-                CSound.Play(_StreamVocals);
+                CSound.Play(_CurrentStreamVocals);
             }
             
             CRecord.Start();
@@ -1232,19 +1232,19 @@ namespace Vocaluxe.Screens
                     // Store current position before pausing
                     _PausePosition = CSound.GetPosition(_CurrentStream);
                     CSound.Pause(_CurrentStream);
-                    CSound.Pause(_StreamVocals);
+                    CSound.Pause(_CurrentStreamVocals);
                 }
                 else
                 {
                     // Reset both streams to stored position to keep them in sync and update vocals volume
                     CConfig.VocalsVolume = _SelectSlides[_SelectSlidePauseVocalsVolume].Selection * 5;
                     CConfig.SaveConfig();
-                    CSound.SetStreamVolume(_StreamVocals, CConfig.VocalsVolume);
+                    CSound.SetStreamVolume(_CurrentStreamVocals, CConfig.VocalsVolume);
                     CSound.SetPosition(_CurrentStream, _PausePosition);
-                    CSound.SetPosition(_StreamVocals, _PausePosition);
+                    CSound.SetPosition(_CurrentStreamVocals, _PausePosition);
                     // Start both streams simultaneously
                     CSound.Play(_CurrentStream);
-                    CSound.Play(_StreamVocals);
+                    CSound.Play(_CurrentStreamVocals);
                 }
             }
             else
@@ -1294,9 +1294,9 @@ namespace Vocaluxe.Screens
             else if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
             {
                 _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, EAudioEffect.None);
-                _StreamVocals = CSound.Load(song.GetVocals(), false, true, EAudioEffect.None);
-                CSound.SetStreamVolume(_StreamVocals, CConfig.VocalsVolume);
-                CSound.SetPosition(_StreamVocals, song.Start);
+                _CurrentStreamVocals = CSound.Load(song.GetVocals(), false, true, EAudioEffect.None);
+                CSound.SetStreamVolume(_CurrentStreamVocals, CConfig.VocalsVolume);
+                CSound.SetPosition(_CurrentStreamVocals, song.Start);
             }   
             else
             {
@@ -1410,9 +1410,9 @@ namespace Vocaluxe.Screens
             if (_CurrentStream > -1)
             {
                 CSound.FadeAndClose(_CurrentStream, 0, 0.5f);
-                CSound.FadeAndClose(_StreamVocals, 0, 0.5f);
+                CSound.FadeAndClose(_CurrentStreamVocals, 0, 0.5f);
                 _CurrentStream = -1;
-                _StreamVocals = -1;
+                _CurrentStreamVocals = -1;
             }
             CRecord.Stop();
             if (_CurrentVideo != null)
