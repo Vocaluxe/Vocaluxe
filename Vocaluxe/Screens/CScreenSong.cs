@@ -1480,21 +1480,18 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideOptionsAudioMode].Clear();
             CSong currentSong = CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()];
 
-            if (currentSong.HasInstrumental() && currentSong.HasVocals())
+            if (currentSong.HasInstrumental())
             {
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL", tag: (int)EAudioMode.TR_AUDIOMODE_NORMAL);
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL", tag: (int)EAudioMode.TR_AUDIOMODE_INSTRUMENTAL);
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_VOCALS", tag: (int)EAudioMode.TR_AUDIOMODE_VOCALS);
+				
+				if (currentSong.HasVocals())
+				{
+					_SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_VOCALS", tag: (int)EAudioMode.TR_AUDIOMODE_VOCALS);
+				}
+				
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE", tag: (int)EAudioMode.TR_AUDIOMODE_KARAOKE);
-                _SelectSlides[_SelectSlideOptionsAudioMode].Visible = true;
-                _Texts[_TextOptionsAudioMode].Visible = true;
-            }    
-            else if (currentSong.HasInstrumental())
-            {
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL", tag: (int)EAudioMode.TR_AUDIOMODE_NORMAL);
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL", tag: (int)EAudioMode.TR_AUDIOMODE_INSTRUMENTAL);
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE", tag: (int)EAudioMode.TR_AUDIOMODE_KARAOKE);
-                _SelectSlides[_SelectSlideOptionsAudioMode].Visible = true;
+				_SelectSlides[_SelectSlideOptionsAudioMode].Visible = true;
                 _Texts[_TextOptionsAudioMode].Visible = true;
             }
             else
