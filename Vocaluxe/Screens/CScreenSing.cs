@@ -380,15 +380,11 @@ namespace Vocaluxe.Screens
                             float newTime = _CurrentTime + (keyEvent.Mod == EModifier.Shift ? 10f : 30f);
                             if (CSound.GetLength(_CurrentStream) < newTime)
                                 newTime = CSound.GetLength(_CurrentStream) - 1f;
-                            
+                                CSound.SetPosition(_CurrentStream, newTime);
+                                
                             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
                             {
-                                CSound.SetPosition(_CurrentStream, newTime);
                                 CSound.SetPosition(_CurrentStreamVocals, newTime);
-                            }
-                            else
-                            {
-                            CSound.SetPosition(_CurrentStream, newTime);
                             }
 
                             _ShowInfoText(CBase.Language.Translate("TR_SCREENSING_SKIPPEDSECONDS").Replace("%s", (keyEvent.Mod == EModifier.Shift ? "10" : "30")));
