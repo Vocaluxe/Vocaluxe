@@ -192,6 +192,7 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Звук</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Запись</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Видео</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Текст песни</string>
   <string name="TR_SCREENO_BUTTON_THEME">Тема</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Адрес сервера</string>
   <string name="TR_SCREENOGAME_OPTIONS">Опции игры</string>
