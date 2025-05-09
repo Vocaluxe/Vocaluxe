@@ -153,6 +153,8 @@ namespace Vocaluxe.Base
             public int GameMusicVolume;
             [XmlRanged(0, 100), DefaultValue(80)]
             public int SoundEffectVolume;
+            [XmlRanged(0, 100), DefaultValue(50)]
+            public int VocalsVolume;
             [DefaultValue(EOffOn.TR_CONFIG_OFF)]
             public EOffOn KaraokeEffect;
             [XmlRanged(0, 1), DefaultValue(1.0f)]
@@ -338,6 +340,16 @@ namespace Vocaluxe.Base
             }
         }
 
+        public static int VocalsVolume
+        {
+            get { return Config.Sound.VocalsVolume; }
+            set
+            {
+                Config.Sound.VocalsVolume = value.Clamp(0, 100);
+                SaveConfig();
+            }
+        }
+
         public static int PreviewMusicVolume
         {
             get { return Config.Sound.PreviewMusicVolume; }
@@ -511,6 +523,8 @@ namespace Vocaluxe.Base
                     return "Game Volume from 0 to 100";
                 case "SoundEffectVolume":
                     return "Sound Effect Volume from 0 to 100";
+                case "VocalsVolume":
+                    return "Vocals Volume from 0 to 100";
                 case "KaraokeEffect":
                     return "Apply a karaoke effect to song playback (EPlaybackLib.GstreamerSharp only)";
                 case "KaraokeEffectLevel":
