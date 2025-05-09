@@ -22,6 +22,7 @@
   <string name="TR_GAMEMODE_SHORTSONG">Kurz-Version</string>
   <string name="TR_AUDIOMODE_NORMAL">Normal</string>
   <string name="TR_AUDIOMODE_INSTRUMENTAL">Instrumental</string>
+  <string name="TR_AUDIOMODE_VOCALS">Instrumental/Gesang</string>
   <string name="TR_AUDIOMODE_KARAOKE">Karaoke</string>
   <string name="TR_RATING_KARAOKE">Karaoke</string>
   <string name="TR_RATING_VOCAL_HERO">Gesangslegende</string>
@@ -148,6 +149,10 @@
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Medley-Lieder singen</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Neue Playlist</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Lied-Optionen</string>
+  <string name="TR_SCREENSONG_LENGTH">Songlänge</string>
+  <string name="TR_SCREENSONG_AUDIOMODE">Audiomodus</string>
+  <string name="TR_SCREENSONG_PLAYLIST">Playlist</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT">Spielerauswahl</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_ON">Spielerauswahl anzeigen</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Spielerauswahl überspringen</string>  
   <string name="TR_SCREENSONG_SEARCH">Suche:</string>
@@ -171,6 +176,7 @@
   <string name="TR_SCREENSING_BUTTON_SKIP">Lied überspringen</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Runde neu starten</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Neu starten</string>
+  <string name="TR_SCREENSING_VOCALSVOLUME">Lautstärke der Gesangsspur</string>
   <string name="TR_SCREENSING_NOMORESONGS">Keine weiteres Lied in der Playlist!</string>
   <string name="TR_SCREENSING_NOWEBCAM">Keine Webcam verfügbar!</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Bildverhältnis: %a</string>
