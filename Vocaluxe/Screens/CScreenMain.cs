@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -97,7 +97,7 @@ namespace Vocaluxe.Screens
                             CGraphics.FadeTo(EScreen.Party);
 
                         if (_Buttons[_ButtonOptions].Selected)
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.OptionsGame);
 
                         if (_Buttons[_ButtonProfiles].Selected)
                             CGraphics.FadeTo(EScreen.Profiles);
@@ -131,7 +131,7 @@ namespace Vocaluxe.Screens
                     CGraphics.FadeTo(EScreen.Party);
 
                 if (_Buttons[_ButtonOptions].Selected)
-                    CGraphics.FadeTo(EScreen.Options);
+                    CGraphics.FadeTo(EScreen.OptionsGame);
 
                 if (_Buttons[_ButtonProfiles].Selected)
                     CGraphics.FadeTo(EScreen.Profiles);
