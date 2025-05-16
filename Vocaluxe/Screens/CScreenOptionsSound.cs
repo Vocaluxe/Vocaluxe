@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 5; }
+            get { return 6; }
         }
 
         private const string _SelectSlideBackgroundMusic = "SelectSlideBackgroundMusic";
@@ -38,7 +38,14 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideSoundEffectVolume = "SelectSlideSoundEffectVolume";
         private const string _SelectSlideKaraokeEffect = "SelectSlideKaraokeEffect";
 
-        private const string _ButtonExit = "ButtonExit";
+        private const string _ButtonOptionsBack = "ButtonOptionsBack";  
+        private const string _ButtonOptionsGame = "ButtonOptionsGame";
+        private const string _ButtonOptionsSound = "ButtonOptionsSound";
+        private const string _ButtonOptionsRecord = "ButtonOptionsRecord";
+        private const string _ButtonOptionsVideo = "ButtonOptionsVideo";
+        private const string _ButtonOptionsLyrics = "ButtonOptionsLyrics";
+        private const string _ButtonOptionsTheme = "ButtonOptionsTheme";
+        private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
 
         private int _BackgroundMusicVolume;
 
@@ -46,7 +53,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits};
             _ThemeSelectSlides = new string[]
                 {_SelectSlideBackgroundMusic, _SelectSlideBackgroundMusicVolume, _SelectSlideBackgroundMusicSource, _SelectSlidePreviewMusicVolume, _SelectSlideGameMusicVolume, _SelectSlideSoundEffectVolume, _SelectSlideKaraokeEffect};
         }
@@ -80,15 +87,14 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
-            else
+            if (!keyEvent.KeyPressed)
             {
                 switch (keyEvent.Key)
                 {
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.S:
@@ -98,13 +104,47 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (_Buttons[_ButtonExit].Selected)
+                        if (_Buttons[_ButtonOptionsBack].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.Main);
+                        }
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsGame);
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsRecord);
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsLyrics);
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
                         }
                         break;
-
+                        
                     case Keys.Left:
                         _SaveConfig();
                         break;
@@ -117,24 +157,60 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool HandleMouse(SMouseEvent mouseEvent)
+       public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
             }
+
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
-                _SaveConfig();
-                if (_Buttons[_ButtonExit].Selected)
-                    CGraphics.FadeTo(EScreen.Options);
+                if (_Buttons[_ButtonOptionsBack].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Main);
+                        }
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsGame);
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsRecord);
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsLyrics);
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
+                        }
             }
             return true;
         }
-
         public override bool UpdateGame()
         {
             if (_BackgroundMusicVolume != CConfig.BackgroundMusicVolume)
