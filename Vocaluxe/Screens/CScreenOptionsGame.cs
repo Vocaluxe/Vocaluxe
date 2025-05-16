@@ -29,7 +29,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 5; }
+            get { return 6; }
         }
 
         private const string _SelectSlideLanguage = "SelectSlideLanguage";
@@ -41,7 +41,14 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideTimerMode = "SelectSlideTimerMode";
         private const string _SelectSlideHighscoreStyle = "SelectSlideHighscoreStyle";
 
-        private const string _ButtonExit = "ButtonExit";
+        private const string _ButtonOptionsBack = "ButtonOptionsBack";  
+        private const string _ButtonOptionsGame = "ButtonOptionsGame";
+        private const string _ButtonOptionsSound = "ButtonOptionsSound";
+        private const string _ButtonOptionsRecord = "ButtonOptionsRecord";
+        private const string _ButtonOptionsVideo = "ButtonOptionsVideo";
+        private const string _ButtonOptionsLyrics = "ButtonOptionsLyrics";
+        private const string _ButtonOptionsTheme = "ButtonOptionsTheme";
+        private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
         private const string _ButtonServer = "ButtonServer";
         private const string _ButtonSelectSongFolder = "ButtonSongFolder";
 
@@ -52,7 +59,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit, _ButtonServer, _ButtonSelectSongFolder};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonServer, _ButtonSelectSongFolder};
             _ThemeSelectSlides = new string[] {_SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideTimerMode, _SelectSlideHighscoreStyle};
             _ThemeTexts = new string[] {_TextWarningRestart};
             _ThemeStatics = new string[] {_StaticWarningRestart};
@@ -88,7 +95,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.S:
@@ -98,13 +105,48 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (_Buttons[_ButtonExit].Selected)
+                        if (_Buttons[_ButtonOptionsBack].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.Main);
+                        }
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsSound);
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsRecord);
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsLyrics);
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
                         }
                         else if (_Buttons[_ButtonServer].Selected)
                         {
+                            _SaveConfig();
                             CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
                         }
                         else if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptionsGame._OpenSongFolderDialog())
@@ -133,25 +175,59 @@ namespace Vocaluxe.Screens
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
-                if (_Buttons[_ButtonExit].Selected)
-                {
-                    CGraphics.FadeTo(EScreen.Options);
-                    _SaveConfig();
-                }
-                else if (_Buttons[_ButtonServer].Selected)
-                {
-                    CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
-                }   
-                else if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptionsGame._OpenSongFolderDialog())
-                {
-                    _Texts[_TextWarningRestart].Visible = true;
-                    _Statics[_StaticWarningRestart].Visible = true;
-                }
+                if (_Buttons[_ButtonOptionsBack].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Main);
+                        }
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsSound);
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsRecord);
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsLyrics);
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
+                        }
+                        else if (_Buttons[_ButtonServer].Selected)
+                        {
+                            CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
+                        }
+                        else if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptionsGame._OpenSongFolderDialog())
+                        {
+                            _Texts[_TextWarningRestart].Visible = true;
+                            _Statics[_StaticWarningRestart].Visible = true;
+                        }
             }
             return true;
         }
