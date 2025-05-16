@@ -26,3 +26,14 @@ TextChannel1-2
 TextDelayChannel1-2
 SelectSlideRecordChannel1-2
 EqualizerChannel1-2
+++++++++++
+Version 6:
+
+Add:
+<ButtonOptionsGame>
+<ButtonOptionsSound>
+<ButtonOptionsRecord>
+<ButtonOptionsVideo>
+<ButtonOptionsLyrics>
+<ButtonOptionsTheme>
+<ButtonOptionsCredits>
