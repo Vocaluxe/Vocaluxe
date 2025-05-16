@@ -1,6 +1,18 @@
 ScreenOptionsSound
 
 ++++++++++
+Version 6:
+
+Add:
+<ButtonOptionsGame>
+<ButtonOptionsSound>
+<ButtonOptionsRecord>
+<ButtonOptionsVideo>
+<ButtonOptionsLyrics>
+<ButtonOptionsTheme>
+<ButtonOptionsCredits>
+
+++++++++++
 Version 5:
 
 Add:
