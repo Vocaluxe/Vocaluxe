@@ -29,7 +29,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _SelectSlideLyricStyle = "SelectSlideLyricStyle";
@@ -40,14 +40,21 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideStretch = "SelectSlideStretch";
         private const string _TextWarningRestart = "TextWarningRestart";
         private const string _StaticWarningRestart = "StaticWarningRestart";
-        private const string _ButtonExit = "ButtonExit";
+        private const string _ButtonOptionsBack = "ButtonOptionsBack";  
+        private const string _ButtonOptionsGame = "ButtonOptionsGame";
+        private const string _ButtonOptionsSound = "ButtonOptionsSound";
+        private const string _ButtonOptionsRecord = "ButtonOptionsRecord";
+        private const string _ButtonOptionsVideo = "ButtonOptionsVideo";
+        private const string _ButtonOptionsLyrics = "ButtonOptionsLyrics";
+        private const string _ButtonOptionsTheme = "ButtonOptionsTheme";
+        private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
         private static readonly string[] CoverSizes = { "32", "64", "128", "256", "512", "1024" };
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme};
             _ThemeSelectSlides = new string[] {_SelectSlideLyricStyle, _SelectSlideLyricsPosition, _SelectSlideTextureQuality, _SelectSlideCoverSize, _SelectSlideFullScreen, _SelectSlideStretch};
             _ThemeTexts = new string[] {_TextWarningRestart};
             _ThemeStatics = new string[] {_StaticWarningRestart};
@@ -88,7 +95,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.S:
@@ -98,10 +105,44 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (_Buttons[_ButtonExit].Selected)
+                        if (_Buttons[_ButtonOptionsBack].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.Main);
+                        }
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsGame);
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsSound);
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsRecord);
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
                         }
                         break;
 
@@ -124,13 +165,49 @@ namespace Vocaluxe.Screens
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
             }
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
-                _SaveConfig();
-                if (_Buttons[_ButtonExit].Selected)
-                    CGraphics.FadeTo(EScreen.Options);
+                if (_Buttons[_ButtonOptionsBack].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Main);
+                        }
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsGame);
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsSound);
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsRecord);
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
+                        }
             }
             return true;
         }
