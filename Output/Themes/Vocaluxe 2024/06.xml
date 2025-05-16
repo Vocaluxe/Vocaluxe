@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <SkinSystemVersion>4</SkinSystemVersion>
   <Info>
@@ -392,6 +392,14 @@
     <Warning>Warning.png</Warning>
     <PlayerSelBG>PlayerSelBG.png</PlayerSelBG>
     <CalibrationBG>CalibrationBG.png</CalibrationBG>
+    <OptionsBack>OptionsBack.png</OptionsBack>
+    <OptionsCredits>OptionsCredits.png</OptionsCredits>
+    <OptionsGame>OptionsGame.png</OptionsGame>
+    <OptionsLyrics>OptionsLyrics.png</OptionsLyrics>
+    <OptionsRecord>OptionsRecord.png</OptionsRecord>
+    <OptionsSound>OptionsSound.png</OptionsSound>
+    <OptionsTheme>OptionsTheme.png</OptionsTheme>
+    <OptionsVideo>OptionsVideo.png</OptionsVideo>  
   </Skins>
   <Videos>
     <BG_Video>BG_Video_6.mp4</BG_Video>
