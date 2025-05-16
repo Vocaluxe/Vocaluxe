@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenOptionsLyrics</ScreenName>
-    <ScreenVersion>3</ScreenVersion>
+    <ScreenVersion>4</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -18,10 +18,10 @@
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
-        <X>0</X>
-        <Y>60</Y>
-        <W>1920</W>
-        <H>67.5</H>
+        <X>112.5</X>
+        <Y>190</Y>
+        <W>1695</W>
+        <H>30</H>
         <Z>1</Z>
       </Rect>
     </Static>
@@ -29,10 +29,10 @@
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
-        <X>0</X>
-        <Y>430.5</Y>
-        <W>1920</W>
-        <H>67.5</H>
+        <X>112.5</X>
+        <Y>550.5</Y>
+        <W>1695</W>
+        <H>30</H>
         <Z>1</Z>
       </Rect>
     </Static>
@@ -40,9 +40,9 @@
       <Skin>Warning</Skin>
       <Color Name="StaticWarningColor" />
       <Rect>
-        <X>710</X>
-        <Y>900</Y>
-        <W>1140</W>
+        <X>112.5</X>
+        <Y>940</Y>
+        <W>1000</W>
         <H>75</H>
         <Z>-1</Z>
       </Rect>
@@ -51,10 +51,10 @@
   <Texts>
     <Text Name="TextTitleLyrics">
       <X>960</X>
-      <Y>75</Y>
+      <Y>190</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>0</MaxW>
+      <H>30</H>
+      <MaxW>1695</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
@@ -62,11 +62,10 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENOLYRICS_OPTIONS</Text>
-    </Text>
-    
+    </Text>   
     <Text Name="TextLyricsStyle">
       <X>112.5</X>
-      <Y>160.5</Y>
+      <Y>240.5</Y>
       <Z>0</Z>
       <H>40.5</H>
       <MaxW>0</MaxW>
@@ -80,7 +79,7 @@
     </Text>
     <Text Name="TextLyricsPosition">
       <X>112.5</X>
-      <Y>250.5</Y>
+      <Y>330.5</Y>
       <Z>0</Z>
       <H>40.5</H>
       <MaxW>0</MaxW>
@@ -92,12 +91,12 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOLYRICS_POSITION</Text>
     </Text>
-    <Text Name="TextTitle">
+    <Text Name="TextTitleGraphics">
       <X>960</X>
-      <Y>445.5</Y>
+      <Y>550.5</Y>
       <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>0</MaxW>
+      <H>30</H>
+      <MaxW>1695</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
@@ -108,7 +107,7 @@
     </Text>
     <Text Name="TextTextureQuality">
       <X>112.5</X>
-      <Y>520.5</Y>
+      <Y>600.5</Y>
       <Z>0</Z>
       <H>40.5</H>
       <MaxW>0</MaxW>
@@ -122,7 +121,7 @@
     </Text>
     <Text Name="TextCoverSize">
       <X>112.5</X>
-      <Y>610.5</Y>
+      <Y>690.5</Y>
       <Z>0</Z>
       <H>40.5</H>
       <MaxW>0</MaxW>
@@ -136,7 +135,7 @@
     </Text>
     <Text Name="TextFullScreen">
       <X>112.5</X>
-      <Y>700.5</Y>
+      <Y>780.5</Y>
       <Z>0</Z>
       <H>40.5</H>
       <MaxW>0</MaxW>
@@ -150,7 +149,7 @@
     </Text>
     <Text Name="TextStretch">
       <X>112.5</X>
-      <Y>790.5</Y>
+      <Y>870.5</Y>
       <Z>0</Z>
       <H>40.5</H>
       <MaxW>0</MaxW>
@@ -163,11 +162,11 @@
       <Text>TR_SCREENOGRAPHICS_STRETCH</Text>
     </Text>
     <Text Name="TextWarningRestart">
-      <X>1280</X>
-      <Y>920</Y>
+      <X>612.5</X>
+      <Y>960</Y>
       <Z>-1.1</Z>
       <H>37.5</H>
-      <MaxW>960</MaxW>
+      <MaxW>845</MaxW>
       <Color Name="TextWarningColor" />
       <SelColor Name="TextWarningColor" />
       <Align>Center</Align>
@@ -178,24 +177,24 @@
       </Text>
   </Texts>
   <Buttons>
-    <Button Name="ButtonExit">
-      <Skin>Button</Skin>
-      <SkinSelected>Button</SkinSelected>
+    <Button Name="ButtonOptionsBack">
+      <Skin>OptionsBack</Skin>
+      <SkinSelected>OptionsBack</SkinSelected>
       <Rect>
-        <X>82.5</X>
-        <Y>900</Y>
-        <W>225</W>
-        <H>75</H>
+        <X>112.5</X>
+        <Y>40</Y>
+        <W>150</W>
+        <H>150</H>
         <Z>0</Z>
       </Rect>
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>112.5</X>
-        <Y>18</Y>
+        <X>75</X>
+        <Y>119.5</Y>
         <Z>0</Z>
-        <H>40.5</H>
-        <MaxW>213</MaxW>
+        <H>30</H>
+        <MaxW>150</MaxW>
         <Color Name="ButtonTextColor" />
         <SelColor Name="ButtonTextSelColor" />
         <Align>Center</Align>
@@ -204,14 +203,195 @@
         <Font>Outline</Font>
         <Text>TR_BUTTON_BACK</Text>
       </Text>
-      <Reflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </Reflection>
-      <SelReflection>
-        <Height>39</Height>
-        <Space>15</Space>
-      </SelReflection>
+    </Button>
+    <Button Name="ButtonOptionsGame">
+      <Skin>OptionsGame</Skin>
+      <SkinSelected>OptionsGame</SkinSelected>
+      <Rect>
+        <X>266.5</X>
+        <Y>40</Y>
+        <W>150</W>
+        <H>150</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+       <Text Name="Text">
+        <X>75</X>
+        <Y>119.5</Y>
+        <Z>0</Z>
+        <H>30</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_GAME</Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonOptionsSound">
+      <Skin>OptionsSound</Skin>
+      <SkinSelected>OptionsSound</SkinSelected>
+      <Rect>
+        <X>420.5</X>
+        <Y>40</Y>
+        <W>150</W>
+        <H>150</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>119.5</Y>
+        <Z>0</Z>
+        <H>30</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_SOUND</Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonOptionsRecord">
+      <Skin>OptionsRecord</Skin>
+      <SkinSelected>OptionsRecord</SkinSelected>
+      <Rect>
+        <X>574.5</X>
+        <Y>40</Y>
+        <W>150</W>
+        <H>150</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>119.5</Y>
+        <Z>0</Z>
+        <H>30</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_RECORD</Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonOptionsVideo">
+      <Skin>OptionsVideo</Skin>
+      <SkinSelected>OptionsVideo</SkinSelected>
+      <Rect>
+        <X>728.5</X>
+        <Y>40</Y>
+        <W>150</W>
+        <H>150</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>119.5</Y>
+        <Z>0</Z>
+        <H>30</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_VIDEO</Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonOptionsLyrics">
+      <Skin>OptionsLyrics</Skin>
+      <SkinSelected>OptionsLyrics</SkinSelected>
+      <Rect>
+        <X>882.5</X>
+        <Y>40</Y>
+        <W>150</W>
+        <H>150</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>119.5</Y>
+        <Z>0</Z>
+        <H>30</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_LYRICS</Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonOptionsTheme">
+      <Skin>OptionsTheme</Skin>
+      <SkinSelected>OptionsTheme</SkinSelected>
+      <Rect>
+        <X>1036.5</X>
+        <Y>40</Y>
+        <W>150</W>
+        <H>150</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>119.5</Y>
+        <Z>0</Z>
+        <H>30</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_THEME</Text>
+      </Text>
+    </Button>
+    <Button Name="ButtonOptionsCredits">
+      <Skin>OptionsCredits</Skin>
+      <SkinSelected>OptionsCredits</SkinSelected>
+      <Rect>
+        <X>1657.5</X>
+        <Y>40</Y>
+        <W>150</W>
+        <H>150</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>75</X>
+        <Y>119.5</Y>
+        <Z>0</Z>
+        <H>30</H>
+        <MaxW>150</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENO_BUTTON_CREDITS</Text>
+      </Text>
     </Button>
   </Buttons>
   <SongMenus />
@@ -226,21 +406,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>750</X>
-        <Y>150</Y>
+        <Y>230</Y>
         <W>1072.5</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
         <X>757.5</X>
-        <Y>157.5</Y>
+        <Y>237.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>1755</X>
-        <Y>157.5</Y>
+        <Y>237.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
@@ -268,21 +448,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>750</X>
-        <Y>240</Y>
+        <Y>320</Y>
         <W>1072.5</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
         <X>757.5</X>
-        <Y>247.5</Y>
+        <Y>327.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>1755</X>
-        <Y>247.5</Y>
+        <Y>327.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
@@ -299,7 +479,7 @@
       <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>2</NumVisible>
+      <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideTextureQuality">
       <Skin />
@@ -310,21 +490,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>750</X>
-        <Y>510</Y>
+        <Y>590</Y>
         <W>1072.5</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
         <X>757.5</X>
-        <Y>517.5</Y>
+        <Y>597.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>1755</X>
-        <Y>517.5</Y>
+        <Y>597.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
@@ -352,21 +532,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>750</X>
-        <Y>600</Y>
+        <Y>680</Y>
         <W>1072.5</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
         <X>757.5</X>
-        <Y>607.5</Y>
+        <Y>687.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>1755</X>
-        <Y>607.5</Y>
+        <Y>687.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
@@ -394,21 +574,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>750</X>
-        <Y>690</Y>
+        <Y>770</Y>
         <W>1072.5</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
         <X>757.5</X>
-        <Y>697.5</Y>
+        <Y>777.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>1755</X>
-        <Y>697.5</Y>
+        <Y>777.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
@@ -436,21 +616,21 @@
       <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
       <Rect>
         <X>750</X>
-        <Y>780</Y>
+        <Y>860</Y>
         <W>1072.5</W>
         <H>75</H>
         <Z>0</Z>
       </Rect>
       <RectArrowLeft>
         <X>757.5</X>
-        <Y>787.5</Y>
+        <Y>867.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
       </RectArrowLeft>
       <RectArrowRight>
         <X>1755</X>
-        <Y>787.5</Y>
+        <Y>867.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
