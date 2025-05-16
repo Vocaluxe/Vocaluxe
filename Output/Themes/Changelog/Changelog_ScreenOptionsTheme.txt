@@ -1,6 +1,17 @@
 ScreenOptionsTheme
 
 ++++++++++ 
+Version 4:
+
+Add:
+<ButtonOptionsGame>
+<ButtonOptionsSound>
+<ButtonOptionsRecord>
+<ButtonOptionsVideo>
+<ButtonOptionsLyrics>
+<ButtonOptionsTheme>
+<ButtonOptionsCredits>
+++++++++++ 
 Version 3:
 
 Add:
