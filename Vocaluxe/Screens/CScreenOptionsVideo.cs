@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 5; }
+            get { return 6; }
         }
 
         private const string _SelectSlideVideoBackgrounds = "SelectSlideVideoBackgrounds";
@@ -43,8 +43,15 @@ namespace Vocaluxe.Screens
 
         private const string _StaticWebcamOutput = "StaticWebcamOutput";
 
+        private const string _ButtonOptionsBack = "ButtonOptionsBack";  
+        private const string _ButtonOptionsGame = "ButtonOptionsGame";
+        private const string _ButtonOptionsSound = "ButtonOptionsSound";
+        private const string _ButtonOptionsRecord = "ButtonOptionsRecord";
+        private const string _ButtonOptionsVideo = "ButtonOptionsVideo";
+        private const string _ButtonOptionsLyrics = "ButtonOptionsLyrics";
+        private const string _ButtonOptionsTheme = "ButtonOptionsTheme";
+        private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
         private const string _ButtonScreenAdjustments = "ButtonScreenAdjustments";
-        private const string _ButtonExit = "ButtonExit";
 
         private const string _TextWebcams = "TextWebcams";
         private const string _TextWebcamResolution = "TextWebcamResolution";
@@ -59,7 +66,7 @@ namespace Vocaluxe.Screens
             base.Init();
 
             _ThemeStatics = new string[] {_StaticWebcamOutput};
-            _ThemeButtons = new string[] {_ButtonExit, _ButtonScreenAdjustments};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonScreenAdjustments};
             _ThemeSelectSlides = new string[]
                 {
                     _SelectSlideVideoBackgrounds, _SelectSlideVideoPreview, _SelectSlideVideosInSongs, _SelectSlideVideosToBackground, _SelectSlideWebcamDevices,
@@ -91,7 +98,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.S:
@@ -101,10 +108,44 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (_Buttons[_ButtonExit].Selected)
+                        if (_Buttons[_ButtonOptionsBack].Selected)
                         {
                             _SaveConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.Main);
+                        }
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsGame);
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsSound);
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsRecord);
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsLyrics);
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
                         }
                         else if (_Buttons[_ButtonScreenAdjustments].Selected)
                         {
@@ -140,20 +181,63 @@ namespace Vocaluxe.Screens
             if (mouseEvent.RB)
             {
                 _SaveConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
-                if (_SelectSlides[_SelectSlideWebcamDevices].Selected)
-                    _OnDeviceEvent();
-                if (_SelectSlides[_SelectSlideWebcamCapabilities].Selected)
-                    _OnCapabilitiesEvent();
-                _SaveConfig();
-                if (_Buttons[_ButtonExit].Selected)
-                    CGraphics.FadeTo(EScreen.Options);
-                if (_Buttons[_ButtonScreenAdjustments].Selected)
-                    CGraphics.FadeTo(EScreen.OptionsVideoAdjustments);
+                if (_Buttons[_ButtonOptionsBack].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Main);
+                        }
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsGame);
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsSound);
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsRecord);
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsLyrics);
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
+                        }
+                        else if (_SelectSlides[_SelectSlideWebcamDevices].Selected)
+                        {
+                            _OnDeviceEvent();
+                        }
+                        else if (_SelectSlides[_SelectSlideWebcamCapabilities].Selected)
+                        {
+                            _OnCapabilitiesEvent();
+                            _SaveConfig();
+                        }
+                        else if (_Buttons[_ButtonScreenAdjustments].Selected)
+                        {
+                            CGraphics.FadeTo(EScreen.OptionsVideoAdjustments);
+                        }
             }
             return true;
         }
