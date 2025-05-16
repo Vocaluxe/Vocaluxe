@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 5; }
+            get { return 6; }
         }
 
         private const string _SelectSlideRecordDevices = "SelectSlideRecordDevices";
@@ -43,7 +43,14 @@ namespace Vocaluxe.Screens
         private const string _StaticWarning = "StaticWarning";
         private const string _TextWarning = "TextWarning";
 
-        private const string _ButtonExit = "ButtonExit";
+        private const string _ButtonOptionsBack = "ButtonOptionsBack";  
+        private const string _ButtonOptionsGame = "ButtonOptionsGame";
+        private const string _ButtonOptionsSound = "ButtonOptionsSound";
+        private const string _ButtonOptionsRecord = "ButtonOptionsRecord";
+        private const string _ButtonOptionsVideo = "ButtonOptionsVideo";
+        private const string _ButtonOptionsLyrics = "ButtonOptionsLyrics";
+        private const string _ButtonOptionsTheme = "ButtonOptionsTheme";
+        private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
         private const string _ButtonDelayTest = "ButtonDelayTest";
 
         private readonly string[] _TextPlayer = { "TextPlayer1", "TextPlayer2", "TextPlayer3", "TextPlayer4", "TextPlayer5", "TextPlayer6" };
@@ -74,7 +81,7 @@ namespace Vocaluxe.Screens
             _ThemeStatics = values.ToArray();
 
             _ThemeTexts = new string[] {_TextWarning, _TextPlayer[0], _TextPlayer[1], _TextPlayer[2], _TextPlayer[3], _TextPlayer[4], _TextPlayer[5], _TextDelayPlayer[0], _TextDelayPlayer[1], _TextDelayPlayer[2], _TextDelayPlayer[3], _TextDelayPlayer[4], _TextDelayPlayer[5] };
-            _ThemeButtons = new string[] {_ButtonExit, _ButtonDelayTest};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonDelayTest};
             _ThemeSelectSlides = new string[] {_SelectSlideRecordDevices, _SelectSlideRecordPlayer[0], _SelectSlideRecordPlayer[1], _SelectSlideRecordPlayer[2], _SelectSlideRecordPlayer[3], _SelectSlideRecordPlayer[4], _SelectSlideRecordPlayer[5], _SelectSlideDelay };
             _ThemeEqualizers = new string[] {_EqualizerPlayer[0], _EqualizerPlayer[1], _EqualizerPlayer[2], _EqualizerPlayer[3], _EqualizerPlayer[4], _EqualizerPlayer[5]};
         }
@@ -107,7 +114,7 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         _SaveMicConfig();
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.Main);
                         break;
 
                     case Keys.S:
@@ -117,20 +124,52 @@ namespace Vocaluxe.Screens
                         break;
 
                     case Keys.Enter:
-                        if (_Buttons[_ButtonExit].Selected)
+                        if (_Buttons[_ButtonOptionsBack].Selected)
                         {
                             _SaveMicConfig();
-                            CGraphics.FadeTo(EScreen.Options);
+                            CGraphics.FadeTo(EScreen.Main);
                         }
-
-                        if (_Buttons[_ButtonDelayTest].Selected)
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsGame);
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsSound);
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveMicConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsLyrics);
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
+                        }
+                        else if (_Buttons[_ButtonDelayTest].Selected)
                             _TestDelay();
-
                         break;
 
                     case Keys.D:
                         _TestDelay();
-                        break;
+                        break;                   
 
                     case Keys.Left:
                         _SelectSlideAction();
@@ -151,22 +190,55 @@ namespace Vocaluxe.Screens
             if (mouseEvent.RB)
             {
                 _SaveMicConfig();
-                CGraphics.FadeTo(EScreen.Options);
+                CGraphics.FadeTo(EScreen.Main);
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 _SelectSlideAction();
 
-                if (_Buttons[_ButtonExit].Selected)
-                {
-                    _SaveMicConfig();
-                    CGraphics.FadeTo(EScreen.Options);
-                }
-
-                if (_Buttons[_ButtonDelayTest].Selected)
-                    _TestDelay();
-            }
+                if (_Buttons[_ButtonOptionsBack].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.Main);
+                        }
+                        else if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsGame);
+                        }
+                        else if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsSound);
+                        }
+                        else if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
+                            _SaveMicConfig();
+                        }
+                        else if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsVideo);
+                        }
+                        else if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsLyrics);
+                        }
+                        else if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.OptionsTheme);
+                        }
+                        else if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
+                            _SaveMicConfig();
+                            CGraphics.FadeTo(EScreen.Credits);
+                        }
+                        else if (_Buttons[_ButtonDelayTest].Selected)
+                            _TestDelay();
+                        }
             return true;
         }
 
