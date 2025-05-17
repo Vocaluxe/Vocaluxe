@@ -327,7 +327,7 @@
         <H>150</H>
         <Z>0</Z>
       </Rect>
-      <Color Name="ButtonColor" />
+      <Color Name="ButtonSelColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
         <X>75</X>
