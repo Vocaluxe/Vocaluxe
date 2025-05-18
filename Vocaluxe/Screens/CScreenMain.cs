@@ -70,7 +70,7 @@ namespace Vocaluxe.Screens
                 switch (keyEvent.Key)
                 {
                     case Keys.O:
-                        CGraphics.FadeTo(EScreen.Options);
+                        CGraphics.FadeTo(EScreen.OptionsGame);
                         break;
 
                     case Keys.S:
