@@ -1520,6 +1520,10 @@ namespace Vocaluxe.Screens
 
         private void _ShowSongOptionsGeneral()
         {
+            _Texts[_TextOptionsLength].Visible = false;
+            _Texts[_TextOptionsPlayerSelect ].Visible = false;
+            _Texts[_TextOptionsPlaylist].Visible = false;
+
             if (CSongs.IsInCategory)
             {
                 _Buttons[_ButtonOptionsRandom].Visible = true;
@@ -1544,7 +1548,10 @@ namespace Vocaluxe.Screens
 
         private void _ShowSongOptionsMedley()
         {
-            _Buttons[_ButtonOptionsStartMedley].Visible = true;
+            _Texts[_TextOptionsLength].Visible = false;
+            _Texts[_TextOptionsPlayerSelect ].Visible = false;
+            _Texts[_TextOptionsPlaylist].Visible = false;
+	    _Buttons[_ButtonOptionsStartMedley].Visible = true;
             _SelectSlides[_SelectSlideOptionsNumMedleySongs].Visible = true;
             _SelectSlides[_SelectSlideOptionsNumMedleySongs].Clear();
             if (CSongs.IsInCategory)
