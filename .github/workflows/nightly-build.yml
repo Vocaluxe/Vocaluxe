@@ -3,7 +3,7 @@ name: Vocaluxe Nightly Builds
 on: [push]
 jobs:
   build:
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
       - name: checkout
         uses: actions/checkout@4.2.2
@@ -26,3 +26,9 @@ jobs:
 
       - name: Build solution
         run: msbuild Vocaluxe.sln /p:Configuration=ReleaseWin /p:Platform="x64"
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: Vocaluxe_Windows_x64_nightly
+          path: Output
