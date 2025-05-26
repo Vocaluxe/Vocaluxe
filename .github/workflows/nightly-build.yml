@@ -18,9 +18,13 @@ jobs:
           vs-version: latest # optional
           # The preferred processor architecture of MSBuild. Can be either "x86", "x64", or "arm64". "x64" is only available from Visual Studio version 17.0 and later.
           msbuild-architecture: x64 # optional, default is x86
+      
       - name: Setup Nuget
         uses: NuGet/setup-nuget@v2.0.0
 
+      - name: Run Prebuild
+        run: powershell ./.build/winPreBuild.ps1 ./Vocaluxe/ x64
+        
       - name: Restore Nuget Packages
         run: nuget restore Vocaluxe.sln
 
