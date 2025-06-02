@@ -23,7 +23,7 @@ jobs:
         uses: NuGet/setup-nuget@v2.0.0
 
       - name: Run Prebuild
-        run: powershell ./.build/winPreBuild.ps1 ./Vocaluxe/ x64
+        run: powershell ./.build/winPreBuild.ps1 ./Vocaluxe/ x64 "0.0.*"
         
       - name: Restore Nuget Packages
         run: nuget restore Vocaluxe.sln

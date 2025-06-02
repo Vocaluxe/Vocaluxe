@@ -3,20 +3,18 @@ param(
     [String]$ProjectDir,
     [Parameter(Mandatory=$true)]
     [String]$Arch
+    [Parameter(Mandatory=$true)]
+    [String]$Version
 )
 $commitHash = $Env:GITHUB_SHA;
 
-$shortVersion = "0.0.0"
-$unixTime = [DateTimeOffset]::Now.ToUnixTimeSeconds()
-$version = "$($shortVersion).$($unixTime)"
-
-$fullVersionName = "Vocaluxe $version ($Arch)"
+$fullVersionName = "Vocaluxe $Version ($Arch)"
 
 (Get-Content -Encoding UTF8 "$($ProjectDir)Properties\AssemblyInfo.cs") `
     | Foreach-Object {$_ `
-        -replace '(?<=AssemblyInformationalVersion\(").*(?=")', $version `
+        -replace '(?<=AssemblyInformationalVersion\(").*(?=")', $Version `
         -replace '(?<=(AssemblyVersion|AssemblyFileVersion)\(").*(?=")', `
-            ($version) `
+            ($Version) `
         -replace '(?<=AssemblyTitle\(").*(?=")', $fullVersionName `
         -replace '(?<=AssemblyCopyright\(".*)[0-9]+(?=")', (Get-Date).Year} `
     | Set-Content -Encoding UTF8 "$($ProjectDir)Properties\AssemblyInfo.cs"
