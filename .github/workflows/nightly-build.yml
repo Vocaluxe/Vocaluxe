@@ -21,14 +21,13 @@ jobs:
       
       - name: Setup Nuget
         uses: NuGet/setup-nuget@v2.0.0
-
-      - name: Run Prebuild
-        run: powershell ./.build/winPreBuild.ps1 ./Vocaluxe/ x64 "0.0.*"
-        
+      
       - name: Restore Nuget Packages
         run: nuget restore Vocaluxe.sln
 
       - name: Build solution
+        env:
+          VOCALUXE_VERSION: "0.0.*"
         run: msbuild Vocaluxe.sln /p:Configuration=ReleaseWin /p:Platform="x64"
 
       - name: Upload artifacts
