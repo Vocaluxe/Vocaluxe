@@ -2,7 +2,7 @@ param(
     [Parameter(Mandatory=$true)]
     [String]$ProjectDir,
     [Parameter(Mandatory=$true)]
-    [String]$Arch
+    [String]$Arch,
     [Parameter(Mandatory=$true)]
     [String]$Version
 )
