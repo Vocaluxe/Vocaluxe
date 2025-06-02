@@ -5,7 +5,14 @@ param(
     [String]$Arch
 )
 
-$Version = "0.0.*";
+# Calculate version components as ever-increasing uint16 values
+$date = (Get-Date).ToUniversalTime()
+# Use days since January 1, 2000 for the first version component
+$baseDate = (Get-Date "2000-01-01").ToUniversalTime()
+$versionDays = [uint16]([math]::Min(($date - $baseDate).Days, 65535))
+# Use seconds since midnight divided by 2 for the second version component (86400/2 < 65535)
+$versionSeconds = [uint16]([math]::Floor($date.TimeOfDay.TotalSeconds / 2))
+$Version = "0.0.$versionDays.$versionSeconds"
 
 if ($Env:VOCALUXE_VERSION) {
     $Version = "$Env:VOCALUXE_VERSION";
