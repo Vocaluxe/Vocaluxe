@@ -294,7 +294,7 @@
       <ArrowSelColor Name="ArrowSelColor" />
       <TextColor Name="TextColorAlpha" />
       <TextSelColor Name="TextSelColor" />
-      <TextH>40,5</TextH>
+      <TextH>40.5</TextH>
       <TextRelativeX>75</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
       <TextMaxW>300</TextMaxW>
