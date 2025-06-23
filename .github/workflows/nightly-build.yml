@@ -26,8 +26,6 @@ jobs:
         run: nuget restore Vocaluxe.sln
 
       - name: Build solution
-        env:
-          VOCALUXE_VERSION: "0.0.*"
         run: msbuild Vocaluxe.sln /p:Configuration=ReleaseWin /p:Platform="x64"
       
       - name: Download theme videos
