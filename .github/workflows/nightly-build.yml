@@ -29,6 +29,12 @@ jobs:
         env:
           VOCALUXE_VERSION: "0.0.*"
         run: msbuild Vocaluxe.sln /p:Configuration=ReleaseWin /p:Platform="x64"
+      
+      - name: Download theme videos
+        run: |
+          Invoke-WebRequest -Uri 'https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part1.zip' -OutFile 'vocaluxe.themes.vocaluxe-2024.video.zip'
+          7z x '-aoa' '-oOutput/' './vocaluxe.themes.vocaluxe-2024.video.zip'
+          Remove-Item './vocaluxe.themes.vocaluxe-2024.video.zip'
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.6.2
