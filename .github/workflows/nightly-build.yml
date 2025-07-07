@@ -3,6 +3,9 @@ name: Vocaluxe Nightly Builds
 on: [push]
 jobs:
   build:
+    strategy:
+      matrix:
+        platform: [x86, x64]
     runs-on: windows-latest
     steps:
       - name: checkout
@@ -17,7 +20,7 @@ jobs:
           # Version of Visual Studio to search; defaults to latest if not specified
           vs-version: latest # optional
           # The preferred processor architecture of MSBuild. Can be either "x86", "x64", or "arm64". "x64" is only available from Visual Studio version 17.0 and later.
-          msbuild-architecture: x64 # optional, default is x86
+          msbuild-architecture: ${{ matrix.platform }} # optional, default is x86
       
       - name: Setup Nuget
         uses: NuGet/setup-nuget@v2.0.0
@@ -26,7 +29,7 @@ jobs:
         run: nuget restore Vocaluxe.sln
 
       - name: Build solution
-        run: msbuild Vocaluxe.sln /p:Configuration=ReleaseWin /p:Platform="x64"
+        run: msbuild Vocaluxe.sln /p:Configuration=ReleaseWin /p:Platform="${{ matrix.platform }}" 
       
       - name: Download theme videos
         run: |
@@ -37,5 +40,5 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: Vocaluxe_Windows_x64_nightly
+          name: Vocaluxe_Windows_${{ matrix.platform }}_nightly
           path: Output
