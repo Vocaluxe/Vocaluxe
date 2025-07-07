@@ -42,3 +42,28 @@ jobs:
         with:
           name: Vocaluxe_Windows_${{ matrix.platform }}_nightly
           path: Output
+
+      - name: Zip artifacts
+        run: |
+          7z a -tzip -mx=9 "Vocaluxe_Windows_${{ matrix.platform }}_nightly.zip" "Output\*"
+    
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4.3.0
+
+      - name: Zip artifacts
+        run: |
+          for dir in . *; do
+            if [ -d "$dir" ] && [ "$dir" != "." ] && [ "$dir" != ".." ]; then
+              7z a -tzip -mx=9 "${dir}.zip" "${dir}/*"
+            fi
+          done
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v2.3.2
+        with:
+          prerelease: true
+          files: "*.zip"
