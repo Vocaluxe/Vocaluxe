@@ -9,7 +9,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: checkout
-        uses: actions/checkout@4.2.2
+        uses: actions/checkout@v4.2.2
         
       - name: test
         run: powershell dir
@@ -47,6 +47,12 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4.2.2
+      - name: Delete Previous Release
+        run: gh release delete Nightly --cleanup-tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Download artifacts
         uses: actions/download-artifact@v4.3.0
 
@@ -57,14 +63,7 @@ jobs:
               7z a -tzip "${dir}.zip" "${dir}/*"
             fi
           done
-
-
-      - uses: actions/checkout@v3
-      - name: Delete Previous Release
-        run: gh release delete Nightly --cleanup-tag
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
+          
       - name: Create Release
         uses: softprops/action-gh-release@v2.3.2
         with:
