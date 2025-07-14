@@ -57,6 +57,11 @@ jobs:
               7z a -tzip "${dir}.zip" "${dir}/*"
             fi
           done
+
+      - name: Move git tag
+        run: |
+          git tag -f Nightly
+          git push origin -f Nightly
       
       - name: Create Release
         uses: softprops/action-gh-release@v2.3.2
