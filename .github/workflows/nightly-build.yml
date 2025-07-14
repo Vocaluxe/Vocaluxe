@@ -58,10 +58,12 @@ jobs:
             fi
           done
 
-      - name: Move git tag
-        run: |
-          git tag -f Nightly
-          git push origin -f Nightly
+
+      - uses: actions/checkout@v3
+      - name: Delete Previous Release
+        run: gh release delete Nightly --cleanup-tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - name: Create Release
         uses: softprops/action-gh-release@v2.3.2
