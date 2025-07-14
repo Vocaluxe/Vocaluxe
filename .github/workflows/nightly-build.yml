@@ -65,4 +65,3 @@ jobs:
           tag_name: Nightly
           target_commitish: ${{ github.sha }}
           files: "*.zip"
-          # Add release tag!!!!!
