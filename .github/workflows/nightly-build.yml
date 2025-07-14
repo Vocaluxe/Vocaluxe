@@ -43,10 +43,6 @@ jobs:
           name: Vocaluxe_Windows_${{ matrix.platform }}_nightly
           path: Output
 
-      - name: Zip artifacts
-        run: |
-          7z a -tzip -mx=9 "Vocaluxe_Windows_${{ matrix.platform }}_nightly.zip" "Output\*"
-    
   release:
     needs: build
     runs-on: ubuntu-latest
@@ -58,7 +54,7 @@ jobs:
         run: |
           for dir in . *; do
             if [ -d "$dir" ] && [ "$dir" != "." ] && [ "$dir" != ".." ]; then
-              7z a -tzip -mx=9 "${dir}.zip" "${dir}/*"
+              7z a -tzip "${dir}.zip" "${dir}/*"
             fi
           done
       
@@ -66,4 +62,7 @@ jobs:
         uses: softprops/action-gh-release@v2.3.2
         with:
           prerelease: true
+          tag_name: Nightly
+          target_commitish: ${{ github.sha }}
           files: "*.zip"
+          # Add release tag!!!!!
