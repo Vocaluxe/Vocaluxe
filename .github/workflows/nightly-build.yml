@@ -55,6 +55,8 @@ jobs:
 
       - name: Download artifacts
         uses: actions/download-artifact@v4.3.0
+        with:
+          path: artifacts
 
       - name: Zip artifacts
         run: |
@@ -63,11 +65,12 @@ jobs:
               7z a -tzip "${dir}.zip" "${dir}/*"
             fi
           done
-          
+        working-directory: artifacts
+
       - name: Create Release
         uses: softprops/action-gh-release@v2.3.2
         with:
           prerelease: true
           tag_name: Nightly
           target_commitish: ${{ github.sha }}
-          files: "*.zip"
+          files: "artifacts/*.zip"
