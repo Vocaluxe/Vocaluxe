@@ -1,6 +1,9 @@
 name: Vocaluxe Nightly Builds
 
-on: [push]
+on:
+  push:
+    branches:
+      - develop
 jobs:
   call-build:
     uses: ./.github/workflows/build.yml
