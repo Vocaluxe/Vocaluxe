@@ -1,0 +1,11 @@
+name: Vocaluxe Release Builds
+on: 
+  push:
+    tags:
+      - '[0-9]+.[0-9]+.[0-9]+'
+jobs:
+  call-build:
+    uses: ./.github/workflows/build.yml
+    with:
+      tag_name: ${{ github.ref_name }}
+      prerelease: false
