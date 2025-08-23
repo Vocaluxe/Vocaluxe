@@ -49,7 +49,7 @@
   <string name="TR_CONFIG_TEXTURE_MEDIUM">Keskitaso</string>
   <string name="TR_CONFIG_TEXTURE_HIGH">Korkea</string>
   <string name="TR_CONFIG_TEXTURE_HIGHEST">Korkein</string>
-  <string name="TR_CONFIG_OFF">Pois</string>
+  <string name="TR_CONFIG_OFF">Ei käytössä</string>
   <string name="TR_CONFIG_ON">Käytössä</string>
   <string name="TR_CONFIG_ONLY_FPS">Vain kuvataajuus</string>
   <string name="TR_CONFIG_LEVEL1">Taso 1</string>
@@ -176,6 +176,7 @@
   <string name="TR_SCREENSING_BUTTON_SKIP">Ohita laulu</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Aloita kierros alusta</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Käynnistä peli uudelleen</string>
+  <string name="TR_SCREENSING_VOCALSVOLUME">Lauluraidan äänenvoimakkuus</string>
   <string name="TR_SCREENSING_NOMORESONGS">Soittolistassa ei ole enää lauluja!</string>
   <string name="TR_SCREENSING_NOWEBCAM">Kameraa ei löytynyt!</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Kuvasuhde: %a</string>
@@ -209,8 +210,8 @@
   <string name="TR_SCREENO_OPTIONS">Asetukset</string>
   <string name="TR_SCREENO_BUTTON_GAME">Peli</string>
   <string name="TR_SCREENO_BUTTON_SOUND">Ääni</string>
-  <string name="TR_SCREENO_BUTTON_RECORD">Taltiointi</string>
-  <string name="TR_SCREENO_BUTTON_VIDEO">Kuva</string>
+  <string name="TR_SCREENO_BUTTON_RECORD">Äänentallennus</string>
+  <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
   <string name="TR_SCREENO_BUTTON_LYRICS">Sanat/Grafiiikat</string>
   <string name="TR_SCREENO_BUTTON_THEME">Teema</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Tekijät</string>
@@ -223,12 +224,12 @@
   <string name="TR_SCREENOGAME_SONGMENU">Lauluvalikon tyyli</string>
   <string name="TR_SCREENOGAME_SONGSORTING">Laulujen lajittelutapa</string>
   <string name="TR_SCREENOGAME_TABS">Ryhmittely</string>
-  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Esikuuntele lauluja automaattisesti</string>
+  <string name="TR_SCREENOGAME_AUTOPLAYPREVIEWS">Laulujen automaattinen esikatselu</string>
   <string name="TR_SCREENOGAME_DIFFICULTY">Pelin vaikeustaso</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Ajastintila</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Näytä parhaista pisteistä</string>
   <string name="TR_SCREENOGAME_SONGFOLDER">Valitse kansio, jonka haluat lisätä</string>
-  <string name="TR_SCREENORECORD_OPTIONS">Taltiointiasetukset</string>
+  <string name="TR_SCREENORECORD_OPTIONS">Äänentallennusasetukset</string>
   <string name="TR_SCREENORECORD_DEVICE">Laite</string>
   <string name="TR_SCREENORECORD_INPUT">Syöte</string>
   <string name="TR_SCREENORECORD_PLAYER_1">Pelaaja 1</string>
@@ -243,11 +244,11 @@
   <string name="TR_SCREENOSOUND_OPTIONS">Ääniasetukset</string>
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSIC">Taustamusiikki</string>
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICVOLUME">Taustamusiikin äänenvoimakkuus</string>
-  <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Taustamusiikin lähde</string>
+  <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Taustamusiikin valinta</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Esikatselun äänenvoimakkuus</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Pelin äänenvoimakkuus</string>
   <string name="TR_SCREENOSOUND_SOUNDEFFECTVOLUME">Äänitehosteiden äänenvoimakkuus</string>
-  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Karaoke-efekti</string>
+  <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Karaoke-tehoste</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Teema-asetukset</string>
   <string name="TR_SCREENOTHEME_THEME">Teema</string>
   <string name="TR_SCREENOTHEME_SKIN">Ulkoasu</string>
