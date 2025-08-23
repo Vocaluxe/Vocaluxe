@@ -103,7 +103,7 @@
   <string name="TR_CONFIG_LYRICSPOSITION_DYNAMIC">Dynaaminen</string>
   <string name="TR_SCREENLOAD_LOADING">Ladataan</string>
   <string name="TR_SCREENLOAD_TOTAL">Yhteensä</string>
-  <string name="TR_SCREENLOAD_SONGS">laulut</string>
+  <string name="TR_SCREENLOAD_SONGS">laulua</string>
   <string name="TR_SCREENLOAD_LOADED">ladattu</string>
   <string name="TR_SCREENMAIN_MENU">Päävalikko</string>
   <string name="TR_SCREENMAIN_BUTTON_SING">Laula</string>
