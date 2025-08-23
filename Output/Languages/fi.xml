@@ -3,7 +3,7 @@
   <string name="language">Suomi</string>
   <string name="TR_PROGRAM_NAME">Vocaluxe</string>
   <string name="TR_GENERAL_AND">ja</string>
-  <string name="TR_BUTTON_EXIT">Lopeta</string>
+  <string name="TR_BUTTON_EXIT">Sulje</string>
   <string name="TR_BUTTON_SAVE">Tallenna</string>
   <string name="TR_BUTTON_BACK">Takaisin</string>
   <string name="TR_BUTTON_START">Aloita</string>
@@ -22,6 +22,7 @@
   <string name="TR_GAMEMODE_SHORTSONG">Lyhytversio</string>
   <string name="TR_AUDIOMODE_NORMAL">Normaali</string>
   <string name="TR_AUDIOMODE_INSTRUMENTAL">Instrumentaalinen</string>
+  <string name="TR_AUDIOMODE_VOCALS">Soittimet/Lauluääni</string>
   <string name="TR_AUDIOMODE_KARAOKE">Karaoke</string>
   <string name="TR_RATING_KARAOKE">Karaoke</string>
   <string name="TR_RATING_VOCAL_HERO">Laulajalegenda</string>
@@ -148,6 +149,12 @@
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Laula potpuri-lauluja</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">Uusi soittolista</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Laulun asetukset</string>
+  <string name="TR_SCREENSONG_LENGTH">Pituus</string>
+  <string name="TR_SCREENSONG_AUDIOMODE">Äänitila</string>
+  <string name="TR_SCREENSONG_PLAYLIST">Soittolista</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT">Valitse pelaaja</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT_ON">Näytä pelaajan valinta</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Ohita pelaajan valinta</string>  
   <string name="TR_SCREENSONG_SEARCH">Etsi:</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Ei kieltä</string>
   <string name="TR_SCREENSONG_NOYEAR">Ei vuotta</string>
@@ -172,6 +179,14 @@
   <string name="TR_SCREENSING_NOMORESONGS">Soittolistassa ei ole enää lauluja!</string>
   <string name="TR_SCREENSING_NOWEBCAM">Kameraa ei löytynyt!</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Kuvasuhde: %a</string>
+  <string name="TR_SCREENSING_RATING_1">täydellistä!</string>
+  <string name="TR_SCREENSING_RATING_2">loistavaa!</string>
+  <string name="TR_SCREENSING_RATING_3">hienoa!</string>
+  <string name="TR_SCREENSING_RATING_4">hyvä!</string>
+  <string name="TR_SCREENSING_RATING_5">ei paha!</string>
+  <string name="TR_SCREENSING_RATING_6">heikko!</string>
+  <string name="TR_SCREENSING_RATING_7">huono!</string>
+  <string name="TR_SCREENSING_RATING_8">todella huono!</string>
   <string name="TR_SCREENSING_SKIPPEDSECONDS">Ohitettiin %ssekuntia</string>
   <string name="TR_SCREENSCORE_SCORES">Pisteet</string>
   <string name="TR_SCREENSCORE_RATING">Arvostelu</string>
@@ -196,9 +211,12 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Ääni</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Taltiointi</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Kuva</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Sanat/Grafiiikat</string>
   <string name="TR_SCREENO_BUTTON_THEME">Teema</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Tekijät</string>
+  <string name="TR_SCREENO_WARNINGRESTART">Käynnistä peli uudestaan ottaaksesi muutokset käyttöön.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Palvelimen osoite</string>
+  <string name="TR_SCREENOGAME_BUTTON_SONGFOLDER">Lisää Laulukansio</string>
   <string name="TR_SCREENOGAME_OPTIONS">Peliasetukset</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Kieli</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debuggaus-taso</string>
@@ -209,6 +227,7 @@
   <string name="TR_SCREENOGAME_DIFFICULTY">Pelin vaikeustaso</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Ajastintila</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Näytä parhaista pisteistä</string>
+  <string name="TR_SCREENOGAME_SONGFOLDER">Valitse kansio, jonka haluat lisätä</string>
   <string name="TR_SCREENORECORD_OPTIONS">Taltiointiasetukset</string>
   <string name="TR_SCREENORECORD_DEVICE">Laite</string>
   <string name="TR_SCREENORECORD_INPUT">Syöte</string>
@@ -227,6 +246,7 @@
   <string name="TR_SCREENOSOUND_BACKGROUNDMUSICSOURCE">Taustamusiikin lähde</string>
   <string name="TR_SCREENOSOUND_PREVIEWMUSICVOLUME">Esikatselun äänenvoimakkuus</string>
   <string name="TR_SCREENOSOUND_GAMEMUSICVOLUME">Pelin äänenvoimakkuus</string>
+  <string name="TR_SCREENOSOUND_SOUNDEFFECTVOLUME">Äänitehosteiden äänenvoimakkuus</string>
   <string name="TR_SCREENOSOUND_KARAOKEEFFECT">Karaoke-efekti</string>
   <string name="TR_SCREENOTHEME_OPTIONS">Teema-asetukset</string>
   <string name="TR_SCREENOTHEME_THEME">Teema</string>
@@ -240,6 +260,11 @@
   <string name="TR_SCREENOLYRICS_OPTIONS">Sanoitusasetukset</string>
   <string name="TR_SCREENOLYRICS_STYLE">Animaatiotyyli</string>
   <string name="TR_SCREENOLYRICS_POSITION">Sanoituksien sijainti</string>
+  <string name="TR_SCREENOGRAPHICS_OPTIONS">Grafiikka-asetukset</string>
+  <string name="TR_SCREENOGRAPHICS_TEXTUREQUALITY">Pintakuvioinnin laatu</string>
+  <string name="TR_SCREENOGRAPHICS_COVERSIZE">Kansikuvan koko (pikseleissä)</string>
+  <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Kokoruututila</string>
+  <string name="TR_SCREENOGRAPHICS_STRETCH">Venytä</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Videoasetukset</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Taustavideot</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Videon esikatselu</string>
