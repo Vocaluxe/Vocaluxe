@@ -45,6 +45,12 @@ jobs:
           7z x '-aoa' '-oOutput/' './vocaluxe.themes.vocaluxe-2024.video.zip'
           Remove-Item './vocaluxe.themes.vocaluxe-2024.video.zip'
 
+      - name: Run tests
+        run: |
+          nuget install NUnit.ConsoleRunner -Version 3.20.1
+          nunit3-console.exe ".\Tests\bin\Release\Tests.dll" --result=".\TestResult.xml;format=AppVeyor"
+
+
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.6.2
         with:
