@@ -47,8 +47,8 @@ jobs:
 
       - name: Run tests
         run: |
-          nuget install NUnit.ConsoleRunner -Version 3.20.1
-          nunit3-console.exe ".\Tests\bin\Release\Tests.dll" --result=".\TestResult.xml;format=AppVeyor"
+          nuget install NUnit.ConsoleRunner -Version 3.20.1 -OutputDirectory testrunner
+          .\testrunner\NUnit.ConsoleRunner.3.20.1\tools\nunit3-console.exe ".\Tests\bin\Release\Tests.dll" --result=".\TestResult.xml;format=AppVeyor"
 
 
       - name: Upload artifacts
