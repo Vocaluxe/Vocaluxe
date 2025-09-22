@@ -48,8 +48,15 @@ jobs:
       - name: Run tests
         run: |
           nuget install NUnit.ConsoleRunner -Version 3.20.1 -OutputDirectory testrunner
-          .\testrunner\NUnit.ConsoleRunner.3.20.1\tools\nunit3-console.exe ".\Tests\bin\Release\Tests.dll" --result=".\TestResult.xml;format=AppVeyor"
+          .\testrunner\NUnit.ConsoleRunner.3.20.1\tools\nunit3-console.exe ".\Tests\bin\Release\Tests.dll" --result=".\TestResult.xml"
 
+      - name: Report test results
+        uses: dorny/test-reporter@v2.1.1
+        if: ${{ !cancelled() }}  
+        with:
+          reporter: dotnet-nunit 
+          name: test-results
+          path: TestResult.xml.xml
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.6.2
