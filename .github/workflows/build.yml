@@ -56,7 +56,7 @@ jobs:
         with:
           reporter: dotnet-nunit 
           name: test-results
-          path: TestResult.xml.xml
+          path: TestResult.xml
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4.6.2
