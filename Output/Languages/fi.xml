@@ -28,7 +28,7 @@
   <string name="TR_RATING_VOCAL_HERO">Laulajalegenda</string>
   <string name="TR_RATING_SUPERSTAR">Supertähti</string>
   <string name="TR_RATING_LEAD_SINGER">Kärkikaarti</string>
-  <string name="TR_RATING_RISING_STAR">Nouseva Tähti</string>
+  <string name="TR_RATING_RISING_STAR">Nouseva tähti</string>
   <string name="TR_RATING_HOPEFUL">Konkari</string>
   <string name="TR_RATING_WANNABE">Toiveikas</string>
   <string name="TR_RATING_AMATEUR">Amatööri</string>
@@ -189,9 +189,9 @@
   <string name="TR_SCREENSING_RATING_7">huono!</string>
   <string name="TR_SCREENSING_RATING_8">todella huono!</string>
   <string name="TR_SCREENSING_SKIPPEDSECONDS">Ohitettiin %ssekuntia</string>
-  <string name="TR_SCREENSCORE_SCORES">Pisteet</string>
+  <string name="TR_SCREENSCORE_SCORES">Tulokset</string>
   <string name="TR_SCREENSCORE_RATING">Arvostelu</string>
-  <string name="TR_SCREENSCORE_POINTS">Pisteet</string>
+  <string name="TR_SCREENSCORE_POINTS">pistettä</string>
   <string name="TR_SCREENSCORE_GAMEDIFFICULTY">Vaikeustaso</string>
   <string name="TR_SCREENSCORE_OVERALLSCORE">Kokonaispisteet</string>
   <string name="TR_SCREENHIGHSCORE_HIGHSCORE">Pistetaulukko</string>
