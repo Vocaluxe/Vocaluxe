@@ -1,0 +1,20 @@
+name: 'Test Report'
+on:
+  workflow_run:
+    workflows: ['build']
+    types:
+      - completed
+permissions:
+  contents: read
+  actions: read
+  checks: write
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: dorny/test-reporter@v2
+      with:
+        artifact: test-results 
+        name: Unit Tests                 
+        reporter: dotnet-nunit
+        path: TestResult.xml
