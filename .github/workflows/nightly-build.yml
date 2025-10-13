@@ -1,4 +1,4 @@
-name: Vocaluxe Nightly Builds
+name: 'CI'
 
 on:
   push:

@@ -1,7 +1,7 @@
 name: 'Test Report'
 on:
   workflow_run:
-    workflows: ['Vocaluxe Nightly Builds']
+    workflows: ['CI']
     types:
       - completed
 permissions:
