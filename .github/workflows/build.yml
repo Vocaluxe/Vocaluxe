@@ -13,6 +13,7 @@ on:
 jobs:
   build:
     strategy:
+      fail-fast: false
       matrix:
         platform: [x86, x64]
     runs-on: windows-latest
@@ -54,7 +55,7 @@ jobs:
         if: ${{ !cancelled() }}
         uses: actions/upload-artifact@v4.6.2
         with:
-          name: test-results
+          name: test-results-windows-${{ matrix.platform }}
           path: TestResult.xml
 
       - name: Upload artifacts
