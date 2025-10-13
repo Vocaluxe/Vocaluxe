@@ -1,4 +1,4 @@
-name: Vocaluxe Release Builds
+name: 'Vocaluxe Release Builds'
 on: 
   push:
     tags:
