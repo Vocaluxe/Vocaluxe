@@ -200,7 +200,7 @@ namespace VocaluxeLib
 
             try
             {
-                Regex extPatternRegex = new Regex(extPattern, RegexOptions.IgnoreCase);
+                Regex extPatternRegex = new Regex(extPattern, RegexOptions.IgnoreCase, TimeSpan.FromSeconds(1));
                 files = Directory.EnumerateFiles(path, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
                     .Where(file => extPatternRegex.IsMatch(Path.GetExtension(file)));
                 files = files.Select(fullpath ? (Func<string, string>)Path.GetFullPath : Path.GetFileName);
