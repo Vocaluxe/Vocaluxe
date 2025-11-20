@@ -374,7 +374,12 @@ namespace Vocaluxe.Base
                     Categorizer.ObjectChanged += _HandleCategoriesChanged;
                 }
 
-                Category = -1;
+                // For dynamic loading we don't want to change the category because that will prevent us
+                // from keeping the same song selected
+                if (CConfig.Config.Theme.SongLoading != ESongLoading.TR_CONFIG_SONGLOADING_DYNAMIC)
+                {
+                    Category = -1;
+                }
                 SongsLoaded = true;
 
                 switch (CConfig.Config.Theme.CoverLoading)

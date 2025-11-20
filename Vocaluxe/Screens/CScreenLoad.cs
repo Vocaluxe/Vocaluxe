@@ -140,9 +140,10 @@ namespace Vocaluxe.Screens
         {
             _CheckStartIntroVideos();
 
-            bool next = CConfig.Config.Theme.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
+            bool songsReady = CConfig.Config.Theme.SongLoading != ESongLoading.TR_CONFIG_SONGLOADING_ATSTART || CSongs.SongsLoaded;
+            bool coversReady = CConfig.Config.Theme.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
 
-            if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.ProgramState == EProgramState.Start && CSongs.SongsLoaded)
+            if ((_IntroOutPlayed || _SkipIntro) && CSettings.ProgramState == EProgramState.Start && songsReady && coversReady)
             {
                 CSettings.ProgramState = EProgramState.Normal;
                 CGraphics.FadeTo(EScreen.Main);

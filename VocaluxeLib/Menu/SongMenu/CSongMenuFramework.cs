@@ -218,7 +218,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public abstract void Update(SScreenSongOptions songOptions);
 
-        public abstract void OnShow();
+        public abstract void OnShow(int selectedSongID);
 
         public virtual void OnHide()
         {

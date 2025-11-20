@@ -125,6 +125,7 @@ namespace Vocaluxe.Base
             [DefaultValue(EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH)] public EPlayerInfo PlayerInfo;
             [DefaultValue(EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF)] public EFadePlayerInfo FadePlayerInfo;
             [DefaultValue(ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC)] public ECoverLoading CoverLoading;
+            [DefaultValue(ESongLoading.TR_CONFIG_SONGLOADING_ATSTART)] public ESongLoading SongLoading;
             [DefaultValue(ELyricStyle.TR_CONFIG_LYRICSTYLE_SLIDE)] public ELyricStyle LyricStyle;
         }
 
@@ -499,6 +500,8 @@ namespace Vocaluxe.Base
                     return "Fade player-information with lyrics and notebars: " + CHelper.ListStrings(Enum.GetNames(typeof(EFadePlayerInfo)));
                 case "CoverLoading":
                     return "Cover Loading: " + CHelper.ListStrings(Enum.GetNames(typeof(ECoverLoading)));
+                case "SongLoading":
+                    return "Song Loading: " + CHelper.ListStrings(Enum.GetNames(typeof(ESongLoading)));
                 case "LyricStyle":
                     return "Lyric Style: " + CHelper.ListStrings(Enum.GetNames(typeof(ELyricStyle)));
                 case "PlayBackLib":

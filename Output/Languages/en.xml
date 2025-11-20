@@ -63,6 +63,8 @@
   <string name="TR_CONFIG_COVERLOADING_ONDEMAND">On demand</string>
   <string name="TR_CONFIG_COVERLOADING_ATSTART">At startup</string>
   <string name="TR_CONFIG_COVERLOADING_DYNAMIC">Dynamic</string>
+  <string name="TR_CONFIG_SONGLOADING_ATSTART">At startup</string>
+  <string name="TR_CONFIG_SONGLOADING_DYNAMIC">Dynamic</string>
   <string name="TR_CONFIG_NONE">None</string>
   <string name="TR_CONFIG_RANDOM">Random</string>
   <string name="TR_CONFIG_FOLDER">Folder</string>
@@ -258,6 +260,7 @@
   <string name="TR_SCREENOTHEME_TIMERLOOK">Timeline mode</string>
   <string name="TR_SCREENOTHEME_FADEINFO">Fade player info</string>
   <string name="TR_SCREENOTHEME_COVERLOADING">Cover-loading behavior</string>
+  <string name="TR_SCREENOTHEME_SONGLOADING">Song-loading behavior</string>
   <string name="TR_SCREENOLYRICS_OPTIONS">Lyrics Options</string>
   <string name="TR_SCREENOLYRICS_STYLE">Animation style</string>
   <string name="TR_SCREENOLYRICS_POSITION">Lyrics position</string>

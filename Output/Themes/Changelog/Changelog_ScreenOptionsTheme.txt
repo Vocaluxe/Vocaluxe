@@ -1,6 +1,13 @@
 ScreenOptionsTheme
 
 ++++++++++ 
+Version 4:
+
+Add:
+<SelectSlideSongLoading>
+and some texts and statics for description (Text10 and Static10)
+"TR_SCREENOTHEME_SONGLOADING"
+++++++++++
 Version 3:
 
 Add:

@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenMain</ScreenName>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenVersion>3</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -76,6 +76,34 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text>TR_SCREENMAIN_TEXT_NOPROFILES</Text>
+    </Text>
+    <Text Name="TextLoading">
+      <X>960</X>
+      <Y>562.5</Y>
+      <Z>0</Z>
+      <H>60</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
+    </Text>
+    <Text Name="TextStatus">
+      <X>960</X>
+      <Y>630</Y>
+      <Z>0</Z>
+      <H>30</H>
+      <MaxW>0</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text />
     </Text>
   </Texts>
   <Buttons>
