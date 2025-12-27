@@ -511,7 +511,7 @@
     <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)/.build/linuxPostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -File $(SolutionDir)\.build\winPreBuild.ps1 $(ProjectDir) $(Platform)</PreBuildEvent>
+    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -File "$(SolutionDir)\.build\winPreBuild.ps1" "$(ProjectDir)" "$(Platform)"</PreBuildEvent>
     <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)/.build/linuxPreBuildEvent.sh $(ProjectDir) $(Platform)</PreBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
