@@ -816,7 +816,7 @@ namespace Vocaluxe.Base.Server
             if (profile.PasswordHash == null)
             {
                 if (string.IsNullOrEmpty(password))
-                    return true; //Allow emty passwords
+                    return true; //Allow empty passwords
                 return false;
             }
 
@@ -833,7 +833,7 @@ namespace Vocaluxe.Base.Server
             if (profile.PasswordHash == null)
             {
                 if (hashedPassword == null)
-                    return true; //Allow emty passwords
+                    return true; //Allow empty passwords
                 return false;
             }
 
@@ -848,7 +848,7 @@ namespace Vocaluxe.Base.Server
                 throw new ArgumentException("Invalid profileId");
 
             if (profile.PasswordHash == null)
-                throw new ArgumentException("Emty password");
+                throw new ArgumentException("Empty password");
 
             return profile.PasswordSalt;
         }
