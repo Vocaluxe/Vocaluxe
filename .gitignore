@@ -3,6 +3,7 @@ PitchTracker.dll
 Thumbs.db
 .transifexrc
 .vs
+.vscode
 tx.exe
 *.mp4
 *.pdb
