@@ -158,6 +158,9 @@
     <Prefer32Bit>false</Prefer32Bit>
     <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
@@ -172,7 +175,13 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.Data.Sqlite">
+      <Version>10.0.1</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3">
+      <Version>3.0.2</Version>
+    </PackageReference>
     <PackageReference Include="vocaluxe.dependencies.acinerella" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
     <PackageReference Include="vocaluxe.dependencies.aforgevideo" Version="1.0.1" />
     <PackageReference Include="vocaluxe.dependencies.csharpsqlite" Version="1.0.1" />
@@ -184,7 +193,6 @@
     <PackageReference Include="vocaluxe.dependencies.portaudiosharp" Version="1.0.3" />
     <PackageReference Include="vocaluxe.dependencies.qrcoder" Version="1.0.1" />
     <PackageReference Include="vocaluxe.dependencies.slimdx" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.sqlite" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
@@ -555,9 +563,6 @@ $(SolutionDir)/.build/linuxPostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
     <ItemGroup>
       <x86FolderFilesToMove Include="$(TargetDir)x86\*.*" />
     </ItemGroup>
-    <ItemGroup>
-      <OtherFilesToMove Include="$(TargetDir)System.Data.SQLite.xml;" />
-    </ItemGroup>
     <Copy SourceFiles="@(RootDLLFilesToMove)" DestinationFiles="@(RootDLLFilesToMove->'$(TargetDir)libs\managed\%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(x64FolderFilesToMove)" DestinationFiles="@(x64FolderFilesToMove->'$(TargetDir)libs\managed\x64\%(Filename)%(Extension)')" />
     <Copy SourceFiles="@(x86FolderFilesToMove)" DestinationFiles="@(x86FolderFilesToMove->'$(TargetDir)libs\managed\x86\%(Filename)%(Extension)')" />
@@ -568,5 +573,4 @@ $(SolutionDir)/.build/linuxPostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
     <Delete Files="@(OtherFilesToMove)" />
     <RemoveDir Directories="$(TargetDir)\x64\;$(TargetDir)\x86\" />
   </Target>
-  <Import Project="$(NuGetPackageRoot)vocaluxe.dependencies.sqlite\1.0.1\build\vocaluxe.dependencies.sqlite.targets" Condition=" '$(ExcludeRestorePackageImports)' != 'true' AND Exists('$(NuGetPackageRoot)vocaluxe.dependencies.sqlite\1.0.1\build\vocaluxe.dependencies.sqlite.targets')" />
 </Project>
