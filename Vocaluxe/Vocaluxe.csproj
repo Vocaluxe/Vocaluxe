@@ -160,10 +160,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -174,6 +170,21 @@
     <Reference Include="System.Transactions" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.XML" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="vocaluxe.dependencies.acinerella" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
+    <PackageReference Include="vocaluxe.dependencies.aforgevideo" Version="1.0.1" />
+    <PackageReference Include="vocaluxe.dependencies.csharpsqlite" Version="1.0.1" />
+    <PackageReference Include="vocaluxe.dependencies.ffmpeg" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
+    <PackageReference Include="vocaluxe.dependencies.gstreamer" Version="1.0.3" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
+    <PackageReference Include="vocaluxe.dependencies.gstreamersharp" Version="1.0.1" />
+    <PackageReference Include="vocaluxe.dependencies.hidapi" Version="1.0.4" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
+    <PackageReference Include="vocaluxe.dependencies.opentk" Version="1.0.1" />
+    <PackageReference Include="vocaluxe.dependencies.portaudiosharp" Version="1.0.3" />
+    <PackageReference Include="vocaluxe.dependencies.qrcoder" Version="1.0.1" />
+    <PackageReference Include="vocaluxe.dependencies.slimdx" Version="1.0.1" />
+    <PackageReference Include="vocaluxe.dependencies.sqlite" Version="1.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Base\CBackgroundMusic.cs" />
@@ -361,9 +372,6 @@
     <Content Include="Website\locales\tr.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config">
-      <SubType>Designer</SubType>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Doc\Roadmap.txt" />
@@ -560,33 +568,5 @@ $(SolutionDir)/.build/linuxPostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
     <Delete Files="@(OtherFilesToMove)" />
     <RemoveDir Directories="$(TargetDir)\x64\;$(TargetDir)\x86\" />
   </Target>
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Rebuild for automatic package restore. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND !Exists('..\packages\vocaluxe.dependencies.acinerella.1.0.6\build\vocaluxe.dependencies.acinerella.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.acinerella.1.0.6\build\vocaluxe.dependencies.acinerella.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.csharpsqlite.1.0.1\build\vocaluxe.dependencies.csharpsqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.csharpsqlite.1.0.1\build\vocaluxe.dependencies.csharpsqlite.targets'))" />
-    <Error Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND !Exists('..\packages\vocaluxe.dependencies.ffmpeg.1.0.6\build\vocaluxe.dependencies.ffmpeg.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.ffmpeg.1.0.6\build\vocaluxe.dependencies.ffmpeg.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets'))" />
-    <Error Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND !Exists('..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets'))" />
-    <Error Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND !Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.3\build\vocaluxe.dependencies.gstreamer.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.gstreamer.1.0.3\build\vocaluxe.dependencies.gstreamer.targets'))" />
-    <Error Condition="!Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets'))" />
-  </Target>
-  <Import Project="..\packages\vocaluxe.dependencies.acinerella.1.0.6\build\vocaluxe.dependencies.acinerella.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.acinerella.1.0.6\build\vocaluxe.dependencies.acinerella.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets" Condition="Exists('..\packages\vocaluxe.dependencies.aforgevideo.1.0.1\build\vocaluxe.dependencies.aforgevideo.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.csharpsqlite.1.0.1\build\vocaluxe.dependencies.csharpsqlite.targets" Condition="Exists('..\packages\vocaluxe.dependencies.csharpsqlite.1.0.1\build\vocaluxe.dependencies.csharpsqlite.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.ffmpeg.1.0.6\build\vocaluxe.dependencies.ffmpeg.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.ffmpeg.1.0.6\build\vocaluxe.dependencies.ffmpeg.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.gstreamersharp.1.0.1\build\vocaluxe.dependencies.gstreamersharp.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.hidapi.1.0.4\build\vocaluxe.dependencies.hidapi.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets" Condition="Exists('..\packages\vocaluxe.dependencies.opentk.1.0.1\build\vocaluxe.dependencies.opentk.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets" Condition="Exists('..\packages\vocaluxe.dependencies.qrcoder.1.0.1\build\vocaluxe.dependencies.qrcoder.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets" Condition="Exists('..\packages\vocaluxe.dependencies.slimdx.1.0.1\build\vocaluxe.dependencies.slimdx.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets" Condition="Exists('..\packages\vocaluxe.dependencies.sqlite.1.0.1\build\vocaluxe.dependencies.sqlite.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.gstreamer.1.0.3\build\vocaluxe.dependencies.gstreamer.targets" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux' AND Exists('..\packages\vocaluxe.dependencies.gstreamer.1.0.3\build\vocaluxe.dependencies.gstreamer.targets')" />
-  <Import Project="..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets" Condition="Exists('..\packages\vocaluxe.dependencies.portaudiosharp.1.0.3\build\vocaluxe.dependencies.portaudiosharp.targets')" />
+  <Import Project="$(NuGetPackageRoot)vocaluxe.dependencies.sqlite\1.0.1\build\vocaluxe.dependencies.sqlite.targets" Condition=" '$(ExcludeRestorePackageImports)' != 'true' AND Exists('$(NuGetPackageRoot)vocaluxe.dependencies.sqlite\1.0.1\build\vocaluxe.dependencies.sqlite.targets')" />
 </Project>
