@@ -17,22 +17,14 @@
 
 using System;
 using System.IO;
-#if WIN
-using System.Data.SQLite;
-
-#else
-using Mono.Data.Sqlite;
-using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
-using SQLiteConnection = Mono.Data.Sqlite.SqliteConnection;
-using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
-#endif
+using Microsoft.Data.Sqlite;
 
 namespace Vocaluxe.Lib.Database
 {
     public abstract class CDatabaseBase
     {
         protected readonly string _FilePath;
-        protected SQLiteConnection _Connection;
+        protected SqliteConnection _Connection;
 
         //You have to lock all actions using connection or transaction, otherwhise order is not guaranted
         protected readonly object _Mutex = new object();
@@ -50,7 +42,7 @@ namespace Vocaluxe.Lib.Database
             {
                 if (_Connection != null)
                     return false;
-                _Connection = new SQLiteConnection("Data Source=" + _FilePath);
+                _Connection = new SqliteConnection("Data Source=" + _FilePath);
                 try
                 {
                     _Connection.Open();
@@ -62,11 +54,9 @@ namespace Vocaluxe.Lib.Database
                     return false;
                 }
 
-                using (var command = new SQLiteCommand(_Connection))
+                using (var command = new SqliteCommand("SELECT Value FROM Version", _Connection))
                 {
-                    command.CommandText = "SELECT Value FROM Version";
-
-                    SQLiteDataReader reader = null;
+                    SqliteDataReader reader = null;
 
                     try
                     {
@@ -112,7 +102,7 @@ namespace Vocaluxe.Lib.Database
         /// <param name="reader"></param>
         /// <param name="field">Field number to read from (default=first)</param>
         /// <returns></returns>
-        protected static byte[] _GetBytes(SQLiteDataReader reader, int field = 0)
+        protected static byte[] _GetBytes(SqliteDataReader reader, int field = 0)
         {
             const int chunkSize = 2 * 1024;
             var buffer = new byte[chunkSize];
