@@ -78,6 +78,9 @@ namespace Vocaluxe.Lib.Database
                 using (var command = new SqliteCommand())
                 {
                     command.Connection = _Connection;
+                    // If we have an open transaction on this connection, all commands must use it.
+                    if (_TransactionCover != null)
+                        command.Transaction = _TransactionCover;
                     command.CommandText = "SELECT id, width, height FROM Cover WHERE [Path] = @path";
                     command.Parameters.Clear();
                     command.Parameters.AddWithValue("@path", coverPath);
