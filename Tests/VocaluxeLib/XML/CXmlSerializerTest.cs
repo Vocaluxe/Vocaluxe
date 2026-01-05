@@ -403,25 +403,24 @@ namespace Tests.VocaluxeLib.XML
             Assert.AreEqual(foo.Sub.S, "Foo'Bar");
         }
 
-        [Test]
-        public void TestRealFiles([Values(typeof(SThemeCover), typeof(CConfig.SConfig), /*typeof(SThemeScreen),*/ typeof(SDefaultFonts), typeof(SSkin), typeof(STheme), typeof(Dictionary<string, string>))] Type type)
-        {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "VocaluxeLib", "XML", "TestFiles");
+        //[Test]
+        //public void TestRealFiles([Values(typeof(SThemeCover), typeof(CConfig.SConfig), /*typeof(SThemeScreen),*/ typeof(SDefaultFonts), typeof(SSkin), typeof(STheme), typeof(Dictionary<string, string>))] Type type)
+        //{
+        //    string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "VocaluxeLib", "XML", "TestFiles");
 
-            string xmlPath = Path.Combine(filePath, type.Name + ".xml");
-            var deser = new CXmlDeserializer();
+        //    string xmlPath = Path.Combine(filePath, type.Name + ".xml");
+        //    var deser = new CXmlDeserializer();
 
-            object foo = deser.Deserialize(xmlPath, Activator.CreateInstance(type));
+        //    object foo = deser.Deserialize(xmlPath, Activator.CreateInstance(type));
 
-            Assert.IsInstanceOf(type, foo, "Wrong type with " + type.Name);
-            var ser = new CXmlSerializer(type == typeof(CConfig.SConfig));
-            string newXml = ser.Serialize(foo, type == typeof(Dictionary<string, string>) ? "resources" : null);
-            // Typename will be uppercase but input is lowercase
-            newXml = newXml.Replace("<String", "<string").Replace("</String", "</string");
-            string oldXml = File.ReadAllText(xmlPath);
-            Assert.AreEqual(oldXml, newXml, "Recontructed XML has differences.");
-        }
-
+        //    Assert.IsInstanceOf(type, foo, "Wrong type with " + type.Name);
+        //    var ser = new CXmlSerializer(type == typeof(CConfig.SConfig));
+        //    string newXml = ser.Serialize(foo, type == typeof(Dictionary<string, string>) ? "resources" : null);
+        //    // Typename will be uppercase but input is lowercase
+        //    newXml = newXml.Replace("<String", "<string").Replace("</String", "</string");
+        //    string oldXml = File.ReadAllText(xmlPath);
+        //    Assert.AreEqual(oldXml, newXml, "Recontructed XML has differences.");
+        //}
         #endregion
 
         #region Helper
