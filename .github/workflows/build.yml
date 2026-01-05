@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v4.2.2
 
       - name: setup-msbuild
-        uses: microsoft/setup-msbuild@v2
+        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
         with:
           # Version of Visual Studio to search; defaults to latest if not specified
           vs-version: latest # optional
@@ -30,7 +30,7 @@ jobs:
           msbuild-architecture: ${{ matrix.platform }} # optional, default is x86
 
       - name: Setup Nuget
-        uses: NuGet/setup-nuget@v2.0.0
+        uses: NuGet/setup-nuget@a21f25cd3998bf370fde17e3f1b4c12c175172f9
 
       - name: Restore Nuget Packages
         run: nuget restore Vocaluxe.sln
@@ -92,7 +92,7 @@ jobs:
         working-directory: artifacts
 
       - name: Create Release
-        uses: softprops/action-gh-release@v2.3.2
+        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8
         with:
           prerelease: ${{ inputs.prerelease }}
           tag_name: ${{ inputs.tag_name }}

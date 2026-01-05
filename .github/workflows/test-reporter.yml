@@ -12,7 +12,7 @@ jobs:
   report:
     runs-on: ubuntu-latest
     steps:
-    - uses: dorny/test-reporter@v2
+    - uses: dorny/test-reporter@b082adf0eced0765477756c2a610396589b8c637
       with:
         artifact: /test-results-windows-(.*)/
         name: Unit Tests Windows $1               
