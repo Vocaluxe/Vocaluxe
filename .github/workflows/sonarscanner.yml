@@ -1,0 +1,64 @@
+name: SonarQube
+on:
+  push:
+    branches:
+      - develop
+      - github-action-migration
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  build:
+    name: Build and analyze
+    runs-on: windows-latest
+    steps:
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
+        with:
+          # Version of Visual Studio to search; defaults to latest if not specified
+          vs-version: latest # optional
+          # The preferred processor architecture of MSBuild. Can be either "x86", "x64", or "arm64". "x64" is only available from Visual Studio version 17.0 and later.
+          msbuild-architecture: ${{ matrix.platform }} # optional, default is x86
+
+      - name: Setup Nuget
+        uses: NuGet/setup-nuget@a21f25cd3998bf370fde17e3f1b4c12c175172f9
+
+      - name: Cache SonarQube Cloud packages
+        uses: actions/cache@v4
+        with:
+          path: ~\sonar\cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache SonarQube Cloud scanner
+        id: cache-sonar-scanner
+        uses: actions/cache@v4
+        with:
+          path: ${{ runner.temp }}\scanner
+          key: ${{ runner.os }}-sonar-scanner
+          restore-keys: ${{ runner.os }}-sonar-scanner
+      - name: Install SonarQube Cloud scanner
+        if: steps.cache-sonar-scanner.outputs.cache-hit != 'true'
+        shell: powershell
+        run: |
+          New-Item -Path ${{ runner.temp }}\scanner -ItemType Directory
+          dotnet tool update dotnet-sonarscanner --tool-path ${{ runner.temp }}\scanner
+
+      - name: Restore Nuget Packages
+        run: nuget restore Vocaluxe.sln
+      
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        shell: powershell
+        run: |
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner begin /k:"JohnBergago_Vocaluxe" /o:"johnbergago" /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+          msbuild Vocaluxe.sln /p:Configuration=ReleaseWin /p:Platform="x64"
+          ${{ runner.temp }}\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
