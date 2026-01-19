@@ -4,10 +4,11 @@ on:
   push:
     branches:
       - develop
-      - github-action-migration
+
 jobs:
   call-build:
     uses: ./.github/workflows/build.yml
     with:
       tag_name: Nightly
       prerelease: true
+      create_release: true

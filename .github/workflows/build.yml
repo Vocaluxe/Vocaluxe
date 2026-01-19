@@ -9,6 +9,11 @@ on:
         description: "Indicates if the release is a pre-release"
         required: true
         type: boolean
+      create_release:
+        description: "Indicates if a GitHub release should be created"
+        default: false
+        required: false
+        type: boolean
 
 jobs:
   build:
@@ -24,10 +29,8 @@ jobs:
       - name: setup-msbuild
         uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
         with:
-          # Version of Visual Studio to search; defaults to latest if not specified
-          vs-version: latest # optional
-          # The preferred processor architecture of MSBuild. Can be either "x86", "x64", or "arm64". "x64" is only available from Visual Studio version 17.0 and later.
-          msbuild-architecture: ${{ matrix.platform }} # optional, default is x86
+          vs-version: latest
+          msbuild-architecture: ${{ matrix.platform }} 
 
       - name: Setup Nuget
         uses: NuGet/setup-nuget@a21f25cd3998bf370fde17e3f1b4c12c175172f9
@@ -67,6 +70,7 @@ jobs:
   release:
     needs: build
     runs-on: ubuntu-latest
+    if: ${{ inputs.create_release }}
     steps:
       - name: Checkout Source
         uses: actions/checkout@v4.2.2

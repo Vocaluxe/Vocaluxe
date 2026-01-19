@@ -9,3 +9,4 @@ jobs:
     with:
       tag_name: ${{ github.ref_name }}
       prerelease: false
+      create_release: true
