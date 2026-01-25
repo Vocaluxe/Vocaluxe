@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -272,8 +272,16 @@ namespace VocaluxeLib.Menu
                 //Normal activation
             else if (active)
             {
-                SelectedID = _VisibleProfiles.ElementAt(0);
-                _ActualSelection = 0;
+                if (_VisibleProfiles.Count > 0)
+                {
+                    SelectedID = _VisibleProfiles.ElementAt(0);
+                    _ActualSelection = 0;
+                }
+                else
+                {
+                    SelectedID = Guid.Empty;
+                    _ActualSelection = -1;
+                }
                 _Player = player;
                 _PlayerSelector.Color = CBase.Themes.GetPlayerColor(player);
                 _PlayerSelector.Visible = true;

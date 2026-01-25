@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -73,9 +73,12 @@ namespace Vocaluxe.Lib.Sound.Playback
             if (!_Initialized)
                 return;
             float volumeF = volume.Clamp(0, 100) / 100f;
-            foreach (IAudioStream stream in _Streams)
-                if(!stream.IsFading)
-                    stream.VolumeMax = volumeF;
+            lock (_Streams)
+            {
+                foreach (IAudioStream stream in _Streams)
+                    if (!stream.IsFading)
+                        stream.VolumeMax = volumeF;
+            }
             _GlobalVolume = volumeF;
         }
 
