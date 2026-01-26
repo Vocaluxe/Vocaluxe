@@ -267,8 +267,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 _VideoIcon.Visible = song.VideoFileName != "";
                 _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
                 _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;
-                _InstrumentalIcon.Visible = song.HasInstrumental;
-                _VocalsIcon.Visible = song.HasVocals;
+                _InstrumentalIcon.Visible = song.HasInstrumental();
+                _VocalsIcon.Visible = song.HasVocals();
 
                 _UpdateLength(song);
             }
