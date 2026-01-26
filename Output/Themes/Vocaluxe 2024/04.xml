@@ -362,6 +362,8 @@
     <VideoIcon>VideoIcon.png</VideoIcon>
     <MedleyCalcIcon>MedleyCalcIcon.png</MedleyCalcIcon>
     <MedleyTagIcon>MedleyTagIcon.png</MedleyTagIcon>
+    <InstrumentalIcon>InstrumentalIcon.png</InstrumentalIcon>
+    <VocalsIcon>VocalsIcon.png</VocalsIcon>
     <PlayerSelector>PlayerSelector.png</PlayerSelector>
     <PreviousIcon>PreviousIcon.png</PreviousIcon>
     <NextIcon>NextIcon.png</NextIcon>

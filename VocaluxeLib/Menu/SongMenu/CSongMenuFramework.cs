@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -34,6 +34,8 @@ namespace VocaluxeLib.Menu.SongMenu
         public string VideoIcon;
         public string MedleyCalcIcon;
         public string MedleyTagIcon;
+        public string InstrumentalIcon;
+        public string VocalsIcon;
         public SThemeColor Color;
 
         //public SThemeSongMenuBook songMenuBook;
@@ -70,6 +72,8 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeStatic StaticTextBG;
         public SThemeStatic StaticDuetIcon;
         public SThemeStatic StaticRapIcon;
+        public SThemeStatic StaticInstrumentalIcon;
+        public SThemeStatic StaticVocalsIcon;
         public SThemeStatic StaticVideoIcon;
         public SThemeStatic StaticMedleyCalcIcon;
         public SThemeStatic StaticMedleyTagIcon;
@@ -120,6 +124,8 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeStatic StaticTextBG;
         public SThemeStatic StaticDuetIcon;
         public SThemeStatic StaticRapIcon;
+        public SThemeStatic StaticInstrumentalIcon;
+        public SThemeStatic StaticVocalsIcon;
         public SThemeStatic StaticVideoIcon;
         public SThemeStatic StaticMedleyCalcIcon;
         public SThemeStatic StaticMedleyTagIcon;

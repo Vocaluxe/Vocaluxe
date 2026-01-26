@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSong</ScreenName>
-    <ScreenVersion>13</ScreenVersion>
+    <ScreenVersion>14</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -906,6 +906,8 @@
       <VideoIcon>VideoIcon</VideoIcon>
       <MedleyCalcIcon>MedleyCalcIcon</MedleyCalcIcon>
       <MedleyTagIcon>MedleyTagIcon</MedleyTagIcon>
+      <InstrumentalIcon>InstumentalIcon</InstrumentalIcon>
+      <VocalsIcon>VocalsIcon</VocalsIcon>
       <Color>
         <R>1</R>
         <G>1</G>
@@ -1015,7 +1017,7 @@
           <Skin>DuetIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>240</X>
+            <X>170</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1026,7 +1028,7 @@
           <Skin>RapIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>360</X>
+            <X>260</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1037,7 +1039,7 @@
           <Skin>VideoIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>120</X>
+            <X>80</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1048,7 +1050,7 @@
           <Skin>MedleyCalcIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>480</X>
+            <X>350</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1059,13 +1061,35 @@
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>480</X>
+            <X>350</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
             <Z>-1</Z>
           </Rect>
-        </StaticMedleyTagIcon>
+        </StaticMedleyTagIcon>       
+        <StaticInstrumentalIcon Name="StaticInstrumentalIcon">
+          <Skin>InstrumentalIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>440</X>
+            <Y>795</Y>
+            <W>60</W>
+            <H>60</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticInstrumentalIcon>        
+        <StaticVocalsIcon Name="StaticVocalsIcon">
+          <Skin>VocalsIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>530</X>
+            <Y>795</Y>
+            <W>60</W>
+            <H>60</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticVocalsIcon>       
       </SongMenuTileBoard>
       <SongMenuList>
         <ListLength>15</ListLength>
@@ -1167,7 +1191,7 @@
           <Skin>DuetIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>240</X>
+            <X>170</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1178,7 +1202,7 @@
           <Skin>RapIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>360</X>
+            <X>260</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1189,7 +1213,7 @@
           <Skin>VideoIcon</Skin>
           <Color Name="TextColor" />
           <Rect>
-            <X>120</X>
+            <X>80</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1200,7 +1224,7 @@
           <Skin>MedleyCalcIcon</Skin>
           <Color Name="TextColor" />
           <Rect>
-            <X>480</X>
+            <X>350</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1211,13 +1235,35 @@
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>480</X>
+            <X>350</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
             <Z>-1</Z>
           </Rect>
         </StaticMedleyTagIcon>
+        <StaticInstrumentalIcon Name="StaticInstrumentalIcon">
+          <Skin>InstrumentalIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>440</X>
+            <Y>795</Y>
+            <W>60</W>
+            <H>60</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticInstrumentalIcon>        
+        <StaticVocalsIcon Name="StaticVocalsIcon">
+          <Skin>VocalsIcon</Skin>
+          <Color Name="StaticColor" />
+          <Rect>
+            <X>530</X>
+            <Y>795</Y>
+            <W>60</W>
+            <H>60</H>
+            <Z>-1</Z>
+          </Rect>
+        </StaticVocalsIcon>
       </SongMenuList>
     </SongMenu>
   </SongMenus>
