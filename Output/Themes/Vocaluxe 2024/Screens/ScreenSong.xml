@@ -1017,7 +1017,7 @@
           <Skin>DuetIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>150</X>
+            <X>170</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1028,7 +1028,7 @@
           <Skin>RapIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>210</X>
+            <X>260</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1039,7 +1039,7 @@
           <Skin>VideoIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>90</X>
+            <X>80</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1050,7 +1050,7 @@
           <Skin>MedleyCalcIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>270</X>
+            <X>350</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1061,7 +1061,7 @@
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>270</X>
+            <X>350</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1072,7 +1072,7 @@
           <Skin>InstrumentalIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>330</X>
+            <X>440</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1083,7 +1083,7 @@
           <Skin>VocalsIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>330</X>
+            <X>530</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1191,7 +1191,7 @@
           <Skin>DuetIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>150</X>
+            <X>170</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1202,7 +1202,7 @@
           <Skin>RapIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>210</X>
+            <X>260</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1213,7 +1213,7 @@
           <Skin>VideoIcon</Skin>
           <Color Name="TextColor" />
           <Rect>
-            <X>90</X>
+            <X>80</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1224,7 +1224,7 @@
           <Skin>MedleyCalcIcon</Skin>
           <Color Name="TextColor" />
           <Rect>
-            <X>270</X>
+            <X>350</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1235,7 +1235,7 @@
           <Skin>MedleyTagIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>270</X>
+            <X>350</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1246,7 +1246,7 @@
           <Skin>InstrumentalIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>330</X>
+            <X>440</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
@@ -1257,7 +1257,7 @@
           <Skin>VocalsIcon</Skin>
           <Color Name="StaticColor" />
           <Rect>
-            <X>330</X>
+            <X>530</X>
             <Y>795</Y>
             <W>60</W>
             <H>60</H>
