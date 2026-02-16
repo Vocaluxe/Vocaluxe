@@ -36,6 +36,8 @@ namespace VocaluxeLib.Menu.SongMenu
         private CStatic _VideoIcon;
         private CStatic _MedleyCalcIcon;
         private CStatic _MedleyTagIcon;
+        private CStatic _InstrumentalIcon;
+        private CStatic _VocalsIcon;
 
         private CTextureRef _CoverBigBGTexture;
         private CTextureRef _CoverBGTexture;
@@ -123,7 +125,9 @@ namespace VocaluxeLib.Menu.SongMenu
             _VideoIcon = new CStatic(_Theme.SongMenuTileBoard.StaticVideoIcon, _PartyModeID);
             _MedleyCalcIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyCalcIcon, _PartyModeID);
             _MedleyTagIcon = new CStatic(_Theme.SongMenuTileBoard.StaticMedleyTagIcon, _PartyModeID);
-            _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _SongYear, _DuetIcon, _RapIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon});
+            _InstrumentalIcon = new CStatic(_Theme.SongMenuTileBoard.StaticInstrumentalIcon, _PartyModeID);
+            _VocalsIcon = new CStatic(_Theme.SongMenuTileBoard.StaticVocalsIcon, _PartyModeID);
+            _SubElements.AddRange(new IMenuElement[] {_Artist, _Title, _SongLength, _SongYear, _DuetIcon, _RapIcon, _VideoIcon, _MedleyCalcIcon, _MedleyTagIcon, _InstrumentalIcon, _VocalsIcon});
         }
 
         private void _UpdateTileSelection()
@@ -148,6 +152,8 @@ namespace VocaluxeLib.Menu.SongMenu
             _Theme.SongMenuTileBoard.StaticMedleyTagIcon = (SThemeStatic)_MedleyTagIcon.GetTheme();
             _Theme.SongMenuTileBoard.StaticTextBG = (SThemeStatic)_TextBG.GetTheme();
             _Theme.SongMenuTileBoard.StaticVideoIcon = (SThemeStatic)_VideoIcon.GetTheme();
+            _Theme.SongMenuTileBoard.StaticInstrumentalIcon = (SThemeStatic)_InstrumentalIcon.GetTheme();
+            _Theme.SongMenuTileBoard.StaticVocalsIcon = (SThemeStatic)_VocalsIcon.GetTheme();
         }
 
         public override object GetTheme()
@@ -220,6 +226,8 @@ namespace VocaluxeLib.Menu.SongMenu
             _VideoIcon.Visible = false;
             _MedleyCalcIcon.Visible = false;
             _MedleyTagIcon.Visible = false;
+            _InstrumentalIcon.Visible = false;
+            _VocalsIcon.Visible = false;
             _Length = -1f;
 
             //Check if nothing is selected (for preview)
@@ -250,6 +258,8 @@ namespace VocaluxeLib.Menu.SongMenu
                 _VideoIcon.Visible = song.VideoFileName != "";
                 _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
                 _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;
+                _InstrumentalIcon.Visible = song.HasInstrumental();
+                _VocalsIcon.Visible = song.HasVocals();
 
                 _UpdateLength(song);
             }

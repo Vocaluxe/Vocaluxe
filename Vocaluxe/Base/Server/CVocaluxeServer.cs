@@ -811,12 +811,12 @@ namespace Vocaluxe.Base.Server
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
-                throw new ArgumentException("Invalid profileId");
+                return false;
 
             if (profile.PasswordHash == null)
             {
                 if (string.IsNullOrEmpty(password))
-                    return true; //Allow emty passwords
+                    return true; //Allow empty passwords
                 return false;
             }
 
@@ -828,12 +828,12 @@ namespace Vocaluxe.Base.Server
         {
             CProfile profile = CProfiles.GetProfile(profileId);
             if (profile == null)
-                throw new ArgumentException("Invalid profileId");
+                return false;
 
             if (profile.PasswordHash == null)
             {
                 if (hashedPassword == null)
-                    return true; //Allow emty passwords
+                    return true; //Allow empty passwords
                 return false;
             }
 
@@ -848,7 +848,7 @@ namespace Vocaluxe.Base.Server
                 throw new ArgumentException("Invalid profileId");
 
             if (profile.PasswordHash == null)
-                throw new ArgumentException("Emty password");
+                throw new ArgumentException("Empty password");
 
             return profile.PasswordSalt;
         }
@@ -889,14 +889,7 @@ namespace Vocaluxe.Base.Server
             IEnumerable<Guid> playerIds = (from p in CProfiles.GetProfiles()
                                           where String.Equals(p.PlayerName, username, StringComparison.OrdinalIgnoreCase)
                                           select p.ID);
-            try
-            {
-                return playerIds.First();
-            }
-            catch (InvalidOperationException)
-            {
-                throw new ArgumentException("Invalid playername");
-            }
+            return playerIds.FirstOrDefault();
         }
 
         private static byte[] _Hash(byte[] password, byte[] salt)

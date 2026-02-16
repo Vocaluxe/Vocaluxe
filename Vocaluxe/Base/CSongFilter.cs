@@ -191,8 +191,8 @@ namespace Vocaluxe.Base
                         _FilteredSongs.Add(song);
                     else if (expertSearch)
                     {
-                        // Stefan1200: Stop at a maximum of 500 search result to prevent performance issues
-                        if (_FilteredSongs.Count >= 500)
+                        // Stefan1200: Stop at a maximum of 800 search result to prevent performance issues
+                        if (_FilteredSongs.Count >= 800)
                             break;
 
                         if (searchForAlbum != null && song.Album.ToUpper().Contains(searchForAlbum))

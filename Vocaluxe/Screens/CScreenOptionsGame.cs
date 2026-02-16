@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -16,6 +16,8 @@
 #endregion
 
 using System.Windows.Forms;
+using System.Linq;
+using System.Collections.Generic;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -27,7 +29,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 4; }
+            get { return 5; }
         }
 
         private const string _SelectSlideLanguage = "SelectSlideLanguage";
@@ -41,13 +43,19 @@ namespace Vocaluxe.Screens
 
         private const string _ButtonExit = "ButtonExit";
         private const string _ButtonServer = "ButtonServer";
+        private const string _ButtonSelectSongFolder = "ButtonSongFolder";
+
+        private const string _TextWarningRestart = "TextWarningRestart";
+        private const string _StaticWarningRestart = "StaticWarningRestart";
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit, _ButtonServer};
+            _ThemeButtons = new string[] {_ButtonExit, _ButtonServer, _ButtonSelectSongFolder};
             _ThemeSelectSlides = new string[] {_SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideTimerMode, _SelectSlideHighscoreStyle};
+            _ThemeTexts = new string[] {_TextWarningRestart};
+            _ThemeStatics = new string[] {_StaticWarningRestart};
         }
 
         public override void LoadTheme(string xmlPath)
@@ -64,6 +72,9 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideAutoplayPreviews].SetValues<EOffOn>((int)CConfig.Config.Game.AutoplayPreviews);
             _SelectSlides[_SelectSlideTimerMode].SetValues<ETimerMode>((int)CConfig.Config.Game.TimerMode);
             _SelectSlides[_SelectSlideHighscoreStyle].SetValues<EHighscoreStyle>((int)CConfig.Config.Game.HighscoreStyle);
+
+            _Texts[_TextWarningRestart].Visible = false;
+            _Statics[_StaticWarningRestart].Visible = false;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -93,7 +104,14 @@ namespace Vocaluxe.Screens
                             CGraphics.FadeTo(EScreen.Options);
                         }
                         else if (_Buttons[_ButtonServer].Selected)
+                        {
                             CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
+                        }
+                        else if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptionsGame._OpenSongFolderDialog())
+                        {
+                            _Texts[_TextWarningRestart].Visible = true;
+                            _Statics[_StaticWarningRestart].Visible = true;
+                        }
                         break;
 
                     case Keys.Left:
@@ -126,7 +144,14 @@ namespace Vocaluxe.Screens
                     _SaveConfig();
                 }
                 else if (_Buttons[_ButtonServer].Selected)
+                {
                     CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
+                }   
+                else if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptionsGame._OpenSongFolderDialog())
+                {
+                    _Texts[_TextWarningRestart].Visible = true;
+                    _Statics[_StaticWarningRestart].Visible = true;
+                }
             }
             return true;
         }
@@ -134,6 +159,28 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             return true;
+        }
+
+        private static bool _OpenSongFolderDialog()
+        {
+            using (var dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = CLanguage.Translate("TR_SCREENOGAME_SONGFOLDER");
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Update config with new folder
+                    var folders = CConfig.Config.Game.SongFolder?.ToList() ?? new List<string>();
+                    if (!folders.Contains(dialog.SelectedPath))
+                    {
+                        folders.Add(dialog.SelectedPath);
+                       CConfig.Config.Game.SongFolder = folders.ToArray();
+                       CConfig.SaveConfig();
+                    }
+                    return true; // Folder was selected
+                }
+            }
+            return false; // Dialog was cancelled
         }
 
         private void _SaveConfig()

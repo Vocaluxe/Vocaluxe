@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Data;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -25,21 +24,13 @@ using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
-#if WIN
-using System.Data.SQLite;
-
-#else
-using Mono.Data.Sqlite;
-using SQLiteCommand = Mono.Data.Sqlite.SqliteCommand;
-using SQLiteDataReader = Mono.Data.Sqlite.SqliteDataReader;
-using SQLiteTransaction = Mono.Data.Sqlite.SqliteTransaction;
-#endif
+using Microsoft.Data.Sqlite;
 
 namespace Vocaluxe.Lib.Database
 {
     public class CCoverDB : CDatabaseBase
     {
-        private SQLiteTransaction _TransactionCover;
+        private SqliteTransaction _TransactionCover;
 
         public CCoverDB(string filePath) : base(filePath) {}
 
@@ -84,12 +75,17 @@ namespace Vocaluxe.Lib.Database
                 //Double check here because we may have just closed our connection
                 if (_Connection == null)
                     return false;
-                using (var command = new SQLiteCommand(_Connection))
+                using (var command = new SqliteCommand())
                 {
+                    command.Connection = _Connection;
+                    // If we have an open transaction on this connection, all commands must use it.
+                    if (_TransactionCover != null)
+                        command.Transaction = _TransactionCover;
                     command.CommandText = "SELECT id, width, height FROM Cover WHERE [Path] = @path";
-                    command.Parameters.Add("@path", DbType.String).Value = coverPath;
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@path", coverPath);
 
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    SqliteDataReader reader = command.ExecuteReader();
 
                     if (reader != null && reader.HasRows)
                     {
@@ -100,7 +96,8 @@ namespace Vocaluxe.Lib.Database
                         reader.Close();
 
                         command.CommandText = "SELECT Data FROM CoverData WHERE CoverID = @id";
-                        command.Parameters.Add("@id", DbType.Int32).Value = id;
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id", id);
                         reader = command.ExecuteReader();
 
                         if (reader.HasRows)
@@ -112,7 +109,8 @@ namespace Vocaluxe.Lib.Database
                             return true;
                         }
                         command.CommandText = "DELETE FROM Cover WHERE id = @id";
-                        command.Parameters.Add("@id", DbType.Int32).Value = id;
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id", id);
                         command.ExecuteNonQuery();
                     }
                     if (reader != null)
@@ -159,17 +157,21 @@ namespace Vocaluxe.Lib.Database
                     return false;
                 if (_TransactionCover == null)
                     _TransactionCover = _Connection.BeginTransaction();
-                using (var command = new SQLiteCommand(_Connection))
+                using (var command = new SqliteCommand())
                 {
+                    command.Connection = _Connection;
+                    command.Transaction = _TransactionCover;
                     command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
-                    command.Parameters.Add("@w", DbType.Int32).Value = size.Width;
-                    command.Parameters.Add("@h", DbType.Int32).Value = size.Height;
-                    command.Parameters.Add("@path", DbType.String).Value = coverPath;
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@w", size.Width);
+                    command.Parameters.AddWithValue("@h", size.Height);
+                    command.Parameters.AddWithValue("@path", coverPath);
                     command.ExecuteNonQuery();
 
                     command.CommandText = "SELECT id FROM Cover WHERE [Path] = @path";
-                    command.Parameters.Add("@path", DbType.String).Value = coverPath;
-                    SQLiteDataReader reader = command.ExecuteReader();
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@path", coverPath);
+                    SqliteDataReader reader = command.ExecuteReader();
 
                     if (reader != null)
                     {
@@ -177,8 +179,9 @@ namespace Vocaluxe.Lib.Database
                         int id = reader.GetInt32(0);
                         reader.Dispose();
                         command.CommandText = "INSERT INTO CoverData (CoverID, Data) VALUES (@id, @data)";
-                        command.Parameters.Add("@id", DbType.Int32).Value = id;
-                        command.Parameters.Add("@data", DbType.Binary).Value = data;
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@id", id);
+                        command.Parameters.AddWithValue("@data", data);
                         command.ExecuteNonQuery();
                         return true;
                     }
@@ -211,13 +214,15 @@ namespace Vocaluxe.Lib.Database
         {
             try
             {
-                using (var command = new SQLiteCommand(_Connection))
+                using (var command = new SqliteCommand())
                 {
+                    command.Connection = _Connection;
                     command.CommandText = "CREATE TABLE IF NOT EXISTS Version (Value INTEGER NOT NULL);";
                     command.ExecuteNonQuery();
 
                     command.CommandText = "INSERT INTO Version (Value) VALUES(@Value)";
-                    command.Parameters.Add("@Value", DbType.Int32).Value = CSettings.DatabaseCoverVersion;
+                    command.Parameters.Clear();
+                    command.Parameters.AddWithValue("@Value", CSettings.DatabaseCoverVersion);
                     command.ExecuteNonQuery();
 
                     command.CommandText = "CREATE TABLE IF NOT EXISTS Cover ( id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, " +

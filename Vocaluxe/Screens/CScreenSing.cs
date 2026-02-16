@@ -41,7 +41,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 12; }
+            get { return 13; }
         }
 
         private struct STimeRect
@@ -58,6 +58,7 @@ namespace Vocaluxe.Screens
         private const string _TextDuetName2 = "TextDuetName2";
         private const string _TextMedleyCountdown = "TextMedleyCountdown";
         private const string _TextPauseSongName = "TextPauseSongName";
+        private const string _TextPauseVocalsVolume = "TextPauseVocalsVolume";
         private string[,,] _TextScores;
         private string[,,] _TextNames;
         private List<string> _TextsPause;
@@ -89,6 +90,9 @@ namespace Vocaluxe.Screens
         private const string _ButtonRestartGame = "ButtonRestartGame";
         private const string _ButtonSkip = "ButtonSkip";
 
+        private const string _SelectSlidePauseVocalsVolume = "SelectSlidePauseVocalsVolume";
+        private List<string> _SelectSlidesPause;
+
         private const string _LyricMain = "LyricMain";
         private const string _LyricSub = "LyricSub";
         private const string _LyricMainDuet = "LyricMainDuet";
@@ -116,6 +120,7 @@ namespace Vocaluxe.Screens
 
         private int _CurrentBeat;
         private int _CurrentStream = -1;
+        private int _CurrentStreamVocals = -1;
         private float _Length = -1f;
 
         private CVideoStream _CurrentVideo;
@@ -125,6 +130,8 @@ namespace Vocaluxe.Screens
 
         private float _CurrentTime;
         private float _FinishTime;
+        
+        private float _PausePosition;
 
         private float _TimeToFirstNote;
         private float _RemainingTimeToFirstNote;
@@ -193,6 +200,7 @@ namespace Vocaluxe.Screens
             _ThemeButtons = new string[] { _ButtonCancel, _ButtonContinue, _ButtonRestartGame, _ButtonRestartRound, _ButtonSkip };
             _ThemeLyrics = new string[] { _LyricMain, _LyricSub, _LyricMainDuet, _LyricSubDuet, _LyricMainTop, _LyricSubTop };
             _ThemeSingNotes = new string[] { _SingBars };
+            _ThemeSelectSlides = new string[] { _SelectSlidePauseVocalsVolume };
 
             _TimeRects = new List<STimeRect>();
             _TimerSongText = new Stopwatch();
@@ -225,6 +233,11 @@ namespace Vocaluxe.Screens
 
             _StaticsPause = new List<string>();
             _TextsPause = new List<string>();
+            _SelectSlidesPause = new List<string>();
+
+            _SelectSlides[_SelectSlidePauseVocalsVolume].AddValues(new string[]
+                {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
+            _SelectSlides[_SelectSlidePauseVocalsVolume].Selection = CConfig.VocalsVolume / 5;
 
             //Automatically find statics and texts with pause prefix
             foreach (CStatic s in _Statics.Where(s => s.ThemeLoaded && s.GetThemeName().StartsWith("StaticPause")))
@@ -232,6 +245,9 @@ namespace Vocaluxe.Screens
 
             foreach (CText t in _Texts.Where(s => s.ThemeLoaded && s.GetThemeName().StartsWith("TextPause")))
                 _TextsPause.Add(t.GetThemeName());
+
+            foreach (CText t in _Texts.Where(s => s.ThemeLoaded && s.GetThemeName().StartsWith("SelectSlidePause")))
+                _SelectSlidesPause.Add(t.GetThemeName());
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -365,6 +381,11 @@ namespace Vocaluxe.Screens
                             if (CSound.GetLength(_CurrentStream) < newTime)
                                 newTime = CSound.GetLength(_CurrentStream) - 1f;
                             CSound.SetPosition(_CurrentStream, newTime);
+                                
+                            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
+                            {
+                                CSound.SetPosition(_CurrentStreamVocals, newTime);
+                            }
 
                             _ShowInfoText(CBase.Language.Translate("TR_SCREENSING_SKIPPEDSECONDS").Replace("%s", (keyEvent.Mod == EModifier.Shift ? "10" : "30")));
                         }
@@ -1070,6 +1091,12 @@ namespace Vocaluxe.Screens
         {
             _PrepareTimeLine();
             CSound.Play(_CurrentStream);
+            
+            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
+            {
+                CSound.Play(_CurrentStreamVocals);
+            }
+            
             CRecord.Start();
             if (_Webcam)
                 CWebcam.Start();
@@ -1175,11 +1202,17 @@ namespace Vocaluxe.Screens
             foreach (String s in _TextsPause)
                 _Texts[s].Visible = _Pause;
 
+            foreach (String s in _SelectSlidesPause)
+                _SelectSlides[s].Visible = _Pause;
+
             _Buttons[_ButtonCancel].Visible = _Pause;
             _Buttons[_ButtonContinue].Visible = _Pause;
             _Buttons[_ButtonSkip].Visible = _Pause && CGame.NumRounds > CGame.RoundNr && CGame.NumRounds > 1;
             _Buttons[_ButtonRestartGame].Visible = _Pause;
             _Buttons[_ButtonRestartRound].Visible = _Pause && CGame.NumRounds > 1;
+            
+            _SelectSlides[_SelectSlidePauseVocalsVolume].Visible = _Pause && (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS);
+            _Texts[_TextPauseVocalsVolume].Visible = _Pause && (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS);
 
             if (_Pause && _TimerSongText.IsRunning)            
                 _TimerSongText.Stop();
@@ -1188,10 +1221,35 @@ namespace Vocaluxe.Screens
 
             _Texts[_TextSongName].Visible = !_Pause;
 
-            if (_Pause)
-                CSound.Pause(_CurrentStream);
+            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
+            {
+                if (_Pause)
+                {
+                    // Store current position before pausing
+                    _PausePosition = CSound.GetPosition(_CurrentStream);
+                    CSound.Pause(_CurrentStream);
+                    CSound.Pause(_CurrentStreamVocals);
+                }
+                else
+                {
+                    // Reset both streams to stored position to keep them in sync and update vocals volume
+                    CConfig.VocalsVolume = _SelectSlides[_SelectSlidePauseVocalsVolume].Selection * 5;
+                    CConfig.SaveConfig();
+                    CSound.SetStreamVolume(_CurrentStreamVocals, CConfig.VocalsVolume);
+                    CSound.SetPosition(_CurrentStream, _PausePosition);
+                    CSound.SetPosition(_CurrentStreamVocals, _PausePosition);
+                    // Start both streams simultaneously
+                    CSound.Play(_CurrentStream);
+                    CSound.Play(_CurrentStreamVocals);
+                }
+            }
             else
-                CSound.Play(_CurrentStream);
+            {
+                if (_Pause)
+                    CSound.Pause(_CurrentStream);
+                else
+                    CSound.Play(_CurrentStream);
+            }
         }
         #endregion
 
@@ -1229,6 +1287,13 @@ namespace Vocaluxe.Screens
             {
                 _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, EAudioEffect.None);
             }
+            else if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
+            {
+                _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, EAudioEffect.None);
+                _CurrentStreamVocals = CSound.Load(song.GetVocals(), false, true, EAudioEffect.None);
+                CSound.SetStreamVolume(_CurrentStreamVocals, CConfig.VocalsVolume);
+                CSound.SetPosition(_CurrentStreamVocals, song.Start);
+            }   
             else
             {
                 _CurrentStream = CSound.Load(song.GetMP3(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None); 
@@ -1341,7 +1406,9 @@ namespace Vocaluxe.Screens
             if (_CurrentStream > -1)
             {
                 CSound.FadeAndClose(_CurrentStream, 0, 0.5f);
+                CSound.FadeAndClose(_CurrentStreamVocals, 0, 0.5f);
                 _CurrentStream = -1;
+                _CurrentStreamVocals = -1;
             }
             CRecord.Stop();
             if (_CurrentVideo != null)

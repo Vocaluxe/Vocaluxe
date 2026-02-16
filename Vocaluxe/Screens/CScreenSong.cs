@@ -43,7 +43,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 12; }
+            get { return 14; }
         }
 
         private const string _TextCategory = "TextCategory";
@@ -54,6 +54,10 @@ namespace Vocaluxe.Screens
         private const string _TextHelpBarSearch = "TextHelpBarSearch";
         private const string _TextHelpBarParty = "TextHelpBarParty";
         private const string _TextOptionsTitle = "TextOptionsTitle";
+        private const string _TextOptionsLength = "TextOptionsLength";
+        private const string _TextOptionsAudioMode = "TextOptionsAudioMode";
+        private const string _TextOptionsPlayerSelect = "TextOptionsPlayerSelect";
+        private const string _TextOptionsPlaylist = "TextOptionsPlaylist";
         private const string _TextShortInfoTop = "TextShortInfoTop";
 
         private const string _ButtonOpenOptions = "ButtonOpenOptions";
@@ -179,6 +183,11 @@ namespace Vocaluxe.Screens
             tlist.Add(_TextHelpBarSearch);
             tlist.Add(_TextHelpBarParty);
             tlist.Add(_TextOptionsTitle);
+            tlist.Add(_TextOptionsLength);
+            tlist.Add(_TextOptionsAudioMode);
+            tlist.Add(_TextOptionsPlayerSelect);
+            tlist.Add(_TextOptionsPlaylist);
+            
             tlist.Add(_TextShortInfoTop);
 
             _ThemeStatics = new string[] {_StaticSearchBar, _StaticOptionsBG, _StaticShortInfoTop};
@@ -1030,7 +1039,7 @@ namespace Vocaluxe.Screens
                 else
                     gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
 
-                _AudioMode = (EAudioMode)_SelectSlides[_SelectSlideOptionsAudioMode].Selection;
+                _AudioMode = (EAudioMode)_SelectSlides[_SelectSlideOptionsAudioMode].SelectedTag;
                 _PlayerSelect = (EPlayerSelect)_SelectSlides[_SelectSlideOptionsPlayerSelect].Selection;
 
                 CGame.Reset();
@@ -1409,6 +1418,10 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonOptionsStartMedley].Visible = false;
             _Buttons[_ButtonOptionsHighscore].Visible = false;
             _Texts[_TextOptionsTitle].Visible = false;
+            _Texts[_TextOptionsLength].Visible = false;
+            _Texts[_TextOptionsAudioMode].Visible = false;
+            _Texts[_TextOptionsPlayerSelect].Visible = false;
+            _Texts[_TextOptionsPlaylist].Visible = false;
             _Statics[_StaticOptionsBG].Visible = false;
             _Buttons[_ButtonOpenOptions].Visible = true;
 
@@ -1426,6 +1439,9 @@ namespace Vocaluxe.Screens
             _UpdatePlaylistNames();
 
             _Texts[_TextOptionsTitle].Visible = true;
+            _Texts[_TextOptionsLength].Visible = true;
+            _Texts[_TextOptionsPlayerSelect].Visible = true;
+            _Texts[_TextOptionsPlaylist].Visible = true;
             _Buttons[_ButtonOptionsClose].Visible = true;
             _Statics[_StaticOptionsBG].Visible = true;
             _Buttons[_ButtonOpenOptions].Visible = false;
@@ -1463,17 +1479,27 @@ namespace Vocaluxe.Screens
 
             _SelectSlides[_SelectSlideOptionsAudioMode].Clear();
             CSong currentSong = CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()];
+
             if (currentSong.HasInstrumental())
             {
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL");
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL");
-                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE");
-                _SelectSlides[_SelectSlideOptionsAudioMode].Visible = true;
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL", tag: (int)EAudioMode.TR_AUDIOMODE_NORMAL);
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL", tag: (int)EAudioMode.TR_AUDIOMODE_INSTRUMENTAL);
+				
+				if (currentSong.HasVocals())
+				{
+					_SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_VOCALS", tag: (int)EAudioMode.TR_AUDIOMODE_VOCALS);
+				}
+				
+                _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_KARAOKE", tag: (int)EAudioMode.TR_AUDIOMODE_KARAOKE);
+				_SelectSlides[_SelectSlideOptionsAudioMode].Visible = true;
+                _Texts[_TextOptionsAudioMode].Visible = true;
             }
             else
             {
                 _SelectSlides[_SelectSlideOptionsAudioMode].Visible = false;
+                _Texts[_TextOptionsAudioMode].Visible = false;
             }
+
             _SelectSlides[_SelectSlideOptionsAudioMode].Selection = (int)_AudioMode;
 
             _SelectSlides[_SelectSlideOptionsPlayerSelect].Clear();
@@ -1494,6 +1520,10 @@ namespace Vocaluxe.Screens
 
         private void _ShowSongOptionsGeneral()
         {
+            _Texts[_TextOptionsLength].Visible = false;
+            _Texts[_TextOptionsPlayerSelect ].Visible = false;
+            _Texts[_TextOptionsPlaylist].Visible = false;
+
             if (CSongs.IsInCategory)
             {
                 _Buttons[_ButtonOptionsRandom].Visible = true;
@@ -1518,7 +1548,10 @@ namespace Vocaluxe.Screens
 
         private void _ShowSongOptionsMedley()
         {
-            _Buttons[_ButtonOptionsStartMedley].Visible = true;
+            _Texts[_TextOptionsLength].Visible = false;
+            _Texts[_TextOptionsPlayerSelect ].Visible = false;
+            _Texts[_TextOptionsPlaylist].Visible = false;
+	    _Buttons[_ButtonOptionsStartMedley].Visible = true;
             _SelectSlides[_SelectSlideOptionsNumMedleySongs].Visible = true;
             _SelectSlides[_SelectSlideOptionsNumMedleySongs].Clear();
             if (CSongs.IsInCategory)

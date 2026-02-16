@@ -1,6 +1,23 @@
 ScreenSong
 
 ++++++++++
+Version 14:
+Add InstrumentalIcon
+Add VocalsIcon
+
+++++++++++
+Version 13:
+
+Headers for Song Options
+
+Add:
+<TextOptionsTitle>
+<TextOptionsLenght>
+<TextOptionsAudioMode> 
+<TextOptionsPlayerSelect> 
+<TextOptionsPlaylist> 
+
+++++++++++
 Version 12:
 
 Add:

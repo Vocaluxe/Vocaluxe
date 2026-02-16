@@ -368,6 +368,7 @@ namespace VocaluxeLib
     {
         TR_AUDIOMODE_NORMAL,
         TR_AUDIOMODE_INSTRUMENTAL,
+        TR_AUDIOMODE_VOCALS,
         TR_AUDIOMODE_KARAOKE
     }
 

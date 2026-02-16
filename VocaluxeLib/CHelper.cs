@@ -21,27 +21,16 @@ using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using VocaluxeLib.Log;
 
 namespace VocaluxeLib
 {
     public static class CHelper
     {
-        private static readonly List<string> _SoundFileTypes = new List<string>
-            {
-                "*.mp3",
-                "*.wma",
-                "*.ogg",
-                "*.wav"
-            };
-
-        private static readonly List<string> _ImageFileTypes = new List<string>
-            {
-                "*.jpg",
-                "*.jpeg",
-                "*.png",
-                "*.gif"
-            };
+        private static readonly Regex _TextFileTypesRegex = new Regex("\\.txt|\\.txd", RegexOptions.IgnoreCase);
+        private static readonly Regex _SoundFileTypesRegex = new Regex("\\.mp3|\\.wma|\\.ogg|\\.wav", RegexOptions.IgnoreCase);
+        private static readonly Regex _ImageFileTypesRegex = new Regex("\\.jpg|\\.jpeg|\\.png|\\.gif", RegexOptions.IgnoreCase);
 
         public static int CombinationCount(int n, int k)
         {
@@ -186,22 +175,58 @@ namespace VocaluxeLib
                 files = Directory.EnumerateFiles(dir.FullName, searchPattern, recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly);
                 files = files.Select(fullpath ? (Func<string, string>)Path.GetFullPath : Path.GetFileName);
             }
-            catch (Exception) {}
+            catch (Exception e)
+            {
+                CLog.Error(e, "Error listing files for path " + path + " with search pattern " + searchPattern);
+                return Enumerable.Empty<string>();
+            }
 
             return files;
         }
 
         /// <summary>
-        ///     Returns a list with all files in the given path that matches at least one of the given patterns
+        ///     Returns a list with all files in the given path that match a given extension pattern
         /// </summary>
-        /// <param name="path">Path to search for</param>
-        /// <param name="searchPatterns">List of patterns to match</param>
+        /// <param name="path">Path to search</param>
+        /// <param name="extPattern">File extension regex to match (e.g. "\\.jpg|\\.png")</param>
         /// <param name="recursive">Search directories recursively</param>
         /// <param name="fullpath">False for just file names, True for full path</param>
         /// <returns>List of file names</returns>
-        public static IEnumerable<string> ListFiles(string path, IEnumerable<string> searchPatterns, bool recursive = false, bool fullpath = false)
+        public static IEnumerable<string> ListFilesForExtPattern(string path, Regex extPattern, bool recursive = false, bool fullpath = false)
         {
-            return searchPatterns.SelectMany(pattern => ListFiles(path, pattern, recursive, fullpath));
+            IEnumerable<string> files = Enumerable.Empty<string>();
+            var dir = new DirectoryInfo(path);
+            if (!dir.Exists)
+                return files;
+
+            if (recursive && !fullpath)
+                throw new NotSupportedException("recursive file listing with relative path names is not supported");
+
+            try
+            {
+                files = Directory.EnumerateFiles(path, "*", recursive ? SearchOption.AllDirectories : SearchOption.TopDirectoryOnly)
+                    .Where(file => extPattern.IsMatch(Path.GetExtension(file)));
+                files = files.Select(fullpath ? (Func<string, string>)Path.GetFullPath : Path.GetFileName);
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Error listing files for path " + path + " with regex " + extPattern.ToString());
+                return Enumerable.Empty<string>();
+            }
+
+            return files;
+        }
+
+        /// <summary>
+        ///     Returns a list with all text files in the given path
+        /// </summary>
+        /// <param name="path">Path to search for</param>
+        /// <param name="recursive">Search directories recursively</param>
+        /// <param name="fullpath">False for just file names, True for full path</param>
+        /// <returns>List of text file names</returns>
+        public static IEnumerable<string> ListTextFiles(string path, bool recursive = false, bool fullpath = false)
+        {
+            return ListFilesForExtPattern(path, _TextFileTypesRegex, recursive, fullpath);
         }
 
         /// <summary>
@@ -213,7 +238,7 @@ namespace VocaluxeLib
         /// <returns>List of image file names</returns>
         public static IEnumerable<string> ListImageFiles(string path, bool recursive = false, bool fullpath = false)
         {
-            return ListFiles(path, _ImageFileTypes, recursive, fullpath);
+            return ListFilesForExtPattern(path, _ImageFileTypesRegex, recursive, fullpath);
         }
 
         /// <summary>
@@ -225,7 +250,7 @@ namespace VocaluxeLib
         /// <returns>List of image file names</returns>
         public static IEnumerable<string> ListSoundFiles(string path, bool recursive = false, bool fullpath = false)
         {
-            return ListFiles(path, _SoundFileTypes, recursive, fullpath);
+            return ListFilesForExtPattern(path, _SoundFileTypesRegex, recursive, fullpath);
         }
 
         public static bool TryParse<T>(string value, out T result, bool ignoreCase = false)

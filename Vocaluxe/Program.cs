@@ -24,6 +24,7 @@ using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 using System.Threading;
 using System.Windows.Forms;
+using SQLitePCL;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.Server;
@@ -55,13 +56,24 @@ namespace Vocaluxe
 #endif
             AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
             COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\"));
-            #if ARCH_X86
+#if ARCH_X86
             COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\x86\\"));
 #endif
 #if ARCH_X64
             COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\x64\\"));
 #endif
-            
+
+            // Microsoft.Data.Sqlite (SQLitePCLRaw) native library location
+#if ARCH_X86
+            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\managed\\runtimes\\win-x86\\native\\"));
+#endif
+#if ARCH_X64
+            COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\managed\\runtimes\\win-x64\\native\\"));
+#endif
+
+            // Make sure SQLitePCL is initialized before any DB usage
+            Batteries_V2.Init();
+
 
             // Close program if there is another instance running
             if (!_EnsureSingleInstance())
@@ -459,14 +471,27 @@ namespace Vocaluxe
             string[] arr = args.Name.Split(new char[] {','});
             if (arr.Length > 0)
             {
+                string fileName = arr[0] + ".dll";
+
 #if ARCH_X86
-                string path = "x86";
+                string arch = "x86";
+#endif
+#if ARCH_X64
+                string arch = "x64";
 #endif
 
-#if ARCH_X64
-                string path = "x64";
-#endif
-                path = Path.Combine(CSettings.ProgramFolder, path, arr[0] + ".dll");
+                string[] probePaths =
+                {
+                    Path.Combine(CSettings.ProgramFolder, "libs", "managed", fileName),
+                    Path.Combine(CSettings.ProgramFolder, "libs", "managed", arch, fileName),
+                    Path.Combine(CSettings.ProgramFolder, "libs", fileName),
+                    Path.Combine(CSettings.ProgramFolder, arch, fileName),
+                    Path.Combine(CSettings.ProgramFolder, fileName)
+                };
+
+                string path = probePaths.FirstOrDefault(File.Exists);
+                if (string.IsNullOrEmpty(path))
+                    return null;
                 try
                 {
                     assembly = Assembly.LoadFrom(path);

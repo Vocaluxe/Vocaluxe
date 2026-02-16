@@ -22,6 +22,7 @@
   <string name="TR_GAMEMODE_SHORTSONG">Short version</string>
   <string name="TR_AUDIOMODE_NORMAL">Normal</string>
   <string name="TR_AUDIOMODE_INSTRUMENTAL">Instrumental</string>
+  <string name="TR_AUDIOMODE_VOCALS">Instrumental/Vocals</string>
   <string name="TR_AUDIOMODE_KARAOKE">Karaoke</string>
   <string name="TR_RATING_KARAOKE">Karaoke</string>
   <string name="TR_RATING_VOCAL_HERO">Vocal Hero</string>
@@ -148,6 +149,10 @@
   <string name="TR_SCREENSONG_BUTTON_STARTMEDLEY">Sing medley-songs</string>
   <string name="TR_SCREENSONG_NEWPLAYLIST">New playlist</string>
   <string name="TR_SCREENSONG_SONGOPTIONS">Song Options</string>
+  <string name="TR_SCREENSONG_LENGTH">Song length</string>
+  <string name="TR_SCREENSONG_AUDIOMODE">Audio mode</string>
+  <string name="TR_SCREENSONG_PLAYLIST">Playlist</string>
+  <string name="TR_SCREENSONG_PLAYERSELECT">Player selection</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_ON">Show player selection</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Skip player selection</string>  
   <string name="TR_SCREENSONG_SEARCH">Search:</string>
@@ -171,6 +176,7 @@
   <string name="TR_SCREENSING_BUTTON_SKIP">Skip this song</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_ROUND">Restart round</string>
   <string name="TR_SCREENSING_BUTTON_RESTART_GAME">Restart game</string>
+  <string name="TR_SCREENSING_VOCALSVOLUME">Vocals track volume</string>
   <string name="TR_SCREENSING_NOMORESONGS">No more songs in playlist!</string>
   <string name="TR_SCREENSING_NOWEBCAM">No webcam available!</string>
   <string name="TR_SCREENSING_ASPECTRATIO">Aspect Ratio: %a</string>
@@ -211,6 +217,7 @@
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENO_WARNINGRESTART">Please restart the game for the changes to take effect.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Server address</string>
+  <string name="TR_SCREENOGAME_BUTTON_SONGFOLDER">Add Song Folder</string>
   <string name="TR_SCREENOGAME_OPTIONS">Game Options</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Language</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debug level</string>
@@ -221,6 +228,7 @@
   <string name="TR_SCREENOGAME_DIFFICULTY">Game difficulty</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Timer mode</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Highscore style</string>
+  <string name="TR_SCREENOGAME_SONGFOLDER">Select the song folder you want to add</string>
   <string name="TR_SCREENORECORD_OPTIONS">Record Options</string>
   <string name="TR_SCREENORECORD_DEVICE">Device</string>
   <string name="TR_SCREENORECORD_INPUT">Input</string>

@@ -348,8 +348,7 @@ namespace Vocaluxe.Base
                     {
                         if (Directory.Exists(path))
                         {
-                            files = files.Union(CHelper.ListFiles(path, "*.txt", true, true));
-                            files = files.Union(CHelper.ListFiles(path, "*.txd", true, true));
+                            files = files.Union(CHelper.ListTextFiles(path, true, true));
                         }
                     }
                 }

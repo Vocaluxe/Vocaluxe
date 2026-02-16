@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenSing</ScreenName>
-    <ScreenVersion>11</ScreenVersion>
+    <ScreenVersion>13</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -707,6 +707,20 @@
       <Style>Bold</Style>
       <Font>Normal</Font>
       <Text />
+    </Text>
+    <Text Name="TextPauseVocalsVolume">
+      <X>217.5</X>
+      <Y>818</Y>
+      <Z>-2.11</Z>
+      <H>40.5</H>
+      <MaxW>520</MaxW>
+      <Color Name="TextColor" />
+      <SelColor Name="TextSelColor" />
+      <Align>Left</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENSING_VOCALSVOLUME</Text>
     </Text>
     <Text Name="TextDuetName1">
       <X>15</X>
@@ -1582,7 +1596,50 @@
       <ProcessedColor Name="LyricProcessedColor" />
     </Lyric>
   </Lyrics>
-  <SelectSlides />
+  <SelectSlides>
+    <SelectSlide Name="SelectSlidePauseVocalsVolume">
+      <Skin />
+      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
+      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
+      <SkinSelected>SelectSlide</SkinSelected>
+      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
+      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
+      <Rect>
+        <X>752</X>
+        <Y>820</Y>
+        <W>958</W>
+        <H>40</H>
+        <Z>-2.11</Z>
+      </Rect>
+      <RectArrowLeft>
+        <X>757.5</X>
+        <Y>822.5</Y>
+        <W>35</W>
+        <H>35</H>
+        <Z>-2.11</Z>
+      </RectArrowLeft>
+      <RectArrowRight>
+        <X>1667.5</X>
+        <Y>822.5</Y>
+        <W>35</W>
+        <H>35</H>
+        <Z>-2.11</Z>
+      </RectArrowRight>
+      <Color Name="SelectSlideColor" />
+      <SelColor Name="SelectSlideSelColor" />
+      <ArrowColor Name="ArrowColor" />
+      <ArrowSelColor Name="ArrowSelColor" />
+      <TextColor Name="TextColorAlpha" />
+      <TextSelColor Name="TextSelColor" />
+      <TextH>40.5</TextH>
+      <TextRelativeX>75</TextRelativeX>
+      <TextRelativeY>0</TextRelativeY>
+      <TextMaxW>300</TextMaxW>
+      <TextFont>Outline</TextFont>
+      <TextStyle>Bold</TextStyle>
+      <NumVisible>5</NumVisible>
+    </SelectSlide>
+  </SelectSlides>
   <SingNotes>
     <SingBar Name="SingBars">
       <SkinLeft>NoteLeft</SkinLeft>
