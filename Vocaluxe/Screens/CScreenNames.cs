@@ -24,6 +24,7 @@ using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Profile;
+using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -68,6 +69,17 @@ namespace Vocaluxe.Screens
         public override EMusicType CurrentMusicType
         {
             get { return EMusicType.BackgroundPreview; }
+        }
+
+        private int _WarningStream = -1;
+        private bool _HasPlayedWarningSound = false;
+        
+        private static int PlaySound(ESounds sound, int volume)
+        {
+            int streamId = CSound.PlaySound(sound, false);
+            CSound.SetStreamVolume(streamId, volume);
+
+            return streamId;
         }
 
         #region public methods
@@ -562,6 +574,13 @@ namespace Vocaluxe.Screens
                 CRecord.AnalyzeBuffer(i - 1);
                 _Equalizers["EqualizerPlayer" + i].Update(CRecord.ToneWeigth(i - 1), CRecord.GetMaxVolume(i - 1));
             }
+
+            if ((_Texts[_TextWarningMics].Visible || _Texts[_TextWarningProfiles].Visible) && !_HasPlayedWarningSound)
+            {
+                _WarningStream = CScreenNames.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                _HasPlayedWarningSound = true;
+            }
+
             return true;
         }
 
@@ -801,6 +820,15 @@ namespace Vocaluxe.Screens
             {
                 _Statics[_StaticWarningProfiles].Visible = false;
                 _Texts[_TextWarningProfiles].Visible = false;
+            }
+        }
+
+        private void _LeaveScreen()
+        {           
+            if (_WarningStream != -1)
+            {
+                 CSound.Close(_WarningStream);
+                _WarningStream = -1;
             }
         }
         #endregion private methods
