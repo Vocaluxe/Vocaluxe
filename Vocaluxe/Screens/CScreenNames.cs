@@ -536,8 +536,10 @@ namespace Vocaluxe.Screens
                     }
                 }
                 if (exit)
+                {
                     CGraphics.FadeTo(EScreen.Song);
                     _LeaveScreen();
+                }
             }
 
             if (mouseEvent.MB && _SelectingFast)
