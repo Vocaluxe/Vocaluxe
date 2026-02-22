@@ -21,6 +21,7 @@ using System.IO;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -42,6 +43,17 @@ namespace Vocaluxe.Screens
         private const string _StaticWarningRestart = "StaticWarningRestart";
         private const string _ButtonExit = "ButtonExit";
         private static readonly string[] CoverSizes = { "32", "64", "128", "256", "512", "1024" };
+
+        private int _WarningStream = -1;
+        private bool _HasPlayedWarningSound = false;
+        
+        private static int PlaySound(ESounds sound, int volume)
+        {
+            int streamId = CSound.PlaySound(sound, false);
+            CSound.SetStreamVolume(streamId, volume);
+
+            return streamId;
+        }
 
         public override void Init()
         {
@@ -137,6 +149,11 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
+            {
+                 _WarningStream = CScreenMain.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                 _HasPlayedWarningSound = true;
+            }
             return true;
         }
 
@@ -180,6 +197,15 @@ namespace Vocaluxe.Screens
             CConfig.Config.Graphics.Stretch = (EOffOn)_SelectSlides[_SelectSlideStretch].Selection;
             
             CConfig.SaveConfig();
+        }
+        
+        private void _LeaveScreen()
+        {           
+            if (_WarningStream != -1)
+            {
+                 CSound.Close(_WarningStream);
+                _WarningStream = -1;
+            }
         }
     }
 }
