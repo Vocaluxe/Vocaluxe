@@ -56,7 +56,7 @@ namespace Vocaluxe.Screens
         }
 
         public override void Init()
-        ≈
+        {
             base.Init();
 
             _ThemeButtons = new string[] {_ButtonExit};
