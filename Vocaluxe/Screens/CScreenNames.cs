@@ -304,7 +304,7 @@ namespace Vocaluxe.Screens
                     case Keys.Enter:
 
                         if (_Buttons[_ButtonBack].Selected)
-                            CGraphics.(EScreen.Song);
+                            CGraphics.FadeTo(EScreen.Song);
                             _LeaveScreen();
                         else if (_Buttons[_ButtonStart].Selected)
                             _StartSong();
