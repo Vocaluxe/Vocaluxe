@@ -176,6 +176,11 @@ namespace Vocaluxe.Lib.Sound
 
                 try
                 {
+                    if (stream == IntPtr.Zero)
+                    {
+                         CLog.Debug("Stream is null, skipping close.");
+                         return;
+                    }
                     PortAudio.Pa_CloseStream(stream);
                 }
                 catch (Exception ex)
