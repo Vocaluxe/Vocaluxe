@@ -208,7 +208,7 @@ namespace Vocaluxe.Base
                     file = Path.Combine(file, CSettings.FileNameSoundProgressBar);
                     break;
                 case ESounds.Warning:
-                    file = Path.Combine(file, CSettings.FileNameWarning);
+                    file = Path.Combine(file, CSettings.FileNameSoundWarning);
                     break;
                 default:
                     return -1;
