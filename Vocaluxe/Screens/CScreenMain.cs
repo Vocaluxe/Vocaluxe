@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -38,6 +39,17 @@ namespace Vocaluxe.Screens
         private const string _StaticWarningProfiles = "StaticWarningProfiles";
         private const string _TextWarningProfiles = "TextWarningProfiles";
         private const string _TextRelease = "TextRelease";
+
+        private int _WarningStream = -1;
+        private bool _HasPlayedSound = false;
+        
+        private static int PlaySound(ESounds sound, int volume)
+        {
+            int streamId = CSound.PlaySound(sound, false);
+            CSound.SetStreamVolume(streamId, volume);
+
+            return streamId;
+        }
 
         //CParticleEffect Snowflakes;
         public override void Init()
@@ -150,7 +162,21 @@ namespace Vocaluxe.Screens
             _Texts[_TextWarningProfiles].Visible = !profileOK;
             _Buttons[_ButtonSing].Selectable = profileOK;
             _Buttons[_ButtonParty].Selectable = profileOK;
+
+            if (_Texts[_TextWarningProfiles].Visible && !_HasPlayedSound)
+                    {
+                         _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                         _HasPlayedSound = true;
+                    }
             return true;
         }
+        
+        private void _LeaveScreen()
+        {           
+            if (_WarningStream != -1)
+            {
+                 CSound.Close(_WarningStream);
+                _WarningStream = -1;
+            }
     }
 }
