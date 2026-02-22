@@ -58,7 +58,7 @@ namespace Vocaluxe.Screens
         }
 
         private int _HighscoreStream = -1;
-        private bool _HasPlayedSound = false;
+        private bool _HasPlayedHighscoreSound = false;
         
         private static int PlaySound(ESounds sound, int volume)
         {
@@ -197,10 +197,10 @@ namespace Vocaluxe.Screens
 
                     _ParticleEffects[_ParticleEffectNew[p]].Visible = _IsNewEntry(_Scores[_Round][_Pos + p].ID);
 
-                    if (_ParticleEffects[_ParticleEffectNew[p]].Visible && !_HasPlayedSound)
+                    if (_ParticleEffects[_ParticleEffectNew[p]].Visible && !_HasPlayedHighscoreSound)
                     {
                          _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Highscore, CConfig.SoundEffectVolume);
-                         _HasPlayedSound = true;
+                         _HasPlayedHighscoreSound = true;
                     }
                   }
                 else
@@ -218,7 +218,7 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
-            _HasPlayedSound = false;
+            _HasPlayedHighscoreSound = false;
             _Round = 0;
             _Pos = 0;
             _NewEntryIDs.Clear();
