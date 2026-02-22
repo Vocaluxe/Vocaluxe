@@ -123,7 +123,6 @@ namespace Vocaluxe.Screens
                             _LeaveScreen();
 
                         if (_Buttons[_ButtonExit].Selected)
-                            _LeaveScreen();
                             return false;
 
                         break;
