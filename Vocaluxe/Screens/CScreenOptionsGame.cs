@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -47,6 +48,17 @@ namespace Vocaluxe.Screens
 
         private const string _TextWarningRestart = "TextWarningRestart";
         private const string _StaticWarningRestart = "StaticWarningRestart";
+
+        private int _WarningStream = -1;
+        private bool _HasPlayedWarningSound = false;
+        
+        private static int PlaySound(ESounds sound, int volume)
+        {
+            int streamId = CSound.PlaySound(sound, false);
+            CSound.SetStreamVolume(streamId, volume);
+
+            return streamId;
+        }
 
         public override void Init()
         {
@@ -158,6 +170,12 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
+            {
+                _WarningStream = CScreenOptionsGame.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                _HasPlayedWarningSound = true;
+            }
+                    
             return true;
         }
 
@@ -199,6 +217,15 @@ namespace Vocaluxe.Screens
 
             CSongs.Sorter.SongSorting = CConfig.Config.Game.SongSorting;
             CSongs.Categorizer.Tabs = CConfig.Config.Game.Tabs;
+        }
+
+        private void _LeaveScreen()
+        {           
+            if (_WarningStream != -1)
+            {
+                 CSound.Close(_WarningStream);
+                _WarningStream = -1;
+            }
         }
     }
 }
