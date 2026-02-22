@@ -178,5 +178,6 @@ namespace Vocaluxe.Screens
                  CSound.Close(_WarningStream);
                 _WarningStream = -1;
             }
+        }
     }
 }
