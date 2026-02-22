@@ -83,19 +83,23 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.O:
                         CGraphics.FadeTo(EScreen.Options);
+                        _LeaveScreen();
                         break;
 
                     case Keys.S:
                         if (CProfiles.NumProfiles > 0)
                             CGraphics.FadeTo(EScreen.Song);
+                        _LeaveScreen();
                         break;
 
                     case Keys.C:
                         CGraphics.FadeTo(EScreen.Credits);
+                        _LeaveScreen();
                         break;
 
                     case Keys.T:
                         CGraphics.FadeTo(EScreen.Test);
+                        _LeaveScreen();
                         break;
 
                     case Keys.Enter:
@@ -103,18 +107,23 @@ namespace Vocaluxe.Screens
                         {
                             CParty.SetNormalGameMode();
                             CGraphics.FadeTo(EScreen.Song);
+                            _LeaveScreen();
                         }
 
                         if (_Buttons[_ButtonParty].Selected)
                             CGraphics.FadeTo(EScreen.Party);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptions].Selected)
                             CGraphics.FadeTo(EScreen.Options);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonProfiles].Selected)
                             CGraphics.FadeTo(EScreen.Profiles);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonExit].Selected)
+                            _LeaveScreen();
                             return false;
 
                         break;
@@ -137,16 +146,20 @@ namespace Vocaluxe.Screens
                 {
                     CParty.SetNormalGameMode();
                     CGraphics.FadeTo(EScreen.Song);
+                    _LeaveScreen();
                 }
 
                 if (_Buttons[_ButtonParty].Selected)
                     CGraphics.FadeTo(EScreen.Party);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptions].Selected)
                     CGraphics.FadeTo(EScreen.Options);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonProfiles].Selected)
                     CGraphics.FadeTo(EScreen.Profiles);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonExit].Selected)
                     return false;
