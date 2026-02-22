@@ -111,16 +111,22 @@ namespace Vocaluxe.Screens
                         }
 
                         if (_Buttons[_ButtonParty].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.Party);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptions].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.Options);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonProfiles].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.Profiles);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonExit].Selected)
                             return false;
@@ -149,16 +155,22 @@ namespace Vocaluxe.Screens
                 }
 
                 if (_Buttons[_ButtonParty].Selected)
+                {
                     CGraphics.FadeTo(EScreen.Party);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptions].Selected)
+                {
                     CGraphics.FadeTo(EScreen.Options);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonProfiles].Selected)
+                {
                     CGraphics.FadeTo(EScreen.Profiles);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonExit].Selected)
                     return false;
