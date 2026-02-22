@@ -298,14 +298,17 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         CGraphics.FadeTo(EScreen.Song);
+                        _LeaveScreen();
                         break;
 
                     case Keys.Enter:
 
                         if (_Buttons[_ButtonBack].Selected)
-                            CGraphics.FadeTo(EScreen.Song);
+                            CGraphics.(EScreen.Song);
+                            _LeaveScreen();
                         else if (_Buttons[_ButtonStart].Selected)
                             _StartSong();
+                            _LeaveScreen();
 
                         break;
 
@@ -482,8 +485,10 @@ namespace Vocaluxe.Screens
             {
                 if (_Buttons[_ButtonBack].Selected)
                     CGraphics.FadeTo(EScreen.Song);
+                    _LeaveScreen();
                 else if (_Buttons[_ButtonStart].Selected)
                     _StartSong();
+                    _LeaveScreen();
                 else
                     _UpdatePlayerNumber();
                 //Update Tiles-List
@@ -525,6 +530,7 @@ namespace Vocaluxe.Screens
                 }
                 if (exit)
                     CGraphics.FadeTo(EScreen.Song);
+                    _LeaveScreen();
             }
 
             if (mouseEvent.MB && _SelectingFast)
