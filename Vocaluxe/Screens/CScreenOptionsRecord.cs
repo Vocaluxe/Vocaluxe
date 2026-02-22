@@ -20,6 +20,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.ThemeSystem;
+using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Sound.Record;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -63,6 +64,17 @@ namespace Vocaluxe.Screens
         public override EMusicType CurrentMusicType
         {
             get { return EMusicType.Game; }
+        }
+
+        private int _WarningStream = -1;
+        private bool _HasPlayedWarningSound = false;
+        
+        private static int PlaySound(ESounds sound, int volume)
+        {
+            int streamId = CSound.PlaySound(sound, false);
+            CSound.SetStreamVolume(streamId, volume);
+
+            return streamId;
         }
 
         public override void Init()
@@ -209,6 +221,12 @@ namespace Vocaluxe.Screens
             bool showWarning = !_CheckMicConfig();
             _Statics[_StaticWarning].Visible = showWarning;
             _Texts[_TextWarning].Visible = showWarning;
+
+            if (_Texts[_TextWarning].Visible && !_HasPlayedWarningSound)
+            {
+                 _WarningStream = CScreenOptionsRecord.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                 _HasPlayedWarningSound = true;
+            }
 
             return true;
         }
@@ -433,6 +451,15 @@ namespace Vocaluxe.Screens
                     device = i;
                     return;
                 }
+            }
+        }
+
+        private void _LeaveScreen()
+        {           
+            if (_WarningStream != -1)
+            {
+                 CSound.Close(_WarningStream);
+                _WarningStream = -1;
             }
         }
     }
