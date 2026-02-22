@@ -56,7 +56,7 @@ namespace Vocaluxe.Screens
         }
 
         public override void Init()
-        {
+        ≈
             base.Init();
 
             _ThemeButtons = new string[] {_ButtonExit};
@@ -146,8 +146,10 @@ namespace Vocaluxe.Screens
             {
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
-                    CGraphics.FadeTo(EScreen.Options);
-                    _LeaveScreen();
+                {
+                     CGraphics.FadeTo(EScreen.Options);
+                     _LeaveScreen();
+                }
             }
             return true;
         }
