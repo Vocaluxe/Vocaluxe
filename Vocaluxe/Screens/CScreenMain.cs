@@ -41,7 +41,7 @@ namespace Vocaluxe.Screens
         private const string _TextRelease = "TextRelease";
 
         private int _WarningStream = -1;
-        private bool _HasPlayedSound = false;
+        private bool _HasPlayedWarningSound = false;
         
         private static int PlaySound(ESounds sound, int volume)
         {
@@ -163,11 +163,11 @@ namespace Vocaluxe.Screens
             _Buttons[_ButtonSing].Selectable = profileOK;
             _Buttons[_ButtonParty].Selectable = profileOK;
 
-            if (_Texts[_TextWarningProfiles].Visible && !_HasPlayedSound)
-                    {
-                         _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
-                         _HasPlayedSound = true;
-                    }
+            if (_Texts[_TextWarningProfiles].Visible && !_HasPlayedWarningSound)
+            {
+                 _WarningStream = CScreenMain.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                 _HasPlayedWarningSound = true;
+            }
             return true;
         }
         
