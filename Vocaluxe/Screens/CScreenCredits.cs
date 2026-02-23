@@ -125,7 +125,7 @@ namespace Vocaluxe.Screens
             // Intro
             AddText("14 Years Vocaluxe!", bigHeadlineSize, EStyle.Bold, 0);
             scrollY += paragraphSpacing;
-            AddText("A heartfelt thank you to all the people who have contributed to making Vocaluxe a reality over the past 12 years.", textSize, EStyle.Normal, 0);
+            AddText("A heartfelt thank you to all the people who have contributed to making Vocaluxe a reality over the past 14 years.", textSize, EStyle.Normal, 0);
             AddText("Your dedication, time, and open-source spirit have been incredible. Keep contributing or re-join and make the world sing!", textSize, EStyle.Normal, 0);
             scrollY += paragraphSpacing * 3;
             AddText("VOCALUXE Team (2011-today)", bigHeadlineSize, EStyle.Bold, 0);
@@ -166,19 +166,19 @@ namespace Vocaluxe.Screens
             AddText("Darkice", textSize, EStyle.Normal, 0);
             scrollY += paragraphSpacing;
             AddText("Programmer", boldSize, EStyle.Bold, 0);
-            AddText("McSchneidar (2026 - today)", textSize, EStyle.Normal, 0);
-            AddText("Metin Celik (2025 - today)", textSize, EStyle.Normal, 0);
-            AddText("Jeff Dolan (2025 - today)", textSize, EStyle.Normal, 0);
-            AddText("Kacper Majorkowski (2025 - today)", textSize, EStyle.Normal, 0);
-            AddText("Franz Schuster (2025 - today)", textSize, EStyle.Normal, 0);
-            AddText("Dirk Heinke (2025 - today)", textSize, EStyle.Normal, 0);
-            AddText("Florian Schulze (2025 - today)", textSize, EStyle.Normal, 0);
-            AddText("Edi316 (2025 - today)", textSize, EStyle.Normal, 0);
+            AddText("McSchneidar (2026-today)", textSize, EStyle.Normal, 0);
+            AddText("Metin Celik (2025-today)", textSize, EStyle.Normal, 0);
+            AddText("Jeff Dolan (2025-today)", textSize, EStyle.Normal, 0);
+            AddText("Kacper Majorkowski (2025-today)", textSize, EStyle.Normal, 0);
+            AddText("Franz Schuster (2025-today)", textSize, EStyle.Normal, 0);
+            AddText("Dirk Heinke (2025-today)", textSize, EStyle.Normal, 0);
+            AddText("Florian Schulze (2025-today)", textSize, EStyle.Normal, 0);
+            AddText("Edi316 (2025-today)", textSize, EStyle.Normal, 0);
             AddText("Rap-Voca (2024)", textSize, EStyle.Normal, 0);
             AddText("GRaff844 (2024)", textSize, EStyle.Normal, 0);
             AddText("Stefan1200 (2020-2022)", textSize, EStyle.Normal, 0);
             AddText("GaryCXJk (2020-2021)", textSize, EStyle.Normal, 0);
-            AddText("Jiiniasu (2016 - today)", textSize, EStyle.Normal, 0);
+            AddText("Jiiniasu (2016-today)", textSize, EStyle.Normal, 0);
             AddText("Stephan Sundermann (2012-2014)", textSize, EStyle.Normal, 0);
             AddText("Damien Laguerre (2024)", textSize, EStyle.Normal, 0);
             AddText("Markus Bohning (2012)", textSize, EStyle.Normal, 0);
