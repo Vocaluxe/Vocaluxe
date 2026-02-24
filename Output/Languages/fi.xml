@@ -165,9 +165,9 @@
   <string name="TR_SCREENSONG_NUMSONGS">(%v laulua)</string>
   <string name="TR_SCREENSONG_NUMSONG">(%v laulu)</string>
   <string name="TR_SCREENSONG_ARTIST_TITLE">%a - %t</string>
-  <string name="TR_SCREENSONG_HELPMESSAGE">A-Z = Siirry kirjaimeen • F3 = Etsi • CTRL+R = Valitse satunnaisesti • CTRL+S = Soita potpuri • CTRL+# = Vaihda laulujen lajittelutapaa • CTRL+T = Näytä/Piilota kategorianäkymä • Välilyönti = Näytä lauluvaihtoehdot • ESC = Palaa päävalikkoon</string>
-  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A-Z = Etsi artistia ja laulun nimeä, haun etuliitteet → a: = artisti • t: = nimi • c: = tekijä • e: = editio • g: = genre • y: = vuosi (esim. 1999 tai 1980-1989) • l: = kieli • al: = albumi • fi: = tiedoston nimi • fo: = kansio • #: tagit</string>
-  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1-6 = Valitse satunnainen jokerilaulu tiimin numeroa painamalla</string>
+  <string name="TR_SCREENSONG_HELPMESSAGE">A–Z = Siirry kirjaimeen • F3 = Etsi • CTRL+R = Valitse satunnaisesti • CTRL+S = Soita potpuri • CTRL+# = Vaihda laulujen lajittelutapaa • CTRL+T = Näytä/Piilota kategorianäkymä • Välilyönti = Näytä lauluvaihtoehdot • ESC = Palaa päävalikkoon</string>
+  <string name="TR_SCREENSONG_HELPMESSAGESEARCH">A–Z = Etsi artistia ja laulun nimeä, haun etuliitteet → a: = artisti • t: = nimi • c: = tekijä • e: = editio • g: = genre • y: = vuosi (esim. 1999 tai 1980-1989) • l: = kieli • al: = albumi • fi: = tiedoston nimi • fo: = kansio • #: tagit</string>
+  <string name="TR_SCREENSONG_HELPMESSAGEPARTY">1–6 = Valitse satunnainen jokerilaulu painamalla tiimin numeroa</string>
   <string name="TR_SCREENSONG_SORTING">Lajitteluperuste:%s</string>
   <string name="TR_SCREENSONG_NOMEDLEY">Tällä laululla ei ole Potpuria!</string>
   <string name="TR_SCREENSING_PAUSE">Tauko</string>
