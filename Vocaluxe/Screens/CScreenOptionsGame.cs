@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -47,6 +48,17 @@ namespace Vocaluxe.Screens
 
         private const string _TextWarningRestart = "TextWarningRestart";
         private const string _StaticWarningRestart = "StaticWarningRestart";
+
+        private int _WarningStream = -1;
+        private bool _HasPlayedWarningSound = false;
+        
+        private static int PlaySound(ESounds sound, int volume)
+        {
+            int streamId = CSound.PlaySound(sound, false);
+            CSound.SetStreamVolume(streamId, volume);
+
+            return streamId;
+        }
 
         public override void Init()
         {
@@ -89,12 +101,14 @@ namespace Vocaluxe.Screens
                     case Keys.Back:
                         _SaveConfig();
                         CGraphics.FadeTo(EScreen.Options);
+                        _LeaveScreen();
                         break;
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
                         _SaveConfig();
                         CGraphics.FadeTo(EScreen.Song);
+                        _LeaveScreen();
                         break;
 
                     case Keys.Enter:
@@ -102,6 +116,7 @@ namespace Vocaluxe.Screens
                         {
                             _SaveConfig();
                             CGraphics.FadeTo(EScreen.Options);
+                            _LeaveScreen();
                         }
                         else if (_Buttons[_ButtonServer].Selected)
                         {
@@ -134,6 +149,7 @@ namespace Vocaluxe.Screens
             {
                 _SaveConfig();
                 CGraphics.FadeTo(EScreen.Options);
+                _LeaveScreen();
             }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
@@ -142,6 +158,7 @@ namespace Vocaluxe.Screens
                 {
                     CGraphics.FadeTo(EScreen.Options);
                     _SaveConfig();
+                    _LeaveScreen();
                 }
                 else if (_Buttons[_ButtonServer].Selected)
                 {
@@ -158,6 +175,12 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
+            {
+                _WarningStream = CScreenOptionsGame.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                _HasPlayedWarningSound = true;
+            }
+                    
             return true;
         }
 
@@ -199,6 +222,15 @@ namespace Vocaluxe.Screens
 
             CSongs.Sorter.SongSorting = CConfig.Config.Game.SongSorting;
             CSongs.Categorizer.Tabs = CConfig.Config.Game.Tabs;
+        }
+
+        private void _LeaveScreen()
+        {           
+            if (_WarningStream != -1)
+            {
+                 CSound.Close(_WarningStream);
+                _WarningStream = -1;
+            }
         }
     }
 }

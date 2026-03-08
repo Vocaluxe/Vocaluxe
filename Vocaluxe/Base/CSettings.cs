@@ -126,6 +126,7 @@ namespace Vocaluxe.Base
         public const string FileNameSoundApplauseHigh = "ApplauseHigh.mp3";
         public const string FileNameSoundHighscore = "Highscore.mp3";
         public const string FileNameSoundProgressBar = "ProgressBar.mp3";
+        public const string FileNameSoundWarning = "Warning.mp3";
 
         public const string FolderNameSongs = "Songs";
         public const string FolderNameProfiles = "Profiles";
