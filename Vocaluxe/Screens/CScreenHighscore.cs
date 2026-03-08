@@ -33,7 +33,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         private const int _NumEntrys = 10;
@@ -106,6 +106,7 @@ namespace Vocaluxe.Screens
             for (int i = 0; i < _NumEntrys; i++)
                 _ParticleEffectNew[i] = "ParticleEffectNew" + (i + 1);
 
+            _ThemeStatics = new string[] { "StaticTop1Bar", "StaticTop2Bar", "StaticTop3Bar" };
             _ThemeTexts = texts.ToArray();
             _ThemeParticleEffects = _ParticleEffectNew;
 
@@ -175,6 +176,11 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            int numScores = _Scores[_Round].Count;
+            _Statics["StaticTop1Bar"].Visible = (numScores >= 1);
+            _Statics["StaticTop2Bar"].Visible = (numScores >= 2);
+            _Statics["StaticTop3Bar"].Visible = (numScores >= 3);
+            
             for (int p = 0; p < _NumEntrys; p++)
             {
                 if (_Pos + p < _Scores[_Round].Count)
