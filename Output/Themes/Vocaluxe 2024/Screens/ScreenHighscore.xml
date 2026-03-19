@@ -2,7 +2,7 @@
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
     <ScreenName>ScreenHighscore</ScreenName>
-    <ScreenVersion>2</ScreenVersion>
+    <ScreenVersion>3</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -22,6 +22,39 @@
         <Y>60</Y>
         <W>1920</W>
         <H>67.5</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTop1Bar">
+      <Skin />
+      <Color Name="Top1Color" />
+      <Rect>
+        <X>120</X>
+        <Y>155</Y>
+        <W>1620</W>
+        <H>52.5</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTop2Bar">
+      <Skin />
+      <Color Name="Top2Color" />
+      <Rect>
+        <X>120</X>
+        <Y>245</Y>
+        <W>1620</W>
+        <H>52.5</H>
+        <Z>0</Z>
+      </Rect>
+    </Static>
+    <Static Name="StaticTop3Bar">
+      <Skin />
+      <Color Name="Top3Color" />
+      <Rect>
+        <X>120</X>
+        <Y>335</Y>
+        <W>1620</W>
+        <H>52.5</H>
         <Z>0</Z>
       </Rect>
     </Static>
@@ -72,7 +105,7 @@
     <Text Name="TextNumber1">
       <X>180</X>
       <Y>154.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -85,8 +118,8 @@
     </Text>
     <Text Name="TextNumber2">
       <X>180</X>
-      <Y>240</Y>
-      <Z>0</Z>
+      <Y>244.5</Y>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -100,7 +133,7 @@
     <Text Name="TextNumber3">
       <X>180</X>
       <Y>334.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -212,7 +245,7 @@
     <Text Name="TextName1">
       <X>300</X>
       <Y>154.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -226,7 +259,7 @@
     <Text Name="TextName2">
       <X>300</X>
       <Y>244.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -240,7 +273,7 @@
     <Text Name="TextName3">
       <X>300</X>
       <Y>334.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -352,7 +385,7 @@
     <Text Name="TextScore1">
       <X>1200</X>
       <Y>154.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -366,7 +399,7 @@
     <Text Name="TextScore2">
       <X>1200</X>
       <Y>244.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -380,7 +413,7 @@
     <Text Name="TextScore3">
       <X>1200</X>
       <Y>334.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -492,7 +525,7 @@
     <Text Name="TextDate1">
       <X>1500</X>
       <Y>154.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -506,7 +539,7 @@
     <Text Name="TextDate2">
       <X>1500</X>
       <Y>244.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -520,7 +553,7 @@
     <Text Name="TextDate3">
       <X>1500</X>
       <Y>334.5</Y>
-      <Z>0</Z>
+      <Z>-2</Z>
       <H>52.5</H>
       <MaxW>0</MaxW>
       <Color Name="TextColor" />
@@ -646,7 +679,7 @@
         <Y>150</Y>
         <W>1620</W>
         <H>52.5</H>
-        <Z>1</Z>
+        <Z>-1</Z>
       </Rect>
       <Color Name="StaticColor" />
       <Type>Star</Type>
@@ -660,7 +693,7 @@
         <Y>240</Y>
         <W>1620</W>
         <H>52.5</H>
-        <Z>1</Z>
+        <Z>-1</Z>
       </Rect>
       <Color Name="StaticColor" />
       <Type>Star</Type>
@@ -674,7 +707,7 @@
         <Y>330</Y>
         <W>1620</W>
         <H>52.5</H>
-        <Z>1</Z>
+        <Z>-1</Z>
       </Rect>
       <Color Name="StaticColor" />
       <Type>Star</Type>

@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -38,6 +39,17 @@ namespace Vocaluxe.Screens
         private const string _StaticWarningProfiles = "StaticWarningProfiles";
         private const string _TextWarningProfiles = "TextWarningProfiles";
         private const string _TextRelease = "TextRelease";
+
+        private int _WarningStream = -1;
+        private bool _HasPlayedWarningSound = false;
+        
+        private static int PlaySound(ESounds sound, int volume)
+        {
+            int streamId = CSound.PlaySound(sound, false);
+            CSound.SetStreamVolume(streamId, volume);
+
+            return streamId;
+        }
 
         //CParticleEffect Snowflakes;
         public override void Init()
@@ -71,19 +83,23 @@ namespace Vocaluxe.Screens
                 {
                     case Keys.O:
                         CGraphics.FadeTo(EScreen.Options);
+                        _LeaveScreen();
                         break;
 
                     case Keys.S:
                         if (CProfiles.NumProfiles > 0)
                             CGraphics.FadeTo(EScreen.Song);
+                        _LeaveScreen();
                         break;
 
                     case Keys.C:
                         CGraphics.FadeTo(EScreen.Credits);
+                        _LeaveScreen();
                         break;
 
                     case Keys.T:
                         CGraphics.FadeTo(EScreen.Test);
+                        _LeaveScreen();
                         break;
 
                     case Keys.Enter:
@@ -91,16 +107,26 @@ namespace Vocaluxe.Screens
                         {
                             CParty.SetNormalGameMode();
                             CGraphics.FadeTo(EScreen.Song);
+                            _LeaveScreen();
                         }
 
                         if (_Buttons[_ButtonParty].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.Party);
+                            _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptions].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.Options);
+                            _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonProfiles].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.Profiles);
+                            _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonExit].Selected)
                             return false;
@@ -125,16 +151,26 @@ namespace Vocaluxe.Screens
                 {
                     CParty.SetNormalGameMode();
                     CGraphics.FadeTo(EScreen.Song);
+                    _LeaveScreen();
                 }
 
                 if (_Buttons[_ButtonParty].Selected)
+                {
                     CGraphics.FadeTo(EScreen.Party);
+                    _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptions].Selected)
+                {
                     CGraphics.FadeTo(EScreen.Options);
+                    _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonProfiles].Selected)
+                {
                     CGraphics.FadeTo(EScreen.Profiles);
+                    _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonExit].Selected)
                     return false;
@@ -150,7 +186,22 @@ namespace Vocaluxe.Screens
             _Texts[_TextWarningProfiles].Visible = !profileOK;
             _Buttons[_ButtonSing].Selectable = profileOK;
             _Buttons[_ButtonParty].Selectable = profileOK;
+
+            if (_Texts[_TextWarningProfiles].Visible && !_HasPlayedWarningSound)
+            {
+                 _WarningStream = CScreenMain.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                 _HasPlayedWarningSound = true;
+            }
             return true;
+        }
+        
+        private void _LeaveScreen()
+        {           
+            if (_WarningStream != -1)
+            {
+                 CSound.Close(_WarningStream);
+                _WarningStream = -1;
+            }
         }
     }
 }

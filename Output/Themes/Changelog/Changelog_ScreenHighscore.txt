@@ -1,6 +1,10 @@
 ScreenHighscore
 
 ++++++++++
+Version 3:
+
+Add: Color bars (Gold, Silver, Bronze) for Top 3 Scores
+++++++++++
 Version 2:
 
 Add: ParticleEffectsNew[1..10] (one for each entry!)

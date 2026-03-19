@@ -308,6 +308,24 @@
       <B>1.000</B>
       <A>0.900</A>
     </TextPauseColor>
+    <Top1Color>
+      <R>1.000</R>
+      <G>0.800</G>
+      <B>0.000</B>
+      <A>0.800</A>
+    </Top1Color>
+    <Top2Color>
+      <R>0.800</R>
+      <G>0.800</G>
+      <B>0.800</B>
+      <A>0.750</A>
+    </Top2Color>
+    <Top3Color>
+      <R>0.800</R>
+      <G>0.500</G>
+      <B>0.300</B>
+      <A>0.750</A>
+    </Top3Color>
   </Colors>
   <Skins>
     <BG_Default>BG_Default.png</BG_Default>

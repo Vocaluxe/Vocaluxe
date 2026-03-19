@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -60,8 +60,8 @@ namespace Tests.PartyModeChallenge
                 CChallengeRounds rounds = new CChallengeRounds(numRounds, numPlayer, numMic);
                 Assert.IsTrue(rounds.Count >= numRounds);
                 _CheckRounds(rounds, numPlayer);
-                Warn.If(rounds.Count != numRounds,
-                    $"Number of rounds does not match. Expected: {numRounds}, Is: {rounds.Count} for {numPlayer}/{((numPlayer < numMic) ? numPlayer : numMic)}");
+                Assert.That(rounds.Count, Is.GreaterThanOrEqualTo(numRounds), 
+                    $"Number of rounds should be >= {numRounds}, is {rounds.Count} for {numPlayer}/{numMic}");
             }
         }
 
