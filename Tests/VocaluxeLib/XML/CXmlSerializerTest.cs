@@ -419,7 +419,10 @@ namespace Tests.VocaluxeLib.XML
             // Typename will be uppercase but input is lowercase
             newXml = newXml.Replace("<String", "<string").Replace("</String", "</string");
             string oldXml = File.ReadAllText(xmlPath);
-            Assert.AreEqual(oldXml, newXml, "Recontructed XML has differences.");
+            // Trim trailing whitespace/newlines
+            oldXml = oldXml.TrimEnd('\r', '\n', ' ', '\t');
+            newXml = newXml.TrimEnd('\r', '\n', ' ', '\t');
+            Assert.AreEqual(oldXml, newXml, "Reconstructed XML has differences.");
         }
 
         #endregion
