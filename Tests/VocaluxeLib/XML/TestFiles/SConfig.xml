@@ -56,6 +56,7 @@
     <BackgroundMusicUseStart>TR_CONFIG_ON</BackgroundMusicUseStart>
     <PreviewMusicVolume>50</PreviewMusicVolume>
     <GameMusicVolume>80</GameMusicVolume>
+    <SoundEffectVolume>50</SoundEffectVolume>
     <KaraokeEffect>TR_CONFIG_OFF</KaraokeEffect>
     <KaraokeEffectLevel>1</KaraokeEffectLevel>
   </Sound>
