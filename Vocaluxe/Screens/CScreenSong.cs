@@ -853,7 +853,6 @@ namespace Vocaluxe.Screens
                 _Texts[_TextHelpBar].Visible = false;
                 _Texts[_TextHelpBarSearch].Visible = true;
                 _Texts[_TextHelpBarParty].Visible = false;
-                _Statics[_StaticSearchBar].Visible = true;
             }
             else
             {
@@ -862,7 +861,6 @@ namespace Vocaluxe.Screens
                 _Texts[_TextHelpBar].Visible = !_Sso.Selection.PartyMode;
                 _Texts[_TextHelpBarSearch].Visible = false;
                 _Texts[_TextHelpBarParty].Visible = _Sso.Selection.PartyMode;
-                _Statics[_StaticSearchBar].Visible = false;
             }
 
             _UpdatePartyModeOptions();
@@ -1423,6 +1421,7 @@ namespace Vocaluxe.Screens
             _Texts[_TextOptionsPlayerSelect].Visible = false;
             _Texts[_TextOptionsPlaylist].Visible = false;
             _Statics[_StaticOptionsBG].Visible = false;
+			_Statics[_StaticSearchBar].Visible = true;
             _Buttons[_ButtonOpenOptions].Visible = true;
 
             if (view == ESongOptionsView.None)
