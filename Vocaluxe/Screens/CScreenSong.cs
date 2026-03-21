@@ -520,11 +520,11 @@ namespace Vocaluxe.Screens
 			bool overSearchBar = _Statics[_StaticSearchBar].Visible && CHelper.IsInBounds(_Statics[_StaticSearchBar].Rect, mouseEvent);
 			_Texts[_TextSearchBarTitle].Selected = overSearchBar;
 
-			if (mouseEvent.LB && _Statics[_StaticSearchBar].Visible && CHelper.IsInBounds(_Statics[_StaticSearchBar].Rect, mouseEvent))
+			if (mouseEvent.LB && overSearchBar)
 			{
 			    if (_SearchActive)
 			    {
-			        _SearchActive = false;
+ 			        _SearchActive = false;
 			        _SearchText = String.Empty;
 			        _ApplyNewSearchFilter(_SearchText);
 			    }
