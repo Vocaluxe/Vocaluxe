@@ -518,10 +518,7 @@ namespace Vocaluxe.Screens
             base.HandleMouse(mouseEvent);
 
 			bool overSearchBar = _Statics[_StaticSearchBar].Visible && CHelper.IsInBounds(_Statics[_StaticSearchBar].Rect, mouseEvent);
-			SColorF selColor, normalColor;
-			CThemes.GetColor("ButtonTextSelColor", -1, out selColor);
-			CThemes.GetColor("ButtonTextColor", -1, out normalColor);
-			_Texts[_TextSearchBarTitle].SelColor = overSearchBar ? selColor : normalColor;
+			_Texts[_TextSearchBarTitle].Selected = overSearchBar;
 
 			if (mouseEvent.LB && _Statics[_StaticSearchBar].Visible && CHelper.IsInBounds(_Statics[_StaticSearchBar].Rect, mouseEvent))
 			{
