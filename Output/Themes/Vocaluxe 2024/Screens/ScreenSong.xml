@@ -225,7 +225,7 @@
       <MaxW>0</MaxW>
       <Color Name="ButtonTextColor" />
       <SelColor Name="ButtonTextSelColor" />
-      <Align>Right</Align>
+      <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
