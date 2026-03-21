@@ -517,17 +517,17 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(mouseEvent);
 
-			if (mouseEvent.LB && Statics[StaticSearchBar].Visible && CHelper.IsInBounds(Statics[StaticSearchBar].Rect, mouseEvent))
+			if (mouseEvent.LB && _Statics[_StaticSearchBar].Visible && CHelper.IsInBounds(_Statics[_StaticSearchBar].Rect, mouseEvent))
 			{
-			    if (SearchActive)
+			    if (_SearchActive)
 			    {
-			        SearchActive = false;
-			        SearchText = String.Empty;
-			        ApplyNewSearchFilter(SearchText);
+			        _SearchActive = false;
+			        _SearchText = String.Empty;
+			        _ApplyNewSearchFilter(_SearchText);
 			    }
-			    else if (!Sso.Selection.PartyMode)
+			    else if (!_Sso.Selection.PartyMode)
 			    {
-			        SearchActive = true;
+			        _SearchActive = true;
 			    }
 			    return true;
 			}
