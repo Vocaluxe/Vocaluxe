@@ -517,6 +517,24 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(mouseEvent);
 
+			bool overSearchBar = _Statics[_StaticSearchBar].Visible && CHelper.IsInBounds(_Statics[_StaticSearchBar].Rect, mouseEvent) && !_Sso.Selection.PartyMode;
+			_Texts[_TextSearchBarTitle].Selected = overSearchBar;
+
+			if (mouseEvent.LB && overSearchBar)
+			{
+			    if (_SearchActive)
+			    {
+ 			        _SearchActive = false;
+			        _SearchText = String.Empty;
+			        _ApplyNewSearchFilter(_SearchText);
+			    }
+			    else if (!_Sso.Selection.PartyMode)
+			    {
+			        _SearchActive = true;
+			    }
+			    return true;
+			}
+
             if (_DragAndDropCover.Visible)
             {
                 _DragAndDropCover.X += mouseEvent.X - _OldMousePosX;
@@ -849,20 +867,18 @@ namespace Vocaluxe.Screens
                 _Texts[_TextSearchBar].Text += '|';
 
                 _Texts[_TextSearchBar].Visible = true;
-                _Texts[_TextSearchBarTitle].Visible = true;
+                _Texts[_TextSearchBarTitle].Visible = false;
                 _Texts[_TextHelpBar].Visible = false;
                 _Texts[_TextHelpBarSearch].Visible = true;
                 _Texts[_TextHelpBarParty].Visible = false;
-                _Statics[_StaticSearchBar].Visible = true;
             }
             else
             {
                 _Texts[_TextSearchBar].Visible = false;
-                _Texts[_TextSearchBarTitle].Visible = false;
+                _Texts[_TextSearchBarTitle].Visible = !_Sso.Selection.PartyMode;
                 _Texts[_TextHelpBar].Visible = !_Sso.Selection.PartyMode;
                 _Texts[_TextHelpBarSearch].Visible = false;
                 _Texts[_TextHelpBarParty].Visible = _Sso.Selection.PartyMode;
-                _Statics[_StaticSearchBar].Visible = false;
             }
 
             _UpdatePartyModeOptions();
@@ -1423,6 +1439,7 @@ namespace Vocaluxe.Screens
             _Texts[_TextOptionsPlayerSelect].Visible = false;
             _Texts[_TextOptionsPlaylist].Visible = false;
             _Statics[_StaticOptionsBG].Visible = false;
+			_Statics[_StaticSearchBar].Visible = !_Sso.Selection.PartyMode;
             _Buttons[_ButtonOpenOptions].Visible = true;
 
             if (view == ESongOptionsView.None)
