@@ -875,7 +875,7 @@ namespace Vocaluxe.Screens
             else
             {
                 _Texts[_TextSearchBar].Visible = false;
-                _Texts[_TextSearchBarTitle].Visible = true;
+                _Texts[_TextSearchBarTitle].Visible = !_Sso.Selection.PartyMode;
                 _Texts[_TextHelpBar].Visible = !_Sso.Selection.PartyMode;
                 _Texts[_TextHelpBarSearch].Visible = false;
                 _Texts[_TextHelpBarParty].Visible = _Sso.Selection.PartyMode;
@@ -1439,7 +1439,7 @@ namespace Vocaluxe.Screens
             _Texts[_TextOptionsPlayerSelect].Visible = false;
             _Texts[_TextOptionsPlaylist].Visible = false;
             _Statics[_StaticOptionsBG].Visible = false;
-			_Statics[_StaticSearchBar].Visible = true;
+			_Statics[_StaticSearchBar].Visible = !_Sso.Selection.PartyMode;
             _Buttons[_ButtonOpenOptions].Visible = true;
 
             if (view == ESongOptionsView.None)
