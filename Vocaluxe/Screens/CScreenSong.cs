@@ -517,7 +517,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleMouse(mouseEvent);
 
-			bool overSearchBar = _Statics[_StaticSearchBar].Visible && CHelper.IsInBounds(_Statics[_StaticSearchBar].Rect, mouseEvent);
+			bool overSearchBar = _Statics[_StaticSearchBar].Visible && CHelper.IsInBounds(_Statics[_StaticSearchBar].Rect, mouseEvent) && !_Sso.Selection.PartyMode;
 			_Texts[_TextSearchBarTitle].Selected = overSearchBar;
 
 			if (mouseEvent.LB && overSearchBar)
