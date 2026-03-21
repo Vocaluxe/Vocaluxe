@@ -150,7 +150,6 @@
   <string name="TR_SCREENSONG_SONGOPTIONS">Låtalternativ</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_ON">Visa spelarval</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Hoppa över spelarval</string>  
-  <string name="TR_SCREENSONG_SEARCH">Sök:</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Inget språk</string>
   <string name="TR_SCREENSONG_NOYEAR">Inget år</string>
   <string name="TR_SCREENSONG_NOGENRE">Ingen genre</string>
