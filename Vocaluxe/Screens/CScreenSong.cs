@@ -849,7 +849,7 @@ namespace Vocaluxe.Screens
                 _Texts[_TextSearchBar].Text += '|';
 
                 _Texts[_TextSearchBar].Visible = true;
-                _Texts[_TextSearchBarTitle].Visible = true;
+                _Texts[_TextSearchBarTitle].Visible = false;
                 _Texts[_TextHelpBar].Visible = false;
                 _Texts[_TextHelpBarSearch].Visible = true;
                 _Texts[_TextHelpBarParty].Visible = false;
@@ -857,7 +857,7 @@ namespace Vocaluxe.Screens
             else
             {
                 _Texts[_TextSearchBar].Visible = false;
-                _Texts[_TextSearchBarTitle].Visible = false;
+                _Texts[_TextSearchBarTitle].Visible = true;
                 _Texts[_TextHelpBar].Visible = !_Sso.Selection.PartyMode;
                 _Texts[_TextHelpBarSearch].Visible = false;
                 _Texts[_TextHelpBarParty].Visible = _Sso.Selection.PartyMode;
