@@ -155,7 +155,6 @@
   <string name="TR_SCREENSONG_PLAYERSELECT">Laulajan valitseminen</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_ON">Näytä laulajan valinta</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Ohita pelaajien valinta</string>  
-  <string name="TR_SCREENSONG_SEARCH">Etsi:</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Ei kieltä</string>
   <string name="TR_SCREENSONG_NOYEAR">Ei vuotta</string>
   <string name="TR_SCREENSONG_NOGENRE">Ei genreä</string>
