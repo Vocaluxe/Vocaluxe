@@ -155,7 +155,7 @@
   <string name="TR_SCREENSONG_PLAYERSELECT">Spielerauswahl</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_ON">Spielerauswahl anzeigen</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Spielerauswahl überspringen</string>  
-  <string name="TR_SCREENSONG_SEARCH">Suche:</string>
+  <string name="TR_SCREENSONG_SEARCH">Lied suchen</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Keine Sprache</string>
   <string name="TR_SCREENSONG_NOYEAR">Ohne Jahr</string>
   <string name="TR_SCREENSONG_NOGENRE">Ohne Genre</string>
