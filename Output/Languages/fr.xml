@@ -155,6 +155,7 @@
   <string name="TR_SCREENSONG_PLAYERSELECT">Sélection joueur</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_ON">Afficher sélection joueur</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Passer sélection joueur</string>  
+  <string name="TR_SCREENSONG_SEARCH">Rechercher une chanson</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Pas de Langue</string>
   <string name="TR_SCREENSONG_NOYEAR">Pas d\'Année</string>
   <string name="TR_SCREENSONG_NOGENRE">Pas de Genre</string>
