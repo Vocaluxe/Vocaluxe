@@ -353,8 +353,16 @@ namespace Vocaluxe.Base
             _CurPlayer = _BGPlayer;
             if (_MusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
             {
-                _CurPlayer.Load(CSongs.GetSong(_PreviewPlayer.SongID));
-                _CurPlayer.Position = _PreviewPlayer.Position;
+                var song = CSongs.GetSong(_PreviewPlayer.SongID);
+                if (song != null)
+                {
+                    _CurPlayer.Load(song);
+                    _CurPlayer.Position = _PreviewPlayer.Position;
+                }
+                else
+                {
+                    _CurPlayer.Stop();
+                }
             }
             CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
         }
