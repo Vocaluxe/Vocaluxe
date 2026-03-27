@@ -79,7 +79,6 @@ namespace Vocaluxe.Screens
                         {
                             _SaveConfig();
                             CGraphics.FadeTo(EScreen.Options);
-                            _LeaveScreen();
                         }
                         else if (_Buttons[_ButtonServer].Selected)
                         {
@@ -114,7 +113,6 @@ namespace Vocaluxe.Screens
                 {
                     CGraphics.FadeTo(EScreen.Options);
                     _SaveConfig();
-                    _LeaveScreen();
                 }
                 else if (_Buttons[_ButtonServer].Selected)
                 {
