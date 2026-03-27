@@ -153,7 +153,7 @@ namespace Vocaluxe.Screens
         {
             // Detect server activation change
             EServerActive _currentServerActive = CConfig.Config.Server.ServerActive;
-            EServerActive _newServerActive = (EOffOn)_SelectSlides[_SelectSlideServerActive].Selection;
+            EServerActive _newServerActive = _SelectSlides[_SelectSlideServerActive].Selection;
             if (_currentServerActive != _newServerActive)
             {
                 _Texts[_TextWarningRestart].Visible = true;
