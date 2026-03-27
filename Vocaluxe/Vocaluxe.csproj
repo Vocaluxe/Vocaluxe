@@ -347,6 +347,7 @@
     <Compile Include="Screens\CScreenOptionsRecord.cs" />
     <Compile Include="Screens\CScreenOptionsTheme.cs" />
     <Compile Include="Screens\CScreenOptionsGraphics.cs" />
+    <Compile Include="Screens\CScreenOptionsServer.cs" />
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
