@@ -186,7 +186,7 @@
       <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>4</NumVisible>
+      <NumVisible>3</NumVisible>
     </SelectSlide>
     <SelectSlide Name="SelectSlideServerEncryption">
       <Skin />
@@ -228,7 +228,7 @@
       <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>2</NumVisible>
+      <NumVisible>3</NumVisible>
     </SelectSlide>
   </SelectSlides>
   <SingNotes />
