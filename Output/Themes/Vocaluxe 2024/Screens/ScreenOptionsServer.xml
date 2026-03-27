@@ -29,7 +29,7 @@
       <Skin>Warning</Skin>
       <Color Name="StaticWarningColor" />
       <Rect>
-        <X>480</X>
+        <X>390</X>
         <Y>900</Y>
         <W>1140</W>
         <H>75</H>
