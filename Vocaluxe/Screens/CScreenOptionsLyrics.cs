@@ -118,6 +118,11 @@ namespace Vocaluxe.Screens
             return true;
         }
 
+        public override bool UpdateGame()
+        {
+            return true;
+        }
+        
         private void _SaveConfig()
         {
             CConfig.Config.Game.LyricsPosition = (ELyricsPosition)_SelectSlides[_SelectSlideLyricsPosition].Selection;
