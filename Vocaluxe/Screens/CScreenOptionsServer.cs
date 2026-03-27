@@ -163,8 +163,8 @@ namespace Vocaluxe.Screens
         private void _SaveConfig()
         {
             // Detect server activation change
-            _currentServerActive = CConfig.Config.Server.ServerActive;
-            _newServerActive = (EOffOn)_SelectSlides[_SelectSlideServerActive].Selection;
+            int _currentServerActive = CConfig.Config.Server.ServerActive;
+            int _newServerActive = (EOffOn)_SelectSlides[_SelectSlideServerActive].Selection;
             if (_currentServerActive != _newServerActive)
             {
                 _Texts[_TextWarningRestart].Visible = true;
