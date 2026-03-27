@@ -25,6 +25,17 @@
         <Z>1</Z>
       </Rect>
     </Static>
+    <Static Name="StaticWarningRestart">
+      <Skin>Warning</Skin>
+      <Color Name="StaticWarningColor" />
+      <Rect>
+        <X>480</X>
+        <Y>900</Y>
+        <W>1140</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+    </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitle">
@@ -69,6 +80,20 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOSERVER_ENCRYPTION</Text>
     </Text>
+    <Text Name="TextWarningRestart">
+      <X>960</X>
+      <Y>920</Y>
+      <Z>-1.1</Z>
+      <H>37.5</H>
+      <MaxW>960</MaxW>
+      <Color Name="TextWarningColor" />
+      <SelColor Name="TextWarningColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_WARNINGRESTART</Text>
+      </Text>
   </Texts>
   <Buttons>
     <Button Name="ButtonExit">
