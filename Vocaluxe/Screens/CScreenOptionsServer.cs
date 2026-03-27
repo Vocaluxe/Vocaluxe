@@ -160,6 +160,7 @@ namespace Vocaluxe.Screens
             // Detect server activation change
             int _currentServerActive = (int)CConfig.Config.Server.ServerActive;
             int _newServerActive = _SelectSlides[_SelectSlideServerActive].Selection;
+            
             if (_currentServerActive != _newServerActive)
             {
                 _Texts[_TextWarningRestart].Visible = true;
@@ -169,9 +170,22 @@ namespace Vocaluxe.Screens
             else
             {
                 CConfig.Config.Server.ServerActive = (EOffOn)_newServerActive;
-            }  
+            }
+
+            // Detect server encryption change
+            int _currentServerEncryption = (int)CConfig.Config.Server.ServerEncryption;
+            int _newServerEncryption = _SelectSlides[_SelectSlideServerEncryption].Selection;
             
-            CConfig.Config.Server.ServerEncryption = (EOffOn)_SelectSlides[_SelectSlideServerEncryption].Selection;
+            if (_currentServerEncryption != _newServerEncryption)
+            {
+                _Texts[_TextWarningRestart].Visible = true;
+                _Statics[_StaticWarningRestart].Visible = true;    
+                CConfig.Config.Server.ServerEncryption = (EOffOn)_newServerEncryption;
+            }
+            else
+            {
+                CConfig.Config.Server.ServerEncryption = (EOffOn)_newServerEncryption;
+            }
             
             CConfig.SaveConfig();
         }
