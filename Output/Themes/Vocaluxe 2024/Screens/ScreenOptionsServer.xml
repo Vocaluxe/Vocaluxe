@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
-    <ScreenName>ScreenOptionsServer</ScreenName>
+    <ScreenName>ScreenOptionsSercer</ScreenName>
     <ScreenVersion>1</ScreenVersion>
   </Informations>
   <Backgrounds>
@@ -14,7 +14,7 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="StaticMenuBarServer">
+    <Static Name="StaticMenuBar">
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
@@ -41,7 +41,6 @@
       <Font>Outline</Font>
       <Text>TR_SCREENOSERVER_OPTIONS</Text>
     </Text>
-    
     <Text Name="TextServerActive">
       <X>112.5</X>
       <Y>160.5</Y>
