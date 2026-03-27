@@ -216,8 +216,9 @@
   <string name="TR_SCREENO_BUTTON_GRAPHICS">Graphics</string>
   <string name="TR_SCREENO_BUTTON_THEME">Theme</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
+  <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
+  <string name="TR_SCREENO_BUTTON_SERVER">Server</string>
   <string name="TR_SCREENO_WARNINGRESTART">Please restart the game for the changes to take effect.</string>
-  <string name="TR_SCREENOGAME_BUTTON_SERVER">Server address</string>
   <string name="TR_SCREENOGAME_BUTTON_SONGFOLDER">Add Song Folder</string>
   <string name="TR_SCREENOGAME_OPTIONS">Game Options</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Language</string>
@@ -267,6 +268,10 @@
   <string name="TR_SCREENOGRAPHICS_COVERSIZE">Cover size (pixels)</string>
   <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Fullscreen</string>
   <string name="TR_SCREENOGRAPHICS_STRETCH">Stretched</string>
+  <string name="TR_SCREENOSERVER_OPTIONS">Server Options</string>
+  <string name="TR_SCREENOSERVER_ACTIVE">Server active</string>
+  <string name="TR_SCREENOSERVER_ENCRYPTION">Server encryption</string>
+  <string name="TR_SCREENOSERVER_BUTTON_SERVER">Server address</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Video Options</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video backgrounds</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video preview</string>
