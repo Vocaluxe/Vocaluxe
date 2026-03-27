@@ -25,17 +25,6 @@
         <Z>1</Z>
       </Rect>
     </Static>
-    <Static Name="StaticMenuBarGraphics">
-      <Skin />
-      <Color Name="BackgroundColorAlpha" />
-      <Rect>
-        <X>0</X>
-        <Y>430.5</Y>
-        <W>1920</W>
-        <H>67.5</H>
-        <Z>1</Z>
-      </Rect>
-    </Static>
   </Statics>
   <Texts>
     <Text Name="TextTitleLyrics">
