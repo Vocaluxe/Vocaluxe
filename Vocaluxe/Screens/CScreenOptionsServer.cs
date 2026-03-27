@@ -50,7 +50,7 @@ namespace Vocaluxe.Screens
         {
             base.LoadTheme(xmlPath);
             _SelectSlides[_SelectSlideServerActive].SetValues<EOffOn>((int)CConfig.Config.Server.ServerActive);
-            _SelectSlides[_SelectSlideServerActive].SetValues<EOffOn>((int)CConfig.Config.Server.ServerEncryption);
+            _SelectSlides[_SelectSlideServerEncryption].SetValues<EOffOn>((int)CConfig.Config.Server.ServerEncryption);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
