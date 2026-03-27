@@ -39,12 +39,13 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptionsTheme = "ButtonOptionsTheme";
         private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
         private const string _ButtonOptionsGraphics = "ButtonOptionsGraphics";
+        private const string _ButtonOptionsServer = "ButtonOptionsServer";
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonOptionsGraphics};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonOptionsGraphics, _ButtonOptionsServer};
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -91,6 +92,9 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonOptionsGraphics].Selected)
                             CGraphics.FadeTo(EScreen.OptionsGraphics);
 
+                        if (_Buttons[_ButtonOptionsServer].Selected)
+                            CGraphics.FadeTo(EScreen.OptionsServer);
+
                         if (_Buttons[_ButtonOptionsCredits].Selected)
                             CGraphics.FadeTo(EScreen.Credits);
 
@@ -129,6 +133,9 @@ namespace Vocaluxe.Screens
 
                 if (_Buttons[_ButtonOptionsGraphics].Selected)
                     CGraphics.FadeTo(EScreen.OptionsGraphics);
+
+                if (_Buttons[_ButtonOptionsServer].Selected)
+                    CGraphics.FadeTo(EScreen.OptionsServer);
 
                 if (_Buttons[_ButtonOptionsCredits].Selected)
                     CGraphics.FadeTo(EScreen.Credits);
