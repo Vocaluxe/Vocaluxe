@@ -21,6 +21,7 @@ using System.IO;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -38,12 +39,25 @@ namespace Vocaluxe.Screens
         private const string _ButtonServer = "ButtonServer";
         private const string _ButtonExit = "ButtonExit";
 
+        private int _WarningStream = -1;
+        private bool _HasPlayedWarningSound = false;
+        
+        private static int PlaySound(ESounds sound, int volume)
+        {
+            int streamId = CSound.PlaySound(sound, false);
+            CSound.SetStreamVolume(streamId, volume);
+
+            return streamId;
+        }
+
         public override void Init()
         {
             base.Init();
 
             _ThemeButtons = new string[] {_ButtonExit, _ButtonServer};
             _ThemeSelectSlides = new string[] {_SelectSlideServerActive, _SelectSlideServerEncryption};
+            _ThemeTexts = new string[] {_TextWarningRestart};
+            _ThemeStatics = new string[] {_StaticWarningRestart};
         }
 
         public override void LoadTheme(string xmlPath)
@@ -51,6 +65,9 @@ namespace Vocaluxe.Screens
             base.LoadTheme(xmlPath);
             _SelectSlides[_SelectSlideServerActive].SetValues<EOffOn>((int)CConfig.Config.Server.ServerActive);
             _SelectSlides[_SelectSlideServerEncryption].SetValues<EOffOn>((int)CConfig.Config.Server.ServerEncryption);
+
+            _Texts[_TextWarningRestart].Visible = false;
+            _Statics[_StaticWarningRestart].Visible = false;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -66,12 +83,14 @@ namespace Vocaluxe.Screens
                     case Keys.Back:
                         _SaveConfig();
                         CGraphics.FadeTo(EScreen.Options);
+                        _LeaveScreen();
                         break;
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
                         _SaveConfig();
                         CGraphics.FadeTo(EScreen.Song);
+                        _LeaveScreen();
                         break;
 
                     case Keys.Enter:
@@ -79,6 +98,7 @@ namespace Vocaluxe.Screens
                         {
                             _SaveConfig();
                             CGraphics.FadeTo(EScreen.Options);
+                            _LeaveScreen();
                         }
                         else if (_Buttons[_ButtonServer].Selected)
                         {
@@ -106,6 +126,7 @@ namespace Vocaluxe.Screens
             {
                 _SaveConfig();
                 CGraphics.FadeTo(EScreen.Options);
+                _LeaveScreen();
             }
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
@@ -113,6 +134,7 @@ namespace Vocaluxe.Screens
                 {
                     CGraphics.FadeTo(EScreen.Options);
                     _SaveConfig();
+                    _LeaveScreen();
                 }
                 else if (_Buttons[_ButtonServer].Selected)
                 {
@@ -129,8 +151,22 @@ namespace Vocaluxe.Screens
         
         private void _SaveConfig()
         {
-            CConfig.Config.Server.ServerActive = (EOffOn)_SelectSlides[_SelectSlideServerActive].Selection;
+            // Detect server activation change
+            EServerActive _currentServerActive = CConfig.Config.Server.ServerActive;
+            EServerActive _newServerActive = (EOffOn)_SelectSlides[_SelectSlideServerActive].Selection;
+            if (_currentServerActive != _newServerActive)
+            {
+                _Texts[_TextWarningRestart].Visible = true;
+                _Statics[_StaticWarningRestart].Visible = true;    
+                CConfig.Config.Server.ServerActive = _newServerActive;
+            }
+            else
+            {
+                CConfig.Config.Server.ServerActive = _newServerActive;
+            }  
+            
             CConfig.Config.Server.ServerEncryption = (EOffOn)_SelectSlides[_SelectSlideServerEncryption].Selection;
+            
             CConfig.SaveConfig();
         }
     }
