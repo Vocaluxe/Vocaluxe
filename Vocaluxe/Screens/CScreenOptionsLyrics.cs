@@ -35,34 +35,14 @@ namespace Vocaluxe.Screens
 
         private const string _SelectSlideLyricStyle = "SelectSlideLyricStyle";
         private const string _SelectSlideLyricsPosition = "SelectSlideLyricsPosition";
-        private const string _SelectSlideTextureQuality = "SelectSlideTextureQuality";
-        private const string _SelectSlideCoverSize = "SelectSlideCoverSize";
-        private const string _SelectSlideFullScreen = "SelectSlideFullScreen";
-        private const string _SelectSlideStretch = "SelectSlideStretch";
-        private const string _TextWarningRestart = "TextWarningRestart";
-        private const string _StaticWarningRestart = "StaticWarningRestart";
         private const string _ButtonExit = "ButtonExit";
-        private static readonly string[] CoverSizes = { "32", "64", "128", "256", "512", "1024" };
-
-        private int _WarningStream = -1;
-        private bool _HasPlayedWarningSound = false;
-        
-        private static int PlaySound(ESounds sound, int volume)
-        {
-            int streamId = CSound.PlaySound(sound, false);
-            CSound.SetStreamVolume(streamId, volume);
-
-            return streamId;
-        }
 
         public override void Init()
         {
             base.Init();
 
             _ThemeButtons = new string[] {_ButtonExit};
-            _ThemeSelectSlides = new string[] {_SelectSlideLyricStyle, _SelectSlideLyricsPosition, _SelectSlideTextureQuality, _SelectSlideCoverSize, _SelectSlideFullScreen, _SelectSlideStretch};
-            _ThemeTexts = new string[] {_TextWarningRestart};
-            _ThemeStatics = new string[] {_StaticWarningRestart};
+            _ThemeSelectSlides = new string[] {_SelectSlideLyricStyle, _SelectSlideLyricsPosition};
         }
 
         public override void LoadTheme(string xmlPath)
@@ -70,22 +50,6 @@ namespace Vocaluxe.Screens
             base.LoadTheme(xmlPath);
             _SelectSlides[_SelectSlideLyricStyle].SetValues<ELyricStyle>((int)CConfig.Config.Theme.LyricStyle);
             _SelectSlides[_SelectSlideLyricsPosition].SetValues<ELyricsPosition>((int)CConfig.Config.Game.LyricsPosition);
-
-            _SelectSlides[_SelectSlideTextureQuality].SetValues<ETextureQuality>((int)CConfig.Config.Graphics.TextureQuality);
-            
-            _SelectSlides[_SelectSlideCoverSize].AddValues(CoverSizes);
-            int currentCoverSize = CConfig.Config.Graphics.CoverSize;
-            int index = Array.IndexOf(CoverSizes, currentCoverSize.ToString());
-            _SelectSlides[_SelectSlideCoverSize].Selection = index;
-            
-            _SelectSlides[_SelectSlideFullScreen].SetValues<EOffOn>((int)CConfig.Config.Graphics.FullScreen);
-            _SelectSlides[_SelectSlideFullScreen].Selection = (int)CConfig.Config.Graphics.FullScreen;
-
-            _SelectSlides[_SelectSlideStretch].SetValues<EOffOn>((int)CConfig.Config.Graphics.Stretch);
-            _SelectSlides[_SelectSlideStretch].Selection = (int)CConfig.Config.Graphics.Stretch;
-
-            _Texts[_TextWarningRestart].Visible = false;
-            _Statics[_StaticWarningRestart].Visible = false;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -154,65 +118,11 @@ namespace Vocaluxe.Screens
             return true;
         }
 
-        public override bool UpdateGame()
-        {
-            if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
-            {
-                 _WarningStream = CScreenOptionsLyrics.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
-                 _HasPlayedWarningSound = true;
-            }
-            return true;
-        }
-
         private void _SaveConfig()
         {
             CConfig.Config.Game.LyricsPosition = (ELyricsPosition)_SelectSlides[_SelectSlideLyricsPosition].Selection;
             CConfig.Config.Theme.LyricStyle = (ELyricStyle)_SelectSlides[_SelectSlideLyricStyle].Selection;
-
-            // Detect Texture quality change
-            ETextureQuality _currentTextureQuality = CConfig.Config.Graphics.TextureQuality;
-            ETextureQuality _newTextureQuality = (ETextureQuality)_SelectSlides[_SelectSlideTextureQuality].Selection;
-            if (_currentTextureQuality != _newTextureQuality)
-            {
-                _Texts[_TextWarningRestart].Visible = true;
-                _Statics[_StaticWarningRestart].Visible = true;    
-                CConfig.Config.Graphics.TextureQuality = _newTextureQuality;
-            }
-            else
-            {
-                CConfig.Config.Graphics.TextureQuality = _newTextureQuality;
-            }           
-
-            // Detect Cover size change
-            string selectedValue = CoverSizes[_SelectSlides[_SelectSlideCoverSize].Selection];
-            int currentCoverSize = CConfig.Config.Graphics.CoverSize;
-            int newCoverSize = int.Parse(selectedValue);
-            if (currentCoverSize != newCoverSize)
-            {
-                string flagPath = Path.Combine(CSettings.DataFolder, "DeleteCoverDB.flag");
-                File.Create(flagPath).Dispose();
-                _Texts[_TextWarningRestart].Visible = true;
-               _Statics[_StaticWarningRestart].Visible = true;    
-                CConfig.Config.Graphics.CoverSize = newCoverSize;
-            }
-            else
-            {
-                CConfig.Config.Graphics.CoverSize = newCoverSize;
-            }        
-                        
-            CConfig.Config.Graphics.FullScreen = (EOffOn)_SelectSlides[_SelectSlideFullScreen].Selection;
-            CConfig.Config.Graphics.Stretch = (EOffOn)_SelectSlides[_SelectSlideStretch].Selection;
-            
             CConfig.SaveConfig();
-        }
-        
-        private void _LeaveScreen()
-        {           
-            if (_WarningStream != -1)
-            {
-                 CSound.Close(_WarningStream);
-                _WarningStream = -1;
-            }
         }
     }
 }
