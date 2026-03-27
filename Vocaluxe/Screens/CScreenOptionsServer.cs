@@ -35,7 +35,8 @@ namespace Vocaluxe.Screens
 
         private const string _SelectSlideServerActive = "SelectSlideServerActive";
         private const string _SelectSlideServerEncryption = "SelectSlideServerEncryption";
-
+        private const string _TextWarningRestart = "TextWarningRestart";
+        private const string _StaticWarningRestart = "StaticWarningRestart";
         private const string _ButtonServer = "ButtonServer";
         private const string _ButtonExit = "ButtonExit";
 
@@ -152,8 +153,8 @@ namespace Vocaluxe.Screens
         private void _SaveConfig()
         {
             // Detect server activation change
-            EServerActive _currentServerActive = CConfig.Config.Server.ServerActive;
-            EServerActive _newServerActive = _SelectSlides[_SelectSlideServerActive].Selection;
+            _currentServerActive = CConfig.Config.Server.ServerActive;
+            _newServerActive = (EOffOn)_SelectSlides[_SelectSlideServerActive].Selection;
             if (_currentServerActive != _newServerActive)
             {
                 _Texts[_TextWarningRestart].Visible = true;
