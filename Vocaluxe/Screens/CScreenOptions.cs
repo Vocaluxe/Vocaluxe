@@ -27,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
            
         private const string _ButtonOptionsBack = "ButtonOptionsBack";  
@@ -38,12 +38,13 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptionsLyrics = "ButtonOptionsLyrics";
         private const string _ButtonOptionsTheme = "ButtonOptionsTheme";
         private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
+        private const string _ButtonOptionsGraphics = "ButtonOptionsGraphics";
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsGraphics};
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -90,6 +91,9 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonOptionsCredits].Selected)
                             CGraphics.FadeTo(EScreen.Credits);
 
+                        if (_Buttons[_ButtonOptionsGraphics].Selected)
+                            CGraphics.FadeTo(EScreen.OptionsGraphics);
+
                         break;
                 }
             }
@@ -125,6 +129,9 @@ namespace Vocaluxe.Screens
 
                 if (_Buttons[_ButtonOptionsCredits].Selected)
                     CGraphics.FadeTo(EScreen.Credits);
+
+                if (_Buttons[_ButtonOptionsGraphics].Selected)
+                    CGraphics.FadeTo(EScreen.OptionsGraphics);
             }
 
             if (mouseEvent.RB)
