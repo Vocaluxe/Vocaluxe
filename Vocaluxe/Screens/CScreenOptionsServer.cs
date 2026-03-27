@@ -147,11 +147,6 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
-            return true;
-        }
-
-        public override bool UpdateGame()
-        {
             if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
             {
                  _WarningStream = CScreenOptionsGraphics.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
