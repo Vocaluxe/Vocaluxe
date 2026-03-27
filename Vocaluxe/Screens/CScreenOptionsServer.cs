@@ -169,5 +169,14 @@ namespace Vocaluxe.Screens
             
             CConfig.SaveConfig();
         }
+
+        private void _LeaveScreen()
+        {           
+            if (_WarningStream != -1)
+            {
+                 CSound.Close(_WarningStream);
+                _WarningStream = -1;
+            }
+        }
     }
 }
