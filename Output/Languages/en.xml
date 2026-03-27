@@ -212,7 +212,8 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Sound</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Record</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
-  <string name="TR_SCREENO_BUTTON_LYRICS">Lyrics/Graphics</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Lyrics</string>
+  <string name="TR_SCREENO_BUTTON_GRAPHICS">Graphics</string>
   <string name="TR_SCREENO_BUTTON_THEME">Theme</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
   <string name="TR_SCREENO_WARNINGRESTART">Please restart the game for the changes to take effect.</string>
