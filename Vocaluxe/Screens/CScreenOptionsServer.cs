@@ -149,6 +149,16 @@ namespace Vocaluxe.Screens
         {
             return true;
         }
+
+        public override bool UpdateGame()
+        {
+            if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
+            {
+                 _WarningStream = CScreenOptionsGraphics.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                 _HasPlayedWarningSound = true;
+            }
+            return true;
+        }
         
         private void _SaveConfig()
         {
