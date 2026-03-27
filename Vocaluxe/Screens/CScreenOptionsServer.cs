@@ -32,8 +32,8 @@ namespace Vocaluxe.Screens
             get { return 1; }
         }
 
-        private const string _SelectSlideLyricStyle = "SelectSlideServerActive";
-        private const string _SelectSlideLyricsPosition = "SelectSlideServerEncryption";
+        private const string _SelectSlideServerActive = "SelectSlideServerActive";
+        private const string _SelectSlideServerEncryption = "SelectSlideServerEncryption";
 
         private const string _ButtonServer = "ButtonServer";
         private const string _ButtonExit = "ButtonExit";
