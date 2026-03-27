@@ -153,7 +153,7 @@ namespace Vocaluxe.Screens
         {
             if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
             {
-                 _WarningStream = CScreenOptionsLyrics.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                 _WarningStream = CScreenOptionsGraphics.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
                  _HasPlayedWarningSound = true;
             }
             return true;
