@@ -149,7 +149,7 @@ namespace Vocaluxe.Screens
         {
             if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
             {
-                 _WarningStream = CScreenOptionsGraphics.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                 _WarningStream = CScreenOptionsServer.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
                  _HasPlayedWarningSound = true;
             }
             return true;
@@ -168,7 +168,7 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                CConfig.Config.Server.ServerActive = _newServerActive;
+                CConfig.Config.Server.ServerActive = (EOffOn)_newServerActive;
             }  
             
             CConfig.Config.Server.ServerEncryption = (EOffOn)_SelectSlides[_SelectSlideServerEncryption].Selection;
