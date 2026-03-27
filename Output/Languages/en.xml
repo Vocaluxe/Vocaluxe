@@ -216,8 +216,6 @@
   <string name="TR_SCREENO_BUTTON_GRAPHICS">Graphics</string>
   <string name="TR_SCREENO_BUTTON_THEME">Theme</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
-  <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
-  <string name="TR_SCREENO_BUTTON_SERVER">Server</string>
   <string name="TR_SCREENO_WARNINGRESTART">Please restart the game for the changes to take effect.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Server address</string>
   <string name="TR_SCREENOGAME_BUTTON_SONGFOLDER">Add Song Folder</string>
