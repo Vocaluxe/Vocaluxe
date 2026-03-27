@@ -426,6 +426,7 @@ namespace VocaluxeLib
         OptionsVideoAdjustments,
         OptionsLyrics,
         OptionsTheme,
+        OptionsGraphics,
 
         Names,
         Credits,
