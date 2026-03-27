@@ -44,7 +44,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsGraphics};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonOptionsGraphics};
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -88,11 +88,11 @@ namespace Vocaluxe.Screens
                         if (_Buttons[_ButtonOptionsTheme].Selected)
                             CGraphics.FadeTo(EScreen.OptionsTheme);
 
-                        if (_Buttons[_ButtonOptionsCredits].Selected)
-                            CGraphics.FadeTo(EScreen.Credits);
-
                         if (_Buttons[_ButtonOptionsGraphics].Selected)
                             CGraphics.FadeTo(EScreen.OptionsGraphics);
+
+                        if (_Buttons[_ButtonOptionsCredits].Selected)
+                            CGraphics.FadeTo(EScreen.Credits);
 
                         break;
                 }
@@ -127,11 +127,11 @@ namespace Vocaluxe.Screens
                 if (_Buttons[_ButtonOptionsTheme].Selected)
                     CGraphics.FadeTo(EScreen.OptionsTheme);
 
-                if (_Buttons[_ButtonOptionsCredits].Selected)
-                    CGraphics.FadeTo(EScreen.Credits);
-
                 if (_Buttons[_ButtonOptionsGraphics].Selected)
                     CGraphics.FadeTo(EScreen.OptionsGraphics);
+
+                if (_Buttons[_ButtonOptionsCredits].Selected)
+                    CGraphics.FadeTo(EScreen.Credits);
             }
 
             if (mouseEvent.RB)
