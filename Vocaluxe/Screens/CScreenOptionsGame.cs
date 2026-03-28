@@ -115,15 +115,13 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreen.Options);
             }
 
-            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent) && _Buttons[_ButtonExit].Selected)
             {
-                if (_Buttons[_ButtonExit].Selected)
-                {
-                    CGraphics.FadeTo(EScreen.Options);
-                    _SaveConfig();
-                }
+                CGraphics.FadeTo(EScreen.Options);
+                _SaveConfig();
             }
             return true;
+
         }
 
         public override bool UpdateGame()
