@@ -17,6 +17,7 @@
 
 using System.Windows.Forms;
 using System.Linq;
+using System.Collections.Generic;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -142,8 +143,6 @@ namespace Vocaluxe.Screens
                             _Texts[_TextWarningRestart].Visible = true;
                             _Statics[_StaticWarningRestart].Visible = true;
                         }
-                        break;
-
                         break;
                 }
             }
