@@ -67,7 +67,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -102,7 +102,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -137,7 +137,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -172,7 +172,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -207,7 +207,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -234,7 +234,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -269,7 +269,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -296,7 +296,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -323,7 +323,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -350,7 +350,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
@@ -377,7 +377,7 @@
       <Color Name="ButtonColor" />
       <SelColor Name="ButtonSelColor" />
       <Text Name="Text">
-        <X>115</X>
+        <X>112.5</X>
         <Y>18</Y>
         <Z>0</Z>
         <H>40.5</H>
