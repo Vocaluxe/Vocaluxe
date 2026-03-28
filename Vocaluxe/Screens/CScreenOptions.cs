@@ -16,6 +16,7 @@
 #endregion
 
 using System.Windows.Forms;
+using System.Linq;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -61,7 +62,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonOptionsGraphics, _ButtonOptionsServer, _ButtonSongFolder};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonOptionsGraphics, _ButtonOptionsServer, _ButtonSelectSongFolder};
             _ThemeTexts = new string[] {_TextWarningRestart};
             _ThemeStatics = new string[] {_StaticWarningRestart};
         }
@@ -210,6 +211,12 @@ namespace Vocaluxe.Screens
 
         public override bool UpdateGame()
         {
+            if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
+            {
+                _WarningStream = CScreenOptionsGame.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                _HasPlayedWarningSound = true;
+            }
+                    
             return true;
         }
 
