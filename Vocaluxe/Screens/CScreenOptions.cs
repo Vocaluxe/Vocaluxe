@@ -99,44 +99,64 @@ namespace Vocaluxe.Screens
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonOptionsBack].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.Main);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptionsGame].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.OptionsGame);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptionsSound].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.OptionsSound);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptionsRecord].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.OptionsRecord);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptionsVideo].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.OptionsVideo);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptionsLyrics].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.OptionsLyrics);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptionsTheme].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.OptionsTheme);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptionsGraphics].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.OptionsGraphics);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptionsServer].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.OptionsServer);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonOptionsCredits].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.Credits);
                             _LeaveScreen();
+                        }
 
                         if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptions._OpenSongFolderDialog())
                         {
@@ -156,55 +176,77 @@ namespace Vocaluxe.Screens
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonOptionsBack].Selected)
+                {
                     CGraphics.FadeTo(EScreen.Main);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptionsGame].Selected)
+                {
                     CGraphics.FadeTo(EScreen.OptionsGame);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptionsSound].Selected)
+                {
                     CGraphics.FadeTo(EScreen.OptionsSound);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptionsRecord].Selected)
+                {
                     CGraphics.FadeTo(EScreen.OptionsRecord);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptionsVideo].Selected)
+                {
                     CGraphics.FadeTo(EScreen.OptionsVideo);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptionsLyrics].Selected)
+                {
                     CGraphics.FadeTo(EScreen.OptionsLyrics);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptionsTheme].Selected)
+                {
                     CGraphics.FadeTo(EScreen.OptionsTheme);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptionsGraphics].Selected)
+                {
                     CGraphics.FadeTo(EScreen.OptionsGraphics);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptionsServer].Selected)
+                {
                     CGraphics.FadeTo(EScreen.OptionsServer);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonOptionsCredits].Selected)
+                {
                     CGraphics.FadeTo(EScreen.Credits);
                     _LeaveScreen();
+                }
 
                 if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptions._OpenSongFolderDialog())
-                        {
-                            _Texts[_TextWarningRestart].Visible = true;
-                            _Statics[_StaticWarningRestart].Visible = true;
-                        }
+                {
+                    _Texts[_TextWarningRestart].Visible = true;
+                    _Statics[_StaticWarningRestart].Visible = true;
+                }
             }
 
             if (mouseEvent.RB)
+            {
                 CGraphics.FadeTo(EScreen.Main);
                 _LeaveScreen();
+            }
             return true;
         }
 
