@@ -119,7 +119,6 @@ namespace Vocaluxe.Screens
                 case Keys.Right:
                     _SaveConfig();
                     break;
-                }
             }
             return true;
         }
