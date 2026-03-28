@@ -29,7 +29,7 @@
       <Skin>Warning</Skin>
       <Color Name="StaticWarningColor" />
       <Rect>
-        <X>710</X>
+        <X>695</X>
         <Y>700</Y>
         <W>1140</W>
         <H>75</H>
@@ -39,7 +39,7 @@
   </Statics>
   <Texts>
     <Text Name="TextWarningRestart">
-      <X>1280</X>
+      <X>1265</X>
       <Y>720</Y>
       <Z>-1.1</Z>
       <H>37.5</H>
@@ -58,7 +58,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>102.85</X>
+        <X>81.43</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -93,7 +93,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>405.7</X>
+        <X>387.85</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -128,7 +128,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>708.55</X>
+        <X>694.27</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -163,7 +163,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1011.4</X>
+        <X>1000.69</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -198,7 +198,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>405.7</X>
+        <X>387.85</X>
         <Y>800</Y>
         <W>225</W>
         <H>75</H>
@@ -225,7 +225,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1314.25</X>
+        <X>1307.11</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
@@ -260,7 +260,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1011.4</X>
+        <X>1000.69</X>
         <Y>800</Y>
         <W>225</W>
         <H>75</H>
@@ -287,7 +287,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1617.1</X>
+        <X>1613.53</X>
         <Y>800</Y>
         <W>225</W>
         <H>75</H>
@@ -314,7 +314,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>708.55</X>
+        <X>694.27</X>
         <Y>800</Y>
         <W>225</W>
         <H>75</H>
@@ -341,7 +341,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1314.25</X>
+        <X>1307.11</X>
         <Y>800</Y>
         <W>225</W>
         <H>75</H>
@@ -368,7 +368,7 @@
       <Skin>Button</Skin>
       <SkinSelected>Button</SkinSelected>
       <Rect>
-        <X>1617.1</X>
+        <X>1613.53</X>
         <Y>900</Y>
         <W>225</W>
         <H>75</H>
