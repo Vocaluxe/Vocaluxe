@@ -19,6 +19,7 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
+using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -40,14 +41,39 @@ namespace Vocaluxe.Screens
         private const string _ButtonOptionsCredits = "ButtonOptionsCredits";
         private const string _ButtonOptionsGraphics = "ButtonOptionsGraphics";
         private const string _ButtonOptionsServer = "ButtonOptionsServer";
+        private const string _ButtonSelectSongFolder = "ButtonSongFolder";
+
+        private const string _TextWarningRestart = "TextWarningRestart";
+        private const string _StaticWarningRestart = "StaticWarningRestart";
+
+        private int _WarningStream = -1;
+        private bool _HasPlayedWarningSound = false;
+        
+        private static int PlaySound(ESounds sound, int volume)
+        {
+            int streamId = CSound.PlaySound(sound, false);
+            CSound.SetStreamVolume(streamId, volume);
+
+            return streamId;
+        }
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonOptionsGraphics, _ButtonOptionsServer};
+            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonOptionsGraphics, _ButtonOptionsServer, _ButtonSongFolder};
+            _ThemeTexts = new string[] {_TextWarningRestart};
+            _ThemeStatics = new string[] {_StaticWarningRestart};
         }
 
+        public override void LoadTheme(string xmlPath)
+        {
+            base.LoadTheme(xmlPath);
+
+            _Texts[_TextWarningRestart].Visible = false;
+            _Statics[_StaticWarningRestart].Visible = false;
+        }
+        
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
@@ -60,43 +86,62 @@ namespace Vocaluxe.Screens
                     case Keys.Escape:
                     case Keys.Back:
                         CGraphics.FadeTo(EScreen.Main);
+                        _LeaveScreen();
                         break;
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
                         CGraphics.FadeTo(EScreen.Song);
+                        _LeaveScreen();
                         break;
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonOptionsBack].Selected)
                             CGraphics.FadeTo(EScreen.Main);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptionsGame].Selected)
                             CGraphics.FadeTo(EScreen.OptionsGame);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptionsSound].Selected)
                             CGraphics.FadeTo(EScreen.OptionsSound);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptionsRecord].Selected)
                             CGraphics.FadeTo(EScreen.OptionsRecord);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptionsVideo].Selected)
                             CGraphics.FadeTo(EScreen.OptionsVideo);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptionsLyrics].Selected)
                             CGraphics.FadeTo(EScreen.OptionsLyrics);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptionsTheme].Selected)
                             CGraphics.FadeTo(EScreen.OptionsTheme);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptionsGraphics].Selected)
                             CGraphics.FadeTo(EScreen.OptionsGraphics);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptionsServer].Selected)
                             CGraphics.FadeTo(EScreen.OptionsServer);
+                            _LeaveScreen();
 
                         if (_Buttons[_ButtonOptionsCredits].Selected)
                             CGraphics.FadeTo(EScreen.Credits);
+                            _LeaveScreen();
+
+                        if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptions._OpenSongFolderDialog())
+                        {
+                            _Texts[_TextWarningRestart].Visible = true;
+                            _Statics[_StaticWarningRestart].Visible = true;
+                        }
+                        break;
 
                         break;
                 }
@@ -112,43 +157,91 @@ namespace Vocaluxe.Screens
             {
                 if (_Buttons[_ButtonOptionsBack].Selected)
                     CGraphics.FadeTo(EScreen.Main);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptionsGame].Selected)
                     CGraphics.FadeTo(EScreen.OptionsGame);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptionsSound].Selected)
                     CGraphics.FadeTo(EScreen.OptionsSound);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptionsRecord].Selected)
                     CGraphics.FadeTo(EScreen.OptionsRecord);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptionsVideo].Selected)
                     CGraphics.FadeTo(EScreen.OptionsVideo);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptionsLyrics].Selected)
                     CGraphics.FadeTo(EScreen.OptionsLyrics);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptionsTheme].Selected)
                     CGraphics.FadeTo(EScreen.OptionsTheme);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptionsGraphics].Selected)
                     CGraphics.FadeTo(EScreen.OptionsGraphics);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptionsServer].Selected)
                     CGraphics.FadeTo(EScreen.OptionsServer);
+                    _LeaveScreen();
 
                 if (_Buttons[_ButtonOptionsCredits].Selected)
                     CGraphics.FadeTo(EScreen.Credits);
+                    _LeaveScreen();
+
+                if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptions._OpenSongFolderDialog())
+                        {
+                            _Texts[_TextWarningRestart].Visible = true;
+                            _Statics[_StaticWarningRestart].Visible = true;
+                        }
             }
 
             if (mouseEvent.RB)
                 CGraphics.FadeTo(EScreen.Main);
+                _LeaveScreen();
             return true;
         }
 
         public override bool UpdateGame()
         {
             return true;
+        }
+
+        private static bool _OpenSongFolderDialog()
+        {
+            using (var dialog = new FolderBrowserDialog())
+            {
+                dialog.Description = CLanguage.Translate("TR_SCREENO_SONGFOLDER");
+                dialog.ShowNewFolderButton = true;
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Update config with new folder
+                    var folders = CConfig.Config.Game.SongFolder?.ToList() ?? new List<string>();
+                    if (!folders.Contains(dialog.SelectedPath))
+                    {
+                       folders.Add(dialog.SelectedPath);
+                       CConfig.Config.Game.SongFolder = folders.ToArray();
+                       CConfig.SaveConfig();
+                    }
+                    return true; // Folder was selected
+                }
+            }
+            return false; // Dialog was cancelled
+        }
+        
+        private void _LeaveScreen()
+        {           
+            if (_WarningStream != -1)
+            {
+                 CSound.Close(_WarningStream);
+                _WarningStream = -1;
+            }
         }
     }
 }
