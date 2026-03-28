@@ -87,41 +87,38 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
-            else
+            switch (keyEvent.Key)
             {
-                switch (keyEvent.Key)
-                {
-                    case Keys.Escape:
-                    case Keys.Back:
+                case Keys.Escape:
+                case Keys.Back:
+                    _SaveConfig();
+                    CGraphics.FadeTo(EScreen.Options);
+                    _LeaveScreen();
+                    break;
+
+                case Keys.S:
+                    CParty.SetNormalGameMode();
+                    _SaveConfig();
+                    CGraphics.FadeTo(EScreen.Song);
+                    _LeaveScreen();
+                    break;
+
+                case Keys.Enter:
+                    if (_Buttons[_ButtonExit].Selected)
+                    {
                         _SaveConfig();
                         CGraphics.FadeTo(EScreen.Options);
                         _LeaveScreen();
-                        break;
+                    }
+                    break;
 
-                    case Keys.S:
-                        CParty.SetNormalGameMode();
-                        _SaveConfig();
-                        CGraphics.FadeTo(EScreen.Song);
-                        _LeaveScreen();
-                        break;
+                case Keys.Left:
+                    _SaveConfig();
+                    break;
 
-                    case Keys.Enter:
-                        if (_Buttons[_ButtonExit].Selected)
-                        {
-                            _SaveConfig();
-                            CGraphics.FadeTo(EScreen.Options);
-                            _LeaveScreen();
-                        }
-                        break;
-
-                    case Keys.Left:
-                        _SaveConfig();
-                        break;
-
-                    case Keys.Right:
-                        _SaveConfig();
-                        break;
+                case Keys.Right:
+                    _SaveConfig();
+                    break;
                 }
             }
             return true;
