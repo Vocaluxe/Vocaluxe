@@ -16,8 +16,6 @@
 #endregion
 
 using System.Windows.Forms;
-using System.Linq;
-using System.Collections.Generic;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
