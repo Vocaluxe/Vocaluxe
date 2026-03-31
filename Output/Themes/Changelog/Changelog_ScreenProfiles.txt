@@ -1,5 +1,9 @@
 ScreenProfiles
 ++++++++++
+Version 4:
+Add: <NameSelection>
+
+++++++++++
 Version 3:
 Rename: <SelectSlideGuestProfile> to <SelectSlideUserRole>
 
