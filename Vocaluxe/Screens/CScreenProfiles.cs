@@ -199,7 +199,7 @@ namespace Vocaluxe.Screens
         {
             if (_EditMode == EEditMode.None)
                 base.HandleMouse(mouseEvent);
-                
+
             _NameSelections[_NameSelection].HandleMouse(mouseEvent);
 
             if (mouseEvent.LB && _NameSelections[_NameSelection].IsOverTile(mouseEvent))
@@ -421,6 +421,7 @@ namespace Vocaluxe.Screens
 
             CProfiles.SetAvatar(id, _SelectSlides[_SelectSlideAvatars].SelectedTag);
 
+            _NameSelections[_NameSelection].UpdateList();
             _SelectElement(_Buttons[_ButtonPlayerName]);
             _EditMode = EEditMode.PlayerName;
         }
@@ -483,7 +484,10 @@ namespace Vocaluxe.Screens
                 }
 
                 if (_EditMode == EEditMode.PlayerName)
+                {
                     CProfiles.SetPlayerName(_GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag), name);
+                    _NameSelections[_NameSelection].UpdateList();
+                }
             }
             _ProfilesChanged = false;
         }
@@ -510,6 +514,16 @@ namespace Vocaluxe.Screens
             _AvatarsChanged = false;
         }
 
+        private void _SelectProfileById(Guid profileId)
+        {
+            if (profileId == Guid.Empty)
+                return;
+
+            KeyValuePair<int, Guid> entry = _SelectSlideGuids.FirstOrDefault(x => x.Value.Equals(profileId));
+            if (_SelectSlideGuids.ContainsKey(entry.Key))
+                _SelectSlides[_SelectSlideProfiles].SelectedTag = entry.Key;
+        }
+        
         private Guid _GetIdFromTag(int tag)
         {
             if (tag == -1 || !_SelectSlideGuids.ContainsKey(tag))
