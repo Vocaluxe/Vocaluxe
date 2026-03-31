@@ -276,10 +276,16 @@ namespace Vocaluxe.Screens
         public override bool UpdateGame()
         {
             if (_AvatarsChanged)
+            {
                 _LoadAvatars(true);
+                _NameSelections[_NameSelection].UpdateList();
+            }
 
             if (_ProfilesChanged)
+            {
                 _LoadProfiles(true);
+                _NameSelections[_NameSelection].UpdateList();
+            }
 
             if (_SelectSlides[_SelectSlideProfiles].Selection > -1)
             {
@@ -389,6 +395,7 @@ namespace Vocaluxe.Screens
             int id = CProfiles.NewAvatar(file);
             CProfiles.SetAvatar(_GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag), id);
             _LoadAvatars(false);
+            _NameSelections[_NameSelection].UpdateList();
 
             _SelectElement(_Buttons[_ButtonSave]);
         }
@@ -430,6 +437,8 @@ namespace Vocaluxe.Screens
         {
             _EditMode = EEditMode.None;
             CProfiles.SaveProfiles();
+            _LoadProfiles(true);
+            _NameSelections[_NameSelection].UpdateList();
         }
 
         private void _DeleteProfile()
@@ -438,6 +447,7 @@ namespace Vocaluxe.Screens
 
             CProfiles.DeleteProfile(_GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag));
             _SelectSlideGuids.Remove(_SelectSlides[_SelectSlideProfiles].SelectedTag);
+            _NameSelections[_NameSelection].UpdateList();
 
             int selection = _SelectSlides[_SelectSlideProfiles].Selection;
             if (_SelectSlides[_SelectSlideProfiles].NumValues - 1 > selection)
