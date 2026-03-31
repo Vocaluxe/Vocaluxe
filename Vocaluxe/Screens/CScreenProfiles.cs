@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -62,6 +62,7 @@ namespace Vocaluxe.Screens
         private const string _StaticAvatar = "StaticAvatar";
         private bool _ProfilesChanged;
         private bool _AvatarsChanged;
+        private bool _SelectingKeyboardActive;
 
         private Dictionary<int, Guid> _SelectSlideGuids = new Dictionary<int, Guid>();
 
@@ -83,6 +84,7 @@ namespace Vocaluxe.Screens
             _EditMode = EEditMode.None;
             _ProfilesChanged = false;
             _AvatarsChanged = false;
+            _SelectingKeyboardActive = false;
             CProfiles.AddProfileChangedCallback(_OnProfileChanged);
         }
 
@@ -102,6 +104,46 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_SelectingKeyboardActive)
+            {
+                switch (keyEvent.Key)
+                {
+                    case Keys.Left:
+                    case Keys.Right:
+                    case Keys.Up:
+                    case Keys.Down:
+                        _NameSelections[_NameSelection].HandleInput(keyEvent);
+                        return true;
+
+                case Keys.Enter:
+                    if (_NameSelections[_NameSelection].SelectedID != Guid.Empty)
+                        _SelectProfileById(_NameSelections[_NameSelection].SelectedID);
+
+                    _NameSelections[_NameSelection].FastSelection(false, -1);
+                    _SelectingKeyboardActive = false;
+                    _SelectElement(_Buttons[_ButtonPlayerName]);
+                    return true;
+
+                case Keys.Escape:
+                case Keys.Back:
+                    _NameSelections[_NameSelection].FastSelection(false, -1);
+                    _SelectingKeyboardActive = false;
+                    _SelectElement(_Buttons[_ButtonExit]);
+                    return true;
+                }
+            }
+
+            if (_EditMode == EEditMode.None && keyEvent.Key == Keys.Up && _Buttons[_ButtonExit].Selected)
+            {
+                if (CProfiles.NumProfiles <= 0)
+                    return true;
+                
+                _SelectingKeyboardActive = true;
+                _NameSelections[_NameSelection].Init();
+                _NameSelections[_NameSelection].UpdateList();
+                _NameSelections[_NameSelection].FastSelection(true, 1);
+            }
+    
             if (_EditMode == EEditMode.None)
                 base.HandleInput(keyEvent);
 
@@ -327,6 +369,7 @@ namespace Vocaluxe.Screens
         {
             base.OnClose();
             _EditMode = EEditMode.None;
+            _SelectingKeyboardActive = false;
             _OnDiscardSnapshot();
         }
 
