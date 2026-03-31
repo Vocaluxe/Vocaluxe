@@ -41,7 +41,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _SelectSlideProfiles = "SelectSlideProfiles";
@@ -58,7 +58,7 @@ namespace Vocaluxe.Screens
         private const string _ButtonSaveSnapshot = "ButtonSaveSnapshot";
         private const string _ButtonDiscardSnapshot = "ButtonDiscardSnapshot";
         private const string _ButtonTakeSnapshot = "ButtonTakeSnapshot";
-
+        private const string _NameSelection = "NameSelection";
         private const string _StaticAvatar = "StaticAvatar";
         private bool _ProfilesChanged;
         private bool _AvatarsChanged;
@@ -78,6 +78,7 @@ namespace Vocaluxe.Screens
                 {_ButtonPlayerName, _ButtonExit, _ButtonSave, _ButtonNew, _ButtonDelete, _ButtonWebcam, _ButtonSaveSnapshot, _ButtonDiscardSnapshot, _ButtonTakeSnapshot};
             _ThemeSelectSlides = new string[] {_SelectSlideProfiles, _SelectSlideDifficulty, _SelectSlideAvatars, _SelectSlideUserRole, _SelectSlideActive};
             _ThemeStatics = new string[] {_StaticAvatar};
+            _ThemeNameSelections = new string[] { _NameSelection };
 
             _EditMode = EEditMode.None;
             _ProfilesChanged = false;
@@ -198,6 +199,15 @@ namespace Vocaluxe.Screens
         {
             if (_EditMode == EEditMode.None)
                 base.HandleMouse(mouseEvent);
+                
+            _NameSelections[_NameSelection].HandleMouse(mouseEvent);
+
+            if (mouseEvent.LB && _NameSelections[_NameSelection].IsOverTile(mouseEvent))
+            {
+                Guid profileId = _NameSelections[_NameSelection].TilePlayerID(mouseEvent);
+                _SelectProfileById(profileId);
+                return true;
+            }
 
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
@@ -250,6 +260,16 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.RB)
                 CGraphics.FadeTo(EScreen.Main);
+
+            if (mouseEvent.Wheel != 0)
+            {
+                if (CHelper.IsInBounds(_NameSelections[_NameSelection].Rect, mouseEvent))
+                {
+                    int offset = _NameSelections[_NameSelection].Offset + mouseEvent.Wheel;
+                    _NameSelections[_NameSelection].UpdateList(offset);
+                }
+            }
+            
             return true;
         }
 
@@ -291,6 +311,7 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
+            _NameSelections[_NameSelection].Init();
             _LoadAvatars(false);
             _LoadProfiles(false);
             UpdateGame();
