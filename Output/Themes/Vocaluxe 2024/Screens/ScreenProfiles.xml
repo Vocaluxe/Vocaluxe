@@ -631,7 +631,35 @@
     </SelectSlide>
   </SelectSlides>
   <SingNotes />
-  <NameSelections />
+  <NameSelections>
+    <NameSelection Name="NameSelection">
+      <Rect>
+        <X>82.5</X>
+        <Y>195</Y>
+        <W>1230</W>
+        <H>540</H>
+        <Z>0</Z>
+      </Rect>
+      <SkinEmptyTile>PlayerTile</SkinEmptyTile>
+      <ColorEmptyTile Name="EmptyTileColor" />
+      <SkinTileSelected>PlayerSelector</SkinTileSelected>
+      <Tiles>
+        <W>150</W>
+        <H>150</H>
+        <NumW>5</NumW>
+        <NumH>5</NumH>
+        <SpaceW>10</SpaceW>
+        <SpaceH>10</SpaceH>
+        <Name>
+          <Space>-20</Space>
+          <H>25.5</H>
+          <Font>Outline</Font>
+          <Style>Bold</Style>
+          <Color Name="TextColor" />
+        </Name>
+      </Tiles>
+    </NameSelection>
+  </NameSelections>
   <Equalizers />
   <Playlists />
   <ParticleEffects />
