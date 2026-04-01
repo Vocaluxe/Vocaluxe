@@ -142,7 +142,7 @@ namespace VocaluxeLib.Menu
         {
             _PrepareTiles();
         
-            _PlayerSelector = new CStatic(_PartyModeID, _TextureTileSelected, new SColorF(), new SRectF(0, 0, _Theme.Tiles.W + 6, _Theme.Tiles.H + 6, Rect.Z - 0.5f))
+            _PlayerSelector = new CStatic(_PartyModeID, _TextureTileSelected, new SColorF(), new SRectF(0, 0, _Theme.Tiles.W + 10, _Theme.Tiles.H + 10, Rect.Z - 0.5f))
             {
                 Visible = true
             };
