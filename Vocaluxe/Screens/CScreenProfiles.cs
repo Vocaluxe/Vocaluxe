@@ -302,14 +302,11 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.RB)
                 CGraphics.FadeTo(EScreen.Main);
-
-            if (mouseEvent.Wheel != 0)
+            
+            if (mouseEvent.Wheel != 0 && CHelper.IsInBounds(_NameSelections[_NameSelection].Rect, mouseEvent))
             {
-                if (CHelper.IsInBounds(_NameSelections[_NameSelection].Rect, mouseEvent))
-                {
-                    int offset = _NameSelections[_NameSelection].Offset + mouseEvent.Wheel;
-                    _NameSelections[_NameSelection].UpdateList(offset);
-                }
+                int offset = _NameSelections[_NameSelection].Offset + mouseEvent.Wheel;
+                _NameSelections[_NameSelection].UpdateList(offset);
             }
             
             return true;
