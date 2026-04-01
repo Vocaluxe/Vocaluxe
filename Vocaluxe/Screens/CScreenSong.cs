@@ -769,6 +769,7 @@ namespace Vocaluxe.Screens
             else if (_Sso.Selection.CategoryChangeAllowed)
             {
                 _ToggleSongOptions(ESongOptionsView.None);
+				_SelectedCategoryIndex = _SongMenu.GetSelectedCategory();
                 _SongMenu.EnterSelectedCategory();
             }
         }
