@@ -299,9 +299,16 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public void LeaveSelectedCategory()
         {
-            // Stefan1200: This was implemented with the pull request #359 and is the reason for the bug described in issue #390.
-            //             Currently disabled until we know if this is still needed or we find a better solution!
-            // _LeaveCategory();
+            if (!CBase.Songs.IsInCategory())
+                return;
+
+            int oldCategory = CBase.Songs.GetCurrentCategoryIndex();
+            _LeaveCategory();
+
+            if (oldCategory >= 0 && oldCategory < CBase.Songs.GetNumCategories())
+                SetSelectedCategory(oldCategory);
+            else if (CBase.Songs.GetNumCategories() > 0)
+                SetSelectedCategory(0);
         }
 
         public virtual void UnloadSkin() {}
