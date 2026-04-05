@@ -36,7 +36,7 @@ namespace Vocaluxe.Lib.Sound
         private static int _RefCount;
         private static readonly object _Mutex = new object();
 
-        private bool d;
+        private bool _Disposed;
         private readonly List<IntPtr> _Streams = new List<IntPtr>();
 
         /// <summary>
