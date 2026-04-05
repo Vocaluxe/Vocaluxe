@@ -74,7 +74,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         }
 
         /// <summary>
-        ///     Start Voice Capturing
+        ///      Voice Capturing
         /// </summary>
         /// <returns></returns>
         public bool Start()
@@ -159,10 +159,50 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                         PortAudioSharp.PortAudio.PaStreamFlags.paNoFlag,
                         _MyRecProc,
                         new IntPtr(dev)))
+                {
+                    for (int j = 0; j < _RecHandle.Length; j++)
+                    {
+                        if (_RecHandle[j] == IntPtr.Zero)
+                            continue;
+
+                        try
+                        {
+                            _PaHandle.CloseStream(_RecHandle[j]);
+                        }
+                        catch (Exception ex)
+                        {
+                            CLog.Error(ex, "Error rolling back PortAudio stream after open failure:");
+                        }
+                        finally
+                        {
+                            _RecHandle[j] = IntPtr.Zero;
+                        }
+                    }
                     return false;
+                }
 
                 if (_PaHandle.CheckError("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[dev])))
+                {
+                    for (int j = 0; j < _RecHandle.Length; j++)
+                    {
+                        if (_RecHandle[j] == IntPtr.Zero)
+                            continue;
+
+                        try
+                        {
+                            _PaHandle.CloseStream(_RecHandle[j]);
+                        }
+                        catch (Exception ex)
+                        {
+                            CLog.Error(ex, "Error rolling back PortAudio stream after start failure:");
+                        }
+                        finally
+                        {
+                            _RecHandle[j] = IntPtr.Zero;
+                        }
+                    }
                     return false;
+                }
             }
 
             return true;
