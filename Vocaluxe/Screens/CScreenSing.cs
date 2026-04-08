@@ -142,6 +142,10 @@ namespace Vocaluxe.Screens
         private Stopwatch _TimerSongText;
         private Stopwatch _TimerDuetText1;
         private Stopwatch _TimerDuetText2;
+        private Stopwatch _TimerStartCountdown;
+
+        private bool _StartDelayed;
+        private const float _StartCountdownSeconds = 3f;
 
         private bool _Pause;
         private bool _Webcam;
@@ -206,6 +210,7 @@ namespace Vocaluxe.Screens
             _TimerSongText = new Stopwatch();
             _TimerDuetText1 = new Stopwatch();
             _TimerDuetText2 = new Stopwatch();
+            _TimerStartCountdown = new Stopwatch();
 
             _TimerShortInfoText = new System.Timers.Timer(5000);
             _TimerShortInfoText.AutoReset = false;
@@ -457,6 +462,8 @@ namespace Vocaluxe.Screens
             _Length = -1f;
             _TimeToFirstNote = 0f;
             _TimeToFirstNoteDuet = 0f;
+            _StartDelayed = false;
+            _TimerStartCountdown.Reset();
             _SetPause(false);
 
             _TimeRects.Clear();
@@ -523,7 +530,7 @@ namespace Vocaluxe.Screens
             else
                 finish = true;
 
-            if (finish && !_FadeOut)
+            if (finish && !_FadeOut && !_StartDelayed)
                 _NextSong();
 
             _UpdateSongText();
@@ -532,14 +539,22 @@ namespace Vocaluxe.Screens
             if (_FadeOut)
                 return true;
 
+            if (CGame.GameMode == EGameMode.TR_GAMEMODE_MEDLEY)
+            {
+                _UpdateMedleyCountdown();
+            }
+            else if (_StartDelayed)
+            {
+                _UpdateStartCountdown();
+                return true;
+            }
+
             _UpdateTimeLine();
 
             CGame.UpdatePoints(_CurrentTime);
             _UpdateRatingBars();
             _UpdateRatingPopups();
             _UpdateLyrics();
-            if (CGame.GameMode == EGameMode.TR_GAMEMODE_MEDLEY)
-                _UpdateMedleyCountdown();
 
             float[] alpha = _CalcFadingAlpha();
             if (alpha != null)
@@ -705,7 +720,7 @@ namespace Vocaluxe.Screens
                 float partSeconds = timeDiff - fullSeconds;
                 _Texts[_TextMedleyCountdown].Visible = true;
                 _Texts[_TextMedleyCountdown].Text = fullSeconds.ToString();
-                _Texts[_TextMedleyCountdown].Font.Height = partSeconds * CSettings.RenderH;
+                _Texts[_TextMedleyCountdown].Font.Height = Math.Max(CSettings.RenderH / 8f, partSeconds * CSettings.RenderH);
 
                 RectangleF textBounds = CFonts.GetTextBounds(_Texts[_TextMedleyCountdown]);
                 float x = CSettings.RenderW / 2 - textBounds.Width / 2;
@@ -715,6 +730,40 @@ namespace Vocaluxe.Screens
             }
             else
                 _Texts[_TextMedleyCountdown].Visible = false;
+        }
+
+        private void _UpdateStartCountdown()
+        {
+            if (!_StartDelayed)
+                return;
+
+            float elapsed = _TimerStartCountdown.ElapsedMilliseconds / 1000f;
+            float remaining = _StartCountdownSeconds - elapsed;
+
+            if (remaining > 0f)
+            {
+                float fullSeconds = (float)Math.Ceiling(remaining);
+                float partSeconds = remaining - (float)Math.Floor(remaining);
+
+                _Texts[_TextMedleyCountdown].Visible = true;
+                _Texts[_TextMedleyCountdown].Text = fullSeconds.ToString("0");
+                _Texts[_TextMedleyCountdown].Font.Height = Math.Max(CSettings.RenderH / 8f, partSeconds * CSettings.RenderH);
+
+                RectangleF textBounds = CFonts.GetTextBounds(_Texts[_TextMedleyCountdown]);
+                float x = CSettings.RenderW / 2f - textBounds.Width / 2f;
+                float y = CSettings.RenderH / 2f - textBounds.Height / 2f;
+                _Texts[_TextMedleyCountdown].X = x;
+                _Texts[_TextMedleyCountdown].Y = y;
+            }
+            else
+            {
+                _Texts[_TextMedleyCountdown].Visible = false;
+                _Texts[_TextMedleyCountdown].Text = String.Empty;
+                _TimerStartCountdown.Reset();
+
+                _StartSongNow();
+                _StartDelayed = false;
+            }
         }
 
         private void _UpdateSongText()
@@ -1089,14 +1138,36 @@ namespace Vocaluxe.Screens
         /// </summary>
         private void _StartSong()
         {
+            CSong song = CGame.GetSong();
+            if (song == null)
+                return;
+
+            bool useStartCountdown = CGame.GameMode != EGameMode.TR_GAMEMODE_MEDLEY && song.Gap <= 2f;
+
+            if (useStartCountdown)
+            {
+                _StartDelayed = true;
+                _TimerStartCountdown.Reset();
+                _TimerStartCountdown.Start();
+
+                _Texts[_TextMedleyCountdown].Text = String.Empty;
+                _Texts[_TextMedleyCountdown].Visible = true;
+                return;
+            }
+
+            _StartSongNow();
+         }
+
+        private void _StartSongNow()
+        {
             _PrepareTimeLine();
             CSound.Play(_CurrentStream);
-            
+
             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
             {
                 CSound.Play(_CurrentStreamVocals);
             }
-            
+
             CRecord.Start();
             if (_Webcam)
                 CWebcam.Start();
@@ -1213,6 +1284,23 @@ namespace Vocaluxe.Screens
             
             _SelectSlides[_SelectSlidePauseVocalsVolume].Visible = _Pause && (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS);
             _Texts[_TextPauseVocalsVolume].Visible = _Pause && (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS);
+
+            if (_StartDelayed)
+            {
+                if (_Pause)
+                {
+                    if (_TimerStartCountdown.IsRunning)
+                        _TimerStartCountdown.Stop();
+                }
+                else
+                {
+                    if (!_TimerStartCountdown.IsRunning)
+                        _TimerStartCountdown.Start();
+                }
+
+                _Texts[_TextMedleyCountdown].Visible = !_Pause;
+                return;
+            }
 
             if (_Pause && _TimerSongText.IsRunning)            
                 _TimerSongText.Stop();
@@ -1430,6 +1518,8 @@ namespace Vocaluxe.Screens
             _Texts[_TextDuetName2].Text = String.Empty;
             _Texts[_TextMedleyCountdown].Visible = false;
             _Texts[_TextMedleyCountdown].Text = String.Empty;
+            _StartDelayed = false;
+            _TimerStartCountdown.Reset();
         }
         #endregion
 
