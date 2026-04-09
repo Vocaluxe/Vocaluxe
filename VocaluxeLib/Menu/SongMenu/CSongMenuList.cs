@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -358,7 +358,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 case Keys.Back:
                     if (CBase.Songs.IsInCategory() && catChangePossible)
                     {
-                        _LeaveCategory();
+                        LeaveSelectedCategory();
                         keyEvent.Handled = true;
                     }
                     break;
@@ -510,7 +510,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 if (CBase.Songs.IsInCategory() && CBase.Songs.GetNumCategories() > 0 && CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_ON &&
                     songOptions.Selection.CategoryChangeAllowed)
                 {
-                    _LeaveCategory();
+                    LeaveSelectedCategory();
                     return true;
                 }
                 if (CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && !songOptions.Selection.PartyMode)
@@ -611,8 +611,6 @@ namespace VocaluxeLib.Menu.SongMenu
         protected override void _LeaveCategory()
         {
             base._LeaveCategory();
-
-            SetSelectedCategory(0);
             _UpdateListIfRequired();
         }
 
