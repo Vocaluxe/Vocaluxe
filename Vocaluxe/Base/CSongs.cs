@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -152,6 +153,12 @@ namespace Vocaluxe.Base
             private set { _NumSongsWithCoverLoaded = value; }
         }
 
+        private static int _NumSongsLoaded;
+        public static int NumSongsLoaded
+        {
+            get { return _NumSongsLoaded; }
+        }
+
         public static string GetCurrentCategoryName()
         {
             return _IsCatIndexValid(_CatIndex) ? Categories[_CatIndex].Name : "";
@@ -159,7 +166,7 @@ namespace Vocaluxe.Base
 
         public static CSong GetSong(int songID)
         {
-            return _Songs.FirstOrDefault(song => song.ID == songID);
+            return songID >= 0 && songID < _Songs.Count ? _Songs[songID] : null;
         }
 
         public static void AddPartySongSung(int songID)
@@ -219,21 +226,22 @@ namespace Vocaluxe.Base
         public static void UpdateRandomSongList()
         {
             _SongsForRandom.Clear();
-            if (NumSongsVisible == 0)
+            List<CSong> visibleSongs = VisibleSongs.ToList();
+            if (visibleSongs.Count == 0)
                 return;
 
-            //Calc avarage sing-count
-            int totalCounts = VisibleSongs.Sum(song => song.NumPlayedSession);
-            int averageCount = totalCounts / NumSongsVisible;
+            // Calc average sing-count
+            int totalCounts = visibleSongs.Sum(song => song.NumPlayedSession);
+            int averageCount = totalCounts / visibleSongs.Count;
 
-            foreach (CSong song in VisibleSongs)
+            foreach (CSong song in visibleSongs)
             {
                 if (song.NumPlayedSession <= averageCount)
                     _SongsForRandom.Add(song);
             }
 
             if (_SongsForRandom.Count == 0)
-                _SongsForRandom.AddRange(VisibleSongs);
+                _SongsForRandom.AddRange(visibleSongs);
         }
 
         public static int GetRandomCategory()
@@ -338,33 +346,56 @@ namespace Vocaluxe.Base
             {
                 SongsLoaded = false;
                 _Songs.Clear();
+                _NumSongsLoaded = 0;
 
-                var files = Enumerable.Empty<string>();
+                IEnumerable<string> files;
                
                 using (CBenchmark.Time("List Songs"))
                 {
-                    
+                    var fileSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+
                     foreach (string path in CConfig.SongFolders)
                     {
-                        if (Directory.Exists(path))
-                        {
-                            files = files.Union(CHelper.ListTextFiles(path, true, true));
-                        }
+                        if (!Directory.Exists(path))
+                            continue;
+
+                        foreach (string file in CHelper.ListTextFiles(path, true, true))
+                            fileSet.Add(file);
                     }
+
+                    files = fileSet;
                 }
 
                 using (CBenchmark.Time("Read TXTs"))
                 {
-                    foreach (string file in files)
+                    var fileList = files.ToList();
+                    var bag = new ConcurrentBag<CSong>();
+                    var options = new ParallelOptions
+                    {
+                        MaxDegreeOfParallelism = Math.Max(1, Environment.ProcessorCount)
+                    };
+
+                    Parallel.ForEach(fileList, options, file =>
                     {
                         CSong song = CSong.LoadSong(file);
                         if (song == null)
-                            continue;
-                        song.ID = _Songs.Count;
+                            return;
+
                         if (song.LoadNotes())
-                            _Songs.Add(song);
+                        {
+                            bag.Add(song);
+                            Interlocked.Increment(ref _NumSongsLoaded);
+                        }
+                    });
+
+                    int id = 0;
+                    foreach (CSong song in bag.OrderBy(s => s.Folder).ThenBy(s => s.FileName))
+                    {
+                        song.ID = id++;
+                        _Songs.Add(song);
                     }
                 }
+            }
                 
                 using (CBenchmark.Time("Sorted Songs"))
                 {
@@ -386,7 +417,6 @@ namespace Vocaluxe.Base
                         _LoadCoversAsync();
                         break;
                 }
-            }
         }
 
         private static void _LoadCoversAsync()

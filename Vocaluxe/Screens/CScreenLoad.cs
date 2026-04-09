@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -149,7 +149,7 @@ namespace Vocaluxe.Screens
             }
 
             _Texts[_TextStatus].Text =
-                CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": " + CSongs.NumAllSongs + " " +
+                CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": " + CSongs.NumSongsLoaded + " " +
                 CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (" + CSongs.NumSongsWithCoverLoaded + " " +
                 CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
 
