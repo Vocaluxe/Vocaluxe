@@ -16,9 +16,9 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
+using System.Diagnostics;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using OpenTK.Input;
 using Vocaluxe.Base;
@@ -40,7 +40,7 @@ namespace Vocaluxe.Lib.Input
         private const float MouseSpeed = 25.0f;
         private const int ConnectRumblePulseMs = 125;
 
-        private readonly object _sync = new object();
+        private readonly object _Sync = new object();
 
         private readonly Stopwatch _dpadDownTimer = new Stopwatch();
         private readonly Stopwatch _dpadUpTimer = new Stopwatch();
@@ -53,7 +53,7 @@ namespace Vocaluxe.Lib.Input
         private readonly Stopwatch _leftTriggerTimer = new Stopwatch();
         private readonly Stopwatch _rightTriggerTimer = new Stopwatch();
 
-        private int _gamePadIndex = -1;
+        private int _GamePadIndex = -1;
         private GamePadState _oldButtonStates;
         private Thread _handlerThread;
         private AutoResetEvent _evTerminate;
@@ -65,7 +65,7 @@ namespace Vocaluxe.Lib.Input
 
         private bool Connected
         {
-            get { return _gamePadIndex != -1; }
+            get { return _GamePadIndex != -1; }
         }
 
         public override string GetName()
@@ -81,7 +81,7 @@ namespace Vocaluxe.Lib.Input
             _rumbleTimer = new CRumbleTimer();
             _evTerminate = new AutoResetEvent(false);
             _oldButtonStates = new GamePadState();
-            _gamePadIndex = -1;
+            _GamePadIndex = -1;
             _active = false;
             _handlerThread = null;
 
@@ -137,15 +137,15 @@ namespace Vocaluxe.Lib.Input
 
             try
             {
-                if (_gamePadIndex != -1)
-                    GamePad.SetVibration(_gamePadIndex, 0.0f, 0.0f);
+                if (_GamePadIndex != -1)
+                    GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
             }
             catch (Exception ex)
             {
                 Debug.WriteLine("CGamePad: Failed to stop vibration while closing: " + ex);
             }
 
-            _gamePadIndex = -1;
+            _GamePadIndex = -1;
 
             if (_evTerminate != null)
             {
@@ -163,7 +163,7 @@ namespace Vocaluxe.Lib.Input
 
         public override void SetRumble(float duration)
         {
-            lock (_sync)
+            lock (_Sync)
             {
                 if (_rumbleTimer != null)
                     _rumbleTimer.Set(duration);
@@ -194,13 +194,13 @@ namespace Vocaluxe.Lib.Input
                         bool startRumble;
                         bool stopRumble;
 
-                        lock (_sync)
+                        lock (_Sync)
                         {
                             startRumble = _rumbleTimer != null && _rumbleTimer.ShouldStart;
                             stopRumble = _rumbleTimer != null && _rumbleTimer.ShouldStop;
                         }
 
-                        int currentIndex = _gamePadIndex;
+                        int currentIndex = _GamePadIndex;
                         if (currentIndex == -1)
                             continue;
 
@@ -221,7 +221,7 @@ namespace Vocaluxe.Lib.Input
                             {
                             }
 
-                            _gamePadIndex = -1;
+                            _GamePadIndex = -1;
                             _oldButtonStates = new GamePadState();
                             _ResetAllRepeatTimers();
                             continue;
@@ -235,14 +235,14 @@ namespace Vocaluxe.Lib.Input
 
                         try
                         {
-                            if (_gamePadIndex != -1)
-                                GamePad.SetVibration(_gamePadIndex, 0.0f, 0.0f);
+                            if (_GamePadIndex != -1)
+                                GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
                         }
                         catch
                         {
                         }
 
-                        _gamePadIndex = -1;
+                        _GamePadIndex = -1;
                         _oldButtonStates = new GamePadState();
                         _ResetAllRepeatTimers();
                     }
@@ -252,14 +252,14 @@ namespace Vocaluxe.Lib.Input
             {
                 try
                 {
-                    if (_gamePadIndex != -1)
-                        GamePad.SetVibration(_gamePadIndex, 0.0f, 0.0f);
+                    if (_GamePadIndex != -1)
+                        GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
                 }
                 catch
                 {
                 }
 
-                _gamePadIndex = -1;
+                _GamePadIndex = -1;
             }
         }
 
@@ -464,7 +464,7 @@ namespace Vocaluxe.Lib.Input
 
         private bool _DoConnect()
         {
-            _gamePadIndex = -1;
+            _GamePadIndex = -1;
 
             for (int i = 0; i < MaxGamePads; i++)
             {
@@ -472,7 +472,7 @@ namespace Vocaluxe.Lib.Input
                 {
                     if (GamePad.GetCapabilities(i).IsConnected)
                     {
-                        _gamePadIndex = i;
+                        _GamePadIndex = i;
                         break;
                     }
                 }
@@ -482,7 +482,7 @@ namespace Vocaluxe.Lib.Input
                 }
             }
 
-            if (_gamePadIndex == -1)
+            if (_GamePadIndex == -1)
                 return false;
 
             _oldButtonStates = new GamePadState();
@@ -493,17 +493,17 @@ namespace Vocaluxe.Lib.Input
 
             try
             {
-                GamePad.SetVibration(_gamePadIndex, 1.0f, 1.0f);
+                GamePad.SetVibration(_GamePadIndex, 1.0f, 1.0f);
                 Thread.Sleep(ConnectRumblePulseMs);
-                GamePad.SetVibration(_gamePadIndex, 0.0f, 0.0f);
+                GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
                 Thread.Sleep(ConnectRumblePulseMs);
-                GamePad.SetVibration(_gamePadIndex, 1.0f, 1.0f);
+                GamePad.SetVibration(_GamePadIndex, 1.0f, 1.0f);
                 Thread.Sleep(ConnectRumblePulseMs);
-                GamePad.SetVibration(_gamePadIndex, 0.0f, 0.0f);
+                GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
                 Thread.Sleep(ConnectRumblePulseMs);
-                GamePad.SetVibration(_gamePadIndex, 1.0f, 1.0f);
+                GamePad.SetVibration(_GamePadIndex, 1.0f, 1.0f);
                 Thread.Sleep(ConnectRumblePulseMs);
-                GamePad.SetVibration(_gamePadIndex, 0.0f, 0.0f);
+                GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
             }
             catch (Exception ex)
             {
