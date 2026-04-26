@@ -1,5 +1,8 @@
 obj
 PitchTracker.dll
+*.o
+*.so
+/OutputWin/
 Thumbs.db
 .transifexrc
 .vs
