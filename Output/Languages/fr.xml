@@ -212,12 +212,10 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Son</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Enregistrement</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Vidéo</string>
-  <string name="TR_SCREENO_BUTTON_LYRICS">Paroles/Graphimes</string>
   <string name="TR_SCREENO_BUTTON_THEME">Thème</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Crédits</string>
   <string name="TR_SCREENO_WARNINGRESTART">Veuillez redémarrer le jeu pour que les changements prennent effet.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Adresse du serveur</string>
-  <string name="TR_SCREENOGAME_BUTTON_SONGFOLDER">Ajouter dossier chansons</string>
   <string name="TR_SCREENOGAME_OPTIONS">Options du Jeu</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Langue</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Niveau de Débogage</string>
@@ -228,7 +226,6 @@
   <string name="TR_SCREENOGAME_DIFFICULTY">Difficulté du Jeu</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Mode du Minuteur</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Style meilleur score</string>
-  <string name="TR_SCREENOGAME_SONGFOLDER">Sélectionnez le dossier de chansons que vous souhaitez ajouter</string>
   <string name="TR_SCREENORECORD_OPTIONS">Options d'Enregistrement</string>
   <string name="TR_SCREENORECORD_DEVICE">Appareil</string>
   <string name="TR_SCREENORECORD_INPUT">Entrée</string>
@@ -282,7 +279,6 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Bas droit</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volume</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresse du serveur</string>
-  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Le serveur ne fonctionne pas. Merci de vérifier config.xml !</string>
   <string name="TR_REPORTER_TITLE_TEXT">Nous sommes désolés</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Vocaluxe a rencontré une erreur ou un bug.
 Pour nous aider à résoudre le problème, envoyez-nous un rapport.
