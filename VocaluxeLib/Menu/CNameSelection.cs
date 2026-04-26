@@ -140,6 +140,7 @@ namespace VocaluxeLib.Menu
 
         public void Init()
         {
+            _UsedProfiles.Clear();
             _PrepareTiles();
 
             _PlayerSelector = new CStatic(_PartyModeID, _TextureTileSelected, new SColorF(), new SRectF(0, 0, _Theme.Tiles.W + 6, _Theme.Tiles.H + 6, Rect.Z - 0.5f))
@@ -148,7 +149,6 @@ namespace VocaluxeLib.Menu
                 };
 
             _UpdateVisibleProfiles();
-
             UpdateList(0);
         }
 

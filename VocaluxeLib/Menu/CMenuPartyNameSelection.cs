@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -117,6 +117,13 @@ namespace VocaluxeLib.Menu
         public void SetPartyModeProfiles(List<Guid>[] teamProfiles)
         {
             _TeamList = teamProfiles;
+
+            for (int t = 0; t < _TeamList.Length; t++)
+            {
+                foreach (Guid id in _TeamList[t])
+                    _NameSelections[_NameSelection].UseProfile(id);
+            }
+
             _UpdateSlides();
             _UpdateNextButtonVisibility();
         }
@@ -681,16 +688,22 @@ namespace VocaluxeLib.Menu
         {
             int selection = _SelectSlides[_SelectSlidePlayer].Selection;
             _SelectSlides[_SelectSlidePlayer].Clear();
-            for (int i = 0; i < _TeamList[_CurrentTeam].Count; i++)
+
+            int maxPlayers = Math.Min(_TeamList[_CurrentTeam].Count, _NumPlayerTeams[_CurrentTeam]);
+
+            for (int i = 0; i < maxPlayers; i++)
             {
                 string name = CBase.Profiles.GetPlayerName(_TeamList[_CurrentTeam][i]);
                 CTextureRef avatar = CBase.Profiles.GetAvatar(_TeamList[_CurrentTeam][i]);
                 _SelectSlides[_SelectSlidePlayer].AddValue(name, avatar);
             }
-            for (int i = _TeamList[_CurrentTeam].Count; i < _NumPlayerTeams[_CurrentTeam]; i++)
+
+            for (int i = maxPlayers; i < _NumPlayerTeams[_CurrentTeam]; i++)
                 _SelectSlides[_SelectSlidePlayer].AddValue("", _NameSelections[_NameSelection].TextureEmptyTile);
-            if (selection >= _TeamList[_CurrentTeam].Count)
-                selection = _TeamList[_CurrentTeam].Count - 1;
+
+            if (selection >= maxPlayers)
+                selection = maxPlayers - 1;
+
             _SelectSlides[_SelectSlidePlayer].Selection = selection;
         }
 
@@ -732,17 +745,52 @@ namespace VocaluxeLib.Menu
 
         private void _AddPlayer(int team, Guid profileID, bool updateElements=true)
         {
-            if (_NumPlayerTeams[team] == _TeamList[team].Count && !_ChangePlayerNumDynamic)
-                return;
-            if (_NumPlayerTeams[team] > _PartyMode.MaxPlayersPerTeam)
+            if (profileID == Guid.Empty)
                 return;
 
+            if (!CBase.Profiles.IsProfileIDValid(profileID))
+                return;
+
+            if (_TeamList[team].Contains(profileID))
+                return;
+
+            if (_TeamList[team].Count >= _PartyMode.MaxPlayersPerTeam)
+                return;
+
+            int targetIndex = -1;
+
+            if (_TeamList[team].Count < _NumPlayerTeams[team])
+            {
+                targetIndex = _TeamList[team].Count;
+            }
+            else if (!_ChangePlayerNumDynamic)
+            {
+                targetIndex = _SelectSlides[_SelectSlidePlayer].Selection;
+
+                if (targetIndex < 0 || targetIndex >= _NumPlayerTeams[team])
+                    targetIndex = _NumPlayerTeams[team] - 1;
+            }
+
+            if (targetIndex < 0)
+                return;
+
+            if (targetIndex < _TeamList[team].Count)
+            {
+                Guid oldId = _TeamList[team][targetIndex];
+                _NameSelections[_NameSelection].RemoveUsedProfile(oldId);
+                _TeamList[team][targetIndex] = profileID;
+            }
+            else
+            {
+                _TeamList[team].Add(profileID);
+            }
+
             _NameSelections[_NameSelection].UseProfile(profileID);
-            _TeamList[team].Add(profileID);
 
             if (updateElements)
             {
                 _UpdatePlayerSlide();
+                _SelectSlides[_SelectSlidePlayer].Selection = targetIndex;
                 _UpdateNextButtonVisibility();
             }
         }
