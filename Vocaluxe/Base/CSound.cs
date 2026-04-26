@@ -15,8 +15,10 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.IO;
 using Vocaluxe.Lib.Sound.Playback;
+using VocaluxeLib.Log;
 using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
 using Vocaluxe.Lib.Sound.Playback.OpenAL;
 using Vocaluxe.Lib.Sound.Playback.PortAudio;
@@ -64,7 +66,16 @@ namespace Vocaluxe.Base
                     _Playback = new CPortAudioPlay();
                     break;
             }
-            return _Playback.Init();
+            try
+            {
+                return _Playback.Init();
+            }
+            catch (Exception e) when (_Playback is CGstreamerSharpAudio)
+            {
+                CLog.Information("GstreamerSharp playback init failed (" + e.Message + "), falling back to PortAudio");
+                _Playback = new CPortAudioPlay();
+                return _Playback.Init();
+            }
         }
 
         /// <summary>
