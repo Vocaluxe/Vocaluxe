@@ -1,0 +1,46 @@
+<Project>
+  <!--
+    Enable PackageReference assembly resolution for old-style (non-SDK) .csproj
+    when building with Mono msbuild on Linux. This replicates the SDK's
+    ResolvePackageAssets mechanism without requiring a full SDK import.
+
+    The OS == 'Unix' guard ensures this is a no-op on Windows, where Visual
+    Studio handles PackageReference natively.
+  -->
+  <PropertyGroup Condition="'$(OS)' == 'Unix' And '$(UsingMicrosoftNETSdk)' != 'true'">
+    <ProjectAssetsFile Condition="'$(ProjectAssetsFile)' == ''">$(MSBuildProjectDirectory)/obj/project.assets.json</ProjectAssetsFile>
+    <ProjectAssetsCacheFile Condition="'$(ProjectAssetsCacheFile)' == ''">$(MSBuildProjectDirectory)/obj/$(MSBuildProjectName).csproj.nuget.cache</ProjectAssetsCacheFile>
+    <!-- NuGet TFM for .NET Framework targets -->
+    <NuGetTargetMoniker Condition="'$(NuGetTargetMoniker)' == '' And '$(TargetFrameworkIdentifier)' == '.NETFramework'">.NETFramework,Version=$(TargetFrameworkVersion)</NuGetTargetMoniker>
+    <MicrosoftNETBuildTasksAssembly Condition="'$(MicrosoftNETBuildTasksAssembly)' == ''">$(MSBuildToolsPath)/Sdks/Microsoft.NET.Sdk/tools/net472/Microsoft.NET.Build.Tasks.dll</MicrosoftNETBuildTasksAssembly>
+    <MicrosoftNETBuildTasksDirectoryRoot Condition="'$(MicrosoftNETBuildTasksDirectoryRoot)' == ''">$(MSBuildToolsPath)/Sdks/Microsoft.NET.Sdk/tools/net472/</MicrosoftNETBuildTasksDirectoryRoot>
+    <!-- Required parameter for ResolvePackageAssets; not used for .NET Framework -->
+    <_DotNetAppHostExecutableNameWithoutExtension Condition="'$(_DotNetAppHostExecutableNameWithoutExtension)' == ''">dotnet</_DotNetAppHostExecutableNameWithoutExtension>
+  </PropertyGroup>
+
+  <UsingTask TaskName="Microsoft.NET.Build.Tasks.ResolvePackageAssets"
+             AssemblyFile="$(MicrosoftNETBuildTasksAssembly)"
+             Condition="'$(OS)' == 'Unix' And '$(UsingMicrosoftNETSdk)' != 'true' And Exists('$(MicrosoftNETBuildTasksAssembly)')" />
+
+  <!-- Stubs for SDK-only targets that ResolvePackageAssets and related targets require -->
+  <Target Name="ProcessFrameworkReferences"         Condition="'$(OS)' == 'Unix' And '$(UsingMicrosoftNETSdk)' != 'true'" />
+  <Target Name="_DefaultMicrosoftNETPlatformLibrary" Condition="'$(OS)' == 'Unix' And '$(UsingMicrosoftNETSdk)' != 'true'" />
+  <Target Name="_ComputePackageReferencePublish"    Condition="'$(OS)' == 'Unix' And '$(UsingMicrosoftNETSdk)' != 'true'" />
+  <Target Name="ResolveRuntimePackAssets"           Condition="'$(OS)' == 'Unix' And '$(UsingMicrosoftNETSdk)' != 'true'" />
+
+  <Import Project="$(MSBuildToolsPath)/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets"
+          Condition="'$(OS)' == 'Unix'
+                     And Exists('$(MSBuildToolsPath)/Sdks/Microsoft.NET.Sdk/targets/Microsoft.PackageDependencyResolution.targets')
+                     And '$(UsingMicrosoftNETSdk)' != 'true'
+                     And Exists('$(MSBuildProjectDirectory)/obj/project.assets.json')" />
+
+  <!-- Convert ResolvedCompileFileDefinitions → Reference items so csc finds the assemblies -->
+  <Target Name="_AddPackageReferencesFromAssets"
+          AfterTargets="ResolvePackageAssets"
+          Condition="'$(OS)' == 'Unix' And '$(UsingMicrosoftNETSdk)' != 'true'">
+    <ItemGroup>
+      <Reference Include="@(ResolvedCompileFileDefinitions->'%(HintPath)')"
+                 Condition="'%(ResolvedCompileFileDefinitions.HintPath)' != ''" />
+    </ItemGroup>
+  </Target>
+</Project>
