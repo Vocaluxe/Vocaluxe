@@ -384,10 +384,10 @@ static void cpymetadata(const AVFormatContext *ctx, const char *key, char *tar,
 {
     const AVDictionaryEntry *entry = av_dict_get(ctx->metadata, key, NULL, 0);
     if (entry) {
-        strncpy_s(tar, len, entry->value, len-1);
+        strncpy(tar, entry->value, len-1);
         tar[len - 1] = '\0';
     } else {
-        strncpy_s(tar, len, "", len);
+        strncpy(tar, "", len);
     }
 }
 
