@@ -198,7 +198,8 @@ namespace Vocaluxe.Lib.Draw
         {
             if (!base.Init())
                 return false;
-            _Form.Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
+            try { _Form.Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon)); }
+            catch (Exception) { /* Mono doesn't support PNG-compressed .ico entries; skip icon on Linux */ }
             _Form.Text = CSettings.GetFullVersionText();
             ((IFormHook)_Form).OnMessage = _OnMessageAvoidScreenOff;
             _Form.Closing += _OnClose;
