@@ -195,7 +195,33 @@ namespace Vocaluxe.Screens
                     string name = _Scores[_Round][_Pos + p].Name;
                     name += " [" + CLanguage.Translate(Enum.GetName(typeof(EGameDifficulty), _Scores[_Round][_Pos + p].Difficulty)) + "]";
                     if (_IsDuet)
-                        name += " (P" + (_Scores[_Round][_Pos + p].VoiceNr + 1) + ")";
+                    {
+                        int voiceNr = _Scores[_Round][_Pos + p].VoiceNr;
+                        string voiceName = null;
+
+                        CSong song;
+                        if (_FromScreenSong)
+                            song = CSongs.GetSong(CScreenSong.getSelectedSongID());
+                        else
+                            song = CGame.GetSong(_Round);
+
+                        if (song != null && song.Notes != null && song.Notes.VoiceNames != null)
+                        {
+                            try
+                            {
+                                voiceName = song.Notes.VoiceNames[voiceNr];
+                            }
+                            catch
+                            {
+                                voiceName = null;  // Ungültiger Index
+                            }
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(voiceName))
+                            name += " (" + voiceName + ")";
+                        else
+                            name += " (P" + (voiceNr + 1) + ")";
+                    }    
                     _Texts[_TextName[p]].Text = name;
 
                     _Texts[_TextScore[p]].Text = _Scores[_Round][_Pos + p].Score.ToString("D");
