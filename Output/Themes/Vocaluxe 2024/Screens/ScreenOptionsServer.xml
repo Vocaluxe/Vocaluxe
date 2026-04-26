@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
-    <ScreenName>ScreenOptionsLyrics</ScreenName>
-    <ScreenVersion>4</ScreenVersion>
+    <ScreenName>ScreenOptionsSercer</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -14,7 +14,7 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="StaticMenuBarLyrics">
+    <Static Name="StaticMenuBar">
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
@@ -25,9 +25,20 @@
         <Z>1</Z>
       </Rect>
     </Static>
+    <Static Name="StaticWarningRestart">
+      <Skin>Warning</Skin>
+      <Color Name="StaticWarningColor" />
+      <Rect>
+        <X>390</X>
+        <Y>900</Y>
+        <W>1140</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+    </Static>
   </Statics>
   <Texts>
-    <Text Name="TextTitleLyrics">
+    <Text Name="TextTitle">
       <X>960</X>
       <Y>75</Y>
       <Z>0</Z>
@@ -39,9 +50,9 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOLYRICS_OPTIONS</Text>
+      <Text>TR_SCREENOSERVER_OPTIONS</Text>
     </Text>
-    <Text Name="TextLyricsStyle">
+    <Text Name="TextServerActive">
       <X>112.5</X>
       <Y>160.5</Y>
       <Z>0</Z>
@@ -53,9 +64,9 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOLYRICS_STYLE</Text>
+      <Text>TR_SCREENOSERVER_ACTIVE</Text>
     </Text>
-    <Text Name="TextLyricsPosition">
+    <Text Name="TextServerEncryption">
       <X>112.5</X>
       <Y>250.5</Y>
       <Z>0</Z>
@@ -67,8 +78,22 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOLYRICS_POSITION</Text>
+      <Text>TR_SCREENOSERVER_ENCRYPTION</Text>
     </Text>
+    <Text Name="TextWarningRestart">
+      <X>960</X>
+      <Y>920</Y>
+      <Z>-1.1</Z>
+      <H>37.5</H>
+      <MaxW>960</MaxW>
+      <Color Name="TextWarningColor" />
+      <SelColor Name="TextWarningColor" />
+      <Align>Center</Align>
+      <ResizeAlign>Center</ResizeAlign>
+      <Style>Bold</Style>
+      <Font>Outline</Font>
+      <Text>TR_SCREENO_WARNINGRESTART</Text>
+      </Text>
   </Texts>
   <Buttons>
     <Button Name="ButtonExit">
@@ -106,11 +131,46 @@
         <Space>15</Space>
       </SelReflection>
     </Button>
+    <Button Name="ButtonServer">
+      <Skin>Button</Skin>
+      <SkinSelected>Button</SkinSelected>
+      <Rect>
+        <X>1612.5</X>
+        <Y>900</Y>
+        <W>225</W>
+        <H>75</H>
+        <Z>0</Z>
+      </Rect>
+      <Color Name="ButtonColor" />
+      <SelColor Name="ButtonSelColor" />
+      <Text Name="Text">
+        <X>112.5</X>
+        <Y>18</Y>
+        <Z>0</Z>
+        <H>40.5</H>
+        <MaxW>213</MaxW>
+        <Color Name="ButtonTextColor" />
+        <SelColor Name="ButtonTextSelColor" />
+        <Align>Center</Align>
+        <ResizeAlign>Center</ResizeAlign>
+        <Style>Bold</Style>
+        <Font>Outline</Font>
+        <Text>TR_SCREENOSERVER_BUTTON_SERVER</Text>
+      </Text>
+      <Reflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </Reflection>
+      <SelReflection>
+        <Height>39</Height>
+        <Space>15</Space>
+      </SelReflection>
+    </Button>
   </Buttons>
   <SongMenus />
   <Lyrics />
   <SelectSlides>
-    <SelectSlide Name="SelectSlideLyricStyle">
+    <SelectSlide Name="SelectSlideServerActive">
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -150,9 +210,9 @@
       <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>4</NumVisible>
+      <NumVisible>3</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideLyricsPosition">
+    <SelectSlide Name="SelectSlideServerEncryption">
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -192,7 +252,7 @@
       <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>2</NumVisible>
+      <NumVisible>3</NumVisible>
     </SelectSlide>
   </SelectSlides>
   <SingNotes />

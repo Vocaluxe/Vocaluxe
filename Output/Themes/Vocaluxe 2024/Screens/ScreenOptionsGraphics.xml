@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <Screen xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Informations>
-    <ScreenName>ScreenOptionsGame</ScreenName>
-    <ScreenVersion>6</ScreenVersion>
+    <ScreenName>ScreenOptionsGrahpics</ScreenName>
+    <ScreenVersion>1</ScreenVersion>
   </Informations>
   <Backgrounds>
     <Background Name="Background1">
@@ -14,7 +14,7 @@
     </Background>
   </Backgrounds>
   <Statics>
-    <Static Name="StaticMenuBar">
+    <Static Name="StaticMenuBarGraphics">
       <Skin />
       <Color Name="BackgroundColorAlpha" />
       <Rect>
@@ -25,9 +25,20 @@
         <Z>1</Z>
       </Rect>
     </Static>
+    <Static Name="StaticWarningRestart">
+      <Skin>Warning</Skin>
+      <Color Name="StaticWarningColor" />
+      <Rect>
+        <X>710</X>
+        <Y>900</Y>
+        <W>1140</W>
+        <H>75</H>
+        <Z>-1</Z>
+      </Rect>
+    </Static>
   </Statics>
   <Texts>
-    <Text Name="TextTitle">
+       <Text Name="TextTitle">
       <X>960</X>
       <Y>75</Y>
       <Z>0</Z>
@@ -39,9 +50,9 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOGAME_OPTIONS</Text>
+      <Text>TR_SCREENOGRAPHICS_OPTIONS</Text>
     </Text>
-    <Text Name="TextLanguage">
+    <Text Name="TextTextureQuality">
       <X>112.5</X>
       <Y>160.5</Y>
       <Z>0</Z>
@@ -53,9 +64,9 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOGAME_LANGUAGE</Text>
+      <Text>TR_SCREENOGRAPHICS_TEXTUREQUALITY</Text>
     </Text>
-    <Text Name="TextDebugLevel">
+    <Text Name="TextCoverSize">
       <X>112.5</X>
       <Y>250.5</Y>
       <Z>0</Z>
@@ -67,9 +78,9 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOGAME_DEBUGLEVEL</Text>
+      <Text>TR_SCREENOGRAPHICS_COVERSIZE</Text>
     </Text>
-    <Text Name="TextSongMenu">
+    <Text Name="TextFullScreen">
       <X>112.5</X>
       <Y>340.5</Y>
       <Z>0</Z>
@@ -81,9 +92,9 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOGAME_SONGMENU</Text>
+      <Text>TR_SCREENOGRAPHICS_FULLSCREEN</Text>
     </Text>
-    <Text Name="TextSongSorting">
+    <Text Name="TextStretch">
       <X>112.5</X>
       <Y>430.5</Y>
       <Z>0</Z>
@@ -95,64 +106,22 @@
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOGAME_SONGSORTING</Text>
+      <Text>TR_SCREENOGRAPHICS_STRETCH</Text>
     </Text>
-    <Text Name="TextTabs">
-      <X>112.5</X>
-      <Y>520.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
+    <Text Name="TextWarningRestart">
+      <X>1280</X>
+      <Y>920</Y>
+      <Z>-1.1</Z>
+      <H>37.5</H>
+      <MaxW>960</MaxW>
+      <Color Name="TextWarningColor" />
+      <SelColor Name="TextWarningColor" />
+      <Align>Center</Align>
       <ResizeAlign>Center</ResizeAlign>
       <Style>Bold</Style>
       <Font>Outline</Font>
-      <Text>TR_SCREENOGAME_TABS</Text>
-    </Text>
-    <Text Name="TextAutoplayPreviews">
-      <X>112.5</X>
-      <Y>610.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENOGAME_AUTOPLAYPREVIEWS</Text>
-    </Text>
-    <Text Name="TextTimerMode">
-      <X>112.5</X>
-      <Y>700.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENOGAME_TIMERMODE</Text>
-    </Text>
-    <Text Name="TextHighScoreStyle">
-      <X>112.5</X>
-      <Y>790.5</Y>
-      <Z>0</Z>
-      <H>40.5</H>
-      <MaxW>0</MaxW>
-      <Color Name="TextColor" />
-      <SelColor Name="TextSelColor" />
-      <Align>Left</Align>
-      <ResizeAlign>Center</ResizeAlign>
-      <Style>Bold</Style>
-      <Font>Outline</Font>
-      <Text>TR_SCREENOGAME_HIGHSCORESTYLE</Text>
-    </Text>
+      <Text>TR_SCREENO_WARNINGRESTART</Text>
+      </Text>
   </Texts>
   <Buttons>
     <Button Name="ButtonExit">
@@ -194,7 +163,7 @@
   <SongMenus />
   <Lyrics />
   <SelectSlides>
-    <SelectSlide Name="SelectSlideLanguage">
+    <SelectSlide Name="SelectSlideTextureQuality">
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -231,12 +200,12 @@
       <TextH>40.5</TextH>
       <TextRelativeX>75</TextRelativeX>
       <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>300</TextMaxW>
+      <TextMaxW>462</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
       <NumVisible>3</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideDebugLevel">
+    <SelectSlide Name="SelectSlideCoverSize">
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -276,9 +245,9 @@
       <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>3</NumVisible>
+      <NumVisible>4</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideSongMenu">
+    <SelectSlide Name="SelectSlideFullScreen">
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -318,9 +287,9 @@
       <TextMaxW>300</TextMaxW>
       <TextFont>Outline</TextFont>
       <TextStyle>Bold</TextStyle>
-      <NumVisible>3</NumVisible>
+      <NumVisible>2</NumVisible>
     </SelectSlide>
-    <SelectSlide Name="SelectSlideSongSorting">
+    <SelectSlide Name="SelectSlideStretch">
       <Skin />
       <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
       <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
@@ -344,174 +313,6 @@
       <RectArrowRight>
         <X>1755</X>
         <Y>427.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowRight>
-      <Color Name="SelectSlideColor" />
-      <SelColor Name="SelectSlideSelColor" />
-      <ArrowColor Name="ArrowColor" />
-      <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColorAlpha" />
-      <TextSelColor Name="TextSelColor" />
-      <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
-      <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>300</TextMaxW>
-      <TextFont>Outline</TextFont>
-      <TextStyle>Bold</TextStyle>
-      <NumVisible>3</NumVisible>
-    </SelectSlide>
-    <SelectSlide Name="SelectSlideTabs">
-      <Skin />
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <Rect>
-        <X>750</X>
-        <Y>510</Y>
-        <W>1072.5</W>
-        <H>75</H>
-        <Z>0</Z>
-      </Rect>
-      <RectArrowLeft>
-        <X>757.5</X>
-        <Y>517.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowLeft>
-      <RectArrowRight>
-        <X>1755</X>
-        <Y>517.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowRight>
-      <Color Name="SelectSlideColor" />
-      <SelColor Name="SelectSlideSelColor" />
-      <ArrowColor Name="ArrowColor" />
-      <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColorAlpha" />
-      <TextSelColor Name="TextSelColor" />
-      <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
-      <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>462</TextMaxW>
-      <TextFont>Outline</TextFont>
-      <TextStyle>Bold</TextStyle>
-      <NumVisible>2</NumVisible>
-    </SelectSlide>
-    <SelectSlide Name="SelectSlideAutoplayPreviews">
-      <Skin />
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <Rect>
-        <X>750</X>
-        <Y>600</Y>
-        <W>1072.5</W>
-        <H>75</H>
-        <Z>0</Z>
-      </Rect>
-      <RectArrowLeft>
-        <X>757.5</X>
-        <Y>607.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowLeft>
-      <RectArrowRight>
-        <X>1755</X>
-        <Y>607.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowRight>
-      <Color Name="SelectSlideColor" />
-      <SelColor Name="SelectSlideSelColor" />
-      <ArrowColor Name="ArrowColor" />
-      <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColorAlpha" />
-      <TextSelColor Name="TextSelColor" />
-      <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
-      <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>300</TextMaxW>
-      <TextFont>Outline</TextFont>
-      <TextStyle>Bold</TextStyle>
-      <NumVisible>3</NumVisible>
-    </SelectSlide>
-    <SelectSlide Name="SelectSlideTimerMode">
-      <Skin />
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <Rect>
-        <X>750</X>
-        <Y>690</Y>
-        <W>1072.5</W>
-        <H>75</H>
-        <Z>0</Z>
-      </Rect>
-      <RectArrowLeft>
-        <X>757.5</X>
-        <Y>697.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowLeft>
-      <RectArrowRight>
-        <X>1755</X>
-        <Y>697.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowRight>
-      <Color Name="SelectSlideColor" />
-      <SelColor Name="SelectSlideSelColor" />
-      <ArrowColor Name="ArrowColor" />
-      <ArrowSelColor Name="ArrowSelColor" />
-      <TextColor Name="TextColorAlpha" />
-      <TextSelColor Name="TextSelColor" />
-      <TextH>40.5</TextH>
-      <TextRelativeX>75</TextRelativeX>
-      <TextRelativeY>0</TextRelativeY>
-      <TextMaxW>300</TextMaxW>
-      <TextFont>Outline</TextFont>
-      <TextStyle>Bold</TextStyle>
-      <NumVisible>2</NumVisible>
-    </SelectSlide>
-    <SelectSlide Name="SelectSlideHighscoreStyle">
-      <Skin />
-      <SkinArrowLeft>SelectSlideArrowLeft</SkinArrowLeft>
-      <SkinArrowRight>SelectSlideArrowRight</SkinArrowRight>
-      <SkinSelected>SelectSlide</SkinSelected>
-      <SkinArrowLeftSelected>SelectSlideArrowLeft</SkinArrowLeftSelected>
-      <SkinArrowRightSelected>SelectSlideArrowRight</SkinArrowRightSelected>
-      <Rect>
-        <X>750</X>
-        <Y>780</Y>
-        <W>1072.5</W>
-        <H>75</H>
-        <Z>0</Z>
-      </Rect>
-      <RectArrowLeft>
-        <X>757.5</X>
-        <Y>787.5</Y>
-        <W>60</W>
-        <H>60</H>
-        <Z>0</Z>
-      </RectArrowLeft>
-      <RectArrowRight>
-        <X>1755</X>
-        <Y>787.5</Y>
         <W>60</W>
         <H>60</H>
         <Z>0</Z>
