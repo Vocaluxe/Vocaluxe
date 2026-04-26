@@ -212,8 +212,13 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Sonido</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Grabación</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Letras</string>
+  <string name="TR_SCREENO_BUTTON_GRAPHICS">Gráficos</string>
   <string name="TR_SCREENO_BUTTON_THEME">Estilos</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Créditos</string>
+  <string name="TR_SCREENO_BUTTON_SERVER"> Servidor</string>
+  <string name="TR_SCREENO_BUTTON_SONGFOLDER"> Carpeta de canciones</string>
+  <string name="TR_SCREENO_SONGFOLDER">Seleccione la carpeta de canciones que desea agregar</string>
   <string name="TR_SCREENO_WARNINGRESTART"> Reinicie el juego para que los cambios surtan efecto.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Dirección del servidor</string>
   <string name="TR_SCREENOGAME_OPTIONS">Opciones del Juego</string>
@@ -263,6 +268,10 @@
   <string name="TR_SCREENOGRAPHICS_COVERSIZE"> Tamaño de la portada (píxeles)</string>
   <string name="TR_SCREENOGRAPHICS_FULLSCREEN"> Pantalla completa</string>
   <string name="TR_SCREENOGRAPHICS_STRETCH"> Pantalla estirada</string>
+  <string name="TR_SCREENOSERVER_OPTIONS"> Opciones de servidor</string>
+  <string name="TR_SCREENOSERVER_ACTIVE"> Servidor activo</string>
+  <string name="TR_SCREENOSERVER_ENCRYPTION"> Cifrado de servidor</string>
+  <string name="TR_SCREENOSERVER_BUTTON_SERVER"> Dirección del servidor</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Opciones de Video</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Videos de Fondo</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Previsualización del Video</string>
@@ -279,6 +288,7 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Abajo derecha</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volúmen</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Dirección del servidor</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING"> El servidor no está funcionando. ¡Actívalo y reinicia el juego!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Lo sentimos</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Ha ocurrido un error con Vocaluxe y ha crasheado. \r\nPara ayudarnos a solucionar el problema por favor envía un reporte.\r\nEdita el siguiente registro antes de subirlo para eliminar los posibles datos sensibles.</string>
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">Ha ocurrido un error con Vocaluxe y ha crasheado. \r\nPara ayudarnos a solucionar el problema por favor envía un reporte.\r\nEdita el siguiente registro antes de subirlo para eliminar los posibles datos sensibles.</string>
