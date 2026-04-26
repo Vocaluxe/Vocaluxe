@@ -142,14 +142,17 @@ namespace VocaluxeLib.Menu
         {
             _UsedProfiles.Clear();
             _PrepareTiles();
-
-            _PlayerSelector = new CStatic(_PartyModeID, _TextureTileSelected, new SColorF(), new SRectF(0, 0, _Theme.Tiles.W + 6, _Theme.Tiles.H + 6, Rect.Z - 0.5f))
-                {
-                    Visible = false
-                };
+        
+            _PlayerSelector = new CStatic(_PartyModeID, _TextureTileSelected, new SColorF(), new SRectF(0, 0, _Theme.Tiles.W + 10, _Theme.Tiles.H + 10, Rect.Z - 0.5f))
+            {
+                Visible = true
+            };
 
             _UpdateVisibleProfiles();
             UpdateList(0);
+
+            _ActualSelection = _Tiles.FindIndex(t => t.ProfileID != Guid.Empty);
+            SelectedID = _ActualSelection >= 0 ? _Tiles[_ActualSelection].ProfileID : Guid.Empty;
         }
 
         public void Draw()
@@ -181,69 +184,104 @@ namespace VocaluxeLib.Menu
 
         public void HandleInput(SKeyEvent kevent)
         {
-            switch (kevent.Key)
-            {
-                case Keys.Right:
-                    if (_ActualSelection + 1 < _Tiles.Count)
-                    {
-                        if (_Tiles[_ActualSelection + 1].ProfileID != Guid.Empty)
-                            _ActualSelection++;
-                    }
-                    else
-                    {
-                        int offset = Offset;
-                        UpdateList(Offset + 1);
-                        if (offset != Offset)
-                            _ActualSelection -= _Theme.Tiles.NumW - 1;
-                    }
-                    break;
+            if (_Tiles.Count == 0 || _VisibleProfiles.Count == 0)
+                {
+                    _ActualSelection = -1;
+                    SelectedID = Guid.Empty;
+                    return;
+                }
 
-                case Keys.Left:
-                    if (_ActualSelection - 1 > -1)
-                        _ActualSelection--;
-                    else if (Offset > 0)
+                if (_ActualSelection < 0 || _ActualSelection >= _Tiles.Count || _Tiles[_ActualSelection].ProfileID == Guid.Empty)
+                {
+                    _ActualSelection = _Tiles.FindIndex(t => t.ProfileID != Guid.Empty);
+                    if (_ActualSelection < 0)
                     {
-                        UpdateList(Offset - 1);
-                        _ActualSelection += _Theme.Tiles.NumW - 1;
+                        SelectedID = Guid.Empty;
+                        return;
                     }
-                    break;
+                }
+            
+               switch (kevent.Key)
+                   {
+                       case Keys.Right:
+                           if (_ActualSelection + 1 < _Tiles.Count)
+                           {
+                               if (_Tiles[_ActualSelection + 1].ProfileID != Guid.Empty)
+                                   _ActualSelection++;
+                           }
+                           else
+                           {
+                               int oldOffset = Offset;
+                               UpdateList(Offset + 1);
+                               if (oldOffset != Offset)
+                                   _ActualSelection = Math.Max(0, _ActualSelection - (_Theme.Tiles.NumW - 1));
+                           }
+                           break;
 
-                case Keys.Up:
-                    if (_ActualSelection - _Theme.Tiles.NumW > -1)
-                        _ActualSelection -= _Theme.Tiles.NumW;
-                    else if (Offset > 0)
-                    {
-                        UpdateList(Offset - 1);
-                    }
-                    break;
+                       case Keys.Left:
+                           if (_ActualSelection - 1 >= 0)
+                           {
+                               _ActualSelection--;
+                           }
+                           else if (Offset > 0)
+                           {
+                               UpdateList(Offset - 1);
+                               _ActualSelection = Math.Min(_Tiles.Count - 1, _ActualSelection + (_Theme.Tiles.NumW - 1));
+                               while (_ActualSelection >= 0 && _Tiles[_ActualSelection].ProfileID == Guid.Empty)
+                                   _ActualSelection--;
+                           }
+                           break;
 
-                case Keys.Down:
-                    if (_ActualSelection + _Theme.Tiles.NumW < _Tiles.Count)
-                    {
-                        if (_Tiles[_ActualSelection + _Theme.Tiles.NumW].ProfileID != Guid.Empty)
-                            _ActualSelection += _Theme.Tiles.NumW;
-                    }
-                    else
-                    {
-                        int offset = Offset;
-                        UpdateList(Offset + 1);
-                    }
-                    if (_Tiles[_ActualSelection].ProfileID == Guid.Empty)
-                    {
-                        _ActualSelection = _Tiles.Count - _Theme.Tiles.NumW;
-                        while(_Tiles[_ActualSelection + 1].ProfileID != Guid.Empty)
-                        {
-                            _ActualSelection++;
-                        }
-                    }
-                    break;
-            }
+                       case Keys.Up:
+                           if (_ActualSelection - _Theme.Tiles.NumW >= 0)
+                           {
+                               _ActualSelection -= _Theme.Tiles.NumW;
+                           }
+                           else if (Offset > 0)
+                           {
+                               int currentColumn = _ActualSelection % _Theme.Tiles.NumW;
+                               UpdateList(Offset - 1);
+                               _ActualSelection = currentColumn;
+                               if (_ActualSelection >= _Tiles.Count)
+                                   _ActualSelection = _Tiles.Count - 1;
+                               while (_ActualSelection >= 0 && _Tiles[_ActualSelection].ProfileID == Guid.Empty)
+                                   _ActualSelection--;
+                           }
+                           break;
 
-            if (Offset * _Theme.Tiles.NumW + _ActualSelection < _VisibleProfiles.Count)
-                SelectedID = _VisibleProfiles.ElementAt(Offset * _Theme.Tiles.NumW + _ActualSelection);
-            else
-                SelectedID = Guid.Empty;
-        }
+                       case Keys.Down:
+                           if (_ActualSelection + _Theme.Tiles.NumW < _Tiles.Count &&
+                               _Tiles[_ActualSelection + _Theme.Tiles.NumW].ProfileID != Guid.Empty)
+                           {
+                               _ActualSelection += _Theme.Tiles.NumW;
+                           }
+                           else
+                           {
+                               int oldOffset = Offset;
+                               int currentColumn = _ActualSelection % _Theme.Tiles.NumW;
+                               UpdateList(Offset + 1);
+
+                               if (oldOffset != Offset)
+                               {
+                                   _ActualSelection = currentColumn;
+                                   while (_ActualSelection < _Tiles.Count && _Tiles[_ActualSelection].ProfileID == Guid.Empty)
+                                       _ActualSelection++;
+                                   if (_ActualSelection >= _Tiles.Count || _Tiles[_ActualSelection].ProfileID == Guid.Empty)
+                                       _ActualSelection = _Tiles.FindLastIndex(t => t.ProfileID != Guid.Empty);
+                               }
+                           }
+                           break;
+                   }
+
+                   if (_ActualSelection >= 0 && _ActualSelection < _Tiles.Count && _Tiles[_ActualSelection].ProfileID != Guid.Empty)
+                   {
+                       SelectedID = _Tiles[_ActualSelection].ProfileID;
+                   }
+                   else
+                   {
+                       SelectedID = Guid.Empty;
+                   }
+               }
 
         public void HandleMouse(SMouseEvent mevent)
         {

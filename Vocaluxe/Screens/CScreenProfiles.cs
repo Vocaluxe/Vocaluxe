@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -41,7 +41,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _SelectSlideProfiles = "SelectSlideProfiles";
@@ -58,10 +58,11 @@ namespace Vocaluxe.Screens
         private const string _ButtonSaveSnapshot = "ButtonSaveSnapshot";
         private const string _ButtonDiscardSnapshot = "ButtonDiscardSnapshot";
         private const string _ButtonTakeSnapshot = "ButtonTakeSnapshot";
-
+        private const string _NameSelection = "NameSelection";
         private const string _StaticAvatar = "StaticAvatar";
         private bool _ProfilesChanged;
         private bool _AvatarsChanged;
+        private bool _SelectingKeyboardActive;
 
         private Dictionary<int, Guid> _SelectSlideGuids = new Dictionary<int, Guid>();
 
@@ -78,10 +79,12 @@ namespace Vocaluxe.Screens
                 {_ButtonPlayerName, _ButtonExit, _ButtonSave, _ButtonNew, _ButtonDelete, _ButtonWebcam, _ButtonSaveSnapshot, _ButtonDiscardSnapshot, _ButtonTakeSnapshot};
             _ThemeSelectSlides = new string[] {_SelectSlideProfiles, _SelectSlideDifficulty, _SelectSlideAvatars, _SelectSlideUserRole, _SelectSlideActive};
             _ThemeStatics = new string[] {_StaticAvatar};
+            _ThemeNameSelections = new string[] { _NameSelection };
 
             _EditMode = EEditMode.None;
             _ProfilesChanged = false;
             _AvatarsChanged = false;
+            _SelectingKeyboardActive = false;
             CProfiles.AddProfileChangedCallback(_OnProfileChanged);
         }
 
@@ -101,6 +104,46 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
+            if (_SelectingKeyboardActive)
+            {
+                switch (keyEvent.Key)
+                {
+                    case Keys.Left:
+                    case Keys.Right:
+                    case Keys.Up:
+                    case Keys.Down:
+                        _NameSelections[_NameSelection].HandleInput(keyEvent);
+                        return true;
+
+                case Keys.Enter:
+                    if (_NameSelections[_NameSelection].SelectedID != Guid.Empty)
+                        _SelectProfileById(_NameSelections[_NameSelection].SelectedID);
+
+                    _NameSelections[_NameSelection].FastSelection(false, -1);
+                    _SelectingKeyboardActive = false;
+                    _SelectElement(_Buttons[_ButtonPlayerName]);
+                    return true;
+
+                case Keys.Escape:
+                case Keys.Back:
+                    _NameSelections[_NameSelection].FastSelection(false, -1);
+                    _SelectingKeyboardActive = false;
+                    _SelectElement(_Buttons[_ButtonExit]);
+                    return true;
+                }
+            }
+
+            if (_EditMode == EEditMode.None && keyEvent.Key == Keys.Up && _Buttons[_ButtonExit].Selected)
+            {
+                if (CProfiles.NumProfiles <= 0)
+                    return true;
+                
+                _SelectingKeyboardActive = true;
+                _NameSelections[_NameSelection].Init();
+                _NameSelections[_NameSelection].UpdateList();
+                _NameSelections[_NameSelection].FastSelection(true, 1);
+            }
+    
             if (_EditMode == EEditMode.None)
                 base.HandleInput(keyEvent);
 
@@ -199,6 +242,15 @@ namespace Vocaluxe.Screens
             if (_EditMode == EEditMode.None)
                 base.HandleMouse(mouseEvent);
 
+            _NameSelections[_NameSelection].HandleMouse(mouseEvent);
+
+            if (mouseEvent.LB && _NameSelections[_NameSelection].IsOverTile(mouseEvent))
+            {
+                Guid profileId = _NameSelections[_NameSelection].TilePlayerID(mouseEvent);
+                _SelectProfileById(profileId);
+                return true;
+            }
+
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonExit].Selected)
@@ -250,16 +302,29 @@ namespace Vocaluxe.Screens
 
             if (mouseEvent.RB)
                 CGraphics.FadeTo(EScreen.Main);
+            
+            if (mouseEvent.Wheel != 0 && CHelper.IsInBounds(_NameSelections[_NameSelection].Rect, mouseEvent))
+            {
+                int offset = _NameSelections[_NameSelection].Offset + mouseEvent.Wheel;
+                _NameSelections[_NameSelection].UpdateList(offset);
+            }
+            
             return true;
         }
 
         public override bool UpdateGame()
         {
             if (_AvatarsChanged)
+            {
                 _LoadAvatars(true);
+                _NameSelections[_NameSelection].UpdateList();
+            }
 
             if (_ProfilesChanged)
+            {
                 _LoadProfiles(true);
+                _NameSelections[_NameSelection].UpdateList();
+            }
 
             if (_SelectSlides[_SelectSlideProfiles].Selection > -1)
             {
@@ -291,6 +356,7 @@ namespace Vocaluxe.Screens
         public override void OnShow()
         {
             base.OnShow();
+            _NameSelections[_NameSelection].Init();
             _LoadAvatars(false);
             _LoadProfiles(false);
             UpdateGame();
@@ -300,6 +366,7 @@ namespace Vocaluxe.Screens
         {
             base.OnClose();
             _EditMode = EEditMode.None;
+            _SelectingKeyboardActive = false;
             _OnDiscardSnapshot();
         }
 
@@ -368,6 +435,7 @@ namespace Vocaluxe.Screens
             int id = CProfiles.NewAvatar(file);
             CProfiles.SetAvatar(_GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag), id);
             _LoadAvatars(false);
+            _NameSelections[_NameSelection].UpdateList();
 
             _SelectElement(_Buttons[_ButtonSave]);
         }
@@ -400,6 +468,7 @@ namespace Vocaluxe.Screens
 
             CProfiles.SetAvatar(id, _SelectSlides[_SelectSlideAvatars].SelectedTag);
 
+            _NameSelections[_NameSelection].UpdateList();
             _SelectElement(_Buttons[_ButtonPlayerName]);
             _EditMode = EEditMode.PlayerName;
         }
@@ -408,6 +477,8 @@ namespace Vocaluxe.Screens
         {
             _EditMode = EEditMode.None;
             CProfiles.SaveProfiles();
+            _LoadProfiles(true);
+            _NameSelections[_NameSelection].UpdateList();
         }
 
         private void _DeleteProfile()
@@ -416,6 +487,7 @@ namespace Vocaluxe.Screens
 
             CProfiles.DeleteProfile(_GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag));
             _SelectSlideGuids.Remove(_SelectSlides[_SelectSlideProfiles].SelectedTag);
+            _NameSelections[_NameSelection].UpdateList();
 
             int selection = _SelectSlides[_SelectSlideProfiles].Selection;
             if (_SelectSlides[_SelectSlideProfiles].NumValues - 1 > selection)
@@ -462,7 +534,10 @@ namespace Vocaluxe.Screens
                 }
 
                 if (_EditMode == EEditMode.PlayerName)
+                {
                     CProfiles.SetPlayerName(_GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag), name);
+                    _NameSelections[_NameSelection].UpdateList();
+                }
             }
             _ProfilesChanged = false;
         }
@@ -489,6 +564,16 @@ namespace Vocaluxe.Screens
             _AvatarsChanged = false;
         }
 
+        private void _SelectProfileById(Guid profileId)
+        {
+            if (profileId == Guid.Empty)
+                return;
+
+            KeyValuePair<int, Guid> entry = _SelectSlideGuids.FirstOrDefault(x => x.Value.Equals(profileId));
+            if (_SelectSlideGuids.ContainsKey(entry.Key))
+                _SelectSlides[_SelectSlideProfiles].SelectedTag = entry.Key;
+        }
+        
         private Guid _GetIdFromTag(int tag)
         {
             if (tag == -1 || !_SelectSlideGuids.ContainsKey(tag))
