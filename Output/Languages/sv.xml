@@ -265,7 +265,6 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Nedre höger</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Volym</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Serveradress</string>
-  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Servern körs inte. Var god kontrollera config.xml!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Vi ber om ursäkt</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">så Vocaluxe sätte på ett fel och har kraschat..\r\nFör att hjälpa oss att åtgärda problemet, ber vi er att skicka oss en rapport.\r\nÄndra följande logg innan du skickar in den och ta bort eventuellt känslig information.</string>
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">att du har upplevt ett fel.\r\nFör att hjälp oss att åtgärda problemet, så ber vi er skicka in er rapport.\r\nÄndra loggen innan den skickar in för att ta bort eventuellt känslig information.</string>
