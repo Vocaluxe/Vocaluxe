@@ -62,7 +62,7 @@ mono Vocaluxe.exe
 
 - **No application icon** — Mono does not support PNG-compressed `.ico` files. The window has no icon; this is cosmetic only.
 - **No GStreamer audio backend** — The GStreamer C# binding requires a native glue library (`libgstreamersharpglue.so`) that is not packaged for Linux. The app automatically falls back to the PortAudio backend, which works fully.
-- **Missing skin assets** — The default skin references video files (`BG_Video.mp4` etc.) and a texture (`TextBG`) that are not included in the repository. These produce warnings but do not affect functionality.
+- **Missing skin assets** — The default skin references video files (`BG_Video.mp4` etc.) and a texture (`TextBG`) that are not included in the repository. These produce warnings but do not affect functionality. The CI build attempts to download them from the `VocaluxeDependencies` repository but this step currently fails; the artifact is built without them.
 - **ALSA error spam on startup** — PortAudio enumerates audio devices on startup, which produces harmless ALSA error messages in the terminal.
 
 ## Testing Windows compatibility with Wine
