@@ -38,16 +38,11 @@ jobs:
           unzip -o -q vocaluxe.themes.vocaluxe-2024.video-part2.zip -d Output/
           rm vocaluxe.themes.vocaluxe-2024.video-part2.zip
 
-      - name: Package
-        run: |
-          BRANCH_TAG="${GITHUB_REF_NAME//\//-}"
-          tar -czf "Vocaluxe_${BRANCH_TAG}_Linux_x64.tar.gz" -C Output .
-
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Vocaluxe_Linux_x64
-          path: "Vocaluxe_*_Linux_x64.tar.gz"
+          path: Output/
 
   release:
     needs: build
@@ -57,6 +52,12 @@ jobs:
       - uses: actions/download-artifact@v4
         with:
           name: Vocaluxe_Linux_x64
+          path: Vocaluxe_Linux_x64/
+
+      - name: Package
+        run: |
+          BRANCH_TAG="${GITHUB_REF_NAME//\//-}"
+          tar -czf "Vocaluxe_${BRANCH_TAG}_Linux_x64.tar.gz" -C Vocaluxe_Linux_x64 .
 
       - name: Create release
         uses: softprops/action-gh-release@v2
