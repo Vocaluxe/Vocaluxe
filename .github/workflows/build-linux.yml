@@ -42,13 +42,12 @@ jobs:
         run: |
           BRANCH_TAG="${GITHUB_REF_NAME//\//-}"
           tar -czf "Vocaluxe_${BRANCH_TAG}_Linux_x64.tar.gz" -C Output .
-          echo "ARCHIVE=Vocaluxe_${BRANCH_TAG}_Linux_x64.tar.gz" >> "$GITHUB_ENV"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: Vocaluxe_Linux_x64
-          path: ${{ env.ARCHIVE }}
+          path: "Vocaluxe_*_Linux_x64.tar.gz"
 
   release:
     needs: build
@@ -62,4 +61,4 @@ jobs:
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          files: "*.tar.gz"
+          files: "Vocaluxe_*_Linux_x64.tar.gz"
