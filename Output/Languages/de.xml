@@ -212,12 +212,15 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Sound</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Aufnahme</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
-  <string name="TR_SCREENO_BUTTON_LYRICS">Liedtext/Grafik</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Liedtext</string>
+  <string name="TR_SCREENO_BUTTON_GRAPHICS">Grafik</string>
   <string name="TR_SCREENO_BUTTON_THEME">Design</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Credits</string>
+  <string name="TR_SCREENO_BUTTON_SERVER">Server</string>
+  <string name="TR_SCREENO_BUTTON_SONGFOLDER">Song Ordner</string>
+  <string name="TR_SCREENO_SONGFOLDER">Wähle den Song Ordner aus, der hinzugefügt werden soll</string>
   <string name="TR_SCREENO_WARNINGRESTART">Neustart erforderlich, damit die Änderungen wirksam werden.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Serveradresse</string>
-  <string name="TR_SCREENOGAME_BUTTON_SONGFOLDER">Song Ordner hinzufügen</string>
   <string name="TR_SCREENOGAME_OPTIONS">Spieleinstellungen</string>
   <string name="TR_SCREENOGAME_LANGUAGE">Sprache</string>
   <string name="TR_SCREENOGAME_DEBUGLEVEL">Debug-Level</string>
@@ -228,7 +231,6 @@
   <string name="TR_SCREENOGAME_DIFFICULTY">Schwierigkeit</string>
   <string name="TR_SCREENOGAME_TIMERMODE">Zeit-Modus</string>
   <string name="TR_SCREENOGAME_HIGHSCORESTYLE">Highscore-Stil</string>
-  <string name="TR_SCREENOGAME_SONGFOLDER">Wähle den Song Ordner aus, der hinzugefügt werden soll</string>
   <string name="TR_SCREENORECORD_OPTIONS">Aufnahmeeinstellungen</string>
   <string name="TR_SCREENORECORD_DEVICE">Soundkarte</string>
   <string name="TR_SCREENORECORD_INPUT">Eingang</string>
@@ -266,6 +268,10 @@
   <string name="TR_SCREENOGRAPHICS_COVERSIZE">Covergröße (Pixel)</string>
   <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Vollbild</string>
   <string name="TR_SCREENOGRAPHICS_STRETCH">gestrecktes Bild</string>
+  <string name="TR_SCREENOSERVER_OPTIONS">Server Optionen</string>
+  <string name="TR_SCREENOSERVER_ACTIVE">Server aktiv</string>
+  <string name="TR_SCREENOSERVER_ENCRYPTION">Server Verschlüsselung</string>
+  <string name="TR_SCREENOSERVER_BUTTON_SERVER">Server Adresse</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Videoeinstellungen</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Video-Hintergründe</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Video-Vorschau</string>
@@ -282,7 +288,7 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Unten rechts</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Lautstärke</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Serveradresse</string>
-  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server läuft derzeit nicht. Bitte überprüfe die config.xml!</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server läuft derzeit nicht. Bitte aktiviere ihn und starte das Spiel neu!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Es tut uns leid</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">dass Vocaluxe abgestürzt ist.\r\nUm uns zu helfen, das Problem zu beheben, schicke uns bitte einen Absturzbericht.\r\nBitte bearbeite das folgende Protokoll, so dass keine eventuell persönlichen Daten enthalten sind.</string>
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">dass Du einen Fehler festgestellt hast.\r\nUm uns zu helfen, das Problem zu beheben, schicke uns bitte einen Absturzbericht.\r\nBitte bearbeite das folgende Protokoll, so dass keine eventuell persönlichen Daten enthalten sind.</string>
