@@ -35,6 +35,29 @@ cd Output && mono Vocaluxe.exe
 
 The nix dev shell sets `LD_LIBRARY_PATH`, `MONO_PATH`, and `GST_PLUGIN_PATH` automatically so no manual configuration is needed.
 
+## Running a pre-built Linux release
+
+Pre-built Linux releases are available as `.tar.gz` archives from GitHub Actions artifacts (and GitHub Releases for tagged versions).
+
+### Requirements
+
+- **Ubuntu 24.04 or newer** — or any distro shipping FFmpeg 6 (`libavformat.so.60`). Fedora 40+ works via RPM Fusion. Ubuntu 22.04 ships FFmpeg 4.4 and is not supported.
+- Install runtime dependencies:
+
+```sh
+sudo apt install mono-complete libportaudio2 ffmpeg
+```
+
+### Run
+
+Extract the archive and launch with Mono:
+
+```sh
+tar -xzf Vocaluxe_*_Linux_x64.tar.gz
+cd Vocaluxe_*_Linux_x64   # or wherever you extracted it
+mono Vocaluxe.exe
+```
+
 ## Known limitations
 
 - **No application icon** — Mono does not support PNG-compressed `.ico` files. The window has no icon; this is cosmetic only.

@@ -1,0 +1,65 @@
+name: Build Vocaluxe Linux
+
+on:
+  push:
+    branches: [develop]
+    tags: ["v*"]
+  pull_request:
+    branches: [develop]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: cachix/install-nix-action@v30
+        with:
+          extra_nix_config: "experimental-features = nix-command flakes"
+
+      - name: Build
+        run: nix develop --command make
+
+      - name: Patch libacinerella for portability
+        # Strip nix-store RPATH so the dynamic linker resolves FFmpeg via
+        # ldconfig. Requires on end-user system: mono-complete libportaudio2 ffmpeg
+        # (Ubuntu 24.04+ and Fedora 40+ ship FFmpeg 6 with matching SONAMEs.)
+        run: |
+          sudo apt-get install -y patchelf
+          patchelf --remove-rpath Output/libacinerella.so
+
+      - name: Download theme videos
+        continue-on-error: true
+        run: |
+          wget -q "https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part1.zip"
+          unzip -o -q vocaluxe.themes.vocaluxe-2024.video-part1.zip -d Output/
+          rm vocaluxe.themes.vocaluxe-2024.video-part1.zip
+          wget -q "https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part2.zip"
+          unzip -o -q vocaluxe.themes.vocaluxe-2024.video-part2.zip -d Output/
+          rm vocaluxe.themes.vocaluxe-2024.video-part2.zip
+
+      - name: Package
+        run: |
+          BRANCH_TAG="${GITHUB_REF_NAME//\//-}"
+          tar -czf "Vocaluxe_${BRANCH_TAG}_Linux_x64.tar.gz" -C Output .
+          echo "ARCHIVE=Vocaluxe_${BRANCH_TAG}_Linux_x64.tar.gz" >> "$GITHUB_ENV"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vocaluxe_Linux_x64
+          path: ${{ env.ARCHIVE }}
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: Vocaluxe_Linux_x64
+
+      - name: Create release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: "*.tar.gz"
