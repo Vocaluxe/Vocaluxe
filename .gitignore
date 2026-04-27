@@ -36,6 +36,7 @@ tx.exe
 *.VC.db
 *.VC.opendb
 *.dll.config
+!Vocaluxe/Linux/SQLitePCLRaw.provider.e_sqlite3.dll.config
 /*.vsp
 /*.ctl
 /Output/Config.xml
