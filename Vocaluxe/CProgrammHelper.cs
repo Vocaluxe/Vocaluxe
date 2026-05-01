@@ -81,20 +81,49 @@ namespace Vocaluxe
             return File.Exists(Environment.ExpandEnvironmentVariables(sysDir + dllName + ".dll"));
         }
 
-        private static bool _IsVC2012Installed()
-        {
-            return _SystemDllExists("msvcr110") && _SystemDllExists("msvcp110");
-        }
-
-        private static bool _IsVC2008Installed()
-        {
-            return _IsProgramInstalled("Microsoft Visual C++ 2008 Redistributable");
-        }
-
         private static bool _IsVC2010Installed()
         {
             //Note: Maybe check for x64 or x86
             return _IsProgramInstalled("Microsoft Visual C++ 2010");
+        }
+
+        private static bool _IsVC2015To2022Installed()
+        {
+            const string baseKey = @"SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\";
+            const string wow6432BaseKey = @"SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\";
+
+        #if ARCH_X64
+            string[] arches = { "x64" };
+        #elif ARCH_X86
+            string[] arches = { "x86" };
+        #else
+            string[] arches = { "x86", "x64" };
+        #endif
+
+            foreach (string arch in arches)
+            {
+                using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(baseKey + arch) ??
+                                        Registry.LocalMachine.OpenSubKey(wow6432BaseKey + arch))
+                {
+                    if (rk == null)
+                        continue;
+
+                    object installed = rk.GetValue("Installed");
+                    if (installed == null)
+                        continue;
+
+                    try
+                    {
+                        if (Convert.ToInt32(installed) == 1)
+                            return true;
+                    }
+                    catch
+                    {
+                    }
+                }
+            }
+
+            return false;
         }
 
         private static void _EnsureDataFolderExists()
@@ -123,26 +152,16 @@ namespace Vocaluxe
                     "VC++ 2010 Redistributables are missing. Please install them first.\r\nDownload: https://www.microsoft.com/download/details.aspx?id=26999");
                 return false;
             }
-            /*
-            if (!_IsVC2012Installed())
-            {
-                CLog.Fatal(
-                    "VC++ 2012 Redistributables are missing. Please install them first.\r\nDownload: http://www.microsoft.com/de-de/download/details.aspx?id=30679");
-                return false;
-            }
-            bool vc2008Installed = _IsVC2008Installed();
-            if (!vc2008Installed)
-            {
-                CLog.Fatal(
-                    "VC++ 2008 Redistributables are missing. Portaudio might not be working.\r\nDownload: http://www.microsoft.com/de-de/download/details.aspx?id=29");
-            }
-            if (!vc2008Installed && !_IsVC2010Installed())
-            {
-                CLog.Fatal(
-                    "VC++ 2010 and 2008 Redistributables are missing. Please install them first. VC++ 2008 is preferred as Portaudio doesn't work with VC++ 2010.\r\nDownload(2008): http://www.microsoft.com/de-de/download/details.aspx?id=29 \r\nDownload(2010): http://www.microsoft.com/de-de/download/details.aspx?id=5555");
-                return false;
-            }
-            */
+
+            if (!_IsVC2015To2022Installed())
+                {
+                    CLog.Fatal(
+                        "VC++ 2015-2022 Redistributables are missing. Please install them first.\r\n" +
+                        "Download x64: https://aka.ms/vc14/vc_redist.x64.exe\r\n" +
+                        "Download x86: https://aka.ms/vc14/vc_redist.x86.exe");
+                    return false;
+                }
+
 #endif //TODO: check for dependencies on linux?
             return true;
         }
