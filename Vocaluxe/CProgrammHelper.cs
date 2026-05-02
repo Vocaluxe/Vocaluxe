@@ -75,12 +75,6 @@ namespace Vocaluxe
             return _CheckUninstallKey(name, baseKey + uninstallKey) || (_KeyExists(baseKey64) && _CheckUninstallKey(name, baseKey64 + uninstallKey));
         }
 
-        private static bool _SystemDllExists(string dllName)
-        {
-            const string sysDir = "%windir%\\system32\\";
-            return File.Exists(Environment.ExpandEnvironmentVariables(sysDir + dllName + ".dll"));
-        }
-
         private static bool _IsVC2010Installed()
         {
             //Note: Maybe check for x64 or x86
