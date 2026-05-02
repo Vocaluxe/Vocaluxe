@@ -100,30 +100,25 @@ namespace Vocaluxe
             string[] arches = { "x86", "x64" };
         #endif
 
-            foreach (string arch in arches)
+        foreach (string arch in arches)
+        {
+            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(baseKey + arch) ??
+                                    Registry.LocalMachine.OpenSubKey(wow6432BaseKey + arch))
             {
-                using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(baseKey + arch) ??
-                                        Registry.LocalMachine.OpenSubKey(wow6432BaseKey + arch))
-                {
-                    if (rk == null)
-                        continue;
+                if (rk == null)
+                    continue;
 
-                    object installed = rk.GetValue("Installed");
-                    if (installed == null)
-                        continue;
+                object installed = rk.GetValue("Installed");
+                if (installed == null)
+                    continue;
 
-                    try
-                    {
-                        if (Convert.ToInt32(installed) == 1)
-                            return true;
-                    }
-                    catch
-                    {
-                    }
-                }
+                int installedValue;
+                if (int.TryParse(installed.ToString(), out installedValue) && installedValue == 1)
+                    return true;
             }
+        }
 
-            return false;
+        return false;
         }
 
         private static void _EnsureDataFolderExists()
