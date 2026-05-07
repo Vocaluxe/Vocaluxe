@@ -56,7 +56,6 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _TileH;
 
         private int _ListLength;
-        private float _ListTextWidth;
 
         // Offset is the song or categoryNr of the tile in the left upper corner
         private int _Offset;
@@ -171,10 +170,10 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             MaxRect = SmallView ? _Theme.SongMenuList.TileRectSmall : _Theme.SongMenuList.TileRect;
 
-            _ListTextWidth = MaxRect.W - (_TileW + _SpaceW);
-
             _TileW = (int)((MaxRect.H - _SpaceH * (_ListLength - 1)) / _ListLength);
             _TileH = _TileW;
+
+            float _ListTextWidth = MaxRect.W - (_TileW + _SpaceW);
 
             _CoverBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBackground, _PartyModeID);
             _CoverBigBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBigBackground, _PartyModeID);
