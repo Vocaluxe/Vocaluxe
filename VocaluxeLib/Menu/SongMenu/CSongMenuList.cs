@@ -30,6 +30,7 @@ namespace VocaluxeLib.Menu.SongMenu
         private SRectF _ScrollRect;
         private List<CStatic> _Tiles;
         private List<CText> _Texts;
+        private List<CStatic> _RowBackgrounds;
         private readonly CStatic _CoverBig;
         private readonly CStatic _TextBG;
         private readonly CStatic _DuetIcon;
@@ -55,7 +56,6 @@ namespace VocaluxeLib.Menu.SongMenu
         private int _TileH;
 
         private int _ListLength;
-        private float _ListTextWidth;
 
         // Offset is the song or categoryNr of the tile in the left upper corner
         private int _Offset;
@@ -170,33 +170,42 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             MaxRect = SmallView ? _Theme.SongMenuList.TileRectSmall : _Theme.SongMenuList.TileRect;
 
-            _ListTextWidth = MaxRect.W - _ListTextWidth;
-
             _TileW = (int)((MaxRect.H - _SpaceH * (_ListLength - 1)) / _ListLength);
             _TileH = _TileW;
+
+            float _ListTextWidth = MaxRect.W - (_TileW + _SpaceW);
 
             _CoverBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBackground, _PartyModeID);
             _CoverBigBGTexture = CBase.Themes.GetSkinTexture(_Theme.CoverBigBackground, _PartyModeID);
 
             //Create cover tiles
+            _RowBackgrounds = new List<CStatic>();
             _Tiles = new List<CStatic>();
             _Texts = new List<CText>();
 
             for (int i = 0; i < _ListLength; i++)
             {
                 //Create Cover
-                var rect = new SRectF(Rect.X, Rect.Y + i * (_TileH + _SpaceH), _TileW, _TileH, Rect.Z);
+                float y = Rect.Y + i * (_TileH + _SpaceH);
+
+                float bgHeight = _TileH + 8f;
+                var rowRect = new SRectF(Rect.X, y - 4f, Rect.W, bgHeight, Rect.Z + 0.05f);
+                var rowBackground = new CStatic(_PartyModeID, _CoverBGTexture, _Color, rowRect);
+                rowBackground.Color = new SColorF(1f, 1f, 1f, 0f);
+                _RowBackgrounds.Add(rowBackground);
+
+                var rect = new SRectF(Rect.X, y, _TileW, _TileH, Rect.Z);
                 var tile = new CStatic(_PartyModeID, _CoverBGTexture, _Color, rect);
                 _Tiles.Add(tile);
 
                 //Create text
-                var textRect = new SRectF(MaxRect.X + (_TileW + _SpaceW), Rect.Y + i * (_TileH + _SpaceH), _ListTextWidth, _TileH, Rect.Z);
-                CText text = new CText(textRect.X, textRect.Y, textRect.Z,
-                                       textRect.H, textRect.W, EAlignment.Left, EStyle.Normal,
-                                       "Normal", _Artist.Color, "");
-                text.MaxRect = new SRectF(text.MaxRect.X, text.MaxRect.Y, MaxRect.W + MaxRect.X - text.Rect.X - 5f, text.MaxRect.H, text.MaxRect.Z);
-                text.ResizeAlign = EHAlignment.Center;
+                var textRect = new SRectF(MaxRect.X + (_TileW + _SpaceW), y, _ListTextWidth, _TileH, Rect.Z);
 
+                CText text = new CText(textRect.X, textRect.Y, textRect.Z, textRect.H, textRect.W, EAlignment.Left, EStyle.Normal, "Normal", _Artist.Color, "");
+                            
+                text.MaxRect = new SRectF(text.MaxRect.X, text.MaxRect.Y, MaxRect.W + MaxRect.X - text.Rect.X - 5f, text.MaxRect.H, text.MaxRect.Z);
+
+                text.ResizeAlign = EHAlignment.Center;
                 _Texts.Add(text);
             }
 
@@ -204,14 +213,24 @@ namespace VocaluxeLib.Menu.SongMenu
         }
 
         private void _UpdateTileSelection()
-        {
-            foreach (CStatic tile in _Tiles)
-                tile.Selected = false;
+{
+    for (int i = 0; i < _Tiles.Count; i++)
+    {
+        _Tiles[i].Selected = false;
 
-            int tileNr = _SelectionNr - _Offset;
-            if (tileNr >= 0 && tileNr < _Tiles.Count)
-                _Tiles[tileNr].Selected = true;
-        }
+        if (i < _RowBackgrounds.Count)
+            _RowBackgrounds[i].Color = new SColorF(1f, 1f, 1f, 0f);
+    }
+
+    int tileNr = _SelectionNr - _Offset;
+    if (tileNr >= 0 && tileNr < _Tiles.Count)
+    {
+        _Tiles[tileNr].Selected = true;
+
+        if (tileNr < _RowBackgrounds.Count)
+            _RowBackgrounds[tileNr].Color = new SColorF(1f, 1f, 1f, 0.25f);
+    }
+}
 
         public override void Update(SScreenSongOptions songOptions)
         {
@@ -539,6 +558,8 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public override void Draw()
         {
+            foreach (CStatic rowBackground in _RowBackgrounds)
+                rowBackground.Draw(EAspect.Stretch);
             foreach (CStatic tile in _Tiles)
             {
                 if (tile.Selected)
@@ -555,7 +576,7 @@ namespace VocaluxeLib.Menu.SongMenu
             foreach (CText text in _Texts)
             {
                 if (i < _Tiles.Count && _Tiles[i].Selected)
-                    text.Font.Style = EStyle.BoldItalic;
+                    text.Font.Style = EStyle.Bold;
                 else if (i < _Tiles.Count)
                     text.Font.Style = EStyle.Normal;
                 else
@@ -708,11 +729,13 @@ namespace VocaluxeLib.Menu.SongMenu
                 }
                 else
                 {
+                    _Tiles[i].Texture = _CoverBGTexture;
                     _Tiles[i].Color.A = 0;
                     _Texts[i].Text = "";
                 }
             }
             _Offset = offset;
+            _UpdateTileSelection();
         }
 
         public override void LoadSkin()
