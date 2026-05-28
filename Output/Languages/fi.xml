@@ -155,6 +155,7 @@
   <string name="TR_SCREENSONG_PLAYERSELECT">Laulajan valitseminen</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_ON">Näytä laulajan valinta</string>
   <string name="TR_SCREENSONG_PLAYERSELECT_OFF">Ohita pelaajien valinta</string>  
+  <string name="TR_SCREENSONG_SEARCH"> Etsi kappale</string>
   <string name="TR_SCREENSONG_NOLANGUAGE">Ei kieltä</string>
   <string name="TR_SCREENSONG_NOYEAR">Ei vuotta</string>
   <string name="TR_SCREENSONG_NOGENRE">Ei genreä</string>
@@ -211,8 +212,13 @@
   <string name="TR_SCREENO_BUTTON_SOUND">Ääni</string>
   <string name="TR_SCREENO_BUTTON_RECORD">Äänentallennus</string>
   <string name="TR_SCREENO_BUTTON_VIDEO">Video</string>
+  <string name="TR_SCREENO_BUTTON_LYRICS">Sanat</string>
+  <string name="TR_SCREENO_BUTTON_GRAPHICS">Grafiiikat</string>
   <string name="TR_SCREENO_BUTTON_THEME">Teema</string>
   <string name="TR_SCREENO_BUTTON_CREDITS">Tekijät</string>
+  <string name="TR_SCREENO_BUTTON_SERVER">Palvelin</string>
+  <string name="TR_SCREENO_BUTTON_SONGFOLDER"> Kappaleiden kansio</string>
+  <string name="TR_SCREENO_SONGFOLDER">Valitse kansio, jonka haluat lisätä</string>
   <string name="TR_SCREENO_WARNINGRESTART">Käynnistä peli uudestaan ottaaksesi muutokset käyttöön.</string>
   <string name="TR_SCREENOGAME_BUTTON_SERVER">Palvelimen osoite</string>
   <string name="TR_SCREENOGAME_OPTIONS">Peliasetukset</string>
@@ -262,6 +268,10 @@
   <string name="TR_SCREENOGRAPHICS_COVERSIZE">Kansikuvan koko (pikseleissä)</string>
   <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Kokoruututila</string>
   <string name="TR_SCREENOGRAPHICS_STRETCH">Venytä</string>
+  <string name="TR_SCREENOSERVER_OPTIONS">Palvelimen vaihtoehdot</string>
+  <string name="TR_SCREENOSERVER_ACTIVE"> Palvelin aktiivinen</string>
+  <string name="TR_SCREENOSERVER_ENCRYPTION"> Palvelimen salaus</string>
+  <string name="TR_SCREENOSERVER_BUTTON_SERVER"> Palvelimen osoite</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Videoasetukset</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Taustavideot</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Videon esikatselu</string>
@@ -278,6 +288,7 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Oikea alakulma</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Äänenvoimakkuus</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Palvelinosoite</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Palvelin ei ole käynnissä. Aktivoi se ja käynnistä peli uudelleen!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Olemme pahoillamme,</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">mutta Vocaluxe kohtasi virheen ja kaatui.\r\nJos haluat auttaa meitä korjaamaan ongelman, lähetä meille virheilmoitus.\r\nPoista yksityistiedot alla olevasta ilmoituksesta ennen sen lähettämistä.</string>
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">että kohtasit virheen.\r\nJos haluat auttaa meitä korjaamaan ongelman, lähetä meille virheilmoitus.\r\nPoista yksityistiedot alla olevasta ilmoituksesta ennen sen lähettämistä.</string>
