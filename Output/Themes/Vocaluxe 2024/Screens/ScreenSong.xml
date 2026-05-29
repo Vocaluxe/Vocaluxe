@@ -182,11 +182,11 @@
       <Text />
     </Text>
     <Text Name="TextCategory">
-      <X>330</X>
-      <Y>918</Y>
+      <X>1237.5</X>
+      <Y>10</Y>
       <Z>0</Z>
       <H>40.5</H>
-      <MaxW>510</MaxW>
+      <MaxW>1207.5</MaxW>
       <Color Name="TextColor" />
       <SelColor Name="TextSelColor" />
       <Align>Center</Align>
@@ -194,10 +194,6 @@
       <Style>Bold</Style>
       <Font>Outline</Font>
       <Text />
-      <Reflection>
-        <Height>13</Height>
-        <Space>33</Space>
-      </Reflection>
     </Text>
     <Text Name="TextSelection">
       <X>1237.5</X>

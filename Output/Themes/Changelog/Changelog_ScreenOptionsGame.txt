@@ -1,5 +1,10 @@
 ScreenOptionsGame
 
+Version 6:
+
+Remove:
+<ButtonSongFolder>
+<ButtonServer>
 ++++++++++
 Version 5:
 
