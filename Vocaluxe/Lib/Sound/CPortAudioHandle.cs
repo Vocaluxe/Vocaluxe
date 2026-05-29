@@ -64,21 +64,30 @@ namespace Vocaluxe.Lib.Sound
         {
             if (_Disposed)
                 return;
+
             if (!disposing)
                 CLog.Debug("Did not close CPortAudioHandle");
-            //Make sure we do not leek any streams as we may keep PA open
-            if (_Streams.Count > 0)
+
+            IntPtr[] streamsToClose;
+            lock (_Mutex)
             {
-                CLog.Debug("Did not close " + _Streams.Count + "PortAudio-Stream(s)");
-                while (_Streams.Count > 0)
-                    CloseStream(_Streams[0]);
+                streamsToClose = _Streams.ToArray();
             }
+
+            if (streamsToClose.Length > 0)
+                CLog.Debug("Did not close " + streamsToClose.Length + " PortAudio-Stream(s)");
+
+            foreach (IntPtr stream in streamsToClose)
+                CloseStream(stream);
+
             lock (_Mutex)
             {
                 if (_Disposed)
                     return;
+
                 Debug.Assert(_RefCount > 0);
                 _RefCount--;
+
                 if (_RefCount == 0)
                 {
                     try
@@ -90,6 +99,7 @@ namespace Vocaluxe.Lib.Sound
                         CLog.Error(ex, "Error disposing PortAudio");
                     }
                 }
+
                 _Disposed = true;
             }
         }
@@ -172,22 +182,53 @@ namespace Vocaluxe.Lib.Sound
             lock (_Mutex)
             {
                 if (_Disposed)
-                    throw new ObjectDisposedException("PortAudioHandle already disposed");
+                    return;
+
+                if (stream == IntPtr.Zero)
+                {
+                    CLog.Debug("Stream is null, skipping close.");
+                    return;
+                }
+
+                bool wasTracked = _Streams.Remove(stream);
+                if (!wasTracked)
+                {
+                    CLog.Debug("Stream was already removed or never tracked, skipping duplicate close.");
+                    return;
+                }
 
                 try
                 {
-                    if (stream == IntPtr.Zero)
+                    try
                     {
-                         CLog.Debug("Stream is null, skipping close.");
-                         return;
+                        PortAudio.PaError isStoppedResult = PortAudio.Pa_IsStreamStopped(stream);
+                        if (isStoppedResult == PortAudio.PaError.paStreamIsNotStopped)
+                        {
+                            PortAudio.PaError stopResult = PortAudio.Pa_StopStream(stream);
+                            if (stopResult != PortAudio.PaError.paNoError &&
+                                stopResult != PortAudio.PaError.paStreamIsStopped)
+                            {
+                                CLog.Error("StopStream before close failed: " + PortAudio.Pa_GetErrorText(stopResult));
+                            }
+                        }
                     }
-                    PortAudio.Pa_CloseStream(stream);
+                    catch (Exception ex)
+                    {
+                        CLog.Error(ex, "Error stopping stream before close:");
+                    }
+
+                    PortAudio.PaError closeResult = PortAudio.Pa_CloseStream(stream);
+                    if (closeResult != PortAudio.PaError.paNoError)
+                        CLog.Error("CloseStream error: " + PortAudio.Pa_GetErrorText(closeResult));
+                }
+                catch (AccessViolationException ex)
+                {
+                    CLog.Error(ex, "Access violation while closing PortAudio stream.");
                 }
                 catch (Exception ex)
                 {
                     CLog.Error(ex, "Error closing stream:");
                 }
-                _Streams.Remove(stream);
             }
         }
 

@@ -16,12 +16,9 @@
 #endregion
 
 using System.Windows.Forms;
-using System.Linq;
-using System.Collections.Generic;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -30,7 +27,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 5; }
+            get { return 6; }
         }
 
         private const string _SelectSlideLanguage = "SelectSlideLanguage";
@@ -43,31 +40,13 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideHighscoreStyle = "SelectSlideHighscoreStyle";
 
         private const string _ButtonExit = "ButtonExit";
-        private const string _ButtonServer = "ButtonServer";
-        private const string _ButtonSelectSongFolder = "ButtonSongFolder";
-
-        private const string _TextWarningRestart = "TextWarningRestart";
-        private const string _StaticWarningRestart = "StaticWarningRestart";
-
-        private int _WarningStream = -1;
-        private bool _HasPlayedWarningSound = false;
-        
-        private static int PlaySound(ESounds sound, int volume)
-        {
-            int streamId = CSound.PlaySound(sound, false);
-            CSound.SetStreamVolume(streamId, volume);
-
-            return streamId;
-        }
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit, _ButtonServer, _ButtonSelectSongFolder};
+            _ThemeButtons = new string[] {_ButtonExit};
             _ThemeSelectSlides = new string[] {_SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideTimerMode, _SelectSlideHighscoreStyle};
-            _ThemeTexts = new string[] {_TextWarningRestart};
-            _ThemeStatics = new string[] {_StaticWarningRestart};
         }
 
         public override void LoadTheme(string xmlPath)
@@ -84,9 +63,6 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideAutoplayPreviews].SetValues<EOffOn>((int)CConfig.Config.Game.AutoplayPreviews);
             _SelectSlides[_SelectSlideTimerMode].SetValues<ETimerMode>((int)CConfig.Config.Game.TimerMode);
             _SelectSlides[_SelectSlideHighscoreStyle].SetValues<EHighscoreStyle>((int)CConfig.Config.Game.HighscoreStyle);
-
-            _Texts[_TextWarningRestart].Visible = false;
-            _Statics[_StaticWarningRestart].Visible = false;
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -101,14 +77,12 @@ namespace Vocaluxe.Screens
                     case Keys.Back:
                         _SaveConfig();
                         CGraphics.FadeTo(EScreen.Options);
-                        _LeaveScreen();
                         break;
 
                     case Keys.S:
                         CParty.SetNormalGameMode();
                         _SaveConfig();
                         CGraphics.FadeTo(EScreen.Song);
-                        _LeaveScreen();
                         break;
 
                     case Keys.Enter:
@@ -116,16 +90,6 @@ namespace Vocaluxe.Screens
                         {
                             _SaveConfig();
                             CGraphics.FadeTo(EScreen.Options);
-                            _LeaveScreen();
-                        }
-                        else if (_Buttons[_ButtonServer].Selected)
-                        {
-                            CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
-                        }
-                        else if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptionsGame._OpenSongFolderDialog())
-                        {
-                            _Texts[_TextWarningRestart].Visible = true;
-                            _Statics[_StaticWarningRestart].Visible = true;
                         }
                         break;
 
@@ -149,61 +113,20 @@ namespace Vocaluxe.Screens
             {
                 _SaveConfig();
                 CGraphics.FadeTo(EScreen.Options);
-                _LeaveScreen();
             }
 
-            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
+            if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent) && _Buttons[_ButtonExit].Selected)
             {
-                if (_Buttons[_ButtonExit].Selected)
-                {
-                    CGraphics.FadeTo(EScreen.Options);
-                    _SaveConfig();
-                    _LeaveScreen();
-                }
-                else if (_Buttons[_ButtonServer].Selected)
-                {
-                    CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
-                }   
-                else if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptionsGame._OpenSongFolderDialog())
-                {
-                    _Texts[_TextWarningRestart].Visible = true;
-                    _Statics[_StaticWarningRestart].Visible = true;
-                }
+                CGraphics.FadeTo(EScreen.Options);
+                _SaveConfig();
             }
             return true;
+
         }
 
         public override bool UpdateGame()
-        {
-            if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
-            {
-                _WarningStream = CScreenOptionsGame.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
-                _HasPlayedWarningSound = true;
-            }
-                    
+        {                   
             return true;
-        }
-
-        private static bool _OpenSongFolderDialog()
-        {
-            using (var dialog = new FolderBrowserDialog())
-            {
-                dialog.Description = CLanguage.Translate("TR_SCREENOGAME_SONGFOLDER");
-                dialog.ShowNewFolderButton = true;
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    // Update config with new folder
-                    var folders = CConfig.Config.Game.SongFolder?.ToList() ?? new List<string>();
-                    if (!folders.Contains(dialog.SelectedPath))
-                    {
-                        folders.Add(dialog.SelectedPath);
-                       CConfig.Config.Game.SongFolder = folders.ToArray();
-                       CConfig.SaveConfig();
-                    }
-                    return true; // Folder was selected
-                }
-            }
-            return false; // Dialog was cancelled
         }
 
         private void _SaveConfig()
@@ -222,15 +145,6 @@ namespace Vocaluxe.Screens
 
             CSongs.Sorter.SongSorting = CConfig.Config.Game.SongSorting;
             CSongs.Categorizer.Tabs = CConfig.Config.Game.Tabs;
-        }
-
-        private void _LeaveScreen()
-        {           
-            if (_WarningStream != -1)
-            {
-                 CSound.Close(_WarningStream);
-                _WarningStream = -1;
-            }
         }
     }
 }

@@ -1,0 +1,11 @@
+ScreenOptionsGraphics
+
+++++++++++
+Version 1:
+
+Add Graphics Options:
+<SelectSlideTextureQuality>
+<SelectSlideCoverSize>
+<SelectSlideFullScreen>
+<SelectSlideStretch>
+<SelectSlideVSync>
