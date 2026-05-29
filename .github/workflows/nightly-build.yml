@@ -1,0 +1,14 @@
+name: 'Vocaluxe Nightly Builds'
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  call-build:
+    uses: ./.github/workflows/build.yml
+    with:
+      tag_name: Nightly
+      prerelease: true
+      create_release: true

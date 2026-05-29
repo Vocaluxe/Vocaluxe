@@ -1,0 +1,105 @@
+name: 'CI'
+on:
+  workflow_call:
+    inputs:
+      tag_name:
+        description: "The tag name for the release"
+        required: true
+        type: string
+      prerelease:
+        description: "Indicates if the release is a pre-release"
+        required: true
+        type: boolean
+      create_release:
+        description: "Indicates if a GitHub release should be created"
+        default: false
+        required: false
+        type: boolean
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [x86, x64]
+    runs-on: windows-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4.2.2
+
+      - name: setup-msbuild
+        uses: microsoft/setup-msbuild@6fb02220983dee41ce7ae257b6f4d8f9bf5ed4ce
+        with:
+          vs-version: latest
+          msbuild-architecture: ${{ matrix.platform }} 
+
+      - name: Setup Nuget
+        uses: NuGet/setup-nuget@a21f25cd3998bf370fde17e3f1b4c12c175172f9
+
+      - name: Restore Nuget Packages
+        run: nuget restore Vocaluxe.sln
+
+      - name: Build solution
+        env:
+          VOCALUXE_VERSION: ${{ inputs.tag_name != 'Nightly' && inputs.tag_name || '' }}
+        run: msbuild Vocaluxe.sln /p:Configuration=ReleaseWin /p:Platform="${{ matrix.platform }}"
+
+      - name: Download theme videos
+        run: |
+          Invoke-WebRequest -Uri 'https://github.com/Vocaluxe/VocaluxeDependencies/raw/master/zips/themes/vocaluxe.themes.vocaluxe-2024.video-part1.zip' -OutFile 'vocaluxe.themes.vocaluxe-2024.video.zip'
+          7z x '-aoa' '-oOutput/' './vocaluxe.themes.vocaluxe-2024.video.zip'
+          Remove-Item './vocaluxe.themes.vocaluxe-2024.video.zip'
+
+      - name: Run tests
+        run: |
+          nuget install NUnit.ConsoleRunner -Version 3.20.1 -OutputDirectory testrunner
+          .\testrunner\NUnit.ConsoleRunner.3.20.1\tools\nunit3-console.exe ".\Tests\bin\Release\Tests.dll" --result=".\TestResult.xml"
+
+      - name: Upload test results
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: test-results-windows-${{ matrix.platform }}
+          path: TestResult.xml
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4.6.2
+        with:
+          name: Vocaluxe_Windows_${{ matrix.platform }}_${{ inputs.tag_name }}
+          path: Output
+
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    if: ${{ inputs.create_release }}
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v4.2.2
+
+      - name: Delete Previous Release
+        if: ${{ inputs.tag_name == 'Nightly' }}
+        run: gh release delete Nightly --cleanup-tag
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4.3.0
+        with:
+          path: artifacts
+
+      - name: Zip artifacts
+        run: |
+          for dir in . *; do
+            if [ -d "$dir" ] && [ "$dir" != "." ] && [ "$dir" != ".." ]; then
+              7z a -tzip "${dir}.zip" "${dir}/*"
+            fi
+          done
+        working-directory: artifacts
+
+      - name: Create Release
+        uses: softprops/action-gh-release@72f2c25fcb47643c292f7107632f7a47c1df5cd8
+        with:
+          prerelease: ${{ inputs.prerelease }}
+          tag_name: ${{ inputs.tag_name }}
+          target_commitish: ${{ github.sha }}
+          files: "artifacts/*.zip"
