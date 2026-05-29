@@ -22,7 +22,7 @@ namespace VocaluxeLib.Menu.SongMenu
     public interface ISongMenu : IMenuElement, IThemeable
     {
         void Update(SScreenSongOptions songOptions);
-        void OnShow();
+        void OnShow(int selectedSongID = -1);
         void OnHide();
 
         bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options);

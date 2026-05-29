@@ -245,6 +245,7 @@ namespace VocaluxeLib
         void SetCategory(int categoryIndex);
         void UpdateRandomSongList();
 
+        int GetVisibleSongNumber(int songID);
         CSong GetVisibleSong(int visibleIndex);
         CSong GetSongByID(int songID);
         ReadOnlyCollection<CSong> GetSongs();

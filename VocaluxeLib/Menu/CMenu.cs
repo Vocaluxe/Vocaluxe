@@ -227,7 +227,7 @@ namespace VocaluxeLib.Menu
                 {
                     string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
                     if (Theme.Informations.ScreenVersion < _ScreenVersion)
-                        msg += "the file ist outdated! ";
+                        msg += "the file is outdated! ";
                     else
                         msg += "the file is for newer program versions! ";
 

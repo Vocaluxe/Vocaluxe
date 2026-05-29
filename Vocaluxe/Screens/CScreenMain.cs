@@ -28,7 +28,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 2; }
+            get { return 3; }
         }
 
         private const string _ButtonSing = "ButtonSing";
@@ -39,6 +39,8 @@ namespace Vocaluxe.Screens
         private const string _StaticWarningProfiles = "StaticWarningProfiles";
         private const string _TextWarningProfiles = "TextWarningProfiles";
         private const string _TextRelease = "TextRelease";
+        private const string _TextLoading = "TextLoading";
+        private const string _TextStatus = "TextStatus";
 
         private int _WarningStream = -1;
         private bool _HasPlayedWarningSound = false;
@@ -58,7 +60,7 @@ namespace Vocaluxe.Screens
 
             _ThemeStatics = new string[] {"StaticMenuBar", _StaticWarningProfiles};
             _ThemeButtons = new string[] {_ButtonSing, _ButtonParty, _ButtonOptions, _ButtonProfiles, _ButtonExit};
-            _ThemeTexts = new string[] {_TextRelease, _TextWarningProfiles};
+            _ThemeTexts = new string[] {_TextRelease, _TextWarningProfiles, _TextLoading, _TextStatus };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -69,6 +71,8 @@ namespace Vocaluxe.Screens
             _Texts[_TextRelease].Visible = true;
             _Statics[_StaticWarningProfiles].Visible = false;
             _Texts[_TextWarningProfiles].Visible = false;
+            _Texts[_TextLoading].Text = "";
+            _Texts[_TextStatus].Text = "";
             _SelectElement(_Buttons[_ButtonSing]);
         }
 
@@ -184,6 +188,22 @@ namespace Vocaluxe.Screens
             bool profileOK = CProfiles.NumProfiles > 0;
             _Statics[_StaticWarningProfiles].Visible = !profileOK;
             _Texts[_TextWarningProfiles].Visible = !profileOK;
+            if (CConfig.Config.Theme.SongLoading == ESongLoading.TR_CONFIG_SONGLOADING_DYNAMIC)
+            {
+                if (CSongs.SongsLoaded && CSongs.CoverLoaded)
+                {
+                    _Texts[_TextLoading].Text = "";
+                    _Texts[_TextStatus].Text = "";
+                }
+                else
+                {
+                    _Texts[_TextLoading].Text = CLanguage.Translate("TR_SCREENLOAD_LOADING");
+                    _Texts[_TextStatus].Text =
+                        CLanguage.Translate("TR_SCREENLOAD_TOTAL") + ": " + CSongs.NumAllSongs + " " +
+                        CLanguage.Translate("TR_SCREENLOAD_SONGS") + " (" + CSongs.NumSongsWithCoverLoaded + " " +
+                        CLanguage.Translate("TR_SCREENLOAD_LOADED") + ")";
+                }
+            }
             _Buttons[_ButtonSing].Selectable = profileOK;
             _Buttons[_ButtonParty].Selectable = profileOK;
 

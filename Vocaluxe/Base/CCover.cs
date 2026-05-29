@@ -112,7 +112,7 @@ namespace Vocaluxe.Base
                 }, _CancelToken.Token);
             lock (_Covers)
             {
-                _Covers.Add(text, texture);
+                _Covers[text] = texture;
             }
             return texture;
         }

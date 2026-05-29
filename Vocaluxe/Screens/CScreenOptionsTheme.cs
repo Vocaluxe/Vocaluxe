@@ -29,7 +29,7 @@ namespace Vocaluxe.Screens
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
         {
-            get { return 3; }
+            get { return 4; }
         }
 
         private const string _SelectSlideTheme = "SelectSlideTheme";
@@ -40,6 +40,7 @@ namespace Vocaluxe.Screens
         private const string _SelectSlideTimerLook = "SelectSlideTimerLook";
         private const string _SelectSlideFadeInfo = "SelectSlideFadeInfo";
         private const string _SelectSlideCoverLoading = "SelectSlideCoverLoading";
+        private const string _SelectSlideSongLoading = "SelectSlideSongLoading";
 
         private const string _ButtonExit = "ButtonExit";
 
@@ -59,7 +60,8 @@ namespace Vocaluxe.Screens
                     _SelectSlideToneHelper,
                     _SelectSlideTimerLook,
                     _SelectSlideFadeInfo,
-                    _SelectSlideCoverLoading
+                    _SelectSlideCoverLoading,
+                    _SelectSlideSongLoading
                 };
         }
 
@@ -74,6 +76,7 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideTimerLook].SetValues<ETimerLook>((int)CConfig.Config.Theme.TimerLook);
             _SelectSlides[_SelectSlideFadeInfo].SetValues<EFadePlayerInfo>((int)CConfig.Config.Theme.FadePlayerInfo);
             _SelectSlides[_SelectSlideCoverLoading].SetValues<ECoverLoading>((int)CConfig.Config.Theme.CoverLoading);
+            _SelectSlides[_SelectSlideSongLoading].SetValues<ESongLoading>((int)CConfig.Config.Theme.SongLoading);
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -169,6 +172,7 @@ namespace Vocaluxe.Screens
             CConfig.Config.Theme.TimerLook = (ETimerLook)_SelectSlides[_SelectSlideTimerLook].Selection;
             CConfig.Config.Theme.FadePlayerInfo = (EFadePlayerInfo)_SelectSlides[_SelectSlideFadeInfo].Selection;
             CConfig.Config.Theme.CoverLoading = (ECoverLoading)_SelectSlides[_SelectSlideCoverLoading].Selection;
+            CConfig.Config.Theme.SongLoading = (ESongLoading)_SelectSlides[_SelectSlideSongLoading].Selection;
 
             CConfig.SaveConfig();
 

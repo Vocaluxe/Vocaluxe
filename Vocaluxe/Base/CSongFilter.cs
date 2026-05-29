@@ -66,6 +66,11 @@ namespace Vocaluxe.Base
             }
         }
 
+        public void ForceRefresh()
+        {
+            _SetChanged();
+        }
+
         public void SetOptions(String searchString, EDuetOptions duetOptions)
         {
             SetOptions(searchString, duetOptions, -1);
@@ -180,8 +185,9 @@ namespace Vocaluxe.Base
                 }
             }
 
-            foreach (CSong song in CSongs.Songs)
+            for (int i = 0; i < CSongs.NumAllSongs; i++)
             {
+                CSong song = CSongs.Songs[i];
                 if (_PlaylistID != -1 && !CBase.Playlist.ContainsSong(_PlaylistID, song.ID))
                     continue;
 				

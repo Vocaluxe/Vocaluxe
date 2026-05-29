@@ -299,13 +299,17 @@ namespace VocaluxeLib.Menu.SongMenu
                 _SongLength.Text = "...";
         }
 
-        public override void OnShow()
+        public override void OnShow(int selectedSongID)
         {
             _LastKnownElements = -1; //Force refresh of list
             if (!CBase.Songs.IsInCategory())
             {
                 if ((CBase.Songs.GetTabs() == EOffOn.TR_CONFIG_OFF && CBase.Songs.GetNumCategories() > 0) || CBase.Songs.GetNumCategories() == 1)
                     _EnterCategory(0);
+            }
+            if (selectedSongID != -1)
+            {
+                _SelectionNr = CBase.Songs.GetVisibleSongNumber(selectedSongID);
             }
             if (CBase.Songs.IsInCategory())
                 SetSelectedSong(_SelectionNr < 0 ? 0 : _SelectionNr);

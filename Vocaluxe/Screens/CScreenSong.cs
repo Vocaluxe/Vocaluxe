@@ -110,6 +110,7 @@ namespace Vocaluxe.Screens
         private CPlaylist _Playlist;
 
         private System.Timers.Timer _TimerShortInfoText;
+        private System.Timers.Timer _TimerLoadSongs;
 
         private static EAudioMode _AudioMode = EAudioMode.TR_AUDIOMODE_NORMAL;
 
@@ -214,6 +215,10 @@ namespace Vocaluxe.Screens
             _TimerShortInfoText = new System.Timers.Timer(5000);
             _TimerShortInfoText.AutoReset = false;
             _TimerShortInfoText.Elapsed += OnTimedEventShortInfoText;
+
+            _TimerLoadSongs = new System.Timers.Timer(5000);
+            _TimerLoadSongs.AutoReset = false;
+            _TimerLoadSongs.Elapsed += OnTimedEventLoadSongs;
         }
 
         protected override void _OnSongMenuChanged()
@@ -860,6 +865,11 @@ namespace Vocaluxe.Screens
             _Texts[_TextShortInfoTop].Visible = false;
 
             UpdateGame();
+
+            if (!CSongs.SongsLoaded)
+            {
+                _TimerLoadSongs.Enabled = true;
+            }
         }
 
         public override void OnShowFinish()
@@ -1059,6 +1069,22 @@ namespace Vocaluxe.Screens
         {
             _Statics[_StaticShortInfoTop].Visible = false;
             _Texts[_TextShortInfoTop].Visible = false;
+        }
+
+        private void OnTimedEventLoadSongs(Object source, ElapsedEventArgs e)
+        {
+            _TimerLoadSongs.Stop();
+
+            // Find the current selected song if any, and pass in the ID so we can stay focused on it
+            CSong song = CSongs.GetVisibleSongByIndex(_SongMenu.GetSelectedSongNr());
+
+            CSongs.Filter.ForceRefresh();
+            _SongMenu.OnShow(song?.ID ?? -1);
+            if (!CSongs.SongsLoaded)
+            {
+                // Still haven't loaded all the songs, so keep waiting
+                _TimerLoadSongs.Enabled = true;
+            }
         }
 
         private void _ToggleTabs()

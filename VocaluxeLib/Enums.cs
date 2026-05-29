@@ -242,6 +242,12 @@ namespace VocaluxeLib
         // ReSharper restore InconsistentNaming
     }
 
+    public enum ESongLoading
+    {
+        TR_CONFIG_SONGLOADING_ATSTART,
+        TR_CONFIG_SONGLOADING_DYNAMIC
+    }
+
     public enum ECoverLoading
     {
         // ReSharper disable InconsistentNaming

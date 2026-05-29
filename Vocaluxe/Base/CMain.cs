@@ -774,6 +774,10 @@ namespace Vocaluxe.Base
         {
             CSongs.UpdateRandomSongList();
         }
+        public int GetVisibleSongNumber(int songID)
+        {
+            return CSongs.GetVisibleSongNumber(songID);
+        }
 
         public CSong GetVisibleSong(int visibleIndex)
         {
