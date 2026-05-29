@@ -102,6 +102,7 @@ struct _ac_audio_decoder {
     AVFrame *pFrame;
     SwrContext *pSwrCtx;
     size_t own_buffer_size;
+    int out_sample_size; // bytes per sample after swresample (0 = use native)
 };
 
 typedef struct _ac_audio_decoder ac_audio_decoder;
@@ -384,10 +385,10 @@ static void cpymetadata(const AVFormatContext *ctx, const char *key, char *tar,
 {
     const AVDictionaryEntry *entry = av_dict_get(ctx->metadata, key, NULL, 0);
     if (entry) {
-        strncpy_s(tar, len, entry->value, len-1);
+        strncpy(tar, entry->value, len-1);
         tar[len - 1] = '\0';
     } else {
-        strncpy_s(tar, len, "", len);
+        strncpy(tar, "", len);
     }
 }
 
@@ -829,14 +830,18 @@ void *ac_create_audio_decoder(lp_ac_instance pacInstance,
 
     // Initialize libswresample if needed
     if (av_sample_fmt_is_planar(fmt) || (fmt == AV_SAMPLE_FMT_S32) ||
-        (fmt == AV_SAMPLE_FMT_DBL)) {
+        (fmt == AV_SAMPLE_FMT_FLT) || (fmt == AV_SAMPLE_FMT_DBL)) {
         enum AVSampleFormat out_fmt = av_get_packed_sample_fmt(fmt);
-        if (out_fmt == AV_SAMPLE_FMT_DBL || out_fmt == AV_SAMPLE_FMT_S32) {
-            out_fmt = AV_SAMPLE_FMT_FLT;
+        if (out_fmt == AV_SAMPLE_FMT_DBL || out_fmt == AV_SAMPLE_FMT_S32 ||
+            out_fmt == AV_SAMPLE_FMT_FLT) {
+            out_fmt = AV_SAMPLE_FMT_S16;
         }
         ERR(pDecoder->pSwrCtx = swr_alloc_set_opts(NULL, layout, out_fmt, rate,
                                                layout, fmt, rate, 0, NULL));
         AV_ERR(swr_init(pDecoder->pSwrCtx));
+        pDecoder->out_sample_size = av_get_bytes_per_sample(out_fmt);
+        pDecoder->decoder.stream_info.additional_info.audio_info.bit_depth =
+            pDecoder->out_sample_size * 8;
     }
     return (void *)pDecoder;
 
@@ -952,9 +957,11 @@ int ac_decode_audio_package(lp_ac_package pPackage,
         return -2;
     }	
 
-    // Calculate the output buffer size
-    const int sample_size =
-        MIN(4, av_get_bytes_per_sample(pDecoder->pCodecCtx->sample_fmt));
+    // Calculate the output buffer size using the actual output sample size
+    // (after swresample conversion, if any)
+    const int sample_size = pDecoder->out_sample_size > 0
+        ? pDecoder->out_sample_size
+        : MIN(4, av_get_bytes_per_sample(pDecoder->pCodecCtx->sample_fmt));
     const int sample_count = pDecoder->pFrame->nb_samples;
     const int channel_count = pDecoder->pFrame->channels;
     const int buffer_size = sample_size * sample_count * channel_count;

@@ -52,7 +52,8 @@ namespace Vocaluxe.Lib.Draw
 
         public CDrawWinForm()
         {
-            Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
+            try { Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon)); }
+            catch (Exception) { /* Mono doesn't support PNG-compressed .ico entries; skip icon on Linux */ }
 
             _Keys = new CKeys();
             _Mouse = new CMouse();

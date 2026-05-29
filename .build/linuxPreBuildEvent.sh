@@ -2,7 +2,7 @@
 PROJECT=$1
 cd $PROJECT
 arch=$2
-version=$(git describe --long)
+version=$(git describe --long 2>/dev/null || echo "0.0.0-0-g$(git rev-parse --short HEAD)")
 shortVersion=${version%%-*}
 shortVersionClean=$(echo $shortVersion | sed -e 's/alpha/0/' -e 's/beta/1/' -e 's/rc/2/' -e 's/[[:alpha:]]//g')
 

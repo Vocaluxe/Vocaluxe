@@ -4,7 +4,9 @@ all:
 	$(MAKE) -C PitchTracker
 	$(MAKE) -C Vocaluxe/Lib/Video/Acinerella
 	rm -f $(windowsLibs)
-	xbuild /property:Platform=$(ARCH) /property:Configuration=ReleaseLinux
+	msbuild /t:Restore /property:Platform=$(ARCH) /property:Configuration=ReleaseLinux /property:TargetFrameworkVersion=v4.8
+	msbuild /property:Platform=$(ARCH) /property:Configuration=ReleaseLinux /property:TargetFrameworkVersion=v4.8
+	cp Vocaluxe/Linux/SQLitePCLRaw.provider.e_sqlite3.dll.config Output/libs/managed/
 
 clean:
 	xbuild /target:Clean
