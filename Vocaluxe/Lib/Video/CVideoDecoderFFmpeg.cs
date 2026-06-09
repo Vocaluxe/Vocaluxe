@@ -24,7 +24,7 @@ namespace Vocaluxe.Lib.Video
     class CVideoDecoderFFmpeg : IVideoDecoder
     {
         private readonly Dictionary<int, CDecoder> _Decoder = new Dictionary<int, CDecoder>();
-        private int _LastID;
+        private int _LastId;
 
         public bool Init()
         {
@@ -34,8 +34,11 @@ namespace Vocaluxe.Lib.Video
 
         public void CloseAll()
         {
-            foreach (CDecoder decoder in _Decoder.Values)
+            foreach (var decoder in _Decoder.Values)
+            {
                 decoder.Close();
+            }
+
             _Decoder.Clear();
         }
 
@@ -45,23 +48,28 @@ namespace Vocaluxe.Lib.Video
 
             if (decoder.Open(videoFileName))
             {
-                int id = _LastID++;
+                var id = _LastId++;
                 _Decoder.Add(id, decoder);
                 return new CVideoStream(id);
             }
+
             return null;
         }
 
         public void Close(ref CVideoStream stream)
         {
             if (stream == null)
+            {
                 return;
+            }
+
             CDecoder decoder;
             if (_TryGetDecoder(stream, out decoder))
             {
                 decoder.Close();
-                _Decoder.Remove(stream.ID);
+                _Decoder.Remove(stream.Id);
             }
+
             stream.SetClosed();
             stream = null;
         }
@@ -75,7 +83,10 @@ namespace Vocaluxe.Lib.Video
         {
             CDecoder decoder;
             if (_TryGetDecoder(stream, out decoder))
+            {
                 return decoder.GetFrame(ref stream.Texture, time, out stream.VideoTime);
+            }
+
             stream.VideoTime = 0;
             return false;
         }
@@ -84,7 +95,10 @@ namespace Vocaluxe.Lib.Video
         {
             CDecoder decoder;
             if (_TryGetDecoder(stream, out decoder))
+            {
                 return decoder.Length;
+            }
+
             return 0f;
         }
 
@@ -92,7 +106,10 @@ namespace Vocaluxe.Lib.Video
         {
             CDecoder decoder;
             if (_TryGetDecoder(stream, out decoder))
+            {
                 return decoder.Skip(start, gap);
+            }
+
             return false;
         }
 
@@ -100,32 +117,41 @@ namespace Vocaluxe.Lib.Video
         {
             CDecoder decoder;
             if (_TryGetDecoder(stream, out decoder))
+            {
                 decoder.Loop = loop;
+            }
         }
 
         public void Pause(CVideoStream stream)
         {
             CDecoder decoder;
             if (_TryGetDecoder(stream, out decoder))
+            {
                 decoder.Paused = true;
+            }
         }
 
         public void Resume(CVideoStream stream)
         {
             CDecoder decoder;
             if (_TryGetDecoder(stream, out decoder))
+            {
                 decoder.Paused = false;
+            }
         }
 
         public bool Finished(CVideoStream stream)
         {
             CDecoder decoder;
             if (_TryGetDecoder(stream, out decoder))
+            {
                 return decoder.Finished;
+            }
+
             return true;
         }
 
-        public void Update() {}
+        public void Update() { }
 
         private bool _TryGetDecoder(CVideoStream stream, out CDecoder decoder)
         {
@@ -134,7 +160,8 @@ namespace Vocaluxe.Lib.Video
                 decoder = null;
                 return false;
             }
-            return _Decoder.TryGetValue(stream.ID, out decoder);
+
+            return _Decoder.TryGetValue(stream.Id, out decoder);
         }
     }
 }

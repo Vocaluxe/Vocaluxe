@@ -24,16 +24,16 @@ namespace Vocaluxe.Base
     class CPlaylistElement
     {
         public readonly CSong Song;
-        private readonly string _MusicFilePath = String.Empty;
+        private readonly string _MusicFilePath = string.Empty;
 
         public bool HasMetaData
         {
             get { return Song != null; }
         }
 
-        public int SongID
+        public int SongId
         {
-            get { return HasMetaData ? Song.ID : -1; }
+            get { return HasMetaData ? Song.Id : -1; }
         }
 
         public string MusicFilePath
@@ -63,7 +63,7 @@ namespace Vocaluxe.Base
 
         public float Finish
         {
-            get { return HasMetaData ? Song.Finish : 0f; }
+            get { return HasMetaData ? Song.End : 0f; }
         }
 
         public CTextureRef Cover
@@ -79,14 +79,20 @@ namespace Vocaluxe.Base
         public CPlaylistElement(CSong song)
         {
             if (song == null)
+            {
                 throw new ArgumentNullException("song");
+            }
+
             Song = song;
         }
 
         public CPlaylistElement(string filePath)
         {
-            if (String.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(filePath))
+            {
                 throw new ArgumentNullException("filePath");
+            }
+
             _MusicFilePath = filePath;
         }
     }

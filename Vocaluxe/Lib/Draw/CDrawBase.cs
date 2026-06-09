@@ -16,12 +16,12 @@
 #endregion
 
 using System;
+using System.Diagnostics;
 using System.Threading;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Server;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using System.Diagnostics;
-using Vocaluxe.Base.Server;
 
 namespace Vocaluxe.Lib.Draw
 {
@@ -70,9 +70,9 @@ namespace Vocaluxe.Lib.Draw
             {
                 _Y = 0;
                 //The windows width is too big
-                int old = _W;
+                var old = _W;
                 _W = (int)Math.Round(_H * CSettings.GetRenderAspect());
-                int diff = old - _W;
+                var diff = old - _W;
                 switch (_CurrentAlignment)
                 {
                     case EGeneralAlignment.Start:
@@ -90,9 +90,9 @@ namespace Vocaluxe.Lib.Draw
             {
                 _X = 0;
                 //The windows height is too big
-                int old = _H;
+                var old = _H;
                 _H = (int)Math.Round(_W / CSettings.GetRenderAspect());
-                int diff = old - _H;
+                var diff = old - _H;
                 switch (_CurrentAlignment)
                 {
                     case EGeneralAlignment.Start:
@@ -146,13 +146,19 @@ namespace Vocaluxe.Lib.Draw
         {
             drawCoords = new SDrawCoords();
             if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1 || Math.Abs(bounds.H) < 1 || Math.Abs(bounds.W) < 1)
+            {
                 return false;
+            }
 
             if (bounds.X >= rect.Right || bounds.Right <= rect.X)
+            {
                 return false;
+            }
 
             if (bounds.Y >= rect.Bottom || bounds.Bottom <= rect.Y)
+            {
                 return false;
+            }
 
             drawCoords.Tx1 = Math.Max(0, (bounds.X - rect.X) / rect.W * texture.WidthRatio);
             drawCoords.Wx1 = Math.Max(rect.X, bounds.X);
@@ -166,7 +172,7 @@ namespace Vocaluxe.Lib.Draw
 
             if (mirrored)
             {
-                float tmp = drawCoords.Ty1;
+                var tmp = drawCoords.Ty1;
                 drawCoords.Ty1 = drawCoords.Ty2;
                 drawCoords.Ty2 = tmp;
             }
@@ -191,9 +197,14 @@ namespace Vocaluxe.Lib.Draw
         {
             drawCoords = new SDrawCoords();
             if (Math.Abs(rect.W) < 1 || Math.Abs(rect.H) < 1)
+            {
                 return false;
+            }
+
             if (begin >= 1 || begin >= end)
+            {
                 return false;
+            }
 
             Debug.Assert(begin.IsInRange(0, 1) && end.IsInRange(0, 1));
 
@@ -209,7 +220,7 @@ namespace Vocaluxe.Lib.Draw
 
             if (mirrored)
             {
-                float tmp = drawCoords.Ty1;
+                var tmp = drawCoords.Ty1;
                 drawCoords.Ty1 = drawCoords.Ty2;
                 drawCoords.Ty2 = tmp;
             }
@@ -223,26 +234,38 @@ namespace Vocaluxe.Lib.Draw
         public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, bool mirrored = false, bool allMonitors = true)
         {
             if (Math.Abs(color.A) < 0.01)
+            {
                 return;
+            }
+
             SDrawCoords dc;
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture))
+            {
                 return;
+            }
+
             if (allMonitors)
             {
-                for (int i = 0; i < CConfig.Config.Graphics.NumScreens; i++)
+                for (var i = 0; i < CConfig.Config.Graphics.NumScreens; i++)
                 {
-                    SRectF newrect = rect;
+                    var newrect = rect;
                     newrect.X += CSettings.RenderW * i;
                     if (!_CalcDrawCoords(texture, newrect, out dc, mirrored))
+                    {
                         return;
+                    }
+
                     _DrawTexture(texture, dc, color);
                 }
             }
             else
             {
                 if (!_CalcDrawCoords(texture, rect, out dc, mirrored))
+                {
                     return;
+                }
+
                 _DrawTexture(texture, dc, color);
             }
         }
@@ -258,29 +281,40 @@ namespace Vocaluxe.Lib.Draw
         public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, SRectF bounds, bool mirrored = false, bool allMonitors = true)
         {
             if (Math.Abs(color.A) < 0.01)
+            {
                 return;
+            }
+
             SDrawCoords dc;
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture))
+            {
                 return;
+            }
 
             if (allMonitors)
             {
-                for (int i = 0; i < CConfig.Config.Graphics.NumScreens; i++)
+                for (var i = 0; i < CConfig.Config.Graphics.NumScreens; i++)
                 {
-                    SRectF newrect = rect;
-                    SRectF newbounds = bounds;
+                    var newrect = rect;
+                    var newbounds = bounds;
                     newrect.X += CSettings.RenderW * i;
                     newbounds.X += CSettings.RenderW * i;
                     if (!_CalcDrawCoords(texture, newrect, newbounds, out dc, mirrored))
+                    {
                         return;
+                    }
+
                     _DrawTexture(texture, dc, color);
                 }
             }
             else
             {
                 if (!_CalcDrawCoords(texture, rect, bounds, out dc, mirrored))
+                {
                     return;
+                }
+
                 _DrawTexture(texture, dc, color);
             }
         }
@@ -296,27 +330,38 @@ namespace Vocaluxe.Lib.Draw
         public void DrawTexture(CTextureRef textureRef, SRectF rect, SColorF color, float begin, float end, bool allMonitors = true)
         {
             if (Math.Abs(color.A) < 0.01)
+            {
                 return;
+            }
+
             SDrawCoords dc;
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture))
+            {
                 return;
+            }
 
             if (allMonitors)
             {
-                for (int i = 0; i < CConfig.Config.Graphics.NumScreens; i++)
+                for (var i = 0; i < CConfig.Config.Graphics.NumScreens; i++)
                 {
-                    SRectF newrect = rect;
+                    var newrect = rect;
                     newrect.X += CSettings.RenderW * i;
                     if (!_CalcDrawCoords(texture, newrect, out dc, false, begin, end))
+                    {
                         return;
+                    }
+
                     _DrawTexture(texture, dc, color);
                 }
             }
             else
             {
                 if (!_CalcDrawCoords(texture, rect, out dc, false, begin, end))
+                {
                     return;
+                }
+
                 _DrawTexture(texture, dc, color);
             }
         }
@@ -335,11 +380,16 @@ namespace Vocaluxe.Lib.Draw
             Debug.Assert(height >= 0);
 
             if (Math.Abs(color.A) < 0.01 || height < 1)
+            {
                 return;
+            }
+
             SDrawCoords dc;
             TTextureType texture;
             if (!_GetTexture(textureRef, out texture))
+            {
                 return;
+            }
 
             int loops;
             if (allMonitors)
@@ -351,23 +401,29 @@ namespace Vocaluxe.Lib.Draw
                 loops = 1;
             }
 
-            for (int i = 0; i < loops; i++)
+            for (var i = 0; i < loops; i++)
             {
-                SRectF newrect = rect;
-                SRectF newbounds = bounds;
+                var newrect = rect;
+                var newbounds = bounds;
                 newrect.X += CSettings.RenderW * i;
                 newbounds.X += CSettings.RenderW * i;
                 if (!_CalcDrawCoords(texture, newrect, newbounds, out dc, true))
+                {
                     return;
+                }
 
                 if (height > newrect.H)
+                {
                     height = newrect.H;
+                }
 
                 dc.Wy1 += newrect.H + space; // Move from start of rect to end of rect with spacing
                 dc.Wy2 += space + height; // Move from end of rect
                 dc.Ty2 += (newrect.H - height) / newrect.H; // Adjust so not all of the start of the texture is drawn (mirrored--> Ty1>Ty2)
                 if (dc.Ty2 < dc.Ty1) // Make sure we actually draw something
+                {
                     _DrawTexture(texture, dc, color, true);
+                }
             }
         }
 
@@ -384,9 +440,13 @@ namespace Vocaluxe.Lib.Draw
 
             _Fullscreen = false;
             if (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON)
+            {
                 _EnterFullScreen();
+            }
             else
+            {
                 _DoResize(); //Resize window if aspect ratio is incorrect
+            }
 
             while (_Run)
             {
@@ -399,15 +459,22 @@ namespace Vocaluxe.Lib.Draw
                 //Clear the previous Frame
                 _ClearScreen();
                 if (!CGraphics.Draw())
+                {
                     _Run = false;
+                }
+
                 _OnAfterDraw();
 
                 if (!CGraphics.UpdateGameLogic(_Keys, _Mouse))
+                {
                     _Run = false;
+                }
 
                 //Apply fullscreen mode
-                if ((CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON) != _Fullscreen)
+                if (CConfig.Config.Graphics.FullScreen == EOffOn.TR_CONFIG_ON != _Fullscreen)
+                {
                     _ToggleFullScreen();
+                }
 
                 //Apply border changes
                 if (_BorderLeft != CConfig.Config.Graphics.BorderLeft || _BorderRight != CConfig.Config.Graphics.BorderRight || _BorderTop != CConfig.Config.Graphics.BorderTop ||
@@ -422,18 +489,23 @@ namespace Vocaluxe.Lib.Draw
                 }
 
                 if (_CurrentAlignment != CConfig.Config.Graphics.ScreenAlignment)
+                {
                     _DoResize();
+                }
 
                 if (CConfig.Config.Graphics.VSync == EOffOn.TR_CONFIG_OFF)
                 {
                     if (CTime.IsRunning())
                     {
-                        int delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
+                        var delay = (int)Math.Floor(CConfig.CalcCycleTime() - CTime.GetMilliseconds());
 
                         if (delay >= 1 && delay < 500)
+                        {
                             Thread.Sleep(delay);
+                        }
                     }
                 }
+
                 //Calculate the FPS Rate and restart the timer after a frame
                 CTime.CalculateFPS();
                 CTime.Restart();
@@ -443,9 +515,13 @@ namespace Vocaluxe.Lib.Draw
         private void _ToggleFullScreen()
         {
             if (!_Fullscreen)
+            {
                 _EnterFullScreen();
+            }
             else
+            {
                 _LeaveFullScreen();
+            }
         }
     }
 }

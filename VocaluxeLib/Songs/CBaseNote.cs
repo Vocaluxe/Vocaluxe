@@ -41,7 +41,9 @@ namespace VocaluxeLib.Songs
             Duration = duration;
             Tone = tone;
             if (Duration < 1)
+            {
                 throw new Exception("Note to short. All notes should be at least 1 beat long!");
+            }
         }
         #endregion Constructors
 
@@ -62,7 +64,9 @@ namespace VocaluxeLib.Songs
             set
             {
                 if (value > 0)
+                {
                     _Duration = value;
+                }
             }
         }
 
@@ -72,13 +76,18 @@ namespace VocaluxeLib.Songs
             {
                 // Always return 0 for Rap notes
                 if (IsRapNote)
+                {
                     return 0;
+                }
+
                 return _Tone;
             }
             set
             {
-                if ((value >= CBase.Settings.GetToneMin()) && (value <= CBase.Settings.GetToneMax()))
+                if (value >= CBase.Settings.GetToneMin() && value <= CBase.Settings.GetToneMax())
+                {
                     _Tone = value;
+                }
             }
         }
 

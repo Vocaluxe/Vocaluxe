@@ -23,9 +23,9 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
 using System.IO;
+using System.Linq;
 using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
-using System.Linq;
 
 namespace Vocaluxe.Base
 {
@@ -49,9 +49,9 @@ namespace Vocaluxe.Base
         /// <summary>
         ///     Split lines after special chars, descending priority
         /// </summary>
-        private static readonly char[] _SplitCharPreferences = {':', '/', '-'};
-        private static readonly char[] _SplitCharAfter = {':', '/', '-', ' ', ')', '.', '*', ','};
-        private static readonly char[] _SplitCharBefore = {'('};
+        private static readonly char[] _SplitCharPreferences = { ':', '/', '-' };
+        private static readonly char[] _SplitCharAfter = { ':', '/', '-', ' ', ')', '.', '*', ',' };
+        private static readonly char[] _SplitCharBefore = { '(' };
 
         public CCoverGenerator(SThemeCoverGenerator theme, string basePath)
         {
@@ -64,6 +64,7 @@ namespace Vocaluxe.Base
                 _Image = Path.Combine(basePath, _Theme.Image);
                 _Valid = File.Exists(_Image);
             }
+
             _MarginLeft = theme.Text.Margin.Left.HasValue ? theme.Text.Margin.Left.Value : theme.Text.Margin.Default;
             _MarginRight = theme.Text.Margin.Right.HasValue ? theme.Text.Margin.Right.Value : theme.Text.Margin.Default;
             _MarginTop = theme.Text.Margin.Top.HasValue ? theme.Text.Margin.Top.Value : theme.Text.Margin.Default;
@@ -83,9 +84,10 @@ namespace Vocaluxe.Base
                 {
                     if (_WidthTrimmed < 0f)
                     {
-                        string text = Text.TrimEnd(null);
+                        var text = Text.TrimEnd(null);
                         _WidthTrimmed = text.Length == Text.Length ? Width : _Graphics.MeasureString(text, _Font).Width;
                     }
+
                     return _WidthTrimmed;
                 }
             }
@@ -94,7 +96,7 @@ namespace Vocaluxe.Base
             public CTextElement(string text, Graphics g, Font font)
             {
                 Text = text;
-                SizeF dimensions = g.MeasureString(text, font);
+                var dimensions = g.MeasureString(text, font);
                 Width = dimensions.Width;
                 Height = (dimensions.Height + font.Height) / 2;
                 _Graphics = g;
@@ -114,28 +116,32 @@ namespace Vocaluxe.Base
             g.Clear(_BGColor.AsColor());
 
             ImageAttributes ia = null;
-            if (_Theme.ShowFirstCover && !String.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
+            if (_Theme.ShowFirstCover && !string.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
             {
-                using (Bitmap bmp2 = new Bitmap(firstCoverPath))
+                using (var bmp2 = new Bitmap(firstCoverPath))
+                {
                     g.DrawImage(bmp2, bmpBackground.GetRect(), 0, 0, bmp2.Width, bmp2.Height, GraphicsUnit.Pixel);
-                ColorMatrix cm = new ColorMatrix {Matrix33 = _Theme.ImageAlpha};
+                }
+
+                var cm = new ColorMatrix { Matrix33 = _Theme.ImageAlpha };
                 ia = new ImageAttributes();
                 ia.SetColorMatrix(cm);
             }
+
             g.DrawImage(bmpBackground, bmpBackground.GetRect(), 0, 0, bmpBackground.Width, bmpBackground.Height, GraphicsUnit.Pixel, ia);
         }
 
         private void _DrawText(Graphics g, Size bmpSize, CFont font, List<CTextElement> elements)
         {
-            Font fo = CFonts.GetSystemFont(font);
+            var fo = CFonts.GetSystemFont(font);
 
-            float maxHeight = elements.Select(el => el.Height).Max();
-            int lineCount = elements.Last().Line + 1;
+            var maxHeight = elements.Select(el => el.Height).Max();
+            var lineCount = elements.Last().Line + 1;
 
             //Have to use size in em not pixels!
-            float emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
-            float outlineSize = CFonts.GetOutlineSize(font) * font.Height;
-            SColorF outlineColorF = CFonts.GetOutlineColor(font);
+            var emSize = fo.Size * fo.FontFamily.GetCellAscent(fo.Style) / fo.FontFamily.GetEmHeight(fo.Style);
+            var outlineSize = CFonts.GetOutlineSize(font) * font.Height;
+            var outlineColorF = CFonts.GetOutlineColor(font);
             outlineColorF.A = outlineColorF.A * _TextColor.A;
 
             using (var path = new GraphicsPath())
@@ -143,37 +149,43 @@ namespace Vocaluxe.Base
             {
                 pen.LineJoin = LineJoin.Round;
                 pen.Alignment = PenAlignment.Outset;
-                float top = (bmpSize.Height - _MarginBottom - _MarginTop - maxHeight * lineCount) / 2 + _MarginTop;
-                int nextLineEl = 0;
-                for (int i = 0; i < lineCount; i++)
+                var top = (bmpSize.Height - _MarginBottom - _MarginTop - maxHeight * lineCount) / 2 + _MarginTop;
+                var nextLineEl = 0;
+                for (var i = 0; i < lineCount; i++)
                 {
-                    int firstEl = nextLineEl;
+                    var firstEl = nextLineEl;
                     for (; nextLineEl < elements.Count; nextLineEl++)
                     {
                         if (elements[nextLineEl].Line > i)
+                        {
                             break;
+                        }
                     }
 
-                    string line = elements.GetRange(firstEl, nextLineEl - firstEl).Aggregate("", (current, element) => current + element.Text);
+                    var line = elements.GetRange(firstEl, nextLineEl - firstEl).Aggregate("", (current, element) => current + element.Text);
                     float left;
                     if (lineCount == 1 || (i == 1 && lineCount == 3))
                     {
                         //Center Text if this is the only line or the middle line
-                        float width = _GetWidth(elements, firstEl, nextLineEl - 1);
+                        var width = _GetWidth(elements, firstEl, nextLineEl - 1);
                         left = (bmpSize.Width - _MarginLeft - _MarginRight - width) / 2 + _MarginLeft;
                     }
                     else if (i == lineCount - 1)
                     {
                         //Place last line at right
-                        float width = _GetWidth(elements, firstEl, nextLineEl - 1);
+                        var width = _GetWidth(elements, firstEl, nextLineEl - 1);
                         left = bmpSize.Width - width - _MarginRight;
                     }
                     else
+                    {
                         left = _MarginLeft;
+                    }
+
                     //g.DrawString(line, fo, new SolidBrush(_TextColor.AsColor()), left, top, StringFormat.GenericTypographic);
                     path.AddString(line, fo.FontFamily, (int)fo.Style, emSize, new PointF(left, top), StringFormat.GenericTypographic);
                     top += maxHeight + _LineSpace;
                 }
+
                 g.DrawPath(pen, path);
                 g.FillPath(new SolidBrush(_TextColor.AsColor()), path);
             }
@@ -182,14 +194,17 @@ namespace Vocaluxe.Base
         public Bitmap GetCover(string text, string firstCoverPath)
         {
             if (!_Valid)
-                return null;
-            text = CLanguage.Translate(_Theme.Text.Text.Replace("%TEXT%", text));
-            using (Bitmap bmpImage = new Bitmap(_Image))
             {
-                Bitmap bmp = new Bitmap(bmpImage.Width, bmpImage.Height, PixelFormat.Format32bppArgb);
+                return null;
+            }
+
+            text = CLanguage.Translate(_Theme.Text.Text.Replace("%TEXT%", text));
+            using (var bmpImage = new Bitmap(_Image))
+            {
+                var bmp = new Bitmap(bmpImage.Width, bmpImage.Height, PixelFormat.Format32bppArgb);
                 try
                 {
-                    using (Graphics g = Graphics.FromImage(bmp))
+                    using (var g = Graphics.FromImage(bmp))
                     {
                         g.SmoothingMode = SmoothingMode.AntiAlias;
                         g.InterpolationMode = InterpolationMode.HighQualityBicubic;
@@ -199,17 +214,21 @@ namespace Vocaluxe.Base
 
                         if (text != "")
                         {
-                            CFont font = new CFont(_Theme.Text.Font);
-                            Font fo = CFonts.GetSystemFont(font);
-                            IEnumerable<string> textParts = _SplitText(text);
-                            List<CTextElement> elements = textParts.Select(line => new CTextElement(line, g, fo)).ToList();
-                            float factor = _DistributeText(elements, bmp.Width, bmp.Height);
-                            foreach (CTextElement element in elements)
+                            var font = new CFont(_Theme.Text.Font);
+                            var fo = CFonts.GetSystemFont(font);
+                            var textParts = _SplitText(text);
+                            var elements = textParts.Select(line => new CTextElement(line, g, fo)).ToList();
+                            var factor = _DistributeText(elements, bmp.Width, bmp.Height);
+                            foreach (var element in elements)
+                            {
                                 element.AdjustSize(factor);
+                            }
+
                             font.Height *= factor / (1f + CFonts.GetOutlineSize(font)); //Adjust for outline size
                             _DrawText(g, bmp.GetSize(), font, elements);
                         }
                     }
+
                     return bmp;
                 }
                 catch (Exception)
@@ -217,6 +236,7 @@ namespace Vocaluxe.Base
                     bmp.Dispose();
                 }
             }
+
             return null;
         }
 
@@ -230,19 +250,22 @@ namespace Vocaluxe.Base
         /// <returns>Factor for resizing the text (Maximizing this factor means maximizing the height)</returns>
         private float _DistributeText(List<CTextElement> elements, int width, int height)
         {
-            int availableWidth = width - _MarginLeft - _MarginRight;
-            int availableHeight = height - _MarginTop - _MarginBottom;
+            var availableWidth = width - _MarginLeft - _MarginRight;
+            var availableHeight = height - _MarginTop - _MarginBottom;
 
-            float textHeight = elements.Select(el => el.Height).Max();
+            var textHeight = elements.Select(el => el.Height).Max();
 
             //Try 1 line:
-            float textWidth = _GetWidth(elements, 0);
-            int maxHeight = Math.Min(availableHeight, (int)_Theme.Text.Font.Size);
-            float factorH = maxHeight / textHeight;
-            float factorW = availableWidth / textWidth;
+            var textWidth = _GetWidth(elements, 0);
+            var maxHeight = Math.Min(availableHeight, (int)_Theme.Text.Font.Size);
+            var factorH = maxHeight / textHeight;
+            var factorW = availableWidth / textWidth;
             if (factorH <= factorW)
+            {
                 return factorH; //Limited by Height
-            float factor1 = factorW;
+            }
+
+            var factor1 = factorW;
 
             //Try 2 lines
             if (elements.Count == 1)
@@ -250,15 +273,19 @@ namespace Vocaluxe.Base
                 //Only 1 element -> 1 line
                 return factor1;
             }
+
             availableWidth -= _Theme.Text.Indent;
             maxHeight = Math.Min(availableHeight / 2 - _LineSpace, (int)_Theme.Text.Font.Size);
             factorH = maxHeight / textHeight;
             if (factorH <= factor1)
+            {
                 return factor1; //Cannot get any bigger with more lines
-            int splitEl = _GetSplitElement(elements, textWidth / 2);
+            }
+
+            var splitEl = _GetSplitElement(elements, textWidth / 2);
             Debug.Assert(splitEl >= 0 && splitEl < elements.Count - 1);
-            float width1 = _GetWidth(elements, 0, splitEl);
-            float width2 = _GetWidth(elements, splitEl + 1);
+            var width1 = _GetWidth(elements, 0, splitEl);
+            var width2 = _GetWidth(elements, splitEl + 1);
             factorW = availableWidth / Math.Max(width1, width2);
             if (factorH <= factorW)
             {
@@ -268,8 +295,9 @@ namespace Vocaluxe.Base
                 _SetLine(elements, splitEl + 1, elements.Count - 1, 1);
                 return factorH;
             }
+
             // factor2 < factorH && factorH>factor1
-            float factor2 = factorW;
+            var factor2 = factorW;
 
             //Try 3 lines
             maxHeight = Math.Min(availableHeight / 3 - 2 * _LineSpace, (int)_Theme.Text.Font.Size);
@@ -278,29 +306,35 @@ namespace Vocaluxe.Base
             {
                 //Only 2 elements or cannot get any bigger
                 if (factor2 <= factor1)
+                {
                     return factor1;
+                }
+
                 _SetLine(elements, splitEl + 1, elements.Count - 1, 1);
                 return factor2;
             }
-            int splitEl21 = _GetSplitElement(elements, textWidth / 3, false);
-            int splitEl22 = _GetSplitElement(elements, textWidth / 3, true, splitEl21 + 1);
+
+            var splitEl21 = _GetSplitElement(elements, textWidth / 3, false);
+            var splitEl22 = _GetSplitElement(elements, textWidth / 3, true, splitEl21 + 1);
             Debug.Assert(splitEl21 >= 0 && splitEl21 < splitEl22 && splitEl22 < elements.Count - 1);
-            float width21 = _GetWidth(elements, 0, splitEl21);
-            float width22 = _GetWidth(elements, splitEl21 + 1, splitEl22);
-            float width23 = _GetWidth(elements, splitEl22 + 1);
+            var width21 = _GetWidth(elements, 0, splitEl21);
+            var width22 = _GetWidth(elements, splitEl21 + 1, splitEl22);
+            var width23 = _GetWidth(elements, splitEl22 + 1);
             factorW = availableWidth / Math.Max(Math.Max(width21, width22), width23);
-            float factor3 = Math.Min(factorH, factorW);
+            var factor3 = Math.Min(factorH, factorW);
             if (factor3 > Math.Max(factor1, factor2))
             {
                 _SetLine(elements, splitEl21 + 1, splitEl22, 1);
                 _SetLine(elements, splitEl22 + 1, elements.Count - 1, 2);
                 return factor3;
             }
+
             if (factor2 > factor1)
             {
                 _SetLine(elements, splitEl + 1, elements.Count - 1, 1);
                 return factor2;
             }
+
             return factor1;
         }
 
@@ -325,19 +359,30 @@ namespace Vocaluxe.Base
         private static float _GetWidth(List<CTextElement> list, int start, int end)
         {
             if (start < 0)
+            {
                 start = 0;
+            }
+
             if (end >= list.Count)
+            {
                 end = list.Count - 1;
+            }
+
             if (start > end)
+            {
                 return 0f;
-            float width = list.GetRange(start, end - start).Select(el => el.Width).Sum();
+            }
+
+            var width = list.GetRange(start, end - start).Select(el => el.Width).Sum();
             return width + list[end].WidthTrimmed;
         }
 
         private static void _SetLine(List<CTextElement> list, int start, int end, int line)
         {
-            for (int i = start; i <= end; i++)
+            for (var i = start; i <= end; i++)
+            {
                 list[i].Line = line;
+            }
         }
 
         /// <summary>
@@ -352,63 +397,88 @@ namespace Vocaluxe.Base
         {
             //Assert we have enough elements
             Debug.Assert(singleSplit && elements.Count - startElement >= 2 || !singleSplit && elements.Count - startElement >= 3);
-            float curWidth = 0f;
+            var curWidth = 0f;
             int splitEl;
             for (splitEl = startElement; splitEl < elements.Count; splitEl++)
             {
                 curWidth += elements[splitEl].Width;
                 if (curWidth >= requestedWidth)
+                {
                     break;
+                }
             }
 
             // At this point we can either keep splitEl on this line for move it to the next line
             // ==> line with splitEl is to long, without it is to short. so find the best option
             // Check if line starts or ends with a long word, than put that on a single line
             if (splitEl == startElement)
+            {
                 return splitEl;
+            }
+
             // These 2 conditions also cover if the text fits on 1 line
             if (!singleSplit && splitEl >= elements.Count - 2)
+            {
                 return elements.Count - 3; // Make sure we have 2 elements left if in multi split mode!
-            if (splitEl >= elements.Count - 1)
-                return elements.Count - 2; // Make sure we have 1 element left!
+            }
 
-            float diffWith = curWidth - requestedWidth;
-            float diffWithout = requestedWidth - (curWidth - elements[splitEl].Width);
+            if (splitEl >= elements.Count - 1)
+            {
+                return elements.Count - 2; // Make sure we have 1 element left!
+            }
+
+            var diffWith = curWidth - requestedWidth;
+            var diffWithout = requestedWidth - (curWidth - elements[splitEl].Width);
             if (!singleSplit)
             {
                 // If we split in 3 lines, add the error of the next 2 lines to the current error for both cases
-                int splitEl2 = _GetSplitElement(elements, requestedWidth, true, splitEl + 1);
-                int splitEl3 = _GetSplitElement(elements, requestedWidth, true, splitEl);
+                var splitEl2 = _GetSplitElement(elements, requestedWidth, true, splitEl + 1);
+                var splitEl3 = _GetSplitElement(elements, requestedWidth, true, splitEl);
                 diffWith += Math.Abs(requestedWidth - _GetWidth(elements, splitEl + 1, splitEl2)) + Math.Abs(requestedWidth - _GetWidth(elements, splitEl2 + 1));
                 diffWithout += Math.Abs(requestedWidth - _GetWidth(elements, splitEl, splitEl3)) + Math.Abs(requestedWidth - _GetWidth(elements, splitEl3 + 1));
             }
-            float diff = diffWith - diffWithout;
+
+            var diff = diffWith - diffWithout;
             //Differences below this value are considered acceptable
-            float equalDist = requestedWidth * 0.025f;
+            var equalDist = requestedWidth * 0.025f;
             if (diff > equalDist)
+            {
                 return splitEl - 1; // width error with element is much higher than without -> put element on next line
+            }
+
             if (diff < -equalDist)
+            {
                 return splitEl; // width error with element is much less than without -> keep element on line
+            }
 
             //The real split would be somewhere in the middle of the element so we can move it to either line
-            string tmp = elements[splitEl].Text.TrimEnd(null);
-            char lastCharWith = tmp[tmp.Length - 1];
+            var tmp = elements[splitEl].Text.TrimEnd(null);
+            var lastCharWith = tmp[tmp.Length - 1];
             tmp = elements[splitEl - 1].Text.TrimEnd(null);
-            char lastCharWithout = tmp[tmp.Length - 1];
+            var lastCharWithout = tmp[tmp.Length - 1];
             //Check if last chars are special chars
             if (Char.IsLetterOrDigit(lastCharWith))
             {
                 if (Char.IsLetterOrDigit(lastCharWithout))
+                {
                     return startElement == 0 ? splitEl : splitEl - 1; //Both are alphanumeric, favor longer first lines but shorter middle lines
+                }
+
                 return splitEl - 1; //Split after non-alphanumeric char
             }
-            if (Char.IsLetterOrDigit(lastCharWithout))
-                return splitEl; //Split after non-alphanumeric char
 
-            int indexWith = Array.IndexOf(_SplitCharPreferences, lastCharWith);
-            int indexWithout = Array.IndexOf(_SplitCharPreferences, lastCharWithout);
+            if (Char.IsLetterOrDigit(lastCharWithout))
+            {
+                return splitEl; //Split after non-alphanumeric char
+            }
+
+            var indexWith = Array.IndexOf(_SplitCharPreferences, lastCharWith);
+            var indexWithout = Array.IndexOf(_SplitCharPreferences, lastCharWithout);
             if (indexWith <= indexWithout)
+            {
                 return startElement == 0 ? splitEl : splitEl - 1; //favor longer first lines but shorter middle lines
+            }
+
             return splitEl - 1;
         }
 
@@ -422,15 +492,16 @@ namespace Vocaluxe.Base
             Debug.Assert(!String.IsNullOrWhiteSpace(text));
 
             text = text.Trim().TrimMultipleWs();
-            List<string> lines = new List<string>();
+            var lines = new List<string>();
             if (text.Length == 1)
             {
                 lines.Add(text);
                 return lines;
             }
+
             //Split the text on non-letter chars
-            int curStart = 0;
-            for (int i = 1; i < text.Length - 1; i++)
+            var curStart = 0;
+            for (var i = 1; i < text.Length - 1; i++)
             {
                 if ((Array.IndexOf(_SplitCharAfter, text[i]) >= 0 && (Char.IsLetterOrDigit(text, i + 1) || Array.IndexOf(_SplitCharBefore, text[i + 1]) >= 0)) ||
                     (Char.IsLetterOrDigit(text, i) && Array.IndexOf(_SplitCharBefore, text[i + 1]) >= 0))
@@ -439,20 +510,24 @@ namespace Vocaluxe.Base
                     curStart = ++i;
                 }
             }
+
             //Add the rest
             lines.Add(text.Substring(curStart));
 
             //Check for initials (like J. R.R. Tolkien) and join them
             curStart = -1;
-            string curText = "";
-            for (int i = 0; i < lines.Count; i++)
+            var curText = "";
+            for (var i = 0; i < lines.Count; i++)
             {
-                string part = lines[i].Trim();
+                var part = lines[i].Trim();
                 if (part.Length == 2 && part[1] == '.')
                 {
                     //Initials found, continue or start new
                     if (curStart < 0)
+                    {
                         curStart = i;
+                    }
+
                     curText += lines[i];
                 }
                 else if (curStart >= 0)
@@ -465,10 +540,12 @@ namespace Vocaluxe.Base
                         lines.RemoveRange(curStart + 1, i - curStart - 1);
                         i = curStart;
                     }
+
                     curText = "";
                     curStart = -1;
                 }
             }
+
             //Handle last part
             if (curStart >= 0)
             {
@@ -482,14 +559,16 @@ namespace Vocaluxe.Base
             }
 
             // Remove single char lines
-            for (int i = 0; i < lines.Count; i++)
+            for (var i = 0; i < lines.Count; i++)
             {
-                string part = lines[i];
+                var part = lines[i];
                 if (part.Trim().Length == 1)
                 {
                     lines.RemoveAt(i);
                     if (i == 0)
+                    {
                         lines[0] = part + lines[0];
+                    }
                     else
                     {
                         lines[i - 1] += part;
@@ -497,6 +576,7 @@ namespace Vocaluxe.Base
                     }
                 }
             }
+
             return lines;
         }
     }

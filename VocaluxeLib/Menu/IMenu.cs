@@ -19,7 +19,7 @@ namespace VocaluxeLib.Menu
 {
     public interface IMenu
     {
-        int PartyModeID { get; }
+        int PartyModeId { get; }
 
         void Init();
 

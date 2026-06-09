@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace VocaluxeLib.Utils
 {
@@ -27,9 +23,15 @@ namespace VocaluxeLib.Utils
         public CObjectPool(Func<T> objectGenerator, int poolSize)
         {
             if (objectGenerator == null)
+            {
                 throw new ArgumentNullException(nameof(objectGenerator));
+            }
+
             if (poolSize <= 0)
+            {
                 throw new ArgumentNullException(nameof(poolSize));
+            }
+
             _Objects = new ConcurrentBag<T>();
             _ObjectGenerator = objectGenerator;
             _Poolsize = poolSize;
@@ -42,7 +44,11 @@ namespace VocaluxeLib.Utils
         public T GetObject()
         {
             T item;
-            if (_Objects.TryTake(out item)) return item;
+            if (_Objects.TryTake(out item))
+            {
+                return item;
+            }
+
             return _ObjectGenerator();
         }
 
@@ -52,10 +58,14 @@ namespace VocaluxeLib.Utils
         /// <param name="item">The object instance that is given back to the pool.</param>
         public void PutObject(T item)
         {
-            if(_Objects.Count < _Poolsize)
+            if (_Objects.Count < _Poolsize)
+            {
                 _Objects.Add(item);
+            }
             else
+            {
                 (item as IDisposable)?.Dispose();
+            }
         }
     }
 }

@@ -17,12 +17,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Songs;
+using VocaluxeLib.Utils;
 
 [assembly: ComVisible(false)]
 
@@ -30,7 +28,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 {
     public class CRound
     {
-        public int[] SongIDs;
+        public int[] SongIds;
         public int SingerTeam1;
         public int SingerTeam2;
         public int PointsTeam1;
@@ -90,7 +88,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
         public readonly EGameMode[] AvailableGameModes = { EGameMode.TR_GAMEMODE_NORMAL, EGameMode.TR_GAMEMODE_SHORTSONG, EGameMode.TR_GAMEMODE_DUET };
 
-    private enum EStage
+        private enum EStage
         {
             Config,
             Songs,
@@ -106,13 +104,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             public int NumFields;
             public int NumJockers;
             public int Team;
-            public List<Guid> ProfileIDsTeam1;
-            public List<Guid> ProfileIDsTeam2;
+            public List<Guid> ProfileIdsTeam1;
+            public List<Guid> ProfileIdsTeam2;
 
             public ESongSource SongSource;
             public ESongSorting Sorting;
             public int CategoryIndex;
-            public int PlaylistID;
+            public int PlaylistId;
 
             public EGameMode GameMode;
             public int NumMedleySongs;
@@ -137,35 +135,35 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ScreenSongOptions.Selection.RandomOnly = false;
             _ScreenSongOptions.Selection.PartyMode = true;
             _ScreenSongOptions.Selection.CategoryChangeAllowed = true;
-            _ScreenSongOptions.Selection.NumJokers = new int[] {5, 5};
-            _ScreenSongOptions.Selection.TeamNames = new string[] {"foo", "bar"};
+            _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
+            _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
 
-            _ScreenSongOptions.Sorting.SearchString = String.Empty;
+            _ScreenSongOptions.Sorting.SearchString = string.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
 
             GameData = new SData
-                {
-                    NumPlayerTeam1 = 2,
-                    NumPlayerTeam2 = 2,
-                    NumFields = 9,
-                    NumJockers = 1,
-                    ProfileIDsTeam1 = new List<Guid>(),
-                    ProfileIDsTeam2 = new List<Guid>(),
-                    CurrentRoundNr = 0,
-                    FieldNr = 0,
-                    Sorting = CBase.Config.GetSongSorting(),
-                    SongSource = ESongSource.TR_SONGSOURCE_ALLSONGS,
-                    PlaylistID = 0,
-                    CategoryIndex = 0,
-                    GameMode = EGameMode.TR_GAMEMODE_NORMAL,
-                    NumMedleySongs = 5,
-                    Rounds = new List<CRound>(),
-                    Songs = new List<int>(),
-                    NumJokerRandom = new int[2],
-                    NumJokerRetry = new int[2],
-                    RefillJokers = EOffOn.TR_CONFIG_OFF
-                };
+            {
+                NumPlayerTeam1 = 2,
+                NumPlayerTeam2 = 2,
+                NumFields = 9,
+                NumJockers = 1,
+                ProfileIdsTeam1 = new List<Guid>(),
+                ProfileIdsTeam2 = new List<Guid>(),
+                CurrentRoundNr = 0,
+                FieldNr = 0,
+                Sorting = CBase.Config.GetSongSorting(),
+                SongSource = ESongSource.TR_SONGSOURCE_ALLSONGS,
+                PlaylistId = 0,
+                CategoryIndex = 0,
+                GameMode = EGameMode.TR_GAMEMODE_NORMAL,
+                NumMedleySongs = 5,
+                Rounds = new List<CRound>(),
+                Songs = new List<int>(),
+                NumJokerRandom = new int[2],
+                NumJokerRetry = new int[2],
+                RefillJokers = EOffOn.TR_CONFIG_OFF
+            };
         }
 
         public override void SetDefaults()
@@ -178,7 +176,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ScreenSongOptions.Selection.SongIndex = -1;
 
             if (CBase.Config.GetTabs() == EOffOn.TR_CONFIG_ON && _ScreenSongOptions.Sorting.SongSorting != ESongSorting.TR_CONFIG_NONE)
+            {
                 _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_ON;
+            }
 
             GameData.Songs.Clear();
             GameData.Rounds.Clear();
@@ -187,7 +187,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public override bool Init()
         {
             if (!base.Init())
+            {
                 return false;
+            }
 
             SetDefaults();
             return true;
@@ -224,7 +226,9 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _FadeToScreen()
         {
             if (CBase.Graphics.GetNextScreen() != _GetNextScreen())
+            {
                 CBase.Graphics.FadeTo(_GetNextScreen());
+            }
         }
 
         public void Next()
@@ -253,11 +257,15 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                     _Stage = EStage.Main;
                     GameData.Team = GameData.Team == 1 ? 0 : 1;
                     if (GameData.RefillJokers == EOffOn.TR_CONFIG_ON)
+                    {
                         _SetNumJokers();
+                    }
+
                     break;
                 default:
                     throw new ArgumentException("Invalid stage: " + _Stage);
             }
+
             _FadeToScreen();
         }
 
@@ -280,6 +288,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 default: // Rest is not allowed
                     throw new ArgumentException("Invalid stage: " + _Stage);
             }
+
             _FadeToScreen();
         }
 
@@ -308,16 +317,16 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             throw new ArgumentException("Not required!");
         }
 
-        public override void JokerUsed(int teamNr) {}
+        public override void JokerUsed(int teamNr) { }
 
-        public override void SongSelected(int songID)
+        public override void SongSelected(int songId)
         {
             throw new ArgumentException("Not required!");
         }
 
         public override void LeavingHighscore()
         {
-            CBase.Songs.AddPartySongSung(CBase.Game.GetSong(0).ID);
+            CBase.Songs.AddPartySongSung(CBase.Game.GetSong(0).Id);
             _UpdateScores();
             Next();
         }
@@ -325,7 +334,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _CreateRounds()
         {
             GameData.Rounds = new List<CRound>();
-            for (int i = 0; i < GameData.NumFields; i++)
+            for (var i = 0; i < GameData.NumFields; i++)
             {
                 var r = new CRound();
                 GameData.Rounds.Add(r);
@@ -335,33 +344,39 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         public void UpdateSongList()
         {
             if (GameData.Songs.Count > 0)
+            {
                 return;
+            }
 
             switch (GameData.SongSource)
             {
                 case ESongSource.TR_SONGSOURCE_PLAYLIST:
-                    for (int i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistID); i++)
+                    for (var i = 0; i < CBase.Playlist.GetSongCount(GameData.PlaylistId); i++)
                     {
-                        int id = CBase.Playlist.GetSong(GameData.PlaylistID, i).SongID;
-                        if (CBase.Songs.GetSongByID(id).AvailableGameModes.Contains(GameData.GameMode))
+                        var id = CBase.Playlist.GetSong(GameData.PlaylistId, i).SongId;
+                        if (CBase.Songs.GetSongById(id).IsGameModeAvailable(GameData.GameMode))
+                        {
                             GameData.Songs.Add(id);
+                        }
                     }
+
                     break;
 
                 case ESongSource.TR_SONGSOURCE_ALLSONGS:
-                    ReadOnlyCollection<CSong> avSongs = CBase.Songs.GetSongs();
-                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(GameData.GameMode)).Select(song => song.ID));
+                    var avSongs = CBase.Songs.GetSongs();
+                    GameData.Songs.AddRange(avSongs.Where(song => song.IsGameModeAvailable(GameData.GameMode)).Select(song => song.Id));
                     break;
 
                 case ESongSource.TR_SONGSOURCE_CATEGORY:
                     CBase.Songs.SortSongs(GameData.Sorting, EOffOn.TR_CONFIG_ON, CBase.Config.GetIgnoreArticles(), "", EDuetOptions.All, -1);
                     CBase.Songs.SetCategory(GameData.CategoryIndex);
                     avSongs = CBase.Songs.GetVisibleSongs();
-                    GameData.Songs.AddRange(avSongs.Where(song => song.AvailableGameModes.Contains(GameData.GameMode)).Select(song => song.ID));
+                    GameData.Songs.AddRange(avSongs.Where(song => song.IsGameModeAvailable(GameData.GameMode)).Select(song => song.Id));
 
                     CBase.Songs.SetCategory(-1);
                     break;
             }
+
             GameData.Songs.Shuffle();
         }
 
@@ -372,32 +387,37 @@ namespace VocaluxeLib.PartyModes.TicTacToe
 
             CBase.Game.SetNumPlayer(2);
 
-            SPlayer[] players = CBase.Game.GetPlayers();
+            var players = CBase.Game.GetPlayers();
             if (players == null)
+            {
                 return;
+            }
 
             if (players.Length < 2)
+            {
                 return;
+            }
 
-            CRound round = GameData.Rounds[roundNr];
+            var round = GameData.Rounds[roundNr];
 
-            for (int i = 0; i < 2; i++)
+            for (var i = 0; i < 2; i++)
             {
                 //default values
-                players[i].ProfileID = Guid.Empty;
+                players[i].ProfileId = Guid.Empty;
             }
 
             //try to fill with the right data
-            players[0].ProfileID = GameData.ProfileIDsTeam1[round.SingerTeam1];
-            players[1].ProfileID = GameData.ProfileIDsTeam2[round.SingerTeam2];
+            players[0].ProfileId = GameData.ProfileIdsTeam1[round.SingerTeam1];
+            players[1].ProfileId = GameData.ProfileIdsTeam2[round.SingerTeam2];
 
-            foreach(int song in round.SongIDs)
+            foreach (var song in round.SongIds)
+            {
                 CBase.Game.AddSong(song, GameData.GameMode);
+            }
         }
 
         private void _SetNumJokers()
         {
-
             GameData.NumJokerRandom[0] = GameData.NumJockers;
             GameData.NumJokerRandom[1] = GameData.NumJockers;
 
@@ -423,19 +443,23 @@ namespace VocaluxeLib.PartyModes.TicTacToe
         private void _UpdateScores()
         {
             if (!GameData.Rounds[GameData.FieldNr].Finished)
+            {
                 GameData.CurrentRoundNr++;
+            }
 
-            CPoints points = CBase.Game.GetPoints();
-            SPlayer[] results = CBase.Game.GetPlayers();
+            var points = CBase.Game.GetPoints();
+            var results = CBase.Game.GetPlayers();
 
             if (results == null || results.Length < 2)
+            {
                 return;
+            }
 
             //Sum up all points
-            for (int r = 0; r < points.NumRounds; r++)
+            for (var r = 0; r < points.NumRounds; r++)
             {
-                SPlayer[] player = points.GetPlayer(r, 2);
-                for (int i = 0; i < 2; i++)
+                var player = points.GetPlayer(r, 2);
+                for (var i = 0; i < 2; i++)
                 {
                     results[i].Points += player[i].Points;
                     results[i].PointsGoldenNotes += player[i].PointsGoldenNotes;
@@ -444,7 +468,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             }
 
             //Calc average of points
-            for (int i = 0; i < 2; i++)
+            for (var i = 0; i < 2; i++)
             {
                 results[i].Points /= points.NumRounds;
                 results[i].PointsGoldenNotes /= points.NumRounds;
@@ -456,9 +480,13 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             GameData.Rounds[GameData.FieldNr].PointsTeam2 = (int)Math.Round(results[1].Points);
             GameData.Rounds[GameData.FieldNr].Finished = true;
             if (GameData.Rounds[GameData.FieldNr].PointsTeam1 < GameData.Rounds[GameData.FieldNr].PointsTeam2)
+            {
                 GameData.Rounds[GameData.FieldNr].Winner = 2;
+            }
             else if (GameData.Rounds[GameData.FieldNr].PointsTeam1 > GameData.Rounds[GameData.FieldNr].PointsTeam2)
+            {
                 GameData.Rounds[GameData.FieldNr].Winner = 1;
+            }
             else
             {
                 GameData.Rounds[GameData.FieldNr].Finished = false;

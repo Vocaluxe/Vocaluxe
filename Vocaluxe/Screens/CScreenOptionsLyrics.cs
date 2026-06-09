@@ -15,9 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Windows.Forms;
-using System.IO;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -40,8 +38,8 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit};
-            _ThemeSelectSlides = new string[] {_SelectSlideLyricStyle, _SelectSlideLyricsPosition};
+            _ThemeButtons = new string[] { _ButtonExit };
+            _ThemeSelectSlides = new string[] { _SelectSlideLyricStyle, _SelectSlideLyricsPosition };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -55,7 +53,7 @@ namespace Vocaluxe.Screens
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -78,6 +76,7 @@ namespace Vocaluxe.Screens
                             _SaveConfig();
                             CGraphics.FadeTo(EScreen.Options);
                         }
+
                         break;
 
                     case Keys.Left:
@@ -89,6 +88,7 @@ namespace Vocaluxe.Screens
                         break;
                 }
             }
+
             return true;
         }
 
@@ -101,6 +101,7 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 CGraphics.FadeTo(EScreen.Options);
             }
+
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 _SaveConfig();
@@ -109,6 +110,7 @@ namespace Vocaluxe.Screens
                     CGraphics.FadeTo(EScreen.Options);
                 }
             }
+
             return true;
         }
 
@@ -116,7 +118,7 @@ namespace Vocaluxe.Screens
         {
             return true;
         }
-        
+
         private void _SaveConfig()
         {
             CConfig.Config.Game.LyricsPosition = (ELyricsPosition)_SelectSlides[_SelectSlideLyricsPosition].Selection;

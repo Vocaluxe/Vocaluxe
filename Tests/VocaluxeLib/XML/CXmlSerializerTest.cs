@@ -21,9 +21,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Xml.Serialization;
 using NUnit.Framework;
+using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Xml;
-using Vocaluxe.Base;
 
 namespace Tests.VocaluxeLib.XML
 {
@@ -34,7 +34,6 @@ namespace Tests.VocaluxeLib.XML
         private const string _Empty = _Head + @"<root />";
 
         #region Tests
-
         [Test]
         public void TestBasic()
         {
@@ -51,67 +50,76 @@ namespace Tests.VocaluxeLib.XML
   <S>2</S>
 </root>";
             var xml = new CXmlDeserializer();
-            SBasic foo = xml.DeserializeString<SBasic>(s);
-            Assert.AreEqual(1, foo.I);
-            Assert.AreEqual("2", foo.S);
-            Assert.AreEqual(3, foo.F, 0.0001);
-            Assert.AreEqual(4, foo.D, 0.0001);
+            var foo = xml.DeserializeString<SBasic>(s);
+            Assert.That(foo.I, Is.EqualTo(1));
+            Assert.That(foo.S, Is.EqualTo("2"));
+            Assert.That(foo.F, Is.EqualTo(3).Within(0.0001));
+            Assert.That(foo.D, Is.EqualTo(4).Within(0.0001));
             foo = xml.DeserializeString<SBasic>(sUnordered);
-            Assert.AreEqual(1, foo.I);
-            Assert.AreEqual("2", foo.S);
-            Assert.AreEqual(3, foo.F, 0.0001);
-            Assert.AreEqual(4, foo.D, 0.0001);
+            Assert.That(foo.I, Is.EqualTo(1));
+            Assert.That(foo.S, Is.EqualTo("2"));
+            Assert.That(foo.F, Is.EqualTo(3).Within(0.0001));
+            Assert.That(foo.D, Is.EqualTo(4).Within(0.0001));
         }
 
         [Test]
         public void TestMissingXmlElement()
         {
-            string[] s = new string[] { @"<root>
-  <S>2</S>
-  <F>3</F>
-  <D>4</D>
-</root>", @"<root>
-  <I>1</I>
-  <F>3</F>
-  <D>4</D>
-</root>", @"<root>
-  <I>1</I>
-  <S>2</S>
-  <F>3</F>
-</root>" };
-            foreach (string s1 in s)
+            var s = new string[]
             {
-                string sTmp = s1;
-                _AssertFail<SBasic, CXmlException>(sTmp);
+                @"<root>
+  <S>2</S>
+  <F>3</F>
+  <D>4</D>
+</root>",
+                @"<root>
+  <I>1</I>
+  <F>3</F>
+  <D>4</D>
+</root>",
+                @"<root>
+  <I>1</I>
+  <S>2</S>
+  <F>3</F>
+</root>"
+            };
+            foreach (var s1 in s)
+            {
+                _AssertXmlSerializeFailWithMissingElement<SBasic, CXmlMissingElementException>(s1);
             }
         }
 
         [Test]
         public void TestMissingStructElement()
         {
-            string[] s = new string[] { @"<root>
-  <Foo>1</Foo>
-  <I>1</I>
-  <S>2</S>
-  <F>3</F>
-  <D>4</D>
-</root>", @"<root>
-  <I>1</I>
-  <Foo>1</Foo>
-  <S>2</S>
-  <F>3</F>
-  <D>4</D>
-</root>", @"<root>
-  <I>1</I>
-  <S>2</S>
-  <F>3</F>
-  <D>4</D>
-  <Foo>1</Foo>
-</root>" };
-            foreach (string s1 in s)
+            var s = new string[]
             {
-                string sTmp = s1;
-                _AssertFail<SBasic, CXmlException>(sTmp);
+                @"<root>
+  <Foo>1</Foo>
+  <I>1</I>
+  <S>2</S>
+  <F>3</F>
+  <D>4</D>
+</root>",
+                @"<root>
+  <I>1</I>
+  <Foo>1</Foo>
+  <S>2</S>
+  <F>3</F>
+  <D>4</D>
+</root>",
+                @"<root>
+  <I>1</I>
+  <S>2</S>
+  <F>3</F>
+  <D>4</D>
+  <Foo>1</Foo>
+</root>"
+            };
+            foreach (var s1 in s)
+            {
+                var sTmp = s1;
+                _AssertXmlSerializeFailWithMissingElement<SBasic, CXmlException>(sTmp);
             }
         }
 
@@ -127,7 +135,7 @@ namespace Tests.VocaluxeLib.XML
             _AssertSerDeserMatch<SBasic>(s);
         }
 
-        private readonly string[] _XmlList = new string[]
+        private readonly string[] _XmlList =
             {
                 _Head + @"<root>
   <Ints>
@@ -153,22 +161,22 @@ namespace Tests.VocaluxeLib.XML
         {
             var xml = new CXmlDeserializer();
             var ser = new CXmlSerializer();
-            SList foo = xml.DeserializeString<SList>(_XmlList[0]);
-            Assert.AreEqual(foo.Ints.Count, 2, "Deserialization failed");
-            Assert.AreEqual(foo.Ints[0].I, 1, "Deserialization failed");
-            Assert.AreEqual(foo.Ints[1].I, 1, "Deserialization failed");
-            string res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlList[0], res, "Serialization failed");
+            var foo = xml.DeserializeString<SList>(_XmlList[0]);
+            Assert.That(foo.Ints, Has.Count.EqualTo(2), "Deserialization failed");
+            Assert.That(foo.Ints[0].I, Is.EqualTo(1), "Deserialization failed");
+            Assert.That(foo.Ints[1].I, Is.EqualTo(1), "Deserialization failed");
+            var res = ser.Serialize(foo);
+            Assert.That(res, Is.EqualTo(_XmlList[0]), "Serialization failed");
             foo = xml.DeserializeString<SList>(_XmlList[1]);
-            Assert.AreEqual(foo.Ints.Count, 0, "Deserialization2 failed");
+            Assert.That(foo.Ints, Is.Empty, "Deserialization2 failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlList[2], res, "Serialization2 failed");
+            Assert.That(_XmlList[2], Is.EqualTo(res), "Serialization2 failed");
             foo = xml.DeserializeString<SList>(_XmlList[2]);
-            Assert.AreEqual(foo.Ints.Count, 0, "Deserialization2 failed");
+            Assert.That(foo.Ints, Is.Empty, "Deserialization2 failed");
             _AssertSerDeserMatch<SList>(_XmlList[2]);
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlList[2], res, "Serialization2 failed");
-            _AssertFail<SList, CXmlException>(_Empty);
+            Assert.That(_XmlList[2], Is.EqualTo(res), "Serialization2 failed");
+            _AssertXmlSerializeFailWithMissingElement<SList, CXmlMissingElementException>(_Empty);
         }
 
         [Test]
@@ -176,21 +184,21 @@ namespace Tests.VocaluxeLib.XML
         {
             var xml = new CXmlDeserializer();
             var ser = new CXmlSerializer();
-            SArray foo = xml.DeserializeString<SArray>(_XmlList[0]);
-            Assert.AreEqual(foo.Ints.Length, 2, "Deserialization failed");
-            Assert.AreEqual(foo.Ints[0].I, 1, "Deserialization failed");
-            Assert.AreEqual(foo.Ints[1].I, 1, "Deserialization failed");
-            string res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlList[0], res, "Serialization failed");
+            var foo = xml.DeserializeString<SArray>(_XmlList[0]);
+            Assert.That(foo.Ints, Has.Length.EqualTo(2), "Deserialization failed");
+            Assert.That(foo.Ints[0].I, Is.EqualTo(1), "Deserialization failed");
+            Assert.That(foo.Ints[1].I, Is.EqualTo(1), "Deserialization failed");
+            var res = ser.Serialize(foo);
+            Assert.That(res, Is.EqualTo(_XmlList[0]), "Serialization failed");
             foo = xml.DeserializeString<SArray>(_XmlList[1]);
-            Assert.AreEqual(foo.Ints.Length, 0, "Deserialization2 failed");
+            Assert.That(foo.Ints, Is.Empty, "Deserialization2 failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlList[2], res, "Serialization2 failed");
+            Assert.That(_XmlList[2], Is.EqualTo(res), "Serialization2 failed");
             foo = xml.DeserializeString<SArray>(_XmlList[2]);
-            Assert.AreEqual(foo.Ints.Length, 0, "Deserialization2 failed");
+            Assert.That(foo.Ints, Is.Empty, "Deserialization2 failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlList[2], res, "Serialization2 failed");
-            _AssertFail<SArray, CXmlException>(_Empty);
+            Assert.That(_XmlList[2], Is.EqualTo(res), "Serialization2 failed");
+            _AssertXmlSerializeFailWithMissingElement<SArray, CXmlMissingElementException>(_Empty);
         }
 
         private const string _XmlListEmb = _Head + @"<root>
@@ -225,25 +233,25 @@ namespace Tests.VocaluxeLib.XML
         {
             var xml = new CXmlDeserializer();
             var ser = new CXmlSerializer();
-            SListEmb foo = xml.DeserializeString<SListEmb>(_XmlListEmb);
-            Assert.AreEqual(foo.Ints.Count, 1, "Deserialization failed");
-            Assert.AreEqual(foo.Ints[0].I, 1, "Deserialization failed");
-            string res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlListEmb, res, "Serialization failed");
+            var foo = xml.DeserializeString<SListEmb>(_XmlListEmb);
+            Assert.That(foo.Ints, Has.Count.EqualTo(1), "Deserialization failed");
+            Assert.That(foo.Ints[0].I, Is.EqualTo(1), "Deserialization failed");
+            var res = ser.Serialize(foo);
+            Assert.That(res, Is.EqualTo(_XmlListEmb), "Serialization failed");
             foo = xml.DeserializeString<SListEmb>(_XmlListEmb2);
-            Assert.AreEqual(foo.Ints.Count, 2, "Deserialization failed");
-            Assert.AreEqual(foo.Ints[1].I, 2, "Deserialization failed");
+            Assert.That(foo.Ints, Has.Count.EqualTo(2), "Deserialization failed");
+            Assert.That(foo.Ints[1].I, Is.EqualTo(2) , "Deserialization failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlListEmb2, res, "Serialization failed");
+            Assert.That(res, Is.EqualTo(_XmlListEmb2), "Serialization failed");
             foo = xml.DeserializeString<SListEmb>(_XmlListEmb3);
-            Assert.AreEqual(foo.Ints.Count, 0, "Deserialization failed");
+            Assert.That(foo.Ints, Is.Empty, "Deserialization failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlListEmb3, res, "Serialization failed");
+            Assert.That(res, Is.EqualTo(_XmlListEmb3), "Serialization failed");
             ser = new CXmlSerializer(true);
             foo.Ints.Clear();
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlListEmb4, res, "Serialization failed");
-            _AssertFail<SListEmb, CXmlException>(_Empty);
+            Assert.That(res, Is.EqualTo(_XmlListEmb4), "Serialization failed");
+            _AssertXmlSerializeFailWithMissingElement<SListEmb, CXmlMissingElementException>(_Empty);
         }
 
         [Test]
@@ -251,25 +259,25 @@ namespace Tests.VocaluxeLib.XML
         {
             var xml = new CXmlDeserializer();
             var ser = new CXmlSerializer();
-            SArrayEmb foo = xml.DeserializeString<SArrayEmb>(_XmlListEmb);
-            Assert.AreEqual(foo.Ints.Length, 1, "Deserialization failed");
-            Assert.AreEqual(foo.Ints[0].I, 1, "Deserialization failed");
-            string res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlListEmb, res, "Serialization failed");
+            var foo = xml.DeserializeString<SArrayEmb>(_XmlListEmb);
+            Assert.That(foo.Ints, Has.Length.EqualTo(1), "Deserialization failed");
+            Assert.That(foo.Ints[0].I, Is.EqualTo(1), "Deserialization failed");
+            var res = ser.Serialize(foo);
+            Assert.That(res, Is.EqualTo(_XmlListEmb), "Serialization failed");
             foo = xml.DeserializeString<SArrayEmb>(_XmlListEmb2);
-            Assert.AreEqual(foo.Ints.Length, 2, "Deserialization failed");
-            Assert.AreEqual(foo.Ints[1].I, 2, "Deserialization failed");
+            Assert.That(foo.Ints, Has.Length.EqualTo(2), "Deserialization failed");
+            Assert.That(foo.Ints[1].I, Is.EqualTo(2), "Deserialization failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlListEmb2, res, "Serialization failed");
+            Assert.That(res, Is.EqualTo(_XmlListEmb2), "Serialization failed");
             foo = xml.DeserializeString<SArrayEmb>(_XmlListEmb3);
-            Assert.AreEqual(foo.Ints.Length, 0, "Deserialization failed");
+            Assert.That(foo.Ints, Is.Empty, "Deserialization failed");
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlListEmb3, res, "Serialization failed");
+            Assert.That(res, Is.EqualTo(_XmlListEmb3), "Serialization failed");
             ser = new CXmlSerializer(true);
-            foo.Ints = new SEntry[0];
+            foo.Ints = Array.Empty<SEntry>();
             res = ser.Serialize(foo);
-            Assert.AreEqual(_XmlListEmb4, res, "Serialization failed");
-            _AssertFail<SArrayEmb, CXmlException>(_Empty);
+            Assert.That(res, Is.EqualTo(_XmlListEmb4), "Serialization failed");
+            _AssertXmlSerializeFailWithMissingElement<SArrayEmb, CXmlMissingElementException>(_Empty);
         }
 
         [Test]
@@ -279,9 +287,9 @@ namespace Tests.VocaluxeLib.XML
   <Public>2</Public>
   <Auto>3</Auto>
 </root>";
-            SProperty foo = _AssertSerDeserMatch<SProperty>(xmlString);
-            Assert.AreEqual(3, foo.Private);
-            Assert.AreEqual(3, foo.Auto);
+            var foo = _AssertSerDeserMatch<SProperty>(xmlString);
+            Assert.That(foo.Private, Is.EqualTo(3));
+            Assert.That(foo.Auto, Is.EqualTo(3));
         }
 
         [Test]
@@ -305,7 +313,7 @@ namespace Tests.VocaluxeLib.XML
         public void TestIgnore()
         {
             _AssertSerDeserMatch<SIgnore>(_XmlIgnore);
-            _AssertFail<SIgnore, CXmlException>(_XmlIgnore2);
+            _AssertXmlSerializeFailWithMissingElement<SIgnore, CXmlException>(_XmlIgnore2);
         }
 
         [Test]
@@ -314,15 +322,15 @@ namespace Tests.VocaluxeLib.XML
             var foo = new SIgnore { I = 1 };
             var xml = new CXmlDeserializer();
             var ser = new CXmlSerializer();
-            SIgnore bar = xml.DeserializeString(_XmlIgnore, foo);
-            Assert.AreEqual(1, bar.I);
-            Assert.AreEqual(_XmlIgnore, ser.Serialize(bar));
+            var bar = xml.DeserializeString(_XmlIgnore, foo);
+            Assert.That(bar.I, Is.EqualTo(1));
+            Assert.That(ser.Serialize(bar), Is.EqualTo(_XmlIgnore));
 
             var foo2 = new CIgnore { I = 1 };
-            CIgnore bar2 = xml.DeserializeString(_XmlIgnore, foo2);
-            Assert.AreEqual(1, bar2.I);
-            Assert.AreEqual(foo2.J, bar2.J, "Original classes should be modified by the deserialization");
-            Assert.AreEqual(_XmlIgnore, ser.Serialize(bar2));
+            var bar2 = xml.DeserializeString(_XmlIgnore, foo2);
+            Assert.That(bar2.I, Is.EqualTo(1));
+            Assert.That(bar2.J, Is.EqualTo(foo2.J), "Original classes should be modified by the deserialization");
+            Assert.That(ser.Serialize(bar2), Is.EqualTo(_XmlIgnore));
         }
 
         [Test]
@@ -359,16 +367,16 @@ namespace Tests.VocaluxeLib.XML
 </root>";
             _AssertSerDeserMatch<SDefault>(s);
             var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }));
-            SDefault foo = xml.DeserializeString<SDefault>(@"<root />");
-            Assert.AreEqual(foo.I, 1337);
-            Assert.AreEqual(foo.F, null);
-            Assert.AreEqual(foo.S, "Foo");
-            Assert.AreEqual(foo.D, 666);
-            Assert.AreEqual(foo.Sub.I, 111);
-            string newXml = new CXmlSerializer().Serialize(foo);
-            Assert.AreEqual(_Head + @"<root>
+            var foo = xml.DeserializeString<SDefault>(@"<root />");
+            Assert.That(foo.I, Is.EqualTo(1337));
+            Assert.That(foo.F, Is.Null);
+            Assert.That(foo.S, Is.EqualTo("Foo"));
+            Assert.That(foo.D, Is.EqualTo(666));
+            Assert.That(foo.Sub.I, Is.EqualTo(111));
+            var newXml = new CXmlSerializer().Serialize(foo);
+            Assert.That(newXml, Is.EqualTo(_Head + @"<root>
   <Sub />
-</root>", newXml);
+</root>"));
         }
 
         [Test]
@@ -382,9 +390,9 @@ namespace Tests.VocaluxeLib.XML
 </root>";
             _AssertSerDeserMatch<SUnescaping>(s);
             var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }));
-            SUnescaping foo = xml.DeserializeString<SUnescaping>(@"<root />");
-            Assert.AreEqual(foo.S, "Foo\'Bar");
-            Assert.AreEqual(foo.Sub.S, "Foo\'Bar");
+            var foo = xml.DeserializeString<SUnescaping>(@"<root />");
+            Assert.That(foo.S, Is.EqualTo("Foo\'Bar"));
+            Assert.That(foo.Sub.S, Is.EqualTo("Foo\'Bar"));
         }
 
         [Test]
@@ -398,37 +406,38 @@ namespace Tests.VocaluxeLib.XML
 </root>";
             _AssertSerDeserMatch<SUnescaping>(s);
             var xml = new CXmlDeserializer(new CXmlErrorHandler(exception => { }), true);
-            SUnescaping foo = xml.DeserializeString<SUnescaping>(@"<root />");
-            Assert.AreEqual(foo.S, "Foo'Bar");
-            Assert.AreEqual(foo.Sub.S, "Foo'Bar");
+            var foo = xml.DeserializeString<SUnescaping>(@"<root />");
+            Assert.That(foo.S, Is.EqualTo("Foo'Bar"));
+            Assert.That(foo.Sub.S, Is.EqualTo("Foo'Bar"));
         }
 
         [Test]
-        public void TestRealFiles([Values(typeof(SThemeCover), typeof(CConfig.SConfig), /*typeof(SThemeScreen),*/ typeof(SDefaultFonts), typeof(SSkin), typeof(STheme), typeof(Dictionary<string, string>))] Type type)
+        public void TestRealFiles(
+            [Values(typeof(SThemeCover), typeof(CConfig.SConfig), /*typeof(SThemeScreen),*/ typeof(SDefaultFonts), typeof(SSkin), typeof(STheme),
+                typeof(Dictionary<string, string>))]
+            Type type)
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "VocaluxeLib", "XML", "TestFiles");
+            var filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "VocaluxeLib", "XML", "TestFiles");
 
-            string xmlPath = Path.Combine(filePath, type.Name + ".xml");
+            var xmlPath = Path.Combine(filePath, type.Name + ".xml");
             var deser = new CXmlDeserializer();
 
-            object foo = deser.Deserialize(xmlPath, Activator.CreateInstance(type));
+            var foo = deser.Deserialize(xmlPath, Activator.CreateInstance(type));
 
-            Assert.IsInstanceOf(type, foo, "Wrong type with " + type.Name);
+            Assert.That(foo, Is.InstanceOf(type), "Wrong type with " + type.Name);
             var ser = new CXmlSerializer(type == typeof(CConfig.SConfig));
-            string newXml = ser.Serialize(foo, type == typeof(Dictionary<string, string>) ? "resources" : null);
+            var newXml = ser.Serialize(foo, type == typeof(Dictionary<string, string>) ? "resources" : null);
             // Typename will be uppercase but input is lowercase
             newXml = newXml.Replace("<String", "<string").Replace("</String", "</string");
-            string oldXml = File.ReadAllText(xmlPath);
+            var oldXml = File.ReadAllText(xmlPath);
             // Trim trailing whitespace/newlines
             oldXml = oldXml.TrimEnd('\r', '\n', ' ', '\t');
             newXml = newXml.TrimEnd('\r', '\n', ' ', '\t');
-            Assert.AreEqual(oldXml, newXml, "Reconstructed XML has differences.");
+            Assert.That(newXml, Is.EqualTo(oldXml), "Reconstructed XML has differences.");
         }
-
         #endregion
 
         #region Helper
-
 #pragma warning disable 649
 #pragma warning disable 169
         private struct SBasic
@@ -539,29 +548,26 @@ namespace Tests.VocaluxeLib.XML
             public string S;
         }
 
-
 #pragma warning restore 169
 #pragma warning restore 649
 
-        private static void _AssertFail<T, T2>(String xmlString) where T2 : Exception where T : new()
+        private static void _AssertXmlSerializeFailWithMissingElement<TSerializeType, TXmlException>(string xmlString) 
+            where TSerializeType : new()
+            where TXmlException : CXmlException
         {
             var deserializer = new CXmlDeserializer();
-
-            Exception exception =
-                Assert.Catch(() => deserializer.DeserializeString<T>(xmlString));
-            Assert.IsInstanceOf(typeof(T2), exception);
+            Assert.Throws<TXmlException>(new Action(() => deserializer.DeserializeString<TSerializeType>(xmlString)));
         }
 
         private static T _AssertSerDeserMatch<T>(string xmlString) where T : new()
         {
             var deserializer = new CXmlDeserializer();
             var serializer = new CXmlSerializer();
-            T foo = deserializer.DeserializeString<T>(xmlString);
-            string xmlNew = serializer.Serialize(foo);
-            Assert.AreEqual(xmlString, xmlNew);
+            var foo = deserializer.DeserializeString<T>(xmlString);
+            var xmlNew = serializer.Serialize(foo);
+            Assert.That(xmlString, Is.EqualTo(xmlNew));
             return foo;
         }
-
         #endregion
     }
 }

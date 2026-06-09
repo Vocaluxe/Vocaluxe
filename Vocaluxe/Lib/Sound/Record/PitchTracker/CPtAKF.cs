@@ -80,7 +80,10 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
         protected override void _Dispose(bool disposing)
         {
             if (_Instance == IntPtr.Zero)
+            {
                 throw new ObjectDisposedException(GetType().Name);
+            }
+
             PtAKF_Free(_Instance);
             _Instance = IntPtr.Zero;
         }

@@ -28,7 +28,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         protected readonly List<IAudioStream> _Streams = new List<IAudioStream>();
         private readonly List<IAudioStream> _StreamsToDelete = new List<IAudioStream>();
         private bool _InUpdate;
-        private int _NextID;
+        private int _NextId;
         protected float _GlobalVolume = 1f;
 
         public abstract bool Init();
@@ -36,56 +36,82 @@ namespace Vocaluxe.Lib.Sound.Playback
         public virtual void Close()
         {
             if (!_Initialized)
+            {
                 return;
-            List<IAudioStream> streams = new List<IAudioStream>();
+            }
+
+            var streams = new List<IAudioStream>();
             //Get all streams but do not modify list without holding the lock
             //Calling dispose from within the lock may deadlock in closeproc (if a thread is already there)
             lock (_Streams)
             {
                 streams.AddRange(_Streams);
             }
-            foreach (IAudioStream stream in streams)
+
+            foreach (var stream in streams)
+            {
                 stream.Dispose();
+            }
+
             while (_Streams.Count > 0)
+            {
                 Thread.Sleep(5);
+            }
+
             _Initialized = false;
         }
 
         public void CloseAll()
         {
             if (!_Initialized)
+            {
                 return;
+            }
+
             lock (_Streams)
             {
-                foreach (IAudioStream stream in _Streams)
+                foreach (var stream in _Streams)
+                {
                     stream.Close();
+                }
+
                 _Streams.Clear();
             }
         }
 
         public int GetGlobalVolume()
         {
-            return (_Initialized) ? (int) Math.Round(_GlobalVolume * 100) : 100;
+            return _Initialized ? (int)Math.Round(_GlobalVolume * 100) : 100;
         }
 
         public void SetGlobalVolume(int volume)
         {
             if (!_Initialized)
+            {
                 return;
-            float volumeF = volume.Clamp(0, 100) / 100f;
+            }
+
+            var volumeF = volume.Clamp(0, 100) / 100f;
             lock (_Streams)
             {
-                foreach (IAudioStream stream in _Streams)
+                foreach (var stream in _Streams)
+                {
                     if (!stream.IsFading)
+                    {
                         stream.VolumeMax = volumeF;
+                    }
+                }
             }
+
             _GlobalVolume = volumeF;
         }
 
         public int GetStreamCount()
         {
             if (!_Initialized)
+            {
                 return 0;
+            }
 
             lock (_Streams)
             {
@@ -96,19 +122,28 @@ namespace Vocaluxe.Lib.Sound.Playback
         public void Update()
         {
             if (!_Initialized)
+            {
                 return;
+            }
+
             lock (_Streams)
             {
                 _InUpdate = true;
-                foreach (IAudioStream stream in _Streams)
+                foreach (var stream in _Streams)
+                {
                     stream.Update();
+                }
+
                 //This is required because a stream may call the close listener from inside the update method
                 //lock() only protects from different threads not from the same, so we use StreamsToDelete to not modify _Streams while iterating it
                 _InUpdate = false;
                 if (_StreamsToDelete.Count > 0)
                 {
-                    foreach (IAudioStream stream in _StreamsToDelete)
+                    foreach (var stream in _StreamsToDelete)
+                    {
                         _Streams.Remove(stream);
+                    }
+
                     _StreamsToDelete.Clear();
                 }
             }
@@ -121,8 +156,11 @@ namespace Vocaluxe.Lib.Sound.Playback
         public int Load(string medium, bool loop = false, bool prescan = false, EAudioEffect effect = EAudioEffect.None)
         {
             if (!_Initialized)
+            {
                 return -1;
-            IAudioStream stream = _CreateStream(_NextID++, medium, loop, effect);
+            }
+
+            var stream = _CreateStream(_NextId++, medium, loop, effect);
 
             if (stream.Open(prescan))
             {
@@ -132,153 +170,216 @@ namespace Vocaluxe.Lib.Sound.Playback
                     stream.VolumeMax = _GlobalVolume;
                     stream.SetOnCloseListener(this);
                     _Streams.Add(stream);
-                    return stream.ID;
+                    return stream.Id;
                 }
             }
+
             return -1;
         }
 
-        public void Close(int streamID)
+        public void Close(int streamId)
         {
             if (!_Initialized)
+            {
                 return;
+            }
+
             lock (_Streams)
             {
-                int index = _GetStreamIndex(streamID);
+                var index = _GetStreamIndex(streamId);
                 if (index >= 0)
-                    _Streams[index].Close();
-            }
-        }
-
-        public void Play(int streamID)
-        {
-            if (!_Initialized)
-                return;
-            lock (_Streams)
-            {
-                if (_StreamExists(streamID))
-                    _Streams[_GetStreamIndex(streamID)].Play();
-            }
-        }
-
-        public void Pause(int streamID)
-        {
-            if (!_Initialized)
-                return;
-            lock (_Streams)
-            {
-                if (_StreamExists(streamID))
-                    _Streams[_GetStreamIndex(streamID)].IsPaused = true;
-            }
-        }
-
-        public void Stop(int streamID)
-        {
-            if (!_Initialized)
-                return;
-            lock (_Streams)
-            {
-                if (_StreamExists(streamID))
-                    _Streams[_GetStreamIndex(streamID)].Stop();
-            }
-        }
-
-        public void Fade(int streamID, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
-        {
-            if (!_Initialized)
-                return;
-            float targetVolumeF = targetVolume.Clamp(0, 100) / 100f;
-            lock (_Streams)
-            {
-                if (_StreamExists(streamID))
-                    _Streams[_GetStreamIndex(streamID)].Fade(targetVolumeF, seconds, afterFadeAction);
-            }
-        }
-
-        public void SetStreamVolume(int streamID, int volume)
-        {
-            if (!_Initialized)
-                return;
-            float volumeF = volume.Clamp(0, 100) / 100f;
-            lock (_Streams)
-            {
-                if (_StreamExists(streamID))
                 {
-                    _Streams[_GetStreamIndex(streamID)].Volume = volumeF;
-                    _Streams[_GetStreamIndex(streamID)].CancelFading();
+                    _Streams[index].Close();
                 }
             }
         }
 
-        public float GetLength(int streamID)
+        public void Play(int streamId)
         {
             if (!_Initialized)
-                return -1f;
-            lock (_Streams)
             {
-                if (_StreamExists(streamID))
-                    return _Streams[_GetStreamIndex(streamID)].Length;
-            }
-            return -1f;
-        }
-
-        public float GetPosition(int streamID)
-        {
-            if (!_Initialized)
-                return -1f;
-            lock (_Streams)
-            {
-                if (_StreamExists(streamID))
-                    return _Streams[_GetStreamIndex(streamID)].Position;
-            }
-
-            return -1f;
-        }
-
-        public void SetPosition(int streamID, float position)
-        {
-            if (!_Initialized)
                 return;
+            }
+
             lock (_Streams)
             {
-                if (_StreamExists(streamID))
-                    _Streams[_GetStreamIndex(streamID)].Position = position;
+                if (_StreamExists(streamId))
+                {
+                    _Streams[_GetStreamIndex(streamId)].Play();
+                }
             }
         }
 
-        public bool IsPlaying(int streamID)
+        public void Pause(int streamId)
         {
             if (!_Initialized)
-                return false;
+            {
+                return;
+            }
+
             lock (_Streams)
             {
-                if (_StreamExists(streamID))
-                    return !_Streams[_GetStreamIndex(streamID)].IsPaused && !_Streams[_GetStreamIndex(streamID)].IsFinished;
+                if (_StreamExists(streamId))
+                {
+                    _Streams[_GetStreamIndex(streamId)].IsPaused = true;
+                }
             }
+        }
+
+        public void Stop(int streamId)
+        {
+            if (!_Initialized)
+            {
+                return;
+            }
+
+            lock (_Streams)
+            {
+                if (_StreamExists(streamId))
+                {
+                    _Streams[_GetStreamIndex(streamId)].Stop();
+                }
+            }
+        }
+
+        public void Fade(int streamId, int targetVolume, float seconds, EStreamAction afterFadeAction = EStreamAction.Nothing)
+        {
+            if (!_Initialized)
+            {
+                return;
+            }
+
+            var targetVolumeF = targetVolume.Clamp(0, 100) / 100f;
+            lock (_Streams)
+            {
+                if (_StreamExists(streamId))
+                {
+                    _Streams[_GetStreamIndex(streamId)].Fade(targetVolumeF, seconds, afterFadeAction);
+                }
+            }
+        }
+
+        public void SetStreamVolume(int streamId, int volume)
+        {
+            if (!_Initialized)
+            {
+                return;
+            }
+
+            var volumeF = volume.Clamp(0, 100) / 100f;
+            lock (_Streams)
+            {
+                if (_StreamExists(streamId))
+                {
+                    _Streams[_GetStreamIndex(streamId)].Volume = volumeF;
+                    _Streams[_GetStreamIndex(streamId)].CancelFading();
+                }
+            }
+        }
+
+        public float GetLength(int streamId)
+        {
+            if (!_Initialized)
+            {
+                return -1f;
+            }
+
+            lock (_Streams)
+            {
+                if (_StreamExists(streamId))
+                {
+                    return _Streams[_GetStreamIndex(streamId)].Length;
+                }
+            }
+
+            return -1f;
+        }
+
+        public float GetPosition(int streamId)
+        {
+            if (!_Initialized)
+            {
+                return -1f;
+            }
+
+            lock (_Streams)
+            {
+                if (_StreamExists(streamId))
+                {
+                    return _Streams[_GetStreamIndex(streamId)].Position;
+                }
+            }
+
+            return -1f;
+        }
+
+        public void SetPosition(int streamId, float position)
+        {
+            if (!_Initialized)
+            {
+                return;
+            }
+
+            lock (_Streams)
+            {
+                if (_StreamExists(streamId))
+                {
+                    _Streams[_GetStreamIndex(streamId)].Position = position;
+                }
+            }
+        }
+
+        public bool IsPlaying(int streamId)
+        {
+            if (!_Initialized)
+            {
+                return false;
+            }
+
+            lock (_Streams)
+            {
+                if (_StreamExists(streamId))
+                {
+                    return !_Streams[_GetStreamIndex(streamId)].IsPaused && !_Streams[_GetStreamIndex(streamId)].IsFinished;
+                }
+            }
+
             return false;
         }
 
-        public bool IsPaused(int streamID)
+        public bool IsPaused(int streamId)
         {
             if (!_Initialized)
+            {
                 return false;
+            }
+
             lock (_Streams)
             {
-                if (_StreamExists(streamID))
-                    return _Streams[_GetStreamIndex(streamID)].IsPaused;
+                if (_StreamExists(streamId))
+                {
+                    return _Streams[_GetStreamIndex(streamId)].IsPaused;
+                }
             }
+
             return false;
         }
 
-        public bool IsFinished(int streamID)
+        public bool IsFinished(int streamId)
         {
             if (!_Initialized)
+            {
                 return true;
+            }
+
             lock (_Streams)
             {
-                if (_StreamExists(streamID))
-                    return _Streams[_GetStreamIndex(streamID)].IsFinished;
+                if (_StreamExists(streamId))
+                {
+                    return _Streams[_GetStreamIndex(streamId)].IsFinished;
+                }
             }
+
             return true;
         }
 
@@ -286,26 +387,29 @@ namespace Vocaluxe.Lib.Sound.Playback
         ///     Returns true if stream with given id is found
         ///     MUST hold _Stream-lock
         /// </summary>
-        /// <param name="streamID">Stream id</param>
+        /// <param name="streamId">Stream id</param>
         /// <returns></returns>
-        protected bool _StreamExists(int streamID)
+        protected bool _StreamExists(int streamId)
         {
-            return _GetStreamIndex(streamID) != -1;
+            return _GetStreamIndex(streamId) != -1;
         }
 
         /// <summary>
         ///     Returns the index of the stream with the given id
         ///     MUST hold _Stream-lock
         /// </summary>
-        /// <param name="streamID">Stream id</param>
+        /// <param name="streamId">Stream id</param>
         /// <returns></returns>
-        protected int _GetStreamIndex(int streamID)
+        protected int _GetStreamIndex(int streamId)
         {
-            for (int i = 0; i < _Streams.Count; i++)
+            for (var i = 0; i < _Streams.Count; i++)
             {
-                if (_Streams[i].ID == streamID)
+                if (_Streams[i].Id == streamId)
+                {
                     return i;
+                }
             }
+
             return -1;
         }
         #endregion Stream Handling
@@ -315,9 +419,13 @@ namespace Vocaluxe.Lib.Sound.Playback
             lock (_Streams)
             {
                 if (_InUpdate) //This is only possible if this is called from inside the update method
+                {
                     _StreamsToDelete.Add(stream);
+                }
                 else
+                {
                     _Streams.Remove(stream);
+                }
             }
         }
     }

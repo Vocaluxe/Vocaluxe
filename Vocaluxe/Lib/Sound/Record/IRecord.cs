@@ -15,14 +15,13 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Collections.ObjectModel;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
     class CRecordDevice
     {
-        public readonly int ID;
+        public readonly int Id;
         public readonly string Name;
         public readonly string Driver;
 
@@ -31,7 +30,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public CRecordDevice(int id, string name, string driver, int channels)
         {
-            ID = id;
+            Id = id;
             Name = name;
             Driver = driver;
             Channels = channels;
@@ -49,8 +48,8 @@ namespace Vocaluxe.Lib.Sound.Record
         public SMicConfig(int dummy)
             // ReSharper restore UnusedParameter.Local
         {
-            DeviceName = String.Empty;
-            DeviceDriver = String.Empty;
+            DeviceName = string.Empty;
+            DeviceDriver = string.Empty;
             Channel = 0;
         }
     }

@@ -24,13 +24,12 @@ namespace VocaluxeLib.Menu
     class CParticle
     {
         #region private vars
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
         private readonly string _TextureName;
         private readonly CTextureRef _Texture;
         private SRectF _Rect;
         private float _Size;
         private SColorF _Color;
-        private float _Alpha = 1;
         private float _Angle; //0..360°
         private readonly float _MaxAge; //[s]
         private float _Age; //[s]
@@ -72,11 +71,7 @@ namespace VocaluxeLib.Menu
             }
         }
 
-        public float Alpha
-        {
-            get { return _Alpha; }
-            set { _Alpha = value; }
-        }
+        public float Alpha { get; set; } = 1;
 
         public SColorF Color
         {
@@ -91,10 +86,10 @@ namespace VocaluxeLib.Menu
         #endregion public vars
 
         #region Constructors
-        public CParticle(int partyModeID, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
-                         EParticleType type)
+        public CParticle(int partyModeId, string textureName, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
+            EParticleType type)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _TextureName = textureName;
             _Color = color;
             _Rect = new SRectF(x, y, size, size, z);
@@ -109,11 +104,11 @@ namespace VocaluxeLib.Menu
             _Rotation = (float)(CBase.Game.GetRandomDouble() * 360.0);
         }
 
-        public CParticle(int partyModeID, CTextureRef texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
-                         EParticleType type)
+        public CParticle(int partyModeId, CTextureRef texture, SColorF color, float x, float y, float size, float maxage, float z, float vx, float vy, float vr, float vsize,
+            EParticleType type)
         {
-            _PartyModeID = partyModeID;
-            _TextureName = String.Empty;
+            _PartyModeId = partyModeId;
+            _TextureName = string.Empty;
             _Texture = texture;
             _Color = color;
             _Rect = new SRectF(x, y, size, size, z);
@@ -132,13 +127,17 @@ namespace VocaluxeLib.Menu
         public void Update()
         {
             if (!IsAlive)
+            {
                 return;
+            }
 
             if (!_Timer.IsRunning)
+            {
                 _Timer.Start();
+            }
 
-            float currentTime = _Timer.ElapsedMilliseconds / 1000f;
-            float timediff = currentTime - _LastTime;
+            var currentTime = _Timer.ElapsedMilliseconds / 1000f;
+            var timediff = currentTime - _LastTime;
 
             _Age = currentTime;
 
@@ -148,23 +147,23 @@ namespace VocaluxeLib.Menu
                 switch (_Type)
                 {
                     case EParticleType.Twinkle:
-                        _Alpha = 1f - _Age / _MaxAge;
+                        Alpha = 1f - _Age / _MaxAge;
                         break;
 
                     case EParticleType.Star:
-                        _Alpha = 1f - _Age / _MaxAge;
+                        Alpha = 1f - _Age / _MaxAge;
                         break;
 
                     case EParticleType.Snow:
-                        _Alpha = (float)Math.Sqrt((Math.Sin(_Age / _MaxAge * Math.PI * 2 - 0.5 * Math.PI) + 1) / 2);
+                        Alpha = (float)Math.Sqrt((Math.Sin(_Age / _MaxAge * Math.PI * 2 - 0.5 * Math.PI) + 1) / 2);
                         break;
 
                     case EParticleType.Flare:
-                        _Alpha = 1f - _Age / _MaxAge;
+                        Alpha = 1f - _Age / _MaxAge;
                         break;
 
                     case EParticleType.PerfNoteStar:
-                        _Alpha = 1f - _Age / _MaxAge;
+                        Alpha = 1f - _Age / _MaxAge;
                         break;
                 }
             }
@@ -187,16 +186,21 @@ namespace VocaluxeLib.Menu
 
                     if (Math.Round(Y) < maxy)
                     {
-                        float vdx = 0f;
+                        var vdx = 0f;
                         if (Math.Abs(_Vx) > float.Epsilon)
+                        {
                             vdx = (float)Math.Sin(currentTime / _Vx * Math.PI);
+                        }
 
                         X += _Vx * timediff * (0.5f + vdx);
 
                         Y += _Vy * timediff * (vdx * vdx / 2f + 0.5f);
                         if (Y >= maxy)
+                        {
                             Y = maxy;
+                        }
                     }
+
                     break;
 
                 case EParticleType.Flare:
@@ -214,7 +218,7 @@ namespace VocaluxeLib.Menu
             // update size
             if (Math.Abs(_Vsize) > float.Epsilon)
             {
-                float size = _Size;
+                var size = _Size;
                 switch (_Type)
                 {
                     case EParticleType.Twinkle:
@@ -247,7 +251,7 @@ namespace VocaluxeLib.Menu
             // update rotation
             if (Math.Abs(_Vr) > 0.01)
             {
-                float r = currentTime * _Vr / 60f;
+                var r = currentTime * _Vr / 60f;
                 _Angle = _Rotation + 360f * (r - (float)Math.Floor(r));
                 _Rect.Rotation = _Angle;
             }
@@ -268,11 +272,16 @@ namespace VocaluxeLib.Menu
         public void Draw(bool allMonitors = true)
         {
             // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-            if (!String.IsNullOrEmpty(_TextureName))
+            if (!string.IsNullOrEmpty(_TextureName))
                 // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
-                CBase.Drawing.DrawTexture(CBase.Themes.GetSkinTexture(_TextureName, _PartyModeID), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha), allMonitors);
+            {
+                CBase.Drawing.DrawTexture(CBase.Themes.GetSkinTexture(_TextureName, _PartyModeId), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * Alpha),
+                    allMonitors);
+            }
             else
-                CBase.Drawing.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * _Alpha), allMonitors);
+            {
+                CBase.Drawing.DrawTexture(_Texture, _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * Alpha), allMonitors);
+            }
         }
     }
 }

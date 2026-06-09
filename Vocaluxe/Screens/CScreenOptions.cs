@@ -15,13 +15,12 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Windows.Forms;
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -32,8 +31,8 @@ namespace Vocaluxe.Screens
         {
             get { return 4; }
         }
-           
-        private const string _ButtonOptionsBack = "ButtonOptionsBack";  
+
+        private const string _ButtonOptionsBack = "ButtonOptionsBack";
         private const string _ButtonOptionsGame = "ButtonOptionsGame";
         private const string _ButtonOptionsSound = "ButtonOptionsSound";
         private const string _ButtonOptionsRecord = "ButtonOptionsRecord";
@@ -50,10 +49,10 @@ namespace Vocaluxe.Screens
 
         private int _WarningStream = -1;
         private bool _HasPlayedWarningSound = false;
-        
+
         private static int PlaySound(ESounds sound, int volume)
         {
-            int streamId = CSound.PlaySound(sound, false);
+            var streamId = CSound.PlaySound(sound, false);
             CSound.SetStreamVolume(streamId, volume);
 
             return streamId;
@@ -63,9 +62,13 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme, _ButtonOptionsCredits, _ButtonOptionsGraphics, _ButtonOptionsServer, _ButtonSelectSongFolder};
-            _ThemeTexts = new string[] {_TextWarningRestart};
-            _ThemeStatics = new string[] {_StaticWarningRestart};
+            _ThemeButtons = new string[]
+            {
+                _ButtonOptionsBack, _ButtonOptionsGame, _ButtonOptionsSound, _ButtonOptionsRecord, _ButtonOptionsVideo, _ButtonOptionsLyrics, _ButtonOptionsTheme,
+                _ButtonOptionsCredits, _ButtonOptionsGraphics, _ButtonOptionsServer, _ButtonSelectSongFolder
+            };
+            _ThemeTexts = new string[] { _TextWarningRestart };
+            _ThemeStatics = new string[] { _StaticWarningRestart };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -75,12 +78,12 @@ namespace Vocaluxe.Screens
             _Texts[_TextWarningRestart].Visible = false;
             _Statics[_StaticWarningRestart].Visible = false;
         }
-        
+
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -163,9 +166,11 @@ namespace Vocaluxe.Screens
                             _Texts[_TextWarningRestart].Visible = true;
                             _Statics[_StaticWarningRestart].Visible = true;
                         }
+
                         break;
                 }
             }
+
             return true;
         }
 
@@ -247,6 +252,7 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreen.Main);
                 _LeaveScreen();
             }
+
             return true;
         }
 
@@ -257,7 +263,7 @@ namespace Vocaluxe.Screens
                 _WarningStream = CScreenOptions.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
                 _HasPlayedWarningSound = true;
             }
-                    
+
             return true;
         }
 
@@ -273,21 +279,23 @@ namespace Vocaluxe.Screens
                     var folders = CConfig.Config.Game.SongFolder?.ToList() ?? new List<string>();
                     if (!folders.Contains(dialog.SelectedPath))
                     {
-                       folders.Add(dialog.SelectedPath);
-                       CConfig.Config.Game.SongFolder = folders.ToArray();
-                       CConfig.SaveConfig();
+                        folders.Add(dialog.SelectedPath);
+                        CConfig.Config.Game.SongFolder = folders.ToArray();
+                        CConfig.SaveConfig();
                     }
+
                     return true; // Folder was selected
                 }
             }
+
             return false; // Dialog was cancelled
         }
-        
+
         private void _LeaveScreen()
-        {           
+        {
             if (_WarningStream != -1)
             {
-                 CSound.Close(_WarningStream);
+                CSound.Close(_WarningStream);
                 _WarningStream = -1;
             }
         }

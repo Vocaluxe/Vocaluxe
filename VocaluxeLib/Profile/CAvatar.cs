@@ -23,8 +23,7 @@ namespace VocaluxeLib.Profile
 {
     public class CAvatar
     {
-        public int ID;
-        private readonly string _FileName = "";
+        public int Id;
         private CTextureRef _Texture;
         private const int _MaxNameLen = 12;
 
@@ -32,28 +31,25 @@ namespace VocaluxeLib.Profile
         {
             get { return _Texture; }
         }
-        public string FileName
-        {
-            get { return _FileName; }
-        }
+        public string FileName { get; } = "";
 
         public static CAvatar GetAvatar(string fileName)
         {
-            CTextureRef texture = CBase.Drawing.AddTexture(fileName);
+            var texture = CBase.Drawing.AddTexture(fileName);
             return texture == null ? null : new CAvatar(texture, fileName);
         }
 
         private CAvatar(CTextureRef texture, string fileName, int id = -1)
         {
             _Texture = texture;
-            _FileName = fileName;
-            ID = id;
+            FileName = fileName;
+            Id = id;
         }
 
         public bool Reload()
         {
             Unload();
-            _Texture = CBase.Drawing.AddTexture(_FileName);
+            _Texture = CBase.Drawing.AddTexture(FileName);
 
             return _Texture != null;
         }
@@ -65,10 +61,13 @@ namespace VocaluxeLib.Profile
 
         public string GetDisplayName()
         {
-            string name = Path.GetFileNameWithoutExtension(_FileName);
+            var name = Path.GetFileNameWithoutExtension(FileName);
             Debug.Assert(name != null);
             if (name.Length > _MaxNameLen)
+            {
                 name = name.Substring(0, _MaxNameLen);
+            }
+
             return name;
         }
     }

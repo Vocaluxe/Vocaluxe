@@ -18,14 +18,14 @@
 using System.Diagnostics;
 using System.Xml.Serialization;
 using VocaluxeLib.PartyModes;
-using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu.SongMenu
 {
     [XmlType("SongMenu")]
     public struct SThemeSongMenu
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public string CoverBackground;
         public string CoverBigBackground;
@@ -43,6 +43,7 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeSongMenuList SongMenuList;
         public SThemeSongMenuTileBoard SongMenuTileBoard;
     }
+
     public struct SThemeSongMenuList
     {
         /// <summary>
@@ -78,7 +79,6 @@ namespace VocaluxeLib.Menu.SongMenu
         public SThemeStatic StaticMedleyCalcIcon;
         public SThemeStatic StaticMedleyTagIcon;
     }
-
 
     public struct SThemeSongMenuTileBoard
     {
@@ -133,7 +133,7 @@ namespace VocaluxeLib.Menu.SongMenu
 
     public abstract class CSongMenuFramework : CMenuElementBase, ISongMenu
     {
-        protected readonly int _PartyModeID;
+        protected readonly int _PartyModeId;
         protected SThemeSongMenu _Theme;
 
         public bool ThemeLoaded { get; private set; }
@@ -152,11 +152,17 @@ namespace VocaluxeLib.Menu.SongMenu
             set
             {
                 if (_PreviewNrInternal == value)
+                {
                     return;
+                }
+
                 if (CBase.Songs.IsInCategory())
                 {
                     if (value >= CBase.Songs.GetNumSongsVisible())
+                    {
                         value = -1;
+                    }
+
                     _PlaySong(value);
                 }
                 else if (value >= CBase.Songs.GetNumCategories())
@@ -188,16 +194,16 @@ namespace VocaluxeLib.Menu.SongMenu
         // This is the nr of the current selection (song or category)
         protected virtual int _SelectionNr { get; set; }
 
-        protected CSongMenuFramework(int partyModeID)
+        protected CSongMenuFramework(int partyModeId)
         {
             Visible = true;
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
         }
 
-        protected CSongMenuFramework(SThemeSongMenu theme, int partyModeID)
+        protected CSongMenuFramework(SThemeSongMenu theme, int partyModeId)
         {
             Visible = true;
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = theme;
 
             ThemeLoaded = true;
@@ -228,11 +234,16 @@ namespace VocaluxeLib.Menu.SongMenu
 
         public virtual void OnHide()
         {
-            EScreen check = CBase.Graphics.GetNextScreenType();
+            var check = CBase.Graphics.GetNextScreenType();
             if (CBase.Graphics.GetNextScreenType() == EScreen.Sing)
+            {
                 _ResetPreview(false);
-            else if ((CBase.Graphics.GetNextScreenType() != EScreen.Names && CBase.Graphics.GetNextScreenType() != EScreen.Highscore) || CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            }
+            else if ((CBase.Graphics.GetNextScreenType() != EScreen.Names && CBase.Graphics.GetNextScreenType() != EScreen.Highscore) ||
+                     CBase.Config.GetBackgroundMusicStatus() == EBackgroundMusicOffOn.TR_CONFIG_OFF)
+            {
                 _ResetPreview();
+            }
         }
 
         public abstract bool HandleInput(ref SKeyEvent keyEvent, SScreenSongOptions options);
@@ -242,29 +253,39 @@ namespace VocaluxeLib.Menu.SongMenu
         public virtual void Draw()
         {
             if (!_Initialized || !Visible)
+            {
                 return;
+            }
 
             if (CBase.BackgroundMusic.IsPlaying())
+            {
                 CBase.Drawing.DrawTexture(CBase.BackgroundMusic.GetVideoTexture(), new SRectF(0, 0, 1920, 1080, 0));
+            }
         }
 
         public virtual bool IsMouseOverSelectedSong(SMouseEvent mEvent)
         {
-            CStatic selCov = GetSelectedSongCover();
+            var selCov = GetSelectedSongCover();
             return selCov != null && CHelper.IsInBounds(selCov.Rect.Scale(SelectedTileZoomFactor), mEvent);
         }
 
         public int GetPreviewSongNr()
         {
             if (CBase.Songs.IsInCategory())
+            {
                 return _PreviewNr;
+            }
+
             return -1;
         }
 
         public int GetSelectedSongNr()
         {
             if (CBase.Songs.IsInCategory())
+            {
                 return _SelectionNr;
+            }
+
             return -1;
         }
 
@@ -273,7 +294,10 @@ namespace VocaluxeLib.Menu.SongMenu
         public int GetSelectedCategory()
         {
             if (!CBase.Songs.IsInCategory())
+            {
                 return _SelectionNr;
+            }
+
             return -1;
         }
 
@@ -281,9 +305,14 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             Debug.Assert(CBase.Songs.IsInCategory());
             if (visibleSongNr >= 0 && visibleSongNr < CBase.Songs.GetNumSongsVisible())
+            {
                 _SelectionNr = visibleSongNr;
+            }
             else
+            {
                 _SelectionNr = -1;
+            }
+
             _PreviewNr = _SelectionNr;
         }
 
@@ -291,33 +320,44 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             Debug.Assert(!CBase.Songs.IsInCategory());
             if (categoryNr >= 0 && categoryNr < CBase.Songs.GetNumCategories())
+            {
                 _SelectionNr = categoryNr;
+            }
             else
+            {
                 _SelectionNr = -1;
+            }
+
             _PreviewNr = _SelectionNr;
         }
 
         public void LeaveSelectedCategory()
         {
             if (!CBase.Songs.IsInCategory())
+            {
                 return;
+            }
 
-            int oldCategory = CBase.Songs.GetCurrentCategoryIndex();
+            var oldCategory = CBase.Songs.GetCurrentCategoryIndex();
             _LeaveCategory();
 
             if (oldCategory >= 0 && oldCategory < CBase.Songs.GetNumCategories())
+            {
                 SetSelectedCategory(oldCategory);
+            }
             else if (CBase.Songs.GetNumCategories() > 0)
+            {
                 SetSelectedCategory(0);
+            }
         }
 
-        public virtual void UnloadSkin() {}
+        public virtual void UnloadSkin() { }
 
         public virtual void LoadSkin()
         {
             Init();
 
-            _Theme.Color.Get(_PartyModeID, out _ColorInternal);
+            _Theme.Color.Get(_PartyModeId, out _ColorInternal);
         }
 
         public void ReloadSkin()
@@ -329,9 +369,15 @@ namespace VocaluxeLib.Menu.SongMenu
         public bool EnterSelectedCategory()
         {
             if (!_Initialized)
+            {
                 return false;
+            }
+
             if (CBase.Songs.IsInCategory() || GetSelectedCategory() < 0 || GetSelectedCategory() >= CBase.Songs.GetNumCategories())
+            {
                 return false;
+            }
+
             _EnterCategory(GetSelectedCategory());
             return true;
         }
@@ -339,10 +385,14 @@ namespace VocaluxeLib.Menu.SongMenu
         protected virtual void _EnterCategory(int categoryNr)
         {
             if (!_Initialized)
+            {
                 return;
+            }
 
             if (categoryNr >= CBase.Songs.GetNumCategories())
+            {
                 return;
+            }
 
             _ResetPreview(false);
             CBase.Songs.SetCategory(categoryNr);
@@ -351,10 +401,14 @@ namespace VocaluxeLib.Menu.SongMenu
         protected virtual void _LeaveCategory()
         {
             if (!_Initialized)
+            {
                 return;
+            }
 
             if (!CBase.Songs.IsInCategory())
+            {
                 return;
+            }
 
             _ResetPreview();
             CBase.Songs.SetCategory(-1);
@@ -364,9 +418,11 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             _PreviewNrInternal = -1;
 
-            CSong song = CBase.Songs.GetVisibleSong(nr);
+            var song = CBase.Songs.GetVisibleSong(nr);
             if (song == null)
+            {
                 return;
+            }
 
             CBase.BackgroundMusic.LoadPreview(song, song.Preview.StartTime);
         }
@@ -374,12 +430,16 @@ namespace VocaluxeLib.Menu.SongMenu
         protected void _ResetPreview(bool playBGagain = true)
         {
             if (_PreviewNrInternal == -1)
+            {
                 return;
+            }
 
             CBase.BackgroundMusic.StopPreview();
             CBase.Sound.SetGlobalVolume(CBase.Config.GetMusicVolume(EMusicType.Background));
             if (playBGagain)
+            {
                 CBase.BackgroundMusic.Play();
+            }
 
             //Make sure we don't have a preview here otherwise a change won't be recognized
             //(e.g. leave a category with one song and set preview to 0 --> previewOld=previewNew=0 --> No change --> Old data shown
@@ -396,10 +456,7 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             _AutoplayTimer.Interval = _AutoplayDelayinMs;
             _AutoplayTimer.AutoReset = false;
-            _AutoplayTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) =>
-            {
-                _PreviewSelectedSong();
-            };
+            _AutoplayTimer.Elapsed += (object sender, System.Timers.ElapsedEventArgs e) => { _PreviewSelectedSong(); };
         }
 
         protected void _AutoplayPreviewIfEnabled()
@@ -408,7 +465,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 _PlayPreviewAfterDelay();
             }
-        }        
+        }
 
         protected void _PlayPreviewAfterDelay()
         {
@@ -435,11 +492,15 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             W += stepW;
             if (W < 100)
+            {
                 W = 100;
+            }
 
             H += stepH;
             if (H < 100)
+            {
                 H = 100;
+            }
 
             Init();
         }

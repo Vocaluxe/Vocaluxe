@@ -40,14 +40,25 @@ namespace VocaluxeLib.Utils.Combinatorics
         public static int Count(int n, int k)
         {
             if (n < 0 || k < 0)
+            {
                 throw new ArgumentException("Parameters must not be negative");
+            }
+
             if (n < k)
+            {
                 return 0;
+            }
+
             // Try to optimize because (n k) = (n n-k)
             if (n - k < k)
+            {
                 k = n - k;
+            }
+
             if (k == 0) // or k == n but both are the same after the optimization above
+            {
                 return 1;
+            }
 
             long result = n;
             for (long i = 1; i < k; i++)
@@ -57,6 +68,7 @@ namespace VocaluxeLib.Utils.Combinatorics
                     result = result * (n - i) / (i + 1);
                 }
             }
+
             return (int)result;
         }
 
@@ -75,7 +87,7 @@ namespace VocaluxeLib.Utils.Combinatorics
         /// <returns></returns>
         public List<List<T>> GetAll()
         {
-            List<List<T>> result = new List<List<T>>(Count());
+            var result = new List<List<T>>(Count());
             result.AddRange(this);
             return result;
         }
@@ -105,32 +117,46 @@ namespace VocaluxeLib.Utils.Combinatorics
                 Debug.Assert(_N >= 0 && _K >= 0);
             }
 
-            public void Dispose() {}
+            public void Dispose() { }
 
             public bool MoveNext()
             {
                 if (_N < _K)
+                {
                     return false;
+                }
 
                 if (_CurSet == null)
                 {
                     _CurSet = new int[_K];
-                    for (int i = 0; i < _K; i++)
+                    for (var i = 0; i < _K; i++)
+                    {
                         _CurSet[i] = i;
+                    }
+
                     return true;
                 }
 
                 // Check if we reached the end
                 if (_K == 0 || _CurSet[0] == _N - _K)
+                {
                     return false;
+                }
+
                 // Search for element to increment
-                int idx = _K - 1;
+                var idx = _K - 1;
                 while (idx > 0 && _CurSet[idx] == _N - _K + idx)
+                {
                     idx--;
+                }
+
                 _CurSet[idx]++;
                 // Increment all elements "right" of this to 1+their left neighbour
-                for (int j = idx; j < _K - 1; j++)
+                for (var j = idx; j < _K - 1; j++)
+                {
                     _CurSet[j + 1] = _CurSet[j] + 1;
+                }
+
                 return true;
             }
 
@@ -143,7 +169,7 @@ namespace VocaluxeLib.Utils.Combinatorics
             {
                 get
                 {
-                    List<T> result = new List<T>(_K);
+                    var result = new List<T>(_K);
                     result.AddRange(_CurSet.Select(i => _Parent._Values[i]));
                     return result;
                 }

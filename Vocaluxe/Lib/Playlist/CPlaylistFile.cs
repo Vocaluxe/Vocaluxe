@@ -23,7 +23,6 @@ using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Songs;
 using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Lib.Playlist
@@ -35,33 +34,37 @@ namespace Vocaluxe.Lib.Playlist
         public readonly int Id;
         public List<CPlaylistSong> Songs = new List<CPlaylistSong>();
 
-        private static int _NextID;
+        private static int _NextId;
 
         public CPlaylistFile()
         {
-            Id = _NextID++;
+            Id = _NextId++;
         }
 
         public void Save()
         {
             if (string.IsNullOrEmpty(File))
             {
-                string filename = string.Empty;
+                var filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery
-                foreach (char chr in Name)
+                foreach (var chr in Name)
                     // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (char.IsLetter(chr))
+                    {
                         filename += chr.ToString();
+                    }
                 }
 
                 if (filename == "")
+                {
                     filename = "1";
+                }
 
                 File = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CConfig.FolderPlaylists), filename + ".xml");
             }
 
-            SPlaylist data = new SPlaylist {Info = {Name = Name}, Songs = Songs.Select(plSong => plSong.ToStruct()).ToArray()};
+            var data = new SPlaylist { Info = { Name = Name }, Songs = Songs.Select(plSong => plSong.ToStruct()).ToArray() };
 
             var xml = new CXmlSerializer();
             xml.Serialize(File, data);
@@ -81,36 +84,40 @@ namespace Vocaluxe.Lib.Playlist
                 CLog.Error("Cannot load playlist from " + file + ": " + e.Message);
                 return false;
             }
+
             Name = data.Info.Name;
             Songs = new List<CPlaylistSong>();
-            foreach (SPlaylistSong songEntry in data.Songs)
+            foreach (var songEntry in data.Songs)
             {
-                CSong plSong = CSongs.AllSongs.FirstOrDefault(song => song.Artist == songEntry.Artist && song.Title == songEntry.Title);
+                var plSong = CSongs.AllSongs.FirstOrDefault(song => song.Artist == songEntry.Artist && song.Title == songEntry.Title);
                 if (plSong == null)
+                {
                     CLog.Error("Can't find song '" + songEntry.Title + "' from '" + songEntry.Artist + "' in playlist file: " + File);
+                }
                 else
                 {
-                    var playlistSong = new CPlaylistSong(plSong.ID, songEntry.GameMode);
+                    var playlistSong = new CPlaylistSong(plSong.Id, songEntry.GameMode);
                     Songs.Add(playlistSong);
                 }
             }
+
             return true;
         }
 
-        public void AddSong(int songID)
+        public void AddSong(int songId)
         {
             var song = new CPlaylistSong
-                {
-                    SongID = songID,
-                    GameMode = CSongs.GetSong(songID).IsGameModeAvailable(EGameMode.TR_GAMEMODE_DUET) ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL
-                };
+            {
+                SongId = songId,
+                GameMode = CSongs.GetSong(songId).IsGameModeAvailable(EGameMode.TR_GAMEMODE_DUET) ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL
+            };
 
             Songs.Add(song);
         }
 
-        public void AddSong(int songID, EGameMode gm)
+        public void AddSong(int songId, EGameMode gm)
         {
-            var song = new CPlaylistSong(songID, gm);
+            var song = new CPlaylistSong(songId, gm);
 
             Songs.Add(song);
         }
@@ -123,31 +130,39 @@ namespace Vocaluxe.Lib.Playlist
         public void MoveSongUp(int songNr)
         {
             if (songNr < Songs.Count && songNr > 0)
+            {
                 Songs.Reverse(songNr - 1, 2);
+            }
         }
 
         public void MoveSongDown(int songNr)
         {
             if (songNr < Songs.Count - 1 && songNr >= 0)
+            {
                 Songs.Reverse(songNr, 2);
+            }
         }
 
         public void MoveSong(int sourceNr, int destNr)
         {
             if (sourceNr < 0 || destNr < 0 || sourceNr == destNr || sourceNr >= Songs.Count || destNr >= Songs.Count)
+            {
                 return;
+            }
 
-            CPlaylistSong song = Songs[sourceNr];
+            var song = Songs[sourceNr];
             Songs.RemoveAt(sourceNr);
             Songs.Insert(destNr, song);
         }
 
-        public void InsertSong(int destNr, int songID, EGameMode gm)
+        public void InsertSong(int destNr, int songId, EGameMode gm)
         {
             if (destNr < 0 || destNr >= Songs.Count)
+            {
                 return;
+            }
 
-            CPlaylistSong ps = new CPlaylistSong(songID, gm);
+            var ps = new CPlaylistSong(songId, gm);
             Songs.Insert(destNr, ps);
         }
     }

@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
 
@@ -24,7 +23,8 @@ namespace VocaluxeLib.Menu
     [XmlType("Lyric")]
     public struct SThemeLyrics
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public SRectF Rect;
 
@@ -34,7 +34,7 @@ namespace VocaluxeLib.Menu
 
     public class CLyric : CMenuElementBase, IMenuElement, IThemeable
     {
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
         private SThemeLyrics _Theme;
 
         /// <summary>
@@ -76,27 +76,27 @@ namespace VocaluxeLib.Menu
 
         public ELyricStyle LyricStyle { get; set; }
 
-        public CLyric(int partyModeID)
+        public CLyric(int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = new SThemeLyrics();
             ThemeLoaded = false;
             _Color = new SColorF();
             _ColorProcessed = new SColorF();
 
             _Line = new CSongLine();
-            _Text = new CText(_PartyModeID);
+            _Text = new CText(_PartyModeId);
 
             LyricStyle = ELyricStyle.TR_CONFIG_LYRICSTYLE_FILL;
         }
 
-        public CLyric(SThemeLyrics theme, int partyModeID)
+        public CLyric(SThemeLyrics theme, int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = theme;
 
             _Line = new CSongLine();
-            _Text = new CText(_PartyModeID);
+            _Text = new CText(_PartyModeId);
             _Width = 1f;
 
             LyricStyle = ELyricStyle.TR_CONFIG_LYRICSTYLE_FILL;
@@ -108,7 +108,7 @@ namespace VocaluxeLib.Menu
         {
             _Line = line;
             _Width = 0f;
-            foreach (CSongNote note in line.Notes)
+            foreach (var note in line.Notes)
             {
                 _SetText(note);
                 _Width += _Text.Rect.W;
@@ -117,21 +117,20 @@ namespace VocaluxeLib.Menu
 
         private void _SetText(CSongNote note)
         {
-           _Text.Text = note.Text;
+            _Text.Text = note.Text;
 
-          if (note.Type == ENoteType.Freestyle)
-        {
-          _Text.Font.Style = EStyle.Italic;
-        }
-        else if (note.Type == ENoteType.Rap || note.Type == ENoteType.RapGolden)
-        {
-          _Text.Font.Style = EStyle.BoldItalic;
-        }
-        else
-        {
-         _Text.Font.Style = EStyle.Bold;
-        }
-
+            if (note.Type == ENoteType.Freestyle)
+            {
+                _Text.Font.Style = EStyle.Italic;
+            }
+            else if (note.Type == ENoteType.Rap || note.Type == ENoteType.RapGolden)
+            {
+                _Text.Font.Style = EStyle.BoldItalic;
+            }
+            else
+            {
+                _Text.Font.Style = EStyle.Bold;
+            }
         }
 
         public void Clear()
@@ -175,9 +174,9 @@ namespace VocaluxeLib.Menu
 
         private void _DrawSlide()
         {
-            float x = X - _Width / 2;
+            var x = X - _Width / 2;
 
-            foreach (CSongNote note in _Line.Notes)
+            foreach (var note in _Line.Notes)
             {
                 _Text.X = x;
                 _SetText(note);
@@ -188,12 +187,14 @@ namespace VocaluxeLib.Menu
                     {
                         _Text.Color = _ColorProcessed;
 
-                        int diff = note.Duration;
+                        var diff = note.Duration;
                         if (diff <= 0)
+                        {
                             _Text.Draw(0f, 1f);
+                        }
                         else
                         {
-                            float p = (_CurrentBeat - note.StartBeat) / diff;
+                            var p = (_CurrentBeat - note.StartBeat) / diff;
                             _Text.Draw(0f, p);
                             _Text.Color = _Color;
                             _Text.Draw(p, 1f);
@@ -217,9 +218,9 @@ namespace VocaluxeLib.Menu
 
         private void _DrawFill()
         {
-            float x = X - _Width / 2; // most left position
+            var x = X - _Width / 2; // most left position
 
-            foreach (CSongNote note in _Line.Notes)
+            foreach (var note in _Line.Notes)
             {
                 _Text.X = x;
                 _SetText(note);
@@ -244,17 +245,21 @@ namespace VocaluxeLib.Menu
         {
             float diff = endBeat - zoomNote.StartBeat;
             if (diff <= 0f)
+            {
                 diff = 1f;
+            }
 
-            float p = 1f - (_CurrentBeat - zoomNote.StartBeat) / diff;
+            var p = 1f - (_CurrentBeat - zoomNote.StartBeat) / diff;
             if (p < 0)
+            {
                 p = 0;
+            }
 
-            float ty = _Text.Y;
-            float th = _Text.Font.Height;
-            float tz = _Text.Z;
+            var ty = _Text.Y;
+            var th = _Text.Font.Height;
+            var tz = _Text.Z;
 
-            SRectF normalRect = _Text.Rect;
+            var normalRect = _Text.Rect;
             _Text.Font.Height *= 1f + p * 0.4f;
             _Text.X -= (_Text.Rect.W - normalRect.W) / 2f;
             _Text.Y -= (_Text.Rect.H - normalRect.H) / 2f;
@@ -273,17 +278,21 @@ namespace VocaluxeLib.Menu
         {
             _Text.Color = _ColorProcessed;
 
-            int diff = jumpNote.Duration;
+            var diff = jumpNote.Duration;
             if (diff <= 0)
+            {
                 diff = 1;
+            }
 
-            float p = 1f - (_CurrentBeat - jumpNote.StartBeat) / diff;
+            var p = 1f - (_CurrentBeat - jumpNote.StartBeat) / diff;
 
             if (p < 0.001)
+            {
                 _Text.Draw();
+            }
             else
             {
-                float y = _Text.Y;
+                var y = _Text.Y;
                 _Text.Y -= _Text.Font.Height * 0.1f * p;
                 _Text.Draw();
                 _Text.Y = y;
@@ -292,24 +301,26 @@ namespace VocaluxeLib.Menu
 
         private void _DrawZoomOrJump()
         {
-            float x = X - _Width / 2; // most left position
+            var x = X - _Width / 2; // most left position
 
-            int lastNote = _Line.FindPreviousNote((int)_CurrentBeat);
+            var lastNote = _Line.FindPreviousNote((int)_CurrentBeat);
             CSongNote highlightNote = null;
-            int hEndBeat = 0;
+            var hEndBeat = 0;
             float hX = 0;
 
-            for (int note = 0; note < _Line.Notes.Length; note++)
+            for (var note = 0; note < _Line.Notes.Length; note++)
             {
                 _Text.X = x;
-                CSongNote curNote = _Line.Notes[note];
+                var curNote = _Line.Notes[note];
                 _SetText(curNote);
 
                 if (_CurrentBeat >= curNote.StartBeat)
                 {
-                    int curEndBeat = curNote.EndBeat;
+                    var curEndBeat = curNote.EndBeat;
                     if (note < _Line.Notes.Length - 1)
+                    {
                         curEndBeat = _Line.Notes[note + 1].StartBeat - 1;
+                    }
 
                     if (_CurrentBeat <= curEndBeat)
                     {
@@ -336,25 +347,32 @@ namespace VocaluxeLib.Menu
 
             // Draw the highlighted note after all others because we want it to be above those! (transparency won't work well otherwhise)
             if (highlightNote == null)
+            {
                 return;
+            }
+
             _SetText(highlightNote);
             _Text.X = hX;
             if (LyricStyle == ELyricStyle.TR_CONFIG_LYRICSTYLE_JUMP)
+            {
                 _DrawJumpingNode(highlightNote);
+            }
             else
+            {
                 _DrawZoomedNote(highlightNote, hEndBeat);
+            }
         }
         #endregion draw
 
-        public void UnloadSkin() {}
+        public void UnloadSkin() { }
 
         public void LoadSkin()
         {
-            _Theme.Color.Get(_PartyModeID, out _Color);
-            _Theme.ProcessedColor.Get(_PartyModeID, out _ColorProcessed);
+            _Theme.Color.Get(_PartyModeId, out _Color);
+            _Theme.ProcessedColor.Get(_PartyModeId, out _ColorProcessed);
 
             MaxRect = _Theme.Rect;
-            _Text = new CText(X, Y, Z, H, W, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
+            _Text = new CText(X, Y, Z, H, W, EAlignment.Left, EStyle.Bold, "Normal", _Color, string.Empty);
         }
 
         public void ReloadSkin()
@@ -381,11 +399,15 @@ namespace VocaluxeLib.Menu
         {
             W += stepW;
             if (W <= 0)
+            {
                 W = 1;
+            }
 
             H += stepH;
             if (H <= 0)
+            {
                 H = 1;
+            }
 
             _Theme.Rect.W = Rect.W;
             _Theme.Rect.H = Rect.H;

@@ -22,7 +22,9 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         public override bool Init()
         {
             if (_Initialized)
+            {
                 return false;
+            }
 
             _Initialized = true;
 

@@ -18,8 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using VocaluxeLib.Draw;
-using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu
 {
@@ -42,7 +40,7 @@ namespace VocaluxeLib.Menu
             set
             {
                 _SongMode = 0;
-                for (int i = 0; i < AllowedSongModes.Length; i++)
+                for (var i = 0; i < AllowedSongModes.Length; i++)
                 {
                     if (AllowedSongModes[i] == value)
                     {
@@ -60,7 +58,7 @@ namespace VocaluxeLib.Menu
             set
             {
                 _Source = 0;
-                for (int i = 0; i < AllowedSongSources.Length; i++)
+                for (var i = 0; i < AllowedSongSources.Length; i++)
                 {
                     if (AllowedSongSources[i] == value)
                     {
@@ -78,7 +76,7 @@ namespace VocaluxeLib.Menu
             set
             {
                 _Sorting = 0;
-                for (int i = 0; i < AllowedSongSorting.Length; i++)
+                for (var i = 0; i < AllowedSongSorting.Length; i++)
                 {
                     if (AllowedSongSorting[i] == value)
                     {
@@ -100,14 +98,15 @@ namespace VocaluxeLib.Menu
         protected int NumMinMedleySongs = 3;
         protected int NumMaxMedleySongs = 10;
 
-        private List<int> _PlaylistIDs;
+        private List<int> _PlaylistIds;
 
         public override void Init()
         {
             base.Init();
 
-            _ThemeButtons = new string[]{ _ButtonNext, _ButtonBack};
-            _ThemeSelectSlides = new string[] { _SelectSlideSongMode, _SelectSlideSource, _SelectSlidePlaylist, _SelectSlideSorting, _SelectSlideCategory, _SelectSlideNumMedleySongs };
+            _ThemeButtons = new string[] { _ButtonNext, _ButtonBack };
+            _ThemeSelectSlides = new string[]
+                { _SelectSlideSongMode, _SelectSlideSource, _SelectSlidePlaylist, _SelectSlideSorting, _SelectSlideCategory, _SelectSlideNumMedleySongs };
 
             _SetAllowedOptions();
         }
@@ -124,9 +123,14 @@ namespace VocaluxeLib.Menu
                     break;
                 case Keys.Enter:
                     if (_Buttons[_ButtonNext].Selected)
+                    {
                         Next();
+                    }
                     else if (_Buttons[_ButtonBack].Selected)
+                    {
                         Back();
+                    }
+
                     break;
 
                 case Keys.Left:
@@ -146,9 +150,13 @@ namespace VocaluxeLib.Menu
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonBack].Selected)
+                {
                     Back();
+                }
                 else if (_Buttons[_ButtonNext].Selected)
+                {
                     Next();
+                }
                 else
                 {
                     _GetSelectedOptions();
@@ -156,7 +164,9 @@ namespace VocaluxeLib.Menu
                 }
             }
             else if (mouseEvent.RB)
+            {
                 Back();
+            }
 
             return true;
         }
@@ -178,31 +188,37 @@ namespace VocaluxeLib.Menu
         private void _FillSlides()
         {
             _SelectSlides[_SelectSlideSongMode].Clear();
-            foreach (EGameMode gm in AllowedSongModes)
+            foreach (var gm in AllowedSongModes)
+            {
                 _SelectSlides[_SelectSlideSongMode].AddValue(gm.ToString());
+            }
 
             _SelectSlides[_SelectSlideSource].Clear();
-            foreach (ESongSource ss in AllowedSongSources)
+            foreach (var ss in AllowedSongSources)
+            {
                 _SelectSlides[_SelectSlideSource].AddValue(ss.ToString());
+            }
 
             _SelectSlides[_SelectSlideSorting].Clear();
-            foreach (ESongSorting ss in AllowedSongSorting)
+            foreach (var ss in AllowedSongSorting)
+            {
                 _SelectSlides[_SelectSlideSorting].AddValue(ss.ToString());
+            }
 
             _SelectSlides[_SelectSlidePlaylist].Clear();
-            _SelectSlides[_SelectSlidePlaylist].NumVisible = 1;  // Make sure that only one playlist at a time will be displayed (or the names overlap)
-            _PlaylistIDs = CBase.Playlist.GetIds();
-            List<string> playlists = CBase.Playlist.GetNames();
-            for (int i = 0; i < playlists.Count; i++)
+            _SelectSlides[_SelectSlidePlaylist].NumVisible = 1; // Make sure that only one playlist at a time will be displayed (or the names overlap)
+            _PlaylistIds = CBase.Playlist.GetIds();
+            var playlists = CBase.Playlist.GetNames();
+            for (var i = 0; i < playlists.Count; i++)
             {
-                string value = playlists[i] + " (" + CBase.Playlist.GetSongCount(i) + " " + CBase.Language.Translate("TR_SONGS", PartyModeID) + ")";
+                var value = playlists[i] + " (" + CBase.Playlist.GetSongCount(i) + " " + CBase.Language.Translate("TR_SONGS", PartyModeId) + ")";
                 _SelectSlides[_SelectSlidePlaylist].AddValue(value);
             }
 
             _SelectSlides[_SelectSlideNumMedleySongs].Clear();
-            for(int num = NumMinMedleySongs; num <= NumMaxMedleySongs; num++)
+            for (var num = NumMinMedleySongs; num <= NumMaxMedleySongs; num++)
             {
-                _SelectSlides[_SelectSlideNumMedleySongs].AddValue(num + " " + CBase.Language.Translate("TR_SONGS", PartyModeID));
+                _SelectSlides[_SelectSlideNumMedleySongs].AddValue(num + " " + CBase.Language.Translate("TR_SONGS", PartyModeId));
             }
 
             _FillCategorySlide();
@@ -211,10 +227,10 @@ namespace VocaluxeLib.Menu
         private void _FillCategorySlide()
         {
             _SelectSlides[_SelectSlideCategory].Clear();
-            for (int i = 0; i < CBase.Songs.GetNumCategories(); i++)
+            for (var i = 0; i < CBase.Songs.GetNumCategories(); i++)
             {
-                CCategory cat = CBase.Songs.GetCategory(i);
-                string value = cat.Name + " (" + cat.GetNumSongsNotSung() + " " + CBase.Language.Translate("TR_SONGS", PartyModeID) + ")";
+                var cat = CBase.Songs.GetCategory(i);
+                var value = cat.Name + " (" + cat.GetNumSongsNotSung() + " " + CBase.Language.Translate("TR_SONGS", PartyModeId) + ")";
                 _SelectSlides[_SelectSlideCategory].AddValue(value);
             }
         }
@@ -225,11 +241,15 @@ namespace VocaluxeLib.Menu
             _Source = _SelectSlides[_SelectSlideSource].Selection;
             NumMedleySongs = NumMinMedleySongs + _SelectSlides[_SelectSlideNumMedleySongs].Selection;
 
-            int playlistSelection = _SelectSlides[_SelectSlidePlaylist].Selection;
-            if (playlistSelection >= 0 && playlistSelection < _PlaylistIDs.Count)
-                Playlist = _PlaylistIDs[playlistSelection];
+            var playlistSelection = _SelectSlides[_SelectSlidePlaylist].Selection;
+            if (playlistSelection >= 0 && playlistSelection < _PlaylistIds.Count)
+            {
+                Playlist = _PlaylistIds[playlistSelection];
+            }
             else
+            {
                 Playlist = -1;
+            }
 
             if (_SelectSlides[_SelectSlideSorting].Selection != _Sorting)
             {
@@ -238,8 +258,8 @@ namespace VocaluxeLib.Menu
                 _FillCategorySlide();
 
                 _SelectSlides[_SelectSlideCategory].Selection = 0;
-            }    
-            
+            }
+
             Category = _SelectSlides[_SelectSlideCategory].Selection;
         }
 

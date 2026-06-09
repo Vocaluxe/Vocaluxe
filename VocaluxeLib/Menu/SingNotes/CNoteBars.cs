@@ -28,7 +28,7 @@ namespace VocaluxeLib.Menu.SingNotes
     public class CNoteBars
     {
         private readonly SThemeSingBar _Theme;
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
         private readonly int _Player;
         public readonly SRectF Rect;
         private readonly SColorF _Color;
@@ -54,59 +54,72 @@ namespace VocaluxeLib.Menu.SingNotes
         private readonly List<CParticleEffect> _PerfectNoteEffect = new List<CParticleEffect>();
         private readonly List<CParticleEffect> _PerfectLineTwinkle = new List<CParticleEffect>();
 
-        public CNoteBars(int partyModeID, int player, SRectF rect, SThemeSingBar theme)
+        public CNoteBars(int partyModeId, int player, SRectF rect, SThemeSingBar theme)
         {
             _Player = player;
             _Theme = theme;
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             Rect = rect;
 
             _Color = CBase.Themes.GetPlayerColor(player + 1);
 
-            if (!CBase.Themes.GetColor("NoteLinesColor", _PartyModeID, out _NoteLinesColor))
+            if (!CBase.Themes.GetColor("NoteLinesColor", _PartyModeId, out _NoteLinesColor))
+            {
                 _NoteLinesColor = new SColorF(Color.Gray, 0.5f);
+            }
 
-            if (!CBase.Themes.GetColor("NoteBaseColor", _PartyModeID, out _NoteBaseColor))
+            if (!CBase.Themes.GetColor("NoteBaseColor", _PartyModeId, out _NoteBaseColor))
+            {
                 _NoteBaseColor = new SColorF(Color.White);
+            }
 
-            SPlayer playerData = CBase.Game.GetPlayers()[player];
+            var playerData = CBase.Game.GetPlayers()[player];
             _Lines = CBase.Game.GetSong().Notes.GetVoice(playerData.VoiceNr).Lines;
             _NoteLineHeight = Rect.H / CBase.Settings.GetNumNoteLines();
-            _AddNoteHeight = _NoteLineHeight / 2f * (2f - (int)CBase.Profiles.GetDifficulty(playerData.ProfileID));
+            _AddNoteHeight = _NoteLineHeight / 2f * (2f - (int)CBase.Profiles.GetDifficulty(playerData.ProfileId));
         }
 
         public void SetLine(int line)
         {
             if (_CurrentLine == line)
+            {
                 return;
+            }
+
             _CurrentLine = line;
             _GoldenStars.Clear();
             _Flares.Clear();
             _PerfectNoteEffect.Clear();
 
-            foreach (CSongNote note in _Lines[_CurrentLine].Notes.Where(note => (note.IsGoldenNote)))
+            foreach (var note in _Lines[_CurrentLine].Notes.Where(note => note.IsGoldenNote))
+            {
                 _AddGoldenNote(_GetNoteRect(note));
+            }
         }
 
         public void Draw()
         {
             if (_CurrentLine == -1 || _CurrentLine >= _Lines.Length)
+            {
                 return;
+            }
 
-            CSongLine line = _Lines[_CurrentLine];
+            var line = _Lines[_CurrentLine];
 
             if (CBase.Config.GetDrawNoteLines() == EOffOn.TR_CONFIG_ON)
+            {
                 _DrawNoteLines(new SColorF(_NoteLinesColor, _NoteLinesColor.A * Alpha));
+            }
 
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
 
             var color = new SColorF(_Color, _Color.A * Alpha);
 
-            foreach (CSongNote note in line.Notes)
+            foreach (var note in line.Notes)
             {
                 if (note.Type != ENoteType.Freestyle)
                 {
-                    SRectF rect = _GetNoteRect(note);
+                    var rect = _GetNoteRect(note);
 
                     _DrawNoteBG(rect, color, note.IsRapNote);
                     _DrawNoteBase(rect, new SColorF(_NoteBaseColor, _NoteBaseColor.A * Alpha), 1f, note.IsRapNote);
@@ -114,24 +127,28 @@ namespace VocaluxeLib.Menu.SingNotes
             }
 
             if (CBase.Config.GetDrawToneHelper() == EOffOn.TR_CONFIG_ON)
+            {
                 _DrawToneHelper(line, (CBase.Game.GetMidRecordedBeat() - line.FirstNoteBeat) / beats * Rect.W);
+            }
 
-            List<CSungLine> sungLines = CBase.Game.GetPlayers()[_Player].SungLines;
+            var sungLines = CBase.Game.GetPlayers()[_Player].SungLines;
             if (_CurrentLine >= 0 && _CurrentLine < sungLines.Count)
             {
-                foreach (CSungNote note in sungLines[_CurrentLine].Notes)
+                foreach (var note in sungLines[_CurrentLine].Notes)
                 {
-                    SRectF rect = _GetNoteRect(note);
+                    var rect = _GetNoteRect(note);
                     if (note.EndBeat == CBase.Game.GetRecordedBeat())
+                    {
                         rect.W -= (1 - (CBase.Game.GetMidRecordedBeat() - CBase.Game.GetRecordedBeat())) * Rect.W / beats;
+                    }
 
-                    float factor = (note.Hit) ? 1f : 0.6f;
+                    var factor = note.Hit ? 1f : 0.6f;
 
                     _DrawNoteFill(rect, color, factor, note.IsRapNote);
 
                     if (note.EndBeat >= CBase.Game.GetRecordedBeat() && note.Hit && note.IsGoldenNote)
                     {
-                        SRectF re = rect;
+                        var re = rect;
                         re.W = (CBase.Game.GetMidRecordedBeat() - note.StartBeat) / beats * Rect.W;
                         _AddFlare(re);
                     }
@@ -154,31 +171,37 @@ namespace VocaluxeLib.Menu.SingNotes
             _PerfectNoteEffect.RemoveAll(el => !el.IsAlive);
             _PerfectLineTwinkle.RemoveAll(el => !el.IsAlive);
 
-            foreach (CParticleEffect perfline in _PerfectLineTwinkle)
+            foreach (var perfline in _PerfectLineTwinkle)
+            {
                 perfline.Draw();
+            }
 
-            foreach (CParticleEffect stars in _GoldenStars)
+            foreach (var stars in _GoldenStars)
             {
                 stars.Alpha = Alpha;
                 stars.Draw();
             }
 
-            foreach (CParticleEffect flare in _Flares)
+            foreach (var flare in _Flares)
+            {
                 flare.Draw();
+            }
 
-            foreach (CParticleEffect perfnote in _PerfectNoteEffect)
+            foreach (var perfnote in _PerfectNoteEffect)
+            {
                 perfnote.Draw();
+            }
         }
 
         private SRectF _GetNoteRect(CBaseNote note)
         {
-            CSongLine line = _Lines[_CurrentLine];
+            var line = _Lines[_CurrentLine];
             float beats = line.LastNoteBeat - line.FirstNoteBeat + 1;
-            bool isRapNote = note.IsRapNote;
+            var isRapNote = note.IsRapNote;
 
-            float width = note.Duration * Rect.W / beats;
-            float y = Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2;
-            float height = _NoteLineHeight + _AddNoteHeight;
+            var width = note.Duration * Rect.W / beats;
+            var y = Rect.Y + (CBase.Settings.GetNumNoteLines() - 1 - (note.Tone - line.BaseLine) / 2f) * _NoteLineHeight - _AddNoteHeight / 2;
+            var height = _NoteLineHeight + _AddNoteHeight;
 
             var noteRect = new SRectF(
                 Rect.X + (note.StartBeat - line.FirstNoteBeat) * Rect.W / beats,
@@ -186,38 +209,46 @@ namespace VocaluxeLib.Menu.SingNotes
                 width,
                 height,
                 Rect.Z
-                );
+            );
             return noteRect;
         }
 
         private void _DrawNoteLines(SColorF color)
         {
-            SRectF lineRect = Rect;
+            var lineRect = Rect;
             lineRect.H = 1.5f;
-            for (int i = 0; i < CBase.Settings.GetNumNoteLines(); i++)
+            for (var i = 0; i < CBase.Settings.GetNumNoteLines(); i++)
             {
-                lineRect.Y = (Rect.Y + Rect.H / CBase.Settings.GetNumNoteLines() * (i + 1)) - (lineRect.H / 2);
+                lineRect.Y = Rect.Y + Rect.H / CBase.Settings.GetNumNoteLines() * (i + 1) - lineRect.H / 2;
                 CBase.Drawing.DrawRect(color, lineRect, false);
             }
         }
 
         private void _DrawToneHelper(CSongLine line, float offsetX)
         {
-            int tonePlayer = CBase.Record.GetToneAbs(_Player);
-            int noteIndex = line.FindPreviousNote(CBase.Game.GetCurrentBeat()).Clamp(0,line.Notes.Count()-1);
-            int note = line.Notes[noteIndex].Tone;
+            var tonePlayer = CBase.Record.GetToneAbs(_Player);
+            var noteIndex = line.FindPreviousNote(CBase.Game.GetCurrentBeat()).Clamp(0, line.Notes.Count() - 1);
+            var note = line.Notes[noteIndex].Tone;
 
             while (tonePlayer - note < -6)
+            {
                 tonePlayer += 12;
+            }
 
             while (tonePlayer - note > 6)
+            {
                 tonePlayer -= 12;
+            }
 
             if (offsetX < 0f)
+            {
                 offsetX = 0f;
+            }
 
             if (offsetX > Rect.W)
+            {
                 offsetX = Rect.W;
+            }
 
             var drawRect = new SRectF(
                 Rect.X - _NoteLineHeight + offsetX,
@@ -225,67 +256,68 @@ namespace VocaluxeLib.Menu.SingNotes
                 _NoteLineHeight,
                 _NoteLineHeight,
                 Rect.Z
-                );
+            );
 
             var color = new SColorF(_Color, _Color.A * Alpha);
 
-            CTextureRef toneHelper = CBase.Themes.GetSkinTexture(_Theme.SkinToneHelper, _PartyModeID);
+            var toneHelper = CBase.Themes.GetSkinTexture(_Theme.SkinToneHelper, _PartyModeId);
             CBase.Drawing.DrawTexture(toneHelper, drawRect, color, false);
         }
 
         private static void _DrawNote(SRectF rect, SColorF color, CTextureRef noteBegin, CTextureRef noteMiddle, CTextureRef noteEnd, float factor)
         {
             if (factor <= 0)
+            {
                 return;
+            }
 
             //Width-related variables rounded and then floored to prevent 1px gaps in notes
             rect.X = (float)Math.Round(rect.X);
             rect.W = (float)Math.Round(rect.W);
 
-            int dh = (int)((1f - factor) * rect.H / 2);
-            int dw = (int)Math.Min(dh, rect.W / 2);
+            var dh = (int)((1f - factor) * rect.H / 2);
+            var dw = (int)Math.Min(dh, rect.W / 2);
 
             var noteRect = new SRectF(rect.X + dw, rect.Y + dh, rect.W - 2 * dw, rect.H - 2 * dh, rect.Z);
 
             //Width of each of the ends (round parts)
             //Need 2 of them so use minimum
-            int endsW = (int)Math.Min(noteRect.H * noteBegin.OrigAspect, noteRect.W / 2);
+            var endsW = (int)Math.Min(noteRect.H * noteBegin.OrigAspect, noteRect.W / 2);
 
             CBase.Drawing.DrawTexture(noteBegin, new SRectF(noteRect.X, noteRect.Y, endsW, noteRect.H, noteRect.Z), color, false);
 
-            SRectF middleRect = new SRectF(noteRect.X + endsW, noteRect.Y, noteRect.W - 2 * endsW, noteRect.H, noteRect.Z);
+            var middleRect = new SRectF(noteRect.X + endsW, noteRect.Y, noteRect.W - 2 * endsW, noteRect.H, noteRect.Z);
 
-            int midW = (int)Math.Round(noteRect.H * noteMiddle.OrigAspect);
+            var midW = (int)Math.Round(noteRect.H * noteMiddle.OrigAspect);
 
-            int midCount = (int)middleRect.W / midW;
+            var midCount = (int)middleRect.W / midW;
 
-            for (int i = 0; i < midCount; ++i)
+            for (var i = 0; i < midCount; ++i)
             {
-                CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X + (i * midW), noteRect.Y, midW, noteRect.H, noteRect.Z), color, false);
+                CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X + i * midW, noteRect.Y, midW, noteRect.H, noteRect.Z), color, false);
             }
 
-            SRectF lastMidRect = new SRectF(middleRect.X + midCount * midW, noteRect.Y, middleRect.W - (midCount * midW), noteRect.H, noteRect.Z);
+            var lastMidRect = new SRectF(middleRect.X + midCount * midW, noteRect.Y, middleRect.W - midCount * midW, noteRect.H, noteRect.Z);
 
-            CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X + (midCount * midW), middleRect.Y, midW, middleRect.H, middleRect.Z), color, lastMidRect, false, false);
+            CBase.Drawing.DrawTexture(noteMiddle, new SRectF(middleRect.X + midCount * midW, middleRect.Y, midW, middleRect.H, middleRect.Z), color, lastMidRect, false, false);
 
             CBase.Drawing.DrawTexture(noteEnd, new SRectF(noteRect.X + noteRect.W - endsW, noteRect.Y, endsW, noteRect.H, noteRect.Z), color, false);
         }
 
         private void _DrawNoteBase(SRectF rect, SColorF color, float factor, bool isRapNote = false)
         {
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapLeft : _Theme.SkinLeft, _PartyModeID);
-            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapMiddle : _Theme.SkinMiddle, _PartyModeID);
-            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapRight : _Theme.SkinRight, _PartyModeID);
+            var noteBegin = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapLeft : _Theme.SkinLeft, _PartyModeId);
+            var noteMiddle = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapMiddle : _Theme.SkinMiddle, _PartyModeId);
+            var noteEnd = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapRight : _Theme.SkinRight, _PartyModeId);
 
             _DrawNote(rect, color, noteBegin, noteMiddle, noteEnd, factor);
         }
 
         private void _DrawNoteFill(SRectF rect, SColorF color, float factor, bool isRapNote = false)
         {
-
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapFillLeft : _Theme.SkinFillLeft, _PartyModeID);
-            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapFillMiddle : _Theme.SkinFillMiddle, _PartyModeID);
-            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapFillRight : _Theme.SkinFillRight, _PartyModeID);
+            var noteBegin = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapFillLeft : _Theme.SkinFillLeft, _PartyModeId);
+            var noteMiddle = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapFillMiddle : _Theme.SkinFillMiddle, _PartyModeId);
+            var noteEnd = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapFillRight : _Theme.SkinFillRight, _PartyModeId);
 
             _DrawNote(rect, color, noteBegin, noteMiddle, noteEnd, factor);
         }
@@ -295,18 +327,22 @@ namespace VocaluxeLib.Menu.SingNotes
             const float period = 1500; //[ms]
 
             if (!_Timer.IsRunning)
+            {
                 _Timer.Start();
+            }
 
             if (_Timer.ElapsedMilliseconds > period)
+            {
                 _Timer.Restart();
+            }
 
-            float alpha = (float)(Math.Cos(_Timer.ElapsedMilliseconds / period * Math.PI * 2) + 1) / 4 + 0.5f;
+            var alpha = (float)(Math.Cos(_Timer.ElapsedMilliseconds / period * Math.PI * 2) + 1) / 4 + 0.5f;
 
             var col = new SColorF(color, color.A * alpha);
 
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapBackgroundLeft : _Theme.SkinBackgroundLeft, _PartyModeID);
-            CTextureRef noteMiddle = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapBackgroundMiddle : _Theme.SkinBackgroundMiddle, _PartyModeID);
-            CTextureRef noteEnd = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapBackgroundRight : _Theme.SkinBackgroundRight, _PartyModeID);
+            var noteBegin = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapBackgroundLeft : _Theme.SkinBackgroundLeft, _PartyModeId);
+            var noteMiddle = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapBackgroundMiddle : _Theme.SkinBackgroundMiddle, _PartyModeId);
+            var noteEnd = CBase.Themes.GetSkinTexture(isRapNote ? _Theme.SkinRapBackgroundRight : _Theme.SkinBackgroundRight, _PartyModeId);
 
             _DrawNote(rect, col, noteBegin, noteMiddle, noteEnd, 1f);
         }
@@ -314,7 +350,7 @@ namespace VocaluxeLib.Menu.SingNotes
         private void _AddGoldenNote(SRectF noteRect)
         {
             var numstars = (int)(noteRect.W * 0.25f);
-            var stars = new CParticleEffect(_PartyModeID, numstars, new SColorF(Color.Yellow), noteRect, _Theme.SkinGoldenStar, 20, EParticleType.Star);
+            var stars = new CParticleEffect(_PartyModeId, numstars, new SColorF(Color.Yellow), noteRect, _Theme.SkinGoldenStar, 20, EParticleType.Star);
             stars.AllMonitors = false;
             _GoldenStars.Add(stars);
         }
@@ -323,29 +359,31 @@ namespace VocaluxeLib.Menu.SingNotes
         {
             var rect = new SRectF(noteRect.Right, noteRect.Y, 0f, noteRect.H, noteRect.Z);
 
-            var flares = new CParticleEffect(_PartyModeID, 15, new SColorF(Color.White), rect, _Theme.SkinGoldenStar, 20, EParticleType.Flare);
+            var flares = new CParticleEffect(_PartyModeId, 15, new SColorF(Color.White), rect, _Theme.SkinGoldenStar, 20, EParticleType.Flare);
             flares.AllMonitors = false;
             _Flares.Add(flares);
         }
 
         private void _AddPerfectNote(SRectF noteRect)
         {
-            CTextureRef noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinRight, _PartyModeID);
-            float dx = noteRect.H * noteBegin.OrigAspect;
+            var noteBegin = CBase.Themes.GetSkinTexture(_Theme.SkinRight, _PartyModeId);
+            var dx = noteRect.H * noteBegin.OrigAspect;
             if (2 * dx > noteRect.W)
+            {
                 dx = noteRect.W / 2;
+            }
 
-            SRectF r = new SRectF(noteRect.Right - dx, noteRect.Y, dx * 0.5f, dx * 0.2f, noteRect.Z);
+            var r = new SRectF(noteRect.Right - dx, noteRect.Y, dx * 0.5f, dx * 0.2f, noteRect.Z);
 
-            var stars = new CParticleEffect(_PartyModeID, CBase.Game.GetRandom(2) + 1, new SColorF(Color.White), r, _Theme.SkinPerfectNoteStart, 35,
-                                            EParticleType.PerfNoteStar);
+            var stars = new CParticleEffect(_PartyModeId, CBase.Game.GetRandom(2) + 1, new SColorF(Color.White), r, _Theme.SkinPerfectNoteStart, 35,
+                EParticleType.PerfNoteStar);
             stars.AllMonitors = false;
             _PerfectNoteEffect.Add(stars);
         }
 
         private void _AddPerfectLine()
         {
-            var twinkle = new CParticleEffect(_PartyModeID, 200, _Color, Rect, _Theme.SkinGoldenStar, 25, EParticleType.Twinkle);
+            var twinkle = new CParticleEffect(_PartyModeId, 200, _Color, Rect, _Theme.SkinGoldenStar, 25, EParticleType.Twinkle);
             twinkle.AllMonitors = false;
             _PerfectLineTwinkle.Add(twinkle);
         }

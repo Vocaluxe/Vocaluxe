@@ -36,9 +36,12 @@ namespace Vocaluxe
 
         public static void AddEnvironmentPath(string path)
         {
-            string newPath = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+            var newPath = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
             if (newPath.Length > 0)
+            {
                 newPath += ";";
+            }
+
             newPath += path;
 
             Environment.SetEnvironmentVariable("PATH", newPath);

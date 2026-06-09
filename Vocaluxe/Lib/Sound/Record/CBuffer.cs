@@ -80,8 +80,10 @@ namespace Vocaluxe.Lib.Sound.Record
             ToneValid = false;
             ToneAbs = 0;
             Tone = 0;
-            for (int i = 0; i < ToneWeigths.Length; i++)
+            for (var i = 0; i < ToneWeigths.Length; i++)
+            {
                 ToneWeigths[i] = 0f;
+            }
         }
 
         public void ProcessNewBuffer(byte[] buffer)
@@ -97,7 +99,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public void AnalyzeBuffer()
         {
-            int tone = _PitchTracker.GetNote(out _MaxVolume, ToneWeigths);
+            var tone = _PitchTracker.GetNote(out _MaxVolume, ToneWeigths);
             if (tone >= 0)
             {
                 ToneAbs = tone;
@@ -105,7 +107,9 @@ namespace Vocaluxe.Lib.Sound.Record
                 ToneValid = true;
             }
             else
+            {
                 ToneValid = false;
+            }
         }
 
         public void Dispose()

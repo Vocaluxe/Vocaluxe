@@ -23,20 +23,16 @@ namespace VocaluxeLib.PartyModes
 {
     public abstract class CPartyMode : IPartyMode
     {
-        private readonly int _ID;
-        protected SScreenSongOptions _ScreenSongOptions = new SScreenSongOptions {Selection = new SSelectionOptions(), Sorting = new SSortingOptions()};
+        protected SScreenSongOptions _ScreenSongOptions = new SScreenSongOptions { Selection = new SSelectionOptions(), Sorting = new SSortingOptions() };
         protected readonly Dictionary<string, CMenuParty> _Screens = new Dictionary<string, CMenuParty>();
 
         protected CPartyMode(int id)
         {
-            _ID = id;
+            Id = id;
         }
 
         #region Implementation
-        public int ID
-        {
-            get { return _ID; }
-        }
+        public int Id { get; }
 
         public int NumPlayers { get; set; }
         public int NumTeams { get; set; }
@@ -55,8 +51,8 @@ namespace VocaluxeLib.PartyModes
 
         public void LoadTheme()
         {
-            string xmlPath = CBase.Themes.GetThemeScreensPath(ID);
-            foreach (CMenuParty menu in _Screens.Values)
+            var xmlPath = CBase.Themes.GetThemeScreensPath(Id);
+            foreach (var menu in _Screens.Values)
             {
                 menu.Init();
                 menu.LoadTheme(xmlPath);
@@ -65,15 +61,19 @@ namespace VocaluxeLib.PartyModes
 
         public void ReloadSkin()
         {
-            foreach (CMenuParty menu in _Screens.Values)
+            foreach (var menu in _Screens.Values)
+            {
                 menu.ReloadSkin();
+            }
         }
 
         public void ReloadTheme()
         {
-            string xmlPath = CBase.Themes.GetThemeScreensPath(ID);
-            foreach (CMenuParty menu in _Screens.Values)
+            var xmlPath = CBase.Themes.GetThemeScreensPath(Id);
+            foreach (var menu in _Screens.Values)
+            {
                 menu.ReloadTheme(xmlPath);
+            }
         }
 
         public void AddScreen(CMenuParty screen, string screenName)
@@ -83,20 +83,28 @@ namespace VocaluxeLib.PartyModes
 
         public void SaveScreens()
         {
-            foreach (KeyValuePair<string, CMenuParty> entry in _Screens)
+            foreach (var entry in _Screens)
+            {
                 entry.Value.SaveTheme();
+            }
         }
 
         public virtual void JokerUsed(int teamNr)
         {
             if (_ScreenSongOptions.Selection.NumJokers == null)
+            {
                 return;
+            }
 
             if (_ScreenSongOptions.Selection.NumJokers.Length < teamNr)
+            {
                 return;
+            }
 
             if (_ScreenSongOptions.Selection.NumJokers[teamNr] > 0)
+            {
                 _ScreenSongOptions.Selection.NumJokers[teamNr]--;
+            }
         }
 
         public virtual void FinishedSinging()
@@ -132,7 +140,7 @@ namespace VocaluxeLib.PartyModes
         public abstract void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions);
         public abstract void SetSearchString(string searchString, bool visible);
 
-        public abstract void SongSelected(int songID);
+        public abstract void SongSelected(int songId);
         #endregion Abstract members
     }
 }

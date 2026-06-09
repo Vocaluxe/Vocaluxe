@@ -42,8 +42,8 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeStatics = new string[] {_StaticBG};
-            _ThemeSelectSlides = new string[] {_SelectSlideVolume};
+            _ThemeStatics = new string[] { _StaticBG };
+            _ThemeSelectSlides = new string[] { _SelectSlideVolume };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -51,7 +51,7 @@ namespace Vocaluxe.Screens
             base.LoadTheme(xmlPath);
 
             _SelectSlides[_SelectSlideVolume].AddValues(new string[]
-                {"0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100"});
+                { "0", "5", "10", "15", "20", "25", "30", "35", "40", "45", "50", "55", "60", "65", "70", "75", "80", "85", "90", "95", "100" });
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
@@ -60,14 +60,22 @@ namespace Vocaluxe.Screens
             if (keyEvent.ModShift || keyEvent.Sender == ESender.WiiMote)
             {
                 if (keyEvent.Key == Keys.Add || keyEvent.Key == Keys.PageUp)
+                {
                     _SelectSlides[_SelectSlideVolume].Selection++;
+                }
                 else if (keyEvent.Key == Keys.Subtract || keyEvent.Key == Keys.PageDown)
+                {
                     _SelectSlides[_SelectSlideVolume].Selection--;
+                }
                 else
+                {
                     return false;
+                }
             }
             else
+            {
                 return false;
+            }
 
             _SaveConfig();
             return true;
@@ -81,18 +89,21 @@ namespace Vocaluxe.Screens
                 _SaveConfig();
                 return true;
             }
+
             if (mouseEvent.Wheel > 0 && CHelper.IsInBounds(ScreenArea, mouseEvent))
             {
                 _SelectSlides[_SelectSlideVolume].Selection = _SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel;
                 _SaveConfig();
                 return true;
             }
+
             if (mouseEvent.Wheel < 0 && CHelper.IsInBounds(ScreenArea, mouseEvent))
             {
                 _SelectSlides[_SelectSlideVolume].Selection = _SelectSlides[_SelectSlideVolume].Selection - mouseEvent.Wheel;
                 _SaveConfig();
                 return true;
             }
+
             return !mouseEvent.RB;
         }
 
@@ -110,7 +121,7 @@ namespace Vocaluxe.Screens
 
         private void _SaveConfig()
         {
-            int volume = _SelectSlides[_SelectSlideVolume].Selection * 5;
+            var volume = _SelectSlides[_SelectSlideVolume].Selection * 5;
             CConfig.SetVolumeByType(CGraphics.CurrentScreen.CurrentMusicType, volume);
             CConfig.SaveConfig();
             CSound.SetGlobalVolume(volume);
@@ -118,7 +129,7 @@ namespace Vocaluxe.Screens
 
         private void _UpdateSlides()
         {
-            int volume = CConfig.GetVolumeByType(CGraphics.CurrentScreen.CurrentMusicType);
+            var volume = CConfig.GetVolumeByType(CGraphics.CurrentScreen.CurrentMusicType);
             _SelectSlides[_SelectSlideVolume].Selection = volume / 5;
         }
     }

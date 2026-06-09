@@ -32,8 +32,10 @@ namespace Vocaluxe.Reporting
     {
         // Init string with defaults for the case that loading localizations caused the problem
         private string _TitleText = "We are sorry";
-        private string _MessageCrashText = "that Vocaluxe run into an error and crashed.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.";
-        private string _MessageNoCrashText = "that you experienced an error.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.";
+        private string _MessageCrashText =
+            "that Vocaluxe run into an error and crashed.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.";
+        private string _MessageNoCrashText =
+            "that you experienced an error.\r\nTo help us fix the problem please send us a report.\r\nEdit the following log before submitting to remove possibly sensitive information.";
         private string _NoUploadText = "Don\'t upload anything (you can still copy the error message above)";
         private string _GistAndIssueText = "Upload and open an issue (publicly visible + requires a github account)";
         private string _GistOnlyText = "Upload and get a link to your report (publicly visible)";
@@ -47,8 +49,6 @@ namespace Vocaluxe.Reporting
         private string _LastErrorNa = "Not available";
         private string _IssueTemplate = "Describe your issue here.\n\n### Steps to reproduce\nTell us how to reproduce this issue.\n\n### Vocaluxe version and logfile\n{0}\n{1}";
 
-
-
         private int _Step = 0;
         private readonly bool _Crash;
         private readonly string _VocaluxeVersionTag;
@@ -57,7 +57,6 @@ namespace Vocaluxe.Reporting
         private static readonly HttpClient _Client = new HttpClient();
         private static readonly Regex _GetGistUrlRegex = new Regex("\"html_url\": *\"([^\"]+)\"");
 
-        
         public static ShowReporterDelegate ShowReporterFunc
         {
             get { return _ShowReporter; }
@@ -141,7 +140,7 @@ namespace Vocaluxe.Reporting
             this.SubmitedTitleLabel.Text = _SubmitedMessageText;
             this.LastErrorTitleLabel.Text = _LastErrorTitleText;
             this.LastErrorBox.Text = string.IsNullOrWhiteSpace(lastError) ? _LastErrorNa : lastError;
-            this.LogBox.Text = log.Replace("\n","\r\n");
+            this.LogBox.Text = log.Replace("\n", "\r\n");
             this.LogBox.SelectionStart = 0;
         }
 
@@ -184,7 +183,6 @@ namespace Vocaluxe.Reporting
                             this.LogBox.Enabled = true;
                             this.LastErrorBox.Enabled = false;
                         }
-                            
                     }
 
                     break;
@@ -196,7 +194,7 @@ namespace Vocaluxe.Reporting
 
         private void NoUpload_CheckedChanged(object sender, EventArgs e)
         {
-            this.SubmitButton.Text = this.NoUploadSelect.Checked ? (_ShowContinue ? _SubmitStep2ContinueText : _SubmitStep2ExitText) : _SubmitStep0Text;
+            this.SubmitButton.Text = this.NoUploadSelect.Checked ? _ShowContinue ? _SubmitStep2ContinueText : _SubmitStep2ExitText : _SubmitStep0Text;
         }
 
         /// <summary>
@@ -215,7 +213,7 @@ namespace Vocaluxe.Reporting
                 this.SubmitButton.Text = _ShowContinue ? _SubmitStep2ContinueText : _SubmitStep2ExitText;
                 this.SubmitButton.Enabled = true;
                 this.SubmitedTitleLabel.Visible = true;
-                this.Url.Text = string.IsNullOrWhiteSpace(url)?_LogUploadErrorText:url;
+                this.Url.Text = string.IsNullOrWhiteSpace(url) ? _LogUploadErrorText : url;
                 this.Url.Visible = true;
                 this.Url.SelectAll();
                 this.Url.Focus();
@@ -227,7 +225,7 @@ namespace Vocaluxe.Reporting
         /// </summary>
         /// <param name="log">The log to upload.</param>
         /// <param name="lastError">The error message displayed to the user (if available).</param>
-        private async void _StartGistUpload(string log, string lastError= "not available")
+        private async void _StartGistUpload(string log, string lastError = "not available")
         {
             // Upload log to github gist and show the link
             _UploadFinished(await _UploadLogToGist(log, lastError));
@@ -241,13 +239,13 @@ namespace Vocaluxe.Reporting
         private async void _StartIssueUpload(string log, string lastError = "not available")
         {
             // Upload log to github gist
-            string gistUrl = await _UploadLogToGist(log, lastError);
+            var gistUrl = await _UploadLogToGist(log, lastError);
 
             // Build issue body
-            string template = string.Format(_IssueTemplate, _VocaluxeVersionTag, gistUrl);
+            var template = string.Format(_IssueTemplate, _VocaluxeVersionTag, gistUrl);
 
             // Build url for github issue template
-            string issueUrl = $"https://github.com/Vocaluxe/Vocaluxe/issues/new?title=Give%20me%20a%20meaningful%20title&body={ Uri.EscapeDataString(template) }";
+            var issueUrl = $"https://github.com/Vocaluxe/Vocaluxe/issues/new?title=Give%20me%20a%20meaningful%20title&body={Uri.EscapeDataString(template)}";
 
             // Show the link
             _UploadFinished(issueUrl);
@@ -262,24 +260,24 @@ namespace Vocaluxe.Reporting
         /// <param name="log">The log that should be uploaded.</param>
         /// <param name="lastError">The error message displayed to the user (if available).</param>
         /// <returns>The link to the uploaded file.</returns>
-        private async Task<string> _UploadLogToGist(string log, string lastError= "not available")
+        private async Task<string> _UploadLogToGist(string log, string lastError = "not available")
         {
-            string json = JsonConvert.SerializeObject(new CGistCreateData()
+            var json = JsonConvert.SerializeObject(new CGistCreateData
             {
-                Description = $"An { (_Crash ? "crash" : "error") } log submission for { _VocaluxeVersionTag }",
+                Description = $"An {(_Crash ? "crash" : "error")} log submission for {_VocaluxeVersionTag}",
                 Public = false,
-                Files = new Dictionary<string, CGistFileData>()
+                Files = new Dictionary<string, CGistFileData>
                 {
                     {
                         "Vocaluxe.log",
-                        new CGistFileData()
+                        new CGistFileData
                         {
                             Content = log
                         }
                     },
                     {
                         "LastError.txt",
-                        new CGistFileData()
+                        new CGistFileData
                         {
                             Content = lastError
                         }
@@ -288,7 +286,7 @@ namespace Vocaluxe.Reporting
             });
 
             var content = new StringContent(json, Encoding.UTF8, "application/json");
-            string responseString = "";
+            var responseString = "";
             try
             {
                 var response = await _Client.PostAsync("https://api.github.com/gists", content);
@@ -297,12 +295,12 @@ namespace Vocaluxe.Reporting
             }
             catch (HttpRequestException e)
             {
-                CLog.Error(e, "Couldn't upload log", show:true, propertyValues:CLog.Params(json));
+                CLog.Error(e, "Couldn't upload log", show: true, propertyValues: CLog.Params(json));
             }
 
-            return _GetGistUrlRegex.Match(responseString)?.Groups[1]?.Value??"";
+            return _GetGistUrlRegex.Match(responseString)?.Groups[1]?.Value ?? "";
         }
-        
+
         /// <summary>
         /// Helper class for gist creation.
         /// </summary>
@@ -314,7 +312,6 @@ namespace Vocaluxe.Reporting
             public bool Public { get; set; }
             [JsonProperty("files")]
             public Dictionary<string, CGistFileData> Files { get; set; }
-
         }
 
         /// <summary>

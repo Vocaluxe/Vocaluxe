@@ -16,9 +16,9 @@
 #endregion
 
 using System;
-using System.Threading;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Threading;
 using System.Windows.Forms;
 using OpenTK.Input;
 using Vocaluxe.Base;
@@ -79,7 +79,9 @@ namespace Vocaluxe.Lib.Input
         public override bool Init()
         {
             if (!base.Init())
+            {
                 return false;
+            }
 
             _rumbleTimer = new CRumbleTimer();
             _evTerminate = new AutoResetEvent(false);
@@ -97,10 +99,14 @@ namespace Vocaluxe.Lib.Input
         public override void Connect()
         {
             if (_active)
+            {
                 return;
+            }
 
             if (_evTerminate == null)
+            {
                 _evTerminate = new AutoResetEvent(false);
+            }
 
             if (_handlerThread == null)
             {
@@ -126,12 +132,16 @@ namespace Vocaluxe.Lib.Input
             _active = false;
 
             if (_evTerminate != null)
+            {
                 _evTerminate.Set();
+            }
 
             if (_handlerThread != null)
             {
                 if (!_handlerThread.Join(ThreadJoinTimeoutMs))
+                {
                     Debug.WriteLine("CGamePad: Handler thread did not terminate within timeout.");
+                }
 
                 _handlerThread = null;
             }
@@ -139,7 +149,9 @@ namespace Vocaluxe.Lib.Input
             try
             {
                 if (_GamePadIndex != -1)
+                {
                     GamePad.SetVibration(_GamePadIndex, 0.0f, 0.0f);
+                }
             }
             catch (Exception ex)
             {
@@ -167,7 +179,9 @@ namespace Vocaluxe.Lib.Input
             lock (_Sync)
             {
                 if (_rumbleTimer != null)
+                {
                     _rumbleTimer.Set(duration);
+                }
             }
         }
 
@@ -180,7 +194,9 @@ namespace Vocaluxe.Lib.Input
                     Thread.Sleep(PollSleepMs);
 
                     if (!_EnsureConnected())
+                    {
                         continue;
+                    }
 
                     try
                     {
@@ -202,13 +218,19 @@ namespace Vocaluxe.Lib.Input
         private bool _EnsureConnected()
         {
             if (Connected)
+            {
                 return true;
+            }
 
             if (_DoConnect())
+            {
                 return true;
+            }
 
             if (_evTerminate != null)
+            {
                 _evTerminate.WaitOne(ReconnectWaitMs);
+            }
 
             return false;
         }
@@ -224,16 +246,22 @@ namespace Vocaluxe.Lib.Input
                 stopRumble = _rumbleTimer != null && _rumbleTimer.ShouldStop;
             }
 
-            int currentIndex = _GamePadIndex;
+            var currentIndex = _GamePadIndex;
             if (currentIndex == -1)
+            {
                 return;
+            }
 
             if (startRumble)
+            {
                 GamePad.SetVibration(currentIndex, 1.0f, 1.0f);
+            }
             else if (stopRumble)
+            {
                 GamePad.SetVibration(currentIndex, 0.0f, 0.0f);
+            }
 
-            GamePadState state = GamePad.GetState(currentIndex);
+            var state = GamePad.GetState(currentIndex);
 
             if (!GamePad.GetCapabilities(currentIndex).IsConnected)
             {
@@ -261,7 +289,9 @@ namespace Vocaluxe.Lib.Input
         private static void _StopVibrationBestEffort(int gamePadIndex)
         {
             if (gamePadIndex == -1)
+            {
                 return;
+            }
 
             try
             {
@@ -275,17 +305,17 @@ namespace Vocaluxe.Lib.Input
 
         private void _HandleButtons(GamePadState buttonStates)
         {
-            bool leftClickTriggered =
-                (buttonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Pressed &&
-                 _oldButtonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Released);
+            var leftClickTriggered =
+                buttonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Pressed &&
+                _oldButtonStates.Buttons.LeftShoulder == OpenTK.Input.ButtonState.Released;
 
-            bool rightClickTriggered =
-                (buttonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Pressed &&
-                 _oldButtonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Released);
+            var rightClickTriggered =
+                buttonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Pressed &&
+                _oldButtonStates.Buttons.RightShoulder == OpenTK.Input.ButtonState.Released;
 
             leftClickTriggered |=
-                (buttonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Pressed &&
-                 _oldButtonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Released);
+                buttonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Pressed &&
+                _oldButtonStates.Buttons.RightStick == OpenTK.Input.ButtonState.Released;
 
             var keys = new List<Keys>();
 
@@ -380,7 +410,7 @@ namespace Vocaluxe.Lib.Input
                 keys.Add(Keys.Back);
             }
 
-            foreach (Keys key in keys)
+            foreach (var key in keys)
             {
                 AddKeyEvent(new SKeyEvent(
                     ESender.Gamepad,
@@ -392,16 +422,20 @@ namespace Vocaluxe.Lib.Input
                     key));
             }
 
-            float rightX = buttonStates.ThumbSticks.Right.X;
-            float rightY = buttonStates.ThumbSticks.Right.Y;
+            var rightX = buttonStates.ThumbSticks.Right.X;
+            var rightY = buttonStates.ThumbSticks.Right.Y;
 
             if (Math.Abs(rightX) < RightStickMouseDeadZone)
+            {
                 rightX = 0.0f;
+            }
 
             if (Math.Abs(rightY) < RightStickMouseDeadZone)
+            {
                 rightY = 0.0f;
+            }
 
-            bool hasMouseDelta =
+            var hasMouseDelta =
                 Math.Abs(rightX) > MouseAxisEpsilon ||
                 Math.Abs(rightY) > MouseAxisEpsilon;
 
@@ -414,7 +448,7 @@ namespace Vocaluxe.Lib.Input
             _mouseX = Math.Min(CSettings.RenderW, Math.Max(0.0f, _mouseX));
             _mouseY = Math.Min(CSettings.RenderH, Math.Max(0.0f, _mouseY));
 
-            bool mouseMoved =
+            var mouseMoved =
                 hasMouseDelta ||
                 leftClickTriggered ||
                 rightClickTriggered;
@@ -478,7 +512,7 @@ namespace Vocaluxe.Lib.Input
         {
             _GamePadIndex = -1;
 
-            for (int i = 0; i < MaxGamePads; i++)
+            for (var i = 0; i < MaxGamePads; i++)
             {
                 try
                 {
@@ -495,7 +529,9 @@ namespace Vocaluxe.Lib.Input
             }
 
             if (_GamePadIndex == -1)
+            {
                 return false;
+            }
 
             _oldButtonStates = new GamePadState();
             _ResetAllRepeatTimers();

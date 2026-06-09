@@ -45,8 +45,11 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit};
-            _ThemeSelectSlides = new string[] {_SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideTimerMode, _SelectSlideHighscoreStyle};
+            _ThemeButtons = new string[] { _ButtonExit };
+            _ThemeSelectSlides = new string[]
+            {
+                _SelectSlideLanguage, _SelectSlideDebugLevel, _SelectSlideSongMenu, _SelectSlideSongSorting, _SelectSlideTabs, _SelectSlideTimerMode, _SelectSlideHighscoreStyle
+            };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -91,6 +94,7 @@ namespace Vocaluxe.Screens
                             _SaveConfig();
                             CGraphics.FadeTo(EScreen.Options);
                         }
+
                         break;
 
                     case Keys.Left:
@@ -102,6 +106,7 @@ namespace Vocaluxe.Screens
                         break;
                 }
             }
+
             return true;
         }
 
@@ -120,12 +125,12 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreen.Options);
                 _SaveConfig();
             }
-            return true;
 
+            return true;
         }
 
         public override bool UpdateGame()
-        {                   
+        {
             return true;
         }
 

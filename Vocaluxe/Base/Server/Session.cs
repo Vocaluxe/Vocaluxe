@@ -21,37 +21,20 @@ namespace Vocaluxe.Base.Server
 {
     class CSession
     {
-        private readonly Guid _ID;
-        public Guid Id
-        {
-            get { return _ID; }
-        }
+        public Guid Id { get; }
 
-        private readonly Guid _ProfileId;
-        public Guid ProfileId
-        {
-            get { return _ProfileId; }
-        }
+        public Guid ProfileId { get; }
 
-        private readonly EUserRoles _Roles;
-        internal EUserRoles Roles
-        {
-            get { return _Roles; }
-        }
-       
-        private DateTime _LastSeen;
-        public DateTime LastSeen
-        {
-            get { return _LastSeen; }
-            internal set { _LastSeen = value; }
-        }
+        internal EUserRoles Roles { get; }
+
+        public DateTime LastSeen { get; internal set; }
 
         public CSession(Guid id, Guid profileId, EUserRoles roles)
         {
-            _ID = id;
-            _ProfileId = profileId;
-            _Roles = roles;
-            _LastSeen = DateTime.Now;
+            Id = id;
+            ProfileId = profileId;
+            Roles = roles;
+            LastSeen = DateTime.Now;
         }
     }
 }
