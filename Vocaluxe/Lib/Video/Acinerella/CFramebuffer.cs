@@ -44,22 +44,18 @@ namespace Vocaluxe.Lib.Video.Acinerella
         }
 
         private readonly CFrame[] _Frames;
-        private readonly int _Size;
         private int _DataSize;
         private int _Last;
         private int _First;
         private int _Next;
         private bool _Initialized;
 
-        public int Size
-        {
-            get { return _Size; }
-        }
+        public int Size { get; }
 
         // Constructs a framebuffer with max. size frames
         public CFramebuffer(int size)
         {
-            _Size = size;
+            Size = size;
             _Frames = new CFrame[size];
         }
 
@@ -68,15 +64,18 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public void Init(int dataSize)
         {
             _DataSize = dataSize;
-            for (int i = 0; i < _Size; i++)
+            for (var i = 0; i < Size; i++)
+            {
                 _Frames[i] = new CFrame(this, i, dataSize);
+            }
+
             _Initialized = true;
         }
 
         private int _GetNextIndex(int current)
         {
             current++;
-            return (current < _Size) ? current : 0;
+            return current < Size ? current : 0;
         }
 
         public bool IsFull()
@@ -93,8 +92,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public bool Put(IntPtr data, float time)
         {
             if (!_Initialized || IsFull())
+            {
                 return false;
-            CFrame frame = _Frames[_Last];
+            }
+
+            var frame = _Frames[_Last];
             Marshal.Copy(data, frame.Data, 0, _DataSize);
             frame.Time = time;
             return true;
@@ -118,8 +120,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public CFrame Pop()
         {
             if (_Next == _Last)
+            {
                 return null;
-            CFrame res = _Frames[_Next];
+            }
+
+            var res = _Frames[_Next];
             _Next = _GetNextIndex(_Next);
             return res;
         }
@@ -127,7 +132,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private void _SetRead(int index)
         {
             if ((_First <= index && (index < _Next || _Next < _First)) || (_Next < _First && index < _Next))
+            {
                 _First = _GetNextIndex(index);
+            }
         }
 
         //Only call from reader thread

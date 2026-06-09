@@ -19,7 +19,6 @@ using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes
 {
-
     #region Structs
     public struct SScreenSongOptions
     {
@@ -34,7 +33,7 @@ namespace VocaluxeLib.PartyModes
         public EOffOn IgnoreArticles;
         public string SearchString;
         public bool SearchActive;
-        public int FilterPlaylistID; //show only songs that are in this playlist, -1 for all songs
+        public int FilterPlaylistId; //show only songs that are in this playlist, -1 for all songs
         public EDuetOptions DuetOptions;
     }
 
@@ -87,7 +86,7 @@ namespace VocaluxeLib.PartyModes
 
     public interface IPartyModeInfo
     {
-        int ID { get; }
+        int Id { get; }
         int MinMics { get; }
         int MaxMics { get; }
         int MinPlayers { get; }
@@ -124,7 +123,7 @@ namespace VocaluxeLib.PartyModes
         void SetSearchString(string searchString, bool visible);
 
         void JokerUsed(int teamNr);
-        void SongSelected(int songID);
+        void SongSelected(int songId);
         void FinishedSinging();
         void LeavingScore();
         void LeavingHighscore();

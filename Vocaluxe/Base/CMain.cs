@@ -19,16 +19,15 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
-using VocaluxeLib.Game;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Game;
 using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Songs;
 using VocaluxeLib.Profile;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Base
 {
@@ -56,7 +55,7 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             CBase.Assign(_Config, _Settings, _Themes, _BackgroundMusic, _Draw, _Graphics, _Fonts, _Language,
-                         _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist);
+                _Game, _Profiles, _Record, _Songs, _Video, _Sound, _Cover, _DataBase, _Controller, _Playlist);
         }
     }
 
@@ -293,24 +292,24 @@ namespace Vocaluxe.Base
 
     class CBtheme : IThemes
     {
-        public string GetThemeScreensPath(int partyModeID)
+        public string GetThemeScreensPath(int partyModeId)
         {
-            return CThemes.GetThemeScreensPath(partyModeID);
+            return CThemes.GetThemeScreensPath(partyModeId);
         }
 
-        public CTextureRef GetSkinTexture(string textureName, int partyModeID)
+        public CTextureRef GetSkinTexture(string textureName, int partyModeId)
         {
-            return CThemes.GetSkinTexture(textureName, partyModeID);
+            return CThemes.GetSkinTexture(textureName, partyModeId);
         }
 
-        public CVideoStream GetSkinVideo(string videoName, int partyModeID, bool loop)
+        public CVideoStream GetSkinVideo(string videoName, int partyModeId, bool loop)
         {
-            return CThemes.GetSkinVideo(videoName, partyModeID, loop);
+            return CThemes.GetSkinVideo(videoName, partyModeId, loop);
         }
 
-        public bool GetColor(string colorName, int partyModeID, out SColorF color)
+        public bool GetColor(string colorName, int partyModeId, out SColorF color)
         {
-            return CThemes.GetColor(colorName, partyModeID, out color);
+            return CThemes.GetColor(colorName, partyModeId, out color);
         }
 
         public SColorF GetPlayerColor(int playerNr)
@@ -538,9 +537,9 @@ namespace Vocaluxe.Base
             return CLanguage.Translate(keyWord);
         }
 
-        public string Translate(string keyWord, int partyModeID)
+        public string Translate(string keyWord, int partyModeId)
         {
-            return CLanguage.Translate(keyWord, partyModeID);
+            return CLanguage.Translate(keyWord, partyModeId);
         }
 
         public bool TranslationExists(string keyWord)
@@ -606,9 +605,9 @@ namespace Vocaluxe.Base
             return CGame.GetBeatFromTime(time, bpm, gap);
         }
 
-        public void AddSong(int songID, EGameMode gameMode)
+        public void AddSong(int songId, EGameMode gameMode)
         {
-            CGame.AddSong(songID, gameMode);
+            CGame.AddSong(songId, gameMode);
         }
 
         public void Reset()
@@ -649,19 +648,19 @@ namespace Vocaluxe.Base
             return CProfiles.NumProfiles;
         }
 
-        public EGameDifficulty GetDifficulty(Guid profileID)
+        public EGameDifficulty GetDifficulty(Guid profileId)
         {
-            return CProfiles.GetDifficulty(profileID);
+            return CProfiles.GetDifficulty(profileId);
         }
 
-        public string GetPlayerName(Guid profileID, int playerNum = 0)
+        public string GetPlayerName(Guid profileId, int playerNum = 0)
         {
-            return CProfiles.GetPlayerName(profileID, playerNum);
+            return CProfiles.GetPlayerName(profileId, playerNum);
         }
 
-        public CTextureRef GetAvatar(Guid profileID)
+        public CTextureRef GetAvatar(Guid profileId)
         {
-            return CProfiles.GetAvatarTextureFromProfile(profileID);
+            return CProfiles.GetAvatarTextureFromProfile(profileId);
         }
 
         public CAvatar GetAvatarByFilename(string fileName)
@@ -669,14 +668,14 @@ namespace Vocaluxe.Base
             return CProfiles.GetAvatarByFilename(fileName);
         }
 
-        public bool IsProfileIDValid(Guid profileID)
+        public bool IsProfileIdValid(Guid profileId)
         {
-            return CProfiles.IsProfileIDValid(profileID);
+            return CProfiles.IsProfileIdValid(profileId);
         }
 
-        public bool IsGuest(Guid profileID)
+        public bool IsGuest(Guid profileId)
         {
-            return CProfiles.IsGuestProfile(profileID);
+            return CProfiles.IsGuestProfile(profileId);
         }
 
         public void AddProfileChangedCallback(ProfileChangedCallback notification)
@@ -780,9 +779,9 @@ namespace Vocaluxe.Base
             return CSongs.GetVisibleSongByIndex(visibleIndex);
         }
 
-        public CSong GetSongByID(int songID)
+        public CSong GetSongById(int songId)
         {
-            return CSongs.GetSong(songID);
+            return CSongs.GetSong(songId);
         }
 
         public ReadOnlyCollection<CSong> GetSongs()
@@ -800,9 +799,9 @@ namespace Vocaluxe.Base
             return CSongs.GetCategoryByIndex(index);
         }
 
-        public void AddPartySongSung(int songID)
+        public void AddPartySongSung(int songId)
         {
-            CSongs.AddPartySongSung(songID);
+            CSongs.AddPartySongSung(songId);
         }
 
         public void ResetSongSung()
@@ -815,9 +814,9 @@ namespace Vocaluxe.Base
             CSongs.ResetPartySongSung(catIndex);
         }
 
-        public void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistID)
+        public void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistId)
         {
-            CSongs.Sort(sorting, tabs, ignoreArticles, searchString, duetOptions, playlistID);
+            CSongs.Sort(sorting, tabs, ignoreArticles, searchString, duetOptions, playlistId);
         }
 
         public void NextCategory()
@@ -833,9 +832,9 @@ namespace Vocaluxe.Base
 
     class CBvideo : IVideo
     {
-        public CVideoStream Load(string videoFileName)
+        public CVideoStream Load(string videoUri)
         {
-            return CVideo.Load(videoFileName);
+            return CVideo.Load(videoUri);
         }
 
         public bool Skip(CVideoStream stream, float startPosition, float videoGap)
@@ -897,9 +896,9 @@ namespace Vocaluxe.Base
 
     class CBsound : ISound
     {
-        public int Load(string soundFile, bool loop = false, bool prescan = false)
+        public int Load(string uri, bool loop = false, bool prescan = false)
         {
-            return CSound.Load(soundFile, loop, prescan);
+            return CSound.Load(uri, loop, prescan);
         }
 
         public void SetPosition(int soundStream, float newPosition)
@@ -947,9 +946,9 @@ namespace Vocaluxe.Base
             CSound.SetGlobalVolume(volume);
         }
 
-        public bool IsPaused(int streamID)
+        public bool IsPaused(int streamId)
         {
-            return CSound.IsPaused(streamID);
+            return CSound.IsPaused(streamId);
         }
     }
 
@@ -973,9 +972,9 @@ namespace Vocaluxe.Base
             return CDataBase.GetCover(fileName, ref texture, coverSize);
         }
 
-        public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID)
+        public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreId)
         {
-            return CDataBase.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreID);
+            return CDataBase.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreId);
         }
     }
 
@@ -989,9 +988,9 @@ namespace Vocaluxe.Base
 
     class CBplaylist : IPlaylist
     {
-        public void SetName(int playlistID, string name)
+        public void SetName(int playlistId, string name)
         {
-            CPlaylists.SetName(playlistID, name);
+            CPlaylists.SetName(playlistId, name);
         }
 
         public List<int> GetIds()
@@ -1004,24 +1003,24 @@ namespace Vocaluxe.Base
             return CPlaylists.Names;
         }
 
-        public bool Exists(int playlistID)
+        public bool Exists(int playlistId)
         {
-            return CPlaylists.Get(playlistID) != null;
+            return CPlaylists.Get(playlistId) != null;
         }
 
-        public string GetName(int playlistID)
+        public string GetName(int playlistId)
         {
-            return CPlaylists.GetName(playlistID);
+            return CPlaylists.GetName(playlistId);
         }
 
-        public void Delete(int playlistID)
+        public void Delete(int playlistId)
         {
-            CPlaylists.Delete(playlistID);
+            CPlaylists.Delete(playlistId);
         }
 
-        public void Save(int playlistID)
+        public void Save(int playlistId)
         {
-            CPlaylists.Save(playlistID);
+            CPlaylists.Save(playlistId);
         }
 
         public int GetNumPlaylists()
@@ -1029,54 +1028,54 @@ namespace Vocaluxe.Base
             return CPlaylists.NumPlaylists;
         }
 
-        public void AddSong(int playlistID, int songID)
+        public void AddSong(int playlistId, int songId)
         {
-            CPlaylists.AddSong(playlistID, songID);
+            CPlaylists.AddSong(playlistId, songId);
         }
 
-        public void AddSong(int playlistID, int songID, EGameMode gameMode)
+        public void AddSong(int playlistId, int songId, EGameMode gameMode)
         {
-            CPlaylists.AddSong(playlistID, songID, gameMode);
+            CPlaylists.AddSong(playlistId, songId, gameMode);
         }
 
-        public void InsertSong(int playlistID, int positionIndex, int songID, EGameMode gameMode)
+        public void InsertSong(int playlistId, int positionIndex, int songId, EGameMode gameMode)
         {
-            CPlaylists.InsertSong(playlistID, positionIndex, songID, gameMode);
+            CPlaylists.InsertSong(playlistId, positionIndex, songId, gameMode);
         }
 
-        public void MoveSong(int playlistID, int sourceIndex, int destIndex)
+        public void MoveSong(int playlistId, int sourceIndex, int destIndex)
         {
-            CPlaylists.MoveSong(playlistID, sourceIndex, destIndex);
+            CPlaylists.MoveSong(playlistId, sourceIndex, destIndex);
         }
 
-        public void MoveSongDown(int playlistID, int songIndex)
+        public void MoveSongDown(int playlistId, int songIndex)
         {
-            CPlaylists.MovePSongDown(playlistID, songIndex);
+            CPlaylists.MovePSongDown(playlistId, songIndex);
         }
 
-        public void MoveSongUp(int playlistID, int songIndex)
+        public void MoveSongUp(int playlistId, int songIndex)
         {
-            CPlaylists.MoveSongUp(playlistID, songIndex);
+            CPlaylists.MoveSongUp(playlistId, songIndex);
         }
 
-        public void DeleteSong(int playlistID, int songIndex)
+        public void DeleteSong(int playlistId, int songIndex)
         {
-            CPlaylists.DeleteSong(playlistID, songIndex);
+            CPlaylists.DeleteSong(playlistId, songIndex);
         }
 
-        public int GetSongCount(int playlistID)
+        public int GetSongCount(int playlistId)
         {
-            return CPlaylists.GetSongCount(playlistID);
+            return CPlaylists.GetSongCount(playlistId);
         }
 
-        public CPlaylistSong GetSong(int playlistID, int songIndex)
+        public CPlaylistSong GetSong(int playlistId, int songIndex)
         {
-            return CPlaylists.GetSong(playlistID, songIndex);
+            return CPlaylists.GetSong(playlistId, songIndex);
         }
 
-        public bool ContainsSong(int playlistID, int songID)
+        public bool ContainsSong(int playlistId, int songId)
         {
-            return CPlaylists.ContainsSong(playlistID, songID);
+            return CPlaylists.ContainsSong(playlistId, songId);
         }
     }
 }

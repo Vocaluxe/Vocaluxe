@@ -47,10 +47,15 @@ namespace VocaluxeLib
             set
             {
                 if (_Name == value)
+                {
                     return;
+                }
+
                 _Name = value;
-                foreach (IFontObserver observer in _Observers)
+                foreach (var observer in _Observers)
+                {
                     observer.FontChanged();
+                }
             }
         }
         public EStyle Style
@@ -59,10 +64,15 @@ namespace VocaluxeLib
             set
             {
                 if (_Style == value)
+                {
                     return;
+                }
+
                 _Style = value;
-                foreach (IFontObserver observer in _Observers)
+                foreach (var observer in _Observers)
+                {
                     observer.FontChanged();
+                }
             }
         }
         public float Height
@@ -71,10 +81,15 @@ namespace VocaluxeLib
             set
             {
                 if (Math.Abs(_Height - value) < 0.001)
+                {
                     return;
+                }
+
                 _Height = value;
-                foreach (IFontObserver observer in _Observers)
+                foreach (var observer in _Observers)
+                {
                     observer.FontChanged();
+                }
             }
         }
 
@@ -109,7 +124,9 @@ namespace VocaluxeLib
         public void AddObserver(IFontObserver observer)
         {
             if (!_Observers.Contains(observer))
+            {
                 _Observers.Add(observer);
+            }
         }
 
         public void RemoveObserver(IFontObserver observer)

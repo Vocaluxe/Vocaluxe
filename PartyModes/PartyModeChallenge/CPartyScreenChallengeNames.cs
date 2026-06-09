@@ -23,7 +23,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 {
     // ReSharper disable UnusedMember.Global
     public class CPartyScreenChallengeNames : CMenuPartyNameSelection
-        // ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -45,24 +45,32 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             base.OnShow();
             SetPartyModeData(_PartyMode.GameData.NumPlayer);
-            while (_PartyMode.GameData.ProfileIDs.Count > _NumPlayer)
-                _PartyMode.GameData.ProfileIDs.RemoveAt(_PartyMode.GameData.ProfileIDs.Count - 1);
+            while (_PartyMode.GameData.ProfileIds.Count > _NumPlayer)
+            {
+                _PartyMode.GameData.ProfileIds.RemoveAt(_PartyMode.GameData.ProfileIds.Count - 1);
+            }
 
-            List<Guid>[] ids = new List<Guid>[] {_PartyMode.GameData.ProfileIDs};
+            var ids = new List<Guid>[] { _PartyMode.GameData.ProfileIds };
             SetPartyModeProfiles(ids);
         }
 
         public override void Back()
         {
             if (_TeamList.Length == 1)
-                _PartyMode.GameData.ProfileIDs = _TeamList[0];
+            {
+                _PartyMode.GameData.ProfileIds = _TeamList[0];
+            }
+
             _PartyMode.Back();
         }
 
         public override void Next()
         {
             if (_TeamList.Length == 1)
-                _PartyMode.GameData.ProfileIDs = _TeamList[0];
+            {
+                _PartyMode.GameData.ProfileIds = _TeamList[0];
+            }
+
             _PartyMode.Next();
         }
     }

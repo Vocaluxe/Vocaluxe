@@ -16,15 +16,14 @@
 #endregion
 
 using System.Collections.Generic;
-using VocaluxeLib.Draw;
 using System.Linq;
+using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Songs
 {
     public class CCategory
     {
         public readonly string Name;
-        private CTextureRef _CoverTextureSmall;
         private CTextureRef _CoverTextureBig;
         public readonly List<CSongPointer> Songs = new List<CSongPointer>();
 
@@ -33,20 +32,18 @@ namespace VocaluxeLib.Songs
             Name = name;
         }
 
-        public CTextureRef CoverTextureSmall
-        {
-            get { return _CoverTextureSmall; }
-
-            set { _CoverTextureSmall = value; }
-        }
+        public CTextureRef CoverTextureSmall { get; set; }
 
         public CTextureRef CoverTextureBig
         {
-            get { return _CoverTextureBig ?? _CoverTextureSmall; }
+            get { return _CoverTextureBig ?? CoverTextureSmall; }
             set
             {
                 if (value == null)
+                {
                     return;
+                }
+
                 _CoverTextureBig = value;
             }
         }
@@ -59,7 +56,10 @@ namespace VocaluxeLib.Songs
         public CSong GetSong(int numInCategory)
         {
             if (numInCategory >= 0 && numInCategory < Songs.Count)
-                return CBase.Songs.GetSongByID(Songs[numInCategory].SongID);
+            {
+                return CBase.Songs.GetSongById(Songs[numInCategory].SongId);
+            }
+
             return null;
         }
     }

@@ -68,7 +68,7 @@ namespace VocaluxeLib.PartyModes
             _ScreenSongOptions.Sorting.SearchString = String.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.All;
-            _ScreenSongOptions.Sorting.FilterPlaylistID = -1;
+            _ScreenSongOptions.Sorting.FilterPlaylistId = -1;
         }
 
         public override bool Init()
@@ -76,7 +76,7 @@ namespace VocaluxeLib.PartyModes
             return true;
         }
 
-        public override void UpdateGame() {}
+        public override void UpdateGame() { }
 
         public override IMenu GetStartScreen()
         {
@@ -89,16 +89,18 @@ namespace VocaluxeLib.PartyModes
             _ScreenSongOptions.Sorting.Tabs = CBase.Config.GetTabs();
 
             if (_ScreenSongOptions.Sorting.SearchActive)
+            {
                 _ScreenSongOptions.Sorting.Tabs = EOffOn.TR_CONFIG_OFF;
+            }
 
             _ScreenSongOptions.Sorting.IgnoreArticles = CBase.Config.GetIgnoreArticles();
 
             return _ScreenSongOptions;
         }
 
-        public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions) {}
+        public override void OnSongChange(int songIndex, ref SScreenSongOptions screenSongOptions) { }
 
-        public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions) {}
+        public override void OnCategoryChange(int categoryIndex, ref SScreenSongOptions screenSongOptions) { }
 
         public override void SetSearchString(string searchString, bool visible)
         {
@@ -106,7 +108,7 @@ namespace VocaluxeLib.PartyModes
             _ScreenSongOptions.Sorting.SearchActive = visible;
         }
 
-        public override void SongSelected(int songID)
+        public override void SongSelected(int songId)
         {
             CBase.Graphics.FadeTo(EScreen.Sing);
         }

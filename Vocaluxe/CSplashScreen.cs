@@ -30,7 +30,7 @@ namespace Vocaluxe
 
         public CSplashScreen()
         {
-            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameLogo);
+            var path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameLogo);
             if (File.Exists(path))
             {
                 try
@@ -44,7 +44,9 @@ namespace Vocaluxe
                 }
             }
             else
+            {
                 CLog.Error("Can't find " + path);
+            }
 
             path = Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon);
             if (File.Exists(path))
@@ -59,7 +61,9 @@ namespace Vocaluxe
                 }
             }
             else
+            {
                 CLog.Error("Can't find " + path);
+            }
 
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             BackColor = Color.Transparent;
@@ -82,14 +86,16 @@ namespace Vocaluxe
             set { base.BackColor = value; }
         }
 
-        protected override void OnPaint(PaintEventArgs e) {}
+        protected override void OnPaint(PaintEventArgs e) { }
 
         protected override void OnPaintBackground(PaintEventArgs e)
         {
             if (_Logo == null)
+            {
                 return;
+            }
 
-            Graphics g = e.Graphics;
+            var g = e.Graphics;
             g.DrawImage(_Logo, new Rectangle(0, 0, Width, Height));
         }
     }

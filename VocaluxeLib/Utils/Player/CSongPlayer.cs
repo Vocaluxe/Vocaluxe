@@ -35,18 +35,25 @@ namespace VocaluxeLib.Utils.Player
             set
             {
                 if (_VideoEnabled == value)
+                {
                     return;
+                }
+
                 _VideoEnabled = value;
                 if (_VideoEnabled)
+                {
                     _LoadVideo();
+                }
                 else
+                {
                     _CloseVideo();
+                }
             }
         }
 
-        public int SongID
+        public int SongId
         {
-            get { return _Song == null ? -1 : _Song.ID; }
+            get { return _Song == null ? -1 : _Song.Id; }
         }
 
         public bool SongHasVideo
@@ -63,7 +70,10 @@ namespace VocaluxeLib.Utils.Player
             get
             {
                 if (_Song != null && !String.IsNullOrEmpty(_Song.Artist) && !String.IsNullOrEmpty(_Song.Title))
+                {
                     return _Song.Artist + " - " + _Song.Title;
+                }
+
                 return base.ArtistAndTitle;
             }
         }
@@ -73,30 +83,39 @@ namespace VocaluxeLib.Utils.Player
             get { return _Song == null ? CBase.Cover.GetNoCover() : _Song.CoverTextureBig; }
         }
 
-        public CSongPlayer(bool loop = false) : base(loop) {}
+        public CSongPlayer(bool loop = false) : base(loop) { }
 
         public CTextureRef GetVideoTexture()
         {
             if (_Video == null || _Song == null)
+            {
                 return null;
-            if (CBase.Video.GetFrame(_Video, CBase.Sound.GetPosition(_StreamID)))
+            }
+
+            if (CBase.Video.GetFrame(_Video, CBase.Sound.GetPosition(_StreamId)))
             {
                 if (_VideoFading != null)
                 {
                     bool finished;
                     _Video.Texture.Color.A = _VideoFading.GetValue(out finished);
                     if (finished)
+                    {
                         _VideoFading = null;
+                    }
                 }
+
                 return _Video.Texture;
             }
+
             return null;
         }
 
         public void Load(CSong song, float position = 0f, bool autoplay = false)
         {
             if (song == null)
+            {
                 throw new ArgumentNullException("song");
+            }
 
             Load(song.GetMP3(), position, autoplay);
             _Song = song;
@@ -106,15 +125,21 @@ namespace VocaluxeLib.Utils.Player
         private void _LoadVideo()
         {
             if (_Song == null)
+            {
                 return;
+            }
 
             if (_Video != null || !SongHasVideo)
+            {
                 return;
+            }
 
-            string videoFilePath = Path.Combine(_Song.Folder, _Song.VideoFileName);
+            var videoFilePath = Path.Combine(_Song.Folder, _Song.VideoFileName);
             _Video = CBase.Video.Load(videoFilePath);
             if (_Video == null)
+            {
                 return;
+            }
 
             _VideoFading = new CFading(0f, 1f, 3f);
 
@@ -124,48 +149,64 @@ namespace VocaluxeLib.Utils.Player
                 CBase.Video.Resume(_Video);
             }
             else
+            {
                 CBase.Video.Skip(_Video, 0f, _Song.VideoGap);
+            }
         }
 
         public override bool Play()
         {
             if (!base.Play())
+            {
                 return false;
+            }
 
             if (_Video != null)
             {
                 CBase.Video.Skip(_Video, Position, _Song.VideoGap);
                 CBase.Video.Resume(_Video);
             }
+
             return true;
         }
 
         public override bool Pause()
         {
             if (!base.Pause())
+            {
                 return false;
+            }
 
             if (_Video != null)
+            {
                 CBase.Video.Pause(_Video);
+            }
+
             return true;
         }
 
         public override bool Stop()
         {
             if (!base.Stop())
+            {
                 return false;
+            }
+
             if (_Video != null)
             {
                 CBase.Video.Pause(_Video);
                 CBase.Video.Skip(_Video, 0f, _Song.VideoGap);
             }
+
             return true;
         }
 
         private void _CloseVideo()
         {
             if (_Video != null)
+            {
                 CBase.Video.Close(ref _Video);
+            }
         }
 
         public override void Close()

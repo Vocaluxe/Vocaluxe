@@ -26,185 +26,185 @@ namespace Vocaluxe.Base.Server
     public interface ICWebservice
     {
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/sendKeyEvent?key={key}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/sendKeyEvent?key={key}")]
         void SendKeyEvent(string key);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/sendKeyStringEvent?keyString={keyString}&shift={isShiftPressed}&alt={isAltPressed}&ctrl={isCtrlPressed}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/sendKeyStringEvent?keyString={keyString}&shift={isShiftPressed}&alt={isAltPressed}&ctrl={isCtrlPressed}")]
         void SendKeyStringEvent(string keyString, bool isShiftPressed = false, bool isAltPressed = false, bool isCtrlPressed = false);
 
         #region profile
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getOwnProfileId")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getOwnProfileId")]
         Guid GetOwnProfileId();
 
         [OperationContract, WebInvoke(Method = "POST",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/sendProfile")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/sendProfile")]
         void SendProfile(SProfileData profile);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getProfile?profileId={profileId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getProfile?profileId={profileId}")]
         SProfileData GetProfile(Guid profileId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getProfileList")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getProfileList")]
         SProfileData[] GetProfileList();
         #endregion
 
         #region photo
         [OperationContract, WebInvoke(Method = "POST",
-            RequestFormat = WebMessageFormat.Json,
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/sendPhoto")]
+             RequestFormat = WebMessageFormat.Json,
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/sendPhoto")]
         void SendPhoto(SPhotoData photo);
         #endregion
 
         #region website
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/login?username={username}&password={password}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/login?username={username}&password={password}")]
         Guid Login(string username, string password);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/logout")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/logout")]
         void Logout();
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "")]
         Stream Index();
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/js/{filename}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/js/{filename}")]
         Stream GetJsFile(String filename);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/css/{filename}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/css/{filename}")]
         Stream GetCssFile(String filename);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/css/images/{filename}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/css/images/{filename}")]
         Stream GetCssImageFile(String filename);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/img/{filename}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/img/{filename}")]
         Stream GetImgFile(String filename);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/locales/{filename}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/locales/{filename}")]
         Stream GetLocaleFile(String filename);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/delayedImage?id={id}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/delayedImage?id={id}")]
         CBase64Image GetDelayedImage(String id);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/isServerOnline")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/isServerOnline")]
         bool IsServerOnline();
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getServerVersion")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getServerVersion")]
         String GetServerVersion();
         #endregion
 
         #region songs
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getSong?songId={songId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getSong?songId={songId}")]
         SSongInfo GetSong(int songId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getCurrentSongId")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getCurrentSongId")]
         int GetCurrentSongId();
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getAllSongs")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getAllSongs")]
         SSongInfo[] GetAllSongs();
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getMp3?songId={songId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getMp3?songId={songId}")]
         Stream GetMp3File(int songId);
         #endregion
 
         #region playlist
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getPlaylists")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getPlaylists")]
         SPlaylistData[] GetPlaylists();
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getPlaylist?id={playlistId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getPlaylist?id={playlistId}")]
         SPlaylistData GetPlaylist(int playlistId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/addSongToPlaylist?songId={songId}&playlistId={playlistId}&duplicates={allowDuplicates}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/addSongToPlaylist?songId={songId}&playlistId={playlistId}&duplicates={allowDuplicates}")]
         void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/removeSongFromPlaylist?position={position}&playlistId={playlistId}&songId={songId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/removeSongFromPlaylist?position={position}&playlistId={playlistId}&songId={songId}")]
         void RemoveSongFromPlaylist(int position, int playlistId, int songId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/moveSongInPlaylist?newPosition={newPosition}&playlistId={playlistId}&songId={songId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/moveSongInPlaylist?newPosition={newPosition}&playlistId={playlistId}&songId={songId}")]
         void MoveSongInPlaylist(int newPosition, int playlistId, int songId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/playlistContainsSong?songId={songId}&playlistId={playlistId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/playlistContainsSong?songId={songId}&playlistId={playlistId}")]
         bool PlaylistContainsSong(int songId, int playlistId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getPlaylistSongs?playlistId={playlistId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getPlaylistSongs?playlistId={playlistId}")]
         SPlaylistSongInfo[] GetPlaylistSongs(int playlistId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/removePlaylist?playlistId={playlistId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/removePlaylist?playlistId={playlistId}")]
         void RemovePlaylist(int playlistId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/addPlaylist?playlistName={playlistName}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/addPlaylist?playlistName={playlistName}")]
         int AddPlaylist(string playlistName);
         #endregion
 
         #region user management
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/getUserRole?profileId={profileId}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/getUserRole?profileId={profileId}")]
         int GetUserRole(Guid profileId);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/setUserRole?profileId={profileId}&userRole={userRole}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/setUserRole?profileId={profileId}&userRole={userRole}")]
         void SetUserRole(Guid profileId, int userRole);
 
         [OperationContract, WebInvoke(Method = "GET",
-            ResponseFormat = WebMessageFormat.Json,
-            UriTemplate = "/hasUserRight?right={right}")]
+             ResponseFormat = WebMessageFormat.Json,
+             UriTemplate = "/hasUserRight?right={right}")]
         bool HasUserRight(int right);
         #endregion
     }

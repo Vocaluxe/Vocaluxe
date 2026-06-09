@@ -41,9 +41,15 @@ namespace VocaluxeLib
         {
             Debug.Assert(min.CompareTo(max) <= 0);
             if (val.CompareTo(min) < 0)
+            {
                 return min;
+            }
+
             if (val.CompareTo(max) > 0)
+            {
                 return max;
+            }
+
             return val;
         }
 
@@ -61,10 +67,15 @@ namespace VocaluxeLib
             if (min.CompareTo(max) > 0)
             {
                 if (preferMin)
+                {
                     max = min;
+                }
                 else
+                {
                     min = max;
+                }
             }
+
             return Clamp(val, min, max);
         }
 
@@ -91,11 +102,15 @@ namespace VocaluxeLib
         /// <param name="defaultValue"></param>
         public static void Resize<T>(this List<T> list, int size, T defaultValue = default(T))
         {
-            int curSize = list.Count;
+            var curSize = list.Count;
             if (size < curSize)
+            {
                 list.RemoveRange(size, curSize - size);
+            }
             else if (size > curSize)
+            {
                 list.AddRange(Enumerable.Repeat(defaultValue, size - curSize));
+            }
         }
 
         /// <summary>
@@ -107,9 +122,11 @@ namespace VocaluxeLib
         /// <param name="defaultValue"></param>
         public static void EnsureSize<T>(this List<T> list, int size, T defaultValue)
         {
-            int curSize = list.Count;
+            var curSize = list.Count;
             if (size > curSize)
+            {
                 list.AddRange(Enumerable.Repeat(defaultValue, size - curSize));
+            }
         }
 
         /// <summary>
@@ -121,7 +138,9 @@ namespace VocaluxeLib
         public static void EnsureSize<T>(this List<T> list, int size) where T : new()
         {
             if (size > list.Count)
+            {
                 list.Add(new T());
+            }
         }
 
         /// <summary>
@@ -132,15 +151,19 @@ namespace VocaluxeLib
         public static IEnumerable<int> GetSetBits(this int value)
         {
             var result = new List<int>();
-            int curBit = 0;
+            var curBit = 0;
             //Evaluate as bitset
             while (value > 0)
             {
                 if ((value & 1) != 0)
+                {
                     result.Add(curBit);
+                }
+
                 value >>= 1;
                 curBit++;
             }
+
             return result;
         }
 
@@ -154,7 +177,10 @@ namespace VocaluxeLib
         public static string TrimMultipleWs(this string value)
         {
             if (string.IsNullOrEmpty(value))
+            {
                 return "";
+            }
+
             return _MultipleWhiteSpaceRegEx.Replace(value, " ");
         }
 
@@ -180,13 +206,14 @@ namespace VocaluxeLib
 
         public static List<T> Shuffle<T>(this List<T> list)
         {
-            for (int n = list.Count - 1; n >= 1; n--)
+            for (var n = list.Count - 1; n >= 1; n--)
             {
-                int k = CBase.Game.GetRandom(n);
-                T value = list[k];
+                var k = CBase.Game.GetRandom(n);
+                var value = list[k];
                 list[k] = list[n];
                 list[n] = value;
             }
+
             return list;
         }
 
@@ -214,7 +241,7 @@ namespace VocaluxeLib
                 //Create a new Bitmap with the new sizes
                 result = new Bitmap(newSize.Width, newSize.Height);
                 //Scale the texture
-                using (Graphics g = Graphics.FromImage(result))
+                using (var g = Graphics.FromImage(result))
                 {
                     g.InterpolationMode = InterpolationMode.HighQualityBicubic;
                     g.SmoothingMode = SmoothingMode.HighQuality;
@@ -229,6 +256,7 @@ namespace VocaluxeLib
                     result = null;
                 }
             }
+
             return result;
         }
     }

@@ -15,10 +15,10 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Vocaluxe.Base;
-using System;
 
 namespace Vocaluxe.Lib.Sound.Record
 {
@@ -39,12 +39,16 @@ namespace Vocaluxe.Lib.Sound.Record
         public virtual bool Init()
         {
             if (_Initialized)
+            {
                 return false;
+            }
 
             _Devices = new List<CRecordDevice>();
             _Buffer = new CBuffer[CSettings.MaxNumPlayer];
-            for (int i = 0; i < _Buffer.Length; i++)
+            for (var i = 0; i < _Buffer.Length; i++)
+            {
                 _Buffer[i] = new CBuffer();
+            }
 
             _Initialized = true;
 
@@ -57,13 +61,18 @@ namespace Vocaluxe.Lib.Sound.Record
         public virtual void Close()
         {
             if (!_Initialized)
+            {
                 return;
+            }
 
             _Devices = null;
             if (_Buffer != null)
             {
-                foreach (CBuffer buffer in _Buffer)
+                foreach (var buffer in _Buffer)
+                {
                     buffer.Dispose();
+                }
+
                 _Buffer = null;
             }
 
@@ -77,24 +86,29 @@ namespace Vocaluxe.Lib.Sound.Record
         /// <param name="data">Recorded samples, assume Int16 and interleaved for multi-channels</param>
         protected void _HandleData(CRecordDevice device, byte[] data)
         {
+            var totalChannels = device.Channels;
+            var doubleChannels = totalChannels * 2;
+            var allBuffers = new byte[totalChannels][];
 
-            int totalChannels = device.Channels;
-            int doubleChannels = totalChannels * 2;
-            byte[][] allBuffers = new byte[totalChannels][];
-
-            for (int currChannel = 0; currChannel < totalChannels; ++currChannel)
-                allBuffers[currChannel] = new byte[data.Length / totalChannels];
-
-            for (int i = 0; i < data.Length / doubleChannels; ++i)
+            for (var currChannel = 0; currChannel < totalChannels; ++currChannel)
             {
-                for (int j = 0; j < doubleChannels; ++j)
-                    allBuffers[(int)Math.Floor(j / (double)2)][i * 2 + (j % 2)] = data[i * doubleChannels + j];
+                allBuffers[currChannel] = new byte[data.Length / totalChannels];
             }
 
-            for (int ch = 0; ch < totalChannels; ++ch)
+            for (var i = 0; i < data.Length / doubleChannels; ++i)
+            {
+                for (var j = 0; j < doubleChannels; ++j)
+                {
+                    allBuffers[(int)Math.Floor(j / (double)2)][i * 2 + j % 2] = data[i * doubleChannels + j];
+                }
+            }
+
+            for (var ch = 0; ch < totalChannels; ++ch)
             {
                 if (device.PlayerChannel[ch] > 0)
+                {
                     _Buffer[device.PlayerChannel[ch] - 1].ProcessNewBuffer(allBuffers[ch]);
+                }
             }
         }
 
@@ -105,7 +119,9 @@ namespace Vocaluxe.Lib.Sound.Record
         public void AnalyzeBuffer(int player)
         {
             if (!_Initialized)
+            {
                 return;
+            }
 
             _Buffer[player].AnalyzeBuffer();
         }
@@ -113,7 +129,9 @@ namespace Vocaluxe.Lib.Sound.Record
         public int GetToneAbs(int player)
         {
             if (!_Initialized)
+            {
                 return 0;
+            }
 
             return _Buffer[player].ToneAbs;
         }
@@ -126,7 +144,9 @@ namespace Vocaluxe.Lib.Sound.Record
         public void SetTone(int player, int tone)
         {
             if (!_Initialized)
+            {
                 return;
+            }
 
             _Buffer[player].Tone = tone;
         }
@@ -144,7 +164,9 @@ namespace Vocaluxe.Lib.Sound.Record
         public void SetVolumeThreshold(int player, float threshold)
         {
             if (!_Initialized)
+            {
                 return;
+            }
 
             _Buffer[player].VolTreshold = threshold;
         }
@@ -166,7 +188,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public ReadOnlyCollection<CRecordDevice> RecordDevices()
         {
-            return (_Initialized && _Devices.Count > 0) ? _Devices.AsReadOnly() : null;
+            return _Initialized && _Devices.Count > 0 ? _Devices.AsReadOnly() : null;
         }
     }
 }

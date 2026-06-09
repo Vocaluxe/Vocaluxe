@@ -16,9 +16,9 @@
 #endregion
 
 using System;
-using System.Xml.Serialization;
-using System.Diagnostics;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib.Menu
@@ -35,17 +35,20 @@ namespace VocaluxeLib.Menu
     [XmlType("Background")]
     public struct SThemeBackground
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
         public EBackgroundTypes Type;
-        [XmlArray] public List<string> SlideShowTextures;
-        [XmlElement("Video")] public string VideoName;
+        [XmlArray]
+        public List<string> SlideShowTextures;
+        [XmlElement("Video")]
+        public string VideoName;
         public string Skin;
         public SThemeColor Color;
     }
 
     public class CBackground : CMenuElementBase, IMenuElement, IThemeable
     {
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
         private SThemeBackground _Theme;
 
         private int _SlideShowCurrent;
@@ -68,41 +71,44 @@ namespace VocaluxeLib.Menu
         }
 
         #region Constructors
-        public CBackground(int partyModeID)
+        public CBackground(int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             ThemeLoaded = false;
-            _Theme = new SThemeBackground {SlideShowTextures = new List<string>()};
+            _Theme = new SThemeBackground { SlideShowTextures = new List<string>() };
 
             Color = new SColorF(0f, 0f, 0f, 1f);
         }
 
-        public CBackground(SThemeBackground theme, int partyModeID)
+        public CBackground(SThemeBackground theme, int partyModeId)
         {
             _Theme = theme;
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
 
             ThemeLoaded = true;
         }
         #endregion Constructors
 
         #region public
-
         public void Resume()
         {
             if (_VideoStream != null)
+            {
                 CBase.Video.Resume(_VideoStream);
+            }
         }
 
         public void Pause()
         {
             if (_VideoStream != null)
+            {
                 CBase.Video.Pause(_VideoStream);
+            }
         }
 
         public void Draw()
         {
-            bool ok = false;
+            var ok = false;
             if (_Theme.Type == EBackgroundTypes.Video && CBase.Config.GetVideoBackgrounds() == EOffOn.TR_CONFIG_ON)
             {
                 if (CBase.Config.GetVideosToBackground() == EOffOn.TR_CONFIG_ON && CBase.BackgroundMusic.IsPlaying() && CBase.BackgroundMusic.SongHasVideo() &&
@@ -118,19 +124,28 @@ namespace VocaluxeLib.Menu
                 }
             }
             else if (_Theme.Type == EBackgroundTypes.SlideShow && _SlideShowTextures.Count > 0)
+            {
                 ok = _DrawSlideShow();
+            }
 
             if (!String.IsNullOrEmpty(_Theme.Skin) && (_Theme.Type == EBackgroundTypes.Texture || !ok))
+            {
                 ok = _DrawTexture();
+            }
 
             if (_Theme.Type == EBackgroundTypes.Color || !ok)
+            {
                 _DrawColor();
+            }
         }
 
         public void UnloadSkin()
         {
             if (!ThemeLoaded)
+            {
                 return;
+            }
+
             _SlideShowTextures.Clear();
             CBase.Video.Close(ref _VideoStream);
         }
@@ -138,17 +153,24 @@ namespace VocaluxeLib.Menu
         public void LoadSkin()
         {
             if (!ThemeLoaded)
+            {
                 return;
-            _Theme.Color.Get(_PartyModeID, out Color);
+            }
+
+            _Theme.Color.Get(_PartyModeId, out Color);
 
             if (_Theme.Type == EBackgroundTypes.SlideShow)
             {
-                foreach (string s in _Theme.SlideShowTextures)
-                    _SlideShowTextures.Add(CBase.Themes.GetSkinTexture(s, _PartyModeID));
+                foreach (var s in _Theme.SlideShowTextures)
+                {
+                    _SlideShowTextures.Add(CBase.Themes.GetSkinTexture(s, _PartyModeId));
+                }
             }
 
             if (_Theme.Type == EBackgroundTypes.Video)
-                _VideoStream = CBase.Themes.GetSkinVideo(_Theme.VideoName, _PartyModeID, true);
+            {
+                _VideoStream = CBase.Themes.GetSkinVideo(_Theme.VideoName, _PartyModeId, true);
+            }
         }
 
         public void AddSlideShowTexture(string image)
@@ -156,19 +178,22 @@ namespace VocaluxeLib.Menu
             _Theme.Type = EBackgroundTypes.SlideShow;
             if (!String.IsNullOrEmpty(image))
             {
-                CTextureRef texture = _SlideShowTextures.Count == 0 ? CBase.Drawing.AddTexture(image) : CBase.Drawing.EnqueueTexture(image);
+                var texture = _SlideShowTextures.Count == 0 ? CBase.Drawing.AddTexture(image) : CBase.Drawing.EnqueueTexture(image);
                 if (texture != null)
+                {
                     _SlideShowTextures.Add(texture);
+                }
             }
         }
 
         public void RemoveSlideShowTextures()
         {
-            foreach (CTextureRef tex in _SlideShowTextures)
+            foreach (var tex in _SlideShowTextures)
             {
-                CTextureRef texture = tex;
+                var texture = tex;
                 CBase.Drawing.RemoveTexture(ref texture);
             }
+
             _SlideShowTextures.Clear();
         }
 
@@ -213,12 +238,13 @@ namespace VocaluxeLib.Menu
 
         private bool _DrawTexture()
         {
-            CTextureRef texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
+            var texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeId);
             if (texture != null)
             {
                 CBase.Drawing.DrawTexture(texture, Rect, EAspect.Crop);
                 return true;
             }
+
             return false;
         }
 
@@ -232,34 +258,46 @@ namespace VocaluxeLib.Menu
                     _SlideShowCurrent = 0;
                 }
 
-                if (_SlideShowTimer.ElapsedMilliseconds >= (CBase.Settings.GetSlideShowFadeTime() + CBase.Settings.GetSlideShowImageTime()))
+                if (_SlideShowTimer.ElapsedMilliseconds >= CBase.Settings.GetSlideShowFadeTime() + CBase.Settings.GetSlideShowImageTime())
                 {
                     _SlideShowTimer.Restart();
                     if (_SlideShowCurrent + 1 < _SlideShowTextures.Count)
+                    {
                         _SlideShowCurrent++;
+                    }
                     else
+                    {
                         _SlideShowCurrent = 0;
+                    }
                 }
 
-                CTextureRef texture = _SlideShowTextures[_SlideShowCurrent];
+                var texture = _SlideShowTextures[_SlideShowCurrent];
 
                 if (texture == null)
+                {
                     return false;
+                }
 
                 CBase.Drawing.DrawTexture(texture, Rect, EAspect.Crop);
 
                 if (_SlideShowTimer.ElapsedMilliseconds >= CBase.Settings.GetSlideShowImageTime())
                 {
                     if (_SlideShowCurrent + 1 < _SlideShowTextures.Count)
+                    {
                         texture = _SlideShowTextures[_SlideShowCurrent + 1];
+                    }
                     else if (_SlideShowCurrent != 0)
+                    {
                         texture = _SlideShowTextures[0];
+                    }
                     else
+                    {
                         texture = null;
+                    }
 
                     if (texture != null)
                     {
-                        SColorF color = texture.Color;
+                        var color = texture.Color;
                         color.A = (_SlideShowTimer.ElapsedMilliseconds - CBase.Settings.GetSlideShowImageTime()) / CBase.Settings.GetSlideShowFadeTime();
                         CBase.Drawing.DrawTexture(texture, Rect, EAspect.Crop, color);
                     }
@@ -267,6 +305,7 @@ namespace VocaluxeLib.Menu
 
                 return true;
             }
+
             return false;
         }
 
@@ -280,27 +319,30 @@ namespace VocaluxeLib.Menu
                     CBase.Drawing.DrawTexture(_VideoStream.Texture, Rect, EAspect.Crop);
                     return true;
                 }
+
                 return false;
             }
+
             return false;
         }
 
         private bool _DrawBackgroundMusicVideo()
         {
-            CTextureRef videoTexture = CBase.BackgroundMusic.GetVideoTexture();
+            var videoTexture = CBase.BackgroundMusic.GetVideoTexture();
             if (videoTexture != null)
             {
                 CBase.Drawing.DrawTexture(videoTexture, Rect, EAspect.Crop);
                 return true;
             }
+
             return false;
         }
         #endregion internal
 
         #region ThemeEdit
-        public void MoveElement(int stepX, int stepY) {}
+        public void MoveElement(int stepX, int stepY) { }
 
-        public void ResizeElement(int stepW, int stepH) {}
+        public void ResizeElement(int stepW, int stepH) { }
         #endregion ThemeEdit
     }
 }

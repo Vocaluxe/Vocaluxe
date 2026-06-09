@@ -17,11 +17,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using System.Diagnostics;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.ThemeSystem
@@ -31,7 +31,7 @@ namespace Vocaluxe.Base.ThemeSystem
         private static readonly List<CTheme> _Themes = new List<CTheme>();
         public static string[] ThemeNames
         {
-            get { return _Themes.Where(th=>th is CBaseTheme).Select(th => th.Name).Distinct().ToArray(); }
+            get { return _Themes.Where(th => th is CBaseTheme).Select(th => th.Name).Distinct().ToArray(); }
         }
 
         public static string[] SkinNames
@@ -58,8 +58,11 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static void Unload()
         {
-            foreach (CTheme theme in _Themes)
+            foreach (var theme in _Themes)
+            {
                 theme.Unload();
+            }
+
             CurrentThemes.Clear();
         }
 
@@ -70,54 +73,68 @@ namespace Vocaluxe.Base.ThemeSystem
         /// </summary>
         public static void Load()
         {
-            CTheme theme = _Themes.FirstOrDefault(th => th is CBaseTheme && th.Name == CConfig.Config.Theme.Theme) ?? _Themes.FirstOrDefault(th => th is CBaseTheme);
+            var theme = _Themes.FirstOrDefault(th => th is CBaseTheme && th.Name == CConfig.Config.Theme.Theme) ?? _Themes.FirstOrDefault(th => th is CBaseTheme);
             while (theme != null)
             {
                 if (theme.Load())
+                {
                     break;
+                }
+
                 theme.Unload();
                 CLog.Error("Failed to load theme {ThemeName}! Removing...", CLog.Params(theme.Name, theme), true);
                 _Themes.Remove(theme);
                 theme = _Themes.FirstOrDefault(th => th is CBaseTheme);
             }
+
             CurrentThemes.Add(-1, theme);
             if (theme == null)
+            {
                 CLog.Fatal("No themes found! Cannot continue!");
+            }
             else
             {
                 CConfig.Config.Theme.Theme = theme.Name;
                 CConfig.Config.Theme.Skin = theme.CurrentSkin.Name;
-                int[] ids = _Themes.Select(th => th.PartyModeID).Distinct().ToArray();
-                foreach (int id in ids.Where(id => id >= 0))
+                var ids = _Themes.Select(th => th.PartyModeId).Distinct().ToArray();
+                foreach (var id in ids.Where(id => id >= 0))
+                {
                     LoadPartymodeTheme(id);
+                }
             }
         }
 
-        public static bool LoadPartymodeTheme(int partyModeID)
+        public static bool LoadPartymodeTheme(int partyModeId)
         {
-            Debug.Assert(partyModeID >= 0);
-            CTheme theme = _Themes.FirstOrDefault(th => th.PartyModeID == partyModeID && th.Name == CConfig.Config.Theme.Theme);
+            Debug.Assert(partyModeId >= 0);
+            var theme = _Themes.FirstOrDefault(th => th.PartyModeId == partyModeId && th.Name == CConfig.Config.Theme.Theme);
             if (theme != null)
             {
                 if (theme.Load())
                 {
-                    CurrentThemes.Add(partyModeID, theme);
+                    CurrentThemes.Add(partyModeId, theme);
                     return true;
                 }
+
                 theme.Unload();
                 CLog.Error("Failed to load theme " + theme + " for partymode! Removing...", true);
                 _Themes.Remove(theme);
             }
-            theme = _Themes.First(th => th.PartyModeID == partyModeID && th.Name == CSettings.DefaultName);
+
+            theme = _Themes.First(th => th.PartyModeId == partyModeId && th.Name == CSettings.DefaultName);
             if (theme.Load())
             {
-                CurrentThemes.Add(partyModeID, theme);
+                CurrentThemes.Add(partyModeId, theme);
                 return true;
             }
+
             CLog.Error("Failed to load default theme for partymode! Unloading partymode!", true);
-            foreach (CPartyTheme th in _Themes.Where(th => th.PartyModeID == partyModeID))
+            foreach (CPartyTheme th in _Themes.Where(th => th.PartyModeId == partyModeId))
+            {
                 th.Unload();
-            _Themes.RemoveAll(th => th.PartyModeID == partyModeID);
+            }
+
+            _Themes.RemoveAll(th => th.PartyModeId == partyModeId);
             return false;
         }
 
@@ -129,31 +146,42 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static void ReloadSkin()
         {
-            foreach (CTheme theme in CurrentThemes.Values)
+            foreach (var theme in CurrentThemes.Values)
+            {
                 theme.ReloadSkin();
+            }
         }
 
-        public static bool ReadThemesFromFolder(string path, int partyModeID)
+        public static bool ReadThemesFromFolder(string path, int partyModeId)
         {
-            IEnumerable<string> files = CHelper.ListFiles(path, "*.xml", false, true);
+            var files = CHelper.ListFiles(path, "*.xml", false, true);
 
-            List<CTheme> newThemes = new List<CTheme>();
-            foreach (string file in files)
+            var newThemes = new List<CTheme>();
+            foreach (var file in files)
             {
                 CTheme theme;
-                if (partyModeID < 0)
+                if (partyModeId < 0)
+                {
                     theme = new CBaseTheme(file);
+                }
                 else
-                    theme = new CPartyTheme(file, partyModeID);
+                {
+                    theme = new CPartyTheme(file, partyModeId);
+                }
+
                 if (theme.Init())
+                {
                     newThemes.Add(theme);
+                }
             }
+
             if (newThemes.Count == 0)
             {
                 CLog.Error("No valid themes found in " + path);
                 return false;
             }
-            if (partyModeID >= 0 && newThemes.Count(th => th.Name == CSettings.DefaultName) == 0)
+
+            if (partyModeId >= 0 && newThemes.Count(th => th.Name == CSettings.DefaultName) == 0)
             {
                 CLog.Error("Partymode misses default theme in " + path);
                 return false;
@@ -163,33 +191,42 @@ namespace Vocaluxe.Base.ThemeSystem
             return true;
         }
 
-        public static string GetThemeScreensPath(int partyModeID)
+        public static string GetThemeScreensPath(int partyModeId)
         {
             CTheme theme;
-            return CurrentThemes.TryGetValue(partyModeID, out theme) ? theme.GetScreenPath() : null;
+            return CurrentThemes.TryGetValue(partyModeId, out theme) ? theme.GetScreenPath() : null;
         }
 
-        private static void _LogMissingElement(int partyModeID, string elType, string elName)
+        private static void _LogMissingElement(int partyModeId, string elType, string elName)
         {
-            CLog.Error("Skin " + CurrentThemes[partyModeID].CurrentSkin + " is missing the " + elType + " \"" + elName + "\"! Expect visual problems!");
+            CLog.Error("Skin " + CurrentThemes[partyModeId].CurrentSkin + " is missing the " + elType + " \"" + elName + "\"! Expect visual problems!");
         }
 
-        public static CTextureRef GetSkinTexture(string textureName, int partyModeID)
+        public static CTextureRef GetSkinTexture(string textureName, int partyModeId)
         {
             if (String.IsNullOrEmpty(textureName))
+            {
                 return null;
-            CTextureRef texture = CurrentThemes[partyModeID].CurrentSkin.GetTexture(textureName);
+            }
+
+            var texture = CurrentThemes[partyModeId].CurrentSkin.GetTexture(textureName);
             if (texture == null)
-                _LogMissingElement(partyModeID, "texture", textureName);
+            {
+                _LogMissingElement(partyModeId, "texture", textureName);
+            }
+
             return texture;
         }
 
-        public static CVideoStream GetSkinVideo(string videoName, int partyModeID, bool loop = true)
+        public static CVideoStream GetSkinVideo(string videoName, int partyModeId, bool loop = true)
         {
             Debug.Assert(!String.IsNullOrEmpty(videoName));
-            CVideoStream video = CurrentThemes[partyModeID].CurrentSkin.GetVideo(videoName, loop);
+            var video = CurrentThemes[partyModeId].CurrentSkin.GetVideo(videoName, loop);
             if (video == null)
-                _LogMissingElement(partyModeID, "video", videoName);
+            {
+                _LogMissingElement(partyModeId, "video", videoName);
+            }
+
             return video;
         }
 
@@ -198,14 +235,15 @@ namespace Vocaluxe.Base.ThemeSystem
             return ((CBaseTheme)CurrentThemes[-1]).CursorTheme;
         }
 
-        public static bool GetColor(string colorName, int partyModeID, out SColorF color)
+        public static bool GetColor(string colorName, int partyModeId, out SColorF color)
         {
             Debug.Assert(!String.IsNullOrEmpty(colorName));
-            if (!CurrentThemes[partyModeID].CurrentSkin.GetColor(colorName, out color))
+            if (!CurrentThemes[partyModeId].CurrentSkin.GetColor(colorName, out color))
             {
-                _LogMissingElement(partyModeID, "color", colorName);
+                _LogMissingElement(partyModeId, "color", colorName);
                 return false;
             }
+
             return true;
         }
 
@@ -213,7 +251,10 @@ namespace Vocaluxe.Base.ThemeSystem
         {
             SColorF color;
             if (!GetColor("Player" + playerNr, -1, out color))
+            {
                 CLog.Error("Invalid color requested: Color for player " + playerNr + ". Expect visual problems!", true);
+            }
+
             return color;
         }
     }

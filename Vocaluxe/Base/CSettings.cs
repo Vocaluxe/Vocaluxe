@@ -20,11 +20,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows.Forms;
 using VocaluxeLib;
 using VocaluxeLib.Log;
-using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
 {
@@ -37,8 +35,6 @@ namespace Vocaluxe.Base
         Release
         // ReSharper restore UnusedMember.Global
     }
-
-    
 
     /// <summary>
     ///     This class contains settings for the program
@@ -57,7 +53,6 @@ namespace Vocaluxe.Base
         //TODO: This should not be here as it can change
         //State of the program
         public static EProgramState ProgramState = EProgramState.Start;
-        
 
         public static ERevision VersionRevision
         {
@@ -67,14 +62,17 @@ namespace Vocaluxe.Base
                 {
                     return ERevision.Alpha;
                 }
+
                 if (Version.ToLower().Contains("beta"))
                 {
                     return ERevision.Beta;
                 }
+
                 if (Version.ToLower().Contains("rc"))
                 {
                     return ERevision.RC;
                 }
+
                 return ERevision.Release;
             }
         }
@@ -113,7 +111,7 @@ namespace Vocaluxe.Base
 
         public const string FileNameOldHighscoreDB = "Ultrastar.db";
         public const string FileNameCoverDB = "CoverDB.sqlite";
-        
+
         public const string FileNameMainLog = "Vocaluxe.log";
         public const string FileNameSongLog = "Song.log";
         public const string FileNameCrashMarker = "Marker";
@@ -204,20 +202,14 @@ namespace Vocaluxe.Base
 
         public static string Version
         {
-            get
-            {
-                return Application.ProductVersion.Split('-').First();
-            }
+            get { return Application.ProductVersion.Split('-').First(); }
         }
 
         public static string FullVersion
         {
-            get
-            {
-                return Application.ProductVersion;
-            }
+            get { return Application.ProductVersion; }
         }
-        
+
         public static string GetFullVersionText()
         {
             return ((AssemblyTitleAttribute)Assembly.GetExecutingAssembly().GetCustomAttributes(typeof(AssemblyTitleAttribute), false).First()).Title;
@@ -231,19 +223,21 @@ namespace Vocaluxe.Base
         public static void CreateFolders()
         {
             var folders = new List<string>
-                {
-                    Path.Combine(ProgramFolder, FolderNameCover),
-                    Path.Combine(ProgramFolder, FolderNameFonts),
-                    Path.Combine(DataFolder, FolderNameScreenshots),
-                    Path.Combine(ProgramFolder, FolderNameBackgroundMusic),
-                    Path.Combine(ProgramFolder, FolderNameSounds),
-                    Path.Combine(DataFolder, CConfig.FolderPlaylists)
-                };
+            {
+                Path.Combine(ProgramFolder, FolderNameCover),
+                Path.Combine(ProgramFolder, FolderNameFonts),
+                Path.Combine(DataFolder, FolderNameScreenshots),
+                Path.Combine(ProgramFolder, FolderNameBackgroundMusic),
+                Path.Combine(ProgramFolder, FolderNameSounds),
+                Path.Combine(DataFolder, CConfig.FolderPlaylists)
+            };
             folders.AddRange(CConfig.ProfileFolders);
             folders.AddRange(CConfig.SongFolders);
 
-            foreach (string folder in folders)
+            foreach (var folder in folders)
+            {
                 _CreateFolder(folder);
+            }
         }
 
         private static void _CreateFolder(string path)

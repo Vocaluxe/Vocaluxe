@@ -20,9 +20,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Vocaluxe.Base;
-using Vocaluxe.Reporting;
 using VocaluxeLib;
-using VocaluxeLib.Log;
 using VocaluxeLib.PartyModes.Challenge;
 
 namespace Tests.PartyModeChallenge
@@ -31,16 +29,15 @@ namespace Tests.PartyModeChallenge
     public class CPartyModeChallangeTest
     {
         #region Tests
-
         [Test]
         public void TestRoundBoundaries()
         {
             // ReSharper disable ObjectCreationAsStatement
             new CChallengeRounds(1, 1, 1); // Should succeed
             // ReSharper restore ObjectCreationAsStatement
-            for (int inv = -1; inv <= 0; inv++)
+            for (var inv = -1; inv <= 0; inv++)
             {
-                int invL = inv;
+                var invL = inv;
                 // ReSharper disable ObjectCreationAsStatement
                 Assert.Throws<ArgumentException>(() => new CChallengeRounds(invL, 1, 1));
                 Assert.Throws<ArgumentException>(() => new CChallengeRounds(1, invL, 1));
@@ -54,36 +51,38 @@ namespace Tests.PartyModeChallenge
         {
             CBase.Game = new CBGame();
 
-            int roundFactor = (numPlayer % numMic == 0) ? numPlayer / numMic : numPlayer;
-            for (int numRounds = roundFactor; numRounds <= 100 && numRounds <= roundFactor * 5; numRounds += roundFactor)
+            var roundFactor = numPlayer % numMic == 0 ? numPlayer / numMic : numPlayer;
+            for (var numRounds = roundFactor; numRounds <= 100 && numRounds <= roundFactor * 5; numRounds += roundFactor)
             {
-                CChallengeRounds rounds = new CChallengeRounds(numRounds, numPlayer, numMic);
+                var rounds = new CChallengeRounds(numRounds, numPlayer, numMic);
                 Assert.IsTrue(rounds.Count >= numRounds);
                 _CheckRounds(rounds, numPlayer);
-                Assert.That(rounds.Count, Is.GreaterThanOrEqualTo(numRounds), 
+                Assert.That(rounds.Count, Is.GreaterThanOrEqualTo(numRounds),
                     $"Number of rounds should be >= {numRounds}, is {rounds.Count} for {numPlayer}/{numMic}");
             }
         }
-
         #endregion
 
         #region Helper methods
         private static void _CheckRounds(CChallengeRounds rounds, int numPlayer)
         {
-            List<int> numSongs = new List<int>(numPlayer);
-            for (int i = 0; i < numPlayer; i++)
-                numSongs.Add(0);
-            for (int i = 0; i < rounds.Count; i++)
+            var numSongs = new List<int>(numPlayer);
+            for (var i = 0; i < numPlayer; i++)
             {
-                foreach (int player in rounds[i].Players)
+                numSongs.Add(0);
+            }
+
+            for (var i = 0; i < rounds.Count; i++)
+            {
+                foreach (var player in rounds[i].Players)
                 {
                     Assert.IsTrue(player >= 0 && player < numPlayer);
                     numSongs[player]++;
                 }
             }
+
             Assert.IsTrue(numSongs.Min() == numSongs.Max(), "Some players have more songs than others");
         }
-
         #endregion
     }
 }

@@ -25,7 +25,7 @@ namespace VocaluxeLib.Draw
     /// </summary>
     public class CTextureRef : IDisposable
     {
-        public int ID { get; private set; }
+        public int Id { get; private set; }
         /// <summary>
         ///     Size of original image (e.g. of bmp)
         /// </summary>
@@ -46,11 +46,11 @@ namespace VocaluxeLib.Draw
         /// <summary>
         ///     Creates a new texture reference
         /// </summary>
-        /// <param name="id">ID of the texture</param>
+        /// <param name="id">Id of the texture</param>
         /// <param name="origSize">Original size (Bitmap size)</param>
         public CTextureRef(int id, Size origSize)
         {
-            ID = id;
+            Id = id;
             OrigSize = origSize;
 
             Rect = new SRectF(0f, 0f, origSize.Width, origSize.Height, 0f);
@@ -63,10 +63,10 @@ namespace VocaluxeLib.Draw
 
         public void Dispose()
         {
-            if (ID >= 0)
+            if (Id >= 0)
             {
                 //Free textures that are no longer referenced
-                CTextureRef tmp = this;
+                var tmp = this;
                 CBase.Drawing.RemoveTexture(ref tmp);
                 _SetRemoved();
             }
@@ -78,14 +78,17 @@ namespace VocaluxeLib.Draw
         /// </summary>
         public void SetRemoved()
         {
-            if (ID < 0)
+            if (Id < 0)
+            {
                 throw new ObjectDisposedException(GetType().Name);
+            }
+
             _SetRemoved();
         }
 
         private void _SetRemoved()
         {
-            ID = -1;
+            Id = -1;
             GC.SuppressFinalize(this);
         }
     }

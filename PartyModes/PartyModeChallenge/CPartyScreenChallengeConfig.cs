@@ -22,7 +22,7 @@ namespace VocaluxeLib.PartyModes.Challenge
 {
     // ReSharper disable UnusedMember.Global
     public class CPartyScreenChallengeConfig : CPartyScreenChallenge
-        // ReSharper restore UnusedMember.Global
+    // ReSharper restore UnusedMember.Global
     {
         // Version number for theme files. Increment it, if you've changed something on the theme files!
         protected override int _ScreenVersion
@@ -46,14 +46,14 @@ namespace VocaluxeLib.PartyModes.Challenge
             base.Init();
 
             _ThemeSelectSlides = new string[] { _SelectSlideNumPlayers, _SelectSlideNumMics, _SelectSlideNumRounds, _SelectSlideNumJokers, _SelectSlideRefillJokers };
-            _ThemeButtons = new string[] {_ButtonNext, _ButtonBack};
+            _ThemeButtons = new string[] { _ButtonNext, _ButtonBack };
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -67,10 +67,15 @@ namespace VocaluxeLib.PartyModes.Challenge
                         _UpdateSlides();
 
                         if (_Buttons[_ButtonBack].Selected)
+                        {
                             _PartyMode.Back();
+                        }
 
                         if (_Buttons[_ButtonNext].Selected)
+                        {
                             _PartyMode.Next();
+                        }
+
                         break;
 
                     case Keys.Left:
@@ -82,6 +87,7 @@ namespace VocaluxeLib.PartyModes.Challenge
                         break;
                 }
             }
+
             return true;
         }
 
@@ -93,14 +99,20 @@ namespace VocaluxeLib.PartyModes.Challenge
             {
                 _UpdateSlides();
                 if (_Buttons[_ButtonBack].Selected)
+                {
                     _PartyMode.Back();
+                }
 
                 if (_Buttons[_ButtonNext].Selected)
+                {
                     _PartyMode.Next();
+                }
             }
 
             if (mouseEvent.RB)
+            {
                 _PartyMode.Back();
+            }
 
             return true;
         }
@@ -121,22 +133,26 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             // build num player slide (min player ... max player);
             _SelectSlides[_SelectSlideNumPlayers].Clear();
-            for (int i = _PartyMode.MinPlayers; i <= _PartyMode.MaxPlayers; i++)
+            for (var i = _PartyMode.MinPlayers; i <= _PartyMode.MaxPlayers; i++)
+            {
                 _SelectSlides[_SelectSlideNumPlayers].AddValue(i.ToString());
+            }
+
             _SelectSlides[_SelectSlideNumPlayers].SelectedValue = _PartyMode.GameData.NumPlayer.ToString();
 
             // build num joker slide 1 to 10
             _SelectSlides[_SelectSlideNumJokers].Clear();
-            for (int i = 1; i <= 10; i++)
+            for (var i = 1; i <= 10; i++)
             {
                 _SelectSlides[_SelectSlideNumJokers].AddValue(i.ToString());
             }
+
             _SelectSlides[_SelectSlideNumJokers].SelectedValue = "5";
 
             //build joker config slide
             _SelectSlides[_SelectSlideRefillJokers].Clear();
-            _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_NO", PartyModeID));
-            _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_YES", PartyModeID));
+            _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_NO", PartyModeId));
+            _SelectSlides[_SelectSlideRefillJokers].AddValue(CBase.Language.Translate("TR_BUTTON_YES", PartyModeId));
             _SelectSlides[_SelectSlideRefillJokers].SelectLastValue();
 
             _UpdateMicsAtOnce();
@@ -146,22 +162,25 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _UpdateSlides()
         {
-            int player = _PartyMode.GameData.NumPlayer;
-            int mics = _PartyMode.GameData.NumPlayerAtOnce;
+            var player = _PartyMode.GameData.NumPlayer;
+            var mics = _PartyMode.GameData.NumPlayerAtOnce;
             _PartyMode.GameData.NumPlayer = _SelectSlides[_SelectSlideNumPlayers].Selection + _PartyMode.MinPlayers;
             _PartyMode.GameData.NumPlayerAtOnce = _SelectSlides[_SelectSlideNumMics].Selection + _PartyMode.MinPlayers;
             _PartyMode.GameData.NumRounds = (_SelectSlides[_SelectSlideNumRounds].Selection + 1) * _RoundSteps;
             _PartyMode.GameData.NumJokers = _SelectSlides[_SelectSlideNumJokers].Selection + 1;
-            _PartyMode.GameData.RefillJokers = (_SelectSlides[_SelectSlideRefillJokers].Selection == 1) ? true : false;
+            _PartyMode.GameData.RefillJokers = _SelectSlides[_SelectSlideRefillJokers].Selection == 1 ? true : false;
 
             _UpdateMicsAtOnce();
             _SetRoundSteps();
 
             if (player != _PartyMode.GameData.NumPlayer || mics != _PartyMode.GameData.NumPlayerAtOnce)
             {
-                int num = CHelper.CombinationCount(_PartyMode.GameData.NumPlayer, _PartyMode.GameData.NumPlayerAtOnce);
+                var num = CHelper.CombinationCount(_PartyMode.GameData.NumPlayer, _PartyMode.GameData.NumPlayerAtOnce);
                 while (num > _MaxNumRounds)
+                {
                     num -= _RoundSteps;
+                }
+
                 _PartyMode.GameData.NumRounds = num;
             }
 
@@ -170,15 +189,20 @@ namespace VocaluxeLib.PartyModes.Challenge
 
         private void _UpdateMicsAtOnce()
         {
-            int maxNum = Math.Min(_PartyMode.MaxMics, _PartyMode.GameData.NumPlayer);
+            var maxNum = Math.Min(_PartyMode.MaxMics, _PartyMode.GameData.NumPlayer);
 
             if (_PartyMode.GameData.NumPlayerAtOnce > maxNum)
+            {
                 _PartyMode.GameData.NumPlayerAtOnce = maxNum;
+            }
 
             // build mics at once slide
             _SelectSlides[_SelectSlideNumMics].Clear();
-            for (int i = 1; i <= maxNum; i++)
+            for (var i = 1; i <= maxNum; i++)
+            {
                 _SelectSlides[_SelectSlideNumMics].AddValue(i.ToString());
+            }
+
             _SelectSlides[_SelectSlideNumMics].Selection = _PartyMode.GameData.NumPlayerAtOnce - _PartyMode.MinPlayers;
         }
 
@@ -186,8 +210,11 @@ namespace VocaluxeLib.PartyModes.Challenge
         {
             // build num rounds slide
             _SelectSlides[_SelectSlideNumRounds].Clear();
-            for (int i = _RoundSteps; i <= _MaxNumRounds; i += _RoundSteps)
+            for (var i = _RoundSteps; i <= _MaxNumRounds; i += _RoundSteps)
+            {
                 _SelectSlides[_SelectSlideNumRounds].AddValue(i.ToString());
+            }
+
             _SelectSlides[_SelectSlideNumRounds].Selection = _PartyMode.GameData.NumRounds / _RoundSteps - 1;
         }
 
@@ -199,8 +226,8 @@ namespace VocaluxeLib.PartyModes.Challenge
                 return;
             }
 
-            int res = _PartyMode.GameData.NumPlayer / _PartyMode.GameData.NumPlayerAtOnce;
-            int mod = _PartyMode.GameData.NumPlayer % _PartyMode.GameData.NumPlayerAtOnce;
+            var res = _PartyMode.GameData.NumPlayer / _PartyMode.GameData.NumPlayerAtOnce;
+            var mod = _PartyMode.GameData.NumPlayer % _PartyMode.GameData.NumPlayerAtOnce;
 
             _RoundSteps = mod == 0 ? res : _PartyMode.GameData.NumPlayer;
         }

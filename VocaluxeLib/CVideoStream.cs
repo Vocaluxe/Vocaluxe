@@ -21,21 +21,21 @@ namespace VocaluxeLib
 {
     public class CVideoStream
     {
-        public int ID { get; private set; }
+        public int Id { get; private set; }
         public CTextureRef Texture;
         /// The actual position in s of the returned frame. Should be ~ time+VideoGap
         public float VideoTime;
 
         public CVideoStream(int id)
         {
-            ID = id;
+            Id = id;
         }
 
         ~CVideoStream()
         {
-            if (ID >= 0)
+            if (Id >= 0)
             {
-                CVideoStream tmp = this;
+                var tmp = this;
                 CBase.Video.Close(ref tmp);
             }
         }
@@ -46,7 +46,7 @@ namespace VocaluxeLib
         /// </summary>
         public void SetClosed()
         {
-            ID = -1;
+            Id = -1;
             CBase.Drawing.RemoveTexture(ref Texture);
         }
 
@@ -56,7 +56,7 @@ namespace VocaluxeLib
         /// <returns></returns>
         public bool IsClosed()
         {
-            return ID < 0;
+            return Id < 0;
         }
     }
 }

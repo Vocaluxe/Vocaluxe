@@ -46,9 +46,12 @@ namespace Vocaluxe.Lib.Sound.Record
         public void Start(int[] channels)
         {
             if (Running)
+            {
                 return;
+            }
+
             Reset();
-            for (int i = 0; i < _DelaysChannel.Length; i++)
+            for (var i = 0; i < _DelaysChannel.Length; i++)
             {
                 if (i < channels.Length && channels[i] >= 0)
                 {
@@ -58,8 +61,11 @@ namespace Vocaluxe.Lib.Sound.Record
                     CRecord.SetVolumeThreshold(channels[i], _DelaysChannel[i].OrigThreshold / 3);
                 }
                 else
+                {
                     _DelaysChannel[i].Channel = -1;
+                }
             }
+
             _Stream = CSound.PlaySound(ESounds.T440, false);
             Running = true;
         }
@@ -67,21 +73,28 @@ namespace Vocaluxe.Lib.Sound.Record
         private void _Stop()
         {
             if (!Running)
+            {
                 return;
+            }
+
             Running = false;
             _CloseStream();
-            foreach (SDelayChannel delay in _DelaysChannel)
+            foreach (var delay in _DelaysChannel)
             {
                 if (delay.Channel >= 0)
+                {
                     CRecord.SetVolumeThreshold(delay.Channel, delay.OrigThreshold);
+                }
             }
         }
 
         public void Reset()
         {
             _Stop();
-            for (int i = 0; i < _DelaysChannel.Length; i++)
+            for (var i = 0; i < _DelaysChannel.Length; i++)
+            {
                 Delays[i] = 0;
+            }
         }
 
         private void _CloseStream()
@@ -96,30 +109,42 @@ namespace Vocaluxe.Lib.Sound.Record
         public void Update()
         {
             if (!Running)
+            {
                 return;
+            }
 
-            float time = CSound.GetPosition(_Stream) * 1000f;
+            var time = CSound.GetPosition(_Stream) * 1000f;
             if (time <= 0f)
+            {
                 return;
+            }
 
-            bool isActive = false;
+            var isActive = false;
             if (time <= _MaxDelayTime)
             {
-                for (int i = 0; i < _DelaysChannel.Length; i++)
+                for (var i = 0; i < _DelaysChannel.Length; i++)
                 {
                     if (_DelaysChannel[i].Channel < 0 || _DelaysChannel[i].Finished)
+                    {
                         continue;
+                    }
+
                     if (CRecord.GetTone(_DelaysChannel[i].Channel) == 9)
                     {
                         Delays[i] = (int)time;
                         _DelaysChannel[i].Finished = true;
                     }
                     else
+                    {
                         isActive = true;
+                    }
                 }
             }
+
             if (!isActive)
+            {
                 _Stop();
+            }
         }
     }
 }

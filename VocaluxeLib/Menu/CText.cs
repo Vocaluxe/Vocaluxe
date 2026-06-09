@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Drawing;
 using System.Xml.Serialization;
 
 namespace VocaluxeLib.Menu
@@ -50,8 +49,8 @@ namespace VocaluxeLib.Menu
     public sealed class CText : CMenuElementBase, IMenuElement, IThemeable, IFontObserver
     {
         private SThemeText _Theme;
-        private readonly int _PartyModeID = -1;
-        private int _TranslationID = -1;
+        private readonly int _PartyModeId = -1;
+        private int _TranslationId = -1;
 
         public string GetThemeName()
         {
@@ -169,37 +168,36 @@ namespace VocaluxeLib.Menu
 
         public bool AllMonitors = true;
 
-        private string _Text = String.Empty;
         public string Text
         {
             get { return _Theme.Text; }
             set
             {
-                string translation = CBase.Language.Translate(value, _TranslationID);
-                if (_Theme.Text != value || translation != _Text)
+                var translation = CBase.Language.Translate(value, _TranslationId);
+                if (_Theme.Text != value || translation != TranslatedText)
                 {
                     _Theme.Text = value;
-                    _Text = translation;
+                    TranslatedText = translation;
                     if (_EditMode)
-                        _Text += "|";
+                    {
+                        TranslatedText += "|";
+                    }
+
                     _PositionNeedsUpdate = true;
                 }
             }
         }
-        public string TranslatedText
-        {
-            get { return _Text; }
-        }
+        public string TranslatedText { get; private set; } = String.Empty;
 
-        public int TranslationID
+        public int TranslationId
         {
-            get { return _TranslationID; }
+            get { return _TranslationId; }
             set
             {
-                if (_TranslationID != value)
+                if (_TranslationId != value)
                 {
-                    _Text = CBase.Language.Translate(_Text, value);
-                    _TranslationID = value;
+                    TranslatedText = CBase.Language.Translate(TranslatedText, value);
+                    _TranslationId = value;
                     _PositionNeedsUpdate = true;
                 }
             }
@@ -213,7 +211,7 @@ namespace VocaluxeLib.Menu
             {
                 if (_EditMode != value)
                 {
-                    _Text = value ? _Text + "|" : _Text.Substring(0, _Text.Length - 1);
+                    TranslatedText = value ? TranslatedText + "|" : TranslatedText.Substring(0, TranslatedText.Length - 1);
                     _EditMode = value;
                     _PositionNeedsUpdate = true;
                 }
@@ -228,22 +226,25 @@ namespace VocaluxeLib.Menu
             get
             {
                 if (_PositionNeedsUpdate)
+                {
                     _UpdateTextPosition();
+                }
+
                 return _CalculatedFont;
             }
         }
 
-        public CText(int partyModeID)
+        public CText(int partyModeId)
         {
-            _PartyModeID = partyModeID;
-            _TranslationID = _PartyModeID;
+            _PartyModeId = partyModeId;
+            _TranslationId = _PartyModeId;
             _Font.AddObserver(this);
         }
 
         public CText(CText text)
         {
-            _PartyModeID = text._PartyModeID;
-            _TranslationID = text._TranslationID;
+            _PartyModeId = text._PartyModeId;
+            _TranslationId = text._TranslationId;
 
             MaxRect = text.MaxRect;
             _Rect = text._Rect;
@@ -265,9 +266,9 @@ namespace VocaluxeLib.Menu
             _EditMode = text._EditMode;
         }
 
-        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string fontFamily, SColorF col, string text, int partyModeID = -1,
-                     float rheight = 0,
-                     float rspace = 0) : this(partyModeID)
+        public CText(float x, float y, float z, float h, float mw, EAlignment align, EStyle style, string fontFamily, SColorF col, string text, int partyModeId = -1,
+            float rheight = 0,
+            float rspace = 0) : this(partyModeId)
         {
             _Theme = new SThemeText { FontFamily = fontFamily, FontStyle = style, FontHeight = h, Text = text, Color = { A = col.A, B = col.B, G = col.G, R = col.R } };
             ThemeLoaded = false;
@@ -291,10 +292,10 @@ namespace VocaluxeLib.Menu
             _ReflectionHeight = rheight;
         }
 
-        public CText(SThemeText theme, int partyModeID, bool buttonText = false)
+        public CText(SThemeText theme, int partyModeId, bool buttonText = false)
         {
-            _PartyModeID = partyModeID;
-            _TranslationID = partyModeID;
+            _PartyModeId = partyModeId;
+            _TranslationId = partyModeId;
             _Theme = theme;
 
             _ButtonText = buttonText;
@@ -310,26 +311,32 @@ namespace VocaluxeLib.Menu
         private void _Draw(bool force)
         {
             if (!force && !Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
+            {
                 return;
+            }
 
             // Update Text
             Text = Text;
 
-            SColorF currentColor = (Selected) ? SelColor : Color;
+            var currentColor = Selected ? SelColor : Color;
             var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
-            CBase.Fonts.DrawText(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color, AllMonitors);
+            CBase.Fonts.DrawText(TranslatedText, CalculatedFont, Rect.X, Rect.Y, Z, color, AllMonitors);
 
             if (_ReflectionHeight > 0)
-                CBase.Fonts.DrawTextReflection(_Text, CalculatedFont, Rect.X, Rect.Y, Z, color, _ReflectionSpace, _ReflectionHeight);
+            {
+                CBase.Fonts.DrawTextReflection(TranslatedText, CalculatedFont, Rect.X, Rect.Y, Z, color, _ReflectionSpace, _ReflectionHeight);
+            }
 
-            if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
+            if (Selected && CBase.Settings.GetProgramState() == EProgramState.EditTheme)
+            {
                 CBase.Drawing.DrawRect(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(Rect.X, Rect.Y, Rect.W, Rect.H, Z));
+            }
         }
 
         public void Draw(float begin, float end)
         {
-            SColorF currentColor = (Selected) ? SelColor : Color;
+            var currentColor = Selected ? SelColor : Color;
             var color = new SColorF(currentColor.R, currentColor.G, currentColor.B, currentColor.A * Alpha);
 
             CBase.Fonts.DrawText(Text, CalculatedFont, Rect.X, Rect.Y, Z, color, begin, end);
@@ -339,21 +346,26 @@ namespace VocaluxeLib.Menu
                 // TODO
             }
 
-            if (Selected && (CBase.Settings.GetProgramState() == EProgramState.EditTheme))
+            if (Selected && CBase.Settings.GetProgramState() == EProgramState.EditTheme)
+            {
                 CBase.Drawing.DrawRect(new SColorF(0.5f, 1f, 0.5f, 0.5f), new SRectF(X, Y, Rect.W, Rect.H, Z));
+            }
         }
 
         public void DrawRelative(float rx, float ry, float reflectionHeight = 0f, float reflectionSpace = 0f, float rectHeight = 0f)
         {
-            float oldReflectionSpace = _ReflectionSpace;
-            float oldReflectionHeight = _ReflectionHeight;
+            var oldReflectionSpace = _ReflectionSpace;
+            var oldReflectionHeight = _ReflectionHeight;
             if (reflectionHeight > 0)
             {
                 _ReflectionSpace = (rectHeight - Rect.Y - Rect.H) * 2 + reflectionSpace;
                 _ReflectionHeight = reflectionHeight - (rectHeight - Rect.Y) + Rect.H;
             }
             else
+            {
                 _ReflectionHeight = 0;
+            }
+
             X += rx;
             Y += ry;
             _Draw(true);
@@ -368,14 +380,20 @@ namespace VocaluxeLib.Menu
         public void LoadSkin()
         {
             if (!ThemeLoaded)
+            {
                 return;
-            _Theme.Color.Get(_PartyModeID, out Color);
-            _Theme.SelColor.Get(_PartyModeID, out SelColor);
+            }
+
+            _Theme.Color.Get(_PartyModeId, out Color);
+            _Theme.SelColor.Get(_PartyModeId, out SelColor);
 
             X = _Theme.X;
             Y = _Theme.Y;
             if (!_ButtonText)
+            {
                 Z = _Theme.Z;
+            }
+
             W = _Theme.MaxWidth;
             H = _Theme.FontHeight;
             _Align = _Theme.Align;
@@ -417,7 +435,10 @@ namespace VocaluxeLib.Menu
         {
             _Theme.FontHeight += stepH;
             if (_Theme.FontHeight <= 0)
+            {
                 _Theme.FontHeight = 1;
+            }
+
             _Font.Height = _Theme.FontHeight;
         }
         #endregion ThemeEdit
@@ -425,23 +446,27 @@ namespace VocaluxeLib.Menu
         private void _UpdateTextPosition()
         {
             if (!_PositionNeedsUpdate)
+            {
                 return;
+            }
 
             _CalculatedFont = new CFont(Font);
             _Rect = MaxRect;
             _PositionNeedsUpdate = false;
 
-            if (_Text == "")
+            if (TranslatedText == "")
+            {
                 return;
+            }
 
-            float h = _CalculatedFont.Height;
-            float y = Y;
-            RectangleF bounds = CBase.Fonts.GetTextBounds(this);
+            var h = _CalculatedFont.Height;
+            var y = Y;
+            var bounds = CBase.Fonts.GetTextBounds(this);
 
             if (W > 0f && bounds.Width > W && bounds.Width > 0f)
             {
-                float factor = W / bounds.Width;
-                float step = h * (1 - factor);
+                var factor = W / bounds.Width;
+                var step = h * (1 - factor);
                 h *= factor;
                 switch (ResizeAlign)
                 {
@@ -455,11 +480,12 @@ namespace VocaluxeLib.Menu
                         y += step * 0.75f;
                         break;
                 }
+
                 _CalculatedFont.Height = h;
                 bounds = CBase.Fonts.GetTextBounds(this);
             }
 
-            float x = X;
+            var x = X;
             switch (Align)
             {
                 case EAlignment.Center:

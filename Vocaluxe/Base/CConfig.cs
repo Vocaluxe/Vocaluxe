@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
@@ -28,7 +27,6 @@ using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Log;
-using VocaluxeLib.Profile;
 using VocaluxeLib.Xml;
 
 namespace Vocaluxe.Base
@@ -46,7 +44,7 @@ namespace Vocaluxe.Base
 #pragma warning disable 649
         // ReSharper disable MemberCanBePrivate.Global
         public struct SConfigInfo
-        // ReSharper restore MemberCanBePrivate.Global
+            // ReSharper restore MemberCanBePrivate.Global
         {
             // ReSharper disable NotAccessedField.Global
             // ReSharper disable NotAccessedField.Local
@@ -76,7 +74,8 @@ namespace Vocaluxe.Base
             [DefaultValue(ERenderer.TR_CONFIG_DIRECT3D)]
             public ERenderer Renderer;
 #else
-        [DefaultValue(ERenderer.TR_CONFIG_OPENGL)] public ERenderer Renderer;
+            [DefaultValue(ERenderer.TR_CONFIG_OPENGL)]
+            public ERenderer Renderer;
 #endif
 
             [DefaultValue(ETextureQuality.TR_CONFIG_TEXTURE_HIGH)]
@@ -116,16 +115,26 @@ namespace Vocaluxe.Base
 
         public struct SConfigTheme
         {
-            [XmlElement("Name"), DefaultValue("Vocaluxe 2024")] public string Theme;
-            [DefaultValue("Standard")] public string Skin;
-            [XmlElement("Cover"), DefaultValue("Vocaluxe 2024")] public string CoverTheme;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawNoteLines;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn DrawToneHelper;
-            [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)] public ETimerLook TimerLook;
-            [DefaultValue(EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH)] public EPlayerInfo PlayerInfo;
-            [DefaultValue(EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF)] public EFadePlayerInfo FadePlayerInfo;
-            [DefaultValue(ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC)] public ECoverLoading CoverLoading;
-            [DefaultValue(ELyricStyle.TR_CONFIG_LYRICSTYLE_SLIDE)] public ELyricStyle LyricStyle;
+            [XmlElement("Name"), DefaultValue("Vocaluxe 2024")]
+            public string Theme;
+            [DefaultValue("Standard")]
+            public string Skin;
+            [XmlElement("Cover"), DefaultValue("Vocaluxe 2024")]
+            public string CoverTheme;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn DrawNoteLines;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn DrawToneHelper;
+            [DefaultValue(ETimerLook.TR_CONFIG_TIMERLOOK_EXPANDED)]
+            public ETimerLook TimerLook;
+            [DefaultValue(EPlayerInfo.TR_CONFIG_PLAYERINFO_BOTH)]
+            public EPlayerInfo PlayerInfo;
+            [DefaultValue(EFadePlayerInfo.TR_CONFIG_FADEPLAYERINFO_OFF)]
+            public EFadePlayerInfo FadePlayerInfo;
+            [DefaultValue(ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC)]
+            public ECoverLoading CoverLoading;
+            [DefaultValue(ELyricStyle.TR_CONFIG_LYRICSTYLE_SLIDE)]
+            public ELyricStyle LyricStyle;
         }
 
         public struct SConfigSound
@@ -171,17 +180,28 @@ namespace Vocaluxe.Base
             [DefaultValue(ESongMenu.TR_CONFIG_TILE_BOARD)]
             public ESongMenu SongMenu;
             // ReSharper restore MemberHidesStaticFromOuterClass
-            [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)] public ESongSorting SongSorting;
-            [DefaultValue(EOffOn.TR_CONFIG_ON)] public EOffOn IgnoreArticles;
-            [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)] public ETimerMode TimerMode;
-            [XmlAltName("NumPlayer"), DefaultValue(2)] public int NumPlayers;
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn Tabs;
-            [DefaultValue(EOffOn.TR_CONFIG_OFF)] public EOffOn AutoplayPreviews;
-            [XmlAltName("AutoplayPreviewDelay"), DefaultValue(500)] public int AutoplayPreviewDelay;
-            [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)] public ELyricsPosition LyricsPosition;
-            [DefaultValue(0.1f)] public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
-            [XmlArrayItem("Player"), XmlArray] public string[] Players;
-            [DefaultValue(EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST)] public EHighscoreStyle HighscoreStyle;
+            [DefaultValue(ESongSorting.TR_CONFIG_ARTIST)]
+            public ESongSorting SongSorting;
+            [DefaultValue(EOffOn.TR_CONFIG_ON)]
+            public EOffOn IgnoreArticles;
+            [DefaultValue(ETimerMode.TR_CONFIG_TIMERMODE_REMAINING)]
+            public ETimerMode TimerMode;
+            [XmlAltName("NumPlayer"), DefaultValue(2)]
+            public int NumPlayers;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn Tabs;
+            [DefaultValue(EOffOn.TR_CONFIG_OFF)]
+            public EOffOn AutoplayPreviews;
+            [XmlAltName("AutoplayPreviewDelay"), DefaultValue(500)]
+            public int AutoplayPreviewDelay;
+            [DefaultValue(ELyricsPosition.TR_CONFIG_LYRICSPOSITION_BOTTOM)]
+            public ELyricsPosition LyricsPosition;
+            [DefaultValue(0.1f)]
+            public float MinLineBreakTime; //Minimum time to show the text before it is (to be) sung (if possible)
+            [XmlArrayItem("Player"), XmlArray]
+            public string[] Players;
+            [DefaultValue(EHighscoreStyle.TR_CONFIG_HIGHSCORE_LIST_BEST)]
+            public EHighscoreStyle HighscoreStyle;
         }
 
         public struct SConfigVideo
@@ -243,7 +263,7 @@ namespace Vocaluxe.Base
         //Folders
         //We need full path for folders for matching folder path with textfile path when loading
         public static readonly List<string> SongFolders = new List<string>
-            {
+        {
 #if INSTALLER
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs),
             Path.Combine(CSettings.ProgramFolder, FolderNameSongs)
@@ -252,13 +272,13 @@ namespace Vocaluxe.Base
 #elif LINUX
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)
 #endif
-            };
+        };
         /// <summary>
         ///     Folders with profiles
         ///     First one is used for new profiles
         /// </summary>
         public static readonly List<string> ProfileFolders = new List<string>
-            {
+        {
 #if INSTALLER
             Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles),
             CSettings.FolderNameProfiles
@@ -366,22 +386,31 @@ namespace Vocaluxe.Base
             set
             {
                 if (Config.Game.SongMenu == value)
+                {
                     return;
+                }
+
                 Config.Game.SongMenu = value;
                 if (SongMenuChanged != null)
+                {
                     SongMenuChanged();
+                }
             }
         }
 
         public static void Init()
         {
             if (_Initialized)
+            {
                 return;
+            }
 
             // Init config file
             _LoadConfig();
             if (!File.Exists(_FileConfig))
+            {
                 SaveConfig();
+            }
 
             _Initialized = true;
         }
@@ -401,24 +430,35 @@ namespace Vocaluxe.Base
             {
                 Config = xml.Deserialize<SConfig>(_FileConfig);
                 if (_XmlErrorsOccured)
+                {
                     CLog.Error("There were some warnings or errors loading the config file. Some values might have been reset to their defaults.");
+                }
             }
             else
+            {
                 Config = xml.DeserializeString<SConfig>("<root />");
+            }
 
             NormalizeSongPaths();
 
             if (Config.Game.MinLineBreakTime < 0)
+            {
                 Config.Game.MinLineBreakTime = 0.1f;
+            }
 
             if (!Config.Game.NumPlayers.IsInRange(1, CSettings.MaxNumPlayer))
+            {
                 Config.Game.NumPlayers = 2;
+            }
+
             Array.Resize(ref Config.Game.Players, CSettings.MaxNumPlayer);
 
             if (!Config.Graphics.NumScreens.IsInRange(1, CSettings.MaxNumScreens))
+            {
                 Config.Graphics.NumScreens = 1;
+            }
 
-            bool langExists = CLanguage.SetLanguage(Config.Game.Language);
+            var langExists = CLanguage.SetLanguage(Config.Game.Language);
 
             if (langExists == false)
             {
@@ -430,7 +470,9 @@ namespace Vocaluxe.Base
             Config.Record.MicDelay = (int)(20 * Math.Round(Config.Record.MicDelay / 20.0));
 
             if (!Config.Server.ServerPort.IsInRange(1, 65535))
+            {
                 Config.Server.ServerPort = 3000;
+            }
 
             Config.Info = new SConfigInfo
             {
@@ -451,7 +493,10 @@ namespace Vocaluxe.Base
         {
             // Avoid multiple comments (e.g. for array entries)
             if (_CommentsGot.Contains(elName))
+            {
                 return null;
+            }
+
             _CommentsGot.Add(elName);
             switch (elName)
             {
@@ -576,7 +621,8 @@ namespace Vocaluxe.Base
                 case "ServerPort":
                     return "Server Port (default: 3000) [1..65535]";
                 case "SongCountCoverThreshold":
-                    return "Threshold of songs for that covers will not longer be included in get-all-songs-requests (e.g. song list) (default: 70) [-1..65535] -1 => always deliver covers";
+                    return
+                        "Threshold of songs for that covers will not longer be included in get-all-songs-requests (e.g. song list) (default: 70) [-1..65535] -1 => always deliver covers";
                 case "Stretch":
                     return "Stretch view to full window size: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
                 default:
@@ -596,7 +642,7 @@ namespace Vocaluxe.Base
         /// </summary>
         public static float CalcCycleTime()
         {
-            return (1f / Config.Graphics.MaxFPS) * 1000f;
+            return 1f / Config.Graphics.MaxFPS * 1000f;
         }
 
         /// <summary>
@@ -606,32 +652,43 @@ namespace Vocaluxe.Base
         /// <returns></returns>
         public static bool IsMicConfig(int player = 0)
         {
-            ReadOnlyCollection<CRecordDevice> devices = CRecord.GetDevices();
+            var devices = CRecord.GetDevices();
             if (devices == null)
+            {
                 return false;
+            }
 
             if (player > 0)
+            {
                 return devices.Any(t => t.PlayerChannel.Contains(player));
+            }
 
-            for (int p = 0; p < CSettings.MaxNumPlayer; ++p)
+            for (var p = 0; p < CSettings.MaxNumPlayer; ++p)
+            {
                 if (devices.Any(t => t.PlayerChannel.Contains(p + 1)))
                 {
                     return true;
                 }
+            }
 
             return false;
         }
 
         public static int GetMaxNumMics()
         {
-            int max = 0;
-            for (int i = 1; i <= CSettings.MaxNumPlayer; i++)
+            var max = 0;
+            for (var i = 1; i <= CSettings.MaxNumPlayer; i++)
             {
                 if (IsMicConfig(i))
+                {
                     max = i;
+                }
                 else
+                {
                     break;
+                }
             }
+
             return max;
         }
 
@@ -647,11 +704,13 @@ namespace Vocaluxe.Base
         {
             //Look for (usb-)mic
             //SRecordDevice[] Devices = new SRecordDevice[CRecord.RecordGetDevices().Length];
-            ReadOnlyCollection<CRecordDevice> devices = CRecord.GetDevices();
+            var devices = CRecord.GetDevices();
             if (devices == null)
+            {
                 return false;
+            }
 
-            foreach (CRecordDevice device in devices)
+            foreach (var device in devices)
             {
                 //Has Device some signal-names in name -> This could be a (usb-)mic
                 if (Regex.IsMatch(device.Name, "Usb|Wireless", RegexOptions.IgnoreCase))
@@ -672,8 +731,9 @@ namespace Vocaluxe.Base
                     }
                 }
             }
+
             //If no usb-mics found -> Look for Devices with "mic" or "mik" 
-            foreach (CRecordDevice device in devices)
+            foreach (var device in devices)
             {
                 //Has Device some signal-names in name -> This could be a mic
                 if (Regex.IsMatch(device.Name, "Mic|Mik", RegexOptions.IgnoreCase))
@@ -712,17 +772,21 @@ namespace Vocaluxe.Base
             {
                 SongFolders.Clear();
 
-                foreach (string folder in Config.Game.SongFolder)
+                foreach (var folder in Config.Game.SongFolder)
                 {
                     //Check if folder exists
                     if (Directory.Exists(folder))
+                    {
                         SongFolders.Add(Path.GetFullPath(folder));
+                    }
                 }
             }
-            
+
             //Test if songfolders are still empty or now empty
-            if(Config.Game.SongFolder.Length == 0)
+            if (Config.Game.SongFolder.Length == 0)
+            {
                 Config.Game.SongFolder = SongFolders.ToArray();
+            }
         }
 
         /// <summary>
@@ -731,19 +795,19 @@ namespace Vocaluxe.Base
         /// <param name="args">Parameters</param>
         public static void LoadCommandLineParams(string[] args)
         {
-            Regex spliterParam = new Regex(@"-{1,2}|\/", RegexOptions.IgnoreCase);
+            var spliterParam = new Regex(@"-{1,2}|\/", RegexOptions.IgnoreCase);
 
             //Complete argument string
-            string arguments = args.Aggregate(String.Empty, (current, arg) => current + arg + " ");
+            var arguments = args.Aggregate(String.Empty, (current, arg) => current + arg + " ");
 
             args = spliterParam.Split(arguments);
 
-            foreach (string text in args)
+            foreach (var text in args)
             {
-                Regex spliterVal = new Regex(@"\s", RegexOptions.IgnoreCase);
+                var spliterVal = new Regex(@"\s", RegexOptions.IgnoreCase);
 
                 //split arg with Spilter-Regex and save in parts
-                string[] parts = spliterVal.Split(text.Trim(), 2);
+                var parts = spliterVal.Split(text.Trim(), 2);
 
                 switch (parts.Length)
                 {
@@ -757,6 +821,7 @@ namespace Vocaluxe.Base
                             //Add value
                             _Values.Add("");
                         }
+
                         break;
 
 
@@ -770,6 +835,7 @@ namespace Vocaluxe.Base
                             //Add value
                             _Values.Add(parts[1]);
                         }
+
                         break;
                 }
             }
@@ -781,25 +847,31 @@ namespace Vocaluxe.Base
         public static void UseCommandLineParamsBefore()
         {
             //Check each parameter
-            for (int i = 0; i < _Params.Count; i++)
+            for (var i = 0; i < _Params.Count; i++)
             {
                 //Switch parameter to lower case
-                string param = _Params[i].ToLower();
+                var param = _Params[i].ToLower();
 
-                string value = _Values[i];
+                var value = _Values[i];
 
                 switch (param)
                 {
                     case "configfile":
                         //Check if value is valid                      
                         if (_CheckFile(value))
+                        {
                             _FileConfig = value;
+                        }
+
                         break;
 
                     case "scorefile":
                         //Check if value is valid
                         if (_CheckFile(value))
+                        {
                             FileHighscoreDB = value;
+                        }
+
                         break;
 
                     case "playlistfolder":
@@ -819,16 +891,16 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void UseCommandLineParamsAfter()
         {
-            bool songFoldersOverwritten = false;
+            var songFoldersOverwritten = false;
             //Check each parameter
-            for (int i = 0; i < _Params.Count; i++)
+            for (var i = 0; i < _Params.Count; i++)
             {
                 //Switch parameter as lower case
-                string param = _Params[i];
+                var param = _Params[i];
 
                 param = param.ToLower();
 
-                string value = _Values[i];
+                var value = _Values[i];
 
                 switch (param)
                 {
@@ -839,8 +911,12 @@ namespace Vocaluxe.Base
                             SongFolders.Clear();
                             songFoldersOverwritten = true;
                         }
+
                         if (!SongFolders.Contains(value))
+                        {
                             SongFolders.Add(value);
+                        }
+
                         break;
                 }
             }
@@ -848,12 +924,15 @@ namespace Vocaluxe.Base
 
         private static bool _CheckFile(string value)
         {
-            char[] chars = Path.GetInvalidPathChars();
-            for (int i = 0; i < chars.Length; i++)
+            var chars = Path.GetInvalidPathChars();
+            for (var i = 0; i < chars.Length; i++)
             {
                 if (value.Contains(chars[i].ToString()))
+                {
                     return false;
+                }
             }
+
             return !String.IsNullOrEmpty(Path.GetFileName(value)) && Path.HasExtension(value);
         }
 
@@ -862,20 +941,22 @@ namespace Vocaluxe.Base
         /// </summary>
         public static void UsePlayers()
         {
-            CProfile[] profiles = CProfiles.GetProfiles();
+            var profiles = CProfiles.GetProfiles();
 
-            for (int j = 0; j < CSettings.MaxNumPlayer; j++)
+            for (var j = 0; j < CSettings.MaxNumPlayer; j++)
             {
-                CGame.Players[j].ProfileID = Guid.Empty;
+                CGame.Players[j].ProfileId = Guid.Empty;
                 if (string.IsNullOrEmpty(Config.Game.Players[j]))
+                {
                     continue;
+                }
 
-                foreach (CProfile profile in profiles)
+                foreach (var profile in profiles)
                 {
                     if (Path.GetFileName(profile.FilePath) == Config.Game.Players[j] && profile.Active == EOffOn.TR_CONFIG_ON)
                     {
                         //Update Game-infos with player
-                        CGame.Players[j].ProfileID = profile.ID;
+                        CGame.Players[j].ProfileId = profile.Id;
                     }
                 }
             }

@@ -38,12 +38,8 @@ namespace Vocaluxe.Base
         ///     Last beat that has been evaluated
         /// </summary>
         private static int _LastEvalBeat;
-        private static readonly Random _Rand = new Random();
 
-        public static Random Rand
-        {
-            get { return _Rand; }
-        }
+        public static Random Rand { get; } = new Random();
 
         public static float GetBeatFromTime(float time, float bpm, float gap)
         {
@@ -53,7 +49,9 @@ namespace Vocaluxe.Base
         public static float GetTimeFromBeats(float beats, float bpm)
         {
             if (bpm > 0f)
+            {
                 return beats / bpm * 60f;
+            }
 
             return 0f;
         }
@@ -185,7 +183,9 @@ namespace Vocaluxe.Base
             set
             {
                 if (value > 0 && value <= CSettings.MaxNumPlayer)
+                {
                     _NumPlayers = value;
+                }
             }
         }
 
@@ -196,7 +196,7 @@ namespace Vocaluxe.Base
 
         public static void ResetPlayer()
         {
-            for (int i = 0; i < Players.Length; i++)
+            for (var i = 0; i < Players.Length; i++)
             {
                 Players[i].Points = 0f;
                 Players[i].PointsLineBonus = 0f;
@@ -207,13 +207,14 @@ namespace Vocaluxe.Base
                 Players[i].SungLines = new List<CSungLine>();
                 Players[i].CurrentLine = -1;
                 Players[i].CurrentNote = -1;
-                Players[i].SongID = -1;
+                Players[i].SongId = -1;
                 Players[i].GameMode = EGameMode.TR_GAMEMODE_NORMAL;
                 Players[i].DateTicks = DateTime.Now.Ticks;
                 Players[i].SongFinished = false;
                 Players[i].RatingLastLine = 0f;
                 Players[i].TimeLastLineChange = float.MaxValue;
             }
+
             _LastEvalBeat = -100;
             CurrentBeatF = -100;
             MidRecordedBeat = -100;
@@ -221,37 +222,49 @@ namespace Vocaluxe.Base
 
         public static void UpdatePoints(float time)
         {
-            CSong song = _SongQueue.GetSong();
+            var song = _SongQueue.GetSong();
 
             if (song == null)
+            {
                 return;
+            }
 
-            float b = GetBeatFromTime(time, song.BPM, song.Gap);
+            var b = GetBeatFromTime(time, song.Bpm, song.Gap);
             if (b <= CurrentBeatF)
+            {
                 return;
+            }
 
             CurrentBeatF = b;
 
-            MidRecordedBeat = -0.5f + GetBeatFromTime(time, song.BPM, song.Gap + CConfig.Config.Record.MicDelay / 1000f);
+            MidRecordedBeat = -0.5f + GetBeatFromTime(time, song.Bpm, song.Gap + CConfig.Config.Record.MicDelay / 1000f);
 
-            for (int p = 0; p < _NumPlayers; p++)
+            for (var p = 0; p < _NumPlayers; p++)
+            {
                 CRecord.AnalyzeBuffer(p);
+            }
 
             if (_LastEvalBeat >= RecordedBeat)
-                return;
-
-            for (int p = 0; p < _NumPlayers; p++)
             {
-                for (int beat = _LastEvalBeat + 1; beat <= RecordedBeat; beat++)
+                return;
+            }
+
+            for (var p = 0; p < _NumPlayers; p++)
+            {
+                for (var beat = _LastEvalBeat + 1; beat <= RecordedBeat; beat++)
                 {
                     if ((_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_MEDLEY && song.Medley.EndBeat == beat) ||
                         (_SongQueue.GetCurrentGameMode() == EGameMode.TR_GAMEMODE_SHORTSONG && song.ShortEnd.EndBeat == beat))
+                    {
                         Players[p].SongFinished = true;
+                    }
 
-                    CSongLine[] lines = song.Notes.GetVoice(Players[p].VoiceNr).Lines;
-                    int line = song.Notes.GetVoice(Players[p].VoiceNr).FindPreviousLine(beat);
+                    var lines = song.Notes.GetVoice(Players[p].VoiceNr).Lines;
+                    var line = song.Notes.GetVoice(Players[p].VoiceNr).FindPreviousLine(beat);
                     if (line < 0 || lines[line].EndBeat < beat)
+                    {
                         continue;
+                    }
 
                     if (Players[p].CurrentLine != line && line > 0)
                     {
@@ -260,48 +273,59 @@ namespace Vocaluxe.Base
 
                     //Check for already sung
                     if (line < Players[p].SungLines.Count - 1)
+                    {
                         continue; // Already sung whole line
+                    }
+
                     if (line == Players[p].SungLines.Count - 1)
                     {
                         //We are in the last line
                         if (beat <= Players[p].SungLines[line].LastNoteBeat)
+                        {
                             continue; //We already have something that ends with/after that beat
+                        }
                     }
 
                     if (line != Players[p].CurrentLine)
+                    {
                         Players[p].CurrentNote = -1;
+                    }
 
                     Players[p].CurrentLine = line;
 
                     while (Players[p].SungLines.Count <= line)
+                    {
                         Players[p].SungLines.Add(new CSungLine());
+                    }
 
-                    CSongNote[] notes = lines[line].Notes;
-                    int note = lines[line].FindPreviousNote(beat);
+                    var notes = lines[line].Notes;
+                    var note = lines[line].FindPreviousNote(beat);
                     if (note < 0 || notes[note].EndBeat < beat)
+                    {
                         continue;
+                    }
 
                     Players[p].CurrentNote = note;
 
                     if (line == lines.Length - 1 && beat == lines[line].LastNoteBeat)
-                        Players[p].SongFinished = true;
-
-                    if (notes[note].PointsForBeat > 0 && (CRecord.ToneValid(p)
-#if DEBUG_HIT
-                        || true
-#elif DEBUG_HIT_1
-                        || (true && p == 0)
-#endif
-                                                         ))
                     {
-                        int tone = notes[note].Tone;
-                        int tonePlayer = CRecord.GetTone(p);
+                        Players[p].SongFinished = true;
+                    }
+
+                    if (notes[note].PointsForBeat > 0 && CRecord.ToneValid(p))
+                    {
+                        var tone = notes[note].Tone;
+                        var tonePlayer = CRecord.GetTone(p);
 
                         while (tonePlayer - tone > 6)
+                        {
                             tonePlayer -= 12;
+                        }
 
                         while (tonePlayer - tone < -6)
+                        {
                             tonePlayer += 12;
+                        }
 
 #if DEBUG_HIT
                             tonePlayer = tone;
@@ -310,29 +334,35 @@ namespace Vocaluxe.Base
 #endif
 
                         if (notes[note].Type == ENoteType.Rap || notes[note].Type == ENoteType.RapGolden)
+                        {
                             tonePlayer = tone;
+                        }
 
                         Players[p].NoteDiff = Math.Abs(tone - tonePlayer);
-                        bool hit = Players[p].NoteDiff <= (2 - (int)CProfiles.GetDifficulty(Players[p].ProfileID));
+                        var hit = Players[p].NoteDiff <= 2 - (int)CProfiles.GetDifficulty(Players[p].ProfileId);
 
                         if (hit)
                         {
                             // valid
                             //CRecord.RecordSetTone(p, Tone);
-                            double points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
-                                            song.Notes.GetVoice(Players[p].VoiceNr).Points;
+                            var points = (CSettings.MaxScore - CSettings.LinebonusScore) * (double)notes[note].PointsForBeat /
+                                         song.Notes.GetVoice(Players[p].VoiceNr).Points;
                             if (notes[note].Type == ENoteType.Golden || notes[note].Type == ENoteType.RapGolden)
+                            {
                                 Players[p].PointsGoldenNotes += points;
+                            }
 
                             Players[p].Points += points;
 
                             // update player notes (sung notes)
                             if (Players[p].SungLines[line].NoteCount > 0)
                             {
-                                CSungNote lastNote = Players[p].SungLines[line].LastNote;
+                                var lastNote = Players[p].SungLines[line].LastNote;
 
                                 if (notes[note].StartBeat == beat || lastNote.EndBeat + 1 != beat || lastNote.Tone != tone || !lastNote.Hit)
+                                {
                                     Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note], points));
+                                }
                                 else
                                 {
                                     Players[p].SungLines[line].IncLastNoteLength();
@@ -340,7 +370,9 @@ namespace Vocaluxe.Base
                                 }
                             }
                             else
+                            {
                                 Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tone, notes[note], points));
+                            }
 
                             Players[p].SungLines[line].LastNote.CheckPerfect();
                             Players[p].SungLines[line].IsPerfect(lines[line]);
@@ -349,27 +381,37 @@ namespace Vocaluxe.Base
                         {
                             if (Players[p].SungLines[line].NoteCount > 0)
                             {
-                                CSungNote lastNote = Players[p].SungLines[line].LastNote;
+                                var lastNote = Players[p].SungLines[line].LastNote;
                                 if (lastNote.Tone != tonePlayer || lastNote.EndBeat + 1 != beat || lastNote.Hit)
+                                {
                                     Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tonePlayer));
+                                }
                                 else
+                                {
                                     Players[p].SungLines[line].IncLastNoteLength();
+                                }
                             }
                             else
+                            {
                                 Players[p].SungLines[line].AddNote(new CSungNote(beat, 1, tonePlayer));
+                            }
                         }
                     }
 
                     // Check if line ended
-                    int numLinesWithPoints = song.Notes.GetNumLinesWithPoints(Players[p].VoiceNr);
+                    var numLinesWithPoints = song.Notes.GetNumLinesWithPoints(Players[p].VoiceNr);
                     if (beat == lines[line].LastNoteBeat && lines[line].Points > 0 && numLinesWithPoints > 0)
                     {
                         // Line Bonus
-                        double factor = Players[p].SungLines[line].Points / (double)lines[line].Points;
+                        var factor = Players[p].SungLines[line].Points / (double)lines[line].Points;
                         if (factor <= 0.4)
+                        {
                             factor = 0.0;
+                        }
                         else if (factor >= 0.9)
+                        {
                             factor = 1.0;
+                        }
                         else
                         {
                             factor -= 0.4;
@@ -377,71 +419,88 @@ namespace Vocaluxe.Base
                             factor *= factor;
                         }
 
-                        double points = CSettings.LinebonusScore * factor / numLinesWithPoints;
+                        var points = CSettings.LinebonusScore * factor / numLinesWithPoints;
                         Players[p].Points += points;
                         Players[p].PointsLineBonus += points;
                         Players[p].SungLines[line].BonusPoints += points;
 
                         //Calculate rating
                         //Shift fraction of correct sung notes to [-0.1, 0.1], player needs to sing five lines fully correctly to get highest ranking
-                        double current = Players[p].SungLines[line].Points / (double)lines[line].Points;
+                        var current = Players[p].SungLines[line].Points / (double)lines[line].Points;
                         Players[p].Rating = (Players[p].Rating + (current * 0.2 - 0.1)).Clamp(0, 1);
                         Players[p].RatingLastLine = current;
                     }
                 }
             }
+
             _LastEvalBeat = RecordedBeat;
         }
 
         public static void ResetToLastLine(int soundStream, CVideoStream vidStream)
         {
-            float[] time = _GetLastSungLineStart();
+            var time = _GetLastSungLineStart();
             ResetToTime(time[0], time[1], soundStream, vidStream);
         }
 
         public static void ResetToTime(float time, float nextStart, int soundStream, CVideoStream vidStream)
         {
             if (time < 0)
+            {
                 time = 0;
+            }
 
-            CurrentBeatF = GetBeatFromTime(time, GetSong().BPM, GetSong().Gap);
+            CurrentBeatF = GetBeatFromTime(time, GetSong().Bpm, GetSong().Gap);
 
-            for (int p = 0; p < _NumPlayers; p++)
+            for (var p = 0; p < _NumPlayers; p++)
             {
                 Players[p].Points = 0;
                 Players[p].PointsGoldenNotes = 0;
                 Players[p].PointsLineBonus = 0;
-                int l = 0;
-                int deleteLine = 0;
-                foreach (CSungLine line in Players[p].SungLines)
+                var l = 0;
+                var deleteLine = 0;
+                foreach (var line in Players[p].SungLines)
                 {
-                    int n = -1;
-                    int deleteNote = 0;
+                    var n = -1;
+                    var deleteNote = 0;
                     Players[p].PointsLineBonus += line.BonusPoints;
-                    foreach (CSungNote note in line.Notes)
+                    foreach (var note in line.Notes)
                     {
                         if (note.StartBeat < nextStart)
                         {
                             if (note.Hit && (note.HitNote.Type == ENoteType.Golden || note.HitNote.Type == ENoteType.RapGolden))
+                            {
                                 Players[p].PointsGoldenNotes += note.Points;
+                            }
+
                             Players[p].Points += note.Points;
                         }
                         else if (deleteNote != -1)
+                        {
                             deleteNote = n;
+                        }
+
                         n++;
                     }
+
                     while (line.NoteCount > n && n >= 0)
                     {
                         if (line.Notes[n].Hit && (line.Notes[n].HitNote.Type == ENoteType.Golden || line.Notes[n].HitNote.Type == ENoteType.RapGolden))
+                        {
                             Players[p].PointsGoldenNotes -= line.Notes[n].Points;
+                        }
+
                         Players[p].Points -= line.Notes[n].Points;
                         line.DeleteNote(n);
                     }
 
                     if (line.LastNoteBeat > CurrentBeat && deleteLine == 0)
+                    {
                         deleteLine = l;
+                    }
+
                     l++;
                 }
+
                 Players[p].SungLines.RemoveRange(deleteLine, Players[p].SungLines.Count - deleteLine);
             }
 
@@ -456,34 +515,44 @@ namespace Vocaluxe.Base
 
         private static float[] _GetNoteTimeBeforeBeat(int beat)
         {
-            CSong song = GetSong();
-            int startBeat = (int)Math.Floor(beat - GetBeatFromTime(CSettings.PauseResetTime, song.BPM, 0f));
-            int lastStart = 0;
-            int nextStart = 0;
-            foreach (CVoice voice in song.Notes.Voices)
+            var song = GetSong();
+            var startBeat = (int)Math.Floor(beat - GetBeatFromTime(CSettings.PauseResetTime, song.Bpm, 0f));
+            var lastStart = 0;
+            var nextStart = 0;
+            foreach (var voice in song.Notes.Voices)
             {
-                int lastEnd = 0;
-                int voiceStart = 0;
-                int nextStartNote = 0;
-                foreach (CSongLine line in voice.Lines)
+                var lastEnd = 0;
+                var voiceStart = 0;
+                var nextStartNote = 0;
+                foreach (var line in voice.Lines)
                 {
-                    foreach (CSongNote note in line.Notes)
+                    foreach (var note in line.Notes)
                     {
                         if (note.StartBeat > startBeat)
                         {
                             nextStartNote = note.StartBeat;
                             break;
                         }
+
                         voiceStart = note.StartBeat;
                         lastEnd = note.EndBeat;
                     }
+
                     if (nextStartNote > 0)
+                    {
                         break;
+                    }
                 }
+
                 if (nextStartNote - beat > CSettings.PauseResetTime)
+                {
                     lastStart = beat;
+                }
                 else if (nextStartNote - lastEnd > CSettings.PauseResetTime)
-                    lastStart = nextStartNote - (int)Math.Floor(GetBeatFromTime(CSettings.PauseResetTime, song.BPM, 0f));
+                {
+                    lastStart = nextStartNote - (int)Math.Floor(GetBeatFromTime(CSettings.PauseResetTime, song.Bpm, 0f));
+                }
+
                 if (voiceStart > lastStart)
                 {
                     lastStart = voiceStart;
@@ -491,7 +560,7 @@ namespace Vocaluxe.Base
                 }
             }
 
-            return new float[] {GetTimeFromBeats(lastStart, GetSong().BPM), nextStart};
+            return new float[] { GetTimeFromBeats(lastStart, GetSong().Bpm), nextStart };
         }
     }
 }

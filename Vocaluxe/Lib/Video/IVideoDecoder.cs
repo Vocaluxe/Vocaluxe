@@ -40,9 +40,9 @@ namespace Vocaluxe.Lib.Video
         CVideoStream Load(string videoFileName);
 
         /// <summary>
-        ///     Closes the stream with the given ID
+        ///     Closes the stream with the given Id
         /// </summary>
-        /// <param name="stream">ID of the stream</param>
+        /// <param name="stream">Id of the stream</param>
         void Close(ref CVideoStream stream);
 
         /// <summary>

@@ -18,13 +18,11 @@
 using System;
 using System.Drawing;
 using System.Threading;
-using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Input.WiiMote
 {
-
     #region DataTypes
     public class CWiiMoteStatus
     {
@@ -136,6 +134,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
             WiiMoteState = ws;
         }
     }
+
     public class CWiiMoteConnectionChangedEventArgs : EventArgs
     {
         public readonly bool Connected;
@@ -150,10 +149,10 @@ namespace Vocaluxe.Lib.Input.WiiMote
     public sealed class CWiiMoteLib
     {
         // ReSharper disable InconsistentNaming
-        private const ushort _VID = 0x057e;
+        private const ushort _VId = 0x057e;
         // ReSharper restore InconsistentNaming
-        private const ushort _PID = 0x0306; //Wiimotion
-        private const ushort _PIDPlus = 0x0330; //Wiimotion Plus
+        private const ushort _PId = 0x0306; //Wiimotion
+        private const ushort _PIdPlus = 0x0330; //Wiimotion Plus
 
         // registers
         private const int _RegisterIR = 0x04b00030;
@@ -200,7 +199,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 _Connected = value;
 
                 if (WiiMoteConnectionChanged != null)
+                {
                     WiiMoteConnectionChanged.Invoke(this, new CWiiMoteConnectionChangedEventArgs(value));
+                }
             }
         }
 
@@ -232,14 +233,17 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         private void _StartReader()
         {
-            _Reader = new Thread(_ReaderLoop) {Name = "WiiMoteLib"};
+            _Reader = new Thread(_ReaderLoop) { Name = "WiiMoteLib" };
             _Reader.Start();
         }
 
         private void _WaitForReader()
         {
             if (_Reader == null)
+            {
                 return;
+            }
+
             _Reader.Join();
             _Reader = null;
         }
@@ -248,27 +252,35 @@ namespace Vocaluxe.Lib.Input.WiiMote
         {
             //We might have had a reader thread, that is not finished yet, so let it finish and close it's handle first or it will close the new one
             _WaitForReader();
-            Connected = CHIDApi.Open(_VID, pid, out _Handle);
+            Connected = CHIDApi.Open(_VId, pid, out _Handle);
             if (Connected)
             {
                 _StartReader();
                 if (!_ReadCalibration())
+                {
                     Connected = false;
+                }
             }
         }
 
         public bool Connect()
         {
             if (Connected)
+            {
                 return true;
+            }
 
             if (_Error)
+            {
                 return false;
+            }
 
-            _TryConnect(_PID); //Try WiiMotion
+            _TryConnect(_PId); //Try WiiMotion
 
             if (!Connected)
-                _TryConnect(_PIDPlus); //Try WiiMotion Plus
+            {
+                _TryConnect(_PIdPlus); //Try WiiMotion Plus
+            }
 
             return Connected;
         }
@@ -281,7 +293,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
         public void SetReportType(EInputReport type, EIRSensitivity irSensitivity, bool continuous)
         {
             if (!Connected)
+            {
                 return;
+            }
 
             switch (type)
             {
@@ -309,7 +323,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
             _WiiMoteState.LEDState.LED4 = led4;
 
             if (!Connected)
+            {
                 return;
+            }
 
             _ClearReport();
 
@@ -329,9 +345,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
             // the LED report also handles rumble
             SetLEDs(_WiiMoteState.LEDState.LED1,
-                    _WiiMoteState.LEDState.LED2,
-                    _WiiMoteState.LEDState.LED3,
-                    _WiiMoteState.LEDState.LED4);
+                _WiiMoteState.LEDState.LED2,
+                _WiiMoteState.LEDState.LED3,
+                _WiiMoteState.LEDState.LED4);
         }
         #endregion Interface
 
@@ -362,10 +378,14 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 if (bytesRead > 0 && _ParseInputReport(buff))
                 {
                     if (WiiMoteChanged != null)
+                    {
                         WiiMoteChanged.Invoke(this, new CWiiMoteChangedEventArgs(_WiiMoteState));
+                    }
                 }
+
                 Thread.Sleep(5);
             }
+
             CHIDApi.Close(_Handle);
         }
 
@@ -473,6 +493,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
                         _WiiMoteState.IRState.Sensors[0].Position.Y = buff[7] | ((buff[8] >> 6) & 0x03) << 8;
                         _WiiMoteState.IRState.Sensors[0].Width = 0;
                     }
+
                     _WiiMoteState.IRState.Sensors[1].Active = !(buff[9] == 0xff && buff[10] == 0xff);
                     if (_WiiMoteState.IRState.Sensors[1].Active)
                     {
@@ -480,17 +501,22 @@ namespace Vocaluxe.Lib.Input.WiiMote
                         _WiiMoteState.IRState.Sensors[1].Position.Y = buff[10] | ((buff[8] >> 2) & 0x03) << 8;
                         _WiiMoteState.IRState.Sensors[1].Width = 0;
                     }
+
                     break;
                 case EIRMode.Extended:
-                    for (int i = 0; i < 4; i++)
+                    for (var i = 0; i < 4; i++)
                     {
                         _WiiMoteState.IRState.Sensors[i].Active = !(buff[6 + i * 3] == 0xff && buff[7 + i * 3] == 0xff && buff[8 + i * 3] == 0xff);
                         if (!_WiiMoteState.IRState.Sensors[i].Active)
+                        {
                             continue;
+                        }
+
                         _WiiMoteState.IRState.Sensors[i].Position.X = buff[6 + i * 3] | ((buff[8 + i * 3] >> 4) & 0x03) << 8;
                         _WiiMoteState.IRState.Sensors[i].Position.Y = buff[7 + i * 3] | ((buff[8 + i * 3] >> 6) & 0x03) << 8;
                         _WiiMoteState.IRState.Sensors[i].Width = buff[8 + i * 3] & 0x0f;
                     }
+
                     break;
             }
 
@@ -505,14 +531,22 @@ namespace Vocaluxe.Lib.Input.WiiMote
             else if (_WiiMoteState.IRState.Sensors[0].Active)
             {
                 if (_WiiMoteState.IRState.Sensors[0].Position.X > 512)
+                {
                     _WiiMoteState.IRState.Position.X = _WiiMoteState.IRState.Sensors[0].Position.X - _WiiMoteState.IRState.Distance.X / 2;
+                }
                 else
+                {
                     _WiiMoteState.IRState.Position.X = _WiiMoteState.IRState.Sensors[0].Position.X + _WiiMoteState.IRState.Distance.X / 2;
+                }
 
                 if (_WiiMoteState.IRState.Sensors[0].Position.X < 384)
+                {
                     _WiiMoteState.IRState.Position.Y = _WiiMoteState.IRState.Sensors[0].Position.Y - _WiiMoteState.IRState.Distance.Y / 2;
+                }
                 else
+                {
                     _WiiMoteState.IRState.Position.Y = _WiiMoteState.IRState.Sensors[0].Position.Y + _WiiMoteState.IRState.Distance.Y / 2;
+                }
             }
         }
 
@@ -530,13 +564,15 @@ namespace Vocaluxe.Lib.Input.WiiMote
                 Connected = false;
             }
 
-            int size = (buff[3] >> 4) + 1;
-            int offset = buff[4] << 8 | buff[5];
+            var size = (buff[3] >> 4) + 1;
+            var offset = buff[4] << 8 | buff[5];
 
             Array.Copy(buff, 6, _ReadBuff, offset - _Address, size);
 
             if (_Address + _Size == offset + size)
+            {
                 _ReadDone.Set();
+            }
         }
 
         private byte _RumbleBit
@@ -547,9 +583,11 @@ namespace Vocaluxe.Lib.Input.WiiMote
         private bool _ReadCalibration()
         {
             // this appears to change the report type to 0x31
-            byte[] buff = _ReadData(0x0016, 7);
+            var buff = _ReadData(0x0016, 7);
             if (buff == null)
+            {
                 return false;
+            }
 
             _WiiMoteState.AccelCalibrationInfo.X0 = buff[0];
             _WiiMoteState.AccelCalibrationInfo.Y0 = buff[1];
@@ -583,36 +621,37 @@ namespace Vocaluxe.Lib.Input.WiiMote
             switch (sensitivity)
             {
                 case EIRSensitivity.Level1:
-                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] {0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0x64, 0x00, 0xfe});
+                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] { 0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0x64, 0x00, 0xfe });
                     Thread.Sleep(50);
-                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] {0xfd, 0x05});
+                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] { 0xfd, 0x05 });
                     break;
                 case EIRSensitivity.Level2:
-                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] {0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0x96, 0x00, 0xb4});
+                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] { 0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0x96, 0x00, 0xb4 });
                     Thread.Sleep(50);
-                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] {0xb3, 0x04});
+                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] { 0xb3, 0x04 });
                     break;
                 case EIRSensitivity.Level3:
-                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] {0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0xaa, 0x00, 0x64});
+                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] { 0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0xaa, 0x00, 0x64 });
                     Thread.Sleep(50);
-                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] {0x63, 0x03});
+                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] { 0x63, 0x03 });
                     break;
                 case EIRSensitivity.Level4:
-                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] {0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0xc8, 0x00, 0x36});
+                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] { 0x02, 0x00, 0x00, 0x71, 0x01, 0x00, 0xc8, 0x00, 0x36 });
                     Thread.Sleep(50);
-                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] {0x35, 0x03});
+                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] { 0x35, 0x03 });
                     break;
                 case EIRSensitivity.Level5:
-                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] {0x07, 0x00, 0x00, 0x71, 0x01, 0x00, 0x72, 0x00, 0x20});
+                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] { 0x07, 0x00, 0x00, 0x71, 0x01, 0x00, 0x72, 0x00, 0x20 });
                     Thread.Sleep(50);
-                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] {0x1, 0x03});
+                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] { 0x1, 0x03 });
                     break;
                 case EIRSensitivity.Max:
-                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90, 0x00, 0x41});
+                    _WriteData(_RegisterIRSensitivity1, 9, new byte[] { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x90, 0x00, 0x41 });
                     Thread.Sleep(50);
-                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] {0x40, 0x00});
+                    _WriteData(_RegisterIRSensitivity2, 2, new byte[] { 0x40, 0x00 });
                     break;
             }
+
             Thread.Sleep(50);
             _WriteData(_RegisterIRMode, (byte)mode);
             Thread.Sleep(50);
@@ -670,7 +709,7 @@ namespace Vocaluxe.Lib.Input.WiiMote
 
         private void _WriteData(int address, byte data)
         {
-            _WriteData(address, 1, new byte[] {data});
+            _WriteData(address, 1, new byte[] { data });
         }
 
         private void _WriteData(int address, byte size, byte[] buff)

@@ -15,10 +15,9 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using Gst;
 using System;
-using Vocaluxe.Base;
 using System.IO;
+using Gst;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
@@ -28,8 +27,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         public override bool Init()
         {
             if (_Initialized)
+            {
                 return false;
-            #if WIN
+            }
+#if WIN
 #if ARCH_X86
             const string varName = "GSTREAMER_1_0_ROOT_X86";
 #endif
@@ -61,7 +62,7 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
            
             
             COSFunctions.AddEnvironmentPath(dllDirectory);
-            #endif
+#endif
             Application.Init();
 
             _Initialized = Application.IsInitialized;
@@ -71,7 +72,10 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
         public override void Close()
         {
             if (!_Initialized)
+            {
                 return;
+            }
+
             base.Close();
             Application.Deinit();
         }

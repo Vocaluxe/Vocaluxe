@@ -52,14 +52,14 @@ namespace Vocaluxe.Lib.Draw
             {
                 _Form.Close();
             }
-            catch {}
+            catch { }
         }
 
         protected void _CenterToScreen()
         {
-            Screen screen = Screen.FromControl(_Form);
+            var screen = Screen.FromControl(_Form);
             _Form.Location = new Point((screen.WorkingArea.Width - _Form.Width) / 2,
-                                       (screen.WorkingArea.Height - _Form.Height) / 2);
+                (screen.WorkingArea.Height - _Form.Height) / 2);
         }
 
         private static bool _OnMessageAvoidScreenOff(ref Message m)
@@ -76,8 +76,10 @@ namespace Vocaluxe.Lib.Draw
                         case 0xF170: // SC_MONITORPOWER
                             return false;
                     }
+
                     break;
             }
+
             return true;
         }
 
@@ -92,7 +94,7 @@ namespace Vocaluxe.Lib.Draw
 
             _Form.FormBorderStyle = FormBorderStyle.None;
 
-            Screen screen = Screen.FromControl(_Form);
+            var screen = Screen.FromControl(_Form);
             _Form.DesktopBounds = new Rectangle(screen.Bounds.Location, new Size(screen.Bounds.Width, screen.Bounds.Height));
 
             if (_Form.WindowState == FormWindowState.Maximized)
@@ -102,7 +104,9 @@ namespace Vocaluxe.Lib.Draw
                 _Form.WindowState = FormWindowState.Maximized;
             }
             else
+            {
                 _DoResize();
+            }
         }
 
         protected override void _LeaveFullScreen()
@@ -154,9 +158,9 @@ namespace Vocaluxe.Lib.Draw
         protected void _OnMouseLeave(object sender, EventArgs e)
         {
             _Mouse.Visible = false;
-            #if !WIN && !DEBUG
+#if !WIN && !DEBUG
             _Form.Cursor = Cursors.Default;
-            #endif
+#endif
             Cursor.Show();
         }
 
@@ -164,9 +168,9 @@ namespace Vocaluxe.Lib.Draw
         {
             Cursor.Hide();
             _Mouse.Visible = true;
-            #if !WIN && !DEBUG //don't want to be stuck without a cursor when debugging
+#if !WIN && !DEBUG //don't want to be stuck without a cursor when debugging
             _Form.Cursor = new Cursor("Linux/blank.cur"); //Cursor.Hide() doesn't work in Mono
-            #endif
+#endif
         }
         #endregion
 
@@ -191,13 +195,15 @@ namespace Vocaluxe.Lib.Draw
             _Keys.KeyUp(e);
         }
         #endregion keyboard event handlers
-
         #endregion
 
         public override bool Init()
         {
             if (!base.Init())
+            {
                 return false;
+            }
+
             _Form.Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
             _Form.Text = CSettings.GetFullVersionText();
             ((IFormHook)_Form).OnMessage = _OnMessageAvoidScreenOff;

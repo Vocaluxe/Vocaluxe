@@ -30,12 +30,17 @@ namespace VocaluxeLib
 {
     public struct SMargin
     {
-        [XmlAttribute] public int Default;
+        [XmlAttribute]
+        public int Default;
         public int? Left, Right, Top, Bottom;
-        [XmlIgnore] public bool LeftSpecified;
-        [XmlIgnore] public bool RightSpecified;
-        [XmlIgnore] public bool TopSpecified;
-        [XmlIgnore] public bool BottomSpecified;
+        [XmlIgnore]
+        public bool LeftSpecified;
+        [XmlIgnore]
+        public bool RightSpecified;
+        [XmlIgnore]
+        public bool TopSpecified;
+        [XmlIgnore]
+        public bool BottomSpecified;
     }
 
     public struct SThemeCoverGeneratorText
@@ -49,33 +54,41 @@ namespace VocaluxeLib
 
     public struct SThemeCoverGenerator
     {
-        [XmlAttribute] public ECoverGeneratorType Type;
+        [XmlAttribute]
+        public ECoverGeneratorType Type;
         public SThemeCoverGeneratorText Text;
         public SThemeColor BackgroundColor;
-        [XmlElement(IsNullable = true)] public string Image;
-        [DefaultValue(0.5f)] public float ImageAlpha;
-        [DefaultValue(false)] public bool ShowFirstCover;
+        [XmlElement(IsNullable = true)]
+        public string Image;
+        [DefaultValue(0.5f)]
+        public float ImageAlpha;
+        [DefaultValue(false)]
+        public bool ShowFirstCover;
     }
 
     public struct SThemeCoverInfo
     {
         public string Name;
         public string Folder;
-        [XmlElement(IsNullable = true)] public string Author;
+        [XmlElement(IsNullable = true)]
+        public string Author;
     }
 
     [XmlRoot("root")]
     public struct SThemeCover
     {
-        [XmlIgnore] public string FolderPath;
+        [XmlIgnore]
+        public string FolderPath;
         public SThemeCoverInfo Info;
-        [XmlElement("CoverGenerator", IsNullable = false)] public List<SThemeCoverGenerator> CoverGenerators;
+        [XmlElement("CoverGenerator", IsNullable = false)]
+        public List<SThemeCoverGenerator> CoverGenerators;
     }
 
     #region Drawing
     public struct SColorF
     {
-        [XmlNormalized] public float R, G, B, A;
+        [XmlNormalized]
+        public float R, G, B, A;
 
         public SColorF(float r, float g, float b, float a)
         {
@@ -87,8 +100,8 @@ namespace VocaluxeLib
             A = a;
         }
 
-        public SColorF(SColorF color, float a) : this(color.R, color.G, color.B, a) {}
-        public SColorF(Color color, float a) : this(color.R / 255f, color.G / 255f, color.B / 255f, a) {}
+        public SColorF(SColorF color, float a) : this(color.R, color.G, color.B, a) { }
+        public SColorF(Color color, float a) : this(color.R / 255f, color.G / 255f, color.B / 255f, a) { }
 
         public SColorF(Color color)
         {
@@ -109,11 +122,16 @@ namespace VocaluxeLib
     [XmlRoot("Color")]
     public struct SThemeColor
     {
-        [DefaultValue(null), XmlAttribute] public string Name;
-        [XmlNormalized] public float? R;
-        [XmlNormalized] public float? G;
-        [XmlNormalized] public float? B;
-        [XmlNormalized] public float? A;
+        [DefaultValue(null), XmlAttribute]
+        public string Name;
+        [XmlNormalized]
+        public float? R;
+        [XmlNormalized]
+        public float? G;
+        [XmlNormalized]
+        public float? B;
+        [XmlNormalized]
+        public float? A;
 
         //Needed for serialization
         public bool NameSpecified
@@ -141,21 +159,36 @@ namespace VocaluxeLib
         {
             bool ok;
             if (!String.IsNullOrEmpty(Name))
+            {
                 ok = CBase.Themes.GetColor(Name, partyModeId, out color);
+            }
             else
             {
                 Debug.Assert(R.HasValue || G.HasValue || B.HasValue);
                 ok = true;
                 color = new SColorF(1, 1, 1, 1);
             }
+
             if (R.HasValue)
+            {
                 color.R = R.Value;
+            }
+
             if (G.HasValue)
+            {
                 color.G = G.Value;
+            }
+
             if (B.HasValue)
+            {
                 color.B = B.Value;
+            }
+
             if (A.HasValue)
+            {
                 color.A = A.Value;
+            }
+
             return ok;
         }
     }
@@ -167,7 +200,8 @@ namespace VocaluxeLib
         public float W;
         public float H;
         public float Z;
-        [XmlIgnore] public float Rotation; //0..360°
+        [XmlIgnore]
+        public float Rotation; //0..360°
 
         [XmlIgnore]
         public float Right
@@ -279,11 +313,19 @@ namespace VocaluxeLib
             Mod = EModifier.None;
 
             if (alt)
+            {
                 Mod |= EModifier.Alt;
+            }
+
             if (shift)
+            {
                 Mod |= EModifier.Shift;
+            }
+
             if (ctrl)
+            {
                 Mod |= EModifier.Ctrl;
+            }
         }
 
         /// <summary>
@@ -341,7 +383,7 @@ namespace VocaluxeLib
     #region Game
     public struct SPlayer
     {
-        public Guid ProfileID;
+        public Guid ProfileId;
         public double Points;
         public double PointsLineBonus;
         public double PointsGoldenNotes;
@@ -355,7 +397,7 @@ namespace VocaluxeLib
 
         public float TimeLastLineChange;
 
-        public int SongID;
+        public int SongId;
         public EGameMode GameMode;
         public long DateTicks;
         public bool SongFinished;
@@ -368,7 +410,7 @@ namespace VocaluxeLib
         public string Date;
         public EGameDifficulty Difficulty;
         public int VoiceNr;
-        public int ID;
+        public int Id;
     }
     #endregion Game
 }

@@ -74,8 +74,11 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
             Analyzer_Process(_Instance);
             maxVolume = Analyzer_GetPeak(_Instance);
             if (maxVolume < _VolumeTreshold)
+            {
                 return -1;
-            int note = (int)Math.Round(Analyzer_FindNote(_Instance, 60, 1800));
+            }
+
+            var note = (int)Math.Round(Analyzer_FindNote(_Instance, 60, 1800));
             _SetWeights(note, weights);
             return note;
         }
@@ -88,7 +91,10 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
         protected override void _Dispose(bool disposing)
         {
             if (_Instance == IntPtr.Zero)
+            {
                 throw new ObjectDisposedException(GetType().Name);
+            }
+
             Analyzer_Free(_Instance);
             _Instance = IntPtr.Zero;
         }

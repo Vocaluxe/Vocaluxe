@@ -28,7 +28,8 @@ namespace VocaluxeLib.Menu
     [XmlType("Equalizer")]
     public struct SThemeEqualizer
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public string Skin;
 
@@ -46,7 +47,7 @@ namespace VocaluxeLib.Menu
 
     public class CEqualizer : CMenuElementBase, IMenuElement, IThemeable
     {
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
         private SThemeEqualizer _Theme;
 
         public SColorF Color;
@@ -73,9 +74,9 @@ namespace VocaluxeLib.Menu
             get { return false; }
         }
 
-        public CEqualizer(int partyModeID)
+        public CEqualizer(int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = new SThemeEqualizer();
             ThemeLoaded = false;
 
@@ -87,9 +88,9 @@ namespace VocaluxeLib.Menu
             ReflectionHeight = 0f;
         }
 
-        public CEqualizer(SThemeEqualizer theme, int partyModeID)
+        public CEqualizer(SThemeEqualizer theme, int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = theme;
 
             ThemeLoaded = true;
@@ -98,23 +99,35 @@ namespace VocaluxeLib.Menu
         public void Update(float[] weights, float volume)
         {
             if (weights == null || weights.Length == 0 || _Bars == null)
-                return;
-            if (volume < 0.001)
             {
-                for (int i = 0; i < _Bars.Length; i++)
-                    _Bars[i] = 0f;
                 return;
             }
+
+            if (volume < 0.001)
+            {
+                for (var i = 0; i < _Bars.Length; i++)
+                {
+                    _Bars[i] = 0f;
+                }
+
+                return;
+            }
+
             if (volume > _MaxVolume)
+            {
                 _MaxVolume = volume;
+            }
+
             _MaxBar = 0;
-            float maxVal = -99f;
-            for (int i = 0; i < _Bars.Length; i++)
+            var maxVal = -99f;
+            for (var i = 0; i < _Bars.Length; i++)
             {
                 if (i < weights.Length)
                 {
                     if (_Theme.DrawNegative == EOffOn.TR_CONFIG_OFF && weights[i] < 0)
+                    {
                         _Bars[i] = 0f;
+                    }
                     else
                     {
                         _Bars[i] = weights[i] * volume / _MaxVolume;
@@ -126,17 +139,24 @@ namespace VocaluxeLib.Menu
                     }
                 }
                 else
+                {
                     _Bars[i] = 0f;
+                }
             }
         }
 
         public void Reset()
         {
             if (_Bars == null || _Bars.Length == 0)
+            {
                 return;
+            }
 
-            for (int i = 0; i < _Bars.Length; i++)
+            for (var i = 0; i < _Bars.Length; i++)
+            {
                 _Bars[i] = 0f;
+            }
+
             _MaxBar = 0;
             _MaxVolume = 0f;
         }
@@ -144,32 +164,38 @@ namespace VocaluxeLib.Menu
         public void Draw()
         {
             if (_Bars == null || _Theme.Style != EEqualizerStyle.Columns)
-                return;
-
-            float dx = Rect.W / _Bars.Length;
-            float scaleVal = (_Bars[_MaxBar] < 0.00001f) ? 0f : 1 / _Bars[_MaxBar];
-
-            for (int i = 0; i < _Bars.Length; i++)
             {
-                float value = _Bars[i] * scaleVal;
+                return;
+            }
+
+            var dx = Rect.W / _Bars.Length;
+            var scaleVal = _Bars[_MaxBar] < 0.00001f ? 0f : 1 / _Bars[_MaxBar];
+
+            for (var i = 0; i < _Bars.Length; i++)
+            {
+                var value = _Bars[i] * scaleVal;
                 var bar = new SRectF(Rect.X + dx * i, Rect.Y + Rect.H - value * Rect.H, dx - Space, value * Rect.H, Rect.Z);
-                SColorF color = Color;
+                var color = Color;
                 if (i == _MaxBar)
+                {
                     color = MaxColor;
+                }
 
                 CBase.Drawing.DrawRect(color, bar);
 
                 if (Reflection)
+                {
                     CBase.Drawing.DrawRectReflection(color, bar, ReflectionSpace, ReflectionHeight);
+                }
             }
         }
 
-        public void UnloadSkin() {}
+        public void UnloadSkin() { }
 
         public void LoadSkin()
         {
-            _Theme.Color.Get(_PartyModeID, out Color);
-            _Theme.MaxColor.Get(_PartyModeID, out MaxColor);
+            _Theme.Color.Get(_PartyModeId, out Color);
+            _Theme.MaxColor.Get(_PartyModeId, out MaxColor);
 
             MaxRect = _Theme.Rect;
             Space = _Theme.Space;
@@ -182,8 +208,10 @@ namespace VocaluxeLib.Menu
             }
 
             _Bars = new float[_Theme.NumBars];
-            for (int i = 0; i < _Bars.Length; i++)
+            for (var i = 0; i < _Bars.Length; i++)
+            {
                 _Bars[i] = 0f;
+            }
         }
 
         public void ReloadSkin()
@@ -211,13 +239,17 @@ namespace VocaluxeLib.Menu
         {
             W += stepW;
             if (W <= 0)
+            {
                 W = 1;
+            }
 
             _Theme.Rect.W = Rect.W;
 
             H += stepH;
             if (H <= 0)
+            {
                 H = 1;
+            }
 
             _Theme.Rect.H = Rect.H;
         }

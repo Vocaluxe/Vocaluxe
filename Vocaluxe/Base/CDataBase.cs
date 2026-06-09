@@ -40,11 +40,13 @@ namespace Vocaluxe.Base
                 CLog.Fatal("Error initializing Highscore-DB");
                 return false;
             }
+
             if (!_CoverDB.Init())
             {
                 CLog.Fatal("Error initializing Cover-DB");
                 return false;
-            }            
+            }
+
             return true;
         }
 
@@ -55,6 +57,7 @@ namespace Vocaluxe.Base
                 _HighscoreDB.Close();
                 _HighscoreDB = null;
             }
+
             if (_CoverDB != null)
             {
                 _CoverDB.Close();
@@ -62,21 +65,22 @@ namespace Vocaluxe.Base
             }
         }
 
-        public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID)
+        public static bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreId)
         {
             if (_HighscoreDB == null)
             {
                 numPlayed = 0;
                 dateAdded = new DateTime();
-                highscoreID = 0;
+                highscoreId = 0;
                 return false;
             }
-            return _HighscoreDB.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreID);
+
+            return _HighscoreDB.GetDataBaseSongInfos(artist, title, out numPlayed, out dateAdded, out highscoreId);
         }
 
-        public static List<SDBScoreEntry> LoadScore(int songID, EGameMode gameMode, EHighscoreStyle style)
+        public static List<SDBScoreEntry> LoadScore(int songId, EGameMode gameMode, EHighscoreStyle style)
         {
-            return _HighscoreDB == null ? null : _HighscoreDB.LoadScore(songID, gameMode, style);
+            return _HighscoreDB == null ? null : _HighscoreDB.LoadScore(songId, gameMode, style);
         }
 
         public static int AddScore(SPlayer player)
@@ -84,10 +88,12 @@ namespace Vocaluxe.Base
             return _HighscoreDB == null ? -1 : _HighscoreDB.AddScore(player);
         }
 
-        public static void IncreaseSongCounter(int dataBaseSongID)
+        public static void IncreaseSongCounter(int dataBaseSongId)
         {
             if (_HighscoreDB != null)
-                _HighscoreDB.IncreaseSongCounter(dataBaseSongID);
+            {
+                _HighscoreDB.IncreaseSongCounter(dataBaseSongId);
+            }
         }
 
         public static bool GetCover(string fileName, ref CTextureRef tex, int maxSize)
@@ -98,7 +104,9 @@ namespace Vocaluxe.Base
         public static void CommitCovers()
         {
             if (_CoverDB != null)
+            {
                 _CoverDB.CommitCovers();
+            }
         }
     }
 }

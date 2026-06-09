@@ -29,7 +29,7 @@ namespace Vocaluxe.Base
 
         private String _SearchString = String.Empty;
         private EDuetOptions _DuetOptions = EDuetOptions.All;
-        private int _PlaylistID = -1;
+        private int _PlaylistId = -1;
 
         public List<CSong> FilteredSongs
         {
@@ -71,13 +71,13 @@ namespace Vocaluxe.Base
             SetOptions(searchString, duetOptions, -1);
         }
 
-        public void SetOptions(String searchString, EDuetOptions duetOptions, int playlistID)
+        public void SetOptions(String searchString, EDuetOptions duetOptions, int playlistId)
         {
-            if (searchString != _SearchString || duetOptions != _DuetOptions || playlistID != _PlaylistID)
+            if (searchString != _SearchString || duetOptions != _DuetOptions || playlistId != _PlaylistId)
             {
                 _SearchString = searchString;
                 _DuetOptions = duetOptions;
-                _PlaylistID = playlistID;
+                _PlaylistId = playlistId;
                 _SetChanged();
             }
         }
@@ -85,36 +85,42 @@ namespace Vocaluxe.Base
         private void _FilterSongs()
         {
             if (!_Changed)
+            {
                 return;
+            }
 
             _FilteredSongs.Clear();
 
             string[] searchStrings = null;
             if (_SearchString != "")
-                searchStrings = _SearchString.ToUpper().Split(new char[] {' '});
+            {
+                searchStrings = _SearchString.ToUpper().Split(new char[] { ' ' });
+            }
 
-            String searchForArtist = null;      // a:
-            String searchForTitle = null;       // t:
-            String searchForGenre = null;       // g:
-            String searchForYear = null;        // y:
-            String searchForLanguage = null;    // l:
-            String searchForCreator = null;     // c:
-            String searchForEdition = null;     // e:
-            String searchForTags = null;        // #:
-            String searchForAlbum = null;       // al:
-            String searchForFileName = null;    // fi:
-            String searchForFolderName = null;  // fo:
-            bool expertSearch = false;
+            String searchForArtist = null; // a:
+            String searchForTitle = null; // t:
+            String searchForGenre = null; // g:
+            String searchForYear = null; // y:
+            String searchForLanguage = null; // l:
+            String searchForCreator = null; // c:
+            String searchForEdition = null; // e:
+            String searchForTags = null; // #:
+            String searchForAlbum = null; // al:
+            String searchForFileName = null; // fi:
+            String searchForFolderName = null; // fo:
+            var expertSearch = false;
 
             if (searchStrings != null)
             {
-                foreach (String searchToken in searchStrings)
+                foreach (var searchToken in searchStrings)
                 {
                     if (searchToken.Length < 3)
+                    {
                         continue;
+                    }
 
-                    String temp = searchToken.Substring(0, 2);
-                    bool foundIt = true;
+                    var temp = searchToken.Substring(0, 2);
+                    var foundIt = true;
 
                     switch (temp)
                     {
@@ -149,12 +155,18 @@ namespace Vocaluxe.Base
 
                     if (foundIt)
                     {
-                        if (!expertSearch) expertSearch = true;
+                        if (!expertSearch)
+                        {
+                            expertSearch = true;
+                        }
+
                         continue;
                     }
 
                     if (searchToken.Length < 4)
+                    {
                         continue;
+                    }
 
                     foundIt = true;
                     temp = searchToken.Substring(0, 3);
@@ -176,113 +188,162 @@ namespace Vocaluxe.Base
                     }
 
                     if (foundIt && !expertSearch)
+                    {
                         expertSearch = true;
+                    }
                 }
             }
 
-            foreach (CSong song in CSongs.Songs)
+            foreach (var song in CSongs.Songs)
             {
-                if (_PlaylistID != -1 && !CBase.Playlist.ContainsSong(_PlaylistID, song.ID))
+                if (_PlaylistId != -1 && !CBase.Playlist.ContainsSong(_PlaylistId, song.Id))
+                {
                     continue;
-				
+                }
+
                 if ((song.IsDuet && _DuetOptions != EDuetOptions.NoDuets) || (!song.IsDuet && _DuetOptions != EDuetOptions.Duets))
                 {
                     if (searchStrings == null)
+                    {
                         _FilteredSongs.Add(song);
+                    }
                     else if (expertSearch)
                     {
                         // Stefan1200: Stop at a maximum of 800 search result to prevent performance issues
                         if (_FilteredSongs.Count >= 800)
+                        {
                             break;
+                        }
 
                         if (searchForAlbum != null && song.Album.ToUpper().Contains(searchForAlbum))
+                        {
                             _FilteredSongs.Add(song);
+                        }
+
                         if (searchForArtist != null && song.Artist.ToUpper().Contains(searchForArtist))
+                        {
                             _FilteredSongs.Add(song);
+                        }
+
                         if (searchForTitle != null && song.Title.ToUpper().Contains(searchForTitle))
+                        {
                             _FilteredSongs.Add(song);
+                        }
+
                         if (searchForCreator != null && song.Creator.ToUpper().Contains(searchForCreator))
+                        {
                             _FilteredSongs.Add(song);
+                        }
+
                         if (searchForFileName != null && song.FileName.ToUpper().Contains(searchForFileName))
+                        {
                             _FilteredSongs.Add(song);
+                        }
+
                         if (searchForFolderName != null && song.FolderName.ToUpper().Contains(searchForFolderName))
+                        {
                             _FilteredSongs.Add(song);
+                        }
 
                         if (searchForGenre != null)
                         {
-                            foreach (String genre in song.Genres)
+                            foreach (var genre in song.Genres)
                             {
                                 if (genre.ToUpper().Contains(searchForGenre))
+                                {
                                     _FilteredSongs.Add(song);
+                                }
                             }
                         }
 
                         if (searchForLanguage != null)
                         {
-                            foreach (String language in song.Languages)
+                            foreach (var language in song.Languages)
                             {
                                 if (language.ToUpper().Contains(searchForLanguage))
+                                {
                                     _FilteredSongs.Add(song);
+                                }
                             }
                         }
 
                         if (searchForEdition != null)
                         {
-                            foreach (String edition in song.Editions)
+                            foreach (var edition in song.Editions)
                             {
                                 if (edition.ToUpper().Contains(searchForEdition))
+                                {
                                     _FilteredSongs.Add(song);
+                                }
                             }
                         }
 
                         if (searchForTags != null)
                         {
-                            foreach (String tag in song.Tags)
+                            foreach (var tag in song.Tags)
                             {
                                 if (tag.ToUpper().Contains(searchForTags))
+                                {
                                     _FilteredSongs.Add(song);
+                                }
                             }
                         }
 
                         if (searchForYear != null)
                         {
-                            int pos = searchForYear.IndexOf("-");
+                            var pos = searchForYear.IndexOf("-");
                             if (pos == -1)
                             {
                                 if (song.Year.Contains(searchForYear))
+                                {
                                     _FilteredSongs.Add(song);
+                                }
                             }
                             else if (searchForYear.Length == 9)
                             {
-                                int yearStart = -1;
-                                int yearEnd = -1;
+                                var yearStart = -1;
+                                var yearEnd = -1;
                                 if (!Int32.TryParse(searchForYear.Substring(0, pos), out yearStart))
+                                {
                                     continue;
+                                }
+
                                 if (!Int32.TryParse(searchForYear.Substring(pos + 1), out yearEnd))
+                                {
                                     continue;
+                                }
 
                                 // Stefan1200: Prevent searches like 0000-9999, limit for a max distance of 100 years
                                 if (yearEnd - yearStart > 100)
+                                {
                                     continue;
+                                }
 
-                                int yearSearch = -1;
+                                var yearSearch = -1;
                                 if (!Int32.TryParse(song.Year, out yearSearch))
+                                {
                                     continue;
+                                }
 
                                 if (yearSearch >= yearStart && yearSearch <= yearEnd)
+                                {
                                     _FilteredSongs.Add(song);
+                                }
                             }
                         }
                     }
                     else
                     {
-                        string search = song.Title.ToUpper() + " " + song.Artist.ToUpper();
+                        var search = song.Title.ToUpper() + " " + song.Artist.ToUpper();
 
                         if (searchStrings.All(search.Contains))
+                        {
                             _FilteredSongs.Add(song);
+                        }
                     }
                 }
             }
+
             _Changed = false;
         }
     }

@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Collections.Generic;
 using VocaluxeLib.Menu;
 
 namespace VocaluxeLib.PartyModes.TicTacToe
@@ -40,7 +39,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             Source = _PartyMode.GameData.SongSource;
             Sorting = _PartyMode.GameData.Sorting;
             Category = _PartyMode.GameData.CategoryIndex;
-            Playlist = _PartyMode.GameData.PlaylistID;
+            Playlist = _PartyMode.GameData.PlaylistId;
             SongMode = _PartyMode.GameData.GameMode;
             NumMedleySongs = _PartyMode.GameData.NumMedleySongs;
 
@@ -76,7 +75,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _PartyMode.GameData.SongSource = Source;
             _PartyMode.GameData.Sorting = Sorting;
             _PartyMode.GameData.CategoryIndex = Category;
-            _PartyMode.GameData.PlaylistID = Playlist;
+            _PartyMode.GameData.PlaylistId = Playlist;
             _PartyMode.GameData.GameMode = SongMode;
             _PartyMode.GameData.NumMedleySongs = NumMedleySongs;
         }

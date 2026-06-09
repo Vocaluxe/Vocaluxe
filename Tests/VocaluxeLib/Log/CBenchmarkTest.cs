@@ -15,9 +15,9 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.IO;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using VocaluxeLib.Log;
 
 namespace Tests.VocaluxeLib.Log
@@ -28,7 +28,6 @@ namespace Tests.VocaluxeLib.Log
         private string _TestFolder;
 
         #region Setup methods
-
         [SetUp]
         public void SetUp()
         {
@@ -40,18 +39,16 @@ namespace Tests.VocaluxeLib.Log
         {
             Directory.Delete(_TestFolder, true);
         }
-
         #endregion
 
         #region Tests
-
         [Test]
         public void BenchmarkTimeTest()
         {
             const string testMessage = "BenchmarkTime Test";
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
             const string versionTag = "Test Version (1.2.4)";
 
             // Init Log
@@ -71,11 +68,11 @@ namespace Tests.VocaluxeLib.Log
             Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
             Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains($"[Information] Started \"{ testMessage }\"", mainLogContent, "Start entry wrong");
-            StringAssert.Contains($"[Information] Finished \"{ testMessage }\" successfully in ", mainLogContent, "Finish entry wrong");
+            StringAssert.Contains($"[Information] Started \"{testMessage}\"", mainLogContent, "Start entry wrong");
+            StringAssert.Contains($"[Information] Finished \"{testMessage}\" successfully in ", mainLogContent, "Finish entry wrong");
             StringAssert.AreEqualIgnoringCase("", songLogContent, "Benchmark should not create song log entries");
         }
 
@@ -83,22 +80,22 @@ namespace Tests.VocaluxeLib.Log
         public void BenchmarkBeginTest()
         {
             const string testMessage = "BenchmarkBegin Test";
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
             const string versionTag = "Test Version (1.2.4)";
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) => { Assert.Fail("Benchmarks should not show the reporter."); },
                 ELogLevel.Verbose);
-            
+
             using (var token = CBenchmark.Begin(testMessage))
             {
                 System.Threading.Thread.Sleep(1);
                 token.End();
             }
-            
+
             // Close logfile
             CLog.Close();
 
@@ -106,11 +103,11 @@ namespace Tests.VocaluxeLib.Log
             Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
             Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains($"[Information] Started \"{ testMessage }\"", mainLogContent, "Start entry wrong");
-            StringAssert.Contains($"[Information] Finished \"{ testMessage }\" successfully in ", mainLogContent, "Finish entry wrong");
+            StringAssert.Contains($"[Information] Started \"{testMessage}\"", mainLogContent, "Start entry wrong");
+            StringAssert.Contains($"[Information] Finished \"{testMessage}\" successfully in ", mainLogContent, "Finish entry wrong");
             StringAssert.AreEqualIgnoringCase("", songLogContent, "Benchmark should not create song log entries");
         }
 
@@ -118,9 +115,9 @@ namespace Tests.VocaluxeLib.Log
         public void BenchmarkBeginWithoutEndTest()
         {
             const string testMessage = "BenchmarkBegin Test";
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
             const string versionTag = "Test Version (1.2.4)";
 
             // Init Log
@@ -140,25 +137,22 @@ namespace Tests.VocaluxeLib.Log
             Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
             Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains($"[Information] Started \"{ testMessage }\"", mainLogContent, "Start entry wrong");
-            StringAssert.Contains($"[Information] Failed \"{ testMessage }\" in ", mainLogContent, "Finish entry wrong");
+            StringAssert.Contains($"[Information] Started \"{testMessage}\"", mainLogContent, "Start entry wrong");
+            StringAssert.Contains($"[Information] Failed \"{testMessage}\" in ", mainLogContent, "Finish entry wrong");
             StringAssert.AreEqualIgnoringCase("", songLogContent, "Benchmark should not create song log entries");
         }
-
         #endregion
 
         #region Helper methods
-
         private string _GetTemporaryDirectory()
         {
-            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempDirectory);
             return tempDirectory;
         }
-
         #endregion
     }
 }

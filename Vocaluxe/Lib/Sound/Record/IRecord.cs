@@ -22,7 +22,7 @@ namespace Vocaluxe.Lib.Sound.Record
 {
     class CRecordDevice
     {
-        public readonly int ID;
+        public readonly int Id;
         public readonly string Name;
         public readonly string Driver;
 
@@ -31,7 +31,7 @@ namespace Vocaluxe.Lib.Sound.Record
 
         public CRecordDevice(int id, string name, string driver, int channels)
         {
-            ID = id;
+            Id = id;
             Name = name;
             Driver = driver;
             Channels = channels;

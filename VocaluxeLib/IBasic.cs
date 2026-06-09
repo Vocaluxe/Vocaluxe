@@ -19,7 +19,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
-using System.Runtime.CompilerServices;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -103,11 +102,11 @@ namespace VocaluxeLib
 
     public interface IThemes
     {
-        string GetThemeScreensPath(int partyModeID);
-        CTextureRef GetSkinTexture(string textureName, int partyModeID);
-        CVideoStream GetSkinVideo(string videoName, int partyModeID, bool loop);
+        string GetThemeScreensPath(int partyModeId);
+        CTextureRef GetSkinTexture(string textureName, int partyModeId);
+        CVideoStream GetSkinVideo(string videoName, int partyModeId, bool loop);
 
-        bool GetColor(string colorName, int partyModeID, out SColorF color);
+        bool GetColor(string colorName, int partyModeId, out SColorF color);
         SColorF GetPlayerColor(int playerNr);
         void Reload();
     }
@@ -178,7 +177,7 @@ namespace VocaluxeLib
     public interface ILanguage
     {
         string Translate(string keyWord);
-        string Translate(string keyWord, int partyModeID);
+        string Translate(string keyWord, int partyModeId);
         bool TranslationExists(string keyWord);
     }
 
@@ -198,7 +197,7 @@ namespace VocaluxeLib
         float GetTimeFromBeats(float beat, float bpm);
         float GetBeatFromTime(float time, float bpm, float gap);
 
-        void AddSong(int songID, EGameMode gameMode);
+        void AddSong(int songId, EGameMode gameMode);
         void Reset();
         void ClearSongs();
         int GetNumSongs();
@@ -220,12 +219,12 @@ namespace VocaluxeLib
     {
         CProfile[] GetProfiles();
         int GetNum();
-        EGameDifficulty GetDifficulty(Guid profileID);
-        string GetPlayerName(Guid profileID, int playerNum = 0);
-        CTextureRef GetAvatar(Guid profileID);
+        EGameDifficulty GetDifficulty(Guid profileId);
+        string GetPlayerName(Guid profileId, int playerNum = 0);
+        CTextureRef GetAvatar(Guid profileId);
         CAvatar GetAvatarByFilename(string fileName);
-        bool IsProfileIDValid(Guid profileID);
-        bool IsGuest(Guid profileID);
+        bool IsProfileIdValid(Guid profileId);
+        bool IsGuest(Guid profileId);
         void AddProfileChangedCallback(ProfileChangedCallback notification);
     }
 
@@ -246,15 +245,15 @@ namespace VocaluxeLib
         void UpdateRandomSongList();
 
         CSong GetVisibleSong(int visibleIndex);
-        CSong GetSongByID(int songID);
+        CSong GetSongById(int songId);
         ReadOnlyCollection<CSong> GetSongs();
         ReadOnlyCollection<CSong> GetVisibleSongs();
         CCategory GetCategory(int index);
 
-        void AddPartySongSung(int songID);
+        void AddPartySongSung(int songId);
         void ResetSongSung(int catIndex = -1);
 
-        void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistID);
+        void SortSongs(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistId);
 
         void NextCategory();
         void PrevCategory();
@@ -275,18 +274,18 @@ namespace VocaluxeLib
     public interface ISound
     {
         int Load(string soundFile, bool loop = false, bool prescan = false);
-        void SetPosition(int streamID, float newPosition);
-        void Play(int streamID);
-        void Fade(int streamID, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
-        void Close(int streamID);
+        void SetPosition(int streamId, float newPosition);
+        void Play(int streamId);
+        void Fade(int streamId, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);
+        void Close(int streamId);
 
-        bool IsFinished(int streamID);
-        float GetPosition(int streamID);
-        float GetLength(int streamID);
+        bool IsFinished(int streamId);
+        float GetPosition(int streamId);
+        float GetLength(int streamId);
 
-        void SetStreamVolume(int streamID, int volume);
+        void SetStreamVolume(int streamId, int volume);
         void SetGlobalVolume(int volume);
-        bool IsPaused(int streamID);
+        bool IsPaused(int streamId);
     }
 
     public interface ICover
@@ -298,7 +297,7 @@ namespace VocaluxeLib
     public interface IDataBase
     {
         bool GetCover(string fileName, ref CTextureRef texture, int coverSize);
-        bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreID);
+        bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreId);
     }
 
     public interface IControllers
@@ -308,28 +307,28 @@ namespace VocaluxeLib
 
     public interface IPlaylist
     {
-        bool Exists(int playlistID);
-        string GetName(int playlistID);
+        bool Exists(int playlistId);
+        string GetName(int playlistId);
         List<int> GetIds();
         List<string> GetNames();
 
-        void SetName(int playlistID, string name);
-        void Delete(int playlistID);
-        void Save(int playlistID);
+        void SetName(int playlistId, string name);
+        void Delete(int playlistId);
+        void Save(int playlistId);
         int GetNumPlaylists();
 
-        void AddSong(int playlistID, int songID);
-        void AddSong(int playlistID, int songID, EGameMode gameMode);
-        void InsertSong(int playlistID, int positionIndex, int songID, EGameMode gameMode);
+        void AddSong(int playlistId, int songId);
+        void AddSong(int playlistId, int songId, EGameMode gameMode);
+        void InsertSong(int playlistId, int positionIndex, int songId, EGameMode gameMode);
 
-        void MoveSong(int playlistID, int sourceIndex, int destIndex);
-        void MoveSongDown(int playlistID, int songIndex);
-        void MoveSongUp(int playlistID, int songIndex);
-        void DeleteSong(int playlistID, int songIndex);
+        void MoveSong(int playlistId, int sourceIndex, int destIndex);
+        void MoveSongDown(int playlistId, int songIndex);
+        void MoveSongUp(int playlistId, int songIndex);
+        void DeleteSong(int playlistId, int songIndex);
 
-        int GetSongCount(int playlistID);
-        CPlaylistSong GetSong(int playlistID, int songIndex);
-        bool ContainsSong(int playlistID, int songIndex);
+        int GetSongCount(int playlistId);
+        CPlaylistSong GetSong(int playlistId, int songIndex);
+        bool ContainsSong(int playlistId, int songIndex);
     }
 
     public interface IPreviewPlayer
