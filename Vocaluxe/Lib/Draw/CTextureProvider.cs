@@ -323,7 +323,7 @@ namespace Vocaluxe.Lib.Draw
         /// <param name="texturePath"></param>
         private void _AddToCache(TTextureType texture, Size origSize, string texturePath)
         {
-            if (String.IsNullOrEmpty(texturePath))
+            if (string.IsNullOrEmpty(texturePath))
             {
                 return;
             }
@@ -348,7 +348,7 @@ namespace Vocaluxe.Lib.Draw
         private CTextureRef _GetFromCache(string texturePath, out Task<Size> loader)
         {
             loader = null;
-            if (String.IsNullOrEmpty(texturePath))
+            if (string.IsNullOrEmpty(texturePath))
             {
                 return null;
             }
@@ -593,7 +593,7 @@ namespace Vocaluxe.Lib.Draw
                     _Textures[key] = newTexture;
                 }
 
-                if (!String.IsNullOrEmpty(oldTexture.TexturePath))
+                if (!string.IsNullOrEmpty(oldTexture.TexturePath))
                 {
                     newTexture.TexturePath = oldTexture.TexturePath;
                     STextureCacheEntry cacheEntry;
@@ -956,7 +956,7 @@ namespace Vocaluxe.Lib.Draw
                 }
 
                 // If bitmap is not yet loaded, wait for it
-                if (!String.IsNullOrEmpty(texture.TexturePath))
+                if (!string.IsNullOrEmpty(texture.TexturePath))
                 {
                     Task<Size> loader;
                     lock (_BitmapsLoading)

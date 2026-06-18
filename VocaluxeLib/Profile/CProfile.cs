@@ -81,7 +81,7 @@ namespace VocaluxeLib.Profile
         public CProfile()
         {
             Id = Guid.NewGuid();
-            PlayerName = String.Empty;
+            PlayerName = string.Empty;
             Difficulty = EGameDifficulty.TR_CONFIG_EASY;
             UserRole = EUserRole.TR_USERROLE_NORMAL;
             Active = EOffOn.TR_CONFIG_ON;
@@ -152,7 +152,7 @@ namespace VocaluxeLib.Profile
 
         public void SaveProfile()
         {
-            if (String.IsNullOrEmpty(FilePath))
+            if (string.IsNullOrEmpty(FilePath))
             {
                 var filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery

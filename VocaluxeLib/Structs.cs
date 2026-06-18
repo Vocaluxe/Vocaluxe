@@ -136,7 +136,7 @@ namespace VocaluxeLib
         //Needed for serialization
         public bool NameSpecified
         {
-            get { return !String.IsNullOrEmpty(Name); }
+            get { return !string.IsNullOrEmpty(Name); }
         }
         public bool RSpecified
         {
@@ -158,7 +158,7 @@ namespace VocaluxeLib
         public bool Get(int partyModeId, out SColorF color)
         {
             bool ok;
-            if (!String.IsNullOrEmpty(Name))
+            if (!string.IsNullOrEmpty(Name))
             {
                 ok = CBase.Themes.GetColor(Name, partyModeId, out color);
             }

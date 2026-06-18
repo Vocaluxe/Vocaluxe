@@ -108,7 +108,7 @@ namespace VocaluxeLib.Menu
             _Stars = new List<CParticle>();
             MaxRect = rect;
             Color = color;
-            _Theme.Skin = String.Empty;
+            _Theme.Skin = string.Empty;
             Texture = texture;
             _Theme.MaxNumber = maxNumber;
             _Theme.Size = size;
@@ -222,7 +222,7 @@ namespace VocaluxeLib.Menu
                 }
 
                 CParticle star;
-                if (!String.IsNullOrEmpty(_Theme.Skin))
+                if (!string.IsNullOrEmpty(_Theme.Skin))
                 {
                     star = new CParticle(_PartyModeId, _Theme.Skin, Color,
                         CBase.Game.GetRandom(w) + Rect.X - size / 4f,
@@ -295,7 +295,7 @@ namespace VocaluxeLib.Menu
         {
             _Theme.Color.Get(_PartyModeId, out Color);
 
-            if (!String.IsNullOrEmpty(_Theme.Skin))
+            if (!string.IsNullOrEmpty(_Theme.Skin))
             {
                 Texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeId);
             }

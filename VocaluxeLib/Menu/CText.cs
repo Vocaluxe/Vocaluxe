@@ -187,7 +187,7 @@ namespace VocaluxeLib.Menu
                 }
             }
         }
-        public string TranslatedText { get; private set; } = String.Empty;
+        public string TranslatedText { get; private set; } = string.Empty;
 
         public int TranslationId
         {

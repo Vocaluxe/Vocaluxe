@@ -93,17 +93,17 @@ namespace VocaluxeLib.Songs
 
         public Encoding Encoding = new UTF8Encoding();
         public bool ManualEncoding;
-        public string Folder = String.Empty;
-        public string FolderName = String.Empty;
-        public string FileName = String.Empty;
+        public string Folder = string.Empty;
+        public string FolderName = string.Empty;
+        public string FileName = string.Empty;
         public bool Relative;
 
-        public string MP3FileName = String.Empty;
-        public string InstrumentalFileName = String.Empty;
-        public string VocalsFileName = String.Empty;
-        public string CoverFileName = String.Empty;
-        public readonly List<string> BackgroundFileNames = new List<string>();
-        public string VideoFileName = String.Empty;
+        public string AudioFileName = string.Empty;
+        public string InstrumentalFileName = string.Empty;
+        public string VocalsFileName = string.Empty;
+        public string CoverFileName = string.Empty;
+        public readonly List<string> BackgroundFileNames = [];
+        public string VideoFileName = string.Empty;
 
         public EAspect VideoAspect = EAspect.Automatic;
 
@@ -120,27 +120,23 @@ namespace VocaluxeLib.Songs
 
                 return _CoverTextureSmall;
             }
-
-            set { _CoverTextureSmall = value; }
         }
 
         public CTextureRef CoverTextureBig
         {
-            get { return _CoverTextureBig ?? _CoverTextureSmall; }
-            set { _CoverTextureBig = value; }
+            get => _CoverTextureBig ?? _CoverTextureSmall;
         }
 
-        public string Title = String.Empty;
-        public string Artist = String.Empty;
+        public string Title = string.Empty;
+        public string Artist = string.Empty;
 
-        public string TitleSorting = String.Empty;
-        public string ArtistSorting = String.Empty;
+        public string TitleSorting = string.Empty;
+        public string ArtistSorting = string.Empty;
 
-        public string Creator = "";
         public string Version = "";
         public string Length = ""; //Length set in song file, SHOULD match actual song length but is more a hint
         public string Source = "";
-        public readonly List<String> UnknownTags = new List<string>();
+        public readonly List<string> UnknownTags = [];
 
         /// <summary>
         ///     Start of the song in s (s in txt)
@@ -168,19 +164,16 @@ namespace VocaluxeLib.Songs
         private readonly bool _Visible = true;
         private readonly int _CatIndex = -1;
         private readonly bool _Selected;
-        public bool IsDuet
-        {
-            get { return Notes.VoiceCount > 1; }
-        }
+        public bool IsDuet => Notes.VoiceCount > 1;
         public bool IsRap = false;
 
-        public readonly List<string> Editions = new List<string>();
-        public readonly List<string> Genres = new List<string>();
-        public readonly List<string> Tags = new List<string>();
+        public readonly List<string> Creators = [];
+        public readonly List<string> Editions = [];
+        public readonly List<string> Genres = [];
+        public readonly List<string> Tags = [];
+        public readonly List<string> Languages = [];
         public string Album = "";
         public string Year = "";
-
-        public readonly List<string> Languages = new List<string>();
 
         public int DataBaseSongId = -1;
         public DateTime DateAdded = DateTime.Today;
@@ -188,7 +181,7 @@ namespace VocaluxeLib.Songs
         public int NumPlayedSession;
 
         // Notes
-        public readonly CNotes Notes = new CNotes();
+        public readonly CNotes Notes = new();
 
         public IList<EGameMode> AvailableGameModes
         {
@@ -241,7 +234,7 @@ namespace VocaluxeLib.Songs
             FileName = song.FileName;
             Relative = song.Relative;
 
-            MP3FileName = song.MP3FileName;
+            AudioFileName = song.AudioFileName;
             InstrumentalFileName = song.InstrumentalFileName;
             VocalsFileName = song.VocalsFileName;
             CoverFileName = song.CoverFileName;
@@ -256,7 +249,6 @@ namespace VocaluxeLib.Songs
             ArtistSorting = song.ArtistSorting;
             TitleSorting = song.TitleSorting;
 
-            Creator = song.Creator;
             Version = song.Version;
             Length = song.Length;
             Source = song.Source;
@@ -276,13 +268,13 @@ namespace VocaluxeLib.Songs
             _CatIndex = song._CatIndex;
             _Selected = song._Selected;
 
+            Creators = new List<string>(song.Creators);
             Editions = new List<string>(song.Editions);
             Genres = new List<string>(song.Genres);
             Tags = new List<string>(song.Tags);
+            Languages = new List<string>(song.Languages);
             Album = song.Album;
             Year = song.Year;
-
-            Languages = new List<string>(song.Languages);
 
             DataBaseSongId = song.DataBaseSongId;
             DateAdded = song.DateAdded;
@@ -318,7 +310,7 @@ namespace VocaluxeLib.Songs
 
         public string GetMP3()
         {
-            return Path.Combine(Folder, MP3FileName);
+            return Path.Combine(Folder, AudioFileName);
         }
 
         public string GetInstrumental()
@@ -421,7 +413,7 @@ namespace VocaluxeLib.Songs
             }
 
             // build sentences list
-            var sentences = voice.Lines.Select(line => line.Points != 0 ? line.Lyrics : String.Empty).ToList();
+            var sentences = voice.Lines.Select(line => line.Points != 0 ? line.Lyrics : string.Empty).ToList();
 
             // find equal sentences series
             var series = new List<SSeries>();

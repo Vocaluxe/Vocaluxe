@@ -60,7 +60,7 @@ namespace VocaluxeLib.Utils.Player
         {
             get
             {
-                return _Song != null && !String.IsNullOrEmpty(_Song.Folder) && !String.IsNullOrEmpty(_Song.VideoFileName) &&
+                return _Song != null && !string.IsNullOrEmpty(_Song.Folder) && !string.IsNullOrEmpty(_Song.VideoFileName) &&
                        File.Exists(Path.Combine(_Song.Folder, _Song.VideoFileName));
             }
         }
@@ -69,7 +69,7 @@ namespace VocaluxeLib.Utils.Player
         {
             get
             {
-                if (_Song != null && !String.IsNullOrEmpty(_Song.Artist) && !String.IsNullOrEmpty(_Song.Title))
+                if (_Song != null && !string.IsNullOrEmpty(_Song.Artist) && !string.IsNullOrEmpty(_Song.Title))
                 {
                     return _Song.Artist + " - " + _Song.Title;
                 }

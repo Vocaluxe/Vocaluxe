@@ -116,7 +116,7 @@ namespace Vocaluxe.Base
             g.Clear(_BGColor.AsColor());
 
             ImageAttributes ia = null;
-            if (_Theme.ShowFirstCover && !String.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
+            if (_Theme.ShowFirstCover && !string.IsNullOrEmpty(firstCoverPath) && File.Exists(firstCoverPath))
             {
                 using (var bmp2 = new Bitmap(firstCoverPath))
                 {

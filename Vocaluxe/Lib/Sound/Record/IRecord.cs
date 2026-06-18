@@ -49,8 +49,8 @@ namespace Vocaluxe.Lib.Sound.Record
         public SMicConfig(int dummy)
             // ReSharper restore UnusedParameter.Local
         {
-            DeviceName = String.Empty;
-            DeviceDriver = String.Empty;
+            DeviceName = string.Empty;
+            DeviceDriver = string.Empty;
             Channel = 0;
         }
     }

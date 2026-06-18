@@ -578,7 +578,7 @@ namespace Vocaluxe.Screens
 
         private void _LoadProfiles(bool keep)
         {
-            var name = String.Empty;
+            var name = string.Empty;
             if (_EditMode == EEditMode.PlayerName)
             {
                 name = CProfiles.GetPlayerName(_GetIdFromTag(_SelectSlides[_SelectSlideProfiles].SelectedTag));

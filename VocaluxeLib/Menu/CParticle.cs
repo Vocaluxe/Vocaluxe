@@ -108,7 +108,7 @@ namespace VocaluxeLib.Menu
             EParticleType type)
         {
             _PartyModeId = partyModeId;
-            _TextureName = String.Empty;
+            _TextureName = string.Empty;
             _Texture = texture;
             _Color = color;
             _Rect = new SRectF(x, y, size, size, z);
@@ -272,7 +272,7 @@ namespace VocaluxeLib.Menu
         public void Draw(bool allMonitors = true)
         {
             // ReSharper disable ConvertIfStatementToConditionalTernaryExpression
-            if (!String.IsNullOrEmpty(_TextureName))
+            if (!string.IsNullOrEmpty(_TextureName))
                 // ReSharper restore ConvertIfStatementToConditionalTernaryExpression
             {
                 CBase.Drawing.DrawTexture(CBase.Themes.GetSkinTexture(_TextureName, _PartyModeId), _Rect, new SColorF(_Color.R, _Color.G, _Color.B, _Color.A * Alpha2 * Alpha),

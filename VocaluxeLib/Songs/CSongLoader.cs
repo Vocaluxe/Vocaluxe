@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using VocaluxeLib.Log;
@@ -180,11 +181,6 @@ namespace VocaluxeLib.Songs
                             case "ARTIST-ON-SORTING":
                                 _Song.ArtistSorting = value;
                                 break;
-                            case "CREATOR":
-                            case "AUTHOR":
-                            case "AUTOR":
-                                _Song.Creator = value;
-                                break;
                             case "VERSION":
                                 _Song.Version = value;
                                 break;
@@ -200,7 +196,7 @@ namespace VocaluxeLib.Songs
                             case "AUDIO":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
-                                    _Song.MP3FileName = value;
+                                    _Song.AudioFileName = value;
                                     headerFlags |= EHeaderFlags.MP3;
                                 }
                                 else
@@ -250,38 +246,22 @@ namespace VocaluxeLib.Songs
                                 }
 
                                 break;
+                            case "CREATOR":
+                            case "AUTHOR":
+                            case "AUTOR":
+                                _Song.Creators.AddRange(_GetMultipleHeaderValues(value));
+                                break;
                             case "EDITION":
-                                if (value.Length > 1)
-                                {
-                                    _Song.Editions.Add(value);
-                                }
-                                else
-                                {
-                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid edition: {Value}", CLog.Params(_Song.FileName, value));
-                                }
-
+                                _Song.Editions.AddRange(_GetMultipleHeaderValues(value));
                                 break;
                             case "GENRE":
-                                if (value.Length > 1)
-                                {
-                                    _Song.Genres.Add(value);
-                                }
-                                else
-                                {
-                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid genre: {Value}", CLog.Params(_Song.FileName, value));
-                                }
-
+                                _Song.Genres.AddRange(_GetMultipleHeaderValues(value));
                                 break;
                             case "TAGS":
-                                if (value.Length > 1)
-                                {
-                                    _Song.Tags.AddRange(value.Split(','));
-                                }
-                                else
-                                {
-                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid tags: {Value}", CLog.Params(_Song.FileName, value));
-                                }
-
+                                _Song.Tags.AddRange(_GetMultipleHeaderValues(value));
+                                break;
+                            case "LANGUAGE":
+                                _Song.Languages.AddRange(_GetMultipleHeaderValues(value).Select(_UnifyLanguage));
                                 break;
                             case "ALBUM":
                                 _Song.Album = value;
@@ -298,19 +278,8 @@ namespace VocaluxeLib.Songs
                                 }
 
                                 break;
-                            case "LANGUAGE":
-                                if (value.Length > 1)
-                                {
-                                    _Song.Languages.Add(_UnifyLanguage(value));
-                                }
-                                else
-                                {
-                                    CLog.CSongLog.Warning("[{SongFileName}] Invalid language: {Value}", CLog.Params(_Song.FileName, value));
-                                }
-
-                                break;
                             case "COMMENT":
-                                if (!String.IsNullOrEmpty(_Song._Comment))
+                                if (!string.IsNullOrEmpty(_Song._Comment))
                                 {
                                     _Song._Comment += "\r\n";
                                 }
@@ -584,17 +553,22 @@ namespace VocaluxeLib.Songs
                 CBase.DataBase.GetDataBaseSongInfos(_Song.Artist, _Song.Title, out _Song.NumPlayed, out _Song.DateAdded, out _Song.DataBaseSongId);
 
                 //Before saving this tags to .txt: Check, if ArtistSorting and Artist are equal, then don't save this tag.
-                if (String.IsNullOrEmpty(_Song.ArtistSorting))
+                if (string.IsNullOrEmpty(_Song.ArtistSorting))
                 {
                     _Song.ArtistSorting = _Song.Artist;
                 }
 
-                if (String.IsNullOrEmpty(_Song.TitleSorting))
+                if (string.IsNullOrEmpty(_Song.TitleSorting))
                 {
                     _Song.TitleSorting = _Song.Title;
                 }
 
                 return true;
+            }
+
+            private IEnumerable<string> _GetMultipleHeaderValues(string value)
+            {
+                return value.Split(',').Select(v => v.Trim()).Where(v => !string.IsNullOrEmpty(v));
             }
 
             private static string _UnifyLanguage(string lang)
@@ -717,7 +691,7 @@ namespace VocaluxeLib.Songs
                         var line = sr.ReadLine();
                         _LineNr++;
 
-                        if (String.IsNullOrEmpty(line))
+                        if (string.IsNullOrEmpty(line))
                         {
                             continue;
                         }

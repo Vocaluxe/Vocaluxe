@@ -214,7 +214,7 @@ namespace Vocaluxe.Lib.Database
                                       "LineNr = @LineNr AND Date = @Date AND Medley = @Medley AND Duet = @Duet AND ShortSong = @ShortSong AND Difficulty = @Difficulty";
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@SongId", dataBaseSongId);
-                command.Parameters.AddWithValue("@PlayerName", playerName ?? String.Empty);
+                command.Parameters.AddWithValue("@PlayerName", playerName ?? string.Empty);
                 command.Parameters.AddWithValue("@Score", score);
                 command.Parameters.AddWithValue("@LineNr", lineNr);
                 command.Parameters.AddWithValue("@Date", date);
@@ -247,7 +247,7 @@ namespace Vocaluxe.Lib.Database
                                       "VALUES (@SongId, @PlayerName, @Score, @LineNr, @Date, @Medley, @Duet, @ShortSong, @Difficulty)";
                 command.Parameters.Clear();
                 command.Parameters.AddWithValue("@SongId", dataBaseSongId);
-                command.Parameters.AddWithValue("@PlayerName", playerName ?? String.Empty);
+                command.Parameters.AddWithValue("@PlayerName", playerName ?? string.Empty);
                 command.Parameters.AddWithValue("@Score", score);
                 command.Parameters.AddWithValue("@LineNr", lineNr);
                 command.Parameters.AddWithValue("@Date", date);
@@ -404,8 +404,8 @@ namespace Vocaluxe.Lib.Database
         {
             command.CommandText = "SELECT id FROM Songs WHERE [Title] = @title AND [Artist] = @artist";
             command.Parameters.Clear();
-            command.Parameters.AddWithValue("@title", title ?? String.Empty);
-            command.Parameters.AddWithValue("@artist", artist ?? String.Empty);
+            command.Parameters.AddWithValue("@title", title ?? string.Empty);
+            command.Parameters.AddWithValue("@artist", artist ?? string.Empty);
 
             var reader = command.ExecuteReader();
 
@@ -425,16 +425,16 @@ namespace Vocaluxe.Lib.Database
             command.CommandText = "INSERT INTO Songs (Title, Artist, NumPlayed, DateAdded) " +
                                   "VALUES (@title, @artist, @numplayed, @dateadded)";
             command.Parameters.Clear();
-            command.Parameters.AddWithValue("@title", title ?? String.Empty);
-            command.Parameters.AddWithValue("@artist", artist ?? String.Empty);
+            command.Parameters.AddWithValue("@title", title ?? string.Empty);
+            command.Parameters.AddWithValue("@artist", artist ?? string.Empty);
             command.Parameters.AddWithValue("@numplayed", defNumPlayed);
             command.Parameters.AddWithValue("@dateadded", DateTime.Now.Ticks);
             command.ExecuteNonQuery();
 
             command.CommandText = "SELECT id FROM Songs WHERE [Title] = @title AND [Artist] = @artist";
             command.Parameters.Clear();
-            command.Parameters.AddWithValue("@title", title ?? String.Empty);
-            command.Parameters.AddWithValue("@artist", artist ?? String.Empty);
+            command.Parameters.AddWithValue("@title", title ?? string.Empty);
+            command.Parameters.AddWithValue("@artist", artist ?? string.Empty);
 
             reader = command.ExecuteReader();
 
@@ -451,8 +451,8 @@ namespace Vocaluxe.Lib.Database
 
         private bool _GetDataBaseSongInfos(int songId, out string artist, out string title, out int numPlayed, out DateTime dateAdded, string filePath)
         {
-            artist = String.Empty;
-            title = String.Empty;
+            artist = string.Empty;
+            title = string.Empty;
             numPlayed = 0;
             dateAdded = DateTime.Today;
 
@@ -775,8 +775,8 @@ namespace Vocaluxe.Lib.Database
                     {
                         command.CommandText = "UPDATE Songs SET [Artist] = @artist, [Title] = @title WHERE [Id] = @id";
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@title", data.Str2 ?? String.Empty);
-                        command.Parameters.AddWithValue("@artist", data.Str1 ?? String.Empty);
+                        command.Parameters.AddWithValue("@title", data.Str2 ?? string.Empty);
+                        command.Parameters.AddWithValue("@artist", data.Str1 ?? string.Empty);
                         command.Parameters.AddWithValue("@id", data.Id);
                         command.ExecuteNonQuery();
                     }
@@ -786,7 +786,7 @@ namespace Vocaluxe.Lib.Database
                     {
                         command.CommandText = "UPDATE Scores SET [PlayerName] = @player, [Date] = @date WHERE [id] = @id";
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@player", data.Str1 ?? String.Empty);
+                        command.Parameters.AddWithValue("@player", data.Str1 ?? string.Empty);
                         command.Parameters.AddWithValue("@date", data.Ticks);
                         command.Parameters.AddWithValue("@id", data.Id);
                         command.ExecuteNonQuery();
@@ -970,8 +970,8 @@ namespace Vocaluxe.Lib.Database
                     {
                         command.CommandText = "UPDATE Songs SET [Artist] = @artist, [Title] = @title WHERE [Id] = @id";
                         command.Parameters.Clear();
-                        command.Parameters.AddWithValue("@title", data.Str2 ?? String.Empty);
-                        command.Parameters.AddWithValue("@artist", data.Str1 ?? String.Empty);
+                        command.Parameters.AddWithValue("@title", data.Str2 ?? string.Empty);
+                        command.Parameters.AddWithValue("@artist", data.Str1 ?? string.Empty);
                         command.Parameters.AddWithValue("@id", data.Id);
                         command.ExecuteNonQuery();
                     }
@@ -994,7 +994,7 @@ namespace Vocaluxe.Lib.Database
                             command.Parameters.AddWithValue("@date", data.Ticks);
                         }
 
-                        command.Parameters.AddWithValue("@player", data.Str1 ?? String.Empty);
+                        command.Parameters.AddWithValue("@player", data.Str1 ?? string.Empty);
                         command.Parameters.AddWithValue("@id", data.Id);
                         command.ExecuteNonQuery();
                     }

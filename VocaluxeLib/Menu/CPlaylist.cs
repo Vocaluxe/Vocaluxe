@@ -409,7 +409,7 @@ namespace VocaluxeLib.Menu
                             break;
                         case Keys.Delete:
                         case Keys.Back:
-                            if (!String.IsNullOrEmpty(_ButtonPlaylistName.Text.Text))
+                            if (!string.IsNullOrEmpty(_ButtonPlaylistName.Text.Text))
                             {
                                 _ButtonPlaylistName.Text.Text = _ButtonPlaylistName.Text.Text.Remove(_ButtonPlaylistName.Text.Text.Length - 1);
                             }

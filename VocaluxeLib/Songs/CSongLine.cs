@@ -73,7 +73,7 @@ namespace VocaluxeLib.Songs
 
         public string Lyrics
         {
-            get { return _Notes.Aggregate(String.Empty, (current, note) => current + note.Text); }
+            get { return _Notes.Aggregate(string.Empty, (current, note) => current + note.Text); }
         }
         #endregion Properties
 

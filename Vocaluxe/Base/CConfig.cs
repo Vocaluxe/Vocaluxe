@@ -798,7 +798,7 @@ namespace Vocaluxe.Base
             var spliterParam = new Regex(@"-{1,2}|\/", RegexOptions.IgnoreCase);
 
             //Complete argument string
-            var arguments = args.Aggregate(String.Empty, (current, arg) => current + arg + " ");
+            var arguments = args.Aggregate(string.Empty, (current, arg) => current + arg + " ");
 
             args = spliterParam.Split(arguments);
 
@@ -933,7 +933,7 @@ namespace Vocaluxe.Base
                 }
             }
 
-            return !String.IsNullOrEmpty(Path.GetFileName(value)) && Path.HasExtension(value);
+            return !string.IsNullOrEmpty(Path.GetFileName(value)) && Path.HasExtension(value);
         }
 
         /// <summary>

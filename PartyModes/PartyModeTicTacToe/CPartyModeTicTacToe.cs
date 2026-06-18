@@ -138,7 +138,7 @@ namespace VocaluxeLib.PartyModes.TicTacToe
             _ScreenSongOptions.Selection.NumJokers = new int[] { 5, 5 };
             _ScreenSongOptions.Selection.TeamNames = new string[] { "foo", "bar" };
 
-            _ScreenSongOptions.Sorting.SearchString = String.Empty;
+            _ScreenSongOptions.Sorting.SearchString = string.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.NoDuets;
 

@@ -817,7 +817,7 @@ namespace Vocaluxe.Screens
                 _NameSelections[_NameSelection].RemoveUsedProfile(CGame.Players[i].ProfileId);
                 CGame.Players[i].ProfileId = Guid.Empty;
                 //Update config for default players.
-                CConfig.Config.Game.Players[i] = String.Empty;
+                CConfig.Config.Game.Players[i] = string.Empty;
                 //Update texture and name
                 _Statics[_StaticPlayerAvatar[i]].Texture = _OriginalPlayerAvatarTextures[i];
                 _Texts[_TextPlayer[i]].Text = CProfiles.GetPlayerName(Guid.Empty, i + 1);
@@ -832,7 +832,7 @@ namespace Vocaluxe.Screens
             _NameSelections[_NameSelection].RemoveUsedProfile(CGame.Players[playerNum].ProfileId);
             CGame.Players[playerNum].ProfileId = Guid.Empty;
             //Update config for default players.
-            CConfig.Config.Game.Players[playerNum] = String.Empty;
+            CConfig.Config.Game.Players[playerNum] = string.Empty;
             CConfig.SaveConfig();
             //Update texture and name
             _Statics[_StaticPlayerAvatar[playerNum]].Texture = _OriginalPlayerAvatarTextures[playerNum];

@@ -373,7 +373,7 @@ namespace VocaluxeLib.Menu
             _Theme.ProcessedColor.Get(_PartyModeId, out _ColorProcessed);
 
             MaxRect = _Theme.Rect;
-            _Text = new CText(X, Y, Z, H, W, EAlignment.Left, EStyle.Bold, "Normal", _Color, String.Empty);
+            _Text = new CText(X, Y, Z, H, W, EAlignment.Left, EStyle.Bold, "Normal", _Color, string.Empty);
         }
 
         public void ReloadSkin()

@@ -535,7 +535,7 @@ namespace VocaluxeLib.Menu
                 var text = _VisibleElements[i].Text;
                 RectangleF textBounds;
                 var curX = xStart + elWidth * i;
-                if (String.IsNullOrEmpty(_Values[i + offset].Text))
+                if (string.IsNullOrEmpty(_Values[i + offset].Text))
                 {
                     text.Visible = false;
                     textBounds = new RectangleF();

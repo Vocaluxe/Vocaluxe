@@ -528,7 +528,7 @@ namespace WebserverInitalConfig
 
         private static HTTP_SERVICE_CONFIG_URLACL_SET QueryReservation(string networkURL)
         {
-            if (String.IsNullOrEmpty(networkURL))
+            if (string.IsNullOrEmpty(networkURL))
             {
                 throw new ArgumentNullException("networkURL");
             }
@@ -597,7 +597,7 @@ namespace WebserverInitalConfig
         public static uint DeleteReservation(string networkURL)
         {
             var retVal = NOERROR;
-            if (String.IsNullOrEmpty(networkURL))
+            if (string.IsNullOrEmpty(networkURL))
             {
                 throw new ArgumentNullException("networkURL");
             }
@@ -637,12 +637,12 @@ namespace WebserverInitalConfig
 
         public static void ReserveURL(string networkURL, string securityDescriptor)
         {
-            if (String.IsNullOrEmpty(networkURL))
+            if (string.IsNullOrEmpty(networkURL))
             {
                 throw new ArgumentNullException("networkURL");
             }
 
-            if (String.IsNullOrEmpty(securityDescriptor))
+            if (string.IsNullOrEmpty(securityDescriptor))
             {
                 throw new ArgumentNullException("securityDescriptor");
             }

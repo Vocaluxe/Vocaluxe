@@ -65,7 +65,7 @@ namespace VocaluxeLib.PartyModes
             _ScreenSongOptions.Selection.SongIndex = -1;
             _ScreenSongOptions.Selection.CategoryIndex = -1;
 
-            _ScreenSongOptions.Sorting.SearchString = String.Empty;
+            _ScreenSongOptions.Sorting.SearchString = string.Empty;
             _ScreenSongOptions.Sorting.SearchActive = false;
             _ScreenSongOptions.Sorting.DuetOptions = EDuetOptions.All;
             _ScreenSongOptions.Sorting.FilterPlaylistId = -1;

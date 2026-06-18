@@ -128,7 +128,7 @@ namespace VocaluxeLib.Menu
                 ok = _DrawSlideShow();
             }
 
-            if (!String.IsNullOrEmpty(_Theme.Skin) && (_Theme.Type == EBackgroundTypes.Texture || !ok))
+            if (!string.IsNullOrEmpty(_Theme.Skin) && (_Theme.Type == EBackgroundTypes.Texture || !ok))
             {
                 ok = _DrawTexture();
             }
@@ -176,7 +176,7 @@ namespace VocaluxeLib.Menu
         public void AddSlideShowTexture(string image)
         {
             _Theme.Type = EBackgroundTypes.SlideShow;
-            if (!String.IsNullOrEmpty(image))
+            if (!string.IsNullOrEmpty(image))
             {
                 var texture = _SlideShowTextures.Count == 0 ? CBase.Drawing.AddTexture(image) : CBase.Drawing.EnqueueTexture(image);
                 if (texture != null)

@@ -862,7 +862,7 @@ namespace Vocaluxe.Screens
             else
             {
                 _Texts[_TextMedleyCountdown].Visible = false;
-                _Texts[_TextMedleyCountdown].Text = String.Empty;
+                _Texts[_TextMedleyCountdown].Text = string.Empty;
                 _TimerStartCountdown.Reset();
 
                 _StartSongNow();
@@ -1307,7 +1307,7 @@ namespace Vocaluxe.Screens
                 _TimerStartCountdown.Reset();
                 _TimerStartCountdown.Start();
 
-                _Texts[_TextMedleyCountdown].Text = String.Empty;
+                _Texts[_TextMedleyCountdown].Text = string.Empty;
                 _Texts[_TextMedleyCountdown].Visible = true;
                 return;
             }
@@ -1591,7 +1591,7 @@ namespace Vocaluxe.Screens
             }
 
             _VideoAspect = song.VideoAspect;
-            if (!String.IsNullOrEmpty(song.VideoFileName))
+            if (!string.IsNullOrEmpty(song.VideoFileName))
             {
                 _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.VideoFileName));
                 CVideo.Skip(_CurrentVideo, song.Start, song.VideoGap);
@@ -1608,7 +1608,7 @@ namespace Vocaluxe.Screens
             }
             else if (song.BackgroundFileNames.Count == 1)
             {
-                if (!String.IsNullOrEmpty(song.BackgroundFileNames[0]))
+                if (!string.IsNullOrEmpty(song.BackgroundFileNames[0]))
                 {
                     _Background = CDraw.AddTexture(Path.Combine(song.Folder, song.BackgroundFileNames[0]));
                 }
@@ -1722,12 +1722,12 @@ namespace Vocaluxe.Screens
             _Lyrics[_LyricSubDuet].Clear();
             _Lyrics[_LyricMainTop].Clear();
             _Lyrics[_LyricSubTop].Clear();
-            _Texts[_TextShortInfoTop].Text = String.Empty;
-            _Texts[_TextSongName].Text = String.Empty;
-            _Texts[_TextDuetName1].Text = String.Empty;
-            _Texts[_TextDuetName2].Text = String.Empty;
+            _Texts[_TextShortInfoTop].Text = string.Empty;
+            _Texts[_TextSongName].Text = string.Empty;
+            _Texts[_TextDuetName1].Text = string.Empty;
+            _Texts[_TextDuetName2].Text = string.Empty;
             _Texts[_TextMedleyCountdown].Visible = false;
-            _Texts[_TextMedleyCountdown].Text = String.Empty;
+            _Texts[_TextMedleyCountdown].Text = string.Empty;
             _StartDelayed = false;
             _TimerStartCountdown.Reset();
         }

@@ -69,7 +69,7 @@ namespace VocaluxeLib
         /// </summary>
         public static string ListStrings(string[] str)
         {
-            var result = String.Empty;
+            var result = string.Empty;
             for (var i = 0; i < str.Length; i++)
             {
                 result += str[i];

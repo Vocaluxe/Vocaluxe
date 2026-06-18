@@ -24,7 +24,7 @@ namespace Vocaluxe.Base
     class CPlaylistElement
     {
         public readonly CSong Song;
-        private readonly string _MusicFilePath = String.Empty;
+        private readonly string _MusicFilePath = string.Empty;
 
         public bool HasMetaData
         {
@@ -88,7 +88,7 @@ namespace Vocaluxe.Base
 
         public CPlaylistElement(string filePath)
         {
-            if (String.IsNullOrEmpty(filePath))
+            if (string.IsNullOrEmpty(filePath))
             {
                 throw new ArgumentNullException("filePath");
             }

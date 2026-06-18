@@ -85,7 +85,7 @@ namespace Vocaluxe.Screens
         private const string _SongMenuName = "SongMenu";
         private const string _PlaylistName = "Playlist";
 
-        private string _SearchText = String.Empty;
+        private string _SearchText = string.Empty;
         private bool _SearchActive;
 
         private int _JumpTo_lastCharTime = 0;
@@ -320,7 +320,7 @@ namespace Vocaluxe.Screens
                             if (_SearchActive)
                             {
                                 _SearchActive = false;
-                                _SearchText = String.Empty;
+                                _SearchText = string.Empty;
                                 _ApplyNewSearchFilter(_SearchText);
                             }
 
@@ -385,7 +385,7 @@ namespace Vocaluxe.Screens
                             if (_SearchActive)
                             {
                                 _SearchActive = false;
-                                _SearchText = String.Empty;
+                                _SearchText = string.Empty;
                                 _ApplyNewSearchFilter(_SearchText);
                             }
                             else if (!_Sso.Selection.PartyMode)
@@ -622,7 +622,7 @@ namespace Vocaluxe.Screens
                 if (_SearchActive)
                 {
                     _SearchActive = false;
-                    _SearchText = String.Empty;
+                    _SearchText = string.Empty;
                     _ApplyNewSearchFilter(_SearchText);
                 }
                 else if (!_Sso.Selection.PartyMode)
@@ -684,7 +684,7 @@ namespace Vocaluxe.Screens
                 if (_SearchActive)
                 {
                     _SearchActive = false;
-                    _SearchText = String.Empty;
+                    _SearchText = string.Empty;
                     _ApplyNewSearchFilter(_SearchText);
                     return true;
                 }

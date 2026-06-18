@@ -368,7 +368,7 @@ namespace Vocaluxe.Base
         {
             var profile = new CProfile
             {
-                FilePath = fileName != "" ? Path.Combine(CConfig.ProfileFolders[0], fileName) : String.Empty
+                FilePath = fileName != "" ? Path.Combine(CConfig.ProfileFolders[0], fileName) : string.Empty
             };
 
             if (File.Exists(profile.FilePath))
@@ -446,7 +446,7 @@ namespace Vocaluxe.Base
         {
             if (!IsProfileIdValid(profileId))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             return Path.GetFileName(_Profiles[profileId].FilePath);
@@ -456,7 +456,7 @@ namespace Vocaluxe.Base
         {
             if (!IsProfileIdValid(profileId))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             _Profiles[profileId].PlayerName += chr;
@@ -467,11 +467,11 @@ namespace Vocaluxe.Base
         {
             if (!IsProfileIdValid(profileId))
             {
-                return String.Empty;
+                return string.Empty;
             }
 
             var profile = _Profiles[profileId];
-            if (!String.IsNullOrEmpty(profile.PlayerName))
+            if (!string.IsNullOrEmpty(profile.PlayerName))
             {
                 profile.PlayerName = profile.PlayerName.Remove(profile.PlayerName.Length - 1);
             }

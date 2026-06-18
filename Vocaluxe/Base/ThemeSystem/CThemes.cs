@@ -204,7 +204,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static CTextureRef GetSkinTexture(string textureName, int partyModeId)
         {
-            if (String.IsNullOrEmpty(textureName))
+            if (string.IsNullOrEmpty(textureName))
             {
                 return null;
             }
@@ -220,7 +220,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static CVideoStream GetSkinVideo(string videoName, int partyModeId, bool loop = true)
         {
-            Debug.Assert(!String.IsNullOrEmpty(videoName));
+            Debug.Assert(!string.IsNullOrEmpty(videoName));
             var video = CurrentThemes[partyModeId].CurrentSkin.GetVideo(videoName, loop);
             if (video == null)
             {
@@ -237,7 +237,7 @@ namespace Vocaluxe.Base.ThemeSystem
 
         public static bool GetColor(string colorName, int partyModeId, out SColorF color)
         {
-            Debug.Assert(!String.IsNullOrEmpty(colorName));
+            Debug.Assert(!string.IsNullOrEmpty(colorName));
             if (!CurrentThemes[partyModeId].CurrentSkin.GetColor(colorName, out color))
             {
                 _LogMissingElement(partyModeId, "color", colorName);

@@ -212,7 +212,7 @@ namespace Vocaluxe.Base
                     continue;
                 }
 
-                if (!String.IsNullOrEmpty(theme.Info.Folder) && !String.IsNullOrEmpty(theme.Info.Name))
+                if (!string.IsNullOrEmpty(theme.Info.Folder) && !string.IsNullOrEmpty(theme.Info.Name))
                 {
                     theme.FolderPath = Path.Combine(folderPath, theme.Info.Folder);
                     _CoverThemes.Add(theme);
@@ -227,7 +227,7 @@ namespace Vocaluxe.Base
         {
             var coverTheme = _GetCoverTheme();
 
-            Debug.Assert(!String.IsNullOrEmpty(coverTheme.Info.Name));
+            Debug.Assert(!string.IsNullOrEmpty(coverTheme.Info.Name));
 
             var files = CHelper.ListImageFiles(coverTheme.FolderPath, true, true);
 

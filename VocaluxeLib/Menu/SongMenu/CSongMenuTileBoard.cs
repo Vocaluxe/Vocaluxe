@@ -235,10 +235,10 @@ namespace VocaluxeLib.Menu.SongMenu
         {
             //First hide everything so we just have to set what we actually want
             _CoverBig.Texture = _CoverBigBGTexture;
-            _Artist.Text = String.Empty;
-            _Title.Text = String.Empty;
-            _SongLength.Text = String.Empty;
-            _SongYear.Text = String.Empty;
+            _Artist.Text = string.Empty;
+            _Title.Text = string.Empty;
+            _SongLength.Text = string.Empty;
+            _SongYear.Text = string.Empty;
             _DuetIcon.Visible = false;
             _RapIcon.Visible = false;
             _VideoIcon.Visible = false;
