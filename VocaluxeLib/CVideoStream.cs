@@ -15,20 +15,23 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.IO;
 using VocaluxeLib.Draw;
 
 namespace VocaluxeLib
 {
     public class CVideoStream
     {
+        private readonly Stream _InnerStream;
         public int Id { get; private set; }
         public CTextureRef Texture;
         /// The actual position in s of the returned frame. Should be ~ time+VideoGap
         public float VideoTime;
 
-        public CVideoStream(int id)
+        public CVideoStream(int id, Stream stream)
         {
             Id = id;
+            _InnerStream = stream;
         }
 
         ~CVideoStream()
@@ -48,6 +51,7 @@ namespace VocaluxeLib
         {
             Id = -1;
             CBase.Drawing.RemoveTexture(ref Texture);
+            _InnerStream?.Dispose();
         }
 
         /// <summary>

@@ -137,6 +137,13 @@ namespace Vocaluxe.Base
             public ELyricStyle LyricStyle;
         }
 
+        public struct SConfigFFmpeg
+        {
+            public string FFmpegPath;
+            [DefaultValue("8.1")]
+            public string VersionToDownload;
+        }
+
         public struct SConfigSound
         {
             [DefaultValue(EPlaybackLib.GstreamerSharp)]
@@ -248,6 +255,7 @@ namespace Vocaluxe.Base
             public SConfigInfo? Info;
             // ReSharper restore NotAccessedField.Global
             public SConfigDebug Debug;
+            public SConfigFFmpeg FFmpeg;
             public SConfigGraphics Graphics;
             public SConfigTheme Theme;
             public SConfigSound Sound;

@@ -1570,7 +1570,7 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                _CurrentStream = CSound.Load(song.GetMP3(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None);
+                _CurrentStream = CSound.Load(song.GetAudioPath(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None);
             }
 
             CSound.SetStreamVolume(_CurrentStream, 100);
@@ -1591,9 +1591,10 @@ namespace Vocaluxe.Screens
             }
 
             _VideoAspect = song.VideoAspect;
-            if (!string.IsNullOrEmpty(song.VideoFileName))
+            var videoStream = song.GetVideoStream();
+            if (videoStream != null)
             {
-                _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.VideoFileName));
+                _CurrentVideo = CVideo.LoadStream(videoStream);
                 CVideo.Skip(_CurrentVideo, song.Start, song.VideoGap);
             }
 

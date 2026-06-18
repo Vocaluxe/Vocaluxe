@@ -186,6 +186,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
@@ -195,6 +197,7 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="FFmpeg.AutoGen" Version="8.1.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageReference Include="vocaluxe.dependencies.acinerella" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
@@ -238,6 +241,8 @@
     <Compile Include="Lib\Draw\CDrawBaseWindows.cs" />
     <Compile Include="Lib\Draw\CTextureBase.cs" />
     <Compile Include="Lib\Draw\CTextureProvider.cs" />
+    <Compile Include="Lib\FFmpeg\CFFmpegDecoderContextBase.cs" />
+    <Compile Include="Lib\FFmpeg\FfmpegHelper.cs" />
     <Compile Include="Lib\Input\CGamePad.cs" />
     <Compile Include="Lib\Sound\EAudioEffect.cs" />
     <Compile Include="Lib\Sound\Playback\CAudioStreamBase.cs" />
@@ -294,9 +299,10 @@
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtAKF.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
     <Compile Include="Lib\Sound\Record\PitchTracker\IPitchTracker.cs" />
-    <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
-    <Compile Include="Lib\Video\Acinerella\CDecoderThread.cs" />
-    <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
+    <Compile Include="Lib\Video\FFmpeg\CFFmpegVideoDecoder.cs" />
+    <Compile Include="Lib\Video\FFmpeg\CFFmpegVideoDecoderContext.cs" />
+    <Compile Include="Lib\Video\FFmpeg\CFFmpegVideoDecoderThread.cs" />
+    <Compile Include="Lib\Video\CVideoFramebuffer.cs" />
     <Compile Include="Lib\Sound\Record\CDelayTest.cs" />
     <Compile Include="Reporting\Reporter.cs">
       <SubType>Form</SubType>
@@ -334,9 +340,9 @@
     <Compile Include="Lib\Sound\Playback\Decoder\IAudioDecoder.cs" />
     <Compile Include="Lib\Sound\Playback\IPlayback.cs" />
     <Compile Include="Lib\Sound\Record\IRecord.cs" />
-    <Compile Include="Lib\Video\Acinerella\CAcinerella.cs" />
-    <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
-    <Compile Include="Lib\Video\IVideoDecoder.cs" />
+    <Compile Include="Lib\Sound\Playback\Acinerella\CAcinerella.cs" />
+    <Compile Include="Lib\Video\CVideoDecoderContainer.cs" />
+    <Compile Include="Lib\Video\IVideoDecoderContainer.cs" />
     <Compile Include="Lib\Webcam\CAForgeNet.cs" />
     <Compile Include="Lib\Webcam\IWebcam.cs" />
     <Compile Include="Base\CGraphics.cs" />

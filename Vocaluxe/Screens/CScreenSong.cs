@@ -1766,12 +1766,12 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideOptionsAudioMode].Clear();
             var currentSong = CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()];
 
-            if (currentSong.HasInstrumental())
+            if (currentSong.HasInstrumental)
             {
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL", tag: (int)EAudioMode.TR_AUDIOMODE_NORMAL);
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL", tag: (int)EAudioMode.TR_AUDIOMODE_INSTRUMENTAL);
 
-                if (currentSong.HasVocals())
+                if (currentSong.HasVocals)
                 {
                     _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_VOCALS", tag: (int)EAudioMode.TR_AUDIOMODE_VOCALS);
                 }

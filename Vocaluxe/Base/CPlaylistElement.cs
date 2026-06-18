@@ -38,12 +38,7 @@ namespace Vocaluxe.Base
 
         public string MusicFilePath
         {
-            get { return HasMetaData ? Song.GetMP3() : _MusicFilePath; }
-        }
-
-        public string VideoFilePath
-        {
-            get { return HasMetaData ? Song.GetVideo() : string.Empty; }
+            get { return HasMetaData ? Song.GetAudioPath() : _MusicFilePath; }
         }
 
         public string Title

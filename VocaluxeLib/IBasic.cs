@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.IO;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
@@ -261,7 +262,7 @@ namespace VocaluxeLib
 
     public interface IVideo
     {
-        CVideoStream Load(string videoFileName);
+        CVideoStream LoadStream(Stream videoStream);
         bool Skip(CVideoStream stream, float startPosition, float videoGap);
         bool GetFrame(CVideoStream stream, float time);
         bool IsFinished(CVideoStream stream);
