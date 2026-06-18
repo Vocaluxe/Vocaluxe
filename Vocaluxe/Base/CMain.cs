@@ -959,6 +959,11 @@ namespace Vocaluxe.Base
             return CCover.NoCover;
         }
 
+        public byte[] GenerateCoverData(Bitmap bitmap, out Size finalSize)
+        {
+            return CCover.GenerateCoverData(bitmap, out finalSize);
+        }
+
         public CTextureRef GenerateCover(string text, ECoverGeneratorType type, CSong firstSong)
         {
             return CCover.GenerateCover(text, type, firstSong);
@@ -967,9 +972,14 @@ namespace Vocaluxe.Base
 
     class CBdataBase : IDataBase
     {
-        public bool GetCover(string fileName, ref CTextureRef texture, int coverSize)
+        public CTextureRef GetCover(string coverId)
         {
-            return CDataBase.GetCover(fileName, ref texture, coverSize);
+            return CDataBase.GetCover(coverId);
+        }
+
+        public bool EnqueueCoverToTransaction(string coverId, Size size, byte[] data)
+        {
+            return CDataBase.EnqueueCoverToTransaction(coverId, size, data);
         }
 
         public bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreId)

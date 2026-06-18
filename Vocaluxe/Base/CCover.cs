@@ -18,8 +18,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
 using VocaluxeLib;
@@ -92,6 +95,36 @@ namespace Vocaluxe.Base
                 }
 
                 return _Covers[name];
+            }
+        }
+
+        public static byte[] GenerateCoverData(Bitmap bitmap, out Size finalSize)
+        {
+            var wasResized = false;
+            var coverBitmap = bitmap;
+            finalSize = coverBitmap.GetSize();
+            var maxSize = CBase.Config.GetCoverSize();
+            if (finalSize.Width > maxSize || finalSize.Height > maxSize)
+            {
+                finalSize = CHelper.FitInBounds(new SRectF(0, 0, maxSize, maxSize, 0), (float)finalSize.Width / finalSize.Height, EAspect.LetterBox).SizeI;
+                coverBitmap = coverBitmap.Resize(finalSize);
+                wasResized = true;
+            }
+
+            try
+            {
+                var data = new byte[finalSize.Width * finalSize.Height * 4];
+                var bmpData = coverBitmap.LockBits(coverBitmap.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+                Marshal.Copy(bmpData.Scan0, data, 0, data.Length);
+                coverBitmap.UnlockBits(bmpData);
+                return data;
+            }
+            finally
+            {
+                if (wasResized)
+                {
+                    coverBitmap.Dispose();
+                }
             }
         }
 

@@ -539,14 +539,14 @@ namespace VocaluxeLib.PartyModes.TicTacToe
                 if (_PartyMode.GameData.Rounds[i].Finished)
                 {
                     _Fields[i].Selectable = false;
-                    _Fields[i].Texture = CBase.Songs.GetSongById(_PartyMode.GameData.Rounds[i].SongIds[0]).CoverTextureBig;
+                    _Fields[i].Texture = CBase.Songs.GetSongById(_PartyMode.GameData.Rounds[i].SongIds[0]).CoverTexture;
                     _Fields[i].Color = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[i].Winner);
                     _Fields[i].SelColor = CBase.Themes.GetPlayerColor(_PartyMode.GameData.Rounds[i].Winner);
                 }
 
                 if (_Status == EStatus.FieldSelected && _PartyMode.GameData.FieldNr == i)
                 {
-                    _Fields[i].Texture = CBase.Songs.GetSongById(_PartyMode.GameData.Rounds[i].SongIds[0]).CoverTextureBig;
+                    _Fields[i].Texture = CBase.Songs.GetSongById(_PartyMode.GameData.Rounds[i].SongIds[0]).CoverTexture;
                     _Fields[i].Color = new SColorF(1, 1, 1, 1);
                     _Fields[i].SelColor = new SColorF(1, 1, 1, 1);
                     _Fields[i].Selectable = false;

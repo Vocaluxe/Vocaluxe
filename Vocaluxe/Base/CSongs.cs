@@ -504,7 +504,7 @@ namespace Vocaluxe.Base
                     var tmp = song;
                     Task.Factory.StartNew(() =>
                     {
-                        tmp.LoadSmallCover();
+                        tmp.LoadAndCacheCoverIfNeeded();
                         if (Interlocked.Increment(ref _NumSongsWithCoverLoaded) >= songCount)
                         {
                             ev.Set();

@@ -78,10 +78,7 @@ namespace VocaluxeLib.Utils.Player
             }
         }
 
-        public CTextureRef Cover
-        {
-            get { return _Song == null ? CBase.Cover.GetNoCover() : _Song.CoverTextureBig; }
-        }
+        public CTextureRef Cover => _Song == null ? CBase.Cover.GetNoCover() : _Song.CoverTexture;
 
         public CSongPlayer(bool loop = false) : base(loop) { }
 

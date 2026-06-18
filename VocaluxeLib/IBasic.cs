@@ -291,12 +291,14 @@ namespace VocaluxeLib
     public interface ICover
     {
         CTextureRef GetNoCover();
+        byte[] GenerateCoverData(Bitmap bitmap, out Size finalSize);
         CTextureRef GenerateCover(string text, ECoverGeneratorType type, CSong firstSong);
     }
 
     public interface IDataBase
     {
-        bool GetCover(string fileName, ref CTextureRef texture, int coverSize);
+        CTextureRef GetCover(string coverId);
+        bool EnqueueCoverToTransaction(string coverId, Size sIze, byte[] data);
         bool GetDataBaseSongInfos(string artist, string title, out int numPlayed, out DateTime dateAdded, out int highscoreId);
     }
 

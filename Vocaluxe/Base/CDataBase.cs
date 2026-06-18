@@ -17,6 +17,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using Vocaluxe.Lib.Database;
 using VocaluxeLib;
@@ -80,33 +81,32 @@ namespace Vocaluxe.Base
 
         public static List<SDBScoreEntry> LoadScore(int songId, EGameMode gameMode, EHighscoreStyle style)
         {
-            return _HighscoreDB == null ? null : _HighscoreDB.LoadScore(songId, gameMode, style);
+            return _HighscoreDB?.LoadScore(songId, gameMode, style);
         }
 
         public static int AddScore(SPlayer player)
         {
-            return _HighscoreDB == null ? -1 : _HighscoreDB.AddScore(player);
+            return _HighscoreDB?.AddScore(player) ?? -1;
         }
 
         public static void IncreaseSongCounter(int dataBaseSongId)
         {
-            if (_HighscoreDB != null)
-            {
-                _HighscoreDB.IncreaseSongCounter(dataBaseSongId);
-            }
+            _HighscoreDB?.IncreaseSongCounter(dataBaseSongId);
         }
 
-        public static bool GetCover(string fileName, ref CTextureRef tex, int maxSize)
+        public static CTextureRef GetCover(string coverId)
         {
-            return _CoverDB != null && _CoverDB.GetCover(fileName, ref tex, maxSize);
+            return _CoverDB?.GetCover(coverId);
+        }
+
+        public static bool EnqueueCoverToTransaction(string coverId, Size size, byte[] data)
+        {
+            return _CoverDB != null && _CoverDB.EnqueueCoverToTransaction(coverId, size, data);
         }
 
         public static void CommitCovers()
         {
-            if (_CoverDB != null)
-            {
-                _CoverDB.CommitCovers();
-            }
+            _CoverDB?.CommitCovers();
         }
     }
 }

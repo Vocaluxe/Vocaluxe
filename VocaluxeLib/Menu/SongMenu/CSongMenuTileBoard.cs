@@ -273,7 +273,7 @@ namespace VocaluxeLib.Menu.SongMenu
                     return;
                 }
 
-                _CoverBig.Texture = song.CoverTextureBig;
+                _CoverBig.Texture = song.CoverTexture;
                 _Artist.Text = song.Artist;
                 _Title.Text = song.Title;
                 _SongYear.Text = song.Year;
@@ -755,7 +755,7 @@ namespace VocaluxeLib.Menu.SongMenu
             {
                 if (itemCount > i + offset)
                 {
-                    _Tiles[i].Texture = isInCategory ? CBase.Songs.GetVisibleSong(i + offset).CoverTextureSmall : CBase.Songs.GetCategory(i + offset).CoverTextureSmall;
+                    _Tiles[i].Texture = isInCategory ? CBase.Songs.GetVisibleSong(i + offset).CoverTexture : CBase.Songs.GetCategory(i + offset).CoverTextureSmall;
                     _Tiles[i].Color = new SColorF(1f, 1f, 1f, 1f);
                 }
                 else

@@ -68,7 +68,7 @@ namespace Vocaluxe.Base
 
         public CTextureRef Cover
         {
-            get { return HasMetaData ? Song.CoverTextureSmall : CCover.NoCover; }
+            get { return HasMetaData ? Song.CoverTexture : CCover.NoCover; }
         }
 
         public float VideoGap

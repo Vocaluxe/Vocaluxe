@@ -81,8 +81,8 @@ namespace VocaluxeLib.Songs
 
     public partial class CSong
     {
-        private CTextureRef _CoverTextureSmall;
-        private CTextureRef _CoverTextureBig;
+        private object _CoverLock = new();
+        private CTextureRef _CoverTexture;
 
         public SMedley Medley;
 
@@ -109,22 +109,13 @@ namespace VocaluxeLib.Songs
 
         public bool NotesLoaded { get; private set; }
 
-        public CTextureRef CoverTextureSmall
+        public CTextureRef CoverTexture
         {
             get
             {
-                if (_CoverTextureSmall == null)
-                {
-                    LoadSmallCover();
-                }
-
-                return _CoverTextureSmall;
+                LoadAndCacheCoverIfNeeded();
+                return _CoverTexture;
             }
-        }
-
-        public CTextureRef CoverTextureBig
-        {
-            get => _CoverTextureBig ?? _CoverTextureSmall;
         }
 
         public string Title = string.Empty;
@@ -217,8 +208,7 @@ namespace VocaluxeLib.Songs
 
         public CSong(CSong song)
         {
-            _CoverTextureSmall = song._CoverTextureSmall;
-            _CoverTextureBig = song._CoverTextureBig;
+            _CoverTexture = song._CoverTexture;
 
             Medley = song.Medley;
 
@@ -338,22 +328,38 @@ namespace VocaluxeLib.Songs
             return Path.Combine(Folder, VideoFileName);
         }
 
-        public void LoadSmallCover()
+        public void LoadAndCacheCoverIfNeeded()
         {
-            if (_CoverTextureSmall != null)
+            lock (_CoverLock)
             {
-                return;
-            }
-
-            if (CoverFileName != "")
-            {
-                if (CBase.DataBase.GetCover(Path.Combine(Folder, CoverFileName), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
+                if (_CoverTexture != null)
                 {
+                    // Already loaded
                     return;
                 }
-            }
 
-            _CoverTextureSmall = CBase.Cover.GenerateCover(Title, ECoverGeneratorType.Song, null);
+                if (!string.IsNullOrEmpty(CoverFileName))
+                {
+                    var coverPath = Path.Combine(Folder, CoverFileName);
+                    _CoverTexture = CBase.DataBase.GetCover(coverPath);
+                    if (_CoverTexture != null)
+                    {
+                        // Cover loaded from DB cache
+                        return;
+                    }
+
+                    if (File.Exists(coverPath))
+                    {
+                        // Generate the cover then enqueue it in the CoverDB transaction
+                        using var bitmap = CHelper.LoadBitmap(coverPath);
+                        var coverData = CBase.Cover.GenerateCoverData(bitmap, out var finalSize);
+                        CBase.DataBase.EnqueueCoverToTransaction(coverPath, finalSize, coverData);
+                    }
+                }
+
+                // Fallback on the default cover
+                _CoverTexture ??= CBase.Cover.GenerateCover(Title, ECoverGeneratorType.Song, null);
+            }
         }
 
         private void _CheckFiles()
