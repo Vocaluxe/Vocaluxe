@@ -15,6 +15,9 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using VocaluxeLib.Songs.Sources;
+using VocaluxeLib.Utils.Player;
+
 namespace Vocaluxe.Lib.Sound.Playback.PortAudio
 {
     class CPortAudioPlay : CPlaybackBase
@@ -31,9 +34,9 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             return true;
         }
 
-        protected override IAudioStream _CreateStream(int id, string media, bool loop, EAudioEffect effect = EAudioEffect.None)
+        protected override IAudioStream _CreateStream(int id, ISoundSource source, bool loop, EAudioEffect effect = EAudioEffect.None)
         {
-            return new CPortAudioStream(id, media, loop, effect);
+            return new CPortAudioStream(id, source.GetStream(), loop, effect);
         }
     }
 }

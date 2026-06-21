@@ -16,8 +16,10 @@
 #endregion
 
 using System;
+using Vocaluxe.Lib.Sound.Sources;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Songs.Sources;
 
 namespace Vocaluxe.Base
 {
@@ -26,59 +28,27 @@ namespace Vocaluxe.Base
         public readonly CSong Song;
         private readonly string _MusicFilePath = string.Empty;
 
-        public bool HasMetaData
-        {
-            get { return Song != null; }
-        }
+        public bool HasMetaData => Song != null;
 
-        public int SongId
-        {
-            get { return HasMetaData ? Song.Id : -1; }
-        }
+        public int SongId => HasMetaData ? Song.Id : -1;
 
-        public string MusicFilePath
-        {
-            get { return HasMetaData ? Song.GetAudioPath() : _MusicFilePath; }
-        }
+        public ISoundSource SoundSource => HasMetaData ? Song.GetAudio() : new CLocalFileSoundSource(_MusicFilePath);
 
-        public string Title
-        {
-            get { return HasMetaData ? Song.Title : ""; }
-        }
+        public string Title => HasMetaData ? Song.Title : "";
 
-        public string Artist
-        {
-            get { return HasMetaData ? Song.Artist : ""; }
-        }
+        public string Artist => HasMetaData ? Song.Artist : "";
 
-        public float Start
-        {
-            get { return HasMetaData ? Song.Start : 0f; }
-        }
+        public float Start => HasMetaData ? Song.Start : 0f;
 
-        public float Finish
-        {
-            get { return HasMetaData ? Song.End : 0f; }
-        }
+        public float End => HasMetaData ? Song.End : 0f;
 
-        public CTextureRef Cover
-        {
-            get { return HasMetaData ? Song.CoverTexture : CCover.NoCover; }
-        }
+        public CTextureRef Cover => HasMetaData ? Song.CoverTexture : CCover.NoCover;
 
-        public float VideoGap
-        {
-            get { return HasMetaData ? Song.VideoGap : 0; }
-        }
+        public float VideoGap => HasMetaData ? Song.VideoGap : 0;
 
         public CPlaylistElement(CSong song)
         {
-            if (song == null)
-            {
-                throw new ArgumentNullException("song");
-            }
-
-            Song = song;
+            Song = song ?? throw new ArgumentNullException("song");
         }
 
         public CPlaylistElement(string filePath)

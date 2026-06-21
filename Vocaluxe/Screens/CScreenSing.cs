@@ -1570,7 +1570,7 @@ namespace Vocaluxe.Screens
             }
             else
             {
-                _CurrentStream = CSound.Load(song.GetAudioPath(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None);
+                _CurrentStream = CSound.Load(song.GetAudio(), false, true, CConfig.Config.Sound.KaraokeEffect == EOffOn.TR_CONFIG_ON ? EAudioEffect.Karaoke : EAudioEffect.None);
             }
 
             CSound.SetStreamVolume(_CurrentStream, 100);

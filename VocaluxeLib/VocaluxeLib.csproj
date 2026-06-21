@@ -148,8 +148,10 @@
     <Compile Include="Draw\CTextureRef.cs" />
     <Compile Include="Menu\IThemeable.cs" />
     <Compile Include="Menu\SingNotes\CNoteBars.cs" />
+    <Compile Include="Songs\Sources\CSongFileSource.cs" />
     <Compile Include="Utils\Combinatorics\CCombinations.cs" />
     <Compile Include="Utils\ObjectPool.cs" />
+    <Compile Include="Songs\Sources\ISoundSource.cs" />
     <Compile Include="XmlStructs.cs" />
     <Compile Include="Xml\CTypeExtensions.cs" />
     <Compile Include="Xml\CXmlDeserializer.cs" />

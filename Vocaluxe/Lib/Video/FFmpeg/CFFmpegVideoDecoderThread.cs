@@ -309,7 +309,7 @@ namespace Vocaluxe.Lib.Video.FFmpeg
         //Just call this if thread is not alive
         private void _Free()
         {
-            _DecoderContext.Dispose();
+            _DecoderContext?.Dispose();
         }
 
         // Skip to a given time (in s)

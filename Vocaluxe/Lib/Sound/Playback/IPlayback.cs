@@ -15,7 +15,10 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.IO;
 using VocaluxeLib;
+using VocaluxeLib.Songs.Sources;
+using VocaluxeLib.Utils.Player;
 
 namespace Vocaluxe.Lib.Sound.Playback
 {
@@ -31,12 +34,12 @@ namespace Vocaluxe.Lib.Sound.Playback
         /// </summary>
         /// <param name="volume">Volume in percent</param>
         void SetGlobalVolume(int volume);
+        int Load(ISoundSource source, bool loop = false, bool prescan = false, EAudioEffect effect = EAudioEffect.None);
 
         int GetStreamCount();
         void CloseAll();
 
         #region stream Handling
-        int Load(string medium, bool loop = false, bool prescan = false, EAudioEffect effekt = EAudioEffect.None);
         void Close(int streamId);
 
         void Play(int streamId);

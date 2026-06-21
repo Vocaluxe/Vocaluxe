@@ -19,16 +19,18 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using VocaluxeLib;
+using VocaluxeLib.Songs.Sources;
+using VocaluxeLib.Utils.Player;
 
 namespace Vocaluxe.Lib.Sound.Playback
 {
     public abstract class CPlaybackBase : IPlayback, ICloseStreamListener
     {
         protected bool _Initialized;
-        protected readonly List<IAudioStream> _Streams = new List<IAudioStream>();
-        private readonly List<IAudioStream> _StreamsToDelete = new List<IAudioStream>();
+        protected readonly List<IAudioStream> _Streams = [];
+        private readonly List<IAudioStream> _StreamsToDelete = [];
         private bool _InUpdate;
-        private int _NextId;
+        protected int _NextId;
         protected float _GlobalVolume = 1f;
 
         public abstract bool Init();
@@ -151,16 +153,16 @@ namespace Vocaluxe.Lib.Sound.Playback
 
         #region Stream Handling
         //Factory method to get a stream instance
-        protected abstract IAudioStream _CreateStream(int id, string media, bool loop, EAudioEffect effect = EAudioEffect.None);
+        protected abstract IAudioStream _CreateStream(int id, ISoundSource source, bool loop, EAudioEffect effect = EAudioEffect.None);
 
-        public int Load(string medium, bool loop = false, bool prescan = false, EAudioEffect effect = EAudioEffect.None)
+        public int Load(ISoundSource source, bool loop = false, bool prescan = false, EAudioEffect effect = EAudioEffect.None)
         {
             if (!_Initialized)
             {
                 return -1;
             }
 
-            var stream = _CreateStream(_NextId++, medium, loop, effect);
+            var stream = _CreateStream(_NextId++, source, loop, effect);
 
             if (stream.Open(prescan))
             {
@@ -288,7 +290,7 @@ namespace Vocaluxe.Lib.Sound.Playback
             {
                 if (_StreamExists(streamId))
                 {
-                    return _Streams[_GetStreamIndex(streamId)].Length;
+                    return _Streams[_GetStreamIndex(streamId)].Duration;
                 }
             }
 

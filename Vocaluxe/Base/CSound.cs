@@ -22,7 +22,10 @@ using Vocaluxe.Lib.Sound.Playback;
 using Vocaluxe.Lib.Sound.Playback.GstreamerSharp;
 using Vocaluxe.Lib.Sound.Playback.OpenAL;
 using Vocaluxe.Lib.Sound.Playback.PortAudio;
+using Vocaluxe.Lib.Sound.Sources;
 using VocaluxeLib;
+using VocaluxeLib.Songs.Sources;
+using VocaluxeLib.Utils.Player;
 
 namespace Vocaluxe.Base
 {
@@ -87,26 +90,20 @@ namespace Vocaluxe.Base
 
         public static void CloseAllStreams()
         {
-            if (_Playback != null)
-            {
-                _Playback.CloseAll();
-            }
+            _Playback?.CloseAll();
         }
 
         public static void Close()
         {
-            if (_Playback != null)
-            {
-                _Playback.Close();
-            }
-
+            _Playback?.Close();
             _Playback = null;
         }
 
         #region Stream Handling
-        public static int Load(string media, bool loop = false, bool prescan = false, EAudioEffect effekt = EAudioEffect.None)
+
+        public static int Load(ISoundSource source, bool loop = false, bool prescan = false, EAudioEffect effekt = EAudioEffect.None)
         {
-            return _Playback.Load(media, loop, prescan, effekt);
+            return _Playback.Load(source, loop, prescan, effekt);
         }
 
         public static void Close(int stream)
@@ -227,7 +224,8 @@ namespace Vocaluxe.Base
                 return -1;
             }
 
-            var stream = Load(file, false, fade);
+            var localSource = new CLocalFileSoundSource(file);
+            var stream = Load(localSource, false, fade);
             if (stream < 0)
             {
                 return -1;

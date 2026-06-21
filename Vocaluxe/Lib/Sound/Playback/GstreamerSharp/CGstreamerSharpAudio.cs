@@ -19,6 +19,8 @@ using System;
 using System.IO;
 using Gst;
 using VocaluxeLib.Log;
+using VocaluxeLib.Songs.Sources;
+using VocaluxeLib.Utils.Player;
 
 namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
 {
@@ -80,9 +82,9 @@ namespace Vocaluxe.Lib.Sound.Playback.GstreamerSharp
             Application.Deinit();
         }
 
-        protected override IAudioStream _CreateStream(int id, string media, bool loop, EAudioEffect effect = EAudioEffect.None)
+        protected override IAudioStream _CreateStream(int id, ISoundSource source, bool loop, EAudioEffect effect = EAudioEffect.None)
         {
-            return new CGstreamerSharpAudioStream(id, media, loop, effect);
+            return new CGstreamerSharpAudioStream(id, source.GetUri(), loop, effect);
         }
     }
 }

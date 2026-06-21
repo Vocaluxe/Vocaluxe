@@ -16,6 +16,7 @@
 #endregion
 
 using System.IO;
+using VocaluxeLib.Songs.Sources;
 
 namespace VocaluxeLib.Utils.Player
 {
@@ -23,7 +24,6 @@ namespace VocaluxeLib.Utils.Player
     {
         protected int _StreamId = -1;
         protected readonly float _FadeTime = CBase.Settings.GetSoundPlayerFadeTime();
-        public string FilePath { get; private set; }
 
         public bool Loop;
 
@@ -61,27 +61,24 @@ namespace VocaluxeLib.Utils.Player
             get { return _StreamId != -1; }
         }
 
-        public virtual string ArtistAndTitle
-        {
-            get { return string.IsNullOrEmpty(FilePath) ? "" : Path.GetFileNameWithoutExtension(FilePath); }
-        }
+        public virtual string DisplayName { get; private set; }
 
         public CSoundPlayer(bool loop = false)
         {
             Loop = loop;
         }
 
-        public void Load(string file, float position = -1f, bool autoplay = false)
+        public void Load(ISoundSource source, float position = -1f, bool autoplay = false)
         {
             Close();
 
-            _StreamId = CBase.Sound.Load(file, false, true);
+            _StreamId = CBase.Sound.Load(source, false, true);
             if (_StreamId < 0)
             {
                 return;
             }
 
-            FilePath = file;
+            DisplayName = source.DisplayName;
             if (position > 0f)
             {
                 Position = position;
@@ -152,7 +149,7 @@ namespace VocaluxeLib.Utils.Player
 
             CBase.Sound.Fade(_StreamId, 0, _FadeTime, EStreamAction.Close);
             _StreamId = -1;
-            FilePath = "";
+            DisplayName = string.Empty;
             IsPlaying = false;
         }
 

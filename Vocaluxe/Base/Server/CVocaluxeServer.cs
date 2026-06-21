@@ -677,7 +677,7 @@ namespace Vocaluxe.Base.Server
         public static string GetAudioPath(int songId)
         {
             var song = CSongs.GetSong(songId);
-            return song.GetAudioPath();
+            return song.GetAudio().GetUri();
         }
 
         public static int GetCurrentSongId()

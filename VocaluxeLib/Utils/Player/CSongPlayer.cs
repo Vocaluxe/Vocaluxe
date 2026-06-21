@@ -18,6 +18,7 @@
 using System;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Songs.Sources;
 
 namespace VocaluxeLib.Utils.Player
 {
@@ -27,6 +28,8 @@ namespace VocaluxeLib.Utils.Player
         private bool _VideoEnabled;
         private CVideoStream _Video;
         private CFading _VideoFading;
+
+        public ISoundSource SoundSource => _Song?.GetAudio();
 
         public bool VideoEnabled
         {
@@ -54,7 +57,7 @@ namespace VocaluxeLib.Utils.Player
 
         public bool SongHasVideo => _Song?.HasVideo ?? false;
 
-        public override string ArtistAndTitle
+        public override string DisplayName
         {
             get
             {
@@ -63,7 +66,7 @@ namespace VocaluxeLib.Utils.Player
                     return _Song.Artist + " - " + _Song.Title;
                 }
 
-                return base.ArtistAndTitle;
+                return base.DisplayName;
             }
         }
 
@@ -105,7 +108,7 @@ namespace VocaluxeLib.Utils.Player
                 throw new ArgumentNullException("song");
             }
 
-            Load(song.GetAudioPath(), position, autoplay);
+            Load(song.GetAudio(), position, autoplay);
             _Song = song;
             _LoadVideo();
         }

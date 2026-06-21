@@ -22,6 +22,8 @@ using System.Linq;
 using System.Text;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
+using VocaluxeLib.Songs.Sources;
+using VocaluxeLib.Utils.Player;
 
 namespace VocaluxeLib.Songs
 {
@@ -79,7 +81,7 @@ namespace VocaluxeLib.Songs
         public float StartTime;
     }
 
-    public partial class CSong
+    public partial class CSong : IEquatable<CSong>
     {
         private object _CoverLock = new();
         private CTextureRef _CoverTexture;
@@ -298,21 +300,21 @@ namespace VocaluxeLib.Songs
             return writer.SaveFile(filePath);
         }
 
-        public string GetAudioPath()
+        public ISoundSource GetAudio()
         {
-            return _GetFilePathIfExist(AudioFileName);
+            return new CSongFileSource(this, AudioFileName);
         }
 
-        public string GetInstrumental()
+        public ISoundSource GetInstrumental()
         {
-            return _GetFilePathIfExist(InstrumentalFileName);
+            return new CSongFileSource(this, InstrumentalFileName);
         }
 
         public bool HasInstrumental => _FileExist(InstrumentalFileName);
 
-        public string GetVocals()
+        public ISoundSource GetVocals()
         {
-            return _GetFilePathIfExist(VocalsFileName);
+            return new CSongFileSource(this, VocalsFileName);
         }
 
         public bool HasVocals => _FileExist(VocalsFileName);
@@ -610,6 +612,46 @@ namespace VocaluxeLib.Songs
 
             ShortEnd.EndBeat = stop;
             ShortEnd.Source = EDataSource.Calculated;
+        }
+
+        public bool Equals(CSong other)
+        {
+            if (other is null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            return Id == other.Id;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+
+            if (obj.GetType() != GetType())
+            {
+                return false;
+            }
+
+            return Equals((CSong)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return Id;
         }
     }
 }

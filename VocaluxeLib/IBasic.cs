@@ -25,6 +25,8 @@ using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Profile;
 using VocaluxeLib.Songs;
+using VocaluxeLib.Songs.Sources;
+using VocaluxeLib.Utils.Player;
 
 namespace VocaluxeLib
 {
@@ -274,7 +276,7 @@ namespace VocaluxeLib
 
     public interface ISound
     {
-        int Load(string soundFile, bool loop = false, bool prescan = false);
+        int Load(ISoundSource source, bool loop = false, bool prescan = false);
         void SetPosition(int streamId, float newPosition);
         void Play(int streamId);
         void Fade(int streamId, int targetVolume, float duration, EStreamAction afterFadeAction = EStreamAction.Nothing);

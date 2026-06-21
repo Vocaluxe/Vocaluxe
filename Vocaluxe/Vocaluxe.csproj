@@ -200,11 +200,9 @@
     <PackageReference Include="FFmpeg.AutoGen" Version="8.1.0" />
     <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.9" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="vocaluxe.dependencies.acinerella" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.3" />
     <PackageReference Include="vocaluxe.dependencies.aforgevideo" Version="1.0.1" />
     <PackageReference Include="vocaluxe.dependencies.csharpsqlite" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.ffmpeg" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
     <PackageReference Include="vocaluxe.dependencies.gstreamer" Version="1.0.3" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
     <PackageReference Include="vocaluxe.dependencies.gstreamersharp" Version="1.0.1" />
     <PackageReference Include="vocaluxe.dependencies.hidapi" Version="1.0.4" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
@@ -245,9 +243,11 @@
     <Compile Include="Lib\FFmpeg\FfmpegHelper.cs" />
     <Compile Include="Lib\Input\CGamePad.cs" />
     <Compile Include="Lib\Sound\EAudioEffect.cs" />
+    <Compile Include="Lib\Sound\Sources\CLocalFileSoundSource.cs" />
     <Compile Include="Lib\Sound\Playback\CAudioStreamBase.cs" />
     <Compile Include="Lib\Sound\Playback\CPlaybackBase.cs" />
     <Compile Include="Lib\Sound\Playback\CRingBuffer.cs" />
+    <Compile Include="Lib\Sound\Playback\FFmpeg\CFFmpegAudioDecoderContext.cs" />
     <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudioStream.cs" />
     <Compile Include="Lib\Sound\Playback\IAudioStream.cs" />
     <Compile Include="Lib\Sound\Playback\OpenAL\COpenAlStream.cs" />
@@ -336,11 +336,9 @@
     <Compile Include="Base\CSound.cs" />
     <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioPlay.cs" />
     <Compile Include="Lib\Sound\Record\PortAudio\CPortAudioRecord.cs" />
-    <Compile Include="Lib\Sound\Playback\Decoder\CAudioDecoderFFmpeg.cs" />
-    <Compile Include="Lib\Sound\Playback\Decoder\IAudioDecoder.cs" />
+    <Compile Include="Lib\Sound\Playback\FFmpeg\CAudioDecoderFFmpeg.cs" />
     <Compile Include="Lib\Sound\Playback\IPlayback.cs" />
     <Compile Include="Lib\Sound\Record\IRecord.cs" />
-    <Compile Include="Lib\Sound\Playback\Acinerella\CAcinerella.cs" />
     <Compile Include="Lib\Video\CVideoDecoderContainer.cs" />
     <Compile Include="Lib\Video\IVideoDecoderContainer.cs" />
     <Compile Include="Lib\Webcam\CAForgeNet.cs" />

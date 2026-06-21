@@ -31,7 +31,7 @@ namespace Vocaluxe.Lib.Sound.Playback
         bool IsFading { get; }
         float Volume { get; set; }
         float VolumeMax { get; set; }
-        float Length { get; }
+        float Duration { get; }
         float Position { get; set; }
         bool IsPaused { get; set; }
         bool IsFinished { get; }

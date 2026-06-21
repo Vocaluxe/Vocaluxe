@@ -11,6 +11,7 @@ namespace Vocaluxe.Lib.FFmpeg
         private Stream _SourceStream;
 
         private avio_alloc_context_read_packet _ReadSourceStreamCallback;
+        private avio_alloc_context_seek _SeekSourceStreamCallback;
         private AVIOContext* _IOContext;
         private AVFormatContext* _FormatContext;
         private AVCodecContext* _CodecContext;
@@ -82,23 +83,47 @@ namespace Vocaluxe.Lib.FFmpeg
                 return ffmpeg.AVERROR_EOF;
             }
 
-            var finalBufferSize = (int)Math.Min(bufferSize, _SourceStream.Length - _SourceStream.Position);
-            if (finalBufferSize == 0)
+            lock (_SourceStream)
             {
-                return ffmpeg.AVERROR_EOF;
+                var finalBufferSize = (int)Math.Min(bufferSize, _SourceStream.Length - _SourceStream.Position);
+                if (finalBufferSize == 0)
+                {
+                    return ffmpeg.AVERROR_EOF;
+                }
+
+                for (var i = 0; i < finalBufferSize; i++)
+                {
+                    buffer[i] = (byte)_SourceStream.ReadByte();
+                }
+
+                return finalBufferSize;
+            }
+        } 
+        
+        private long _SeekSourceStream(void* opaque, long offset, int whence)
+        {
+            if (_SourceStream == null)
+            {
+                return -1;
             }
 
-            for (var i = 0; i < finalBufferSize; i++)
+            lock (_SourceStream)
             {
-                buffer[i] = (byte)_SourceStream.ReadByte();
-            }
+                if (!_SourceStream.CanSeek)
+                {
+                    return -1;
+                }
 
-            return finalBufferSize;
+                return whence == ffmpeg.AVSEEK_SIZE ?
+                    _SourceStream.Length :
+                    _SourceStream.Seek(offset, (SeekOrigin)whence);
+            }
         }
 
         private bool _InitIOContext()
         {
             _ReadSourceStreamCallback = _ReadSourceStream;
+            _SeekSourceStreamCallback = _SeekSourceStream;
 
             var ioBuffer = (byte*)ffmpeg.av_malloc(FFmpegHelper.IOBufferSize);
             if (ioBuffer == null)
@@ -107,13 +132,12 @@ namespace Vocaluxe.Lib.FFmpeg
                 return false;
             }
 
-            _IOContext = ffmpeg.avio_alloc_context(ioBuffer, FFmpegHelper.IOBufferSize, 0, null, _ReadSourceStreamCallback, null, null);
+            _IOContext = ffmpeg.avio_alloc_context(ioBuffer, FFmpegHelper.IOBufferSize, 0, null, _ReadSourceStreamCallback, null, _SeekSourceStreamCallback);
             if (_IOContext == null)
             {
                 CLog.Error("Unable to alloc the AVIO context");
                 return false;
             }
-
             return true;
         }
 
@@ -212,7 +236,8 @@ namespace Vocaluxe.Lib.FFmpeg
 
         private int _DecodePacket(AVPacket* packet)
         {
-            if (ffmpeg.avcodec_send_packet(_CodecContext, packet) < 0)
+            var packetStatus = ffmpeg.avcodec_send_packet(_CodecContext, packet);
+            if (packetStatus < 0)
             {
                 CLog.Error("Error sending packet to decoder");
                 return -1;
