@@ -120,7 +120,9 @@ namespace VocaluxeLib.Profile
                 var old = xml.Deserialize<SOldXmlProfile>(FilePath);
                 string newXml = ser.Serialize(old.Info);
                 xml.DeserializeString(newXml, this);
-                if (ID == null)
+                // ID is a Guid (value type), so it is never null - an unmigrated/old profile has it
+                // at Guid.Empty. Assign a fresh id in that case (the old `== null` check never fired).
+                if (ID == Guid.Empty)
                     ID = Guid.NewGuid();
                 ser.Serialize(FilePath, this);
 

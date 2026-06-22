@@ -42,13 +42,18 @@ namespace VocaluxeLib.Log.Rolling
                     {
                         File.Move(currentSourceFile, currentTargetFile);
                     }
+#if DEBUG
                     catch (Exception e)
                     {
                         // Cant log anything here as the log isn't initialized yet
-#if DEBUG
                         Console.WriteLine($"Error moving old log file: {e.Message}");
-#endif
                     }
+#else
+                    catch (Exception)
+                    {
+                        // Cant log anything here as the log isn't initialized yet
+                    }
+#endif
                 }
             }
 
@@ -61,13 +66,18 @@ namespace VocaluxeLib.Log.Rolling
                     else
                         File.Delete(mainLogFile);
                 }
+#if DEBUG
                 catch (Exception e)
                 {
                     // Cant log anything here as the log isn't initialized yet
-#if DEBUG
                     Console.WriteLine($"Error moving old main log file: {e.Message}");
-#endif
                 }
+#else
+                catch (Exception)
+                {
+                    // Cant log anything here as the log isn't initialized yet
+                }
+#endif
             }
         }
 
@@ -89,13 +99,18 @@ namespace VocaluxeLib.Log.Rolling
                         {
                             File.Delete(file);
                         }
+#if DEBUG
                         catch (Exception e)
                         {
                             // Cant log anything here as the log isn't initialized yet
-#if DEBUG
                             Console.WriteLine($"Error deleting old log file: {e.Message}");
-#endif
                         }
+#else
+                        catch (Exception)
+                        {
+                            // Cant log anything here as the log isn't initialized yet
+                        }
+#endif
 
                     }
                 }
