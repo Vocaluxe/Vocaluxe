@@ -1,16 +1,16 @@
 #region license
 // This file is part of Vocaluxe.
-// 
+//
 // Vocaluxe is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Vocaluxe is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
@@ -18,67 +18,35 @@
 using System;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.IO;
-using System.Windows.Forms;
-using Vocaluxe.Base;
+using OpenTK.Mathematics;
+using OpenTK.Windowing.Common;
+using OpenTK.Windowing.Desktop;
+using GlfwKeys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using VKeys = VocaluxeLib.Keys;
 
 namespace Vocaluxe.Lib.Draw
 {
-    public delegate bool MessageEventHandler(ref Message m);
-
-    public interface IFormHook
+    /// <summary>
+    ///     Cross-platform window host built on an OpenTK 4 <see cref="NativeWindow" /> (GLFW backend).
+    ///     Replaces the former WinForms host so the OpenGL renderer runs natively on Windows, Linux and macOS.
+    ///     Concrete drivers (e.g. COpenGL) create <see cref="_Window" /> with the desired GL context settings;
+    ///     this base wires window/input events into the game's <c>_Keys</c>/<c>_Mouse</c> queues and owns fullscreen.
+    /// </summary>
+    abstract class CDrawBaseGlfw<TTextureType> : CDrawBase<TTextureType> where TTextureType : CTextureBase, IDisposable
     {
-        MessageEventHandler OnMessage { set; }
-    }
-
-    abstract class CDrawBaseWindows<TTextureType> : CDrawBase<TTextureType> where TTextureType : CTextureBase, IDisposable
-    {
-        private struct SClientRect
-        {
-            public Point Location;
-            public int Width;
-            public int Height;
-        }
-
-        protected Form _Form;
-        private SClientRect _Restore;
-        protected Size _SizeBeforeMinimize;
+        protected NativeWindow _Window;
+        private Vector2i _RestoreLocation;
+        private Vector2i _RestoreSize;
 
         public override void Close()
         {
             base.Close();
             try
             {
-                _Form.Close();
+                _Window?.Close();
             }
             catch {}
-        }
-
-        protected void _CenterToScreen()
-        {
-            Screen screen = Screen.FromControl(_Form);
-            _Form.Location = new Point((screen.WorkingArea.Width - _Form.Width) / 2,
-                                       (screen.WorkingArea.Height - _Form.Height) / 2);
-        }
-
-        private static bool _OnMessageAvoidScreenOff(ref Message m)
-        {
-            switch (m.Msg)
-            {
-                case 0x112: // WM_SYSCOMMAND
-                    switch ((int)m.WParam & 0xFFF0)
-                    {
-                        case 0xF100: // SC_KEYMENU
-                            m.Result = IntPtr.Zero;
-                            return false;
-                        case 0xF140: // SC_SCREENSAVER
-                        case 0xF170: // SC_MONITORPOWER
-                            return false;
-                    }
-                    break;
-            }
-            return true;
         }
 
         protected override void _EnterFullScreen()
@@ -86,23 +54,11 @@ namespace Vocaluxe.Lib.Draw
             Debug.Assert(!_Fullscreen);
             _Fullscreen = true;
 
-            _Restore.Location = _Form.Location;
-            _Restore.Width = _Form.Width;
-            _Restore.Height = _Form.Height;
+            _RestoreLocation = _Window.Location;
+            _RestoreSize = _Window.ClientSize;
 
-            _Form.FormBorderStyle = FormBorderStyle.None;
-
-            Screen screen = Screen.FromControl(_Form);
-            _Form.DesktopBounds = new Rectangle(screen.Bounds.Location, new Size(screen.Bounds.Width, screen.Bounds.Height));
-
-            if (_Form.WindowState == FormWindowState.Maximized)
-            {
-                _Form.WindowState = FormWindowState.Normal;
-                _DoResize();
-                _Form.WindowState = FormWindowState.Maximized;
-            }
-            else
-                _DoResize();
+            _Window.WindowState = WindowState.Fullscreen;
+            _DoResize();
         }
 
         protected override void _LeaveFullScreen()
@@ -110,112 +66,172 @@ namespace Vocaluxe.Lib.Draw
             Debug.Assert(_Fullscreen);
             _Fullscreen = false;
 
-            _Form.FormBorderStyle = FormBorderStyle.Sizable;
-            _Form.DesktopBounds = new Rectangle(_Restore.Location, new Size(_Restore.Width, _Restore.Height));
+            _Window.WindowState = WindowState.Normal;
+            _Window.ClientSize = _RestoreSize;
+            _Window.Location = _RestoreLocation;
         }
 
-        #region form event handlers
-        private void _OnClose(object sender, CancelEventArgs e)
+        #region window/input event handlers
+        private void _OnClosing(CancelEventArgs e)
         {
             _Run = false;
         }
 
-        private void _OnLoad(object sender, EventArgs e)
-        {
-            _ClearScreen();
-        }
-
-        protected virtual void _OnResize(object sender, EventArgs e)
+        protected virtual void _OnResize(ResizeEventArgs e)
         {
             _DoResize();
         }
 
-        #region mouse event handlers
-        protected void _OnMouseMove(object sender, MouseEventArgs e)
+        private void _OnMouseMove(MouseMoveEventArgs e)
         {
-            _Mouse.MouseMove(e);
+            _Mouse.MouseMove((int)e.X, (int)e.Y,
+                             _Window.IsMouseButtonDown(MouseButton.Left),
+                             _Window.IsMouseButtonDown(MouseButton.Right),
+                             _Window.IsMouseButtonDown(MouseButton.Middle),
+                             _Shift, _Alt, _Ctrl);
         }
 
-        protected void _OnMouseWheel(object sender, MouseEventArgs e)
+        private void _OnMouseWheel(MouseWheelEventArgs e)
         {
-            _Mouse.MouseWheel(e);
+            Vector2 p = _Window.MousePosition;
+            // OpenTK reports the wheel in notches; CMouse expects WinForms-style 120-per-notch deltas.
+            _Mouse.MouseWheel((int)p.X, (int)p.Y, (int)(e.OffsetY * 120), _Shift, _Alt, _Ctrl);
         }
 
-        protected void _OnMouseDown(object sender, MouseEventArgs e)
+        private void _OnMouseDown(MouseButtonEventArgs e)
         {
-            _Mouse.MouseDown(e);
+            Vector2 p = _Window.MousePosition;
+            _Mouse.MouseDown((int)p.X, (int)p.Y,
+                             e.Button == MouseButton.Left,
+                             e.Button == MouseButton.Right,
+                             e.Button == MouseButton.Middle,
+                             _Shift, _Alt, _Ctrl);
         }
 
-        protected void _OnMouseUp(object sender, MouseEventArgs e)
+        private void _OnMouseUp(MouseButtonEventArgs e)
         {
-            _Mouse.MouseUp(e);
+            Vector2 p = _Window.MousePosition;
+            _Mouse.MouseUp((int)p.X, (int)p.Y,
+                           e.Button == MouseButton.Left,
+                           e.Button == MouseButton.Right,
+                           e.Button == MouseButton.Middle,
+                           _Shift, _Alt, _Ctrl);
         }
 
-        protected void _OnMouseLeave(object sender, EventArgs e)
+        private void _OnKeyDown(KeyboardKeyEventArgs e)
         {
-            _Mouse.Visible = false;
-            #if !WIN && !DEBUG
-            _Form.Cursor = Cursors.Default;
-            #endif
-            Cursor.Show();
+            _Keys.KeyDown(_MapKey(e.Key), e.Shift, e.Alt, e.Control);
         }
 
-        protected void _OnMouseEnter(object sender, EventArgs e)
+        private void _OnKeyUp(KeyboardKeyEventArgs e)
         {
-            Cursor.Hide();
-            _Mouse.Visible = true;
-            #if !WIN && !DEBUG //don't want to be stuck without a cursor when debugging
-            _Form.Cursor = new Cursor("Linux/blank.cur"); //Cursor.Hide() doesn't work in Mono
-            #endif
+            _Keys.KeyUp(_MapKey(e.Key), e.Shift, e.Alt, e.Control);
+        }
+
+        private void _OnTextInput(TextInputEventArgs e)
+        {
+            _Keys.KeyPress((char)e.Unicode, _Shift, _Alt, _Ctrl);
+        }
+
+        private bool _Shift
+        {
+            get { return _Window.IsKeyDown(GlfwKeys.LeftShift) || _Window.IsKeyDown(GlfwKeys.RightShift); }
+        }
+
+        private bool _Alt
+        {
+            get { return _Window.IsKeyDown(GlfwKeys.LeftAlt) || _Window.IsKeyDown(GlfwKeys.RightAlt); }
+        }
+
+        private bool _Ctrl
+        {
+            get { return _Window.IsKeyDown(GlfwKeys.LeftControl) || _Window.IsKeyDown(GlfwKeys.RightControl); }
         }
         #endregion
 
-        #region keyboard event handlers
-        protected void _OnPreviewKeyDown(object sender, PreviewKeyDownEventArgs e)
+        /// <summary>
+        ///     Maps a GLFW key code to the platform-independent VocaluxeLib.Keys enum.
+        ///     Letters and top-row digits share ASCII values with our enum, so they are cast directly.
+        /// </summary>
+        private static VKeys _MapKey(GlfwKeys key)
         {
-            _OnKeyDown(sender, new KeyEventArgs(e.KeyData));
-        }
+            if (key >= GlfwKeys.A && key <= GlfwKeys.Z)
+                return (VKeys)(int)key; // A..Z == 65..90 in both enums
+            if (key >= GlfwKeys.D0 && key <= GlfwKeys.D9)
+                return (VKeys)(int)key; // D0..D9 == 48..57 in both enums
 
-        protected void _OnKeyDown(object sender, KeyEventArgs e)
-        {
-            _Keys.KeyDown(e);
+            switch (key)
+            {
+                case GlfwKeys.Left: return VKeys.Left;
+                case GlfwKeys.Right: return VKeys.Right;
+                case GlfwKeys.Up: return VKeys.Up;
+                case GlfwKeys.Down: return VKeys.Down;
+                case GlfwKeys.Enter:
+                case GlfwKeys.KeyPadEnter: return VKeys.Enter;
+                case GlfwKeys.Escape: return VKeys.Escape;
+                case GlfwKeys.Backspace: return VKeys.Back;
+                case GlfwKeys.Tab: return VKeys.Tab;
+                case GlfwKeys.Space: return VKeys.Space;
+                case GlfwKeys.Delete: return VKeys.Delete;
+                case GlfwKeys.Home: return VKeys.Home;
+                case GlfwKeys.End: return VKeys.End;
+                case GlfwKeys.PageUp: return VKeys.PageUp;
+                case GlfwKeys.PageDown: return VKeys.PageDown;
+                case GlfwKeys.KeyPad0: return VKeys.NumPad0;
+                case GlfwKeys.KeyPad1: return VKeys.NumPad1;
+                case GlfwKeys.KeyPad2: return VKeys.NumPad2;
+                case GlfwKeys.KeyPad3: return VKeys.NumPad3;
+                case GlfwKeys.KeyPad4: return VKeys.NumPad4;
+                case GlfwKeys.KeyPad5: return VKeys.NumPad5;
+                case GlfwKeys.KeyPad6: return VKeys.NumPad6;
+                case GlfwKeys.KeyPad7: return VKeys.NumPad7;
+                case GlfwKeys.KeyPad8: return VKeys.NumPad8;
+                case GlfwKeys.KeyPad9: return VKeys.NumPad9;
+                case GlfwKeys.KeyPadAdd: return VKeys.Add;
+                case GlfwKeys.KeyPadSubtract: return VKeys.Subtract;
+                case GlfwKeys.F1: return VKeys.F1;
+                case GlfwKeys.F2: return VKeys.F2;
+                case GlfwKeys.F3: return VKeys.F3;
+                case GlfwKeys.F4: return VKeys.F4;
+                case GlfwKeys.F5: return VKeys.F5;
+                case GlfwKeys.F6: return VKeys.F6;
+                case GlfwKeys.F7: return VKeys.F7;
+                case GlfwKeys.F8: return VKeys.F8;
+                case GlfwKeys.F9: return VKeys.F9;
+                case GlfwKeys.F10: return VKeys.F10;
+                case GlfwKeys.F11: return VKeys.F11;
+                case GlfwKeys.F12: return VKeys.F12;
+                default: return VKeys.None;
+            }
         }
-
-        protected void _OnKeyPress(object sender, KeyPressEventArgs e)
-        {
-            _Keys.KeyPress(e);
-        }
-
-        protected void _OnKeyUp(object sender, KeyEventArgs e)
-        {
-            _Keys.KeyUp(e);
-        }
-        #endregion keyboard event handlers
-
-        #endregion
 
         public override bool Init()
         {
             if (!base.Init())
                 return false;
-            _Form.Icon = new Icon(Path.Combine(CSettings.ProgramFolder, CSettings.FileNameIcon));
-            _Form.Text = CSettings.GetFullVersionText();
-            ((IFormHook)_Form).OnMessage = _OnMessageAvoidScreenOff;
-            _Form.Closing += _OnClose;
-            _Form.Resize += _OnResize;
-            _Form.Load += _OnLoad;
 
-            _SizeBeforeMinimize = _Form.ClientSize;
-            _CenterToScreen();
+            _Window.Title = CSettings.GetFullVersionText();
+
+            _Window.Closing += _OnClosing;
+            _Window.Resize += _OnResize;
+            _Window.MouseMove += _OnMouseMove;
+            _Window.MouseWheel += _OnMouseWheel;
+            _Window.MouseDown += _OnMouseDown;
+            _Window.MouseUp += _OnMouseUp;
+            _Window.KeyDown += _OnKeyDown;
+            _Window.KeyUp += _OnKeyUp;
+            _Window.TextInput += _OnTextInput;
+
+            _Window.CenterWindow();
 
             return true;
         }
 
         public override void MainLoop()
         {
-            _Form.Show();
+            _Window.IsVisible = true;
             base.MainLoop();
-            _Form.Hide();
+            _Window.IsVisible = false;
         }
     }
 }

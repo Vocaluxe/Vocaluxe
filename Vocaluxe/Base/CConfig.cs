@@ -22,7 +22,6 @@ using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
-using System.Windows.Forms;
 using System.Xml.Serialization;
 using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Webcam;

@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Windows.Forms;
 using System.Linq;
 using System.Collections.Generic;
 using Vocaluxe.Base;
@@ -263,24 +262,12 @@ namespace Vocaluxe.Screens
 
         private static bool _OpenSongFolderDialog()
         {
-            using (var dialog = new FolderBrowserDialog())
-            {
-                dialog.Description = CLanguage.Translate("TR_SCREENO_SONGFOLDER");
-                dialog.ShowNewFolderButton = true;
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    // Update config with new folder
-                    var folders = CConfig.Config.Game.SongFolder?.ToList() ?? new List<string>();
-                    if (!folders.Contains(dialog.SelectedPath))
-                    {
-                       folders.Add(dialog.SelectedPath);
-                       CConfig.Config.Game.SongFolder = folders.ToArray();
-                       CConfig.SaveConfig();
-                    }
-                    return true; // Folder was selected
-                }
-            }
-            return false; // Dialog was cancelled
+            // TODO(linux-port): the native folder picker used WinForms' FolderBrowserDialog,
+            // which is unavailable on the cross-platform build. A portable folder dialog
+            // (e.g. via a GTK/portal/NFD binding) still needs to be wired up. Song folders
+            // can be edited in config.xml in the meantime.
+            CLog.Error("Selecting a song folder via dialog is not yet supported on this platform; edit config.xml instead.");
+            return false;
         }
         
         private void _LeaveScreen()

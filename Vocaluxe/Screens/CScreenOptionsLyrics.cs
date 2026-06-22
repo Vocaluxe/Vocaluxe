@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Windows.Forms;
 using System.IO;
 using Vocaluxe.Base;
 using VocaluxeLib;

@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Forms;
 using VocaluxeLib;
 
 namespace Vocaluxe.Base
@@ -140,42 +139,38 @@ namespace Vocaluxe.Base
             _ActualPool.RemoveAt(index);
         }
 
-        private void _CheckModifiers()
+        private void _SetModifiers(bool shift, bool alt, bool ctrl)
         {
-            Keys keys = Control.ModifierKeys;
-
-            _ModShift = (keys & Keys.Shift) == Keys.Shift;
-            _ModAlt = (keys & Keys.Alt) == Keys.Alt;
-            _ModCtrl = (keys & Keys.Control) == Keys.Control;
+            _ModShift = shift;
+            _ModAlt = alt;
+            _ModCtrl = ctrl;
         }
 
-        public void KeyDown(KeyEventArgs e)
+        public void KeyDown(Keys key, bool shift, bool alt, bool ctrl)
         {
-            _CheckModifiers();
+            _SetModifiers(shift, alt, ctrl);
 
-            bool repeat = _Keys == e.KeyCode;
+            bool repeat = _Keys == key;
 
             if (!_Timer.IsRunning || (_Timer.ElapsedMilliseconds > 75) || !repeat)
             {
-                _Keys = e.KeyCode;
+                _Keys = key;
                 _Add(_ModAlt, _ModShift, _ModCtrl, _KeyPressed, repeat ? _Char : Char.MinValue, _Keys);
             }
         }
 
-        public void KeyPress(KeyPressEventArgs e)
+        public void KeyPress(char chr, bool shift, bool alt, bool ctrl)
         {
-            _CheckModifiers();
+            _SetModifiers(shift, alt, ctrl);
 
-            _Add(_ModAlt, _ModShift, _ModCtrl, true, e.KeyChar, Keys.None);
-            _Char = e.KeyChar;
+            _Add(_ModAlt, _ModShift, _ModCtrl, true, chr, Keys.None);
+            _Char = chr;
             _KeyPressed = true;
         }
 
-        // ReSharper disable UnusedParameter.Global
-        public void KeyUp(KeyEventArgs e)
-        // ReSharper restore UnusedParameter.Global
+        public void KeyUp(Keys key, bool shift, bool alt, bool ctrl)
         {
-            _CheckModifiers();
+            _SetModifiers(shift, alt, ctrl);
             _KeyPressed = false;
         }
 
@@ -224,7 +219,6 @@ namespace Vocaluxe.Base
 
         private void _Add(int x, int y, bool lb, bool ld, bool rb, int wheel, bool lbh, bool rbh, bool mb, bool mbh)
         {
-            _CheckModifiers();
             x = (int)(x * (float)CSettings.RenderW * CConfig.Config.Graphics.NumScreens / CDraw.GetScreenWidth());
             while (x > CSettings.RenderW)
                 x -= CSettings.RenderW;
@@ -243,34 +237,35 @@ namespace Vocaluxe.Base
             _CurrentPool.RemoveAt(index);
         }
 
-        private void _CheckModifiers()
+        private void _SetModifiers(bool shift, bool alt, bool ctrl)
         {
-            Keys keys = Control.ModifierKeys;
             _Mod = EModifier.None;
 
-            if ((keys & Keys.Shift) != 0)
+            if (shift)
                 _Mod |= EModifier.Shift;
-            if ((keys & Keys.Alt) != 0)
+            if (alt)
                 _Mod |= EModifier.Alt;
-            if ((keys & Keys.Control) != 0)
+            if (ctrl)
                 _Mod |= EModifier.Ctrl;
         }
 
-        public void MouseMove(MouseEventArgs e)
+        public void MouseMove(int x, int y, bool leftHeld, bool rightHeld, bool middleHeld, bool shift, bool alt, bool ctrl)
         {
-            _Add(e.X, e.Y, false, false, false, 0, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right, false, e.Button == MouseButtons.Middle);
+            _SetModifiers(shift, alt, ctrl);
+            _Add(x, y, false, false, false, 0, leftHeld, rightHeld, false, middleHeld);
         }
 
-        public void MouseWheel(MouseEventArgs e)
+        public void MouseWheel(int x, int y, int delta, bool shift, bool alt, bool ctrl)
         {
-            _Add(e.X, e.Y, false, false, false, e.Delta, false, false, false, false);
+            _SetModifiers(shift, alt, ctrl);
+            _Add(x, y, false, false, false, delta, false, false, false, false);
         }
 
-        public void MouseDown(MouseEventArgs e)
+        public void MouseDown(int x, int y, bool left, bool right, bool middle, bool shift, bool alt, bool ctrl)
         {
-            bool lb = e.Button == MouseButtons.Left;
+            _SetModifiers(shift, alt, ctrl);
             bool ld = false;
-            if (lb)
+            if (left)
             {
                 if (_Timer.IsRunning && _Timer.ElapsedMilliseconds < 450)
                 {
@@ -286,16 +281,13 @@ namespace Vocaluxe.Base
             else
                 _Timer.Reset();
 
-            _Add(e.X, e.Y, lb, ld, e.Button == MouseButtons.Right, e.Delta, false, false,
-                 e.Button == MouseButtons.Middle, false);
+            _Add(x, y, left, ld, right, 0, false, false, middle, false);
         }
 
         // ReSharper disable UnusedParameter.Global
-        public void MouseUp(MouseEventArgs e)
+        public void MouseUp(int x, int y, bool left, bool right, bool middle, bool shift, bool alt, bool ctrl)
         // ReSharper restore UnusedParameter.Global
         {
-            //CheckModifiers();
-            //Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right, e.Delta);
         }
 
         public bool PollEvent(ref SMouseEvent mouseEvent)
