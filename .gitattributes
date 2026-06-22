@@ -1,7 +1,12 @@
 ###############################################################################
 # Set default behavior to automatically normalize line endings.
+# Force LF in the working tree on every platform (eol=lf): the XML serializer writes deterministic
+# LF and its round-trip tests compare against verbatim strings in the sources, so a Windows CRLF
+# checkout would make them mismatch. The codebase is developed with LF throughout anyway.
 ###############################################################################
-* text=auto
+* text=auto eol=lf
+*.cs  text eol=lf
+*.xml text eol=lf
 
 ###############################################################################
 # Set default behavior for command prompt diff.
