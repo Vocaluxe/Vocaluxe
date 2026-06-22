@@ -75,7 +75,7 @@ namespace Vocaluxe.Base
             _VideoDecoderContainer?.Close(ref stream);
         }
 
-        public static float GetLength(CVideoStream stream)
+        public static float GetDuration(CVideoStream stream)
         {
             if (stream == null)
             {
@@ -87,7 +87,7 @@ namespace Vocaluxe.Base
                 throw new NotSupportedException("_VideoDecoder is null (already closed?)");
             }
 
-            return _VideoDecoderContainer.GetLength(stream);
+            return _VideoDecoderContainer.GetDuration(stream);
         }
 
         public static bool GetFrame(CVideoStream stream, float time)

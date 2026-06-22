@@ -26,6 +26,7 @@ namespace Vocaluxe.Lib.Video.FFmpeg
         private readonly Stopwatch _LoopTimer = new();
 
         private float _Gap;
+        private bool _Paused;
         private float _LoopTime;
 
         private CFFmpegVideoDecoderThread _Thread;
@@ -58,13 +59,13 @@ namespace Vocaluxe.Lib.Video.FFmpeg
         {
             set
             {
-                if (field == value)
+                if (_Paused == value)
                 {
                     return;
                 }
 
-                field = value;
-                if (field)
+                _Paused = value;
+                if (_Paused)
                 {
                     _LoopTimer.Stop();
                     _Thread.Pause();

@@ -254,7 +254,7 @@ namespace Vocaluxe.Screens
 
                 _BackgroundVideoTime += deltaTime;
 
-                var videoLength = CVideo.GetLength(_BackgroundVideo);
+                var videoLength = CVideo.GetDuration(_BackgroundVideo);
 
                 // Keep time within video length to avoid seeking backward
                 if (_BackgroundVideoTime >= videoLength)
