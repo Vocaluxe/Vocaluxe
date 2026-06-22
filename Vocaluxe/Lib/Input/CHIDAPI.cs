@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Reflection;
 using System.Runtime.InteropServices;
 using Vocaluxe.Base;
 using VocaluxeLib.Log;
@@ -48,7 +49,9 @@ namespace Vocaluxe.Lib.Input
 #endif
 
 #if LINUX
-        private const string _HIDApiDll = "libhidapi-libusb.so";
+        // Logical name; the real shared object (hidraw or libusb backend, versioned or not) is
+        // resolved at runtime by _ResolveHidApi() below.
+        private const string _HIDApiDll = "hidapi";
 #endif
 #endif
 
@@ -58,8 +61,45 @@ namespace Vocaluxe.Lib.Input
 #endif
 
 #if LINUX
-        private const string _HIDApiDll = "libhidapi-libusb.so";
+        // Logical name; the real shared object (hidraw or libusb backend, versioned or not) is
+        // resolved at runtime by _ResolveHidApi() below.
+        private const string _HIDApiDll = "hidapi";
 #endif
+#endif
+
+#if LINUX
+        // Map the logical "hidapi" name to whatever hidapi shared object is actually installed.
+        // hidraw (libhidapi-hidraw0) is preferred for the Bluetooth-HID WiiMote; libusb is a fallback.
+        private static readonly string[] _HidApiCandidates =
+        {
+            "libhidapi-hidraw.so.0", "libhidapi-hidraw.so",
+            "libhidapi-libusb.so.0", "libhidapi-libusb.so",
+            "libhidapi.so.0", "libhidapi.so"
+        };
+
+        static CHIDApi()
+        {
+            try
+            {
+                NativeLibrary.SetDllImportResolver(typeof(CHIDApi).Assembly, _ResolveHidApi);
+            }
+            catch (Exception)
+            {
+                // A resolver was already registered for this assembly - ignore.
+            }
+        }
+
+        private static IntPtr _ResolveHidApi(string libraryName, Assembly assembly, DllImportSearchPath? searchPath)
+        {
+            if (libraryName != _HIDApiDll)
+                return IntPtr.Zero; // not ours -> fall back to the default resolver
+            foreach (string candidate in _HidApiCandidates)
+            {
+                if (NativeLibrary.TryLoad(candidate, out IntPtr handle))
+                    return handle;
+            }
+            return IntPtr.Zero; // none installed -> DllNotFoundException, handled gracefully in Init()
+        }
 #endif
 
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_init", CharSet = CharSet.Unicode)]
@@ -71,6 +111,12 @@ namespace Vocaluxe.Lib.Input
             try
             {
                 result = hid_init();
+            }
+            catch (DllNotFoundException)
+            {
+                // Optional feature: hidapi isn't installed, so the WiiMote is simply unavailable.
+                CLog.Information("WiiMote support unavailable: hidapi not found (install libhidapi-hidraw0 to enable it).");
+                return false;
             }
             catch (Exception e)
             {
