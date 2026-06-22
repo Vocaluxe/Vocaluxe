@@ -64,8 +64,12 @@ namespace Vocaluxe.Base.Fonts
                     return;
                 }
 
-                float boundingHeight = (tightBounds.Height > 0) ? tightBounds.Height : fullHeight;
-                _BoundingBox = new SizeF(advance + outlineSize / 2, boundingHeight + outlineSize);
+                // The bounding box height must be the full line height (ascent→descent), identical for
+                // EVERY glyph. The draw scale factor is fontHeight / _BoundingBox.Height, so it has to be
+                // the same for all glyphs - otherwise each glyph is scaled differently and sits at its own
+                // height. Using the per-glyph tight ink height here made short glyphs (e.g. '-') get a huge
+                // factor (giant hyphen) and every letter end up at a different size/baseline.
+                _BoundingBox = new SizeF(advance + outlineSize / 2, fullHeight + outlineSize);
                 float fullWidth = advance + outlineSize;
 
                 // Render generously sized; the real ink area is cropped afterwards.
@@ -155,62 +159,36 @@ namespace Vocaluxe.Base.Fonts
             int h = bmp.Height;
             byte[] data = bmp.Bytes;
 
-            int minX = 0, maxX = w - 1, minY = 0;
-            bool found = false;
-
-            // find from top: first inked pixel (alpha != 0)
-            for (int y = 0; y < h && !found; y++)
+            // Scan for the full inked bounding box (all four edges). The previous version returned a
+            // height of (h - minY), i.e. down to the bottom of the bitmap instead of the bottom of the
+            // ink, which left a variable amount of empty space below each glyph.
+            int minX = w, minY = h, maxX = -1, maxY = -1;
+            for (int y = 0; y < h; y++)
             {
+                int rowBase = y * w;
                 for (int x = 0; x < w; x++)
                 {
-                    if (data[(y * w + x) * 4 + 3] != 0)
+                    if (data[(rowBase + x) * 4 + 3] != 0)
                     {
-                        minX = x;
-                        maxX = x;
-                        minY = y;
-                        found = true;
-                        break;
+                        if (x < minX) minX = x;
+                        if (x > maxX) maxX = x;
+                        if (y < minY) minY = y;
+                        if (y > maxY) maxY = y;
                     }
                 }
             }
 
-            // find left
-            found = false;
-            for (int x = 0; x < minX && !found; x++)
-            {
-                for (int y = minY; y < h; y++)
-                {
-                    if (data[(y * w + x) * 4 + 3] != 0)
-                    {
-                        found = true;
-                        minX = x;
-                        break;
-                    }
-                }
-            }
-
-            // find right
-            found = false;
-            for (int x = w - 1; x > maxX && !found; x--)
-            {
-                for (int y = minY; y < h; y++)
-                {
-                    if (data[(y * w + x) * 4 + 3] != 0)
-                    {
-                        found = true;
-                        maxX = x;
-                        break;
-                    }
-                }
-            }
+            if (maxX < minX || maxY < minY) // nothing inked
+                return new Rectangle(0, 0, 1, 1);
 
             // Add some additional space. Textures need some extra pixels for resizing.
-            const int d = 4;
+            const int d = 2;
             minX = Math.Max(0, minX - d);
             minY = Math.Max(0, minY - d);
-            maxX = Math.Min(w, maxX + d);
+            maxX = Math.Min(w - 1, maxX + d);
+            maxY = Math.Min(h - 1, maxY + d);
 
-            return new Rectangle(minX, minY, maxX - minX, h - minY);
+            return new Rectangle(minX, minY, maxX - minX + 1, maxY - minY + 1);
         }
 
         /// <summary>
