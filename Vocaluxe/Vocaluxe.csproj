@@ -107,7 +107,8 @@
 
       <_Informational Condition="'$(_Versioned)' == 'true'">$(_GitRaw)</_Informational>
       <_Tag Condition="'$(_Versioned)' == 'true'">$([System.Text.RegularExpressions.Regex]::Match($(_GitRaw), `^[^-]+`).Value)</_Tag>
-      <_Numeric Condition="'$(_Versioned)' == 'true'">$([System.Text.RegularExpressions.Regex]::Match($(_Tag), `^[0-9]+(\.[0-9]+)*`).Value)</_Numeric>
+      <!-- First numeric-dotted run in the tag (no `^` anchor, so a leading `v` like `v0.4.1` is tolerated). -->
+      <_Numeric Condition="'$(_Versioned)' == 'true'">$([System.Text.RegularExpressions.Regex]::Match($(_Tag), `[0-9]+(\.[0-9]+)*`).Value)</_Numeric>
       <_Title Condition="'$(_Versioned)' == 'true'">Vocaluxe $(_Tag) ($(_Arch)) ($(_GitRaw))</_Title>
 
       <_Informational Condition="'$(_Versioned)' != 'true'">0.0.0-na-notversioned</_Informational>

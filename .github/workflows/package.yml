@@ -92,7 +92,9 @@ jobs:
           gh release download Nightly -R Vocaluxe/Vocaluxe --pattern '*Windows_x64.zip' -O nightly.zip
           Expand-Archive nightly.zip -DestinationPath nightly
           New-Item -ItemType Directory -Force -Path dist-win/libs/unmanaged/x64 | Out-Null
-          Copy-Item nightly/libs/unmanaged/*.dll dist-win/libs/unmanaged/
+          # portaudio.dll already ships in the app root via the PortAudioSharp2 package and is found
+          # first by the loader, so don't also copy the nightly's (larger) duplicate into libs/unmanaged.
+          Copy-Item nightly/libs/unmanaged/*.dll -Exclude 'portaudio*.dll' dist-win/libs/unmanaged/
           Copy-Item nightly/libs/unmanaged/x64/*.dll dist-win/libs/unmanaged/x64/
 
       - name: Upload Windows build

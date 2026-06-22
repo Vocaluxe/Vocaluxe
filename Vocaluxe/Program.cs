@@ -56,6 +56,10 @@ namespace Vocaluxe
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 #endif
             AppDomain.CurrentDomain.AssemblyResolve += _AssemblyResolver;
+            // Windows only: add the side-by-side native lib folders to the DLL search PATH. On Linux/macOS
+            // the native helpers are resolved via the loader (RPATH/LD_LIBRARY_PATH / dlopen by name), and
+            // these are Windows-style ("libs\unmanaged\…", "win-x64\native") paths that don't apply there.
+#if WIN
             COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\"));
 #if ARCH_X86
             COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\unmanaged\\x86\\"));
@@ -70,6 +74,7 @@ namespace Vocaluxe
 #endif
 #if ARCH_X64
             COSFunctions.AddEnvironmentPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "libs\\managed\\runtimes\\win-x64\\native\\"));
+#endif
 #endif
 
             // Make sure SQLitePCL is initialized before any DB usage

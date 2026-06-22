@@ -38,7 +38,7 @@ namespace Vocaluxe
         {
             string newPath = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
             if (newPath.Length > 0)
-                newPath += ";";
+                newPath += System.IO.Path.PathSeparator; // ':' on Linux/macOS, ';' on Windows
             newPath += path;
 
             Environment.SetEnvironmentVariable("PATH", newPath);

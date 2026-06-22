@@ -18,12 +18,9 @@
 using System.Diagnostics.CodeAnalysis;
 
 // Suppressions for the dropped backends (CDirect3D, CDrawWinForm, the GStreamer wrapper) and the old
-// GDI+ font system were removed in the cross-platform port (#768) - those types no longer exist.
+// GDI+ font system were removed in the cross-platform port (#768) - those types no longer exist. Also
+// dropped two entries whose targets never matched (class is CMainProgram, enum is EInputReport).
 
-[assembly:
-    SuppressMessage("Microsoft.Reliability", "CA2001:AvoidCallingProblematicMethods", MessageId = "System.Reflection.Assembly.LoadFrom", Scope = "member",
-        Target = "Vocaluxe.MainProgram.#AssemblyResolver(System.Object,System.ResolveEventArgs)")]
-[assembly: SuppressMessage("Microsoft.Design", "CA1008:EnumsShouldHaveZeroValue", Scope = "type", Target = "Vocaluxe.Lib.Input.WiiMote.InputReport")]
 [assembly:
     SuppressMessage("Microsoft.Security", "CA2122:DoNotIndirectlyExposeMethodsWithLinkDemands", Scope = "member",
         Target = "Vocaluxe.Lib.Input.CHIDAPI.#ReadTimeout(System.IntPtr,System.Byte[]&,System.Int32,System.Int32)")]
