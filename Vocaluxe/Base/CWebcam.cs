@@ -30,9 +30,10 @@ namespace Vocaluxe.Base
         {
             if (_Webcam != null)
                 return false;
-#if LINUX
+#if LINUX && !MACOS
             // Linux: V4L2 capture via ffmpeg (see CV4l2Webcam). Falls back to "no device" if neither
-            // ffmpeg nor a capture node is present.
+            // ffmpeg nor a capture node is present. (macOS would need an AVFoundation backend; until
+            // then it uses the no-op webcam below.)
             _Webcam = new CV4l2Webcam();
 #else
             switch (CConfig.Config.Video.WebcamLib)

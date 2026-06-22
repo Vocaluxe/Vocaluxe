@@ -15,7 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-#if LINUX
+#if LINUX && !MACOS
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

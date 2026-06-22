@@ -72,9 +72,11 @@ namespace Vocaluxe.Lib.Input
         // hidraw (libhidapi-hidraw0) is preferred for the Bluetooth-HID WiiMote; libusb is a fallback.
         private static readonly string[] _HidApiCandidates =
         {
+            // Linux (hidraw preferred, then libusb), then macOS (.dylib).
             "libhidapi-hidraw.so.0", "libhidapi-hidraw.so",
             "libhidapi-libusb.so.0", "libhidapi-libusb.so",
-            "libhidapi.so.0", "libhidapi.so"
+            "libhidapi.so.0", "libhidapi.so",
+            "libhidapi.dylib", "libhidapi.0.dylib"
         };
 
         static CHIDApi()
@@ -115,7 +117,7 @@ namespace Vocaluxe.Lib.Input
             catch (DllNotFoundException)
             {
                 // Optional feature: hidapi isn't installed, so the WiiMote is simply unavailable.
-                CLog.Information("WiiMote support unavailable: hidapi not found (install libhidapi-hidraw0 to enable it).");
+                CLog.Information("WiiMote support unavailable: the hidapi library was not found (e.g. install libhidapi-hidraw0 on Debian/Ubuntu, or hidapi via Homebrew on macOS).");
                 return false;
             }
             catch (Exception e)
