@@ -1209,7 +1209,7 @@ namespace Vocaluxe.Screens
             _CloseSong();
 
             CGame.ResetPlayer();
-            _LoadCurrentSong(false);
+            _LoadCurrentSong();
 
             _StartSong();
         }
@@ -1344,7 +1344,7 @@ namespace Vocaluxe.Screens
         /// <summary>
         /// Prepare streams and screen for current song.
         /// </summary>
-        private void _LoadCurrentSong(bool reloadNotes = true)
+        private void _LoadCurrentSong()
         {
             if (CGame.IsFinished())
             {
@@ -1360,9 +1360,6 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            if (!_Sso.Selection.PartyMode && (CGame.GameMode == EGameMode.TR_GAMEMODE_NORMAL || CGame.GameMode == EGameMode.TR_GAMEMODE_DUET))
-                song.ReloadSong(reloadNotes);
-            
             string songname = song.Artist + " - " + song.Title;
             int rounds = CGame.GetNumSongs();
             if (rounds > 1)
