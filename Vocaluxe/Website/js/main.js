@@ -712,7 +712,10 @@
                     $('#selectProfileList').children().remove();
 
                     function handleProfileSelectLineClick(e) {
-                        pageHandler.profileIdRequest = parseInt(e.currentTarget.id.replace("ProfileSelectLine_", ""));
+                        // Profile IDs are GUID strings (see PROFILE_NULL_ID); parseInt() mangled them into
+                        // NaN / a partial number, so getProfile?profileId=... became an invalid GUID -> HTTP
+                        // 400. Keep the full string, like handleSelectUserAdminLineClick does.
+                        pageHandler.profileIdRequest = e.currentTarget.id.replace("ProfileSelectLine_", "");
                         $.mobile.changePage("#displayProfile", { transition: "slidefade" });
                     }
 

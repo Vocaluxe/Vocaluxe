@@ -96,8 +96,12 @@ namespace Vocaluxe.Base.Server
 
         internal static bool RequestRight(Guid sessionId, EUserRights requestedRight)
         {
-            return ((CUserRoleControl.GetUserRightsFromUserRole(_ActiveSessions[sessionId].Roles)
-                                     .HasFlag(requestedRight)));
+            // Unknown/empty/expired session has no rights. (Previously indexing _ActiveSessions[sessionId]
+            // directly threw KeyNotFoundException -> HTTP 500, e.g. on /getProfile without a valid session.)
+            CSession session;
+            if (!_ActiveSessions.TryGetValue(sessionId, out session))
+                return false;
+            return CUserRoleControl.GetUserRightsFromUserRole(session.Roles).HasFlag(requestedRight);
         }
 
         internal static Guid GetUserIdFromSession(Guid sessionId)
