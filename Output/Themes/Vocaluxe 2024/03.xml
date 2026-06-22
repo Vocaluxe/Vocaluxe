@@ -404,6 +404,7 @@
     <RatingBarProgressLeft>NotesFillLeft.png</RatingBarProgressLeft>
     <RatingBarProgressMid>NotesFillMid.png</RatingBarProgressMid>
     <RatingBarProgressRight>NotesFillRight.png</RatingBarProgressRight>
+    <RatingPopup>RatingPopUp.png</RatingPopup>
     <PopupBG>PopupBG.png</PopupBG>
     <ScrollUp>ScrollUp.png</ScrollUp>
     <ScrollDown>ScrollDown.png</ScrollDown>
