@@ -38,10 +38,8 @@ namespace Vocaluxe.Base
                 return false;
             switch (CConfig.Config.Graphics.Renderer)
             {
+                // The software (WinForms) renderer was dropped in the cross-platform port; use OpenGL.
                 case ERenderer.TR_CONFIG_SOFTWARE:
-                    _Draw = new CDrawWinForm();
-                    break;
-
                 case ERenderer.TR_CONFIG_OPENGL:
                     try
                     {
@@ -70,7 +68,7 @@ namespace Vocaluxe.Base
 #endif
 
                 default:
-                    _Draw = new CDrawWinForm();
+                    _Draw = new COpenGL();
                     break;
             }
             return _Draw.Init();

@@ -15,6 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using VocaluxeLib.Log;
 using System.Linq;
 using System.Collections.Generic;
 using Vocaluxe.Base;

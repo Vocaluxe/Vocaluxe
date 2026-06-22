@@ -490,7 +490,7 @@ namespace Vocaluxe.Base.Server
 
         public static string GetServerVersion()
         {
-            return Application.ProductVersion;
+            return CSettings.FullVersion;
         }
 
         public static CBase64Image GetDelayedImage(string hashedFilename)

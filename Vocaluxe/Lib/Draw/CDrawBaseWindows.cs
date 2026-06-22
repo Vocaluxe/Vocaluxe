@@ -23,6 +23,7 @@ using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
 using GlfwKeys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
 using OpenTK.Windowing.GraphicsLibraryFramework;
+using Vocaluxe.Base;
 using VKeys = VocaluxeLib.Keys;
 
 namespace Vocaluxe.Lib.Draw

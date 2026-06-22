@@ -27,8 +27,6 @@ using OpenTK.Windowing.Desktop;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
-using BlendingFactorDest = OpenTK.Graphics.OpenGL.BlendingFactorDest;
-using BlendingFactorSrc = OpenTK.Graphics.OpenGL.BlendingFactorSrc;
 using ClearBufferMask = OpenTK.Graphics.OpenGL.ClearBufferMask;
 using DepthFunction = OpenTK.Graphics.OpenGL.DepthFunction;
 using EnableCap = OpenTK.Graphics.OpenGL.EnableCap;
@@ -160,7 +158,7 @@ namespace Vocaluxe.Lib.Draw
             // Init Texturing
             GL.Enable(EnableCap.Texture2D);
 
-            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GL.PixelStore(PixelStoreParameter.UnpackAlignment, 1);
 
             GL.DepthRange(CSettings.ZFar, CSettings.ZNear);

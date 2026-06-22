@@ -35,11 +35,10 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         private int _ByteCount;
 
         private CPortAudioHandle _PaHandle;
-        private PortAudioSharp.PortAudio.PaHostApiInfo _ApiInfo;
-        private PortAudioSharp.PortAudio.PaDeviceInfo _OutputDeviceInfo;
-        private IntPtr _Stream = IntPtr.Zero;
+        private PortAudioSharp.DeviceInfo _OutputDeviceInfo;
+        private PortAudioSharp.Stream _Stream;
 
-        private PortAudioSharp.PortAudio.PaStreamCallbackDelegate _PaStreamCallback;
+        private PortAudioSharp.Stream.Callback _PaStreamCallback;
         private IAudioDecoder _Decoder;
         private float _BytesPerSecond;
         private float _Latency;
@@ -108,12 +107,14 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 {
                     if (_Paused)
                     {
-                        _PaHandle.CheckError("StopStream (playback)", PortAudioSharp.PortAudio.Pa_StopStream(_Stream));
+                        try { _Stream.Stop(); }
+                        catch (Exception ex) { CLog.Error(ex, "StopStream (playback) error:"); }
                         _SyncTimer.Pause();
                     }
                     else
                     {
-                        _PaHandle.CheckError("StartStream", PortAudioSharp.PortAudio.Pa_StartStream(_Stream));
+                        try { _Stream.Start(); }
+                        catch (Exception ex) { CLog.Error(ex, "StartStream error:"); }
                         _SyncTimer.Resume();
                         _EventDecode.Set();
                     }
@@ -150,11 +151,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             {
                 _PaHandle = new CPortAudioHandle();
 
-                int hostApi = _PaHandle.GetHostApi();
-                _ApiInfo = PortAudioSharp.PortAudio.Pa_GetHostApiInfo(hostApi);
-                _OutputDeviceInfo = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_ApiInfo.defaultOutputDevice);
-                if (_OutputDeviceInfo.defaultLowOutputLatency < 0.1)
-                    _OutputDeviceInfo.defaultLowOutputLatency = 0.1;
+                _OutputDeviceInfo = PortAudioSharp.PortAudio.GetDeviceInfo(PortAudioSharp.PortAudio.DefaultOutputDevice);
 
                 _PaStreamCallback = _ProcessNewData;
             }
@@ -187,29 +184,30 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
             _SyncTimer.Pause();
             _SyncTimer.Time = 0f;
 
-            PortAudioSharp.PortAudio.PaStreamParameters? outputParams = new PortAudioSharp.PortAudio.PaStreamParameters
+            double outputLatency = Math.Max(0.1, _OutputDeviceInfo.defaultLowOutputLatency);
+            var outputParams = new PortAudioSharp.StreamParameters
                 {
                     channelCount = format.ChannelCount,
-                    device = _ApiInfo.defaultOutputDevice,
-                    sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
-                    suggestedLatency = _OutputDeviceInfo.defaultLowOutputLatency,
+                    device = PortAudioSharp.PortAudio.DefaultOutputDevice,
+                    sampleFormat = PortAudioSharp.SampleFormat.Int16,
+                    suggestedLatency = outputLatency,
                     hostApiSpecificStreamInfo = IntPtr.Zero
                 };
 
-            if (!_PaHandle.OpenOutputStream(
-                out _Stream,
-                ref outputParams,
+            _Stream = _PaHandle.OpenOutputStream(
+                outputParams,
                 format.SamplesPerSecond,
                 (uint)CConfig.Config.Sound.AudioBufferSize / 2,
-                PortAudioSharp.PortAudio.PaStreamFlags.paNoFlag,
-                _PaStreamCallback,
-                IntPtr.Zero) || _Stream == IntPtr.Zero)
+                PortAudioSharp.StreamFlags.NoFlag,
+                _PaStreamCallback);
+            if (_Stream == null)
             {
                 Dispose();
                 return false;
             }
 
-            _Latency = CConfig.Config.Sound.AudioLatency / 1000f + (float)PortAudioSharp.PortAudio.Pa_GetStreamInfo(_Stream).outputLatency;
+            // PortAudioSharp2 does not expose per-stream latency; approximate with the device's default.
+            _Latency = CConfig.Config.Sound.AudioLatency / 1000f + (float)outputLatency;
 
             //From now on closing the driver and the decoder is handled by the thread ONLY!
 
@@ -333,7 +331,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         {
             if (_PaHandle != null)
             {
-                if (_Stream != IntPtr.Zero)
+                if (_Stream != null)
                     _PaHandle.CloseStream(_Stream);
                 _PaHandle.Close();
                 _PaHandle = null;
@@ -360,12 +358,12 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
         #endregion Threading
 
         #region Callbacks
-        private PortAudioSharp.PortAudio.PaStreamCallbackResult _ProcessNewData(
+        private PortAudioSharp.StreamCallbackResult _ProcessNewData(
             IntPtr input,
             IntPtr output,
             uint frameCount,
-            ref PortAudioSharp.PortAudio.PaStreamCallbackTimeInfo timeInfo,
-            PortAudioSharp.PortAudio.PaStreamCallbackFlags statusFlags,
+            ref PortAudioSharp.StreamCallbackTimeInfo timeInfo,
+            PortAudioSharp.StreamCallbackFlags statusFlags,
             IntPtr userData)
         {
             var buf = new byte[frameCount * _ByteCount];
@@ -380,7 +378,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 {
                     Console.WriteLine(e.ToString());
                 }
-                return PortAudioSharp.PortAudio.PaStreamCallbackResult.paContinue;
+                return PortAudioSharp.StreamCallbackResult.Continue;
             }
 
             lock (_LockData)
@@ -417,7 +415,7 @@ namespace Vocaluxe.Lib.Sound.Playback.PortAudio
                 CLog.Error("Error PortAudio.StreamCallback: " + e.Message);
             }
 
-            return PortAudioSharp.PortAudio.PaStreamCallbackResult.paContinue;
+            return PortAudioSharp.StreamCallbackResult.Continue;
         }
         #endregion Callbacks
     }

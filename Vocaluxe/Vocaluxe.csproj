@@ -52,6 +52,9 @@
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2" />
     <PackageReference Include="OpenTK" Version="4.9.4" />
     <PackageReference Include="QRCoder" Version="1.8.0" />
+    <!-- Party modes are compiled from source at runtime; CodeDom types live in this package on modern .NET.
+         TODO(linux-port): runtime CodeDom compilation needs a Roslyn-based provider on .NET 10. -->
+    <PackageReference Include="System.CodeDom" Version="10.0.0" />
     <PackageReference Include="SkiaSharp" Version="3.119.4" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.4" />
     <PackageReference Include="PortAudioSharp2" Version="1.0.6" />

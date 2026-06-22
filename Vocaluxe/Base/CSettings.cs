@@ -205,7 +205,7 @@ namespace Vocaluxe.Base
         {
             get
             {
-                return Application.ProductVersion.Split('-').First();
+                return FullVersion.Split('-').First();
             }
         }
 
@@ -213,7 +213,9 @@ namespace Vocaluxe.Base
         {
             get
             {
-                return Application.ProductVersion;
+                // WinForms' Application.ProductVersion is gone; read the informational version attribute instead.
+                var attr = Assembly.GetExecutingAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>();
+                return attr != null ? attr.InformationalVersion : _Assembly.Version.ToString();
             }
         }
         

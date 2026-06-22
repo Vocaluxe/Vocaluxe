@@ -32,12 +32,10 @@ namespace Vocaluxe.Base
                 return false;
             switch (CConfig.Config.Video.WebcamLib)
             {
+                // AForge.NET/DirectShow is Windows-only; the cross-platform build uses a no-op webcam.
                 case EWebcamLib.AForgeNet:
-                    _Webcam = new CAForgeNet();
-                    break;
-
                 default:
-                    _Webcam = new CAForgeNet();
+                    _Webcam = new CNullWebcam();
                     break;
             }
             if (!_Webcam.Init())

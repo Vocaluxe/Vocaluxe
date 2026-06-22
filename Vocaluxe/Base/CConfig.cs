@@ -438,8 +438,9 @@ namespace Vocaluxe.Base
                 Platform = Environment.OSVersion.Platform.ToString(),
                 OSVersion = Environment.OSVersion.ToString(),
                 ProcessorCount = Environment.ProcessorCount,
-                Screens = Screen.AllScreens.Length,
-                PrimaryScreenResolution = Screen.PrimaryScreen.Bounds.Size.ToString(),
+                // WinForms Screen enumeration is unavailable cross-platform; monitor details are reported by the windowing layer instead.
+                Screens = 1,
+                PrimaryScreenResolution = "unknown",
                 Directory = CSettings.ProgramFolder
             };
         }

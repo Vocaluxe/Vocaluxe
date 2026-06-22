@@ -89,11 +89,9 @@ namespace Vocaluxe.Screens
 
         private void _GenerateQRs()
         {
-            QRCodeGenerator qr = new QRCodeGenerator();
-
-            //ServerAddress
-            QRCodeGenerator.QRCode qrcode = qr.CreateQrCode(CVocaluxeServer.GetServerAddress(), QRCodeGenerator.ECCLevel.H);
-            _QRServerAddress = CDraw.AddTexture(qrcode.GetGraphic(20));
+            // TODO(linux-port): QRCoder's GetGraphic returns a GDI+ Bitmap (Windows-only). Re-implement
+            // via a cross-platform renderer (PngByteQRCode -> texture) once the ASP.NET Core webserver
+            // (S2) is back; the remote-control server is disabled for now so there is nothing to encode.
         }
     }
 }
