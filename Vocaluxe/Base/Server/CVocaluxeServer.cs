@@ -154,8 +154,12 @@ namespace Vocaluxe.Base.Server
             {
                 //Get a task from the queue
                 Task task = _ServerTaskQueue.Dequeue();
-                //Start the task
-                task.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
+                //Run inline on the current (main) thread. The old code used
+                //TaskScheduler.FromCurrentSynchronizationContext(), which required a
+                //SynchronizationContext (provided by the former WinForms message loop). The OpenTK
+                //GameWindow main thread has none, so we run on the default scheduler instead - this
+                //method is already invoked from the main thread by the render loop.
+                task.RunSynchronously();
             }
         }
 
