@@ -89,6 +89,11 @@ namespace Vocaluxe.Base.Server
                 WebApplicationBuilder builder = WebApplication.CreateBuilder();
                 builder.Logging.ClearProviders();
                 builder.WebHost.UseUrls("http://0.0.0.0:" + port + "/");
+                // The REST API reads request bodies and writes responses synchronously via
+                // DataContractJsonSerializer. Kestrel disallows synchronous I/O by default, which made
+                // every POST with a body (create profile, upload photo, edit playlist) fail with HTTP
+                // 500 ("Synchronous operations are disallowed").
+                builder.WebHost.ConfigureKestrel(options => options.AllowSynchronousIO = true);
                 _App = builder.Build();
                 CWebservice.MapEndpoints(_App);
 

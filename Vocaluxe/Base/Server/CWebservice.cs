@@ -18,8 +18,10 @@
 using System;
 using System.IO;
 using System.Runtime.Serialization.Json;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Base.Server
 {
@@ -34,6 +36,22 @@ namespace Vocaluxe.Base.Server
     {
         public static void MapEndpoints(WebApplication app)
         {
+            // Surface endpoint exceptions in the game log. ASP.NET's own logging is disabled
+            // (ClearProviders), so without this an unhandled handler exception is just a silent HTTP 500.
+            app.Use(async (HttpContext ctx, Func<Task> next) =>
+            {
+                try
+                {
+                    await next();
+                }
+                catch (Exception e)
+                {
+                    CLog.Error(e, "Webserver request failed: " + ctx.Request.Method + " " + ctx.Request.Path);
+                    if (!ctx.Response.HasStarted)
+                        ctx.Response.StatusCode = 500;
+                }
+            });
+
             // --- input ---
             app.MapGet("/sendKeyEvent", (HttpContext ctx, string key) =>
             {
