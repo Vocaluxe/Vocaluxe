@@ -384,10 +384,10 @@ static void cpymetadata(const AVFormatContext *ctx, const char *key, char *tar,
 {
     const AVDictionaryEntry *entry = av_dict_get(ctx->metadata, key, NULL, 0);
     if (entry) {
-        strncpy_s(tar, len, entry->value, len-1);
+        strncpy(tar, entry->value, len-1);
         tar[len - 1] = '\0';
     } else {
-        strncpy_s(tar, len, "", len);
+        strncpy(tar, "", len);
     }
 }
 
@@ -827,17 +827,17 @@ void *ac_create_audio_decoder(lp_ac_instance pacInstance,
             ? pDecoder->pCodecCtx->channel_layout
             : av_get_default_channel_layout(pDecoder->pCodecCtx->channels);
 
-    // Initialize libswresample if needed
-    if (av_sample_fmt_is_planar(fmt) || (fmt == AV_SAMPLE_FMT_S32) ||
-        (fmt == AV_SAMPLE_FMT_DBL)) {
-        enum AVSampleFormat out_fmt = av_get_packed_sample_fmt(fmt);
-        if (out_fmt == AV_SAMPLE_FMT_DBL || out_fmt == AV_SAMPLE_FMT_S32) {
-            out_fmt = AV_SAMPLE_FMT_FLT;
-        }
+    // The host (CAudioDecoderFFmpeg / CPortAudio) only accepts packed signed 16-bit
+    // samples. Modern FFmpeg decodes e.g. MP3 to planar 32-bit float (fltp), so always
+    // convert to AV_SAMPLE_FMT_S16 via libswresample unless the source already is S16.
+    if (fmt != AV_SAMPLE_FMT_S16) {
+        enum AVSampleFormat out_fmt = AV_SAMPLE_FMT_S16;
         ERR(pDecoder->pSwrCtx = swr_alloc_set_opts(NULL, layout, out_fmt, rate,
                                                layout, fmt, rate, 0, NULL));
         AV_ERR(swr_init(pDecoder->pSwrCtx));
     }
+    // Report the converted (16-bit) output format to the host regardless of the source.
+    pDecoder->decoder.stream_info.additional_info.audio_info.bit_depth = 16;
     return (void *)pDecoder;
 
 error:
@@ -952,9 +952,12 @@ int ac_decode_audio_package(lp_ac_package pPackage,
         return -2;
     }	
 
-    // Calculate the output buffer size
-    const int sample_size =
-        MIN(4, av_get_bytes_per_sample(pDecoder->pCodecCtx->sample_fmt));
+    // Calculate the output buffer size. When libswresample is active the output is
+    // AV_SAMPLE_FMT_S16 (2 bytes/sample), so size by the OUTPUT format, not the source
+    // (e.g. fltp would be 4 bytes and double the reported size).
+    const int sample_size = pDecoder->pSwrCtx
+        ? av_get_bytes_per_sample(AV_SAMPLE_FMT_S16)
+        : MIN(4, av_get_bytes_per_sample(pDecoder->pCodecCtx->sample_fmt));
     const int sample_count = pDecoder->pFrame->nb_samples;
     const int channel_count = pDecoder->pFrame->channels;
     const int buffer_size = sample_size * sample_count * channel_count;

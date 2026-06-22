@@ -8,12 +8,19 @@ everywhere; the old Direct3D/DirectSound/WinForms paths were dropped).
 ## 1. Prerequisites
 
 * **.NET 10 SDK** — https://dotnet.microsoft.com/download (or your distro's `dotnet-sdk-10.0`)
-* **gcc/g++ and make** — to build the native `PitchTracker` helper
+* **gcc/g++ and make** — to build the native helpers (`PitchTracker`, `Acinerella`)
+* **FFmpeg dev headers (build-time)** — to compile the Acinerella audio/video wrapper:
+
+  ```bash
+  sudo apt install -y libavcodec-dev libavformat-dev libswscale-dev libavutil-dev libswresample-dev
+  ```
+
 * **Runtime system libraries:**
 
   ```bash
-  sudo apt install -y libportaudio2 libfontconfig1 libsdl2-2.0-0
-  # optional: gstreamer1.0-plugins-base  libhidapi-hidraw0   (HID / Wiimote)
+  sudo apt install -y libportaudio2 libfontconfig1
+  # the ffmpeg runtime libs (libavcodec/…) come in as deps of the -dev packages above
+  # optional: libhidapi-hidraw0   (HID / Wiimote)
   ```
 
   (Equivalent packages on other distributions.)

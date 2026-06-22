@@ -86,3 +86,8 @@ Output/libPitchTracker.dll.so
 
 # Linux packaging output
 dist/
+
+# Local test songs (not committed)
+Output/Songs/
+Vocaluxe/Lib/Video/Acinerella/libacinerella.so
+Output/libacinerella.so

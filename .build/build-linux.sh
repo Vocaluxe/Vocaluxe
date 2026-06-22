@@ -26,8 +26,11 @@ DOTNET="${DOTNET:-dotnet}"
 RID="${RID:-linux-x64}"
 SELFCONTAINED="${SELFCONTAINED:-true}"
 
-echo ">> [1/4] Building native PitchTracker"
+echo ">> [1/4] Building native helpers (PitchTracker, Acinerella)"
 make -C "$ROOT/PitchTracker"
+# Acinerella (FFmpeg wrapper for audio/video decode) needs the ffmpeg dev headers
+# (libavcodec-dev libavformat-dev libswscale-dev libavutil-dev libswresample-dev).
+make -C "$ROOT/Vocaluxe/Lib/Video/Acinerella"
 
 echo ">> [2/4] Publishing managed app ($RID, self-contained=$SELFCONTAINED)"
 rm -rf "$DIST"
@@ -42,6 +45,7 @@ rm -f "$DIST"/*.ico 2>/dev/null || true
 
 echo ">> [4/4] Native helper libraries"
 cp "$ROOT/PitchTracker/libPitchTracker.dll.so" "$DIST/"
+cp "$ROOT/Vocaluxe/Lib/Video/Acinerella/libacinerella.so" "$DIST/"
 
 # Launcher that runs from the dist directory regardless of CWD
 cat > "$DIST_ROOT/Vocaluxe.sh" <<'LAUNCH'
