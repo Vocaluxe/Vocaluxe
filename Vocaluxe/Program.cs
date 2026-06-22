@@ -21,7 +21,6 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Runtime.ExceptionServices;
 using System.Threading;
 using SQLitePCL;
 using Vocaluxe.Base;
@@ -44,7 +43,7 @@ namespace Vocaluxe
     {
         // Splash screen removed in the cross-platform port (was WinForms).
 
-        [STAThread, HandleProcessCorruptedStateExceptions]
+        [STAThread]
         // ReSharper disable InconsistentNaming
         private static void Main(string[] args)
             // ReSharper restore InconsistentNaming
@@ -429,7 +428,6 @@ namespace Vocaluxe
         }
 
 #if !DEBUG
-        [HandleProcessCorruptedStateExceptions]
         private static void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
         {
             var e = (Exception)args.ExceptionObject;

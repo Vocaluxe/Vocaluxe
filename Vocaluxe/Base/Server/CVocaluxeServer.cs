@@ -449,9 +449,9 @@ namespace Vocaluxe.Base.Server
                 }
                 else
                 {
-                    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
                     byte[] buffer = new byte[32];
-                    rng.GetNonZeroBytes(buffer);
+                    using (RandomNumberGenerator rng = RandomNumberGenerator.Create())
+                        rng.GetNonZeroBytes(buffer);
                     byte[] salt = buffer;
                     byte[] hashedPassword = _Hash((new UTF8Encoding()).GetBytes(profile.Password), salt);
 
@@ -880,14 +880,12 @@ namespace Vocaluxe.Base.Server
 
         private static byte[] _Hash(byte[] password, byte[] salt)
         {
-            HashAlgorithm hashAlgo = new SHA256Managed();
-
             byte[] data = new byte[password.Length + salt.Length];
 
             password.CopyTo(data, 0);
             salt.CopyTo(data, password.Length);
 
-            return hashAlgo.ComputeHash(data);
+            return SHA256.HashData(data);
         }
         #endregion
 
