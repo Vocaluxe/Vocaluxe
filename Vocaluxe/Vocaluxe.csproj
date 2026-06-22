@@ -13,9 +13,11 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
-    <!-- Cross-platform build: OpenGL everywhere (OpenTK 4), PortAudio/GStreamer, no WinForms/Direct3D.
-         ARCH_X64 selects the 64-bit native-interop paths. -->
-    <DefineConstants>LINUX;ARCH_X64</DefineConstants>
+    <!-- One cross-platform codebase: OpenGL everywhere (OpenTK 4) + PortAudio, no WinForms/Direct3D.
+         The WIN/LINUX symbol is chosen per build OS so the same sources compile correctly on each
+         platform. ARCH_X64 selects the 64-bit native-interop paths. -->
+    <DefineConstants Condition="$([MSBuild]::IsOSPlatform('Windows'))">WIN;ARCH_X64</DefineConstants>
+    <DefineConstants Condition="!$([MSBuild]::IsOSPlatform('Windows'))">LINUX;ARCH_X64</DefineConstants>
     <NoWarn>$(NoWarn);CS0618;CS0612;CS0649;CS0169;CS0414;CS0162;CA1416;NU1701</NoWarn>
     <RuntimeIdentifiers>linux-x64;win-x64;osx-x64;osx-arm64</RuntimeIdentifiers>
   </PropertyGroup>
