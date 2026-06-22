@@ -89,4 +89,50 @@
     <Content Include="Website\js\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
 
+  <!-- Stamp the assembly version from `git describe` at build time. Replaces the old MSBuild build events
+       (winPreBuild.ps1 / linuxPreBuildEvent.sh) that the .NET Framework project ran but the SDK project
+       does not - that is why builds otherwise show "Not Versioned". The app displays AssemblyTitle via
+       CSettings.GetFullVersionText(). git is optional: if it is unavailable (e.g. a source tarball) the
+       build falls back to the "Not Versioned" strings instead of failing. -->
+  <Target Name="_StampGitVersion" BeforeTargets="CoreCompile">
+    <Exec Command="git describe --tags --long --always --dirty" ConsoleToMSBuild="true"
+          ContinueOnError="true" StandardOutputImportance="low" StandardErrorImportance="low">
+      <Output TaskParameter="ConsoleOutput" PropertyName="_GitRaw" />
+      <Output TaskParameter="ExitCode" PropertyName="_GitExit" />
+    </Exec>
+    <PropertyGroup>
+      <_Versioned Condition="'$(_GitExit)' == '0' and '$(_GitRaw)' != ''">true</_Versioned>
+      <_Arch Condition="'$(Platform)' != '' and '$(Platform)' != 'AnyCPU'">$(Platform)</_Arch>
+      <_Arch Condition="'$(_Arch)' == ''">x64</_Arch>
+
+      <_Informational Condition="'$(_Versioned)' == 'true'">$(_GitRaw)</_Informational>
+      <_Tag Condition="'$(_Versioned)' == 'true'">$([System.Text.RegularExpressions.Regex]::Match($(_GitRaw), `^[^-]+`).Value)</_Tag>
+      <_Numeric Condition="'$(_Versioned)' == 'true'">$([System.Text.RegularExpressions.Regex]::Match($(_Tag), `^[0-9]+(\.[0-9]+)*`).Value)</_Numeric>
+      <_Title Condition="'$(_Versioned)' == 'true'">Vocaluxe $(_Tag) ($(_Arch)) ($(_GitRaw))</_Title>
+
+      <_Informational Condition="'$(_Versioned)' != 'true'">0.0.0-na-notversioned</_Informational>
+      <_Title Condition="'$(_Versioned)' != 'true'">Vocaluxe 'Not Versioned' 0.0.0 (NA) (0.0.0-na-notversioned)</_Title>
+
+      <_Numeric Condition="'$(_Numeric)' == ''">0.0.0</_Numeric>
+    </PropertyGroup>
+    <ItemGroup>
+      <_VerAttr Include="System.Reflection.AssemblyTitleAttribute">
+        <_Parameter1>$(_Title)</_Parameter1>
+      </_VerAttr>
+      <_VerAttr Include="System.Reflection.AssemblyInformationalVersionAttribute">
+        <_Parameter1>$(_Informational)</_Parameter1>
+      </_VerAttr>
+      <_VerAttr Include="System.Reflection.AssemblyVersionAttribute">
+        <_Parameter1>$(_Numeric)</_Parameter1>
+      </_VerAttr>
+      <_VerAttr Include="System.Reflection.AssemblyFileVersionAttribute">
+        <_Parameter1>$(_Numeric)</_Parameter1>
+      </_VerAttr>
+    </ItemGroup>
+    <WriteCodeFragment AssemblyAttributes="@(_VerAttr)" Language="C#"
+                       OutputDirectory="$(IntermediateOutputPath)" OutputFile="GitVersion.g.cs">
+      <Output TaskParameter="OutputFile" ItemName="Compile" />
+    </WriteCodeFragment>
+  </Target>
+
 </Project>

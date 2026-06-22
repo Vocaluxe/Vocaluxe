@@ -23,7 +23,9 @@ using System.Runtime.InteropServices;
 // Attribute gesteuert. Ändern Sie diese Attributwerte, um die Informationen zu ändern,
 // die mit einer Assembly verknüpft sind.
 
-[assembly: AssemblyTitle("Vocaluxe 'Not Versioned' 0.0.0 (NA) (0.0.0-na-notversioned)")]
+// AssemblyTitle / AssemblyVersion / AssemblyFileVersion / AssemblyInformationalVersion are generated
+// at build time from `git describe` by the _StampGitVersion target in Vocaluxe.csproj (replacing the old
+// winPreBuild.ps1 / linuxPreBuildEvent.sh MSBuild build events that the SDK projects no longer run).
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
@@ -32,11 +34,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-[assembly: AssemblyVersion("0.0.0")]
-[assembly: AssemblyFileVersion("0.0.0")]
-[assembly: AssemblyInformationalVersion("0.0.0-na-notversioned")]
-
-// Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar 
+// Durch Festlegen von ComVisible auf "false" werden die Typen in dieser Assembly unsichtbar
 // für COM-Komponenten. Wenn Sie auf einen Typ in dieser Assembly von 
 // COM zugreifen müssen, legen Sie das ComVisible-Attribut für diesen Typ auf "true" fest.
 
