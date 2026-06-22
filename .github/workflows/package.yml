@@ -1,0 +1,52 @@
+name: Package (test builds)
+
+# Produces downloadable, self-contained test builds per OS as workflow artifacts. These are NOT
+# verified at runtime by CI (no display/GPU/audio on the runners) - they exist so the Windows/macOS
+# ports can be tried on real hardware. Linux is the only platform validated end-to-end so far.
+
+on:
+  push:
+    branches: [ feature/768-net10-crossplatform ]
+  workflow_dispatch:
+
+concurrency:
+  group: package-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  linux-appimage:
+    name: Linux (AppImage)
+    # Build on the oldest supported runner for a lower glibc baseline = runs on more distros.
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up .NET 10 SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install native build/runtime deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libswresample-dev \
+            libportaudio2 libfontconfig1
+
+      - name: Build self-contained AppImage
+        env:
+          # appimagetool ships as an AppImage; run it without FUSE (not available on the runner).
+          APPIMAGE_EXTRACT_AND_RUN: '1'
+        run: ./.build/make-appimage.sh
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v7
+        with:
+          name: Vocaluxe-linux-x86_64
+          path: dist/Vocaluxe-x86_64.AppImage
+          if-no-files-found: error
