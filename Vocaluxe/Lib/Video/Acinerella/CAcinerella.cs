@@ -226,10 +226,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     _AcInstanceLocks.Add(pAcDecoder.ToInt64(), l);
                 }
             }
-           
+
             return l;
         }
-
 
         // Defines the type of an Acinerella media stream. Currently only video and
         // audio streams are supported, subtitle and data streams will be marked as
@@ -327,7 +326,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 return _ac_create_decoder(pAcInstance, firstVideoStreamId);
             }
         }
-        
+
         public static IntPtr AcCreateAudioDecoder(IntPtr pAcInstance)
         {
             lock (_GetLockToken(pAcInstance))
@@ -338,6 +337,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 {
                     throw new ArgumentException("The instace does not contain a audio stream.");
                 }
+
                 return _ac_create_decoder(pAcInstance, firstAudioStreamId);
             }
         }
@@ -346,16 +346,20 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             var instance = (SACInstance)Marshal.PtrToStructure(pAcInstance, typeof(SACInstance));
 
-            int currentStream = 0;
+            var currentStream = 0;
             SACStreamInfo currentStreamInfo;
 
             while (currentStream < instance.StreamCount)
             {
                 AcGetStreamInfo(pAcInstance, currentStream, out currentStreamInfo);
                 if (currentStreamInfo.StreamType == type)
+                {
                     return currentStream;
+                }
+
                 currentStream++;
             }
+
             return -1;
         }
 
@@ -373,7 +377,6 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     _ac_free_decoder(pAcDecoder);
                 }
             }
-           
         }
 
         // Decodes a package using the specified decoder. The decodec data is stored in the
@@ -408,7 +411,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         {
             lock (_GetLockToken(pAcDecoder))
             {
-                int asd = _ac_get_frame(pAcInstance, pAcDecoder);
+                var asd = _ac_get_frame(pAcInstance, pAcDecoder);
                 return asd == 0;
             }
         }

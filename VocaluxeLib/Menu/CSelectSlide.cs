@@ -28,7 +28,8 @@ namespace VocaluxeLib.Menu
     [XmlType("SelectSlide")]
     public struct SThemeSelectSlide
     {
-        [XmlAttribute(AttributeName = "Name")] public string Name;
+        [XmlAttribute(AttributeName = "Name")]
+        public string Name;
 
         public string Skin;
         public string SkinArrowLeft;
@@ -52,8 +53,10 @@ namespace VocaluxeLib.Menu
         public SThemeColor TextSelColor;
 
         public float TextH;
-        [DefaultValue(0.0f)] public float TextRelativeX;
-        [DefaultValue(0.0f)] public float TextRelativeY;
+        [DefaultValue(0.0f)]
+        public float TextRelativeX;
+        [DefaultValue(0.0f)]
+        public float TextRelativeY;
         public float TextMaxW;
 
         public string TextFont;
@@ -79,7 +82,7 @@ namespace VocaluxeLib.Menu
             public SRectF Bounds;
         }
 
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
         private SThemeSelectSlide _Theme;
 
         public string GetThemeName()
@@ -114,7 +117,7 @@ namespace VocaluxeLib.Menu
         {
             set
             {
-                float delta = value - X;
+                var delta = value - X;
                 RectArrowLeft.X += delta;
                 RectArrowRight.X += delta;
                 base.X = value;
@@ -124,7 +127,7 @@ namespace VocaluxeLib.Menu
         {
             set
             {
-                float delta = value - Y;
+                var delta = value - Y;
                 RectArrowLeft.Y += delta;
                 RectArrowRight.Y += delta;
                 base.Y = value;
@@ -134,7 +137,7 @@ namespace VocaluxeLib.Menu
         {
             set
             {
-                float delta = value - Z;
+                var delta = value - Z;
                 RectArrowLeft.Z += delta;
                 RectArrowRight.Z += delta;
                 base.Z = value;
@@ -173,7 +176,10 @@ namespace VocaluxeLib.Menu
             {
                 value = value.Clamp(0, _Values.Count - 1, false);
                 if (value == _Selection)
+                {
                     return;
+                }
+
                 _Selection = value;
                 _Invalidate();
             }
@@ -214,16 +220,19 @@ namespace VocaluxeLib.Menu
             set
             {
                 if (value <= 0 || value == _NumVisible)
+                {
                     return;
+                }
+
                 _NumVisible = value;
 
                 _Invalidate();
             }
         }
 
-        public CSelectSlide(int partyModeID)
+        public CSelectSlide(int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             ThemeLoaded = false;
             _TextH = 1f;
             _MaxW = 0f;
@@ -231,7 +240,7 @@ namespace VocaluxeLib.Menu
 
         public CSelectSlide(CSelectSlide slide)
         {
-            _PartyModeID = slide._PartyModeID;
+            _PartyModeId = slide._PartyModeId;
             _Theme = slide._Theme;
 
             ThemeLoaded = false;
@@ -261,9 +270,9 @@ namespace VocaluxeLib.Menu
             Visible = slide.Visible;
         }
 
-        public CSelectSlide(SThemeSelectSlide theme, int partyModeID)
+        public CSelectSlide(SThemeSelectSlide theme, int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = theme;
 
             ThemeLoaded = true;
@@ -291,7 +300,7 @@ namespace VocaluxeLib.Menu
         /// <param name="tag">User value (e.g. id of entry)</param>
         public void AddValue(string text, CTextureRef texture = null, int tag = 0)
         {
-            AddValue(text, _PartyModeID, texture, tag);
+            AddValue(text, _PartyModeId, texture, tag);
         }
 
         /// <summary>
@@ -303,20 +312,24 @@ namespace VocaluxeLib.Menu
         /// <param name="tag">User value (e.g. id of entry)</param>
         public void AddValue(string text, int translationId, CTextureRef texture = null, int tag = 0)
         {
-            SValue value = new SValue {Text = text, TranslationId = translationId, Tag = tag, Texture = texture};
+            var value = new SValue { Text = text, TranslationId = translationId, Tag = tag, Texture = texture };
 
             _Values.Add(value);
 
             if (Selection < 0)
+            {
                 Selection = 0;
+            }
 
             _Invalidate();
         }
 
         public void AddValues(IEnumerable<string> values)
         {
-            foreach (string value in values)
+            foreach (var value in values)
+            {
                 AddValue(value);
+            }
         }
 
         public void AddValues(IEnumerable<string> values, IEnumerable<int> tags)
@@ -328,6 +341,7 @@ namespace VocaluxeLib.Menu
                 {
                     AddValue(e1.Current, tag: e2.Current);
                 }
+
                 if (e1.MoveNext() || e2.MoveNext())
                 {
                     throw new ArgumentException("the lists must have the same length");
@@ -339,18 +353,26 @@ namespace VocaluxeLib.Menu
         {
             Debug.Assert(values.Length == textures.Length);
 
-            for (int i = 0; i < values.Length; i++)
+            for (var i = 0; i < values.Length; i++)
+            {
                 AddValue(values[i], textures[i]);
+            }
         }
 
         public void RemoveValue(string text)
         {
-            int idx = _Values.FindIndex(val => val.Text == text);
+            var idx = _Values.FindIndex(val => val.Text == text);
             if (idx < 0)
+            {
                 return;
+            }
+
             _Values.RemoveAt(idx);
             if (Selection >= idx)
+            {
                 Selection--;
+            }
+
             _Invalidate();
         }
 
@@ -368,9 +390,11 @@ namespace VocaluxeLib.Menu
         public void RenameValue(int index, string newName, CTextureRef newTexture = null)
         {
             if (index < 0 && index >= _Values.Count)
+            {
                 return;
+            }
 
-            SValue value = _Values[index];
+            var value = _Values[index];
             value.Text = newName;
             value.Texture = newTexture;
             _Values[index] = value;
@@ -383,6 +407,7 @@ namespace VocaluxeLib.Menu
                 Selection++;
                 return true;
             }
+
             return false;
         }
 
@@ -393,19 +418,24 @@ namespace VocaluxeLib.Menu
                 Selection--;
                 return true;
             }
+
             return false;
         }
 
         public void SelectFirstValue()
         {
             if (_Values.Count > 0)
+            {
                 Selection = 0;
+            }
         }
 
         public void SelectLastValue()
         {
             if (_Values.Count > 0)
+            {
                 Selection = _Values.Count - 1;
+            }
         }
 
         public void Clear()
@@ -417,17 +447,23 @@ namespace VocaluxeLib.Menu
 
         private int _GetCurOffset()
         {
-            int offset = _Selection - _NumVisible / 2;
+            var offset = _Selection - _NumVisible / 2;
             return offset.Clamp(0, _Values.Count - _NumVisible, true);
         }
 
         private void _SelectAtPos(int x, int y)
         {
             if (_NeedsRevalidate)
+            {
                 _Revalidate();
-            int index = _VisibleElements.FindIndex(el => CHelper.IsInBounds(el.Bounds, x, y));
+            }
+
+            var index = _VisibleElements.FindIndex(el => CHelper.IsInBounds(el.Bounds, x, y));
             if (index < 0)
+            {
                 return;
+            }
+
             Selection = index + _GetCurOffset();
         }
 
@@ -437,7 +473,9 @@ namespace VocaluxeLib.Menu
             _ArrowRightSelected = CHelper.IsInBounds(RectArrowRight, x, y) && _Selection < _Values.Count - 1;
 
             if (SelectByHovering)
+            {
                 _SelectAtPos(x, y);
+            }
         }
 
         public void ProcessMouseLBClick(int x, int y)
@@ -445,10 +483,14 @@ namespace VocaluxeLib.Menu
             ProcessMouseMove(x, y);
 
             if (_ArrowLeftSelected)
+            {
                 SelectPrevValue();
+            }
 
             if (_ArrowRightSelected)
+            {
                 SelectNextValue();
+            }
 
             _SelectAtPos(x, y);
         }
@@ -456,38 +498,44 @@ namespace VocaluxeLib.Menu
         private void _Revalidate()
         {
             if (!_NeedsRevalidate)
+            {
                 return;
+            }
+
             _NeedsRevalidate = false;
-            int numvis = Math.Min(_NumVisible, _Values.Count);
+            var numvis = Math.Min(_NumVisible, _Values.Count);
             if (numvis != _VisibleElements.Count)
             {
                 _VisibleElements.Clear();
-                for (int i = 0; i < numvis; i++)
+                for (var i = 0; i < numvis; i++)
                 {
                     var el = new CElement
                     {
-                        Text = new CText(0, 0, 0, _TextH, _MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, _TextColor, "T", _PartyModeID),
-                        Img = new CStatic(_PartyModeID)
+                        Text = new CText(0, 0, 0, _TextH, _MaxW, EAlignment.Center, _Theme.TextStyle, _Theme.TextFont, _TextColor, "T", _PartyModeId),
+                        Img = new CStatic(_PartyModeId)
                     };
                     el.Img.Aspect = EAspect.Crop;
                     _VisibleElements.Add(el);
                 }
             }
+
             if (numvis == 0)
-                return;
-
-            float elWidth = (Rect.W - _TextRelativeX * 2) / numvis;
-            //Center point of the first entry
-            float xStart = Rect.X + _TextRelativeX + elWidth / 2f;
-
-            int offset = _GetCurOffset();
-
-            for (int i = 0; i < numvis; i++)
             {
-                CText text = _VisibleElements[i].Text;
+                return;
+            }
+
+            var elWidth = (Rect.W - _TextRelativeX * 2) / numvis;
+            //Center point of the first entry
+            var xStart = Rect.X + _TextRelativeX + elWidth / 2f;
+
+            var offset = _GetCurOffset();
+
+            for (var i = 0; i < numvis; i++)
+            {
+                var text = _VisibleElements[i].Text;
                 RectangleF textBounds;
-                float curX = xStart + elWidth * i;
-                if (String.IsNullOrEmpty(_Values[i + offset].Text))
+                var curX = xStart + elWidth * i;
+                if (string.IsNullOrEmpty(_Values[i + offset].Text))
                 {
                     text.Visible = false;
                     textBounds = new RectangleF();
@@ -496,18 +544,21 @@ namespace VocaluxeLib.Menu
                 {
                     text.Visible = true;
                     text.Text = _Values[i + offset].Text;
-                    text.TranslationID = _Values[i + offset].TranslationId;
-                    text.Color = (i + offset == Selection) ? _SelTextColor : _TextColor;
+                    text.TranslationId = _Values[i + offset].TranslationId;
+                    text.Color = i + offset == Selection ? _SelTextColor : _TextColor;
                     textBounds = CBase.Fonts.GetTextBounds(text);
                     text.X = curX;
                     text.Z = Rect.Z;
                 }
 
-                CStatic img = _VisibleElements[i].Img;
+                var img = _VisibleElements[i].Img;
                 if (!DrawTextures || _Values[i + offset].Texture == null)
                 {
                     if (text.Visible)
+                    {
                         text.Y = Rect.Y + (Rect.H - textBounds.Height) / 2 - _TextRelativeY;
+                    }
+
                     img.Visible = false;
                     _VisibleElements[i].Bounds = new SRectF(text.X - textBounds.Width / 2f, text.Y, textBounds.Width, textBounds.Height, Rect.Z);
                 }
@@ -515,11 +566,14 @@ namespace VocaluxeLib.Menu
                 {
                     text.Y = (int)(Rect.Y + Rect.H - textBounds.Height - _TextRelativeY);
                     img.Texture = _Values[i + offset].Texture;
-                    float alpha = (i + offset == _Selection) ? 1f : 0.35f;
+                    var alpha = i + offset == _Selection ? 1f : 0.35f;
                     img.Color = new SColorF(1f, 1f, 1f, alpha);
-                    float size = Rect.H - textBounds.Height - 2 * _TextRelativeY;
+                    var size = Rect.H - textBounds.Height - 2 * _TextRelativeY;
                     if (size > elWidth)
+                    {
                         size = elWidth;
+                    }
+
                     var imgRect = new SRectF(curX - size / 2, Rect.Y + _TextRelativeY, size, size, Rect.Z);
                     img.MaxRect = imgRect;
                     _VisibleElements[i].Bounds = imgRect;
@@ -530,32 +584,49 @@ namespace VocaluxeLib.Menu
         public void Draw()
         {
             if (!Visible && CBase.Settings.GetProgramState() != EProgramState.EditTheme)
+            {
                 return;
+            }
 
             if (Selected)
+            {
                 CBase.Drawing.DrawTexture(_SelTexture, Rect, _SelColor);
+            }
             else
+            {
                 CBase.Drawing.DrawTexture(_Texture, Rect, _Color);
+            }
 
             if (_Selection > 0 || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 if (_ArrowLeftSelected)
+                {
                     CBase.Drawing.DrawTexture(_SelTextureArrowLeft, RectArrowLeft, _SelColorArrow);
+                }
                 else
+                {
                     CBase.Drawing.DrawTexture(_TextureArrowLeft, RectArrowLeft, _ColorArrow);
+                }
             }
 
             if (_Selection < _Values.Count - 1 || CBase.Settings.GetProgramState() == EProgramState.EditTheme)
             {
                 if (_ArrowRightSelected)
+                {
                     CBase.Drawing.DrawTexture(_SelTextureArrowRight, RectArrowRight, _SelColorArrow);
+                }
                 else
+                {
                     CBase.Drawing.DrawTexture(_TextureArrowRight, RectArrowRight, _ColorArrow);
+                }
             }
 
             if (_NeedsRevalidate)
+            {
                 _Revalidate();
-            foreach (CElement element in _VisibleElements)
+            }
+
+            foreach (var element in _VisibleElements)
             {
                 element.Text.Draw();
                 element.Img.Draw();
@@ -567,16 +638,16 @@ namespace VocaluxeLib.Menu
             return _Theme;
         }
 
-        public void UnloadSkin() {}
+        public void UnloadSkin() { }
 
         public void LoadSkin()
         {
-            _Theme.Color.Get(_PartyModeID, out _Color);
-            _Theme.SelColor.Get(_PartyModeID, out _SelColor);
-            _Theme.ArrowColor.Get(_PartyModeID, out _ColorArrow);
-            _Theme.ArrowSelColor.Get(_PartyModeID, out _SelColorArrow);
-            _Theme.TextColor.Get(_PartyModeID, out _TextColor);
-            _Theme.TextSelColor.Get(_PartyModeID, out _SelTextColor);
+            _Theme.Color.Get(_PartyModeId, out _Color);
+            _Theme.SelColor.Get(_PartyModeId, out _SelColor);
+            _Theme.ArrowColor.Get(_PartyModeId, out _ColorArrow);
+            _Theme.ArrowSelColor.Get(_PartyModeId, out _SelColorArrow);
+            _Theme.TextColor.Get(_PartyModeId, out _TextColor);
+            _Theme.TextSelColor.Get(_PartyModeId, out _SelTextColor);
 
             MaxRect = _Theme.Rect;
             RectArrowLeft = _Theme.RectArrowLeft;
@@ -589,13 +660,13 @@ namespace VocaluxeLib.Menu
             _TextRelativeY = _Theme.TextRelativeY;
             _MaxW = _Theme.TextMaxW;
 
-            _Texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
-            _TextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SkinArrowLeft, _PartyModeID);
-            _TextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SkinArrowRight, _PartyModeID);
+            _Texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeId);
+            _TextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SkinArrowLeft, _PartyModeId);
+            _TextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SkinArrowRight, _PartyModeId);
 
-            _SelTexture = CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeID);
-            _SelTextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SkinArrowLeftSelected, _PartyModeID);
-            _SelTextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SkinArrowRightSelected, _PartyModeID);
+            _SelTexture = CBase.Themes.GetSkinTexture(_Theme.SkinSelected, _PartyModeId);
+            _SelTextureArrowLeft = CBase.Themes.GetSkinTexture(_Theme.SkinArrowLeftSelected, _PartyModeId);
+            _SelTextureArrowRight = CBase.Themes.GetSkinTexture(_Theme.SkinArrowRightSelected, _PartyModeId);
             _Invalidate();
         }
 
@@ -644,11 +715,15 @@ namespace VocaluxeLib.Menu
             {
                 W += stepW;
                 if (W <= 0)
+                {
                     W = 1;
+                }
 
                 H += stepH;
                 if (H <= 0)
+                {
                     H = 1;
+                }
 
                 _Theme.Rect.W = Rect.W;
                 _Theme.Rect.H = Rect.H;
@@ -658,11 +733,15 @@ namespace VocaluxeLib.Menu
             {
                 RectArrowLeft.W += stepW;
                 if (RectArrowLeft.W <= 0)
+                {
                     RectArrowLeft.W = 1;
+                }
 
                 RectArrowLeft.H += stepH;
                 if (RectArrowLeft.H <= 0)
+                {
                     RectArrowLeft.H = 1;
+                }
 
                 _Theme.RectArrowLeft.W = RectArrowLeft.W;
                 _Theme.RectArrowLeft.H = RectArrowLeft.H;
@@ -672,11 +751,15 @@ namespace VocaluxeLib.Menu
             {
                 RectArrowRight.W += stepW;
                 if (RectArrowRight.W <= 0)
+                {
                     RectArrowRight.W = 1;
+                }
 
                 RectArrowRight.H += stepH;
                 if (RectArrowRight.H <= 0)
+                {
                     RectArrowRight.H = 1;
+                }
 
                 _Theme.RectArrowRight.W = RectArrowRight.W;
                 _Theme.RectArrowRight.H = RectArrowRight.H;

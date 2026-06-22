@@ -92,16 +92,16 @@ namespace Tests.VocaluxeLib.Log
                 (crash, cont, tag, log, error) =>
             {
                 messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                Assert.That(show, Is.True);
+                Assert.That(crash, Is.False);
+                Assert.That(cont, Is.True);
+                Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[<#= LogLevel #>] " + <#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>, log, "Main log entry wrong");
+                Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                Assert.That(log, Contains.Substring("[<#= LogLevel #>] " + <#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>), "Main log entry wrong");
 
-                StringAssert.Contains(<#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>, error, "Error message wrong");
+                Assert.That(error, Contains.Substring(<#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>), "Error message wrong");
             },
             ELogLevel.Verbose);
 
@@ -115,27 +115,27 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
             string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
             string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[<#= LogLevel #>] " +<#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>, mainLogContent, "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[<#= LogLevel #>] " +<#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>), "Main log entry wrong");
 <# if(WithException) { #>
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
 <# } #>
 <# if(WithData) { #>
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
 <# } #>
 <# if(LogLevel!="Fatal") { #>
-            StringAssert.Contains(<#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>, songLogContent, "Song log entry wrong");
+            Assert.That(songLogContent, Contains.Substring(<#= WithData?"_TestMessageWithResolvedData":"_TestMessage" #>), "Song log entry wrong");
 <# } #>
             if(!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 <# } #>

@@ -35,21 +35,32 @@ namespace VocaluxeLib
         public static int CombinationCount(int n, int k)
         {
             if (k > n)
+            {
                 return 0;
+            }
 
             if (k == 0 || k == n)
+            {
                 return 1;
+            }
 
             if (k < 0 || n <= 0)
+            {
                 return 0; //is not defined
+            }
 
             if (k * 2 > n)
+            {
                 k = n - k;
+            }
 
             long result = n;
 
             for (long i = 1; i <= k - 1; i++)
+            {
                 result = result * (n - i) / (i + 1);
+            }
+
             return (int)result;
         }
 
@@ -58,12 +69,14 @@ namespace VocaluxeLib
         /// </summary>
         public static string ListStrings(string[] str)
         {
-            string result = String.Empty;
-            for (int i = 0; i < str.Length; i++)
+            var result = string.Empty;
+            for (var i = 0; i < str.Length; i++)
             {
                 result += str[i];
                 if (i < str.Length - 1)
+                {
                     result += ", ";
+                }
             }
 
             return result;
@@ -82,9 +95,11 @@ namespace VocaluxeLib
         public static SRectF FitInBounds(SRectF bounds, float aspectRatio, EAspect aspect)
         {
             if (aspect == EAspect.Stretch)
+            {
                 return bounds;
+            }
 
-            float boundsAspectRatio = bounds.W / bounds.H;
+            var boundsAspectRatio = bounds.W / bounds.H;
 
             float scaledWidth, scaledHeight;
 
@@ -102,6 +117,7 @@ namespace VocaluxeLib
                         scaledHeight = bounds.H;
                         scaledWidth = bounds.H * aspectRatio;
                     }
+
                     break;
                 case EAspect.Zoom1:
                     if (boundsAspectRatio >= aspectRatio)
@@ -114,6 +130,7 @@ namespace VocaluxeLib
                         scaledHeight = bounds.H / 1.33f;
                         scaledWidth = bounds.H / 1.33f * aspectRatio;
                     }
+
                     break;
                 case EAspect.Zoom2:
                     if (boundsAspectRatio >= aspectRatio)
@@ -126,6 +143,7 @@ namespace VocaluxeLib
                         scaledHeight = bounds.H / 1.17f;
                         scaledWidth = bounds.H / 1.17f * aspectRatio;
                     }
+
                     break;
                 case EAspect.LetterBox:
                     if (boundsAspectRatio < aspectRatio)
@@ -138,6 +156,7 @@ namespace VocaluxeLib
                         scaledHeight = bounds.H;
                         scaledWidth = bounds.H * aspectRatio;
                     }
+
                     break;
                 case EAspect.PillarBox:
                     scaledWidth = bounds.W * 0.77f;
@@ -146,8 +165,9 @@ namespace VocaluxeLib
                 default:
                     return bounds;
             }
-            float left = (bounds.W - scaledWidth) / 2 + bounds.X;
-            float top = (bounds.H - scaledHeight) / 2 + bounds.Y;
+
+            var left = (bounds.W - scaledWidth) / 2 + bounds.X;
+            var top = (bounds.H - scaledHeight) / 2 + bounds.Y;
 
             return new SRectF(left, top, scaledWidth, scaledHeight, bounds.Z);
         }
@@ -162,13 +182,17 @@ namespace VocaluxeLib
         /// <returns>List of file names</returns>
         public static IEnumerable<string> ListFiles(string path, string searchPattern, bool recursive = false, bool fullpath = false)
         {
-            IEnumerable<string> files = Enumerable.Empty<string>();
+            var files = Enumerable.Empty<string>();
             var dir = new DirectoryInfo(path);
             if (!dir.Exists)
+            {
                 return files;
+            }
 
             if (recursive && !fullpath)
+            {
                 throw new NotSupportedException("recursive file listing with relative path names is not supported");
+            }
 
             try
             {
@@ -194,13 +218,17 @@ namespace VocaluxeLib
         /// <returns>List of file names</returns>
         public static IEnumerable<string> ListFilesForExtPattern(string path, Regex extPattern, bool recursive = false, bool fullpath = false)
         {
-            IEnumerable<string> files = Enumerable.Empty<string>();
+            var files = Enumerable.Empty<string>();
             var dir = new DirectoryInfo(path);
             if (!dir.Exists)
+            {
                 return files;
+            }
 
             if (recursive && !fullpath)
+            {
                 throw new NotSupportedException("recursive file listing with relative path names is not supported");
+            }
 
             try
             {
@@ -262,7 +290,7 @@ namespace VocaluxeLib
                 result = (T)Enum.Parse(typeof(T), value, ignoreCase);
                 return true;
             }
-            catch {}
+            catch { }
 
             return false;
         }
@@ -292,17 +320,24 @@ namespace VocaluxeLib
         /// <returns></returns>
         public static string GetUniqueFileName(string path, string filename, bool withPath = true)
         {
-            string ext = Path.GetExtension(filename);
+            var ext = Path.GetExtension(filename);
             filename = Path.GetFileNameWithoutExtension(filename) ?? "1";
             if (File.Exists(Path.Combine(path, filename + ext)))
             {
-                int i = 1;
+                var i = 1;
                 while (File.Exists(Path.Combine(path, filename + "_" + i + ext)))
+                {
                     i++;
+                }
+
                 filename += "_" + i;
             }
+
             if (withPath)
+            {
                 filename = Path.Combine(path, filename);
+            }
+
             return filename + ext;
         }
 
@@ -323,6 +358,7 @@ namespace VocaluxeLib
                 CLog.Error("Can't find File: " + filePath);
                 return null;
             }
+
             Bitmap bmp;
             try
             {
@@ -333,6 +369,7 @@ namespace VocaluxeLib
                 CLog.Error("Error loading bitmap: " + filePath);
                 return null;
             }
+
             return bmp;
         }
     }

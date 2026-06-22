@@ -30,13 +30,15 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
         public override bool Init()
         {
             if (!base.Init())
+            {
                 return false;
+            }
 
             _Sources = new List<CSoundCardSource>();
 
-            DeviceCollection devices = DirectSoundCapture.GetDevices();
+            var devices = DirectSoundCapture.GetDevices();
 
-            foreach (DeviceInformation dev in devices)
+            foreach (var dev in devices)
             {
                 using (var ds = new DirectSoundCapture(dev.DriverGuid))
                 {
@@ -61,19 +63,26 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
         public bool Start()
         {
             if (!_Initialized)
-                return false;
-
-            foreach (CBuffer buffer in _Buffer)
-                buffer.Reset();
-
-            foreach (CRecordDevice device in _Devices)
             {
-                bool usingDevice = false;
-                for (int ch = 0; ch < device.Channels; ++ch)
+                return false;
+            }
+
+            foreach (var buffer in _Buffer)
+            {
+                buffer.Reset();
+            }
+
+            foreach (var device in _Devices)
+            {
+                var usingDevice = false;
+                for (var ch = 0; ch < device.Channels; ++ch)
                 {
                     if (device.PlayerChannel[ch] > 0)
+                    {
                         usingDevice = true;
+                    }
                 }
+
                 if (usingDevice)
                 {
                     var source = new CSoundCardSource(device.Driver, (short)device.Channels) { SampleRateKhz = 44.1 };
@@ -90,13 +99,16 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
         public bool Stop()
         {
             if (!_Initialized)
+            {
                 return false;
+            }
 
-            foreach (CSoundCardSource source in _Sources)
+            foreach (var source in _Sources)
             {
                 source.Stop();
                 source.Dispose();
             }
+
             _Sources.Clear();
 
             return true;
@@ -105,10 +117,16 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
         private void _OnDataReady(object sender, CSampleDataEventArgs e)
         {
             if (!_Initialized)
+            {
                 return;
-            CRecordDevice dev = _Devices.FirstOrDefault(device => device.Driver == e.Guid);
+            }
+
+            var dev = _Devices.FirstOrDefault(device => device.Driver == e.Guid);
             if (dev == null)
+            {
                 return;
+            }
+
             _HandleData(dev, e.Data);
         }
     }

@@ -34,20 +34,26 @@ namespace Vocaluxe.Base.Fonts
         private static readonly List<SFontFamily> _FontFamilies = new List<SFontFamily>();
         private static readonly List<String> _LoggedMissingFonts = new List<string>();
 
-        public static int PartyModeID { get; set; }
+        public static int PartyModeId { get; set; }
 
         public static bool Init()
         {
             if (_IsInitialized)
+            {
                 return false;
-            PartyModeID = -1;
+            }
+
+            PartyModeId = -1;
             return _LoadDefaultFonts();
         }
 
         public static void Close()
         {
-            foreach (SFontFamily font in _FontFamilies)
+            foreach (var font in _FontFamilies)
+            {
                 font.Dispose();
+            }
+
             _FontFamilies.Clear();
             _IsInitialized = false;
         }
@@ -78,12 +84,14 @@ namespace Vocaluxe.Base.Fonts
         public static void DrawText(string text, CFont font, float x, float y, float z, SColorF color, bool allMonitors = true)
         {
             if (font.Height <= 0f || text == "")
+            {
                 return;
+            }
 
-            CFontStyle fontStyle = _GetFontStyle(font);
+            var fontStyle = _GetFontStyle(font);
 
-            float dx = x;
-            foreach (char chr in text)
+            var dx = x;
+            foreach (var chr in text)
             {
                 fontStyle.DrawGlyph(chr, font.Height, dx, y, z, color, allMonitors);
                 dx += fontStyle.GetWidth(chr, font.Height);
@@ -93,12 +101,14 @@ namespace Vocaluxe.Base.Fonts
         public static void DrawTextReflection(string text, CFont font, float x, float y, float z, SColorF color, float rspace, float rheight)
         {
             if (font.Height <= 0f || text == "")
+            {
                 return;
+            }
 
-            CFontStyle fontStyle = _GetFontStyle(font);
+            var fontStyle = _GetFontStyle(font);
 
-            float dx = x;
-            foreach (char chr in text)
+            var dx = x;
+            foreach (var chr in text)
             {
                 fontStyle.DrawGlyphReflection(chr, font.Height, dx, y, z, color, rspace, rheight);
                 dx += fontStyle.GetWidth(chr, font.Height);
@@ -108,35 +118,46 @@ namespace Vocaluxe.Base.Fonts
         public static void DrawText(string text, CFont font, float x, float y, float z, SColorF color, float begin, float end)
         {
             if (font.Height <= 0f || text == "")
-                return;
-
-            float w = GetTextWidth(text, font);
-            if (w <= 0f)
-                return;
-
-            float xStart = x + w * begin;
-            float xEnd = x + w * end;
-            float xCur = x;
-
-            CFontStyle fontStyle = _GetFontStyle(font);
-
-            foreach (char chr in text)
             {
-                float w2 = fontStyle.GetWidth(chr, font.Height);
-                float b = (xStart - xCur) / w2;
+                return;
+            }
+
+            var w = GetTextWidth(text, font);
+            if (w <= 0f)
+            {
+                return;
+            }
+
+            var xStart = x + w * begin;
+            var xEnd = x + w * end;
+            var xCur = x;
+
+            var fontStyle = _GetFontStyle(font);
+
+            foreach (var chr in text)
+            {
+                var w2 = fontStyle.GetWidth(chr, font.Height);
+                var b = (xStart - xCur) / w2;
 
                 if (b < 1f)
                 {
                     if (b < 0f)
+                    {
                         b = 0f;
-                    float e = (xEnd - xCur) / w2;
+                    }
+
+                    var e = (xEnd - xCur) / w2;
                     if (e > 0f)
                     {
                         if (e > 1f)
+                        {
                             e = 1f;
+                        }
+
                         fontStyle.DrawGlyph(chr, font.Height, xCur, y, z, color, b, e);
                     }
                 }
+
                 xCur += w2;
             }
         }
@@ -169,7 +190,7 @@ namespace Vocaluxe.Base.Fonts
 
         private static CFontStyle _GetFontStyle(CFont font)
         {
-            int index = _GetFontIndex(font.Name);
+            var index = _GetFontIndex(font.Name);
 
             switch (font.Style)
             {
@@ -182,18 +203,19 @@ namespace Vocaluxe.Base.Fonts
                 case EStyle.BoldItalic:
                     return _FontFamilies[index].BoldItalic;
             }
+
             throw new ArgumentException("Invalid Style: " + font.Style);
         }
 
         public static float GetTextWidth(string text, CFont font)
         {
-            CFontStyle fontStyle = _GetFontStyle(font);
+            var fontStyle = _GetFontStyle(font);
             return text.Sum(chr => fontStyle.GetWidth(chr, font.Height));
         }
 
         public static float GetTextHeight(string text, CFont font)
         {
-            CFontStyle fontStyle = _GetFontStyle(font);
+            var fontStyle = _GetFontStyle(font);
             return text == "" ? 0 : text.Select(chr => fontStyle.GetHeight(chr, font.Height)).Max();
         }
 
@@ -201,16 +223,25 @@ namespace Vocaluxe.Base.Fonts
         {
             if (fontName != "")
             {
-                int index = _GetPartyFontIndex(fontName, PartyModeID);
+                var index = _GetPartyFontIndex(fontName, PartyModeId);
                 if (index < 0)
+                {
                     index = _GetThemeFontIndex(fontName, CConfig.Config.Theme.Theme);
+                }
+
                 if (index >= 0)
+                {
                     return index;
-                for (int i = 0; i < _FontFamilies.Count; i++)
+                }
+
+                for (var i = 0; i < _FontFamilies.Count; i++)
                 {
                     if (_FontFamilies[i].Name == fontName)
+                    {
                         return i;
+                    }
                 }
+
                 if (!_LoggedMissingFonts.Contains(fontName))
                 {
                     _LoggedMissingFonts.Add(fontName);
@@ -218,10 +249,14 @@ namespace Vocaluxe.Base.Fonts
                 }
             }
             else
+            {
                 CLog.Error("Empty fontName requested");
+            }
 
             if (_FontFamilies.Count == 0)
+            {
                 CLog.Fatal("No fonts found!");
+            }
 
             return 0;
         }
@@ -230,23 +265,27 @@ namespace Vocaluxe.Base.Fonts
         {
             Debug.Assert(fontName != "" && themeName != "");
 
-            for (int i = 0; i < _FontFamilies.Count; i++)
+            for (var i = 0; i < _FontFamilies.Count; i++)
             {
                 if (_FontFamilies[i].Name == fontName && _FontFamilies[i].ThemeName == themeName)
+                {
                     return i;
+                }
             }
 
             return -1;
         }
 
-        private static int _GetPartyFontIndex(string fontName, int partyModeID)
+        private static int _GetPartyFontIndex(string fontName, int partyModeId)
         {
             Debug.Assert(fontName != "");
 
-            for (int i = 0; i < _FontFamilies.Count; i++)
+            for (var i = 0; i < _FontFamilies.Count; i++)
             {
-                if (_FontFamilies[i].PartyModeID == partyModeID && _FontFamilies[i].Name == fontName)
+                if (_FontFamilies[i].PartyModeId == partyModeId && _FontFamilies[i].Name == fontName)
+                {
                     return i;
+                }
             }
 
             return -1;
@@ -279,8 +318,11 @@ namespace Vocaluxe.Base.Fonts
         public static bool LoadThemeFonts(IEnumerable<SFontFamily> fontFamilies, string fontFolder, string themeName, int partyModeId)
         {
             if (fontFamilies == null)
+            {
                 return true;
-            foreach (SFontFamily fontFamily in fontFamilies)
+            }
+
+            foreach (var fontFamily in fontFamilies)
             {
                 if (!_LoadFont(fontFamily, fontFolder, themeName, partyModeId))
                 {
@@ -288,7 +330,7 @@ namespace Vocaluxe.Base.Fonts
                     return false;
                 }
             }
-            
+
             using (CBenchmark.Time("Build Glyphs"))
             {
                 _BuildGlyphs();
@@ -300,19 +342,19 @@ namespace Vocaluxe.Base.Fonts
         private static bool _LoadFont(SFontFamily fontFamily, string fontFolder, string themeName, int partyModeId)
         {
             fontFamily.ThemeName = themeName;
-            fontFamily.PartyModeID = partyModeId;
+            fontFamily.PartyModeId = partyModeId;
             fontFamily.Normal = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileNormal), EStyle.Normal, fontFamily.Outline, fontFamily.OutlineColor);
             fontFamily.Italic = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileItalic), EStyle.Italic, fontFamily.Outline, fontFamily.OutlineColor);
             fontFamily.Bold = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileBold), EStyle.Bold, fontFamily.Outline, fontFamily.OutlineColor);
             fontFamily.BoldItalic = new CFontStyle(Path.Combine(fontFolder, fontFamily.Folder, fontFamily.FileBoldItalic), EStyle.BoldItalic, fontFamily.Outline,
-                                                   fontFamily.OutlineColor);
+                fontFamily.OutlineColor);
             _FontFamilies.Add(fontFamily);
             return true;
         }
 
         public static void UnloadThemeFonts(string themeName)
         {
-            int index = 0;
+            var index = 0;
             while (index < _FontFamilies.Count)
             {
                 if (_FontFamilies[index].ThemeName == themeName)
@@ -321,23 +363,27 @@ namespace Vocaluxe.Base.Fonts
                     _FontFamilies.RemoveAt(index);
                 }
                 else
+                {
                     index++;
+                }
             }
         }
 
-        public static void UnloadPartyModeFonts(int partyModeID)
+        public static void UnloadPartyModeFonts(int partyModeId)
         {
-            Debug.Assert(partyModeID >= 0);
-            int index = 0;
+            Debug.Assert(partyModeId >= 0);
+            var index = 0;
             while (index < _FontFamilies.Count)
             {
-                if (_FontFamilies[index].PartyModeID == partyModeID)
+                if (_FontFamilies[index].PartyModeId == partyModeId)
                 {
                     _FontFamilies[index].Dispose();
                     _FontFamilies.RemoveAt(index);
                 }
                 else
+                {
                     index++;
+                }
             }
         }
 
@@ -345,9 +391,9 @@ namespace Vocaluxe.Base.Fonts
         {
             const string text = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
 
-            foreach (SFontFamily fontFamily in _FontFamilies)
+            foreach (var fontFamily in _FontFamilies)
             {
-                foreach (char chr in text)
+                foreach (var chr in text)
                 {
                     fontFamily.Normal.GetOrAddGlyph(chr, -1);
                     fontFamily.Bold.GetOrAddGlyph(chr, -1);

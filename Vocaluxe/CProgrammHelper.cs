@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.IO;
 using System.Reflection;
 using System.Security;
@@ -32,32 +31,44 @@ namespace Vocaluxe
     {
         private static bool _CheckUninstallKey(string name, string key)
         {
-            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(key))
+            using (var rk = Registry.LocalMachine.OpenSubKey(key))
             {
                 if (rk == null)
-                    throw new SecurityException();
-                foreach (string skName in rk.GetSubKeyNames())
                 {
-                    using (RegistryKey sk = rk.OpenSubKey(skName))
+                    throw new SecurityException();
+                }
+
+                foreach (var skName in rk.GetSubKeyNames())
+                {
+                    using (var sk = rk.OpenSubKey(skName))
                     {
                         if (sk == null || sk.GetValue("DisplayName") == null)
+                        {
                             continue;
-                        string displayName = sk.GetValue("DisplayName").ToString().ToLower();
+                        }
+
+                        var displayName = sk.GetValue("DisplayName").ToString().ToLower();
                         if (displayName.Equals(name) || displayName.StartsWith(name) || name.StartsWith(displayName))
+                        {
                             return true;
+                        }
                     }
                 }
             }
+
             return false;
         }
 
         private static bool _KeyExists(string key)
         {
-            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(key))
+            using (var rk = Registry.LocalMachine.OpenSubKey(key))
             {
                 if (rk != null)
+                {
                     return true;
+                }
             }
+
             return false;
         }
 
@@ -86,47 +97,55 @@ namespace Vocaluxe
             const string baseKey = @"SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\";
             const string wow6432BaseKey = @"SOFTWARE\Wow6432Node\Microsoft\VisualStudio\14.0\VC\Runtimes\";
 
-        #if ARCH_X64
+#if ARCH_X64
             string[] arches = { "x64" };
-        #elif ARCH_X86
+#elif ARCH_X86
             string[] arches = { "x86" };
-        #else
+#else
             string[] arches = { "x86", "x64" };
-        #endif
+#endif
 
-        foreach (string arch in arches)
-        {
-            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(baseKey + arch) ??
-                                    Registry.LocalMachine.OpenSubKey(wow6432BaseKey + arch))
+            foreach (var arch in arches)
             {
-                if (rk == null)
-                    continue;
+                using (var rk = Registry.LocalMachine.OpenSubKey(baseKey + arch) ??
+                                Registry.LocalMachine.OpenSubKey(wow6432BaseKey + arch))
+                {
+                    if (rk == null)
+                    {
+                        continue;
+                    }
 
-                object installed = rk.GetValue("Installed");
-                if (installed == null)
-                    continue;
+                    var installed = rk.GetValue("Installed");
+                    if (installed == null)
+                    {
+                        continue;
+                    }
 
-                int installedValue;
-                if (int.TryParse(installed.ToString(), out installedValue) && installedValue == 1)
-                    return true;
+                    int installedValue;
+                    if (int.TryParse(installed.ToString(), out installedValue) && installedValue == 1)
+                    {
+                        return true;
+                    }
+                }
             }
-        }
 
-        return false;
+            return false;
         }
 
         private static void _EnsureDataFolderExists()
         {
-            if (!Directory.Exists(CSettings.DataFolder)) {
+            if (!Directory.Exists(CSettings.DataFolder))
+            {
                 Directory.CreateDirectory(CSettings.DataFolder);
                 // copy default profiles to DataFolder instead of adding ProgramFolder to CConfig.ProfileFolders
                 // because we want to be able to edit them, but might not have permission to write to ProgramFolder
-                string profilePath = Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles);
+                var profilePath = Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles);
                 Directory.CreateDirectory(profilePath);
-                DirectoryInfo defaultProfileDir = new DirectoryInfo(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles));
-                FileInfo[] files = defaultProfileDir.GetFiles();
-                foreach (FileInfo file in files) {
-                    string newPath = Path.Combine(profilePath, file.Name);
+                var defaultProfileDir = new DirectoryInfo(Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles));
+                var files = defaultProfileDir.GetFiles();
+                foreach (var file in files)
+                {
+                    var newPath = Path.Combine(profilePath, file.Name);
                     file.CopyTo(newPath, false);
                 }
             }
@@ -143,13 +162,13 @@ namespace Vocaluxe
             }
 
             if (!_IsVC2015To2022Installed())
-                {
-                    CLog.Fatal(
-                        "VC++ 2015-2022 Redistributables are missing. Please install them first.\r\n" +
-                        "Download x64: https://aka.ms/vc14/vc_redist.x64.exe\r\n" +
-                        "Download x86: https://aka.ms/vc14/vc_redist.x86.exe");
-                    return false;
-                }
+            {
+                CLog.Fatal(
+                    "VC++ 2015-2022 Redistributables are missing. Please install them first.\r\n" +
+                    "Download x64: https://aka.ms/vc14/vc_redist.x64.exe\r\n" +
+                    "Download x86: https://aka.ms/vc14/vc_redist.x86.exe");
+                return false;
+            }
 
 #endif //TODO: check for dependencies on linux?
             return true;
@@ -161,7 +180,7 @@ namespace Vocaluxe
             string path = "x86";
 #endif
 #if ARCH_X64
-            string path = "x64";
+            var path = "x64";
 #endif
             path = Path.GetDirectoryName(Assembly.GetEntryAssembly().Location) + Path.DirectorySeparatorChar + path;
             COSFunctions.AddEnvironmentPath(path);

@@ -39,26 +39,41 @@ namespace VocaluxeLib.Menu
     public struct SThemeScreen
     {
         public SScreenInformation Informations;
-        [XmlArray("Backgrounds")] public List<SThemeBackground> Backgrounds;
-        [XmlArray("Statics")] public List<SThemeStatic> Statics;
-        [XmlArray("Texts")] public List<SThemeText> Texts;
-        [XmlArray("Buttons")] public List<SThemeButton> Buttons;
-        [XmlArray("SongMenus")] public List<SThemeSongMenu> SongMenus;
-        [XmlArray("Lyrics")] public List<SThemeLyrics> Lyrics;
-        [XmlArray("SelectSlides")] public List<SThemeSelectSlide> SelectSlides;
-        [XmlArray("SingNotes")] public List<SThemeSingBar> SingNotes;
-        [XmlArray("NameSelections")] public List<SThemeNameSelection> NameSelections;
-        [XmlArray("Equalizers")] public List<SThemeEqualizer> Equalizers;
-        [XmlArray("Playlists")] public List<SThemePlaylist> Playlists;
-        [XmlArray("ParticleEffects")] public List<SThemeParticleEffect> ParticleEffects;
-        [XmlArray("ScreenSettings")] public List<SThemeScreenSetting> ScreenSettings;
-        [XmlArray("ProgressBars")] public List<SThemeProgressBar> ProgressBars;
-        [XmlArray("RatingPopups")] public List<SThemeRatingPopup> RatingPopups;
+        [XmlArray("Backgrounds")]
+        public List<SThemeBackground> Backgrounds;
+        [XmlArray("Statics")]
+        public List<SThemeStatic> Statics;
+        [XmlArray("Texts")]
+        public List<SThemeText> Texts;
+        [XmlArray("Buttons")]
+        public List<SThemeButton> Buttons;
+        [XmlArray("SongMenus")]
+        public List<SThemeSongMenu> SongMenus;
+        [XmlArray("Lyrics")]
+        public List<SThemeLyrics> Lyrics;
+        [XmlArray("SelectSlides")]
+        public List<SThemeSelectSlide> SelectSlides;
+        [XmlArray("SingNotes")]
+        public List<SThemeSingBar> SingNotes;
+        [XmlArray("NameSelections")]
+        public List<SThemeNameSelection> NameSelections;
+        [XmlArray("Equalizers")]
+        public List<SThemeEqualizer> Equalizers;
+        [XmlArray("Playlists")]
+        public List<SThemePlaylist> Playlists;
+        [XmlArray("ParticleEffects")]
+        public List<SThemeParticleEffect> ParticleEffects;
+        [XmlArray("ScreenSettings")]
+        public List<SThemeScreenSetting> ScreenSettings;
+        [XmlArray("ProgressBars")]
+        public List<SThemeProgressBar> ProgressBars;
+        [XmlArray("RatingPopups")]
+        public List<SThemeRatingPopup> RatingPopups;
     }
 
     struct SZSort
     {
-        public int ID;
+        public int Id;
         public float Z;
     }
 
@@ -67,7 +82,7 @@ namespace VocaluxeLib.Menu
         public string ThemePath { get; private set; }
 
         protected abstract int _ScreenVersion { get; }
-        public int PartyModeID { get; protected set; }
+        public int PartyModeId { get; protected set; }
         public string ThemeName { get; private set; }
         public SThemeScreen Theme;
 
@@ -93,7 +108,7 @@ namespace VocaluxeLib.Menu
 
         protected CMenu()
         {
-            PartyModeID = -1;
+            PartyModeId = -1;
             CBase.Config.AddSongMenuListener(_OnSongMenuChanged);
         }
 
@@ -107,7 +122,9 @@ namespace VocaluxeLib.Menu
             base.Init();
             ThemeName = GetType().Name;
             if (ThemeName[0] == 'C' && Char.IsUpper(ThemeName[1]))
+            {
                 ThemeName = ThemeName.Remove(0, 1);
+            }
 
             _ThemeBackgrounds = null;
             _ThemeStatics = null;
@@ -128,10 +145,10 @@ namespace VocaluxeLib.Menu
 
         protected virtual void _OnSongMenuChanged()
         {
-            for (int i = 0; i < _SongMenus.Count; i++)
+            for (var i = 0; i < _SongMenus.Count; i++)
             {
-                SThemeSongMenu theme = (SThemeSongMenu)_SongMenus[i].GetTheme();
-                _SongMenus[i] = CSongMenuFactory.CreateSongMenu(theme, PartyModeID);
+                var theme = (SThemeSongMenu)_SongMenus[i].GetTheme();
+                _SongMenus[i] = CSongMenuFactory.CreateSongMenu(theme, PartyModeId);
                 _SongMenus[i].LoadSkin();
             }
         }
@@ -145,24 +162,26 @@ namespace VocaluxeLib.Menu
 
         private delegate void AddElementHandler<in T>(T element, String key);
 
-
         private class CLoadThemeErrorHandler : CXmlDeserializer.CXmlDefaultErrorHandler
         {
             private static readonly string[] _AllowedMissing = new string[]
-                {
-                    "Backgrounds", "Statics", "Texts", "Buttons", "SongMenus", "Lyrics", "SelectSlides", "SingNotes",
-                    "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings", "ProgressBars",
-                    "RatingPopups"
-                };
+            {
+                "Backgrounds", "Statics", "Texts", "Buttons", "SongMenus", "Lyrics", "SelectSlides", "SingNotes",
+                "NameSelections", "Equalizers", "Playlists", "ParticleEffects", "ScreenSettings", "ProgressBars",
+                "RatingPopups"
+            };
 
             public override void HandleError(CXmlException e)
             {
-                CXmlMissingElementException missingEx = e as CXmlMissingElementException;
+                var missingEx = e as CXmlMissingElementException;
                 if (missingEx != null)
                 {
                     if (_AllowedMissing.Contains(missingEx.Field.Name))
+                    {
                         return;
+                    }
                 }
+
                 base.HandleError(e);
             }
         }
@@ -171,71 +190,108 @@ namespace VocaluxeLib.Menu
         {
             ThemePath = xmlPath;
 
-            string file = Path.Combine(xmlPath, ThemeName + ".xml");
+            var file = Path.Combine(xmlPath, ThemeName + ".xml");
 
             try
             {
-                CXmlDeserializer deserializer = new CXmlDeserializer(new CLoadThemeErrorHandler());
+                var deserializer = new CXmlDeserializer(new CLoadThemeErrorHandler());
                 Theme = deserializer.Deserialize<SThemeScreen>(file);
 
-                foreach (SThemeBackground bg in Theme.Backgrounds)
-                    _AddBackground(new CBackground(bg, PartyModeID), bg.Name);
+                foreach (var bg in Theme.Backgrounds)
+                {
+                    _AddBackground(new CBackground(bg, PartyModeId), bg.Name);
+                }
 
-                foreach (SThemeButton bt in Theme.Buttons)
-                    _AddButton(new CButton(bt, PartyModeID), bt.Name);
+                foreach (var bt in Theme.Buttons)
+                {
+                    _AddButton(new CButton(bt, PartyModeId), bt.Name);
+                }
 
-                foreach (SThemeEqualizer eq in Theme.Equalizers)
-                    _AddEqualizer(new CEqualizer(eq, PartyModeID), eq.Name);
+                foreach (var eq in Theme.Equalizers)
+                {
+                    _AddEqualizer(new CEqualizer(eq, PartyModeId), eq.Name);
+                }
 
-                foreach (SThemeLyrics ly in Theme.Lyrics)
-                    _AddLyric(new CLyric(ly, PartyModeID), ly.Name);
+                foreach (var ly in Theme.Lyrics)
+                {
+                    _AddLyric(new CLyric(ly, PartyModeId), ly.Name);
+                }
 
-                foreach (SThemeNameSelection ns in Theme.NameSelections)
-                    _AddNameSelection(new CNameSelection(ns, PartyModeID), ns.Name);
+                foreach (var ns in Theme.NameSelections)
+                {
+                    _AddNameSelection(new CNameSelection(ns, PartyModeId), ns.Name);
+                }
 
-                foreach (SThemeParticleEffect pe in Theme.ParticleEffects)
-                    _AddParticleEffect(new CParticleEffect(pe, PartyModeID), pe.Name);
+                foreach (var pe in Theme.ParticleEffects)
+                {
+                    _AddParticleEffect(new CParticleEffect(pe, PartyModeId), pe.Name);
+                }
 
-                foreach (SThemePlaylist pl in Theme.Playlists)
-                    _AddPlaylist(new CPlaylist(pl, PartyModeID), pl.Name);
+                foreach (var pl in Theme.Playlists)
+                {
+                    _AddPlaylist(new CPlaylist(pl, PartyModeId), pl.Name);
+                }
 
-                foreach (SThemeProgressBar pb in Theme.ProgressBars)
-                    _AddProgressBar(new CProgressBar(pb, PartyModeID), pb.Name);
+                foreach (var pb in Theme.ProgressBars)
+                {
+                    _AddProgressBar(new CProgressBar(pb, PartyModeId), pb.Name);
+                }
 
-                foreach (SThemeRatingPopup rp in Theme.RatingPopups)
-                    _AddRatingPopup(new CRatingPopup(rp, PartyModeID), rp.Name);
+                foreach (var rp in Theme.RatingPopups)
+                {
+                    _AddRatingPopup(new CRatingPopup(rp, PartyModeId), rp.Name);
+                }
 
-                foreach (SThemeScreenSetting ss in Theme.ScreenSettings)
-                    _AddScreenSetting(new CScreenSetting(ss, PartyModeID), ss.Name);
+                foreach (var ss in Theme.ScreenSettings)
+                {
+                    _AddScreenSetting(new CScreenSetting(ss, PartyModeId), ss.Name);
+                }
 
-                foreach (SThemeSelectSlide sl in Theme.SelectSlides)
-                    _AddSelectSlide(new CSelectSlide(sl, PartyModeID), sl.Name);
+                foreach (var sl in Theme.SelectSlides)
+                {
+                    _AddSelectSlide(new CSelectSlide(sl, PartyModeId), sl.Name);
+                }
 
-                foreach (SThemeSingBar sb in Theme.SingNotes)
-                    _AddSingNote(new CSingNotes(sb, PartyModeID), sb.Name);
+                foreach (var sb in Theme.SingNotes)
+                {
+                    _AddSingNote(new CSingNotes(sb, PartyModeId), sb.Name);
+                }
 
-                foreach (SThemeSongMenu sm in Theme.SongMenus)
-                    _AddSongMenu(CSongMenuFactory.CreateSongMenu(sm, PartyModeID), sm.Name);
+                foreach (var sm in Theme.SongMenus)
+                {
+                    _AddSongMenu(CSongMenuFactory.CreateSongMenu(sm, PartyModeId), sm.Name);
+                }
 
-                foreach (SThemeStatic st in Theme.Statics)
-                    _AddStatic(new CStatic(st, PartyModeID), st.Name);
+                foreach (var st in Theme.Statics)
+                {
+                    _AddStatic(new CStatic(st, PartyModeId), st.Name);
+                }
 
-                foreach (SThemeText te in Theme.Texts)
-                    _AddText(new CText(te, PartyModeID), te.Name);
+                foreach (var te in Theme.Texts)
+                {
+                    _AddText(new CText(te, PartyModeId), te.Name);
+                }
 
                 if (_ScreenVersion != Theme.Informations.ScreenVersion)
                 {
-                    string msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
+                    var msg = "Can't load screen file of screen \"" + ThemeName + "\", ";
                     if (Theme.Informations.ScreenVersion < _ScreenVersion)
+                    {
                         msg += "the file ist outdated! ";
+                    }
                     else
+                    {
                         msg += "the file is for newer program versions! ";
+                    }
 
                     msg += "Current screen version is " + _ScreenVersion;
                     CLog.Error(msg);
                 }
-                foreach (IThemeable el in _Elements.Select(_GetElement).OfType<IThemeable>())
+
+                foreach (var el in _Elements.Select(_GetElement).OfType<IThemeable>())
+                {
                     el.LoadSkin();
+                }
             }
             catch (Exception e)
             {
@@ -251,19 +307,24 @@ namespace VocaluxeLib.Menu
         private static void _AddThemeablesToList<T, TT>(ICollection<TT> themeList, IEnumerable<T> objects) where T : IThemeable
         {
             themeList.Clear();
-            foreach (T el in objects.Where(el => el.ThemeLoaded))
+            foreach (var el in objects.Where(el => el.ThemeLoaded))
+            {
                 themeList.Add((TT)el.GetTheme());
+            }
         }
 
         public virtual void SaveTheme()
         {
             if (string.IsNullOrEmpty(ThemePath))
+            {
                 return;
+            }
+
             _ReadThemeSubElements();
 
             try
             {
-                CXmlSerializer serializer = new CXmlSerializer();
+                var serializer = new CXmlSerializer();
                 serializer.Serialize(Path.Combine(ThemePath, ThemeName + ".xml"), Theme);
             }
             catch (Exception e)
@@ -294,20 +355,26 @@ namespace VocaluxeLib.Menu
 
         public virtual void ReloadSkin()
         {
-            foreach (IThemeable el in _Elements.Select(_GetElement).OfType<IThemeable>())
+            foreach (var el in _Elements.Select(_GetElement).OfType<IThemeable>())
+            {
                 el.ReloadSkin();
+            }
         }
 
         public virtual void UnloadSkin()
         {
-            foreach (IThemeable el in _Elements.Select(_GetElement).OfType<IThemeable>())
+            foreach (var el in _Elements.Select(_GetElement).OfType<IThemeable>())
+            {
                 el.UnloadSkin();
+            }
         }
 
         public virtual void ReloadTheme(string xmlPath)
         {
             if (ThemePath == "")
+            {
                 return;
+            }
 
             _ReadThemeSubElements();
             UnloadSkin();
@@ -321,7 +388,7 @@ namespace VocaluxeLib.Menu
         // ReSharper disable MemberCanBeProtected.Global
         public CButton GetNewButton()
         {
-            return new CButton(PartyModeID);
+            return new CButton(PartyModeId);
         }
 
         public static CButton GetNewButton(CButton button)
@@ -331,7 +398,7 @@ namespace VocaluxeLib.Menu
 
         public CText GetNewText()
         {
-            return new CText(PartyModeID);
+            return new CText(PartyModeId);
         }
 
         public static CText GetNewText(CText text)
@@ -346,12 +413,12 @@ namespace VocaluxeLib.Menu
 
         public CBackground GetNewBackground()
         {
-            return new CBackground(PartyModeID);
+            return new CBackground(PartyModeId);
         }
 
         public CStatic GetNewStatic()
         {
-            return new CStatic(PartyModeID);
+            return new CStatic(PartyModeId);
         }
 
         public static CStatic GetNewStatic(CStatic oldStatic)
@@ -361,12 +428,12 @@ namespace VocaluxeLib.Menu
 
         public CStatic GetNewStatic(CTextureRef texture, SColorF color, SRectF rect)
         {
-            return new CStatic(PartyModeID, texture, color, rect);
+            return new CStatic(PartyModeId, texture, color, rect);
         }
 
         public CSelectSlide GetNewSelectSlide()
         {
-            return new CSelectSlide(PartyModeID);
+            return new CSelectSlide(PartyModeId);
         }
 
         public static CSelectSlide GetNewSelectSlide(CSelectSlide slide)
@@ -376,37 +443,37 @@ namespace VocaluxeLib.Menu
 
         public CLyric GetNewLyric()
         {
-            return new CLyric(PartyModeID);
+            return new CLyric(PartyModeId);
         }
 
         public CSingNotes GetNewSingNotes()
         {
-            return new CSingNotes(PartyModeID);
+            return new CSingNotes(PartyModeId);
         }
 
         public CNameSelection GetNewNameSelection()
         {
-            return new CNameSelection(PartyModeID);
+            return new CNameSelection(PartyModeId);
         }
 
         public CEqualizer GetNewEqualizer()
         {
-            return new CEqualizer(PartyModeID);
+            return new CEqualizer(PartyModeId);
         }
 
         public CPlaylist GetNewPlaylist()
         {
-            return new CPlaylist(PartyModeID);
+            return new CPlaylist(PartyModeId);
         }
 
         public CParticleEffect GetNewParticleEffect(int maxNumber, SColorF color, SRectF area, CTextureRef texture, float size, EParticleType type)
         {
-            return new CParticleEffect(PartyModeID, maxNumber, color, area, texture, size, type);
+            return new CParticleEffect(PartyModeId, maxNumber, color, area, texture, size, type);
         }
 
         public CProgressBar GetNewProgressBar()
         {
-            return new CProgressBar(PartyModeID);
+            return new CProgressBar(PartyModeId);
         }
 
         public CProgressBar GetNewProgressBar(CProgressBar pb)
@@ -416,7 +483,7 @@ namespace VocaluxeLib.Menu
 
         public CRatingPopup GetNewRatingPopup()
         {
-            return new CRatingPopup(PartyModeID);
+            return new CRatingPopup(PartyModeId);
         }
 
         public static CRatingPopup GetNewRatingPopup(CRatingPopup rp)
@@ -442,12 +509,13 @@ namespace VocaluxeLib.Menu
                         return true;
                 }
             }
+
             return base.HandleInputThemeEditor(keyEvent);
         }
 
         public abstract bool UpdateGame();
 
-        public virtual void ApplyVolume() {}
+        public virtual void ApplyVolume() { }
 
         public virtual void OnShow()
         {
@@ -478,14 +546,18 @@ namespace VocaluxeLib.Menu
 
         protected void _ResumeBG()
         {
-            foreach (CBackground bg in _Backgrounds)
+            foreach (var bg in _Backgrounds)
+            {
                 bg.Resume();
+            }
         }
 
         protected void _PauseBG()
         {
-            foreach (CBackground bg in _Backgrounds)
+            foreach (var bg in _Backgrounds)
+            {
                 bg.Pause();
+            }
         }
 
         #region Theme Handling

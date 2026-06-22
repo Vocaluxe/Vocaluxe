@@ -17,7 +17,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Vocaluxe.Base;
 using Vocaluxe.Lib.Video.Acinerella;
 using VocaluxeLib.Log;
 
@@ -81,11 +80,11 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             }
 
             _FormatInfo = new SFormatInfo
-                {
-                    SamplesPerSecond = audiodecoder.StreamInfo.AudioInfo.SamplesPerSecond,
-                    BitDepth = audiodecoder.StreamInfo.AudioInfo.BitDepth,
-                    ChannelCount = audiodecoder.StreamInfo.AudioInfo.ChannelCount
-                };
+            {
+                SamplesPerSecond = audiodecoder.StreamInfo.AudioInfo.SamplesPerSecond,
+                BitDepth = audiodecoder.StreamInfo.AudioInfo.BitDepth,
+                ChannelCount = audiodecoder.StreamInfo.AudioInfo.ChannelCount
+            };
 
             _CurrentTime = 0f;
 
@@ -95,6 +94,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
                 Close();
                 return false;
             }
+
             _FileOpened = true;
             return true;
         }
@@ -106,6 +106,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
                 CAcinerella.AcFreeDecoder(_Audiodecoder);
                 _Audiodecoder = IntPtr.Zero;
             }
+
             if (_InstancePtr != IntPtr.Zero)
             {
                 CAcinerella.AcClose(_InstancePtr);
@@ -129,11 +130,13 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
         public void SetPosition(float time)
         {
             if (!_FileOpened)
+            {
                 return;
+            }
 
             try
             {
-                CAcinerella.AcSeek(_Audiodecoder, (time > _CurrentTime) ? 0 : -1, (Int64)(time * 1000f));
+                CAcinerella.AcSeek(_Audiodecoder, time > _CurrentTime ? 0 : -1, (Int64)(time * 1000f));
             }
             catch (Exception)
             {
@@ -156,7 +159,7 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
                 return;
             }
 
-            bool frameFinished = CAcinerella.AcGetAudioFrame(_InstancePtr, _Audiodecoder);
+            var frameFinished = CAcinerella.AcGetAudioFrame(_InstancePtr, _Audiodecoder);
 
             if (frameFinished)
             {
@@ -168,7 +171,9 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
                 buffer = new byte[decoder.BufferSize];
 
                 if (decoder.BufferSize > 0)
+                {
                     Marshal.Copy(decoder.Buffer, buffer, 0, buffer.Length);
+                }
 
                 return;
             }
@@ -177,6 +182,6 @@ namespace Vocaluxe.Lib.Sound.Playback.Decoder
             timeStamp = 0f;
         }
 
-        public void Dispose() {}
+        public void Dispose() { }
     }
 }

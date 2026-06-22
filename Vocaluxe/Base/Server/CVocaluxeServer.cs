@@ -22,7 +22,6 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
-using System.Reflection;
 using System.Security.Cryptography;
 using System.ServiceModel;
 using System.ServiceModel.Web;
@@ -52,34 +51,32 @@ namespace Vocaluxe.Base.Server
                 return "App controller";
             }
 
-            public override void Connect() {}
+            public override void Connect() { }
 
-            public override void Disconnect() {}
+            public override void Disconnect() { }
 
             public override bool IsConnected()
             {
                 return true;
             }
 
-            public override void SetRumble(float duration) {}
+            public override void SetRumble(float duration) { }
         }
 
         public static readonly CControllerFramework Controller = new CServerController();
 
-
         #region server control
-
         public static void Init()
         {
-            int port = CConfig.Config.Server.ServerPort;
-            bool encrypted = CConfig.Config.Server.ServerEncryption == EOffOn.TR_CONFIG_ON;
-            string hostname = Dns.GetHostName();
-            string protocol = (encrypted) ? "https" : "http";
+            var port = CConfig.Config.Server.ServerPort;
+            var encrypted = CConfig.Config.Server.ServerEncryption == EOffOn.TR_CONFIG_ON;
+            var hostname = Dns.GetHostName();
+            var protocol = encrypted ? "https" : "http";
             _BaseAddress = new Uri(protocol + "://" + hostname + ":" + port + "/");
             _Encrypted = encrypted;
             _Host = new WebServiceHost(typeof(CWebservice), _BaseAddress);
 
-            WebHttpBinding wb = new WebHttpBinding
+            var wb = new WebHttpBinding
             {
                 MaxReceivedMessageSize = 10485760,
                 MaxBufferSize = 10485760,
@@ -91,6 +88,7 @@ namespace Vocaluxe.Base.Server
                 wb.Security.Mode = WebHttpSecurityMode.Transport;
                 wb.Security.Transport = new HttpTransportSecurity { ClientCredentialType = HttpClientCredentialType.None };
             }
+
             _Host.AddServiceEndpoint(typeof(ICWebservice), wb, "");
 
             Start();
@@ -125,7 +123,9 @@ namespace Vocaluxe.Base.Server
                         }
                     }
                     else
+                    {
                         _Host.Abort();
+                    }
                 }
             }
         }
@@ -148,8 +148,7 @@ namespace Vocaluxe.Base.Server
         private static void _RegisterUrlAndCert(int port, bool reserve)
         {
 #if WIN
-
-            ProcessStartInfo info = new ProcessStartInfo
+            var info = new ProcessStartInfo
             {
                 FileName = "VocaluxeServerConfig.exe",
                 WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
@@ -160,11 +159,14 @@ namespace Vocaluxe.Base.Server
             };
             try
             {
-                using (Process p = Process.Start(info))
+                using (var p = Process.Start(info))
                 {
                     p.WaitForExit();
                     if (p.ExitCode != 0)
+                    {
                         MessageBox.Show("Registering the Server failed (Code " + p.ExitCode + ")!\r\nThe Server might not work correctly.");
+                    }
+
                     p.Close();
                 }
             }
@@ -173,8 +175,7 @@ namespace Vocaluxe.Base.Server
                 MessageBox.Show("Registering the Server failed (" + e + ")!\r\nThe Server might not work correctly.");
             }
 #else
-
-    //Required?
+            //Required?
 
 #endif
         }
@@ -187,27 +188,26 @@ namespace Vocaluxe.Base.Server
         public static bool IsServerRunning()
         {
             if (_Host == null)
+            {
                 return false;
+            }
 
             return _Host.State == CommunicationState.Opened;
         }
-
         #endregion
 
         #region task control
-
         public static void ProcessServerTasks()
         {
             //Serial processing - one by one
             while (_ServerTaskQueue.Count > 0)
             {
                 //Get a task from the queue
-                Task task = _ServerTaskQueue.Dequeue();
+                var task = _ServerTaskQueue.Dequeue();
                 //Start the task
                 task.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
             }
         }
-
 
         public static TReturnType DoTask<TReturnType>(Func<TReturnType> action)
         {
@@ -225,7 +225,8 @@ namespace Vocaluxe.Base.Server
             return task.Result;
         }
 
-        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2>(Func<TParameterType1, TParameterType2, TReturnType> action, TParameterType1 parameter1, TParameterType2 parameter2)
+        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2>(Func<TParameterType1, TParameterType2, TReturnType> action, TParameterType1 parameter1,
+            TParameterType2 parameter2)
         {
             var task = new Task<TReturnType>(() => action(parameter1, parameter2));
             _ServerTaskQueue.Enqueue(task);
@@ -233,7 +234,8 @@ namespace Vocaluxe.Base.Server
             return task.Result;
         }
 
-        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2, TParameterType3>(Func<TParameterType1, TParameterType2, TParameterType3, TReturnType> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3)
+        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2, TParameterType3>(
+            Func<TParameterType1, TParameterType2, TParameterType3, TReturnType> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3)
         {
             var task = new Task<TReturnType>(() => action(parameter1, parameter2, parameter3));
             _ServerTaskQueue.Enqueue(task);
@@ -241,7 +243,9 @@ namespace Vocaluxe.Base.Server
             return task.Result;
         }
 
-        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2, TParameterType3, TParameterType4>(Func<TParameterType1, TParameterType2, TParameterType3, TParameterType4, TReturnType> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3, TParameterType4 parameter4)
+        public static TReturnType DoTask<TReturnType, TParameterType1, TParameterType2, TParameterType3, TParameterType4>(
+            Func<TParameterType1, TParameterType2, TParameterType3, TParameterType4, TReturnType> action, TParameterType1 parameter1, TParameterType2 parameter2,
+            TParameterType3 parameter3, TParameterType4 parameter4)
         {
             var task = new Task<TReturnType>(() => action(parameter1, parameter2, parameter3, parameter4));
             _ServerTaskQueue.Enqueue(task);
@@ -249,7 +253,6 @@ namespace Vocaluxe.Base.Server
             return task.Result;
         }
 
-        
         public static void DoTaskWithoutReturn(Action action)
         {
             var task = new Task(action);
@@ -264,33 +267,36 @@ namespace Vocaluxe.Base.Server
             task.Wait(); //wait until the task is completed
         }
 
-        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2>(Action<TParameterType1, TParameterType2> action, TParameterType1 parameter1, TParameterType2 parameter2)
+        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2>(Action<TParameterType1, TParameterType2> action, TParameterType1 parameter1,
+            TParameterType2 parameter2)
         {
             var task = new Task(() => action(parameter1, parameter2));
             _ServerTaskQueue.Enqueue(task);
             task.Wait(); //wait until the task is completed
         }
 
-        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2, TParameterType3>(Action<TParameterType1, TParameterType2, TParameterType3> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3)
+        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2, TParameterType3>(Action<TParameterType1, TParameterType2, TParameterType3> action,
+            TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3)
         {
             var task = new Task(() => action(parameter1, parameter2, parameter3));
             _ServerTaskQueue.Enqueue(task);
             task.Wait(); //wait until the task is completed
         }
 
-        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2, TParameterType3, TParameterType4>(Action<TParameterType1, TParameterType2, TParameterType3, TParameterType4> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3, TParameterType4 parameter4)
+        public static void DoTaskWithoutReturn<TParameterType1, TParameterType2, TParameterType3, TParameterType4>(
+            Action<TParameterType1, TParameterType2, TParameterType3, TParameterType4> action, TParameterType1 parameter1, TParameterType2 parameter2, TParameterType3 parameter3,
+            TParameterType4 parameter4)
         {
             var task = new Task(() => action(parameter1, parameter2, parameter3, parameter4));
             _ServerTaskQueue.Enqueue(task);
             task.Wait(); //wait until the task is completed
         }
-
         #endregion
 
         public static bool SendKeyEvent(string key)
         {
-            bool result = false;
-            string lowerKey = key.ToLower();
+            var result = false;
+            var lowerKey = key.ToLower();
 
             if (!string.IsNullOrEmpty(lowerKey))
             {
@@ -331,18 +337,19 @@ namespace Vocaluxe.Base.Server
                     default:
                         if (lowerKey.StartsWith("f"))
                         {
-                            string numberString = lowerKey.Substring(1);
+                            var numberString = lowerKey.Substring(1);
                             int number;
                             Keys fKey;
 
                             if (Int32.TryParse(numberString, out number) && number >= 1
-                                && number <= 12
-                                && Enum.TryParse("F" + number, true, out fKey))
+                                                                         && number <= 12
+                                                                         && Enum.TryParse("F" + number, true, out fKey))
                             {
                                 Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, false, false, false, false, Char.MinValue, fKey));
                                 result = true;
                             }
                         }
+
                         break;
                 }
             }
@@ -352,15 +359,15 @@ namespace Vocaluxe.Base.Server
 
         public static bool SendKeyStringEvent(string keyString, bool isShiftPressed, bool isAltPressed, bool isCtrlPressed)
         {
-            bool result = false;
+            var result = false;
 
-            foreach (char key in keyString)
+            foreach (var key in keyString)
             {
                 Controller.AddKeyEvent(new SKeyEvent(ESender.Keyboard, isAltPressed,
-                                                     Char.IsUpper(key) || isShiftPressed,
-                                                     isCtrlPressed, true,
-                                                     isShiftPressed ? Char.ToUpper(key) : key,
-                                                     _ParseKeys(key)));
+                    Char.IsUpper(key) || isShiftPressed,
+                    isCtrlPressed, true,
+                    isShiftPressed ? Char.ToUpper(key) : key,
+                    _ParseKeys(key)));
                 result = true;
             }
 
@@ -390,42 +397,47 @@ namespace Vocaluxe.Base.Server
         #region profile
         public static SProfileData GetProfileData(Guid profileId, bool isReadonly)
         {
-            CProfile profile = CProfiles.GetProfile(profileId);
+            var profile = CProfiles.GetProfile(profileId);
             if (profile == null)
+            {
                 return new SProfileData();
+            }
+
             return _CreateProfileData(profile, isReadonly);
         }
 
         public static bool SendProfileData(SProfileData profile)
         {
             CProfile newProfile;
-            CProfile existingProfile = CProfiles.GetProfile(profile.ProfileId);
+            var existingProfile = CProfiles.GetProfile(profile.ProfileId);
 
             if (existingProfile != null)
             {
                 newProfile = new CProfile
-                    {
-                        ID = existingProfile.ID,
-                        FilePath = existingProfile.FilePath,
-                        Active = existingProfile.Active,
-                        Avatar = existingProfile.Avatar,
-                        Difficulty = existingProfile.Difficulty,
-                        UserRole = existingProfile.UserRole,
-                        PlayerName = existingProfile.PlayerName
-                    };
+                {
+                    Id = existingProfile.Id,
+                    FilePath = existingProfile.FilePath,
+                    Active = existingProfile.Active,
+                    Avatar = existingProfile.Avatar,
+                    Difficulty = existingProfile.Difficulty,
+                    UserRole = existingProfile.UserRole,
+                    PlayerName = existingProfile.PlayerName
+                };
             }
             else
             {
                 newProfile = new CProfile
-                    {
-                        Active = EOffOn.TR_CONFIG_ON,
-                        UserRole = EUserRole.TR_USERROLE_NORMAL
-                    };
+                {
+                    Active = EOffOn.TR_CONFIG_ON,
+                    UserRole = EUserRole.TR_USERROLE_NORMAL
+                };
             }
 
             if (profile.Avatar != null)
+            {
                 newProfile.Avatar = _AddAvatar(profile.Avatar);
-            else if (newProfile.Avatar == null || newProfile.Avatar.ID == -1)
+            }
+            else if (newProfile.Avatar == null || newProfile.Avatar.Id == -1)
             {
                 newProfile.Avatar = CProfiles.GetAvatars().First();
 
@@ -436,16 +448,22 @@ namespace Vocaluxe.Base.Server
             }
 
             if (!string.IsNullOrEmpty(profile.PlayerName))
+            {
                 newProfile.PlayerName = profile.PlayerName;
+            }
             else if (!string.IsNullOrEmpty(newProfile.PlayerName))
+            {
                 newProfile.PlayerName = "DummyName";
+            }
 
             if (profile.Difficulty >= 0 && profile.Difficulty <= 2)
+            {
                 newProfile.Difficulty = (EGameDifficulty)profile.Difficulty;
+            }
 
             if (profile.Type >= 0 && profile.Type <= 1)
             {
-                EUserRole option = profile.Type == 0 ? EUserRole.TR_USERROLE_GUEST : EUserRole.TR_USERROLE_NORMAL;
+                var option = profile.Type == 0 ? EUserRole.TR_USERROLE_GUEST : EUserRole.TR_USERROLE_NORMAL;
                 //Only allow the change of TR_USERROLE_GUEST and TR_USERROLE_NORMAL
                 const EUserRole mask = EUserRole.TR_USERROLE_NORMAL;
                 newProfile.UserRole = (newProfile.UserRole & mask) | option;
@@ -460,11 +478,11 @@ namespace Vocaluxe.Base.Server
                 }
                 else
                 {
-                    RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
-                    byte[] buffer = new byte[32];
+                    var rng = new RNGCryptoServiceProvider();
+                    var buffer = new byte[32];
                     rng.GetNonZeroBytes(buffer);
-                    byte[] salt = buffer;
-                    byte[] hashedPassword = _Hash((new UTF8Encoding()).GetBytes(profile.Password), salt);
+                    var salt = buffer;
+                    var hashedPassword = _Hash(new UTF8Encoding().GetBytes(profile.Password), salt);
 
                     newProfile.PasswordSalt = salt;
                     newProfile.PasswordHash = hashedPassword;
@@ -478,14 +496,16 @@ namespace Vocaluxe.Base.Server
                 CProfiles.SaveProfiles();
             }
             else
+            {
                 CProfiles.AddProfile(newProfile);
+            }
 
             return true;
         }
 
         public static SProfileData[] GetProfileList()
         {
-            List<SProfileData> result = new List<SProfileData>(CProfiles.NumProfiles);
+            var result = new List<SProfileData>(CProfiles.NumProfiles);
 
             result.AddRange(CProfiles.GetProfiles().Select(profile => _CreateProfileData(profile, true)));
 
@@ -494,22 +514,25 @@ namespace Vocaluxe.Base.Server
 
         private static SProfileData _CreateProfileData(CProfile profile, bool isReadonly)
         {
-            SProfileData profileData = new SProfileData
-                {
-                    IsEditable = !isReadonly,
-                    ProfileId = profile.ID,
-                    PlayerName = profile.PlayerName,
-                    //Is TR_USERROLE_GUEST or TR_USERROLE_NORMAL?
-                    Type = (profile.UserRole.HasFlag(EUserRole.TR_USERROLE_NORMAL) ? 1 : 0),
-                    Difficulty = (int)profile.Difficulty
-                };
+            var profileData = new SProfileData
+            {
+                IsEditable = !isReadonly,
+                ProfileId = profile.Id,
+                PlayerName = profile.PlayerName,
+                //Is TR_USERROLE_GUEST or TR_USERROLE_NORMAL?
+                Type = profile.UserRole.HasFlag(EUserRole.TR_USERROLE_NORMAL) ? 1 : 0,
+                Difficulty = (int)profile.Difficulty
+            };
 
-            CAvatar avatar = profile.Avatar;
+            var avatar = profile.Avatar;
             if (avatar != null)
             {
                 if (File.Exists(avatar.FileName))
+                {
                     profileData.Avatar = new CBase64Image(_CreateDelayedImage(avatar.FileName));
+                }
             }
+
             return profileData;
         }
 
@@ -517,14 +540,15 @@ namespace Vocaluxe.Base.Server
         {
             try
             {
-                string filename = _SaveImage(avatarData, "snapshot", CConfig.ProfileFolders[0]);
+                var filename = _SaveImage(avatarData, "snapshot", CConfig.ProfileFolders[0]);
 
-                CAvatar avatar = CAvatar.GetAvatar(filename);
+                var avatar = CAvatar.GetAvatar(filename);
                 if (avatar != null)
                 {
                     CProfiles.AddAvatar(avatar);
                     return avatar;
                 }
+
                 return null;
             }
             catch
@@ -540,10 +564,12 @@ namespace Vocaluxe.Base.Server
         public static bool SendPhoto(SPhotoData photoData)
         {
             if (photoData.Photo == null)
+            {
                 return false;
+            }
 
-            string name = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
-            string filePath = _SaveImage(photoData.Photo, name, CSettings.FolderNamePhotos);
+            var name = DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss");
+            var filePath = _SaveImage(photoData.Photo, name, CSettings.FolderNamePhotos);
             if (!string.IsNullOrEmpty(filePath))
             {
                 _PhotosOfThisRound.Add(filePath);
@@ -555,7 +581,7 @@ namespace Vocaluxe.Base.Server
 
         internal static string[] GetPhotosOfThisRound()
         {
-            string[] result = _PhotosOfThisRound.ToArray();
+            var result = _PhotosOfThisRound.ToArray();
             _PhotosOfThisRound.Clear();
             return result;
         }
@@ -566,11 +592,13 @@ namespace Vocaluxe.Base.Server
 
         public static byte[] GetSiteFile(string filename)
         {
-            string path = "Website/" + filename;
+            var path = "Website/" + filename;
             path = path.Replace("..", "");
 
             if (!File.Exists(path))
+            {
                 return null;
+            }
 
             /*string content = File.ReadAllText(path);
 
@@ -584,15 +612,20 @@ namespace Vocaluxe.Base.Server
 
         private static string _CreateDelayedImage(string filename)
         {
-            byte[] by = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(filename));
+            var by = SHA1.Create().ComputeHash(Encoding.UTF8.GetBytes(filename));
             var sb = new StringBuilder();
-            foreach (byte b in by)
+            foreach (var b in by)
+            {
                 sb.Append(b.ToString("x2"));
+            }
 
-            string hashedFilename = sb.ToString();
+            var hashedFilename = sb.ToString();
 
             if (!_DelayedImagePath.ContainsKey(hashedFilename))
+            {
                 _DelayedImagePath.Add(hashedFilename, filename);
+            }
+
             return hashedFilename;
         }
 
@@ -604,15 +637,18 @@ namespace Vocaluxe.Base.Server
         public static CBase64Image GetDelayedImage(string hashedFilename)
         {
             if (!_DelayedImagePath.ContainsKey(hashedFilename))
+            {
                 throw new FileNotFoundException("Image not found");
+            }
 
-            string fileName = _DelayedImagePath[hashedFilename];
+            var fileName = _DelayedImagePath[hashedFilename];
 
             if (File.Exists(fileName))
             {
-                Image image = Image.FromFile(fileName);
+                var image = Image.FromFile(fileName);
                 return new CBase64Image(image, image.RawFormat);
             }
+
             throw new FileNotFoundException("Image not found");
         }
         #endregion
@@ -620,43 +656,46 @@ namespace Vocaluxe.Base.Server
         #region songs
         public static SSongInfo GetSong(int songId)
         {
-            CSong song = CSongs.GetSong(songId);
+            var song = CSongs.GetSong(songId);
             return _GetSongInfo(song, true);
         }
 
-
         private static SSongInfo[] _SongInfoCache = null;
+
         public static SSongInfo[] GetAllSongs()
         {
-            bool sendCovers = CConfig.Config.Server.SongCountCoverThreshold == -1 || CConfig.Config.Server.SongCountCoverThreshold > CSongs.Songs.Count;
+            var sendCovers = CConfig.Config.Server.SongCountCoverThreshold == -1 || CConfig.Config.Server.SongCountCoverThreshold > CSongs.Songs.Count;
 
             if (_SongInfoCache == null)
             {
-                List<CSong> songs = CSongs.Songs;
+                var songs = CSongs.Songs;
                 _SongInfoCache = (from s in songs
                     select _GetSongInfo(s, sendCovers)).AsParallel().ToArray<SSongInfo>();
             }
-            
+
             return _SongInfoCache;
         }
 
         public static string GetMp3Path(int songId)
         {
-            CSong song = CSongs.GetSong(songId);
+            var song = CSongs.GetSong(songId);
             return song.GetMP3();
         }
 
         public static int GetCurrentSongId()
         {
-            CSong song = CGame.GetSong();
+            var song = CGame.GetSong();
             if (song == null)
+            {
                 return -1;
-            return song.ID;
+            }
+
+            return song.Id;
         }
 
         private static SSongInfo _GetSongInfo(CSong song, bool includeCover)
         {
-            SSongInfo result = new SSongInfo();
+            var result = new SSongInfo();
             if (song != null)
             {
                 result.Title = song.Title;
@@ -665,7 +704,7 @@ namespace Vocaluxe.Base.Server
                 result.Language = song.Languages.FirstOrDefault();
                 result.Year = song.Year;
                 result.IsDuet = song.IsDuet;
-                result.SongId = song.ID;
+                result.SongId = song.Id;
                 if (includeCover)
                 {
                     if (song.CoverFileName == "")
@@ -677,8 +716,8 @@ namespace Vocaluxe.Base.Server
                         result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.CoverFileName));
                     }
                 }
-                    
             }
+
             return result;
         }
         #endregion
@@ -687,20 +726,25 @@ namespace Vocaluxe.Base.Server
         public static SPlaylistData[] GetPlaylists()
         {
             return (from p in CPlaylists.Playlists
-                    select _GetPlaylistInfo(p)).ToArray();
+                select _GetPlaylistInfo(p)).ToArray();
         }
 
         public static SPlaylistData GetPlaylist(int playlistId)
         {
             if (CPlaylists.Get(playlistId) == null)
+            {
                 throw new ArgumentException("invalid playlistId");
+            }
+
             return _GetPlaylistInfo(CPlaylists.Get(playlistId));
         }
 
         public static void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
         {
             if (CPlaylists.Get(playlistId) == null)
+            {
                 throw new ArgumentException("invalid playlistId");
+            }
 
             if (allowDuplicates || !PlaylistContainsSong(songId, playlistId))
             {
@@ -708,98 +752,128 @@ namespace Vocaluxe.Base.Server
                 CPlaylists.Save(playlistId);
             }
             else
+            {
                 throw new ArgumentException("song exists in this playlist");
+            }
         }
 
         public static void RemoveSongFromPlaylist(int position, int playlistId, int songId)
         {
-            CPlaylistFile pl = CPlaylists.Get(playlistId);
+            var pl = CPlaylists.Get(playlistId);
             if (pl == null)
+            {
                 throw new ArgumentException("invalid playlistId");
+            }
+
             if (!PlaylistContainsSong(songId, playlistId))
+            {
                 throw new ArgumentException("invalid songId");
+            }
+
             if (position < 0 || pl.Songs.Count <= position
-                || pl.Songs[position].SongID != songId)
+                             || pl.Songs[position].SongId != songId)
+            {
                 throw new ArgumentException("invalid position");
+            }
+
             pl.DeleteSong(position);
             pl.Save();
         }
 
         public static void MoveSongInPlaylist(int newPosition, int playlistId, int songId)
         {
-            CPlaylistFile pl = CPlaylists.Get(playlistId);
+            var pl = CPlaylists.Get(playlistId);
             if (pl == null)
+            {
                 throw new ArgumentException("invalid playlistId");
+            }
+
             if (!PlaylistContainsSong(songId, playlistId))
+            {
                 throw new ArgumentException("invalid songId");
+            }
 
             if (pl.Songs.Count < newPosition)
+            {
                 throw new ArgumentException("invalid newPosition");
+            }
 
-            int oldPosition = pl.Songs.FindIndex(s => s.SongID == songId);
+            var oldPosition = pl.Songs.FindIndex(s => s.SongId == songId);
             pl.MoveSong(oldPosition, newPosition);
             pl.Save();
         }
 
         public static bool PlaylistContainsSong(int songId, int playlistId)
         {
-            CPlaylistFile pl = CPlaylists.Get(playlistId);
+            var pl = CPlaylists.Get(playlistId);
             if (pl == null)
+            {
                 throw new ArgumentException("invalid playlistId");
-            return pl.Songs.Any(s => s.SongID == songId);
+            }
+
+            return pl.Songs.Any(s => s.SongId == songId);
         }
 
         public static SPlaylistSongInfo[] GetPlaylistSongs(int playlistId)
         {
-            CPlaylistFile pl = CPlaylists.Get(playlistId);
+            var pl = CPlaylists.Get(playlistId);
             if (pl == null)
+            {
                 throw new ArgumentException("invalid playlistId");
+            }
 
             return _GetPlaylistSongInfos(pl);
         }
 
         private static SPlaylistSongInfo _GetPlaylistSongInfo(CPlaylistSong playlistSong, int playlistId, int playlistPos)
         {
-            SPlaylistSongInfo result = new SPlaylistSongInfo();
+            var result = new SPlaylistSongInfo();
             if (playlistSong != null)
             {
                 result.PlaylistId = playlistId;
                 result.GameMode = (int)playlistSong.GameMode;
                 result.PlaylistPosition = playlistPos;
-                result.Song = _GetSongInfo(CSongs.GetSong(playlistSong.SongID), true);
+                result.Song = _GetSongInfo(CSongs.GetSong(playlistSong.SongId), true);
             }
+
             return result;
         }
 
         private static SPlaylistSongInfo[] _GetPlaylistSongInfos(CPlaylistFile playlist)
         {
-            SPlaylistSongInfo[] result = new SPlaylistSongInfo[playlist.Songs.Count];
-            for (int i = 0; i < playlist.Songs.Count; i++)
+            var result = new SPlaylistSongInfo[playlist.Songs.Count];
+            for (var i = 0; i < playlist.Songs.Count; i++)
+            {
                 result[i] = _GetPlaylistSongInfo(playlist.Songs[i], playlist.Id, i);
+            }
+
             return result;
         }
 
         private static SPlaylistData _GetPlaylistInfo(CPlaylistFile playlist)
         {
             return new SPlaylistData
-                {
-                    PlaylistId = playlist.Id,
-                    PlaylistName = playlist.Name,
-                    SongCount = playlist.Songs.Count,
-                    LastChanged = DateTime.Now.ToLongDateString()
-                };
+            {
+                PlaylistId = playlist.Id,
+                PlaylistName = playlist.Name,
+                SongCount = playlist.Songs.Count,
+                LastChanged = DateTime.Now.ToLongDateString()
+            };
         }
 
         public static void RemovePlaylist(int playlistId)
         {
             if (CPlaylists.Get(playlistId) == null)
+            {
                 throw new ArgumentException("invalid playlistId");
+            }
+
             CPlaylists.Delete(playlistId);
         }
 
         public static int AddPlaylist(string playlistName)
         {
-            int newPlaylistId = CPlaylists.NewPlaylist(playlistName);
+            var newPlaylistId = CPlaylists.NewPlaylist(playlistName);
             CPlaylists.Save(newPlaylistId);
 
             return newPlaylistId;
@@ -809,31 +883,41 @@ namespace Vocaluxe.Base.Server
         #region user management
         public static bool ValidatePassword(Guid profileId, string password)
         {
-            CProfile profile = CProfiles.GetProfile(profileId);
+            var profile = CProfiles.GetProfile(profileId);
             if (profile == null)
+            {
                 return false;
+            }
 
             if (profile.PasswordHash == null)
             {
                 if (string.IsNullOrEmpty(password))
+                {
                     return true; //Allow empty passwords
+                }
+
                 return false;
             }
 
-            byte[] salt = profile.PasswordSalt;
-            return _Hash((new UTF8Encoding()).GetBytes(password), salt).SequenceEqual(profile.PasswordHash);
+            var salt = profile.PasswordSalt;
+            return _Hash(new UTF8Encoding().GetBytes(password), salt).SequenceEqual(profile.PasswordHash);
         }
 
         public static bool ValidatePassword(Guid profileId, byte[] hashedPassword)
         {
-            CProfile profile = CProfiles.GetProfile(profileId);
+            var profile = CProfiles.GetProfile(profileId);
             if (profile == null)
+            {
                 return false;
+            }
 
             if (profile.PasswordHash == null)
             {
                 if (hashedPassword == null)
+                {
                     return true; //Allow empty passwords
+                }
+
                 return false;
             }
 
@@ -843,38 +927,46 @@ namespace Vocaluxe.Base.Server
 
         private static byte[] _GetPasswordSalt(Guid profileId)
         {
-            CProfile profile = CProfiles.GetProfile(profileId);
+            var profile = CProfiles.GetProfile(profileId);
             if (profile == null)
+            {
                 throw new ArgumentException("Invalid profileId");
+            }
 
             if (profile.PasswordHash == null)
+            {
                 throw new ArgumentException("Empty password");
+            }
 
             return profile.PasswordSalt;
         }
 
         public static int GetUserRole(Guid profileId)
         {
-            CProfile profile = CProfiles.GetProfile(profileId);
+            var profile = CProfiles.GetProfile(profileId);
             if (profile == null)
+            {
                 throw new ArgumentException("Invalid profileId");
+            }
 
             //Hide TR_USERROLE_GUEST and TR_USERROLE_NORMAL
             //const EUserRole mask = (EUserRole.TR_USERROLE_GUEST | EUserRole.TR_USERROLE_NORMAL);
 
-            return (int)(profile.UserRole);
+            return (int)profile.UserRole;
         }
 
         public static void SetUserRole(Guid profileId, int userRole)
         {
-            CProfile profile = CProfiles.GetProfile(profileId);
+            var profile = CProfiles.GetProfile(profileId);
             if (profile == null)
+            {
                 throw new ArgumentException("Invalid profileId");
+            }
 
             var option = (EUserRole)userRole;
 
             //Only allow the change of all options exept TR_USERROLE_GUEST and TR_USERROLE_NORMAL
-            const EUserRole mask = (EUserRole.TR_USERROLE_GUEST | EUserRole.TR_USERROLE_NORMAL);
+            const EUserRole mask = EUserRole.TR_USERROLE_GUEST | EUserRole.TR_USERROLE_NORMAL;
             option &= ~mask;
 
             profile.UserRole = (profile.UserRole & mask) | option;
@@ -886,9 +978,9 @@ namespace Vocaluxe.Base.Server
 
         public static Guid GetUserIdFromUsername(string username)
         {
-            IEnumerable<Guid> playerIds = (from p in CProfiles.GetProfiles()
-                                          where String.Equals(p.PlayerName, username, StringComparison.OrdinalIgnoreCase)
-                                          select p.ID);
+            var playerIds = from p in CProfiles.GetProfiles()
+                where String.Equals(p.PlayerName, username, StringComparison.OrdinalIgnoreCase)
+                select p.Id;
             return playerIds.FirstOrDefault();
         }
 
@@ -896,7 +988,7 @@ namespace Vocaluxe.Base.Server
         {
             HashAlgorithm hashAlgo = new SHA256Managed();
 
-            byte[] data = new byte[password.Length + salt.Length];
+            var data = new byte[password.Length + salt.Length];
 
             password.CopyTo(data, 0);
             salt.CopyTo(data, password.Length);
@@ -907,13 +999,15 @@ namespace Vocaluxe.Base.Server
 
         private static string _SaveImage(CBase64Image imageDate, string name, string folder)
         {
-            Image avatarImage = imageDate.GetImage();
-            string extension = imageDate.GetImageType();
+            var avatarImage = imageDate.GetImage();
+            var extension = imageDate.GetImageType();
 
             if (!Directory.Exists(folder))
+            {
                 Directory.CreateDirectory(folder);
+            }
 
-            string file = CHelper.GetUniqueFileName(folder, name + "." + extension);
+            var file = CHelper.GetUniqueFileName(folder, name + "." + extension);
 
             avatarImage.Save(file);
             return file;

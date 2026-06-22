@@ -16,11 +16,8 @@
 #endregion
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Vocaluxe.Base;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
@@ -39,17 +36,19 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         public override bool Init()
         {
             if (!base.Init())
+            {
                 return false;
+            }
 
             try
             {
                 _PaHandle = new CPortAudioHandle();
 
-                int hostAPI = _PaHandle.GetHostApi();
-                int numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
-                for (int i = 0; i < numDevices; i++)
+                var hostAPI = _PaHandle.GetHostApi();
+                var numDevices = PortAudioSharp.PortAudio.Pa_GetDeviceCount();
+                for (var i = 0; i < numDevices; i++)
                 {
-                    PortAudioSharp.PortAudio.PaDeviceInfo info = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(i);
+                    var info = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(i);
                     if (info.hostApi == hostAPI && info.maxInputChannels > 0)
                     {
                         var dev = new CRecordDevice(i, info.name, info.name + i, info.maxInputChannels);
@@ -80,26 +79,32 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         public bool Start()
         {
             if (!_Initialized)
+            {
                 return false;
+            }
 
             Stop();
 
             if (_RecHandle != null && _PaHandle != null)
             {
-                for (int i = 0; i < _RecHandle.Length; i++)
+                for (var i = 0; i < _RecHandle.Length; i++)
                 {
-                    IntPtr handle = _RecHandle[i];
+                    var handle = _RecHandle[i];
                     if (handle == IntPtr.Zero)
+                    {
                         continue;
+                    }
 
-                    int waitcount = 0;
+                    var waitcount = 0;
                     while (waitcount < 5)
                     {
                         try
                         {
                             if (PortAudioSharp.PortAudio.Pa_IsStreamStopped(handle) !=
                                 PortAudioSharp.PortAudio.PaError.paStreamIsNotStopped)
+                            {
                                 break;
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -126,28 +131,34 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 }
             }
 
-            foreach (CBuffer buffer in _Buffer)
-                buffer.Reset();
-
-            for (int dev = 0; dev < _Devices.Count; dev++)
+            foreach (var buffer in _Buffer)
             {
-                bool usingDevice = false;
-                for (int ch = 0; ch < _Devices[dev].Channels; ++ch)
+                buffer.Reset();
+            }
+
+            for (var dev = 0; dev < _Devices.Count; dev++)
+            {
+                var usingDevice = false;
+                for (var ch = 0; ch < _Devices[dev].Channels; ++ch)
                 {
                     if (_Devices[dev].PlayerChannel[ch] > 0)
+                    {
                         usingDevice = true;
+                    }
                 }
 
                 if (!usingDevice)
+                {
                     continue;
+                }
 
                 PortAudioSharp.PortAudio.PaStreamParameters? inputParams =
                     new PortAudioSharp.PortAudio.PaStreamParameters
                     {
                         channelCount = _Devices[dev].Channels,
-                        device = _Devices[dev].ID,
+                        device = _Devices[dev].Id,
                         sampleFormat = PortAudioSharp.PortAudio.PaSampleFormat.paInt16,
-                        suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
+                        suggestedLatency = PortAudioSharp.PortAudio.Pa_GetDeviceInfo(_Devices[dev].Id).defaultLowInputLatency,
                         hostApiSpecificStreamInfo = IntPtr.Zero
                     };
 
@@ -160,10 +171,12 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                         _MyRecProc,
                         new IntPtr(dev)))
                 {
-                    for (int j = 0; j < _RecHandle.Length; j++)
+                    for (var j = 0; j < _RecHandle.Length; j++)
                     {
                         if (_RecHandle[j] == IntPtr.Zero)
+                        {
                             continue;
+                        }
 
                         try
                         {
@@ -178,15 +191,18 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                             _RecHandle[j] = IntPtr.Zero;
                         }
                     }
+
                     return false;
                 }
 
                 if (_PaHandle.CheckError("Start Stream (rec)", PortAudioSharp.PortAudio.Pa_StartStream(_RecHandle[dev])))
                 {
-                    for (int j = 0; j < _RecHandle.Length; j++)
+                    for (var j = 0; j < _RecHandle.Length; j++)
                     {
                         if (_RecHandle[j] == IntPtr.Zero)
+                        {
                             continue;
+                        }
 
                         try
                         {
@@ -201,6 +217,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                             _RecHandle[j] = IntPtr.Zero;
                         }
                     }
+
                     return false;
                 }
             }
@@ -215,22 +232,28 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
         public bool Stop()
         {
             if (!_Initialized)
+            {
                 return false;
-        
-            if (_RecHandle == null)
-                return true;
+            }
 
-            foreach (IntPtr handle in _RecHandle)
+            if (_RecHandle == null)
+            {
+                return true;
+            }
+
+            foreach (var handle in _RecHandle)
             {
                 if (handle == IntPtr.Zero)
+                {
                     continue;
+                }
 
                 try
                 {
-                    PortAudioSharp.PortAudio.PaError isStoppedResult = PortAudioSharp.PortAudio.Pa_IsStreamStopped(handle);
+                    var isStoppedResult = PortAudioSharp.PortAudio.Pa_IsStreamStopped(handle);
                     if (isStoppedResult == PortAudioSharp.PortAudio.PaError.paStreamIsNotStopped)
                     {
-                        PortAudioSharp.PortAudio.PaError stopResult = PortAudioSharp.PortAudio.Pa_StopStream(handle);
+                        var stopResult = PortAudioSharp.PortAudio.Pa_StopStream(handle);
                         if (stopResult != PortAudioSharp.PortAudio.PaError.paNoError &&
                             stopResult != PortAudioSharp.PortAudio.PaError.paStreamIsStopped)
                         {
@@ -258,11 +281,13 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
 
                 if (_PaHandle != null)
                 {
-                    for (int i = 0; i < _RecHandle.Length; i++)
+                    for (var i = 0; i < _RecHandle.Length; i++)
                     {
-                        IntPtr handle = _RecHandle[i];
+                        var handle = _RecHandle[i];
                         if (handle == IntPtr.Zero)
+                        {
                             continue;
+                        }
 
                         try
                         {
@@ -305,11 +330,11 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             {
                 if (frameCount > 0 && input != IntPtr.Zero)
                 {
-                    CRecordDevice dev = _Devices[userData.ToInt32()];
+                    var dev = _Devices[userData.ToInt32()];
                     uint numBytes;
                     numBytes = frameCount * (uint)dev.Channels * 2;
 
-                    byte[] recbuffer = new byte[numBytes];
+                    var recbuffer = new byte[numBytes];
 
                     // copy from managed to unmanaged memory
                     Marshal.Copy(input, recbuffer, 0, (int)numBytes);

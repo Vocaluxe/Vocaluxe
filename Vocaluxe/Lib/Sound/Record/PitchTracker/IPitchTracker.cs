@@ -51,11 +51,17 @@ namespace Vocaluxe.Lib.Sound.Record.PitchTracker
         protected static void _SetWeights(int note, float[] weights)
         {
             Debug.Assert(weights.Length == NumHalfTonesDef);
-            for (int i = 0; i < NumHalfTonesDef; i++)
+            for (var i = 0; i < NumHalfTonesDef; i++)
+            {
                 weights[i] *= 0.9f;
+            }
+
             if (note < 0)
+            {
                 return;
-            int w = note % NumHalfTonesDef;
+            }
+
+            var w = note % NumHalfTonesDef;
             weights[w] = Math.Min(1f, weights[w] + 0.15f);
         }
 

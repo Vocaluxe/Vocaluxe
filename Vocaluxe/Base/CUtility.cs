@@ -27,18 +27,18 @@ namespace Vocaluxe.Base
     {
         private static readonly Stopwatch _Stopwatch = new Stopwatch();
         private static float _Fps;
-        private static readonly double _NanosecPerTick = (1000.0 * 1000.0 * 1000.0) / Stopwatch.Frequency;
+        private static readonly double _NanosecPerTick = 1000.0 * 1000.0 * 1000.0 / Stopwatch.Frequency;
 
         // ReSharper disable MemberCanBePrivate.Global
         public static void Reset()
-        // ReSharper restore MemberCanBePrivate.Global
+            // ReSharper restore MemberCanBePrivate.Global
         {
             _Stopwatch.Reset();
         }
 
         // ReSharper disable MemberCanBePrivate.Global
         public static void Start()
-        // ReSharper restore MemberCanBePrivate.Global
+            // ReSharper restore MemberCanBePrivate.Global
         {
             _Stopwatch.Start();
         }
@@ -58,20 +58,26 @@ namespace Vocaluxe.Base
         {
             if (_Stopwatch.IsRunning)
             {
-                long ticks = _Stopwatch.ElapsedTicks;
+                var ticks = _Stopwatch.ElapsedTicks;
                 if (Stopwatch.IsHighResolution && ticks != 0)
-                    return (float)((_NanosecPerTick * ticks) / (1000.0 * 1000.0));
+                {
+                    return (float)(_NanosecPerTick * ticks / (1000.0 * 1000.0));
+                }
+
                 return _Stopwatch.ElapsedMilliseconds;
             }
+
             return 0f;
         }
 
         public static void CalculateFPS()
         {
-            float ms = GetMilliseconds();
+            var ms = GetMilliseconds();
 
             if (ms > 0)
+            {
                 _Fps = 1 / ms;
+            }
         }
 
         public static double GetFPS()
@@ -111,15 +117,19 @@ namespace Vocaluxe.Base
 
         private void _Add(bool alt, bool shift, bool ctrl, bool pressed, char unicode, Keys key)
         {
-            bool keyRepeat = false;
-            if ((_Char == unicode) && _KeyPressed)
-                keyRepeat = true;
-            else if (_Keys == key)
-                keyRepeat = true;
-
-            if (!_Timer.IsRunning || (_Timer.ElapsedMilliseconds > 75) || !keyRepeat)
+            var keyRepeat = false;
+            if (_Char == unicode && _KeyPressed)
             {
-                var pool = new SKeyEvent(ESender.Keyboard, alt, shift, ctrl, pressed && (unicode != Char.MinValue), unicode, key);
+                keyRepeat = true;
+            }
+            else if (_Keys == key)
+            {
+                keyRepeat = true;
+            }
+
+            if (!_Timer.IsRunning || _Timer.ElapsedMilliseconds > 75 || !keyRepeat)
+            {
+                var pool = new SKeyEvent(ESender.Keyboard, alt, shift, ctrl, pressed && unicode != Char.MinValue, unicode, key);
 
                 lock (_CopyLock)
                 {
@@ -142,7 +152,7 @@ namespace Vocaluxe.Base
 
         private void _CheckModifiers()
         {
-            Keys keys = Control.ModifierKeys;
+            var keys = Control.ModifierKeys;
 
             _ModShift = (keys & Keys.Shift) == Keys.Shift;
             _ModAlt = (keys & Keys.Alt) == Keys.Alt;
@@ -153,9 +163,9 @@ namespace Vocaluxe.Base
         {
             _CheckModifiers();
 
-            bool repeat = _Keys == e.KeyCode;
+            var repeat = _Keys == e.KeyCode;
 
-            if (!_Timer.IsRunning || (_Timer.ElapsedMilliseconds > 75) || !repeat)
+            if (!_Timer.IsRunning || _Timer.ElapsedMilliseconds > 75 || !repeat)
             {
                 _Keys = e.KeyCode;
                 _Add(_ModAlt, _ModShift, _ModCtrl, _KeyPressed, repeat ? _Char : Char.MinValue, _Keys);
@@ -173,7 +183,7 @@ namespace Vocaluxe.Base
 
         // ReSharper disable UnusedParameter.Global
         public void KeyUp(KeyEventArgs e)
-        // ReSharper restore UnusedParameter.Global
+            // ReSharper restore UnusedParameter.Global
         {
             _CheckModifiers();
             _KeyPressed = false;
@@ -187,6 +197,7 @@ namespace Vocaluxe.Base
                 _Del(0);
                 return true;
             }
+
             return false;
         }
 
@@ -194,8 +205,11 @@ namespace Vocaluxe.Base
         {
             lock (_CopyLock)
             {
-                foreach (SKeyEvent e in _KeysPool)
+                foreach (var e in _KeysPool)
+                {
                     _ActualPool.Add(e);
+                }
+
                 _KeysPool.Clear();
             }
         }
@@ -227,7 +241,10 @@ namespace Vocaluxe.Base
             _CheckModifiers();
             x = (int)(x * (float)CSettings.RenderW * CConfig.Config.Graphics.NumScreens / CDraw.GetScreenWidth());
             while (x > CSettings.RenderW)
+            {
                 x -= CSettings.RenderW;
+            }
+
             y = (int)(y * (float)CSettings.RenderH / CDraw.GetScreenHeight());
 
             var pool = new SMouseEvent(ESender.Mouse, _Mod, x, y, lb, ld, rb, -wheel / 120, lbh, rbh, mb, mbh);
@@ -245,15 +262,23 @@ namespace Vocaluxe.Base
 
         private void _CheckModifiers()
         {
-            Keys keys = Control.ModifierKeys;
+            var keys = Control.ModifierKeys;
             _Mod = EModifier.None;
 
             if ((keys & Keys.Shift) != 0)
+            {
                 _Mod |= EModifier.Shift;
+            }
+
             if ((keys & Keys.Alt) != 0)
+            {
                 _Mod |= EModifier.Alt;
+            }
+
             if ((keys & Keys.Control) != 0)
+            {
                 _Mod |= EModifier.Ctrl;
+            }
         }
 
         public void MouseMove(MouseEventArgs e)
@@ -268,8 +293,8 @@ namespace Vocaluxe.Base
 
         public void MouseDown(MouseEventArgs e)
         {
-            bool lb = e.Button == MouseButtons.Left;
-            bool ld = false;
+            var lb = e.Button == MouseButtons.Left;
+            var ld = false;
             if (lb)
             {
                 if (_Timer.IsRunning && _Timer.ElapsedMilliseconds < 450)
@@ -284,15 +309,17 @@ namespace Vocaluxe.Base
                 }
             }
             else
+            {
                 _Timer.Reset();
+            }
 
             _Add(e.X, e.Y, lb, ld, e.Button == MouseButtons.Right, e.Delta, false, false,
-                 e.Button == MouseButtons.Middle, false);
+                e.Button == MouseButtons.Middle, false);
         }
 
         // ReSharper disable UnusedParameter.Global
         public void MouseUp(MouseEventArgs e)
-        // ReSharper restore UnusedParameter.Global
+            // ReSharper restore UnusedParameter.Global
         {
             //CheckModifiers();
             //Add(_ModALT, _ModSHIFT, _ModCTRL, e.X, e.Y, e.Button == MouseButtons.Left, e.Button == MouseButtons.Right, e.Delta);
@@ -301,7 +328,10 @@ namespace Vocaluxe.Base
         public bool PollEvent(ref SMouseEvent mouseEvent)
         {
             if (_CurrentPool.Count <= 0)
+            {
                 return false;
+            }
+
             mouseEvent = _CurrentPool[0];
             _Del(0);
             return true;
@@ -311,8 +341,11 @@ namespace Vocaluxe.Base
         {
             lock (_CopyLock)
             {
-                foreach (SMouseEvent e in _EventsPool)
+                foreach (var e in _EventsPool)
+                {
                     _CurrentPool.Add(e);
+                }
+
                 _EventsPool.Clear();
             }
         }

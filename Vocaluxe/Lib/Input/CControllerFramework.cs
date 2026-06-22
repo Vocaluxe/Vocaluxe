@@ -34,7 +34,10 @@ namespace Vocaluxe.Lib.Input
         public virtual bool Init()
         {
             if (_Initialized)
+            {
                 return false;
+            }
+
             _CurrentKeysPool = new List<SKeyEvent>();
             _CurrentMousePool = new List<SMouseEvent>();
             _Initialized = true;
@@ -44,13 +47,22 @@ namespace Vocaluxe.Lib.Input
         public virtual void Close()
         {
             if (!_Initialized)
+            {
                 return;
+            }
+
             _CurrentKeysPool = null;
             _CurrentMousePool = null;
             lock (_KeysPool)
+            {
                 _KeysPool.Clear();
+            }
+
             lock (_MousePool)
+            {
                 _MousePool.Clear();
+            }
+
             _Initialized = false;
         }
 
@@ -63,18 +75,27 @@ namespace Vocaluxe.Lib.Input
         public virtual void Update()
         {
             if (!_Initialized)
+            {
                 return;
+            }
+
             lock (_KeysPool)
             {
-                foreach (SKeyEvent e in _KeysPool)
+                foreach (var e in _KeysPool)
+                {
                     _CurrentKeysPool.Add(e);
+                }
+
                 _KeysPool.Clear();
             }
 
             lock (_MousePool)
             {
-                foreach (SMouseEvent e in _MousePool)
+                foreach (var e in _MousePool)
+                {
                     _CurrentMousePool.Add(e);
+                }
+
                 _MousePool.Clear();
             }
         }
@@ -82,26 +103,34 @@ namespace Vocaluxe.Lib.Input
         public virtual bool PollKeyEvent(ref SKeyEvent keyEvent)
         {
             if (!_Initialized)
+            {
                 return false;
+            }
+
             if (_CurrentKeysPool.Count > 0)
             {
                 keyEvent = _CurrentKeysPool[0];
                 _CurrentKeysPool.RemoveAt(0);
                 return true;
             }
+
             return false;
         }
 
         public virtual bool PollMouseEvent(ref SMouseEvent mouseEvent)
         {
             if (!_Initialized)
+            {
                 return false;
+            }
+
             if (_CurrentMousePool.Count > 0)
             {
                 mouseEvent = _CurrentMousePool[0];
                 _CurrentMousePool.RemoveAt(0);
                 return true;
             }
+
             return false;
         }
 
@@ -110,7 +139,10 @@ namespace Vocaluxe.Lib.Input
         public void AddKeyEvent(SKeyEvent keyEvent)
         {
             if (!_Initialized)
+            {
                 return;
+            }
+
             lock (_KeysPool)
             {
                 _KeysPool.Add(keyEvent);
@@ -120,7 +152,10 @@ namespace Vocaluxe.Lib.Input
         public void AddMouseEvent(SMouseEvent mouseEvent)
         {
             if (!_Initialized)
+            {
                 return;
+            }
+
             lock (_MousePool)
             {
                 _MousePool.Add(mouseEvent);

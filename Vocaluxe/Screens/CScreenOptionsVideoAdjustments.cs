@@ -36,14 +36,14 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit};
+            _ThemeButtons = new string[] { _ButtonExit };
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -66,9 +66,11 @@ namespace Vocaluxe.Screens
                             _SaveConfig();
                             CGraphics.FadeTo(EScreen.OptionsVideo);
                         }
+
                         break;
                 }
             }
+
             return true;
         }
 
@@ -86,8 +88,11 @@ namespace Vocaluxe.Screens
             {
                 _SaveConfig();
                 if (_Buttons[_ButtonExit].Selected)
+                {
                     CGraphics.FadeTo(EScreen.OptionsVideo);
+                }
             }
+
             return true;
         }
 

@@ -30,7 +30,10 @@ namespace Vocaluxe.Base
         public static bool Init()
         {
             if (_VideoDecoder != null)
+            {
                 return false;
+            }
+
             switch (CConfig.Config.Video.VideoDecoder)
             {
                 case EVideoDecoder.FFmpeg:
@@ -66,6 +69,7 @@ namespace Vocaluxe.Base
             {
                 throw new NotSupportedException("_VideoDecoder is null (already closed?)");
             }
+
             return _VideoDecoder.Load(videoFileName);
         }
 
@@ -73,7 +77,9 @@ namespace Vocaluxe.Base
         {
             //Check for null because the videostreams may close themselves on destroy (GC)
             if (_VideoDecoder != null)
+            {
                 _VideoDecoder.Close(ref stream);
+            }
         }
 
         public static float GetLength(CVideoStream stream)
@@ -82,6 +88,7 @@ namespace Vocaluxe.Base
             {
                 throw new ArgumentException("stream is null");
             }
+
             if (_VideoDecoder == null)
             {
                 throw new NotSupportedException("_VideoDecoder is null (already closed?)");
@@ -96,6 +103,7 @@ namespace Vocaluxe.Base
             {
                 throw new ArgumentException("stream is null");
             }
+
             if (_VideoDecoder == null)
             {
                 throw new NotSupportedException("_VideoDecoder is null (already closed?)");
@@ -110,6 +118,7 @@ namespace Vocaluxe.Base
             {
                 throw new ArgumentException("stream is null");
             }
+
             if (_VideoDecoder == null)
             {
                 throw new NotSupportedException("_VideoDecoder is null (already closed?)");
@@ -124,6 +133,7 @@ namespace Vocaluxe.Base
             {
                 throw new ArgumentException("stream is null");
             }
+
             if (_VideoDecoder == null)
             {
                 throw new NotSupportedException("_VideoDecoder is null (already closed?)");
@@ -138,6 +148,7 @@ namespace Vocaluxe.Base
             {
                 throw new ArgumentException("stream is null");
             }
+
             if (_VideoDecoder == null)
             {
                 throw new NotSupportedException("_VideoDecoder is null (already closed?)");
@@ -152,6 +163,7 @@ namespace Vocaluxe.Base
             {
                 throw new ArgumentException("stream is null");
             }
+
             if (_VideoDecoder == null)
             {
                 throw new NotSupportedException("_VideoDecoder is null (already closed?)");
@@ -166,6 +178,7 @@ namespace Vocaluxe.Base
             {
                 throw new ArgumentException("stream is null");
             }
+
             if (_VideoDecoder == null)
             {
                 throw new NotSupportedException("_VideoDecoder is null (already closed?)");
@@ -184,7 +197,6 @@ namespace Vocaluxe.Base
             _VideoDecoder.Update();
         }
         #endregion Interface
-
         #endregion VideoDecoder
     }
 }

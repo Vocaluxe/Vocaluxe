@@ -43,12 +43,16 @@ namespace VocaluxeLib.Profile
 #pragma warning restore 649
         }
 
-        [DefaultValue(null)] public Guid ID;
+        [DefaultValue(null)]
+        public Guid Id;
 
         public string PlayerName;
-        [XmlIgnore] public string FilePath;
-        [DefaultValue(null)] public byte[] PasswordHash;
-        [DefaultValue(null)] public byte[] PasswordSalt;
+        [XmlIgnore]
+        public string FilePath;
+        [DefaultValue(null)]
+        public byte[] PasswordHash;
+        [DefaultValue(null)]
+        public byte[] PasswordSalt;
 
         public EGameDifficulty Difficulty;
 
@@ -68,14 +72,16 @@ namespace VocaluxeLib.Profile
             {
                 Avatar = CBase.Profiles.GetAvatarByFilename(value);
                 if (Avatar == null)
+                {
                     CLog.Error("Avatar '" + value + "' not found");
+                }
             }
         }
 
         public CProfile()
         {
-            ID = Guid.NewGuid();
-            PlayerName = String.Empty;
+            Id = Guid.NewGuid();
+            PlayerName = string.Empty;
             Difficulty = EGameDifficulty.TR_CONFIG_EASY;
             UserRole = EUserRole.TR_USERROLE_NORMAL;
             Active = EOffOn.TR_CONFIG_ON;
@@ -94,20 +100,24 @@ namespace VocaluxeLib.Profile
             try
             {
                 xml.Deserialize(FilePath, this);
-                //If ID couldn't be loaded, generate a new one and save it
-                if (ID == Guid.Empty)
+                //If Id couldn't be loaded, generate a new one and save it
+                if (Id == Guid.Empty)
                 {
-                    ID = Guid.NewGuid();
+                    Id = Guid.NewGuid();
                     SaveProfile();
                 }
             }
             catch (Exception e)
             {
                 if (_ConvertProfile(ref e))
+                {
                     return true;
+                }
+
                 CLog.Error("Error loading profile file " + Path.GetFileName(FilePath) + ": " + e.Message);
                 return false;
             }
+
             return true;
         }
 
@@ -118,37 +128,47 @@ namespace VocaluxeLib.Profile
             try
             {
                 var old = xml.Deserialize<SOldXmlProfile>(FilePath);
-                string newXml = ser.Serialize(old.Info);
+                var newXml = ser.Serialize(old.Info);
                 xml.DeserializeString(newXml, this);
-                if (ID == null)
-                    ID = Guid.NewGuid();
-                ser.Serialize(FilePath, this);
+                if (Id == null)
+                {
+                    Id = Guid.NewGuid();
+                }
 
+                ser.Serialize(FilePath, this);
             }
             catch (Exception e2)
             {
                 if (!(e2 is CXmlException))
+                {
                     e = e2;
+                }
+
                 return false;
             }
+
             return true;
         }
 
         public void SaveProfile()
         {
-            if (String.IsNullOrEmpty(FilePath))
+            if (string.IsNullOrEmpty(FilePath))
             {
-                string filename = string.Empty;
+                var filename = string.Empty;
                 // ReSharper disable LoopCanBeConvertedToQuery
-                foreach (char chr in PlayerName)
+                foreach (var chr in PlayerName)
                     // ReSharper restore LoopCanBeConvertedToQuery
                 {
                     if (char.IsLetter(chr))
+                    {
                         filename += chr.ToString();
+                    }
                 }
 
                 if (filename == "")
+                {
                     filename = "1";
+                }
 
                 FilePath = CHelper.GetUniqueFileName(Path.Combine(CBase.Settings.GetDataPath(), CBase.Settings.GetFolderProfiles()), filename + ".xml");
             }

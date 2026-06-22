@@ -20,8 +20,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using VocaluxeLib;
-using VocaluxeLib.Songs;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Songs;
 using VocaluxeLib.Utils.Player;
 
 namespace Vocaluxe.Base
@@ -64,7 +64,10 @@ namespace Vocaluxe.Base
             get
             {
                 if (IsPlayingPreview)
+                {
                     return false;
+                }
+
                 return !_BGMusicFiles.Contains(_CurrentPlaylistElement);
             }
         }
@@ -75,12 +78,19 @@ namespace Vocaluxe.Base
             set
             {
                 if (Disabled == value)
+                {
                     return;
+                }
+
                 _Disabled = value;
                 if (_Disabled)
+                {
                     Pause();
+                }
                 else
+                {
                     Play();
+                }
             }
         }
 
@@ -93,9 +103,9 @@ namespace Vocaluxe.Base
             set { _BGPlayer.Loop = value; }
         }
 
-        public static int SongID
+        public static int SongId
         {
-            get { return _CurPlayer.SongID; }
+            get { return _CurPlayer.SongId; }
         }
 
         public static bool SongHasVideo
@@ -114,7 +124,10 @@ namespace Vocaluxe.Base
             set
             {
                 if (IsPlayingPreview == value)
+                {
                     return;
+                }
+
                 Pause();
                 _CurPlayer = value ? _PreviewPlayer : _BGPlayer;
                 Play();
@@ -144,7 +157,9 @@ namespace Vocaluxe.Base
             {
                 _OwnSongsAvailable = value;
                 if (_OwnSongsAvailable && _MusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
+                {
                     _AddOwnMusic();
+                }
             }
         }
 
@@ -155,12 +170,17 @@ namespace Vocaluxe.Base
         public static void Init()
         {
             if (_Initialized)
+            {
                 return;
+            }
 
-            IEnumerable<string> soundFiles = CHelper.ListSoundFiles(CSettings.FolderNameBackgroundMusic, true, true);
+            var soundFiles = CHelper.ListSoundFiles(CSettings.FolderNameBackgroundMusic, true, true);
 
-            foreach (string path in soundFiles)
+            foreach (var path in soundFiles)
+            {
                 _BGMusicFiles.Add(new CPlaylistElement(path));
+            }
+
             _CurPlayer = _BGPlayer;
             //Set a default to have a consistent starting point, use SetMusicSource afterwards
             _MusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
@@ -185,19 +205,27 @@ namespace Vocaluxe.Base
         public static void Play()
         {
             if (!IsPlayingPreview && CConfig.Config.Sound.BackgroundMusic != EBackgroundMusicOffOn.TR_CONFIG_ON)
+            {
                 return;
+            }
 
             if (IsPlayingPreview || _BGPlayer.SoundLoaded)
+            {
                 _CurPlayer.Play();
+            }
             else
+            {
                 Next();
+            }
         }
 
         public static void Stop()
         {
             _CurPlayer.Stop();
             if (!IsPlayingPreview)
+            {
                 _CurrentPlaylistElement = null;
+            }
         }
 
         public static void Pause()
@@ -208,7 +236,9 @@ namespace Vocaluxe.Base
         public static void Next()
         {
             if (IsPlayingPreview)
+            {
                 return;
+            }
 
             Stop(); //stop last song if any
             if (_PreviousMusicIndex < _PreviousFiles.Count - 2)
@@ -223,7 +253,10 @@ namespace Vocaluxe.Base
                 if (_NotPlayedFiles.Count == 0)
                 {
                     if (_PreviousFiles.Count == 0)
+                    {
                         return; //No songs to play
+                    }
+
                     _NotPlayedFiles.AddRange(_PreviousFiles);
                 }
 
@@ -233,15 +266,21 @@ namespace Vocaluxe.Base
                 _PreviousFiles.Add(_CurrentPlaylistElement);
                 _PreviousMusicIndex = _PreviousFiles.Count - 1;
             }
+
             _StartSong();
         }
 
         public static void Previous()
         {
             if (IsPlayingPreview)
+            {
                 return;
+            }
+
             if (_PreviousMusicIndex < 0)
+            {
                 return;
+            }
 
             if (_CurrentPlaylistElement == null || (_BGPlayer.Position <= 1.5f && _PreviousMusicIndex > 0))
             {
@@ -250,12 +289,13 @@ namespace Vocaluxe.Base
 
                 _CurrentPlaylistElement = _PreviousFiles[_PreviousMusicIndex];
             }
+
             _StartSong();
         }
 
         public static void Update()
         {
-            if (_PreviewStartHelperTask != null && ( _PreviewPlayer.Length > 0 || _PreviewStartWaitCounter++ >= _PreviewStartWaitMaxTries))
+            if (_PreviewStartHelperTask != null && (_PreviewPlayer.Length > 0 || _PreviewStartWaitCounter++ >= _PreviewStartWaitMaxTries))
             {
                 lock (_PreviewStartHelperTaskLock)
                 {
@@ -270,11 +310,15 @@ namespace Vocaluxe.Base
             }
 
             if (!IsPlaying)
+            {
                 return;
+            }
 
             _CurPlayer.Update();
             if (!IsPlayingPreview && _BGPlayer.IsFinished)
+            {
                 Next();
+            }
         }
 
         public static CTextureRef GetVideoTexture()
@@ -285,7 +329,10 @@ namespace Vocaluxe.Base
         public static void SetMusicSource(EBackgroundMusicSource source)
         {
             if (_MusicSource == source)
+            {
                 return;
+            }
+
             _MusicSource = source;
             switch (_MusicSource)
             {
@@ -308,7 +355,9 @@ namespace Vocaluxe.Base
         public static void LoadPreview(CSong song, float start = -1f)
         {
             if (song == null)
+            {
                 throw new ArgumentNullException("song");
+            }
 
             if (!IsPlayingPreview)
             {
@@ -317,9 +366,11 @@ namespace Vocaluxe.Base
             }
 
             //Change song position only if song is changed or near to end
-            bool songChanged = _CurPlayer.SongID != song.ID;
+            var songChanged = _CurPlayer.SongId != song.Id;
             if (!songChanged && _CurPlayer.Position + 30 < _CurPlayer.Length)
+            {
                 return;
+            }
 
             _PreviewPlayer.Load(song);
 
@@ -327,33 +378,47 @@ namespace Vocaluxe.Base
             {
                 _PreviewStartHelperTask = new Task(() =>
                 {
-                    float length = _PreviewPlayer.Length;
+                    var length = _PreviewPlayer.Length;
                     if (length < 1)
+                    {
                         length = 30; // If length is unknow or invalid assume a length of 30s
+                    }
 
                     if (start < 0)
-                        start = (song.Preview.Source == EDataSource.None) ? length / 4f : song.Preview.StartTime;
+                    {
+                        start = song.Preview.Source == EDataSource.None ? length / 4f : song.Preview.StartTime;
+                    }
+
                     if (start > length - 5f)
+                    {
                         start = Math.Max(0f, Math.Min(length / 4f, length - 5f));
+                    }
+
                     if (start >= 0.5f)
+                    {
                         start -= 0.5f;
+                    }
 
                     _PreviewPlayer.Position = start;
                     Play();
                 });
             }
+
             _CurPlayer = _PreviewPlayer;
         }
 
         public static void StopPreview()
         {
             if (!IsPlayingPreview)
+            {
                 return;
+            }
+
             Stop();
             _CurPlayer = _BGPlayer;
             if (_MusicSource != EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC)
             {
-                var song = CSongs.GetSong(_PreviewPlayer.SongID);
+                var song = CSongs.GetSong(_PreviewPlayer.SongId);
                 if (song != null)
                 {
                     _CurPlayer.Load(song);
@@ -364,6 +429,7 @@ namespace Vocaluxe.Base
                     _CurPlayer.Stop();
                 }
             }
+
             CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
         }
 
@@ -384,13 +450,18 @@ namespace Vocaluxe.Base
 
             //otherwhise load
             if (!_CurrentPlaylistElement.HasMetaData)
+            {
                 _BGPlayer.Load(_CurrentPlaylistElement.MusicFilePath, 0f, true);
+            }
             else
             {
                 //Seek to #Start-Tag, if found
-                float start = 0f;
+                var start = 0f;
                 if (_CurrentPlaylistElement.Start > 0.001 && CConfig.Config.Sound.BackgroundMusicUseStart == EOffOn.TR_CONFIG_ON)
+                {
                     start = _CurrentPlaylistElement.Start;
+                }
+
                 _BGPlayer.Load(_CurrentPlaylistElement.Song, start, true);
             }
         }
@@ -398,22 +469,33 @@ namespace Vocaluxe.Base
         private static void _AddOwnMusic()
         {
             if (_OwnMusicAdded || !_OwnSongsAvailable)
+            {
                 return;
-            foreach (CSong song in CSongs.AllSongs)
+            }
+
+            foreach (var song in CSongs.AllSongs)
+            {
                 _NotPlayedFiles.Add(new CPlaylistElement(song));
+            }
+
             _OwnMusicAdded = true;
         }
 
         private static void _RemoveOwnMusic()
         {
             if (!_OwnMusicAdded)
+            {
                 return;
-            _NotPlayedFiles.RemoveAll(el => el.SongID >= 0);
-            _PreviousFiles.RemoveAll(el => el.SongID >= 0);
+            }
+
+            _NotPlayedFiles.RemoveAll(el => el.SongId >= 0);
+            _PreviousFiles.RemoveAll(el => el.SongId >= 0);
             _PreviousMusicIndex = _PreviousFiles.IndexOf(_CurrentPlaylistElement);
 
             if (IsPlaying && !_IsBackgroundFile(_CurrentPlaylistElement))
+            {
                 Next();
+            }
 
             _OwnMusicAdded = false;
         }
@@ -421,7 +503,10 @@ namespace Vocaluxe.Base
         private static void _AddBackgroundMusic()
         {
             if (_BackgroundMusicAdded)
+            {
                 return;
+            }
+
             _NotPlayedFiles.AddRange(_BGMusicFiles);
             _BackgroundMusicAdded = true;
         }
@@ -429,13 +514,18 @@ namespace Vocaluxe.Base
         private static void _RemoveBackgroundMusic()
         {
             if (!_BackgroundMusicAdded)
+            {
                 return;
-            _NotPlayedFiles.RemoveAll(el => el.SongID < 0);
-            _PreviousFiles.RemoveAll(el => el.SongID < 0);
+            }
+
+            _NotPlayedFiles.RemoveAll(el => el.SongId < 0);
+            _PreviousFiles.RemoveAll(el => el.SongId < 0);
             _PreviousMusicIndex = _PreviousFiles.IndexOf(_CurrentPlaylistElement);
 
             if (IsPlaying && _IsBackgroundFile(_CurrentPlaylistElement))
+            {
                 Next();
+            }
 
             _BackgroundMusicAdded = false;
         }

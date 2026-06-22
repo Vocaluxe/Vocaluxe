@@ -40,7 +40,7 @@ namespace WebserverInitalConfig
         [DllImport("httpapi.dll", SetLastError = true)]
         private static extern uint HttpSetServiceConfiguration(
             IntPtr serviceIntPtr,
-            HTTP_SERVICE_CONFIG_ID configId,
+            HTTP_SERVICE_CONFIG_Id configId,
             IntPtr pConfigInformation,
             int configInformationLength,
             IntPtr pOverlapped);
@@ -48,7 +48,7 @@ namespace WebserverInitalConfig
         [DllImport("httpapi.dll", SetLastError = true)]
         private static extern uint HttpDeleteServiceConfiguration(
             IntPtr serviceIntPtr,
-            HTTP_SERVICE_CONFIG_ID configId,
+            HTTP_SERVICE_CONFIG_Id configId,
             IntPtr pConfigInformation,
             int configInformationLength,
             IntPtr pOverlapped);
@@ -61,7 +61,7 @@ namespace WebserverInitalConfig
         [DllImport("httpapi.dll", SetLastError = true)]
         private static extern uint HttpQueryServiceConfiguration(
             IntPtr serviceIntPtr,
-            HTTP_SERVICE_CONFIG_ID configId,
+            HTTP_SERVICE_CONFIG_Id configId,
             IntPtr pInputConfigInfo,
             int inputConfigInfoLength,
             IntPtr pOutputConfigInfo,
@@ -69,7 +69,7 @@ namespace WebserverInitalConfig
             [Optional] out int pReturnLength,
             IntPtr pOverlapped);
 
-        private enum HTTP_SERVICE_CONFIG_ID
+        private enum HTTP_SERVICE_CONFIG_Id
         {
             HttpServiceConfigIPListenList = 0,
             HttpServiceConfigSSLCertInfo,
@@ -101,12 +101,15 @@ namespace WebserverInitalConfig
             public int SslHashLength;
             public IntPtr pSslHash;
             public Guid AppId;
-            [MarshalAs(UnmanagedType.LPWStr)] public string pSslCertStoreName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pSslCertStoreName;
             public uint DefaultCertCheckMode;
             public int DefaultRevocationFreshnessTime;
             public int DefaultRevocationUrlRetrievalTimeout;
-            [MarshalAs(UnmanagedType.LPWStr)] public string pDefaultSslCtlIdentifier;
-            [MarshalAs(UnmanagedType.LPWStr)] public string pDefaultSslCtlStoreName;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pDefaultSslCtlIdentifier;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pDefaultSslCtlStoreName;
             public uint DefaultFlags;
         }
 
@@ -156,7 +159,8 @@ namespace WebserverInitalConfig
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         public struct HTTP_SERVICE_CONFIG_URLACL_KEY
         {
-            [MarshalAs(UnmanagedType.LPWStr)] public string pUrlPrefix;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pUrlPrefix;
 
             public HTTP_SERVICE_CONFIG_URLACL_KEY(string urlPrefix)
             {
@@ -167,7 +171,8 @@ namespace WebserverInitalConfig
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
         private struct HTTP_SERVICE_CONFIG_URLACL_PARAM
         {
-            [MarshalAs(UnmanagedType.LPWStr)] public string pStringSecurityDescriptor;
+            [MarshalAs(UnmanagedType.LPWStr)]
+            public string pStringSecurityDescriptor;
 
             public HTTP_SERVICE_CONFIG_URLACL_PARAM(string securityDescriptor)
             {
@@ -202,83 +207,89 @@ namespace WebserverInitalConfig
 
             uint retVal;
             CallHttpApi(delegate
+            {
+                var sockAddrHandle = CreateSockaddrStructure(ipPort);
+                var pIpPort = sockAddrHandle.AddrOfPinnedObject();
+                var sslKey = new HTTP_SERVICE_CONFIG_SSL_KEY(pIpPort);
+
+                var inputConfigInfoQuery =
+                    new HTTP_SERVICE_CONFIG_SSL_QUERY
+                    {
+                        QueryDesc = HTTP_SERVICE_CONFIG_QUERY_TYPE.HttpServiceConfigQueryExact,
+                        KeyDesc = sslKey
+                    };
+
+                var pInputConfigInfo =
+                    Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_SSL_QUERY)));
+                Marshal.StructureToPtr(inputConfigInfoQuery, pInputConfigInfo, false);
+
+                var pOutputConfigInfo = IntPtr.Zero;
+                var returnLength = 0;
+
+                try
                 {
-                    GCHandle sockAddrHandle = CreateSockaddrStructure(ipPort);
-                    IntPtr pIpPort = sockAddrHandle.AddrOfPinnedObject();
-                    HTTP_SERVICE_CONFIG_SSL_KEY sslKey = new HTTP_SERVICE_CONFIG_SSL_KEY(pIpPort);
-
-                    HTTP_SERVICE_CONFIG_SSL_QUERY inputConfigInfoQuery =
-                        new HTTP_SERVICE_CONFIG_SSL_QUERY
-                            {
-                                QueryDesc = HTTP_SERVICE_CONFIG_QUERY_TYPE.HttpServiceConfigQueryExact,
-                                KeyDesc = sslKey
-                            };
-
-                    IntPtr pInputConfigInfo =
-                        Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_SSL_QUERY)));
-                    Marshal.StructureToPtr(inputConfigInfoQuery, pInputConfigInfo, false);
-
-                    IntPtr pOutputConfigInfo = IntPtr.Zero;
-                    int returnLength = 0;
-
-                    try
+                    var queryType = HTTP_SERVICE_CONFIG_Id.HttpServiceConfigSSLCertInfo;
+                    var inputConfigInfoSize = Marshal.SizeOf(inputConfigInfoQuery);
+                    retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
+                        queryType,
+                        pInputConfigInfo,
+                        inputConfigInfoSize,
+                        pOutputConfigInfo,
+                        returnLength,
+                        out returnLength,
+                        IntPtr.Zero);
+                    if (retVal == ERROR_FILE_NOT_FOUND)
                     {
-                        HTTP_SERVICE_CONFIG_ID queryType = HTTP_SERVICE_CONFIG_ID.HttpServiceConfigSSLCertInfo;
-                        int inputConfigInfoSize = Marshal.SizeOf(inputConfigInfoQuery);
-                        retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
-                                                               queryType,
-                                                               pInputConfigInfo,
-                                                               inputConfigInfoSize,
-                                                               pOutputConfigInfo,
-                                                               returnLength,
-                                                               out returnLength,
-                                                               IntPtr.Zero);
-                        if (retVal == ERROR_FILE_NOT_FOUND)
-                            return;
+                        return;
+                    }
 
-                        if (ERROR_INSUFFICIENT_BUFFER == retVal)
+                    if (ERROR_INSUFFICIENT_BUFFER == retVal)
+                    {
+                        pOutputConfigInfo = Marshal.AllocCoTaskMem(returnLength);
+
+                        try
                         {
-                            pOutputConfigInfo = Marshal.AllocCoTaskMem(returnLength);
-
-                            try
-                            {
-                                retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
-                                                                       queryType,
-                                                                       pInputConfigInfo,
-                                                                       inputConfigInfoSize,
-                                                                       pOutputConfigInfo,
-                                                                       returnLength,
-                                                                       out returnLength,
-                                                                       IntPtr.Zero);
-                                ThrowWin32ExceptionIfError(retVal);
-
-                                var outputConfigInfo =
-                                    (HTTP_SERVICE_CONFIG_SSL_SET)
-                                    Marshal.PtrToStructure(pOutputConfigInfo, typeof(HTTP_SERVICE_CONFIG_SSL_SET));
-
-                                byte[] hash = new byte[outputConfigInfo.ParamDesc.SslHashLength];
-                                Marshal.Copy(outputConfigInfo.ParamDesc.pSslHash, hash, 0, hash.Length);
-
-                                Guid appId = outputConfigInfo.ParamDesc.AppId;
-                                string storeName = outputConfigInfo.ParamDesc.pSslCertStoreName;
-
-                                result = new SslCertificateInfo {AppId = appId, Hash = hash, StoreName = storeName, IpPort = ipPort};
-                            }
-                            finally
-                            {
-                                Marshal.FreeCoTaskMem(pOutputConfigInfo);
-                            }
-                        }
-                        else
+                            retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
+                                queryType,
+                                pInputConfigInfo,
+                                inputConfigInfoSize,
+                                pOutputConfigInfo,
+                                returnLength,
+                                out returnLength,
+                                IntPtr.Zero);
                             ThrowWin32ExceptionIfError(retVal);
+
+                            var outputConfigInfo =
+                                (HTTP_SERVICE_CONFIG_SSL_SET)
+                                Marshal.PtrToStructure(pOutputConfigInfo, typeof(HTTP_SERVICE_CONFIG_SSL_SET));
+
+                            var hash = new byte[outputConfigInfo.ParamDesc.SslHashLength];
+                            Marshal.Copy(outputConfigInfo.ParamDesc.pSslHash, hash, 0, hash.Length);
+
+                            var appId = outputConfigInfo.ParamDesc.AppId;
+                            var storeName = outputConfigInfo.ParamDesc.pSslCertStoreName;
+
+                            result = new SslCertificateInfo { AppId = appId, Hash = hash, StoreName = storeName, IpPort = ipPort };
+                        }
+                        finally
+                        {
+                            Marshal.FreeCoTaskMem(pOutputConfigInfo);
+                        }
                     }
-                    finally
+                    else
                     {
-                        Marshal.FreeCoTaskMem(pInputConfigInfo);
-                        if (sockAddrHandle.IsAllocated)
-                            sockAddrHandle.Free();
+                        ThrowWin32ExceptionIfError(retVal);
                     }
-                });
+                }
+                finally
+                {
+                    Marshal.FreeCoTaskMem(pInputConfigInfo);
+                    if (sockAddrHandle.IsAllocated)
+                    {
+                        sockAddrHandle.Free();
+                    }
+                }
+            });
 
             return result;
         }
@@ -286,117 +297,133 @@ namespace WebserverInitalConfig
         public static void BindCertificate(IPEndPoint ipPort, byte[] hash, StoreName storeName, Guid appId)
         {
             if (ipPort == null)
+            {
                 throw new ArgumentNullException("ipPort");
+            }
+
             if (hash == null)
+            {
                 throw new ArgumentNullException("hash");
+            }
 
             CallHttpApi(
                 delegate
+                {
+                    var configSslSet = new HTTP_SERVICE_CONFIG_SSL_SET();
+
+                    var sockAddrHandle = CreateSockaddrStructure(ipPort);
+                    var pIpPort = sockAddrHandle.AddrOfPinnedObject();
+                    var httpServiceConfigSslKey =
+                        new HTTP_SERVICE_CONFIG_SSL_KEY(pIpPort);
+                    var configSslParam = new HTTP_SERVICE_CONFIG_SSL_PARAM();
+
+
+                    var handleHash = GCHandle.Alloc(hash, GCHandleType.Pinned);
+                    configSslParam.AppId = appId;
+                    configSslParam.DefaultCertCheckMode = 0;
+                    configSslParam.DefaultFlags = 0; //HTTP_SERVICE_CONFIG_SSL_FLAG_NEGOTIATE_CLIENT_CERT;
+                    configSslParam.DefaultRevocationFreshnessTime = 0;
+                    configSslParam.DefaultRevocationUrlRetrievalTimeout = 0;
+                    configSslParam.pSslCertStoreName = storeName.ToString();
+                    configSslParam.pSslHash = handleHash.AddrOfPinnedObject();
+                    configSslParam.SslHashLength = hash.Length;
+                    configSslSet.ParamDesc = configSslParam;
+                    configSslSet.KeyDesc = httpServiceConfigSslKey;
+
+                    var pInputConfigInfo =
+                        Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_SSL_SET)));
+                    Marshal.StructureToPtr(configSslSet, pInputConfigInfo, false);
+
+                    try
                     {
-                        HTTP_SERVICE_CONFIG_SSL_SET configSslSet = new HTTP_SERVICE_CONFIG_SSL_SET();
+                        var retVal = HttpSetServiceConfiguration(IntPtr.Zero,
+                            HTTP_SERVICE_CONFIG_Id.HttpServiceConfigSSLCertInfo,
+                            pInputConfigInfo,
+                            Marshal.SizeOf(configSslSet),
+                            IntPtr.Zero);
 
-                        GCHandle sockAddrHandle = CreateSockaddrStructure(ipPort);
-                        IntPtr pIpPort = sockAddrHandle.AddrOfPinnedObject();
-                        HTTP_SERVICE_CONFIG_SSL_KEY httpServiceConfigSslKey =
-                            new HTTP_SERVICE_CONFIG_SSL_KEY(pIpPort);
-                        HTTP_SERVICE_CONFIG_SSL_PARAM configSslParam = new HTTP_SERVICE_CONFIG_SSL_PARAM();
-
-
-                        GCHandle handleHash = GCHandle.Alloc(hash, GCHandleType.Pinned);
-                        configSslParam.AppId = appId;
-                        configSslParam.DefaultCertCheckMode = 0;
-                        configSslParam.DefaultFlags = 0; //HTTP_SERVICE_CONFIG_SSL_FLAG_NEGOTIATE_CLIENT_CERT;
-                        configSslParam.DefaultRevocationFreshnessTime = 0;
-                        configSslParam.DefaultRevocationUrlRetrievalTimeout = 0;
-                        configSslParam.pSslCertStoreName = storeName.ToString();
-                        configSslParam.pSslHash = handleHash.AddrOfPinnedObject();
-                        configSslParam.SslHashLength = hash.Length;
-                        configSslSet.ParamDesc = configSslParam;
-                        configSslSet.KeyDesc = httpServiceConfigSslKey;
-
-                        IntPtr pInputConfigInfo =
-                            Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_SSL_SET)));
-                        Marshal.StructureToPtr(configSslSet, pInputConfigInfo, false);
-
-                        try
+                        if (ERROR_ALREADY_EXISTS != retVal)
                         {
-                            uint retVal = HttpSetServiceConfiguration(IntPtr.Zero,
-                                                                      HTTP_SERVICE_CONFIG_ID.HttpServiceConfigSSLCertInfo,
-                                                                      pInputConfigInfo,
-                                                                      Marshal.SizeOf(configSslSet),
-                                                                      IntPtr.Zero);
-
-                            if (ERROR_ALREADY_EXISTS != retVal)
-                                ThrowWin32ExceptionIfError(retVal);
-                            else
-                            {
-                                retVal = HttpDeleteServiceConfiguration(IntPtr.Zero,
-                                                                        HTTP_SERVICE_CONFIG_ID.HttpServiceConfigSSLCertInfo,
-                                                                        pInputConfigInfo,
-                                                                        Marshal.SizeOf(configSslSet),
-                                                                        IntPtr.Zero);
-                                ThrowWin32ExceptionIfError(retVal);
-
-                                retVal = HttpSetServiceConfiguration(IntPtr.Zero,
-                                                                     HTTP_SERVICE_CONFIG_ID.HttpServiceConfigSSLCertInfo,
-                                                                     pInputConfigInfo,
-                                                                     Marshal.SizeOf(configSslSet),
-                                                                     IntPtr.Zero);
-                                ThrowWin32ExceptionIfError(retVal);
-                            }
+                            ThrowWin32ExceptionIfError(retVal);
                         }
-                        finally
+                        else
                         {
-                            Marshal.FreeCoTaskMem(pInputConfigInfo);
-                            if (handleHash.IsAllocated)
-                                handleHash.Free();
-                            if (sockAddrHandle.IsAllocated)
-                                sockAddrHandle.Free();
+                            retVal = HttpDeleteServiceConfiguration(IntPtr.Zero,
+                                HTTP_SERVICE_CONFIG_Id.HttpServiceConfigSSLCertInfo,
+                                pInputConfigInfo,
+                                Marshal.SizeOf(configSslSet),
+                                IntPtr.Zero);
+                            ThrowWin32ExceptionIfError(retVal);
+
+                            retVal = HttpSetServiceConfiguration(IntPtr.Zero,
+                                HTTP_SERVICE_CONFIG_Id.HttpServiceConfigSSLCertInfo,
+                                pInputConfigInfo,
+                                Marshal.SizeOf(configSslSet),
+                                IntPtr.Zero);
+                            ThrowWin32ExceptionIfError(retVal);
                         }
-                    });
+                    }
+                    finally
+                    {
+                        Marshal.FreeCoTaskMem(pInputConfigInfo);
+                        if (handleHash.IsAllocated)
+                        {
+                            handleHash.Free();
+                        }
+
+                        if (sockAddrHandle.IsAllocated)
+                        {
+                            sockAddrHandle.Free();
+                        }
+                    }
+                });
         }
 
         public static void DeleteCertificateBinding(params IPEndPoint[] ipPorts)
         {
             if (ipPorts == null || ipPorts.Length == 0)
+            {
                 return;
+            }
 
             CallHttpApi(
                 delegate
+                {
+                    foreach (var ipPort in ipPorts)
                     {
-                        foreach (IPEndPoint ipPort in ipPorts)
+                        var configSslSet =
+                            new HTTP_SERVICE_CONFIG_SSL_SET();
+
+                        var sockAddrHandle = CreateSockaddrStructure(ipPort);
+                        var pIpPort = sockAddrHandle.AddrOfPinnedObject();
+                        var httpServiceConfigSslKey =
+                            new HTTP_SERVICE_CONFIG_SSL_KEY(pIpPort);
+                        configSslSet.KeyDesc = httpServiceConfigSslKey;
+
+                        var pInputConfigInfo =
+                            Marshal.AllocCoTaskMem(
+                                Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_SSL_SET)));
+                        Marshal.StructureToPtr(configSslSet, pInputConfigInfo, false);
+
+                        try
                         {
-                            HTTP_SERVICE_CONFIG_SSL_SET configSslSet =
-                                new HTTP_SERVICE_CONFIG_SSL_SET();
-
-                            GCHandle sockAddrHandle = CreateSockaddrStructure(ipPort);
-                            IntPtr pIpPort = sockAddrHandle.AddrOfPinnedObject();
-                            HTTP_SERVICE_CONFIG_SSL_KEY httpServiceConfigSslKey =
-                                new HTTP_SERVICE_CONFIG_SSL_KEY(pIpPort);
-                            configSslSet.KeyDesc = httpServiceConfigSslKey;
-
-                            IntPtr pInputConfigInfo =
-                                Marshal.AllocCoTaskMem(
-                                    Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_SSL_SET)));
-                            Marshal.StructureToPtr(configSslSet, pInputConfigInfo, false);
-
-                            try
+                            var retVal = HttpDeleteServiceConfiguration(IntPtr.Zero,
+                                HTTP_SERVICE_CONFIG_Id.HttpServiceConfigSSLCertInfo,
+                                pInputConfigInfo,
+                                Marshal.SizeOf(configSslSet),
+                                IntPtr.Zero);
+                            ThrowWin32ExceptionIfError(retVal);
+                        }
+                        finally
+                        {
+                            Marshal.FreeCoTaskMem(pInputConfigInfo);
+                            if (sockAddrHandle.IsAllocated)
                             {
-                                uint retVal = HttpDeleteServiceConfiguration(IntPtr.Zero,
-                                                                             HTTP_SERVICE_CONFIG_ID.HttpServiceConfigSSLCertInfo,
-                                                                             pInputConfigInfo,
-                                                                             Marshal.SizeOf(configSslSet),
-                                                                             IntPtr.Zero);
-                                ThrowWin32ExceptionIfError(retVal);
-                            }
-                            finally
-                            {
-                                Marshal.FreeCoTaskMem(pInputConfigInfo);
-                                if (sockAddrHandle.IsAllocated)
-                                    sockAddrHandle.Free();
+                                sockAddrHandle.Free();
                             }
                         }
-                    });
+                    }
+                });
         }
 
         public static SslCertificateInfo[] QuerySslCertificateInfo()
@@ -405,253 +432,285 @@ namespace WebserverInitalConfig
 
             CallHttpApi(
                 delegate
+                {
+                    uint token = 0;
+
+                    uint retVal;
+                    do
                     {
-                        uint token = 0;
+                        var inputConfigInfoQuery =
+                            new HTTP_SERVICE_CONFIG_SSL_QUERY
+                            {
+                                QueryDesc = HTTP_SERVICE_CONFIG_QUERY_TYPE.HttpServiceConfigQueryNext,
+                                dwToken = token,
+                            };
 
-                        uint retVal;
-                        do
+                        var pInputConfigInfo =
+                            Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_SSL_QUERY)));
+                        Marshal.StructureToPtr(inputConfigInfoQuery, pInputConfigInfo, false);
+
+                        var pOutputConfigInfo = IntPtr.Zero;
+                        var returnLength = 0;
+
+                        const HTTP_SERVICE_CONFIG_Id queryType = HTTP_SERVICE_CONFIG_Id.HttpServiceConfigSSLCertInfo;
+
+                        try
                         {
-                            HTTP_SERVICE_CONFIG_SSL_QUERY inputConfigInfoQuery =
-                                new HTTP_SERVICE_CONFIG_SSL_QUERY
-                                    {
-                                        QueryDesc = HTTP_SERVICE_CONFIG_QUERY_TYPE.HttpServiceConfigQueryNext,
-                                        dwToken = token,
-                                    };
-
-                            IntPtr pInputConfigInfo =
-                                Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_SSL_QUERY)));
-                            Marshal.StructureToPtr(inputConfigInfoQuery, pInputConfigInfo, false);
-
-                            IntPtr pOutputConfigInfo = IntPtr.Zero;
-                            int returnLength = 0;
-
-                            const HTTP_SERVICE_CONFIG_ID queryType = HTTP_SERVICE_CONFIG_ID.HttpServiceConfigSSLCertInfo;
-
-                            try
+                            var inputConfigInfoSize = Marshal.SizeOf(inputConfigInfoQuery);
+                            retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
+                                queryType,
+                                pInputConfigInfo,
+                                inputConfigInfoSize,
+                                pOutputConfigInfo,
+                                returnLength,
+                                out returnLength,
+                                IntPtr.Zero);
+                            if (ERROR_NO_MORE_ITEMS == retVal)
                             {
-                                int inputConfigInfoSize = Marshal.SizeOf(inputConfigInfoQuery);
-                                retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
-                                                                       queryType,
-                                                                       pInputConfigInfo,
-                                                                       inputConfigInfoSize,
-                                                                       pOutputConfigInfo,
-                                                                       returnLength,
-                                                                       out returnLength,
-                                                                       IntPtr.Zero);
-                                if (ERROR_NO_MORE_ITEMS == retVal)
-                                    break;
-                                if (ERROR_INSUFFICIENT_BUFFER == retVal)
+                                break;
+                            }
+
+                            if (ERROR_INSUFFICIENT_BUFFER == retVal)
+                            {
+                                pOutputConfigInfo = Marshal.AllocCoTaskMem(returnLength);
+
+                                try
                                 {
-                                    pOutputConfigInfo = Marshal.AllocCoTaskMem(returnLength);
-
-                                    try
-                                    {
-                                        retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
-                                                                               queryType,
-                                                                               pInputConfigInfo,
-                                                                               inputConfigInfoSize,
-                                                                               pOutputConfigInfo,
-                                                                               returnLength,
-                                                                               out returnLength,
-                                                                               IntPtr.Zero);
-                                        ThrowWin32ExceptionIfError(retVal);
-
-                                        var outputConfigInfo = (HTTP_SERVICE_CONFIG_SSL_SET)Marshal.PtrToStructure(
-                                            pOutputConfigInfo, typeof(HTTP_SERVICE_CONFIG_SSL_SET));
-
-                                        byte[] hash = new byte[outputConfigInfo.ParamDesc.SslHashLength];
-                                        Marshal.Copy(outputConfigInfo.ParamDesc.pSslHash, hash, 0, hash.Length);
-
-                                        Guid appId = outputConfigInfo.ParamDesc.AppId;
-                                        string storeName = outputConfigInfo.ParamDesc.pSslCertStoreName;
-                                        IPEndPoint ipPort = ReadSockaddrStructure(outputConfigInfo.KeyDesc.pIpPort);
-
-                                        var resultItem = new SslCertificateInfo
-                                            {
-                                                AppId = appId,
-                                                Hash = hash,
-                                                StoreName = storeName,
-                                                IpPort = ipPort
-                                            };
-                                        result.Add(resultItem);
-                                        token++;
-                                    }
-                                    finally
-                                    {
-                                        Marshal.FreeCoTaskMem(pOutputConfigInfo);
-                                    }
-                                }
-                                else
+                                    retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
+                                        queryType,
+                                        pInputConfigInfo,
+                                        inputConfigInfoSize,
+                                        pOutputConfigInfo,
+                                        returnLength,
+                                        out returnLength,
+                                        IntPtr.Zero);
                                     ThrowWin32ExceptionIfError(retVal);
+
+                                    var outputConfigInfo = (HTTP_SERVICE_CONFIG_SSL_SET)Marshal.PtrToStructure(
+                                        pOutputConfigInfo, typeof(HTTP_SERVICE_CONFIG_SSL_SET));
+
+                                    var hash = new byte[outputConfigInfo.ParamDesc.SslHashLength];
+                                    Marshal.Copy(outputConfigInfo.ParamDesc.pSslHash, hash, 0, hash.Length);
+
+                                    var appId = outputConfigInfo.ParamDesc.AppId;
+                                    var storeName = outputConfigInfo.ParamDesc.pSslCertStoreName;
+                                    var ipPort = ReadSockaddrStructure(outputConfigInfo.KeyDesc.pIpPort);
+
+                                    var resultItem = new SslCertificateInfo
+                                    {
+                                        AppId = appId,
+                                        Hash = hash,
+                                        StoreName = storeName,
+                                        IpPort = ipPort
+                                    };
+                                    result.Add(resultItem);
+                                    token++;
+                                }
+                                finally
+                                {
+                                    Marshal.FreeCoTaskMem(pOutputConfigInfo);
+                                }
                             }
-                            finally
+                            else
                             {
-                                Marshal.FreeCoTaskMem(pInputConfigInfo);
+                                ThrowWin32ExceptionIfError(retVal);
                             }
-                        } while (NOERROR == retVal);
-                    });
+                        }
+                        finally
+                        {
+                            Marshal.FreeCoTaskMem(pInputConfigInfo);
+                        }
+                    } while (NOERROR == retVal);
+                });
 
             return result.ToArray();
         }
 
         private static HTTP_SERVICE_CONFIG_URLACL_SET QueryReservation(string networkURL)
         {
-            if (String.IsNullOrEmpty(networkURL))
+            if (string.IsNullOrEmpty(networkURL))
+            {
                 throw new ArgumentNullException("networkURL");
-            HTTP_SERVICE_CONFIG_URLACL_SET res = new HTTP_SERVICE_CONFIG_URLACL_SET {KeyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY("")};
+            }
+
+            var res = new HTTP_SERVICE_CONFIG_URLACL_SET { KeyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY("") };
             CallHttpApi(
                 delegate
+                {
+                    var inputquery = new HTTP_SERVICE_CONFIG_URLACL_QUERY
                     {
-                        HTTP_SERVICE_CONFIG_URLACL_QUERY inputquery = new HTTP_SERVICE_CONFIG_URLACL_QUERY
-                            {
-                                QueryDesc = HTTP_SERVICE_CONFIG_QUERY_TYPE.HttpServiceConfigQueryExact,
-                                KeyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY(networkURL)
-                            };
+                        QueryDesc = HTTP_SERVICE_CONFIG_QUERY_TYPE.HttpServiceConfigQueryExact,
+                        KeyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY(networkURL)
+                    };
 
-                        IntPtr pInputQuery = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_QUERY)));
-                        Marshal.StructureToPtr(inputquery, pInputQuery, false);
-                        IntPtr pOutputConfigInfo = IntPtr.Zero;
-                        int returnLength = 0;
-                        try
+                    var pInputQuery = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_QUERY)));
+                    Marshal.StructureToPtr(inputquery, pInputQuery, false);
+                    var pOutputConfigInfo = IntPtr.Zero;
+                    var returnLength = 0;
+                    try
+                    {
+                        var retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
+                            HTTP_SERVICE_CONFIG_Id.HttpServiceConfigUrlAclInfo,
+                            pInputQuery,
+                            Marshal.SizeOf(inputquery),
+                            pOutputConfigInfo,
+                            returnLength,
+                            out returnLength,
+                            IntPtr.Zero);
+                        if (ERROR_INSUFFICIENT_BUFFER == retVal)
                         {
-                            uint retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
-                                                                        HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
-                                                                        pInputQuery,
-                                                                        Marshal.SizeOf(inputquery),
-                                                                        pOutputConfigInfo,
-                                                                        returnLength,
-                                                                        out returnLength,
-                                                                        IntPtr.Zero);
-                            if (ERROR_INSUFFICIENT_BUFFER == retVal)
+                            pOutputConfigInfo = Marshal.AllocCoTaskMem(returnLength);
+                            retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
+                                HTTP_SERVICE_CONFIG_Id.HttpServiceConfigUrlAclInfo,
+                                pInputQuery,
+                                Marshal.SizeOf(inputquery),
+                                pOutputConfigInfo,
+                                returnLength,
+                                out returnLength,
+                                IntPtr.Zero);
+                            if (ERROR_FILE_NOT_FOUND == retVal)
                             {
-                                pOutputConfigInfo = Marshal.AllocCoTaskMem(returnLength);
-                                retVal = HttpQueryServiceConfiguration(IntPtr.Zero,
-                                                                       HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
-                                                                       pInputQuery,
-                                                                       Marshal.SizeOf(inputquery),
-                                                                       pOutputConfigInfo,
-                                                                       returnLength,
-                                                                       out returnLength,
-                                                                       IntPtr.Zero);
-                                if (ERROR_FILE_NOT_FOUND == retVal)
-                                    return;
-                                ThrowWin32ExceptionIfError(retVal);
-                                res = (HTTP_SERVICE_CONFIG_URLACL_SET)Marshal.PtrToStructure(pOutputConfigInfo, typeof(HTTP_SERVICE_CONFIG_URLACL_SET));
+                                return;
                             }
-                            else if (ERROR_FILE_NOT_FOUND != retVal)
-                                ThrowWin32ExceptionIfError(retVal);
+
+                            ThrowWin32ExceptionIfError(retVal);
+                            res = (HTTP_SERVICE_CONFIG_URLACL_SET)Marshal.PtrToStructure(pOutputConfigInfo, typeof(HTTP_SERVICE_CONFIG_URLACL_SET));
                         }
-                        finally
+                        else if (ERROR_FILE_NOT_FOUND != retVal)
                         {
-                            Marshal.FreeCoTaskMem(pInputQuery);
-                            if (pOutputConfigInfo != IntPtr.Zero)
-                                Marshal.FreeCoTaskMem(pOutputConfigInfo);
+                            ThrowWin32ExceptionIfError(retVal);
                         }
                     }
-                );
+                    finally
+                    {
+                        Marshal.FreeCoTaskMem(pInputQuery);
+                        if (pOutputConfigInfo != IntPtr.Zero)
+                        {
+                            Marshal.FreeCoTaskMem(pOutputConfigInfo);
+                        }
+                    }
+                }
+            );
             return res;
         }
 
         public static uint DeleteReservation(string networkURL)
         {
-            uint retVal = NOERROR;
-            if (String.IsNullOrEmpty(networkURL))
+            var retVal = NOERROR;
+            if (string.IsNullOrEmpty(networkURL))
+            {
                 throw new ArgumentNullException("networkURL");
-            HTTP_SERVICE_CONFIG_URLACL_SET oldReservation = QueryReservation(networkURL);
+            }
+
+            var oldReservation = QueryReservation(networkURL);
             if (oldReservation.KeyDesc.pUrlPrefix == "" && networkURL.Contains("+"))
             {
                 networkURL = networkURL.Replace('+', '*');
                 oldReservation = QueryReservation(networkURL);
             }
+
             if (oldReservation.KeyDesc.pUrlPrefix == "")
+            {
                 return ERROR_FILE_NOT_FOUND;
+            }
+
             CallHttpApi(
                 delegate
+                {
+                    var pInputConfigInfo = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_SET)));
+                    Marshal.StructureToPtr(oldReservation, pInputConfigInfo, false);
+                    try
                     {
-                        IntPtr pInputConfigInfo = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_SET)));
-                        Marshal.StructureToPtr(oldReservation, pInputConfigInfo, false);
-                        try
-                        {
-                            retVal = HttpDeleteServiceConfiguration(IntPtr.Zero,
-                                                                    HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
-                                                                    pInputConfigInfo,
-                                                                    Marshal.SizeOf(oldReservation),
-                                                                    IntPtr.Zero);
-                        }
-                        finally
-                        {
-                            Marshal.FreeCoTaskMem(pInputConfigInfo);
-                        }
-                    });
+                        retVal = HttpDeleteServiceConfiguration(IntPtr.Zero,
+                            HTTP_SERVICE_CONFIG_Id.HttpServiceConfigUrlAclInfo,
+                            pInputConfigInfo,
+                            Marshal.SizeOf(oldReservation),
+                            IntPtr.Zero);
+                    }
+                    finally
+                    {
+                        Marshal.FreeCoTaskMem(pInputConfigInfo);
+                    }
+                });
             return retVal;
         }
 
         public static void ReserveURL(string networkURL, string securityDescriptor)
         {
-            if (String.IsNullOrEmpty(networkURL))
+            if (string.IsNullOrEmpty(networkURL))
+            {
                 throw new ArgumentNullException("networkURL");
-            if (String.IsNullOrEmpty(securityDescriptor))
+            }
+
+            if (string.IsNullOrEmpty(securityDescriptor))
+            {
                 throw new ArgumentNullException("securityDescriptor");
+            }
 
             CallHttpApi(
                 delegate
+                {
+                    uint retVal;
+
+                    var keyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY(networkURL);
+                    var paramDesc = new HTTP_SERVICE_CONFIG_URLACL_PARAM(securityDescriptor);
+
+                    var inputConfigInfoSet = new HTTP_SERVICE_CONFIG_URLACL_SET { KeyDesc = keyDesc, ParamDesc = paramDesc };
+
+                    var pInputConfigInfo = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_SET)));
+                    Marshal.StructureToPtr(inputConfigInfoSet, pInputConfigInfo, false);
+                    try
                     {
-                        uint retVal;
+                        retVal = HttpSetServiceConfiguration(IntPtr.Zero,
+                            HTTP_SERVICE_CONFIG_Id.HttpServiceConfigUrlAclInfo,
+                            pInputConfigInfo,
+                            Marshal.SizeOf(inputConfigInfoSet),
+                            IntPtr.Zero);
 
-                        HTTP_SERVICE_CONFIG_URLACL_KEY keyDesc = new HTTP_SERVICE_CONFIG_URLACL_KEY(networkURL);
-                        HTTP_SERVICE_CONFIG_URLACL_PARAM paramDesc = new HTTP_SERVICE_CONFIG_URLACL_PARAM(securityDescriptor);
-
-                        HTTP_SERVICE_CONFIG_URLACL_SET inputConfigInfoSet = new HTTP_SERVICE_CONFIG_URLACL_SET {KeyDesc = keyDesc, ParamDesc = paramDesc};
-
-                        IntPtr pInputConfigInfo = Marshal.AllocCoTaskMem(Marshal.SizeOf(typeof(HTTP_SERVICE_CONFIG_URLACL_SET)));
-                        Marshal.StructureToPtr(inputConfigInfoSet, pInputConfigInfo, false);
-                        try
+                        if (ERROR_ALREADY_EXISTS == retVal)
                         {
-                            retVal = HttpSetServiceConfiguration(IntPtr.Zero,
-                                                                 HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
-                                                                 pInputConfigInfo,
-                                                                 Marshal.SizeOf(inputConfigInfoSet),
-                                                                 IntPtr.Zero);
-
-                            if (ERROR_ALREADY_EXISTS == retVal)
+                            retVal = DeleteReservation(networkURL);
+                            if (ERROR_FILE_NOT_FOUND == retVal)
                             {
-                                retVal = DeleteReservation(networkURL);
-                                if (ERROR_FILE_NOT_FOUND == retVal)
-                                {
-                                    string networkURLOld = networkURL.Contains("https") ? networkURL.Replace("https", "http") :
-                                                               networkURL.Replace("http", "https");
-                                    retVal = DeleteReservation(networkURLOld);
-                                }
+                                var networkURLOld = networkURL.Contains("https") ? networkURL.Replace("https", "http") :
+                                    networkURL.Replace("http", "https");
+                                retVal = DeleteReservation(networkURLOld);
+                            }
 
-                                if (NOERROR == retVal)
-                                {
-                                    retVal = HttpSetServiceConfiguration(IntPtr.Zero,
-                                                                         HTTP_SERVICE_CONFIG_ID.HttpServiceConfigUrlAclInfo,
-                                                                         pInputConfigInfo,
-                                                                         Marshal.SizeOf(inputConfigInfoSet),
-                                                                         IntPtr.Zero);
-                                }
+                            if (NOERROR == retVal)
+                            {
+                                retVal = HttpSetServiceConfiguration(IntPtr.Zero,
+                                    HTTP_SERVICE_CONFIG_Id.HttpServiceConfigUrlAclInfo,
+                                    pInputConfigInfo,
+                                    Marshal.SizeOf(inputConfigInfoSet),
+                                    IntPtr.Zero);
                             }
                         }
-                        finally
-                        {
-                            Marshal.FreeCoTaskMem(pInputConfigInfo);
-                        }
-                        if (NOERROR != retVal)
-                            ThrowWin32ExceptionIfError(retVal);
-                    });
+                    }
+                    finally
+                    {
+                        Marshal.FreeCoTaskMem(pInputConfigInfo);
+                    }
+
+                    if (NOERROR != retVal)
+                    {
+                        ThrowWin32ExceptionIfError(retVal);
+                    }
+                });
         }
         #endregion
 
         private static void ThrowWin32ExceptionIfError(uint retVal)
         {
             if (NOERROR != retVal)
+            {
                 throw new Win32Exception(Convert.ToInt32(retVal));
+            }
         }
 
         private static void CallHttpApi(Action body)
         {
-            uint retVal = HttpInitialize(HttpApiVersion, HTTP_INITIALIZE_CONFIG, IntPtr.Zero);
+            var retVal = HttpInitialize(HttpApiVersion, HTTP_INITIALIZE_CONFIG, IntPtr.Zero);
             ThrowWin32ExceptionIfError(retVal);
 
             try
@@ -672,13 +731,16 @@ namespace WebserverInitalConfig
         /// <remarks>When the handle goes out of scope you must explicitly release it by calling the Free method; otherwise, memory leaks may occur. </remarks>
         private static GCHandle CreateSockaddrStructure(IPEndPoint ipEndPoint)
         {
-            SocketAddress socketAddress = ipEndPoint.Serialize();
+            var socketAddress = ipEndPoint.Serialize();
 
             // use an array of bytes instead of the sockaddr structure 
-            byte[] sockAddrStructureBytes = new byte[socketAddress.Size];
-            GCHandle sockAddrHandle = GCHandle.Alloc(sockAddrStructureBytes, GCHandleType.Pinned);
-            for (int i = 0; i < socketAddress.Size; ++i)
+            var sockAddrStructureBytes = new byte[socketAddress.Size];
+            var sockAddrHandle = GCHandle.Alloc(sockAddrStructureBytes, GCHandleType.Pinned);
+            for (var i = 0; i < socketAddress.Size; ++i)
+            {
                 sockAddrStructureBytes[i] = socketAddress[i];
+            }
+
             return sockAddrHandle;
         }
 
@@ -689,8 +751,8 @@ namespace WebserverInitalConfig
         /// <returns>IP address and port number</returns>
         private static IPEndPoint ReadSockaddrStructure(IntPtr pSockaddrStructure)
         {
-            short sAddressFamily = Marshal.ReadInt16(pSockaddrStructure);
-            AddressFamily addressFamily = (AddressFamily)sAddressFamily;
+            var sAddressFamily = Marshal.ReadInt16(pSockaddrStructure);
+            var addressFamily = (AddressFamily)sAddressFamily;
 
             int sockAddrSructureSize;
             IPEndPoint ipEndPointAny;
@@ -712,16 +774,18 @@ namespace WebserverInitalConfig
 
 
             // get bytes of the sockadrr structure
-            byte[] sockAddrSructureBytes = new byte[sockAddrSructureSize];
+            var sockAddrSructureBytes = new byte[sockAddrSructureSize];
             Marshal.Copy(pSockaddrStructure, sockAddrSructureBytes, 0, sockAddrSructureSize);
 
             // create SocketAddress from bytes
             var socketAddress = new SocketAddress(AddressFamily.Unspecified, sockAddrSructureSize);
-            for (int i = 0; i < sockAddrSructureSize; i++)
+            for (var i = 0; i < sockAddrSructureSize; i++)
+            {
                 socketAddress[i] = sockAddrSructureBytes[i];
+            }
 
             // create IPEndPoint from SocketAddress
-            IPEndPoint result = (IPEndPoint)ipEndPointAny.Create(socketAddress);
+            var result = (IPEndPoint)ipEndPointAny.Create(socketAddress);
 
             return result;
         }

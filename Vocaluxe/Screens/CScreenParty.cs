@@ -20,7 +20,6 @@ using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
-using VocaluxeLib.PartyModes;
 
 namespace Vocaluxe.Screens
 {
@@ -49,16 +48,16 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeTexts = new string[] {_TextDescription, _TextTargetAudience, _TextNumTeams, _TextNumPlayers, _TextAuthor, _TextVersion, _TextError};
-            _ThemeButtons = new string[] {_ButtonStart, _ButtonExit};
-            _ThemeSelectSlides = new string[] {_SelectSlideModes};
+            _ThemeTexts = new string[] { _TextDescription, _TextTargetAudience, _TextNumTeams, _TextNumPlayers, _TextAuthor, _TextVersion, _TextError };
+            _ThemeButtons = new string[] { _ButtonStart, _ButtonExit };
+            _ThemeSelectSlides = new string[] { _SelectSlideModes };
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -70,19 +69,28 @@ namespace Vocaluxe.Screens
 
                     case Keys.Enter:
                         if (_Buttons[_ButtonStart].Selected)
+                        {
                             _StartPartyMode();
+                        }
 
                         if (_Buttons[_ButtonExit].Selected)
+                        {
                             CGraphics.FadeTo(EScreen.Main);
+                        }
+
                         break;
 
                     case Keys.Left:
                     case Keys.Right:
                         if (_SelectSlides[_SelectSlideModes].Selected)
+                        {
                             _UpdateSelection();
+                        }
+
                         break;
                 }
             }
+
             return true;
         }
 
@@ -93,17 +101,25 @@ namespace Vocaluxe.Screens
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonStart].Selected)
+                {
                     _StartPartyMode();
+                }
 
                 if (_Buttons[_ButtonExit].Selected)
+                {
                     CGraphics.FadeTo(EScreen.Main);
+                }
 
                 if (_SelectSlides[_SelectSlideModes].Selected)
+                {
                     _UpdateSelection();
+                }
             }
 
             if (mouseEvent.RB)
+            {
                 CGraphics.FadeTo(EScreen.Main);
+            }
 
             return true;
         }
@@ -115,8 +131,11 @@ namespace Vocaluxe.Screens
             _PartyModeInfos = CParty.GetPartyModeInfos();
 
             _SelectSlides[_SelectSlideModes].Clear();
-            foreach (SPartyModeInfos info in _PartyModeInfos)
-                _SelectSlides[_SelectSlideModes].AddValue(info.Name, info.ExtInfo.ID);
+            foreach (var info in _PartyModeInfos)
+            {
+                _SelectSlides[_SelectSlideModes].AddValue(info.Name, info.ExtInfo.Id);
+            }
+
             _SelectSlides[_SelectSlideModes].Selection = 0;
             _UpdateSelection();
 
@@ -131,9 +150,11 @@ namespace Vocaluxe.Screens
         private void _UpdateSelection()
         {
             if (_PartyModeInfos.Count == 0)
+            {
                 return;
+            }
 
-            int index = _SelectSlides[_SelectSlideModes].Selection;
+            var index = _SelectSlides[_SelectSlideModes].Selection;
             if (index >= _PartyModeInfos.Count)
             {
                 index = 0;
@@ -141,42 +162,52 @@ namespace Vocaluxe.Screens
             }
 
             //Description    
-            SPartyModeInfos infos = _PartyModeInfos[index];
-            IPartyModeInfo extInfo = infos.ExtInfo;
+            var infos = _PartyModeInfos[index];
+            var extInfo = infos.ExtInfo;
             _Texts[_TextDescription].Text = infos.Description;
-            _Texts[_TextDescription].TranslationID = extInfo.ID;
+            _Texts[_TextDescription].TranslationId = extInfo.Id;
 
             //TargetAudience
-            _Texts[_TextTargetAudience].TranslationID = extInfo.ID;
+            _Texts[_TextTargetAudience].TranslationId = extInfo.Id;
             _Texts[_TextTargetAudience].Text = infos.TargetAudience;
 
             //NumTeams
             if (extInfo.MaxTeams == 1)
+            {
                 _Texts[_TextNumTeams].Text = "TR_SCREENPARTY_NOTEAMS";
+            }
             else if (extInfo.MaxTeams == extInfo.MinTeams)
+            {
                 _Texts[_TextNumTeams].Text = extInfo.MaxTeams.ToString();
+            }
             else
+            {
                 _Texts[_TextNumTeams].Text = extInfo.MinTeams + " - " + extInfo.MaxTeams;
+            }
 
             //NumPlayers
             if (extInfo.MaxPlayers == extInfo.MinPlayers)
+            {
                 _Texts[_TextNumPlayers].Text = extInfo.MaxTeams.ToString();
+            }
             else
+            {
                 _Texts[_TextNumPlayers].Text = extInfo.MinPlayers + " - " + extInfo.MaxPlayers;
+            }
 
             //Author
             _Texts[_TextAuthor].Text = infos.Author;
-            _Texts[_TextAuthor].TranslationID = extInfo.ID;
+            _Texts[_TextAuthor].TranslationId = extInfo.Id;
 
             //Version
             _Texts[_TextVersion].Text = infos.VersionMajor + "." + infos.VersionMinor;
-            _Texts[_TextVersion].TranslationID = extInfo.ID;
+            _Texts[_TextVersion].TranslationId = extInfo.Id;
 
             if (CConfig.GetMaxNumMics() < extInfo.MinMics)
             {
                 _Buttons[_ButtonStart].Visible = false;
                 _Texts[_TextError].Text = CConfig.GetMaxNumMics() == 0
-                                              ? "TR_SCREENPARTY_ERROR_MICS" : CLanguage.Translate("TR_SCREENPARTY_ERROR_MIC_NUM").Replace("%d", extInfo.MinMics.ToString());
+                    ? "TR_SCREENPARTY_ERROR_MICS" : CLanguage.Translate("TR_SCREENPARTY_ERROR_MIC_NUM").Replace("%d", extInfo.MinMics.ToString());
                 _Texts[_TextError].Visible = true;
             }
             else
@@ -189,9 +220,11 @@ namespace Vocaluxe.Screens
         private void _StartPartyMode()
         {
             if (_PartyModeInfos.Count == 0)
+            {
                 return;
+            }
 
-            int index = _SelectSlides[_SelectSlideModes].Selection;
+            var index = _SelectSlides[_SelectSlideModes].Selection;
             if (index >= _PartyModeInfos.Count)
             {
                 _Buttons[_ButtonStart].Visible = false;
@@ -200,7 +233,7 @@ namespace Vocaluxe.Screens
                 return;
             }
 
-            CParty.SetPartyMode(_PartyModeInfos[index].ExtInfo.ID);
+            CParty.SetPartyMode(_PartyModeInfos[index].ExtInfo.Id);
             CGraphics.FadeTo(CParty.GetStartScreen());
         }
     }

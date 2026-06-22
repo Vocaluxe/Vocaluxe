@@ -21,7 +21,7 @@ namespace VocaluxeLib.Utils.Player
 {
     public class CSoundPlayer
     {
-        protected int _StreamID = -1;
+        protected int _StreamId = -1;
         protected readonly float _FadeTime = CBase.Settings.GetSoundPlayerFadeTime();
         public string FilePath { get; private set; }
 
@@ -35,27 +35,30 @@ namespace VocaluxeLib.Utils.Player
             set
             {
                 if (!SoundLoaded)
+                {
                     return;
-                CBase.Sound.SetPosition(_StreamID, value);
+                }
+
+                CBase.Sound.SetPosition(_StreamId, value);
             }
-            get { return !SoundLoaded ? -1 : CBase.Sound.GetPosition(_StreamID); }
+            get { return !SoundLoaded ? -1 : CBase.Sound.GetPosition(_StreamId); }
         }
 
         public float Length
         {
-            get { return !SoundLoaded ? -1 : CBase.Sound.GetLength(_StreamID); }
+            get { return !SoundLoaded ? -1 : CBase.Sound.GetLength(_StreamId); }
         }
 
         public bool IsPlaying { get; private set; }
 
         public bool IsFinished
         {
-            get { return !Loop && (CBase.Sound.IsFinished(_StreamID) || !IsPlaying); }
+            get { return !Loop && (CBase.Sound.IsFinished(_StreamId) || !IsPlaying); }
         }
 
         public bool SoundLoaded
         {
-            get { return _StreamID != -1; }
+            get { return _StreamId != -1; }
         }
 
         public virtual string ArtistAndTitle
@@ -72,14 +75,22 @@ namespace VocaluxeLib.Utils.Player
         {
             Close();
 
-            _StreamID = CBase.Sound.Load(file, false, true);
-            if (_StreamID < 0)
+            _StreamId = CBase.Sound.Load(file, false, true);
+            if (_StreamId < 0)
+            {
                 return;
+            }
+
             FilePath = file;
             if (position > 0f)
+            {
                 Position = position;
+            }
+
             if (autoplay)
+            {
                 Play();
+            }
         }
 
         /// <summary>
@@ -89,11 +100,13 @@ namespace VocaluxeLib.Utils.Player
         public virtual bool Play()
         {
             if (!SoundLoaded || IsPlaying)
+            {
                 return false;
+            }
 
-            CBase.Sound.SetStreamVolume(_StreamID, 0);
-            CBase.Sound.Fade(_StreamID, 100, _FadeTime);
-            CBase.Sound.Play(_StreamID);
+            CBase.Sound.SetStreamVolume(_StreamId, 0);
+            CBase.Sound.Fade(_StreamId, 100, _FadeTime);
+            CBase.Sound.Play(_StreamId);
             IsPlaying = true;
             return true;
         }
@@ -104,10 +117,12 @@ namespace VocaluxeLib.Utils.Player
         /// <returns>True if state changed, false if nothing loaded or already paused</returns>
         public virtual bool Pause()
         {
-            if (!SoundLoaded || CBase.Sound.IsPaused(_StreamID))
+            if (!SoundLoaded || CBase.Sound.IsPaused(_StreamId))
+            {
                 return false;
+            }
 
-            CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Pause);
+            CBase.Sound.Fade(_StreamId, 0, _FadeTime, EStreamAction.Pause);
             IsPlaying = false;
             return true;
         }
@@ -119,9 +134,11 @@ namespace VocaluxeLib.Utils.Player
         public virtual bool Stop()
         {
             if (!SoundLoaded)
+            {
                 return false;
+            }
 
-            CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Stop);
+            CBase.Sound.Fade(_StreamId, 0, _FadeTime, EStreamAction.Stop);
             IsPlaying = false;
             return true;
         }
@@ -129,10 +146,12 @@ namespace VocaluxeLib.Utils.Player
         public virtual void Close()
         {
             if (!SoundLoaded)
+            {
                 return;
+            }
 
-            CBase.Sound.Fade(_StreamID, 0, _FadeTime, EStreamAction.Close);
-            _StreamID = -1;
+            CBase.Sound.Fade(_StreamId, 0, _FadeTime, EStreamAction.Close);
+            _StreamId = -1;
             FilePath = "";
             IsPlaying = false;
         }
@@ -140,9 +159,11 @@ namespace VocaluxeLib.Utils.Player
         public void Update()
         {
             if (!IsPlaying)
+            {
                 return;
+            }
 
-            bool finished = CBase.Sound.IsFinished(_StreamID);
+            var finished = CBase.Sound.IsFinished(_StreamId);
             if (Loop)
             {
                 if (finished)
@@ -151,14 +172,17 @@ namespace VocaluxeLib.Utils.Player
                     Stop();
                     Play();
                 }
+
                 return;
             }
 
-            float len = CBase.Sound.GetLength(_StreamID);
-            float timeToPlay = (len > 0f) ? len - CBase.Sound.GetPosition(_StreamID) : _FadeTime + 1f;
+            var len = CBase.Sound.GetLength(_StreamId);
+            var timeToPlay = len > 0f ? len - CBase.Sound.GetPosition(_StreamId) : _FadeTime + 1f;
 
             if (timeToPlay <= _FadeTime || finished)
+            {
                 Stop();
+            }
         }
     }
 }

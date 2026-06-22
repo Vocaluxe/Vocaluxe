@@ -54,18 +54,24 @@ namespace Vocaluxe.Base
         public void Draw()
         {
             if (_Movetimer.ElapsedMilliseconds > CSettings.MouseMoveOffTime)
+            {
                 Deactivate();
+            }
 
             if (_Fading != null)
             {
                 bool finished;
                 _Cursor.Color.A = _Fading.GetValue(out finished);
                 if (finished)
+                {
                     _Fading = null;
+                }
             }
 
             if (Visible && (CSettings.ProgramState == EProgramState.EditTheme || ShowCursor))
+            {
                 CDraw.DrawTexture(_Cursor);
+            }
         }
 
         public void UpdatePosition(int x, int y)
@@ -87,7 +93,7 @@ namespace Vocaluxe.Base
 
         public void LoadSkin()
         {
-            SThemeCursor theme = CThemes.GetCursorTheme();
+            var theme = CThemes.GetCursorTheme();
             _Cursor = CDraw.CopyTexture(CThemes.GetSkinTexture(theme.SkinName, -1));
 
             theme.Color.Get(-1, out _Cursor.Color);
@@ -103,8 +109,8 @@ namespace Vocaluxe.Base
 
         public void ReloadSkin()
         {
-            int x = X;
-            int y = Y;
+            var x = X;
+            var y = Y;
             UnloadSkin();
             LoadSkin();
             UpdatePosition(x, y);
@@ -113,7 +119,10 @@ namespace Vocaluxe.Base
         public void Deactivate()
         {
             if (!IsActive)
+            {
                 return;
+            }
+
             _MouseMoveDiffMin = CSettings.MouseMoveDiffMinInactive;
             _Movetimer.Reset();
             _Fade(0f, 0.5f);
@@ -122,10 +131,13 @@ namespace Vocaluxe.Base
         public void Activate()
         {
             // Here we need to restart the timer in all cases but only set fading and diff if we are not yet active
-            bool active = IsActive;
+            var active = IsActive;
             _Movetimer.Restart();
             if (active)
+            {
                 return;
+            }
+
             _MouseMoveDiffMin = CSettings.MouseMoveDiffMinActive;
             _Fade(1f, 0.2f);
         }

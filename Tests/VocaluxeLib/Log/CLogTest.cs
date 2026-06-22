@@ -34,7 +34,6 @@ namespace Tests.VocaluxeLib.Log
         private string _TestFolder;
 
         #region Setup methods
-
         [SetUp]
         public void SetUp()
         {
@@ -46,39 +45,36 @@ namespace Tests.VocaluxeLib.Log
         {
             Directory.Delete(_TestFolder, true);
         }
-
         #endregion
 
         #region Tests
-        
         #region Verbose tests
-
         [Test]
         public void VerboseTestWithDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Verbose] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Verbose] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Verbose(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -88,50 +84,50 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Verbose] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Verbose] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void VerboseTestWithDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Verbose] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Verbose] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Verbose(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -141,49 +137,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Verbose] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Verbose] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void VerboseTestWithoutDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Verbose] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Verbose] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Verbose(new Exception(_TestExceptionMessage), _TestMessage, show);
@@ -193,49 +189,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Verbose] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Verbose] " + _TestMessage), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void VerboseTestWithoutDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Verbose] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Verbose] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Verbose(_TestMessage, show);
@@ -245,51 +241,50 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Verbose] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Verbose] " + _TestMessage), "Main log entry wrong");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
-
         #endregion
-        #region Debug tests
 
+        #region Debug tests
         [Test]
         public void DebugTestWithDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Debug] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Debug] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Debug(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -299,50 +294,50 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Debug] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Debug] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void DebugTestWithDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Debug] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Debug] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Debug(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -352,49 +347,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Debug] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Debug] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void DebugTestWithoutDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Debug] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Debug] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Debug(new Exception(_TestExceptionMessage), _TestMessage, show);
@@ -404,49 +399,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Debug] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Debug] " + _TestMessage), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void DebugTestWithoutDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Debug] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Debug] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Debug(_TestMessage, show);
@@ -456,51 +451,50 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Debug] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Debug] " + _TestMessage), "Main log entry wrong");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
-
         #endregion
-        #region Information tests
 
+        #region Information tests
         [Test]
         public void InformationTestWithDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Information] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Information(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -510,50 +504,50 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Information] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Information] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void InformationTestWithDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Information] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Information(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -563,49 +557,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Information] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Information] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void InformationTestWithoutDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Information] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Information(new Exception(_TestExceptionMessage), _TestMessage, show);
@@ -615,49 +609,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Information] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Information] " + _TestMessage), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void InformationTestWithoutDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Information] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Information(_TestMessage, show);
@@ -667,51 +661,50 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Information] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Information] " + _TestMessage), "Main log entry wrong");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
-
         #endregion
-        #region Warning tests
 
+        #region Warning tests
         [Test]
         public void WarningTestWithDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Warning] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Warning] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Warning(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -721,50 +714,50 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Warning] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Warning] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void WarningTestWithDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Warning] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Warning] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Warning(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -774,49 +767,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Warning] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Warning] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void WarningTestWithoutDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Warning] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Warning] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Warning(new Exception(_TestExceptionMessage), _TestMessage, show);
@@ -826,49 +819,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Warning] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Warning] " + _TestMessage), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void WarningTestWithoutDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Warning] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Warning] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Warning(_TestMessage, show);
@@ -878,51 +871,50 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Warning] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Warning] " + _TestMessage), "Main log entry wrong");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
-
         #endregion
-        #region Error tests
 
+        #region Error tests
         [Test]
         public void ErrorTestWithDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Error] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Error] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Error(new Exception(_TestExceptionMessage), _TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -932,50 +924,50 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Error] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Error] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void ErrorTestWithDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Error] " + _TestMessageWithResolvedData, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Error] " + _TestMessageWithResolvedData), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessageWithResolvedData, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessageWithResolvedData), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Error(_TestMessageWithData, CLog.Params(_FirstParam, _SecondParam), show);
@@ -985,49 +977,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Error] " +_TestMessageWithResolvedData, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_SecondParam, mainLogContent, "Second data field is missing");
-            StringAssert.Contains(_TestMessageWithResolvedData, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Error] " + _TestMessageWithResolvedData), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_SecondParam), "Second data field is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessageWithResolvedData), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void ErrorTestWithoutDataWithException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Error] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Error] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Error(new Exception(_TestExceptionMessage), _TestMessage, show);
@@ -1037,49 +1029,49 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Error] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestExceptionMessage, mainLogContent, "Exception is missing");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Error] " + _TestMessage), "Main log entry wrong");
+            Assert.That(mainLogContent, Contains.Substring(_TestExceptionMessage), "Exception is missing");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
 
         [Test]
         public void ErrorTestWithoutDataWithoutException([Values(true, false)] bool show)
         {
-            string testFileName = Path.GetRandomFileName();
-            string testFileSongName = Path.GetRandomFileName();
-            string testFileMarkerName = Path.GetRandomFileName();
-            string versionTag = "Test Version (1.2.4)";
-            bool messageShown = false;
+            var testFileName = Path.GetRandomFileName();
+            var testFileSongName = Path.GetRandomFileName();
+            var testFileMarkerName = Path.GetRandomFileName();
+            var versionTag = "Test Version (1.2.4)";
+            var messageShown = false;
 
             // Init Log
             CLog.Init(_TestFolder, testFileName, testFileSongName, testFileMarkerName, versionTag,
                 (crash, cont, tag, log, error) =>
-            {
-                messageShown = true;
-                Assert.IsTrue(show);
-                Assert.IsFalse(crash);
-                Assert.IsTrue(cont);
-                Assert.AreEqual(versionTag, tag);
+                {
+                    messageShown = true;
+                    Assert.That(show, Is.True);
+                    Assert.That(crash, Is.False);
+                    Assert.That(cont, Is.True);
+                    Assert.That(tag, Is.EqualTo(versionTag));
 
-                StringAssert.Contains("[Information] Starting to log", log, "Main log start entry wrong");
-                StringAssert.Contains("Version = " + versionTag, log, "Main log version tag entry wrong");
-                StringAssert.Contains("[Error] " + _TestMessage, log, "Main log entry wrong");
+                    Assert.That(log, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+                    Assert.That(log, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+                    Assert.That(log, Contains.Substring("[Error] " + _TestMessage), "Main log entry wrong");
 
-                StringAssert.Contains(_TestMessage, error, "Error message wrong");
-            },
-            ELogLevel.Verbose);
+                    Assert.That(error, Contains.Substring(_TestMessage), "Error message wrong");
+                },
+                ELogLevel.Verbose);
 
             // Add log entry
             CLog.Error(_TestMessage, show);
@@ -1089,36 +1081,31 @@ namespace Tests.VocaluxeLib.Log
             CLog.Close();
 
             // Check log
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileName)), "Mainlog file is missing.");
-            Assert.IsTrue(File.Exists(Path.Combine(_TestFolder, testFileSongName)), "Songlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileName)), Is.True, "Mainlog file is missing.");
+            Assert.That(File.Exists(Path.Combine(_TestFolder, testFileSongName)), Is.True, "Songlog file is missing.");
 
-            string mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
-            string songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
+            var mainLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileName));
+            var songLogContent = File.ReadAllText(Path.Combine(_TestFolder, testFileSongName));
 
-            StringAssert.Contains("[Information] Starting to log", mainLogContent, "Main log start entry wrong");
-            StringAssert.Contains("Version = " + versionTag, mainLogContent, "Main log version tag entry wrong");
-            StringAssert.Contains("[Error] " +_TestMessage, mainLogContent, "Main log entry wrong");
-            StringAssert.Contains(_TestMessage, songLogContent, "Song log entry wrong");
-            if(!show)
+            Assert.That(mainLogContent, Contains.Substring("[Information] Starting to log"), "Main log start entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("Version = " + versionTag), "Main log version tag entry wrong");
+            Assert.That(mainLogContent, Contains.Substring("[Error] " + _TestMessage), "Main log entry wrong");
+            Assert.That(songLogContent, Contains.Substring(_TestMessage), "Song log entry wrong");
+            if (!show)
             {
-                Assert.IsFalse(messageShown);
+                Assert.That(messageShown, Is.False);
             }
         }
-
         #endregion
-
         #endregion
 
         #region Helper methods
-
         private string _GetTemporaryDirectory()
         {
-            string tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            var tempDirectory = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
             Directory.CreateDirectory(tempDirectory);
             return tempDirectory;
         }
-
         #endregion
-
     }
 }

@@ -15,13 +15,10 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
 using System.Windows.Forms;
-using System.IO;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -42,10 +39,10 @@ namespace Vocaluxe.Screens
 
         private int _WarningStream = -1;
         private bool _HasPlayedWarningSound = false;
-        
+
         private static int PlaySound(ESounds sound, int volume)
         {
-            int streamId = CSound.PlaySound(sound, false);
+            var streamId = CSound.PlaySound(sound, false);
             CSound.SetStreamVolume(streamId, volume);
 
             return streamId;
@@ -55,10 +52,10 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit, _ButtonServer};
-            _ThemeSelectSlides = new string[] {_SelectSlideServerActive, _SelectSlideServerEncryption};
-            _ThemeTexts = new string[] {_TextWarningRestart};
-            _ThemeStatics = new string[] {_StaticWarningRestart};
+            _ThemeButtons = new string[] { _ButtonExit, _ButtonServer };
+            _ThemeSelectSlides = new string[] { _SelectSlideServerActive, _SelectSlideServerEncryption };
+            _ThemeTexts = new string[] { _TextWarningRestart };
+            _ThemeStatics = new string[] { _StaticWarningRestart };
         }
 
         public override void LoadTheme(string xmlPath)
@@ -91,7 +88,7 @@ namespace Vocaluxe.Screens
                     _LeaveScreen();
                     break;
 
-                    case Keys.Enter:
+                case Keys.Enter:
                     if (_Buttons[_ButtonExit].Selected)
                     {
                         _SaveConfig();
@@ -102,6 +99,7 @@ namespace Vocaluxe.Screens
                     {
                         CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
                     }
+
                     break;
 
                 case Keys.Left:
@@ -112,6 +110,7 @@ namespace Vocaluxe.Screens
                     _SaveConfig();
                     break;
             }
+
             return true;
         }
 
@@ -125,6 +124,7 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreen.Options);
                 _LeaveScreen();
             }
+
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 if (_Buttons[_ButtonExit].Selected)
@@ -137,7 +137,8 @@ namespace Vocaluxe.Screens
                 {
                     CGraphics.ShowPopup(EPopupScreens.PopupServerQR);
                 }
-           }
+            }
+
             return true;
         }
 
@@ -145,22 +146,23 @@ namespace Vocaluxe.Screens
         {
             if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
             {
-                 _WarningStream = CScreenOptionsServer.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
-                 _HasPlayedWarningSound = true;
+                _WarningStream = CScreenOptionsServer.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                _HasPlayedWarningSound = true;
             }
+
             return true;
         }
-        
+
         private void _SaveConfig()
         {
             // Detect server activation change
-            int _currentServerActive = (int)CConfig.Config.Server.ServerActive;
-            int _newServerActive = _SelectSlides[_SelectSlideServerActive].Selection;
-            
+            var _currentServerActive = (int)CConfig.Config.Server.ServerActive;
+            var _newServerActive = _SelectSlides[_SelectSlideServerActive].Selection;
+
             if (_currentServerActive != _newServerActive)
             {
                 _Texts[_TextWarningRestart].Visible = true;
-                _Statics[_StaticWarningRestart].Visible = true;    
+                _Statics[_StaticWarningRestart].Visible = true;
                 CConfig.Config.Server.ServerActive = (EOffOn)_newServerActive;
             }
             else
@@ -169,28 +171,28 @@ namespace Vocaluxe.Screens
             }
 
             // Detect server encryption change
-            int _currentServerEncryption = (int)CConfig.Config.Server.ServerEncryption;
-            int _newServerEncryption = _SelectSlides[_SelectSlideServerEncryption].Selection;
-            
+            var _currentServerEncryption = (int)CConfig.Config.Server.ServerEncryption;
+            var _newServerEncryption = _SelectSlides[_SelectSlideServerEncryption].Selection;
+
             if (_currentServerEncryption != _newServerEncryption)
             {
                 _Texts[_TextWarningRestart].Visible = true;
-                _Statics[_StaticWarningRestart].Visible = true;    
+                _Statics[_StaticWarningRestart].Visible = true;
                 CConfig.Config.Server.ServerEncryption = (EOffOn)_newServerEncryption;
             }
             else
             {
                 CConfig.Config.Server.ServerEncryption = (EOffOn)_newServerEncryption;
             }
-            
+
             CConfig.SaveConfig();
         }
 
         private void _LeaveScreen()
-        {           
+        {
             if (_WarningStream != -1)
             {
-                 CSound.Close(_WarningStream);
+                CSound.Close(_WarningStream);
                 _WarningStream = -1;
             }
         }

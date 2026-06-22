@@ -18,11 +18,9 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Windows.Forms;
-using System.Drawing;
 using System.IO;
+using System.Windows.Forms;
 using Vocaluxe.Base;
-using Vocaluxe.Base.Fonts;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
@@ -69,8 +67,8 @@ namespace Vocaluxe.Screens
         public override void LoadTheme(string xmlPath)
         {
             // Vocaluxe-Logo
-            bool ressourceOK = true;
-            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameCreditsLogo);
+            var ressourceOK = true;
+            var path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameCreditsLogo);
 
             if (File.Exists(path))
             {
@@ -81,6 +79,7 @@ namespace Vocaluxe.Screens
             {
                 ressourceOK = false;
             }
+
             if (!ressourceOK)
             {
                 CLog.Fatal("Could not load all resources!");
@@ -89,7 +88,7 @@ namespace Vocaluxe.Screens
             }
 
             // Position Y for the first scrolling element
-            float scrollY = CSettings.RenderH - 1f;
+            var scrollY = CSettings.RenderH - 1f;
 
             // Create logo
             if (_TexLogo != null)
@@ -105,16 +104,16 @@ namespace Vocaluxe.Screens
             }
 
             // Helper variables for font sizes
-            int bigHeadlineSize = 45;
-            int headlineSize = 40;
-            int boldSize = 35;
-            int textSize = 30;
-            float paragraphSpacing = 30f; // Space between paragraphs
+            var bigHeadlineSize = 45;
+            var headlineSize = 40;
+            var boldSize = 35;
+            var textSize = 30;
+            var paragraphSpacing = 30f; // Space between paragraphs
 
             // Helper method to add text with formatting
             void AddText(string content, int size, EStyle style, float yOffset, EAlignment alignment = EAlignment.Center)
             {
-                CText text = GetNewText(new CText(CSettings.RenderW / 2, scrollY + yOffset, -2f, size, -1, alignment, style, "Outline", new SColorF(1, 1, 1, 1), content));
+                var text = GetNewText(new CText(CSettings.RenderW / 2, scrollY + yOffset, -2f, size, -1, alignment, style, "Outline", new SColorF(1, 1, 1, 1), content));
                 text.Visible = false;
                 _ScrollingElements.Add(text);
                 _AddText(text);
@@ -239,35 +238,39 @@ namespace Vocaluxe.Screens
         public override bool HandleMouse(SMouseEvent mouseEvent)
         {
             if (mouseEvent.LB || mouseEvent.RB)
+            {
                 _LeaveScreen();
+            }
+
             return true;
         }
 
         public override bool UpdateGame()
         {
             if (_BackgroundVideo != null)
-               {
-                   float deltaTime = (_ScrollTimer.ElapsedMilliseconds - _previousVideoElapsedMilliseconds) / 1000f;
-                   _previousVideoElapsedMilliseconds = _ScrollTimer.ElapsedMilliseconds;
+            {
+                var deltaTime = (_ScrollTimer.ElapsedMilliseconds - _previousVideoElapsedMilliseconds) / 1000f;
+                _previousVideoElapsedMilliseconds = _ScrollTimer.ElapsedMilliseconds;
 
-                   _BackgroundVideoTime += deltaTime;
+                _BackgroundVideoTime += deltaTime;
 
-                   float videoLength = CVideo.GetLength(_BackgroundVideo);
+                var videoLength = CVideo.GetLength(_BackgroundVideo);
 
-                   // Keep time within video length to avoid seeking backward
-                   if (_BackgroundVideoTime >= videoLength)
-                   {
-                       _BackgroundVideoTime -= videoLength;
-                   }
+                // Keep time within video length to avoid seeking backward
+                if (_BackgroundVideoTime >= videoLength)
+                {
+                    _BackgroundVideoTime -= videoLength;
+                }
 
-                   CVideo.GetFrame(_BackgroundVideo, _BackgroundVideoTime);
-               }
+                CVideo.GetFrame(_BackgroundVideo, _BackgroundVideoTime);
+            }
 
-               if (!_Animation() && CGraphics.NextScreen != CGraphics.GetScreen(EScreen.Main))
-                   _LeaveScreen();
+            if (!_Animation() && CGraphics.NextScreen != CGraphics.GetScreen(EScreen.Main))
+            {
+                _LeaveScreen();
+            }
 
-               return true;
-
+            return true;
         }
 
         public override void OnShow()
@@ -275,7 +278,7 @@ namespace Vocaluxe.Screens
             base.OnShow();
 
             // Reset positions
-            foreach (dynamic element in _ScrollingElements)
+            foreach (var element in _ScrollingElements)
             {
                 if (_ElementStartYPositions.TryGetValue(element, out float startY))
                 {
@@ -292,7 +295,7 @@ namespace Vocaluxe.Screens
 
             _previousVideoElapsedMilliseconds = 0f;
 
-            string path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameCreditsVideo);
+            var path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameCreditsVideo);
             if (File.Exists(path))
             {
                 // Load the video if not already loaded
@@ -301,14 +304,13 @@ namespace Vocaluxe.Screens
                     _BackgroundVideo = CVideo.Load(path);
                     CVideo.SetLoop(_BackgroundVideo, true); // Set the video to loop
                 }
-
             }
             else
             {
                 CLog.Error("Background video not found: " + path);
             }
 
-            foreach (dynamic element in _ScrollingElements)
+            foreach (var element in _ScrollingElements)
             {
                 element.Visible = true;
             }
@@ -319,7 +321,7 @@ namespace Vocaluxe.Screens
             _previousAnimationElapsedMilliseconds = 0;
             _BackgroundVideoTime = 0f;
 
-            foreach (dynamic element in _ScrollingElements)
+            foreach (var element in _ScrollingElements)
             {
                 element.Visible = true;
             }
@@ -329,9 +331,9 @@ namespace Vocaluxe.Screens
         {
             if (_Active && _BackgroundVideo != null && _BackgroundVideo.Texture != null)
             {
-                CTextureRef background = _BackgroundVideo.Texture;
-                SRectF bounds = CSettings.RenderRect;
-                SRectF rect = CHelper.FitInBounds(bounds, background.OrigAspect, EAspect.Crop);
+                var background = _BackgroundVideo.Texture;
+                var bounds = CSettings.RenderRect;
+                var rect = CHelper.FitInBounds(bounds, background.OrigAspect, EAspect.Crop);
                 CDraw.DrawTexture(background, rect, background.Color, bounds);
             }
 
@@ -352,14 +354,16 @@ namespace Vocaluxe.Screens
         private bool _Animation()
         {
             if (!_ScrollTimer.IsRunning)
+            {
                 return false;
+            }
 
-            float deltaTime = (_ScrollTimer.ElapsedMilliseconds - _previousAnimationElapsedMilliseconds) / 1000f; // Convert milliseconds to seconds
+            var deltaTime = (_ScrollTimer.ElapsedMilliseconds - _previousAnimationElapsedMilliseconds) / 1000f; // Convert milliseconds to seconds
             _previousAnimationElapsedMilliseconds = _ScrollTimer.ElapsedMilliseconds;
 
-            float scrollSpeed = 60f;
+            var scrollSpeed = 60f;
 
-            foreach (dynamic element in _ScrollingElements)
+            foreach (var element in _ScrollingElements)
             {
                 if (element is CText text)
                 {
@@ -372,7 +376,7 @@ namespace Vocaluxe.Screens
             }
 
             // Check if the last element has scrolled off the top
-            dynamic lastElement = _ScrollingElements[_ScrollingElements.Count - 1];
+            var lastElement = _ScrollingElements[_ScrollingElements.Count - 1];
             float elementBottomY = 0;
             if (lastElement is CText lastText)
             {

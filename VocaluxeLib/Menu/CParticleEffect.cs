@@ -49,7 +49,7 @@ namespace VocaluxeLib.Menu
 
     public sealed class CParticleEffect : CMenuElementBase, IMenuElement, IThemeable
     {
-        private readonly int _PartyModeID;
+        private readonly int _PartyModeId;
         private SThemeParticleEffect _Theme;
 
         public CTextureRef Texture;
@@ -75,9 +75,9 @@ namespace VocaluxeLib.Menu
             get { return _Stars.Count > 0 || !_SpawnTimer.IsRunning; }
         }
 
-        public CParticleEffect(int partyModeID)
+        public CParticleEffect(int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
             _SpawnTimer = new Stopwatch();
@@ -85,9 +85,9 @@ namespace VocaluxeLib.Menu
             Visible = true;
         }
 
-        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, string skin, float size, EParticleType type)
+        public CParticleEffect(int partyModeId, int maxNumber, SColorF color, SRectF rect, string skin, float size, EParticleType type)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
             MaxRect = rect;
@@ -101,14 +101,14 @@ namespace VocaluxeLib.Menu
             Visible = true;
         }
 
-        public CParticleEffect(int partyModeID, int maxNumber, SColorF color, SRectF rect, CTextureRef texture, float size, EParticleType type)
+        public CParticleEffect(int partyModeId, int maxNumber, SColorF color, SRectF rect, CTextureRef texture, float size, EParticleType type)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = new SThemeParticleEffect();
             _Stars = new List<CParticle>();
             MaxRect = rect;
             Color = color;
-            _Theme.Skin = String.Empty;
+            _Theme.Skin = string.Empty;
             Texture = texture;
             _Theme.MaxNumber = maxNumber;
             _Theme.Size = size;
@@ -118,9 +118,9 @@ namespace VocaluxeLib.Menu
             Visible = true;
         }
 
-        public CParticleEffect(SThemeParticleEffect theme, int partyModeID)
+        public CParticleEffect(SThemeParticleEffect theme, int partyModeId)
         {
-            _PartyModeID = partyModeID;
+            _PartyModeId = partyModeId;
             _Theme = theme;
             _Stars = new List<CParticle>();
             _SpawnTimer = new Stopwatch();
@@ -132,7 +132,7 @@ namespace VocaluxeLib.Menu
 
         public void Update()
         {
-            bool doSpawn = false;
+            var doSpawn = false;
             if (!_SpawnTimer.IsRunning)
             {
                 _SpawnTimer.Start();
@@ -149,12 +149,12 @@ namespace VocaluxeLib.Menu
 
             while (_Stars.Count < _Theme.MaxNumber && doSpawn)
             {
-                float size = CBase.Game.GetRandom((int)_Theme.Size / 2) + _Theme.Size / 2;
-                float lifetime = 0f;
-                float vx = 0f;
-                float vy = 0f;
-                float vr = 0f;
-                float vsize = 0f;
+                var size = CBase.Game.GetRandom((int)_Theme.Size / 2) + _Theme.Size / 2;
+                var lifetime = 0f;
+                var vx = 0f;
+                var vy = 0f;
+                var vr = 0f;
+                var vsize = 0f;
                 _NextSpawnTime = 0f;
 
                 switch (_Theme.Type)
@@ -212,60 +212,74 @@ namespace VocaluxeLib.Menu
                 var h = (int)(Rect.H - size / 4f);
 
                 if (w < 0)
+                {
                     w = 0;
+                }
 
                 if (h < 0)
+                {
                     h = 0;
+                }
 
                 CParticle star;
-                if (!String.IsNullOrEmpty(_Theme.Skin))
+                if (!string.IsNullOrEmpty(_Theme.Skin))
                 {
-                    star = new CParticle(_PartyModeID, _Theme.Skin, Color,
-                                         CBase.Game.GetRandom(w) + Rect.X - size / 4f,
-                                         CBase.Game.GetRandom(h) + Rect.Y - size / 4f,
-                                         size, lifetime, Rect.Z, vx, vy, vr, vsize, _Theme.Type);
+                    star = new CParticle(_PartyModeId, _Theme.Skin, Color,
+                        CBase.Game.GetRandom(w) + Rect.X - size / 4f,
+                        CBase.Game.GetRandom(h) + Rect.Y - size / 4f,
+                        size, lifetime, Rect.Z, vx, vy, vr, vsize, _Theme.Type);
                 }
                 else
                 {
-                    star = new CParticle(_PartyModeID, Texture, Color,
-                                         CBase.Game.GetRandom(w) + Rect.X - size / 4f,
-                                         CBase.Game.GetRandom(h) + Rect.Y - size / 4f,
-                                         size, lifetime, Rect.Z, vx, vy, vr, vsize, _Theme.Type);
+                    star = new CParticle(_PartyModeId, Texture, Color,
+                        CBase.Game.GetRandom(w) + Rect.X - size / 4f,
+                        CBase.Game.GetRandom(h) + Rect.Y - size / 4f,
+                        size, lifetime, Rect.Z, vx, vy, vr, vsize, _Theme.Type);
                 }
 
                 _Stars.Add(star);
             }
 
             if (_Theme.Type == EParticleType.Flare || _Theme.Type == EParticleType.PerfNoteStar || _Theme.Type == EParticleType.Twinkle)
+            {
                 _NextSpawnTime = -1f;
+            }
 
-            int i = 0;
+            var i = 0;
             while (i < _Stars.Count)
             {
                 _Stars[i].Update();
                 if (!_Stars[i].IsAlive)
+                {
                     _Stars.RemoveAt(i);
+                }
                 else
+                {
                     i++;
+                }
             }
         }
 
         public void Pause()
         {
-            foreach (CParticle star in _Stars)
+            foreach (var star in _Stars)
+            {
                 star.Pause();
+            }
         }
 
         public void Resume()
         {
-            foreach (CParticle star in _Stars)
+            foreach (var star in _Stars)
+            {
                 star.Resume();
+            }
         }
 
         public void Draw()
         {
             Update();
-            foreach (CParticle star in _Stars)
+            foreach (var star in _Stars)
             {
                 star.Alpha2 = Alpha;
                 star.Draw(AllMonitors);
@@ -279,10 +293,12 @@ namespace VocaluxeLib.Menu
 
         public void LoadSkin()
         {
-            _Theme.Color.Get(_PartyModeID, out Color);
+            _Theme.Color.Get(_PartyModeId, out Color);
 
-            if (!String.IsNullOrEmpty(_Theme.Skin))
-                Texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeID);
+            if (!string.IsNullOrEmpty(_Theme.Skin))
+            {
+                Texture = CBase.Themes.GetSkinTexture(_Theme.Skin, _PartyModeId);
+            }
 
             MaxRect = _Theme.Rect;
         }
@@ -317,11 +333,15 @@ namespace VocaluxeLib.Menu
         {
             W += stepW;
             if (W <= 0)
+            {
                 W = 1;
+            }
 
             H += stepH;
             if (H <= 0)
+            {
                 H = 1;
+            }
 
             _Theme.Rect.W = Rect.W;
             _Theme.Rect.H = Rect.H;

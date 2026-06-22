@@ -36,7 +36,7 @@ namespace Vocaluxe.Screens
         private const string _TextStatus = "TextStatus";
         private const string _TextProgramName = "TextProgramName";
 
-        private readonly string[] _IntroVideo = new string[] {"IntroIn", "IntroMid", "IntroOut"};
+        private readonly string[] _IntroVideo = new string[] { "IntroIn", "IntroMid", "IntroOut" };
 
         private Thread _SongLoaderThread;
         private bool _SkipIntro;
@@ -50,17 +50,19 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeTexts = new string[] {_TextStatus, _TextProgramName};
+            _ThemeTexts = new string[] { _TextStatus, _TextProgramName };
             _Intros = new CVideoPlayer[_IntroVideo.Length];
-            for (int i = 0; i < _Intros.Length; i++)
+            for (var i = 0; i < _Intros.Length; i++)
+            {
                 _Intros[i] = new CVideoPlayer();
+            }
         }
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
             base.HandleInput(keyEvent);
 
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -73,6 +75,7 @@ namespace Vocaluxe.Screens
                         break;
                 }
             }
+
             return true;
         }
 
@@ -81,7 +84,9 @@ namespace Vocaluxe.Screens
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.LB || mouseEvent.RB)
+            {
                 _SkipIntro = true;
+            }
 
             return true;
         }
@@ -111,8 +116,11 @@ namespace Vocaluxe.Screens
 
             if (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
             {
-                for (int i = 0; i < _Intros.Length; i++)
+                for (var i = 0; i < _Intros.Length; i++)
+                {
                     _Intros[i].Load(_IntroVideo[i]);
+                }
+
                 _Texts[_TextProgramName].Visible = false;
             }
         }
@@ -123,13 +131,15 @@ namespace Vocaluxe.Screens
 
             if (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_ON)
             {
-                foreach (CVideoPlayer videoPlayer in _Intros)
+                foreach (var videoPlayer in _Intros)
+                {
                     videoPlayer.PreLoad();
+                }
             }
-            
+
             _TimerLoadSongsFull = CBenchmark.Time("Loaded Songs Full");
-            
-            _SongLoaderThread = new Thread(CSongs.LoadSongs) {Name = "SongLoader", IsBackground = true};
+
+            _SongLoaderThread = new Thread(CSongs.LoadSongs) { Name = "SongLoader", IsBackground = true };
             _SongLoaderThread.Start();
             CBackgroundMusic.OwnSongsAvailable = false;
 
@@ -140,7 +150,7 @@ namespace Vocaluxe.Screens
         {
             _CheckStartIntroVideos();
 
-            bool next = CConfig.Config.Theme.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
+            var next = CConfig.Config.Theme.CoverLoading != ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART || CSongs.CoverLoaded;
 
             if ((_IntroOutPlayed || _SkipIntro) && next && CSettings.ProgramState == EProgramState.Start && CSongs.SongsLoaded)
             {
@@ -158,7 +168,9 @@ namespace Vocaluxe.Screens
                 CBackgroundMusic.OwnSongsAvailable = true;
 
                 if (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_ON || CConfig.Config.Video.VideosToBackground == EOffOn.TR_CONFIG_ON)
+                {
                     CBackgroundMusic.VideoEnabled = true;
+                }
 
                 CBackgroundMusic.Play();
             }
@@ -169,7 +181,9 @@ namespace Vocaluxe.Screens
         public override void Draw()
         {
             if (_CurrentIntroVideo >= 0 && _CurrentIntroVideo < _Intros.Length)
+            {
                 _Intros[_CurrentIntroVideo].Draw();
+            }
 
             base.Draw();
         }
@@ -178,8 +192,10 @@ namespace Vocaluxe.Screens
         {
             base.OnClose();
 
-            foreach (CVideoPlayer videoPlayer in _Intros)
+            foreach (var videoPlayer in _Intros)
+            {
                 videoPlayer.Close();
+            }
 
             // Stop the song full load timer
             _TimerLoadSongsFull.Dispose();
@@ -194,7 +210,9 @@ namespace Vocaluxe.Screens
         private void _CheckStartIntroVideos()
         {
             if (_IntroOutPlayed)
+            {
                 return;
+            }
 
             if (CConfig.Config.Video.VideoBackgrounds == EOffOn.TR_CONFIG_OFF)
             {
@@ -222,7 +240,9 @@ namespace Vocaluxe.Screens
                 _Intros[2].Start();
             }
             else if (_CurrentIntroVideo == 2 && _Intros[2].IsFinished)
+            {
                 _IntroOutPlayed = true;
+            }
         }
     }
 }

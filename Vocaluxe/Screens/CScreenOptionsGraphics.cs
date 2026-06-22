@@ -16,12 +16,11 @@
 #endregion
 
 using System;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -44,10 +43,10 @@ namespace Vocaluxe.Screens
 
         private int _WarningStream = -1;
         private bool _HasPlayedWarningSound = false;
-        
+
         private static int PlaySound(ESounds sound, int volume)
         {
-            int streamId = CSound.PlaySound(sound, false);
+            var streamId = CSound.PlaySound(sound, false);
             CSound.SetStreamVolume(streamId, volume);
 
             return streamId;
@@ -57,22 +56,22 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            _ThemeButtons = new string[] {_ButtonExit};
-            _ThemeSelectSlides = new string[] {_SelectSlideTextureQuality, _SelectSlideCoverSize, _SelectSlideFullScreen, _SelectSlideStretch};
-            _ThemeTexts = new string[] {_TextWarningRestart};
-            _ThemeStatics = new string[] {_StaticWarningRestart};
+            _ThemeButtons = new string[] { _ButtonExit };
+            _ThemeSelectSlides = new string[] { _SelectSlideTextureQuality, _SelectSlideCoverSize, _SelectSlideFullScreen, _SelectSlideStretch };
+            _ThemeTexts = new string[] { _TextWarningRestart };
+            _ThemeStatics = new string[] { _StaticWarningRestart };
         }
 
         public override void LoadTheme(string xmlPath)
         {
             base.LoadTheme(xmlPath);
             _SelectSlides[_SelectSlideTextureQuality].SetValues<ETextureQuality>((int)CConfig.Config.Graphics.TextureQuality);
-            
+
             _SelectSlides[_SelectSlideCoverSize].AddValues(CoverSizes);
-            int currentCoverSize = CConfig.Config.Graphics.CoverSize;
-            int index = Array.IndexOf(CoverSizes, currentCoverSize.ToString());
+            var currentCoverSize = CConfig.Config.Graphics.CoverSize;
+            var index = Array.IndexOf(CoverSizes, currentCoverSize.ToString());
             _SelectSlides[_SelectSlideCoverSize].Selection = index;
-            
+
             _SelectSlides[_SelectSlideFullScreen].SetValues<EOffOn>((int)CConfig.Config.Graphics.FullScreen);
             _SelectSlides[_SelectSlideFullScreen].Selection = (int)CConfig.Config.Graphics.FullScreen;
 
@@ -110,6 +109,7 @@ namespace Vocaluxe.Screens
                         CGraphics.FadeTo(EScreen.Options);
                         _LeaveScreen();
                     }
+
                     break;
 
                 case Keys.Left:
@@ -120,6 +120,7 @@ namespace Vocaluxe.Screens
                     _SaveConfig();
                     break;
             }
+
             return true;
         }
 
@@ -133,6 +134,7 @@ namespace Vocaluxe.Screens
                 CGraphics.FadeTo(EScreen.Options);
                 _LeaveScreen();
             }
+
             if (mouseEvent.LB && _IsMouseOverCurSelection(mouseEvent))
             {
                 _SaveConfig();
@@ -142,6 +144,7 @@ namespace Vocaluxe.Screens
                     _LeaveScreen();
                 }
             }
+
             return true;
         }
 
@@ -149,56 +152,57 @@ namespace Vocaluxe.Screens
         {
             if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
             {
-                 _WarningStream = CScreenOptionsGraphics.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
-                 _HasPlayedWarningSound = true;
+                _WarningStream = CScreenOptionsGraphics.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                _HasPlayedWarningSound = true;
             }
+
             return true;
         }
 
         private void _SaveConfig()
         {
             // Detect Texture quality change
-            ETextureQuality _currentTextureQuality = CConfig.Config.Graphics.TextureQuality;
-            ETextureQuality _newTextureQuality = (ETextureQuality)_SelectSlides[_SelectSlideTextureQuality].Selection;
+            var _currentTextureQuality = CConfig.Config.Graphics.TextureQuality;
+            var _newTextureQuality = (ETextureQuality)_SelectSlides[_SelectSlideTextureQuality].Selection;
             if (_currentTextureQuality != _newTextureQuality)
             {
                 _Texts[_TextWarningRestart].Visible = true;
-                _Statics[_StaticWarningRestart].Visible = true;    
+                _Statics[_StaticWarningRestart].Visible = true;
                 CConfig.Config.Graphics.TextureQuality = _newTextureQuality;
             }
             else
             {
                 CConfig.Config.Graphics.TextureQuality = _newTextureQuality;
-            }           
+            }
 
             // Detect Cover size change
-            string selectedValue = CoverSizes[_SelectSlides[_SelectSlideCoverSize].Selection];
-            int currentCoverSize = CConfig.Config.Graphics.CoverSize;
-            int newCoverSize = int.Parse(selectedValue);
+            var selectedValue = CoverSizes[_SelectSlides[_SelectSlideCoverSize].Selection];
+            var currentCoverSize = CConfig.Config.Graphics.CoverSize;
+            var newCoverSize = int.Parse(selectedValue);
             if (currentCoverSize != newCoverSize)
             {
-                string flagPath = Path.Combine(CSettings.DataFolder, "DeleteCoverDB.flag");
+                var flagPath = Path.Combine(CSettings.DataFolder, "DeleteCoverDB.flag");
                 File.Create(flagPath).Dispose();
                 _Texts[_TextWarningRestart].Visible = true;
-               _Statics[_StaticWarningRestart].Visible = true;    
+                _Statics[_StaticWarningRestart].Visible = true;
                 CConfig.Config.Graphics.CoverSize = newCoverSize;
             }
             else
             {
                 CConfig.Config.Graphics.CoverSize = newCoverSize;
-            }        
-                        
+            }
+
             CConfig.Config.Graphics.FullScreen = (EOffOn)_SelectSlides[_SelectSlideFullScreen].Selection;
             CConfig.Config.Graphics.Stretch = (EOffOn)_SelectSlides[_SelectSlideStretch].Selection;
-            
+
             CConfig.SaveConfig();
         }
-        
+
         private void _LeaveScreen()
-        {           
+        {
             if (_WarningStream != -1)
             {
-                 CSound.Close(_WarningStream);
+                CSound.Close(_WarningStream);
                 _WarningStream = -1;
             }
         }

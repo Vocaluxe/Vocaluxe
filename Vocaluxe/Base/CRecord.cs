@@ -17,11 +17,11 @@
 
 using System.Collections.ObjectModel;
 using Vocaluxe.Lib.Sound.Record;
+using Vocaluxe.Lib.Sound.Record.PortAudio;
+using VocaluxeLib;
 #if WIN
 using Vocaluxe.Lib.Sound.Record.DirectSound;
 #endif
-using Vocaluxe.Lib.Sound.Record.PortAudio;
-using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {
@@ -32,7 +32,10 @@ namespace Vocaluxe.Base
         public static bool Init()
         {
             if (_Record != null)
+            {
                 return false;
+            }
+
             switch (CConfig.Config.Sound.RecordLib)
             {
 #if WIN
@@ -41,11 +44,12 @@ namespace Vocaluxe.Base
                     break;
 #endif
 
-                    // case ERecordLib.PortAudio:
+                // case ERecordLib.PortAudio:
                 default:
                     _Record = new CPortAudioRecord();
                     break;
             }
+
             return _Record.Init();
         }
 
@@ -120,15 +124,18 @@ namespace Vocaluxe.Base
 
         public static ReadOnlyCollection<CRecordDevice> GetDevices()
         {
-            ReadOnlyCollection<CRecordDevice> devices = _Record.RecordDevices();
+            var devices = _Record.RecordDevices();
 
             if (devices != null)
             {
-                foreach (CRecordDevice device in devices)
+                foreach (var device in devices)
                 {
-                    for(int ch = 0; ch < device.Channels; ++ch)
-                        device.PlayerChannel[ch] = _GetPlayerFromMicConfig(device.Name, device.Driver, ch+1);
+                    for (var ch = 0; ch < device.Channels; ++ch)
+                    {
+                        device.PlayerChannel[ch] = _GetPlayerFromMicConfig(device.Name, device.Driver, ch + 1);
+                    }
                 }
+
                 return devices;
             }
 
@@ -137,13 +144,16 @@ namespace Vocaluxe.Base
 
         private static int _GetPlayerFromMicConfig(string device, string devicedriver, int channel)
         {
-            for (int p = 0; p < CSettings.MaxNumPlayer; p++)
+            for (var p = 0; p < CSettings.MaxNumPlayer; p++)
             {
                 if (CConfig.Config.Record.MicConfig[p].DeviceName == device &&
                     CConfig.Config.Record.MicConfig[p].DeviceDriver == devicedriver &&
                     CConfig.Config.Record.MicConfig[p].Channel == channel)
+                {
                     return p + 1;
+                }
             }
+
             return 0;
         }
     }

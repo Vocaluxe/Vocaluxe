@@ -15,8 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using SlimDX;
-using SlimDX.Direct3D9;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -24,6 +22,8 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
+using SlimDX;
+using SlimDX.Direct3D9;
 using SlimDX.Windows;
 using Vocaluxe.Base;
 using VocaluxeLib;
@@ -39,7 +39,9 @@ namespace Vocaluxe.Lib.Draw
         protected override void WndProc(ref Message m)
         {
             if (OnMessage == null || OnMessage(ref m))
+            {
                 base.WndProc(ref m);
+            }
         }
     }
 
@@ -63,7 +65,9 @@ namespace Vocaluxe.Lib.Draw
         {
             base.Dispose();
             if (D3DTexture != null)
+            {
                 D3DTexture.Dispose();
+            }
         }
     }
 
@@ -148,7 +152,7 @@ namespace Vocaluxe.Lib.Draw
 
             if (
                 !_D3D.CheckDeviceMultisampleType(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware, _D3D.Adapters.DefaultAdapter.CurrentDisplayMode.Format, false, msType,
-                                                 out quality))
+                    out quality))
             {
                 CLog.Error("[Direct3D] This AAMode is not supported by this device or driver, fallback to no AA");
                 msType = MultisampleType.None;
@@ -163,8 +167,8 @@ namespace Vocaluxe.Lib.Draw
             _PresentParameters.PresentationInterval = CConfig.Config.Graphics.VSync == EOffOn.TR_CONFIG_ON ? PresentInterval.Default : PresentInterval.Immediate;
 
             //GMA 950 graphics devices can only process vertices in software mode
-            Capabilities caps = _D3D.GetDeviceCaps(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware);
-            CreateFlags flags = (caps.DeviceCaps & DeviceCaps.HWTransformAndLight) != 0 ? CreateFlags.HardwareVertexProcessing : CreateFlags.SoftwareVertexProcessing;
+            var caps = _D3D.GetDeviceCaps(_D3D.Adapters.DefaultAdapter.Adapter, DeviceType.Hardware);
+            var flags = (caps.DeviceCaps & DeviceCaps.HWTransformAndLight) != 0 ? CreateFlags.HardwareVertexProcessing : CreateFlags.SoftwareVertexProcessing;
 
             //Check if Pow2 textures are needed
             _NonPowerOf2TextureSupported = true;
@@ -198,10 +202,14 @@ namespace Vocaluxe.Lib.Draw
         {
             // The window was minimized, so restore it to the last known size
             if (_Form.ClientSize.Width == 0 || _Form.ClientSize.Height == 0)
+            {
                 _Form.ClientSize = _SizeBeforeMinimize;
+            }
 
             if (_H == _Form.ClientSize.Height && _W == _Form.ClientSize.Width && CConfig.Config.Graphics.ScreenAlignment == _CurrentAlignment)
+            {
                 return;
+            }
 
             _CurrentAlignment = CConfig.Config.Graphics.ScreenAlignment;
             _H = _Form.ClientSize.Height;
@@ -252,21 +260,26 @@ namespace Vocaluxe.Lib.Draw
         public override bool Init()
         {
             if (!base.Init())
+            {
                 return false;
+            }
 
             if (_Device.Disposed)
+            {
                 return false;
+            }
 
             _InitDevice();
 
             //This creates a new white texture and adds it to the texture pool
             //This texture is used for the DrawRect method
             using (var blankMap = new Bitmap(1, 1))
-            using (Graphics g = Graphics.FromImage(blankMap))
+            using (var g = Graphics.FromImage(blankMap))
             {
                 g.Clear(Color.White);
                 _BlankTexture = AddTexture(blankMap);
             }
+
             return true;
         }
 
@@ -274,44 +287,88 @@ namespace Vocaluxe.Lib.Draw
         {
             _AdjustNewBorders();
 
-            _VertexBuffer = new VertexBuffer(_Device, CSettings.VertexBufferElements * (4 * Marshal.SizeOf(typeof(STexturedColoredVertex))), Usage.WriteOnly | Usage.Dynamic,
-                                             VertexFormat.Position | VertexFormat.Texture1 | VertexFormat.Diffuse, Pool.Default);
+            _VertexBuffer = new VertexBuffer(_Device, CSettings.VertexBufferElements * 4 * Marshal.SizeOf(typeof(STexturedColoredVertex)), Usage.WriteOnly | Usage.Dynamic,
+                VertexFormat.Position | VertexFormat.Texture1 | VertexFormat.Diffuse, Pool.Default);
 
             if (_Device.SetStreamSource(0, _VertexBuffer, 0, Marshal.SizeOf(typeof(STexturedColoredVertex))).IsFailure)
+            {
                 CLog.Error("Failed to set stream source");
+            }
+
             _Device.VertexDeclaration = STexturedColoredVertex.GetDeclaration(_Device);
 
             if (_Device.SetRenderState(RenderState.CullMode, Cull.None).IsFailure)
+            {
                 CLog.Error("Failed to set cull mode");
+            }
+
             if (_Device.SetRenderState(RenderState.AlphaBlendEnable, true).IsFailure)
+            {
                 CLog.Error("Failed to enable alpha blending");
+            }
+
             if (_Device.SetRenderState(RenderState.Lighting, false).IsFailure)
+            {
                 CLog.Error("Failed to disable lighting");
+            }
+
             if (_Device.SetRenderState(RenderState.DestinationBlend, Blend.InverseSourceAlpha).IsFailure)
+            {
                 CLog.Error("Failed to set destination blend");
+            }
+
             if (_Device.SetRenderState(RenderState.SourceBlend, Blend.SourceAlpha).IsFailure)
+            {
                 CLog.Error("Failed to set source blend");
+            }
+
             if (_PresentParameters.Multisample != MultisampleType.None)
             {
                 if (_Device.SetRenderState(RenderState.MultisampleAntialias, true).IsFailure)
+                {
                     CLog.Error("Failed to set antialiasing");
+                }
             }
+
             if (_Device.SetSamplerState(0, SamplerState.MinFilter, TextureFilter.Linear).IsFailure)
+            {
                 CLog.Error("Failed to set min filter");
+            }
+
             if (_Device.SetSamplerState(0, SamplerState.MagFilter, TextureFilter.Linear).IsFailure)
+            {
                 CLog.Error("Failed to set mag filter");
+            }
+
             if (_Device.SetSamplerState(0, SamplerState.MipFilter, TextureFilter.Linear).IsFailure)
+            {
                 CLog.Error("Failed to set mip filter");
+            }
+
             if (_Device.SetSamplerState(0, SamplerState.AddressU, TextureAddress.Clamp).IsFailure)
+            {
                 CLog.Error("Failed to set clamping on u");
+            }
+
             if (_Device.SetSamplerState(0, SamplerState.AddressV, TextureAddress.Clamp).IsFailure)
+            {
                 CLog.Error("Failed to set claming on v");
+            }
+
             if (_Device.SetTextureStageState(0, TextureStage.AlphaArg1, TextureArgument.Texture).IsFailure)
+            {
                 CLog.Error("Failed to set alpha argument 1");
+            }
+
             if (_Device.SetTextureStageState(0, TextureStage.AlphaArg2, TextureArgument.Diffuse).IsFailure)
+            {
                 CLog.Error("Failed to set alpha argument 2");
+            }
+
             if (_Device.SetTextureStageState(0, TextureStage.AlphaOperation, TextureOperation.Modulate).IsFailure)
+            {
                 CLog.Error("Failed to set alpha operation");
+            }
 
             var indices = new Int16[6];
             indices[0] = 0;
@@ -323,7 +380,7 @@ namespace Vocaluxe.Lib.Draw
 
             _IndexBuffer = new IndexBuffer(_Device, 6 * sizeof(Int16), Usage.WriteOnly, Pool.Managed, true);
 
-            DataStream stream = _IndexBuffer.Lock(0, 0, LockFlags.Discard);
+            var stream = _IndexBuffer.Lock(0, 0, LockFlags.Discard);
             stream.WriteRange(indices);
             _IndexBuffer.Unlock();
             _Device.Indices = _IndexBuffer;
@@ -332,14 +389,19 @@ namespace Vocaluxe.Lib.Draw
         protected override void _OnBeforeDraw()
         {
             if (_Device.BeginScene().IsFailure)
+            {
                 CLog.Error("Failed to begin scene");
+            }
         }
 
         protected override void _OnAfterDraw()
         {
             _RenderVertexBuffer();
             if (_Device.EndScene().IsFailure)
+            {
                 CLog.Error("Failed to end scene");
+            }
+
             try
             {
                 //Now push the frame to the Viewport
@@ -357,6 +419,7 @@ namespace Vocaluxe.Lib.Draw
                     _InitDevice();
                 }
             }
+
             Application.DoEvents();
         }
 
@@ -370,23 +433,30 @@ namespace Vocaluxe.Lib.Draw
             _VertexBuffer.Dispose();
             _IndexBuffer.Dispose();
             if (_Device.Reset(_PresentParameters).IsFailure)
+            {
                 CLog.Error("Failed to reset the device");
+            }
         }
 
         protected override void _AdjustNewBorders()
         {
             const float dx = (float)CSettings.RenderW / 2;
             const float dy = (float)CSettings.RenderH / 2;
-            Matrix translate = Matrix.Translation(new Vector3(-dx, dy, 0));
-            Matrix projection = Matrix.OrthoOffCenterLH(
-                -dx - _BorderLeft, (CSettings.RenderW * CConfig.Config.Graphics.NumScreens) - dx + _BorderRight,
+            var translate = Matrix.Translation(new Vector3(-dx, dy, 0));
+            var projection = Matrix.OrthoOffCenterLH(
+                -dx - _BorderLeft, CSettings.RenderW * CConfig.Config.Graphics.NumScreens - dx + _BorderRight,
                 -dy - _BorderBottom, dy + _BorderTop,
                 CSettings.ZNear, CSettings.ZFar);
 
             if (_Device.SetTransform(TransformState.Projection, projection).IsFailure)
+            {
                 CLog.Error("Failed to set orthogonal matrix");
+            }
+
             if (_Device.SetTransform(TransformState.World, translate).IsFailure)
+            {
                 CLog.Error("Failed to set translation matrix");
+            }
         }
 
         /// <summary>
@@ -437,7 +507,7 @@ namespace Vocaluxe.Lib.Draw
             dc.Wy2 -= 0.5f;
 
             color.A *= CGraphics.GlobalAlpha;
-            int c = color.AsColor().ToArgb();
+            var c = color.AsColor().ToArgb();
             int c2;
             if (isReflection)
             {
@@ -445,7 +515,9 @@ namespace Vocaluxe.Lib.Draw
                 c2 = color.AsColor().ToArgb();
             }
             else
+            {
                 c2 = c;
+            }
 
             var vert = new STexturedColoredVertex[4];
             vert[0] = new STexturedColoredVertex(new Vector3(dc.Wx1, -dc.Wy1, dc.Wz), new Vector2(dc.Tx1, dc.Ty1), c);
@@ -465,7 +537,10 @@ namespace Vocaluxe.Lib.Draw
         {
             //The vertexbuffer is full, so we need to flush it before we can continue
             if (_Vertices.Count >= CSettings.VertexBufferElements)
+            {
                 _RenderVertexBuffer();
+            }
+
             _Vertices.Enqueue(vertices[0]);
             _Vertices.Enqueue(vertices[1]);
             _Vertices.Enqueue(vertices[2]);
@@ -480,25 +555,37 @@ namespace Vocaluxe.Lib.Draw
         private void _RenderVertexBuffer()
         {
             if (_Vertices.Count <= 0)
+            {
                 return;
+            }
+
             //The vertex buffer locks are slow actions, its better to lock once per frame and write all vertices to the buffer at once
-            DataStream stream = _VertexBuffer.Lock(0, _Vertices.Count * Marshal.SizeOf(typeof(STexturedColoredVertex)), LockFlags.Discard);
+            var stream = _VertexBuffer.Lock(0, _Vertices.Count * Marshal.SizeOf(typeof(STexturedColoredVertex)), LockFlags.Discard);
             stream.WriteRange(_Vertices.ToArray());
             _VertexBuffer.Unlock();
             stream.Dispose();
 
-            for (int i = 0; i < _Vertices.Count; i += 4)
+            for (var i = 0; i < _Vertices.Count; i += 4)
             {
                 //Apply rotation
                 if (_Device.SetTransform(TransformState.World, _VerticesRotationMatrices.Dequeue()).IsFailure)
+                {
                     CLog.Error("Failed to set world transformation");
+                }
+
                 //Apply texture
                 if (_Device.SetTexture(0, _VerticesTextures.Dequeue()).IsFailure)
+                {
                     CLog.Error("Failed to set texture");
+                }
+
                 //Draw 2 triangles from vertexbuffer
                 if (_Device.DrawIndexedPrimitives(PrimitiveType.TriangleList, i, 0, 4, 0, 2).IsFailure)
+                {
                     CLog.Error("Failed to draw quad");
+                }
             }
+
             //Clear the queues for the next frame
             _Vertices.Clear();
             _VerticesTextures.Clear();
@@ -512,7 +599,9 @@ namespace Vocaluxe.Lib.Draw
         protected override void _ClearScreen()
         {
             if (_Device.Clear(ClearFlags.Target | ClearFlags.ZBuffer, Color.Black, 1.0f, 0).IsFailure)
+            {
                 CLog.Error("Failed to clear the backbuffer");
+            }
         }
 
         /// <summary>
@@ -521,9 +610,9 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public CTextureRef CopyScreen()
         {
-            CD3DTexture tex = _CreateTexture(new Size(_W, _H));
-            Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
-            Surface textureSurface = tex.D3DTexture.GetSurfaceLevel(0);
+            var tex = _CreateTexture(new Size(_W, _H));
+            var backbufferSurface = _Device.GetBackBuffer(0, 0);
+            var textureSurface = tex.D3DTexture.GetSurfaceLevel(0);
             Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0, new Rectangle(0, 0, _W, _H), new Rectangle(0, 0, _W, _H));
             backbufferSurface.Dispose();
 
@@ -544,8 +633,8 @@ namespace Vocaluxe.Lib.Draw
             }
             else
             {
-                Surface backbufferSurface = _Device.GetBackBuffer(0, 0);
-                Surface textureSurface = texture.D3DTexture.GetSurfaceLevel(0);
+                var backbufferSurface = _Device.GetBackBuffer(0, 0);
+                var textureSurface = texture.D3DTexture.GetSurfaceLevel(0);
                 Surface.FromSurface(textureSurface, backbufferSurface, Filter.Default, 0);
                 backbufferSurface.Dispose();
             }
@@ -556,10 +645,10 @@ namespace Vocaluxe.Lib.Draw
         /// </summary>
         public void MakeScreenShot()
         {
-            string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.png");
+            var file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CSettings.FolderNameScreenshots), "Screenshot.png");
 
             //create a surface of the frame
-            using (Surface surface = _Device.GetBackBuffer(0, 0))
+            using (var surface = _Device.GetBackBuffer(0, 0))
             {
                 var screen = new Bitmap(Surface.ToStream(surface, ImageFileFormat.Png));
                 screen.Save(file, ImageFormat.Png);
@@ -592,49 +681,56 @@ namespace Vocaluxe.Lib.Draw
         protected override CD3DTexture _CreateTexture(Size dataSize)
         {
             if (dataSize.Width < 0)
+            {
                 return new CD3DTexture(null, dataSize);
+            }
+
             return new CD3DTexture(_Device, dataSize, _CheckForNextPowerOf2(dataSize.Width), _CheckForNextPowerOf2(dataSize.Height));
         }
 
         protected override void _WriteDataToTexture(CD3DTexture texture, byte[] data)
         {
             //Lock the texture and fill it with the data
-            DataRectangle rect = texture.D3DTexture.LockRectangle(0, LockFlags.Discard);
-            int rowWidth = 4 * texture.DataSize.Width;
+            var rect = texture.D3DTexture.LockRectangle(0, LockFlags.Discard);
+            var rowWidth = 4 * texture.DataSize.Width;
             if (rowWidth == rect.Pitch)
+            {
                 rect.Data.Write(data, 0, data.Length);
+            }
             else
             {
-                for (int i = 0; i + rowWidth <= data.Length; i += rowWidth)
+                for (var i = 0; i + rowWidth <= data.Length; i += rowWidth)
                 {
                     rect.Data.Write(data, i, rowWidth);
                     //Go to next row
                     rect.Data.Position = rect.Data.Position - rowWidth + rect.Pitch;
                 }
             }
+
             texture.D3DTexture.UnlockRectangle(0);
         }
 
         private static Matrix _CalculateRotationMatrix(float rot, float rx1, float rx2, float ry1, float ry2)
         {
-            Matrix originTranslation = Matrix.Translation(new Vector3(-(float)CSettings.RenderW / 2, (float)CSettings.RenderH / 2, 0));
+            var originTranslation = Matrix.Translation(new Vector3(-(float)CSettings.RenderW / 2, (float)CSettings.RenderH / 2, 0));
             if (Math.Abs(rot) > float.Epsilon)
             {
-                float rotation = rot * (float)Math.PI / 180;
-                float centerX = (rx1 + rx2) / 2f;
-                float centerY = -(ry1 + ry2) / 2f;
+                var rotation = rot * (float)Math.PI / 180;
+                var centerX = (rx1 + rx2) / 2f;
+                var centerY = -(ry1 + ry2) / 2f;
 
-                Matrix translationA = Matrix.Translation(-centerX, -centerY, 0);
-                Matrix rotationMat = Matrix.RotationZ(-rotation);
-                Matrix translationB = Matrix.Translation(centerX, centerY, 0);
+                var translationA = Matrix.Translation(-centerX, -centerY, 0);
+                var rotationMat = Matrix.RotationZ(-rotation);
+                var translationB = Matrix.Translation(centerX, centerY, 0);
 
                 //Multiplicate the matrices to get the real world matrix,
                 //First shift the texture into the center
                 //Rotate it and shift it back to the origin position
                 //Apply the originTranslation after
-                Matrix result = translationA * rotationMat * translationB * originTranslation;
+                var result = translationA * rotationMat * translationB * originTranslation;
                 return result;
             }
+
             return originTranslation;
         }
 
@@ -642,12 +738,12 @@ namespace Vocaluxe.Lib.Draw
         {
             private static VertexDeclaration _Declaration;
             private static readonly VertexElement[] _Elements =
-                {
-                    new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
-                    new VertexElement(0, sizeof(float) * 3, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0),
-                    new VertexElement(0, sizeof(float) * 3 + sizeof(float) * 2, DeclarationType.Color, DeclarationMethod.Default, DeclarationUsage.Color, 0),
-                    VertexElement.VertexDeclarationEnd
-                };
+            {
+                new VertexElement(0, 0, DeclarationType.Float3, DeclarationMethod.Default, DeclarationUsage.Position, 0),
+                new VertexElement(0, sizeof(float) * 3, DeclarationType.Float2, DeclarationMethod.Default, DeclarationUsage.TextureCoordinate, 0),
+                new VertexElement(0, sizeof(float) * 3 + sizeof(float) * 2, DeclarationType.Color, DeclarationMethod.Default, DeclarationUsage.Color, 0),
+                VertexElement.VertexDeclarationEnd
+            };
 
             // ReSharper disable NotAccessedField.Local
             private Vector3 _Position;
@@ -665,7 +761,9 @@ namespace Vocaluxe.Lib.Draw
             public static VertexDeclaration GetDeclaration(Device device)
             {
                 if (_Declaration == null || _Declaration.Disposed)
+                {
                     _Declaration = new VertexDeclaration(device, _Elements);
+                }
 
                 return _Declaration;
             }

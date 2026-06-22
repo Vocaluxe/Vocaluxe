@@ -81,13 +81,17 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
                 var instance = (SACInstance)Marshal.PtrToStructure(_Instance, typeof(SACInstance));
                 Length = instance.Info.Duration / 1000f;
-                bool ok = instance.Opened && Length > 0.001f;
+                var ok = instance.Opened && Length > 0.001f;
                 _DropSeekEnabled = true;
                 if (ok)
+                {
                     return true;
+                }
+
                 _Free();
             }
-            catch (Exception) {}
+            catch (Exception) { }
+
             CLog.Error("Error opening video file: " + _FileName);
             _Instance = IntPtr.Zero;
             return false;
@@ -100,13 +104,15 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 CLog.Error("Tried to start a video file that is not open: " + _FileName);
                 return false;
             }
+
             if (_Thread != null)
             {
                 CLog.Error("Tried to start a video file that is already started: " + _FileName);
                 return false;
             }
+
             RequestTime = 0f;
-            _Thread = new Thread(_Execute) {Priority = ThreadPriority.Normal, Name = Path.GetFileName(_FileName)};
+            _Thread = new Thread(_Execute) { Priority = ThreadPriority.Normal, Name = Path.GetFileName(_FileName) };
             _Thread.Start();
             return true;
         }
@@ -121,14 +127,20 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public void Pause()
         {
             if (_Paused)
+            {
                 return;
+            }
+
             _Paused = true;
         }
 
         public void Resume()
         {
             if (!_Paused)
+            {
                 return;
+            }
+
             _Paused = false;
         }
 
@@ -148,6 +160,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 _LastShownTime = time - _FrameDuration; //Set this to time to detect overflow of time in FindFrame but subtract FrameDuration so GetFrame will get the first frame
                 _RequestSkip = true;
             }
+
             _EvNoMoreFrames.Set();
         }
 
@@ -159,33 +172,42 @@ namespace Vocaluxe.Lib.Video.Acinerella
             while ((frame = _Framebuffer.Pop()) != null)
             {
                 //float frameEnd = frame.Time + _FrameDuration;
-                float frameTime = frame.Time;
+                var frameTime = frame.Time;
 
                 if (frameTime > now)
                 {
                     //2 Cases: all following frames are after this one, or we have a loop and 'now' wrapped over
                     //First case is if we have no loop or we did not wrap or frame is before last one (last is the case if frame is already one of the new iterations, e.g. Last=19 now=1 frame=2)
                     if (!Loop || _LastShownTime <= now || frameTime < _LastShownTime)
+                    {
                         break; //Following frames (incl this one) are after now, so do not consider any of them
+                    }
                 }
-                    // ReSharper disable CompareOfFloatsByEqualityOperator
+                // ReSharper disable CompareOfFloatsByEqualityOperator
                 else if (Loop && RequestTime == _LoopedRequestTime)
                     // ReSharper restore CompareOfFloatsByEqualityOperator
                 {
                     //Frame time might have wrapped but now did not
                     if (frameTime < _LastShownTime && _LastShownTime <= now)
+                    {
                         break; //Following frames (incl this one) are after now, so do not consider any of them
+                    }
                 }
+
                 //Get the last(newest) possible frame and skip the rest
                 if (result != null)
                 {
                     //Frame is to old -> Discard
                     result.SetRead();
                 }
+
                 result = frame;
                 if (_Paused)
+                {
                     break; //Just get 1 frame if paused otherwise a paused movie could move a bit
+                }
             }
+
             return result;
         }
 
@@ -206,21 +228,31 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
             else
             {
-                CFramebuffer.CFrame curFrame = _FindFrame(time);
+                var curFrame = _FindFrame(time);
                 if (curFrame != null)
                 {
                     if (frame == null)
+                    {
                         frame = CDraw.AddTexture(_Width, _Height, curFrame.Data);
+                    }
                     else
+                    {
                         CDraw.UpdateTexture(frame, _Width, _Height, curFrame.Data);
+                    }
+
                     if (!_Paused)
+                    {
                         curFrame.SetRead();
+                    }
+
                     time = curFrame.Time;
                     _LastShownTime = time;
                     result = frame != null;
                 }
                 else
+                {
                     result = false;
+                }
 
                 if (_IsSleeping)
                 {
@@ -228,6 +260,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     _EvWakeUp.Set();
                 }
             }
+
             finished = _NoMoreFrames && _Framebuffer.IsEmpty();
 
             return result;
@@ -237,7 +270,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public void SyncTime(float time)
         {
             if (_Thread == null)
+            {
                 return; //Not initialized
+            }
 
             if (RequestTime - time >= _FrameDuration)
             {
@@ -259,11 +294,16 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     while ((frame = _Framebuffer.Pop()) != null)
                     {
                         if (frame.Time + _FrameDuration >= time)
+                        {
                             return;
+                        }
                     }
+
                     //If we don't the Length might be inaccurate (e.g. last frame ends at 19.98 but Length=20)
                     if (time >= Length - 2 * _FrameDuration)
+                    {
                         return;
+                    }
                 }
 
                 RequestTime = time;
@@ -287,13 +327,17 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
 
             if (videoStreamIndex < 0)
+            {
                 return false;
+            }
 
             _Width = decoder.StreamInfo.VideoInfo.FrameWidth;
             _Height = decoder.StreamInfo.VideoInfo.FrameHeight;
 
             if (decoder.StreamInfo.VideoInfo.FramesPerSecond > 0)
+            {
                 _FrameDuration = 1f / (float)decoder.StreamInfo.VideoInfo.FramesPerSecond;
+            }
 
             _Framebuffer.Init(_Width * _Height * 4);
             _FrameAvailable = false;
@@ -304,7 +348,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
         private void _Free()
         {
             if (_Videodecoder != IntPtr.Zero)
+            {
                 CAcinerella.AcFreeDecoder(_Videodecoder);
+            }
 
             if (_Instance != IntPtr.Zero)
             {
@@ -316,9 +362,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
         // Skip to a given time (in s)
         private void _Skip()
         {
-            float skipTime = RequestTime; //Copy to variable to have consistent checks
+            var skipTime = RequestTime; //Copy to variable to have consistent checks
             if (skipTime < 0 || skipTime >= Length)
+            {
                 skipTime = 0;
+            }
 
             try
             {
@@ -328,6 +376,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 CLog.Error("Error seeking video file \"" + _FileName + "\": " + e.Message);
             }
+
             _LastDecodedTime = skipTime;
 
             _FrameAvailable = false;
@@ -340,26 +389,27 @@ namespace Vocaluxe.Lib.Video.Acinerella
             const int seekThreshold = 25; // 25 frames = 0.5 second with _FrameDuration = 0.02f
 
             if (_NoMoreFrames)
+            {
                 return;
+            }
 
-            float videoTime = RequestTime;
-            float timeDifference = videoTime - _LastDecodedTime;
+            var videoTime = RequestTime;
+            var timeDifference = videoTime - _LastDecodedTime;
 
-            bool dropFrame = timeDifference >= (minFrameDropCount - 1) * _FrameDuration;
+            var dropFrame = timeDifference >= (minFrameDropCount - 1) * _FrameDuration;
 
-            bool hasFrameDecoded = false;
+            var hasFrameDecoded = false;
             if (dropFrame)
             {
-                
-                    var frameDropCount = (int)Math.Ceiling(timeDifference / _FrameDuration);
-                    if (!_DropSeekEnabled || frameDropCount < seekThreshold)
-                    {
-                        hasFrameDecoded = _DropWithSkip(frameDropCount);
-                    }
-                    else
-                    {
-                        hasFrameDecoded = _DropWithSeek(videoTime, frameDropCount);
-                    }
+                var frameDropCount = (int)Math.Ceiling(timeDifference / _FrameDuration);
+                if (!_DropSeekEnabled || frameDropCount < seekThreshold)
+                {
+                    hasFrameDecoded = _DropWithSkip(frameDropCount);
+                }
+                else
+                {
+                    hasFrameDecoded = _DropWithSeek(videoTime, frameDropCount);
+                }
             }
 
             if (!hasFrameDecoded)
@@ -373,8 +423,11 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     CLog.Error("Error AcGetFrame " + _FileName);
                 }
             }
+
             if (hasFrameDecoded)
+            {
                 _FrameAvailable = true;
+            }
             else
             {
                 if (Loop)
@@ -383,13 +436,15 @@ namespace Vocaluxe.Lib.Video.Acinerella
                     _Skip();
                 }
                 else
+                {
                     _NoMoreFrames = true;
+                }
             }
         }
 
         private bool _DropWithSeek(float videoTime, int frameDropCount)
         {
-            bool hasFrameDecoded = false;
+            var hasFrameDecoded = false;
             try
             {
                 hasFrameDecoded = CAcinerella.AcSeek(_Videodecoder, 0, (long)videoTime * 1000L);
@@ -411,7 +466,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
 
         private bool _DropWithSkip(int frameDropCount)
         {
-            bool hasFrameDecoded = false;
+            var hasFrameDecoded = false;
             // Add 1 dropped frame per 16 frames (Power of 2 -> Div is fast) as skipping takes time too and we don't want to skip again
             frameDropCount += frameDropCount / 16;
             try
@@ -422,6 +477,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
             {
                 CLog.Error("Error AcSkipFrame " + _FileName);
             }
+
             return hasFrameDecoded;
         }
 
@@ -441,14 +497,17 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 CLog.Error(e, "Couldn't copy the frame to the managed environment.");
                 return false;
             }
-            
+
             if (decoder.Buffer != IntPtr.Zero)
             {
                 _LastDecodedTime = (float)decoder.Timecode;
                 result = _Framebuffer.Put(decoder.Buffer, _LastDecodedTime);
             }
             else
+            {
                 result = false;
+            }
+
             _FrameAvailable = false;
             return result;
         }
@@ -465,7 +524,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
             while (!_Terminated)
             {
                 if (_NoMoreFrames)
+                {
                     _EvNoMoreFrames.WaitOne();
+                }
+
                 if (_RequestSkip)
                 {
                     _RequestSkip = false;
@@ -474,7 +536,9 @@ namespace Vocaluxe.Lib.Video.Acinerella
                 }
 
                 if (!_FrameAvailable)
+                {
                     _Decode();
+                }
 
                 //Bail out if we want to skip
                 if (!_RequestSkip && _FrameAvailable)
@@ -487,10 +551,14 @@ namespace Vocaluxe.Lib.Video.Acinerella
                             lock (_BufferMutex)
                             {
                                 if (_RequestSkip)
+                                {
                                     continue; //Frame is invalid if we want to skip
+                                }
+
                                 _Framebuffer.SetWritten();
                             }
                         }
+
                         _WaitCount = 0;
                         Thread.Sleep(5); //Sleep for a bit to give other threads an opportunity to run
                     }

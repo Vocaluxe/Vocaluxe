@@ -19,9 +19,9 @@ using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Threading;
-using System.IO;
 using System.Threading.Tasks;
 using VocaluxeLib;
 using VocaluxeLib.Log;
@@ -33,7 +33,6 @@ namespace Vocaluxe.Base
     {
         public delegate void CategoryChangedHandler();
 
-        private static readonly List<CSong> _Songs = new List<CSong>();
         private static readonly List<CSong> _SongsForRandom = new List<CSong>();
 
         private static bool _CoverLoaded;
@@ -47,10 +46,7 @@ namespace Vocaluxe.Base
         private static Thread _CoverLoaderThread;
         public static event CategoryChangedHandler OnCategoryChanged;
 
-        public static List<CSong> Songs
-        {
-            get { return _Songs; }
-        }
+        public static List<CSong> Songs { get; } = new List<CSong>();
 
         public static bool SongsLoaded { get; private set; }
 
@@ -59,14 +55,17 @@ namespace Vocaluxe.Base
             get
             {
                 if (SongsLoaded && NumAllSongs == 0)
+                {
                     _CoverLoaded = true;
+                }
+
                 return _CoverLoaded;
             }
         }
 
         public static int NumAllSongs
         {
-            get { return _Songs.Count; }
+            get { return Songs.Count; }
         }
 
         public static int NumSongsVisible
@@ -84,18 +83,26 @@ namespace Vocaluxe.Base
             get
             {
                 if (_CatIndex >= Categories.Count)
+                {
                     _CatIndex = -1;
+                }
+
                 return _CatIndex;
             }
             set
             {
                 if (value == _CatIndex)
+                {
                     return;
+                }
+
                 if (value == -1 || _IsCatIndexValid(value))
                 {
                     _CatIndex = value;
                     if (OnCategoryChanged != null)
+                    {
                         OnCategoryChanged();
+                    }
                 }
             }
         }
@@ -133,17 +140,25 @@ namespace Vocaluxe.Base
         public static void NextCategory()
         {
             if (Category == Categories.Count - 1)
+            {
                 Category = 0;
+            }
             else
+            {
                 Category++;
+            }
         }
 
         public static void PrevCategory()
         {
             if (Category == 0)
+            {
                 Category = Categories.Count - 1;
+            }
             else
+            {
                 Category--;
+            }
         }
 
         private static int _NumSongsWithCoverLoaded;
@@ -164,20 +179,23 @@ namespace Vocaluxe.Base
             return _IsCatIndexValid(_CatIndex) ? Categories[_CatIndex].Name : "";
         }
 
-        public static CSong GetSong(int songID)
+        public static CSong GetSong(int songId)
         {
-            return songID >= 0 && songID < _Songs.Count ? _Songs[songID] : null;
+            return songId >= 0 && songId < Songs.Count ? Songs[songId] : null;
         }
 
-        public static void AddPartySongSung(int songID)
+        public static void AddPartySongSung(int songId)
         {
-            foreach (CCategory category in Categories)
+            foreach (var category in Categories)
             {
-                foreach (CSongPointer song in category.Songs.Where(song => song.SongID == songID))
+                foreach (var song in category.Songs.Where(song => song.SongId == songId))
                 {
                     song.IsSung = true;
                     if (category.GetNumSongsNotSung() == 0)
+                    {
                         ResetPartySongSung(_GetCategoryNumber(category));
+                    }
+
                     return;
                 }
             }
@@ -185,74 +203,95 @@ namespace Vocaluxe.Base
 
         public static void ResetPartySongSung()
         {
-            foreach (CSongPointer song in Sorter.SortedSongs)
+            foreach (var song in Sorter.SortedSongs)
+            {
                 song.IsSung = false;
+            }
         }
 
         public static void ResetPartySongSung(int catIndex)
         {
             if (_IsCatIndexValid(catIndex))
             {
-                foreach (CSongPointer song in Categories[catIndex].Songs)
+                foreach (var song in Categories[catIndex].Songs)
+                {
                     song.IsSung = false;
+                }
             }
         }
 
-        public static int GetVisibleSongNumber(int songID)
+        public static int GetVisibleSongNumber(int songId)
         {
-            int i = -1;
-            foreach (CSong song in VisibleSongs)
+            var i = -1;
+            foreach (var song in VisibleSongs)
             {
                 i++;
-                if (song.ID == songID)
+                if (song.Id == songId)
+                {
                     return i;
+                }
             }
+
             return i;
         }
 
         public static int GetRandomSong()
         {
             if (_SongsForRandom.Count == 0)
+            {
                 UpdateRandomSongList();
+            }
 
             if (_SongsForRandom.Count == 0)
+            {
                 return -1;
+            }
 
-            CSong song = _SongsForRandom[CGame.Rand.Next(0, _SongsForRandom.Count - 1)];
+            var song = _SongsForRandom[CGame.Rand.Next(0, _SongsForRandom.Count - 1)];
             _SongsForRandom.Remove(song);
-            return GetVisibleSongNumber(song.ID);
+            return GetVisibleSongNumber(song.Id);
         }
 
         public static void UpdateRandomSongList()
         {
             _SongsForRandom.Clear();
-            List<CSong> visibleSongs = VisibleSongs.ToList();
+            var visibleSongs = VisibleSongs.ToList();
             if (visibleSongs.Count == 0)
+            {
                 return;
+            }
 
             // Calc average sing-count
-            int totalCounts = visibleSongs.Sum(song => song.NumPlayedSession);
-            int averageCount = totalCounts / visibleSongs.Count;
+            var totalCounts = visibleSongs.Sum(song => song.NumPlayedSession);
+            var averageCount = totalCounts / visibleSongs.Count;
 
-            foreach (CSong song in visibleSongs)
+            foreach (var song in visibleSongs)
             {
                 if (song.NumPlayedSession <= averageCount)
+                {
                     _SongsForRandom.Add(song);
+                }
             }
 
             if (_SongsForRandom.Count == 0)
+            {
                 _SongsForRandom.AddRange(visibleSongs);
+            }
         }
 
         public static int GetRandomCategory()
         {
             if (_CategoriesForRandom.Count == 0)
+            {
                 UpdateRandomCategoryList();
+            }
 
             if (_CategoriesForRandom.Count == 0)
+            {
                 return -1;
+            }
 
-            CCategory category = _CategoriesForRandom[CGame.Rand.Next(0, _CategoriesForRandom.Count - 1)];
+            var category = _CategoriesForRandom[CGame.Rand.Next(0, _CategoriesForRandom.Count - 1)];
             _CategoriesForRandom.Remove(category);
             return _GetCategoryNumber(category);
         }
@@ -265,17 +304,20 @@ namespace Vocaluxe.Base
 
         private static int _GetCategoryNumber(CCategory category)
         {
-            for (int i = 0; i < Categories.Count; i++)
+            for (var i = 0; i < Categories.Count; i++)
             {
                 if (Categories[i] == category)
+                {
                     return i;
+                }
             }
+
             return -1;
         }
 
         public static ReadOnlyCollection<CSong> AllSongs
         {
-            get { return _Songs.AsReadOnly(); }
+            get { return Songs.AsReadOnly(); }
         }
 
         public static ReadOnlyCollection<CSong> VisibleSongs
@@ -286,13 +328,16 @@ namespace Vocaluxe.Base
                 if (_IsCatIndexValid(_CatIndex))
                 {
                     // ReSharper disable LoopCanBeConvertedToQuery
-                    foreach (CSongPointer sp in Categories[_CatIndex].Songs)
+                    foreach (var sp in Categories[_CatIndex].Songs)
                         // ReSharper restore LoopCanBeConvertedToQuery
                     {
                         if (!sp.IsSung)
-                            songs.Add(_Songs[sp.SongID]);
+                        {
+                            songs.Add(Songs[sp.SongId]);
+                        }
                     }
                 }
+
                 return songs.AsReadOnly();
             }
         }
@@ -310,7 +355,9 @@ namespace Vocaluxe.Base
         public static CCategory GetCategoryByIndex(int index)
         {
             if (!_IsCatIndexValid(index))
+            {
                 return null;
+            }
 
             return Categorizer.Categories[index];
         }
@@ -323,9 +370,12 @@ namespace Vocaluxe.Base
         public static CSong GetVisibleSongByIndex(int index)
         {
             if (index < 0)
+            {
                 return null;
-            ReadOnlyCollection<CSong> visSongs = VisibleSongs;
-            return (index < visSongs.Count) ? visSongs[index] : null;
+            }
+
+            var visSongs = VisibleSongs;
+            return index < visSongs.Count ? visSongs[index] : null;
         }
 
         private static void _HandleCategoriesChanged(object sender, EventArgs args)
@@ -333,9 +383,9 @@ namespace Vocaluxe.Base
             _CategoriesForRandom.Clear();
         }
 
-        public static void Sort(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistID)
+        public static void Sort(ESongSorting sorting, EOffOn tabs, EOffOn ignoreArticles, String searchString, EDuetOptions duetOptions, int playlistId)
         {
-            Filter.SetOptions(searchString, duetOptions, playlistID);
+            Filter.SetOptions(searchString, duetOptions, playlistId);
             Sorter.SetOptions(sorting, ignoreArticles);
             Categorizer.Tabs = tabs;
         }
@@ -345,22 +395,26 @@ namespace Vocaluxe.Base
             using (CBenchmark.Time("Load Songs"))
             {
                 SongsLoaded = false;
-                _Songs.Clear();
+                Songs.Clear();
                 _NumSongsLoaded = 0;
 
                 IEnumerable<string> files;
-               
+
                 using (CBenchmark.Time("List Songs"))
                 {
                     var fileSet = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
-                    foreach (string path in CConfig.SongFolders)
+                    foreach (var path in CConfig.SongFolders)
                     {
                         if (!Directory.Exists(path))
+                        {
                             continue;
+                        }
 
-                        foreach (string file in CHelper.ListTextFiles(path, true, true))
+                        foreach (var file in CHelper.ListTextFiles(path, true, true))
+                        {
                             fileSet.Add(file);
+                        }
                     }
 
                     files = fileSet;
@@ -377,9 +431,11 @@ namespace Vocaluxe.Base
 
                     Parallel.ForEach(fileList, options, file =>
                     {
-                        CSong song = CSong.LoadSong(file);
+                        var song = CSong.LoadSong(file);
                         if (song == null)
+                        {
                             return;
+                        }
 
                         if (song.LoadNotes())
                         {
@@ -388,45 +444,50 @@ namespace Vocaluxe.Base
                         }
                     });
 
-                    int id = 0;
-                    foreach (CSong song in bag.OrderBy(s => s.Folder).ThenBy(s => s.FileName))
+                    var id = 0;
+                    foreach (var song in bag.OrderBy(s => s.Folder).ThenBy(s => s.FileName))
                     {
-                        song.ID = id++;
-                        _Songs.Add(song);
+                        song.Id = id++;
+                        Songs.Add(song);
                     }
                 }
             }
-                
-                using (CBenchmark.Time("Sorted Songs"))
-                {
-                    Sorter.SongSorting = CConfig.Config.Game.SongSorting;
-                    Sorter.IgnoreArticles = CConfig.Config.Game.IgnoreArticles;
-                    Categorizer.Tabs = CConfig.Config.Game.Tabs;
-                    Categorizer.ObjectChanged += _HandleCategoriesChanged;
-                }
 
-                Category = -1;
-                SongsLoaded = true;
+            using (CBenchmark.Time("Sorted Songs"))
+            {
+                Sorter.SongSorting = CConfig.Config.Game.SongSorting;
+                Sorter.IgnoreArticles = CConfig.Config.Game.IgnoreArticles;
+                Categorizer.Tabs = CConfig.Config.Game.Tabs;
+                Categorizer.ObjectChanged += _HandleCategoriesChanged;
+            }
 
-                switch (CConfig.Config.Theme.CoverLoading)
-                {
-                    case ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART:
-                        _LoadCovers();
-                        break;
-                    case ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC:
-                        _LoadCoversAsync();
-                        break;
-                }
+            Category = -1;
+            SongsLoaded = true;
+
+            switch (CConfig.Config.Theme.CoverLoading)
+            {
+                case ECoverLoading.TR_CONFIG_COVERLOADING_ATSTART:
+                    _LoadCovers();
+                    break;
+                case ECoverLoading.TR_CONFIG_COVERLOADING_DYNAMIC:
+                    _LoadCoversAsync();
+                    break;
+            }
         }
 
         private static void _LoadCoversAsync()
         {
             if (!SongsLoaded || CoverLoaded)
+            {
                 return;
+            }
 
             if (_CoverLoaderThread != null)
+            {
                 return;
-            _CoverLoaderThread = new Thread(_LoadCovers) {Name = "CoverLoader", Priority = ThreadPriority.BelowNormal, IsBackground = true};
+            }
+
+            _CoverLoaderThread = new Thread(_LoadCovers) { Name = "CoverLoader", Priority = ThreadPriority.BelowNormal, IsBackground = true };
             _CoverLoaderThread.Start();
         }
 
@@ -434,18 +495,20 @@ namespace Vocaluxe.Base
         {
             using (CBenchmark.Time("Loaded Covers"))
             {
-                int songCount = _Songs.Count;
-                AutoResetEvent ev = new AutoResetEvent(songCount == 0);
+                var songCount = Songs.Count;
+                var ev = new AutoResetEvent(songCount == 0);
 
                 NumSongsWithCoverLoaded = 0;
-                foreach (CSong song in _Songs)
+                foreach (var song in Songs)
                 {
-                    CSong tmp = song;
+                    var tmp = song;
                     Task.Factory.StartNew(() =>
                     {
                         tmp.LoadSmallCover();
                         if (Interlocked.Increment(ref _NumSongsWithCoverLoaded) >= songCount)
+                        {
                             ev.Set();
+                        }
                     });
                 }
 

@@ -26,7 +26,9 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
         public override bool Init()
         {
             if (_Initialized)
+            {
                 return false;
+            }
 
             _Context = new AudioContext();
             _Context.MakeCurrent();
@@ -38,7 +40,10 @@ namespace Vocaluxe.Lib.Sound.Playback.OpenAL
         public override void Close()
         {
             if (!_Initialized)
+            {
                 return;
+            }
+
             base.Close();
             _Context.Dispose();
             _Context = null;

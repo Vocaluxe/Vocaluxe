@@ -35,7 +35,10 @@ namespace Vocaluxe.Base
         public static bool Init()
         {
             if (_Draw != null)
+            {
                 return false;
+            }
+
             switch (CConfig.Config.Graphics.Renderer)
             {
                 case ERenderer.TR_CONFIG_SOFTWARE:
@@ -52,6 +55,7 @@ namespace Vocaluxe.Base
                         CLog.Fatal(e, "Error in initializing of OpenGL. Please check whether your graphic card drivers are up to date.");
                         return false;
                     }
+
                     break;
 
 #if WIN
@@ -66,6 +70,7 @@ namespace Vocaluxe.Base
                                       "download the DirectX runtimes at https://www.microsoft.com/en-us/download/details.aspx?id=8109");
                         return false;
                     }
+
                     break;
 #endif
 
@@ -73,6 +78,7 @@ namespace Vocaluxe.Base
                     _Draw = new CDrawWinForm();
                     break;
             }
+
             return _Draw.Init();
         }
 
@@ -267,7 +273,9 @@ namespace Vocaluxe.Base
         {
             // Disposed textures call this, possibly at program end!
             if (_Draw != null)
+            {
                 _Draw.RemoveTexture(ref texture);
+            }
         }
 
         /// <summary>
@@ -383,9 +391,11 @@ namespace Vocaluxe.Base
         public static void DrawTexture(CTextureRef textureRef, SRectF bounds, EAspect aspect, SColorF color)
         {
             if (textureRef == null)
+            {
                 return;
+            }
 
-            SRectF rect = CHelper.FitInBounds(bounds, textureRef.OrigAspect, aspect);
+            var rect = CHelper.FitInBounds(bounds, textureRef.OrigAspect, aspect);
             DrawTexture(textureRef, rect, color, bounds);
         }
 

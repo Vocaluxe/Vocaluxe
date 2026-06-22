@@ -17,7 +17,6 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Vocaluxe.Base;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Input
@@ -26,16 +25,21 @@ namespace Vocaluxe.Lib.Input
     public struct SHIDDeviceInfo
     {
         // ReSharper disable MemberCanBePrivate.Global
-        [MarshalAs(UnmanagedType.LPTStr)] public readonly String Path;
+        [MarshalAs(UnmanagedType.LPTStr)]
+        public readonly String Path;
         public readonly ushort VendorString;
-        public readonly ushort ProductID;
-        [MarshalAs(UnmanagedType.LPWStr)] public readonly String SerialNumber;
+        public readonly ushort ProductId;
+        [MarshalAs(UnmanagedType.LPWStr)]
+        public readonly String SerialNumber;
         public readonly ushort ReleaseNumber;
-        [MarshalAs(UnmanagedType.LPWStr)] public readonly String ManufacturerString;
-        [MarshalAs(UnmanagedType.LPWStr)] public readonly String ProductString;
+        [MarshalAs(UnmanagedType.LPWStr)]
+        public readonly String ManufacturerString;
+        [MarshalAs(UnmanagedType.LPWStr)]
+        public readonly String ProductString;
         public readonly ushort UsagePage;
         public readonly ushort Usage;
-        [MarshalAs(UnmanagedType.LPWStr)] public readonly int InterfaceNumber;
+        [MarshalAs(UnmanagedType.LPWStr)]
+        public readonly int InterfaceNumber;
         internal IntPtr Next;
         // ReSharper restore MemberCanBePrivate.Global
     }
@@ -101,13 +105,13 @@ namespace Vocaluxe.Lib.Input
         }
 
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_enumerate", CharSet = CharSet.Ansi)]
-        private static extern IntPtr hid_enumerate(ushort vendorID, ushort productID);
+        private static extern IntPtr hid_enumerate(ushort vendorId, ushort productId);
 
         //HIDDeviceInfo
-        public static IntPtr Enumerate(ushort vendorID, ushort productID)
+        public static IntPtr Enumerate(ushort vendorId, ushort productId)
         {
             //HIDDeviceInfo
-            return hid_enumerate(vendorID, productID);
+            return hid_enumerate(vendorId, productId);
         }
 
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_free_enumeration", CharSet = CharSet.Unicode)]
@@ -119,14 +123,14 @@ namespace Vocaluxe.Lib.Input
         }
 
         [DllImport(_HIDApiDll, ExactSpelling = false, CallingConvention = CallingConvention.Cdecl, EntryPoint = "hid_open", CharSet = CharSet.Unicode)]
-        private static extern IntPtr hid_open(ushort vendorID, ushort productID, IntPtr serialNumber);
+        private static extern IntPtr hid_open(ushort vendorId, ushort productId, IntPtr serialNumber);
 
-        public static bool Open(ushort vendorID, ushort productID, out IntPtr handle)
+        public static bool Open(ushort vendorId, ushort productId, out IntPtr handle)
         {
             handle = IntPtr.Zero;
             try
             {
-                handle = hid_open(vendorID, productID, IntPtr.Zero);
+                handle = hid_open(vendorId, productId, IntPtr.Zero);
             }
             catch (Exception e)
             {
@@ -135,7 +139,9 @@ namespace Vocaluxe.Lib.Input
             }
 
             if (handle != IntPtr.Zero)
+            {
                 return true;
+            }
 
             return false;
         }
@@ -161,7 +167,7 @@ namespace Vocaluxe.Lib.Input
 
         public static int ReadTimeout(IntPtr device, ref byte[] data, int length, int milliseconds)
         {
-            IntPtr dataPtr = Marshal.AllocHGlobal(length);
+            var dataPtr = Marshal.AllocHGlobal(length);
             int bytesRead;
             try
             {
@@ -174,9 +180,13 @@ namespace Vocaluxe.Lib.Input
             }
 
             if (bytesRead != -1)
+            {
                 Marshal.Copy(dataPtr, data, 0, bytesRead);
+            }
             else
+            {
                 data = null;
+            }
 
             Marshal.FreeHGlobal(dataPtr);
 
@@ -189,7 +199,7 @@ namespace Vocaluxe.Lib.Input
         public static int Read(IntPtr device, out byte[] data, int length)
         {
             data = new byte[length];
-            IntPtr dataPtr = Marshal.AllocHGlobal(length);
+            var dataPtr = Marshal.AllocHGlobal(length);
 
             int result;
             try
@@ -203,9 +213,13 @@ namespace Vocaluxe.Lib.Input
             }
 
             if (result != -1)
+            {
                 Marshal.Copy(dataPtr, data, 0, result);
+            }
             else
+            {
                 data = null;
+            }
 
             Marshal.FreeHGlobal(dataPtr);
             return result;
@@ -249,6 +263,7 @@ namespace Vocaluxe.Lib.Input
                 CLog.Error("Error CHIDAPI.Close(): " + e);
                 return false;
             }
+
             return true;
         }
 

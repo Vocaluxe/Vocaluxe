@@ -17,17 +17,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Windows.Forms;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Server;
 using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -65,7 +63,7 @@ namespace Vocaluxe.Screens
         {
             base.Init();
 
-            var texts = new List<string> {_TextSong};
+            var texts = new List<string> { _TextSong };
 
             _BuildTextStrings(ref texts);
 
@@ -81,7 +79,7 @@ namespace Vocaluxe.Screens
 
             _ThemeProgressBars = progressBars.ToArray();
 
-            _ThemeScreenSettings = new string[] {_ScreenSettingShortScore, _ScreenSettingShortRating, _ScreenSettingShortDifficulty};
+            _ThemeScreenSettings = new string[] { _ScreenSettingShortScore, _ScreenSettingShortRating, _ScreenSettingShortDifficulty };
 
             _SlideShowBG = GetNewBackground();
             _AddBackground(_SlideShowBG);
@@ -90,7 +88,7 @@ namespace Vocaluxe.Screens
 
         public override bool HandleInput(SKeyEvent keyEvent)
         {
-            if (keyEvent.KeyPressed) {}
+            if (keyEvent.KeyPressed) { }
             else
             {
                 switch (keyEvent.Key)
@@ -110,6 +108,7 @@ namespace Vocaluxe.Screens
                         break;
                 }
             }
+
             return true;
         }
 
@@ -118,13 +117,19 @@ namespace Vocaluxe.Screens
             base.HandleMouse(mouseEvent);
 
             if (mouseEvent.Wheel != 0)
+            {
                 _ChangeRound(mouseEvent.Wheel);
+            }
 
             if (mouseEvent.LB)
+            {
                 _LeaveScreen();
+            }
 
             if (mouseEvent.RB)
+            {
                 _LeaveScreen();
+            }
 
             return true;
         }
@@ -142,26 +147,36 @@ namespace Vocaluxe.Screens
             _UpdateRatings();
             _SlideShowBG.Visible = _UpdateBackground();
 
-            for (int p = 0; p < CGame.NumPlayers; p++)
+            for (var p = 0; p < CGame.NumPlayers; p++)
+            {
                 _Statics[_StaticAvatar[p, CGame.NumPlayers - 1]].Aspect = EAspect.Crop;
+            }
         }
 
         public override bool UpdateGame()
         {
             var players = new SPlayer[CGame.NumPlayers];
             if (_Round >= 0)
+            {
                 players = _Points.GetPlayer(_Round, CGame.NumPlayers);
+            }
             else
             {
-                for (int i = 0; i < CGame.NumRounds; i++)
+                for (var i = 0; i < CGame.NumRounds; i++)
                 {
-                    SPlayer[] points = _Points.GetPlayer(i, CGame.NumPlayers);
-                    for (int p = 0; p < players.Length; p++)
+                    var points = _Points.GetPlayer(i, CGame.NumPlayers);
+                    for (var p = 0; p < players.Length; p++)
+                    {
                         players[p].Points += points[p].Points;
+                    }
                 }
-                for (int p = 0; p < players.Length; p++)
+
+                for (var p = 0; p < players.Length; p++)
+                {
                     players[p].Points = (int)(players[p].Points / CGame.NumRounds);
+                }
             }
+
             return true;
         }
 
@@ -170,41 +185,59 @@ namespace Vocaluxe.Screens
             string rating;
 
             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
-                rating = "TR_RATING_KARAOKE";            
+            {
+                rating = "TR_RATING_KARAOKE";
+            }
             else if (points >= 9800)
+            {
                 rating = "TR_RATING_VOCAL_HERO";
+            }
             else if (points >= 8400)
+            {
                 rating = "TR_RATING_SUPERSTAR";
+            }
             else if (points >= 7000)
+            {
                 rating = "TR_RATING_LEAD_SINGER";
+            }
             else if (points >= 5600)
+            {
                 rating = "TR_RATING_RISING_STAR";
+            }
             else if (points >= 4200)
+            {
                 rating = "TR_RATING_HOPEFUL";
+            }
             else if (points >= 2800)
+            {
                 rating = "TR_RATING_WANNABE";
+            }
             else if (points >= 1400)
+            {
                 rating = "TR_RATING_AMATEUR";
+            }
             else
+            {
                 rating = "TR_RATING_TONE_DEAF";
+            }
 
             return rating;
         }
 
         private void _BuildTextStrings(ref List<string> texts)
         {
-            _TextNames = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _TextScores = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _TextRatings = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
-            _TextDifficulty = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
+            _TextNames = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _TextScores = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _TextRatings = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
+            _TextDifficulty = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
 
-            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            for (var numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
-                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                for (var player = 0; player < CSettings.MaxNumPlayer; player++)
                 {
                     if (player <= numplayer)
                     {
-                        string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                        var target = "P" + (player + 1) + "N" + (numplayer + 1);
                         _TextNames[player, numplayer] = "TextName" + target;
                         _TextScores[player, numplayer] = "TextScore" + target;
                         _TextRatings[player, numplayer] = "TextRating" + target;
@@ -221,15 +254,18 @@ namespace Vocaluxe.Screens
 
         private void _BuildStaticStrings(ref List<string> statics)
         {
-            _StaticAvatar = new string[CSettings.MaxNumPlayer,CSettings.MaxNumPlayer];
+            _StaticAvatar = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
 
-            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            for (var numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
-                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                for (var player = 0; player < CSettings.MaxNumPlayer; player++)
                 {
                     if (player > numplayer)
+                    {
                         continue;
-                    string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                    }
+
+                    var target = "P" + (player + 1) + "N" + (numplayer + 1);
                     _StaticAvatar[player, numplayer] = "StaticAvatar" + target;
 
                     statics.Add(_StaticAvatar[player, numplayer]);
@@ -241,13 +277,16 @@ namespace Vocaluxe.Screens
         {
             _ProgressBarPoints = new string[CSettings.MaxNumPlayer, CSettings.MaxNumPlayer];
 
-            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            for (var numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
-                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                for (var player = 0; player < CSettings.MaxNumPlayer; player++)
                 {
                     if (player > numplayer)
+                    {
                         continue;
-                    string target = "P" + (player + 1) + "N" + (numplayer + 1);
+                    }
+
+                    var target = "P" + (player + 1) + "N" + (numplayer + 1);
                     _ProgressBarPoints[player, numplayer] = "ProgressBarPoints" + target;
 
                     progressBars.Add(_ProgressBarPoints[player, numplayer]);
@@ -261,7 +300,9 @@ namespace Vocaluxe.Screens
         {
             // Do not play in Karaoke Mode
             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            {
                 return;
+            }
 
             // Stop any previous ProgressBar sound
             if (_ProgressBarSoundStream != -1)
@@ -271,7 +312,7 @@ namespace Vocaluxe.Screens
             }
 
             // Calculate duration: 10,000 points = 5 seconds
-            double duration = Math.Min(maxPoints / 10000.0, 1.0) * 5;
+            var duration = Math.Min(maxPoints / 10000.0, 1.0) * 5;
 
             // Play the sound
             _ProgressBarSoundStream = PlaySound(ESounds.ProgressBar, CConfig.SoundEffectVolume);
@@ -287,22 +328,22 @@ namespace Vocaluxe.Screens
                     _PlayApplauseSound(maxPoints);
                 }
             });
-            }
+        }
 
         private int _ApplauseStream = -1;
 
         private void _PlayApplauseSound(int maxPoints)
         {
-             // Play no applause sound based on Karaoke Mode
-             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
+            // Play no applause sound based on Karaoke Mode
+            if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
             {
-                 return;
+                return;
             }
-            
+
             // Play the appropriate applause sound based on maxPoints
             if (maxPoints >= 8000)
             {
-                 _ApplauseStream = PlaySound(ESounds.ApplauseHigh, CConfig.SoundEffectVolume);
+                _ApplauseStream = PlaySound(ESounds.ApplauseHigh, CConfig.SoundEffectVolume);
             }
             else if (maxPoints >= 5000)
             {
@@ -310,13 +351,13 @@ namespace Vocaluxe.Screens
             }
             else if (maxPoints >= 2000)
             {
-            _ApplauseStream = PlaySound(ESounds.ApplauseLow, CConfig.SoundEffectVolume);
+                _ApplauseStream = PlaySound(ESounds.ApplauseLow, CConfig.SoundEffectVolume);
             }
         }
 
         private static int PlaySound(ESounds sound, int volume)
         {
-            int streamId = CSound.PlaySound(sound, false);
+            var streamId = CSound.PlaySound(sound, false);
             CSound.SetStreamVolume(streamId, volume);
 
             return streamId;
@@ -330,85 +371,110 @@ namespace Vocaluxe.Screens
             {
                 song = CGame.GetSong(_Round);
                 if (song == null)
+                {
                     return;
+                }
 
                 _Texts[_TextSong].Text = song.Artist + " - " + song.Title;
                 if (_Points.NumRounds > 1)
+                {
                     _Texts[_TextSong].Text += " (" + (_Round + 1) + "/" + _Points.NumRounds + ")";
+                }
+
                 players = _Points.GetPlayer(_Round, CGame.NumPlayers);
 
-                int maxPoints = (int)Math.Round(players.Max(player => player.Points));
+                var maxPoints = (int)Math.Round(players.Max(player => player.Points));
                 _PlayProgressBarSound(maxPoints);
-                
             }
             else
             {
                 _Texts[_TextSong].Text = "TR_SCREENSCORE_OVERALLSCORE";
-                for (int i = 0; i < CGame.NumRounds; i++)
+                for (var i = 0; i < CGame.NumRounds; i++)
                 {
-                    SPlayer[] points = _Points.GetPlayer(i, CGame.NumPlayers);
-                    for (int p = 0; p < players.Length; p++)
+                    var points = _Points.GetPlayer(i, CGame.NumPlayers);
+                    for (var p = 0; p < players.Length; p++)
                     {
                         if (i < 1)
-                            players[p].ProfileID = points[p].ProfileID;
+                        {
+                            players[p].ProfileId = points[p].ProfileId;
+                        }
+
                         players[p].Points += points[p].Points;
                     }
                 }
-                for (int p = 0; p < players.Length; p++)
-                    players[p].Points = (int)Math.Round(players[p].Points / CGame.NumRounds);
 
-                int maxPoints = (int)Math.Round(players.Max(player => player.Points));
+                for (var p = 0; p < players.Length; p++)
+                {
+                    players[p].Points = (int)Math.Round(players[p].Points / CGame.NumRounds);
+                }
+
+                var maxPoints = (int)Math.Round(players.Max(player => player.Points));
                 _PlayProgressBarSound(maxPoints);
             }
 
-            for (int p = 0; p < players.Length; p++)
+            for (var p = 0; p < players.Length; p++)
             {
-                string name = CProfiles.GetPlayerName(players[p].ProfileID, p);
+                var name = CProfiles.GetPlayerName(players[p].ProfileId, p);
                 if (song != null && song.IsDuet)
                 {
                     if (song.Notes.VoiceNames.IsSet(players[p].VoiceNr))
+                    {
                         name += " (" + song.Notes.VoiceNames[players[p].VoiceNr] + ")";
+                    }
                 }
+
                 _Texts[_TextNames[p, CGame.NumPlayers - 1]].Text = name;
 
                 if (CGame.NumPlayers < (int)_ScreenSettings[_ScreenSettingShortScore].GetValue())
+                {
                     _Texts[_TextScores[p, CGame.NumPlayers - 1]].Text = ((int)Math.Round(players[p].Points)).ToString("0000") + " " + CLanguage.Translate("TR_SCREENSCORE_POINTS");
+                }
                 else
+                {
                     _Texts[_TextScores[p, CGame.NumPlayers - 1]].Text = ((int)Math.Round(players[p].Points)).ToString("0000");
+                }
+
                 if (CGame.NumPlayers < (int)_ScreenSettings[_ScreenSettingShortDifficulty].GetValue())
                 {
                     _Texts[_TextDifficulty[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_GAMEDIFFICULTY") + ": " +
-                                                                            CLanguage.Translate(CProfiles.GetDifficulty(players[p].ProfileID).ToString());
+                                                                            CLanguage.Translate(CProfiles.GetDifficulty(players[p].ProfileId).ToString());
                 }
                 else
-                    _Texts[_TextDifficulty[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate(CProfiles.GetDifficulty(players[p].ProfileID).ToString());
+                {
+                    _Texts[_TextDifficulty[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate(CProfiles.GetDifficulty(players[p].ProfileId).ToString());
+                }
+
                 if (CGame.NumPlayers < (int)_ScreenSettings[_ScreenSettingShortRating].GetValue())
                 {
                     _Texts[_TextRatings[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate("TR_SCREENSCORE_RATING") + ": " +
                                                                          CLanguage.Translate(_GetRating((int)Math.Round(players[p].Points)));
                 }
                 else
+                {
                     _Texts[_TextRatings[p, CGame.NumPlayers - 1]].Text = CLanguage.Translate(_GetRating((int)Math.Round(players[p].Points)));
+                }
 
                 _ProgressBars[_ProgressBarPoints[p, CGame.NumPlayers - 1]].Progress = (float)players[p].Points / CSettings.MaxScore;
 
-                if (CProfiles.IsProfileIDValid(players[p].ProfileID))
-                    _Statics[_StaticAvatar[p, CGame.NumPlayers - 1]].Texture = CProfiles.GetAvatarTextureFromProfile(players[p].ProfileID);
+                if (CProfiles.IsProfileIdValid(players[p].ProfileId))
+                {
+                    _Statics[_StaticAvatar[p, CGame.NumPlayers - 1]].Texture = CProfiles.GetAvatarTextureFromProfile(players[p].ProfileId);
+                }
             }
         }
 
         private void _SetVisibility()
         {
-            bool isKaraokeMode = CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE;
+            var isKaraokeMode = CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE;
 
-            for (int numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
+            for (var numplayer = 0; numplayer < CSettings.MaxNumPlayer; numplayer++)
             {
-                for (int player = 0; player < CSettings.MaxNumPlayer; player++)
+                for (var player = 0; player < CSettings.MaxNumPlayer; player++)
                 {
                     if (player <= numplayer)
                     {
-                        bool isVisible = numplayer + 1 == CGame.NumPlayers;
-                
+                        var isVisible = numplayer + 1 == CGame.NumPlayers;
+
                         _Texts[_TextNames[player, numplayer]].Visible = isVisible;
                         _Texts[_TextScores[player, numplayer]].Visible = isVisible && !isKaraokeMode;
                         _Texts[_TextRatings[player, numplayer]].Visible = isVisible;
@@ -433,16 +499,16 @@ namespace Vocaluxe.Screens
 
         private void _SavePlayedSongs()
         {
-            for (int round = 0; round < _Points.NumRounds; round++)
+            for (var round = 0; round < _Points.NumRounds; round++)
             {
-                SPlayer[] players = _Points.GetPlayer(round, CGame.NumPlayers);
+                var players = _Points.GetPlayer(round, CGame.NumPlayers);
 
-                for (int p = 0; p < players.Length; p++)
+                for (var p = 0; p < players.Length; p++)
                 {
                     if (players[p].Points > CSettings.MinScoreForDB && players[p].SongFinished)
                     {
-                        CSong song = CSongs.GetSong(players[p].SongID);
-                        CDataBase.IncreaseSongCounter(song.DataBaseSongID);
+                        var song = CSongs.GetSong(players[p].SongId);
+                        CDataBase.IncreaseSongCounter(song.DataBaseSongId);
                         song.NumPlayed++;
                         song.NumPlayedSession++;
                         break;
@@ -453,10 +519,13 @@ namespace Vocaluxe.Screens
 
         private bool _UpdateBackground()
         {
-            string[] photos = CVocaluxeServer.GetPhotosOfThisRound();
+            var photos = CVocaluxeServer.GetPhotosOfThisRound();
             _SlideShowBG.RemoveSlideShowTextures();
-            foreach (string photo in photos)
+            foreach (var photo in photos)
+            {
                 _SlideShowBG.AddSlideShowTexture(photo);
+            }
+
             return photos.Length > 0;
         }
 
@@ -464,8 +533,8 @@ namespace Vocaluxe.Screens
         {
             if (_ApplauseStream != -1)
             {
-                 CSound.Close(_ApplauseStream);
-                 _ApplauseStream = -1;
+                CSound.Close(_ApplauseStream);
+                _ApplauseStream = -1;
             }
 
             if (_ProgressBarSoundStream != -1)
@@ -473,14 +542,14 @@ namespace Vocaluxe.Screens
                 CSound.Close(_ProgressBarSoundStream);
                 _ProgressBarSoundStream = -1;
             }
-            
+
             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
             {
-                 CGraphics.FadeTo(EScreen.Song);
+                CGraphics.FadeTo(EScreen.Song);
             }
             else
             {
-                 CParty.LeavingScore();
+                CParty.LeavingScore();
             }
         }
     }
