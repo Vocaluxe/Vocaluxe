@@ -43,9 +43,10 @@ Environment overrides for `build-linux.sh`:
 ```
 
 Needs `appimagetool` (auto-downloaded; requires network + FUSE) and, optionally,
-ImageMagick for the icon. The AppImage bundles the .NET runtime and the
-SkiaSharp/PitchTracker native libraries; the multimedia system libraries from
-step 1 are expected on the host.
+ImageMagick for the icon. The resulting AppImage is **fully self-contained**: it
+bundles the .NET runtime, the SkiaSharp/PitchTracker/Acinerella native libraries
+**and** the multimedia system libraries (PortAudio, FFmpeg, fontconfig) plus their
+dependencies — so it runs on a host without those packages installed.
 
 ## 4. Developing / manual build
 

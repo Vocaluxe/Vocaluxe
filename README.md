@@ -19,10 +19,11 @@ It features mouse, keyboard, gamepad and Wiimote navigation, a multi-language in
 Vocaluxe offers diversified party modes and can optionally be controlled via a browser (desktop and mobile supported).
 
 Supported Operating Systems / Requirements:
-- Windows 7, Windows 8, Windows 8.1, Windows 10 and Windows 11 with .NET 4.0
-- *Linux* (no official support)
-- 1 GHz CPU, 512 MB RAM, Graphics card with OpenGL 2.1 or DirectX 9.0 support
-- Visual C++ Redistributable Package 2010 (Nightly builds additionally require VC++ 2015–2022)
+- **Windows**, **Linux** and **macOS** — one cross-platform code base on **.NET 10** (self-contained builds
+  bundle the runtime, so no separate .NET install is needed). Linux runs natively; macOS is experimental.
+  *(Older 0.x releases are Windows-only and built on .NET Framework 4.x.)*
+- 1 GHz CPU, 512 MB RAM, a graphics card with **OpenGL 2.1+** support
+- On Windows: the Visual C++ Redistributable (for the native helper libraries)
 
 
 ## 2. Download
@@ -34,9 +35,12 @@ You want to fix a bug or add a cool new feature to Vocaluxe? Awesome!
 Check out [milestones](https://github.com/Vocaluxe/Vocaluxe/milestones) or our [Game Design Document](https://github.com/Vocaluxe/Vocaluxe/blob/develop/Vocaluxe/Doc/GameDesignDocumentVocaluxe.md)!
 
 ### Build Vocaluxe
-Building Vocaluxe is easy:
-Just follow the guide on our wiki to clone the repository and create your own Vocaluxe build:
-[Build Vocaluxe (Windows)](https://github.com/Vocaluxe/Vocaluxe/wiki/HowTo:-Build-Vocaluxe-(Windows))
+Build guides live in the repository:
+- [Build on Windows](HowToBuildWin.md)
+- [Build on Linux](HowToBuildLinux.md)
+
+Both use the **.NET 10 SDK** (`dotnet build` / `dotnet publish`); see each guide for the per-OS native
+helper libraries.
 
 ### Submit your change
 Upload your changes to your fork and open a new pull request.
