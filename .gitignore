@@ -83,3 +83,6 @@ obj/
 *.o
 PitchTracker/libPitchTracker.dll.so
 Output/libPitchTracker.dll.so
+
+# Linux packaging output
+dist/

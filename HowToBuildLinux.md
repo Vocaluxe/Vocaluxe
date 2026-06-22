@@ -1,46 +1,59 @@
-# Build Vocaluxe - HowTo (Linux)
+# Build Vocaluxe on Linux (.NET 10)
 
-Runing Vocaluxe on Linux is not offically supported yet -but you can try it yourself.  
-(the problematic part is fullfilling the runtime dependencies)
+As of the cross-platform port (see issue #768) Vocaluxe builds and runs natively
+on Linux on **.NET 10** — no Mono required. It is a single cross-platform code
+base: the same sources build on Windows, Linux and macOS (OpenGL + PortAudio
+everywhere; the old Direct3D/DirectSound/WinForms paths were dropped).
 
+## 1. Prerequisites
 
-* Install ffmpeg 3.2 (a quick and dirty compile script can be found here: [installFFmpeg.sh](https://github.com/lukeIam/Vocaluxe/blob/travis/.travis/installFFmpeg.sh) )
-* Get sure your gcc and g++ version is >= 4.8
-* Install at least mono 5.8.0 ([HowTo install mono](http://www.mono-project.com/download/stable/))
-* Clone the repository
-You want to use this branch as it contains some linux specific changes   
-(compiles on Ubuntu 14.04): [travis@lukeIam/Vocaluxe](https://github.com/lukeIam/Vocaluxe/tree/travis)
-* Navigate to the travis branch and execute (commands from [.travis.yml](https://github.com/lukeIam/Vocaluxe/blob/travis/.travis.yml)):
+* **.NET 10 SDK** — https://dotnet.microsoft.com/download (or your distro's `dotnet-sdk-10.0`)
+* **gcc/g++ and make** — to build the native `PitchTracker` helper
+* **Runtime system libraries:**
+
+  ```bash
+  sudo apt install -y libportaudio2 libfontconfig1 libsdl2-2.0-0
+  # optional: gstreamer1.0-plugins-base  libhidapi-hidraw0   (HID / Wiimote)
+  ```
+
+  (Equivalent packages on other distributions.)
+
+## 2. Build & run (one step)
+
 ```bash
-chmod ugo+x ./.build/linuxPostBuildEvent.sh
-chmod ugo+x ./.build/linuxPreBuildEvent.sh
-chmod ugo+x ./.travis/gitDescribe.sh
-wget https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -P ./.travis/
-
-config=Linux platform=x64
-
-# ./.travis/gitDescribe.sh
-mono ./.travis/nuget.exe restore
-make -C PitchTracker
-make -C Vocaluxe/Lib/Video/Acinerella
-msbuild /p:Configuration=Release$config /p:Platform=$platform /p:TargetFrameworkVersion=v4.7 Vocaluxe.sln
+./.build/build-linux.sh        # builds PitchTracker + publishes the app into ./dist/Vocaluxe
+./dist/Vocaluxe.sh             # run it
 ```
-* The build should complete without errors
-* change to the Output directory:
-```sh
-cd Output
-```
-* Start Vocaluxe:
+
+Environment overrides for `build-linux.sh`:
+`DOTNET` (dotnet path), `RID` (default `linux-x64`),
+`SELFCONTAINED` (`true` bundles the .NET runtime, default `true`).
+
+## 3. Build an AppImage (optional)
+
 ```bash
-mono Vocaluxe.exe
+./.build/make-appimage.sh      # -> ./dist/Vocaluxe-x86_64.AppImage
 ```
-* Vocaluxe will start (you will see the splash screen) and then crash because runtime dependencies are missing    
-Required dependencies (by heart - can be incorrect and incomplete):  
-  - gstreamer 1.0
-  - ffmpeg 3.2 (maybe we can use the build script which builds the libs at the moment)
-  - hidapi
-  - libgstreamersharpglue-1.0.0
-  - portaudio
-  - ?
-  
-  * If yo make some progress we would be happy if you share it with us in a pull request/issue.
+
+Needs `appimagetool` (auto-downloaded; requires network + FUSE) and, optionally,
+ImageMagick for the icon. The AppImage bundles the .NET runtime and the
+SkiaSharp/PitchTracker native libraries; the multimedia system libraries from
+step 1 are expected on the host.
+
+## 4. Developing / manual build
+
+```bash
+make -C PitchTracker                                   # native pitch detector -> libPitchTracker.dll.so
+dotnet build Vocaluxe/Vocaluxe.csproj -c Release       # managed build
+```
+
+The game data lives in `Output/`; the app resolves it relative to the
+executable, which is why `build-linux.sh` copies `Output/` next to the published
+binaries.
+
+## Notes / current limitations
+
+* The browser remote-control **webserver is disabled** on this build (the old WCF
+  implementation is gone; an ASP.NET Core replacement is planned).
+* Gamepad (OpenTK 1.x) input is stubbed; Wiimote needs `libhidapi`.
+* Windows builds are kept working by design but are not verified in this port.
