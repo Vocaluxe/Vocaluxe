@@ -249,7 +249,9 @@ namespace Vocaluxe.Base
 #elif WIN
             Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 #elif LINUX
-            Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs)
+            // User songs first, then the songs shipped next to the executable.
+            Path.Combine(CSettings.DataFolder, CSettings.FolderNameSongs),
+            Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameSongs)
 #endif
             };
         /// <summary>
@@ -264,7 +266,10 @@ namespace Vocaluxe.Base
 #elif WIN
             CSettings.FolderNameProfiles
 #elif LINUX
-            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles)
+            // First entry is used for newly created profiles (user dir); the second holds the
+            // guest profiles shipped next to the executable (Output/Profiles).
+            Path.Combine(CSettings.DataFolder, CSettings.FolderNameProfiles),
+            Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameProfiles)
 #endif
         };
 
