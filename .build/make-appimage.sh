@@ -111,7 +111,11 @@ chmod +x "$APPDIR/AppRun"
 
 echo ">> Locating appimagetool"
 if [ -z "$TOOL" ]; then
-    TOOL="$ROOT/dist/appimagetool-x86_64.AppImage"
+    # Cache the build tool OUTSIDE dist/ so the output directory only ever contains the deliverable
+    # (Vocaluxe-x86_64.AppImage) - having appimagetool's own .AppImage next to it is confusing.
+    CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/vocaluxe-build"
+    mkdir -p "$CACHE"
+    TOOL="$CACHE/appimagetool-x86_64.AppImage"
     if [ ! -f "$TOOL" ]; then
         echo "   downloading appimagetool (needs network)"
         curl -fsSL -o "$TOOL" \
