@@ -289,6 +289,8 @@
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Lautstärke</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Serveradresse</string>
   <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server läuft derzeit nicht. Bitte aktiviere ihn und starte das Spiel neu!</string>
+  <string name="TR_SCREENPSERVERQR_PORTINUSE">Server-Port %d ist bereits belegt. Ändere den Port in den Server-Optionen und starte das Spiel neu.</string>
+  <string name="TR_SCREENPSERVERQR_STARTFAILED">Der Server konnte nicht gestartet werden. Details siehe Log.</string>
   <string name="TR_REPORTER_TITLE_TEXT">Es tut uns leid</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">dass Vocaluxe abgestürzt ist.\r\nUm uns zu helfen, das Problem zu beheben, schicke uns bitte einen Absturzbericht.\r\nBitte bearbeite das folgende Protokoll, so dass keine eventuell persönlichen Daten enthalten sind.</string>
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">dass Du einen Fehler festgestellt hast.\r\nUm uns zu helfen, das Problem zu beheben, schicke uns bitte einen Absturzbericht.\r\nBitte bearbeite das folgende Protokoll, so dass keine eventuell persönlichen Daten enthalten sind.</string>

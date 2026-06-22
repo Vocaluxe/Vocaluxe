@@ -58,6 +58,12 @@ namespace Vocaluxe.Screens
             _Texts[_TextServerAddress].Visible = CVocaluxeServer.IsServerRunning();
             _Statics[_StaticQRServer].Visible = CVocaluxeServer.IsServerRunning();
             _Texts[_TextServerNotRunning].Visible = !CVocaluxeServer.IsServerRunning();
+
+            // When the server is enabled but failed to start, show the (translated) reason - e.g.
+            // "port in use" - instead of the generic "not running" text.
+            string statusKey = CVocaluxeServer.GetStatusKey();
+            if (!CVocaluxeServer.IsServerRunning() && !string.IsNullOrEmpty(statusKey))
+                _Texts[_TextServerNotRunning].Text = CLanguage.Translate(statusKey).Replace("%d", CConfig.Config.Server.ServerPort.ToString());
         }
 
         public override bool HandleMouse(SMouseEvent mouseEvent)

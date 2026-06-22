@@ -48,6 +48,9 @@ namespace Vocaluxe.Base.Server
         private static WebApplication _App;
         private static bool _Running;
         private static string _Address = "";
+        // Translation key for the reason the server is enabled but not running (e.g. the port is in
+        // use); the UI translates it. Empty when running or when no specific reason is known.
+        private static string _StatusKey = "";
 
         private class CServerController : CControllerFramework
         {
@@ -95,6 +98,8 @@ namespace Vocaluxe.Base.Server
             catch (Exception e)
             {
                 CLog.Error(e, "Could not initialize the webserver");
+                if (string.IsNullOrEmpty(_StatusKey))
+                    _StatusKey = "TR_SCREENPSERVERQR_STARTFAILED";
                 _App = null;
             }
         }
@@ -107,11 +112,16 @@ namespace Vocaluxe.Base.Server
             {
                 _App.Start();
                 _Running = true;
+                _StatusKey = "";
                 CLog.Information("Webserver running at " + _Address);
             }
             catch (Exception e)
             {
                 CLog.Error(e, "Could not start the webserver");
+                string reason = (e.Message + " " + (e.InnerException != null ? e.InnerException.Message : "")).ToLowerInvariant();
+                _StatusKey = (reason.Contains("in use") || reason.Contains("address already") || reason.Contains("bind"))
+                    ? "TR_SCREENPSERVERQR_PORTINUSE"
+                    : "TR_SCREENPSERVERQR_STARTFAILED";
             }
         }
 
@@ -140,6 +150,16 @@ namespace Vocaluxe.Base.Server
         public static bool IsServerRunning()
         {
             return _Running;
+        }
+
+        /// <summary>
+        ///     Translation key for why the server is enabled but not running (e.g. the port is in use),
+        ///     or an empty string when it is running or no specific reason is known. The caller
+        ///     translates it (the "%d" placeholder is the configured server port).
+        /// </summary>
+        public static string GetStatusKey()
+        {
+            return _StatusKey;
         }
 
         #endregion
