@@ -112,7 +112,20 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                                       PortAudioSharp.StreamCallbackFlags statusFlags, IntPtr userData)
                     => _ProcessRecordData(devIndex, input, frameCount);
 
-                _RecHandle[dev] = _PaHandle.OpenInputStream(inputParams, 44100, 882, PortAudioSharp.StreamFlags.NoFlag, _RecCallbacks[dev]);
+                CLog.Information("[Rec] Opening device '" + _Devices[dev].Name + "' (PA-ID=" + _Devices[dev].ID +
+                                 ", channels=" + _Devices[dev].Channels + ", defRate=" +
+                                 PortAudioSharp.PortAudio.GetDeviceInfo(_Devices[dev].ID).defaultSampleRate + ") @ 44100 Hz");
+                try
+                {
+                    _RecHandle[dev] = _PaHandle.OpenInputStream(inputParams, 44100, 882, PortAudioSharp.StreamFlags.NoFlag, _RecCallbacks[dev]);
+                }
+                catch (Exception ex)
+                {
+                    CLog.Error(ex, "[Rec] OpenInputStream failed for '" + _Devices[dev].Name + "' (PA-ID=" +
+                                   _Devices[dev].ID + ", channels=" + _Devices[dev].Channels + ") @ 44100 Hz:");
+                    _CloseAllStreams();
+                    return false;
+                }
                 if (_RecHandle[dev] == null)
                 {
                     _CloseAllStreams();
