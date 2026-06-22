@@ -49,6 +49,10 @@ namespace Vocaluxe
         private static void Main(string[] args)
             // ReSharper restore InconsistentNaming
         {
+            // Run from the executable's directory so the relative "Output" data paths (Languages,
+            // Themes, Fonts, ...) resolve regardless of the launch working directory - e.g. an
+            // AppImage's AppRun, a desktop shortcut, or being started from another folder.
+            Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
 #if !DEBUG
             AppDomain.CurrentDomain.UnhandledException += UnhandledExceptionHandler;
 #endif
@@ -111,9 +115,10 @@ namespace Vocaluxe
                     File.Delete(flagPath); // Remove the marker so it doesn't repeat
                 }
 
-                // Init Log
-                CLog.Init(CSettings.FolderNameLogs,
-                    CSettings.FileNameMainLog, 
+                // Init Log into the writable data folder (~/.config/Vocaluxe/Logs on Linux). The program
+                // folder is read-only when shipped as an AppImage, so logs must not go next to the exe.
+                CLog.Init(Path.Combine(CSettings.DataFolder, CSettings.FolderNameLogs),
+                    CSettings.FileNameMainLog,
                     CSettings.FileNameSongLog, 
                     CSettings.FileNameCrashMarker, 
                     CSettings.GetFullVersionText(), 
