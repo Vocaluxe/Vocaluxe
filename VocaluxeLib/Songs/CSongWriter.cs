@@ -106,14 +106,14 @@ namespace VocaluxeLib.Songs
                 _WriteHeaderEntries("LANGUAGE", _Song.Languages);
                 _WriteHeaderEntry("ALBUM", _Song.Album);
                 _WriteHeaderEntry("YEAR", _Song.Year);
-                _WriteHeaderEntry("MP3", _Song.AudioFileName);
-                _WriteHeaderEntry("COVER", _Song.CoverFileName);
+                _WriteHeaderEntry("MP3", _Song.Audio);
+                _WriteHeaderEntry("COVER", _Song.Cover);
                 // This is a custom behaviour, normally multiple backgrounds is not supported in official US format
                 foreach (var songBackgroundFileName in _Song.BackgroundFileNames)
                 {
                     _WriteHeaderEntry("BACKGROUND", songBackgroundFileName);
                 }
-                _WriteHeaderEntry("VIDEO", _Song.VideoFileName);
+                _WriteHeaderEntry("VIDEO", _Song.Video);
                 _WriteHeaderEntry("VIDEOGAP", _Song.VideoGap);
                 if (_Song.VideoAspect != EAspect.Crop)
                 {

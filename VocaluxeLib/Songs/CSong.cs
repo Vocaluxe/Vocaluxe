@@ -98,12 +98,12 @@ namespace VocaluxeLib.Songs
         public string FileName = string.Empty;
         public bool Relative;
 
-        public string AudioFileName = string.Empty;
-        public string InstrumentalFileName = string.Empty;
-        public string VocalsFileName = string.Empty;
-        public string CoverFileName = string.Empty;
+        public string Audio = string.Empty;
+        public string Instrumental = string.Empty;
+        public string Vocals = string.Empty;
+        public string Cover = string.Empty;
         public readonly List<string> BackgroundFileNames = new();
-        public string VideoFileName = string.Empty;
+        public string Video = string.Empty;
 
         public EAspect VideoAspect = EAspect.Automatic;
 
@@ -234,12 +234,12 @@ namespace VocaluxeLib.Songs
             FileName = song.FileName;
             Relative = song.Relative;
 
-            AudioFileName = song.AudioFileName;
-            InstrumentalFileName = song.InstrumentalFileName;
-            VocalsFileName = song.VocalsFileName;
-            CoverFileName = song.CoverFileName;
+            Audio = song.Audio;
+            Instrumental = song.Instrumental;
+            Vocals = song.Vocals;
+            Cover = song.Cover;
             BackgroundFileNames = song.BackgroundFileNames;
-            VideoFileName = song.VideoFileName;
+            Video = song.Video;
 
             VideoAspect = song.VideoAspect;
             NotesLoaded = song.NotesLoaded;
@@ -323,32 +323,32 @@ namespace VocaluxeLib.Songs
 
         public string GetMP3()
         {
-            return Path.Combine(Folder, AudioFileName);
+            return Path.Combine(Folder, Audio);
         }
 
         public string GetInstrumental()
         {
-            return Path.Combine(Folder, InstrumentalFileName);
+            return Path.Combine(Folder, Instrumental);
         }
 
         public bool HasInstrumental()
         {
-            return !string.IsNullOrEmpty(InstrumentalFileName);
+            return !string.IsNullOrEmpty(Instrumental);
         }
 
         public string GetVocals()
         {
-            return Path.Combine(Folder, VocalsFileName);
+            return Path.Combine(Folder, Vocals);
         }
 
         public bool HasVocals()
         {
-            return !string.IsNullOrEmpty(VocalsFileName);
+            return !string.IsNullOrEmpty(Vocals);
         }
 
         public string GetVideo()
         {
-            return Path.Combine(Folder, VideoFileName);
+            return Path.Combine(Folder, Video);
         }
 
         public void LoadSmallCover()
@@ -358,9 +358,9 @@ namespace VocaluxeLib.Songs
                 return;
             }
 
-            if (CoverFileName != "")
+            if (Cover != "")
             {
-                if (CBase.DataBase.GetCover(Path.Combine(Folder, CoverFileName), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
+                if (CBase.DataBase.GetCover(Path.Combine(Folder, Cover), ref _CoverTextureSmall, CBase.Config.GetCoverSize()))
                 {
                     return;
                 }
@@ -371,7 +371,7 @@ namespace VocaluxeLib.Songs
 
         private void _CheckFiles()
         {
-            if (CoverFileName == "")
+            if (Cover == "")
             {
                 var files = CHelper.ListImageFiles(Folder);
                 foreach (var file in files)
@@ -379,7 +379,7 @@ namespace VocaluxeLib.Songs
                     if (file.ContainsIgnoreCase("[CO]") &&
                         (file.ContainsIgnoreCase(Title) || file.ContainsIgnoreCase(Artist)))
                     {
-                        CoverFileName = file;
+                        Cover = file;
                     }
                 }
             }

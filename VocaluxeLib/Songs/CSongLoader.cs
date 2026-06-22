@@ -196,7 +196,7 @@ namespace VocaluxeLib.Songs
                             case "AUDIO":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
-                                    _Song.AudioFileName = value;
+                                    _Song.Audio = value;
                                     headerFlags |= EHeaderFlags.MP3;
                                 }
                                 else
@@ -209,7 +209,7 @@ namespace VocaluxeLib.Songs
                             case "INSTRUMENTAL":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
-                                    _Song.InstrumentalFileName = value;
+                                    _Song.Instrumental = value;
                                     headerFlags |= EHeaderFlags.Instrumental;
                                 }
                                 else
@@ -223,7 +223,7 @@ namespace VocaluxeLib.Songs
                             case "VOCALS":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
-                                    _Song.VocalsFileName = value;
+                                    _Song.Vocals = value;
                                     headerFlags |= EHeaderFlags.Vocals;
                                 }
                                 else
@@ -300,7 +300,7 @@ namespace VocaluxeLib.Songs
                             case "COVER":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
-                                    _Song.CoverFileName = value;
+                                    _Song.Cover = value;
                                 }
                                 else
                                 {
@@ -323,7 +323,7 @@ namespace VocaluxeLib.Songs
                             case "VIDEO":
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
-                                    _Song.VideoFileName = value;
+                                    _Song.Video = value;
                                 }
                                 else
                                 {
