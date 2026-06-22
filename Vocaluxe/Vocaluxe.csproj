@@ -1,578 +1,69 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">DebugWin</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{2A1E0F2D-5392-4BB7-B0A1-A9DFA13E79FF}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net10.0</TargetFramework>
+    <OutputType>Exe</OutputType>
     <RootNamespace>Vocaluxe</RootNamespace>
     <AssemblyName>Vocaluxe</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <StartupObject>Vocaluxe.CMainProgram</StartupObject>
     <ApplicationIcon>Vocaluxe.ico</ApplicationIcon>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugWin|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN;ARCH_X86</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseWin|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X86</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugWin|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;WIN;ARCH_X64</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <CodeAnalysisRuleSet>..\CheckingRules.ruleset</CodeAnalysisRuleSet>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseWin|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X64</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'DebugLinux|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;LINUX;ARCH_X86</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseLinux|x86' ">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>LINUX;ARCH_X86</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'DebugLinux|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;LINUX;ARCH_X64</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ReleaseLinux|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <LangVersion>latest</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+    <!-- Cross-platform build: OpenGL everywhere (OpenTK 4), PortAudio/GStreamer, no WinForms/Direct3D.
+         ARCH_X64 selects the 64-bit native-interop paths. -->
     <DefineConstants>LINUX;ARCH_X64</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DebugSymbols>true</DebugSymbols>
+    <NoWarn>$(NoWarn);CS0618;CS0612;CS0649;CS0169;CS0414;CS0162;CA1416;NU1701</NoWarn>
+    <RuntimeIdentifiers>linux-x64;win-x64;osx-x64;osx-arm64</RuntimeIdentifiers>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x86'">
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugType>none</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X86;INSTALLER</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'InstallerWin|x64'">
-    <PlatformTarget>x64</PlatformTarget>
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>..\Output\</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DefineConstants>WIN;ARCH_X64;INSTALLER</DefineConstants>
-    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <Prefer32Bit>false</Prefer32Bit>
-    <DebugSymbols>true</DebugSymbols>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-  </PropertyGroup>
+
+  <!-- Windows-only backends dropped for the unified cross-platform codebase.
+       OpenGL replaces Direct3D, PortAudio replaces DirectSound, the WinForms
+       splash/error-reporter are replaced by logging. -->
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceModel.Web" />
-    <Reference Include="System.Transactions" />
-    <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.XML" />
+    <Compile Remove="Lib\Draw\CDirect3D.cs" />
+    <Compile Remove="Lib\Draw\CDrawWinForm.cs" />
+    <Compile Remove="Lib\Sound\Record\DirectSound\**\*.cs" />
+    <Compile Remove="Lib\Webcam\CAForgeNet.cs" />
+    <Compile Remove="Reporting\**\*.cs" />
+    <Compile Remove="CSplashScreen.cs" />
+    <!-- Orphaned/legacy code: not referenced anywhere and absent from the original build. -->
+    <Compile Remove="Animations\**\*.cs" />
+    <EmbeddedResource Remove="Reporting\**\*.resx" />
+    <!-- S2: WCF service contract + implementation excluded; server stubbed in CVocaluxeServer.
+         To be replaced by an ASP.NET Core implementation. -->
+    <Compile Remove="Base\Server\ICWebservice.cs" />
+    <Compile Remove="Base\Server\CWebservice.cs" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="Microsoft.Data.Sqlite">
-      <Version>10.0.1</Version>
-    </PackageReference>
+    <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3">
-      <Version>3.0.2</Version>
-    </PackageReference>
-    <PackageReference Include="vocaluxe.dependencies.acinerella" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <PackageReference Include="vocaluxe.dependencies.aforgevideo" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.csharpsqlite" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.ffmpeg" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <PackageReference Include="vocaluxe.dependencies.gstreamer" Version="1.0.3" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <PackageReference Include="vocaluxe.dependencies.gstreamersharp" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.hidapi" Version="1.0.4" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <PackageReference Include="vocaluxe.dependencies.opentk" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.portaudiosharp" Version="1.0.3" />
-    <PackageReference Include="vocaluxe.dependencies.qrcoder" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.slimdx" Version="1.0.1" />
+    <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.2" />
+    <PackageReference Include="OpenTK" Version="4.9.4" />
+    <PackageReference Include="QRCoder" Version="1.8.0" />
+    <PackageReference Include="SkiaSharp" Version="3.119.4" />
+    <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.4" />
+    <PackageReference Include="PortAudioSharp2" Version="1.0.6" />
+    <PackageReference Include="GstSharp" Version="1.18.0" />
+    <!-- TODO(linux-port): transitional for the few remaining GDI+ Bitmap uses; remove after SkiaSharp migration -->
+    <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Base\CBackgroundMusic.cs" />
-    <Compile Include="Base\CCoverGenerator.cs" />
-    <Compile Include="Base\CPlaylistElement.cs" />
-    <Compile Include="Base\CRecord.cs" />
-    <Compile Include="Base\Server\CWebservice.cs" />
-    <Compile Include="Base\Server\ICWebservice.cs" />
-    <Compile Include="Base\Server\Session.cs" />
-    <Compile Include="Base\Server\SessionControl.cs" />
-    <Compile Include="Base\Server\UserRights.cs" />
-    <Compile Include="Base\Server\UserRoleControl.cs" />
-    <Compile Include="Base\Server\UserRoles.cs" />
-    <Compile Include="Base\ThemeSystem\CBaseTheme.cs" />
-    <Compile Include="Base\ThemeSystem\CPartySkin.cs" />
-    <Compile Include="Base\ThemeSystem\CBaseSkin.cs" />
-    <Compile Include="Base\ThemeSystem\CPartyTheme.cs" />
-    <Compile Include="Base\ThemeSystem\CTheme.cs" />
-    <Compile Include="Base\CVideoPlayer.cs" />
-    <Compile Include="Base\ThemeSystem\CSkin.cs" />
-    <Compile Include="Base\XmlStructs.cs" />
-    <Compile Include="COSFunctions.cs" />
-    <Compile Include="Lib\Database\CCoverDB.cs" />
-    <Compile Include="Lib\Database\CDatabaseBase.cs" />
-    <Compile Include="Lib\Database\CHighscoreDB.cs" />
-    <Compile Include="Lib\Draw\CDrawBase.cs" />
-    <Compile Include="Lib\Draw\CDrawBaseWindows.cs" />
-    <Compile Include="Lib\Draw\CTextureBase.cs" />
-    <Compile Include="Lib\Draw\CTextureProvider.cs" />
-    <Compile Include="Lib\Input\CGamePad.cs" />
-    <Compile Include="Lib\Sound\EAudioEffect.cs" />
-    <Compile Include="Lib\Sound\Playback\CAudioStreamBase.cs" />
-    <Compile Include="Lib\Sound\Playback\CPlaybackBase.cs" />
-    <Compile Include="Lib\Sound\Playback\CRingBuffer.cs" />
-    <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudioStream.cs" />
-    <Compile Include="Lib\Sound\Playback\IAudioStream.cs" />
-    <Compile Include="Lib\Sound\Playback\OpenAL\COpenAlStream.cs" />
-    <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioStream.cs" />
-    <Compile Include="Lib\Sound\CPortAudioHandle.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\CAnalyzer.cs" />
-    <Compile Include="Lib\Sound\Record\CBuffer.cs" />
-    <Compile Include="Base\CConfig.cs" />
-    <Compile Include="Base\CCover.cs" />
-    <Compile Include="Base\CCursor.cs" />
-    <Compile Include="Base\CDataBase.cs" />
-    <Compile Include="Base\CDraw.cs" />
-    <Compile Include="Lib\Sound\Playback\PortAudio\CPt1.cs" />
-    <Compile Include="Lib\Sound\Playback\PortAudio\CSyncTimer.cs" />
-    <Compile Include="Base\Fonts\CFontStyle.cs" />
-    <Compile Include="Base\CGame.cs" />
-    <Compile Include="Base\CController.cs" />
-    <Compile Include="Base\CLanguage.cs" />
-    <Compile Include="Base\CMain.cs" />
-    <Compile Include="Base\CObservable.cs" />
-    <Compile Include="Base\CParty.cs" />
-    <Compile Include="Base\CPlaylists.cs" />
-    <Compile Include="Base\CProfiles.cs" />
-    <Compile Include="Base\CSongCategorizer.cs" />
-    <Compile Include="Base\CSongFilter.cs" />
-    <Compile Include="Base\CSongSorter.cs" />
-    <Compile Include="Base\CUtility.cs" />
-    <Compile Include="Base\CSettings.cs" />
-    <Compile Include="Base\CSongs.cs" />
-    <Compile Include="Base\ThemeSystem\CThemes.cs" />
-    <Compile Include="Base\CVideo.cs" />
-    <Compile Include="Base\CWebcam.cs" />
-    <Compile Include="Base\Fonts\CFonts.cs" />
-    <Compile Include="Base\Fonts\CGlyph.cs" />
-    <Compile Include="Base\Server\CVocaluxeServer.cs" />
-    <Compile Include="Base\Server\VocaluxeStructs.cs" />
-    <Compile Include="CProgrammHelper.cs" />
-    <Compile Include="CSplashScreen.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GameModes\CGameMode.cs" />
-    <Compile Include="GameModes\CGameModes.cs" />
-    <Compile Include="Lib\Input\CControllerFramework.cs" />
-    <Compile Include="Lib\Sound\Playback\GstreamerSharp\CGstreamerSharpAudio.cs" />
-    <Compile Include="Lib\Sound\Record\CRecordBase.cs" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CSampleDataEventArgs.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CSoundCardSource.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\CPitchTrackerTest.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\CPtAKF.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\CPtDyWa.cs" />
-    <Compile Include="Lib\Sound\Record\PitchTracker\IPitchTracker.cs" />
-    <Compile Include="Lib\Video\Acinerella\CDecoder.cs" />
-    <Compile Include="Lib\Video\Acinerella\CDecoderThread.cs" />
-    <Compile Include="Lib\Video\Acinerella\CFramebuffer.cs" />
-    <Compile Include="Lib\Sound\Record\CDelayTest.cs" />
-    <Compile Include="Reporting\Reporter.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Reporting\Reporter.Designer.cs">
-      <DependentUpon>Reporter.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Screens\CPopupScreenServerQR.cs" />
-    <Compile Include="Screens\CScreenOptionsVideoAdjustments.cs" />
-    <Compile Include="SongQueue\CSongQueue.cs" />
-    <Compile Include="GameModes\IGameMode.cs" />
-    <Compile Include="SongQueue\ISongQueue.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
-    <Compile Include="Lib\Draw\CDirect3D.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Lib\Draw\CDrawWinForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Lib\Draw\COpenGL.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Lib\Draw\IDraw.cs" />
-    <Compile Include="Lib\Input\CHIDAPI.cs" />
-    <Compile Include="Lib\Input\IController.cs" />
-    <Compile Include="Lib\Input\WiiMote\CWiiMote.cs" />
-    <Compile Include="Lib\Input\WiiMote\WiiMoteLib.cs" />
-    <Compile Include="Lib\Playlist\CPlaylistFile.cs" />
-    <Compile Include="Lib\Sound\Record\DirectSound\CDirectSoundRecord.cs" Condition=" ('$(Configuration)' == 'DebugWin' Or '$(Configuration)' == 'ReleaseWin' Or '$(Configuration)' == 'InstallerWin')" />
-    <Compile Include="Lib\Sound\Playback\OpenAL\COpenALPlay.cs" />
-    <Compile Include="Base\CSound.cs" />
-    <Compile Include="Lib\Sound\Playback\PortAudio\CPortAudioPlay.cs" />
-    <Compile Include="Lib\Sound\Record\PortAudio\CPortAudioRecord.cs" />
-    <Compile Include="Lib\Sound\Playback\Decoder\CAudioDecoderFFmpeg.cs" />
-    <Compile Include="Lib\Sound\Playback\Decoder\IAudioDecoder.cs" />
-    <Compile Include="Lib\Sound\Playback\IPlayback.cs" />
-    <Compile Include="Lib\Sound\Record\IRecord.cs" />
-    <Compile Include="Lib\Video\Acinerella\CAcinerella.cs" />
-    <Compile Include="Lib\Video\CVideoDecoderFFmpeg.cs" />
-    <Compile Include="Lib\Video\IVideoDecoder.cs" />
-    <Compile Include="Lib\Webcam\CAForgeNet.cs" />
-    <Compile Include="Lib\Webcam\IWebcam.cs" />
-    <Compile Include="Base\CGraphics.cs" />
-    <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Screens\CPopupScreenPlayerControl.cs" />
-    <Compile Include="Screens\CPopupScreenVolumeControl.cs" />
-    <Compile Include="Screens\CScreenCredits.cs" />
-    <Compile Include="Screens\CScreenHighscore.cs" />
-    <Compile Include="Screens\CScreenLoad.cs" />
-    <Compile Include="Screens\CScreenMain.cs" />
-    <Compile Include="Screens\CScreenNames.cs" />
-    <Compile Include="Screens\CScreenOptions.cs" />
-    <Compile Include="Screens\CScreenOptionsGame.cs" />
-    <Compile Include="Screens\CScreenOptionsLyrics.cs" />
-    <Compile Include="Screens\CScreenParty.cs" />
-    <Compile Include="Screens\CScreenProfiles.cs" />
-    <Compile Include="Screens\CScreenScore.cs" />
-    <Compile Include="Screens\CScreenSing.cs" />
-    <Compile Include="Screens\CScreenSong.cs" />
-    <Compile Include="Screens\CScreenTest.cs" />
-    <Compile Include="Screens\CScreenOptionsSound.cs" />
-    <Compile Include="Screens\CScreenOptionsVideo.cs" />
-    <Compile Include="Screens\CScreenOptionsRecord.cs" />
-    <Compile Include="Screens\CScreenOptionsTheme.cs" />
-    <Compile Include="Screens\CScreenOptionsGraphics.cs" />
-    <Compile Include="Screens\CScreenOptionsServer.cs" />
-    <None Include="app.config">
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="Doc\SQLite.NET.chm" />
-    <Content Include="Website\locales\cs.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\de.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\en.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\es.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\fr.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\it.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\nl.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\pt.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\sv.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\locales\tr.json">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj" />
+    <ProjectReference Include="..\Community.CsharpSqlite\Community.CsharpSqlite.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="Doc\Roadmap.txt" />
-    <Content Include="Vocaluxe.ico" />
-    <Content Include="Website\css\images\ajax-loader.gif">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\images\alert.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\css\images\icons-18-black.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\images\icons-18-white.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\images\icons-36-black.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\images\icons-36-white.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>images</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\css\jquery.mobile-1.3.2.min.css">
-      <CustomToolNamespace>css</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\css\jquery.mobile.theme-1.3.2.min.css">
-      <CustomToolNamespace>css</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\css\style.css">
-      <CustomToolNamespace>css</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\addPlaylist.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\logout.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\music.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\noCover.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\playlist.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\playlists.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\spotify.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\wikipedia.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\youtube.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\index.html">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\img\admin.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\img\keyboard.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\img\photo.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\img\profile.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\img\profiles.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>img</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\js\i18next-1.7.1.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\js\jquery-1.9.1.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      <CustomToolNamespace>js</CustomToolNamespace>
-    </Content>
-    <Content Include="Website\js\jquery-ui-1.10.3.custom.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\js\jquery.mobile-1.3.2.min.js">
-      <CustomToolNamespace>js</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\js\jquery.ui.touch-punch.min.js">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Website\js\main.js">
-      <CustomToolNamespace>js</CustomToolNamespace>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="Website\locales\*.json" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Website\index.html" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Website\css\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Website\img\**\*" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="Website\js\**\*" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <ItemGroup>
-    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client,KB2468871">
-      <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 und x64%29 und Update für .NET Framework 4 %28KB2468871%29</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
-      <Visible>False</Visible>
-      <ProductName>Windows Installer 3.1</ProductName>
-      <Install>true</Install>
-    </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
-      <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
-      <Name>VocaluxeLib</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Website\html\" />
-  </ItemGroup>
-  <ItemGroup>
-    <WCFMetadata Include="Service References\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Reporting\Reporter.resx">
-      <DependentUpon>Reporter.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <PropertyGroup>
-    <PostBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">xcopy /E /D /Y "$(ProjectDir)\Website" "$(SolutionDir)\PhoneGap"
-powershell -ExecutionPolicy Bypass -Command "&amp; '$(SolutionDir)\.build\winPostBuild.ps1' -ProjectDir '$(ProjectDir)'"</PostBuildEvent>
-    <PostBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">cp -ruT "$(ProjectDir)Website" "$(SolutionDir)/PhoneGap"
-$(SolutionDir)/.build/linuxPostBuildEvent.sh $(ProjectDir)</PostBuildEvent>
-  </PropertyGroup>
-  <PropertyGroup>
-    <PreBuildEvent Condition=" '$(OS)' == 'Windows_NT' ">powershell -ExecutionPolicy Bypass -Command "&amp; '$(SolutionDir)\.build\winPreBuild.ps1' -ProjectDir '$(ProjectDir)' -Arch '$(Platform)'"</PreBuildEvent>
-    <PreBuildEvent Condition=" '$(OS)' != 'Windows_NT' ">$(SolutionDir)/.build/linuxPreBuildEvent.sh $(ProjectDir) $(Platform)</PreBuildEvent>
-  </PropertyGroup>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
-  <Target Name="PostBuildMacros">
-    <GetAssemblyIdentity AssemblyFiles="$(TargetPath)">
-      <Output TaskParameter="Assemblies" ItemName="Targets" />
-    </GetAssemblyIdentity>
-    <ItemGroup>
-      <VersionNumber Include="@(Targets->'%(Version)')" />
-    </ItemGroup>
-  </Target>
-  <PropertyGroup>
-    <PostBuildEventDependsOn>
-      $(PostBuildEventDependsOn);
-      PostBuildMacros;
-    </PostBuildEventDependsOn>
-  </PropertyGroup>
-  <Target Name="managedDepCopyAfterBuild" BeforeTargets="AfterBuild">
-    <Message Text="move all libs to the managed dependencies folder" Importance="normal" />
-    <ItemGroup>
-      <RootDLLFilesToMove Include="$(TargetDir)*.dll" />
-    </ItemGroup>
-    <ItemGroup>
-      <x64FolderFilesToMove Include="$(TargetDir)x64\*.*" />
-    </ItemGroup>
-    <ItemGroup>
-      <x86FolderFilesToMove Include="$(TargetDir)x86\*.*" />
-    </ItemGroup>
-    <Copy SourceFiles="@(RootDLLFilesToMove)" DestinationFiles="@(RootDLLFilesToMove->'$(TargetDir)libs\managed\%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(x64FolderFilesToMove)" DestinationFiles="@(x64FolderFilesToMove->'$(TargetDir)libs\managed\x64\%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(x86FolderFilesToMove)" DestinationFiles="@(x86FolderFilesToMove->'$(TargetDir)libs\managed\x86\%(Filename)%(Extension)')" />
-    <Copy SourceFiles="@(OtherFilesToMove)" DestinationFiles="@(OtherFilesToMove->'$(TargetDir)libs\managed\%(Filename)%(Extension)')" />
-    <Delete Files="@(RootDLLFilesToMove)" />
-    <Delete Files="@(x64FolderFilesToMove)" />
-    <Delete Files="@(x86FolderFilesToMove)" />
-    <Delete Files="@(OtherFilesToMove)" />
-    <RemoveDir Directories="$(TargetDir)\x64\;$(TargetDir)\x86\" />
-  </Target>
+
 </Project>

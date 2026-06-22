@@ -21,7 +21,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.Drawing;
-using System.Windows.Forms;
+using VocaluxeLib;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
 using VocaluxeLib.Xml;

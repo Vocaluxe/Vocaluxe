@@ -24,11 +24,8 @@ using System.Linq;
 using System.Net;
 using System.Reflection;
 using System.Security.Cryptography;
-using System.ServiceModel;
-using System.ServiceModel.Web;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Forms;
 using Vocaluxe.Lib.Input;
 using Vocaluxe.Lib.Playlist;
 using VocaluxeLib;
@@ -40,9 +37,7 @@ namespace Vocaluxe.Base.Server
 {
     static class CVocaluxeServer
     {
-        private static ServiceHost _Host;
-        private static Uri _BaseAddress;
-        private static bool _Encrypted;
+        // Webserver (WCF) disabled for the cross-platform port; to be rewritten on ASP.NET Core in S2.
         private static readonly Queue<Task> _ServerTaskQueue = new Queue<Task>();
 
         private class CServerController : CControllerFramework
@@ -69,127 +64,24 @@ namespace Vocaluxe.Base.Server
 
         #region server control
 
-        public static void Init()
-        {
-            int port = CConfig.Config.Server.ServerPort;
-            bool encrypted = CConfig.Config.Server.ServerEncryption == EOffOn.TR_CONFIG_ON;
-            string hostname = Dns.GetHostName();
-            string protocol = (encrypted) ? "https" : "http";
-            _BaseAddress = new Uri(protocol + "://" + hostname + ":" + port + "/");
-            _Encrypted = encrypted;
-            _Host = new WebServiceHost(typeof(CWebservice), _BaseAddress);
+        // --- S2 stub: the WCF webserver is disabled until it is rewritten on ASP.NET Core.
+        //     The public surface below is kept as no-ops so the game compiles and runs
+        //     with remote control simply unavailable. ---
 
-            WebHttpBinding wb = new WebHttpBinding
-            {
-                MaxReceivedMessageSize = 10485760,
-                MaxBufferSize = 10485760,
-                MaxBufferPoolSize = 10485760,
-                ReaderQuotas = { MaxStringContentLength = 10485760, MaxArrayLength = 10485760, MaxBytesPerRead = 10485760 }
-            };
-            if (encrypted)
-            {
-                wb.Security.Mode = WebHttpSecurityMode.Transport;
-                wb.Security.Transport = new HttpTransportSecurity { ClientCredentialType = HttpClientCredentialType.None };
-            }
-            _Host.AddServiceEndpoint(typeof(ICWebservice), wb, "");
+        public static void Init() {}
 
-            Start();
+        public static void Start() {}
 
-            //_Discover = new CDiscover(CConfig.ServerPort, CCommands.BroadcastKeyword);
-        }
-
-        public static void Start()
-        {
-            if (CConfig.Config.Server.ServerActive == EOffOn.TR_CONFIG_ON)
-            {
-                try
-                {
-                    _RegisterUrlAndCert(_BaseAddress.Port, false);
-                    _Host.Open();
-                }
-                catch (CommunicationException e)
-                {
-                    if (e is AddressAccessDeniedException || e is AddressAlreadyInUseException)
-                    {
-                        _RegisterUrlAndCert(_BaseAddress.Port, true);
-                        try
-                        {
-                            _Host.Abort();
-                            Init();
-                            _Host.Open();
-                        }
-                        catch (CommunicationException)
-                        {
-                            _Host.Abort();
-                            MessageBox.Show("Problem while initialization of webserver. You may try a different port (Change it in config.xml)");
-                        }
-                    }
-                    else
-                        _Host.Abort();
-                }
-            }
-        }
-
-        public static void Close()
-        {
-            if (_Host != null)
-            {
-                try
-                {
-                    _Host.Close();
-                }
-                catch (CommunicationException)
-                {
-                    _Host.Abort();
-                }
-            }
-        }
-
-        private static void _RegisterUrlAndCert(int port, bool reserve)
-        {
-#if WIN
-
-            ProcessStartInfo info = new ProcessStartInfo
-            {
-                FileName = "VocaluxeServerConfig.exe",
-                WorkingDirectory = AppDomain.CurrentDomain.BaseDirectory,
-                Arguments = AppDomain.CurrentDomain.FriendlyName + " " + port + " " + (_Encrypted ? "true" : "false") + (reserve ? " true" : ""),
-                UseShellExecute = true,
-                CreateNoWindow = true,
-                WindowStyle = ProcessWindowStyle.Hidden,
-            };
-            try
-            {
-                using (Process p = Process.Start(info))
-                {
-                    p.WaitForExit();
-                    if (p.ExitCode != 0)
-                        MessageBox.Show("Registering the Server failed (Code " + p.ExitCode + ")!\r\nThe Server might not work correctly.");
-                    p.Close();
-                }
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Registering the Server failed (" + e + ")!\r\nThe Server might not work correctly.");
-            }
-#else
-
-    //Required?
-
-#endif
-        }
+        public static void Close() {}
 
         public static string GetServerAddress()
         {
-            return _BaseAddress == null ? "" : _BaseAddress.AbsoluteUri;
+            return "";
         }
 
         public static bool IsServerRunning()
         {
-            if (_Host == null)
-                return false;
-
-            return _Host.State == CommunicationState.Opened;
+            return false;
         }
 
         #endregion

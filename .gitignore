@@ -75,3 +75,6 @@ tx.exe
 /PitchTracker/obj
 /Logs
 /Tests/bin
+# .NET build output (Linux port / SDK-style projects)
+bin/
+obj/

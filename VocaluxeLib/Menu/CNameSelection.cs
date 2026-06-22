@@ -18,7 +18,7 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Windows.Forms;
+using VocaluxeLib;
 using System.Xml.Serialization;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;

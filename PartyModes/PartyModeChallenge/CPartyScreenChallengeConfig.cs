@@ -16,7 +16,7 @@
 #endregion
 
 using System;
-using System.Windows.Forms;
+using VocaluxeLib;
 
 namespace VocaluxeLib.PartyModes.Challenge
 {

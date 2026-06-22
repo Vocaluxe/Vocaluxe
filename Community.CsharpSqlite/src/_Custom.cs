@@ -6,7 +6,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-#if !(SQLITE_SILVERLIGHT || WINDOWS_MOBILE)
+#if VOCALUXE_USE_WMI // disabled for the cross-platform (.NET 10) build; was !(SQLITE_SILVERLIGHT || WINDOWS_MOBILE)
 using System.Management;
 #endif
 using System.Text;
@@ -449,7 +449,7 @@ public struct FILETIME
 // Example (C#)
 public static int GetbytesPerSector( StringBuilder diskPath )
 {
-#if !(SQLITE_SILVERLIGHT || WINDOWS_MOBILE)
+#if VOCALUXE_USE_WMI // disabled for the cross-platform (.NET 10) build; falls back to 4096 bytes/sector
   ManagementObjectSearcher mosLogicalDisks = new ManagementObjectSearcher( "select * from Win32_LogicalDisk where DeviceID = '" + diskPath.ToString().Remove( diskPath.Length - 1, 1 ) + "'" );
   try
   {
