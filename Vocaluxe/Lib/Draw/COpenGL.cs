@@ -190,6 +190,12 @@ namespace Vocaluxe.Lib.Draw
         {
             _Window.Context.SwapBuffers();
             NativeWindow.ProcessWindowEvents(false);
+            // Reliably end the main loop when the user closes the window. The Closing event alone
+            // is not dependable with a manually-driven OpenTK 4 NativeWindow, so also poll the GLFW
+            // "should close" flag every frame. Once _Run is false, CDraw.MainLoop returns and
+            // Program._CloseProgram shuts everything down (Environment.Exit).
+            if (_Window.IsExiting)
+                _Run = false;
         }
 
         public int GetScreenWidth()
