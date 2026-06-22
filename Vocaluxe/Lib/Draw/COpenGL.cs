@@ -92,8 +92,10 @@ namespace Vocaluxe.Lib.Draw
             {
                 ClientSize = new Vector2i(w, h),
                 Title = CSettings.GetFullVersionText(),
-                // Compatibility profile keeps the fixed-function pipeline (immediate mode) the renderer relies on.
-                Profile = ContextProfile.Compatability,
+                // GL 2.1 with ContextProfile.Any -> a legacy/compatibility context that keeps the
+                // fixed-function pipeline (immediate mode) the renderer relies on. GLFW only allows an
+                // explicit Core/Compatibility profile for GL >= 3.2, so we must not set one here.
+                Profile = ContextProfile.Any,
                 APIVersion = new Version(2, 1),
                 Flags = ContextFlags.Default,
                 NumberOfSamples = (int)CConfig.Config.Graphics.AAMode,

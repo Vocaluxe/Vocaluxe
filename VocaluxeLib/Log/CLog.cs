@@ -168,8 +168,8 @@ namespace VocaluxeLib.Log
         {
             // Flush the _MainLogStringWriter to get the latest entries to _MainLogStringBuilder
             _MainLogStringWriter.Flush();
-            // Show the Reporter
-            _ShowReporterFunc(crash: crash, showContinue: showContinue, vocaluxeVersionTag: _CurrentVersion, log: _MainLogStringBuilder.ToString(), lastError: _FormatMessageTemplate(messageTemplate, propertyValues));
+            // Show the Reporter (may be null on the cross-platform build, where the WinForms reporter was removed)
+            _ShowReporterFunc?.Invoke(crash: crash, showContinue: showContinue, vocaluxeVersionTag: _CurrentVersion, log: _MainLogStringBuilder.ToString(), lastError: _FormatMessageTemplate(messageTemplate, propertyValues));
 
             // Delete the crash marker (we do not want to show this error again on the next restart)
             if (!showContinue)
