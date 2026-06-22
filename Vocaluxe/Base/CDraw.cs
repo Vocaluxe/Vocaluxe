@@ -209,6 +209,11 @@ namespace Vocaluxe.Base
             _Draw.EnqueueTextureUpdate(textureRef, bmp);
         }
 
+        public static void EnqueueTextureUpdate(CTextureRef textureRef, int w, int h, byte[] data)
+        {
+            _Draw.EnqueueTextureUpdate(textureRef, w, h, data);
+        }
+
         /// <summary>
         ///     Creates a copy of the texture <br />
         ///     Updates to the copy do not affect the original texture

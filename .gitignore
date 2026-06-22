@@ -78,3 +78,8 @@ tx.exe
 # .NET build output (Linux port / SDK-style projects)
 bin/
 obj/
+
+# Native build artifacts
+*.o
+PitchTracker/libPitchTracker.dll.so
+Output/libPitchTracker.dll.so

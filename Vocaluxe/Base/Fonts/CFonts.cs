@@ -152,6 +152,11 @@ namespace Vocaluxe.Base.Fonts
             return new RectangleF(text.X, text.Y, GetTextWidth(text.TranslatedText, text.CalculatedFont), GetTextHeight(text.TranslatedText, text.CalculatedFont));
         }
 
+        public static SkiaSharp.SKTypeface GetTypeface(CFont font)
+        {
+            return _GetFontStyle(font).GetTypeface();
+        }
+
         public static float GetOutlineSize(CFont font)
         {
             return _FontFamilies[_GetFontIndex(font.Name)].Outline;

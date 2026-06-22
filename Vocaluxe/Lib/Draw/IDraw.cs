@@ -45,6 +45,7 @@ namespace Vocaluxe.Lib.Draw
         CTextureRef EnqueueTexture(Bitmap bmp);
         CTextureRef EnqueueTexture(int w, int h, byte[] data);
         void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp);
+        void EnqueueTextureUpdate(CTextureRef textureRef, int w, int h, byte[] data);
         CTextureRef CopyTexture(CTextureRef textureRef);
         void RemoveTexture(ref CTextureRef texture);
 

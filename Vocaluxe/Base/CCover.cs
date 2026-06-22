@@ -100,14 +100,16 @@ namespace Vocaluxe.Base
             Task.Factory.StartNew(() =>
                 {
                     _CancelToken.Token.ThrowIfCancellationRequested();
-                    Bitmap coverBmp = !_CoverGenerators.ContainsKey(type)
-                                          ? null : _CoverGenerators[type].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+                    string coverPath = firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null;
+                    int w = 0, h = 0;
+                    byte[] coverData = _CoverGenerators.ContainsKey(type)
+                                           ? _CoverGenerators[type].GetCover(text, coverPath, out w, out h) : null;
                     _CancelToken.Token.ThrowIfCancellationRequested();
-                    if (coverBmp == null && _CoverGenerators.ContainsKey(ECoverGeneratorType.Default))
-                        coverBmp = _CoverGenerators[ECoverGeneratorType.Default].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+                    if (coverData == null && _CoverGenerators.ContainsKey(ECoverGeneratorType.Default))
+                        coverData = _CoverGenerators[ECoverGeneratorType.Default].GetCover(text, coverPath, out w, out h);
                     _CancelToken.Token.ThrowIfCancellationRequested();
-                    if (coverBmp != null)
-                        CDraw.EnqueueTextureUpdate(texture, coverBmp);
+                    if (coverData != null)
+                        CDraw.EnqueueTextureUpdate(texture, w, h, coverData);
                     _CancelToken.Token.ThrowIfCancellationRequested();
                 }, _CancelToken.Token);
             lock (_Covers)

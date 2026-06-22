@@ -20,6 +20,8 @@ using System.Drawing.Imaging;
 using System;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
+using SkiaSharp;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
@@ -220,15 +222,22 @@ namespace Vocaluxe.Lib.Draw
             int width = GetScreenWidth();
             int height = GetScreenHeight();
 
-            using (var screen = new Bitmap(width, height))
+            byte[] data = new byte[width * height * 4];
+            GL.ReadPixels(0, 0, width, height, PixelFormat.Bgra, PixelType.UnsignedByte, data);
+
+            var info = new SKImageInfo(width, height, SKColorType.Bgra8888, SKAlphaType.Premul);
+            using (var bmp = new SKBitmap(info))
             {
-                BitmapData bmpData = screen.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                // OpenGL's origin is bottom-left, so flip the rows while copying into the bitmap.
+                int stride = width * 4;
+                IntPtr basePtr = bmp.GetPixels();
+                for (int y = 0; y < height; y++)
+                    Marshal.Copy(data, (height - 1 - y) * stride, IntPtr.Add(basePtr, y * stride), stride);
 
-                GL.ReadPixels(0, 0, width, height, PixelFormat.Bgra, PixelType.UnsignedByte, bmpData.Scan0);
-                screen.UnlockBits(bmpData);
-
-                screen.RotateFlip(RotateFlipType.RotateNoneFlipY);
-                screen.Save(file, ImageFormat.Png);
+                using (SKImage image = SKImage.FromBitmap(bmp))
+                using (SKData enc = image.Encode(SKEncodedImageFormat.Png, 100))
+                using (FileStream fs = File.OpenWrite(file))
+                    enc.SaveTo(fs);
             }
         }
 

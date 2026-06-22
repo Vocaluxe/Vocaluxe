@@ -588,8 +588,10 @@ namespace Vocaluxe.Lib.Draw
         /// <returns></returns>
         private Size _LoadAndEnqueueBitmap(string filePath, CTextureRef textureRef, TTextureType texture)
         {
-            Bitmap bmp = CHelper.LoadBitmap(filePath);
-            if (bmp == null)
+            // Cross-platform image decode via SkiaSharp (runs on a background thread).
+            int w, h;
+            byte[] data = _LoadImageBgra(filePath, out w, out h);
+            if (data == null)
             {
                 RemoveTexture(ref textureRef); // Done asynchonously in the function
                 lock (_Textures)
@@ -602,7 +604,7 @@ namespace Vocaluxe.Lib.Draw
                 }
                 return new Size(-1, -1);
             }
-            Size origSize = bmp.GetSize();
+            var origSize = new Size(w, h);
             textureRef.OrigSize = origSize;
             // Update cache, use the same lock as in add/get cache methods
             lock (_Textures)
@@ -618,7 +620,10 @@ namespace Vocaluxe.Lib.Draw
                     _BitmapsLoading.Remove(filePath);
                 }
             }
-            _EnqueueTextureAddOrUpdate(texture, bmp, EQueueAction.Add, false);
+            lock (_TextureQueue)
+            {
+                _TextureQueue.Enqueue(new STextureQueue(texture, EQueueAction.Add, origSize, data));
+            }
             return origSize;
         }
 
@@ -842,6 +847,14 @@ namespace Vocaluxe.Lib.Draw
         public void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp)
         {
             _EnqueueTextureAddOrUpdate(textureRef, bmp, EQueueAction.Update, true);
+        }
+
+        public void EnqueueTextureUpdate(CTextureRef textureRef, int w, int h, byte[] data)
+        {
+            lock (_TextureQueue)
+            {
+                _TextureQueue.Enqueue(new STextureQueue(textureRef, EQueueAction.Update, new Size(w, h), data));
+            }
         }
 
         public void UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
