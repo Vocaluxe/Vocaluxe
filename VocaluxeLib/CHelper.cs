@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -309,31 +308,6 @@ namespace VocaluxeLib
         public static int Sum(int n)
         {
             return (n * n + n) / 2;
-        }
-
-        /// <summary>
-        ///     Loads a bitmap from a file logging errors
-        /// </summary>
-        /// <param name="filePath">Full path to image file</param>
-        /// <returns>Bitmap or null on error</returns>
-        public static Bitmap LoadBitmap(string filePath)
-        {
-            if (!File.Exists(filePath))
-            {
-                CLog.Error("Can't find File: " + filePath);
-                return null;
-            }
-            Bitmap bmp;
-            try
-            {
-                bmp = new Bitmap(filePath);
-            }
-            catch (Exception)
-            {
-                CLog.Error("Error loading bitmap: " + filePath);
-                return null;
-            }
-            return bmp;
         }
     }
 }

@@ -18,7 +18,6 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -385,7 +384,7 @@ namespace Vocaluxe.Base.Server
                 newProfile.Avatar = CProfiles.GetAvatars().First();
 
                 /*CAvatar avatar = new CAvatar(-1);
-                avatar.LoadFromFile("Profiles\\Avatar_f.png");
+                avatar.LoadFromFile(Path.Combine("Profiles", "Avatar_f.png"));
                 CProfiles.AddAvatar(avatar);
                 newProfile.Avatar = avatar;*/
             }
@@ -564,10 +563,7 @@ namespace Vocaluxe.Base.Server
             string fileName = _DelayedImagePath[hashedFilename];
 
             if (File.Exists(fileName))
-            {
-                Image image = Image.FromFile(fileName);
-                return new CBase64Image(image, image.RawFormat);
-            }
+                return CBase64Image.FromFile(fileName);
             throw new FileNotFoundException("Image not found");
         }
         #endregion
@@ -625,11 +621,11 @@ namespace Vocaluxe.Base.Server
                 {
                     if (song.CoverFileName == "")
                     {
-                        result.Cover = new CBase64Image(_CreateDelayedImage("Website\\img\\noCover.png"));
+                        result.Cover = new CBase64Image(_CreateDelayedImage(Path.Combine("Website", "img", "noCover.png")));
                     }
                     else
                     {
-                        result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.CoverFileName));
+                        result.Cover = new CBase64Image(_CreateDelayedImage(Path.Combine(song.Folder, song.CoverFileName)));
                     }
                 }
                     
@@ -862,7 +858,6 @@ namespace Vocaluxe.Base.Server
 
         private static string _SaveImage(CBase64Image imageDate, string name, string folder)
         {
-            Image avatarImage = imageDate.GetImage();
             string extension = imageDate.GetImageType();
 
             if (!Directory.Exists(folder))
@@ -870,7 +865,7 @@ namespace Vocaluxe.Base.Server
 
             string file = CHelper.GetUniqueFileName(folder, name + "." + extension);
 
-            avatarImage.Save(file);
+            imageDate.SaveTo(file);
             return file;
         }
     }

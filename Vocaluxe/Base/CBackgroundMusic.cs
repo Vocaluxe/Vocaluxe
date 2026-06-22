@@ -262,7 +262,11 @@ namespace Vocaluxe.Base
                     // Recheck the condition as it cloud have change before we got the lock
                     if (_PreviewStartHelperTask != null && (_PreviewPlayer.Length > 0 || _PreviewStartWaitCounter++ >= _PreviewStartWaitMaxTries))
                     {
-                        _PreviewStartHelperTask.RunSynchronously(TaskScheduler.FromCurrentSynchronizationContext());
+                        // Run inline on the main thread (Update() is called from the render loop). The
+                        // old TaskScheduler.FromCurrentSynchronizationContext() required a
+                        // SynchronizationContext that the former WinForms message loop provided; the
+                        // OpenTK GameWindow main thread has none.
+                        _PreviewStartHelperTask.RunSynchronously();
                         _PreviewStartHelperTask = null;
                         _PreviewStartWaitCounter = 0;
                     }

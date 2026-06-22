@@ -17,9 +17,8 @@
 
 using System;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Runtime.InteropServices;
+using SkiaSharp;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -120,32 +119,59 @@ namespace Vocaluxe.Lib.Database
 
             // At this point we do not have a mathing entry in the CoverDB (either no Data found and deleted or nothing at all)
             // We break out of the lock to do the bitmap loading and resizing here to allow multithreaded loading
+            // Cross-platform decode + resize via SkiaSharp (the former GDI+ Bitmap path is Windows-only).
 
-            Bitmap origin = CHelper.LoadBitmap(coverPath);
-            if (origin == null)
-                return false;
-
-            Size size = origin.GetSize();
-            if (size.Width > maxSize || size.Height > maxSize)
+            if (!File.Exists(coverPath))
             {
-                size = CHelper.FitInBounds(new SRectF(0, 0, maxSize, maxSize, 0), (float)size.Width / size.Height, EAspect.LetterBox).SizeI;
-                Bitmap tmp = origin.Resize(size);
-                origin.Dispose();
-                origin = tmp;
+                CLog.Error("Can't find File: " + coverPath);
+                return false;
             }
 
+            Size size;
             byte[] data;
-
             try
             {
-                data = new byte[size.Width * size.Height * 4];
-                BitmapData bmpData = origin.LockBits(origin.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                Marshal.Copy(bmpData.Scan0, data, 0, data.Length);
-                origin.UnlockBits(bmpData);
+                using (var codec = SKCodec.Create(coverPath))
+                {
+                    if (codec == null)
+                    {
+                        CLog.Error("Error loading bitmap: " + coverPath);
+                        return false;
+                    }
+                    var info = new SKImageInfo(codec.Info.Width, codec.Info.Height, SKColorType.Bgra8888, SKAlphaType.Unpremul);
+                    using (var origin = new SKBitmap(info))
+                    {
+                        SKCodecResult res = codec.GetPixels(info, origin.GetPixels());
+                        if (res != SKCodecResult.Success && res != SKCodecResult.IncompleteInput)
+                        {
+                            CLog.Error("Error loading bitmap: " + coverPath);
+                            return false;
+                        }
+
+                        size = new Size(info.Width, info.Height);
+                        if (size.Width > maxSize || size.Height > maxSize)
+                        {
+                            size = CHelper.FitInBounds(new SRectF(0, 0, maxSize, maxSize, 0), (float)size.Width / size.Height, EAspect.LetterBox).SizeI;
+                            var scaledInfo = new SKImageInfo(size.Width, size.Height, SKColorType.Bgra8888, SKAlphaType.Unpremul);
+                            using (var scaled = origin.Resize(scaledInfo, SKSamplingOptions.Default))
+                            {
+                                if (scaled == null)
+                                {
+                                    CLog.Error("Error resizing bitmap: " + coverPath);
+                                    return false;
+                                }
+                                data = scaled.Bytes;
+                            }
+                        }
+                        else
+                            data = origin.Bytes;
+                    }
+                }
             }
-            finally
+            catch (Exception)
             {
-                origin.Dispose();
+                CLog.Error("Error loading bitmap: " + coverPath);
+                return false;
             }
 
             tex = CDraw.EnqueueTexture(size.Width, size.Height, data);

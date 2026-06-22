@@ -16,12 +16,10 @@
 #endregion
 
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
+using SkiaSharp;
 
 namespace Vocaluxe.Base.Server
 {
@@ -81,12 +79,14 @@ namespace Vocaluxe.Base.Server
         private string imageId = "";
         // ReSharper restore InconsistentNaming
 
-        public CBase64Image(Image img, ImageFormat format)
+        /// <summary>
+        ///     Wraps an image given as already-encoded bytes (e.g. raw file contents) as a base64 data URI.
+        /// </summary>
+        /// <param name="encodedData">The encoded image bytes (PNG/JPEG/...)</param>
+        /// <param name="formatString">The image format/subtype, e.g. "png" or "jpeg"</param>
+        public CBase64Image(byte[] encodedData, string formatString)
         {
-            MemoryStream ms = new MemoryStream();
-            img.Save(ms, format);
-            string formatString = ImageCodecInfo.GetImageEncoders().FirstOrDefault(x => x.FormatID == format.Guid).FilenameExtension.Replace("*.", "").ToLower();
-            base64Data = "data:image/" + formatString + ";base64," + Convert.ToBase64String(ms.ToArray());
+            base64Data = "data:image/" + formatString + ";base64," + Convert.ToBase64String(encodedData);
         }
 
         public CBase64Image(string imageId)
@@ -94,20 +94,55 @@ namespace Vocaluxe.Base.Server
             this.imageId = imageId;
         }
 
-        public Image GetImage()
+        /// <summary>
+        ///     Creates a base64 image from an image file. The original (already-encoded) bytes are embedded
+        ///     unchanged; the format is detected via SkiaSharp's codec.
+        /// </summary>
+        public static CBase64Image FromFile(string fileName)
+        {
+            byte[] encodedData = File.ReadAllBytes(fileName);
+            string formatString;
+            using (var codec = SKCodec.Create(new MemoryStream(encodedData, false)))
+                formatString = codec != null ? codec.EncodedFormat.ToString().ToLower() : "png";
+            return new CBase64Image(encodedData, formatString);
+        }
+
+        /// <summary>
+        ///     Decodes the embedded image and writes it to the given file path, encoding to the stored format.
+        /// </summary>
+        public void SaveTo(string filePath)
         {
             string onlyBase64Data = base64Data.Substring(base64Data.IndexOf(";base64,") + (";base64,").Length);
             byte[] imageData = Convert.FromBase64String(onlyBase64Data);
-            MemoryStream ms = new MemoryStream(imageData, 0, imageData.Length);
-            ms.Write(imageData, 0, imageData.Length);
-            Image image = Image.FromStream(ms, true);
-            return image;
+            using (var bitmap = SKBitmap.Decode(imageData))
+            using (var image = SKImage.FromBitmap(bitmap))
+            using (var encoded = image.Encode(_GetEncodedFormat(GetImageType()), 100))
+            using (var stream = File.OpenWrite(filePath))
+                encoded.SaveTo(stream);
         }
 
         public string GetImageType()
         {
             Match match = Regex.Match(base64Data, "(?<=data:image/)[a-zA-Z]+(?=;base64)");
             return match.Success ? match.Groups[0].Value : "";
+        }
+
+        private static SKEncodedImageFormat _GetEncodedFormat(string formatString)
+        {
+            switch (formatString)
+            {
+                case "jpeg":
+                case "jpg":
+                    return SKEncodedImageFormat.Jpeg;
+                case "gif":
+                    return SKEncodedImageFormat.Gif;
+                case "bmp":
+                    return SKEncodedImageFormat.Bmp;
+                case "webp":
+                    return SKEncodedImageFormat.Webp;
+                default:
+                    return SKEncodedImageFormat.Png;
+            }
         }
     }
 
