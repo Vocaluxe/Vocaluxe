@@ -14,6 +14,11 @@
     <!-- The legacy code triggers many analyzer/obsolete warnings; do not fail the build on them during migration -->
     <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
     <NoWarn>$(NoWarn);CS0618;CS0612;CA1416</NoWarn>
+    <!-- Same OS-conditional symbols as Vocaluxe.csproj: VocaluxeLib has #if WIN code (e.g. ERenderer's
+         TR_CONFIG_DIRECT3D) that the game references, so the library must agree on the platform define. -->
+    <DefineConstants Condition="$([MSBuild]::IsOSPlatform('Windows'))">WIN;ARCH_X64</DefineConstants>
+    <DefineConstants Condition="!$([MSBuild]::IsOSPlatform('Windows'))">LINUX;ARCH_X64</DefineConstants>
+    <DefineConstants Condition="$([MSBuild]::IsOSPlatform('OSX'))">$(DefineConstants);MACOS</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>
