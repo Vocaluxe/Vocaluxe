@@ -127,6 +127,17 @@ namespace Tests.VocaluxeLib.XML
             _AssertSerDeserMatch<SBasic>(s);
         }
 
+        [Test]
+        public void TestUnknownEnumFallsBackToDefault()
+        {
+            // An unknown enum value (e.g. an option/renderer removed across versions or platforms, like
+            // a Windows config with TR_CONFIG_DIRECT3D opened on Linux) must not abort the load - it
+            // should fall back to the field's [DefaultValue] instead of throwing.
+            var deser = new CXmlDeserializer();
+            SEnumWithDefault foo = deser.DeserializeString<SEnumWithDefault>(_Head + "<root>\n  <Value>TR_DOES_NOT_EXIST</Value>\n</root>");
+            Assert.AreEqual(ETestEnum.Beta, foo.Value);
+        }
+
         private readonly string[] _XmlList = new string[]
             {
                 _Head + @"<root>
@@ -437,6 +448,19 @@ namespace Tests.VocaluxeLib.XML
             public string S;
             public float F;
             public double D;
+        }
+
+        private enum ETestEnum
+        {
+            Alpha,
+            Beta,
+            Gamma
+        }
+
+        private struct SEnumWithDefault
+        {
+            [DefaultValue(ETestEnum.Beta)]
+            public ETestEnum Value;
         }
 
         [XmlType("Entry")]

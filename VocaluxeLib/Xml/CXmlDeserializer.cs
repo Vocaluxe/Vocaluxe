@@ -225,7 +225,11 @@ namespace VocaluxeLib.Xml
                 }
                 catch (Exception)
                 {
-                    _ErrorHandler.HandleError(new CXmlInvalidValueException("Invalid value '%v' in %n", node, stringValue));
+                    // Unknown enum value - e.g. an option or renderer that was removed across versions
+                    // or platforms (a Windows config naming TR_CONFIG_DIRECT3D opened on Linux). Treat
+                    // this as a warning (isError=false) rather than aborting the whole load and return
+                    // null, so the caller falls back to the field's declared [DefaultValue].
+                    _ErrorHandler.HandleError(new CXmlInvalidValueException("Invalid value '%v' in %n, falling back to default", node, stringValue, false));
                     return value;
                 }
             }
