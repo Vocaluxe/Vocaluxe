@@ -42,10 +42,14 @@
          shadowed the System.Drawing.Font type. The real glyph code lives in Base/Fonts. -->
     <Compile Remove="Base\Font\**\*.cs" />
     <EmbeddedResource Remove="Reporting\**\*.resx" />
-    <!-- S2: WCF service contract + implementation excluded; server stubbed in CVocaluxeServer.
-         To be replaced by an ASP.NET Core implementation. -->
+    <!-- S2: the WCF ICWebservice contract was removed; CWebservice is now an ASP.NET Core
+         (Kestrel) endpoint mapper, hosted by CVocaluxeServer. -->
     <Compile Remove="Base\Server\ICWebservice.cs" />
-    <Compile Remove="Base\Server\CWebservice.cs" />
+  </ItemGroup>
+
+  <!-- S2: ASP.NET Core (Kestrel) for the browser remote-control webserver -->
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
   <ItemGroup>

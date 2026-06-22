@@ -26,7 +26,13 @@ using System.Reflection;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Vocaluxe.Lib.Input;
+using VocaluxeLib.Log;
 using Vocaluxe.Lib.Playlist;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -37,8 +43,12 @@ namespace Vocaluxe.Base.Server
 {
     static class CVocaluxeServer
     {
-        // Webserver (WCF) disabled for the cross-platform port; to be rewritten on ASP.NET Core in S2.
         private static readonly Queue<Task> _ServerTaskQueue = new Queue<Task>();
+
+        // ASP.NET Core (Kestrel) host for the browser remote control (S2; replaces the old WCF host).
+        private static WebApplication _App;
+        private static bool _Running;
+        private static string _Address = "";
 
         private class CServerController : CControllerFramework
         {
@@ -64,24 +74,73 @@ namespace Vocaluxe.Base.Server
 
         #region server control
 
-        // --- S2 stub: the WCF webserver is disabled until it is rewritten on ASP.NET Core.
-        //     The public surface below is kept as no-ops so the game compiles and runs
-        //     with remote control simply unavailable. ---
+        public static void Init()
+        {
+            if (CConfig.Config.Server.ServerActive != EOffOn.TR_CONFIG_ON)
+                return;
+            try
+            {
+                int port = CConfig.Config.Server.ServerPort;
+                if (CConfig.Config.Server.ServerEncryption == EOffOn.TR_CONFIG_ON)
+                    CLog.Information("Webserver: HTTPS is not yet supported on the cross-platform build; falling back to HTTP.");
 
-        public static void Init() {}
+                WebApplicationBuilder builder = WebApplication.CreateBuilder();
+                builder.Logging.ClearProviders();
+                builder.WebHost.UseUrls("http://0.0.0.0:" + port + "/");
+                _App = builder.Build();
+                CWebservice.MapEndpoints(_App);
 
-        public static void Start() {}
+                _Address = "http://" + Dns.GetHostName() + ":" + port + "/";
+                Start();
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Could not initialize the webserver");
+                _App = null;
+            }
+        }
 
-        public static void Close() {}
+        public static void Start()
+        {
+            if (_App == null || _Running)
+                return;
+            try
+            {
+                _App.Start();
+                _Running = true;
+                CLog.Information("Webserver running at " + _Address);
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Could not start the webserver");
+            }
+        }
+
+        public static void Close()
+        {
+            if (_App == null)
+                return;
+            try
+            {
+                _App.StopAsync().GetAwaiter().GetResult();
+                ((IDisposable)_App).Dispose();
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Error stopping the webserver");
+            }
+            _App = null;
+            _Running = false;
+        }
 
         public static string GetServerAddress()
         {
-            return "";
+            return _Address;
         }
 
         public static bool IsServerRunning()
         {
-            return false;
+            return _Running;
         }
 
         #endregion

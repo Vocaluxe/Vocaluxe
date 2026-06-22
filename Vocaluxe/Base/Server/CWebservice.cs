@@ -1,559 +1,298 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
-// 
+//
 // Vocaluxe is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
 // the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
-// 
+//
 // Vocaluxe is distributed in the hope that it will be useful,
 // but WITHOUT ANY WARRANTY; without even the implied warranty of
 // MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 // GNU General Public License for more details.
-// 
+//
 // You should have received a copy of the GNU General Public License
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
 using System;
 using System.IO;
-using System.Net;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.ServiceModel.Web;
+using System.Runtime.Serialization.Json;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 
 namespace Vocaluxe.Base.Server
 {
-    class CWebservice : ICWebservice
+    /// <summary>
+    ///     The browser remote-control REST API, ported from WCF to ASP.NET Core (Kestrel).
+    ///     Endpoints mirror the former ICWebservice 1:1 and delegate to the same CVocaluxeServer
+    ///     logic (marshalled onto the main thread via DoTask). Responses use
+    ///     DataContractJsonSerializer so the JSON shape stays identical to the old WCF service,
+    ///     keeping the existing web frontend working unchanged.
+    /// </summary>
+    static class CWebservice
     {
-        private static Guid _GetSession()
+        public static void MapEndpoints(WebApplication app)
         {
-            Guid sessionKey = Guid.Empty;
-            string sessionHeader =
-                ((HttpRequestMessageProperty)OperationContext.Current.IncomingMessageProperties["httpRequest"]).Headers["session"];
-            if (string.IsNullOrEmpty(sessionHeader))
-                return sessionKey;
-            try
+            // --- input ---
+            app.MapGet("/sendKeyEvent", (HttpContext ctx, string key) =>
             {
-                sessionKey = Guid.Parse(sessionHeader);
-            }
-            catch (Exception)
-            { }
-            CSessionControl.ResetSessionTimeout(sessionKey);
-            return sessionKey;
-        }
+                if (!_CheckRight(ctx, EUserRights.UseKeyboard))
+                    return _Empty();
+                CVocaluxeServer.DoTask(CVocaluxeServer.SendKeyEvent, key);
+                return _Empty();
+            });
 
-        public void SendKeyEvent(string key)
-        {
-            if (!_CheckRight(EUserRights.UseKeyboard))
-                return;
-
-
-            CVocaluxeServer.DoTask(CVocaluxeServer.SendKeyEvent,key);
-        }
-
-        public void SendKeyStringEvent(string keyString, bool isShiftPressed = false, bool isAltPressed = false, bool isCtrlPressed = false)
-        {
-            if (!_CheckRight(EUserRights.UseKeyboard))
-                return;
-           
-            CVocaluxeServer.DoTask(CVocaluxeServer.SendKeyStringEvent, keyString, isShiftPressed, isAltPressed, isCtrlPressed);
-        }
-
-        #region profile
-        public Guid GetOwnProfileId()
-        {
-            Guid sessionKey = _GetSession();
-            if (sessionKey == Guid.Empty)
+            app.MapGet("/sendKeyStringEvent", (HttpContext ctx, string keyString, bool shift, bool alt, bool ctrl) =>
             {
-                if (WebOperationContext.Current != null)
+                if (!_CheckRight(ctx, EUserRights.UseKeyboard))
+                    return _Empty();
+                CVocaluxeServer.DoTask(CVocaluxeServer.SendKeyStringEvent, keyString, shift, alt, ctrl);
+                return _Empty();
+            });
+
+            // --- profile ---
+            app.MapGet("/getOwnProfileId", (HttpContext ctx) =>
+            {
+                Guid session = _GetSession(ctx);
+                Guid profileId = session == Guid.Empty ? Guid.Empty : CSessionControl.GetUserIdFromSession(session);
+                if (profileId == Guid.Empty)
+                    _Forbid(ctx, "No session");
+                return _Json(profileId);
+            });
+
+            app.MapPost("/sendProfile", (HttpContext ctx) =>
+            {
+                SProfileData profile = _ReadBody<SProfileData>(ctx);
+                Guid session = _GetSession(ctx);
+                if (profile.ProfileId != Guid.Empty
+                    && CSessionControl.GetUserIdFromSession(session) != profile.ProfileId
+                    && !_CheckRight(ctx, EUserRights.EditAllProfiles))
+                    return _Empty();
+                CVocaluxeServer.DoTask(CVocaluxeServer.SendProfileData, profile);
+                return _Empty();
+            });
+
+            app.MapGet("/getProfile", (HttpContext ctx, Guid profileId) =>
+            {
+                Guid session = _GetSession(ctx);
+                if (CSessionControl.GetUserIdFromSession(session) == profileId || _CheckRight(ctx, EUserRights.ViewOtherProfiles))
                 {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
+                    bool isReadonly = !CSessionControl.RequestRight(session, EUserRights.EditAllProfiles)
+                                      && CSessionControl.GetUserIdFromSession(session) != profileId;
+                    return _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetProfileData, profileId, isReadonly));
                 }
+                return _Json(new SProfileData());
+            });
+
+            app.MapGet("/getProfileList", () => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetProfileList)));
+
+            // --- photo ---
+            app.MapPost("/sendPhoto", (HttpContext ctx) =>
+            {
+                if (_CheckRight(ctx, EUserRights.UploadPhotos))
+                    CVocaluxeServer.DoTask(CVocaluxeServer.SendPhoto, _ReadBody<SPhotoData>(ctx));
+                return _Empty();
+            });
+
+            // --- website / session ---
+            app.MapGet("/login", (HttpContext ctx, string username, string password) =>
+            {
+                Guid sessionId = CSessionControl.OpenSession(username, password);
+                if (sessionId == Guid.Empty)
+                    _Forbid(ctx, "Wrong username or password");
+                return _Json(sessionId);
+            });
+
+            app.MapGet("/logout", (HttpContext ctx) =>
+            {
+                CSessionControl.InvalidateSessionByID(_GetSession(ctx));
+                return _Empty();
+            });
+
+            app.MapGet("/", (HttpContext ctx) => _File(ctx, "index.html", "text/html"));
+            app.MapGet("/js/{filename}", (HttpContext ctx, string filename) => _File(ctx, "js/" + filename, "text/javascript"));
+            app.MapGet("/css/{filename}", (HttpContext ctx, string filename) => _File(ctx, "css/" + filename, "text/css"));
+            app.MapGet("/css/images/{filename}", (HttpContext ctx, string filename) => _File(ctx, "css/images/" + filename, "image/png"));
+            app.MapGet("/img/{filename}", (HttpContext ctx, string filename) => _File(ctx, "img/" + filename, "image/png"));
+            app.MapGet("/locales/{filename}", (HttpContext ctx, string filename) => _File(ctx, "locales/" + filename, "text/javascript"));
+
+            app.MapGet("/delayedImage", (string id) => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetDelayedImage, id)));
+            app.MapGet("/isServerOnline", (HttpContext ctx) =>
+            {
+                _GetSession(ctx);
+                return _Json(true);
+            });
+            app.MapGet("/getServerVersion", () => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetServerVersion)));
+
+            // --- songs ---
+            app.MapGet("/getSong", (int songId) => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetSong, songId)));
+            app.MapGet("/getCurrentSongId", () => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetCurrentSongId)));
+            app.MapGet("/getAllSongs", () => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetAllSongs)));
+            app.MapGet("/getMp3", (HttpContext ctx, int songId) => _Mp3(ctx, songId));
+
+            // --- playlist ---
+            app.MapGet("/getPlaylists", () => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetPlaylists)));
+            app.MapGet("/getPlaylist", (HttpContext ctx, int id) => _GuardArg(ctx, () => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetPlaylist, id)), () => _Json(new SPlaylistData())));
+            app.MapGet("/addSongToPlaylist", (HttpContext ctx, int songId, int playlistId, bool duplicates) =>
+            {
+                if (_CheckRight(ctx, EUserRights.AddSongToPlaylist))
+                    _GuardArg(ctx, () => { CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.AddSongToPlaylist, songId, playlistId, duplicates); return _Empty(); }, _Empty);
+                return _Empty();
+            });
+            app.MapGet("/removeSongFromPlaylist", (HttpContext ctx, int position, int playlistId, int songId) =>
+            {
+                if (_CheckRight(ctx, EUserRights.RemoveSongsFromPlaylists))
+                    _GuardArg(ctx, () => { CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.RemoveSongFromPlaylist, position, playlistId, songId); return _Empty(); }, _Empty);
+                return _Empty();
+            });
+            app.MapGet("/moveSongInPlaylist", (HttpContext ctx, int newPosition, int playlistId, int songId) =>
+            {
+                if (_CheckRight(ctx, EUserRights.ReorderPlaylists))
+                    _GuardArg(ctx, () => { CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.MoveSongInPlaylist, newPosition, playlistId, songId); return _Empty(); }, _Empty);
+                return _Empty();
+            });
+            app.MapGet("/playlistContainsSong", (HttpContext ctx, int songId, int playlistId) =>
+                _GuardArg(ctx, () => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.PlaylistContainsSong, songId, playlistId)), () => _Json(false)));
+            app.MapGet("/getPlaylistSongs", (HttpContext ctx, int playlistId) =>
+                _GuardArg(ctx, () => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetPlaylistSongs, playlistId)), () => _Json(new SPlaylistSongInfo[0])));
+            app.MapGet("/removePlaylist", (HttpContext ctx, int playlistId) =>
+            {
+                if (_CheckRight(ctx, EUserRights.DeletePlaylists))
+                    _GuardArg(ctx, () => { CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.RemovePlaylist, playlistId); return _Empty(); }, _Empty);
+                return _Empty();
+            });
+            app.MapGet("/addPlaylist", (HttpContext ctx, string playlistName) =>
+            {
+                if (!_CheckRight(ctx, EUserRights.CreatePlaylists))
+                    return _Json(-1);
+                return _GuardArg(ctx, () => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.AddPlaylist, playlistName)), () => _Json(-1));
+            });
+
+            // --- user management ---
+            app.MapGet("/getUserRole", (Guid profileId) => _Json(CVocaluxeServer.DoTask(CVocaluxeServer.GetUserRole, profileId)));
+            app.MapGet("/setUserRole", (HttpContext ctx, Guid profileId, int userRole) =>
+            {
+                if (_CheckRight(ctx, EUserRights.EditAllProfiles))
+                    CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.SetUserRole, profileId, userRole);
+                return _Empty();
+            });
+            app.MapGet("/hasUserRight", (HttpContext ctx, int right) =>
+            {
+                Guid session = _GetSession(ctx);
+                bool ok = session != Guid.Empty && CSessionControl.RequestRight(session, (EUserRights)right);
+                return _Json(ok);
+            });
+        }
+
+        #region helpers
+        private static Guid _GetSession(HttpContext ctx)
+        {
+            string header = ctx.Request.Headers["session"];
+            if (string.IsNullOrEmpty(header))
                 return Guid.Empty;
-            }
-            Guid profileId = CSessionControl.GetUserIdFromSession(sessionKey);
-            if (profileId == Guid.Empty)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
-                }
+            Guid session;
+            if (!Guid.TryParse(header, out session) || session == Guid.Empty)
                 return Guid.Empty;
-            }
-            return profileId;
+            CSessionControl.ResetSessionTimeout(session);
+            return session;
         }
 
-        public void SendProfile(SProfileData profile)
+        private static bool _CheckRight(HttpContext ctx, EUserRights requestedRight)
         {
-            Guid sessionKey = _GetSession();
-
-            if (profile.ProfileId != Guid.Empty) //Guid.Empty is the id for a new profile
+            Guid session = _GetSession(ctx);
+            if (session == Guid.Empty)
             {
-                if (CSessionControl.GetUserIdFromSession(sessionKey) != profile.ProfileId
-                    && !(_CheckRight(EUserRights.EditAllProfiles)))
-                    return;
+                _Forbid(ctx, "No session");
+                return false;
             }
-
-            CVocaluxeServer.DoTask(CVocaluxeServer.SendProfileData, profile);
-        }
-
-        public SProfileData GetProfile(Guid profileId)
-        {
-            Guid sessionKey = _GetSession();
-            if (CSessionControl.GetUserIdFromSession(sessionKey) == profileId || _CheckRight(EUserRights.ViewOtherProfiles))
+            if (!CSessionControl.RequestRight(session, requestedRight))
             {
-                bool isReadonly = (!CSessionControl.RequestRight(sessionKey, EUserRights.EditAllProfiles) &&
-                                   CSessionControl.GetUserIdFromSession(sessionKey) != profileId);
-
-
-                return CVocaluxeServer.DoTask(CVocaluxeServer.GetProfileData,profileId, isReadonly);
+                _Forbid(ctx, "Not allowed");
+                return false;
             }
-            return new SProfileData();
-        }
-
-        public SProfileData[] GetProfileList()
-        {
-            return CVocaluxeServer.DoTask(CVocaluxeServer.GetProfileList);
-        }
-        #endregion
-
-        #region photo
-        public void SendPhoto(SPhotoData photo)
-        {
-            if (_CheckRight(EUserRights.UploadPhotos))
-                CVocaluxeServer.DoTask(CVocaluxeServer.SendPhoto, photo);
-        }
-        #endregion
-
-        #region website
-        public Guid Login(string username, string password)
-        {
-            Guid sessionId = CSessionControl.OpenSession(username, password);
-            if (sessionId == Guid.Empty)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Wrong username or password";
-                }
-            }
-            return sessionId;
-        }
-
-        public void Logout()
-        {
-            Guid sessionKey = _GetSession();
-            CSessionControl.InvalidateSessionByID(sessionKey);
-        }
-
-        public Stream Index()
-        {
-            if (WebOperationContext.Current != null)
-                WebOperationContext.Current.OutgoingResponse.ContentType = "text/html";
-
-            return new MemoryStream(CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile,"index.html"));
-        }
-
-        public Stream GetJsFile(string filename)
-        {
-            if (WebOperationContext.Current != null)
-            {
-                WebOperationContext.Current.OutgoingResponse.ContentType = "text/javascript";
-                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
-                WebOperationContext.Current.OutgoingResponse.Headers.Add(
-                    HttpResponseHeader.Expires,
-                    DateTime.UtcNow.AddHours(4).ToString("r"));
-            }
-
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "js/" + filename);
-
-            if (data != null)
-                return new MemoryStream(data);
-
-            if (WebOperationContext.Current != null)
-                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
-            return null;
-        }
-
-        public Stream GetCssFile(string filename)
-        {
-            if (WebOperationContext.Current != null)
-            {
-                WebOperationContext.Current.OutgoingResponse.ContentType = "text/css";
-                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
-                WebOperationContext.Current.OutgoingResponse.Headers.Add(
-                    HttpResponseHeader.Expires,
-                    DateTime.UtcNow.AddHours(4).ToString("r"));
-            }
-
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "css/" + filename);
-
-            if (data != null)
-                return new MemoryStream(data);
-            if (WebOperationContext.Current != null)
-                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
-            return null;
-        }
-
-        public Stream GetCssImageFile(string filename)
-        {
-            if (WebOperationContext.Current != null)
-            {
-                WebOperationContext.Current.OutgoingResponse.ContentType = "image/png";
-                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
-                WebOperationContext.Current.OutgoingResponse.Headers.Add(
-                    HttpResponseHeader.Expires,
-                    DateTime.UtcNow.AddYears(1).ToString("r"));
-            }
-
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "css\\images\\" + filename);
-
-            if (data != null)
-                return new MemoryStream(data);
-            if (WebOperationContext.Current != null)
-                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
-            return null;
-        }
-
-        public Stream GetImgFile(string filename)
-        {
-            if (WebOperationContext.Current != null)
-            {
-                WebOperationContext.Current.OutgoingResponse.ContentType = "image/png";
-                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
-                WebOperationContext.Current.OutgoingResponse.Headers.Add(
-                    HttpResponseHeader.Expires,
-                    DateTime.UtcNow.AddYears(1).ToString("r"));
-            }
-
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "img/" + filename);
-
-            if (data != null)
-                return new MemoryStream(data);
-            if (WebOperationContext.Current != null)
-                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
-            return null;
-        }
-
-        public Stream GetLocaleFile(string filename)
-        {
-            if (WebOperationContext.Current != null)
-            {
-                WebOperationContext.Current.OutgoingResponse.ContentType = "text/javascript";
-                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
-                WebOperationContext.Current.OutgoingResponse.Headers.Add(
-                    HttpResponseHeader.Expires,
-                    DateTime.UtcNow.AddHours(4).ToString("r"));
-            }
-
-            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, "locales/" + filename);
-
-            if (data != null)
-                return new MemoryStream(data);
-
-            if (WebOperationContext.Current != null)
-                WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
-            return null;
-        }
-
-        public CBase64Image GetDelayedImage(string id)
-        {
-            return CVocaluxeServer.DoTask(CVocaluxeServer.GetDelayedImage, id);
-        }
-
-        public bool IsServerOnline()
-        {
-            _GetSession();
             return true;
         }
 
-        public string GetServerVersion()
+        private static void _Forbid(HttpContext ctx, string description)
         {
-            return CVocaluxeServer.DoTask(CVocaluxeServer.GetServerVersion);
-        }
-        #endregion
-
-        #region songs
-        public SSongInfo GetSong(int songId)
-        {
-            return CVocaluxeServer.DoTask(CVocaluxeServer.GetSong, songId);
+            ctx.Response.StatusCode = 403;
+            ctx.Response.Headers["X-Status-Description"] = description;
         }
 
-        public int GetCurrentSongId()
+        /// <summary>Mirrors the WCF behaviour of mapping an ArgumentException to HTTP 403.</summary>
+        private static IResult _GuardArg(HttpContext ctx, Func<IResult> action, Func<IResult> onError)
         {
-            return CVocaluxeServer.DoTask(CVocaluxeServer.GetCurrentSongId);
-        }
-
-        public SSongInfo[] GetAllSongs()
-        {
-            return CVocaluxeServer.DoTask(CVocaluxeServer.GetAllSongs);
-        }
-
-        public Stream GetMp3File(int songId)
-        {
-            if (WebOperationContext.Current != null)
+            try
             {
-                WebOperationContext.Current.OutgoingResponse.LastModified = DateTime.UtcNow;
-                WebOperationContext.Current.OutgoingResponse.Headers.Add(
-                    HttpResponseHeader.Expires,
-                    DateTime.UtcNow.AddYears(1).ToString("r"));
+                return action();
             }
+            catch (ArgumentException e)
+            {
+                _Forbid(ctx, e.Message);
+                return onError();
+            }
+        }
 
+        private static IResult _Json(object obj)
+        {
+            if (obj == null)
+                return Results.Bytes(Array.Empty<byte>(), "application/json");
+            using (var ms = new MemoryStream())
+            {
+                new DataContractJsonSerializer(obj.GetType()).WriteObject(ms, obj);
+                return Results.Bytes(ms.ToArray(), "application/json");
+            }
+        }
 
-            String path = CVocaluxeServer.DoTask(CVocaluxeServer.GetMp3Path,songId);
+        private static T _ReadBody<T>(HttpContext ctx)
+        {
+            using (var ms = new MemoryStream())
+            {
+                ctx.Request.Body.CopyTo(ms);
+                ms.Position = 0;
+                if (ms.Length == 0)
+                    return default(T);
+                return (T)new DataContractJsonSerializer(typeof(T)).ReadObject(ms);
+            }
+        }
+
+        private static IResult _Empty()
+        {
+            return Results.Bytes(Array.Empty<byte>(), "application/json");
+        }
+
+        private static IResult _File(HttpContext ctx, string relativePath, string contentType)
+        {
+            byte[] data = CVocaluxeServer.DoTask(CVocaluxeServer.GetSiteFile, relativePath);
+            if (data == null)
+                return Results.NotFound();
+            return Results.Bytes(data, contentType);
+        }
+
+        private static IResult _Mp3(HttpContext ctx, int songId)
+        {
+            string path = CVocaluxeServer.DoTask(CVocaluxeServer.GetMp3Path, songId);
+            if (string.IsNullOrEmpty(path))
+                return Results.NotFound();
             path = path.Replace("..", "");
 
+            if (!File.Exists(path))
+                return Results.NotFound();
 
-            if (!File.Exists(path) 
-                || !(path.EndsWith(".mp3", StringComparison.InvariantCulture) 
-                        || path.EndsWith(".ogg", StringComparison.InvariantCulture)
-                        || path.EndsWith(".wav", StringComparison.InvariantCulture)
-                        || path.EndsWith(".webm", StringComparison.InvariantCulture)))
-            {
-                if (WebOperationContext.Current != null)
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.NotFound;
-                return null;
-            }
+            string contentType;
+            if (path.EndsWith(".mp3", StringComparison.InvariantCulture))
+                contentType = "audio/mpeg";
+            else if (path.EndsWith(".ogg", StringComparison.InvariantCulture))
+                contentType = "audio/ogg";
+            else if (path.EndsWith(".wav", StringComparison.InvariantCulture))
+                contentType = "audio/wav";
+            else if (path.EndsWith(".webm", StringComparison.InvariantCulture))
+                contentType = "audio/webm";
+            else
+                return Results.NotFound();
 
-            if (WebOperationContext.Current != null)
-            {
-                if (path.EndsWith(".mp3", StringComparison.InvariantCulture))
-                {
-                    WebOperationContext.Current.OutgoingResponse.ContentType = "audio/mpeg";
-                }
-                else if (path.EndsWith(".ogg", StringComparison.InvariantCulture))
-                {
-                    WebOperationContext.Current.OutgoingResponse.ContentType = "audio/ogg";
-                }
-                else if (path.EndsWith(".wav", StringComparison.InvariantCulture))
-                {
-                    WebOperationContext.Current.OutgoingResponse.ContentType = "audio/wav";
-                }
-                else if (path.EndsWith(".webm", StringComparison.InvariantCulture))
-                {
-                    WebOperationContext.Current.OutgoingResponse.ContentType = "audio/webm";
-                }
-            }
-
-            return File.OpenRead(path);
-        }
-        #endregion
-
-        #region playlist
-        public SPlaylistData[] GetPlaylists()
-        {
-            return CVocaluxeServer.DoTask(CVocaluxeServer.GetPlaylists);
-        }
-
-        public SPlaylistData GetPlaylist(int playlistId)
-        {
-            try
-            {
-                return CVocaluxeServer.DoTask(CVocaluxeServer.GetPlaylist, playlistId);
-            }
-            catch (ArgumentException e)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
-                }
-
-                return new SPlaylistData();
-            }
-           
-        }
-
-        public void AddSongToPlaylist(int songId, int playlistId, bool allowDuplicates)
-        {
-            if (!_CheckRight(EUserRights.AddSongToPlaylist))
-                return;
-
-            try
-            {
-                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.AddSongToPlaylist, songId, playlistId, allowDuplicates);
-            }
-            catch (ArgumentException e)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
-                }
-            }
-        }
-
-        public void RemoveSongFromPlaylist(int position, int playlistId, int songId)
-        {
-            if (!_CheckRight(EUserRights.RemoveSongsFromPlaylists))
-                return;
-
-            try
-            {
-                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.RemoveSongFromPlaylist, position, playlistId, songId);
-            }
-            catch (ArgumentException e)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
-                }
-            }
-        }
-
-        public void MoveSongInPlaylist(int newPosition, int playlistId, int songId)
-        {
-            if (!_CheckRight(EUserRights.ReorderPlaylists))
-                return;
-
-            try
-            {
-                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.MoveSongInPlaylist, newPosition, playlistId, songId);
-            }
-            catch (ArgumentException e)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
-                }
-            }
-        }
-
-        public bool PlaylistContainsSong(int songId, int playlistId)
-        {
-            try
-            {
-                return CVocaluxeServer.DoTask(CVocaluxeServer.PlaylistContainsSong, songId, playlistId);
-            }
-            catch (ArgumentException e)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
-                }
-
-                return false;
-            }
-        }
-
-        public SPlaylistSongInfo[] GetPlaylistSongs(int playlistId)
-        {
-            try
-            {
-                return CVocaluxeServer.DoTask(CVocaluxeServer.GetPlaylistSongs, playlistId);
-            }
-            catch (ArgumentException e)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
-                }
-                return new SPlaylistSongInfo[0];
-            }
-        }
-
-        public void RemovePlaylist(int playlistId)
-        {
-            if (!_CheckRight(EUserRights.DeletePlaylists))
-                return;
-
-            try
-            {
-                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.RemovePlaylist, playlistId);
-            }
-            catch (ArgumentException e)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
-                }
-            }
-        }
-
-        public int AddPlaylist(string playlistName)
-        {
-            if (!_CheckRight(EUserRights.CreatePlaylists))
-            return -1;
-
-            try
-            {
-                return CVocaluxeServer.DoTask(CVocaluxeServer.AddPlaylist, playlistName);
-            }
-            catch (ArgumentException e)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = e.Message;
-                }
-
-                return -1;
-            }
-        }
-        #endregion
-
-        #region user management
-        public int GetUserRole(Guid profileId)
-        {
-            return CVocaluxeServer.DoTask(CVocaluxeServer.GetUserRole, profileId);
-        }
-
-        public void SetUserRole(Guid profileId, int userRole)
-        {
-            if (_CheckRight(EUserRights.EditAllProfiles))
-                CVocaluxeServer.DoTaskWithoutReturn(CVocaluxeServer.SetUserRole, profileId, userRole);
-        }
-
-        public bool HasUserRight(int right)
-        {
-            return _CheckRightWithNoErrorMessage((EUserRights)right);
-        }
-
-        private static bool _CheckRight(EUserRights requestedRight)
-        {
-            Guid sessionKey = _GetSession();
-
-            if (sessionKey == Guid.Empty)
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "No session";
-                }
-                return false;
-            }
-
-            if (!CSessionControl.RequestRight(sessionKey, requestedRight))
-            {
-                if (WebOperationContext.Current != null)
-                {
-                    WebOperationContext.Current.OutgoingResponse.StatusCode = HttpStatusCode.Forbidden;
-                    WebOperationContext.Current.OutgoingResponse.StatusDescription = "Not allowed";
-                }
-                return false;
-            }
-            return true;
-        }
-
-        private static bool _CheckRightWithNoErrorMessage(EUserRights requestedRight)
-        {
-            Guid sessionKey = _GetSession();
-
-            if (sessionKey == Guid.Empty)
-                return false;
-
-            if (!CSessionControl.RequestRight(sessionKey, requestedRight))
-                return false;
-
-            return true;
+            return Results.File(File.OpenRead(path), contentType);
         }
         #endregion
     }
