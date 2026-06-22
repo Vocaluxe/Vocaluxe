@@ -16,6 +16,7 @@
 #endregion
 
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -42,7 +43,9 @@ namespace Vocaluxe.Base.Server
 {
     static class CVocaluxeServer
     {
-        private static readonly Queue<Task> _ServerTaskQueue = new Queue<Task>();
+        // Request threads enqueue here and the main thread (ProcessServerTasks) dequeues; must be
+        // thread-safe. A plain Queue raced under concurrent web requests and crashed the game loop.
+        private static readonly ConcurrentQueue<Task> _ServerTaskQueue = new ConcurrentQueue<Task>();
 
         // ASP.NET Core (Kestrel) host for the browser remote control (S2; replaces the old WCF host).
         private static WebApplication _App;
@@ -173,17 +176,24 @@ namespace Vocaluxe.Base.Server
 
         public static void ProcessServerTasks()
         {
-            //Serial processing - one by one
-            while (_ServerTaskQueue.Count > 0)
+            //Serial processing - one by one, on the main thread (invoked by the render loop).
+            Task task;
+            while (_ServerTaskQueue.TryDequeue(out task))
             {
-                //Get a task from the queue
-                Task task = _ServerTaskQueue.Dequeue();
                 //Run inline on the current (main) thread. The old code used
                 //TaskScheduler.FromCurrentSynchronizationContext(), which required a
                 //SynchronizationContext (provided by the former WinForms message loop). The OpenTK
-                //GameWindow main thread has none, so we run on the default scheduler instead - this
-                //method is already invoked from the main thread by the render loop.
-                task.RunSynchronously();
+                //GameWindow main thread has none, so we run on the default scheduler instead.
+                try
+                {
+                    task.RunSynchronously();
+                }
+                catch (Exception e)
+                {
+                    // A faulting server task must never crash the game loop. The exception is also
+                    // observed by the waiting request thread (task.Wait()), which turns it into a 500.
+                    CLog.Error(e, "A webserver task threw an exception");
+                }
             }
         }
 
