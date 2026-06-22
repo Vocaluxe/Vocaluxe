@@ -68,6 +68,9 @@
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
     <PackageReference Include="SkiaSharp" Version="3.119.4" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.4" />
+    <!-- macOS publishes need the SkiaSharp dylib from the macOS native-asset package; only pulled in
+         when building on/for macOS so the Linux/Windows builds are unaffected. -->
+    <PackageReference Include="SkiaSharp.NativeAssets.macOS" Version="3.119.4" Condition="$([MSBuild]::IsOSPlatform('OSX'))" />
     <PackageReference Include="PortAudioSharp2" Version="1.0.6" />
     <!-- GstSharp removed: ships net45 assemblies only, unusable on .NET 10 (see S3).
          TODO(linux-port): the native PortAudio library (libportaudio) is required at runtime. -->
