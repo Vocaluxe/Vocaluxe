@@ -16,7 +16,6 @@
 #endregion
 
 using System;
-using System.Drawing;
 using Vocaluxe.Lib.Draw;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -128,17 +127,6 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        ///     Adds a texture from a Bitmap and returns a reference to it<br />
-        ///     Must be called from main thread!
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <returns>Reference to texture</returns>
-        public static CTextureRef AddTexture(Bitmap bitmap)
-        {
-            return _Draw.AddTexture(bitmap);
-        }
-
-        /// <summary>
         ///     Adds a texture from an image file given by its file path<br />
         ///     Must be called from main thread!
         /// </summary>
@@ -176,17 +164,6 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
-        ///     Requests adding a texture from a bitmap <br />
-        ///     Use this if you add textures from another thread or don't need it immediatelly
-        /// </summary>
-        /// <param name="bmp">Bitmap to add, gets disposed after adding!</param>
-        /// <returns>Reference to texture</returns>
-        public static CTextureRef EnqueueTexture(Bitmap bmp)
-        {
-            return _Draw.EnqueueTexture(bmp);
-        }
-
-        /// <summary>
         ///     Requests adding a texture from a file <br />
         ///     Use this if you add textures from another thread or don't need it immediatelly
         /// </summary>
@@ -195,18 +172,6 @@ namespace Vocaluxe.Base
         public static CTextureRef EnqueueTexture(String texturePath)
         {
             return _Draw.EnqueueTexture(texturePath);
-        }
-
-        /// <summary>
-        ///     Requests updating a texture from a bitmap<br />
-        ///     Use this if you add textures from another thread or don't need it immediatelly <br />
-        ///     Bitmap is freed after use
-        /// </summary>
-        /// <param name="textureRef">Reference to the texture to update</param>
-        /// <param name="bmp"></param>
-        public static void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp)
-        {
-            _Draw.EnqueueTextureUpdate(textureRef, bmp);
         }
 
         public static void EnqueueTextureUpdate(CTextureRef textureRef, int w, int h, byte[] data)
@@ -235,16 +200,6 @@ namespace Vocaluxe.Base
         public static void UpdateTexture(CTextureRef textureRef, int w, int h, byte[] data)
         {
             _Draw.UpdateTexture(textureRef, w, h, data);
-        }
-
-        /// <summary>
-        ///     Updates a texture, filling it with the new data from the bitmap
-        /// </summary>
-        /// <param name="textureRef"></param>
-        /// <param name="bmp"></param>
-        public static void UpdateTexture(CTextureRef textureRef, Bitmap bmp)
-        {
-            _Draw.UpdateTexture(textureRef, bmp);
         }
 
         /// <summary>

@@ -22,9 +22,6 @@
     <PackageReference Include="Serilog.Sinks.Console" Version="6.1.1" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="Serilog.Sinks.TextWriter" Version="3.0.0" />
-    <!-- TODO(linux-port): transitional. System.Drawing.Common throws PlatformNotSupportedException
-         on Linux. The two Bitmap uses (Extensions.cs, CHelper.cs) must move to SkiaSharp in M3. -->
-    <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>

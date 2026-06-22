@@ -15,7 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 
@@ -37,14 +36,10 @@ namespace Vocaluxe.Lib.Draw
         void MakeScreenShot();
 
         CTextureRef AddTexture(string texturePath);
-        CTextureRef AddTexture(Bitmap bitmap);
         CTextureRef AddTexture(int w, int h, byte[] data);
-        void UpdateTexture(CTextureRef texture, Bitmap bmp);
         void UpdateTexture(CTextureRef texture, int w, int h, byte[] data);
         CTextureRef EnqueueTexture(string texturePath);
-        CTextureRef EnqueueTexture(Bitmap bmp);
         CTextureRef EnqueueTexture(int w, int h, byte[] data);
-        void EnqueueTextureUpdate(CTextureRef textureRef, Bitmap bmp);
         void EnqueueTextureUpdate(CTextureRef textureRef, int w, int h, byte[] data);
         CTextureRef CopyTexture(CTextureRef textureRef);
         void RemoveTexture(ref CTextureRef texture);

@@ -66,8 +66,6 @@
     <PackageReference Include="PortAudioSharp2" Version="1.0.6" />
     <!-- GstSharp removed: ships net45 assemblies only, unusable on .NET 10 (see S3).
          TODO(linux-port): the native PortAudio library (libportaudio) is required at runtime. -->
-    <!-- TODO(linux-port): transitional for the few remaining GDI+ Bitmap uses; remove after SkiaSharp migration -->
-    <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
