@@ -15,9 +15,12 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System;
+using SkiaSharp;
 using Vocaluxe.Base;
 using Vocaluxe.Base.Server;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Draw;
 using QRCoder;
@@ -95,9 +98,35 @@ namespace Vocaluxe.Screens
 
         private void _GenerateQRs()
         {
-            // TODO(linux-port): QRCoder's GetGraphic returns a GDI+ Bitmap (Windows-only). Re-implement
-            // via a cross-platform renderer (PngByteQRCode -> texture) once the ASP.NET Core webserver
-            // (S2) is back; the remote-control server is disabled for now so there is nothing to encode.
+            string address = CVocaluxeServer.GetServerAddress();
+            if (string.IsNullOrEmpty(address))
+                return;
+            try
+            {
+                // QRCoder's GDI+ renderer (QRCode.GetGraphic) is Windows-only; PngByteQRCode produces
+                // a PNG byte[] with no System.Drawing dependency, which we decode with SkiaSharp and
+                // upload as a texture.
+                var generator = new QRCodeGenerator();
+                QRCodeData data = generator.CreateQrCode(address, QRCodeGenerator.ECCLevel.Q);
+                byte[] png = new PngByteQRCode(data).GetGraphic(20);
+
+                using (SKBitmap decoded = SKBitmap.Decode(png))
+                {
+                    if (decoded == null)
+                        return;
+                    byte[] bgra;
+                    if (decoded.ColorType == SKColorType.Bgra8888)
+                        bgra = decoded.Bytes;
+                    else
+                        using (SKBitmap converted = decoded.Copy(SKColorType.Bgra8888))
+                            bgra = converted.Bytes;
+                    _QRServerAddress = CDraw.AddTexture(decoded.Width, decoded.Height, bgra);
+                }
+            }
+            catch (Exception e)
+            {
+                CLog.Error(e, "Could not generate the server QR code");
+            }
         }
     }
 }
