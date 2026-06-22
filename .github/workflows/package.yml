@@ -110,8 +110,10 @@ jobs:
         with:
           dotnet-version: '10.0.x'
 
-      - name: Install FFmpeg / PortAudio / dylibbundler (Homebrew)
-        run: brew install ffmpeg portaudio dylibbundler
+      - name: Install FFmpeg 4 / PortAudio / dylibbundler (Homebrew)
+        # acinerella.c targets the FFmpeg 4.x API (the Linux build uses 4.4, Windows ships avcodec-58),
+        # so pin ffmpeg@4 instead of the current 7.x where the channel-layout API was removed.
+        run: brew install ffmpeg@4 portaudio dylibbundler
 
       - name: Publish self-contained osx-arm64
         run: dotnet publish Vocaluxe/Vocaluxe.csproj -c Release -r osx-arm64 --self-contained true -p:DebugType=none -o dist-mac
@@ -128,7 +130,7 @@ jobs:
 
       - name: Build native helper acinerella (FFmpeg wrapper)
         run: |
-          FF="$(brew --prefix ffmpeg)"
+          FF="$(brew --prefix ffmpeg@4)"
           clang -fPIC -fdeclspec -shared -O2 -o dist-mac/libacinerella.dylib \
             Vocaluxe/Lib/Video/Acinerella/acinerella.c \
             -I"$FF/include" -L"$FF/lib" -lavformat -lavcodec -lavutil -lswscale -lswresample
