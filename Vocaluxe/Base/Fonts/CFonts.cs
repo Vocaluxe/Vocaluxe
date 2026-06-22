@@ -152,11 +152,6 @@ namespace Vocaluxe.Base.Fonts
             return new RectangleF(text.X, text.Y, GetTextWidth(text.TranslatedText, text.CalculatedFont), GetTextHeight(text.TranslatedText, text.CalculatedFont));
         }
 
-        public static Font GetSystemFont(CFont font)
-        {
-            return _GetFontStyle(font).GetSystemFont(font.Height);
-        }
-
         public static float GetOutlineSize(CFont font)
         {
             return _FontFamilies[_GetFontIndex(font.Name)].Outline;

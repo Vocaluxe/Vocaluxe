@@ -25,9 +25,11 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using SkiaSharp;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Draw
 {
@@ -642,17 +644,80 @@ namespace Vocaluxe.Lib.Draw
                 return textureRef;
             }
 
-            Bitmap bmp = CHelper.LoadBitmap(texturePath);
-            if (bmp == null)
+            // Cross-platform image loading via SkiaSharp (the former GDI+ Bitmap path is Windows-only).
+            int w, h;
+            byte[] data = _LoadImageBgra(texturePath, out w, out h);
+            if (data == null)
                 return null;
+            return _AddTextureWithCache(w, h, data, texturePath);
+        }
+
+        /// <summary>
+        ///     Decodes an image file to a tightly packed, straight-alpha BGRA byte array using SkiaSharp.
+        ///     Returns null (and logs) on failure.
+        /// </summary>
+        private static byte[] _LoadImageBgra(string texturePath, out int width, out int height)
+        {
+            width = 0;
+            height = 0;
             try
             {
-                textureRef = AddTexture(bmp, texturePath);
+                using (var codec = SKCodec.Create(texturePath))
+                {
+                    if (codec == null)
+                    {
+                        CLog.Error("Error loading bitmap: " + texturePath);
+                        return null;
+                    }
+                    var info = new SKImageInfo(codec.Info.Width, codec.Info.Height, SKColorType.Bgra8888, SKAlphaType.Unpremul);
+                    using (var bmp = new SKBitmap(info))
+                    {
+                        SKCodecResult res = codec.GetPixels(info, bmp.GetPixels());
+                        if (res != SKCodecResult.Success && res != SKCodecResult.IncompleteInput)
+                        {
+                            CLog.Error("Error loading bitmap: " + texturePath);
+                            return null;
+                        }
+                        width = info.Width;
+                        height = info.Height;
+                        return bmp.Bytes;
+                    }
+                }
             }
-            finally
+            catch (Exception)
             {
-                bmp.Dispose();
+                CLog.Error("Error loading bitmap: " + texturePath);
+                return null;
             }
+        }
+
+        /// <summary>
+        ///     Adds a texture from raw BGRA bytes, sharing the path-based texture cache with the
+        ///     file-loading overload.
+        /// </summary>
+        private CTextureRef _AddTextureWithCache(int w, int h, byte[] data, string texturePath)
+        {
+            if (w == 0 || h == 0)
+                return null;
+
+            CTextureRef textureRef;
+            var origSize = new Size(w, h);
+            TTextureType texture = null;
+            Task<Size> loader;
+            lock (_TextureCache)
+            {
+                textureRef = _GetFromCache(texturePath, out loader);
+                if (textureRef == null)
+                {
+                    texture = _CreateAndFillTexture(origSize, data);
+                    _AddToCache(texture, origSize, texturePath);
+                }
+            }
+            if (textureRef == null)
+                textureRef = _GetTextureReference(origSize, texture);
+            else if (loader != null)
+                textureRef.OrigSize = loader.Result;
+            Debug.Assert(textureRef.OrigSize.Width > 0);
             return textureRef;
         }
 

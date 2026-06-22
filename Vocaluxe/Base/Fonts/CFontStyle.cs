@@ -17,8 +17,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Text;
+using SkiaSharp;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Log;
@@ -33,8 +32,7 @@ namespace Vocaluxe.Base.Fonts
         public readonly SColorF OutlineColor;
         private readonly float _MaxGlyphHeight;
         private readonly Dictionary<char, CGlyph> _Glyphs = new Dictionary<char, CGlyph>();
-        private PrivateFontCollection _Fonts;
-        private FontFamily _Family;
+        private SKTypeface _Typeface;
 
         public CFontStyle(string file, EStyle style, float outline, SColorF outlineColor)
         {
@@ -66,38 +64,43 @@ namespace Vocaluxe.Base.Fonts
             }
         }
 
-        private FontStyle _GetSystemFontStyle()
+        /// <summary>
+        ///     True if this style should be rendered bold (synthesized via SKFont.Embolden).
+        /// </summary>
+        public bool IsBold
         {
-            switch (_Style)
-            {
-                case EStyle.Normal:
-                    return FontStyle.Regular;
-                case EStyle.Italic:
-                    return FontStyle.Italic;
-                case EStyle.Bold:
-                    return FontStyle.Bold;
-                case EStyle.BoldItalic:
-                    return FontStyle.Bold | FontStyle.Italic;
-            }
-            throw new ArgumentException("Invalid style: " + _Style);
+            get { return _Style == EStyle.Bold || _Style == EStyle.BoldItalic; }
         }
 
-        public Font GetSystemFont(float height)
+        /// <summary>
+        ///     True if this style should be rendered italic (synthesized via a skew transform).
+        /// </summary>
+        public bool IsItalic
         {
-            if (_Fonts == null)
+            get { return _Style == EStyle.Italic || _Style == EStyle.BoldItalic; }
+        }
+
+        /// <summary>
+        ///     Loads (once) and returns the SkiaSharp typeface for this font file.
+        ///     Bold/italic are synthesized at render time (see <see cref="CGlyph" />), matching the
+        ///     previous GDI+ behaviour of deriving all styles from a single font family.
+        /// </summary>
+        public SKTypeface GetTypeface()
+        {
+            if (_Typeface == null)
             {
-                _Fonts = new PrivateFontCollection();
                 try
                 {
-                    _Fonts.AddFontFile(_FilePath);
-                    _Family = _Fonts.Families[0];
+                    _Typeface = SKTypeface.FromFile(_FilePath);
                 }
                 catch (Exception e)
                 {
                     CLog.Error("Error opening font file " + _FilePath + ": " + e.Message);
                 }
+                if (_Typeface == null)
+                    _Typeface = SKTypeface.Default;
             }
-            return new Font(_Family, height, _GetSystemFontStyle(), GraphicsUnit.Pixel);
+            return _Typeface;
         }
 
         public void DrawGlyph(char chr, float fontHeight, float x, float y, float z, SColorF color, bool allMonitors = true)
@@ -165,10 +168,10 @@ namespace Vocaluxe.Base.Fonts
         {
             if (!_Disposed)
             {
-                if (_Fonts != null)
+                if (_Typeface != null)
                 {
-                    _Fonts.Dispose();
-                    _Fonts = null;
+                    _Typeface.Dispose();
+                    _Typeface = null;
                 }
                 _UnloadGlyphs();
                 _Disposed = true;
