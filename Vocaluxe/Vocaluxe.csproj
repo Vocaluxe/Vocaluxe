@@ -30,8 +30,15 @@
     <Compile Remove="Lib\Webcam\CAForgeNet.cs" />
     <Compile Remove="Reporting\**\*.cs" />
     <Compile Remove="CSplashScreen.cs" />
+    <!-- S3: only the PortAudio backend is migrated for the cross-platform build.
+         GStreamer (GstSharp net45-only) and OpenAL (OpenTK 1.x audio, removed in OpenTK 4). -->
+    <Compile Remove="Lib\Sound\Playback\GstreamerSharp\**\*.cs" />
+    <Compile Remove="Lib\Sound\Playback\OpenAL\**\*.cs" />
     <!-- Orphaned/legacy code: not referenced anywhere and absent from the original build. -->
     <Compile Remove="Animations\**\*.cs" />
+    <!-- Orphaned duplicate of Base/Fonts/CGlyph.cs; its namespace Vocaluxe.Base.Font even
+         shadowed the System.Drawing.Font type. The real glyph code lives in Base/Fonts. -->
+    <Compile Remove="Base\Font\**\*.cs" />
     <EmbeddedResource Remove="Reporting\**\*.resx" />
     <!-- S2: WCF service contract + implementation excluded; server stubbed in CVocaluxeServer.
          To be replaced by an ASP.NET Core implementation. -->
@@ -48,7 +55,8 @@
     <PackageReference Include="SkiaSharp" Version="3.119.4" />
     <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="3.119.4" />
     <PackageReference Include="PortAudioSharp2" Version="1.0.6" />
-    <PackageReference Include="GstSharp" Version="1.18.0" />
+    <!-- GstSharp removed: ships net45 assemblies only, unusable on .NET 10 (see S3).
+         TODO(linux-port): the native PortAudio library (libportaudio) is required at runtime. -->
     <!-- TODO(linux-port): transitional for the few remaining GDI+ Bitmap uses; remove after SkiaSharp migration -->
     <PackageReference Include="System.Drawing.Common" Version="10.0.0" />
   </ItemGroup>

@@ -129,7 +129,7 @@ namespace Vocaluxe.Base
 
         public struct SConfigSound
         {
-            [DefaultValue(EPlaybackLib.GstreamerSharp)]
+            [DefaultValue(EPlaybackLib.PortAudio)]
             public EPlaybackLib PlayBackLib;
             [DefaultValue(ERecordLib.PortAudio)]
             public ERecordLib RecordLib;
