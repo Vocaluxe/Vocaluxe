@@ -43,9 +43,20 @@ cp -ru "$ROOT/Output/." "$DIST/"
 # Windows-only leftovers
 rm -f "$DIST"/*.ico 2>/dev/null || true
 
-echo ">> [4/4] Native helper libraries"
+echo ">> [4/5] Native helper libraries"
 cp "$ROOT/PitchTracker/libPitchTracker.dll.so" "$DIST/"
 cp "$ROOT/Vocaluxe/Lib/Video/Acinerella/libacinerella.so" "$DIST/"
+
+echo ">> [5/5] Party-mode sources (compiled at runtime via Roslyn -> PartyModes/<Mode>/Code)"
+# CParty._CompileFiles compiles these .cs at runtime; the build must place them next to the mode's
+# data as <Mode>/Code (mirrors the original Windows build step).
+_copy_pm_sources() {
+    local src="$1" dst="$2"
+    mkdir -p "$DIST/PartyModes/$dst/Code"
+    cp "$ROOT/PartyModes/$src"/*.cs "$DIST/PartyModes/$dst/Code/"
+}
+_copy_pm_sources PartyModeChallenge Challenge
+_copy_pm_sources PartyModeTicTacToe TicTacToe
 
 # Launcher that runs from the dist directory regardless of CWD
 cat > "$DIST_ROOT/Vocaluxe.sh" <<'LAUNCH'

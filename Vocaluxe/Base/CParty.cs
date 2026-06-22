@@ -16,11 +16,13 @@
 #endregion
 
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Reflection;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Log;
@@ -279,38 +281,63 @@ namespace Vocaluxe.Base
             if (files == null || files.Length == 0)
                 return null;
 
-            var compilerParams = new CompilerParameters();
-
-            compilerParams.ReferencedAssemblies.Add("System.Windows.Forms.dll");
-            compilerParams.ReferencedAssemblies.Add("System.dll");
-            compilerParams.ReferencedAssemblies.Add("System.Core.dll");
-            compilerParams.ReferencedAssemblies.Add(Path.Combine("libs","managed","VocaluxeLib.dll"));
-            compilerParams.GenerateInMemory = true;
-#if DEBUG
-            compilerParams.IncludeDebugInformation = true;
-#endif
-
-            using (CodeDomProvider cdp = CodeDomProvider.CreateProvider("CSharp"))
+            // Parse all party-mode source files.
+            var syntaxTrees = new List<SyntaxTree>();
+            foreach (string file in files)
             {
-                CompilerResults compileResult;
-
                 try
                 {
-                    compileResult = cdp.CompileAssemblyFromFile(compilerParams, files);
+                    syntaxTrees.Add(CSharpSyntaxTree.ParseText(File.ReadAllText(file), path: file));
                 }
                 catch (Exception e)
                 {
-                    CLog.Error("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.Message);
+                    CLog.Error("Error reading party-mode source '" + file + "': " + e.Message);
                     return null;
                 }
+            }
 
-                if (compileResult.Errors.Count > 0)
+            // Reference the same assemblies the host already has (framework + VocaluxeLib + ...). Use
+            // TRUSTED_PLATFORM_ASSEMBLIES so this also works for the self-contained publish, and add the
+            // loaded assemblies' locations on top. Dedup by path to avoid duplicate-identity errors.
+            var refPaths = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            if (AppContext.GetData("TRUSTED_PLATFORM_ASSEMBLIES") is string tpa)
+            {
+                foreach (string p in tpa.Split(Path.PathSeparator))
                 {
-                    foreach (CompilerError e in compileResult.Errors)
-                        CLog.Error("Error Compiling Source (" + CHelper.ListStrings(files) + "): " + e.ErrorText + " in '" + e.FileName + "' (" + e.Line + ")");
+                    if (p.EndsWith(".dll", StringComparison.OrdinalIgnoreCase))
+                        refPaths.Add(p);
+                }
+            }
+            foreach (Assembly asm in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (!asm.IsDynamic && !string.IsNullOrEmpty(asm.Location))
+                    refPaths.Add(asm.Location);
+            }
+
+            var references = new List<MetadataReference>();
+            foreach (string path in refPaths)
+            {
+                try { references.Add(MetadataReference.CreateFromFile(path)); }
+                catch (Exception) { /* skip unreadable reference */ }
+            }
+
+            var compilation = CSharpCompilation.Create(
+                "VocaluxePartyMode_" + _NextID,
+                syntaxTrees,
+                references,
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary, optimizationLevel: OptimizationLevel.Release));
+
+            using (var ms = new MemoryStream())
+            {
+                var result = compilation.Emit(ms);
+                if (!result.Success)
+                {
+                    foreach (Diagnostic d in result.Diagnostics.Where(d => d.Severity == DiagnosticSeverity.Error))
+                        CLog.Error("Error compiling party-mode source (" + CHelper.ListStrings(files) + "): " + d);
                     return null;
                 }
-                return compileResult.CompiledAssembly;
+                ms.Seek(0, SeekOrigin.Begin);
+                return Assembly.Load(ms.ToArray());
             }
         }
 
