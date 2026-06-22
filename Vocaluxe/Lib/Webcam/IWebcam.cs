@@ -16,7 +16,7 @@
 #endregion
 
 using System.Collections.Generic;
-using System.Drawing;
+using SkiaSharp;
 using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Lib.Webcam
@@ -61,10 +61,10 @@ namespace Vocaluxe.Lib.Webcam
         bool GetFrame(ref CTextureRef frame);
 
         /// <summary>
-        ///     Gets the last captured frame as a bitma
+        ///     Gets the last captured frame as a bitmap
         /// </summary>
         /// <returns>Null if no frame was captured, the bitmap otherwise</returns>
-        Bitmap GetBitmap();
+        SKBitmap GetBitmap();
 
         SWebcamConfig GetConfig();
         SWebcamDevice[] GetDevices();

@@ -15,7 +15,7 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System.Drawing;
+using SkiaSharp;
 using Vocaluxe.Lib.Webcam;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
@@ -30,14 +30,21 @@ namespace Vocaluxe.Base
         {
             if (_Webcam != null)
                 return false;
+#if LINUX
+            // Linux: V4L2 capture via ffmpeg (see CV4l2Webcam). Falls back to "no device" if neither
+            // ffmpeg nor a capture node is present.
+            _Webcam = new CV4l2Webcam();
+#else
             switch (CConfig.Config.Video.WebcamLib)
             {
-                // AForge.NET/DirectShow is Windows-only; the cross-platform build uses a no-op webcam.
+                // AForge.NET/DirectShow is Windows-only and was dropped in the cross-platform port;
+                // until a Media Foundation backend exists, Windows uses the no-op webcam.
                 case EWebcamLib.AForgeNet:
                 default:
                     _Webcam = new CNullWebcam();
                     break;
             }
+#endif
             if (!_Webcam.Init())
                 return false;
             _Webcam.Select(CConfig.Config.Video.WebcamConfig.HasValue ? CConfig.Config.Video.WebcamConfig.Value : new SWebcamConfig());
@@ -60,7 +67,7 @@ namespace Vocaluxe.Base
             return _Webcam != null && _Webcam.GetFrame(ref tex);
         }
 
-        public static Bitmap GetBitmap()
+        public static SKBitmap GetBitmap()
         {
             return _Webcam == null ? null : _Webcam.GetBitmap();
         }

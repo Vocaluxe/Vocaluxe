@@ -18,9 +18,8 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
+using SkiaSharp;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -68,7 +67,7 @@ namespace Vocaluxe.Screens
         private EEditMode _EditMode;
 
         private CTextureRef _WebcamTexture;
-        private Bitmap _Snapshot;
+        private SKBitmap _Snapshot;
 
         public override void Init()
         {
@@ -383,6 +382,7 @@ namespace Vocaluxe.Screens
             if (!CWebcam.IsDeviceAvailable())
             {
                 CDraw.RemoveTexture(ref _WebcamTexture);
+                _Snapshot?.Dispose();
                 _Snapshot = null;
                 _Buttons[_ButtonSaveSnapshot].Visible = false;
                 _Buttons[_ButtonDiscardSnapshot].Visible = false;
@@ -394,6 +394,7 @@ namespace Vocaluxe.Screens
             else
             {
                 CWebcam.Stop(); //Do this first to get consistent frame and bitmap
+                _Snapshot?.Dispose();
                 _Snapshot = CWebcam.GetBitmap();
                 if (CWebcam.GetFrame(ref _WebcamTexture))
                     _Statics[_StaticAvatar].Texture = _WebcamTexture;
@@ -408,6 +409,7 @@ namespace Vocaluxe.Screens
 
         private void _OnDiscardSnapshot()
         {
+            _Snapshot?.Dispose();
             _Snapshot = null;
             CDraw.RemoveTexture(ref _WebcamTexture);
             _Buttons[_ButtonSaveSnapshot].Visible = false;
@@ -421,8 +423,12 @@ namespace Vocaluxe.Screens
         private void _OnSaveSnapshot()
         {
             string file = CHelper.GetUniqueFileName(Path.Combine(CSettings.DataFolder, CConfig.ProfileFolders[0]), "snapshot.png");
-            _Snapshot.Save(file, ImageFormat.Png);
+            using (SKImage img = SKImage.FromBitmap(_Snapshot))
+            using (SKData data = img.Encode(SKEncodedImageFormat.Png, 100))
+            using (FileStream fs = File.OpenWrite(file))
+                data.SaveTo(fs);
 
+            _Snapshot.Dispose();
             _Snapshot = null;
             CDraw.RemoveTexture(ref _WebcamTexture);
 
@@ -446,6 +452,7 @@ namespace Vocaluxe.Screens
                 _Buttons[_ButtonWebcam].Visible = false;
                 return;
             }
+            _Snapshot?.Dispose();
             _Snapshot = null;
             CWebcam.Start();
             _Buttons[_ButtonSaveSnapshot].Visible = false;
