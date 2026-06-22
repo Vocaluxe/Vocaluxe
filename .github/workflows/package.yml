@@ -119,7 +119,8 @@ jobs:
       - name: Build native helper PitchTracker
         run: |
           # Name it so .NET's "PitchTracker.dll" P/Invoke mangles to it on macOS (libNAME.dll.dylib).
-          clang++ -std=gnu++11 -fPIC -shared -O2 -o dist-mac/libPitchTracker.dll.dylib \
+          # -fdeclspec: the headers use __declspec(dllexport) (GCC accepts it implicitly, clang needs this).
+          clang++ -std=gnu++11 -fPIC -fdeclspec -shared -O2 -o dist-mac/libPitchTracker.dll.dylib \
             PitchTracker/compatibility.cpp PitchTracker/dywapitchtrack/dywapitchtrack.cpp \
             PitchTracker/dywapitchtrack/ptDyWa.cpp PitchTracker/FFT/FFT.cpp PitchTracker/FFT/RealFFTf.cpp \
             PitchTracker/Helper.cpp PitchTracker/performous/pitch.cc PitchTracker/ptAKF.cpp \
@@ -128,7 +129,7 @@ jobs:
       - name: Build native helper acinerella (FFmpeg wrapper)
         run: |
           FF="$(brew --prefix ffmpeg)"
-          clang -fPIC -shared -O2 -o dist-mac/libacinerella.dylib \
+          clang -fPIC -fdeclspec -shared -O2 -o dist-mac/libacinerella.dylib \
             Vocaluxe/Lib/Video/Acinerella/acinerella.c \
             -I"$FF/include" -L"$FF/lib" -lavformat -lavcodec -lavutil -lswscale -lswresample
 
