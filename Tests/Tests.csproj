@@ -1,120 +1,33 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{8EDF4429-251A-416D-BB68-93F227191BCF}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Tests</RootNamespace>
     <AssemblyName>Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
-    <FileAlignment>512</FileAlignment>
-    <NuGetPackageImportStamp>
-    </NuGetPackageImportStamp>
-    <TargetFrameworkProfile />
+    <IsPackable>false</IsPackable>
+    <!-- Keep the hand-written Properties/AssemblyInfo.cs instead of the SDK-generated attributes. -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <Nullable>disable</Nullable>
+    <LangVersion>latest</LangVersion>
+    <!-- The .tt template's generated output (CLogTest.cs) is checked in; don't run T4 here. -->
+    <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
   </PropertyGroup>
-  <PropertyGroup>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x86</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <PlatformTarget>x64</PlatformTarget>
-  </PropertyGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.14.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="NUnit" Version="3.10.1" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.10.0" PrivateAssets="all" />
+    <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj" />
+    <ProjectReference Include="..\Vocaluxe\Vocaluxe.csproj" />
+    <ProjectReference Include="..\PartyModes\PartyModeChallenge\PartyModeChallenge.csproj" />
   </ItemGroup>
+
+  <!-- Test data: copied next to the test assembly preserving the VocaluxeLib/XML/TestFiles layout. -->
   <ItemGroup>
-    <Compile Include="PartyModeChallenge\CPartyModeChallangeTest.cs" />
-    <Content Include="VocaluxeLib\Log\CLogTest.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>CLogTest.cs</LastGenOutput>
-    </Content>
-    <Compile Include="VocaluxeLib\Log\CBenchmarkTest.cs" />
-    <Compile Include="VocaluxeLib\Log\CLogTest.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CLogTest.tt</DependentUpon>
-    </Compile>
-    <Compile Include="VocaluxeLib\Log\Rolling\CLogFileRollerTest.cs" />
-    <Compile Include="VocaluxeLib\Utils\Combinatorics\CCombinationsTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VocaluxeLib\XML\CXmlSerializerTest.cs" />
+    <None Include="VocaluxeLib/XML/TestFiles/**/*.xml" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
-  <ItemGroup>
-    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PartyModes\PartyModeChallenge\PartyModeChallenge.csproj">
-      <Project>{5a4053f1-5ad5-441f-b254-d97a088127b6}</Project>
-      <Name>PartyModeChallenge</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\VocaluxeLib\VocaluxeLib.csproj">
-      <Project>{D2B6DDEF-E0E1-4DDF-A73A-E6ACEF5C95EC}</Project>
-      <Name>VocaluxeLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Vocaluxe\Vocaluxe.csproj">
-      <Project>{2a1e0f2d-5392-4bb7-b0a1-a9dfa13e79ff}</Project>
-      <Name>Vocaluxe</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="VocaluxeLib\XML\TestFiles\Dictionary`2.xml" />
-    <Content Include="VocaluxeLib\XML\TestFiles\SConfig.xml" />
-    <Content Include="VocaluxeLib\XML\TestFiles\SDefaultFonts.xml" />
-    <Content Include="VocaluxeLib\XML\TestFiles\SSkin.xml" />
-    <Content Include="VocaluxeLib\XML\TestFiles\STheme.xml" />
-    <Content Include="VocaluxeLib\XML\TestFiles\SThemeCover.xml" />
-    <Content Include="VocaluxeLib\XML\TestFiles\SThemeScreen.xml" />
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
+
 </Project>

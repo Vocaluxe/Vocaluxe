@@ -20,7 +20,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
 using Vocaluxe.Base;
-using Vocaluxe.Reporting;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 using VocaluxeLib.PartyModes.Challenge;

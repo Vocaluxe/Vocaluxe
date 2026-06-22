@@ -30,7 +30,7 @@ namespace Tests.VocaluxeLib.XML
     [TestFixture]
     public class CXmlSerializerTest
     {
-        private const string _Head = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n";
+        private const string _Head = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
         private const string _Empty = _Head + @"<root />";
 
         #region Tests
@@ -406,7 +406,7 @@ namespace Tests.VocaluxeLib.XML
         [Test]
         public void TestRealFiles([Values(typeof(SThemeCover), typeof(CConfig.SConfig), /*typeof(SThemeScreen),*/ typeof(SDefaultFonts), typeof(SSkin), typeof(STheme), typeof(Dictionary<string, string>))] Type type)
         {
-            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "VocaluxeLib", "XML", "TestFiles");
+            string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "VocaluxeLib", "XML", "TestFiles");
 
             string xmlPath = Path.Combine(filePath, type.Name + ".xml");
             var deser = new CXmlDeserializer();

@@ -52,7 +52,11 @@ namespace VocaluxeLib.Xml
             {
                 Indent = true,
                 Encoding = Encoding.UTF8,
-                ConformanceLevel = ConformanceLevel.Document
+                ConformanceLevel = ConformanceLevel.Document,
+                // Force LF so written XML is byte-for-byte identical across platforms. The default is
+                // the platform line ending (CRLF on Windows, LF elsewhere), which made config/theme
+                // files differ per OS and broke the serializer round-trip tests on Linux.
+                NewLineChars = "\n"
             };
 
         /// <summary>

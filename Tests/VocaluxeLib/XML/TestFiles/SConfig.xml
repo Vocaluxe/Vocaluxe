@@ -15,7 +15,7 @@
     <SaveModifiedSongs>TR_CONFIG_OFF</SaveModifiedSongs>
   </Debug>
   <Graphics>
-    <Renderer>TR_CONFIG_DIRECT3D</Renderer>
+    <Renderer>TR_CONFIG_OPENGL</Renderer>
     <TextureQuality>TR_CONFIG_TEXTURE_MEDIUM</TextureQuality>
     <CoverSize>256</CoverSize>
     <NumScreens>1</NumScreens>
