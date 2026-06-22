@@ -50,3 +50,50 @@ jobs:
           name: Vocaluxe-linux-x86_64
           path: dist/Vocaluxe-x86_64.AppImage
           if-no-files-found: error
+
+  windows-x64:
+    name: Windows (x64)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+
+      - name: Set up .NET 10 SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish self-contained win-x64
+        run: dotnet publish Vocaluxe/Vocaluxe.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -o dist-win
+
+      - name: Add game data + party-mode sources
+        shell: pwsh
+        run: |
+          Copy-Item -Recurse -Force Output/* dist-win/
+          foreach ($pm in @(@('PartyModeChallenge','Challenge'), @('PartyModeTicTacToe','TicTacToe'))) {
+            $dst = "dist-win/PartyModes/$($pm[1])/Code"
+            New-Item -ItemType Directory -Force -Path $dst | Out-Null
+            Copy-Item -Force "PartyModes/$($pm[0])/*.cs" $dst
+          }
+
+      # The native C++ helpers (PitchTracker, acinerella + its FFmpeg DLLs, portaudio) are not built
+      # here; reuse the ones from the official Windows nightly - they are framework-agnostic and the
+      # P/Invoke signatures are unchanged, so they work with our managed build. Program.Main adds
+      # libs/unmanaged[/x64] to the DLL search path at startup.
+      - name: Add native libraries from the official Windows nightly
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release download Nightly -R Vocaluxe/Vocaluxe --pattern '*Windows_x64.zip' -O nightly.zip
+          Expand-Archive nightly.zip -DestinationPath nightly
+          New-Item -ItemType Directory -Force -Path dist-win/libs/unmanaged/x64 | Out-Null
+          Copy-Item nightly/libs/unmanaged/*.dll dist-win/libs/unmanaged/
+          Copy-Item nightly/libs/unmanaged/x64/*.dll dist-win/libs/unmanaged/x64/
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v7
+        with:
+          name: Vocaluxe-windows-x64
+          path: dist-win
+          if-no-files-found: error
