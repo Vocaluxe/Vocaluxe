@@ -18,10 +18,9 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-# Needed so the test reporter can publish its results as a GitHub check.
+# Read-only token: the test reporter writes to the Actions job summary, which needs no write scope.
 permissions:
   contents: read
-  checks: write
 
 jobs:
   build-test:
