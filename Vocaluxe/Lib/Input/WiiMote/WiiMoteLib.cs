@@ -214,9 +214,9 @@ namespace Vocaluxe.Lib.Input.WiiMote
         {
             if (!CHIDApi.Init())
             {
-                CLog.Error("WiiMoteLib: Can't initialize HID API");
-                CLog.Error("Please install the Visual C++ Redistributable Packages 2008!");
-
+                // CHIDApi.Init() already logs why hidapi is unavailable (and how to install it). Don't
+                // add the old Windows-only "install Visual C++ Redistributable 2008" message, which is
+                // wrong on Linux/macOS and fired on every start when the WiiMote isn't used.
                 _Error = true;
             }
         }
