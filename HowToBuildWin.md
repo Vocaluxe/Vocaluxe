@@ -60,7 +60,8 @@ DLLs out of the official Windows nightly.)
 Vocaluxe.exe
 ```
 
-User config, profiles, songs and logs go to `%APPDATA%\Vocaluxe\`.
+User config, profiles, songs and logs are written **next to `Vocaluxe.exe`** (the portable build stores its
+data in the program folder; only the installer build uses `Documents\Vocaluxe\`).
 
 ---
 

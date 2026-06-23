@@ -25,6 +25,11 @@ Supported Operating Systems / Requirements:
 - 1 GHz CPU, 512 MB RAM, a graphics card with **OpenGL 2.1+** support
 - On Windows: the Visual C++ Redistributable (for the native helper libraries)
 
+**Where your data lives:** configuration (`Config.xml`), singer profiles, songs, playlists, the
+high-score / cover databases, screenshots and logs (`Logs/`) are stored in a per-OS user-data folder:
+- **Linux** and **macOS**: `~/.config/Vocaluxe/` (or `$XDG_CONFIG_HOME/Vocaluxe`)
+- **Windows**: next to `Vocaluxe.exe` (portable build) — the installer build instead uses `Documents\Vocaluxe\`
+
 
 ## 2. Download
 You can download precompiled Windows binaries at here:
