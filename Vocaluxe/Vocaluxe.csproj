@@ -204,8 +204,8 @@
     <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" Version="3.0.3" />
     <PackageReference Include="vocaluxe.dependencies.aforgevideo" Version="1.0.1" />
     <PackageReference Include="vocaluxe.dependencies.csharpsqlite" Version="1.0.1" />
-    <PackageReference Include="vocaluxe.dependencies.ffmpeg" Version="1.0.6" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
-    <PackageReference Include="vocaluxe.dependencies.gstreamer" Version="1.0.3" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
+    <PackageReference Include="vocaluxe.dependencies.ffmpeg" Version="1.1.0" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
+    <PackageReference Include="vocaluxe.dependencies.gstreamer" Version="1.1.0" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
     <PackageReference Include="vocaluxe.dependencies.gstreamersharp" Version="1.0.1" />
     <PackageReference Include="vocaluxe.dependencies.hidapi" Version="1.0.4" Condition="'$(Configuration)' != 'ReleaseLinux' AND '$(Configuration)' != 'DebugLinux'" />
     <PackageReference Include="vocaluxe.dependencies.opentk" Version="1.0.1" />

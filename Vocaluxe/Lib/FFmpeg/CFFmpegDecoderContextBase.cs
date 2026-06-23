@@ -109,11 +109,6 @@ namespace Vocaluxe.Lib.FFmpeg
 
             lock (_SourceStream)
             {
-                if (!_SourceStream.CanSeek)
-                {
-                    return -1;
-                }
-
                 return whence == ffmpeg.AVSEEK_SIZE ?
                     _SourceStream.Length :
                     _SourceStream.Seek(offset, (SeekOrigin)whence);
@@ -122,8 +117,14 @@ namespace Vocaluxe.Lib.FFmpeg
 
         private bool _InitIOContext()
         {
+            if (!_SourceStream.CanRead)
+            {
+                CLog.Error("The source stream is not readable");
+                return false;
+            }
+
             _ReadSourceStreamCallback = _ReadSourceStream;
-            _SeekSourceStreamCallback = _SeekSourceStream;
+            _SeekSourceStreamCallback = _SourceStream.CanSeek ? _SeekSourceStream : null;
 
             var ioBuffer = (byte*)ffmpeg.av_malloc(FFmpegHelper.IOBufferSize);
             if (ioBuffer == null)

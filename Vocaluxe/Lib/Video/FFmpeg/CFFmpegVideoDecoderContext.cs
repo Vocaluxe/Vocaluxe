@@ -25,20 +25,17 @@ namespace Vocaluxe.Lib.Video.FFmpeg
 
         private static (int, int) _ComputeFinalSize(AVStream* avStream)
         {
-            decimal? maxHeight = CConfig.Config.Graphics.TextureQuality switch
-            {
-                ETextureQuality.TR_CONFIG_TEXTURE_LOWEST => 360,
-                ETextureQuality.TR_CONFIG_TEXTURE_LOW => 480,
-                ETextureQuality.TR_CONFIG_TEXTURE_MEDIUM => 720,
-                ETextureQuality.TR_CONFIG_TEXTURE_HIGH => 1080,
-                _ => null
-            };
-
-            decimal sizeFactor = 1;
             var streamHeight = avStream->codecpar->height;
+            if (CConfig.Config.FFmpeg.VideoDownscaleResolution == EVideoDownscaleResolution.TR_CONFIG_SCALING_DISABLED)
+            {
+                return (avStream->codecpar->width, streamHeight);
+            }
+
+            var maxHeight = (int)CConfig.Config.FFmpeg.VideoDownscaleResolution;
+            decimal sizeFactor = 1;
             if (streamHeight > maxHeight)
             {
-                sizeFactor = maxHeight.Value / streamHeight;
+                sizeFactor = (decimal)maxHeight / streamHeight;
             }
 
             return ((int)(avStream->codecpar->width * sizeFactor), (int)(streamHeight * sizeFactor));

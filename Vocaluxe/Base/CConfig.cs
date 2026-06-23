@@ -139,9 +139,10 @@ namespace Vocaluxe.Base
 
         public struct SConfigFFmpeg
         {
+            [DefaultValue(@"libs\unmanaged\ffmpeg")]
             public string FFmpegPath;
-            [DefaultValue("8.1")]
-            public string VersionToDownload;
+            [DefaultValue(EVideoDownscaleResolution.TR_CONFIG_SCALING_DISABLED)]
+            public EVideoDownscaleResolution VideoDownscaleResolution;
         }
 
         public struct SConfigSound
@@ -633,6 +634,10 @@ namespace Vocaluxe.Base
                         "Threshold of songs for that covers will not longer be included in get-all-songs-requests (e.g. song list) (default: 70) [-1..65535] -1 => always deliver covers";
                 case "Stretch":
                     return "Stretch view to full window size: " + CHelper.ListStrings(Enum.GetNames(typeof(EOffOn)));
+                case "FFmpegPath":
+                    return "The path to FFmpeg binaries";
+                case "VideoDownscaleResolution":
+                    return "The resolution to which you want to downscale videos: " + CHelper.ListStrings(Enum.GetNames(typeof(EVideoDownscaleResolution)));
                 default:
                     return null;
             }

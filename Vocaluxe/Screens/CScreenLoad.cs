@@ -20,6 +20,7 @@ using System.Threading;
 using System.Windows.Forms;
 using Vocaluxe.Base;
 using Vocaluxe.Lib;
+using Vocaluxe.Lib.FFmpeg;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
