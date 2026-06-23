@@ -31,6 +31,10 @@ namespace Vocaluxe.Base.Fonts
     static class CFonts
     {
         private static bool _IsInitialized;
+
+        /// <summary>Whether the font system is ready (default fonts loaded). Text drawing before this is a no-op.</summary>
+        public static bool IsInitialized => _FontFamilies.Count > 0;
+
         private static readonly List<SFontFamily> _FontFamilies = new List<SFontFamily>();
         private static readonly List<String> _LoggedMissingFonts = new List<string>();
 

@@ -16,10 +16,14 @@
 #endregion
 
 using System;
+using System.IO;
 using System.Threading;
 using Vocaluxe.Base;
+using Vocaluxe.Base.Fonts;
+using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
+using VocaluxeLib.Log;
 using System.Diagnostics;
 using Vocaluxe.Base.Server;
 
@@ -376,6 +380,108 @@ namespace Vocaluxe.Lib.Draw
         /// <summary>
         ///     Starts the rendering
         /// </summary>
+        /// <summary>
+        ///     Makes the render window visible. No-op for backends without a separate window object.
+        /// </summary>
+        protected virtual void _ShowWindow() {}
+
+        private CTextureRef _SplashLogo;
+        private CTextureRef _SplashWhite;
+        private CTextureRef _SplashBg;
+        private string _SplashStatus = "Loading…";
+
+        /// <summary>
+        ///     Shows the startup splash (program logo on a black background, with an empty progress bar)
+        ///     in the render window, so the user sees branding immediately instead of nothing while the
+        ///     rest of the (multi-second) initialization runs. Call once right after the draw backend is
+        ///     initialized; drive the bar afterwards with <see cref="UpdateSplash" />.
+        /// </summary>
+        public void ShowSplash()
+        {
+            string logoPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameLogo);
+            if (File.Exists(logoPath))
+                _SplashLogo = AddTexture(logoPath);
+            else
+                CLog.Error("Splash logo not found: " + logoPath);
+
+            // 1x1 white texture, tinted per-draw, used to paint the progress bar (DrawRect lives only in
+            // the concrete backend, but DrawTexture is available here).
+            _SplashWhite = AddTexture(1, 1, new byte[] {255, 255, 255, 255});
+
+            _ShowWindow();
+            _DoResize(); // set up viewport + projection so render-space coordinates map correctly
+            _DrawSplashFrame(0f);
+        }
+
+        /// <summary>
+        ///     Redraws the splash with the progress bar filled to <paramref name="progress" /> (0..1) and
+        ///     an optional status caption (only rendered once the font system is ready - drawing text
+        ///     before that is a no-op). Also pumps window events so the splash stays responsive.
+        /// </summary>
+        public void UpdateSplash(float progress, string status = null)
+        {
+            if (status != null)
+                _SplashStatus = status;
+            _DrawSplashFrame(progress < 0f ? 0f : (progress > 1f ? 1f : progress));
+        }
+
+        private void _DrawSplashFrame(float progress)
+        {
+            _OnBeforeDraw();
+            _ClearScreen();
+
+            float renderW = CSettings.RenderW;
+            float renderH = CSettings.RenderH;
+
+            // Once the theme is loaded (not during the first few splash frames) use the loading screen's
+            // background, which already includes the program logo, so the splash blends seamlessly into
+            // the loading screen that follows. Before that, fall back to the logo centered on black.
+            if (_SplashBg == null)
+            {
+                // Throws (KeyNotFoundException) until the theme/skin is loaded - that's expected for the
+                // first few splash frames; swallow it and keep the logo-on-black fallback until then.
+                try { _SplashBg = CThemes.GetSkinTexture("BG_Loading", -1); }
+                catch { /* theme not loaded yet */ }
+            }
+
+            if (_SplashBg != null)
+            {
+                DrawTexture(_SplashBg, new SRectF(0f, 0f, renderW, renderH, 0f), new SColorF(1f, 1f, 1f, 1f));
+            }
+            else if (_SplashLogo != null)
+            {
+                // Center the logo, preserving aspect ratio and fitting it within 80% width / 50% height.
+                float scale = Math.Min(renderW * 0.8f / _SplashLogo.OrigSize.Width, renderH * 0.5f / _SplashLogo.OrigSize.Height);
+                float w = _SplashLogo.OrigSize.Width * scale;
+                float h = _SplashLogo.OrigSize.Height * scale;
+                DrawTexture(_SplashLogo, new SRectF((renderW - w) / 2f, (renderH - h) / 2f, w, h, 0f), new SColorF(1f, 1f, 1f, 1f));
+            }
+
+            // Progress bar near the bottom: faint track + brighter fill.
+            if (_SplashWhite != null)
+            {
+                float barW = renderW * 0.5f;
+                float barH = renderH * 0.012f;
+                float barX = (renderW - barW) / 2f;
+                float barY = renderH * 0.82f;
+                DrawTexture(_SplashWhite, new SRectF(barX, barY, barW, barH, 0f), new SColorF(1f, 1f, 1f, 0.2f));
+                if (progress > 0f)
+                    DrawTexture(_SplashWhite, new SRectF(barX, barY, barW * progress, barH, 0f), new SColorF(1f, 1f, 1f, 0.9f));
+
+                // Status caption below the bar - only once fonts are loaded (early in init they are not,
+                // and CFonts.DrawText would be a no-op then).
+                if (!string.IsNullOrEmpty(_SplashStatus) && CFonts.IsInitialized)
+                {
+                    var font = new CFont("Normal", EStyle.Normal, renderH * 0.028f);
+                    float textW = CFonts.GetTextWidth(_SplashStatus, font);
+                    CFonts.DrawText(_SplashStatus, font, (renderW - textW) / 2f, barY + barH + renderH * 0.02f, CSettings.ZNear,
+                                    new SColorF(1f, 1f, 1f, 0.9f));
+                }
+            }
+
+            _OnAfterDraw();
+        }
+
         public virtual void MainLoop()
         {
             // ReSharper restore UnusedMemberHiearchy.Global

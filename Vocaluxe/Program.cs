@@ -165,6 +165,10 @@ namespace Vocaluxe
                             throw new CLoadingException("drawing");
                     }
 
+                    // Show the logo splash right away so the user sees branding while the rest of the
+                    // (multi-second) init runs, instead of a blank screen / no window.
+                    CDraw.ShowSplash();
+
 
                     // Init Playback
                     using (CBenchmark.Time("Init Playback"))
@@ -196,6 +200,7 @@ namespace Vocaluxe
                         if (!CDataBase.Init())
                             throw new CLoadingException("database");
                     }
+                    CDraw.UpdateSplash(0.15f);
 
 
                     //Init Webcam
@@ -239,6 +244,7 @@ namespace Vocaluxe
                     {
                         CThemes.Load();
                     }
+                    CDraw.UpdateSplash(0.4f);
 
 
                     // Load Cover
@@ -278,14 +284,17 @@ namespace Vocaluxe
                         CProfiles.Update();
                         CConfig.UsePlayers();
                     }
+                    CDraw.UpdateSplash(0.55f);
 
 
-                    // Init Party Modes
+                    // Init Party Modes (slowest step: each party mode is compiled from source). Map its
+                    // per-mode progress onto the remaining splash bar so it advances instead of freezing.
                     using (CBenchmark.Time("Init Party Modes"))
                     {
-                        if (!CParty.Init())
+                        if (!CParty.Init(p => CDraw.UpdateSplash(0.55f + 0.42f * p, "Loading party modes…")))
                             throw new CLoadingException("Party Modes");
                     }
+                    CDraw.UpdateSplash(1f, "Starting…");
 
                     //Only reasonable point to call GC.Collect() because initialization may cause lots of garbage
                     //Rely on GC doing its job afterwards and call Dispose methods where appropriate

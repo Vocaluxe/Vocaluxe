@@ -41,7 +41,9 @@ namespace Vocaluxe.Base
         private static Stopwatch _VolumePopupTimer;
         private static bool _CursorOverVolumeControl;
 
-        public static float GlobalAlpha { get; private set; }
+        // Default opaque so drawing works before CGraphics.Init() runs (e.g. the startup splash);
+        // CGraphics.Init() resets it to 1f anyway.
+        public static float GlobalAlpha { get; private set; } = 1f;
 
         public static float ZOffset { get; private set; }
 

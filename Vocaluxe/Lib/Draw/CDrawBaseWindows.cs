@@ -25,6 +25,7 @@ using GlfwKeys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Vocaluxe.Base;
 using VKeys = VocaluxeLib.Keys;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Draw
 {
@@ -39,6 +40,7 @@ namespace Vocaluxe.Lib.Draw
         protected NativeWindow _Window;
         private Vector2i _RestoreLocation;
         private Vector2i _RestoreSize;
+        private WindowBorder _RestoreBorder;
 
         public override void Close()
         {
@@ -57,8 +59,37 @@ namespace Vocaluxe.Lib.Draw
 
             _RestoreLocation = _Window.Location;
             _RestoreSize = _Window.ClientSize;
+            _RestoreBorder = _Window.WindowBorder;
 
+#if WIN
+            // Windows: any window that EXACTLY covers a monitor (exclusive GLFW WindowState.Fullscreen
+            // OR a borderless window sized to the monitor) gets promoted by Windows to fullscreen-
+            // exclusive present, whose path freezes our manually-driven render loop — SwapBuffers keeps
+            // succeeding but the visible front buffer never updates (app looks stuck on the first
+            // frame). Work around it with a borderless window sized 1px taller than the monitor: it
+            // still looks fullscreen (the extra row is off-screen) but stays on the composited (DWM)
+            // present path, which works. Linux/macOS keep native fullscreen.
+            try
+            {
+                MonitorInfo monitor = Monitors.GetMonitorFromWindow(_Window);
+                Vector2i size = monitor.ClientArea.Size;
+                _Window.WindowBorder = WindowBorder.Hidden;
+                _Window.WindowState = WindowState.Normal;
+                _Window.Location = monitor.ClientArea.Min;
+                _Window.ClientSize = new Vector2i(size.X, size.Y + 1);
+                CLog.Information("Windows borderless fullscreen: " + size.X + "x" + size.Y + " (+1px to stay composited)");
+            }
+            catch (Exception e)
+            {
+                // Never let fullscreen setup kill startup — fall back to a normal maximized window.
+                CLog.Error("Borderless fullscreen setup failed, falling back to windowed: " + e);
+                _Window.WindowBorder = _RestoreBorder;
+                _Window.WindowState = WindowState.Maximized;
+                _Fullscreen = false;
+            }
+#else
             _Window.WindowState = WindowState.Fullscreen;
+#endif
             _DoResize();
         }
 
@@ -68,6 +99,7 @@ namespace Vocaluxe.Lib.Draw
             _Fullscreen = false;
 
             _Window.WindowState = WindowState.Normal;
+            _Window.WindowBorder = _RestoreBorder;
             _Window.ClientSize = _RestoreSize;
             _Window.Location = _RestoreLocation;
         }
@@ -226,6 +258,11 @@ namespace Vocaluxe.Lib.Draw
             _Window.CenterWindow();
 
             return true;
+        }
+
+        protected override void _ShowWindow()
+        {
+            _Window.IsVisible = true;
         }
 
         public override void MainLoop()

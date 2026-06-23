@@ -23,6 +23,8 @@ namespace Vocaluxe.Lib.Draw
     interface IDraw
     {
         bool Init();
+        void ShowSplash();
+        void UpdateSplash(float progress, string status = null);
         void MainLoop();
         void Close();
 

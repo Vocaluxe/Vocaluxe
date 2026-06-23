@@ -41,7 +41,7 @@ namespace Vocaluxe.Base
         private static IPartyMode _CurrentPartyMode;
 
         #region public stuff
-        public static bool Init()
+        public static bool Init(Action<float> onProgress = null)
         {
             if (_PartyModes.Count > 0)
                 return false; //Already initialized
@@ -57,7 +57,7 @@ namespace Vocaluxe.Base
             Debug.Assert(_CurrentPartyMode != null && _CurrentPartyMode.ID == -1);
 
             //load other party modes
-            _LoadPartyModes();
+            _LoadPartyModes(onProgress);
             return _CurrentPartyMode.Init();
         }
 
@@ -187,17 +187,24 @@ namespace Vocaluxe.Base
         #endregion Interface
 
         #region private stuff
-        private static void _LoadPartyModes()
+        private static void _LoadPartyModes(Action<float> onProgress = null)
         {
             var files = new List<string>();
             files.AddRange(CHelper.ListFiles(CSettings.FolderNamePartyModes, "*.xml", false, true));
 
-            foreach (string file in files)
+            for (int i = 0; i < files.Count; i++)
             {
+                // Each party mode is compiled from source (Roslyn) here, which is the slowest part of
+                // startup - report progress per mode so the splash bar advances instead of freezing.
+                if (onProgress != null)
+                    onProgress(files.Count == 0 ? 1f : i / (float)files.Count);
+
                 SPartyMode pm;
-                if (_LoadPartyMode(file, out pm))
+                if (_LoadPartyMode(files[i], out pm))
                     _PartyModes.Add(pm.PartyMode.ID, pm);
             }
+            if (onProgress != null)
+                onProgress(1f);
         }
 
         private static bool _LoadPartyMode(string filePath, out SPartyMode pm)

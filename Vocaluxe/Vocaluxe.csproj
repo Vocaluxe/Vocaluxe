@@ -2,7 +2,9 @@
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
-    <OutputType>Exe</OutputType>
+    <!-- WinExe = Windows GUI subsystem: no console window pops up on launch (the game window is the UI).
+         On Linux/macOS WinExe is treated identically to Exe, so this stays cross-platform. -->
+    <OutputType>WinExe</OutputType>
     <RootNamespace>Vocaluxe</RootNamespace>
     <AssemblyName>Vocaluxe</AssemblyName>
     <StartupObject>Vocaluxe.CMainProgram</StartupObject>

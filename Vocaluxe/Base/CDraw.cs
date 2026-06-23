@@ -60,6 +60,23 @@ namespace Vocaluxe.Base
         }
 
         /// <summary>
+        ///     Shows the startup splash (program logo) in the render window so the user sees branding
+        ///     immediately while the remaining initialization runs. Call once after <see cref="Init" />.
+        /// </summary>
+        public static void ShowSplash()
+        {
+            _Draw.ShowSplash();
+        }
+
+        /// <summary>
+        ///     Updates the startup splash progress bar (0..1). See <see cref="ShowSplash" />.
+        /// </summary>
+        public static void UpdateSplash(float progress, string status = null)
+        {
+            _Draw.UpdateSplash(progress, status);
+        }
+
+        /// <summary>
         ///     Has to be called to start rendering <br />
         ///     Will only return if program is closed <br />
         ///     Also inits the first screen
