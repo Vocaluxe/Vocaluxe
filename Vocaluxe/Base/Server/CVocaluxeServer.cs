@@ -707,13 +707,13 @@ namespace Vocaluxe.Base.Server
                 result.SongId = song.Id;
                 if (includeCover)
                 {
-                    if (song.CoverFileName == "")
+                    if (song.Cover == "")
                     {
                         result.Cover = new CBase64Image(_CreateDelayedImage("Website\\img\\noCover.png"));
                     }
                     else
                     {
-                        result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.CoverFileName));
+                        result.Cover = new CBase64Image(_CreateDelayedImage(song.Folder + "\\" + song.Cover));
                     }
                 }
             }

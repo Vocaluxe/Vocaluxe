@@ -108,11 +108,11 @@ namespace Vocaluxe.Base
             {
                 _CancelToken.Token.ThrowIfCancellationRequested();
                 var coverBmp = !_CoverGenerators.ContainsKey(type)
-                    ? null : _CoverGenerators[type].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+                    ? null : _CoverGenerators[type].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.Cover) : null);
                 _CancelToken.Token.ThrowIfCancellationRequested();
                 if (coverBmp == null && _CoverGenerators.ContainsKey(ECoverGeneratorType.Default))
                 {
-                    coverBmp = _CoverGenerators[ECoverGeneratorType.Default].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null);
+                    coverBmp = _CoverGenerators[ECoverGeneratorType.Default].GetCover(text, firstSong != null ? Path.Combine(firstSong.Folder, firstSong.Cover) : null);
                 }
 
                 _CancelToken.Token.ThrowIfCancellationRequested();

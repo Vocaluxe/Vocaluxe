@@ -104,7 +104,7 @@ namespace Vocaluxe.Base
             String searchForLanguage = null; // l:
             String searchForCreator = null; // c:
             String searchForEdition = null; // e:
-            String searchForTags = null; // #:
+            String searchForTag = null; // #:
             String searchForAlbum = null; // al:
             String searchForFileName = null; // fi:
             String searchForFolderName = null; // fo:
@@ -146,7 +146,7 @@ namespace Vocaluxe.Base
                             searchForEdition = searchToken.Substring(2);
                             break;
                         case "#:":
-                            searchForTags = searchToken.Substring(2);
+                            searchForTag = searchToken.Substring(2);
                             break;
                         default:
                             foundIt = false;
@@ -230,11 +230,6 @@ namespace Vocaluxe.Base
                             _FilteredSongs.Add(song);
                         }
 
-                        if (searchForCreator != null && song.Creator.ToUpper().Contains(searchForCreator))
-                        {
-                            _FilteredSongs.Add(song);
-                        }
-
                         if (searchForFileName != null && song.FileName.ToUpper().Contains(searchForFileName))
                         {
                             _FilteredSongs.Add(song);
@@ -245,48 +240,29 @@ namespace Vocaluxe.Base
                             _FilteredSongs.Add(song);
                         }
 
-                        if (searchForGenre != null)
+                        if (searchForCreator != null && song.Creators.Any(t => t.ToUpper().Contains(searchForCreator)))
                         {
-                            foreach (var genre in song.Genres)
-                            {
-                                if (genre.ToUpper().Contains(searchForGenre))
-                                {
-                                    _FilteredSongs.Add(song);
-                                }
-                            }
+                            _FilteredSongs.Add(song);
                         }
 
-                        if (searchForLanguage != null)
+                        if (searchForGenre != null && song.Genres.Any(t => t.ToUpper().Contains(searchForGenre)))
                         {
-                            foreach (var language in song.Languages)
-                            {
-                                if (language.ToUpper().Contains(searchForLanguage))
-                                {
-                                    _FilteredSongs.Add(song);
-                                }
-                            }
+                            _FilteredSongs.Add(song);
                         }
 
-                        if (searchForEdition != null)
+                        if (searchForLanguage != null && song.Languages.Any(t => t.ToUpper().Contains(searchForLanguage)))
                         {
-                            foreach (var edition in song.Editions)
-                            {
-                                if (edition.ToUpper().Contains(searchForEdition))
-                                {
-                                    _FilteredSongs.Add(song);
-                                }
-                            }
+                            _FilteredSongs.Add(song);
                         }
 
-                        if (searchForTags != null)
+                        if (searchForEdition != null && song.Editions.Any(t => t.ToUpper().Contains(searchForEdition)))
                         {
-                            foreach (var tag in song.Tags)
-                            {
-                                if (tag.ToUpper().Contains(searchForTags))
-                                {
-                                    _FilteredSongs.Add(song);
-                                }
-                            }
+                            _FilteredSongs.Add(song);
+                        }
+
+                        if (searchForTag != null && song.Tags.Any(t => t.ToUpper().Contains(searchForTag)))
+                        {
+                            _FilteredSongs.Add(song);
                         }
 
                         if (searchForYear != null)

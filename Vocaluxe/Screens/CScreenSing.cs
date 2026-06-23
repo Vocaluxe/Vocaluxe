@@ -1591,9 +1591,9 @@ namespace Vocaluxe.Screens
             }
 
             _VideoAspect = song.VideoAspect;
-            if (!string.IsNullOrEmpty(song.VideoFileName))
+            if (!string.IsNullOrEmpty(song.Video))
             {
-                _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.VideoFileName));
+                _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.Video));
                 CVideo.Skip(_CurrentVideo, song.Start, song.VideoGap);
             }
 
