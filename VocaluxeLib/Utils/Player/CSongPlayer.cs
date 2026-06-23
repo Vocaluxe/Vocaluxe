@@ -53,8 +53,8 @@ namespace VocaluxeLib.Utils.Player
         {
             get
             {
-                return _Song != null && !String.IsNullOrEmpty(_Song.Folder) && !String.IsNullOrEmpty(_Song.VideoFileName) &&
-                       File.Exists(Path.Combine(_Song.Folder, _Song.VideoFileName));
+                return _Song != null && !String.IsNullOrEmpty(_Song.Folder) && !String.IsNullOrEmpty(_Song.Video) &&
+                       File.Exists(Path.Combine(_Song.Folder, _Song.Video));
             }
         }
 
@@ -111,7 +111,7 @@ namespace VocaluxeLib.Utils.Player
             if (_Video != null || !SongHasVideo)
                 return;
 
-            string videoFilePath = Path.Combine(_Song.Folder, _Song.VideoFileName);
+            string videoFilePath = Path.Combine(_Song.Folder, _Song.Video);
             _Video = CBase.Video.Load(videoFilePath);
             if (_Video == null)
                 return;

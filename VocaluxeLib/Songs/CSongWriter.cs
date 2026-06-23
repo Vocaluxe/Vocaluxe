@@ -58,44 +58,44 @@ namespace VocaluxeLib.Songs
                     _WriteHeaderEntry(id, value.ToString());
             }
 
-            private void _WriteHeaderEntrys(string id, ICollection<string> value)
+            private void _WriteHeaderEntries(string id, ICollection<string> value)
             {
-                if (value == null || value.Count <= 0)
+                if (value is not { Count: > 0 })
                     return;
-                foreach (String val in value)
-                    _WriteHeaderEntry(id, val);
+                _WriteHeaderEntry(id, String.Join(",", value));
             }
 
             private void _WriteHeader()
             {
                 if (_Song.ManualEncoding)
                     _WriteHeaderEntry("ENCODING", _Song.Encoding.GetEncodingName());
-                _WriteHeaderEntry("CREATOR", _Song.Creator);
+
                 _WriteHeaderEntry("VERSION", _Song.Version);
                 _WriteHeaderEntry("LENGTH", _Song.Length);
                 _WriteHeaderEntry("SOURCE", _Song.Source);
-                if (!String.IsNullOrEmpty(_Song._Comment))
-                {
-                    string comment = _Song._Comment.Replace("\r\n", "\n").Replace('\r', '\n');
-                    char[] splitChar = {'\n'};
-                    _WriteHeaderEntrys("COMMENT", comment.Split(splitChar));
-                }
+                _WriteHeaderEntry("COMMENT", _Song._Comment);
+
                 _WriteHeaderEntry("TITLE", _Song.Title);
                 _WriteHeaderEntry("ARTIST", _Song.Artist);
                 if (!_Song.Title.Equals(_Song.TitleSorting))
                     _WriteHeaderEntry("TITLE-ON-SORTING", _Song.TitleSorting);
                 if (!_Song.Artist.Equals(_Song.ArtistSorting))
                     _WriteHeaderEntry("ARTIST-ON-SORTING", _Song.ArtistSorting);
-                _WriteHeaderEntrys("EDITION", _Song.Editions);
-                _WriteHeaderEntrys("GENRE", _Song.Genres);
-                _WriteHeaderEntry("TAGS", String.Join(",", _Song.Tags.ToArray()));
-                _WriteHeaderEntrys("LANGUAGE", _Song.Languages);
+                _WriteHeaderEntries("CREATOR", _Song.Creators);
+                _WriteHeaderEntries("EDITION", _Song.Editions);
+                _WriteHeaderEntries("GENRE", _Song.Genres);
+                _WriteHeaderEntries("TAGS", _Song.Tags);
+                _WriteHeaderEntries("LANGUAGE", _Song.Languages);
                 _WriteHeaderEntry("ALBUM", _Song.Album);
                 _WriteHeaderEntry("YEAR", _Song.Year);
-                _WriteHeaderEntry("MP3", _Song.MP3FileName);
-                _WriteHeaderEntry("COVER", _Song.CoverFileName);
-                _WriteHeaderEntrys("BACKGROUND", _Song.BackgroundFileNames);
-                _WriteHeaderEntry("VIDEO", _Song.VideoFileName);
+                _WriteHeaderEntry("MP3", _Song.Audio);
+                _WriteHeaderEntry("COVER", _Song.Cover);
+                // This is a custom behaviour, normally multiple backgrounds is not supported in official US format
+                foreach (var songBackgroundFileName in _Song.BackgroundFileNames)
+                {
+                    _WriteHeaderEntry("BACKGROUND", songBackgroundFileName);
+                }
+                _WriteHeaderEntry("VIDEO", _Song.Video);
                 _WriteHeaderEntry("VIDEOGAP", _Song.VideoGap);
                 if (_Song.VideoAspect != EAspect.Crop)
                     _WriteHeaderEntry("VIDEOASPECT", _Song.VideoAspect.ToString());

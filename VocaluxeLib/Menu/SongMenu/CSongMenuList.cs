@@ -282,7 +282,7 @@ namespace VocaluxeLib.Menu.SongMenu
                 _SongYear.Text = song.Year;
                 _DuetIcon.Visible = song.IsDuet;
                 _RapIcon.Visible = song.IsRap;
-                _VideoIcon.Visible = song.VideoFileName != "";
+                _VideoIcon.Visible = song.Video != "";
                 _MedleyCalcIcon.Visible = song.Medley.Source == EDataSource.Calculated;
                 _MedleyTagIcon.Visible = song.Medley.Source == EDataSource.Tag;
                 _InstrumentalIcon.Visible = song.HasInstrumental();

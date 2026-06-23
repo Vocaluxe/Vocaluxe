@@ -99,7 +99,7 @@ namespace Vocaluxe.Base
             Task.Factory.StartNew(() =>
                 {
                     _CancelToken.Token.ThrowIfCancellationRequested();
-                    string coverPath = firstSong != null ? Path.Combine(firstSong.Folder, firstSong.CoverFileName) : null;
+                    string coverPath = firstSong != null ? Path.Combine(firstSong.Folder, firstSong.Cover) : null;
                     int w = 0, h = 0;
                     byte[] coverData = _CoverGenerators.ContainsKey(type)
                                            ? _CoverGenerators[type].GetCover(text, coverPath, out w, out h) : null;
