@@ -1,0 +1,52 @@
+name: 'Build & test'
+description: 'Restore, build (Release) and unit-test the .NET 10 solution, publishing a per-OS test report.'
+
+# Shared by the per-OS test jobs in ci.yml so each OS gates its own package build (test-<os> -> <os> build)
+# without waiting for the other OSes. Repo must already be checked out before this action runs.
+
+inputs:
+  os:
+    description: 'Short OS label used in the report / artifact names (linux | windows | macos).'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Set up .NET 10 SDK
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: '10.0.x'
+        cache: true
+        cache-dependency-path: '**/*.csproj'
+
+    - name: Restore
+      shell: bash
+      run: dotnet restore Tests/Tests.csproj
+
+    # Builds the whole chain (VocaluxeLib + Vocaluxe + PartyModeChallenge + Tests), so a compile
+    # break in any OS-conditional path fails here.
+    - name: Build (Release)
+      shell: bash
+      run: dotnet build Tests/Tests.csproj -c Release --no-restore
+
+    - name: Test
+      shell: bash
+      run: dotnet test Tests/Tests.csproj -c Release --no-build --logger "trx;LogFileName=test-results.trx"
+
+    # Publish the results as a readable GitHub check (pass/fail per test) instead of digging in logs.
+    - name: Publish test report
+      if: always()
+      uses: dorny/test-reporter@v3
+      with:
+        name: tests (${{ inputs.os }})
+        path: '**/*.trx'
+        reporter: dotnet-trx
+        fail-on-error: false
+
+    - name: Upload test results
+      if: always()
+      uses: actions/upload-artifact@v7
+      with:
+        name: test-results-${{ inputs.os }}
+        path: '**/*.trx'
+        if-no-files-found: ignore

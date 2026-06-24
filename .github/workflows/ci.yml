@@ -4,10 +4,12 @@ name: CI
 # Verifies that the OS-conditional code paths (WIN / LINUX / MACOS defines) compile and the unit tests
 # pass on Linux, Windows and macOS - the build breaks we cannot see when developing only on Linux.
 #
-# Two stages in ONE workflow (one Actions entry):
-#   1. build-test  - managed build + `dotnet test` on all three OS (the gate).
-#   2. package-*    - self-contained per-OS artifacts, each `needs: build-test`, so they only run after
-#                     the tests are green. Gated to the feature branch / manual dispatch (not every PR).
+# Two stages in ONE workflow (one Actions entry), pipelined PER OS:
+#   1. test-<os>   - managed build + `dotnet test` on that OS (the gate for that OS).
+#   2. <os> build  - self-contained artifact, `needs: test-<os>` - so e.g. the Linux build starts as soon
+#                    as the Linux tests are green without waiting for Windows/macOS, and a failing test on
+#                    one OS does not block the other OSes' artifacts. Gated to the feature branch / dispatch.
+# (The shared test steps live in the local composite action .github/actions/build-test.)
 #
 # Scope: `dotnet test` only touches VocaluxeLib / managed code (no native libs or display). The native
 # helpers (PitchTracker/Acinerella) are built in the package stage; the GUI/audio/rendering are not
@@ -30,62 +32,42 @@ permissions:
   contents: read
 
 jobs:
-  build-test:
-    name: build & test (${{ matrix.os }})
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ ubuntu-latest, windows-latest, macos-latest ]
-
+  # One test job per OS (instead of a matrix) so each can gate its own package build via needs:.
+  test-linux:
+    name: build & test (linux)
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Set up .NET 10 SDK
-        uses: actions/setup-dotnet@v5
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/build-test
         with:
-          dotnet-version: '10.0.x'
-          cache: true
-          cache-dependency-path: '**/*.csproj'
+          os: linux
 
-      - name: Restore
-        run: dotnet restore Tests/Tests.csproj
-
-      # Builds the whole chain (VocaluxeLib + Vocaluxe + PartyModeChallenge + Tests), so a compile
-      # break in any OS-conditional path fails here.
-      - name: Build (Release)
-        run: dotnet build Tests/Tests.csproj -c Release --no-restore
-
-      - name: Test
-        run: dotnet test Tests/Tests.csproj -c Release --no-build --logger "trx;LogFileName=test-results.trx"
-
-      # Publish the results as a readable GitHub check (pass/fail per test) instead of digging in logs.
-      - name: Publish test report
-        if: always()
-        uses: dorny/test-reporter@v3
+  test-windows:
+    name: build & test (windows)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/build-test
         with:
-          name: tests (${{ matrix.os }})
-          path: '**/*.trx'
-          reporter: dotnet-trx
-          fail-on-error: false
+          os: windows
 
-      - name: Upload test results
-        if: always()
-        uses: actions/upload-artifact@v7
+  test-macos:
+    name: build & test (macos)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/build-test
         with:
-          name: test-results-${{ matrix.os }}
-          path: '**/*.trx'
-          if-no-files-found: ignore
+          os: macos
 
   # ---------------------------------------------------------------------------------------------------
-  # Test builds - produced only after the whole build-test matrix is green (needs: build-test), and only
-  # on the feature branch or a manual dispatch (not on every PR / branch). Self-contained per-OS
-  # artifacts, NOT runtime-verified by CI - they exist so the ports can be tried on real hardware.
+  # Test builds - each produced as soon as ITS OS's tests are green (needs: test-<os>), and only on the
+  # feature branch or a manual dispatch (not on every PR / branch). Self-contained per-OS artifacts,
+  # NOT runtime-verified by CI - they exist so the ports can be tried on real hardware.
   # ---------------------------------------------------------------------------------------------------
   linux-appimage:
     name: Linux (AppImage)
-    needs: build-test
+    needs: test-linux
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/feature/768-net10-crossplatform'
     # Build on the oldest supported runner for a lower glibc baseline = runs on more distros.
     runs-on: ubuntu-22.04
@@ -123,7 +105,7 @@ jobs:
 
   windows-x64:
     name: Windows (x64)
-    needs: build-test
+    needs: test-windows
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/feature/768-net10-crossplatform'
     runs-on: windows-latest
     steps:
@@ -196,7 +178,7 @@ jobs:
 
   macos-arm64:
     name: macOS (arm64, experimental)
-    needs: build-test
+    needs: test-macos
     if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/feature/768-net10-crossplatform'
     runs-on: macos-latest
     steps:
