@@ -676,10 +676,10 @@ namespace Vocaluxe.Base.Server
             return _SongInfoCache;
         }
 
-        public static string GetMp3Path(int songId)
+        public static string GetAudioPath(int songId)
         {
             var song = CSongs.GetSong(songId);
-            return song.GetMP3();
+            return song.GetAudioPath();
         }
 
         public static int GetCurrentSongId()

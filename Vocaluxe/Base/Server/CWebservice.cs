@@ -350,7 +350,7 @@ namespace Vocaluxe.Base.Server
             }
 
 
-            var path = CVocaluxeServer.DoTask(CVocaluxeServer.GetMp3Path, songId);
+            var path = CVocaluxeServer.DoTask(CVocaluxeServer.GetAudioPath, songId);
             path = path.Replace("..", "");
 
 

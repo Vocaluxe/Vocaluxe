@@ -106,7 +106,7 @@ namespace VocaluxeLib.Songs
                 _WriteHeaderEntries("LANGUAGE", _Song.Languages);
                 _WriteHeaderEntry("ALBUM", _Song.Album);
                 _WriteHeaderEntry("YEAR", _Song.Year);
-                _WriteHeaderEntry("MP3", _Song.Audio);
+                _WriteHeaderEntry("AUDIO", _Song.Audio);
                 _WriteHeaderEntry("COVER", _Song.Cover);
                 // This is a custom behaviour, normally multiple backgrounds is not supported in official US format
                 foreach (var songBackgroundFileName in _Song.BackgroundFileNames)

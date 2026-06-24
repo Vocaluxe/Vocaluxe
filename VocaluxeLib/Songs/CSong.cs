@@ -308,34 +308,53 @@ namespace VocaluxeLib.Songs
             return writer.SaveFile(filePath);
         }
 
-        public string GetMP3()
+        public string GetAudioPath()
         {
-            return Path.Combine(Folder, Audio);
+            return _GetFilePathIfExist(AudioFileName);
         }
 
         public string GetInstrumental()
         {
-            return Path.Combine(Folder, Instrumental);
+            return _GetFilePathIfExist(InstrumentalFileName);
         }
 
-        public bool HasInstrumental()
-        {
-            return !string.IsNullOrEmpty(Instrumental);
-        }
+        public bool HasInstrumental => _FileExist(InstrumentalFileName);
 
         public string GetVocals()
         {
-            return Path.Combine(Folder, Vocals);
+            return _GetFilePathIfExist(VocalsFileName);
         }
 
-        public bool HasVocals()
+        public bool HasVocals => _FileExist(VocalsFileName);
+
+        public bool HasVideo => _FileExist(VideoFileName);
+
+        private bool _FileExist(string fileName)
         {
-            return !string.IsNullOrEmpty(Vocals);
+            return !string.IsNullOrEmpty(_GetFilePathIfExist(fileName));
         }
 
-        public string GetVideo()
+        private string _GetFilePathIfExist(string fileName)
         {
-            return Path.Combine(Folder, Video);
+            if (string.IsNullOrEmpty(Folder) || string.IsNullOrEmpty(fileName))
+            {
+                return null;
+            }
+
+            var filePath = Path.Combine(Folder, fileName);
+            return File.Exists(filePath) ? filePath : null;
+        }
+
+        public Stream GetVideoStream()
+        {
+            var videoPath = _GetFilePathIfExist(VideoFileName);
+            if (!string.IsNullOrEmpty(videoPath))
+            {
+                return new FileStream(videoPath, FileMode.Open, FileAccess.Read);
+            }
+
+            CLog.Error($"Video file {videoPath} doesn't exist");
+            return null;
         }
 
         public void LoadSmallCover()

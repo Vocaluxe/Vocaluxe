@@ -295,19 +295,19 @@ namespace Vocaluxe.Screens
 
             _previousVideoElapsedMilliseconds = 0f;
 
-            var path = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameCreditsVideo);
-            if (File.Exists(path))
+            var creditVideoPath = Path.Combine(CSettings.ProgramFolder, CSettings.FolderNameGraphics, CSettings.FileNameCreditsVideo);
+            if (File.Exists(creditVideoPath))
             {
                 // Load the video if not already loaded
                 if (_BackgroundVideo == null)
                 {
-                    _BackgroundVideo = CVideo.Load(path);
+                    _BackgroundVideo = CVideo.LoadStream(new FileStream(creditVideoPath, FileMode.Open, FileAccess.Read));
                     CVideo.SetLoop(_BackgroundVideo, true); // Set the video to loop
                 }
             }
             else
             {
-                CLog.Error("Background video not found: " + path);
+                CLog.Error("Background video not found: " + creditVideoPath);
             }
 
             foreach (var element in _ScrollingElements)

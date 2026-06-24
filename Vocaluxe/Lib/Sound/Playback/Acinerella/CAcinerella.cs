@@ -19,7 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 
-namespace Vocaluxe.Lib.Video.Acinerella
+namespace Vocaluxe.Lib.Sound.Playback.Acinerella
 {
     // ReSharper disable UnusedMember.Global
     public enum EACStreamType : sbyte

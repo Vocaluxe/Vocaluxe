@@ -15,21 +15,18 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.Runtime.InteropServices;
-
-namespace Vocaluxe.Lib.Video.Acinerella
+namespace Vocaluxe.Lib.Video
 {
-    class CFramebuffer
+    class CVideoFramebuffer
     {
         public class CFrame
         {
-            private readonly CFramebuffer _Parent;
+            private readonly CVideoFramebuffer _Parent;
             private readonly int _Index;
             public readonly byte[] Data;
             public float Time = -1;
 
-            public CFrame(CFramebuffer parent, int index, int dataSize)
+            public CFrame(CVideoFramebuffer parent, int index, int dataSize)
             {
                 _Parent = parent;
                 _Index = index;
@@ -53,7 +50,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         public int Size { get; }
 
         // Constructs a framebuffer with max. size frames
-        public CFramebuffer(int size)
+        public CVideoFramebuffer(int size)
         {
             Size = size;
             _Frames = new CFrame[size];
@@ -89,7 +86,7 @@ namespace Vocaluxe.Lib.Video.Acinerella
         }
 
         //Only call from writer thread
-        public bool Put(IntPtr data, float time)
+        public unsafe bool Put(byte* data, float time)
         {
             if (!_Initialized || IsFull())
             {
@@ -97,7 +94,10 @@ namespace Vocaluxe.Lib.Video.Acinerella
             }
 
             var frame = _Frames[_Last];
-            Marshal.Copy(data, frame.Data, 0, _DataSize);
+            for (var i = 0; i < _DataSize; i++)
+            {
+                frame.Data[i] = data[i];
+            }
             frame.Time = time;
             return true;
         }

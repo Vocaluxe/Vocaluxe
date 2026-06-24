@@ -19,6 +19,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
+using System.IO;
 using Vocaluxe.Base.Fonts;
 using Vocaluxe.Base.ThemeSystem;
 using VocaluxeLib;
@@ -832,9 +833,9 @@ namespace Vocaluxe.Base
 
     class CBvideo : IVideo
     {
-        public CVideoStream Load(string videoUri)
+        public CVideoStream LoadStream(Stream stream)
         {
-            return CVideo.Load(videoUri);
+            return CVideo.LoadStream(stream);
         }
 
         public bool Skip(CVideoStream stream, float startPosition, float videoGap)

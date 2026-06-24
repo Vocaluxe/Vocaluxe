@@ -15,11 +15,12 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
+using System.IO;
 using VocaluxeLib;
 
 namespace Vocaluxe.Lib.Video
 {
-    interface IVideoDecoder
+    interface IVideoDecoderContainer
     {
         /// <summary>
         ///     Initializes videodecoder. Got to be called before usage
@@ -35,9 +36,9 @@ namespace Vocaluxe.Lib.Video
         /// <summary>
         ///     Loads the file with the given file path.
         /// </summary>
-        /// <param name="videoFileName">Absolute file path of the video file</param>
+        /// <param name="stream">Video stream</param>
         /// <returns>Loaded video stream or null on failure</returns>
-        CVideoStream Load(string videoFileName);
+        CVideoStream LoadStream(Stream stream);
 
         /// <summary>
         ///     Closes the stream with the given Id
@@ -56,7 +57,7 @@ namespace Vocaluxe.Lib.Video
         /// </summary>
         /// <param name="stream">Id of the stream</param>
         /// <returns>Length of the video in s</returns>
-        float GetLength(CVideoStream stream);
+        float GetDuration(CVideoStream stream);
 
         /// <summary>
         ///     Gets a frame of the video and sets the current video time
