@@ -197,7 +197,7 @@ namespace VocaluxeLib.Songs
                                 if (File.Exists(Path.Combine(_Song.Folder, value)))
                                 {
                                     _Song.Audio = value;
-                                    headerFlags |= EHeaderFlags.MP3;
+                                    headerFlags |= EHeaderFlags.AUDIO;
                                 }
                                 else
                                 {
@@ -495,9 +495,9 @@ namespace VocaluxeLib.Songs
                         return false;
                     }
 
-                    if ((headerFlags & EHeaderFlags.MP3) == 0)
+                    if ((headerFlags & EHeaderFlags.AUDIO) == 0)
                     {
-                        CLog.CSongLog.Error("[{SongFileName}] MP3 or AUDIO tag missing", CLog.Params(_Song.FileName));
+                        CLog.CSongLog.Error("[{SongFileName}] AUDIO tag missing", CLog.Params(_Song.FileName));
                         return false;
                     }
 

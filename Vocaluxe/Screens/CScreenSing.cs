@@ -1559,12 +1559,12 @@ namespace Vocaluxe.Screens
 
             if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_INSTRUMENTAL || CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_KARAOKE)
             {
-                _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, EAudioEffect.None);
+                _CurrentStream = CSound.Load(song.GetInstrumentalPath(), false, true, EAudioEffect.None);
             }
             else if (CScreenSong.GetAudioMode() == EAudioMode.TR_AUDIOMODE_VOCALS)
             {
-                _CurrentStream = CSound.Load(song.GetInstrumental(), false, true, EAudioEffect.None);
-                _CurrentStreamVocals = CSound.Load(song.GetVocals(), false, true, EAudioEffect.None);
+                _CurrentStream = CSound.Load(song.GetInstrumentalPath(), false, true, EAudioEffect.None);
+                _CurrentStreamVocals = CSound.Load(song.GetVocalsPath(), false, true, EAudioEffect.None);
                 CSound.SetStreamVolume(_CurrentStreamVocals, CConfig.VocalsVolume);
                 CSound.SetPosition(_CurrentStreamVocals, song.Start);
             }
@@ -1591,10 +1591,10 @@ namespace Vocaluxe.Screens
             }
 
             _VideoAspect = song.VideoAspect;
-            if (!string.IsNullOrEmpty(song.Video))
+            var videoStream = song.GetVideoStream();
             if (videoStream != null)
             {
-                _CurrentVideo = CVideo.Load(Path.Combine(song.Folder, song.Video));
+                _CurrentVideo = CVideo.LoadStream(videoStream);
                 CVideo.Skip(_CurrentVideo, song.Start, song.VideoGap);
             }
 

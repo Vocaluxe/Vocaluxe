@@ -43,7 +43,7 @@ namespace VocaluxeLib.Songs
     {
         Title = 1,
         Artist = 2,
-        MP3 = 4,
+        AUDIO = 4,
         Instrumental = 5,
         Vocals = 6,
         Bpm = 8,
@@ -310,24 +310,24 @@ namespace VocaluxeLib.Songs
 
         public string GetAudioPath()
         {
-            return _GetFilePathIfExist(AudioFileName);
+            return _GetFilePathIfExist(Audio);
         }
 
-        public string GetInstrumental()
+        public string GetInstrumentalPath()
         {
-            return _GetFilePathIfExist(InstrumentalFileName);
+            return _GetFilePathIfExist(Instrumental);
         }
 
-        public bool HasInstrumental => _FileExist(InstrumentalFileName);
+        public bool HasInstrumental => _FileExist(Instrumental);
 
-        public string GetVocals()
+        public string GetVocalsPath()
         {
-            return _GetFilePathIfExist(VocalsFileName);
+            return _GetFilePathIfExist(Vocals);
         }
 
-        public bool HasVocals => _FileExist(VocalsFileName);
+        public bool HasVocals => _FileExist(Vocals);
 
-        public bool HasVideo => _FileExist(VideoFileName);
+        public bool HasVideo => _FileExist(Video);
 
         private bool _FileExist(string fileName)
         {
@@ -347,7 +347,7 @@ namespace VocaluxeLib.Songs
 
         public Stream GetVideoStream()
         {
-            var videoPath = _GetFilePathIfExist(VideoFileName);
+            var videoPath = _GetFilePathIfExist(Video);
             if (!string.IsNullOrEmpty(videoPath))
             {
                 return new FileStream(videoPath, FileMode.Open, FileAccess.Read);
