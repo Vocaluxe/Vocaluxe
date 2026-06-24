@@ -17,6 +17,7 @@
 
 using SkiaSharp;
 using Vocaluxe.Lib.Webcam;
+using VocaluxeLib;
 using VocaluxeLib.Draw;
 
 namespace Vocaluxe.Base
