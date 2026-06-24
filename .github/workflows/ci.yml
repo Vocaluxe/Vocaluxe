@@ -1,12 +1,18 @@
 name: CI
 
-# Cross-platform build & unit tests for the .NET 10 port (#768). Verifies that the OS-conditional
-# code paths (WIN / LINUX / MACOS defines) compile and the unit tests pass on Linux, Windows and
-# macOS - the build breaks we cannot see when developing only on Linux.
+# Cross-platform build & unit tests for the .NET 10 port (#768), plus per-OS downloadable test builds.
+# Verifies that the OS-conditional code paths (WIN / LINUX / MACOS defines) compile and the unit tests
+# pass on Linux, Windows and macOS - the build breaks we cannot see when developing only on Linux.
 #
-# Scope: managed build + `dotnet test` (the tests only touch VocaluxeLib / managed code, no native
-# libs or display). The native helpers (PitchTracker/Acinerella) and the GUI/audio/rendering are not
-# exercised here - those stay manual.
+# Two stages in ONE workflow (one Actions entry):
+#   1. build-test  - managed build + `dotnet test` on all three OS (the gate).
+#   2. package-*    - self-contained per-OS artifacts, each `needs: build-test`, so they only run after
+#                     the tests are green. Gated to the feature branch / manual dispatch (not every PR).
+#
+# Scope: `dotnet test` only touches VocaluxeLib / managed code (no native libs or display). The native
+# helpers (PitchTracker/Acinerella) are built in the package stage; the GUI/audio/rendering are not
+# exercised by CI at all - those stay manual. The packaged builds are NOT runtime-verified by CI (no
+# display/GPU/audio on runners); they exist so the Windows/macOS ports can be tried on real hardware.
 
 on:
   push:
@@ -18,7 +24,8 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
-# Read-only token: the test reporter writes to the Actions job summary, which needs no write scope.
+# Read-only token: the test reporter writes to the Actions job summary (no write scope), and the Windows
+# package job reads the public Vocaluxe nightly release for its native DLLs.
 permissions:
   contents: read
 
@@ -70,3 +77,185 @@ jobs:
           name: test-results-${{ matrix.os }}
           path: '**/*.trx'
           if-no-files-found: ignore
+
+  # ---------------------------------------------------------------------------------------------------
+  # Test builds - produced only after the whole build-test matrix is green (needs: build-test), and only
+  # on the feature branch or a manual dispatch (not on every PR / branch). Self-contained per-OS
+  # artifacts, NOT runtime-verified by CI - they exist so the ports can be tried on real hardware.
+  # ---------------------------------------------------------------------------------------------------
+  linux-appimage:
+    name: Linux (AppImage)
+    needs: build-test
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/feature/768-net10-crossplatform'
+    # Build on the oldest supported runner for a lower glibc baseline = runs on more distros.
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # full history + tags so the version target's `git describe` yields a real version
+
+      - name: Set up .NET 10 SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install native build/runtime deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            build-essential \
+            libavcodec-dev libavformat-dev libavutil-dev libswscale-dev libswresample-dev \
+            libportaudio2 libfontconfig1
+
+      - name: Build self-contained AppImage
+        env:
+          # appimagetool ships as an AppImage; run it without FUSE (not available on the runner).
+          APPIMAGE_EXTRACT_AND_RUN: '1'
+        run: ./.build/make-appimage.sh
+
+      - name: Upload AppImage
+        uses: actions/upload-artifact@v7
+        with:
+          name: Vocaluxe-linux-x86_64
+          path: dist/Vocaluxe-x86_64.AppImage
+          if-no-files-found: error
+
+  windows-x64:
+    name: Windows (x64)
+    needs: build-test
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/feature/768-net10-crossplatform'
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # full history + tags so the version target's `git describe` yields a real version
+
+      - name: Set up .NET 10 SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Publish self-contained win-x64
+        run: dotnet publish Vocaluxe/Vocaluxe.csproj -c Release -r win-x64 --self-contained true -p:DebugType=none -o dist-win
+
+      - name: Add game data + party-mode sources
+        shell: pwsh
+        run: |
+          Copy-Item -Recurse -Force Output/* dist-win/
+          foreach ($pm in @(@('PartyModeChallenge','Challenge'), @('PartyModeTicTacToe','TicTacToe'))) {
+            $dst = "dist-win/PartyModes/$($pm[1])/Code"
+            New-Item -ItemType Directory -Force -Path $dst | Out-Null
+            Copy-Item -Force "PartyModes/$($pm[0])/*.cs" $dst
+          }
+
+      # The official nightly provides the FFmpeg 4.x runtime DLLs (avcodec-58 = FFmpeg 4 API) and the
+      # unchanged PitchTracker.dll. FFmpeg headers come from the matching ffmpeg.org source release (soname
+      # 58 -> ABI compatible). This combo is verified to work; gyan/BtbN no longer host stable 4.x archives.
+      - name: Fetch native deps (nightly FFmpeg DLLs + PitchTracker, FFmpeg headers)
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $ErrorActionPreference = 'Stop'
+          gh release download Nightly -R Vocaluxe/Vocaluxe --pattern '*Windows_x64.zip' -O nightly.zip
+          Expand-Archive nightly.zip -DestinationPath nightly
+          Invoke-WebRequest 'https://ffmpeg.org/releases/ffmpeg-4.4.tar.xz' -OutFile ff.tar.xz
+          New-Item -ItemType Directory -Force -Path ffsrc | Out-Null
+          tar -xf ff.tar.xz -C ffsrc --strip-components=1
+          # avconfig.h is generated by ./configure and absent from the source tarball - provide a minimal
+          # one (x86 little-endian) so the public headers compile.
+          "#ifndef AVUTIL_AVCONFIG_H`n#define AVUTIL_AVCONFIG_H`n#define AV_HAVE_BIGENDIAN 0`n#define AV_HAVE_FAST_UNALIGNED 1`n#endif" | Set-Content ffsrc/libavutil/avconfig.h
+
+      # acinerella MUST be built from OUR source: the port forces S16 output and reports bit_depth=16,
+      # which the audio decoder requires. The nightly's acinerella reports 32 (float) for MP3, which made
+      # ALL audio fail on Windows (verified locally under Wine: our build reports 16, the nightly's 32).
+      - name: Build native acinerella from our source + assemble libs
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          New-Item -ItemType Directory -Force -Path dist-win/libs/unmanaged/x64 | Out-Null
+          $nat = "nightly/libs/unmanaged"
+          gcc --version
+          gcc -shared -O2 -o dist-win/libs/unmanaged/acinerella.dll Vocaluxe/Lib/Video/Acinerella/acinerella.c `
+            -I ffsrc `
+            "$nat/avformat-58.dll" "$nat/avcodec-58.dll" "$nat/avutil-56.dll" `
+            "$nat/swscale-5.dll" "$nat/swresample-3.dll" -lws2_32
+          # Ship the matching FFmpeg DLLs + the unchanged PitchTracker. portaudio.dll comes from the
+          # PortAudioSharp2 package in the app root, so it is not taken from the nightly.
+          Copy-Item "$nat/avformat-58.dll","$nat/avcodec-58.dll","$nat/avutil-56.dll","$nat/swscale-5.dll","$nat/swresample-3.dll" dist-win/libs/unmanaged/
+          Copy-Item "$nat/x64/PitchTracker.dll" dist-win/libs/unmanaged/x64/
+
+      - name: Upload Windows build
+        uses: actions/upload-artifact@v7
+        with:
+          name: Vocaluxe-windows-x64
+          path: dist-win
+          if-no-files-found: error
+
+  macos-arm64:
+    name: macOS (arm64, experimental)
+    needs: build-test
+    if: github.event_name == 'workflow_dispatch' || github.ref == 'refs/heads/feature/768-net10-crossplatform'
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 0   # full history + tags so the version target's `git describe` yields a real version
+
+      - name: Set up .NET 10 SDK
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install FFmpeg 4 / PortAudio / dylibbundler (Homebrew)
+        # acinerella.c targets the FFmpeg 4.x API (the Linux build uses 4.4, Windows ships avcodec-58),
+        # so pin ffmpeg@4 instead of the current 7.x where the channel-layout API was removed.
+        run: brew install ffmpeg@4 portaudio dylibbundler
+
+      - name: Publish self-contained osx-arm64
+        run: dotnet publish Vocaluxe/Vocaluxe.csproj -c Release -r osx-arm64 --self-contained true -p:DebugType=none -o dist-mac
+
+      - name: Build native helper PitchTracker
+        run: |
+          # Name it so .NET's "PitchTracker.dll" P/Invoke mangles to it on macOS (libNAME.dll.dylib).
+          # -fdeclspec: the headers use __declspec(dllexport) (GCC accepts it implicitly, clang needs this).
+          clang++ -std=gnu++11 -fPIC -fdeclspec -shared -O2 -o dist-mac/libPitchTracker.dll.dylib \
+            PitchTracker/compatibility.cpp PitchTracker/dywapitchtrack/dywapitchtrack.cpp \
+            PitchTracker/dywapitchtrack/ptDyWa.cpp PitchTracker/FFT/FFT.cpp PitchTracker/FFT/RealFFTf.cpp \
+            PitchTracker/Helper.cpp PitchTracker/performous/pitch.cc PitchTracker/ptAKF.cpp \
+            PitchTracker/PitchWrapper.cpp
+
+      - name: Build native helper acinerella (FFmpeg wrapper)
+        run: |
+          FF="$(brew --prefix ffmpeg@4)"
+          clang -fPIC -fdeclspec -shared -O2 -o dist-mac/libacinerella.dylib \
+            Vocaluxe/Lib/Video/Acinerella/acinerella.c \
+            -I"$FF/include" -L"$FF/lib" -lavformat -lavcodec -lavutil -lswscale -lswresample
+
+      - name: Bundle native dependencies relocatably (@loader_path)
+        run: |
+          cp "$(brew --prefix portaudio)"/lib/libportaudio*.dylib dist-mac/
+          # dylibbundler copies each lib's non-system deps next to the binaries and rewrites the
+          # install names to @loader_path, making the build self-contained.
+          dylibbundler -of -cd -b -x dist-mac/libacinerella.dylib -d dist-mac -p @loader_path/
+          for pa in dist-mac/libportaudio*.dylib; do
+            dylibbundler -of -cd -b -x "$pa" -d dist-mac -p @loader_path/
+          done
+
+      - name: Add game data + party-mode sources
+        run: |
+          cp -R Output/. dist-mac/
+          for pm in "PartyModeChallenge:Challenge" "PartyModeTicTacToe:TicTacToe"; do
+            mkdir -p "dist-mac/PartyModes/${pm##*:}/Code"
+            cp PartyModes/${pm%%:*}/*.cs "dist-mac/PartyModes/${pm##*:}/Code/"
+          done
+
+      - name: Upload macOS build
+        uses: actions/upload-artifact@v7
+        with:
+          name: Vocaluxe-macos-arm64
+          path: dist-mac
+          if-no-files-found: error

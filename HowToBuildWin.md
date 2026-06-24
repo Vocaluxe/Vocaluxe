@@ -51,8 +51,8 @@ Next to the built/published `Vocaluxe.exe`:
   * `acinerella.dll` + the FFmpeg `av*.dll` → `libs\unmanaged\`
   * `portaudio.dll` is already in the output via PortAudioSharp2.
 
-(This is exactly what the CI `package.yml` "Windows (x64)" job does — it publishes, then copies the native
-DLLs out of the official Windows nightly.)
+(This is exactly what the CI "Windows (x64)" job in `.github/workflows/ci.yml` does — it builds acinerella
+from source and copies the FFmpeg/PitchTracker DLLs out of the official Windows nightly.)
 
 ## 5. Run
 
