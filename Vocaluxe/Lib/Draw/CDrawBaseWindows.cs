@@ -21,10 +21,11 @@ using System.Diagnostics;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using GlfwKeys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
 using OpenTK.Windowing.GraphicsLibraryFramework;
 using Vocaluxe.Base;
-using GlfwKeys = OpenTK.Windowing.GraphicsLibraryFramework.Keys;
 using VKeys = VocaluxeLib.Keys;
+using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Draw
 {
