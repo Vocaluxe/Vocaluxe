@@ -57,7 +57,7 @@ namespace Vocaluxe.Lib.Input
                         return true;
                 }
             }
-            catch (Exception) {}
+            catch (Exception) { /* best-effort probe: any GLFW error here just means no gamepad is present */ }
             return false;
         }
 

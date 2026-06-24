@@ -147,9 +147,9 @@ namespace Vocaluxe.Lib.Webcam
                     if (!p.HasExited)
                         p.Kill();
                 }
-                catch (Exception) {}
+                catch (Exception) { /* best-effort teardown: the ffmpeg process may already have exited */ }
                 try { p.Dispose(); }
-                catch (Exception) {}
+                catch (Exception) { /* best-effort: ignore dispose errors during shutdown */ }
             }
 
             Thread t = _Thread;
@@ -157,7 +157,7 @@ namespace Vocaluxe.Lib.Webcam
             if (t != null && t.IsAlive)
             {
                 try { t.Join(500); }
-                catch (Exception) {}
+                catch (Exception) { /* best-effort: proceed even if the capture thread doesn't join in time */ }
             }
             // Keep the last frame so GetBitmap() right after Stop() (snapshot path) still works.
         }
@@ -420,7 +420,7 @@ namespace Vocaluxe.Lib.Webcam
                     if (File.Exists(full))
                         return full;
                 }
-                catch (Exception) {}
+                catch (Exception) { /* best-effort: skip unreadable PATH entries while probing for ffmpeg */ }
             }
             return null;
         }
