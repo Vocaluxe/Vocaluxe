@@ -109,10 +109,10 @@
 
       <_Informational Condition="'$(_Versioned)' == 'true'">$(_GitRaw)</_Informational>
       <_Tag Condition="'$(_Versioned)' == 'true'">$([System.Text.RegularExpressions.Regex]::Match($(_GitRaw), `^[^-]+`).Value)</_Tag>
-      <!-- First DOTTED numeric run in the tag, e.g. "0.4.1" (leading `v` like `v0.4.1` is tolerated; no `^`
-           anchor). Requires at least one dot so a bare commit hash from `git describe --always` on a
-           shallow/tagless checkout (e.g. "4117979a") is NOT mined for digits - "4117979" exceeds the 65534
-           AssemblyVersion-component limit (CS7034). No match -> falls back to 0.0.0 below. -->
+      <!-- First DOTTED numeric run in the tag, e.g. "0.4.1" (a leading `v` like `v0.4.1` is tolerated; no `^`
+           anchor). Requires at least one dot so a bare commit hash (git describe falls back to the hash on a
+           tagless/shallow checkout, e.g. "4117979a") is not mined for digits: "4117979" would exceed the
+           65534 AssemblyVersion-component limit and fail with CS7034. No match then falls back to 0.0.0. -->
       <_Numeric Condition="'$(_Versioned)' == 'true'">$([System.Text.RegularExpressions.Regex]::Match($(_Tag), `[0-9]+(\.[0-9]+)+`).Value)</_Numeric>
       <_Title Condition="'$(_Versioned)' == 'true'">Vocaluxe $(_Tag) ($(_Arch)) ($(_GitRaw))</_Title>
 
