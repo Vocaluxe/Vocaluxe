@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Profile;
 

@@ -17,7 +17,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Vocaluxe.Base;
+using PortAudioSharp;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Sound.Record.PortAudio
@@ -26,9 +26,9 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
     {
         private bool _Initialized;
         private CPortAudioHandle _PaHandle;
-        private PortAudioSharp.Stream[] _RecHandle;
+        private Stream[] _RecHandle;
         // Kept alive for the lifetime of the streams so the native side does not call collected delegates.
-        private PortAudioSharp.Stream.Callback[] _RecCallbacks;
+        private Stream.Callback[] _RecCallbacks;
 
         /// <summary>
         ///     Init PortAudio and list record devices
@@ -47,7 +47,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 int numDevices = PortAudioSharp.PortAudio.DeviceCount;
                 for (int i = 0; i < numDevices; i++)
                 {
-                    PortAudioSharp.DeviceInfo info = PortAudioSharp.PortAudio.GetDeviceInfo(i);
+                    DeviceInfo info = PortAudioSharp.PortAudio.GetDeviceInfo(i);
                     if (info.maxInputChannels > 0)
                     {
                         var dev = new CRecordDevice(i, info.name, info.name + i, info.maxInputChannels);
@@ -55,8 +55,8 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                     }
                 }
 
-                _RecHandle = new PortAudioSharp.Stream[_Devices.Count];
-                _RecCallbacks = new PortAudioSharp.Stream.Callback[_Devices.Count];
+                _RecHandle = new Stream[_Devices.Count];
+                _RecCallbacks = new Stream.Callback[_Devices.Count];
                 _Initialized = true;
             }
             catch (Exception e)
@@ -96,11 +96,11 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 if (!usingDevice)
                     continue;
 
-                var inputParams = new PortAudioSharp.StreamParameters
+                var inputParams = new StreamParameters
                 {
                     channelCount = _Devices[dev].Channels,
                     device = _Devices[dev].ID,
-                    sampleFormat = PortAudioSharp.SampleFormat.Int16,
+                    sampleFormat = SampleFormat.Int16,
                     suggestedLatency = PortAudioSharp.PortAudio.GetDeviceInfo(_Devices[dev].ID).defaultLowInputLatency,
                     hostApiSpecificStreamInfo = IntPtr.Zero
                 };
@@ -108,8 +108,8 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 // Per-device callback closure replaces the old shared-callback + userData(device index) scheme.
                 int devIndex = dev;
                 _RecCallbacks[dev] = (IntPtr input, IntPtr output, uint frameCount,
-                                      ref PortAudioSharp.StreamCallbackTimeInfo timeInfo,
-                                      PortAudioSharp.StreamCallbackFlags statusFlags, IntPtr userData)
+                                      ref StreamCallbackTimeInfo timeInfo,
+                                      StreamCallbackFlags statusFlags, IntPtr userData)
                     => _ProcessRecordData(devIndex, input, frameCount);
 
                 CLog.Information("[Rec] Opening device '" + _Devices[dev].Name + "' (PA-ID=" + _Devices[dev].ID +
@@ -117,7 +117,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                                  PortAudioSharp.PortAudio.GetDeviceInfo(_Devices[dev].ID).defaultSampleRate + ") @ 44100 Hz");
                 try
                 {
-                    _RecHandle[dev] = _PaHandle.OpenInputStream(inputParams, 44100, 882, PortAudioSharp.StreamFlags.NoFlag, _RecCallbacks[dev]);
+                    _RecHandle[dev] = _PaHandle.OpenInputStream(inputParams, 44100, 882, StreamFlags.NoFlag, _RecCallbacks[dev]);
                 }
                 catch (Exception ex)
                 {
@@ -158,7 +158,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             if (_RecHandle == null)
                 return true;
 
-            foreach (PortAudioSharp.Stream handle in _RecHandle)
+            foreach (Stream handle in _RecHandle)
             {
                 if (handle == null)
                     continue;
@@ -186,7 +186,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             {
                 Stop();
                 _CloseAllStreams();
-                _RecHandle = new PortAudioSharp.Stream[_Devices.Count];
+                _RecHandle = new Stream[_Devices.Count];
             }
 
             if (_PaHandle != null)
@@ -225,7 +225,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
             }
         }
 
-        private PortAudioSharp.StreamCallbackResult _ProcessRecordData(int devIndex, IntPtr input, uint frameCount)
+        private StreamCallbackResult _ProcessRecordData(int devIndex, IntPtr input, uint frameCount)
         {
             try
             {
@@ -246,7 +246,7 @@ namespace Vocaluxe.Lib.Sound.Record.PortAudio
                 CLog.Error("Error on Stream Callback (rec): " + e);
             }
 
-            return PortAudioSharp.StreamCallbackResult.Continue;
+            return StreamCallbackResult.Continue;
         }
     }
 }

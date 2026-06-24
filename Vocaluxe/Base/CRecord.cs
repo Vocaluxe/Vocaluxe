@@ -18,7 +18,6 @@
 using System.Collections.ObjectModel;
 using Vocaluxe.Lib.Sound.Record;
 using Vocaluxe.Lib.Sound.Record.PortAudio;
-using VocaluxeLib;
 
 namespace Vocaluxe.Base
 {

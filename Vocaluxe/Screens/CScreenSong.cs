@@ -108,7 +108,7 @@ namespace Vocaluxe.Screens
         private ISongMenu _SongMenu;
         private CPlaylist _Playlist;
 
-        private System.Timers.Timer _TimerShortInfoText;
+        private Timer _TimerShortInfoText;
 
         private static EAudioMode _AudioMode = EAudioMode.TR_AUDIOMODE_NORMAL;
 
@@ -210,7 +210,7 @@ namespace Vocaluxe.Screens
 
             _DragAndDropCover = GetNewStatic();
 
-            _TimerShortInfoText = new System.Timers.Timer(5000);
+            _TimerShortInfoText = new Timer(5000);
             _TimerShortInfoText.AutoReset = false;
             _TimerShortInfoText.Elapsed += OnTimedEventShortInfoText;
         }
@@ -1078,7 +1078,7 @@ namespace Vocaluxe.Screens
         private void _ShowHighscore()
         {
             CGame.ClearSongs();
-            CScreenSong.setStaticSelectedSongID(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID);
+            setStaticSelectedSongID(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].ID);
             _SongMenu.SetSelectedSong(_SongMenu.GetPreviewSongNr());
             CBase.Graphics.FadeTo(EScreen.Highscore);
         }

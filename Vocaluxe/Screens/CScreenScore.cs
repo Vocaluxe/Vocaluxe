@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Vocaluxe.Base;
@@ -26,7 +25,6 @@ using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {

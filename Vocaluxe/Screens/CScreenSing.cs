@@ -152,7 +152,7 @@ namespace Vocaluxe.Screens
         private CBackground _SlideShow;
         private SScreenSongOptions _Sso;
         
-        private System.Timers.Timer _TimerShortInfoText;
+        private Timer _TimerShortInfoText;
 
         public override EMusicType CurrentMusicType
         {
@@ -211,7 +211,7 @@ namespace Vocaluxe.Screens
             _TimerDuetText2 = new Stopwatch();
             _TimerStartCountdown = new Stopwatch();
 
-            _TimerShortInfoText = new System.Timers.Timer(5000);
+            _TimerShortInfoText = new Timer(5000);
             _TimerShortInfoText.AutoReset = false;
             _TimerShortInfoText.Elapsed += OnTimedEventShortInfoText;
         }

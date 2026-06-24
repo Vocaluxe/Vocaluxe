@@ -15,13 +15,10 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using VocaluxeLib.Log;
-using System.Linq;
-using System.Collections.Generic;
 using Vocaluxe.Base;
 using VocaluxeLib;
+using VocaluxeLib.Log;
 using VocaluxeLib.Menu;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -158,7 +155,7 @@ namespace Vocaluxe.Screens
                             _LeaveScreen();
                         }
 
-                        if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptions._OpenSongFolderDialog())
+                        if (_Buttons[_ButtonSelectSongFolder].Selected && _OpenSongFolderDialog())
                         {
                             _Texts[_TextWarningRestart].Visible = true;
                             _Statics[_StaticWarningRestart].Visible = true;
@@ -235,7 +232,7 @@ namespace Vocaluxe.Screens
                     _LeaveScreen();
                 }
 
-                if (_Buttons[_ButtonSelectSongFolder].Selected && CScreenOptions._OpenSongFolderDialog())
+                if (_Buttons[_ButtonSelectSongFolder].Selected && _OpenSongFolderDialog())
                 {
                     _Texts[_TextWarningRestart].Visible = true;
                     _Statics[_StaticWarningRestart].Visible = true;
@@ -254,7 +251,7 @@ namespace Vocaluxe.Screens
         {
             if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
             {
-                _WarningStream = CScreenOptions.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                _WarningStream = PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
                 _HasPlayedWarningSound = true;
             }
                     

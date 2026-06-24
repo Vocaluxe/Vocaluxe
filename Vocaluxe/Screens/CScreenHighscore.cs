@@ -23,7 +23,6 @@ using VocaluxeLib;
 using VocaluxeLib.Game;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Songs;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -230,7 +229,7 @@ namespace Vocaluxe.Screens
 
                     if (_ParticleEffects[_ParticleEffectNew[p]].Visible && !_HasPlayedHighscoreSound)
                     {
-                         _HighscoreStream = CScreenHighscore.PlaySound(ESounds.Highscore, CConfig.SoundEffectVolume);
+                         _HighscoreStream = PlaySound(ESounds.Highscore, CConfig.SoundEffectVolume);
                          _HasPlayedHighscoreSound = true;
                     }
                   }

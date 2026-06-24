@@ -18,8 +18,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Vocaluxe.Base;
-using Vocaluxe.Base.ThemeSystem;
-using Vocaluxe.Lib.Sound;
 using Vocaluxe.Lib.Sound.Record;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
@@ -228,7 +226,7 @@ namespace Vocaluxe.Screens
 
             if (_Texts[_TextWarning].Visible && !_HasPlayedWarningSound)
             {
-                 _WarningStream = CScreenOptionsRecord.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                 _WarningStream = PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
                  _HasPlayedWarningSound = true;
             }
 

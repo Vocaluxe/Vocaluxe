@@ -21,9 +21,8 @@ using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Draw;
 using VocaluxeLib.Menu;
-using VocaluxeLib.Songs;
 using VocaluxeLib.Profile;
-using Vocaluxe.Lib.Sound;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
@@ -591,7 +590,7 @@ namespace Vocaluxe.Screens
 
             if ((_Texts[_TextWarningMics].Visible || _Texts[_TextWarningProfiles].Visible) && !_HasPlayedWarningSound)
             {
-                _WarningStream = CScreenNames.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                _WarningStream = PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
                 _HasPlayedWarningSound = true;
             }
 

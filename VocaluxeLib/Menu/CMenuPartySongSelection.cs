@@ -17,8 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using VocaluxeLib;
-using VocaluxeLib.Draw;
 using VocaluxeLib.Songs;
 
 namespace VocaluxeLib.Menu

@@ -18,7 +18,6 @@
 using System;
 using System.Drawing;
 using System.Threading;
-using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Log;
 

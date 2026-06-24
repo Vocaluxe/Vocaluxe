@@ -17,7 +17,6 @@
 
 using System;
 using System.Collections.Generic;
-using VocaluxeLib;
 using System.Xml.Serialization;
 using VocaluxeLib.Songs;
 

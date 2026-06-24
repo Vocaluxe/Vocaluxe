@@ -15,8 +15,6 @@
 // along with Vocaluxe. If not, see <http://www.gnu.org/licenses/>.
 #endregion
 
-using System;
-using System.IO;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;

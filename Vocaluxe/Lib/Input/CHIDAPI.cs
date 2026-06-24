@@ -18,7 +18,6 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using Vocaluxe.Base;
 using VocaluxeLib.Log;
 
 namespace Vocaluxe.Lib.Input

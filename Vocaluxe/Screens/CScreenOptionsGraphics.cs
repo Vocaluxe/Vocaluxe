@@ -20,7 +20,6 @@ using System.IO;
 using Vocaluxe.Base;
 using VocaluxeLib;
 using VocaluxeLib.Menu;
-using Vocaluxe.Lib.Sound;
 
 namespace Vocaluxe.Screens
 {
@@ -148,7 +147,7 @@ namespace Vocaluxe.Screens
         {
             if (_Texts[_TextWarningRestart].Visible && !_HasPlayedWarningSound)
             {
-                 _WarningStream = CScreenOptionsGraphics.PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
+                 _WarningStream = PlaySound(ESounds.Warning, CConfig.SoundEffectVolume);
                  _HasPlayedWarningSound = true;
             }
             return true;
