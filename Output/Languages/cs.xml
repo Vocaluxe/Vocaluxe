@@ -265,6 +265,13 @@
   <string name="TR_SCREENOLYRICS_POSITION">Poloha textu písně</string>
   <string name="TR_SCREENOGRAPHICS_OPTIONS">Volby pro grafiku</string>
   <string name="TR_SCREENOGRAPHICS_TEXTUREQUALITY">Kvalita textury</string>
+  <string name="TR_SCREENOGRAPHICS_COVERSIZE">Velikost obalu (pixely)</string>
+  <string name="TR_SCREENOGRAPHICS_FULLSCREEN">Celá obrazovka</string>
+  <string name="TR_SCREENOGRAPHICS_STRETCH">Roztaženo</string>
+  <string name="TR_SCREENOSERVER_OPTIONS">Volby pro server</string>
+  <string name="TR_SCREENOSERVER_ACTIVE">Server v činnosti</string>
+  <string name="TR_SCREENOSERVER_ENCRYPTION">Šifrování serveru</string>
+  <string name="TR_SCREENOSERVER_BUTTON_SERVER">Adresa serveru</string>
   <string name="TR_SCREENOVIDEO_OPTIONS">Nastavení obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOBACKGROUNDS">Pozadí obrazu</string>
   <string name="TR_SCREENOVIDEO_VIDEOPREVIEW">Náhled obrazu</string>
@@ -281,6 +288,7 @@
   <string name="TR_SCREENOVIDEOADJUSTMENTS_BOTTOMRIGHT">Dole vpravo</string>
   <string name="TR_SCREENPVOLUMECONTROL_VOLUME">Hlasitost</string>
   <string name="TR_SCREENPSERVERQR_ADDRESS">Adresa serveru</string>
+  <string name="TR_SCREENPSERVERQR_NOTRUNNING">Server neběží. Zapněte jej, prosím, a hru spusťte znovu!</string>
   <string name="TR_REPORTER_TITLE_TEXT">Promiňte</string>
   <string name="TR_REPORTER_MESSAGE_CRASH_TEXT">Vocaluxe postihla chyba a spadl.\r\nPomožte nám opravit problém, pošlete hlášení.\r\nPro odstranění možná citlivých údajů před odesláním upravte následující zápis.</string>
   <string name="TR_REPORTER_MESSAGE_NO_CRASH_TEXT">, že jste zažili chybu.\r\nPomožte nám opravit problém, pošlete hlášení.\r\nPro odstranění možná citlivých údajů před odesláním upravte následující zápis.</string>
