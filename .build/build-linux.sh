@@ -3,19 +3,31 @@
 # Builds Vocaluxe for Linux into ./dist/Vocaluxe and writes a launcher ./dist/Vocaluxe.sh
 #
 # This is part of the cross-platform port (#768). It:
-#   1. compiles the native PitchTracker helper (libPitchTracker.dll.so)
+#   1. compiles the native helpers (libPitchTracker.dll.so, libacinerella.so)
 #   2. publishes the managed app with dotnet
 #   3. assembles the game data (Output/) next to the executable
-#   4. drops in the native helper library
+#   4. drops in the native helper libraries
+#   5. copies the party-mode sources Roslyn compiles at runtime
 #
 # Environment overrides:
 #   DOTNET         dotnet command/path        (default: dotnet)
 #   RID            runtime identifier          (default: linux-x64)
 #   SELFCONTAINED  bundle the .NET runtime     (default: true)
 #
+# Build dependencies (install via your package manager):
+#   build-essential (gcc/g++/make)
+#   ffmpeg dev headers: libavcodec-dev libavformat-dev libswscale-dev
+#                       libavutil-dev libswresample-dev
+#
 # System runtime dependencies (install via your package manager):
-#   libportaudio2  libfontconfig1  libSDL2-2.0-0
-#   (optional) gstreamer1.0  libhidapi-hidraw0 (HID/Wiimote)
+#   libportaudio2  libfontconfig1
+#   the ffmpeg runtime libs matching the headers above (libavcodec / libavformat /
+#   libavutil / libswscale / libswresample) -- Acinerella links against the system
+#   copies, so a self-contained publish does NOT bundle them
+#   (optional) libhidapi-hidraw0 (HID/Wiimote)
+#
+# Note: no SDL2. Windowing and GL go through OpenTK 4, which ships its own GLFW
+# native; SDL only survives in source comments.
 #
 set -euo pipefail
 
@@ -26,19 +38,19 @@ DOTNET="${DOTNET:-dotnet}"
 RID="${RID:-linux-x64}"
 SELFCONTAINED="${SELFCONTAINED:-true}"
 
-echo ">> [1/4] Building native helpers (PitchTracker, Acinerella)"
+echo ">> [1/5] Building native helpers (PitchTracker, Acinerella)"
 make -C "$ROOT/PitchTracker"
 # Acinerella (FFmpeg wrapper for audio/video decode) needs the ffmpeg dev headers
 # (libavcodec-dev libavformat-dev libswscale-dev libavutil-dev libswresample-dev).
 make -C "$ROOT/Vocaluxe/Lib/Video/Acinerella"
 
-echo ">> [2/4] Publishing managed app ($RID, self-contained=$SELFCONTAINED)"
+echo ">> [2/5] Publishing managed app ($RID, self-contained=$SELFCONTAINED)"
 rm -rf "$DIST"
 "$DOTNET" publish "$ROOT/Vocaluxe/Vocaluxe.csproj" \
     -c Release -r "$RID" --self-contained "$SELFCONTAINED" \
     -p:DebugType=none -o "$DIST"
 
-echo ">> [3/4] Copying game data (Themes, Graphics, Fonts, Languages, ...)"
+echo ">> [3/5] Copying game data (Themes, Graphics, Fonts, Languages, ...)"
 cp -ru "$ROOT/Output/." "$DIST/"
 # Windows-only leftovers
 rm -f "$DIST"/*.ico 2>/dev/null || true
