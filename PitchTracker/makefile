@@ -12,7 +12,7 @@ objects = \
 CPPFLAGS = -std=gnu++11 -fPIC
 
 PitchTracker: $(objects)
-	gcc -shared -o libPitchTracker.dll.so -fPIC $(objects)
+	g++ -shared -o libPitchTracker.dll.so -fPIC $(objects) -lm
 	strip libPitchTracker.dll.so
 	cp libPitchTracker.dll.so ../Output/
 
