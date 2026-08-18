@@ -24,6 +24,8 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Mathematics;
 using OpenTK.Windowing.Common;
 using OpenTK.Windowing.Desktop;
+using OpenTK.Windowing.GraphicsLibraryFramework;
+using VocaluxeLib.Log;
 using SkiaSharp;
 using Vocaluxe.Base;
 using VocaluxeLib;
@@ -103,6 +105,14 @@ namespace Vocaluxe.Lib.Draw
                 StartVisible = false,
                 Vsync = CConfig.Config.Graphics.VSync == EOffOn.TR_CONFIG_ON ? VSyncMode.On : VSyncMode.Off
             };
+
+            // OpenTK's default GLFW error handler turns EVERY GLFW error into an exception -
+            // including harmless "feature not available on this platform" reports. On Wayland,
+            // querying the window position is such a case (the protocol deliberately does not
+            // expose it to clients), which killed startup during "Init Draw". Log instead of throw.
+            GLFWProvider.SetErrorCallback((errorCode, description) =>
+                CLog.Error("GLFW: {ErrorCode} - {Description}",
+                    CLog.Params(errorCode, description)));
 
             _Window = new NativeWindow(settings);
             _Window.MakeCurrent();
