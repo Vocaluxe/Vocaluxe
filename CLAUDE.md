@@ -144,9 +144,54 @@ Wer Vocaluxe automatisiert testet, sollte das einkalkulieren — zwei
 aufeinanderfolgende `timeout`-Läufe sehen sonst wie ein sporadischer Absturz
 aus.
 
+## Audio-Eingang (Mikrofone)
+
+Interface: **Behringer Xenyx QX1002USB**, USB-Codec ist ein TI PCM2902
+(`08bb:2902`). Meldet sich als ALSA-Card `CODEC` und in PipeWire als
+„PCM2902 Audio Codec Analog Stereo". Kann **16 Bit, 48 kHz, Stereo** — mehr
+nicht, das reicht aber für zwei Spieler.
+
+Mikrofon: **the t.bone MB 45 II**, dynamisch, Superniere. Braucht **keine**
+Phantomspeisung, +48 V bleibt aus.
+
+### Falle: `USB/2-TR TO MAIN MIX` schaltet die Aufnahme stumm
+
+Der Mixer hat zwei Taster in der Gruppe `USB/2-TR`. Der zweite,
+**`TO MAIN MIX`, muss ausgerastet sein.** Aus dem Handbuch:
+
+> USB/2-TR TO MAIN MIX button routes USB/2-Track playback to MAIN MIX and
+> **mutes the 2-TR OUT/USB recording signal.**
+
+Gedrückt verhält sich der Aufbau wie ein Defekt: Mixer arbeitet, alle Lampen
+reagieren, der Kompressor zeigt Signal — und der Rechner bekommt trotzdem
+digitale Stille bei −90 dBFS. Zum Mithören des Rechnertons ist der *erste*
+Taster (`TO PHONES/CTRL RM`) zuständig, der den Aufnahmeweg nicht antastet.
+Für Karaoke wird keiner von beiden gebraucht, der Ton kommt direkt aus dem
+Rechner.
+
+### Spielertrennung über Panorama
+
+Der USB-Aufnahmeweg trägt die **Hauptmischung**, sein Pegel hängt am
+MAIN-MIX-Fader. Beide Mikrofone landen deshalb per Default summiert auf beiden
+Kanälen — für Vocaluxe unbrauchbar, beide Spieler sähen dasselbe Signal.
+
+Trennung entsteht erst durch hartes Panning: **MIC 1 ganz nach links,
+MIC 2 ganz nach rechts.** Gemessen mit MIC 1 hart links: 59 % Spitzenpegel
+links gegen 0,9 % rechts, also **36 dB Kanaltrennung** — für die
+Tonhöhenerkennung mehr als genug.
+
+Pegel prüfen ohne Vocaluxe:
+
+```bash
+arecord -D pipewire -f S16_LE -c 2 -r 48000 -d 6 /tmp/mic.wav
+```
+
+`-D pipewire` statt `-D hw:CODEC,0`, dann kollidiert es nicht mit einer
+laufenden Instanz — der PCM2902 lässt sich nur exklusiv öffnen.
+
 ## Offen
 
-- **Mikrofone**: noch nichts angeschlossen. Vocaluxe braucht pro Spieler einen
-  eigenen Kanal.
+- **Zweites Mikrofon** noch nicht angeschlossen: MIC 2, PAN hart rechts, dann
+  Zuordnung der beiden Kanäle in den Aufnahme-Optionen von Vocaluxe.
 - Theme-Videos (`BG_Video.mp4`, `IntroIn/Mid/Out.mp4`) fehlen im Repo, das Log
   meldet „Expect visual problems". Rein kosmetisch.
