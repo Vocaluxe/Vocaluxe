@@ -187,11 +187,49 @@ arecord -D pipewire -f S16_LE -c 2 -r 48000 -d 6 /tmp/mic.wav
 ```
 
 `-D pipewire` statt `-D hw:CODEC,0`, dann kollidiert es nicht mit einer
-laufenden Instanz — der PCM2902 lässt sich nur exklusiv öffnen.
+laufenden Instanz — der PCM2902 lässt sich nur exklusiv öffnen. Bequemer geht
+es mit `~/Desktop/messung.sh`, das eine Live-Aussteuerungsanzeige zeigt.
+
+### Zuordnung in Vocaluxe
+
+**Optionen → Aufnahme → „Aufnahmeeinstellungen"**. Pro Spieler werden zwei
+Dinge gesetzt: **Soundkarte** (für beide dieselbe, der USB-Codec) und
+**Eingang**, also die Kanalnummer.
+
+| | Gerät | Kanal | am Mixer |
+|---|---|---|---|
+| Spieler 1 | USB Audio CODEC | **1** | MIC 1, PAN hart links |
+| Spieler 2 | USB Audio CODEC | **2** | MIC 2, PAN hart rechts |
+
+Die Kanalnummer zählt **pro Gerät**, nicht durchlaufend über alle Geräte —
+MIC 2 ist also Kanal 2, nicht Kanal 4. Kanal 1 ist links, Kanal 2 ist rechts,
+mehr hat der PCM2902 nicht.
+
+Die Automatik trifft diesen Fall meist von selbst: `CConfig._CheckMics` sucht
+ein Aufnahmegerät, dessen Name auf `Usb|Wireless` passt, und legt bei
+mindestens zwei Kanälen Spieler 1 auf Kanal 1 und Spieler 2 auf Kanal 2
+(`Vocaluxe/Base/CConfig.cs:668`).
+
+Der Bildschirm zeigt je Spieler eine Pegelanzeige — damit lässt sich die
+Zuordnung direkt gegenprüfen: beim Singen in MIC 1 darf sich nur der Balken
+von Spieler 1 rühren. Bewegen sich beide, stimmt das Panorama am Mixer nicht.
+Vocaluxe warnt zusätzlich selbst mit „Momentan sind einem Spieler zwei
+Mikrofone zugeordnet!".
+
+**Mikrofonverzögerung** im selben Bildschirm gleicht die Latenz zwischen Ton
+und Erkennung aus. Wenn die Bewertung systematisch zu früh oder zu spät
+anschlägt, wird hier justiert — nicht am Mixer.
 
 ## Offen
 
-- **Zweites Mikrofon** noch nicht angeschlossen: MIC 2, PAN hart rechts, dann
-  Zuordnung der beiden Kanäle in den Aufnahme-Optionen von Vocaluxe.
+- **Zweites Mikrofon** noch nicht angeschlossen. Vorhanden ist bisher ein
+  t.bone MB 45 II, damit sind beide Kanäle einzeln geprüft: MIC 1 hart links
+  ergab 36 dB Trennung, MIC 2 hart rechts 41 dB. Sobald das zweite Mikrofon da
+  ist, beide GAIN-Regler auf ähnliche Pegel bringen, damit Vocaluxe die Spieler
+  gleich bewertet.
+- **Pegel final einstellen**: beim *Singen* justieren, nicht beim Sprechen —
+  Sprechen ist deutlich leiser und führt zu einer zu hohen Einstellung, die
+  dann beim Singen clippt. Zielbereich 60–70 % Spitze.
+- **Zuordnung in Vocaluxe** noch nicht durchgeführt, siehe Abschnitt oben.
 - Theme-Videos (`BG_Video.mp4`, `IntroIn/Mid/Out.mp4`) fehlen im Repo, das Log
   meldet „Expect visual problems". Rein kosmetisch.
