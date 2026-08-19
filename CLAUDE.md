@@ -37,6 +37,10 @@ die `.so`-Dateien. Zum Starten von dort einmalig danebenlegen:
 cp -ru Output/. Vocaluxe/bin/Release/net10.0/
 ```
 
+Auf dem Desktop und im Anwendungsmenü liegt ein Starter (`vocaluxe.desktop`)
+auf `dist/Vocaluxe.sh`. Nach einem Rebuild zeigt der automatisch auf die neue
+Version — solange der Pfad `dist/Vocaluxe.sh` bleibt, ist nichts anzupassen.
+
 Die nativen Helfer nur neu bauen, wenn du an C-Code angefasst hast:
 
 ```bash
@@ -74,6 +78,10 @@ Nativ und selbst zu bauen sind nur zwei Dinge:
 
 Es gibt **kein zweites Decode-Backend**. Fällt Acinerella aus, gibt es weder
 Ton noch Video.
+
+Der ffmpeg-6-Port von Acinerella ist an echtem Material erprobt: Songs mit
+Video und Tonausgabe laufen. Damit ist auch die Layout-Fallback-Logik in
+`ac_create_audio_decoder` praktisch bestätigt, nicht nur kompilierbar.
 
 Kein SDL2 — das taucht nur noch in Kommentaren auf.
 
@@ -116,11 +124,28 @@ Liegt **nicht** im Repo, sondern unter `~/.config/Vocaluxe/`:
 `TR_CONFIG_SOFTWARE`. Direct3D steht im Enum hinter `#if WIN` und existiert
 hier nicht.
 
+### Abgebrochener Prozess blockiert den nächsten Start
+
+Die Single-Instance-Sperre ist ein benannter Mutex, den .NET unter Linux als
+Datei in `/tmp/.dotnet/shm/session*/Vocaluxe-SingleInstanceMutex` ablegt. Wird
+der Prozess **hart beendet** (SIGTERM/SIGKILL, etwa durch `timeout` in einem
+Testskript), bleibt der Mutex als *abandoned* zurück. Der nächste Start stirbt
+dann daran, **bevor das Logging initialisiert ist**: Exit-Code 0 nach ~0,1 s,
+kein Log-Eintrag, und nicht einmal die vorgesehene Meldung „Another Instance of
+Vocaluxe is already runnning!", weil der reguläre Zweig gar nicht erreicht wird.
+
+Beim normalen Schließen des Fensters passiert das nicht. Falls es doch klemmt:
+
+```bash
+rm -rf /tmp/.dotnet/shm/session*
+```
+
+Wer Vocaluxe automatisiert testet, sollte das einkalkulieren — zwei
+aufeinanderfolgende `timeout`-Läufe sehen sonst wie ein sporadischer Absturz
+aus.
+
 ## Offen
 
-- **Acinerella ist kompiliert, aber nie an echtem Material erprobt.** Ein Song
-  mit Video und Ton muss einmal durchlaufen; besonders die Layout-Fallback-Logik
-  in `ac_create_audio_decoder` will überprüft werden.
 - **Mikrofone**: noch nichts angeschlossen. Vocaluxe braucht pro Spieler einen
   eigenen Kanal.
 - Theme-Videos (`BG_Video.mp4`, `IntroIn/Mid/Out.mp4`) fehlen im Repo, das Log
