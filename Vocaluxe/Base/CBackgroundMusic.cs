@@ -183,6 +183,7 @@ namespace Vocaluxe.Base
 
             _CurPlayer = _BGPlayer;
             //Set a default to have a consistent starting point, use SetMusicSource afterwards
+            CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
             _MusicSource = EBackgroundMusicSource.TR_CONFIG_NO_OWN_MUSIC;
             _AddBackgroundMusic();
 
@@ -207,6 +208,11 @@ namespace Vocaluxe.Base
             if (!IsPlayingPreview && CConfig.Config.Sound.BackgroundMusic != EBackgroundMusicOffOn.TR_CONFIG_ON)
             {
                 return;
+            }
+
+            if (!IsPlayingPreview)
+            {
+                CSound.SetGlobalVolume(CConfig.BackgroundMusicVolume);
             }
 
             if (IsPlayingPreview || _BGPlayer.SoundLoaded)
