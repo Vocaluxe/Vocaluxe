@@ -124,8 +124,29 @@ namespace Vocaluxe.Screens
             return _PlayerSelect;
         }
 
-        private static int _CurrentSelectedCategoryIndex { get; set; } = -1;
-        public static int CurrentSelectedSongId { get; private set; } = -1;
+        private static int _StaticSelectedCategoryIndex = -1;
+
+        private static void SetStaticSelectedCategoryIndex(int categoryIndex)
+        {
+            _StaticSelectedCategoryIndex = categoryIndex;
+        }
+
+        private static int GetStaticSelectedCategoryIndex()
+        {
+            return _StaticSelectedCategoryIndex;
+        }
+
+        private static int _StaticSelectedSongId;
+
+        private static void setStaticSelectedSongId(int songId)
+        {
+            _StaticSelectedSongId = songId;
+        }
+
+        public static int getSelectedSongId()
+        {
+            return _StaticSelectedSongId;
+        }
 
         public override EMusicType CurrentMusicType
         {
@@ -902,6 +923,8 @@ namespace Vocaluxe.Screens
 
             if (_Sso.Sorting.Tabs == EOffOn.TR_CONFIG_ON)
             {
+                var lastCategoryIndex = GetStaticSelectedCategoryIndex();
+
                 if (CBase.Songs.IsInCategory())
                 {
                     CBase.Songs.SetCategory(-1);
@@ -909,18 +932,18 @@ namespace Vocaluxe.Screens
 
                 _SongMenu.OnShow();
 
-                if (_CurrentSelectedCategoryIndex >= 0 && _CurrentSelectedCategoryIndex < CSongs.Categories.Count)
+                if (lastCategoryIndex >= 0 && lastCategoryIndex < CSongs.Categories.Count)
                 {
-                    _SongMenu.SetSelectedCategory(_CurrentSelectedCategoryIndex);
-                    _SongMenu.EnterSelectedCategory();
+                    _SongMenu.SetSelectedCategory(lastCategoryIndex);
                 }
             }
 
-            if (CSongs.IsInCategory && CurrentSelectedSongId >= 0)
+            var lastSongId = getSelectedSongId();
+            if (CSongs.IsInCategory && lastSongId >= 0)
             {
                 for (var i = 0; i < CSongs.VisibleSongs.Count; i++)
                 {
-                    if (CSongs.VisibleSongs[i].Id == CurrentSelectedSongId)
+                    if (CSongs.VisibleSongs[i].Id == lastSongId)
                     {
                         _SongMenu.SetSelectedSong(i);
                         break;
@@ -1024,7 +1047,6 @@ namespace Vocaluxe.Screens
 
             return true;
         }
-
         private void _PreloadVisibleCovers()
         {
             if (CSongs.IsInCategory)
@@ -1258,7 +1280,7 @@ namespace Vocaluxe.Screens
         private void _ShowHighscore()
         {
             CGame.ClearSongs();
-            CurrentSelectedSongId = CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].Id;
+            CScreenSong.setStaticSelectedSongId(CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()].Id);
             _SongMenu.SetSelectedSong(_SongMenu.GetPreviewSongNr());
             CBase.Graphics.FadeTo(EScreen.Highscore);
         }
@@ -1267,8 +1289,8 @@ namespace Vocaluxe.Screens
         {
             if (CSongs.IsInCategory && songNr >= 0)
             {
-                _CurrentSelectedCategoryIndex = CBase.Songs.GetCurrentCategoryIndex();
-                CurrentSelectedSongId = CSongs.VisibleSongs[songNr].Id;
+                SetStaticSelectedCategoryIndex(CBase.Songs.GetCurrentCategoryIndex());
+                setStaticSelectedSongId(CSongs.VisibleSongs[songNr].Id);
 
                 EGameMode gm;
                 if (_AvailableGameModes.Count >= _SelectSlides[_SelectSlideOptionsMode].Selection)
@@ -1304,8 +1326,8 @@ namespace Vocaluxe.Screens
         {
             if (CSongs.IsInCategory && songNr >= 0 && CSongs.NumSongsVisible > songNr)
             {
-                _CurrentSelectedCategoryIndex = CBase.Songs.GetCurrentCategoryIndex();
-                CurrentSelectedSongId = CSongs.VisibleSongs[songNr].Id;
+                SetStaticSelectedCategoryIndex(CBase.Songs.GetCurrentCategoryIndex());
+                setStaticSelectedSongId(CSongs.VisibleSongs[songNr].Id);
 
                 var gm = CSongs.VisibleSongs[songNr].IsDuet ? EGameMode.TR_GAMEMODE_DUET : EGameMode.TR_GAMEMODE_NORMAL;
 
@@ -1807,12 +1829,12 @@ namespace Vocaluxe.Screens
             _SelectSlides[_SelectSlideOptionsAudioMode].Clear();
             var currentSong = CSongs.VisibleSongs[_SongMenu.GetPreviewSongNr()];
 
-            if (currentSong.HasInstrumental)
+            if (currentSong.HasInstrumental())
             {
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_NORMAL", tag: (int)EAudioMode.TR_AUDIOMODE_NORMAL);
                 _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_INSTRUMENTAL", tag: (int)EAudioMode.TR_AUDIOMODE_INSTRUMENTAL);
 
-                if (currentSong.HasVocals)
+                if (currentSong.HasVocals())
                 {
                     _SelectSlides[_SelectSlideOptionsAudioMode].AddValue("TR_AUDIOMODE_VOCALS", tag: (int)EAudioMode.TR_AUDIOMODE_VOCALS);
                 }
