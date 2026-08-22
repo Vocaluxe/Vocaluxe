@@ -80,7 +80,7 @@ namespace Vocaluxe.Lib.Database
 
             lock (_Mutex)
             {
-                // Double check here because we may have just closed our connection
+                //Double check here because we may have just closed our connection
                 if (_Connection == null)
                     return false;
 
