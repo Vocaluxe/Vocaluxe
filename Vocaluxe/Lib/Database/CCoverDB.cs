@@ -1,4 +1,4 @@
-﻿#region license
+#region license
 // This file is part of Vocaluxe.
 // 
 // Vocaluxe is free software: you can redistribute it and/or modify
@@ -70,9 +70,7 @@ namespace Vocaluxe.Lib.Database
         public bool GetCover(string coverPath, ref CTextureRef tex, int maxSize)
         {
             if (_Connection == null)
-            {
                 return false;
-            }
 
             if (!File.Exists(coverPath))
             {
@@ -82,20 +80,16 @@ namespace Vocaluxe.Lib.Database
 
             lock (_Mutex)
             {
-                //Double check here because we may have just closed our connection
+                // Double check here because we may have just closed our connection
                 if (_Connection == null)
-                {
                     return false;
-                }
 
                 using (var command = new SqliteCommand())
                 {
                     command.Connection = _Connection;
                     // If we have an open transaction on this connection, all commands must use it.
                     if (_TransactionCover != null)
-                    {
                         command.Transaction = _TransactionCover;
-                    }
 
                     command.CommandText = "SELECT id, width, height FROM Cover WHERE [Path] = @path";
                     command.Parameters.Clear();
@@ -121,7 +115,40 @@ namespace Vocaluxe.Lib.Database
                             reader.Read();
                             var data2 = _GetBytes(reader);
                             reader.Dispose();
-                            tex = CDraw.EnqueueTexture(w, h, data2);
+
+                            try
+                            {
+                                using (var stream = new MemoryStream(data2))
+                                using (var source = new System.Drawing.Bitmap(stream))
+                                {
+                                    var sourceSize = source.GetSize();
+                                    
+                                    System.Drawing.Bitmap bitmap;
+
+                                    if (sourceSize.Width > maxSize || sourceSize.Height > maxSize)
+                                    {
+                                        var targetSize = CHelper.FitInBounds(
+                                            new SRectF(0, 0, maxSize, maxSize, 0),
+                                            (float)sourceSize.Width / sourceSize.Height,
+                                            EAspect.LetterBox
+                                        ).SizeI;
+
+                                        bitmap = source.Resize(targetSize);
+                                    }
+                                    else
+                                    {
+                                        bitmap = new System.Drawing.Bitmap(source);
+                                    }
+
+                                    tex = CDraw.EnqueueTexture(bitmap);
+                                }
+                            }
+                            catch (Exception e)
+                            {
+                                CLog.Error("Can't decode cover from database: " + e);
+                                return false;
+                            }
+
                             return true;
                         }
 
@@ -129,94 +156,104 @@ namespace Vocaluxe.Lib.Database
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@id", id);
                         command.ExecuteNonQuery();
-                    }
 
-                    if (reader != null)
-                    {
-                        reader.Close();
+                        if (reader != null)
+                            reader.Close();
                     }
                 }
-            }
 
-            // At this point we do not have a mathing entry in the CoverDB (either no Data found and deleted or nothing at all)
-            // We break out of the lock to do the bitmap loading and resizing here to allow multithreaded loading
+                // At this point we do not have a matching entry in the CoverDB
+                // (either no Data found and deleted or nothing at all)
+                // We break out of the lock to do the bitmap loading here to allow multithreaded loading
 
-            var origin = CHelper.LoadBitmap(coverPath);
-            if (origin == null)
-            {
-                return false;
-            }
+                byte[] data;
+                int width;
+                int height;
 
-            var size = origin.GetSize();
-            if (size.Width > maxSize || size.Height > maxSize)
-            {
-                size = CHelper.FitInBounds(new SRectF(0, 0, maxSize, maxSize, 0), (float)size.Width / size.Height, EAspect.LetterBox).SizeI;
-                var tmp = origin.Resize(size);
-                origin.Dispose();
-                origin = tmp;
-            }
-
-            byte[] data;
-
-            try
-            {
-                data = new byte[size.Width * size.Height * 4];
-                var bmpData = origin.LockBits(origin.GetRect(), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
-                Marshal.Copy(bmpData.Scan0, data, 0, data.Length);
-                origin.UnlockBits(bmpData);
-            }
-            finally
-            {
-                origin.Dispose();
-            }
-
-            tex = CDraw.EnqueueTexture(size.Width, size.Height, data);
-
-            lock (_Mutex)
-            {
-                //Double check here because we may have just closed our connection
-                if (_Connection == null)
+                try
                 {
+                    data = File.ReadAllBytes(coverPath);
+
+                    using (var source = CHelper.LoadBitmap(coverPath))
+                    {
+                        if (source == null)
+                            return false;
+
+                        var sourceSize = source.GetSize();
+                        width = sourceSize.Width;
+                        height = sourceSize.Height;
+
+                        System.Drawing.Bitmap bitmap;
+
+                        if (sourceSize.Width > maxSize || sourceSize.Height > maxSize)
+                        {
+                            var targetSize = CHelper.FitInBounds(
+                                new SRectF(0, 0, maxSize, maxSize, 0),
+                                (float)sourceSize.Width / sourceSize.Height,
+                                EAspect.LetterBox
+                            ).SizeI;
+
+                            bitmap = source.Resize(targetSize);
+                        }
+                        else
+                        {
+                            bitmap = new System.Drawing.Bitmap(source);
+                        }
+
+                        tex = CDraw.EnqueueTexture(bitmap);
+                    }
+                }
+                catch (Exception e)
+                {
+                    CLog.Error("Error loading cover: " + coverPath + " - " + e);
                     return false;
                 }
 
-                if (_TransactionCover == null)
+                lock (_Mutex)
                 {
-                    _TransactionCover = _Connection.BeginTransaction();
-                }
+                    // Double check here because we may have just closed our connection
+                    if (_Connection == null)
+                        return false;
 
-                using (var command = new SqliteCommand())
-                {
-                    command.Connection = _Connection;
-                    command.Transaction = _TransactionCover;
-                    command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@w", size.Width);
-                    command.Parameters.AddWithValue("@h", size.Height);
-                    command.Parameters.AddWithValue("@path", coverPath);
-                    command.ExecuteNonQuery();
+                    if (_TransactionCover == null)
+                        _TransactionCover = _Connection.BeginTransaction();
 
-                    command.CommandText = "SELECT id FROM Cover WHERE [Path] = @path";
-                    command.Parameters.Clear();
-                    command.Parameters.AddWithValue("@path", coverPath);
-                    var reader = command.ExecuteReader();
-
-                    if (reader != null)
+                    using (var command = new SqliteCommand())
                     {
-                        reader.Read();
+                        command.Connection = _Connection;
+                        command.Transaction = _TransactionCover;
+                        command.CommandText = "INSERT INTO Cover (Path, width, height) VALUES (@path, @w, @h)";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@w", width);
+                        command.Parameters.AddWithValue("@h", height);
+                        command.Parameters.AddWithValue("@path", coverPath);
+                        command.ExecuteNonQuery();
+
+                        command.CommandText = "SELECT id FROM Cover WHERE [Path] = @path";
+                        command.Parameters.Clear();
+                        command.Parameters.AddWithValue("@path", coverPath);
+
+                        var reader = command.ExecuteReader();
+
+                        if (reader == null || !reader.Read())
+                        {
+                            reader?.Dispose();
+                            return false;
+                        }
+
                         var id = reader.GetInt32(0);
                         reader.Dispose();
+
                         command.CommandText = "INSERT INTO CoverData (CoverId, Data) VALUES (@id, @data)";
                         command.Parameters.Clear();
                         command.Parameters.AddWithValue("@id", id);
                         command.Parameters.AddWithValue("@data", data);
                         command.ExecuteNonQuery();
+
                         return true;
                     }
                 }
             }
-
-            return false;
         }
 
         public void CommitCovers()
