@@ -25,6 +25,7 @@ using VocaluxeLib;
 using VocaluxeLib.Menu;
 using VocaluxeLib.Menu.SongMenu;
 using VocaluxeLib.PartyModes;
+using VocaluxeLib.Songs;
 
 namespace Vocaluxe.Screens
 {
@@ -970,6 +971,7 @@ namespace Vocaluxe.Screens
 
             _Statics[_StaticShortInfoTop].Visible = false;
             _Texts[_TextShortInfoTop].Visible = false;
+            _PreloadVisibleCovers();
 
             UpdateGame();
         }
@@ -1044,6 +1046,67 @@ namespace Vocaluxe.Screens
             _UpdatePartyModeOptions();
 
             return true;
+        }
+        private void _PreloadVisibleCovers()
+        {
+            if (CSongs.IsInCategory)
+            {
+                var coverType = CCover._SongSortingToType(_Sso.Sorting.SongSorting);
+                foreach (var song in CSongs.VisibleSongs)
+                {
+                    if (song == null)
+                        continue;
+
+                    if (string.IsNullOrEmpty(song.Cover))
+                    {
+                        var text = _GetGeneratedCoverText(song, coverType);
+                        if (!string.IsNullOrEmpty(text))
+                            CCover.GenerateCover(text, coverType, song);
+                    }
+                }
+            }
+            else
+            {
+                foreach (var category in CSongs.Categories)
+                {
+                    if (category == null || string.IsNullOrEmpty(category.Name))
+                        continue;
+
+                    var coverType = CCover._SongSortingToType(_Sso.Sorting.SongSorting);
+                    CCover.GenerateCover(category.Name, coverType, null);
+                }
+            }
+        }
+    
+        private static string _GetGeneratedCoverText(CSong song, ECoverGeneratorType coverType)
+        {
+            switch (coverType)
+            {
+                case ECoverGeneratorType.Artist:
+                    return song.Artist;
+                case ECoverGeneratorType.Folder:
+                    return song.FolderName;
+                case ECoverGeneratorType.Edition:
+                    return song.Editions.Count > 0 ? song.Editions[0] : "";
+                case ECoverGeneratorType.Genre:
+                    return song.Genres.Count > 0 ? song.Genres[0] : "";
+                case ECoverGeneratorType.Language:
+                    return song.Languages.Count > 0 ? song.Languages[0] : "";
+                case ECoverGeneratorType.Year:
+                    return song.Year;
+                case ECoverGeneratorType.Decade:
+                    return !string.IsNullOrEmpty(song.Year) && song.Year.Length >= 3
+                        ? song.Year.Substring(0, 3) + "0s"
+                        : "";
+                case ECoverGeneratorType.Tags:
+                    return song.Tags.Count > 0 ? song.Tags[0] : "";
+                case ECoverGeneratorType.Date:
+                    return song.DateAdded.ToString("yyyy-MM-dd");
+                case ECoverGeneratorType.Letter:
+                    return !string.IsNullOrEmpty(song.Artist) ? song.Artist.Substring(0, 1) : "";
+                default:
+                    return "";
+            }
         }
 
         public override void OnClose()
