@@ -104,20 +104,6 @@ namespace Vocaluxe
                 // Create data folder
                 Directory.CreateDirectory(CSettings.DataFolder);
 
-                // Delete CoverDB.sqlite if marker exists (cover size changed)
-                var flagPath = Path.Combine(CSettings.DataFolder, "DeleteCoverDB.flag");
-                var coverDbPath = Path.Combine(CSettings.DataFolder, CSettings.FileNameCoverDB);
-
-                if (File.Exists(flagPath))
-                {
-                    if (File.Exists(coverDbPath))
-                    {
-                        File.Delete(coverDbPath); // Delete the database
-                    }
-
-                    File.Delete(flagPath); // Remove the marker so it doesn't repeat
-                }
-
                 // Init Log
                 CLog.Init(CSettings.FolderNameLogs,
                     CSettings.FileNameMainLog,

@@ -181,8 +181,6 @@ namespace Vocaluxe.Screens
             var newCoverSize = int.Parse(selectedValue);
             if (currentCoverSize != newCoverSize)
             {
-                var flagPath = Path.Combine(CSettings.DataFolder, "DeleteCoverDB.flag");
-                File.Create(flagPath).Dispose();
                 _Texts[_TextWarningRestart].Visible = true;
                 _Statics[_StaticWarningRestart].Visible = true;
                 CConfig.Config.Graphics.CoverSize = newCoverSize;
