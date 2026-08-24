@@ -42,7 +42,7 @@ namespace Vocaluxe.Lib.Sound.Record.DirectSound
             {
                 using (var ds = new DirectSoundCapture(dev.DriverGuid))
                 {
-                    var device = new CRecordDevice(_Devices.Count, dev.DriverGuid.ToString(), dev.Description, ds.Capabilities.Channels);
+                    var device = new CRecordDevice(_Devices.Count, dev.Description, dev.DriverGuid.ToString(), ds.Capabilities.Channels);
 
                     _Devices.Add(device);
                 }
