@@ -212,7 +212,7 @@ namespace Vocaluxe.Screens
                         CSong song;
                         if (_FromScreenSong)
                         {
-                            song = CSongs.GetSong(CScreenSong.getSelectedSongId());
+                            song = CSongs.GetSong(CScreenSong.CurrentSelectedSongId);
                         }
                         else
                         {
@@ -324,7 +324,7 @@ namespace Vocaluxe.Screens
                 _FromScreenSong = true;
                 _Round = (int)EGameMode.TR_GAMEMODE_NORMAL;
                 _Scores = new List<SDBScoreEntry>[4];
-                var songId = CScreenSong.getSelectedSongId();
+                var songId = CScreenSong.CurrentSelectedSongId;
                 var style = CBase.Config.GetHighscoreStyle();
                 var foundHighscoreEntries = false;
 
@@ -360,7 +360,7 @@ namespace Vocaluxe.Screens
             CSong song;
             if (_FromScreenSong)
             {
-                song = CSongs.GetSong(CScreenSong.getSelectedSongId());
+                song = CSongs.GetSong(CScreenSong.CurrentSelectedSongId);
             }
             else
             {
